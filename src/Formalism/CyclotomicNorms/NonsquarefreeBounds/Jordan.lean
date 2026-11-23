@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CyclotomicNorms.StatementI
+public import Formalism.CyclotomicNorms.Bundle001
 public import Formalism.GaloisIrreducibility.NoSolvableTransitive
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

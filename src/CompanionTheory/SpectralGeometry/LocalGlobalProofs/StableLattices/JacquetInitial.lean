@@ -1,16 +1,16 @@
 module
 
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliPolynomialCoefficientsIdeal
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ConjQdet
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle085
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle039
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.PolynomialNilpotentPath
 import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.QuantumDeterminantCoefficientsExpansion
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsEvalAtOfMem
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle280
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CapelliDetBlockLeviCongrModUpperBlockIdeal
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CapelliDetBlockLeviCongrModUpperBlockIdealStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliOperatorsCommute
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle563
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle485
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GlRelationsDerivativePreserved
-import Formalism.RealPlaceAnalysis.ThirdArithmeticHolds
+import Formalism.RealPlaceAnalysis.Bundle005
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,7 +68,7 @@ open Finset
 
 namespace GlobalTheory.CompanionTheory.RgStartOne
 
-open CompanionTheory.RgExh CompanionTheory.RgExh.Dec CompanionTheory.RgExh.Dec.J Formalism.REAL ReciprocityTheory.ChartRestriction.DS GlobalTheory.SmGL GlobalTheory.CompanionTheory.RgTransport
+open _root_.CompanionTheory.RgExh CompanionTheory.RgExh.Dec CompanionTheory.RgExh.Dec.J Formalism.REAL ReciprocityTheory.ChartRestriction.DS GlobalTheory.SmGL GlobalTheory.CompanionTheory.RgTransport
 
 section Quot
 

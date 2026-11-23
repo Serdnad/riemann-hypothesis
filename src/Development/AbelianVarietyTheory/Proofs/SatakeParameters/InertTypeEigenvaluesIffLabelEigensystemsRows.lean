@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodGeneric
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle018
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeCharacterisationPlacesPartsOfWeak
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HyperspecialFixesAllChainVacuaAtInertPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorsRowsRationalSelfAdjointLabelsStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSphericalDoubleCosetLabelIffDecreasingStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MatchedSphericalPairsCommuteCompositeLiftStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SelfDualAntitoneListIffInertPrimeHeckeExponents
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TwoSidedHeckePartnerInertPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UpwardThetaLiftInjectiveOnCarriedPartStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle197
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle232
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle252
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle159
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle187
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -190,7 +190,7 @@ theorem inert_types_iff_labels : HoweUnram → ∀ {D : D7} {G : Type} [Group G]
   obtain ⟨hcore, hSF, hplI, -, hEE, -, -⟩ := GlobalTheory.CoreThree.heckeCharacterisation_places_parts_of_weak R F hC
   have hCore := hcore hEx
   have hgood : Good R.toRealDat A3.A.μ0 (R.plI Q.1) := (hplI _ Q.1 Q.2).1
-  have hconj : conjPl (R.plI Q.1) = R.plI Q.1 := (hplI _ Q.1 Q.2).2
+  have hconj : _root_.Formalism.DivisionValues.conjPl (R.plI Q.1) = R.plI Q.1 := (hplI _ Q.1 Q.2).2
   have hfix := GlobalTheory.T.hyperspecialFixesAllChainVacua_at_inert_prime R F hC A3.A.μ0 (R.plI Q.1) hgood hconj
   have htwo := GlobalTheory.T.twoSidedHeckePartner_inertPrime hHowe R.toRealDat F.lv2 hLI hCore hSchur A3.A.μ0 (R.plI Q.1) hgood hconj hfix
   obtain ⟨hX, hXops, -⟩ := (GlobalTheory.T.realization_family_normal_operators R.toRealDat F.lv2 hCore.lev hCore.fam hCore.models).1 A3.A.μ0
@@ -215,7 +215,7 @@ theorem inert_types_iff_labels : HoweUnram → ∀ {D : D7} {G : Type} [Group G]
     exact hv0 hvs
 
   have hvalid : ∀ i : A3.okI A3.A.μ0 × List ℕ, Formalism.L2.Col.InertTypeOk D.sp.X'.rank i.2 →
-      Good R.toRealDat A3.A.μ0 (R.plI i.1) ∧ conjPl (R.plI i.1) = R.plI i.1 ∧
+      Good R.toRealDat A3.A.μ0 (R.plI i.1) ∧ _root_.Formalism.DivisionValues.conjPl (R.plI i.1) = R.plI i.1 ∧
         (GlobalTheory.Hk3.labIn D.sp.X'.rank i.2).Pairwise (fun a b => b ≤ a) := by
     intro i hi
     exact ⟨(hplI _ i.1.1 i.1.2).1, (hplI _ i.1.1 i.1.2).2,

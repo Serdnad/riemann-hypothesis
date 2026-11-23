@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.StatementM
+public import Formalism.GaussJetBounds.Bundle005
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Mathlib.RingTheory.Valuation.ExtendToLocalization
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.ContinuousTorusCharacter
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsoOfFrob
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CongruenceNumberRankThree
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -154,17 +154,17 @@ structure IsEigHol (k : ℕ) (c : HeightOneSpectrum (𝓞 F) → ℕ) (ω : HCha
 
 variable {Ω : Type} [Field Ω] [Algebra F Ω] {l : ℕ} [Fact l.Prime]
 
-structure OrdForm (ι : Qbar l ≃+* ℂ) (ξ : G F Ω →* (Qbar l)ˣ) (s : ℤ) (c : HeightOneSpectrum (𝓞 F) → ℕ)
+structure OrdForm (ι : Qbar l ≃+* ℂ) (ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (s : ℤ) (c : HeightOneSpectrum (𝓞 F) → ℕ)
     (m : HeightOneSpectrum (𝓞 F) → Fin 2 → ℤ) (a : HeightOneSpectrum (𝓞 F) → Qbar l) (π : TR.CuspSub F 2)
-    (r : G F Ω →* GL (Fin 2) (Qbar l)) : Prop where
+    (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)) : Prop where
   reg : π.IsRegAlg
   pol : ∃ χ : HChar F, π.Polarized χ
   cont : Continuous r
   att : AttR ι r π
   det : Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ s * ξ
-  ξ_open : IsOpen (ξ.ker : Set (G F Ω))
+  ξ_open : IsOpen (ξ.ker : Set (_root_.Formalism.ConjugateSelfDual.G F Ω))
   fin : {w | c w ≠ 0}.Finite
-  ram : ∀ (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), IsPlaceOver A w →
+  ram : ∀ (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
     (Ine (F := F) A ≤ ξ.ker ↔ c w = 0 ∨ ((l : ℕ) : 𝓞 F) ∈ w.asIdeal)
   sph : ∀ w, c w = 0 → HasFixed (π.locRep w) (K1 w 0)
   away : ∀ w, c w ≠ 0 → ((l : ℕ) : 𝓞 F) ∉ w.asIdeal → ∃ lam, HasU w (π.locRep w) (c w) lam ∧ ‖ι.symm lam‖ = 1

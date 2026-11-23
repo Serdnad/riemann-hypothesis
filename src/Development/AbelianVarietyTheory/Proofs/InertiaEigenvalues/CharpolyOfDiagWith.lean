@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.DiagonalQuotientEigen
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionLines
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoeffEqOfApply
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle250
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMatrixFrobenius
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InjectiveOfSpan
 public import Mathlib.Algebra.Module.Lattice.Full

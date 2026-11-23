@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.ConvolutionSmoothL2
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CompletedTensorDiscreteSeriesIrreducibleFormalDeStatement
+public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralInvOfSupport
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIrrAndDenseOfIsFdegG
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProjAbsHolds
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightRegularRepUnitaryStronglyContinuous
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle123
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle149
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle131
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ModularCharacterEqOneOnExpHermitian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

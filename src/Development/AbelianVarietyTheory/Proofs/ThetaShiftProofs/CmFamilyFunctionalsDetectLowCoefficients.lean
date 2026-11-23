@@ -2,13 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.CarchAt
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.GamAt
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NumericalConsequencesOfPins
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle029
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.AbsNormHalfDifferentDvdDiscr
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsFamilyMemberFunctionalNeZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.MemFormsLowCoeffsVanishIffFourierJacobiStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ModelsAtOfGoodLevel
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle034
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.TraceDefinitePairsEqAutomorphicTrace
+import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle003
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.HeckeTraceEq
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 
 @[expose] public section
 

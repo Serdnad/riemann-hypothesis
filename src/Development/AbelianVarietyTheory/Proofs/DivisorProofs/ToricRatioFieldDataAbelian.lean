@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ToricSymbols
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsAuxiliaryHeckeCharacter
-public import Formalism.LocalToGlobal.UnitaryNorms.CharGal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NatCastMemBelow
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2004
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsHeckeLOfHasInf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConductorExponentAtPlaces
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle324
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

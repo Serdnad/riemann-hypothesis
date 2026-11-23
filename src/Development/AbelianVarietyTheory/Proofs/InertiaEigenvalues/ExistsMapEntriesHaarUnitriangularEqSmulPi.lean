@@ -51,7 +51,7 @@ import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsOpenKerFinIdele
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 public import Mathlib.MeasureTheory.Measure.Haar.Unique
 
 @[expose] public section

@@ -1,7 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ProvisionExtensionLink
-public import Formalism.LocalToGlobal.KernelLattices.ColumnData.BaseExP
+public import Formalism.LocalToGlobal.KernelLattices.ColumnData.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ThIndep
 public import Formalism.LocalToGlobal.PairingIndexBounds.HalvesRecursion.RecursiveLatticeMembership.MemLamOfIff
 import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EllipticOnePole

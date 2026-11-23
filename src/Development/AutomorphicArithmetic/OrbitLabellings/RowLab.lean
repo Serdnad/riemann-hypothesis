@@ -1,11 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RealPlaceLabellingInertFrobeniusNotConj
-public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle079
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
 public import Formalism.LocalToGlobal.Divisibility.Numbers
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsMulInvolutionAddOneMemPow
-public import Formalism.LocalToGlobal.CharacterGerms.CartesianBoundOnCurves
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieLab
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle001
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -493,7 +493,7 @@ theorem UpperTheory.G2.RowLab.exists_idempotent : ∀ (E : Type) [Field E] [Numb
       obtain ⟨k, hk⟩ := Nat.exists_eq_succ_of_ne_zero V.l_prime.ne_zero
       rw [hk, pow_succ]
       exact mm_mul ((hint _ _).pow k) hs
-    simpa using mm_add h1 h2
+    simpa using UpperTheory.G2.RowLab.Idem.mm_add h1 h2
   have hall : ∀ x, V.MM (emA3 io ι (tau 0) x) → ∀ a, V.MM (emA3 io ι (tau a) x) := by
     intro x h0 a
     have : ∀ n : ℕ, V.MM (emA3 io ι (tau (n : ZMod d)) x) := by

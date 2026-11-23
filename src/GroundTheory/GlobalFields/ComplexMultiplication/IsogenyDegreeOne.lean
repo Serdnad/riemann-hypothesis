@@ -5,7 +5,7 @@ public import GroundTheory.GlobalFields.ComplexMultiplication.Differential
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsValuation
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyRamification
 public import GroundTheory.GlobalFields.ComplexMultiplication.InseparableFrobeniusFactor
-public import GroundTheory.GlobalFields.ComplexMultiplication.VariableChangePoints
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +52,8 @@ import Mathlib.Topology.Sheaves.Init
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsPic
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyPoints
 public import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialBaseChange
-public import GroundTheory.GlobalFields.ComplexMultiplication.DualDescentBase
-public import GroundTheory.GlobalFields.ComplexMultiplication.InseparableFrobenius
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle009
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle004
 
 @[expose] public section
 

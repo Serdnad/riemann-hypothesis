@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMetricPair
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBergmanDensChartSum
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle061
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgePot
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,13 +50,13 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.AtlasIndep
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCIsHermitian
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle002
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ADensStC
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle002
 
 @[expose] public section
 
@@ -152,9 +152,9 @@ theorem eval_torus {R : Type} [CommRing R] (φ : R →+* ℂ) {f : MvPolynomial 
   simp_rw [mul_pow, Finset.prod_mul_distrib, hc]
   ring
 
-theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
-  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]
-  simp [unitDeg]
+theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀ k = ‖c k₀‖ := by
+  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]]
+  simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
 
 
 omit [DecidableEq K] [∀ k, Fintype (ι k)] in
@@ -212,7 +212,7 @@ theorem isOpen_nbhd (x : d.R.X) : IsOpen (nbhd d x) := (d.R.isOpen_U x).inter (d
 
 theorem mem_nbhd (x : d.R.X) : x ∈ nbhd d x := ⟨d.R.mem_U x, Classical.choose_spec (d.R.A.cover x)⟩
 
-theorem isPotential_blockInterpPot {A' : HermLine ι} (hA' : IsSmoothHerm A') (t : ℝ) :
+theorem isPotential_blockInterpPot {A' : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hA' : IsSmoothHerm A') (t : ℝ) :
     IsPotential d.R.A (blockInterpPot d d.A A' t) := by
   have h₀ := isPotentialRsmul d.R.A (1 - t) _ (AnResBridge.isPotential_potOf d.R d.semipos.1)
   have h₁ := isPotentialRsmul d.R.A t _ (AnResBridge.isPotential_potOf d.R hA')
@@ -289,7 +289,7 @@ def bundle : HolLineBundle (atlas d pt hcov) where
       blockRatio_eq_div (sameOrbit_lift d pt hcov hi hk) hkp, blockRatio_eq_div hkl hp]
     field_simp
 
-theorem contDiffAt_weight (A : HermLine ι) (hs : IsSmoothHerm A) (i l : Fin r) {y : Fin D → ℂ}
+theorem contDiffAt_weight (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hs : IsSmoothHerm A) (i l : Fin r) {y : Fin D → ℂ}
     (hy : y ∈ ((atlas d pt hcov).chart l).target) (hU : ((atlas d pt hcov).chart l).symm y ∈ d.R.U (pt i)) :
     ContDiffAt ℝ ∞ (fun y => 2 * Real.log (A.h (d.R.lift (pt i) (((atlas d pt hcov).chart l).symm y)))) y := by
   have hG := analyticAt_lift d pt hcov i l hy hU
@@ -302,7 +302,7 @@ theorem contDiffAt_weight (A : HermLine ι) (hs : IsSmoothHerm A) (i l : Fin r) 
   have := hu.comp y (hG.contDiffAt.restrict_scalars ℝ)
   exact this
 
-def weight (A : HermLine ι) (hA : A.a = unitDeg d.k₀) (hs : IsSmoothHerm A) : Weight (bundle d pt hcov) where
+def weight (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA : A.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg d.k₀) (hs : IsSmoothHerm A) : Weight (bundle d pt hcov) where
   φ i x := 2 * Real.log (A.h (d.R.lift (pt i) x))
   smooth i l := fun y hy =>
     (contDiffAt_weight d pt hcov A hs i l hy.1 (mem_atlas_source d pt hcov hy.2)).contDiffWithinAt
@@ -317,7 +317,7 @@ def weight (A : HermLine ι) (hA : A.a = unitDeg d.k₀) (hs : IsSmoothHerm A) :
     push_cast
     ring
 
-theorem weight_isSemipositive (A : HermLine ι) (hA : A.a = unitDeg d.k₀) (P0 : Ideal (MRing ι))
+theorem weight_isSemipositive (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA : A.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg d.k₀) (P0 : Ideal (MRing ι))
     (hP0 : P0 ≤ mCoordIdeal d.y) (hsp : IsSemipositiveRel P0 (mCoordIdeal d.y) A) :
     (weight d pt hcov A hA hsp.1).IsSemipositive := by
   intro l y hy w
@@ -383,7 +383,7 @@ theorem lift_chartIdx (y : d.R.X) :
     Classical.choose_spec ((atlas d pt hcov).cover y)
   exact d.R.compat _ _ y ⟨mem_atlas_source d pt hcov hx, d.R.mem_U y⟩
 
-theorem locDens_eq_chernTopDens (A' : HermLine ι) (hA' : A'.a = unitDeg d.k₀) (hs : IsSmoothHerm A') (t : ℝ)
+theorem locDens_eq_chernTopDens (A' : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hA' : A'.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg d.k₀) (hs : IsSmoothHerm A') (t : ℝ)
     (j : Fin r) {y : Fin D → ℂ} (hy : y ∈ ((atlas d pt hcov).chart j).target) :
     locDens (atlas d pt hcov) (fun _ => blockInterpPot d d.A A' t) j y =
       chernTopDens ((weight d pt hcov d.A d.deg d.semipos.1).lerp (weight d pt hcov A' hA' hs) t) j y := by

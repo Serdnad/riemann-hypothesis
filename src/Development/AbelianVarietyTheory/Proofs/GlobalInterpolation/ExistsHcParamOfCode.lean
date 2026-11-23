@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScaleStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ScalePolynomialQuantitiesComparisonStatement
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle050
 public import Development.AutomorphicArithmetic.WeightCongruences.IsRootOfIntegral
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended

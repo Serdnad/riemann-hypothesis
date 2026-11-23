@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
+public import Formalism.LocalToGlobal.Bundle001
 public import Formalism.SharpRestriction.SmoothDesignExistence.AdmissibleTopsMertens
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

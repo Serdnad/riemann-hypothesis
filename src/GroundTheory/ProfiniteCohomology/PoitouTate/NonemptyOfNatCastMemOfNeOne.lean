@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.PoitouTate.RealTraceMap
+public import GroundTheory.ProfiniteCohomology.PoitouTate.Bundle002
 public import GroundTheory.ProfiniteCohomology.PoitouTate.RealEvenHyp
 import GroundTheory.ProfiniteCohomology.RealPlaces.Vanishing
 import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingPrimes
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseInputs
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

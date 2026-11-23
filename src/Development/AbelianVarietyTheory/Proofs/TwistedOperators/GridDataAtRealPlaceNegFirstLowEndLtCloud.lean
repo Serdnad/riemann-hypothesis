@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.CuspAlongSmoothRows
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -88,7 +88,7 @@ variable (G : GridData)
 theorem entries_parD_le {i j : ℕ} (hi : i < G.m) (hj : j ≤ G.m) (hnear : G.NearMid)
     (hB1 : ∀ q, 2 ≤ q → q ≤ G.k → -(G.b 1 : ℚ) < G.v q)
     (hbe : ∀ l, 1 ≤ l → l ≤ G.m → ((G.t : ℚ) + 3) / 2 ≤ G.e l - G.b l) (hs : (G.s : ℚ) + 2 ≤ G.ga) :
-    ∀ x ∈ entries (G.parD i j), x + ((G.s : ℚ) + 1) / 2 ≤ G.cen (G.m - i) := by
+    ∀ x ∈ GlobalTheory.SignedHC.entries (G.parD i j), x + ((G.s : ℚ) + 1) / 2 ≤ G.cen (G.m - i) := by
   have hga : (0 : ℚ) ≤ G.ga := by positivity
   have hs0 : (0 : ℚ) ≤ G.s := by positivity
   have hc : (G.v 2 : ℚ) + 1 / 2 + ((i : ℚ) + 1) * G.ga + G.ga / 2 - 1 ≤ G.cen (G.m - i) := by
@@ -214,7 +214,7 @@ open GlobalTheory.SignedHC Finset
 
 variable (G : GridData)
 
-theorem int_of_mem_entries_parD {i j : ℕ} (ht : Odd G.t) (hs : Odd G.s) {x : ℚ} (hx : x ∈ entries (G.parD i j)) :
+theorem int_of_mem_entries_parD {i j : ℕ} (ht : Odd G.t) (hs : Odd G.s) {x : ℚ} (hx : x ∈ GlobalTheory.SignedHC.entries (G.parD i j)) :
     ∃ z : ℤ, x = z := by
   have hblk : ∀ {c : ℤ} {n : ℕ}, Odd n → ∀ y ∈ TPar.block (c : ℚ) n, ∃ z : ℤ, y = z := by
     intro c n hn y hy

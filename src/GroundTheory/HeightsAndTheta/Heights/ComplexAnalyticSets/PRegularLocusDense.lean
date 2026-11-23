@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StRegularLocusDense
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StAnalyticImplicitChart
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle004
 public import Mathlib.Analysis.Calculus.ContDiff.FTaylorSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

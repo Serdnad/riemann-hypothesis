@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HaarMeasureSubgroupRelIndexMul
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle018
 public import Mathlib.MeasureTheory.Measure.Haar.DistribChar
 public import Mathlib.NumberTheory.LocalField.Basic
 public import GroundTheory.AutomorphicForms.MeasuresModulus

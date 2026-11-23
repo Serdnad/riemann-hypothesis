@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.ZeroPartEigenvalueConvention
 public import Formalism.LocalToGlobal.IndefiniteReal.NormalDecomposition.LiftHeckeOperators
-public import Formalism.LocalToGlobal.IndefiniteReal.ConcretePkgSpec
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle023
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksLemmas
-public import Formalism.LocalToGlobal.IndefiniteReal.EvTieP
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle027
 public import Formalism.LocalToGlobal.IndefiniteReal.ExistsSumOfMemISup
 public import Formalism.LocalToGlobal.IndefiniteReal.NormalDecomposition.UnitaryTwoPackage
 import Mathlib.Algebra.Order.Floor.Extended

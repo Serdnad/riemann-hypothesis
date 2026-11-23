@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
-public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsOrthogonalIdempotentSectionsPeriodSpacesStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedUniformisationComponentsPeriodSpacesBijectStatement
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle114
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle110
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,3 +66,17 @@ theorem exists_idempotents_rdU : ∀ (E : Type) [Field E] [NumberField E] [IsCMF
     · rw [hr, hv, if_neg (fun h' => h (hb.1 h'))]
 
 end GlobalTheory.CompRead
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj GlobalTheory.CompRat
+
+theorem _root_.GlobalTheory.T.exists_orthogonal_idempotent_sections_indicating_components : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r), 1 ≤ r → GoodEmb c σ → IsUnf U → FnAlgClosed (Xo := Xo) (c := c) → ∃ χ : U.Comp → Rul Xo c, (∀ k, χ k ∈ sec Xo c 0 0) ∧ (∀ k, χ k * χ k = χ k) ∧ (∀ k k', k ≠ k' → χ k * χ k' = 0) ∧ ∑ k, χ k = 1 ∧ ∀ k k' x, x ∈ (U.X k').dom → (k' = k → rdU U (χ k) k' x = 1) ∧ (k' ≠ k → rdU U (χ k) k' x = 0) := by
+  first | exact @GlobalTheory.CompRead.exists_idempotents_rdU | exact GlobalTheory.CompRead.exists_idempotents_rdU | (intros; apply GlobalTheory.CompRead.exists_idempotents_rdU <;> assumption)
+
+end
+end

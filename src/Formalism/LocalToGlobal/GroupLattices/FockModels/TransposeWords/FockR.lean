@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCassemLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle001
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.MulConjTransposeEqOneOfOrthonormal
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.GCauchyStatement
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiablePolyDeriv
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.ContDiffOfDifferentiableFd
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.PolyDerivMonomialOne
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle004
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -151,7 +151,7 @@ variable {D : D7} {a d : ℕ}
 
 theorem applyAt0_eq (P : MvPolynomial (GL3Theta.Idx D a d) ℂ) (G : VC D a d → ℂ) :
     GL3Theta.applyAt0 D P G = I2.polyDeriv P (coordV D) G 0 := by
-  unfold GL3Theta.applyAt0 I2.polyDeriv taylor
+  unfold GL3Theta.applyAt0 I2.polyDeriv Formalism.MainNotions.TaylorLogMetric.taylor
   refine Finset.sum_congr rfl fun α _ => ?_
   have h : (α.prod fun _ n => (n.factorial : ℂ)) ≠ 0 :=
     Finset.prod_ne_zero_iff.2 fun _ _ => Nat.cast_ne_zero.2 (Nat.factorial_ne_zero _)

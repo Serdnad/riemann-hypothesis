@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.Hypotheses2
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SecLaw
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

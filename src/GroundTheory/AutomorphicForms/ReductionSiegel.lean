@@ -3,8 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.ReductionDirichlet
 public import GroundTheory.AutomorphicForms.ReductionIwasawa
 public import GroundTheory.AutomorphicForms.ReductionCore
-import GroundTheory.GlobalFields.Adele.Compact
-import GroundTheory.GlobalFields.Adele.Discrete
+import GroundTheory.GlobalFields.Adele.Bundle003
 import GroundTheory.GlobalFields.IdeleGroups.NormOneCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,22 +2,19 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Match
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.HoweSpace
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.CentComm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.ExtCont
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HaarComm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HaarConj
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HeckeRepresentationSatake
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.Unimod
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bridge
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.ConjDesc
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.NormInj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.OpenNear
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.OrbProper
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.QuotDesc
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.RigidNear
-import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.RootConj
+import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.TwOrbConj
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.ValuationNatCastLeOne
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -67,7 +64,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IwahoriDoubleCosets
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
 
 @[expose] public section
 
@@ -312,7 +309,7 @@ theorem UpperTheory.ConvolutionTheory.Loc.nearDown :
   have hq1 := valuation_natCast_le_one (E := E) (Module.finrank k E)
   have hr1 : r < 1 := hr.trans_le hq1
   refine ⟨r * valuation E (Module.finrank k E : E), mul_pos hr0 (hr0.trans hr), fun φ hφ hs => ?_⟩
-  set K := ballSub n r hr1 with hK
+  set K := _root_.UpperTheory.ConvolutionTheory.Loc.BallG.ballSub n r hr1 with hK
   have hKo : IsOpen (K : Set (GL (Fin n) E)) := isOpen_ball hr0.ne'
   have hKc : IsCompact (K : Set (GL (Fin n) E)) := isCompact_ball hr1
   set c : ℂ := (((μk (K.comap (incl : GL (Fin n) k →* GL (Fin n) E))).toReal⁻¹ : ℝ) : ℂ) with hcdef

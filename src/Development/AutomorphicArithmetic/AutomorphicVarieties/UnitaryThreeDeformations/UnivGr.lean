@@ -1,10 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IsCharZeroPt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonMap
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.CanonUniq
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.TriCanon
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle009
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -115,7 +114,8 @@ private theorem canon_wpart {O R Γ : Type} [CommRing O] [IsLocalRing O] [CommRi
     (h : GL (Fin 3) R) (hc : Canon (u x).mat h) :
     GrMat (wpart (O := O) u) h.val ∧ GrMat (wpart (O := O) u) (h⁻¹).val := by
   have key : ∀ (R' : Type) [CommRing R'] [Algebra O R'] [IsCO O R'] (f f' : R →ₐ[O] R') (t : R'ˣ),
-      push f' u = conjBy (tor R' t) (push f u) →
+      _root_.UpperTheory.V.UnitaryThreeInertia.push f' u =
+        conjBy (tor R' t) (_root_.UpperTheory.V.UnitaryThreeInertia.push f u) →
       GeneralLinearGroup.map (f' : R →+* R') h =
         tor R' t * GeneralLinearGroup.map (f : R →+* R') h * tor R' t⁻¹ := by
     intro R' _ _ _ f f' t e

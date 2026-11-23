@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProdZpowLe
-public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Reframe
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle300
+public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvaluationLawsGenericFramesAtlasHold
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameLawsOfModuli
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GoodOriginComponentSectionsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginFrameSectionBound
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle310
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle256
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,9 +43,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FrMapComp
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

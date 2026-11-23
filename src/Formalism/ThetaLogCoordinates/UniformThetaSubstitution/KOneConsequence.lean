@@ -2,7 +2,7 @@ module
 
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementE
 import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffAevalLinP
-import Formalism.GrowthSums.FactorialBaseGrowth.PathBasisOfCount
+import Formalism.GrowthSums.FactorialBaseGrowth.Bundle002
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.ABArith
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EDecomp

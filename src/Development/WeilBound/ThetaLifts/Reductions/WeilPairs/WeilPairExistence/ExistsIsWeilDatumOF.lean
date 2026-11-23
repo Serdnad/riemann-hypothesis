@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatH
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilDatumTwistByHeckeCharactersTrivialBaseStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2227
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.FixedOfMem
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.IsScalarOneOfComm
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatRep

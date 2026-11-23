@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.JetCones.SymCapRev
-public import Formalism.RealPlaceAnalysis.StatementA
+public import Formalism.RealPlaceAnalysis.Bundle001
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-public import Development.AutomorphicSpectrum.Proofs.JetProofs.EvFirst
+public import Development.AutomorphicSpectrum.Proofs.JetProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

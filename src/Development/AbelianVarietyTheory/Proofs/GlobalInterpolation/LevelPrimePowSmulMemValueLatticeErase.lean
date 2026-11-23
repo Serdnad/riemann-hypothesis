@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.FormsS
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalC
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwist
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended

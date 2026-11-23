@@ -1,20 +1,20 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsValFam
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AlternatingMapSumSmulEqDetSmul
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmTypeExteriorLatticeComparison
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmTypeLatticeComparisonStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentPointCmEigenFrameStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenFrameIffEigenspaceBasisStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeVectorBundleStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle221
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle204
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle093
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GagaLineGeneratorEmbedding
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GermStalkClosedPointToBaseChange
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsCombTangentIffLinearSumStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle045
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle084
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOneOfChartGenerators
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UniversalLieModelPullbackStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WedgeLatticeGenerator
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle111
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,9 +48,9 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 
 @[expose] public section
 

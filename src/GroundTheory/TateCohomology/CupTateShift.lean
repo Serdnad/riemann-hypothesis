@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.TateCohomology.AugmentationSES
 public import GroundTheory.TateCohomology.CupProduct
-import GroundTheory.TateCohomology.CupConnecting
+import GroundTheory.TateCohomology.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,15 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MaximalHermitianLatticeBadPrimesIffGramDet
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
-public import Formalism.HermitianLattices.StatementMass
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Formalism.HermitianLattices.Bundle003
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsMaximalIntegralHermitianLatticeOrthonormalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MaximalHermitianLatticeBadPrimesIffGramDetStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle115
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle065
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemHcompl
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.WittExtensionTotallyDefiniteHermitianStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle052
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.ExistsOrthogonalBasisDotProductApplyEq
-import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Module.Torsion.Prod
 import Mathlib.Algebra.Order.Floor.Extended

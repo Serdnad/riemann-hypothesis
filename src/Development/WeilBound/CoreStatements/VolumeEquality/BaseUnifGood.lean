@@ -1,16 +1,15 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifDefs
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsDifferentiableOnTransfer
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.CongruenceSubgroupOfFormAutomorphismsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BoundaryChartHolomorphic
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyPeriodRiemannLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyUniformisationLocalPeriod
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FibreLatticeBaseChangeConjStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallDomainOpenConvexZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsRiemannLatticeOfPeriodStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalHolomorphicPeriodFamilyStatement
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifSig
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle047
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle257
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle258
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle081
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle193
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle050
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle003
 public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifUnivC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,9 +48,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolPair
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolPairA
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.UnLocal
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle011
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle007
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle004
 
 @[expose] public section
 
@@ -141,6 +140,7 @@ theorem kUnif_good (hV : VecOfPeriods) (Y : Model Xo c (algebraMap (𝓞 c.F) c.
     (FU : FamilyUnif Xo (κ.comp (IntermediateField.inclusion c.le).toRingHom) ty) :
     Nonempty (KUnif Y sm j j' n g q κ) := by
   classical
+  letI : Fintype (CMType H) := Subtype.fintype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0)
   let ι : Type := {i : Fin FU.n // ∃ P, IsPeriod (FU.Di i) ty P}
   have htyi : ∀ i, IsTypeFn H (FU.Di i).p (FU.Di i).q ty := fun i => by
     rw [(FU.sig i).1, (FU.sig i).2]

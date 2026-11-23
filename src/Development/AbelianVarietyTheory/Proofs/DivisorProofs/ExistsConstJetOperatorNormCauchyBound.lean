@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsMulOfApprox
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SubDSharpInDeg
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle081
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FockNormExtremalVectorEqBoundedNat
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MonomialDerivCauchyBoundGaussianGrowth
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle220
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle218
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SumIcoTsubTelescope
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EmbLLMem
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2051
 
 @[expose] public section
 
@@ -60,7 +60,7 @@ namespace GlobalTheory.FockJetBound
 theorem fockS_self {σ : Type} (f : MvPolynomial σ ℂ) : fockS f f = ((fockNormSq f : ℝ) : ℂ) := by
   simp only [fockS, fockNormSq, Complex.ofReal_sum, Complex.ofReal_mul, Complex.ofReal_pow, Complex.ofReal_natCast]
   refine Finset.sum_congr rfl fun m _ => ?_
-  have hm : (mfact m : ℂ) = (multiFactorial m : ℂ) := rfl
+  have hm : (mfact m : ℂ) = (_root_.GlobalTheory.MvPoly.multiFactorial m : ℂ) := rfl
   rw [show star (f.coeff m) = (starRingEnd ℂ) (f.coeff m) from rfl, Complex.conj_mul', hm]
   ring
 
@@ -95,17 +95,17 @@ private theorem sum_support_eq_degree_of_isHomogeneous {σ : Type} {P : MvPolyno
   simpa [Finsupp.weight_apply, Finsupp.sum] using hw
 
 private theorem multiFactorial_le_factorial_of_isHomogeneous {σ : Type} {P : MvPolynomial σ ℂ} {d : ℕ} (h : P.IsHomogeneous d)
-    {α : σ →₀ ℕ} (hα : α ∈ P.support) : (multiFactorial α : ℝ) ≤ d.factorial := by
+    {α : σ →₀ ℕ} (hα : α ∈ P.support) : (_root_.GlobalTheory.MvPoly.multiFactorial α : ℝ) ≤ d.factorial := by
   have hdiv := Nat.prod_factorial_dvd_factorial_sum α.support α
   rw [sum_support_eq_degree_of_isHomogeneous h hα] at hdiv
   have hle := Nat.le_of_dvd (Nat.factorial_pos _) hdiv
-  unfold multiFactorial Finsupp.prod
+  unfold _root_.GlobalTheory.MvPoly.multiFactorial Finsupp.prod
   exact_mod_cast hle
 
 theorem fockNormSq_le_l1Norm_sq {σ : Type} {P : MvPolynomial σ ℂ} {d : ℕ} (h : P.IsHomogeneous d) :
     fockNormSq P ≤ d.factorial * l1Norm P ^ 2 := by
   unfold fockNormSq l1Norm
-  calc ∑ α ∈ P.support, (multiFactorial α : ℝ) * ‖P.coeff α‖ ^ 2
+  calc ∑ α ∈ P.support, (_root_.GlobalTheory.MvPoly.multiFactorial α : ℝ) * ‖P.coeff α‖ ^ 2
       ≤ ∑ α ∈ P.support, (d.factorial : ℝ) * ‖P.coeff α‖ ^ 2 :=
         Finset.sum_le_sum fun α hα => mul_le_mul_of_nonneg_right (multiFactorial_le_factorial_of_isHomogeneous h hα) (sq_nonneg _)
     _ = (d.factorial : ℝ) * ∑ α ∈ P.support, ‖P.coeff α‖ ^ 2 := by rw [Finset.mul_sum]
@@ -136,8 +136,8 @@ private theorem card_support_le_of_isHomogeneous {σ : Type} [Fintype σ] {P : M
   rw [add_comm (1 : ℝ) (d : ℝ)]
   exact this
 
-private theorem one_le_multiFactorial {σ : Type} (α : σ →₀ ℕ) : (1 : ℝ) ≤ multiFactorial α := by
-  unfold multiFactorial Finsupp.prod
+private theorem one_le_multiFactorial {σ : Type} (α : σ →₀ ℕ) : (1 : ℝ) ≤ _root_.GlobalTheory.MvPoly.multiFactorial α := by
+  unfold _root_.GlobalTheory.MvPoly.multiFactorial Finsupp.prod
   exact_mod_cast Nat.one_le_iff_ne_zero.mpr (Finset.prod_ne_zero_iff.mpr fun i _ => Nat.factorial_ne_zero _)
 
 theorem l1Norm_sq_le_mul_fockNormSq {σ : Type} [Fintype σ] {P : MvPolynomial σ ℂ} {d : ℕ} (h : P.IsHomogeneous d) :
@@ -147,7 +147,7 @@ theorem l1Norm_sq_le_mul_fockNormSq {σ : Type} [Fintype σ] {P : MvPolynomial �
         sq_sum_le_card_mul_sum_sq
     _ ≤ (1 + d) ^ Fintype.card σ * ∑ α ∈ P.support, ‖P.coeff α‖ ^ 2 :=
         mul_le_mul_of_nonneg_right (card_support_le_of_isHomogeneous h) (Finset.sum_nonneg fun _ _ => sq_nonneg _)
-    _ ≤ (1 + d) ^ Fintype.card σ * ∑ α ∈ P.support, (multiFactorial α : ℝ) * ‖P.coeff α‖ ^ 2 := by
+    _ ≤ (1 + d) ^ Fintype.card σ * ∑ α ∈ P.support, (_root_.GlobalTheory.MvPoly.multiFactorial α : ℝ) * ‖P.coeff α‖ ^ 2 := by
         refine mul_le_mul_of_nonneg_left (Finset.sum_le_sum fun α _ => ?_) (by positivity)
         exact le_mul_of_one_le_left (sq_nonneg _) (one_le_multiFactorial α)
 
@@ -491,7 +491,7 @@ theorem GlobalTheory.FockJetBound.jetOp_norm_le : ∃ K : ℝ, 0 ≤ K ∧ ∀ (
       have hs : (m.sum fun _ n => n) = dn' := by rw [← hm]; rfl
       rw [hs] at key
       have happ : GL3Theta.applyAt0 D (MvPolynomial.monomial m 1) H =
-          (m.prod fun _ n => (n.factorial : ℂ)) * taylor D H m := by
+          (m.prod fun _ n => (n.factorial : ℂ)) * _root_.Formalism.MainNotions.TaylorLogMetric.taylor D H m := by
         rw [Formalism.MainNotions.GL3Theta.applyAt0, MvPolynomial.support_monomial, if_neg one_ne_zero, Finset.sum_singleton,
           MvPolynomial.coeff_monomial, if_pos rfl, one_mul]
       rw [happ]; exact key

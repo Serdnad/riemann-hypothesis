@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ShCocOn
-public import Development.AbelianVarietyTheory.Definitions.Foundations.Letter
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.Topology.LocallyConstant.Basic
 import Mathlib.Algebra.Order.Floor.Extended

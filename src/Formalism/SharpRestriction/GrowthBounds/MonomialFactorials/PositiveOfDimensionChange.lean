@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.DirectionsOfPositivePart
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestDirOf
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestDimBCProved
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

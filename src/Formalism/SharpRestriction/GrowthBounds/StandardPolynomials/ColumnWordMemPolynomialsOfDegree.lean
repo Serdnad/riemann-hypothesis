@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.SymFamilyWordEqHeadMulMonomial
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColsDef
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.PolynomialThetaProduct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

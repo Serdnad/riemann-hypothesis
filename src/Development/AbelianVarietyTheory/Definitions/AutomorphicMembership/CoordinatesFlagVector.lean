@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataSpaces
+public import Formalism.LocalRingCardinality.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -39,12 +39,12 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MulVecMemLatMap
-import Development.AbelianVarietyTheory.Definitions.Foundations.InFrameStabilizer
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.CmStarOfIsCMUnram
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FlagPairDefinitePartLattice
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FractionFieldToGenericStalkAlgebraMapEq
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SymmetricFlagBasisVectorsApplyCentre
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
 import Formalism.FlagUnipotentLattices.MemOfOrthogonalAnisotropic
 
 @[expose] public section

@@ -1,12 +1,12 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRes
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ArithVarZero
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotIsHorizontalOfDimOne
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotMemOfNonZeroDivisor
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.CurveCountObjects
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,8 +71,8 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 
 
 omit [Fintype K] in
-theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
-    IsMultiHomog (f * g) (a + b) := by
+theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g b) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f * g) (a + b) := by
   classical
   intro m hm k
   obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
@@ -80,8 +80,8 @@ theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f
 
 
 omit [Fintype K] in
-theorem isMultiHomog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f + g) a := by
+theorem isMultiHomog_add {f g : MRing ι} {a : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g a) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f + g) a := by
   classical
   intro m hm k
   rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
@@ -90,8 +90,8 @@ theorem isMultiHomog_add {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a
 
 
 omit [Fintype K] in
-theorem isMultiHomog_sub {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
-    IsMultiHomog (f - g) a := by
+theorem isMultiHomog_sub {f g : MRing ι} {a : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g a) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f - g) a := by
   classical
   intro m hm k
   rcases Finset.mem_union.mp (MvPolynomial.support_sub _ f g hm) with h | h
@@ -100,14 +100,14 @@ theorem isMultiHomog_sub {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a
 
 
 omit [Fintype K] in
-theorem isMultiHomog_one : IsMultiHomog (1 : MRing ι) 0 := by
+theorem isMultiHomog_one : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (1 : MRing ι) 0 := by
   classical
   intro m hm k
   rw [MvPolynomial.support_one] at hm
   rcases Finset.mem_singleton.mp hm with rfl
   simp
 
-theorem mem_of_aeval_eq_zero (y : (Σ k, ι k) → Ω) {f : MRing ι} {d : K → ℕ} (hf : IsMultiHomog f d)
+theorem mem_of_aeval_eq_zero (y : (Σ k, ι k) → Ω) {f : MRing ι} {d : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f d)
     (h0 : aeval y f = 0) : f ∈ mCoordIdeal y := by
   show mConeMap y f = 0
   rw [ConeTrdeg.mConeMap_of_isMultiHomog y hf, h0, map_zero, zero_mul]
@@ -142,7 +142,7 @@ theorem mem_mcPts (σ : Ω →+* ℂ) (y : (Σ k, ι k) → Ω) {c : ∀ k, ι k
     (fun p => σ (y p)) ∈ mcPts (mCoordIdeal y) :=
   ⟨fun k => ⟨c k, (map_ne_zero σ).mpr (hc k)⟩, fun f hf => by rw [eval_comp, aeval_eq_zero_of_mem y hf, map_zero]⟩
 
-theorem eval_smul (w : (Σ k, ι k) → ℂ) (l : K → ℂ) {f : MRing ι} {d : K → ℕ} (hf : IsMultiHomog f d) :
+theorem eval_smul (w : (Σ k, ι k) → ℂ) (l : K → ℂ) {f : MRing ι} {d : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f d) :
     eval (fun p => l p.1 * w p) (map (Int.castRingHom ℂ) f) = (∏ k, l k ^ d k) * eval w (map (Int.castRingHom ℂ) f) := by
   have hc : (MvPolynomial.eval l).comp (mConeMap w).toRingHom = (aeval (fun p => l p.1 * w p)).toRingHom :=
     MvPolynomial.ringHom_ext (fun n => by simp) (fun p => by simp [mConeMap, mul_comm])
@@ -158,7 +158,7 @@ theorem exists_sameOrbit {y : (Σ k, ι k) → Ω} (hP : IsArithVar (mCoordIdeal
   classical
   set P := mCoordIdeal y
   let φ : MRing ι →+* ℂ := (eval z).comp (map (Int.castRingHom ℂ))
-  have hne : ∀ (v : MRing ι) (a : K → ℕ), IsMultiHomog v a → aeval y v ≠ 0 → φ v ≠ 0 := fun v a hv hv0 =>
+  have hne : ∀ (v : MRing ι) (a : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog v a → aeval y v ≠ 0 → φ v ≠ 0 := fun v a hv hv0 =>
     eval_ne_zero_of_dimOne arithVarZero hP
       (A := HermLine.ofMetrics (fun k => fsMetric (ι := ι k)) (fun k => (a k : ℤ)))
       ⟨a, fun _ => rfl, hv, fun hm => hv0 (aeval_eq_zero_of_mem y hm)⟩ hz
@@ -166,7 +166,7 @@ theorem exists_sameOrbit {y : (Σ k, ι k) → Ω} (hP : IsArithVar (mCoordIdeal
   let σf : Ω → ℂ := fun s => φ (g s) / φ (h s)
   have hhz : ∀ s, φ (h s) ≠ 0 := fun s => hne _ _ (hh s) (hh0 s)
 
-  have rep : ∀ (s : Ω) (e : K → ℕ) (G H : MRing ι), IsMultiHomog G e → IsMultiHomog H e → aeval y H ≠ 0 →
+  have rep : ∀ (s : Ω) (e : K → ℕ) (G H : MRing ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog H e → aeval y H ≠ 0 →
       aeval y G = s * aeval y H → σf s * φ H = φ G := by
     intro s e G H hG hH hH0 hGs
     have hmem : G * h s - H * g s ∈ P :=

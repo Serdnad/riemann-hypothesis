@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.HTSpecAllHodge
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle002
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.EtSide
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

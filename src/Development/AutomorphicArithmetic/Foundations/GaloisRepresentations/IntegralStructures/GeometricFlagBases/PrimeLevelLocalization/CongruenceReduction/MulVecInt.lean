@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CongruenceReduction.LevLocAlt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocEqOneOfMemGam
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1755
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.GlobalFields.LocalAtPlace
+public import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

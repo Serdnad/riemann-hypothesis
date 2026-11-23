@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.AuxiliaryPrimeMemAvoidedPrimes
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DuStarPos
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AssembleLattice
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle008
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsHcParamOfCode
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KitExOfHostWeightObj
 import Mathlib.Algebra.Order.Floor.Extended

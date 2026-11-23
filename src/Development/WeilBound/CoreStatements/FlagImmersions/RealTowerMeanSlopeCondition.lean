@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.RefLinked
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
 public import Development.WeilBound.CoreStatements.FlagImmersions.DifferentiableAtAffCoord
 public import Development.WeilBound.CoreStatements.FlagImmersions.IsPotentialSumPot
-public import Development.WeilBound.CoreStatements.FlagImmersions.PshSumPotentialsSmallParameter
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle005
 public import Development.WeilBound.CoreStatements.FlagImmersions.RealTowerPlurisubharmonicPotential
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 
 @[expose] public section
 

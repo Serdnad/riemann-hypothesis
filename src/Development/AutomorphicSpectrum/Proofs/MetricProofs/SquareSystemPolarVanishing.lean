@@ -1,17 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Pull1
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AlgebraicSquareBaseIntersectionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AnalyticSystemRegularityProperties
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ArithmeticIntersectionMultilinearPolarStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereIntegralMultilinearExpansion
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PtsIntegralLogNormRatEqBaseStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RealisationPotentialDegreeCompatibilityStatement
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle148
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle029
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle042
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.GenericComplexPoint
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle010
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PRFormula
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PZeroSetNull
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +58,7 @@ import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.LogInt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithRes
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
 
 @[expose] public section
 

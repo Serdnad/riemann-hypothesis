@@ -3,10 +3,10 @@ module
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardDualZmodModuleEqCard
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardCocyclesMulInvariantsDiscrete
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NatCardAddMonoidHomZmodLe
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle276
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle050
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

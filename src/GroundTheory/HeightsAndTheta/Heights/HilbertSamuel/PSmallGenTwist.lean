@@ -60,7 +60,7 @@ namespace SmallGenTwist
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : Type} [Field Ω]
 
-def SmallGen (y : (Σ k, ι k) → Ω) (A : HermLine ι) : Prop :=
+def SmallGen (y : (Σ k, ι k) → Ω) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) : Prop :=
   ∃ (n : ℕ) (w : Fin n → Ω), (∀ j, w j ∈ chartLat y A.a 1) ∧ KH.GeneratesOn y A.a w ∧
     ∀ j, IsSmallH (mCoordIdeal y) y A 1 (w j)
 
@@ -120,7 +120,7 @@ theorem generatesOn_mul (y : (Σ k, ι k) → Ω) {a b : K → ℤ} {n m : ℕ} 
         exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun l _ => by ring
     _ = 1 := by rw [hsum, hsum', one_mul]
 
-theorem isSmallH_mul (y : (Σ k, ι k) → Ω) (A B C : HermLine ι) (hCa : ∀ k, C.a k = A.a k + B.a k)
+theorem isSmallH_mul (y : (Σ k, ι k) → Ω) (A B C : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hCa : ∀ k, C.a k = A.a k + B.a k)
     (hCh : ∀ z, C.h z = A.h z * B.h z) {s t : Ω} (hs : s ∈ chartLat y A.a 1) (ht : t ∈ chartLat y B.a 1)
     (hbs : IsSmallH (mCoordIdeal y) y A 1 s) (hbt : IsSmallH (mCoordIdeal y) y B 1 t) :
     IsSmallH (mCoordIdeal y) y C 1 (s * t) := by
@@ -181,7 +181,7 @@ theorem isSmallH_mul (y : (Σ k, ι k) → Ω) (A B C : HermLine ι) (hCa : ∀ 
         rw [hCh]
         ring
 
-theorem smallGen_mul (y : (Σ k, ι k) → Ω) (A B C : HermLine ι) (hCa : C.a = A.a + B.a)
+theorem smallGen_mul (y : (Σ k, ι k) → Ω) (A B C : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hCa : C.a = A.a + B.a)
     (hCh : ∀ z, C.h z = A.h z * B.h z) (hA : SmallGen y A) (hB : SmallGen y B) : SmallGen y C := by
   obtain ⟨n, w, hw, hgw, hsw⟩ := hA
   obtain ⟨m, v, hv, hgv, hsv⟩ := hB
@@ -193,7 +193,7 @@ theorem smallGen_mul (y : (Σ k, ι k) → Ω) (A B C : HermLine ι) (hCa : C.a 
     exact generatesOn_mul y hgw hgv
   · exact isSmallH_mul y A B C (fun k => by rw [hCa]; rfl) hCh (hw _) (hv _) (hsw _) (hsv _)
 
-theorem smallGen_of_trivial (y : (Σ k, ι k) → Ω) (E : HermLine ι) (hEa : E.a = 0) (hEh : ∀ z, E.h z = 1) :
+theorem smallGen_of_trivial (y : (Σ k, ι k) → Ω) (E : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hEa : E.a = 0) (hEh : ∀ z, E.h z = 1) :
     SmallGen y E := by
   refine ⟨1, fun _ => 1, fun _ => ?_, ?_, fun _ => ?_⟩
   · intro c hc
@@ -260,7 +260,7 @@ theorem smallGen_fsH (y : (Σ k, ι k) → Ω) : SmallGen y (fsH ι) := by
     have := PiLp.norm_apply_le (WithLp.toLp 2 (fun i => z ⟨k, i⟩)) ((e.symm j) k)
     rwa [PiLp.toLp_apply] at this
 
-theorem smallGen_zcomb (y : (Σ k, ι k) → Ω) (L : HermLine ι) (hL : SmallGen y L) (q p : ℕ) :
+theorem smallGen_zcomb (y : (Σ k, ι k) → Ω) (L : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hL : SmallGen y L) (q p : ℕ) :
     SmallGen y (HermLine.zcomb L (fsH ι) q p) := by
   induction q with
   | zero =>

@@ -3,8 +3,8 @@ module
 public import GroundTheory.LocalFields.ConductorLubinTate
 public import GroundTheory.LocalFields.LocalArtinMap
 public import GroundTheory.LocalFields.LubinTateReciprocity
-public import GroundTheory.LocalFields.ConductorTransport
-import GroundTheory.LocalFields.Existence
+public import GroundTheory.LocalFields.Bundle011
+import GroundTheory.LocalFields.Bundle012
 public import GroundTheory.LocalFields.KroneckerWeber
 import GroundTheory.LocalFields.LubinTateUnramified
 import Mathlib.Algebra.Order.Floor.Extended

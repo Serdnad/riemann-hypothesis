@@ -2,9 +2,9 @@ module
 
 public import Formalism.LatticeSlopes.Statement
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqCovolume
-import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.ShortVector
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

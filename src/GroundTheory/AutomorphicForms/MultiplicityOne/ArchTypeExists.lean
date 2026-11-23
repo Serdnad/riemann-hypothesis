@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.MultiplicityOne.NormOne
-public import GroundTheory.AutomorphicForms.MultiplicityOne.FiniteFactor
+public import GroundTheory.AutomorphicForms.MultiplicityOne.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

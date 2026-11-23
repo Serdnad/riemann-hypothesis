@@ -1,9 +1,9 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupJacobian.SUpPowEqZero
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsNormalFormStabilizerMeasure
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicStabilizerRadicalStructure
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ContinuousUpperOff
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle128
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GNonneg
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ShearMeasurability
 import Mathlib.Algebra.Module.StablyFree.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.SiegelPar
+public import Development.WeilBound.ThetaLifts.Reductions.Bundle002
 import Aesop.Main
 import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 public import Development.WeilBound.ThetaLifts.FrameEstimates.LintegralLeOfCover

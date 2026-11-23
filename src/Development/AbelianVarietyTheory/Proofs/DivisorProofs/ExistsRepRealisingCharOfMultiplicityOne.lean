@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.GoodPartHermitianSpec
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.AsAlgebraHomSurjectiveOfFinrankIntertwiningMapEq
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FiniteGroupFunctionPairingCharacterEqFinrankInte
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FiniteGroupFunctionPairingSelfIrreducibleAlgClos
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.IsCharTraceMulIdempotent
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,7 +60,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm
-import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
 
 @[expose] public section
 

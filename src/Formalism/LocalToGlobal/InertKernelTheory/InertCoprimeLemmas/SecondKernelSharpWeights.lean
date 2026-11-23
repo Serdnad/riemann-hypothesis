@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.InertKernelTheory.K2OfAgreements
-import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CoeffProdRename
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 
 @[expose] public section
 

@@ -1,11 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StrongApproximationSL2Adeles
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OneMemH0WeightZero
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1601
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NotIsCompactUnivFv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosureNormOneProductsSubgroupPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtInvS
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousLocAdele
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1488
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1469
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1470
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

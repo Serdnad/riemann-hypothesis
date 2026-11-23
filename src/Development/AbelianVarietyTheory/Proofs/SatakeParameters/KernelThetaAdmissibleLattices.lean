@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NatCastMemOfPlace
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepComb
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntPull
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ImportsLast
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle019
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.AlternatingFormStandardHermitian
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLatticeNorms.SelfDualComap
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.InertKernelTheory.StatementInt
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 
 @[expose] public section
 

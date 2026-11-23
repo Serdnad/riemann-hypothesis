@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ValQOfValQr
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinPartAlgebraMap
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SingleMemIdAt
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle381
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle331
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsLatticeStabilizerTwistAndLevelAway
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinsetSum
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle505
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle217
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdempotentMulEntryEqZeroOfCutInverse
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalSchrodingerModelUniqTransportExistsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodLocalGroupsNormalFramesSplitPlaceStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle404
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle444
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceDoubleStepFinitelyManyCellsUniformProoStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceLocalGroupClosedEmbeddingIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryAdelicTrivialAtPlacesSubgroupAntitone
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitaryFiniteAdelicGroupSplitFinitePlaceSet
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnitarySupportedSplitPlacesEqProdLocalParts
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle405
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle145
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle493
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle249
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -148,7 +148,7 @@ theorem cells_prod {G : Type} [Group G] {r : ℕ} (H : Fin (r + 1) → Type) [�
   exact congrArg mk (funext he)
 
 theorem conv_support {G : Type} [Monoid G] : ∀ {n : ℕ} (H : Fin n → Type) (φ : ∀ i, H i → G) (e : ∀ i, H i →₀ ℂ),
-    ∀ a ∈ (conv (List.ofFn fun i => (e i).mapDomain (φ i))).support,
+    ∀ a ∈ (GlobalTheory.QPl.conv (List.ofFn fun i => (e i).mapDomain (φ i))).support,
       ∃ b : ∀ i, H i, (∀ i, b i ∈ (e i).support) ∧ a = (List.ofFn fun i => φ i (b i)).prod := by
   classical
   intro n
@@ -156,10 +156,10 @@ theorem conv_support {G : Type} [Monoid G] : ∀ {n : ℕ} (H : Fin n → Type) 
   | zero =>
     intro H φ e a ha
     refine ⟨fun i => i.elim0, fun i => i.elim0, ?_⟩
-    simpa [conv] using Finsupp.support_single_subset ha
+    simpa [GlobalTheory.QPl.conv] using Finsupp.support_single_subset ha
   | succ n ih =>
     intro H φ e a ha
-    rw [List.ofFn_succ, conv, List.foldr_cons] at ha
+    rw [List.ofFn_succ, GlobalTheory.QPl.conv, List.foldr_cons] at ha
     obtain ⟨x, hx, h2⟩ := Finset.mem_biUnion.1 (Finsupp.support_sum ha)
     obtain ⟨y, hy, h3⟩ := Finset.mem_biUnion.1 (Finsupp.support_sum h2)
     obtain rfl := Finset.mem_singleton.1 (Finsupp.support_single_subset h3)

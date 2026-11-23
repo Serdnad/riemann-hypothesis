@@ -1,15 +1,15 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.LieSumDecompositions.GrowPHolds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CasimirEigenOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StableLevelDecomposition
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.LieSumDecompositions.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle529
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle575
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LieSkewAdjointMatrix
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle554
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
 public import Development.WeilBound.RepresentationTheoryGL.ConstantTermFiniteness.LieInvariants.InvariantOfLieOneLEqZero
-public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.IsStableSquareIntegrableForms
-public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PPrIrr
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.Bundle014
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PPrAdm
+public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.Bundle016
 
 @[expose] public section
 
@@ -143,20 +143,20 @@ section Rep
 variable [(Measure.haar : Measure (GA E N)).IsMulRightInvariant] {W : Submodule ℂ (Sm E N)}
   (h : ∀ φ ∈ W, MemL2Quotient (latticeGL E N) (Measure.haar : Measure (GA E N)) φ.1)
 
-theorem rep_rt (h2 : PairRt) {g : GA E N} (hg : ∀ φ ∈ W, rt E N g φ ∈ W) (hg' : ∀ φ ∈ W, rt E N g⁻¹ φ ∈ W)
-    {S : Submodule ℂ (Sm E N)} (hSW : S ≤ W) (hS' : ∀ s ∈ S, rt E N g⁻¹ s ∈ S) {χ : Sm E N}
+theorem rep_rt (h2 : PairRt) {g : GA E N} (hg : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N g φ ∈ W) (hg' : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N g⁻¹ φ ∈ W)
+    {S : Submodule ℂ (Sm E N)} (hSW : S ≤ W) (hS' : ∀ s ∈ S, GlobalTheory.CuspRep.rt E N g⁻¹ s ∈ S) {χ : Sm E N}
     (hχ : ∀ γ ∈ latticeGL E N, ∀ y, χ.1 (γ * y) = χ.1 y)
     (hSl : ∀ s ∈ S, ∀ γ ∈ latticeGL E N, ∀ y, s.1 (γ * y) = s.1 y) {p : Sm E N} (hp : p ∈ W)
     (hrep : ∀ s ∈ S, pr χ.1 s.1 = inner ℂ (cls h s) (cls h p)) :
-    ∀ s ∈ S, pr (rt E N g χ).1 s.1 = inner ℂ (cls h s) (cls h (rt E N g p)) := by
+    ∀ s ∈ S, pr (GlobalTheory.CuspRep.rt E N g χ).1 s.1 = inner ℂ (cls h s) (cls h (GlobalTheory.CuspRep.rt E N g p)) := by
   intro s hs
-  have e1 : pr (rt E N g χ).1 s.1 = pr χ.1 (rt E N g⁻¹ s).1 := h2 E N g χ.1 s.1 hχ (hSl s hs)
+  have e1 : pr (GlobalTheory.CuspRep.rt E N g χ).1 s.1 = pr χ.1 (GlobalTheory.CuspRep.rt E N g⁻¹ s).1 := h2 E N g χ.1 s.1 hχ (hSl s hs)
   rw [e1, hrep _ (hS' s hs)]
   have e2 := PrSt.inner_rt h hg hg' hp (hSW hs)
-  calc inner ℂ (cls h (rt E N g⁻¹ s)) (cls h p) = conj (inner ℂ (cls h p) (cls h (rt E N g⁻¹ s))) :=
+  calc inner ℂ (cls h (GlobalTheory.CuspRep.rt E N g⁻¹ s)) (cls h p) = conj (inner ℂ (cls h p) (cls h (GlobalTheory.CuspRep.rt E N g⁻¹ s))) :=
         (inner_conj_symm _ _).symm
-    _ = conj (inner ℂ (cls h (rt E N g p)) (cls h s)) := by rw [e2]
-    _ = inner ℂ (cls h s) (cls h (rt E N g p)) := inner_conj_symm _ _
+    _ = conj (inner ℂ (cls h (GlobalTheory.CuspRep.rt E N g p)) (cls h s)) := by rw [e2]
+    _ = inner ℂ (cls h s) (cls h (GlobalTheory.CuspRep.rt E N g p)) := inner_conj_symm _ _
 
 theorem rep_mem_typePart (h1 : PairLin) (h2 : PairRt) (hinj : ∀ x ∈ W, cls h x = 0 → x = 0) (hW : _root_.GlobalTheory.CuspRep.IsStable W)
     (hWQ : ∀ s ∈ W, GrowQ s.1) {U : Submodule ℂ (Sm E N)} (hU : _root_.GlobalTheory.CuspRep.IsStable U) (hUP : ∀ χ ∈ U, GrowP χ.1)
@@ -171,14 +171,14 @@ theorem rep_mem_typePart (h1 : PairLin) (h2 : PairRt) (hinj : ∀ x ∈ W, cls h
       (fun x hx y hy => ((h1 E N).2 χ'.1 x.1 y.1 1 (hUP χ' hχ') (hWQ x (hSW hx)) (hWQ y (hSW hy))).1)
       (fun c x hx => ((h1 E N).2 χ'.1 x.1 x.1 c (hUP χ' hχ') (hWQ x (hSW hx)) (hWQ x (hSW hx))).2)
   refine ⟨fun l hl => ?_, fun x => ?_⟩
-  · have hg : ∀ φ ∈ W, rt E N (finGL E N l) φ ∈ W := fun φ hφ => hW (.fin l) φ hφ
-    have hg' : ∀ φ ∈ W, rt E N (finGL E N l)⁻¹ φ ∈ W := fun φ hφ => by
+  · have hg : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N (finGL E N l) φ ∈ W := fun φ hφ => hW (.fin l) φ hφ
+    have hg' : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N (finGL E N l)⁻¹ φ ∈ W := fun φ hφ => by
       rw [← map_inv]; exact hW (.fin l⁻¹) φ hφ
-    have hS' : ∀ s ∈ S, rt E N (finGL E N l)⁻¹ s ∈ S := fun s hs => by
+    have hS' : ∀ s ∈ S, GlobalTheory.CuspRep.rt E N (finGL E N l)⁻¹ s ∈ S := fun s hs => by
       rw [← map_inv]; exact hSL l⁻¹ (L.inv_mem hl) s hs
     have ht := rep_rt h h2 hg hg' hSW hS' (hUP χ hχ).2.1 hSl (hSW hp) hrep
     refine rep_unique h hinj hSW (hSL l hl p hp) hp fun s hs => ?_
-    have e : rt E N (finGL E N l) χ = χ := hχT.1 l hl
+    have e : GlobalTheory.CuspRep.rt E N (finGL E N l) χ = χ := hχT.1 l hl
     have e2 := ht s hs
     rw [e] at e2
     rw [← hrep s hs, e2]
@@ -201,10 +201,10 @@ theorem rep_mem_typePart (h1 : PairLin) (h2 : PairRt) (hinj : ∀ x ∈ W, cls h
             inner_smul_right, ← hQ _ (hOU a.2) s hs]
           exact ((h1 E N).1 a.1.1 a.1.1 s.1 c (hUP _ (hOU a.2)) (hUP _ (hOU a.2)) (hWQ s (hSW hs))).2 }
     have hΦ : ∀ k, cptRep E N k p = Φ ⟨cptRep E N k χ, Submodule.subset_span ⟨k, rfl⟩⟩ := fun k => by
-      have hg : ∀ φ ∈ W, rt E N (infGL E N (Unitary.toUnits k)) φ ∈ W := fun φ hφ => hW (.cpt k) φ hφ
-      have hg' : ∀ φ ∈ W, rt E N (infGL E N (Unitary.toUnits k))⁻¹ φ ∈ W := fun φ hφ => by
+      have hg : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k)) φ ∈ W := fun φ hφ => hW (.cpt k) φ hφ
+      have hg' : ∀ φ ∈ W, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k))⁻¹ φ ∈ W := fun φ hφ => by
         rw [← map_inv, ← map_inv]; exact hW (.cpt k⁻¹) φ hφ
-      have hS' : ∀ s ∈ S, rt E N (infGL E N (Unitary.toUnits k))⁻¹ s ∈ S := fun s hs => by
+      have hS' : ∀ s ∈ S, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k))⁻¹ s ∈ S := fun s hs => by
         rw [← map_inv, ← map_inv]; exact hSK k⁻¹ s hs
       have ht := rep_rt h h2 hg hg' hSW hS' (hUP χ hχ).2.1 hSl (hSW hp) hrep
       have hkU : cptRep E N k χ ∈ U := hU (.cpt k) χ hχ
@@ -327,17 +327,17 @@ theorem core_of (h1 : PairLin) (h2 : PairRt) (h3 : PairLie) (h4 : GrowQHolds) : 
     have hVl : ∀ s ∈ V, ∀ γ ∈ latticeGL E N, ∀ y, s.1 (γ * y) = s.1 y := fun s hs => (hWQ s (hVW hs)).2.1
     cases o with
     | fin k =>
-      have hg : ∀ x ∈ A2 E N, rt E N (finGL E N k) x ∈ A2 E N := fun x hx => hW (.fin k) x hx
-      have hg' : ∀ x ∈ A2 E N, rt E N (finGL E N k)⁻¹ x ∈ A2 E N := fun x hx => by
+      have hg : ∀ x ∈ A2 E N, GlobalTheory.CuspRep.rt E N (finGL E N k) x ∈ A2 E N := fun x hx => hW (.fin k) x hx
+      have hg' : ∀ x ∈ A2 E N, GlobalTheory.CuspRep.rt E N (finGL E N k)⁻¹ x ∈ A2 E N := fun x hx => by
         rw [← map_inv]; exact hW (.fin k⁻¹) x hx
-      have hS' : ∀ s ∈ V, rt E N (finGL E N k)⁻¹ s ∈ V := fun s hs => by
+      have hS' : ∀ s ∈ V, GlobalTheory.CuspRep.rt E N (finGL E N k)⁻¹ s ∈ V := fun s hs => by
         rw [← map_inv]; exact hVst (.fin k⁻¹) s hs
       exact rep_rt h h2 hg hg' hVW hS' hχl hVl (hVW (hPV χ hχ)) (hP χ hχ) u hu
     | cpt k =>
-      have hg : ∀ x ∈ A2 E N, rt E N (infGL E N (Unitary.toUnits k)) x ∈ A2 E N := fun x hx => hW (.cpt k) x hx
-      have hg' : ∀ x ∈ A2 E N, rt E N (infGL E N (Unitary.toUnits k))⁻¹ x ∈ A2 E N := fun x hx => by
+      have hg : ∀ x ∈ A2 E N, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k)) x ∈ A2 E N := fun x hx => hW (.cpt k) x hx
+      have hg' : ∀ x ∈ A2 E N, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k))⁻¹ x ∈ A2 E N := fun x hx => by
         rw [← map_inv, ← map_inv]; exact hW (.cpt k⁻¹) x hx
-      have hS' : ∀ s ∈ V, rt E N (infGL E N (Unitary.toUnits k))⁻¹ s ∈ V := fun s hs => by
+      have hS' : ∀ s ∈ V, GlobalTheory.CuspRep.rt E N (infGL E N (Unitary.toUnits k))⁻¹ s ∈ V := fun s hs => by
         rw [← map_inv, ← map_inv]; exact hVst (.cpt k⁻¹) s hs
       exact rep_rt h h2 hg hg' hVW hS' hχl hVl (hVW (hPV χ hχ)) (hP χ hχ) u hu
     | lie X =>

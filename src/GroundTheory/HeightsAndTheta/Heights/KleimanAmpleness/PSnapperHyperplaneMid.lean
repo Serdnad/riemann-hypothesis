@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SnapperHyperplaneMidSt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle029
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PIdealTwistFamily
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSnapperDevissage
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSnapperHyperplane
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

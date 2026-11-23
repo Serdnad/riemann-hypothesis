@@ -2,12 +2,11 @@ module
 
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Weights
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalOrbitChart
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCriticalFlatNotInjective
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PHolomorphicKernelFibre
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PInjectiveHolomorphicInverse
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PInjectiveHolomorphicJacobianNeZero
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PParametricCircleIntegralAnalytic
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle129
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle090
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle072
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle033
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

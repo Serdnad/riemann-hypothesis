@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TrivFlagMod
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.FlagMinor
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.AffineHilbertIdealSheafOfQuotientIdealTop
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsUniformDenominator
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SumMemLoc
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle012
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsotropicSublatticeGramDeterminant
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsFundSet
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle002
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsotropicEigencomponentConjugateFormStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RiemannLatticeEigenProjectionStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle061
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle062
 public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.PShortVectorsOrthogonal
 import Mathlib.Algebra.Order.Floor.Extended

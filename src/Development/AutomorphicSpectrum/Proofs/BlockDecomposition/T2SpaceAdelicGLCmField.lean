@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IsotropicMahlerBounds.OnlyIsotropic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfAdelicFourierSeparatingCharsVanish
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2060
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteTwConjOfIsTest
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LintegralTsumEnormNeTop
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OnlyStableSubspaces
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFCA
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle411
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle009
 import GroundTheory.AutomorphicForms.AdelicGLn
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
@@ -388,6 +388,7 @@ theorem unfold_of_mahler (hM : Mahler) : Unfold := by
     haveI : DiscreteTopology (ratCent δ) :=
       DiscreteTopology.of_subset (s := ((ratGL E n).range : Set (GA E n)))
         GlobalTheory.CompanionTheory.KerTwFin.discreteTopology_range (fun _ ⟨t, _, e⟩ => ⟨t, e⟩)
+    haveI : SFinite μ := @MeasureTheory.instSFiniteOfSigmaFinite _ _ μ (Measure.IsHaarMeasure.sigmaFinite μ)
     exact GlobalTheory.CompanionTheory.QuotUnfold.quotIntegral_unfold (Γ := (ratGL E n).range) (Γ₀ := ratCent δ)
       (fun _ ⟨t, _, e⟩ => ⟨t, e⟩) hF (hHm δ) (hinvH δ) hfin
 

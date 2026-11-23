@@ -1,17 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.StatementsSphereLongitude
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.StatementsZonalPairing
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.StatementsZonalReduction
+public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PFibreConstantClosedForm
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PFibreIntegralInvariant
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PGHatIdentity
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PGKernelIdentity
+public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PSphereLongitudeCoordinates
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PZonalBilinearFormula
+public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PZonalHeightReduction
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PZonalKernel
-public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PZonalKernelPairing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

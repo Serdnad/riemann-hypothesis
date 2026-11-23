@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.Conjuga
 
 namespace GlobalTheory.ConjElOverReal
 
-private theorem exists_ne_zero_smul_mem_of_mem_span' (E Ω : Type) [Field E] [Field Ω] [Algebra E Ω] (c : G E Ω) (hc : IsConjEl c)
+private theorem exists_ne_zero_smul_mem_of_mem_span' (E Ω : Type) [Field E] [Field Ω] [Algebra E Ω] (c : _root_.Formalism.ConjugateSelfDual.G E Ω) (hc : IsConjEl c)
     (x : Ω) (m : ℕ) (hm : m ≠ 0) (hx : x ^ m = 1) : c x = x⁻¹ := by
   obtain ⟨j, hj⟩ := hc
   apply j.injective
@@ -54,7 +54,7 @@ private theorem exists_ne_zero_smul_mem_of_mem_span' (E Ω : Type) [Field E] [Fi
   rw [← map_pow, hx, map_one]
 
 private theorem main_lemma_2 (E Ω : Type) [Field E] [Field Ω] [Algebra E Ω] [CharZero Ω] [IsAlgClosed Ω]
-    (l : ℕ) [Fact l.Prime] (c : G E Ω) (hc : IsConjEl c) : cycBar E Ω l c = -1 := by
+    (l : ℕ) [Fact l.Prime] (c : _root_.Formalism.ConjugateSelfDual.G E Ω) (hc : IsConjEl c) : cycBar E Ω l c = -1 := by
   have hZ : cycZ E Ω l c = -1 := by
     unfold cycZ
     apply Units.ext
@@ -83,7 +83,7 @@ private theorem main_lemma_2 (E Ω : Type) [Field E] [Field Ω] [Algebra E Ω] [
   ext
   simp
 
-theorem main : ∀ (K Ω : Type) [Field K] [NumberField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω], (∃ c : G (maximalRealSubfield K) Ω, IsConjEl c) ∧ ∀ (l : ℕ) [Fact l.Prime] (c : G (maximalRealSubfield K) Ω), IsConjEl c → haveI : IsAlgClosure (maximalRealSubfield K) Ω := ⟨IsAlgClosure.isAlgClosed K, haveI := IsAlgClosure.isAlgebraic (R := K) (K := Ω); Algebra.IsAlgebraic.trans (maximalRealSubfield K) K Ω⟩; cycBar (maximalRealSubfield K) Ω l c = -1 := by
+theorem main : ∀ (K Ω : Type) [Field K] [NumberField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω], (∃ c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω, IsConjEl c) ∧ ∀ (l : ℕ) [Fact l.Prime] (c : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω), IsConjEl c → haveI : IsAlgClosure (maximalRealSubfield K) Ω := ⟨IsAlgClosure.isAlgClosed K, haveI := IsAlgClosure.isAlgebraic (R := K) (K := Ω); Algebra.IsAlgebraic.trans (maximalRealSubfield K) K Ω⟩; cycBar (maximalRealSubfield K) Ω l c = -1 := by
   intro K Ω _ _ _ _ _
   haveI : CharZero Ω := charZero_of_injective_algebraMap (algebraMap K Ω).injective
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed K

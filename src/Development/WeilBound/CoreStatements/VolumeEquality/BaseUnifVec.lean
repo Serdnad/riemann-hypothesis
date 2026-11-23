@@ -1,14 +1,14 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifVecA
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle013
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModelOfIsLieBasis
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifDefs
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifDefsB
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle008
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionEqAndWeilIsOfIsHolTo
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.VerticalDerivativeInCoordinates
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyPeriodRiemannLattice
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeTangentVectorsAffineOpen
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle072
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle256
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle205
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

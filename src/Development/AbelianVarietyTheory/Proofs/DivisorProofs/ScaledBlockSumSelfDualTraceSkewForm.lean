@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UnitaryConjugation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemPairLat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle110
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,7 +53,7 @@ open IsDedekindDomain NumberField MeasureTheory Matrix
 open Classical
 open scoped TensorProduct ComplexConjugate GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
 open GlobalTheory.FunObj GlobalTheory.ChiGrid GlobalTheory.SplitFlip GlobalTheory.SplitWeil GlobalTheory.StdFrames Formalism.L2.DIV
-open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation (spV spW spW₁ spV₁ alpha beta Num skewGram blk conjU)
+open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation (spV spW spW₁ spV₁ alpha beta Num blk conjU)
 open GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels (Base Spc Model HasExp SplitsFully Chars)
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField borelKw borelSpaceKw
@@ -83,11 +83,11 @@ theorem blk_e {R : Type} [Zero R] {p q d : ℕ} (e : Fin p ⊕ Fin q ≃ Fin d) 
   simp [GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.blk]
 
 theorem form_skewGram (A B : HSp D) {d : ℕ} (e : Fin A.rank ⊕ Fin B.rank ≃ Fin d) (x y : Fin d → D.host.E) :
-    GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.form D.sp.cm.sig (skewGram A B e) y x =
+    GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.form D.sp.cm.sig (_root_.GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.skewGram A B e) y x =
       D.host.xi0 * (hS A (fun k => x (e (.inl k))) (fun k => y (e (.inl k))) +
         hS B (fun k => x (e (.inr k))) (fun k => y (e (.inr k)))) := by
   have hσ : ∀ z : D.host.E, D.sp.cm.sig z = star z := fun _ => rfl
-  simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.form, skewGram, dotProduct, mulVec, Matrix.smul_apply, hσ, hS, smul_eq_mul]
+  simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.form, _root_.GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.skewGram, dotProduct, mulVec, Matrix.smul_apply, hσ, hS, smul_eq_mul]
   rw [← Equiv.sum_comp e]
   simp only [← Equiv.sum_comp e, Fintype.sum_sum_type, blk_e, fromBlocks_apply₁₁,
     fromBlocks_apply₁₂, fromBlocks_apply₂₁, fromBlocks_apply₂₂, transpose_apply, Matrix.zero_apply, mul_zero,

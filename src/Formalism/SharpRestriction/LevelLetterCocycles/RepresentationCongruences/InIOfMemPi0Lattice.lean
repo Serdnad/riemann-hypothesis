@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.IsRhoZeroOfPi0
-import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.InFPOfMul
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle016
+import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle012
 import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Pi0MemADelta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

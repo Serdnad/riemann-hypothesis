@@ -2,7 +2,7 @@ module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.ExtremalFacts
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwlineLemmas
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DetEmbUnitriA
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle032
 public import Formalism.GradedWeylDivisibility.FinalD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

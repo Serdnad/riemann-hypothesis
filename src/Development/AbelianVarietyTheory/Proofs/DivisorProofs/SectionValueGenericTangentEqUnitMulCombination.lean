@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.TanRel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RigValD
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegreeFormsDimensionGenericFibreLe
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsTwistSections
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1188
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle098
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle167
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.GermEqZeroOfThickenings
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValueAtOrigin
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,10 +43,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.TorusExt
 import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffTopMonEqZero
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle710
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ProdSumReindex
-import Development.AbelianVarietyTheory.Proofs.ToricGeometry.MemSpanOfCardLe
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidStA
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle012
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
 
 @[expose] public section
 

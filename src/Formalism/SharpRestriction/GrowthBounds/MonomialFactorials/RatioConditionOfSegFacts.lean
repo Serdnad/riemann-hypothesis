@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BlockBoundUniformiser
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.CoarseCLower
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.DigitsOKOfCompat
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

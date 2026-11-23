@@ -1,14 +1,13 @@
 module
 
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.XiOfDepth2
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle006
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.BinaryFormsExample
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.HighestWeightMemWZero
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LowerTriangularIntegral
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LrfcApplyWordAppendSingle
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.LriEVPowCoe
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.LrjTransposeLift
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

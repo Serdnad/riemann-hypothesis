@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnits
-import GroundTheory.ProfiniteCohomology.Colimit
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ExistsNsmulEqLocalPrimaryKernel
+import GroundTheory.ProfiniteCohomology.Bundle007
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle005
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SurjectiveOfInjectiveOfInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

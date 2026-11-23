@@ -2,8 +2,8 @@ module
 
 import Lemmata.MiscLemmasM.Imports
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.ExistsIntAddConjEqOneOfBaseGood
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
+public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsTorusOfPeriodHermitian
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
-public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.ReflexNormIndexIdeal
+public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsCoeEqSpanDetOfIntVecLe
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.GroupWithZero.Torsion
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsMulMemOfMemSpan
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle033
 
 @[expose] public section
 

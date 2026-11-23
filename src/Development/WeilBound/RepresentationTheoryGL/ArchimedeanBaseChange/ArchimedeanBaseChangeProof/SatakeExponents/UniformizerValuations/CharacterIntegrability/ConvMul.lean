@@ -107,6 +107,9 @@ theorem convF_mulF_eq_convF_convF {A κ : Type} [Fintype κ] (ν : Measure (Hf E
     (ψ ψ' : Matrix κ κ (Hf E a b → ℂ)) (hψ : IsFinM ψ) (hψ' : IsFinM ψ') (F : A × κ → H E a b → ℂ)
     (hF : ∀ i x, Continuous fun h => F i (x * finH h)) :
     convF ν (mulF ν ψ ψ') F = convF ν ψ (convF ν ψ' F) := by
+  haveI : IsLocallyFiniteMeasure ν := MeasureTheory.isLocallyFiniteMeasure_of_isFiniteMeasureOnCompacts
+  haveI : SigmaFinite ν := MeasureTheory.sigmaFinite_of_locallyFinite
+  haveI : SFinite ν := MeasureTheory.instSFiniteOfSigmaFinite
   funext i x
   have hg : ∀ j, Continuous fun y => F (i.1, j) (x * finH y) := fun j => hF _ x
   have hI : ∀ j k, Integrable (fun p : Hf E a b × Hf E a b =>

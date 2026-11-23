@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.SiegelWeilUnitaryConvergent
+public import Formalism.UnipotentAdelicQuotients.Bundle003
 public import CompanionTheory.AutomorphicTheory.SiegelWeilFiniteness.SiegelWeilOfFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,3 +54,18 @@ theorem finVol_unitaryGroup : ∀ (F E : Type) [Field F] [NumberField F] [Field 
   fun F E _ _ _ _ _ σ hσ M J hJ => CompanionTheory.SWFin.finVol F E σ hσ M J hJ
 
 end GlobalTheory.CompanionTheory.SW
+
+end
+
+section
+
+@[expose] public section
+
+open HeckeCharacterZeroLocus.SiegelWeilU GlobalTheory.CompanionTheory.SW NumberField IsDedekindDomain MeasureTheory Topology
+open scoped TensorProduct ENNReal NNReal Matrix
+
+theorem _root_.GlobalTheory.T.unitary_group_finite_volume : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → FinVol F E σ M J := by
+  first | exact @GlobalTheory.CompanionTheory.SW.finVol_unitaryGroup | exact GlobalTheory.CompanionTheory.SW.finVol_unitaryGroup | (intros; apply GlobalTheory.CompanionTheory.SW.finVol_unitaryGroup <;> assumption)
+
+end
+end

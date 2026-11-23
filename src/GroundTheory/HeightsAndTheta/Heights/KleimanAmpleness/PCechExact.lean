@@ -1,8 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Statements
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsCechDSq
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsDegLocExact
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

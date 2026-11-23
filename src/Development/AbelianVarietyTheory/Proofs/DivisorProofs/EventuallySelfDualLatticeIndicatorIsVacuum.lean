@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntAddConjEqOneOfBaseGood
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,7 +86,7 @@ theorem eq_of_at {v : HeightOneSpectrum (𝓞 F)} {a : AF F} (ha : At (evFin F v
   rw [h2]
   refine Prod.ext ?_ ?_
   · show (0 : Ainf F) * a.1 = 0; rw [zero_mul]
-  · apply af_ext
+  · apply _root_.GlobalTheory.AdelicU.af_ext
     intro u
     show evalV F u (singleFin v 1 * a.2) = evalV F u (singleFin v (evFin F v (e * a)))
     by_cases hu : u = v
@@ -168,7 +168,7 @@ theorem eventually_psiLoc_eq_one (ψ : AddChar (AF F) ℂ) (hψ : Continuous ψ)
       exact mem_of_mem_nhds (ht u)
     have h1 := hsub hx
     have e : s x = singleFin v c' := by
-      apply af_ext
+      apply _root_.GlobalTheory.AdelicU.af_ext
       intro u
       by_cases huv : u = v
       · subst huv

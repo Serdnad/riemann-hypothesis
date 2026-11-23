@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideA
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle007
 public import Mathlib.RingTheory.PicardGroup
 public import ReciprocityTheory.GaloisValuations.Global
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideB

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.HermitianCellMeasures.EmDefs
+public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.HermitianCellMeasures.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousSmulH
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,9 +39,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MulVecCEApply
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousHermPart
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKA
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle602
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle467
 
 @[expose] public section
 

@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ClassFormationDefs
-public import GroundTheory.ProfiniteCohomology.ClassFormations
-public import GroundTheory.ProfiniteCohomology.Colimit
+public import GroundTheory.ProfiniteCohomology.Bundle008
+public import GroundTheory.ProfiniteCohomology.Bundle011
+public import GroundTheory.ProfiniteCohomology.Bundle007
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.TateThree
-public import GroundTheory.ProfiniteCohomology.ShapiroDefs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.NotAllMatchRankZero
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TwistTerms
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

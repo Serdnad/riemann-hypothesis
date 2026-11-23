@@ -4,12 +4,12 @@ public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscPowerMon
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscPowerMonomialMemSupported
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNonzeroModUniformiser
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DminusLeBeS
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle016
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DplusLeBeS
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FourHundredSixteenLeA
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.PsiCutSupported
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ReflectionMemGlevCastSucc
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SegmentProductDegreeDetermined
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle011
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle014
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SumSingleApplyZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

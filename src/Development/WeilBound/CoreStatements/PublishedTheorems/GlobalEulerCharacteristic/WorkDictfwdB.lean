@@ -2,12 +2,11 @@ module
 
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Character
 public import GroundTheory.LocalFields.LocalArtinBaseChange
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import ReciprocityTheory.Hypotheses.GalCohDefs
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.CohomologicalDimensionTopologicalIso
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GaloisUnramifiedOutsideCohomologyStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.NormalSubgroupLeUnramifiedFixingStatement
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmp
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle012
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

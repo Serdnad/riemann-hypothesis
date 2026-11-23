@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.DataParams
-public import Development.AutomorphicArithmetic.CMTraceForms.SumLogPrimeFactorsMulTwoAddLogbLe
+public import Development.AutomorphicArithmetic.CMTraceForms.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.LinPairStatement
+public import ReciprocityTheory.DualLattices.Bundle012
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 public import ReciprocityTheory.DualLattices.FormalChartAtZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,11 +49,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.CharR
-import ReciprocityTheory.DualLattices.IsHeightUnique
+public import ReciprocityTheory.DualLattices.Bundle022
+import ReciprocityTheory.DualLattices.Bundle020
 public import ReciprocityTheory.DualLattices.IsPairingValueAddRight
 public import ReciprocityTheory.DualLattices.SubMemSpan
-public import ReciprocityTheory.DualLattices.ThmAAll
+public import ReciprocityTheory.DualLattices.Bundle024
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil

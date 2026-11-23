@@ -1,12 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ToroidalChartsForFan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SncToroidalGenericBoundaryOfSncBoundary
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2597
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFineInvariantFan
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ToricChartsPolarizedModel
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.NotHasChartOfOfMinEqZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle710
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

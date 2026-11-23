@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.SphericalMinuscule
 public import GroundTheory.AutomorphicForms.AffineBruhat
 public import GroundTheory.AutomorphicForms.MacdonaldHecke
-public import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundGroup
+public import GroundTheory.IdeleRoots.TorusPowers.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

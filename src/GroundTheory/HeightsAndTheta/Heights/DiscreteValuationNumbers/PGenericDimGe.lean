@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsGenericDimGe
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle004
 public import Mathlib.RingTheory.Ideal.Height
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,8 +3,8 @@ module
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasFrame
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceAdeleRing
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.LocGram
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntAddConjEqOneOfBaseGood
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceSplitOrInert
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.HasSatOfFamily

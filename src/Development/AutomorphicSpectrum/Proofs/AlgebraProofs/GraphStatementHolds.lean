@@ -1,9 +1,9 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FibreDim
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GraphIdealArithmeticVarietyImageStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GraphIdealFibreChartDegreeStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle062
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle058
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

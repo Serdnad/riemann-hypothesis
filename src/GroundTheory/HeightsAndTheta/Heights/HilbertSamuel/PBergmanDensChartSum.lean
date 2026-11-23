@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBergmanDensChartSum
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle013
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
 public import Mathlib.Topology.OpenPartialHomeomorph.Composition
 import Mathlib.Algebra.Order.Floor.Extended

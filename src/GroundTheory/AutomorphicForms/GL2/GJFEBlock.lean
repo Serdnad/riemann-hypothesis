@@ -5,8 +5,8 @@ public import Mathlib.Analysis.SpecialFunctions.Log.Base
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 import GroundTheory.AutomorphicForms.GL2.GJLocalZeta
 import GroundTheory.AutomorphicForms.LocallyProfinite
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

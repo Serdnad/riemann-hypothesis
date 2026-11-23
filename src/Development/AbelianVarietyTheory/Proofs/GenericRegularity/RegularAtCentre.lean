@@ -2,7 +2,7 @@ module
 
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CombinedBoundAtTrivialValuationsOfCharts
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.SCharts
-public import Formalism.LocalToGlobal.ProjectiveLattices.RegModelC
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

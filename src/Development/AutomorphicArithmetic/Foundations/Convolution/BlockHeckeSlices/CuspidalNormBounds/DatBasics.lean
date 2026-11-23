@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle119
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CapPoly
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

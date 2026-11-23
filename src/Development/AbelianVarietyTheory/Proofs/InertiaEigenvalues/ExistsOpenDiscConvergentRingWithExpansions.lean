@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConvZero
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDiscExtensionTateElement
 public import Mathlib.Algebra.CharP.IntermediateField
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompleteSpaceFinExt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocAinfUntiltEpsOneEqZeta
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle217
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormCoeffSubstLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,11 +70,17 @@ theorem norm_sub_one_lt {ζ : ↥LL.1} (h : ∃ j : ℕ, IsPrimitiveRoot ζ (l ^
   obtain ⟨r, hr⟩ : ∃ r : ↥(OL LL), ((z - 1) + 1) ^ l ^ j = (z - 1) ^ l ^ j + 1 ^ l ^ j + (l : ↥(OL LL)) * r := by
     obtain ⟨r, hr⟩ := exists_add_pow_prime_pow_eq hl (z - 1) 1 j
     exact ⟨_, by rw [hr, mul_assoc, mul_assoc]⟩
-  have h1 := congrArg (algebraMap ↥(OL LL) ↥LL.1) hr
-  have hzz : algebraMap ↥(OL LL) ↥LL.1 z = ζ := rfl
-  simp only [sub_add_cancel, map_pow, map_add (f := _), map_mul, map_sub, map_one, map_natCast, hzz, hj.pow_eq_one,
-    one_pow] at h1
-  have h2 : (ζ - 1) ^ l ^ j = -((l : ↥LL.1) * algebraMap ↥(OL LL) ↥LL.1 r) := by linear_combination -h1
+  let f : ↥(OL LL) →+* ↥LL.1 := algebraMap _ _
+  have h1 := congrArg f hr
+  have hzz : f z = ζ := rfl
+  have hf_pow (u : ↥(OL LL)) (n : ℕ) : f (u ^ n) = (f u) ^ n := f.toMonoidHom.map_pow u n
+  have hf_natCast (n : ℕ) : f (n : ↥(OL LL)) = (n : ↥LL.1) :=
+    map_natCast (R := ↥(OL LL)) (S := ↥LL.1) f n
+  simp only [sub_add_cancel, hf_pow, RingHom.map_add f, RingHom.map_mul f, RingHom.map_sub f,
+    RingHom.map_one f, hf_natCast, hzz, hj.pow_eq_one, one_pow] at h1
+  have h2 : (ζ - 1) ^ l ^ j = -((l : ↥LL.1) * algebraMap ↥(OL LL) ↥LL.1 r) := by
+    change (ζ - 1) ^ l ^ j = -((l : ↥LL.1) * f r)
+    linear_combination -h1
   have h3 : ‖(l : ↥LL.1)‖ < 1 := by
     rw [← map_natCast (algebraMap ℚ_[l] ↥LL.1), norm_algebraMap']
     exact Padic.norm_p_lt_one

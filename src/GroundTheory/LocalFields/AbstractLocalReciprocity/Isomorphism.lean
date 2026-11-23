@@ -3,7 +3,7 @@ module
 public import GroundTheory.LocalFields.AbstractLocalReciprocity.IsoPGroup
 public import GroundTheory.LocalFields.AbstractLocalReciprocity.FunctorialityTransfer
 public import GroundTheory.LocalFields.AbstractLocalReciprocity.Unramified
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TransferOfCompSubtype
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle042
 import GroundTheory.LocalFields.AbstractLocalReciprocity.IsoCyclic
 import GroundTheory.LocalFields.AbstractLocalReciprocity.UniqueQuotientSubgroupOfSelf
 import Mathlib.Algebra.Order.Floor.Extended

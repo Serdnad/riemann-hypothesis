@@ -40,14 +40,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.EsymmZero
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.LineFinite
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.NormVanishOfParts
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.RemovableFinset
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.Section
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.SymmDiff
+public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.Bundle001
+public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.SymmGrowth
-public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.SymmVanish
 
 @[expose] public section
 

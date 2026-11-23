@@ -1,8 +1,8 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartLocalNormalForm
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ContDiffUncentre
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRes
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle116
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

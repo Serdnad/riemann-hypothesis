@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.PAdicHodge.FieldOfNormsCyclBase
+public import GroundTheory.PAdicHodge.Bundle004
 public import GroundTheory.PAdicHodge.NormalizedTrace
-public import GroundTheory.LocalFields.Examples
+public import GroundTheory.LocalFields.Bundle002
 public import GroundTheory.LocalFields.SeparableClosure
-public import GroundTheory.PAdicHodge.FieldOfNormsTower
+public import GroundTheory.PAdicHodge.Bundle008
 import GroundTheory.LocalFields.LocalAxiomDictionary
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.AffineMonoid.UniqueSums

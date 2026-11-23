@@ -1,7 +1,7 @@
 module
 
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvCut
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepI
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle011
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle005
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepR
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepT
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepA
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle015
 public import Development.DiscreteGroups.GlobalIrreducibility.LConvSepB
 
 @[expose] public section

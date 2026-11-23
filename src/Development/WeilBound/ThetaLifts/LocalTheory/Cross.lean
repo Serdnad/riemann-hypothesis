@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.ISmulEqZero
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsPureML
-public import Development.WeilBound.ThetaLifts.LocalTheory.UatClosure
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle006
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

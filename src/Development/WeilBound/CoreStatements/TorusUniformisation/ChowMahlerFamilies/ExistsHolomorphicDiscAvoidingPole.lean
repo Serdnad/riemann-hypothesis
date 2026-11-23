@@ -3,8 +3,8 @@ module
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.ExistsHolomorphicChartAtPoint
 public import Mathlib.RingTheory.QuasiFinite.Basic
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SpanFinrankMaximalIdealLeNcardOfLeSupSq
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsBisAlt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValueLocallyRegularFunction
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle036
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -295,6 +295,83 @@ theorem exists_frac (hξ : IsCptGen ξ) {V : X.Opens} (hV : IsAffineOpen V) (x :
     apply mul_right_cancel₀ hu
     rw [e, ← hw, map_mul, mul_comm]
 
+
+private theorem valAt_div_of_germs {V : X.Opens} (hV : IsAffineOpen V)
+    (χ : Γ(X, V) →+* ℂ) (a b : Γ(X, V)) (f : Ω) (hg : genPt ξ ∈ V)
+    (hsp : genPt ξ ⤳ centre (spMap χ ≫ hV.fromSpec))
+    (ha : (Scheme.stalkClosedPointTo ξ).hom (X.presheaf.germ V (genPt ξ) hg a) ≠ 0)
+    (hab : f * (Scheme.stalkClosedPointTo ξ).hom (X.presheaf.germ V (genPt ξ) hg a) =
+      (Scheme.stalkClosedPointTo ξ).hom (X.presheaf.germ V (genPt ξ) hg b))
+    (hχ : χ a ≠ 0) : ValAt ξ (spMap χ ≫ hV.fromSpec) f (χ b / χ a) := by
+  obtain ⟨u, hu⟩ := (X.mem_basicOpen a _ (centre_mem hV χ)).1 ((centre_mem_basicOpen hV χ a).2 hχ)
+  have k : X.presheaf.germ V _ (centre_mem hV χ) b * u.inv * X.presheaf.germ V _ (centre_mem hV χ) a =
+      X.presheaf.germ V _ (centre_mem hV χ) b := by
+    rw [_root_.mul_assoc]
+    exact (congrArg _ (hu ▸ u.inv_val)).trans (_root_.mul_one _)
+  let q : Cpt ξ := ⟨_, hsp⟩
+  refine ⟨hsp, X.presheaf.germ V _ (centre_mem hV χ) b * u.inv,
+    mul_right_cancel₀ ha ?_, eq_div_of_mul_eq hχ ?_⟩
+  · have he := congrArg (genMap ξ q) k
+    rw [map_mul (genMap ξ q), genMap_germ V q _ hg a, genMap_germ V q _ hg b] at he
+    rw [hab]
+    exact he
+  · let F : X.presheaf.stalk (centre (spMap χ ≫ hV.fromSpec)) →+* ℂ :=
+      (Scheme.stalkClosedPointTo (spMap χ ≫ hV.fromSpec)).hom
+    have hF : ∀ v, F (X.presheaf.germ V _ (centre_mem hV χ) v) = χ v := val_germ hV χ
+    have he := congrArg F k
+    rw [map_mul F, hF a, hF b] at he
+    exact he
+
+set_option maxHeartbeats 8000000 in
+private theorem disc_on_affine {K : Type} [Field K] (σ : K →+* ℂ)
+    (s : X ⟶ Sp K) (W V : X.Opens) (hV : IsAffineOpen V) (x : Cpt ξ) (f : Ω)
+    (hs : LocallyOfFiniteType s) (hξ : IsCptGen ξ) (hW : genPt ξ ∈ W) (hx : x.1 ∈ V)
+    (hR : IsDiscreteValuationRing (regAt ξ x)) (hf : f ∉ regAt ξ x) :
+    ∃ (ψ : (Fin 1 → ℂ) → (Γ(X, V) →+* ℂ)) (r : (Fin 1 → ℂ) → ℂ) (C : ℝ),
+      IsHolPts (ball 0 1) ψ ∧
+      (∀ z ∈ ball (0 : Fin 1 → ℂ) 1,
+        spMap (ψ z) ≫ hV.fromSpec ≫ s = spMap σ ∧ genPt ξ ⤳ centre (spMap (ψ z) ≫ hV.fromSpec)) ∧
+      ∀ z ∈ punct 1 1 1, ⊤ ≤ (spMap (ψ z) ≫ hV.fromSpec) ⁻¹ᵁ W ∧
+        ValAt ξ (spMap (ψ z) ≫ hV.fromSpec) f (r z) ∧ r z ≠ 0 ∧ ‖(r z)⁻¹‖ ≤ C * ‖z 0‖ := by
+  have hg : genPt ξ ∈ V := x.2.mem_open V.isOpen hx
+  let e : X.presheaf.stalk x.1 ≃+* regAt ξ x := RingEquiv.ofBijective (genMap ξ x).rangeRestrict
+    ⟨fun a b h => hξ.inj x (congrArg Subtype.val h), (genMap ξ x).rangeRestrict_surjective⟩
+  haveI : IsDomain (X.presheaf.stalk x.1) := (hξ.inj x).isDomain _
+  haveI : IsDiscreteValuationRing (regAt ξ x) := hR
+  haveI : IsDiscreteValuationRing (X.presheaf.stalk x.1) :=
+    IsDiscreteValuationRing.RingEquivClass.isDiscreteValuationRing e.symm
+  obtain ⟨w, hw, hfw⟩ := exists_frac hξ hV x hx hf
+  let := X.presheaf.algebra_section_stalk ⟨x.1, hx⟩
+  have := hV.isLocalization_stalk ⟨x.1, hx⟩
+  letI : LocallyOfFiniteType s := hs
+  letI : Algebra K Γ(X, V) := Geo.ResK.secAlgebra s V
+  haveI : Algebra.FiniteType K Γ(X, V) := ft_sec s hV
+  obtain ⟨⟨a, b⟩, hab⟩ := IsLocalization.surj (S := X.presheaf.stalk x.1)
+    (hV.primeIdealOf ⟨x.1, hx⟩).asIdeal.primeCompl w
+  obtain ⟨h, h1, h2⟩ := hV.exists_basicOpen_le ⟨genPt ξ, hW⟩ hg
+  let φ : Γ(X, V) → Ω := fun t => (Scheme.stalkClosedPointTo ξ).hom (X.presheaf.germ V (genPt ξ) hg t)
+  have hφ : ∀ t, genMap ξ x (algebraMap Γ(X, V) (X.presheaf.stalk x.1) t) = φ t := genMap_germ V x hx hg
+  have hub := IsLocalization.map_units (X.presheaf.stalk x.1) b
+  have fab : f * φ a = φ b := by
+    rw [← hφ, ← hφ, ← hab, map_mul (genMap ξ x), ← _root_.mul_assoc, hfw, _root_.one_mul]
+  have a0 : φ a ≠ 0 := fun h0 => (hub.map (genMap ξ x)).ne_zero (by rw [hφ, ← fab, h0, mul_zero])
+  have h0 : φ h ≠ 0 := (gen_mem_basicOpen hξ hg h).1 h2
+  obtain ⟨ψ, C, b₁, b₂, b₃, b₄⟩ := disc_ring (A := Γ(X, V)) (S := X.presheaf.stalk x.1)
+    (hV.primeIdealOf ⟨x.1, hx⟩).asIdeal σ
+    (c := h * a) (a := a) (b := b.1)
+    (fun h' => mul_ne_zero h0 a0 (by rw [← hφ, ← hφ, ← map_mul, ← map_mul, h', map_zero]))
+    ((IsLocalization.AtPrime.to_map_mem_maximal_iff (X.presheaf.stalk x.1) _ a).1 (hab ▸ Ideal.mul_mem_right _ _ hw)) b.2
+  have sp : ∀ z, genPt ξ ⤳ centre (spMap (ψ z) ≫ hV.fromSpec) := fun z => spec_centre hV _ fun t ht =>
+    (gen_mem_basicOpen hξ hg t).2 fun h' => ht (b₃ z t (hξ.inj x ((hφ t).trans (h'.trans (map_zero _).symm))))
+  refine ⟨ψ, fun z => ψ z b / ψ z a, C, b₁, fun z hz => ⟨(over_iff s hV σ _).2 (b₂ z hz), sp z⟩,
+    fun z hz => ?_⟩
+  obtain ⟨c₁, c₂, c₃⟩ := b₄ z hz
+  rw [map_mul (ψ z)] at c₁
+  have c₄ := right_ne_zero_of_mul c₁
+  exact ⟨(top_le_iff _ W).2 (h1 ((centre_mem_basicOpen hV _ h).2 (left_ne_zero_of_mul c₁))),
+    valAt_div_of_germs hV (ψ z) a b.1 f hg (sp z) a0 fab c₄,
+    div_ne_zero c₂ c₄, by rwa [inv_div]⟩
+
 end PositivityTheory.Xgn.NoPoleDisc
 
 open PositivityTheory.Xgn.HolomorphicChart PositivityTheory.Xgn.NoPoleDisc in
@@ -303,52 +380,5 @@ theorem PositivityTheory.Xgn.exists_holomorphic_disc_avoiding_pole : ∀ (K : Ty
   obtain ⟨_, ⟨V, hV, rfl⟩, hx, hVN⟩ := X.isBasis_affineOpens.exists_subset_of_mem_open hN N.isOpen
   replace hV : IsAffineOpen V := hV
   replace hx : x.1 ∈ V := hx
-  have hg : genPt ξ ∈ V := x.2.mem_open V.isOpen hx
-  let e : X.presheaf.stalk x.1 ≃+* regAt ξ x := RingEquiv.ofBijective (genMap ξ x).rangeRestrict
-    ⟨fun a b h => hξ.inj x (congrArg Subtype.val h), (genMap ξ x).rangeRestrict_surjective⟩
-  have : IsDomain (X.presheaf.stalk x.1) := (hξ.inj x).isDomain _
-  have : IsDiscreteValuationRing (X.presheaf.stalk x.1) := IsDiscreteValuationRing.RingEquivClass.isDiscreteValuationRing e.symm
-  obtain ⟨w, hw, hfw⟩ := exists_frac hξ hV x hx hf
-  let := X.presheaf.algebra_section_stalk ⟨x.1, hx⟩
-  have := hV.isLocalization_stalk ⟨x.1, hx⟩
-  let := Geo.ResK.secAlgebra s V
-  have := ft_sec s hV
-  obtain ⟨⟨a, b⟩, hab⟩ := IsLocalization.surj (S := X.presheaf.stalk x.1)
-    (hV.primeIdealOf ⟨x.1, hx⟩).asIdeal.primeCompl w
-  obtain ⟨h, h1, h2⟩ := hV.exists_basicOpen_le ⟨genPt ξ, hW⟩ hg
-  let φ : Γ(X, V) → Ω := fun t => (Scheme.stalkClosedPointTo ξ).hom (X.presheaf.germ V (genPt ξ) hg t)
-  have hφ : ∀ t, genMap ξ x (algebraMap Γ(X, V) (X.presheaf.stalk x.1) t) = φ t := genMap_germ V x hx hg
-  have hub := IsLocalization.map_units (X.presheaf.stalk x.1) b
-  have fab : f * φ a = φ b := by
-    rw [← hφ, ← hφ, ← hab, map_mul, ← _root_.mul_assoc, hfw, _root_.one_mul]
-  have a0 : φ a ≠ 0 := fun h0 => (hub.map (genMap ξ x)).ne_zero (by rw [hφ, ← fab, h0, mul_zero])
-  have h0 : φ h ≠ 0 := (gen_mem_basicOpen hξ hg h).1 h2
-  obtain ⟨ψ, C, b₁, b₂, b₃, b₄⟩ := disc_ring (S := X.presheaf.stalk x.1) (hV.primeIdealOf ⟨x.1, hx⟩).asIdeal σ
-    (c := h * a) (a := a) (b := b.1)
-    (fun h' => mul_ne_zero h0 a0 (by rw [← hφ, ← hφ, ← map_mul, ← map_mul, h', map_zero]))
-    ((IsLocalization.AtPrime.to_map_mem_maximal_iff (X.presheaf.stalk x.1) _ a).1 (hab ▸ Ideal.mul_mem_right _ _ hw)) b.2
-  have sp : ∀ z, genPt ξ ⤳ centre (spMap (ψ z) ≫ hV.fromSpec) := fun z => spec_centre hV _ fun t ht =>
-    (gen_mem_basicOpen hξ hg t).2 fun h' => ht (b₃ z t (hξ.inj x ((hφ t).trans (h'.trans (map_zero _).symm))))
-  refine ⟨V, hV, ψ, fun z => ψ z b / ψ z a, C, hVN, b₁, fun z hz => ⟨(over_iff s hV σ _).2 (b₂ z hz), sp z⟩,
-    fun z hz => ?_⟩
-  obtain ⟨c₁, c₂, c₃⟩ := b₄ z hz
-  rw [map_mul] at c₁
-  have c₄ := right_ne_zero_of_mul c₁
-  refine ⟨(top_le_iff _ W).2 (h1 ((centre_mem_basicOpen hV _ h).2 (left_ne_zero_of_mul c₁))), ?_,
-    div_ne_zero c₂ c₄, by rwa [inv_div]⟩
-  obtain ⟨u, hu⟩ := (X.mem_basicOpen a _ (centre_mem hV (ψ z))).1 ((centre_mem_basicOpen hV _ a).2 c₄)
-  have k : X.presheaf.germ V _ (centre_mem hV (ψ z)) b.1 * u.inv * X.presheaf.germ V _ (centre_mem hV (ψ z)) a =
-      X.presheaf.germ V _ (centre_mem hV (ψ z)) b.1 := by
-    rw [_root_.mul_assoc]
-    exact (congrArg _ (hu ▸ u.inv_val)).trans (_root_.mul_one _)
-  refine ⟨sp z, X.presheaf.germ V _ (centre_mem hV (ψ z)) b.1 * u.inv, mul_right_cancel₀ a0 ?_, eq_div_of_mul_eq c₄ ?_⟩
-  · have := congrArg (genMap ξ ⟨_, sp z⟩) k
-    rw [map_mul, genMap_germ V ⟨_, sp z⟩ _ hg a, genMap_germ V ⟨_, sp z⟩ _ hg b.1] at this
-    rw [fab]
-    exact this
-  · let F : X.presheaf.stalk (centre (spMap (ψ z) ≫ hV.fromSpec)) →+* ℂ :=
-      (Scheme.stalkClosedPointTo (spMap (ψ z) ≫ hV.fromSpec)).hom
-    have hF : ∀ v, F (X.presheaf.germ V _ (centre_mem hV (ψ z)) v) = ψ z v := val_germ hV (ψ z)
-    have := congrArg F k
-    rw [map_mul, hF a, hF b.1] at this
-    exact this
+  obtain ⟨ψ, r, C, hψ, hover, hdisc⟩ := disc_on_affine σ s W V hV x f hs hξ hW hx hR hf
+  exact ⟨V, hV, ψ, r, C, hVN, hψ, hover, hdisc⟩

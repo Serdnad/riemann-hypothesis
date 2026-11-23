@@ -1,9 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralBlock
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdaptedIntegralBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalEntryOfSemilinearModSubspaceStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LaurentSeriesAdaptedBasisCoordsVanishBeyondFinraStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle861
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle236
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HilbertRowConditions.ColumnsFunctionAtSubspaces
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle002
 public import Formalism.LocalToGlobal.IndefiniteReal.RecTie
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -36,8 +36,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.Columns.HeckeInert
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
+public import Formalism.LocalToGlobal.Columns.Bundle005
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.Divisibility.LiftLatInst
 public import Formalism.LocalToGlobal.Divisibility.MemberDIV
 

@@ -1,22 +1,20 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle012
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CoefFe
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsActValue
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGenMulPullPowUnif
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsLeOnFinset
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle027
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsNsmulAndNeg
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsSecNeZero
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpBijFAndExpandsFLin
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpansionPullbackSectionEndomorphismStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GenVOfPow
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ProductOfSectionsExpandsToConvolutionStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PullMulValue
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SumVOfConvolution
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SumVRootOfConvolutionPow
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationTorsionMapsCompatibleInLevel
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle109
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle121
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValuationsTorusPointsFramesFamilyTerms
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValueAtOrigin
 import Mathlib.Algebra.Order.Floor.Extended
@@ -67,7 +65,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRin
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PullUUnitsCompatGeneric
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsNsmulIffEq
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle015
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionCoordinatesEqDegenerationSeries
 
 @[expose] public section
@@ -388,4 +386,22 @@ theorem value_at_torsion : LL → TwistBCSpanStatement → TWM.VRatioGtStatement
     rw [← hWv z J hJ]; exact hκv z J hJ
 
 end GlobalTheory.UT.TorsionValue
+end
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry IsLocalRing
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.DVR
+open scoped CategoryTheory.Obj
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.UT
+
+theorem _root_.GlobalTheory.T.section_value_at_torsionPoint_eq_sum_terms : LL → TwistBCSpanStatement → TWM.VRatioGtStatement → TWStatement → UUStatement → AllUV fun {V} _ _ _ {ϖ} hϖ {D} Q {F} _ _ {v} hv {A} {G} _ _ U => ∀ w₀ ρ, NormW U.toUnifPre w₀ ρ → ∀ (n : ℕ), 1 ≤ n → ∀ (p : QkPt D.toPre F n) x, QkToAkU U.toUnifPre F n p x → ∀ e, IsTorsFrame A ρ n x e → ∃ w₁ : Frm D.toPre F 1 p.g.b, w₁.IsGen ∧ GenV hϖ hv w₁ ((Q p.y : ℚ) / (n : ℚ) ^ 2) ∧ ∀ (k : ℕ), 1 ≤ k → ∀ w : Frm D.toPre F k p.g.b, (w.IsGen ∧ ∀ z J, Good D.toPre.P.L z J → val w (𝟙 _) z J = val w₁ (𝟙 _) z J ^ k) → ∀ (t : SecA A F k) s (c : F), U.ExpandsF F k w₀ t s → (∀ z J, Good A.L z J → sA t (ptSecT A.A x).left z J = @id ((TFK (R := V) F).left.presheaf.stalk z) (cst (R := V) F z c) * (val (powFrame A.A A.L x e k) (𝟙 _) z J).val) → SumV v (coef s p.g w) c := by
+  first | exact @GlobalTheory.UT.TorsionValue.value_at_torsion | exact GlobalTheory.UT.TorsionValue.value_at_torsion | (intros; apply GlobalTheory.UT.TorsionValue.value_at_torsion <;> assumption)
+
+end
 end

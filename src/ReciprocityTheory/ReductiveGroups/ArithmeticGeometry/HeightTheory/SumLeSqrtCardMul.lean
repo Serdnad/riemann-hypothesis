@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.IrreducibleFactorHeightBound
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle030
 public import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+import ReciprocityTheory.SemistableReduction.Bundle027
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Algebra.Order.Chebyshev
 

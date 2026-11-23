@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalRingCardinality.DataHost
-public import Formalism.LocalRingCardinality.DataSpaces
-public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleRanksRankComplement
+public import Formalism.LocalRingCardinality.Bundle001
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle004
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.NonemptyFieldAxiomsCyclicPow
 import Formalism.FrobeniusOrbits.HostCorollaries
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Primes

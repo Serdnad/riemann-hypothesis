@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutRealA
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutRealB
 import Mathlib.Algebra.Order.Floor.Extended

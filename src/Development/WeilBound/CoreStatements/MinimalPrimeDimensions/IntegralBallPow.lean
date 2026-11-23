@@ -1,16 +1,15 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeSheetArea
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsChartGram
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle008
 public import Mathlib.MeasureTheory.Measure.Hausdorff
 public import Mathlib.Topology.Separation.CompletelyRegular
-public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ChartGramPolar
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PAreaFormulaInj
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PAreaFormulaInjSet
+public import ReciprocityTheory.L2DbarEstimates.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle027
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PAreaFormulaLocal
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChartGramMA
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeMapArea
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle017
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeMapAreaOne
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,7 +59,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.CmpbHessAtAddConst
 
 @[expose] public section

@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsQuasiInv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdditiveOfTrivAxes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatSurjectiveQcPow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowCompMonHomOverSchemeGrpObj
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2670
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1555
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

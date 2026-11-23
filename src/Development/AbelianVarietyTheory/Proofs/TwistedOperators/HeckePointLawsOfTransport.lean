@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HeckePrimeDetection
-import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueTangentLift
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle020
+import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsHkIsogEtaleUnique
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PointsDetectFrobeniusSections
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle107
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,10 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.IsIsotropicHermitianSetting
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.EqOneOfPowEqLeExponent
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.RelIndexInfEqOfMemMul
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.RelIndexRatioCocycle
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsIsFundamentalDomainOfRelIndexNeZero
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

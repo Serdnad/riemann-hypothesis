@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementLE
 public import Mathlib.LinearAlgebra.Lagrange
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MeasIterDeriv
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle010
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ThetaLimit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

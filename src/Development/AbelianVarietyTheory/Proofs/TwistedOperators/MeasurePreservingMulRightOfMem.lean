@@ -4,10 +4,10 @@ public import Formalism.LocalToGlobal.IndefiniteReal.Bridge
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.UnimodInst
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IntegralFundamentalDomainEqSumDoubleCoset
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.GEqBase
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle035
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle008
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.LevelADef
-import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasBrg
+import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle010
 
 @[expose] public section
 

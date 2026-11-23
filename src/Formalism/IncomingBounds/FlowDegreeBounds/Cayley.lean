@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ProdIccMulFactorial
-public import Formalism.IncomingBounds.StatementThmP
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle013
+public import Formalism.IncomingBounds.Bundle002
 public import Mathlib.Algebra.MvPolynomial.PDeriv
 public import Mathlib.LinearAlgebra.Matrix.Adjugate
 import Mathlib.Algebra.AffineMonoid.UniqueSums

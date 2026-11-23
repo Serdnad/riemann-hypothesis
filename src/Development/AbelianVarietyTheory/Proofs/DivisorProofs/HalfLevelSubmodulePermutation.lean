@@ -1,14 +1,14 @@
 module
 
 public import Mathlib
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexificationBaseChangeLinearOneTmul
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EigLatLe
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricLiftsOfFrames
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNumberFieldPoint
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2362
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle102
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle412
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenImmersionOfSection
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFramedPointMoveUniversalTriple
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Formalism.LocalToGlobal.ProjectiveLattices.LocFrLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
-import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsoOverOfIsOpenImmersion
 import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
@@ -200,8 +200,10 @@ theorem fnAt_cst {S : Type} [CommRing S] (y : Sp S ⟶ Xo.XF c) (k : c.F) :
 
 theorem fnRule_cst (k : c.F) (f : Rul Xo c) : fnRule (cst Xo c k) * f = k • f := by
   funext p y
-  show fnAt (basePt y) (cst Xo c k) * f p y = k • f p y
-  rw [fnAt_cst, basePt, pullback.lift_snd, fnAt_toΓ, Algebra.smul_def]
+  let alg : Algebra c.F p.R := Ideal.Quotient.algebra c.F (I := p.I)
+  change fnAt (basePt y) (cst Xo c k) * f p y = alg.toSMul.smul k (f p y)
+  rw [fnAt_cst, basePt, pullback.lift_snd, fnAt_toΓ]
+  exact (alg.smul_def' k (f p y)).symm
 
 theorem fnRule_mul (a b : Γ(Xo.XF c, ⊤)) : fnRule (a * b) = fnRule a * fnRule b := by
   funext p y

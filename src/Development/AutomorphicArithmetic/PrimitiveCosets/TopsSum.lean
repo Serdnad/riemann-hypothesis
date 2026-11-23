@@ -48,7 +48,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.PrimitiveCosets.RecH
 import Formalism.SizeWindowBrackets.ErrorFormsWeakWindowsFalse
-import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+import Formalism.SizeWindowBrackets.Bundle002
 import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
 import Formalism.SizeWindowBrackets.SChain
 

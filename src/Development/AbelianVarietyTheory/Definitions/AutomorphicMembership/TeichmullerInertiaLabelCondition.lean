@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MonodromyZeroOfWeilDeligneRepClassIff
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.RootsCharpolyPowEqMapPow
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepthZeroLabelsOfLabelLaws
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TeichmullerRoots
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTameGenAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTeichmullerMaps
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle177
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle269
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle308
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

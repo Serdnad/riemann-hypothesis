@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.ExistsDetEquivOfSubsingleton
+public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.Bundle002
 public import Mathlib.LinearAlgebra.ExteriorAlgebra.Basis
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

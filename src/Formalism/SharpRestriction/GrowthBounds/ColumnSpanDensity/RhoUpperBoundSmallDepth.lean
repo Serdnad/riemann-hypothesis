@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.MemColSpanIff
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundOfEdgeCount
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoUpperBoundOfEdgeCount
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.MapMDetUnit
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

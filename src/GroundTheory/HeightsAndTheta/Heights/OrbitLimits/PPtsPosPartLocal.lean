@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StPtsPosPartLocal
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle023
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,9 +53,9 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 import Std.Tactic.BVDecide.Normalize.Prop
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterOsgood
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle006
 
 @[expose] public section
 
@@ -149,7 +149,7 @@ theorem apply_eq_of_segre_eq {β : Sort*} {F : ((Σ k, ι k) → ℂ) → β}
   calc F v = F (bsmul (fun k => v ⟨k, i0 k⟩ / u ⟨k, i0 k⟩) u) := congrArg F h2
     _ = F u := hF _ u fun k => div_ne_zero (h1 k) (hi0 k)
 
-theorem maDensity_bsmul {L : Fin e → HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
+theorem maDensity_bsmul {L : Fin e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
     {γ γ' : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {c : K → (Fin e → ℂ) → ℂ} {y : Fin e → ℂ}
     (hγ : AnalyticAt ℂ γ y) (hy : ∀ k, ∃ i, γ y ⟨k, i⟩ ≠ 0) (hcan : ∀ k, AnalyticAt ℂ (c k) y)
     (hc0 : ∀ k, c k y ≠ 0) (hrel : ∀ᶠ y' in 𝓝 y, γ' y' = bsmul (fun k => c k y') (γ y')) :
@@ -189,7 +189,7 @@ theorem maDensity_bsmul {L : Fin e → HermLine ι} (hL : ∀ j, IsSmoothHerm (L
       (pot_contDiffAt (hL j) hγ hy) hGan]
   simp only [maDensity, hH]
 
-theorem maDensity_eq_of_segre {L : Fin e → HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
+theorem maDensity_eq_of_segre {L : Fin e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
     {γ γ' : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {y : Fin e → ℂ} (hγ : AnalyticAt ℂ γ y)
     (hγ' : AnalyticAt ℂ γ' y) (hy : ∀ k, ∃ i, γ y ⟨k, i⟩ ≠ 0)
     (hseg : (fun y' => segre (γ y')) =ᶠ[𝓝 y] fun y' => segre (γ' y')) :
@@ -209,7 +209,7 @@ theorem exists_local {P : Ideal (MRing ι)} {w₀ : ((k : K) → ι k) → ℂ} 
       (N : Set ((Fin e → ℂ) × (((k : K) → ι k) → ℂ))),
       IsOpen U ∧ IsOpen N ∧ (y₀, w₀) ∈ N ∧ segre (γ y₀) = w₀ ∧
       (∀ y ∈ U, DifferentiableAt ℂ γ y ∧ γ y ∈ mcPts P ∧ Ψ (segre (γ y)) = Fin.cons 1 y) ∧
-      ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ fibre P Ψ q.1 → q.2 = segre (γ q.1)) := by
+      ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ q.1 → q.2 = segre (γ q.1)) := by
   obtain ⟨y₀, γ, hsh, hev⟩ := h
   obtain ⟨U, hUs, hU, hy₀⟩ := mem_nhds_iff.mp hsh.2
   obtain ⟨N₁, hN₁s, hN₁, hq₁⟩ := mem_nhds_iff.mp hev
@@ -218,7 +218,7 @@ theorem exists_local {P : Ideal (MRing ι)} {w₀ : ((k : K) → ι k) → ℂ} 
 
 theorem nrm_mem_fibre {P : Ideal (MRing ι)} (hPh : IsMultiHomogIdeal P) (k0 : K)
     {z' : (Σ k, ι k) → ℂ} (hz' : z' ∈ mcPts P) (h0 : Ψ (segre z') 0 ≠ 0) :
-    nrm Ψ (segre z') ∈ fibre P Ψ (crd Ψ (segre z')) := by
+    nrm Ψ (segre z') ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ (crd Ψ (segre z')) := by
   classical
   set c : K → ℂ := Function.update (fun _ => (1 : ℂ)) k0 (Ψ (segre z') 0)⁻¹ with hcdef
   have hc : ∀ k, c k ≠ 0 := by
@@ -232,14 +232,14 @@ theorem nrm_mem_fibre {P : Ideal (MRing ι)} (hPh : IsMultiHomogIdeal P) (k0 : K
   rw [segre_smul, hprod]
   rfl
 
-theorem sheetDensity_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
+theorem sheetDensity_eq {P : Ideal (MRing ι)} {L : Fin e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
     {G : ((Σ k, ι k) → ℂ) → ℝ}
     (hG : ∀ (c : K → ℂ) (z : (Σ k, ι k) → ℂ), (∀ k, c k ≠ 0) → G (fun p => c p.1 * z p) = G z)
     {γ : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {U : Set (Fin e → ℂ)}
     {N : Set ((Fin e → ℂ) × (((k : K) → ι k) → ℂ))} (hU : IsOpen U)
     (hγ : ∀ y ∈ U, DifferentiableAt ℂ γ y ∧ γ y ∈ mcPts P ∧ Ψ (segre (γ y)) = Fin.cons 1 y)
-    (hN : IsOpen N) (hNp : ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ fibre P Ψ q.1 → q.2 = segre (γ q.1)))
-    {y : Fin e → ℂ} {w : ((k : K) → ι k) → ℂ} (hq : (y, w) ∈ N) (hw : w ∈ fibre P Ψ y) :
+    (hN : IsOpen N) (hNp : ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ q.1 → q.2 = segre (γ q.1)))
+    {y : Fin e → ℂ} {w : ((k : K) → ι k) → ℂ} (hq : (y, w) ∈ N) (hw : w ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ y) :
     sheetDensity P Ψ (pot L) G y w = G (γ y) * maDensity (fun j y' => pot L j (γ y')) y := by
   obtain ⟨hyU, hw'⟩ := hNp _ hq
   have hw1 : w = segre (γ y) := hw' hw
@@ -261,7 +261,7 @@ theorem sheetDensity_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL :
   rw [apply_eq_of_segre_eq hG hblk (hc.1.trans hw1).symm,
     maDensity_eq_of_segre hL (han y hyU) (sheet_analyticAt osgood hc) hblk hseg]
 
-theorem ptsPosDens_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
+theorem ptsPosDens_eq {P : Ideal (MRing ι)} {L : Fin e → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hL : ∀ j, IsSmoothHerm (L j))
     {g : ((Σ k, ι k) → ℂ) → ℝ}
     (hg : ∀ (c : K → ℂ) (z : (Σ k, ι k) → ℂ), (∀ k, c k ≠ 0) → g (fun p => c p.1 * z p) = g z)
     {E : Set ((Σ k, ι k) → ℂ)}
@@ -269,7 +269,7 @@ theorem ptsPosDens_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL : �
     {γ : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {U : Set (Fin e → ℂ)}
     {N : Set ((Fin e → ℂ) × (((k : K) → ι k) → ℂ))} (hU : IsOpen U)
     (hγ : ∀ y ∈ U, DifferentiableAt ℂ γ y ∧ γ y ∈ mcPts P ∧ Ψ (segre (γ y)) = Fin.cons 1 y)
-    (hN : IsOpen N) (hNp : ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ fibre P Ψ q.1 → q.2 = segre (γ q.1)))
+    (hN : IsOpen N) (hNp : ∀ q ∈ N, q.1 ∈ U ∧ (q.2 ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ q.1 → q.2 = segre (γ q.1)))
     (hEN : ∀ z' ∈ E, Ψ (segre z') 0 ≠ 0 → (crd Ψ (segre z'), nrm Ψ (segre z')) ∈ N)
     (y : Fin e → ℂ) :
     ptsPosDens P Ψ (pot L) (E.indicator g) y = (U ∩ γ ⁻¹' E).indicator
@@ -284,7 +284,7 @@ theorem ptsPosDens_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL : �
   have hmemE : ∀ (c : K → ℂ) (z : (Σ k, ι k) → ℂ), (∀ k, c k ≠ 0) →
       ((fun p => c p.1 * z p) ∈ E) = (z ∈ E) := fun c z hc => propext (hE c z hc)
 
-  have hnz : ∀ w ∈ fibre P Ψ y, sheetDensity P Ψ (pot L) (E.indicator g) y w ≠ 0 →
+  have hnz : ∀ w ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ y, sheetDensity P Ψ (pot L) (E.indicator g) y w ≠ 0 →
       (y, w) ∈ N ∧ γ y ∈ E := by
     intro w hw hne
     obtain ⟨-, -, -, hΨw⟩ := hw
@@ -310,7 +310,7 @@ theorem ptsPosDens_eq {P : Ideal (MRing ι)} {L : Fin e → HermLine ι} (hL : �
   · rw [Set.indicator_of_mem hy]
     have hyU := hy.1
     have hΨ1 : Ψ (segre (γ y)) = Fin.cons 1 y := (hγ y hyU).2.2
-    have hfib : segre (γ y) ∈ fibre P Ψ y := ⟨γ y, (hγ y hyU).2.1, rfl, hΨ1⟩
+    have hfib : segre (γ y) ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ y := ⟨γ y, (hγ y hyU).2.1, rfl, hΨ1⟩
     have hqN : (y, segre (γ y)) ∈ N := by
       have h := hEN _ hy.2 (by rw [hΨ1]; simp)
       rwa [crd_of_eq hΨ1, nrm_of_eq hΨ1] at h

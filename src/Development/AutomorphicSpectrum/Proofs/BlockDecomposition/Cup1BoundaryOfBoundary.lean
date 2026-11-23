@@ -1,15 +1,14 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BisimplicialActionSecondFactor
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CechNerveFaceOneZero
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle148
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PullbackZeroCochainsAlgebraMap
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.HodgeWedgeFields.IsPullbackH2Structure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoboundaryCup0
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CoboundaryCup1
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsDualFunctionalsOfLinearIndependent
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsFactorOfExactIsField
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle169
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle177
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle175
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SlantProductSecondAction
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ValSuccAbove
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

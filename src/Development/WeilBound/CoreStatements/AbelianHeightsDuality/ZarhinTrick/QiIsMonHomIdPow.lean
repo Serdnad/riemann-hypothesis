@@ -1,13 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiDefs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EpiOfFiniteFlatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FactorThroughFiniteFlatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteOfFiniteFibresStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FlatOfFibresFiniteStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KernelFiniteFlatStatement
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.KilledAnyOf
-public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.PolFibreIsogAny
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle710
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle712
+public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.Bundle009
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.ZarhinTrick.QiCore
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

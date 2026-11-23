@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.DifferentiableOnFamPtAffine
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsConstOfCover
-import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsLinearOfMulPeriod
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

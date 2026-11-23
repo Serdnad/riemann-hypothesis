@@ -2,7 +2,7 @@ module
 
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProperties
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.Saturation
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProper
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData

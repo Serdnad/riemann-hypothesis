@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.CpRegPhRegOfNonneg
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.IsCompactImageClosureMid
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PBoundedGlue
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PGlueRegularised
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

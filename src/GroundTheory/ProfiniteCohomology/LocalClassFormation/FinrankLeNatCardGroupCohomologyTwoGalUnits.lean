@@ -2,11 +2,10 @@ module
 
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.OrderInfRes
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.OrderScalars
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
-import GroundTheory.LocalFields.FiniteExtension
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
+import GroundTheory.LocalFields.Bundle001
 import GroundTheory.LocalFields.IntermediateField
 public import GroundTheory.LocalFields.UnramifiedExistence
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.OrderBound
 import GroundTheory.ProfiniteCohomology.LocalClassFormation.OrderCyclic
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended

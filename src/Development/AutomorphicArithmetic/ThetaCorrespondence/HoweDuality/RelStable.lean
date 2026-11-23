@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.HoweDuality.FactorApply
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RelInfAlt
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle177
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

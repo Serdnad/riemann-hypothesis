@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.Unfold0
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FdEqZero
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FarRight
-import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldA
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -101,6 +101,9 @@ theorem kpair_cont {B : Base F E} {r s : ℕ} (hB : B.IsGood σ) (hY : Y.IsHerm 
   obtain ⟨t₁, half⟩ := hE.half
   haveI := c.sc; haveI := c.lc
   haveI := GlobalTheory.Doubling.isTopologicalRing_tens (F := F) (E := E) (R := AF F)
+  haveI : SigmaFinite μ := Measure.IsHaarMeasure.sigmaFinite μ
+  have sfinite {X : Type} [MeasurableSpace X] (m : Measure X) [SigmaFinite m] : SFinite m := inferInstance
+  haveI : SFinite μ := sfinite μ
   haveI : IsFiniteMeasure (μ.restrict D) := ⟨by simpa using c.fin _ _ hμ hD⟩
   have bc : ∀ {φ : UA σ Y.J → ℂ}, IsRapid φ → An.BC φ := fun h => ⟨h.1, c.bdd h.1 h.2.1⟩
   have cE : ∀ s ∈ U, Continuous (Ê s) := fun s hs =>

@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.FockAct1FockAct2Commute
+public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.Bundle002
 public import Formalism.LocalToGlobal.ThetaOperatorCommutation.RealTh
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockHarmonicSplitting.FockCore
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockHarmonicSplitting.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
-public import ReciprocityTheory.ThetaSummability.RealCoinvariants.Numbers
+public import ReciprocityTheory.ThetaSummability.RealCoinvariants.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

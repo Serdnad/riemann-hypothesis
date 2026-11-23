@@ -1,10 +1,10 @@
 module
 
 public import Formalism.AdmissibleDesigns.PiEquiv2
-public import Formalism.AdmissibleDesigns.LenComapSurj
+public import Formalism.AdmissibleDesigns.Bundle005
 public import Formalism.AdmissibleDesigns.FiniteClassesLocalEq
-public import Formalism.AdmissibleDesigns.IdempotentPartFiniteAndFree
-public import Formalism.AdmissibleDesigns.IdempotentPartRepresentationAt
+public import Formalism.AdmissibleDesigns.Bundle008
+public import Formalism.AdmissibleDesigns.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -6,9 +6,9 @@ public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ValRPull
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsReducedAlgebraOfSmoothOfIsNoetherianRing
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.FiniteEtaleSurjectiveOfPullback
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdjoinCoordsArithVar
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularValuesInAdjoinedField
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle129
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StandardSmoothChartOfNonzero
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ZarhinBundleKernelFirstCoordEquations
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

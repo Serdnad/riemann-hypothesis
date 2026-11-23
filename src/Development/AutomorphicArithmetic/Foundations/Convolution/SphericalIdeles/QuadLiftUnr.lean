@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.RamDefs
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalTwistRamifiedCharNeSelfStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle189
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.LiftUnr
-import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.NormRam
+import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

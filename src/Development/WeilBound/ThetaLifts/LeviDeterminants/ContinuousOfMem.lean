@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowLine
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle001
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowDef
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

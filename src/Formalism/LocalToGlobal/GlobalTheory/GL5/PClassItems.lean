@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.UJClassMassAlt
+public import Formalism.PeriodIntegrals.Bundle019
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.DiscreteSeriesOfFormalDegree
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UJClassFin
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

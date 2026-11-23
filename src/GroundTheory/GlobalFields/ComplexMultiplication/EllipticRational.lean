@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.EllipticFunctions
-public import GroundTheory.GlobalFields.ComplexMultiplication.EllipticConstant
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle001
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle002
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

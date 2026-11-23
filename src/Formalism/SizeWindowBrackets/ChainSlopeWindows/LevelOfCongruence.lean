@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
-public import Formalism.RankGapBounds.RankGapProofs.WeightedMeanData
+public import Formalism.RankGapBounds.RankGapProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

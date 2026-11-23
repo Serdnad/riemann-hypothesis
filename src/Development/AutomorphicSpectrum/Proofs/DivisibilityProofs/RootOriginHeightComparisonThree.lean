@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsPowSubMemSpanOfIsUnitModOfIsAlgClosed
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BadExists
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplierLine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsDenseNonvanishingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinCoordsUnitValues
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JoinModelPointsProjectStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootModelFlagCompareStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCompareFirstStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCompareSecondStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginPointCompareStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle164
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle155
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle224
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle271
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle301
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle110
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,8 +61,8 @@ import Mathlib.Topology.Algebra.MvPolynomial
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
 
 @[expose] public section
 
@@ -407,6 +407,8 @@ theorem sum_ite_pull {K₁ K : Type} [Fintype K₁] [DecidableEq K] {κ : K₁ �
 
 section Origin
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
+
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Level H}
   {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {S S₀ : Finset ℕ}
   {M R : RootModel (CMType H) (D.p + D.q)}
@@ -566,6 +568,7 @@ theorem pi_eq (o₀ : RootOrigin Y S₀ R Fx) {x₁ x₂ : o₀.Re.R.X} {w : (Σ
 
 end Origin
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem root_isometric : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (S₀ S : Finset ℕ) (M₀ M₁ Rf : RootModel (CMType H) (D.p + D.q)) (Sys : PB.AnSys (dimFl (CMType H) (D.p + D.q)) (Option (RootIx D))) (Fx : FixedData Y Sys) (o₀ : RootOrigin Y S₀ M₀ Fx) (o₁ : RootOrigin Y S M₁ Fx) (oR : RootOrigin Y ∅ Rf Fx) (Ω : Type) [Field Ω] [CharZero Ω] (K : Type) [Fintype K] [DecidableEq K] (J : K → Type) [∀ k, Fintype (J k)] (y : (Σ k, J k) → Ω) (κ₀ : M₀.K → K) (v₀ : (Σ k, M₀.ι k) → Σ k, J k) (κ₁ : M₁.K → K) (v₁ : (Σ k, M₁.ι k) → Σ k, J k) (κR : Rf.K → K) (vR : (Σ k, Rf.ι k) → Σ k, J k) (i₀ : M₀.Ω →+* Ω) (i₁ : M₁.Ω →+* Ω) (iR : Rf.Ω →+* Ω), IsBlockMap κ₀ v₀ → IsBlockMap κ₁ v₁ → IsBlockMap κR vR → (∀ p, y (v₀ p) = i₀ (M₀.y p)) → (∀ p, y (v₁ p) = i₁ (M₁.y p)) → (∀ p, y (vR p) = iR (Rf.y p)) → i₀.comp o₀.g = iR.comp oR.g → i₁.comp o₁.g = iR.comp oR.g → o₀.Re.J = ⊤ → o₁.Re.J = ⊤ → oR.Re.J = ⊤ → oR.Fl.deg = 1 → ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y) (dimFl (CMType H) (D.p + D.q) + 1) → ∀ (r : CMType H × Fin (D.p + D.q)) (f g : MvPolynomial (Σ k, J k) ℤ) (bf bg : K → ℕ), GroundTheory.Heights₂.Heights.NumbersDVR.IsMultiHomog f bf → GroundTheory.Heights₂.Heights.NumbersDVR.IsMultiHomog g bg → (fun k => (bf k : ℤ) - bg k) = pullDeg κ₀ (M₀.xdeg r) - pullDeg κ₁ (M₁.xdeg r) → f ∉ mCoordIdeal y → g ∉ mCoordIdeal y → aeval y f = i₁ (o₁.e r) / i₀ (o₀.e r) * aeval y g → ∀ t, 0 < t → t ≤ Sys.t₀ → ∀ z ∈ mcPts (mCoordIdeal y), ‖eval z (MvPolynomial.map (Int.castRingHom ℂ) f)‖ * (M₁.x t r).h (fun p => z (v₁ p)) = ‖eval z (MvPolynomial.map (Int.castRingHom ℂ) g)‖ * (M₀.x t r).h (fun p => z (v₀ p)) := by
   intro E _ _ _ H D l Xo c Y S₀ S M₀ M₁ Rf Sys Fx o₀ o₁ oR Ω _ _ K _ _ J _ y κ₀ v₀ κ₁ v₁ κR vR i₀ i₁ iR hv₀ hv₁ hvR
     hy₀ hy₁ hyR hc₀ hc₁ hJ₀ hJ₁ hJR hdeg hA r f g bf bg hf hg hb hfn hgn hfg t ht0 ht z hz

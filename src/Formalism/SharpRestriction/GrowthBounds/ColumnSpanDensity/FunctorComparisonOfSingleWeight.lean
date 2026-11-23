@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.ProdSmulPowT
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.SingleWeightLatticeComparison
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatticeMapsOfFunctorComparison
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FactorizationBoundMonoLattices
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDualWeyl

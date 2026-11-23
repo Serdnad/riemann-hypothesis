@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.GeneratorChange
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.RowLatOfMove
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle084
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarLocInB
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.LastCoordMem
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.LocFacts
@@ -224,7 +224,8 @@ theorem admissible_local_partner {u u' : D.what₂.Word} (F0 : FlagG (VS D) D.R.
       m_plus_independent (gS D) Λ (lf D F0) F' hFix.2.2.1 hFix.2.2.2 P (hgP P hP) 1 _ hA1 hξ
   have hss : ∀ a, sgnP' D p a = sgnP D p a := fun a => by simp only [sgnP', hs]
   have hgS0 : ((gS D : ℕ) : D.host.E) ≠ 0 := by
-    have : gS D ≠ 0 := by simp [gS, (D.host.g_prime 0).ne_zero, (D.host.g_prime 1).ne_zero]
+    have : gS D ≠ 0 := by
+      simp [_root_.Formalism.MainNotions.S.Lat.gS, (D.host.g_prime 0).ne_zero, (D.host.g_prime 1).ne_zero]
     exact_mod_cast this
   intro b
   set x : (VS D).V := ((gS D : D.host.E))⁻¹ • (frame F' b - frameAct (frame (lf D F0)) 1 b) with hxdef

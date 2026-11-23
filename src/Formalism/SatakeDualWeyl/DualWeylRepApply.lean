@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.DualWeylModuleStable
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle009
 public import Mathlib.RepresentationTheory.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

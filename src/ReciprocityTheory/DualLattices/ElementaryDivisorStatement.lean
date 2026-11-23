@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.EmbeddingSeparatingGroupStatement
+public import ReciprocityTheory.DualLattices.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.DotSingle
-public import ReciprocityTheory.DualLattices.EigenLengthProductStatementHolds
+public import ReciprocityTheory.DualLattices.Bundle021
 public import ReciprocityTheory.DualLattices.IsLocalOfIntegers
 public import ReciprocityTheory.DualLattices.UnramifiedCokernelLengthOfLengthEigenLengthProduct
 import Std.Tactic.BVDecide.Normalize.Prop

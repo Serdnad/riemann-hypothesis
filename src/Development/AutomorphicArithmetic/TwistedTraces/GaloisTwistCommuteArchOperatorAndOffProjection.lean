@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TvDefs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ArchBasic
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensOp
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle006
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TwistPerm
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TwistYA
 import Mathlib.Algebra.Order.Floor.Extended

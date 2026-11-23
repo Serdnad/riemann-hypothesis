@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataKerI
-public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsHomOfBasis
+public import Formalism.LocalRingCardinality.Bundle008
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

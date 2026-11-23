@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CoupledSumOfEntries
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle023
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HeckeValueEstimateOfRecordValue
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HkEsymmSmul
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PrimeCastNeZero
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulUpdate
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.TheoremOfAlternateForm
 import Mathlib.Algebra.Order.Floor.Extended

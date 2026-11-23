@@ -3,8 +3,8 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 public import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRealExponentAbsSmoothCharacterLocalField
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnramifiedAtValueHeckeCharCompIdeleNorm
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle157
 import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

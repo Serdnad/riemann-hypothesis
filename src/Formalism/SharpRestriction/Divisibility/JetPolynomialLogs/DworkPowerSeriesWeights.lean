@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.ProductZerothFirstParts
-public import Formalism.GaussJetBounds.StatementU
+public import Formalism.GaussJetBounds.Bundle004
 public import Formalism.GaussJetBounds.OneLetterGauss
 public import Formalism.GaussJetBounds.ThmAGauss
 import Mathlib.Algebra.Order.Floor.Extended

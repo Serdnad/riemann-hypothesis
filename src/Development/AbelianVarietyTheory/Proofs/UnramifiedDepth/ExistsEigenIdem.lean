@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.IsEigBasisIff
-public import ReciprocityTheory.DualLattices.UnramifiedCokernelLengthStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EigenbasisRestrictionSurjectiveEquivariant
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EmbeddingsLiftIntegersIdempotentsConjugation
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PadicIntAlgebraOfIsAdicCompleteMatrixUnique
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.SplittingIdempotents
+public import ReciprocityTheory.DualLattices.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

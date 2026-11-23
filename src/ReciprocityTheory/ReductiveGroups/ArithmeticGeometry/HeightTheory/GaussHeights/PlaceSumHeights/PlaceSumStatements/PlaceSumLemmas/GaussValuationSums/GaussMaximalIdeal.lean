@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.LaTIsPrime
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle007
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 import Mathlib.Algebra.Order.Floor.Extended

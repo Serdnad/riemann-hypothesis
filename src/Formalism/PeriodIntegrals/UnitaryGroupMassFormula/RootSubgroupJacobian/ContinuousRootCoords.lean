@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.AmpRoot
+public import Formalism.PeriodIntegrals.Bundle027
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupJacobian.SUpPowEqZero
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupBasics.NegOnePowMulSelf
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupBasics.FlagMatLower

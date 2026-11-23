@@ -1,15 +1,14 @@
 module
 
-public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.TransposeVariables
+public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.Bundle002
 public import Formalism.GradedWeylDivisibility.StatementE
-public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.QaExpEqBidetExp
+public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.Bundle003
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
 import Formalism.GradedWeylDivisibility.FinalC
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.BideterminantMem
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwrowLemmas
-public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.ABridge
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle009
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

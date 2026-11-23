@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.DiffGenLoc
+public import Formalism.PeriodIntegrals.Bundle011
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

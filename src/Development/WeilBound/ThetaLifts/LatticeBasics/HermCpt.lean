@@ -3,13 +3,13 @@ module
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsMaximalCompactInfinite
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.CountData
 public import Development.WeilBound.ThetaLifts.LatticeBasics.RankPolData
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteAdeleTopology
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle043
 public import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
 public import Development.AutomorphicSpectrum.Proofs.TwistedProofs.ExistsAdelePiInf
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Kcompact
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LatArch
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle003
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle004
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HermRank
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFCA
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle009
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsIsGauss
 
 @[expose] public section

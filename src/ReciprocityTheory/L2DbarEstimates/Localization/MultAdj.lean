@@ -45,7 +45,7 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.MeasurableSetImageOfIsLocalHomeomorph
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
-public import ReciprocityTheory.L2DbarEstimates.Localization.IntegrableOnCompactOfLocL2
+public import ReciprocityTheory.L2DbarEstimates.Localization.Bundle002
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 
 @[expose] public section

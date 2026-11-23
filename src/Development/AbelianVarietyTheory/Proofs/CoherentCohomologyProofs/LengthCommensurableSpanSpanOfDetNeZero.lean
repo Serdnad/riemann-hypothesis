@@ -5,11 +5,10 @@ public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.RingTheory.KrullDimension.PID
 public import Mathlib.RingTheory.OrderOfVanishing.Basic
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsDualNeZeroCompEqZero
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Imports
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthQuotientSpanSingleton
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthSelfEqTop
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.RelLengthSpanMatrix
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

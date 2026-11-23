@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PieriBlockIdeals.ExponentBoundCounterexample
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.MaxValEqZeroOfLt
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LCassemLemmas
-import Formalism.PieriBlockIdeals.StatementLA
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle001
+import Formalism.PieriBlockIdeals.Bundle003
 public import Mathlib.Data.Nat.Choose.Cast
 public import Mathlib.Data.Nat.Choose.Factorization
 

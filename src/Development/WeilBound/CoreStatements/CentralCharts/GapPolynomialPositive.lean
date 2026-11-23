@@ -1,21 +1,21 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GapN
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.KillNoneFormPoly
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UniformisedDegreePolynomialAntisymmetricStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
 public import Development.WeilBound.CoreStatements.CentralCharts.FlagImmersion
 public import Development.WeilBound.CoreStatements.FlagImmersions.CountableBall
-public import Development.WeilBound.CoreStatements.FlagImmersions.EqZeroOfTri
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle016
 public import Development.WeilBound.CoreStatements.FlagImmersions.ExistsModelOfEq
 public import Development.WeilBound.CoreStatements.FlagImmersions.ExistsRightInv
 public import Development.WeilBound.CoreStatements.FlagImmersions.GenRigidOf
 public import Development.WeilBound.CoreStatements.FlagImmersions.HasPerConj
 public import Development.WeilBound.CoreStatements.FlagImmersions.Imports
 public import Development.WeilBound.CoreStatements.FlagImmersions.NormDetEq
-public import Development.WeilBound.CoreStatements.FlagImmersions.PerCoord
-public import Development.WeilBound.CoreStatements.FlagImmersions.RankLem
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle014
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -88,6 +88,7 @@ end AnalyticReference.Deg
 open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.ExRefEff
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem AnalyticReference.gap_polynomial_positive : Top.Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)), Top.IsGlobal Xo l c Y → 1 ≤ D.p → 1 ≤ D.q → ∀ (G : RefGeo Y) (A : G.An) (ν : RootIx D → ℤ), (∀ τ (i k : Fin (D.p + D.q)), i < k → ν (τ, k) < ν (τ, i)) → 0 < MvPolynomial.eval (fun a => (gapN ν a : ℝ)) A.Sys.degPoly := by
   intro hG E _ _ _ H D Xo l c Y _ hp _ G A ν hν
   classical

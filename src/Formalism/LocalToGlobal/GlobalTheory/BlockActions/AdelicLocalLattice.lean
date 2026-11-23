@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.LatSOfMem
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.InclEMemTensInt
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle001
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

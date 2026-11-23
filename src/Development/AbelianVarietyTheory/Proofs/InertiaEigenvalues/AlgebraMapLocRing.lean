@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.LocalRingStructure
-public import Development.AbelianVarietyTheory.Counterexamples.NonGaloisSurvey.CriterionWithoutRoot
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LetterSandwichOfFrobMatrices
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NBasisLoc
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle002
+public import Development.AbelianVarietyTheory.Counterexamples.NonGaloisSurvey.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle178
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle231
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

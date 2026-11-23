@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.VolumeIndexFiniteNonzero
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.VolPinG
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.StClosed
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.DiagMulOfBt
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.Bundle003
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.Bundle002
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.Bundle001
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.StabilizerIndexVolumes.Bundle002
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TermDefPf
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FormTransp
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CovolIdx
@@ -78,7 +78,7 @@ variable {X : HidaSetting D} {Y : Full X} {u u' : D.what₂.Word}
 def phiV (X : HidaSetting D) (v : InfinitePlace X.B.I.F) : D.host.E →+* ℂ :=
   (X.B.I.φ v).comp (X.ιE.symm : D.host.E →+* X.B.I.E)
 
-def DictProps (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1))
+def DictProps (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (w : Point D.host.E (D.R.rS + 1))
     (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (L : Formalism.L2.SG.PairVal.MatR D)
     (γw s c : X.B.I.Ginf) (Φ : StG w →* X.B.I.Ginf) : Prop :=
   Function.Injective Φ ∧ (∀ β, c⁻¹ * Φ β * c ∈ Formalism.L2.SG.TermOp.Vanish.Rset t) ∧
@@ -94,7 +94,7 @@ def DictProps (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1))
           ptMat w) p.1.1 p.1.2))
 
 def DictC : Prop :=
-  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (t : TT Y u u'), t.relevant → t.G ≠ 0 →
+  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'), t.relevant → t.G ≠ 0 →
     ∀ w, t.toTerm.atPt w → ∀ (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (L U : Formalism.L2.SG.PairVal.MatR D),
       Formalism.L2.SG.PairVal.NormRep t.toTerm w F' L U → ∀ (γw s s' : X.B.I.Ginf),
       Formalism.L2.SG.RealObj.IsPtRep X u u' w γw → s ∈ X.SinfU u → s' ∈ X.SinfU u' → t.pt.1 = s * γw * s'⁻¹ →
@@ -102,7 +102,7 @@ def DictC : Prop :=
 
 def CovolOne3C : Prop :=
   ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word), (∀ i, 3 ≤ D.host.g i) → PrimeHyp D u (Tu D u') →
-    ∀ (t : TT Y u u'), t.relevant → t.G ≠ 0 →
+    ∀ (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'), t.relevant → t.G ≠ 0 →
     ∀ w, t.toTerm.atPt w → ∀ (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (L U : Formalism.L2.SG.PairVal.MatR D),
       Formalism.L2.SG.PairVal.NormRep t.toTerm w F' L U → ∀ (γw s s' : X.B.I.Ginf) (μw : Measure X.B.I.Ginf),
       Formalism.L2.SG.RealObj.IsPtRep X u u' w γw → s ∈ X.SinfU u → s' ∈ X.SinfU u' → t.pt.1 = s * γw * s'⁻¹ →
@@ -151,7 +151,7 @@ private theorem isHaarOnSet_conj {I : Formalism.MainNotions.S.AutInst} {S : Set 
       group
     rw [hc, ← Measure.map_map hm (measurable_const_mul _), hinv _ hs]
 
-theorem pinned_haar (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1)) (γw s s' : X.B.I.Ginf) (μw : Measure X.B.I.Ginf)
+theorem pinned_haar (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (w : Point D.host.E (D.R.rS + 1)) (γw s s' : X.B.I.Ginf) (μw : Measure X.B.I.Ginf)
     (hs : s ∈ X.SinfU u) (hs' : s' ∈ X.SinfU u') (hdec : t.pt.1 = s * γw * s'⁻¹)
     (hμw : IsHaarOnSet X.B.I (Formalism.L2.SG.RealObj.StInf X u u' γw) μw) :
     IsHaarOnSet X.B.I (Formalism.L2.SG.TermOp.Vanish.Rset t) (μw.map (fun y => s * y * s⁻¹)) := by
@@ -168,7 +168,7 @@ theorem pinned_haar (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1)) (γw s s' 
   rw [hset]
   exact isHaarOnSet_conj hμw s
 
-theorem rset_mul (t : TT Y u u') {a b : X.B.I.Ginf} (ha : a ∈ Formalism.L2.SG.TermOp.Vanish.Rset t)
+theorem rset_mul (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') {a b : X.B.I.Ginf} (ha : a ∈ Formalism.L2.SG.TermOp.Vanish.Rset t)
     (hb : b ∈ Formalism.L2.SG.TermOp.Vanish.Rset t) : a * b ∈ Formalism.L2.SG.TermOp.Vanish.Rset t := by
   obtain ⟨ha1, ha2⟩ := ha
   obtain ⟨hb1, hb2⟩ := hb
@@ -178,7 +178,7 @@ theorem rset_mul (t : TT Y u u') {a b : X.B.I.Ginf} (ha : a ∈ Formalism.L2.SG.
   rw [e]
   exact Formalism.L2.SG.Pf.FormTranspose.ninf_mul (X := X) u' ha2 hb2
 
-theorem gval_of_normRep (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1))
+theorem gval_of_normRep (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (w : Point D.host.E (D.R.rS + 1))
     (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (L U : Formalism.L2.SG.PairVal.MatR D)
     (hN : Formalism.L2.SG.PairVal.NormRep t.toTerm w F' L U) (hG : t.G ≠ 0) : Gval (lf D (X.Fu u)) F' ≠ 0 := by
   obtain ⟨⟨h, hmk⟩, -⟩ := hN
@@ -201,7 +201,7 @@ private theorem relIndex_map_of_injective' {G G' : Type*} [Group G] [Group G'] (
   | (rw [← Subgroup.relIndex_comap, Subgroup.comap_map_eq_self_of_injective hf])
   | exact Subgroup.relindex_map_map_of_injective f hf
 
-private theorem H_affine_combination_eq_of_quadratic_relation (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1))
+private theorem H_affine_combination_eq_of_quadratic_relation (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (w : Point D.host.E (D.R.rS + 1))
     (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (L : Formalism.L2.SG.PairVal.MatR D)
     (γw s c : X.B.I.Ginf) (Φ : StG w →* X.B.I.Ginf) (hDict : DictProps t w F' L γw s c Φ)
     (μR : Measure X.B.I.Ginf) (hH : IsHaarOnSet X.B.I (Formalism.L2.SG.TermOp.Vanish.Rset t) μR)
@@ -291,7 +291,7 @@ private theorem H_affine_combination_eq_of_quadratic_relation (t : TT Y u u') (w
 
 theorem volume_generic_odd_of (hD : DictC) (hC : CovolOne3C)
     (hBin : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word), PrimeHyp D u (Tu D u') →
-      ∀ (t : TT Y u u') (w : Point D.host.E (D.R.rS + 1)) (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E))
+      ∀ (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (w : Point D.host.E (D.R.rS + 1)) (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E))
         (L U : Formalism.L2.SG.PairVal.MatR D), t.relevant → t.toTerm.generic →
         Formalism.L2.SG.PairVal.NormRep t.toTerm w F' L U → Gval (lf D (X.Fu u)) F' ≠ 0 →
         (Formalism.L2.SG.PairVal.stabAut D u u' (X.Fu u) (Y.what₂ u) t.toTerm F' L : Set (Formalism.L2.SG.PairVal.GLR D)) ⊆

@@ -1,16 +1,16 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodLatticeSpans
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsAbLift
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonDegAtOfSabMap
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.VerticalDerivativeInCoordinates
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.SmulPeriodMapMkZeroFstEqNegForm
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle023
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle012
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0OfIsPullback
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLieLieModel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLinearLiftOfAdditiveFamily
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsDerivAt0ZeroOfFixed
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PeriodLatticeDiscreteFreeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle255
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolPairA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle007
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolUnifPeriodMatrixRight
 
 @[expose] public section

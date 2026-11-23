@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.ExZTranslate
+public import Formalism.PieriBlockIdeals.Bundle004
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.ProdInitialMinorsMemDetSpan
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.AffineMonoid.UniqueSums

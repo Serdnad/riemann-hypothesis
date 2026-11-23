@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CongruenceNumberRankThree
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.ConjStableShaFam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -99,38 +99,38 @@ section Gal
 
 variable {Ω : Type} [Field Ω] {l : ℕ} [Fact l.Prime] {n : ℕ}
 
-def IsCC {F : Type} [Field F] [Algebra F Ω] (c : G F Ω) : Prop := ∃ j : Ω →+* ℂ, ∀ x, j (c x) = starRingEnd ℂ (j x)
+def IsCC {F : Type} [Field F] [Algebra F Ω] (c : _root_.Formalism.ConjugateSelfDual.G F Ω) : Prop := ∃ j : Ω →+* ℂ, ∀ x, j (c x) = starRingEnd ℂ (j x)
 
 variable {F : Type} [Field F] [NumberField F] [Algebra F Ω]
 
-def IsAlgChar (ι : Qbar l ≃+* ℂ) (κ : G F Ω →* (Qbar l)ˣ) : Prop :=
+def IsAlgChar (ι : Qbar l ≃+* ℂ) (κ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) : Prop :=
   Continuous κ ∧ ∃ (art : Ideles F →* Gab F Ω) (χ : HChar F) (a : (F →+* ℂ) → ℤ),
     IsGlobalArtin art ∧ IsAlgPos χ a ∧ IsLAdicOf art ι χ a κ
 
-def IsAutC [_root_.NumberField.IsTotallyComplex F] (ι : Qbar l ≃+* ℂ) (r : G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
+def IsAutC [_root_.NumberField.IsTotallyComplex F] (ι : Qbar l ≃+* ℂ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
   ∃ π : CuspSub F n, (CG.mk π).IsRegAlg ∧ AttC ι r π
 
 
 omit [NumberField F] in
-def TypeAway (r : G F Ω →* GL (Fin n) (Qbar l)) (τ : Fin n → G F Ω →* (Qbar l)ˣ) : Prop :=
+def TypeAway (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (τ : Fin n → _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) : Prop :=
   ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → IsDiagOn r (Ine (F := F) A) τ
 
 
 omit [NumberField F] in
-def OrdAt (r : G F Ω →* GL (Fin n) (Qbar l)) (m : Fin n → ℤ) (ψ : Fin n → G F Ω →* (Qbar l)ˣ) (A : ValuationSubring Ω) : Prop :=
-  ∃ κ : Fin n → ↥(Dec (F := F) A) →* (Qbar l)ˣ, IsFlagOn r (Dec (F := F) A) κ ∧
-    (∀ i (s : ↥(Dec (F := F) A)), (s : G F Ω) ∈ Ine (F := F) A → κ i s = cycBar F Ω l s ^ m i) ∧ ∀ i s, Cong (κ i s) (ψ i s)
+def OrdAt (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (m : Fin n → ℤ) (ψ : Fin n → _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (A : ValuationSubring Ω) : Prop :=
+  ∃ κ : Fin n → ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) →* (Qbar l)ˣ, IsFlagOn r (_root_.ReciprocityTheory.Gal.Dec (F := F) A) κ ∧
+    (∀ i (s : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A)), (s : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → κ i s = cycBar F Ω l s ^ m i) ∧ ∀ i s, Cong (κ i s) (ψ i s)
 
 variable [CharZero Ω] [IsAlgClosure ℚ Ω]
 
 
 omit [NumberField F] [IsAlgClosure ℚ Ω] in
-def IsPair [CharZero F] (c : G ℚ Ω) (r : G F Ω →* GL (Fin n) (Qbar l)) (μ : G F Ω →* (Qbar l)ˣ) (P : GL (Fin n) (Qbar l)) : Prop :=
-  ∀ s s' : G F Ω, galEmb ℚ F Ω s' = c * galEmb ℚ F Ω s * c⁻¹ →
+def IsPair [CharZero F] (c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (μ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (P : GL (Fin n) (Qbar l)) : Prop :=
+  ∀ s s' : _root_.Formalism.ConjugateSelfDual.G F Ω, galEmb ℚ F Ω s' = c * galEmb ℚ F Ω s * c⁻¹ →
     (r s : Matrix (Fin n) (Fin n) (Qbar l))ᵀ * (P : Matrix (Fin n) (Fin n) (Qbar l)) * (r s' : Matrix (Fin n) (Fin n) (Qbar l)) =
       (μ s : Qbar l) • (P : Matrix (Fin n) (Fin n) (Qbar l))
 
-structure EisRep (ι : Qbar l ≃+* ℂ) (φ θ : G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (ρ : G ℚ Ω →* GL (Fin 2) (Qbar l)) : Prop where
+structure EisRep (ι : Qbar l ≃+* ℂ) (φ θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (ρ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) : Prop where
   cont : Continuous ρ
   irr : IsIrr ρ
   aut : IsAutR ι ρ
@@ -140,7 +140,7 @@ structure EisRep (ι : Qbar l ≃+* ℂ) (φ θ : G ℚ Ω →* (Qbar l)ˣ) (k :
   above : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 →
     OrdAt ρ ![(k : ℤ) - 1, 0] ![cycBar ℚ Ω l ^ (k - 1) * φ, 1] A
 
-structure SlopeTestRemainingChoices (N w : ℕ) (θ : G ℚ Ω →* (Qbar l)ˣ) : Prop where
+structure SlopeTestRemainingChoices (N w : ℕ) (θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) : Prop where
   odd : l ≠ 2
   pos : 0 < N
   cop : ¬ l ∣ N
@@ -152,11 +152,11 @@ structure SlopeTestRemainingChoices (N w : ℕ) (θ : G ℚ Ω →* (Qbar l)ˣ) 
 
 
 omit [IsAlgClosure ℚ Ω] in
-def SplitAt (N w : ℕ) (χ : G ℚ Ω →* (Qbar l)ˣ) : Prop :=
-  KillsMu N χ ∧ ∀ s : G ℚ Ω, (∀ ζ : Ω, ζ ^ N = 1 → s ζ = ζ ^ w) → χ s = 1
+def SplitAt (N w : ℕ) (χ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) : Prop :=
+  KillsMu N χ ∧ ∀ s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω, (∀ ζ : Ω, ζ ^ N = 1 → s ζ = ζ ^ w) → χ s = 1
 
-structure IsSeed {L : Type} [Field L] [NumberField L] [IsCMField L] [Algebra L Ω] (ι : Qbar l ≃+* ℂ) (c : G ℚ Ω)
-    (ψ τ : Fin n → G L Ω →* (Qbar l)ˣ) (m : Fin n → ℤ) (ka : G L Ω →* (Qbar l)ˣ) (r : G L Ω →* GL (Fin n) (Qbar l)) : Prop where
+structure IsSeed {L : Type} [Field L] [NumberField L] [IsCMField L] [Algebra L Ω] (ι : Qbar l ≃+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω)
+    (ψ τ : Fin n → _root_.Formalism.ConjugateSelfDual.G L Ω →* (Qbar l)ˣ) (m : Fin n → ℤ) (ka : _root_.Formalism.ConjugateSelfDual.G L Ω →* (Qbar l)ˣ) (r : _root_.Formalism.ConjugateSelfDual.G L Ω →* GL (Fin n) (Qbar l)) : Prop where
   cont : Continuous r
   irr : IsIrr r
   pair : ∃ P : GL (Fin n) (Qbar l), (P : Matrix (Fin n) (Fin n) (Qbar l))ᵀ = P ∧ IsPair c r 1 P
@@ -165,8 +165,8 @@ structure IsSeed {L : Type} [Field L] [NumberField L] [IsCMField L] [Algebra L �
   above : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → OrdAt r m ψ A
   aut : IsAutCsd ι (tw r ka)
 
-structure FieldPairCharacterTripleConditions (K L : Type) [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K Ω] [Algebra L Ω] (c : G ℚ Ω)
-    (N w : ℕ) (χ' η θ : G ℚ Ω →* (Qbar l)ˣ) (j : ℕ) : Prop where
+structure FieldPairCharacterTripleConditions (K L : Type) [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K Ω] [Algebra L Ω] (c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω)
+    (N w : ℕ) (χ' η θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (j : ℕ) : Prop where
   cc : IsCC c
   aux : SlopeTestRemainingChoices N w θ
   quad : Module.finrank ℚ K = 2
@@ -180,13 +180,13 @@ structure FieldPairCharacterTripleConditions (K L : Type) [Field K] [NumberField
   par : χ' c = (-1) ^ j
   sq : ∃ s ∈ galOf ℚ L Ω, ¬ Cong (((cycBar ℚ Ω l ^ j * χ') s) ^ 2) 1
 
-structure IsTwist {K : Type} [Field K] [NumberField K] [Algebra K Ω] (ι : Qbar l ≃+* ℂ) (c : G ℚ Ω) (κ : G K Ω →* (Qbar l)ˣ) : Prop where
+structure IsTwist {K : Type} [Field K] [NumberField K] [Algebra K Ω] (ι : Qbar l ≃+* ℂ) (c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (κ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ) : Prop where
   cont : Continuous κ
   alg : ∃ (art : Ideles K →* Gab K Ω) (Y : HChar K) (a : (K →+* ℂ) → ℤ) (τ : K →+* ℂ), IsGlobalArtin art ∧ IsAlgPos Y a ∧
     IsLAdicOf art ι Y a κ ∧ a τ = -1 ∧ a (ComplexEmbedding.conjugate τ) = 0 ∧
     ∀ v : HeightOneSpectrum (𝓞 K), ((discr K : ℤ) : 𝓞 K) ∉ v.asIdeal → Y.UnrAt v
-  conj : ∀ s s' : G K Ω, galEmb ℚ K Ω s' = c * galEmb ℚ K Ω s * c⁻¹ → κ s * κ s' = (cycBar K Ω l s)⁻¹
-  ver : ∀ (s : G K Ω) (t : G ℚ Ω), t ∉ galOf ℚ K Ω → galEmb ℚ K Ω s = t * t → κ s = -(cycBar ℚ Ω l t)⁻¹
+  conj : ∀ s s' : _root_.Formalism.ConjugateSelfDual.G K Ω, galEmb ℚ K Ω s' = c * galEmb ℚ K Ω s * c⁻¹ → κ s * κ s' = (cycBar K Ω l s)⁻¹
+  ver : ∀ (s : _root_.Formalism.ConjugateSelfDual.G K Ω) (t : _root_.Formalism.ConjugateSelfDual.G ℚ Ω), t ∉ galOf ℚ K Ω → galEmb ℚ K Ω s = t * t → κ s = -(cycBar ℚ Ω l t)⁻¹
   unr : ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → ¬ A.valuation ((discr K : ℤ) : Ω) < 1 →
     ∀ s ∈ Ine (F := K) A, κ s = 1
   ord : ∃ m : ℕ, 0 < m ∧ ¬ l ∣ m ∧ ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → ∀ s ∈ Ine (F := K) A, κ s ^ m = 1

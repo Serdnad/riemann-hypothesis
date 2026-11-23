@@ -186,7 +186,9 @@ private def split0 (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) 
   toFun p := (splitGA n p, 1)
   invFun g := (splitGA n).symm g.1
   left_inv p := by simp
-  right_inv g := Prod.ext (by simp) (Subsingleton.elim _ _)
+  right_inv g := by
+    refine Prod.ext (by simp) ?_
+    exact Units.ext (Matrix.ext fun i _ => Fin.elim0 i)
   map_mul' p q := by simp
   continuous_toFun := (splitGA n).continuous.prodMk continuous_const
   continuous_invFun := (splitGA n).symm.continuous.comp continuous_fst

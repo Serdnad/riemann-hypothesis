@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagHeightPolynomialWeightForm
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.KillNoneFormPoly
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle104
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle005
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XFlArith
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
 import Mathlib.Algebra.Order.Floor.Extended

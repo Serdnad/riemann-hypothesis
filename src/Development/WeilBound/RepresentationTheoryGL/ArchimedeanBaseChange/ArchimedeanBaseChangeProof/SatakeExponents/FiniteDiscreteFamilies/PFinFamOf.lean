@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.FiniteDiscreteFamilies.FinCut
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ShapeMemBounded
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle610
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

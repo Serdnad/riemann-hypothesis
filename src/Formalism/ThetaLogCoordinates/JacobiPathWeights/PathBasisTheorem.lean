@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.CorA3primeB
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.FinalP
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.FactSplit
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.IndexWeightsDominance

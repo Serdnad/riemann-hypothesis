@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsFCocIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CobOfGen
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle355
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle474
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousAlgebraMapPadicInt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LiftBlochKatoCocycleIffOrthogonalLatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle390
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

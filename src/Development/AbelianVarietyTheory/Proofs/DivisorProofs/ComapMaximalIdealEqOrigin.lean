@@ -1,9 +1,9 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNoetherianModelOfDivisorOfConstants
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsorsTrivial
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OriginIdeal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZModTorsorFiniteProjectiveBaseChange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle148
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle359
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

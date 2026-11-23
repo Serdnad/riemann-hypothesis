@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Statements
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.IsFlagIntegralOne
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PHomogeneousComponentMul
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

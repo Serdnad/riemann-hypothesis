@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsSplitIdemIff
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemberDatumOfFlagTie
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stdform

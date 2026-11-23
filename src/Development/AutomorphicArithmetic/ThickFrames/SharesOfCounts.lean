@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.ThickFrames.MarkedLow
-import Formalism.SubspaceCounting.Statement
+import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.Algebra.Order.BigOperators.Group.Finset
 
 @[expose] public section

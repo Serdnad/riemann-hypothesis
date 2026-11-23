@@ -1,15 +1,15 @@
 module
 
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
-public import Formalism.SharpRestriction.CuspSpanNormBounds.ContinuousCjIT
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle012
 public import CompanionTheory.AutomorphicTheory.RankOneEstimates.RankOne
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselNeZeroOfCyclicOrbit
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle036
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCSB
-public import Formalism.SharpRestriction.CuspSpanNormBounds.DMiMulVecApply
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle014
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.SigmaFiniteAmplitudes.SigmaFiniteOfUnfold
 public import Formalism.SharpRestriction.CuspSpanNormBounds.SpanMemOfImage
-public import Formalism.SharpRestriction.CuspSpanNormBounds.StarVecMulDM
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

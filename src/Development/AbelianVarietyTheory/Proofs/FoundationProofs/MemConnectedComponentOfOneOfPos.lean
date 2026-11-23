@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.NonemptyAlgHomOfIsRayOfDvd
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ForallHeckeIdealIff
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteGaloisInertiaLiftsAbsoluteInertiaRat
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenConnectedComponentOfOneInf
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle203
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,12 +70,12 @@ theorem valuation_int_le_one {L Ω : Type} [Field L] [Field Ω] [Algebra L Ω] (
   (A.valuation_le_one_iff _).mpr (mem_of_isIntegral_int A (x.isIntegral_coe.map (algebraMap L Ω).toIntAlgHom))
 
 theorem unramIn_of_ine {v : HeightOneSpectrum (𝓞 K)}
-    (h : ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := K) A, AlgEquiv.restrictNormalHom L σ = 1) :
+    (h : ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := K) A, AlgEquiv.restrictNormalHom L σ = 1) :
     GlobalTheory.NT.UnramIn L v := by
   rintro τ ⟨P, hP, hPo, hτ⟩
   let w : HeightOneSpectrum (𝓞 L) := ⟨P, hP, Ideal.ne_bot_of_liesOver_of_ne_bot v.ne_bot P⟩
   obtain ⟨A, hA⟩ := exists_isPlaceOver Ω w
-  have hAv : IsPlaceOver A v := fun x => by
+  have hAv : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v := fun x => by
     have := hA (algebraMap (𝓞 K) (𝓞 L) x)
     rw [hPo.over, Ideal.mem_under, IsScalarTower.algebraMap_apply K L Ω]
     exact this
@@ -111,7 +111,7 @@ theorem unramIn_of_ine {v : HeightOneSpectrum (𝓞 K)}
 
 
 omit [IsAlgClosure K Ω] [NumberField L] in
-theorem isFrob_restrict {v : HeightOneSpectrum (𝓞 K)} {A : ValuationSubring Ω} (hA : IsPlaceOver A v) {σ : G K Ω}
+theorem isFrob_restrict {v : HeightOneSpectrum (𝓞 K)} {A : ValuationSubring Ω} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {σ : _root_.Formalism.ConjugateSelfDual.G K Ω}
     (hσ : IsFrob (F := K) A (normV v) σ) : GlobalTheory.NT.IsFrob L v (AlgEquiv.restrictNormalHom L σ) := by
   let f : 𝓞 L →+* A := ((algebraMap L Ω).comp (algebraMap (𝓞 L) L)).codRestrict A fun x =>
     (A.valuation_le_one_iff _).1 (valuation_int_le_one A x)
@@ -127,16 +127,16 @@ theorem isFrob_restrict {v : HeightOneSpectrum (𝓞 K)} {A : ValuationSubring �
     rw [Ideal.absNorm_apply, Submodule.cardQuot_apply]
     exact this
 
-theorem exists_field {B : Type} [CommGroup B] (φ : G K Ω →* B) (ho : IsOpen (φ.ker : Set (G K Ω))) :
+theorem exists_field {B : Type} [CommGroup B] (φ : _root_.Formalism.ConjugateSelfDual.G K Ω →* B) (ho : IsOpen (φ.ker : Set (_root_.Formalism.ConjugateSelfDual.G K Ω))) :
     ∃ (L : IntermediateField K Ω) (_ : FiniteDimensional K L) (_ : IsAbelianGalois K L),
-      ∀ σ : G K Ω, AlgEquiv.restrictNormalHom L σ = 1 ↔ φ σ = 1 := by
+      ∀ σ : _root_.Formalism.ConjugateSelfDual.G K Ω, AlgEquiv.restrictNormalHom L σ = 1 ↔ φ σ = 1 := by
   have : IsGalois K Ω := {}
-  let N : ClosedSubgroup (G K Ω) := ⟨φ.ker, φ.ker.isClosed_of_isOpen ho⟩
+  let N : ClosedSubgroup (_root_.Formalism.ConjugateSelfDual.G K Ω) := ⟨φ.ker, φ.ker.isClosed_of_isOpen ho⟩
   let L := IntermediateField.fixedField φ.ker
   have hN : L.fixingSubgroup = φ.ker := InfiniteGalois.fixingSubgroup_fixedField N
   have h1 : FiniteDimensional K L := (InfiniteGalois.isOpen_iff_finite L).1 (by rw [hN]; exact ho)
   have h2 : IsGalois K L := (InfiniteGalois.normal_iff_isGalois L).1 (by rw [hN]; infer_instance)
-  have h3 : ∀ σ : G K Ω, AlgEquiv.restrictNormalHom L σ = 1 ↔ φ σ = 1 := fun σ => by
+  have h3 : ∀ σ : _root_.Formalism.ConjugateSelfDual.G K Ω, AlgEquiv.restrictNormalHom L σ = 1 ↔ φ σ = 1 := fun σ => by
     rw [← MonoidHom.mem_ker, IntermediateField.restrictNormalHom_ker, hN, MonoidHom.mem_ker]
   have h4 : IsMulCommutative (L ≃ₐ[K] L) := ⟨⟨fun a b => by
     obtain ⟨a, rfl⟩ := AlgEquiv.restrictNormalHom_surjective (F := K) (K₁ := L) Ω a
@@ -276,13 +276,13 @@ theorem mem_connectedComponentOfOne_of_pos (k : Kˣ) (hk : ∀ φ : K →+* ℝ,
       exact this
   exact hp.subset_connectedComponent (fun w _ => h1 w) (fun w _ => h2 w)
 
-def infPart : Ideles K →* (InfiniteAdeleRing K)ˣ :=
+def infPart : _root_.Neutral.B1.Ideles K →* (InfiniteAdeleRing K)ˣ :=
   Units.map (MonoidHom.fst (InfiniteAdeleRing K) (FiniteAdeleRing (𝓞 K) K))
 
-def rayIdl (𝔪 : Ideal (𝓞 K)) : Subgroup (Ideles K) where
+def rayIdl (𝔪 : Ideal (𝓞 K)) : Subgroup (_root_.Neutral.B1.Ideles K) where
   carrier := {a | a ∈ unitIdl K ∧ (∀ v : HeightOneSpectrum (𝓞 K), v.asIdeal ∣ 𝔪 →
     Valued.v (ev v (a : AdeleRing (𝓞 K) K) - 1) ≤ rad 𝔪 v) ∧
-    infPart a ∈ Subgroup.connectedComponentOfOne (InfiniteAdeleRing K)ˣ}
+    _root_.GlobalTheory.RayFromArtin.infPart a ∈ Subgroup.connectedComponentOfOne (InfiniteAdeleRing K)ˣ}
   one_mem' := ⟨one_mem _, fun v _ => by simp, by rw [map_one]; exact one_mem _⟩
   mul_mem' := by
     rintro a b ⟨ha, ha', ha''⟩ ⟨hb, hb', hb''⟩
@@ -297,18 +297,18 @@ def rayIdl (𝔪 : Ideal (𝓞 K)) : Subgroup (Ideles K) where
     rintro a ⟨ha, ha', ha''⟩
     refine ⟨inv_mem ha, fun v hv => ?_, by rw [map_inv]; exact inv_mem ha''⟩
     have h1 : Valued.v (ev v (a : AdeleRing (𝓞 K) K)) = 1 := ha v
-    have h2 : ev v (a : AdeleRing (𝓞 K) K) * (ev v ((a⁻¹ : Ideles K) : AdeleRing (𝓞 K) K) - 1) =
+    have h2 : ev v (a : AdeleRing (𝓞 K) K) * (ev v ((a⁻¹ : _root_.Neutral.B1.Ideles K) : AdeleRing (𝓞 K) K) - 1) =
         1 - ev v (a : AdeleRing (𝓞 K) K) := by
       rw [mul_sub, ← map_mul, Units.mul_inv, map_one, mul_one]
     have h3 := ha' v hv
     rwa [Valuation.map_sub_swap, ← h2, map_mul, h1, one_mul] at h3
 
-theorem isOpen_rayIdl {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) : IsOpen (rayIdl 𝔪 : Set (Ideles K)) := by
+theorem isOpen_rayIdl {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) : IsOpen (rayIdl 𝔪 : Set (_root_.Neutral.B1.Ideles K)) := by
   have h : IsOpen (⋂ v ∈ {v : HeightOneSpectrum (𝓞 K) | v.asIdeal ∣ 𝔪},
-      {a : Ideles K | Valued.v (ev v (a : AdeleRing (𝓞 K) K) - 1) ≤ rad 𝔪 v}) :=
+      {a : _root_.Neutral.B1.Ideles K | Valued.v (ev v (a : AdeleRing (𝓞 K) K) - 1) ≤ rad 𝔪 v}) :=
     (Ideal.finite_factors hm).isOpen_biInter fun v _ => (GlobalTheory.Mem.UnitOpen.isOpen_val_le v _).preimage
       ((GlobalTheory.Mem.UnitOpen.continuous_comp v).sub continuous_const)
-  have hp : Continuous (infPart (K := K)) := Continuous.units_map _ continuous_fst
+  have hp : Continuous (_root_.GlobalTheory.RayFromArtin.infPart (K := K)) := Continuous.units_map _ continuous_fst
   convert GlobalTheory.Mem.UnitOpen.isOpen_unitIdl.inter (h.inter ((isOpen_connectedComponentOfOne_inf K).preimage hp)) using 1
   ext a
   simp only [Set.mem_inter_iff, Set.mem_iInter]
@@ -319,14 +319,14 @@ theorem infConn_le_rayIdl (𝔪 : Ideal (𝓞 K)) : infConn K ≤ rayIdl 𝔪 :=
   refine ⟨fun v => map_one (Valued.v : Valuation (v.adicCompletion K) _), fun v _ => ?_, ?_⟩
   · show Valued.v ((1 : v.adicCompletion K) - 1) ≤ _
     simp
-  · have e : infPart (Units.map (MonoidHom.inl (InfiniteAdeleRing K) (FiniteAdeleRing (𝓞 K) K)) y) = y :=
+  · have e : _root_.GlobalTheory.RayFromArtin.infPart (Units.map (MonoidHom.inl (InfiniteAdeleRing K) (FiniteAdeleRing (𝓞 K) K)) y) = y :=
       Units.ext rfl
     exact e.symm ▸ hy
 
 theorem localIdele_mem_rayIdl {𝔪 : Ideal (𝓞 K)} {v : HeightOneSpectrum (𝓞 K)} (hv : ¬ v.asIdeal ∣ 𝔪)
-    {x : (v.adicCompletion K)ˣ} (hx : IsUnitAt v x) : localIdele K v x ∈ rayIdl 𝔪 := by
+    {x : (v.adicCompletion K)ˣ} (hx : _root_.Formalism.L2.Host.IsUnitAt v x) : _root_.Neutral.B1.localIdele K v x ∈ rayIdl 𝔪 := by
   refine ⟨fun w => ?_, fun w hw => ?_, ?_⟩
-  · show Valued.v (ev w (localIdele K v x : AdeleRing (𝓞 K) K)) = 1
+  · show Valued.v (ev w (_root_.Neutral.B1.localIdele K v x : AdeleRing (𝓞 K) K)) = 1
     by_cases h : w = v
     · subst h
       rw [ev_local_self]
@@ -334,28 +334,28 @@ theorem localIdele_mem_rayIdl {𝔪 : Ideal (𝓞 K)} {v : HeightOneSpectrum (�
     · rw [ev_local_ne h, map_one]
   · rw [ev_local_ne (by rintro rfl; exact hv hw)]
     simp
-  · rw [show infPart (localIdele K v x) = 1 from Units.ext rfl]
+  · rw [show _root_.GlobalTheory.RayFromArtin.infPart (_root_.Neutral.B1.localIdele K v x) = 1 from Units.ext rfl]
     exact one_mem _
 
-def unif (v : HeightOneSpectrum (𝓞 K)) : (v.adicCompletion K)ˣ := atFin v (exists_unif v).choose
+def unif (v : HeightOneSpectrum (𝓞 K)) : (v.adicCompletion K)ˣ := _root_.Formalism.L2.Host.atFin v (_root_.Formalism.L2.Host.exists_unif v).choose
 
-theorem isUnifAt_unif (v : HeightOneSpectrum (𝓞 K)) : IsUnifAt v (unif v) := (exists_unif v).choose_spec
+theorem isUnifAt_unif (v : HeightOneSpectrum (𝓞 K)) : _root_.Formalism.L2.Host.IsUnifAt v (unif v) := (_root_.Formalism.L2.Host.exists_unif v).choose_spec
 
-def unifIdl (𝔪 : Ideal (𝓞 K)) : idealsPrimeTo 𝔪 →* Ideles K := extend 𝔪 fun v => localIdele K v (unif v)
+def unifIdl (𝔪 : Ideal (𝓞 K)) : idealsPrimeTo 𝔪 →* _root_.Neutral.B1.Ideles K := extend 𝔪 fun v => _root_.Neutral.B1.localIdele K v (unif v)
 
-theorem infPart_unifIdl (𝔪 : Ideal (𝓞 K)) (J : idealsPrimeTo 𝔪) : infPart (unifIdl 𝔪 J) = 1 := by
-  refine (MonoidHom.map_finprod infPart (finite_support_zpow (fun v => localIdele K v (unif v)) _)).trans ?_
+theorem infPart_unifIdl (𝔪 : Ideal (𝓞 K)) (J : idealsPrimeTo 𝔪) : _root_.GlobalTheory.RayFromArtin.infPart (unifIdl 𝔪 J) = 1 := by
+  refine (MonoidHom.map_finprod _root_.GlobalTheory.RayFromArtin.infPart (finite_support_zpow (fun v => _root_.Neutral.B1.localIdele K v (unif v)) _)).trans ?_
   refine finprod_eq_one_of_forall_eq_one fun v => ?_
-  rw [map_zpow, show infPart (localIdele K v (unif v)) = 1 from Units.ext rfl, one_zpow]
+  rw [map_zpow, show _root_.GlobalTheory.RayFromArtin.infPart (_root_.Neutral.B1.localIdele K v (unif v)) = 1 from Units.ext rfl, one_zpow]
 
 theorem ev_unifIdl (𝔪 : Ideal (𝓞 K)) (J : idealsPrimeTo 𝔪) (v : HeightOneSpectrum (𝓞 K)) :
     ev v (unifIdl 𝔪 J : AdeleRing (𝓞 K) K) =
       (unif v : v.adicCompletion K) ^ FractionalIdeal.count K v (J.1 : FractionalIdeal (𝓞 K)⁰ K) := by
-  have := MonoidHom.map_finprod (Units.map (ev v)) (finite_support_zpow (fun v => localIdele K v (unif v))
+  have := MonoidHom.map_finprod (Units.map (ev v)) (finite_support_zpow (fun v => _root_.Neutral.B1.localIdele K v (unif v))
     (J.1 : FractionalIdeal (𝓞 K)⁰ K))
   rw [finprod_eq_single (fun w => Units.map (ev v) _) v fun w hw => by
-    rw [map_zpow, show Units.map (ev v) (localIdele K w (unif w)) = 1 from Units.ext (ev_local_ne hw.symm _), one_zpow],
-    map_zpow, show Units.map (ev v) (localIdele K v (unif v)) = unif v from Units.ext (ev_local_self v _)] at this
+    rw [map_zpow, show Units.map (ev v) (_root_.Neutral.B1.localIdele K w (unif w)) = 1 from Units.ext (ev_local_ne hw.symm _), one_zpow],
+    map_zpow, show Units.map (ev v) (_root_.Neutral.B1.localIdele K v (unif v)) = unif v from Units.ext (ev_local_self v _)] at this
   rw [← Units.val_zpow_eq_zpow_val, ← this]
   rfl
 
@@ -371,15 +371,15 @@ theorem valued_algebraMap (v : HeightOneSpectrum (𝓞 K)) (k : K) :
   HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v k
 
 theorem ev_diagUnits (v : HeightOneSpectrum (𝓞 K)) (k : Kˣ) :
-    ev v (diagUnits K k : AdeleRing (𝓞 K) K) = algebraMap K (v.adicCompletion K) k := rfl
+    ev v (_root_.Neutral.B1.diagUnits K k : AdeleRing (𝓞 K) K) = algebraMap K (v.adicCompletion K) k := rfl
 
 theorem div_mem_rayIdl_iff {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) (J : idealsPrimeTo 𝔪) (k : Kˣ) :
-    diagUnits K k * (unifIdl 𝔪 J)⁻¹ ∈ rayIdl 𝔪 ↔ k ∈ rayUnits 𝔪 ∧ toPrincipalIdeal (𝓞 K) K k = J.1 := by
-  have e0 : ∀ v, ev v ((diagUnits K k * (unifIdl 𝔪 J)⁻¹ : Ideles K) : AdeleRing (𝓞 K) K) =
+    _root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹ ∈ rayIdl 𝔪 ↔ k ∈ rayUnits 𝔪 ∧ toPrincipalIdeal (𝓞 K) K k = J.1 := by
+  have e0 : ∀ v, ev v ((_root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹ : _root_.Neutral.B1.Ideles K) : AdeleRing (𝓞 K) K) =
       algebraMap K (v.adicCompletion K) k * (ev v (unifIdl 𝔪 J : AdeleRing (𝓞 K) K))⁻¹ := fun v => by
     rw [Units.val_mul, map_mul, ev_diagUnits, map_units_inv]
-  have e1 : diagUnits K k * (unifIdl 𝔪 J)⁻¹ ∈ unitIdl K ↔ toPrincipalIdeal (𝓞 K) K k = J.1 := by
-    have : ∀ v, Valued.v (ev v ((diagUnits K k * (unifIdl 𝔪 J)⁻¹ : Ideles K) : AdeleRing (𝓞 K) K)) = 1 ↔
+  have e1 : _root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹ ∈ unitIdl K ↔ toPrincipalIdeal (𝓞 K) K k = J.1 := by
+    have : ∀ v, Valued.v (ev v ((_root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹ : _root_.Neutral.B1.Ideles K) : AdeleRing (𝓞 K) K)) = 1 ↔
         FractionalIdeal.count K v (FractionalIdeal.spanSingleton (𝓞 K)⁰ (k : K)) =
           FractionalIdeal.count K v (J.1 : FractionalIdeal (𝓞 K)⁰ K) := fun v => by
       rw [e0, map_mul, map_inv₀, valued_unifIdl, valued_algebraMap, mul_inv_eq_one₀ WithZero.exp_ne_zero,
@@ -388,11 +388,11 @@ theorem div_mem_rayIdl_iff {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) (J : idea
     exact ⟨fun h => GlobalTheory.Idele.eq_of_count_eq (FractionalIdeal.spanSingleton_ne_zero_iff.2 k.ne_zero) J.1.ne_zero
       fun v => (this v).1 (h v), fun h v => (this v).2 (by rw [h])⟩
   have e2 : ∀ v : HeightOneSpectrum (𝓞 K), v.asIdeal ∣ 𝔪 →
-      Valued.v (ev v ((diagUnits K k * (unifIdl 𝔪 J)⁻¹ : Ideles K) : AdeleRing (𝓞 K) K) - 1) =
+      Valued.v (ev v ((_root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹ : _root_.Neutral.B1.Ideles K) : AdeleRing (𝓞 K) K) - 1) =
         v.valuation K ((k : K) - 1) := fun v hv => by
     rw [e0, ev_unifIdl, J.2 v hv, zpow_zero, inv_one, mul_one, ← valued_algebraMap]
     simp only [map_sub, map_one]
-  have e3 : infPart (diagUnits K k * (unifIdl 𝔪 J)⁻¹) =
+  have e3 : _root_.GlobalTheory.RayFromArtin.infPart (_root_.Neutral.B1.diagUnits K k * (unifIdl 𝔪 J)⁻¹) =
       Units.map (algebraMap K (InfiniteAdeleRing K)).toMonoidHom k := by
     rw [map_mul, map_inv, infPart_unifIdl, inv_one, mul_one]
     exact Units.ext rfl
@@ -403,7 +403,7 @@ theorem div_mem_rayIdl_iff {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) (J : idea
   · rintro ⟨⟨h2, h3⟩, h1⟩
     exact ⟨e1.2 h1, fun v hv => (e2 v hv).symm ▸ h2 v hv, e3 ▸ mem_connectedComponentOfOne_of_pos k h3⟩
 
-def rayGrp (𝔪 : Ideal (𝓞 K)) : Subgroup (Ideles K) := (diagUnits K).range ⊔ rayIdl 𝔪
+def rayGrp (𝔪 : Ideal (𝓞 K)) : Subgroup (_root_.Neutral.B1.Ideles K) := (_root_.Neutral.B1.diagUnits K).range ⊔ rayIdl 𝔪
 
 theorem unifIdl_mem_rayGrp_iff {𝔪 : Ideal (𝓞 K)} (hm : 𝔪 ≠ ⊥) (J : idealsPrimeTo 𝔪) :
     unifIdl 𝔪 J ∈ rayGrp 𝔪 ↔ J ∈ (rayPrincipal 𝔪).subgroupOf (idealsPrimeTo 𝔪) := by
@@ -430,8 +430,8 @@ theorem GlobalArtinReciprocity.rayClassFieldSt : GlobalArtinReciprocity → RayC
   rw [rayClassFieldSt_iff_artinIso]
   intro K _ _ 𝔪 hm
   obtain ⟨art, ha⟩ := H K (AlgebraicClosure K)
-  have hU : IsOpen (rayGrp 𝔪 : Set (Ideles K)) := Subgroup.isOpen_mono le_sup_right (isOpen_rayIdl hm)
-  let θ : Ideles K →* Ideles K ⧸ rayGrp 𝔪 := QuotientGroup.mk' _
+  have hU : IsOpen (rayGrp 𝔪 : Set (_root_.Neutral.B1.Ideles K)) := Subgroup.isOpen_mono le_sup_right (isOpen_rayIdl hm)
+  let θ : _root_.Neutral.B1.Ideles K →* _root_.Neutral.B1.Ideles K ⧸ rayGrp 𝔪 := QuotientGroup.mk' _
   have hθ : θ.ker = rayGrp 𝔪 := QuotientGroup.ker_mk' _
   have hker : art.ker ≤ θ.ker := by
     rw [ha.ker, hθ]

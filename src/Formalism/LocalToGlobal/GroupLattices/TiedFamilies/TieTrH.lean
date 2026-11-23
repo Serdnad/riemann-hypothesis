@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianColumns.ClsNonempty
+public import Formalism.LocalToGlobal.HermitianColumns.Bundle004
 public import Formalism.LocalToGlobal.HermitianColumns.ZeroPointScaledByCharacter
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FramesExist
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2589
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DualGramInterpGram
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagBundlePointFramesTriangularComponent
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagChartFramesEigenFramesLocalRing
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlagModelCarriesSameFlagsSpecialiseValuationRing
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FlagDeterminantIso
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2624
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2598
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle666
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

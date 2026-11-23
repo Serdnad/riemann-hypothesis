@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasAd
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.BigCellLocal
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle006
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasFrame
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasLoc
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

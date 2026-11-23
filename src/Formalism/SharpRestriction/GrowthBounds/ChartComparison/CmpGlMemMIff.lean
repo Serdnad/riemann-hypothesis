@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CmpCMemMIff
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IsUnitDetBlockPreimage
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle010
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -68,7 +68,7 @@ structure Charts (σ : E →ₐ[F] E) (J : Matrix (Fin n) (Fin n) E) (T f : ℕ)
   A : ∀ β, LocAt F E n (gatCh G fun a : cmpt β => eC ⟨β, a⟩)
   cls : Cb → Type
   yc : ∀ β, cls β → UPts σ J (FiniteAdeleRing (𝓞 F) F)
-  embV : ∀ β, V →ₛₗ[embLL] (cls β → Frames (gramC J emb) → ℂ)
+  embV : ∀ β, V →ₛₗ[embLL] (cls β → Formalism.L2.Forms.Frames (gramC J emb) → ℂ)
 
 attribute [instance] Charts.fin
 

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MemberChainFormsLevelPrimeEqMember
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FinIdx
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

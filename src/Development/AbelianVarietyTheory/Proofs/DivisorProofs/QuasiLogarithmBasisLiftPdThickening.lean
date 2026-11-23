@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DividedInOfQuasiLogarithmStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiLogarithmDevissageGenerationStepStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiLogarithmDevissageStepIndependentStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle684
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle986
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle606
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 
 @[expose] public section
 
@@ -225,7 +225,7 @@ theorem GlobalTheory.basis_lift : ∀ (p : ℕ) [Fact p.Prime] (B O Q : Type) [C
       · have h1 : x (K + 1) = x K + fun i => (p : B) ^ K * bF (Fs K) i := by
           funext i; simp [hx, Finset.sum_range_succ]
         have h2 : (Fs (K + 1)).1 = gF (Fs K) := by rw [hFs]
-        rw [h1, comb_add, comb_mul, h2, map_pow, map_natCast]
+        rw [h1, comb_add, GlobalTheory.BasisLift.comb_mul, h2, map_pow, map_natCast]
         conv_lhs => rw [hfe, heqF (Fs K)]
         simp only [smul_add, smul_smul, ← pow_succ]
         abel

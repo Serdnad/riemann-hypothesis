@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.StatementPB
-public import Formalism.FlagUnipotentLattices.PairingOrthogonalComplement
+public import Formalism.FlagUnipotentLattices.Bundle002
 public import Formalism.FlagUnipotentLattices.UnipotentStabiliserCharacterisation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

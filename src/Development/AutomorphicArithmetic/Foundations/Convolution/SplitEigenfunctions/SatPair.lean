@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.SplitEig
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAveragingProjection
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOfBasis
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactUnitaryIntegralPoints
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle306
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RDualC
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact

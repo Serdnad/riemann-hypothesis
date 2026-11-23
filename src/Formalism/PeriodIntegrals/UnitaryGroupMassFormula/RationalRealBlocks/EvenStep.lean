@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.BlockRatReal
+public import Formalism.PeriodIntegrals.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

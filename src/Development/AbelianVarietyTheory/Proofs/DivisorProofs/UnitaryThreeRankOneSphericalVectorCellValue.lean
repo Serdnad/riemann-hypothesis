@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvUAbsU
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemShellUIffDepth
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdealWeight
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SwapLtSwapIffOfAddTwo
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactUnitaryIntegralPoints
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1180
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1181
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle576
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1254
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle306
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawa
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,7 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 
 @[expose] public section
 

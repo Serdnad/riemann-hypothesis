@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UJClassFin
+public import Formalism.PeriodIntegrals.Bundle009
 public import Formalism.SatakeDualWeyl.Statement
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicClassFiniteness.DictRing
 import Mathlib.Algebra.Order.Floor.Extended

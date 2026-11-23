@@ -1,12 +1,12 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyValuation
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenySeparable
-import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsPullback
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle005
+import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle003
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsValuation
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogenyExists
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.KernelCard
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilPairing
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle004
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.WeilTranslate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

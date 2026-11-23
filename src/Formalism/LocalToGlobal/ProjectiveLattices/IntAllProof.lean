@@ -1,9 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CoreProofs
-public import Formalism.LocalToGlobal.ProjectiveLattices.IntAll
-public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
-public import Formalism.LocalToGlobal.ProjectiveLattices.ExistsOfValILeOne
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle028
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

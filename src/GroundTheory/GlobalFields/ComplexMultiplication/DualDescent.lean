@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.DualDescentBase
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle009
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeDescent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

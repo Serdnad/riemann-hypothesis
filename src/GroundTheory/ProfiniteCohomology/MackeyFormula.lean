@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.MackeyDefs
+public import GroundTheory.ProfiniteCohomology.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 public import Mathlib.NumberTheory.Padics.ValuativeRel
 public import Mathlib.RingTheory.RegularLocalRing.Defs

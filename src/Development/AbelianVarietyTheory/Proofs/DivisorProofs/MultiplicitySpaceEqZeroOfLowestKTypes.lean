@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmoothVecLowKSub
-public import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.SobolevContinuityLowGeneration
+public import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.Bundle001
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffSetIntegralNat
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended

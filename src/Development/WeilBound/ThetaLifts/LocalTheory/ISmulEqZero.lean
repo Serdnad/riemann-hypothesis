@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
-public import Development.WeilBound.ThetaLifts.LocalTheory.IsArchimedeanLocalEquivariantMap
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

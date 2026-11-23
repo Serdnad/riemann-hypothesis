@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.EmbEquivSymmApply
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsRestRest
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle020
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.CommGroupMulMulEqMulInvMulMulMul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

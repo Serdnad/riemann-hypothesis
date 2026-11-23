@@ -3,10 +3,10 @@ module
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocPart
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1365
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardPairFrameBlocksDetAndNegTranspose
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-public import Development.AutomorphicArithmetic.DivisorFrames.ShellSumEqConstOfTwistEqIndicatorDoubleCoset
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle009
 import Formalism.LocalRingCardinality.DataHost
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +57,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.MatchingAdjoints
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsReading
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle332
 import Development.AutomorphicArithmetic.LocalEmbeddings.FinMatchDefs
 
 @[expose] public section
@@ -173,8 +173,11 @@ private theorem smallF_change (ν : kˣ →* ℂˣ) (a' d : ℕ) (Ψ : Matrix (F
         smallF (haarVol (KO k (Fin a'))) ν Ψ (Y * M) := by
   have hne : (ν (gdet g) : ℂ) * apow (gdet g) ((Fintype.card (Fin d) : ℂ) / 2) ≠ 0 :=
     mul_ne_zero (Units.ne_zero _) (apow_ne_zero _ _)
+  letI : MeasurableSpace (GL (Fin a') k) := Units.instMeasurableSpace
+  letI : BorelSpace (GL (Fin a') k) := GlobalTheory.SplitFlip.borel_GL
+  haveI : (haarVol (KO k (Fin a'))).IsHaarMeasure := GlobalTheory.SplitFlip.isHaarMeasure_haarVol_KO
   unfold smallF
-  rw [← integral_mul_left_eq_self (fun y : GL (Fin a') k =>
+  rw [← integral_mul_left_eq_self (μ := haarVol (KO k (Fin a'))) (fun y : GL (Fin a') k =>
     Ψ (y.val * (Y * M)) * (ν (gdet y) : ℂ) * apow (gdet y) ((Fintype.card (Fin d) : ℂ) / 2)) g, ← integral_const_mul]
   congr 1
   funext a

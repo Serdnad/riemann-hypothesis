@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.ArthurClozelStrongTC
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.GelfandKazhdanDual
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AutomorphicFormsFiniteGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GelfandKazhdanDualOfHyps
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2131
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.LiftUnr
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.QuadLift
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LiftFactorization.StrongOf
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspRapidDecaySiegelGL
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
 import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.JacquetShalikaRigidity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

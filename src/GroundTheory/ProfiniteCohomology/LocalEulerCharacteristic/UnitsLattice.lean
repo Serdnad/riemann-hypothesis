@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.UnitsGalois
+public import GroundTheory.LocalFields.Bundle004
 public import GroundTheory.LocalFields.NormalLattice
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveSnake
 public import GroundTheory.LocalFields.UnitsPowers

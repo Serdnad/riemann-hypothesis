@@ -1,9 +1,8 @@
 module
 
 public import Formalism.RankGapBounds.TheoremALocOfLemmaA
-public import Formalism.PieriBlockIdeals.FactorialValuationSum
-public import Formalism.PieriBlockIdeals.StatementLA
-public import Formalism.PieriBlockIdeals.BranchingBoundLastGradedOneRow
+public import Formalism.PieriBlockIdeals.Bundle004
+public import Formalism.PieriBlockIdeals.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

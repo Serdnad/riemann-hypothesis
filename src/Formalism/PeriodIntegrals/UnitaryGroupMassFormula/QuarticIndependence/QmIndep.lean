@@ -1,8 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.RTTIndependence
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuarticIndependence.IndepC
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuarticIndependence.IndepPoly
+public import Formalism.PeriodIntegrals.Bundle017
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuarticIndependence.Bundle001
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

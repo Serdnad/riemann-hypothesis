@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.Lemma5aAt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardFilterValLt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.Joints
 import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomposition
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField

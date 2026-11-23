@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.RowActWeylMemDescentLattice
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IsUnitDetBlockPreimage
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.CoreDesc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

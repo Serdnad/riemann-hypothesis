@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideBis
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerExtra
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideMore
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideAlt
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -69,15 +68,15 @@ section Poly
 
 variable {S : Type} [CommRing S] {K : Type} {ι : K → Type} [∀ k, Fintype (ι k)]
 
-theorem isMultiHomog_mul' {f g : MRingOver S ι} {a b : K → ℕ} (hf : IsMultiHomog f a)
-    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) := by
+theorem isMultiHomog_mul' {f g : MRingOver S ι} {a b : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a)
+    (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g b) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f * g) (a + b) := by
   classical
   intro m hm k
   obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
   simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
 
 theorem isMultiHomog_X_pow [DecidableEq K] (k : K) (i : ι k) (n : ℕ) :
-    IsMultiHomog (X ⟨k, i⟩ ^ n : MRingOver S ι) (Pi.single k n) := by
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (X ⟨k, i⟩ ^ n : MRingOver S ι) (Pi.single k n) := by
   classical
   intro m hm k'
   rw [X_pow_eq_monomial] at hm
@@ -90,7 +89,7 @@ theorem isMultiHomog_X_pow [DecidableEq K] (k : K) (i : ι k) (n : ℕ) :
   · have : ∀ j : ι k', (⟨k, i⟩ : Σ k, ι k) ≠ ⟨k', j⟩ := fun j e => h (congrArg Sigma.fst e).symm
     simp [h]
 
-theorem isMultiHomog_unique {t : MRingOver S ι} {a b : K → ℕ} (ha : IsMultiHomog t a) (hb : IsMultiHomog t b)
+theorem isMultiHomog_unique {t : MRingOver S ι} {a b : K → ℕ} (ha : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog t a) (hb : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog t b)
     (ht : t ≠ 0) : a = b := by
   obtain ⟨m, hm⟩ := MvPolynomial.ne_zero_iff.mp ht
   have hm' : m ∈ t.support := MvPolynomial.mem_support_iff.mpr hm
@@ -116,7 +115,7 @@ theorem cellMon_split {B B' : ∀ k, Finset (ι k)} {p : Σ k, ι k}
     exact ⟨s + s', t * t', mul_mem ht ht', by ring⟩
 
 theorem cellMon_isMultiHomog [DecidableEq K] {B : ∀ k, Finset (ι k)} {t : MRingOver S ι}
-    (ht : t ∈ cellMon S B) : ∃ a : K → ℕ, IsMultiHomog t a := by
+    (ht : t ∈ cellMon S B) : ∃ a : K → ℕ, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog t a := by
   unfold cellMon at ht
   induction ht using Submonoid.closure_induction with
   | mem f hf =>

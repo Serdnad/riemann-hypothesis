@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PureSt
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.RealSt
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle002
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ExistsNhdsInvariant
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs

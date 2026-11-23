@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasBareNormDisc
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatLineIdempotentSections
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatLineIdempotentSectionsStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameBorelChangeVectorsStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FramePointVectorsStatement
-import Formalism.LocalToGlobal.ProjectiveLattices.CompSplitPfD
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle229
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle097
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle166
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

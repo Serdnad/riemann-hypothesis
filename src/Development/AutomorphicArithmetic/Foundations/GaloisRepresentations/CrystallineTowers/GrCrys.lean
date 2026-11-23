@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTower
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsModelOfMem
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OfShortExact
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1691
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle510
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

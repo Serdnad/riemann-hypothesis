@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPeriodPairIdealCurveLattice
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle228
 public import Formalism.LocalToGlobal.PairingIndexBounds.HalvesRecursion.Statement
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.SplitK
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators

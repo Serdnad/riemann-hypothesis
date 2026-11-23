@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasTraitsOnOfHasTraitsP
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AddHomExtSingle
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsAdaptedBasisTestLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDividingLabelsIffClassZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaConstantsTranslateEqTwistedSumsStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaLabelsSurjectiveHomLatticeModLevelStatement
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle057
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3323
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3419
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3224
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

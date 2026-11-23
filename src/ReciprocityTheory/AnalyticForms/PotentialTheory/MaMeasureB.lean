@@ -49,8 +49,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.LocDens
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasureA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle005
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle004
 public import Mathlib.Analysis.Calculus.FDeriv.RestrictScalars
 public import Mathlib.MeasureTheory.Function.Jacobian
 public import Mathlib.RingTheory.Norm.Transitivity

@@ -1,26 +1,24 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.JetsInIffStepField
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle014
 public import Formalism.LocalRingCardinality.FactDelDualNabla
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StdLvPr
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MtType
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle015
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.KerEntHyp
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DeterminantCharacterUnitaryApply
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.KernelCharactersEqReference
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle017
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntValuationEqOfMem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DominantWeightPolynomialFunctionalMinorsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle412
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAfMemIntUIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.JetMapFrameEqApplyQAdaptedCoordinatesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.JetMapIdentityTransportComplexToPadicStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.KernelFormComplexPolynomialIdentityStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MinorProductPairingDeterminedByCanonicalMapStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle370
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle379
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle378
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RelDetAdelicOfPinned
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SupportDegreeEqOfMemWeightPolynomialsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueKernelJetsLiftDegreesAlgebraicStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPowEqSpanNormOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InfDiagMulFinPartI
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RhoThreeOfOfDeterminantCharacterFiniteOrderType
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle543
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle170
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle161
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle074
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.KernelLattices.ColumnData.DiagramFitsSourceRank
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
@@ -182,7 +180,8 @@ theorem mtType_std (hok : ColIn.Ok I) (hp : TC.Pins B X) (l : TC.Laws I) (Z : TC
     rcases (under_eq_iff B.host _ w).1 hund.symm with e | e
     · exact Or.inl (e ▸ hmem)
     · exact Or.inr ⟨_, hmem, (isConjPl_iff B.host _ _).2 e⟩
-  refine mtType_of_hecke T (I.xi a) hn ((hok.xi_reads a).orderDvd hpow) _ (fun j x hx => ?_) u
+  refine _root_.GlobalTheory.KForm.KerJ.mtType_of_hecke T (I.xi a) hn ((hok.xi_reads a).orderDvd hpow) _
+    (fun j x hx => ?_) u
   have hm : 1 ≤ j.1 + 1 ∧ j.1 + 1 ≤ B.R.m := ⟨by omega, j.2⟩
   have e1 : (O u a).mt (j.1 + 1) = (I.rec7 l Z).muTil (j.1 + 1) * (show (I.rec7 l Z).Dt →* ℂˣ from tildeQ B.host I.SQ (I.xi a)) := by
     rw [hO.mt u a]

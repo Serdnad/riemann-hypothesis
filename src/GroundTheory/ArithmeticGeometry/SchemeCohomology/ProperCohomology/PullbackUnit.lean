@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.EtaleCompletion.QcohZariski
-public import GroundTheory.ArithmeticGeometry.EtaleCompletion.ModulesPullback
+public import GroundTheory.ArithmeticGeometry.EtaleCompletion.Bundle001
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
 public import GroundTheory.ArithmeticGeometry.EtaleCompletion.PullbackAffine

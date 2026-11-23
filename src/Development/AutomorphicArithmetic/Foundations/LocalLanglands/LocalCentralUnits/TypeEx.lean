@@ -2,15 +2,15 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentralCharacterSubquotientProductIrreduciblesStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentsSimpleFDRepFiniteFinsumEqOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1066
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle305
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DepthZeroSupercuspidalCuspidalModule
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSupercuspidalCompGeneralLinearGroupMapOfFieldE
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle127
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSupercuspidalOfIsCuspidal
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsingletonJacquetOfPerm
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoKO
-public import Development.DiscreteGroups.GlobalIrreducibility.DzKSchur
-public import Development.DiscreteGroups.GlobalIrreducibility.DzTwChar
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle020
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle009
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle022
 import Development.DiscreteGroups.GlobalIrreducibility.ExistsOfMemKOne
 public import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.GreenCuspLabels.GreenCuspidal
 public import Development.WeilBound.RepresentationTheoryGL.GaloisPermutationReps.SubquotientEquivalence.ConjTorusSubApply
@@ -53,7 +53,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoRes
 
 @[expose] public section
 

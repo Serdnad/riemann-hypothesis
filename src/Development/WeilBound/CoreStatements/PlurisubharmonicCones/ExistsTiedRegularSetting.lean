@@ -2,18 +2,16 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.CpRegPhRegOfNonneg
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsPotentialChartsWithRadiiStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsPotentialFromSncChartsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsSmoothConjInvariantMetricStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeMetricFramePropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgePotentialSmoothOffBoundaryStatement
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExpLeLogR
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PChartComparison
-import GroundTheory.HeightsAndTheta.Heights.Regularisation.PCutoffs
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PMaxOscillation
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PMollifierLowerBound
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PPolyMaxLowerBound
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PTruncPsh
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle025
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle145
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PTruncTransfer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,7 +56,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshBasic
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshExt
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

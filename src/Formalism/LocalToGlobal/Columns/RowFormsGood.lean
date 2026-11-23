@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.Columns.RowForms
 public import Formalism.LocalToGlobal.Columns.CoefColLemmas
-public import Formalism.LocalToGlobal.Columns.CoefficientsModP
-public import Formalism.LocalToGlobal.Columns.ColFormsLemmas
+public import Formalism.LocalToGlobal.Columns.Bundle031
+public import Formalism.LocalToGlobal.Columns.Bundle008
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

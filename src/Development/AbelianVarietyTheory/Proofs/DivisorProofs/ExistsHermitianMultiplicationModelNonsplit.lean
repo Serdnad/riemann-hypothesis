@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjRelEquiv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeftMulMatrixTransfer
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ReducedFreeAlgebraTraceFormPerfect
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1239
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle074
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

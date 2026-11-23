@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.PairCalc
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdemKernel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1543
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorsionFiniteFlat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFiniteFlatAbelianSchemeHomOfQuasiInverseStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1549
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

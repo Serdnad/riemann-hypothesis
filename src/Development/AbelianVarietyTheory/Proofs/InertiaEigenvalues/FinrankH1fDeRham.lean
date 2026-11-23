@@ -2,10 +2,10 @@ module
 
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineCoboundaryLift
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsBlochKatoCocycleOfCrysDeRhamPair
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FontaineBoundsCrystallineDeRhamConcreteRingsStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TensorFundamentalExactSequenceCrystalline
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle485
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle644
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle571
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle613
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

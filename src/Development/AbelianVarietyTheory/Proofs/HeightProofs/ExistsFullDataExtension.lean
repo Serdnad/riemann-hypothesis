@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.NormComparisonConstants
+public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Jets.EmbShortThLeThetaPlain
-public import Formalism.LocalToGlobal.ProjectiveLattices.FullExists
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCoeffDeltaOKOfCover
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle068
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsPsiTieOfValues
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSecCharVal
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSpecialPrimeLevelCoverOfFieldConditionsStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.LawsShortOfDeltaOK
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ShortGenIndepConnection
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle094
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

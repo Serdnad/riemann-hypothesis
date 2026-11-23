@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GlobalCore
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteIndexUnitIdlSup
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRingClassHost
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -162,24 +162,24 @@ open Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR Formalism.L2.Host GlobalTh
 
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
 
-theorem eq_one_of_class [_root_.NumberField.IsTotallyComplex E] {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art)
-    {B : Type} [CommGroup B] [TopologicalSpace B] [DiscreteTopology B] (φ : G E Ω →* B) (hφ : Continuous φ)
-    (A : HeightOneSpectrum (𝓞 E) → ValuationSubring Ω) (hA : ∀ v, IsPlaceOver (A v) v)
-    (hI : ∀ v, ∀ σ ∈ Ine (F := E) (A v), φ σ = 1) (σ : G E Ω)
+theorem eq_one_of_class [_root_.NumberField.IsTotallyComplex E] {art : _root_.Neutral.B1.Ideles E →* Gab E Ω} (ha : IsGlobalArtin art)
+    {B : Type} [CommGroup B] [TopologicalSpace B] [DiscreteTopology B] (φ : _root_.Formalism.ConjugateSelfDual.G E Ω →* B) (hφ : Continuous φ)
+    (A : HeightOneSpectrum (𝓞 E) → ValuationSubring Ω) (hA : ∀ v, _root_.Formalism.ConjugateSelfDual.IsPlaceOver (A v) v)
+    (hI : ∀ v, ∀ σ ∈ Ine (F := E) (A v), φ σ = 1) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω)
     (hσ : toAb E Ω σ ∈ (classHom E).ker.map art) : φ σ = 1 := by
   obtain ⟨x, hx, e⟩ := hσ
-  let ψ : Ideles E →* B := (liftAb φ hφ).comp art
+  let ψ : _root_.Neutral.B1.Ideles E →* B := (liftAb φ hφ).comp art
   have hψ : Continuous ψ := (continuous_liftAb φ hφ).comp ha.quot.continuous
-  have ho : IsOpen (ψ.ker : Set (Ideles E)) := (isOpen_discrete {1}).preimage hψ
+  have ho : IsOpen (ψ.ker : Set (_root_.Neutral.B1.Ideles E)) := (isOpen_discrete {1}).preimage hψ
   have hfin : Finite ψ.range := by
     refine ((isCompact_range hφ).finite_of_discrete.subset ?_).to_subtype
     rintro _ ⟨y, rfl⟩
     obtain ⟨τ, hτ⟩ := toAb_surjective (art y)
     exact ⟨τ, by rw [MonoidHom.comp_apply, ← hτ, liftAb_toAb]⟩
-  have hu : ∀ v x, IsUnitAt v x → ψ (localIdele E v x) = 1 := fun v y hy => by
+  have hu : ∀ v x, _root_.Formalism.L2.Host.IsUnitAt v x → ψ (_root_.Neutral.B1.localIdele E v x) = 1 := fun v y hy => by
     obtain ⟨τ, hτ, e⟩ := (ha.ine v (A v) (hA v) _).1 ⟨y, hy, rfl⟩
     rw [MonoidHom.comp_apply, ← e, liftAb_toAb, hI v τ hτ]
-  have hle : unitIdl E ⊔ (diagUnits E).range ≤ ψ.ker := by
+  have hle : unitIdl E ⊔ (_root_.Neutral.B1.diagUnits E).range ≤ ψ.ker := by
     refine sup_le (fun b hb => ?_) ?_
     · have e1 : ψ (finPartI E b) = ψ b := congrArg Subtype.val (GlobalTheory.RingCls.map_finPartI ψ.rangeRestrict b)
       rw [MonoidHom.mem_ker, ← e1]
@@ -188,7 +188,7 @@ theorem eq_one_of_class [_root_.NumberField.IsTotallyComplex E] {art : Ideles E 
       refine Subgroup.prod_mem _ fun v _ => ?_
       exact hu v _ (hb v)
     · rintro _ ⟨k, rfl⟩
-      have hk : diagUnits E k ∈ art.ker := by
+      have hk : _root_.Neutral.B1.diagUnits E k ∈ art.ker := by
         rw [ha.ker]
         exact Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_left ⟨k, rfl⟩)
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MonoidHom.mem_ker.1 hk, map_one]
@@ -197,7 +197,7 @@ theorem eq_one_of_class [_root_.NumberField.IsTotallyComplex E] {art : Ideles E 
 
 
 omit [IsAlgClosure E Ω] in
-theorem index_dvd_classNumber {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) :
+theorem index_dvd_classNumber {art : _root_.Neutral.B1.Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) :
     ((classHom E).ker.map art).index ∣ classNumber E := by
   refine (Subgroup.index_map_dvd _ ha.quot.surjective).trans ?_
   rw [Subgroup.index_ker, classNumber, ← Nat.card_eq_fintype_card]

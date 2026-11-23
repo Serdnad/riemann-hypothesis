@@ -1,9 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.ShiftOfColTie
+public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeNum
-public import Formalism.LocalToGlobal.Divisibility.SmallTies
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.RBNum
+public import Formalism.LocalToGlobal.Divisibility.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

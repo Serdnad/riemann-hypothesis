@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalRingCardinality.DataArith
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
+public import Formalism.LocalRingCardinality.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieOp
-public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieSlope
+public import Formalism.SharpRestriction.Divisibility.HookProducts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SharpRestriction.Divisibility.HookProducts.RBTieFrame
+public import Formalism.SharpRestriction.Divisibility.HookProducts.Bundle001
 
 @[expose] public section
 

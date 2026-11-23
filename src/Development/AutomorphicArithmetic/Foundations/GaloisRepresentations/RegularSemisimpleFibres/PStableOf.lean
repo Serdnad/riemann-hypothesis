@@ -3,13 +3,13 @@ module
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.ResEmbCompat
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.Ci
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.GmOfBcfl
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.WeakStableAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDesc
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreLift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.DescStep
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.LiftAll
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.LiftStep
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStrong
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle007
 import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.BcflUnit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

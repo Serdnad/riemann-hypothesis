@@ -1,11 +1,13 @@
 module
 
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
-public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.UnitaryVolumePairs
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsIdeleNotMulNormStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticExtNormFormOverAlgebraStatement
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticFormIdeleValuesMemNhdsOneStatement
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsInfEmbUnique
+public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticFormIdeleValuesMemNhdsOne
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle022
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

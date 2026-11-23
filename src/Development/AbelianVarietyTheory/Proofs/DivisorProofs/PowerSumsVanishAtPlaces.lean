@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyDegreePolynomialMapEqCharpolyRatioStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyEndCharpolySpecStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardTorsionGeometricPointsEqPowTwoDim
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3273
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3323
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2464
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeFiniteFinrank
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateModuleFreeFinrankTwoMulDim
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2508
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

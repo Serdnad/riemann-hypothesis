@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundColumns
-public import Formalism.LocalToGlobal.Columns.HeckeInert
-public import Formalism.LocalToGlobal.Divisibility.HeckeRI
-public import Formalism.LocalToGlobal.Columns.HeckeInertTr
+public import Formalism.LocalToGlobal.Columns.Bundle005
+public import Formalism.LocalToGlobal.Divisibility.Bundle003
+public import Formalism.LocalToGlobal.Columns.Bundle015
 import Formalism.LocalToGlobal.Columns.RowFormsGood
-import Formalism.LocalToGlobal.Columns.RowFormsRat
+import Formalism.LocalToGlobal.Columns.Bundle033
 import Formalism.LocalToGlobal.Columns.ToHLatLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,9 +3,9 @@ module
 public import Formalism.HermitianCurvature.StatementD
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CapelliWordSumExpansion
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LeadingTermIdentity
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LieDecompositionLocal
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RightDerivativeRulePsi
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle052
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumDualVectorEqZeta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

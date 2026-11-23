@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CycleListPermInvariant
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.PflagZ
-public import Development.WeilBound.CoreStatements.IdealCycleValues.ProjIdealIndependentOfBasis
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHsymmShift
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSymmetricSpanHsymm
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle008
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle034
+public import Development.WeilBound.CoreStatements.IdealCycleValues.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle020
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwistedDualGensExist
-public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.NumericalSegre
+public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

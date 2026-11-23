@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsSemilocalLength
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PDivCycleMinimal
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PFibreRelDim
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle016
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PSemilocalLength
 public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.FieldNumbersSemilocalLengthSum
 import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.HilbertSamuelIrreducibleBasicOpenConnected

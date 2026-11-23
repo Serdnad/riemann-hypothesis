@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPrimitiveFormMinimalFactorPoints
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGermMinimalPolynomialDivides
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StFiniteFibreCentredEquation
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StPrimitiveFormRemainder
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

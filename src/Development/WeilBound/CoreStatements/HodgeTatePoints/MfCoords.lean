@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.EssFiniteTypeOfFiniteDimensional
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MfBase
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsClopenSpecializationsGenPt
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFullLevelAt
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
 
 @[expose] public section
 

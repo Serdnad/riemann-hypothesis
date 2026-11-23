@@ -11,8 +11,7 @@ public import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.
 public import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.PositiveConjugation.PhiCont
 import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.PositiveConjugation.PhiMul
 public import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.SignDefiniteness.NormDef
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CKContinuous
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HsOpIntegralRankOne
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle305
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnitsPerm
 public import GroundTheory.GlobalFields.IdeleClassGroup.InvariantsGalois
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import Mathlib.GroupTheory.Nilpotent
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.StabilizersFinite
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkMultl
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

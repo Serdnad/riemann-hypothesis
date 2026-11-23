@@ -2,13 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.DepthPays
 public import Formalism.LocalToGlobal.Columns.Adelic
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryAdelicHeightCosetLeNormInfPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HeckeCharInfinityEqCoeffMulHalfNormPow
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCommonDenominatorSelfDualLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFinitePartDenominatorLeHeightPowStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsModGrowthExpLeNormInfPow
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SumProductWeightsLeOfSeparatedGeometricMeanStatement
-public import Formalism.LocalToGlobal.Columns.TiedTilA
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle874
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle630
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle384
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle195
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle412
+public import Formalism.LocalToGlobal.Columns.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

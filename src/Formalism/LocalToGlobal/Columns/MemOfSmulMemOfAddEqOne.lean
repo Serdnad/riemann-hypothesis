@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.CardFilterNeighboursEqPaths
+public import Formalism.LocalToGlobal.Columns.Bundle005
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

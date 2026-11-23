@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsGenericFlag
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DetLatticeFrameGen
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrGenOfIsFlagVBOn
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeTensorPowerDegree
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

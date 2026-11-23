@@ -1,18 +1,16 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualTopSimpleStacked
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedGraph
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassFibreDegree
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle027
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle024
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualArithVar
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualLineSemipositive
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PFsLineSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PGrassArithVar
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle016
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PConsequences
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.TableDegreeThreeBase
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ChangeOfModel
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle033
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -76,8 +74,8 @@ namespace TopDualSimpleStacked
 variable {K : Type} [Field K] [NumberField K] {i : ℕ} {T : Type} [Fintype T] [DecidableEq T]
 
 theorem linForm_stackedDiag (a : T → ℤ) (t : T) :
-    linForm (ι := dualBlocks T) (ι₂ := dualBlocks T) (stackedDiag a) ⟨(), t⟩ = C (a t) * X ⟨(), t⟩ := by
-  simp [linForm, stackedDiag, apply_ite C, ite_mul, Finset.sum_ite_eq]
+    ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (ι := dualBlocks T) (ι₂ := dualBlocks T) (stackedDiag a) ⟨(), t⟩ = C (a t) * X ⟨(), t⟩ := by
+  simp [ReciprocityTheory.ChartRestriction.G.AI.I4.linForm, stackedDiag, apply_ite C, ite_mul, Finset.sum_ite_eq]
 
 theorem graphMap_second (P : Ideal (MRing (dualBlocks T))) (g : (Σ _ : Unit, T) → MRing (dualBlocks T))
     (t : T) : graphMap P g (graphSecond t) = C (Ideal.Quotient.mk P (g ⟨(), t⟩)) * X () := by
@@ -99,7 +97,7 @@ theorem C_mul_X_not_mem {P : Ideal (MRing (dualBlocks T))} (hP : P.IsPrime) (hho
 
 theorem second_not_mem {P : Ideal (MRing (dualBlocks T))} (hP : P.IsPrime) (a : T → ℤ) {t : T}
     (h : (C (a t) * X ⟨(), t⟩ : MRing (dualBlocks T)) ∉ P) :
-    graphSecond t ∉ graphIdeal P (linForm (stackedDiag a)) := by
+    graphSecond t ∉ graphIdeal P (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) := by
   have := hP
   intro hm
   have h0 := RingHom.mem_ker.mp hm
@@ -109,7 +107,7 @@ theorem second_not_mem {P : Ideal (MRing (dualBlocks T))} (hP : P.IsPrime) (a : 
 
 theorem first_not_mem {P : Ideal (MRing (dualBlocks T))} (hP : P.IsPrime) (a : T → ℤ) {t : T}
     (h : (C (a t) * X ⟨(), t⟩ : MRing (dualBlocks T)) ∉ P) :
-    C (a t) * graphFirst t ∉ graphIdeal P (linForm (stackedDiag a)) := by
+    C (a t) * graphFirst t ∉ graphIdeal P (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) := by
   have := hP
   intro hm
   have h0 := RingHom.mem_ker.mp hm
@@ -118,14 +116,14 @@ theorem first_not_mem {P : Ideal (MRing (dualBlocks T))} (hP : P.IsPrime) (a : T
 
 theorem minor_mem (P : Ideal (MRing (dualBlocks T))) (a : T → ℤ) (s t : T) :
     graphSecond s * (C (a t) * graphFirst t) - graphSecond t * (C (a s) * graphFirst s) ∈
-      graphIdeal P (linForm (stackedDiag a)) := by
+      graphIdeal P (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) := by
   refine RingHom.mem_ker.mpr ?_
   rw [map_sub, map_mul _ (graphSecond s), map_mul _ (graphSecond t), graphMap_second, graphMap_second,
     graphMap_first, graphMap_first, linForm_stackedDiag, linForm_stackedDiag]
   ring
 
 theorem exists_scalar {P : Ideal (MRing (dualBlocks T))} {a : T → ℤ} (ha : ∀ t, a t ≠ 0)
-    {z : (Σ k, stackedBlocks T k) → ℂ} (hz : z ∈ mcPts (graphIdeal P (linForm (stackedDiag a)))) :
+    {z : (Σ k, stackedBlocks T k) → ℂ} (hz : z ∈ mcPts (graphIdeal P (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)))) :
     ∃ c : ℂ, c ≠ 0 ∧ ∀ s, z ⟨Sum.inr (), s⟩ = c * ((a s : ℂ) * z ⟨Sum.inl (), s⟩) := by
   have hmin : ∀ s t, z ⟨Sum.inr (), s⟩ * ((a t : ℂ) * z ⟨Sum.inl (), t⟩) =
       z ⟨Sum.inr (), t⟩ * ((a s : ℂ) * z ⟨Sum.inl (), s⟩) := by
@@ -175,7 +173,7 @@ theorem dualLine_h_stacked {F F' : HermLattice K i} {b : Module.Basis T ℤ (dua
   rfl
 
 theorem isMultiHomog_X_int {K' : Type} [Fintype K'] [DecidableEq K'] {ι : K' → Type} [∀ k, Fintype (ι k)]
-    (k : K') (j : ι k) : IsMultiHomog (X ⟨k, j⟩ : MRing ι) (Pi.single k 1) := by
+    (k : K') (j : ι k) : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (X ⟨k, j⟩ : MRing ι) (Pi.single k 1) := by
   classical
   intro m hm k'
   rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
@@ -187,7 +185,7 @@ theorem isMultiHomog_X_int {K' : Type} [Fintype K'] [DecidableEq K'] {ι : K' �
     simp [Finsupp.single_apply, this, h, Pi.single_apply]
 
 theorem isMultiHomog_C_mul {K' : Type} [Fintype K'] {ι : K' → Type} [∀ k, Fintype (ι k)] {f : MRing ι}
-    {d : K' → ℕ} (hf : IsMultiHomog f d) (c : ℤ) : IsMultiHomog (C c * f) d := by
+    {d : K' → ℕ} (hf : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f d) (c : ℤ) : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (C c * f) d := by
   intro m hm k
   rw [C_mul'] at hm
   exact hf m (MvPolynomial.support_smul hm) k
@@ -264,9 +262,9 @@ theorem step (hHor : DualStackedGraphHorizontal.Statement) {F F' : HermLattice K
       ((Pi.single (Sum.inr ()) 1 : Unit ⊕ Unit → ℕ) k : ℤ) := degSecond_eq
   have hMa : ∀ k, (pullHerm hv1 (dualLine F'.withStdMetric b' hb')).a k =
       ((Pi.single (Sum.inl ()) 1 : Unit ⊕ Unit → ℕ) k : ℤ) := degFirst_eq
-  have hYh : IsMultiHomog (graphSecond t : MRing (stackedBlocks T)) (Pi.single (Sum.inr ()) 1) :=
+  have hYh : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (graphSecond t : MRing (stackedBlocks T)) (Pi.single (Sum.inr ()) 1) :=
     isMultiHomog_X_int (ι := stackedBlocks T) (Sum.inr ()) t
-  have hXh : IsMultiHomog (C (a t) * graphFirst t : MRing (stackedBlocks T)) (Pi.single (Sum.inl ()) 1) :=
+  have hXh : ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (C (a t) * graphFirst t : MRing (stackedBlocks T)) (Pi.single (Sum.inl ()) 1) :=
     isMultiHomog_C_mul (isMultiHomog_X_int (ι := stackedBlocks T) (Sum.inl ()) t) _
   have rN := hR (stackedGraph b' a) n L _ (graphSecond t) _ hΓ hL hNs hNa hYh (second_not_mem hprime a ht)
   have rM := hR (stackedGraph b' a) n L _ (C (a t) * graphFirst t) _ hΓ hL hMs hMa hXh
@@ -430,7 +428,7 @@ theorem DualTopSimpleStacked.proof (hAI3 : Inter.PushforwardArithIntersection.St
   have hNs := Inter.IsPullHerm.isSmoothHerm hv2 (isPullHerm_pullHerm hv2 (dualLine F.withStdMetric b hb)) hsm
 
   have hform : ∀ q : Σ _ : Unit, T,
-      IsMultiHomog (linForm (stackedDiag a) q) ((fun _ _ => 1 : Unit → Unit → ℕ) q.1) := by
+      ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a) q) ((fun _ _ => 1 : Unit → Unit → ℕ) q.1) := by
     rintro ⟨u, t⟩
     cases u
     rw [linForm_stackedDiag]
@@ -441,7 +439,7 @@ theorem DualTopSimpleStacked.proof (hAI3 : Inter.PushforwardArithIntersection.St
       simp
     rwa [he] at h
   obtain ⟨hΓ, himg, hdeg⟩ := hGr Unit (dualBlocks T) Unit (dualBlocks T) (dualIdeal b') (n + 1)
-    (linForm (stackedDiag a)) (fun _ _ => 1) hP' hform
+    (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a)) (fun _ _ => 1) hP' hform
     (fun _ => ⟨t₀, by rw [linForm_stackedDiag]; exact hlin⟩)
   obtain ⟨G'⟩ := Targets.genFibreExists Unit (dualBlocks T) (Unit ⊕ Unit) (stackedBlocks T) Sum.inl inlV _
     (n + 1) isBlockMap_inl hΓ
@@ -463,10 +461,10 @@ theorem DualTopSimpleStacked.proof (hAI3 : Inter.PushforwardArithIntersection.St
 
   have htel := telescope (hII (Unit ⊕ Unit) (stackedBlocks T)) hΓ hMs hNs
   have hstep : ∀ k : Fin (n + 1),
-      II (Unit ⊕ Unit) (stackedBlocks T) (graphIdeal (dualIdeal b') (linForm (stackedDiag a))) (n + 1)
+      II (Unit ⊕ Unit) (stackedBlocks T) (graphIdeal (dualIdeal b') (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a))) (n + 1)
           (Fin.snoc (rest (pullHerm hv1 (dualLine F'.withStdMetric b' hb'))
             (pullHerm hv2 (dualLine F.withStdMetric b hb)) k) (pullHerm hv2 (dualLine F.withStdMetric b hb))) -
-        II (Unit ⊕ Unit) (stackedBlocks T) (graphIdeal (dualIdeal b') (linForm (stackedDiag a))) (n + 1)
+        II (Unit ⊕ Unit) (stackedBlocks T) (graphIdeal (dualIdeal b') (ReciprocityTheory.ChartRestriction.G.AI.I4.linForm (stackedDiag a))) (n + 1)
           (Fin.snoc (rest (pullHerm hv1 (dualLine F'.withStdMetric b' hb'))
             (pullHerm hv2 (dualLine F.withStdMetric b hb)) k) (pullHerm hv1 (dualLine F'.withStdMetric b' hb'))) =
         if k = Fin.last n then -∑ s, Real.log |(a s : ℝ)| else 0 := by

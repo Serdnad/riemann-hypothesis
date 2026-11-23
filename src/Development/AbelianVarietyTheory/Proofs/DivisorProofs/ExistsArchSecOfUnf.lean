@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPreimmersionFst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadsZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2628
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1123
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConstantLengthOfReadingHorizontalSection
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatSectionFrameInvariance
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OpenImmersionCompStructureEqGeneric
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsBijectiveKappa
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEquivComp
-import Formalism.LocalToGlobal.ProjectiveLattices.CompSplitPfD
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle049
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle528
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle015
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProofFree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

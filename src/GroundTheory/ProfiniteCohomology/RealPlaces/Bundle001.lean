@@ -1,0 +1,264 @@
+module
+
+public import GroundTheory.ProfiniteCohomology.RealPlaces.ConeMap
+public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalCohomologyIsoHomologyMapNormCochains
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory Limits
+
+universe u
+
+section Tate
+
+variable {k G : Type u} [CommRing k] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  {ι : Type u} {H : ι → Type u} [∀ v, Group (H v)] [∀ v, TopologicalSpace (H v)]
+  [∀ v, IsTopologicalGroup (H v)] (φ : ∀ v, H v →ₜ* G)
+  {κ : Type u} {F : κ → Type u} [∀ w, Group (F w)] [∀ w, TopologicalSpace (F w)]
+  [∀ w, IsTopologicalGroup (F w)] [∀ w, Fintype (F w)] (ψ : ∀ w, F w →ₜ* G)
+
+section General
+
+variable (A : Rep.{u} k G) [IsDiscreteRep A] (Aᵥ : ∀ v, Rep.{u} k (H v))
+  [∀ v, IsDiscreteRep (Aᵥ v)] (a : ∀ v, Rep.res (φ v).toMonoidHom A ⟶ Aᵥ v)
+  (Aᵣ : ∀ w, Rep.{u} k (F w)) [∀ w, IsDiscreteRep (Aᵣ w)]
+  (ar : ∀ w, Rep.res (ψ w).toMonoidHom A ⟶ Aᵣ w)
+
+theorem tateCompactCohomology_eq_zero_of_surjective_of_injective (n : ℕ)
+    (hs : Function.Surjective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar (n + 1)).hom)
+    (hi : Function.Injective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar (n + 2)).hom)
+    (x : tateCompactCohomology φ ψ A Aᵥ a Aᵣ ar (n + 2)) : x = 0 := by
+  have h1 : (tateToGlobal φ ψ A Aᵥ a Aᵣ ar (n + 2)).hom x = 0 := by
+    apply hi
+    rw [map_zero]
+    exact hom_apply_hom_apply_of_comp_eq (tateToGlobal_tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar (n + 1)) x
+  obtain ⟨z, hz⟩ := (ShortComplex.moduleCat_exact_iff _).1
+    (tateCompactCohomology_exact_compact φ ψ A Aᵥ a Aᵣ ar (n + 1)) x h1
+  obtain ⟨y, rfl⟩ := hs z
+  rw [← hz]
+  exact hom_apply_hom_apply_of_comp_eq (tateGlobalToLocal_tateLocalToCompact φ ψ A Aᵥ a Aᵣ ar n) y
+
+theorem injective_tateGlobalToLocal_of_eq_zero (n : ℕ)
+    (h : ∀ x : tateCompactCohomology φ ψ A Aᵥ a Aᵣ ar (n + 1), x = 0) :
+    Function.Injective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar (n + 1)).hom := by
+  refine (injective_iff_map_eq_zero _).2 fun y hy => ?_
+  obtain ⟨x, rfl⟩ := (ShortComplex.moduleCat_exact_iff _).1
+    (tateCompactCohomology_exact_global φ ψ A Aᵥ a Aᵣ ar n) y hy
+  rw [h x]
+  exact map_zero _
+
+theorem surjective_tateGlobalToLocal_of_eq_zero (n : ℕ)
+    (h : ∀ x : tateCompactCohomology φ ψ A Aᵥ a Aᵣ ar (n + 2), x = 0) :
+    Function.Surjective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar (n + 1)).hom := fun z =>
+  (ShortComplex.moduleCat_exact_iff _).1 (tateCompactCohomology_exact_local φ ψ A Aᵥ a Aᵣ ar n) z
+    (h _)
+
+
+omit [∀ w, Fintype (F w)] in
+theorem injective_tateGlobalToLocal_iff (n : ℕ) (hv : ∀ v, Subsingleton (cohomology (Aᵥ v) n)) :
+    Function.Injective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar n).hom ↔
+      Function.Injective (globalToLocal ψ A Aᵣ ar n).hom := by
+  constructor
+  · intro h x y hxy
+    refine h (Prod.ext (funext fun v => Subsingleton.elim _ _) ?_)
+    exact hxy
+  · intro h x y hxy
+    exact h (congrArg Prod.snd hxy)
+
+
+omit [∀ w, Fintype (F w)] in
+theorem surjective_tateGlobalToLocal_iff (n : ℕ) (hv : ∀ v, Subsingleton (cohomology (Aᵥ v) n)) :
+    Function.Surjective (tateGlobalToLocal φ ψ A Aᵥ a Aᵣ ar n).hom ↔
+      Function.Surjective (globalToLocal ψ A Aᵣ ar n).hom := by
+  constructor
+  · intro h z
+    obtain ⟨x, hx⟩ := h (0, z)
+    exact ⟨x, congrArg Prod.snd hx⟩
+  · intro h z
+    obtain ⟨x, hx⟩ := h z.2
+    exact ⟨x, Prod.ext (funext fun v => Subsingleton.elim _ _) hx⟩
+
+end General
+
+section Res
+
+attribute [local instance 2000] Rep.hV2
+
+theorem eq_zero_tateCompactCohomologyRes_of_shortExact {S : ShortComplex (Rep.{u} k G)}
+    [IsDiscreteRep S.X₁] [IsDiscreteRep S.X₂] [IsDiscreteRep S.X₃] (hS : S.ShortExact) (n : ℕ)
+    (h₁ : ∀ x : tateCompactCohomologyRes φ ψ S.X₁ n, x = 0)
+    (h₃ : ∀ x : tateCompactCohomologyRes φ ψ S.X₃ n, x = 0)
+    (x : tateCompactCohomologyRes φ ψ S.X₂ n) : x = 0 := by
+  have : ∀ v, IsDiscreteRep (S.map (Rep.resFunctor (φ v).toMonoidHom)).X₁ := fun v =>
+    IsDiscreteRep.res (continuous_toMonoidHom (φ v)) _
+  have : ∀ v, IsDiscreteRep (S.map (Rep.resFunctor (φ v).toMonoidHom)).X₂ := fun v =>
+    IsDiscreteRep.res (continuous_toMonoidHom (φ v)) _
+  have : ∀ v, IsDiscreteRep (S.map (Rep.resFunctor (φ v).toMonoidHom)).X₃ := fun v =>
+    IsDiscreteRep.res (continuous_toMonoidHom (φ v)) _
+  have : ∀ w, IsDiscreteRep (S.map (Rep.resFunctor (ψ w).toMonoidHom)).X₁ := fun w =>
+    IsDiscreteRep.res (continuous_toMonoidHom (ψ w)) _
+  have : ∀ w, IsDiscreteRep (S.map (Rep.resFunctor (ψ w).toMonoidHom)).X₂ := fun w =>
+    IsDiscreteRep.res (continuous_toMonoidHom (ψ w)) _
+  have : ∀ w, IsDiscreteRep (S.map (Rep.resFunctor (ψ w).toMonoidHom)).X₃ := fun w =>
+    IsDiscreteRep.res (continuous_toMonoidHom (ψ w)) _
+  have hE := tateCompactCohomology_exact₂ φ ψ (Sᵥ := fun v => S.map (Rep.resFunctor (φ v).toMonoidHom))
+    (fun _ => 𝟙 _) (Sᵣ := fun w => S.map (Rep.resFunctor (ψ w).toMonoidHom)) (fun _ => 𝟙 _) hS
+    (fun v => (Rep.shortExact_res (φ v).toMonoidHom).2 hS)
+    (fun w => (Rep.shortExact_res (ψ w).toMonoidHom).2 hS) n
+  obtain ⟨y, hy⟩ := (ShortComplex.moduleCat_exact_iff _).1 hE x (h₃ _)
+  rw [← hy, h₁ y]
+  exact map_zero _
+
+theorem tateCompactCohomologyMap_eq_id {A : Rep.{u} k G} [IsDiscreteRep A] {Aᵥ : ∀ v, Rep.{u} k (H v)}
+    [∀ v, IsDiscreteRep (Aᵥ v)] {a : ∀ v, Rep.res (φ v).toMonoidHom A ⟶ Aᵥ v}
+    {Aᵣ : ∀ w, Rep.{u} k (F w)} [∀ w, IsDiscreteRep (Aᵣ w)] {ar : ∀ w, Rep.res (ψ w).toMonoidHom A ⟶ Aᵣ w}
+    (g : A ⟶ A) (gᵥ : ∀ v, Aᵥ v ⟶ Aᵥ v) (gᵣ : ∀ w, Aᵣ w ⟶ Aᵣ w)
+    (hg : ∀ v, a v ≫ gᵥ v = (Rep.resFunctor (φ v).toMonoidHom).map g ≫ a v)
+    (hgr : ∀ w, ar w ≫ gᵣ w = (Rep.resFunctor (ψ w).toMonoidHom).map g ≫ ar w)
+    (e : g = 𝟙 A) (eᵥ : ∀ v, gᵥ v = 𝟙 _) (eᵣ : ∀ w, gᵣ w = 𝟙 _) (n : ℕ) :
+    tateCompactCohomologyMap φ ψ g gᵥ gᵣ hg hgr n = 𝟙 _ := by
+  subst e
+  obtain rfl : gᵥ = fun v => 𝟙 (Aᵥ v) := funext eᵥ
+  obtain rfl : gᵣ = fun w => 𝟙 (Aᵣ w) := funext eᵣ
+  exact tateCompactCohomologyMap_id φ ψ n
+
+theorem eq_zero_tateCompactCohomologyRes_of_retract {A B : Rep.{u} k G} [IsDiscreteRep A]
+    [IsDiscreteRep B] (i : A ⟶ B) (p : B ⟶ A) (hip : i ≫ p = 𝟙 A) (n : ℕ)
+    (hB : ∀ x : tateCompactCohomologyRes φ ψ B n, x = 0) (x : tateCompactCohomologyRes φ ψ A n) :
+    x = 0 := by
+  have hi : ∀ v, 𝟙 (Rep.res (φ v).toMonoidHom A) ≫ (Rep.resFunctor (φ v).toMonoidHom).map i =
+      (Rep.resFunctor (φ v).toMonoidHom).map i ≫ 𝟙 _ := fun _ =>
+    (Category.id_comp _).trans (Category.comp_id _).symm
+  have hir : ∀ w, 𝟙 (Rep.res (ψ w).toMonoidHom A) ≫ (Rep.resFunctor (ψ w).toMonoidHom).map i =
+      (Rep.resFunctor (ψ w).toMonoidHom).map i ≫ 𝟙 _ := fun _ =>
+    (Category.id_comp _).trans (Category.comp_id _).symm
+  have hp : ∀ v, 𝟙 (Rep.res (φ v).toMonoidHom B) ≫ (Rep.resFunctor (φ v).toMonoidHom).map p =
+      (Rep.resFunctor (φ v).toMonoidHom).map p ≫ 𝟙 _ := fun _ =>
+    (Category.id_comp _).trans (Category.comp_id _).symm
+  have hpr : ∀ w, 𝟙 (Rep.res (ψ w).toMonoidHom B) ≫ (Rep.resFunctor (ψ w).toMonoidHom).map p =
+      (Rep.resFunctor (ψ w).toMonoidHom).map p ≫ 𝟙 _ := fun _ =>
+    (Category.id_comp _).trans (Category.comp_id _).symm
+  have hcomp := tateCompactCohomologyMap_comp φ ψ i (fun v => (Rep.resFunctor (φ v).toMonoidHom).map i)
+    (fun w => (Rep.resFunctor (ψ w).toMonoidHom).map i) hi hir p
+    (fun v => (Rep.resFunctor (φ v).toMonoidHom).map p) (fun w => (Rep.resFunctor (ψ w).toMonoidHom).map p)
+    hp hpr n
+  rw [tateCompactCohomologyMap_eq_id φ ψ _ _ _ _ _ hip
+    (fun v => by rw [← CategoryTheory.Functor.map_comp, hip, CategoryTheory.Functor.map_id])
+    (fun w => by rw [← CategoryTheory.Functor.map_comp, hip, CategoryTheory.Functor.map_id])] at hcomp
+  have hx := congrArg (fun f => f.hom x) hcomp
+  change x = _ at hx
+  rw [hx]
+  change (tateCompactCohomologyMap φ ψ p _ _ hp hpr n).hom
+    ((tateCompactCohomologyMap φ ψ i _ _ hi hir n).hom x) = 0
+  rw [hB ((tateCompactCohomologyMap φ ψ i _ _ hi hir n).hom x)]
+  exact map_zero _
+
+end Res
+
+end Tate
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory Limits
+
+universe u
+
+variable {k G : Type u} [CommRing k] [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+  {ι : Type u} {H : ι → Type u} [∀ v, Group (H v)] [∀ v, TopologicalSpace (H v)]
+  [∀ v, IsTopologicalGroup (H v)] (φ : ∀ v, H v →ₜ* G)
+  {κ : Type u} {F : κ → Type u} [∀ w, Group (F w)] [∀ w, TopologicalSpace (F w)]
+  [∀ w, IsTopologicalGroup (F w)] [∀ w, Fintype (F w)] (ψ : ∀ w, F w →ₜ* G)
+  (A : Rep.{u} k G) [IsDiscreteRep A] (Aᵥ : ∀ v, Rep.{u} k (H v))
+  [∀ v, IsDiscreteRep (Aᵥ v)] (a : ∀ v, Rep.res (φ v).toMonoidHom A ⟶ Aᵥ v)
+  (Aᵣ : ∀ w, Rep.{u} k (F w)) [∀ w, IsDiscreteRep (Aᵣ w)]
+  (ar : ∀ w, Rep.res (ψ w).toMonoidHom A ⟶ Aᵣ w)
+
+noncomputable def tateForgetCochains :
+    tateCompactCochains φ ψ A Aᵥ a Aᵣ ar ⟶ compactCochains φ A Aᵥ a :=
+  mappingCoconeNat.map (prodFst _ _) (prodFst _ _) (tateCompactRes_prodFst φ ψ A Aᵥ a Aᵣ ar)
+
+noncomputable def tateForget (n : ℕ) :
+    tateCompactCohomology φ ψ A Aᵥ a Aᵣ ar n ⟶ compactCohomology φ A Aᵥ a n :=
+  HomologicalComplex.homologyMap (tateForgetCochains φ ψ A Aᵥ a Aᵣ ar) n
+
+noncomputable def tateLocalFst (n : ℕ) :
+    ModuleCat.of k ((∀ v, cohomology (Aᵥ v) n) × (∀ w, cohomology (Aᵣ w) n)) ⟶
+      ModuleCat.of k (∀ v, cohomology (Aᵥ v) n) :=
+  ModuleCat.ofHom (LinearMap.fst k _ _)
+
+omit [∀ w, Fintype (F w)] in
+theorem tateLocalCohomologyIso_inv_homologyMap_prodFst (n : ℕ) :
+    (tateLocalCohomologyIso Aᵥ Aᵣ n).inv ≫ HomologicalComplex.homologyMap (prodFst _ _) n =
+      tateLocalFst Aᵥ Aᵣ n ≫ (localCohomologyIso Aᵥ n).inv := by
+  refine ModuleCat.hom_ext (LinearMap.ext fun p => ?_)
+  have hp := hom_apply_hom_apply_of_comp_eq (Iso.inv_hom_id (tateLocalCohomologyIso Aᵥ Aᵣ n)) p
+  rw [tateLocalCohomologyIso_hom_apply] at hp
+  have h1 := congrArg Prod.fst hp
+  change (localCohomologyIso Aᵥ n).hom.hom _ = p.1 at h1
+  change (HomologicalComplex.homologyMap (prodFst _ _) n).hom
+      ((tateLocalCohomologyIso Aᵥ Aᵣ n).inv.hom p) = (localCohomologyIso Aᵥ n).inv.hom p.1
+  rw [← h1]
+  exact (hom_apply_hom_apply_of_comp_eq (Iso.hom_inv_id (localCohomologyIso Aᵥ n)) _).symm
+
+theorem tateLocalToCompact_tateForget (n : ℕ) :
+    tateLocalToCompact φ ψ A Aᵥ a Aᵣ ar n ≫ tateForget φ ψ A Aᵥ a Aᵣ ar (n + 1) =
+      tateLocalFst Aᵥ Aᵣ n ≫ localToCompact φ A Aᵥ a n := by
+  exact (Category.assoc _ _ _).trans ((congrArg (_ ≫ ·)
+    (mappingCoconeNat.homologyδ_naturality _ _ _ n)).trans ((Category.assoc _ _ _).symm.trans
+      ((congrArg (· ≫ _) (tateLocalCohomologyIso_inv_homologyMap_prodFst Aᵥ Aᵣ n)).trans
+        (Category.assoc _ _ _))))
+
+end GroundTheory.ProfCoh
+end

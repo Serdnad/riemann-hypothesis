@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.TransCancel
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSeparatedOfIsQProjOver
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverCompOfIsClosedImmersion
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenModelEqGenericFibre
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorIntegralModelNonemptyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsProjOverOfCompactB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiCompactOfQProj
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3469
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3444
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3310
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

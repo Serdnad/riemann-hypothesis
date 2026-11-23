@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BigCellMemUnitary
-public import Formalism.FormalDegreeBessel.StatementBF
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle104
+public import Formalism.FormalDegreeBessel.Bundle001
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GroupFactorizationHolds
 import Mathlib.Algebra.Order.Floor.Extended

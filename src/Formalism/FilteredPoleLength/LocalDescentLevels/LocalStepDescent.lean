@@ -1,8 +1,8 @@
 module
 
 public import Formalism.FilteredPoleLength.ReducedBasisBounds.BetaSesquilinearity
-public import Formalism.FilteredPoleLength.LocalDescentLevels.ExistsSmulMemOfMemSpan
-public import Formalism.FilteredPoleLength.LocalDescentLevels.LatticeDescent
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle003
+public import Formalism.FilteredPoleLength.LocalDescentLevels.Bundle002
 public import Formalism.FilteredPoleLength.LocalDescentLevels.LatticeIndexBis
 public import Formalism.FilteredPoleLength.LocalDescentLevels.LinearIndependentOfIsBaseChange
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GaloisSideTwistedSelmerAuxiliaryPrimes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIntegralOfNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RestrictionH1MemBlochKato
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthKerMatActKmodEqAddValDet
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle192
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle278
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SelmerCrystallineCocycles
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 
 @[expose] public section
 

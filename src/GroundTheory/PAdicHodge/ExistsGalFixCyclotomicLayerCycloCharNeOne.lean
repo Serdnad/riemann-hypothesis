@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.PAdicHodge.TateCpTwist
-public import GroundTheory.PAdicHodge.TateNormalizedTrace
+public import GroundTheory.PAdicHodge.Bundle003
+public import GroundTheory.PAdicHodge.Bundle005
 public import GroundTheory.PAdicHodge.AxLemma
 import GroundTheory.PAdicHodge.CyclotomicTower
 import Mathlib.Algebra.Order.Floor.Extended

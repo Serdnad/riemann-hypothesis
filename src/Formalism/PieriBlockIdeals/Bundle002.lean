@@ -1,0 +1,178 @@
+module
+
+public import Formalism.PieriBlockIdeals.Bundle001
+public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
+public import Mathlib.RingTheory.PowerSeries.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Finset
+
+namespace Formalism.CohomologicalDescent
+
+open Classical
+
+def NoResidue : Prop :=
+  ∀ (l : ℕ) (b : ℤ) (t κ : ℕ) (U : Finset ℤ),
+    (∀ u ∈ U, u ∉ Finset.Icc b (b + t - 1) → ∀ x ∈ Finset.Icc (b - κ) (b + t - 1 + κ),
+      (0 < |u - x| ∧ |u - x| < (l : ℤ)) ∨ ¬ ((l : ℤ) ∣ u - x)) →
+    mwCount l b t κ U = 0
+
+def PrimeCount : Prop :=
+  ∀ (L : ℝ) (T : Finset ℤ) (P : Finset ℕ), 0 ≤ L → (∀ n ∈ T, n ≠ 0 ∧ ((|n| : ℤ) : ℝ) < L ^ 2) →
+    (∀ l ∈ P, l.Prime ∧ L < (l : ℝ) ∧ ∃ n ∈ T, (l : ℤ) ∣ n) → P.card ≤ T.card
+
+def ISum : Prop :=
+  ∀ (h : ℕ) (L : ℝ) (xm xp mB : ℤ) (P : Finset ℕ), 0 ≤ L → (h : ℝ) < L ^ 2 → 0 ≤ mB → mB < xm →
+    xm ≤ xp → xp ≤ (h : ℤ) → (∀ l ∈ P, l.Prime ∧ L < (l : ℝ)) →
+    ∑ l ∈ P, IlInd l xm xp mB * Real.log (l : ℝ) ≤ (((xp - xm : ℤ) : ℝ) + 1) * Real.log (h : ℝ)
+
+end Formalism.CohomologicalDescent
+end
+end
+
+section
+
+noncomputable section
+
+open Finset Polynomial
+
+namespace Formalism.CohomologicalDescent
+
+def WEChain : Prop :=
+  ∀ (k j t q l h κ : ℕ) (K : Type) [Field K] [CharP K l]
+    (U U' V V' : Fin (k + j + t + q) → ℤ) (b b' c c' : ℤ) (kc kp : Fin t → ℤ),
+    l.Prime → t + 2 * κ < l →
+    StrictAnti U → StrictAnti U' → StrictAnti V → StrictAnti V' →
+    (∀ a, 0 ≤ U a) → (∀ a, U' a ≤ (h : ℤ)) → ∑ a, U a = ∑ a, U' a →
+    (∀ a : Fin (k + j + t + q), k + j ≤ (a : ℕ) → (a : ℕ) < k + j + t →
+      U a = b + ((k + j + t - 1 - (a : ℕ) : ℕ) : ℤ)) →
+    (∀ s : Fin t, ∃ a, V a = b' + ((s : ℕ) : ℤ)) →
+    (∏ a, (X + C (((U a + c : ℤ)) : K))) = ∏ a, (X + C (((U' a + c : ℤ)) : K)) →
+    (∏ a, (X + C (((V a + c' : ℤ)) : K))) = ∏ a, (X + C (((V' a + c' : ℤ)) : K)) →
+    (∀ s, |kc s| ≤ (κ : ℤ)) → (∀ s, |kp s| ≤ (κ : ℤ)) →
+    Multiset.map (fun s : Fin t => ((b + ((s : ℕ) : ℤ) - kc s : ℤ) : ZMod l)) Finset.univ.val ≤
+      Multiset.map (fun a => ((U' a : ℤ) : ZMod l)) Finset.univ.val →
+    Multiset.map (fun s : Fin t => ((b' + ((s : ℕ) : ℤ) - kp s : ℤ) : ZMod l)) Finset.univ.val ≤
+      Multiset.map (fun a => ((V' a : ℤ) : ZMod l)) Finset.univ.val →
+    ∑ a ∈ Finset.univ.filter (fun a : Fin (k + j + t + q) => k + j + q ≤ (a : ℕ)), U' a ≤
+      ∑ s : Fin t, (b + ((s : ℕ) : ℤ) + (l : ℤ) * kp s - kc s) →
+    ∑ a ∈ Finset.univ.filter (fun a : Fin (k + j + t + q) => (a : ℕ) < k + j), (U a - U' a) ≤
+      (q : ℤ) * h +
+        ((l : ℤ) * (mwCount l b' t κ (Finset.univ.image V) : ℤ) +
+          (mwCount l b t κ (Finset.univ.image U) : ℤ)) * ((t : ℤ) + 2 * κ)
+
+end Formalism.CohomologicalDescent
+end
+end
+
+section
+
+noncomputable section
+
+open Finset
+
+namespace Formalism.CohomologicalDescent
+
+structure WData (ι : Type) (t n : ℕ) (F : Type) [Field F] where
+  a : F
+  Θ : ι → Matrix (Fin n) (Fin n) F
+  Φ : ι → Matrix (Fin n) (Fin n) (PowerSeries F)
+  b : Fin n → ℕ
+  pos : Fin t → Fin n
+
+def WProps {ι : Type} [Fintype ι] {t n : ℕ} {F : Type} [Field F] (W : WData ι t n F)
+    (σ : Equiv.Perm ι) (l : ℕ) (U' : ι → Fin n → ℤ) (bot : ι → ℤ) (kap : ι → Fin t → ℤ)
+    (c : ι → ℕ) : Prop :=
+  W.a ≠ 0 ∧ Function.Injective W.pos ∧ (∀ s j, W.b j = W.b (W.pos s) → j = W.pos s) ∧
+  (∀ i, (W.Θ i).BlockTriangular W.b) ∧
+  (∀ i, (W.Θ i).charpoly = ∏ u, (Polynomial.X - Polynomial.C (-W.a * ((U' i u : ℤ) : F)))) ∧
+  (∀ i s, W.Θ i (W.pos s) (W.pos s) = -W.a * ((bot i + ((s : ℕ) : ℤ) - kap i s : ℤ) : F)) ∧
+  (∀ i, (W.Φ i).BlockTriangular W.b) ∧
+  (∀ i s, ∃ u : (PowerSeries F)ˣ, W.Φ i (W.pos s) (W.pos s) =
+    (u : PowerSeries F) *
+      PowerSeries.X ^ ((l : ℤ) * kap (σ i) s + (bot i + ((s : ℕ) : ℤ)) - kap i s).toNat) ∧
+  (∀ i, (PowerSeries.X : PowerSeries F) ^ c i ∣ ((W.Φ i).submatrix W.pos W.pos).det)
+
+def LemmaWAssembled : Prop :=
+  ∀ (ι : Type) [Fintype ι] (σ : Equiv.Perm ι) (l h t n : ℕ) (F : Type) [Field F] [CharP F l]
+    (W : WData ι t n F) (U' : ι → Fin n → ℤ) (bot : ι → ℤ) (kap : ι → Fin t → ℤ) (c : ι → ℕ),
+    l.Prime → WProps W σ l U' bot kap c →
+    (∀ i (s : Fin t), 0 ≤ bot i + ((s : ℕ) : ℤ) ∧ bot i + ((s : ℕ) : ℤ) ≤ (h : ℤ)) →
+    (∀ i (s : Fin t), 0 ≤ (l : ℤ) * kap (σ i) s + (bot i + ((s : ℕ) : ℤ)) - kap i s ∧
+      (l : ℤ) * kap (σ i) s + (bot i + ((s : ℕ) : ℤ)) - kap i s ≤ (h : ℤ)) →
+    (∀ i s, ((l : ℤ) - 1) * |kap i s| ≤ (h : ℤ)) ∧
+    (∀ i, Multiset.map (fun s : Fin t => ((bot i + ((s : ℕ) : ℤ) - kap i s : ℤ) : ZMod l))
+        Finset.univ.val ≤ Multiset.map (fun u => ((U' i u : ℤ) : ZMod l)) Finset.univ.val) ∧
+    (∀ i, (c i : ℤ) ≤ ∑ s : Fin t, (bot i + ((s : ℕ) : ℤ) + (l : ℤ) * kap (σ i) s - kap i s))
+
+def WEFull : Prop :=
+  ∀ (ι : Type) [Fintype ι] (σ : Equiv.Perm ι) (k j t q l h : ℕ) (F : Type) [Field F] [CharP F l]
+    (W : WData ι t (k + j + t + q) F) (U U' : ι → Fin (k + j + t + q) → ℤ) (bot cst : ι → ℤ)
+    (kap : ι → Fin t → ℤ) (c : ι → ℕ) (τ : ι),
+    l.Prime → t + 2 * (h / (l - 1)) < l →
+    WProps W σ l U' bot kap c →
+    (∀ i (s : Fin t), 0 ≤ bot i + ((s : ℕ) : ℤ) ∧ bot i + ((s : ℕ) : ℤ) ≤ (h : ℤ)) →
+    (∀ i (s : Fin t), 0 ≤ (l : ℤ) * kap (σ i) s + (bot i + ((s : ℕ) : ℤ)) - kap i s ∧
+      (l : ℤ) * kap (σ i) s + (bot i + ((s : ℕ) : ℤ)) - kap i s ≤ (h : ℤ)) →
+    (∀ i, StrictAnti (U i)) → (∀ i, StrictAnti (U' i)) →
+    (∀ i (s : Fin t), ∃ a, U i a = bot i + ((s : ℕ) : ℤ)) →
+    (∀ i, (∏ a, (Polynomial.X + Polynomial.C (((U i a + cst i : ℤ)) : F))) =
+      ∏ a, (Polynomial.X + Polynomial.C (((U' i a + cst i : ℤ)) : F))) →
+    (∀ a, 0 ≤ U τ a) → (∀ a, 0 ≤ U' τ a ∧ U' τ a ≤ (h : ℤ)) → ∑ a, U τ a = ∑ a, U' τ a →
+    (∀ a : Fin (k + j + t + q), k + j ≤ (a : ℕ) → (a : ℕ) < k + j + t →
+      U τ a = bot τ + ((k + j + t - 1 - (a : ℕ) : ℕ) : ℤ)) →
+    (c τ : ℤ) = ∑ a ∈ Finset.univ.filter (fun a : Fin (k + j + t + q) => k + j + q ≤ (a : ℕ)),
+      U' τ a →
+    ∑ a ∈ Finset.univ.filter (fun a : Fin (k + j + t + q) => (a : ℕ) < k + j), (U τ a - U' τ a) ≤
+      (q : ℤ) * h +
+        ((l : ℤ) * (mwCount l (bot (σ τ)) t (h / (l - 1)) (Finset.univ.image (U (σ τ))) : ℤ) +
+          (mwCount l (bot τ) t (h / (l - 1)) (Finset.univ.image (U τ)) : ℤ)) *
+          ((t : ℤ) + 2 * ((h / (l - 1) : ℕ) : ℤ))
+
+end Formalism.CohomologicalDescent
+end
+end

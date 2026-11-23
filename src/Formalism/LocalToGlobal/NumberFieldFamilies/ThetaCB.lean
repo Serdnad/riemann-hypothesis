@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsInfEmbUnique
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

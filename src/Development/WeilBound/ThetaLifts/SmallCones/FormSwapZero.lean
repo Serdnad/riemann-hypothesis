@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SmallCones.SoDefs
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
 public import Development.WeilBound.ThetaLifts.SmallCones.SoKill
 import Development.WeilBound.ThetaLifts.SmallCones.SoStab
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ExistsNhdsInvariant
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.CompFinLiftE
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.SoStatement

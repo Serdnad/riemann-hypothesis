@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyCoordIdeal
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsStalkFractionOfGeneric
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntegralElementRegular
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeChartExistsUniquePoint
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalization
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle023
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle024
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

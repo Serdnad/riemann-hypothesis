@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Hypotheses2
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PadicHodgePropertiesConjInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RecOfRecLiteralStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle382
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle727
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalAdjoinRange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -80,7 +80,7 @@ theorem IsFlagOn.of_iso {H : Subgroup Γ} {κ : Fin n → ↥H →* kˣ} (hd : I
 end Rep
 
 variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {l : ℕ} [Fact l.Prime] {n : ℕ}
-  {r r' : G F Ω →* GL (Fin n) (Qbar l)}
+  {r r' : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)}
 
 theorem FrobEig.of_iso {ι : Qbar l ≃+* ℂ} {w : HeightOneSpectrum (𝓞 F)} {B : Multiset ℂ} (H : FrobEig ι r w B)
     (h : RepIso r r') : FrobEig ι r' w B := by
@@ -101,7 +101,7 @@ theorem LevelAt.of_iso {M : ℕ} {m : Fin n → ℤ} (H : LevelAt l M m r) (h : 
 
 theorem continuous_of_iso (H : Continuous r) (h : RepIso r r') : Continuous r' := by
   obtain ⟨g, hg⟩ := h
-  have e : (r' : G F Ω → GL (Fin n) (Qbar l)) = fun s => g * r s * g⁻¹ := funext hg
+  have e : (r' : _root_.Formalism.ConjugateSelfDual.G F Ω → GL (Fin n) (Qbar l)) = fun s => g * r s * g⁻¹ := funext hg
   rw [e]
   exact (continuous_const.mul H).mul continuous_const
 
@@ -115,16 +115,16 @@ theorem eventually_not_mem : ∀ᶠ w : HeightOneSpectrum (𝓞 F) in Filter.cof
 
 variable [IsAlgClosure F Ω]
 
-theorem Hypotheses₂.exists_rec (P : Hypotheses₂) {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 F)} (h : IsPlaceOver A w) :
+theorem Hypotheses₂.exists_rec (P : Hypotheses₂) {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 F)} (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) :
     ∃ rc : IrrGL (k := w.adicCompletion F) → WD h, IsRec h rc := by
   have L := P.litN.loc
   obtain ⟨rc, hrc⟩ := L.llc F Ω A w h
   exact ⟨rc, GlobalTheory.T.rec_of_rec_literal L.dzc L.dzi L.exh L.multi L.cos L.zel L.geo L.bz F Ω A w h rc hrc⟩
 
-theorem exists_bridge {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 F)} (h : IsPlaceOver A w)
+theorem exists_bridge {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 F)} (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w)
     (hw : ((l : ℕ) : 𝓞 F) ∈ w.asIdeal) :
     ∃ (O : Type) (_ : CommRing O) (_ : Algebra ℤ_[l] O) (_ : TopologicalSpace O)
-      (Bw : LocBridge l F Ω (Dec (F := F) A) O), Induces Bw := by
+      (Bw : LocBridge l F Ω (_root_.ReciprocityTheory.Gal.Dec (F := F) A) O), Induces Bw := by
   obtain ⟨j, L0, hj, hLL⟩ := GlobalTheory.PlaceBridge.exists_locBridge l F Ω w A hw h
   obtain ⟨Bw, hBj, -⟩ := hLL L0 le_rfl
   exact ⟨_, _, _, _, Bw, fun x => by rw [hBj]; exact hj x⟩

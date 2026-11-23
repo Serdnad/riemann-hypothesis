@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsUnipMir
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle117
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MemTwKerIffAverage
-public import GroundTheory.LocalFields.LocalFourierChar
+public import GroundTheory.LocalFields.Bundle008
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

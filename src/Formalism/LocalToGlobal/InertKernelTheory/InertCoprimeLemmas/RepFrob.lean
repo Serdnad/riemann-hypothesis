@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.FrameInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle011
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.ExistsCoprimePowEqOne
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.FrobeniusSqIterateTeichmuller
 public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.FinalFree

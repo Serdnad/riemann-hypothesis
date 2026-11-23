@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InhabitBis
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle034
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagModelValueIndependent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.GlobalTheory.ConcNWeight
 import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 public import Formalism.LocalToGlobal.GlobalTheory.ConcNP
-import Formalism.PadicSubsetSums.StableGradedCounts.DominantNumbersEighthOfSharp
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle002
 import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfTypeSetWeight
 import Formalism.PadicSubsetSums.StableGradedCounts.PropertyWOfEstimates
 import Formalism.SharpRestriction.LevelLetterCocycles.PlaceLabelTeichmuller
@@ -44,9 +44,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LevelCarrying
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle003
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
-import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCoprimeOfNatCast
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsRightActFunPull
@@ -55,7 +55,7 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.MemLevEigenI
 import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 import Development.AbelianVarietyTheory.Definitions.Divisors.TupleReadBaseTupleEqFamily
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CommuteInvLeft
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle010
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
 import Mathlib.Topology.Sheaves.Presheaf

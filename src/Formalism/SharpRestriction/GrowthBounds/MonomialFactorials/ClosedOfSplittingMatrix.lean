@@ -1,8 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.GoodLeSmallMat
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle018
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.IntegralityFromMetricOfOrthBasisLat
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.OrthBasisLatOf
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfOrthogonalSplitting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsChartMax
+public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChartLocDomain
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ExponentialPartialDerivatives.SumAtOf
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqDer
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle017
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePAddCvSelf
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqEx
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCEqM2

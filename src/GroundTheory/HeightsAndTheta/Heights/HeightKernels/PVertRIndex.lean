@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertRIndexSteps
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveDivVertical
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.CharacterNondegenerate
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

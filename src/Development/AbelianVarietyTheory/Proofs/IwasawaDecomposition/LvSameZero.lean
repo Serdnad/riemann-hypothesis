@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwSame
+public import Formalism.LocalToGlobal.HermitianForms.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsForgetsFrames
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelFunctionalDilatedClass
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StepZeroClassesBijectiveSameDeco
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle172
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle338
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

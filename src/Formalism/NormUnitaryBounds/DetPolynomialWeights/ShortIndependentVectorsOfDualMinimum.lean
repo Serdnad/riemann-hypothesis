@@ -2,7 +2,7 @@ module
 
 public import Formalism.LatticeSlopes.Statement
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SaturationProperties
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
 public import Formalism.NormUnitaryBounds.DetPolynomialWeights.ExistsNeZeroNormLeRankDivOfDualMinimum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

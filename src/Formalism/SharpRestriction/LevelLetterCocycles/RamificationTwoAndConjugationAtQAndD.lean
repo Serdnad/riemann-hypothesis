@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoDuality
-public import Formalism.CharacterColumnKernels.StatementRho
+public import Formalism.CharacterColumnKernels.Bundle002
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
 public import Formalism.WachLatticeTwists.LatticeDualFibres.LatticeDualProofs.LocDualOrth
 public import Formalism.WachLatticeTwists.LatticeDualFibres.LatticeDualProofs.QuotLen
-public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Galois
+public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

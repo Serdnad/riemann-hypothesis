@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NotDvdAbsNormDifferent
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle214
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SettingBlocks
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SplitPrimeCounts.LsSetresSplit

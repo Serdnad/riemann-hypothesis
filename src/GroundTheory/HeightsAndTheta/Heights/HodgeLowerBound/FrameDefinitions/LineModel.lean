@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.HeightsAndTheta.Heights.ComplexProjective
+public import GroundTheory.HeightsAndTheta.Heights.Bundle002
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.RegMaxReindex
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Statements
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound

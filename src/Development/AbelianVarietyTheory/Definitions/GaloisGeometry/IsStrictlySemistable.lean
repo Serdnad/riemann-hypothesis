@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsSSFun
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsStrictlySemistableModel
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle003
 public import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

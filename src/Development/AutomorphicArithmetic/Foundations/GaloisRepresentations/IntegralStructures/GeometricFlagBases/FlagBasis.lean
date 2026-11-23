@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.WeilConjectures.StabPf
+public import Development.EtaleCohomology.WeilConjectures.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.IsGrRefl
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.EtSide
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN

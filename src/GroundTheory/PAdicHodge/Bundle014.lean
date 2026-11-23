@@ -1,0 +1,313 @@
+module
+
+public import GroundTheory.PAdicHodge.BdRField
+public import GroundTheory.PAdicHodge.Bundle011
+public import GroundTheory.PAdicHodge.Bundle008
+public import GroundTheory.PAdicHodge.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+namespace GroundTheory.PAdicHodge
+
+namespace ACris
+
+section Abstract
+
+variable {S R E D : Type*} [CommRing S] [CommRing R] [CommRing E] [CommRing D]
+
+theorem sub_eq_map_of_pow_mul {F : Type*} [Field F] (j : D →+* F) {T w c a : D} {z X : F} {n : ℕ}
+    (hT : j T ≠ 0) (hX : j T ^ n * X = j a) (hz : z * j T ^ n = j w) (hc : c * T ^ n = a - w) :
+    X - z = j c := by
+  apply mul_right_cancel₀ (pow_ne_zero n hT)
+  rw [sub_mul, mul_comm X, hX, hz, ← map_sub, ← hc, map_mul, map_pow]
+
+end Abstract
+
+variable {p : ℕ} [hp : Fact p.Prime]
+
+local notation "𝔹" => BDeRhamPlus (normInteger ℂ_[p]) p
+local notation "𝔹dR" => BDeRham (normInteger ℂ_[p]) p
+
+variable {ε : PreTilt (normInteger ℂ_[p]) p} (hε : PreTilt.untilt ε = 1)
+  (hζ : PreTilt.untilt ((_root_.frobeniusEquiv (PreTilt (normInteger ℂ_[p]) p) p).symm ε) ≠ 1)
+
+
+
+
+
+include hζ in
+
+theorem exists_mul_pow_fontaineT_eq (z : 𝔹dR) :
+    ∃ (n : ℕ) (w : 𝔹), z * algebraMap 𝔹 𝔹dR (fontaineT ε hε) ^ n = algebraMap 𝔹 𝔹dR w := by
+  have := IsPerfectoidField.isLocalization_away_bDeRham (maximalIdeal_eq_span_fontaineT hε hζ)
+  obtain ⟨⟨w, s⟩, hs⟩ := IsLocalization.surj (Submonoid.powers (fontaineT ε hε)) z
+  obtain ⟨n, hn⟩ := s.2
+  simp only at hn hs
+  rw [← hn] at hs
+  refine ⟨n, w, ?_⟩
+  rw [← map_pow]
+  exact hs
+
+
+
+end ACris
+
+end GroundTheory.PAdicHodge
+end
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+set_option linter.unusedSectionVars false
+set_option linter.style.haveILetI false
+
+namespace GroundTheory.PAdicHodge
+
+open GroundTheory.LocalField ValuativeRel Filter Topology IntermediateField
+
+variable {K : Type*} [Field K] [ValuativeRel K] [TopologicalSpace K] [IsNonarchimedeanLocalField K]
+  {Ω : Type*} [Field Ω] [ValuativeRel Ω] [TopologicalSpace Ω] [IsValuativeTopology Ω]
+  [Algebra K Ω] [ValuativeExtension K Ω] [Algebra.IsAlgebraic K Ω] [IsGalois K Ω]
+
+section GaloisAPF
+
+variable {L : IntermediateField K Ω} [IsGalois K L]
+
+variable (hL : IsAPF K Ω L)
+include hL
+
+end GaloisAPF
+
+section Tower
+
+variable {L : IntermediateField K Ω} [IsGalois K L] (hL : IsAPF K Ω L)
+include hL
+
+end Tower
+
+section Construction
+
+variable {L : IntermediateField K Ω} [IsGalois K L]
+
+structure APFData (L : IntermediateField K Ω) where
+  apf : IsAPF K Ω L
+  c : ℝ
+  c_pos : 0 < c
+  u₀ : ℝ
+  one_le_u₀ : 1 ≤ u₀
+  le_psi : ∀ u, u₀ ≤ u → c * apfIndex K Ω L u ≤ apfPsi K Ω L u
+
+namespace APFData
+
+variable (d : APFData L)
+
+def u (n : ℕ) : ℝ := d.u₀ + n * (d.c / 2)
+
+
+end APFData
+
+end Construction
+
+
+
+namespace APFData
+
+variable {L : IntermediateField K Ω} [IsGalois K L] (d : APFData L)
+
+
+end APFData
+
+end GroundTheory.PAdicHodge
+end
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+noncomputable section
+
+open Ideal WittVector IsLocalRing
+
+namespace GroundTheory.PAdicHodge
+
+section Cp
+
+variable {p : ℕ} [hp : Fact p.Prime]
+
+local notation "𝒪" => normInteger ℂ_[p]
+local notation "𝒪♭" => PreTilt 𝒪 p
+local notation "𝔹" => BDeRhamPlus 𝒪 p
+local notation "𝔪" => maximalIdeal 𝔹
+
+
+variable (p) in
+def pRootSeq : ℕ → ℂ_[p]
+  | 0 => p
+  | (n + 1) => (IsAlgClosed.exists_pow_nat_eq (pRootSeq n) hp.out.pos).choose
+
+theorem pRootSeq_succ_pow (n : ℕ) : pRootSeq p (n + 1) ^ p = pRootSeq p n :=
+  (IsAlgClosed.exists_pow_nat_eq (pRootSeq p n) hp.out.pos).choose_spec
+
+theorem pRootSeq_pow (n : ℕ) : pRootSeq p n ^ p ^ n = p := by
+  induction n with
+  | zero => simp [pRootSeq]
+  | succ n ih => rw [pow_succ, pow_mul', pRootSeq_succ_pow, ih]
+
+theorem norm_pRootSeq_le (n : ℕ) : ‖pRootSeq p n‖ ≤ 1 := by
+  have h := congrArg norm (pRootSeq_pow (p := p) n)
+  rw [norm_pow] at h
+  have hp1 : ‖(p : ℂ_[p])‖ ≤ 1 := by
+    have := (IsPerfectoidField.norm_natCast_integer_lt_one (K := ℂ_[p]) (p := p)).le
+    simpa using this
+  by_contra hlt
+  rw [not_le] at hlt
+  have : 1 < ‖pRootSeq p n‖ ^ p ^ n := one_lt_pow₀ hlt (pow_ne_zero _ hp.out.ne_zero)
+  linarith
+
+
+variable (p) in
+def pRootSeqInt (n : ℕ) : 𝒪 :=
+  ⟨pRootSeq p n, mem_normInteger.2 (norm_pRootSeq_le n)⟩
+
+theorem pRootSeqInt_succ_pow (n : ℕ) : pRootSeqInt p (n + 1) ^ p = pRootSeqInt p n :=
+  Subtype.ext (by simp [pRootSeqInt, pRootSeq_succ_pow])
+
+
+variable (p) in
+def pFlat : 𝒪♭ :=
+  IsPerfectoidField.ofCompatible p (pRootSeqInt p) pRootSeqInt_succ_pow
+
+theorem untilt_pFlat : PreTilt.untilt (pFlat p) = (p : 𝒪) := by
+  rw [pFlat, IsPerfectoidField.untilt_ofCompatible]
+  exact Subtype.ext (by simp [pRootSeqInt, pRootSeq])
+
+theorem coe_untilt_pFlat : ((PreTilt.untilt (pFlat p) : 𝒪) : ℂ_[p]) = p := by
+  rw [untilt_pFlat]
+  simp
+
+theorem natCast_p_ne_zero_cp : (p : ℂ_[p]) ≠ 0 := Nat.cast_ne_zero.2 hp.out.ne_zero
+
+def qBdR : 𝔹 := algebraMap ℚ 𝔹 (p : ℚ)⁻¹ * wittToBDeRhamPlus 𝒪 p (teichmuller p (pFlat p)) - 1
+
+omit hp in
+theorem one_add_qBdR [Fact p.Prime] :
+    1 + qBdR (p := p) = algebraMap ℚ 𝔹 (p : ℚ)⁻¹ * wittToBDeRhamPlus 𝒪 p (teichmuller p (pFlat p)) := by
+  rw [qBdR]
+  ring
+
+theorem qBdR_mem : qBdR (p := p) ∈ 𝔪 := by
+  rw [IsPerfectoidField.maximalIdeal_bDeRhamPlus, RingHom.mem_ker, qBdR, map_sub, map_mul,
+    IsPerfectoidField.thetaBDeRhamPlusField_wittToBDeRhamPlus, fontaineTheta_teichmuller, untilt_pFlat,
+    RingHom.map_rat_algebraMap, map_one]
+  have h : ((p : 𝒪) : ℂ_[p]) = p := by simp
+  simp only [eq_ratCast, Rat.cast_inv, Rat.cast_natCast, h]
+  rw [inv_mul_cancel₀ natCast_p_ne_zero_cp, sub_self]
+
+
+variable (p) in
+def uBdR : 𝔹 := logOnePlus 𝔪 (qBdR (p := p)) qBdR_mem
+
+variable {K : IntermediateField ℚ_[p] (PadicAlgCl p)}
+
+theorem coe_untilt_galFlat_pFlat (σ : Gal(PadicAlgCl p/K)) :
+    ((PreTilt.untilt (preTiltMap p (galCp σ : ℂ_[p] →+* ℂ_[p]) (AInf.norm_galCp_toRingHom σ) (pFlat p)) : 𝒪) : ℂ_[p]) = p := by
+  rw [AInf.coe_untilt_gal, coe_untilt_pFlat, ← galCp_apply, map_natCast]
+
+theorem exists_galFlat_pFlat_eq (σ : Gal(PadicAlgCl p/K)) :
+    ∃ η : 𝒪♭, preTiltMap p (galCp σ : ℂ_[p] →+* ℂ_[p]) (AInf.norm_galCp_toRingHom σ) (pFlat p) = pFlat p * η := by
+  refine preTilt_dvd_iff_norm_le.2 (le_of_eq ?_)
+  rw [preTilt_norm_def, preTilt_norm_def, coe_untilt_pFlat,
+    coe_untilt_galFlat_pFlat]
+
+def kummerEta (σ : Gal(PadicAlgCl p/K)) : 𝒪♭ := (exists_galFlat_pFlat_eq σ).choose
+
+theorem pFlat_mul_kummerEta (σ : Gal(PadicAlgCl p/K)) :
+    preTiltMap p (galCp σ : ℂ_[p] →+* ℂ_[p]) (AInf.norm_galCp_toRingHom σ) (pFlat p) = pFlat p * kummerEta σ :=
+  (exists_galFlat_pFlat_eq σ).choose_spec
+
+theorem untilt_kummerEta (σ : Gal(PadicAlgCl p/K)) : PreTilt.untilt (kummerEta σ) = 1 := by
+  have h := congrArg (fun x => ((PreTilt.untilt x : 𝒪) : ℂ_[p])) (pFlat_mul_kummerEta σ)
+  simp only [untilt_mul, MulMemClass.coe_mul] at h
+  rw [coe_untilt_galFlat_pFlat, coe_untilt_pFlat] at h
+  apply Subtype.ext
+  rw [OneMemClass.coe_one]
+  exact (mul_eq_left₀ natCast_p_ne_zero_cp).1 h.symm
+
+theorem gal_smul_logOnePlus (σ : Gal(PadicAlgCl p/K)) {z : 𝔹} (hz : z ∈ 𝔪) :
+    σ • logOnePlus 𝔪 z hz = logOnePlus 𝔪 (σ • z) (gal_smul_mem_maximalIdeal σ hz) := by
+  rw [gal_smul_bdR_def, logOnePlus, logOnePlus]
+  exact map_seriesEval (galBdRHom σ)
+    (Ideal.map_le_iff_le_comap.2 fun x hx => by
+      have h := gal_smul_mem_maximalIdeal σ hx
+      rw [gal_smul_bdR_def] at h
+      exact h) _ _ _
+
+theorem one_add_gal_smul_qBdR (σ : Gal(PadicAlgCl p/K)) :
+    1 + σ • qBdR (p := p) = (1 + qBdR) * (1 + muBdR p (kummerEta σ)) := by
+  have h1 : σ • (1 + qBdR (p := p)) = 1 + σ • qBdR := by rw [smul_add, smul_one]
+  rw [← h1, one_add_qBdR, muBdR_eq, add_sub_cancel, smul_mul', gal_smul_wittToBDeRhamPlus,
+    AInf.gal_smul_teichmuller, pFlat_mul_kummerEta, map_mul, map_mul, gal_smul_bdR_def (x := algebraMap _ _ _),
+    RingHom.map_rat_algebraMap, mul_assoc]
+
+theorem gal_smul_uBdR (σ : Gal(PadicAlgCl p/K)) :
+    σ • uBdR p = uBdR p + fontaineT (kummerEta σ) (untilt_kummerEta σ) := by
+  rw [uBdR, gal_smul_logOnePlus, fontaineT]
+  exact logOnePlus_mul qBdR_mem (muBdR_mem (untilt_kummerEta σ)) _ (one_add_gal_smul_qBdR σ)
+
+end Cp
+
+end GroundTheory.PAdicHodge
+end
+end

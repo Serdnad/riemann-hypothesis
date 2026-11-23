@@ -1,0 +1,281 @@
+module
+
+public import Mathlib.AlgebraicGeometry.Morphisms.ClosedImmersion
+public import Mathlib.RingTheory.Kaehler.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Morphisms.Immersion
+import Mathlib.AlgebraicGeometry.Morphisms.Proper
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.Quiver.ReflQuiver
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.RingTheory.Localization.Basic
+
+@[expose] public section
+
+section
+
+open CategoryTheory AlgebraicGeometry TopologicalSpace
+
+universe u
+
+namespace AlgebraicGeometry.Scheme.Opens
+
+theorem isClosedImmersion_ι_of_isClosed {X : Scheme.{u}} (U : X.Opens)
+    (hU : IsClosed (U : Set X)) : IsClosedImmersion U.ι :=
+  IsClosedImmersion.of_isPreimmersion U.ι (by rw [U.range_ι]; exact hU)
+
+end AlgebraicGeometry.Scheme.Opens
+
+namespace FunctorialResolution.EmbeddedResolution
+
+private theorem exists_iso_subscheme_vanishingIdeal_of_coe_eq {X : Scheme} [IsReduced X]
+    (C : X.Opens) (Z : Closeds X) (hZ : (Z : Set X) = (C : Set X)) :
+    ∃ e : (Scheme.IdealSheafData.vanishingIdeal Z).subscheme ≅ C.toScheme,
+      e.hom ≫ C.ι = (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι := by
+  have hCclosed : IsClosed (C : Set X) := by rw [← hZ]; exact Z.2
+  have : IsClosedImmersion C.ι :=
+    IsClosedImmersion.of_isPreimmersion C.ι (by rw [C.range_ι]; exact hCclosed)
+  have hkersupp : ((Scheme.Hom.ker C.ι).support : Set X) = (Z : Set X) := by
+    rw [Scheme.Hom.support_ker, C.range_ι, hCclosed.closure_eq]
+    exact hZ.symm
+  have hZsupp : (Scheme.Hom.ker C.ι).support = Z := TopologicalSpace.Closeds.ext hkersupp
+  have hvan : Scheme.IdealSheafData.vanishingIdeal Z = (Scheme.Hom.ker C.ι).radical := by
+    rw [← hZsupp]
+    exact Scheme.IdealSheafData.vanishingIdeal_support
+  have hsupp : (Scheme.IdealSheafData.vanishingIdeal Z).support = Z := by
+    rw [hvan, Scheme.IdealSheafData.support_radical]
+    exact hZsupp
+  have hrange :
+      Set.range ⇑(Scheme.IdealSheafData.vanishingIdeal Z).subschemeι = (C : Set X) := by
+    rw [Scheme.IdealSheafData.range_subschemeι, hsupp]
+    exact hZ
+  have hle : Scheme.Hom.ker C.ι ≤
+      Scheme.Hom.ker (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι := by
+    rw [Scheme.IdealSheafData.ker_subschemeι, hvan]
+    exact Scheme.IdealSheafData.le_radical _
+  let φ : (Scheme.IdealSheafData.vanishingIdeal Z).subscheme ⟶ C.toScheme :=
+    IsClosedImmersion.lift C.ι (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι hle
+  have hφ : φ ≫ C.ι = (Scheme.IdealSheafData.vanishingIdeal Z).subschemeι :=
+    IsClosedImmersion.lift_fac _ _ hle
+  have hφbase : ∀ x, ⇑C.ι (⇑φ x) =
+      ⇑(Scheme.IdealSheafData.vanishingIdeal Z).subschemeι x := by
+    intro x
+    rw [← hφ]
+    simp
+  have hinj : Function.Injective ⇑C.ι := C.ι.isOpenEmbedding.injective
+  have hsurj : Function.Surjective ⇑φ := by
+    intro y
+    have hy : ⇑C.ι y ∈ Set.range ⇑(Scheme.IdealSheafData.vanishingIdeal Z).subschemeι := by
+      rw [hrange, ← C.range_ι]
+      exact Set.mem_range_self y
+    obtain ⟨x, hx⟩ := hy
+    refine ⟨x, hinj ?_⟩
+    rw [hφbase x]
+    exact hx
+  have : IsPreimmersion (φ ≫ C.ι) := by rw [hφ]; infer_instance
+  have : IsPreimmersion φ := IsPreimmersion.of_comp φ C.ι
+  have : IsClosedImmersion φ :=
+    IsClosedImmersion.of_isPreimmersion φ (by rw [hsurj.range_eq]; exact isClosed_univ)
+  have hker : Scheme.Hom.ker φ = ⊥ := by
+    rw [← Scheme.IdealSheafData.support_eq_top_iff]
+    refine TopologicalSpace.Closeds.ext ?_
+    rw [Scheme.Hom.support_ker, hsurj.range_eq, closure_univ]
+    simp
+  have : IsIso φ := IsClosedImmersion.isIso_iff_ker_eq_bot.mpr hker
+  exact ⟨asIso φ, hφ⟩
+
+theorem exists_iso_subscheme_vanishingIdeal_of_isClosed
+    {X : Scheme} [IsReduced X] (C : X.Opens) (hC : IsClosed (C : Set X)) :
+    ∃ e : (Scheme.IdealSheafData.vanishingIdeal
+        (⟨(C : Set X), hC⟩ : TopologicalSpace.Closeds X)).subscheme ≅ C.toScheme,
+      e.hom ≫ C.ι =
+        (Scheme.IdealSheafData.vanishingIdeal
+          (⟨(C : Set X), hC⟩ : TopologicalSpace.Closeds X)).subschemeι :=
+  exists_iso_subscheme_vanishingIdeal_of_coe_eq C _ rfl
+
+end FunctorialResolution.EmbeddedResolution
+end
+
+section
+
+namespace FunctorialResolution.EmbeddedResolution
+
+private theorem prod_notMem_of_isPrime {R : Type*} [CommRing R] {ι : Type*} [DecidableEq ι]
+    {I : Ideal R} (hI : I.IsPrime) (g : ι → R) (t : Finset ι) :
+    (∀ j ∈ t, g j ∉ I) → ∏ j ∈ t, g j ∉ I := by
+  induction t using Finset.induction_on with
+  | empty =>
+      intro _ h1
+      rw [Finset.prod_empty] at h1
+      refine hI.ne_top ?_
+      rw [Ideal.eq_top_iff_one]
+      exact h1
+  | @insert a u ha ih =>
+      intro h hmem
+      rw [Finset.prod_insert ha] at hmem
+      rcases hI.mem_or_mem hmem with h1 | h1
+      · exact h a (Finset.mem_insert_self a u) h1
+      · exact ih (fun j hj => h j (Finset.mem_insert_of_mem hj)) h1
+
+private theorem span_singleton_mul_eq_inf {R : Type*} [CommRing R] {a b : R}
+    (hpa : (Ideal.span ({a} : Set R)).IsPrime) (hb : b ∉ Ideal.span ({a} : Set R)) :
+    Ideal.span ({a * b} : Set R) = Ideal.span ({a} : Set R) ⊓ Ideal.span ({b} : Set R) := by
+  refine le_antisymm (le_inf ?_ ?_) ?_
+  · rw [Ideal.span_singleton_le_iff_mem]
+    exact Ideal.mem_span_singleton.mpr ⟨b, rfl⟩
+  · rw [Ideal.span_singleton_le_iff_mem]
+    exact Ideal.mem_span_singleton.mpr ⟨a, mul_comm a b⟩
+  · intro z hz
+    rw [Submodule.mem_inf] at hz
+    obtain ⟨hz1, hz2⟩ := hz
+    obtain ⟨v, rfl⟩ := Ideal.mem_span_singleton.mp hz2
+    have hv : v ∈ Ideal.span ({a} : Set R) := (hpa.mem_or_mem hz1).resolve_left hb
+    obtain ⟨w, rfl⟩ := Ideal.mem_span_singleton.mp hv
+    exact Ideal.mem_span_singleton.mpr ⟨w, by ring⟩
+
+theorem span_singleton_prod_eq_biInf {R : Type*} [CommRing R] {ι : Type*} [DecidableEq ι]
+    (f : ι → R) (s : Finset ι)
+    (hp : ∀ i ∈ s, (Ideal.span ({f i} : Set R)).IsPrime)
+    (hdvd : ∀ i ∈ s, ∀ j ∈ s, i ≠ j → f j ∉ Ideal.span ({f i} : Set R)) :
+    Ideal.span ({∏ i ∈ s, f i} : Set R) = ⨅ i ∈ s, Ideal.span ({f i} : Set R) := by
+  revert hp hdvd
+  induction s using Finset.induction_on with
+  | empty =>
+      intro _ _
+      simp
+  | @insert a u ha ih =>
+      intro hp hdvd
+      have hpa : (Ideal.span ({f a} : Set R)).IsPrime := hp a (Finset.mem_insert_self a u)
+      have hP : (∏ i ∈ u, f i) ∉ Ideal.span ({f a} : Set R) := by
+        refine prod_notMem_of_isPrime hpa f u ?_
+        intro j hj
+        exact hdvd a (Finset.mem_insert_self a u) j (Finset.mem_insert_of_mem hj)
+          (by rintro rfl; exact ha hj)
+      have ihu := ih (fun i hi => hp i (Finset.mem_insert_of_mem hi))
+        (fun i hi j hj hij =>
+          hdvd i (Finset.mem_insert_of_mem hi) j (Finset.mem_insert_of_mem hj) hij)
+      rw [Finset.prod_insert ha, span_singleton_mul_eq_inf hpa hP, ihu, Finset.iInf_insert]
+
+theorem isRadical_biInf_span_singleton {R : Type*} [CommRing R] {ι : Type*}
+    (f : ι → R) (s : Finset ι)
+    (hp : ∀ i ∈ s, (Ideal.span ({f i} : Set R)).IsPrime) :
+    (⨅ i ∈ s, Ideal.span ({f i} : Set R)).IsRadical := by
+  refine le_iInf fun i => le_iInf fun hi => ?_
+  refine le_trans (Ideal.radical_mono ?_) (hp i hi).isRadical
+  exact iInf_le_of_le i (iInf_le _ hi)
+
+theorem isRadical_span_singleton_prod_finset {R : Type*} [CommRing R] {ι : Type*}
+    [DecidableEq ι]
+    (f : ι → R) (s : Finset ι)
+    (hp : ∀ i ∈ s, (Ideal.span ({f i} : Set R)).IsPrime)
+    (hdvd : ∀ i ∈ s, ∀ j ∈ s, i ≠ j → f j ∉ Ideal.span ({f i} : Set R)) :
+    (Ideal.span ({∏ i ∈ s, f i} : Set R)).IsRadical := by
+  rw [span_singleton_prod_eq_biInf f s hp hdvd]
+  exact isRadical_biInf_span_singleton f s hp
+
+end FunctorialResolution.EmbeddedResolution
+
+namespace IsLocalization
+
+theorem map_eq_map_of_map_eq_map {R S T : Type*} [CommRing R] [CommRing S]
+    [CommRing T] [Algebra R S] [Algebra R T] (M : Submonoid R) [IsLocalization M S]
+    [IsLocalization M T] {I J : Ideal R}
+    (h : Ideal.map (algebraMap R S) I = Ideal.map (algebraMap R S) J) :
+    Ideal.map (algebraMap R T) I = Ideal.map (algebraMap R T) J := by
+  have he : ((IsLocalization.algEquiv M S T).toAlgHom.toRingHom).comp (algebraMap R S)
+      = algebraMap R T :=
+    RingHom.ext fun r => by
+      show (IsLocalization.algEquiv M S T) (algebraMap R S r) = algebraMap R T r
+      exact (IsLocalization.algEquiv M S T).commutes r
+  have hmap : ∀ K : Ideal R, Ideal.map (algebraMap R T) K =
+      Ideal.map ((IsLocalization.algEquiv M S T).toAlgHom.toRingHom)
+        (Ideal.map (algebraMap R S) K) := by
+    intro K
+    rw [Ideal.map_map, he]
+  rw [hmap, hmap, h]
+
+end IsLocalization
+
+namespace Ideal
+
+theorem list_prod_le_getElem {R : Type*} [CommRing R] (L : List (Ideal R)) (i : ℕ)
+    (hi : i < L.length) : L.prod ≤ (L[i]'hi) := by
+  revert i hi
+  induction L with
+  | nil =>
+      intro i hi
+      simp at hi
+  | cons A L ih =>
+      intro i hi
+      cases i with
+      | zero =>
+          simp only [List.prod_cons, List.getElem_cons_zero]
+          exact le_trans Ideal.mul_le_inf inf_le_left
+      | succ i' =>
+          have hi' : i' < L.length := by simpa using hi
+          simp only [List.prod_cons, List.getElem_cons_succ]
+          exact le_trans (le_trans Ideal.mul_le_inf inf_le_right) (ih i' hi')
+
+end Ideal
+
+namespace KaehlerDifferential
+
+theorem residue_tmul_D_mul_of_mem_maximalIdeal (k : Type*) [CommRing k] (A : Type*)
+    [CommRing A]
+    [Algebra k A] [IsLocalRing A] (x c : A) (hx : x ∈ IsLocalRing.maximalIdeal A) :
+    (1 : IsLocalRing.ResidueField A) ⊗ₜ[A] KaehlerDifferential.D k A (x * c) =
+      IsLocalRing.residue A c •
+        ((1 : IsLocalRing.ResidueField A) ⊗ₜ[A] KaehlerDifferential.D k A x) := by
+  have hsm : ∀ a : A, a • (1 : IsLocalRing.ResidueField A) = IsLocalRing.residue A a := by
+    intro a
+    rw [Algebra.smul_def, mul_one, IsLocalRing.ResidueField.algebraMap_eq]
+  have hx0 : IsLocalRing.residue A x = 0 := by
+    rw [IsLocalRing.residue_eq_zero_iff]
+    exact hx
+  have hstep : IsLocalRing.residue A c •
+        ((1 : IsLocalRing.ResidueField A) ⊗ₜ[A] KaehlerDifferential.D k A x)
+      = (IsLocalRing.residue A c * 1) ⊗ₜ[A] KaehlerDifferential.D k A x := rfl
+  rw [Derivation.leibniz, TensorProduct.tmul_add, ← TensorProduct.smul_tmul,
+    ← TensorProduct.smul_tmul, hsm, hsm, hx0, TensorProduct.zero_tmul, zero_add, hstep,
+    mul_one]
+
+end KaehlerDifferential
+end

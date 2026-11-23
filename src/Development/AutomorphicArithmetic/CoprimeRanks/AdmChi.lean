@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.Imports
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsRanksRankValFrame
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

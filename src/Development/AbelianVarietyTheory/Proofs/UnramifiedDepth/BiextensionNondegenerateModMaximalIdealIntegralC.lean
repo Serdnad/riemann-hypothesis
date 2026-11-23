@@ -1,33 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CubWeilOfInjective
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle068
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUniqueFrameSer
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle061
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartFormalBiext
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.StarRingExtOfStar
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UniversalStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubWeilPerfectOfGenericStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FiniteFlatSurjectiveMulByNAbelianSchemeStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RatioTranslate
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.UniformisationTriplesCompleteDVRTorsion
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AbelianPartProjectionRespectsOrthogonalityStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AlphaPHomomorphismCubicalWeilTrivialRationalTorsStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle134
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle130
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle077
 import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AlphaPMultiplicativeCharacterEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CubicalWeilTrivialOfLocalArtinianPointsStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DegenerateDirectionOfNotNondegenerateStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqOneOfTangentVectorEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsAlgClosedResidueFieldValuedFieldStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFiniteExtensionSplitSpecialFibrePointStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFormalChartPointNilpotentCoordinatesStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsIsTorusExtensionOnPointsModIdealStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPthRootTorusPointNilpotentAugmentedExtStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsRingHomValuationRingOfEmbOKStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsTorusExtensionPointsPullbackFieldPointStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FramePartialLawsNilpotentCoordinatesStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntegralFramedPointModelPolarisedGenericFibreStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.NotNondegenerateOfDegenerateSeriesDirectionStatement
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.UniversalChartPointsOverFieldPointStatement
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle074
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle072
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -246,4 +236,18 @@ theorem ndg_at_chart : ∀ (E : Type) [Field E] [NumberField E] [NumberField.IsC
   · refine ev_map_eq_one _ _ _ _ ?_ ?_ (h2 ▸ BT.cocycleRight_zero_fst) <;> intro a b <;> fin_cases a <;> simp [pt]
 
 end GlobalTheory.AlphaPair
+end
+
+end
+
+section
+
+@[expose] public section
+
+open Formalism.L2.FormalSeriesBounds
+
+theorem _root_.GlobalTheory.T.biextension_nondegenerate_mod_maximalIdeal_integral_chart : ∀ (E : Type) [Field E] [NumberField E] [NumberField.IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Datum H) (l : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Level H) (Xo : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Moduli Dw l) (c : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Coeff l) [StarRing (NumberField.RingOfIntegers E)], NondegenerateCharts Xo c := by
+  first | exact @GlobalTheory.AlphaPair.ndg_at_chart | exact GlobalTheory.AlphaPair.ndg_at_chart | (intros; apply GlobalTheory.AlphaPair.ndg_at_chart <;> assumption)
+
+end
 end

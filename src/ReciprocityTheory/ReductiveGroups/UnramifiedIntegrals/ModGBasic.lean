@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModGDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-import ReciprocityTheory.NeutralLocalFields.HilbertClassField
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 

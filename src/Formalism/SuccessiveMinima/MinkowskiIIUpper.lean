@@ -2,10 +2,8 @@ module
 
 public import Formalism.SuccessiveMinima.StatementMink
 public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.AdaptedBasis
-public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.GjLevel
+public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.Bundle001
 public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.GjScale
-public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.MeasureEqCovolumeMulVolumeImage
-public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.MinkCore
 public import Formalism.SuccessiveMinima.SuccessiveMinimaProofs.SuccMin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

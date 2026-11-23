@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import Development.WeilBound.CoreStatements.AmpleLineBundles.PtsIntegralMap
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightObjects
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HeightLowerBoundChartNorm
-public import Development.WeilBound.CoreStatements.AmpleLineBundles.HeightRecRFull
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitArchSum
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartDehom
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartQuot
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDegree
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitDivVertical
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PSubringPrimeMaximal
+public import Development.WeilBound.CoreStatements.AmpleLineBundles.Bundle001
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle008
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle013
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle010
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle007
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveIsOrbit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

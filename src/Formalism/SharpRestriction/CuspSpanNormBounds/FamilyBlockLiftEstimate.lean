@@ -1,8 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalDataRealPlace
-public import Formalism.SharpRestriction.CuspSpanNormBounds.DiagonalEntryIdentity
-public import Formalism.SharpRestriction.CuspSpanNormBounds.IsGramNorm
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

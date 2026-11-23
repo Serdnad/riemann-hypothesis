@@ -1,9 +1,9 @@
 module
 
-public import Formalism.QuotientMetricDivisors.RatHermLcvTwist
-public import Formalism.MirabolicMackeyTheory.StatementT
-public import Formalism.HarderNarasimhan.QuotRealize
-public import Formalism.LogFactorialIndices.StatementSize
+public import Formalism.QuotientMetricDivisors.Bundle005
+public import Formalism.MirabolicMackeyTheory.Bundle001
+public import Formalism.HarderNarasimhan.Bundle002
+public import Formalism.LogFactorialIndices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsConstMul
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ModuliFiniteSurjectiveOverGenericFamily
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.PadicEmbeddingDiscreteValuationRing
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianTripleSpreadsOut
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenFrameFieldExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenFrameIffEigenspaceBasis
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle223
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle196
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle085
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModelBaseChangeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueAct
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueEquiv
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChange
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPushAlongMap
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.NBasic
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle191
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle013
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle154
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle038
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,7 +61,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 
 @[expose] public section
 

@@ -1,15 +1,15 @@
 module
 
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DensityInChartStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniqueHaarDensityAtIdentityStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousGrpHom
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousMatExp
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOmegaLebesgueMeasure
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HaarUpqHasOmegaDensity
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OmegaDensityUpqUniqueAndSmul
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqLocallyCompactGroup
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle309
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle094
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle036
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle076
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -364,7 +364,7 @@ theorem isOmegaLeb_frobenius (e : Fin P ⊕ Fin Q ≃ Fin n) :
   have hT := (measurePreserving_unrealify (ι := Fin P ⊕ Fin Q) e).comp
     (hI.comp (WithLp.volume_preserving_toLp (U := lieE (UH (form e))) (V := lieE (UH (form e)))))
   have hG : Measurable (fun ab : lieU P Q × lieU P Q =>
-      entries ((ab.1 : Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ) +
+      Formalism.BasicNotions.entries ((ab.1 : Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ) +
         Complex.I • (ab.2 : Matrix (Fin P ⊕ Fin Q) (Fin P ⊕ Fin Q) ℂ))) := by
     convert hT.measurable.comp (hL.prodMap hL) using 1
     funext ab

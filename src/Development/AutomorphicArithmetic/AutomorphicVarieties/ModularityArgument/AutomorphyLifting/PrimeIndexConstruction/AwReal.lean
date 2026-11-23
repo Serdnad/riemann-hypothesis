@@ -1,28 +1,21 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.ThruBad
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChebotarevDegreeOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlobalArtinReciprocityHolds
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle594
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle394
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenKerOfInfConn
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcPolar
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.BaseChangeNoSelfTwistOfFrobeniusSignIrreducible
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsQuadraticSignCharacter
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusEigenvaluesTwist
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusPowerCompatibility
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusSignCompatibility
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SchurTwistHolds
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.PlainOf
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.SatNumInj
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle008
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle056
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle054
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.SplitCM
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.SplitTr
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.ThruTr
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PAdicTorsionHoms.WinPt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.CycFree
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.SuppFacts
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.NormAbsPowUnif
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.WinUpDown
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.QuadBC2
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 import Formalism.SharpRestriction.LevelLetterCocycles.ExistsInertiaCharpolyFactorOfTameType
@@ -88,13 +81,13 @@ private theorem isoFrob : IsoOfFrob := by
   intro F Ω _ _ _ _ _ l _ ι n r r' hr hr' hs hs' hw
   have hD := GlobalTheory.Published.ChebotarevDegreeOne.dense (F := F) (Ω := Ω) GlobalTheory.Published.chebotarevDegreeOne'
     (Filter.eventually_cofinite.1 hw)
-  have hc : ∀ g : G F Ω, (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly =
+  have hc : ∀ g : _root_.Formalism.ConjugateSelfDual.G F Ω, (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly =
       (r' g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly := by
     intro g
     ext i
-    have h1 : Continuous fun g : G F Ω => (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
+    have h1 : Continuous fun g : _root_.Formalism.ConjugateSelfDual.G F Ω => (r g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
       (coeffCont n i).comp (Units.continuous_val.comp (hr.comp continuous_inv))
-    have h2 : Continuous fun g : G F Ω => (r' g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
+    have h2 : Continuous fun g : _root_.Formalism.ConjugateSelfDual.G F Ω => (r' g⁻¹ : Matrix (Fin n) (Fin n) (Qbar l)).charpoly.coeff i :=
       (coeffCont n i).comp (Units.continuous_val.comp (hr'.comp continuous_inv))
     refine congrFun (Continuous.ext_on hD h1 h2 ?_) g
     rintro σ ⟨v, hv, -, A, hA, hσ⟩
@@ -159,7 +152,7 @@ private theorem selfTw : Sd.SelfTwGal := by
       map_eq_one_iff _ ι.symm.injective] at e
     exact e
   · refine isoFrob F Ω l ι n r _ hc (UpperTheory.galoisRep_irreducibility_criterion.2 _ _ n r δ hc hδc) hatt.1
-      ((UpperTheory.galoisRep_irreducibility_criterion.1 _ (G F Ω) _ n r).2.2 δ hatt.1) ?_
+      ((UpperTheory.galoisRep_irreducibility_criterion.1 _ (_root_.Formalism.ConjugateSelfDual.G F Ω) _ n r).2.2 δ hatt.1) ?_
     filter_upwards [hatt.2, hT] with v hv hw
     obtain ⟨B, hB, hF⟩ := hv
     obtain ⟨h1, B', hB', h2⟩ := hw
@@ -236,7 +229,7 @@ private theorem plainUp : RealUp := by
   have e2 : (r.comp (resG F E Ω)).comp (UpperTheory.V.Base.galEmb E M Ω) = r.comp (resG F M Ω) := MonoidHom.ext fun _ => rfl
   have e3 : (r.comp (resG F E Ω)).comp (resG E M Ω) = r.comp (resG F M Ω) := MonoidHom.ext fun _ => rfl
   have hirrE' : IsIrr (r.comp (resG F E' Ω)) :=
-    (UpperTheory.galoisRep_irreducibility_criterion.1 (G E' Ω) (G M Ω) (Qbar l) 2 (r.comp (resG F E' Ω))).1 (resG E' M Ω) (e1 ▸ hM)
+    (UpperTheory.galoisRep_irreducibility_criterion.1 (_root_.Formalism.ConjugateSelfDual.G E' Ω) (_root_.Formalism.ConjugateSelfDual.G M Ω) (Qbar l) 2 (r.comp (resG F E' Ω))).1 (resG E' M Ω) (e1 ▸ hM)
   obtain ⟨P', hBC⟩ := (UpperTheory.ConvolutionTheory.R2.quadBC2 F E' h1 π hreg).resolve_left
     fun ⟨η, hη, ht⟩ => noTw F E' Ω l ι h1 2 r π hr hatt hirrE' η hη ht
   have hP'att : AttC ι (r.comp (resG F E' Ω)) P' :=

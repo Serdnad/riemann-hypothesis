@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.UOpMul
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.UpOperatorEigenvalues.MemOrdC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -228,7 +228,8 @@ theorem UpperTheory.V.Z.J.D.zEq :
       · have h0 : alV n H.Sl v 0 = 1 := by
           rw [alV, al_zero]
           exact Pi.mulSingle_one v
-        have hl : H.lowVal ι lam v 0 = 1 := by simp [HSet.lowVal]
+        have hl : H.lowVal ι lam v 0 = 1 := by
+          simp only [HSet.lowVal, Nat.not_lt_zero, Finset.filter_false, Finset.prod_empty, map_one]
         have he : e v 0 = 1 := dif_neg (by omega)
         rw [h0, hl, he, one_mul, Module.End.mem_maxGenEigenspace]
         refine ⟨1, ?_⟩

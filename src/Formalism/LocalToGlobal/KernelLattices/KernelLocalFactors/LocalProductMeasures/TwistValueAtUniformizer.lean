@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Formalism.LocalToGlobal.Divisibility.DivisibilityProofs.TuplesP
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab

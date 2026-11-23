@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.ResEmbCompat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentralCharacterSubquotientProductIrreduciblesStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentsSimpleFDRepFiniteFinsumEqOne
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1066
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle305
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransportKeepsProductsCosocles
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsingletonJacquetOfPerm
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoKO
-public import Development.DiscreteGroups.GlobalIrreducibility.DzKSchur
-public import Development.DiscreteGroups.GlobalIrreducibility.DzTwChar
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle066
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle020
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle009
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle022
 public import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.GreenCuspLabels.GreenCuspidal
 public import Development.WeilBound.RepresentationTheoryGL.GaloisPermutationReps.SubquotientEquivalence.ConjTorusSubApply
 public import Development.WeilBound.RepresentationTheoryGL.GaloisPermutationReps.SubquotientEquivalence.FiniteCuspidalOfIsCuspidal
@@ -45,9 +45,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.MatchCut
-public import Development.DiscreteGroups.GlobalIrreducibility.DzIsoRes
 
 @[expose] public section
 

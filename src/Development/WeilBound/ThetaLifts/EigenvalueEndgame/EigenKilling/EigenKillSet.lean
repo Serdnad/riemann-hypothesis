@@ -1,24 +1,24 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SmallCones.SoDefs
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.SoStatement
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
 public import Development.WeilBound.ThetaLifts.CTKernel
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAdelicAddCharLocalComponentNeOne
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1944
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfActs
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictAd
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictMod
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 public import Development.WeilBound.ThetaLifts.SmallCones.ExpAlg
-import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

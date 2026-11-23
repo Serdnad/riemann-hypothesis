@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueScalar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FromBaseWith
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFromBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2339
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3161
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3082
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GsAppTopOfSection
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionIsoOfGroupPullbackGeneric
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle877
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,9 +40,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdIso
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SepAtBIff
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3104
 
 @[expose] public section
 

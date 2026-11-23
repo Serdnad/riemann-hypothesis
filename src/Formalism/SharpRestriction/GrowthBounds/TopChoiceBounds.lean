@@ -6,7 +6,7 @@ public import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders
 public import Formalism.SharpRestriction.GrowthBounds.ProjectionLemmaBaseLevel
 public import Formalism.SharpRestriction.GrowthBounds.TableLineDegreeFive
 import Formalism.GrowthSums.LemmaATwoFactList
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSa
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
@@ -55,7 +55,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SubspaceCounting.SubspaceCountingProofs.TopsChoicePartA
+import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 
 @[expose] public section
 

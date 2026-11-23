@@ -1,6 +1,6 @@
 module
 
-public import Formalism.TameInertiaTowers.StatementGroup
+public import Formalism.TameInertiaTowers.Bundle001
 public import Mathlib.RingTheory.IntegralDomain
 public import Formalism.TameInertiaTowers.CentralOrderTwo.TwoAdic
 import Mathlib.Algebra.Order.Floor.Extended

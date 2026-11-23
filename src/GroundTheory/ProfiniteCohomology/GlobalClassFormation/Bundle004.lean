@@ -1,0 +1,280 @@
+module
+
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalRestriction
+public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory NumberField IntermediateField GroundTheory.Global FiniteSubfield
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+noncomputable section
+
+section Res
+
+variable (K E : FiniteSubfield) [Fact (K ≤ E)]
+
+def fixingIncl : E.1.fixingSubgroup →* K.1.fixingSubgroup :=
+  Subgroup.inclusion (IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E))
+
+theorem continuous_fixingIncl : Continuous (fixingIncl K E) :=
+  continuous_subgroup_inclusion _
+
+def unitsResMor : Rep.res (fixingIncl K E) (unitsLimitRep K) ⟶ unitsLimitRep E :=
+  Rep.ofHom ⟨LinearMap.id, fun _ => rfl⟩
+
+def unitsResField (n : ℕ) : cohomology (unitsLimitRep K) n ⟶ cohomology (unitsLimitRep E) n :=
+  cohomologyMapAlong (fixingIncl K E) (continuous_fixingIncl K E) (unitsResMor K E) n
+
+end Res
+
+section IntermediateRes
+
+variable (Kv Ω : Type) [Field Kv] [Field Ω] [Algebra Kv Ω] [Algebra.IsIntegral Kv Ω] (L : IntermediateField Kv Ω)
+
+def unitsScalarsMor :
+    Rep.res (AlgEquiv.restrictScalarsHom Kv : Gal(Ω/L) →* Gal(Ω/Kv)) (galUnitsZ Kv Ω) ⟶ galUnitsZ L Ω :=
+  Rep.ofHom ⟨LinearMap.id, fun _ => LinearMap.ext fun _ => rfl⟩
+
+def unitsScalarsRes (n : ℕ) : cohomology (galUnitsZ Kv Ω) n ⟶ cohomology (galUnitsZ L Ω) n :=
+  cohomologyMapAlong (AlgEquiv.restrictScalarsHom Kv) (continuous_restrictScalarsHom_of_tower Kv L Ω)
+    (unitsScalarsMor Kv Ω L) n
+
+end IntermediateRes
+
+section Conj
+
+variable {Ev Ωw Ωv : Type} [Field Ev] [Field Ωw] [Field Ωv] [Algebra Ev Ωw] (Kv : Type) [Field Kv]
+  [Algebra Kv Ωv] (L : IntermediateField Kv Ωv) (e : Ωw ≃+* Ωv)
+  (he : ∀ y : Ev, e (algebraMap Ev Ωw y) ∈ L) (hL : ∀ l ∈ L, ∃ y : Ev, e (algebraMap Ev Ωw y) = l)
+
+def fieldConjHom : Gal(Ωw/Ev) →* Gal(Ωv/L) where
+  toFun σ := AlgEquiv.ofRingEquiv (f := (e.symm.trans (σ : Ωw ≃+* Ωw)).trans e) fun l => by
+    obtain ⟨y, hy⟩ := hL l l.2
+    change e (σ (e.symm (l : Ωv))) = l
+    rw [← hy, RingEquiv.symm_apply_apply, AlgEquiv.commutes]
+  map_one' := AlgEquiv.ext fun x => by
+    change e (e.symm x) = x
+    exact e.apply_symm_apply x
+  map_mul' σ τ := AlgEquiv.ext fun x => by
+    change e ((σ * τ) (e.symm x)) = e (σ (e.symm (e (τ (e.symm x)))))
+    rw [RingEquiv.symm_apply_apply]
+    rfl
+
+theorem fieldConjHom_apply (σ : Gal(Ωw/Ev)) (x : Ωv) : fieldConjHom Kv L e hL σ x = e (σ (e.symm x)) :=
+  rfl
+
+variable [Algebra.IsIntegral Ev Ωw]
+
+theorem continuous_fieldConjHom : Continuous (fieldConjHom Kv L e hL) := by
+  refine continuous_of_continuousAt_one _ ?_
+  rw [ContinuousAt, map_one]
+  intro s hs
+  obtain ⟨M, hM, hMs⟩ := (krullTopology_mem_nhds_one_iff L Ωv s).1 hs
+  rw [Filter.mem_map, krullTopology_mem_nhds_one_iff]
+  have : Module.Free L M := Module.Free.of_divisionRing L M
+  let b := Module.finBasis L M
+  let T : Set Ωw := Set.range fun i => e.symm (b i : Ωv)
+  refine ⟨IntermediateField.adjoin Ev T, ?_, ?_⟩
+  · refine IntermediateField.finiteDimensional_adjoin fun x _ => ?_
+    exact Algebra.IsIntegral.isIntegral x
+  · intro σ hσ
+    apply hMs
+    rw [SetLike.mem_coe, IntermediateField.mem_fixingSubgroup_iff] at hσ ⊢
+    intro x hx
+    have hT : ∀ i, fieldConjHom Kv L e hL σ (b i : Ωv) = b i := fun i => by
+      rw [fieldConjHom_apply, hσ _ (IntermediateField.subset_adjoin Ev T ⟨i, rfl⟩), RingEquiv.apply_symm_apply]
+    have hx' : x = ∑ i, (b.repr ⟨x, hx⟩ i) • (b i : Ωv) := by
+      calc x = M.val (∑ i, b.repr ⟨x, hx⟩ i • b i) := by rw [b.sum_repr]; rfl
+        _ = ∑ i, (b.repr ⟨x, hx⟩ i) • (b i : Ωv) := by
+
+          rw [map_sum]
+          exact Finset.sum_congr rfl fun i _ => map_smul M.val _ _
+
+    rw [hx', map_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    rw [map_smul, hT]
+
+variable [Algebra.IsIntegral L Ωv]
+
+def fieldConjUnitsMor : Rep.res (fieldConjHom Kv L e hL) (galUnitsZ L Ωv) ⟶ galUnitsZ Ev Ωw :=
+  Rep.ofHom ⟨(MonoidHom.toAdditive (Units.map e.symm.toRingHom.toMonoidHom)).toIntLinearMap,
+    fun σ => LinearMap.ext fun x => congrArg Additive.ofMul (Units.ext (by
+      change e.symm (e (σ (e.symm ((Additive.toMul (x : Additive Ωvˣ) : Ωvˣ) : Ωv)))) =
+        σ (e.symm ((Additive.toMul (x : Additive Ωvˣ) : Ωvˣ) : Ωv))
+      exact e.symm_apply_apply _))⟩
+
+end Conj
+
+section Main
+
+variable {K E : FiniteSubfield} [Fact (K ≤ E)]
+  (Kv : Type) {Ωv : Type} [Field Kv] [Field Ωv] [Algebra K.1 Kv] [Algebra Kv Ωv] [Algebra K.1 Ωv]
+  [IsScalarTower K.1 Kv Ωv] [Algebra.IsIntegral Kv Ωv]
+  (Ew : Type) {Ωw : Type} [Field Ew] [Field Ωw] [Algebra E.1 Ew] [Algebra Ew Ωw] [Algebra E.1 Ωw]
+  [IsScalarTower E.1 Ew Ωw] [Algebra.IsIntegral Ew Ωw]
+  (L : IntermediateField Kv Ωv) [Algebra.IsIntegral L Ωv] (e : Ωw ≃+* Ωv)
+  (hL : ∀ l ∈ L, ∃ y : Ew, e (algebraMap Ew Ωw y) = l)
+  (ιK : ℚ̄ →ₐ[K.1] Ωv) (ιE : ℚ̄ →ₐ[E.1] Ωw) (hι : ∀ x, e (ιE x) = ιK x)
+
+
+include hι in
+theorem unitsLocalRes_unitsResField (n : ℕ) (x : cohomology (unitsLimitRep K) n) :
+    (unitsLocalRes Ew ιE n).hom ((unitsResField K E n).hom x) =
+      (cohomologyMapAlong (fieldConjHom Kv L e hL) (continuous_fieldConjHom Kv L e hL) (fieldConjUnitsMor Kv L e hL) n).hom
+        ((unitsScalarsRes Kv Ωv L n).hom ((unitsLocalRes Kv ιK n).hom x)) := by
+  have h : unitsResField K E n ≫ unitsLocalRes Ew ιE n = unitsLocalRes Kv ιK n ≫
+      unitsScalarsRes Kv Ωv L n ≫
+        cohomologyMapAlong (fieldConjHom Kv L e hL) (continuous_fieldConjHom Kv L e hL) (fieldConjUnitsMor Kv L e hL) n := by
+    rw [unitsResField, unitsLocalRes, unitsLocalRes, unitsScalarsRes, ← cohomologyMapAlong_comp,
+      ← cohomologyMapAlong_comp, ← cohomologyMapAlong_comp]
+    refine cohomologyMapAlong_congr _ _ _ _ (MonoidHom.ext fun σ => ?_) (fun a => ?_) n
+    · apply Subtype.ext
+      apply AlgEquiv.ext
+      intro y
+      apply ιK.injective
+      change ιK ((globalDecomp Ew ιE σ : ℚ̄ ≃ₐ[ℚ] ℚ̄) y) =
+        ιK ((globalDecomp Kv ιK (AlgEquiv.restrictScalarsHom Kv (fieldConjHom Kv L e hL σ)) : ℚ̄ ≃ₐ[ℚ] ℚ̄) y)
+      rw [globalDecomp_apply, ← hι, ← hι, globalDecomp_apply]
+      change e (σ (ιE y)) = e (σ (e.symm (e (ιE y))))
+      rw [RingEquiv.symm_apply_apply]
+    · apply Additive.toMul.injective
+      apply Units.ext
+      change ιE ((Additive.toMul (a : Additive ℚ̄ˣ) : ℚ̄ˣ) : ℚ̄) =
+        e.symm (ιK ((Additive.toMul (a : Additive ℚ̄ˣ) : ℚ̄ˣ) : ℚ̄))
+      rw [← hι, RingEquiv.symm_apply_apply]
+  exact (congrArg (fun φ => φ.hom x) h)
+
+
+include hL hι in
+theorem unitsLocalRes_unitsResField_eq_zero (n : ℕ) (x : cohomology (unitsLimitRep K) n)
+    (hx : (unitsScalarsRes Kv Ωv L n).hom ((unitsLocalRes Kv ιK n).hom x) = 0) :
+    (unitsLocalRes Ew ιE n).hom ((unitsResField K E n).hom x) = 0 := by
+  rw [unitsLocalRes_unitsResField Kv Ew L e hL ιK ιE hι, hx, map_zero]
+
+end Main
+
+end
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory NumberField IntermediateField GroundTheory.Global FiniteSubfield IsDedekindDomain
+
+open scoped DirectSum
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+noncomputable section
+
+variable {K : FiniteSubfield}
+
+
+variable (K) in
+def unitsInvariantLimit (a : K.1ˣ) : (unitsLimitRep K).ρ.invariants :=
+  ⟨Additive.ofMul (Units.map (algebraMap K.1 ℚ̄ : K.1 →* ℚ̄) a), fun g => by
+    apply Additive.toMul.injective
+    apply Units.ext
+    change (g : ℚ̄ ≃ₐ[ℚ] ℚ̄) (algebraMap K.1 ℚ̄ (a : K.1)) = algebraMap K.1 ℚ̄ (a : K.1)
+    exact (IntermediateField.mem_fixingSubgroup_iff _ _).1 g.2 _ (a : K.1).2⟩
+
+def globalCupClass (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ) : cohomology (unitsLimitRep K) 2 :=
+  (cupCharClassProf (unitsLimitRep K) χ).hom (unitsInvariantLimit K a)
+
+section General
+
+variable (Kv : Type) {Ωv : Type} [Field Kv] [Field Ωv] [Algebra K.1 Kv] [Algebra Kv Ωv] [Algebra K.1 Ωv]
+  [IsScalarTower K.1 Kv Ωv] [Algebra.IsIntegral Kv Ωv] [IsGalois Kv Ωv] (ι : ℚ̄ →ₐ[K.1] Ωv)
+
+theorem unitsLocalRes_globalCupClass (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ) :
+    (unitsLocalRes Kv ι 2).hom (globalCupClass χ a) =
+      galCupClass Kv Ωv (contCharComp χ (globalDecomp Kv ι) (continuous_globalDecomp Kv ι))
+        (Units.map (algebraMap K.1 Kv : K.1 →* Kv) a) := by
+  refine cohomologyMapAlong_cupCharClassProf _ _ _ χ _ _ ?_
+  apply Additive.toMul.injective
+  apply Units.ext
+  change algebraMap Kv Ωv (algebraMap K.1 Kv (a : K.1)) = ι (algebraMap K.1 ℚ̄ (a : K.1))
+  rw [← IsScalarTower.algebraMap_apply, AlgHom.commutes]
+
+end General
+
+variable (ι : LocalEmbeddings K)
+
+theorem placeInv_brauerLocal_globalCupClass_inr (v : HeightOneSpectrum (𝓞 K.1))
+    (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ)
+    (g : Gal(AlgebraicClosure (v.adicCompletion K.1)/v.adicCompletion K.1))
+    (hg : ∀ (y : AlgebraicClosure (v.adicCompletion K.1))
+      (hy : y ∈ GroundTheory.LocalField.maximalAbelianExtension (v.adicCompletion K.1)
+        (AlgebraicClosure (v.adicCompletion K.1))),
+      g y = (GroundTheory.LocalField.localArtinMap (v.adicCompletion K.1) (AlgebraicClosure (v.adicCompletion K.1))
+        (Units.map (algebraMap K.1 (v.adicCompletion K.1) : K.1 →* v.adicCompletion K.1) a) ⟨y, hy⟩ :
+          AlgebraicClosure (v.adicCompletion K.1))) :
+    placeInv (.inr v) (brauerLocal ι (globalCupClass χ a) (.inr v)) =
+      χ (Additive.ofMul (globalDecomp (v.adicCompletion K.1) (ι.fin v) g)) := by
+  rw [brauerLocal_apply_inr, unitsLocalRes_globalCupClass]
+  exact brauerInvZOfIsSepClosure_galCupClass _ _ g hg
+
+theorem placeInv_brauerLocal_globalCupClass_inl (v : InfinitePlace K.1)
+    (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ) (g : Gal(AlgebraicClosure v.Completion/v.Completion))
+    (hg : g = 1 ↔ algebraMap K.1 v.Completion (a : K.1) ∈
+      Set.range (Algebra.norm v.Completion : AlgebraicClosure v.Completion → v.Completion)) :
+    placeInv (.inl v) (brauerLocal ι (globalCupClass χ a) (.inl v)) =
+      χ (Additive.ofMul (globalDecomp v.Completion (ι.inf v) g)) := by
+  rw [brauerLocal_apply_inl, unitsLocalRes_globalCupClass]
+  exact quadraticInv_galCupClass _ _ (infAlgClosure_finrank_le_two v) (infAlgClosure_mul_mem_range_norm v) _ _ g hg
+
+end
+
+end GroundTheory.ProfCoh
+end

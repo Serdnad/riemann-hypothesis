@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SplitDoublingNBlock
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle022
 public import Development.WeilBound.CoreStatements.FiniteTypeHarishChandra.FiniteDimensionalHcSpace
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GGMirabolicBase
 public import Mathlib.RepresentationTheory.Character
 public import CompanionTheory.AutomorphicTheory.MirabolicRestriction.MirabolicInduction.IndFacts
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankMirabolicWhittakerEigenspace
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalWhittaker
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle126
 public import Development.AutomorphicSpectrum.Proofs.SemilocalMultiplicity.GelfandGraevMultOneHolds
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

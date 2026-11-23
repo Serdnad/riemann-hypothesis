@@ -1,10 +1,9 @@
 module
 
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvKirA
-public import Development.DiscreteGroups.GlobalIrreducibility.ContinuousKinv2
-public import Development.DiscreteGroups.GlobalIrreducibility.InHCorner
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvKirB
-public import Development.DiscreteGroups.GlobalIrreducibility.LConvKirC
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle006
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle008
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle007
+public import Development.DiscreteGroups.GlobalIrreducibility.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

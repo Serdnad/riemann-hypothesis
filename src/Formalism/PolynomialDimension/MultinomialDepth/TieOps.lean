@@ -3,7 +3,7 @@ module
 public import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.GamInt
-public import Formalism.MahlerMeasure.StatementT
+public import Formalism.MahlerMeasure.Bundle005
 public import Mathlib.CategoryTheory.Category.Basic
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeBij
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeInto

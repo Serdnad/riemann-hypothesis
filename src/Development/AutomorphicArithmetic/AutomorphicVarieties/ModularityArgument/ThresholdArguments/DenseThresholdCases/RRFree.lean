@@ -1,28 +1,28 @@
 module
 
 public import Mathlib
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.LocalConditionCharacters.LocalConditionOfFlagOfCharactersNotCyclotomicShi
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.LocalConditionCharacters.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.OrdZero
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalAdjoinRange
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeilRepEquivOfCharpolyEqStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle117
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.LevelIso
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ContinuousCharacterCompactUnitValues
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AAcrossOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle074
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.CompatTOf
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.PlainRec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.SsCalcP
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LocCharDR
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TLocCompC
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.EpsArt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle034
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle017
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle027
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaArith
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaArtin
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OrdCharIff
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle026
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.PstExact
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RankTwoPatching.RatioT
 import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-import GroundTheory.ProfiniteCohomology.LocalClassFormation.UnramifiedRes
+import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -76,14 +76,14 @@ open UpperTheory.GalN.V UpperTheory.Zero.LLC UpperTheory.V.Z.Win
 open scoped Pointwise
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
-    _root_.UpperTheory.V.Af.Hypotheses' → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ) (r : G F Ω →* GL (Fin n) (Qbar l)), Continuous r → ∀ (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω) (h : IsPlaceOver A w), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ x : WD h, (∀ (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l F Ω (Dec (F := F) A) O) (hj : Induces Bw), IsPstAt (Loc.PP l) Bw (r.comp (Dec (F := F) A).subtype) ∧ Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj (r.comp (Dec (F := F) A).subtype)) x) → (x.mono0 → RatioW x) → ∀ (ψ : Fin n → Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ), W.HasFlag (r.comp (Dec (F := F) A).subtype) ψ → StrictAnti m → 0 < k → (∀ i (g : Dec (F := F) A), (g : G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1) → ((∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (Dec (F := F) A).subtype) ∨ x.mono0) → ∃ g : Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
+    _root_.UpperTheory.V.Af.Hypotheses' → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)), Continuous r → ∀ (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ x : WD h, (∀ (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l F Ω (_root_.ReciprocityTheory.Gal.Dec (F := F) A) O) (hj : Induces Bw), IsPstAt (Loc.PP l) Bw (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) ∧ Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype)) x) → (x.mono0 → RatioW x) → ∀ (ψ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ), W.HasFlag (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) ψ → StrictAnti m → 0 < k → (∀ i (g : _root_.ReciprocityTheory.Gal.Dec (F := F) A), (g : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1) → ((∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) ∨ x.mono0) → ∃ g : _root_.ReciprocityTheory.Gal.Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
   intro P F Ω _ _ _ _ _ l _ _ ι n r hr w A h hw x hx ht ψ m k hf hm hk hI hor
   have hN := P.litN
   have H := hN.aut.art
   obtain ⟨a, ha⟩ := Loc.laArtin H h
   obtain ⟨O, _, _, _, Bw, hj⟩ := Af.exists_bridge (l := l) h hw
   obtain ⟨hp, hcmp⟩ := hx O Bw hj
-  have hc : Continuous (r.comp (Dec (F := F) A).subtype) := hr.comp continuous_subtype_val
+  have hc : Continuous (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) := hr.comp continuous_subtype_val
   have hψc : ∀ i, Continuous (ψ i) := by
     intro i
     obtain ⟨g, hg⟩ := hf
@@ -93,7 +93,7 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
     exact Units.continuous_iff.2 ⟨hval, (hval.comp continuous_inv).congr fun s => by simp⟩
   choose ω hω using fun i => (Loc.ordCharIff H h ι a ha (fun _ => -m i) (ψ i)).1.2
     ⟨hψc i, Loc.laArith H h hw (ψ i) (hψc i) (m i) k hk (hI i)⟩
-  have hpol : ∀ s, (wdAt (Loc.PP l) ι Bw h hj (r.comp (Dec (F := F) A).subtype)).charPol s =
+  have hpol : ∀ s, (wdAt (Loc.PP l) ι Bw h hj (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype)).charPol s =
       ∏ i, (X - C (((ω i).comp a) s : ℂ)) := fun s => by
     obtain ⟨M, hM⟩ := hf
     obtain ⟨T⟩ := UpperTheory.V.Loc.tiedP l
@@ -104,15 +104,15 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
     exact Finset.prod_congr rfl fun i _ => (hc i).2.2 s
   have hxp := fun s => (hcmp (Or.inl ((Lev.ssCalc F Ω A w h).1 n _ _ hpol)) s).symm.trans (hpol s)
   let inc := Subgroup.inclusion (Weil_le_Dec h)
-  let ε : ↥(Dec (F := F) A) →* (Qbar l)ˣ := (cycBar F Ω l).comp (Dec (F := F) A).subtype
-  let χ : Fin n → ↥(Dec (F := F) A) →* (Qbar l)ˣ := fun i => ψ i * ε ^ (-m i)
+  let ε : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) →* (Qbar l)ˣ := (cycBar F Ω l).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype
+  let χ : Fin n → ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) →* (Qbar l)ˣ := fun i => ψ i * ε ^ (-m i)
   have hεc : Continuous ε :=
     ((Continuous.units_map ((algebraMap ℚ_[l] (Qbar l)).comp PadicInt.Coe.ringHom).toMonoidHom
       ((continuous_algebraMap ℚ_[l] (Qbar l)).comp continuous_subtype_val)).comp
       (continuous_cycZ F Ω l)).comp continuous_subtype_val
   have hχc : ∀ i, Continuous (χ i) := fun i => (hψc i).mul ((continuous_zpow (-m i)).comp hεc)
-  have hq : ((normV w : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (one_lt_normV w).ne_bot
-  have hq' : ((normV w : ℕ) : Qbar l) ≠ 0 := Nat.cast_ne_zero.mpr (one_lt_normV w).ne_bot
+  have hq : ((normV w : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr (_root_.GlobalTheory.WeilDeligne.one_lt_normV w).ne_bot
+  have hq' : ((normV w : ℕ) : Qbar l) ≠ 0 := Nat.cast_ne_zero.mpr (_root_.GlobalTheory.WeilDeligne.one_lt_normV w).ne_bot
   have hAlgPow (c : ℤ) (y : w.adicCompletion F) :
       Hi.algPow (l := l) w (-fun _ => -c) y = Hi.algPow w (fun _ => 1) y ^ c := by
     have := GlobalTheory.HeckeGal.finite_contEmb (l := l) w
@@ -148,7 +148,7 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
   have hex : ∃ s : Weil h, deg s ≠ 0 ∧ cycZ F Ω l s = 1 := by
     have := GlobalTheory.HeckeGal.finite_contEmb (l := l) w
     let _ := Fintype.ofFinite (W.Emb l w)
-    have : CompactSpace (Dec (F := F) A) := isCompact_iff_compactSpace.1 (isClosed_Dec A).isCompact
+    have : CompactSpace (_root_.ReciprocityTheory.Gal.Dec (F := F) A) := isCompact_iff_compactSpace.1 (isClosed_Dec A).isCompact
     have : CharZero (w.adicCompletion F) := algebraRat.charZero _
     have hl : (l : Qbar l) ≠ 0 := Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero
     obtain ⟨s, hs⟩ := ha.surj (Units.mk0 (l : w.adicCompletion F) (Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero))
@@ -292,7 +292,7 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
       · exact mono0_of_charPol_eq_prod_of_ne_normV_pow_mul x μ hμ hx h1
       · exact h1
     have hR := ht hm
-    have hq1 : (1 : ℝ) < ((normV w : ℕ) : ℝ) := by exact_mod_cast one_lt_normV w
+    have hq1 : (1 : ℝ) < ((normV w : ℕ) : ℝ) := by exact_mod_cast _root_.GlobalTheory.WeilDeligne.one_lt_normV w
     have hq0 : (0 : ℝ) < ((normV w : ℕ) : ℝ) := by linarith
     have hpos : ∀ l g, 0 < ‖(μ l g : ℂ)‖ := fun l g => norm_pos_iff.mpr (Units.ne_zero _)
     have hmem : ∀ g l, (μ l g : ℂ) ∈ x.eig g := by
@@ -347,7 +347,7 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
     rw [← norm_pow, ← norm_pow, ← map_pow, ← map_pow, ← Units.val_pow_eq_pow_val, ← Units.val_pow_eq_pow_val]
     exact congrArg (fun u : (Qbar l)ˣ => ‖ι (u : Qbar l)‖) e
   have h0 : ‖ι (ψ j (inc s) : Qbar l)‖ ≠ 0 := norm_ne_zero_iff.2 ((map_ne_zero ι).mpr (Units.ne_zero _))
-  have hq1 : (1 : ℝ) < (normV w : ℕ) := by exact_mod_cast one_lt_normV w
+  have hq1 : (1 : ℝ) < (normV w : ℕ) := by exact_mod_cast _root_.GlobalTheory.WeilDeligne.one_lt_normV w
   refine hm.injective (sub_eq_zero.1 (hn s hs (m i - m j) ?_))
   rw [hμ, hμ, h8, h8, norm_mul, norm_mul, h9, norm_zpow, norm_zpow, Complex.norm_natCast, ← mul_assoc,
     ← zpow_add₀ (zero_lt_one.trans hq1).ne']
@@ -355,14 +355,14 @@ theorem UpperTheory.V.Z.Win.RR.purLocA_alt :
   ring
 namespace UpperTheory.V.Z.Win.RR
 theorem free_core_alt (PH : _root_.UpperTheory.V.Af.HypothesesH') (F Ω : Type) [Field F] [NumberField F] [IsCMField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω]
-    (l : ℕ) [Fact l.Prime] (hl : l ≠ 2) (ι : Qbar l ≃+* ℂ) (n : ℕ) (hn : 1 ≤ n) (r : G F Ω →* GL (Fin n) (Qbar l)) (hr : Continuous r)
+    (l : ℕ) [Fact l.Prime] (hl : l ≠ 2) (ι : Qbar l ≃+* ℂ) (n : ℕ) (hn : 1 ≤ n) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (hr : Continuous r)
     (π : CuspSub F n) (hreg : (CG.mk π).IsRegAlg) (hpol : ∃ χ, GlobalTheory.ContraPair.PolarizedPair π χ) (hatt : AttC ι r π) (hW : WitA ι r)
-    (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω) (h : IsPlaceOver A w) (hw : ((l : ℕ) : 𝓞 F) ∈ w.asIdeal)
-    (ψ : Fin n → Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ)
-    (hflag : W.HasFlag (r.comp (Dec (F := F) A).subtype) ψ) (hm : StrictAnti m) (hk : 0 < k)
-    (hine : ∀ i (g : Dec (F := F) A), (g : G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1)
-    (hgen : ∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (Dec (F := F) A).subtype) :
-    ∃ g : Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
+    (w : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hw : ((l : ℕ) : 𝓞 F) ∈ w.asIdeal)
+    (ψ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ)
+    (hflag : W.HasFlag (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) ψ) (hm : StrictAnti m) (hk : 0 < k)
+    (hine : ∀ i (g : _root_.ReciprocityTheory.Gal.Dec (F := F) A), (g : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1)
+    (hgen : ∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) :
+    ∃ g : _root_.ReciprocityTheory.Gal.Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
   have P := PH.toClassicalTheorems
   have hU := local_condition_of_flag_of_characters_not_cyclotomic_shift h hflag hgen
   obtain ⟨⟨σ, hσ⟩, -⟩ := _root_.UpperTheory.V.Af.local_comp_complex_of_printed_results P F n π w
@@ -376,12 +376,12 @@ theorem free_core_alt (PH : _root_.UpperTheory.V.Af.HypothesesH') (F Ω : Type) 
     (fun _ => UpperTheory.Gal.SV.ratioT F Ω A w h rc hrc n π t (ht w (Or.inr (hW.1 w hw hU))) σ hσ) ψ m k hflag hm hk hine (Or.inl hgen)
 theorem exists_cycZ_eq_one_freeRatios_of_ne_mul_cycBar :
     _root_.UpperTheory.V.Af.HypothesesH' → ∀ (F Ω : Type) [Field F] [NumberField F] [IsCMField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 →
-        ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n → ∀ r : G F Ω →* GL (Fin n) (Qbar l), Continuous r → IsAutCsdA ι r →
-        ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ (ψ : Fin n → Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ),
-          W.HasFlag (r.comp (Dec (F := F) A).subtype) ψ → StrictAnti m → 0 < k →
-          (∀ i (g : Dec (F := F) A), (g : G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1) →
-          (∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (Dec (F := F) A).subtype) →
-          ∃ g : Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
+        ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n → ∀ r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l), Continuous r → IsAutCsdA ι r →
+        ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ (ψ : Fin n → _root_.ReciprocityTheory.Gal.Dec (F := F) A →* (Qbar l)ˣ) (m : Fin n → ℤ) (k : ℕ),
+          W.HasFlag (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) ψ → StrictAnti m → 0 < k →
+          (∀ i (g : _root_.ReciprocityTheory.Gal.Dec (F := F) A), (g : _root_.Formalism.ConjugateSelfDual.G F Ω) ∈ Ine (F := F) A → (ψ i g * cycBar F Ω l g ^ (-m i)) ^ k = 1) →
+          (∀ i j, ψ i ≠ ψ j * (cycBar F Ω l).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) →
+          ∃ g : _root_.ReciprocityTheory.Gal.Dec (F := F) A, cycZ F Ω l g = 1 ∧ Pr.FreeRatios fun i => ψ i g := by
   intro PH F Ω _ _ _ _ _ _ l _ hl ι n hn r hr haut A hA ψ m k hflag hm hk hine hgen
   obtain ⟨⟨π, hreg, hcsd, hatt⟩, hW⟩ := haut
   have hpol : GlobalTheory.ContraPair.PolarizedPair π (quadChar F ^ n) :=
@@ -389,7 +389,7 @@ theorem exists_cycZ_eq_one_freeRatios_of_ne_mul_cycBar :
       have e : (quadChar F ^ n).locInf v (-1) = (quadChar F).locInf v (-1) ^ n := rfl
       rw [e, quadChar_locInf],
      by rw [map_pow, compNorm_quadChar, one_pow]; exact (GlobalTheory.ContraPair.dualIsConjBy_one π).2 hcsd⟩
-  have hplace : ∃ w : HeightOneSpectrum (𝓞 F), IsPlaceOver A w ∧ (l : 𝓞 F) ∈ w.asIdeal := by
+  have hplace : ∃ w : HeightOneSpectrum (𝓞 F), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w ∧ (l : 𝓞 F) ∈ w.asIdeal := by
     have hint : A.valuation.Integers A :=
       { hom_inj := Subtype.coe_injective
         map_le_one := fun a => A.valuation_le_one a
@@ -423,10 +423,10 @@ theorem exists_cycZ_eq_one_freeRatios_of_ne_mul_cycBar :
 end UpperTheory.V.Z.Win.RR
 open UpperTheory.V.Z.Win.RR in
 theorem UpperTheory.V.Z.Win.RR.freeAt_of_autPA_of_unl_of_finrank_eq_two :
-    _root_.UpperTheory.V.Af.HypothesesH' → ∀ (K Ω : Type) [Field K] [NumberField K] [IsCMField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω], Module.finrank ℚ K = 2 → ∀ (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ), 2 ≤ n → ∀ (r : G K Ω →* GL (Fin n) (Qbar l)) (M : ℕ) (m : Fin n → ℤ), 1 ≤ M → StrictAnti m → Continuous r → AutPA ι r → Th.Unl l M m r → FreeAt l r := by
+    _root_.UpperTheory.V.Af.HypothesesH' → ∀ (K Ω : Type) [Field K] [NumberField K] [IsCMField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω], Module.finrank ℚ K = 2 → ∀ (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (ι : Qbar l ≃+* ℂ) (n : ℕ), 2 ≤ n → ∀ (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (M : ℕ) (m : Fin n → ℤ), 1 ≤ M → StrictAnti m → Continuous r → AutPA ι r → Th.Unl l M m r → FreeAt l r := by
   intro PH K Ω _ _ _ _ _ _ hK l _ hl ι n hn r M m hM hm hr haut hU B hB
   have P : _root_.UpperTheory.V.Af.Hypotheses' := PH.toClassicalTheorems
-  have hplace : ∃ w : HeightOneSpectrum (𝓞 K), IsPlaceOver B w ∧ (l : 𝓞 K) ∈ w.asIdeal := by
+  have hplace : ∃ w : HeightOneSpectrum (𝓞 K), _root_.Formalism.ConjugateSelfDual.IsPlaceOver B w ∧ (l : 𝓞 K) ∈ w.asIdeal := by
     have hint : B.valuation.Integers B :=
       { hom_inj := Subtype.coe_injective
         map_le_one := fun a => B.valuation_le_one a
@@ -460,7 +460,7 @@ theorem UpperTheory.V.Z.Win.RR.freeAt_of_autPA_of_unl_of_finrank_eq_two :
   obtain ⟨A, hA, κ, hF, hunl⟩ := hU w hw
   obtain ⟨χ, hχ, hflag, hκ⟩ := id hF
   have pow_eq_one_of_kills {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω]
-      {M : ℕ} (hM : 1 ≤ M) : ∃ k : ℕ, 0 < k ∧ ∀ (C : Type) [Monoid C] (χ : G F Ω →* C), KillsMu M χ → ∀ s, χ s ^ k = 1 := by
+      {M : ℕ} (hM : 1 ≤ M) : ∃ k : ℕ, 0 < k ∧ ∀ (C : Type) [Monoid C] (χ : _root_.Formalism.ConjugateSelfDual.G F Ω →* C), KillsMu M χ → ∀ s, χ s ^ k = 1 := by
     classical
     refine ⟨M.factorial, Nat.factorial_pos M, ?_⟩
     intro C _ χ hχ s
@@ -494,24 +494,24 @@ theorem UpperTheory.V.Z.Win.RR.freeAt_of_autPA_of_unl_of_finrank_eq_two :
     rw [hpow] at h2
     exact h2.symm
   obtain ⟨k, hk, hpow⟩ := pow_eq_one_of_kills (F := K) (Ω := Ω) hM
-  have hflag' : W.HasFlag (r.comp (Dec (F := K) A).subtype) κ := hflag
+  have hflag' : W.HasFlag (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype) κ := hflag
   obtain ⟨g, hg, hfree⟩ := _root_.UpperTheory.V.Z.Win.RR.free_core_alt PH K Ω l hl ι n (by omega) r hr π hreg hpol hatt (hW hr) w A hA hw κ m k hflag' hm hk
     (fun i s hs => by
       rw [hκ i s hs, zpow_neg, mul_inv_cancel_comm]
       exact hpow _ _ (hχ i) _) hunl
   obtain ⟨t, rfl⟩ := exists_smul_eq_of_isPlaceOver (F := K) hA hBw
   refine ⟨t * g * t⁻¹, ?_, ?_, fun i => κ i g, hfree, ?_⟩
-  · have h1 : (g : G K Ω) • A = A := g.2
-    show (t * (g : G K Ω) * t⁻¹) • t • A = t • A
+  · have h1 : (g : _root_.Formalism.ConjugateSelfDual.G K Ω) • A = A := g.2
+    show (t * (g : _root_.Formalism.ConjugateSelfDual.G K Ω) * t⁻¹) • t • A = t • A
     rw [mul_smul, mul_smul, inv_smul_smul, h1]
   · rw [map_mul, map_mul, map_inv, mul_inv_cancel_comm, hg]
-  · have h1 : ((r t * r (g : G K Ω) * (r t)⁻¹ : GL (Fin n) (Qbar l)) :
+  · have h1 : ((r t * r (g : _root_.Formalism.ConjugateSelfDual.G K Ω) * (r t)⁻¹ : GL (Fin n) (Qbar l)) :
         Matrix (Fin n) (Fin n) (Qbar l)).charpoly = ∏ i, (X - C (κ i g : Qbar l)) := by
       obtain ⟨b, hb⟩ := hflag'
-      rw [show r t * r (g : G K Ω) * (r t)⁻¹ =
-        (r t * b⁻¹) * (b * r (g : G K Ω) * b⁻¹) * (r t * b⁻¹)⁻¹ by group]
+      rw [show r t * r (g : _root_.Formalism.ConjugateSelfDual.G K Ω) * (r t)⁻¹ =
+        (r t * b⁻¹) * (b * r (g : _root_.Formalism.ConjugateSelfDual.G K Ω) * b⁻¹) * (r t * b⁻¹)⁻¹ by group]
       rw [Units.val_mul, Units.val_mul, Matrix.coe_units_inv, Matrix.charpoly_units_conj]
-      change (↑(b * (r.comp (Dec (F := K) A).subtype) g * b⁻¹) :
+      change (↑(b * (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype) g * b⁻¹) :
         Matrix (Fin n) (Fin n) (Qbar l)).charpoly = _
       rw [Matrix.charpoly_of_isUpperTriangular _ (fun i j hij => (hb g).1 i j hij)]
       exact Finset.prod_congr rfl (fun i _ => by rw [(hb g).2 i])

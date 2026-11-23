@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsMultiHomogeneousFixFirstBlock
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle004
 public import Development.WeilBound.CoreStatements.NefModelVolumes.ChowFormOfIntegralVersion
 public import Development.WeilBound.CoreStatements.NefModelVolumes.ChowFormUniqueUpToConstant
 public import Development.WeilBound.CoreStatements.NefModelVolumes.HyperplaneSectionDivCycle
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LowerBoundConditional
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

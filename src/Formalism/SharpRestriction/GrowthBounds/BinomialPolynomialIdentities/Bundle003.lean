@@ -1,0 +1,173 @@
+module
+
+public import Formalism.SharpRestriction.GrowthBounds.ObjPol
+public import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomposition
+public import Formalism.SharpRestriction.GrowthBounds.StatementOfDegreeAndBound
+public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.Bundle002
+import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.PeBnOfLt
+import Formalism.ThetaLogCoordinates.JacobiPathWeights.PathBasisTheorem
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.TwistSubEqMatrixSubst
+
+@[expose] public section
+
+section
+
+noncomputable section
+open MvPolynomial Finset
+open Formalism.MainNotions.G Formalism.MainNotions.CovariantDegrees
+
+namespace Formalism.MainNotions.G.ColumnFamilies
+
+open Formalism.MainNotions.G Formalism.MainNotions.CovariantDegrees
+
+theorem standardPath_basis_any_ring (R : Type) [CommRing R] (N n : ℕ) (LL : Letters (Fin N)) (B : Fin N → ℕ) :
+    LinearIndependent R (fun x : {x : PPath n N LL B × (ℤ → Finset (Fin n)) // IsSt x.1.mu x.2} =>
+      Psi R x.1.1.mu x.1.2) ∧
+    Submodule.span R {G | ∃ P : PPath n N LL B, ∃ I : ℤ → Finset (Fin n), IsSt P.mu I ∧ G = Psi R P.mu I} =
+      Pol R n B := by
+  have hT := restPathTo
+  have hF := restPathFrom
+  have hS := restStd
+  have hP := restPsi
+  have hPol := restPol
+  obtain ⟨hLI, hSp⟩ := Formalism.InvariantFactorPaths.GelfandTsetlinBases.Top.psiPath_basis n N (isV LL) (Bn B) R
+  have hinj : Function.Injective
+      (rename (iv N n) : MvPolynomial (Fin N × Fin n) R →ₐ[R] MvPolynomial (ℕ × Fin n) R).toLinearMap :=
+    rename_injective _ (iv_inj N n)
+  have hfun : (fun x : WIdx n N LL B =>
+      (rename (iv N n) : MvPolynomial (Fin N × Fin n) R →ₐ[R] MvPolynomial (ℕ × Fin n) R).toLinearMap
+        (Psi R x.1.1.mu x.1.2)) =
+      (fun y : Formalism.InvariantFactorPaths.GelfandTsetlinBases.PathIdx n N (isV LL) (Bn B) => Formalism.InvariantFactorPaths.GelfandTsetlinBases.psiPath R (isV LL) y.1.1 N y.1.2) ∘
+        (e17 hT hF hS n N LL B) := by
+    funext x
+    exact rename_Psi hT hF hS hP R x
+  constructor
+  · have h1 := hLI.comp (e17 hT hF hS n N LL B) (e17 hT hF hS n N LL B).injective
+    rw [← hfun] at h1
+    exact LinearIndependent.of_comp _ h1
+  · apply Submodule.map_injective_of_injective hinj
+    rw [hPol R n N B, ← hSp, Submodule.map_span]
+    congr 1
+    ext G
+    constructor
+    · rintro ⟨_, ⟨P, I, hI, rfl⟩, rfl⟩
+      exact ⟨e17 hT hF hS n N LL B ⟨(P, I), hI⟩, (congrFun hfun ⟨(P, I), hI⟩).symm⟩
+    · rintro ⟨y, rfl⟩
+      obtain ⟨x, rfl⟩ := (e17 hT hF hS n N LL B).surjective y
+      exact ⟨Psi R x.1.1.mu x.1.2, ⟨x.1.1, x.1.2, x.2, rfl⟩, congrFun hfun x⟩
+
+theorem standardPath_index_finite (N n : ℕ) (LL : Letters (Fin N)) (B : Fin N → ℕ) :
+    Finite {x : PPath n N LL B × (ℤ → Finset (Fin n)) // IsSt x.1.mu x.2} := by
+  have := Formalism.InvariantFactorPaths.GelfandTsetlinBases.Top.pathIdxFinite n N (isV LL) (Bn B)
+  exact Finite.of_equiv _ (e17 restPathTo restPathFrom restStd n N LL B).symm
+
+end Formalism.MainNotions.G.ColumnFamilies
+end
+end
+
+section
+
+noncomputable section
+
+open MvPolynomial Finset
+
+namespace Formalism.MainNotions.G.ColumnFamilies
+
+open Formalism.MainNotions.G Formalism.MainNotions.CovariantDegrees Formalism.MainNotions.G.GLWeightTheory Formalism.MainNotions.G.Joints
+
+def RestTypes : Prop :=
+  ∀ (F : Type) [Field F] [CharZero F] (N : ℕ) (LL : Letters (Fin N)) (n : ℕ) (S : Set (Fin N))
+    (pi : Set (Fin n → ℤ)), DomLowerSet pi → ∀ G : MvPolynomial (Fin N × Fin n) F,
+    (G ∈ ⨆ lam ∈ pi, isoSub (glOps F n LL S) lam) ↔
+      ∀ mu ∈ polWts LL S (polGenSub F LL S G), Dominant mu → mu ∈ pi
+
+def LowerSetTypesSpan : Prop :=
+  ∀ (F : Type) [Field F] [CharZero F] (N n : ℕ) (LL : Letters (Fin N)) (B : Fin N → ℕ) (i : Fin (N + 1))
+    (pi : Set (Fin n → ℤ)), DomLowerSet pi →
+    Pol F n B ⊓ (⨆ lam ∈ pi, isoSub (glOps F n LL {l | l.val < i.val}) lam) =
+      Submodule.span F {H | ∃ P : PPath n N LL B, ∃ I : ℤ → Finset (Fin n), IsSt P.mu I ∧ P.mu i ∈ pi ∧
+        H = Psi F P.mu I}
+
+structure JointData (K V : Type) [Field K] [AddCommGroup V] [Module K V] (κ : Type) (Λ : κ → Type) (X : Type) where
+  le : ∀ i, Λ i → Λ i → Prop
+  dom : ∀ i, Λ i → Prop
+  le_refl : ∀ i a, le i a a
+  le_trans : ∀ i a b c, le i a b → le i b c → le i a c
+  le_antisymm : ∀ i a b, le i a b → le i b a → a = b
+  W : ∀ i, Λ i → Submodule K V
+  e : ∀ i, Λ i → Module.End K V
+  sys : ∀ i, DecSys (W i) (e i)
+  comm : ∀ i j a b, e i a * e j b = e j b * e i a
+  bot : ∀ i a, ¬ dom i a → W i a = ⊥
+  Pl : Submodule K V
+  stab : ∀ i a, ∀ x ∈ Pl, e i a x ∈ Pl
+  b : X → V
+  P : X → ∀ i, Λ i
+  Pdom : ∀ x i, dom i (P x i)
+  li : LinearIndependent K b
+  span : Submodule.span K (Set.range b) = Pl
+  low : ∀ i (pi : Set (Λ i)), (∀ a ∈ pi, dom i a) → (∀ a ∈ pi, ∀ c, dom i c → le i c a → c ∈ pi) →
+    Pl ⊓ (⨆ a ∈ pi, W i a) = Submodule.span K (b '' {x | P x i ∈ pi})
+
+def RestJointDim : Prop :=
+  ∀ (K V : Type) [Field K] [AddCommGroup V] [Module K V] (κ : Type) [Fintype κ] [Nonempty κ] (Λ : κ → Type)
+    (X : Type) [Finite X] (J : JointData K V κ Λ X) (lam : ∀ i, Λ i),
+    Module.finrank K ↥(J.Pl ⊓ ⨅ i, J.W i (lam i)) = Nat.card {x // J.P x = lam}
+
+def RestJointSum : Prop :=
+  ∀ (K V : Type) [Field K] [AddCommGroup V] [Module K V] (κ : Type) [Fintype κ] [Nonempty κ] (Λ : κ → Type)
+    (X : Type) [Finite X] (J : JointData K V κ Λ X) (pi : ∀ i, Set (Λ i)),
+    (∀ i, ∀ a ∈ pi i, J.dom i a) → (∀ i, ∀ a ∈ pi i, ∀ c, J.dom i c → J.le i c a → c ∈ pi i) →
+    J.Pl ⊓ (⨆ q ∈ {q : ∀ i, Λ i | ∀ i, q i ∈ pi i}, ⨅ i, J.W i (q i)) =
+      Submodule.span K (J.b '' {x | ∀ i, J.P x i ∈ pi i})
+
+end Formalism.MainNotions.G.ColumnFamilies
+end
+end
+
+section
+
+namespace Formalism.MainNotions.G.ColumnFamilies
+
+theorem admissible_standardPath_basis (D : Formalism.BasicNotions.D7) : Formalism.MainNotions.CovariantDegrees.PathBasisOverRing D :=
+  word_basis_of_path_restrictions D restPathTo restPathFrom restStd restPsi restPol
+
+theorem admissible_polynomial_basis (D : Formalism.BasicNotions.D7) : Formalism.MainNotions.CovariantDegrees.PathColumnBasis D := Formalism.MainNotions.CovariantDegrees.path_basis_of_field_basis D (admissible_standardPath_basis D)
+
+end Formalism.MainNotions.G.ColumnFamilies
+end

@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsBaseEnlargementFixedCoefFieldOfCoeffEnlargemen
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CrdOver
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ModelSame
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOmPinsEnl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormalisedDataCoefficientMapInjective
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle447
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle505
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle604
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle602
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

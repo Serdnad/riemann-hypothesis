@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SubspaceCounting.Statement
+public import Formalism.SubspaceCounting.Bundle001
 public import Formalism.SubspaceCounting.GoodOrbitIntervalTileCondition
 public import Formalism.SubspaceCounting.SubspaceCountingProofs.MarkedRun
-public import Formalism.SubspaceCounting.SubspaceCountingProofs.SubspaceCount
+public import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 public import Formalism.SubspaceCounting.SubspaceCountingProofs.TypeIIDown
 public import Formalism.SubspaceCounting.SubspaceCountingProofs.WalkSharp
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAmbOfIsArithVar
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.JGenSpecializes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinsumOrdMulInertiaDegEqFinrankMulOrdStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenericallyFiniteFiniteNearCodimOnePointStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertiaDegBotEqFinrankFiniteDomainStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ResidueDegreeEqInertiaDegAffineChartStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle320
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1703
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle238
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle195
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

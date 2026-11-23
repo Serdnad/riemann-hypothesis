@@ -1,22 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ColValMonomial
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TwistBC
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifBaseChangeSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Jets.SurjectiveAppTopSqCube
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsGoodConst
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.TopLePreimageWchart
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CharacterEqWeilPairing
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CoeffDofSubMem
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.EigenEquationTranslationKernelGenericFibreStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIntegralExpansionsOfValuationGeStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsLiftPointTranslationFieldPointStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FnEigenEquationOfForallGeometricPointStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.StalkMapInjectiveOfFlat
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle152
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle067
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SurjectiveAppTop
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThreePointSeriesExponentialOfDefect
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpansionCommutesPullbackCmEndoFourLeStatement
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle040
 import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SecLinIffComb
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ToFSurjectiveFractionRing
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,7 +58,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.AlphaPair
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.Bundle005
 
 @[expose] public section
 
@@ -148,6 +147,11 @@ theorem dof_of_tangent (hJ : JetSer.JetAlgSt) (hRep : JetSer.RepSt) (hSer : JetS
   simp only [map_mul, ← c₁]
   refine Eq.trans (Finset.sum_congr rfl fun i _ => congrArg _ (c₄ i).symm) (H.trans ?_)
   exact congrArg _ (Finset.sum_congr rfl fun i _ => congrArg _ (c₃ i))
+
+local instance (priority := high) grpObjPullbackForEigenGerm {S T : Scheme.{0}}
+    (f : T ⟶ S) (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
 
 theorem comp_map_eq_one {S S' : Scheme.{0}} (f : S' ⟶ S) {G : Over S} [GrpObj G] (a : G ⟶ G) {T : Over S'}
     (x : T ⟶ (Over.pullback f).obj G)

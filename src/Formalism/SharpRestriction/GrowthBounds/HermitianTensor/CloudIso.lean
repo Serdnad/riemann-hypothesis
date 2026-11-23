@@ -3,9 +3,8 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudIsoDef
 public import Formalism.SharpRestriction.GrowthBounds.ProjectionLemmaBaseLevel
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatRetract
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDualWeyl
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TensorKP
 import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Lemmata.DualWeylPullback.DualWeylPull
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PolynomialDimension.WeylDim
+import Formalism.PolynomialDimension.Bundle001
 
 @[expose] public section
 

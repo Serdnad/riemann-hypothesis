@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.RowDeg
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Order.Floor.Extended

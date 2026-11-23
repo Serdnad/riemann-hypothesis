@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSideMore
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,8 +62,8 @@ variable {S : Type} [CommRing S] {K : Type} [Fintype K] {ι : K → Type} [∀ k
 
 
 omit [Fintype K] in
-theorem RowSub.isMultiHomog_mul {f g : MRingOver S ι} {a b : K → ℕ} (hf : IsMultiHomog f a)
-    (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) := by
+theorem RowSub.isMultiHomog_mul {f g : MRingOver S ι} {a b : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a)
+    (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g b) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f * g) (a + b) := by
   classical
   intro m hm k
   obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
@@ -71,7 +71,7 @@ theorem RowSub.isMultiHomog_mul {f g : MRingOver S ι} {a b : K → ℕ} (hf : I
 
 
 omit [Fintype K] in
-theorem RowSub.isMultiHomog_C (r : S) : IsMultiHomog (C r : MRingOver S ι) 0 := by
+theorem RowSub.isMultiHomog_C (r : S) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (C r : MRingOver S ι) 0 := by
   classical
   intro m hm k
   rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C] at hm
@@ -82,7 +82,7 @@ theorem RowSub.isMultiHomog_C (r : S) : IsMultiHomog (C r : MRingOver S ι) 0 :=
 
 omit [Fintype K] in
 theorem RowSub.isMultiHomog_X [DecidableEq K] (k : K) (i : ι k) :
-    IsMultiHomog (X ⟨k, i⟩ : MRingOver S ι) (Pi.single k 1) := by
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (X ⟨k, i⟩ : MRingOver S ι) (Pi.single k 1) := by
   classical
   intro m hm k'
   rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_X'] at hm
@@ -97,8 +97,8 @@ theorem RowSub.isMultiHomog_X [DecidableEq K] (k : K) (i : ι k) :
 
 
 omit [Fintype K] in
-theorem RowSub.isMultiHomog_pow {f : MRingOver S ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
-    IsMultiHomog (f ^ n) (n • a) := by
+theorem RowSub.isMultiHomog_pow {f : MRingOver S ι} {a : K → ℕ} (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f a) (n : ℕ) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f ^ n) (n • a) := by
   induction n with
   | zero => simpa using RowSub.isMultiHomog_C (ι := ι) (1 : S)
   | succ n ih =>
@@ -108,7 +108,7 @@ theorem RowSub.isMultiHomog_pow {f : MRingOver S ι} {a : K → ℕ} (hf : IsMul
 
 omit [Fintype K] in
 theorem RowSub.isMultiHomog_prod {β : Type} (s : Finset β) (f : β → MRingOver S ι) (a : β → K → ℕ)
-    (h : ∀ b ∈ s, IsMultiHomog (f b) (a b)) : IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) := by
+    (h : ∀ b ∈ s, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f b) (a b)) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (∏ b ∈ s, f b) (∑ b ∈ s, a b) := by
   classical
   induction s using Finset.induction_on with
   | empty => simpa using RowSub.isMultiHomog_C (ι := ι) (1 : S)
@@ -118,7 +118,7 @@ theorem RowSub.isMultiHomog_prod {β : Type} (s : Finset β) (f : β → MRingOv
       (ih fun b' hb' => h b' (Finset.mem_insert_of_mem hb'))
 
 theorem RowSub.isMultiHomog_coordProd (c : ∀ k, ι k) (d : K → ℕ) :
-    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ d k) d := by
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ d k) d := by
   classical
   have h := RowSub.isMultiHomog_prod (S := S) (ι := ι) Finset.univ (fun k => (X ⟨k, c k⟩ : MRingOver S ι) ^ d k)
     (fun k => d k • Pi.single k 1) fun k _ => RowSub.isMultiHomog_pow (RowSub.isMultiHomog_X k (c k)) _
@@ -131,7 +131,7 @@ variable {Ω : Type} [Field Ω] [Algebra S Ω]
 
 theorem RowSub.exists_form_of_mem_chartRingOver (y : (Σ k, ι k) → Ω) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)
     {z : Ω} (hz : z ∈ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.chartRingOver S y c) :
-    ∃ (m : K → ℕ) (h : MRingOver S ι), IsMultiHomog h m ∧ z = aeval y h / ∏ k, y ⟨k, c k⟩ ^ m k := by
+    ∃ (m : K → ℕ) (h : MRingOver S ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog h m ∧ z = aeval y h / ∏ k, y ⟨k, c k⟩ ^ m k := by
   classical
   have hP : ∀ m : K → ℕ, (∏ k, y ⟨k, c k⟩ ^ m k) ≠ 0 := fun m =>
     Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hc k)
@@ -188,7 +188,7 @@ theorem RowSub.proof : RowSub.Statement := by
     ∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ (m k + p k) with hT
   set G : MRingOver S ι := h * ∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ q k with hG
   set a : K → ℕ := n • (∑ j ∈ J.1, (Pi.single k₀ 1 : K → ℕ)) + (m + p) with ha
-  have hTa : IsMultiHomog T a := by
+  have hTa : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog T a := by
     refine RowSub.isMultiHomog_mul (RowSub.isMultiHomog_pow (RowSub.isMultiHomog_prod _ _ _ fun j _ =>
       RowSub.isMultiHomog_X k₀ (e.symm j)) n) ?_
     exact RowSub.isMultiHomog_coordProd c (m + p)
@@ -199,7 +199,7 @@ theorem RowSub.proof : RowSub.Statement := by
     by_cases hk : k = k₀
     · subst hk; simp; ring
     · simp [hk]; ring
-  have hGa : IsMultiHomog G (fun k => (γ k + a k).toNat) := by
+  have hGa : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G (fun k => (γ k + a k).toNat) := by
     have e' : (fun k => (γ k + (a k : ℤ)).toNat) = m + q := by
       funext k
       rw [hak k, Pi.add_apply]

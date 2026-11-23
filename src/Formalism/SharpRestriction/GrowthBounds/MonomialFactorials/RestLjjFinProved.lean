@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BePhiAddLeft
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestRankLProved
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle016
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle008
 import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.FinrankLjjSpan
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

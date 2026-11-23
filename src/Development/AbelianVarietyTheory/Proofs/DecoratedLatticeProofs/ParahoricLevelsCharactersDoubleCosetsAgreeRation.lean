@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.EntryAgree
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ToLocEqMapToMatrix
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle053
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SymmetricChainSupportOneOfPattern
-import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSumRowCol
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ConjSymmEntry
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemStabLIff
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle054
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ResiduesOfCompletionAtPrimeWithUniformizer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

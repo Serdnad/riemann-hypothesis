@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PetIPSmulRight
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.NumberTheory.Padics.Complex
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DepletedEisensteinProductValueNeZeroOfRankinStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DirichletCharFiniteFourierTransformPropertiesStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EisensteinLatticeFunctionIsModularFormCoeffSeqStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EisensteinPeriodicWeightsIsModularFormStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGammaZeroPartitionWeightStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsHeckeEigenfunctionalOfDepletedEigenformStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeRootsNePrimePowMulRootOfUnityStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqLinearStructureStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqMulAndQExpansionStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RankinValuesAtZeroStatement
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TwistedLvalueNeZeroEdgeStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle272
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle171
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle252
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle283
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle233
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle169
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle190
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle307
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle299
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RepL
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
 
 @[expose] public section
 

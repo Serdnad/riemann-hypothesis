@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SameCfgRefl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle317
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FixedCoefficientFieldInComplex
-public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSSplit
-public import Formalism.LocalToGlobal.Columns.HeckeInert
+public import Formalism.LocalToGlobal.Columns.ColumnsProofs.Bundle001
+public import Formalism.LocalToGlobal.Columns.Bundle005
 public import Formalism.LocalToGlobal.Divisibility.DivisionHeightBoundColumns
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowsLiftsHeckeOperatorsCommute
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle389
 public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HeckeFieldSplit
 import Formalism.LocalToGlobal.Columns.GSetLemmas
 import Formalism.LocalToGlobal.Columns.RowFormsLemmas
@@ -59,7 +59,7 @@ open Formalism.IndefR.RecTie Formalism.IndefR.Lev Formalism.L2.Rows GlobalTheory
 
 noncomputable section
 namespace GlobalTheory.Mem.HFld.Transp
-open Formalism.L2.Col Polynomial
+open _root_.Formalism.L2.Col Polynomial
 
 theorem chiC_apply {B : Base} {px : PreX B.toPre} (I : Col2.ColIn B px) (j : Fin B.R.m)
     (w : {w // w ∈ (B.primes px).vGs}) (y : 𝓞 B.host.E) (hu : IsUnit (Ideal.Quotient.mk w.1.asIdeal y)) :
@@ -219,6 +219,7 @@ theorem transp : ∀ (B0 : Base) (px0 : PreX B0.toPre) (I0 : Col2.ColIn B0 px0),
       exact hfs_exists_poly _
   choose pR hpR using hR
   choose pL hpL using hL
+  letI : Module.Free ℚ B0.LL := Module.Free.of_divisionRing ℚ B0.LL
   let bas := Module.finBasis ℚ B0.LL
   let rts : B0.LL[X] → Finset ℂ := fun p => (p.map B0.embLL).roots.toFinset
   let s : Finset ℂ := Finset.univ.image (fun i => B0.embLL (bas i)) ∪

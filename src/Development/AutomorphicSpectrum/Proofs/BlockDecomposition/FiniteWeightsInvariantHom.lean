@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WtRInjective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvariantIntertwinesDualStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle492
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle542
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SumMemOfStable
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryEuclideanModelStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle526
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

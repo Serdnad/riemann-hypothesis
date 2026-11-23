@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsMuRegSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorPos
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsProjSmoothAlong
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PTopNPoly
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PGlueRegularised
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle024
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -112,7 +111,7 @@ theorem smoothAlong_of_contDiffOn {P : Ideal (MRing ι)} {f : ((Σ k, ι k) → 
   fun _ hz => ⟨_, isOpen_blocks.mem_nhds hz.1, f, hf, fun _ _ => rfl⟩
 
 theorem regWeight_smooth {P : Ideal (MRing ι)} {d : ℕ} {M : CxModel P d} {Xo : Set ((Σ k, ι k) → ℂ)}
-    {A : HermLine ι} (S : LogLogRegularisationSetting M Xo A) (hS : S.IsTied) :
+    {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (S : LogLogRegularisationSetting M Xo A) (hS : S.IsTied) :
     ∀ᶠ t in 𝓝[>] (0 : ℝ), M.atlas.Smooth (S.regWeight t) := by
   have hball : ∀ j, ∃ δ : ℝ, 0 < δ ∧
       cthickening δ (S.R.chart j '' closure (S.R.mid j)) ⊆ (S.R.chart j).target := by

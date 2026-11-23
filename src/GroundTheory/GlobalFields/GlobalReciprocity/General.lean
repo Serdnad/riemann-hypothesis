@@ -5,7 +5,7 @@ public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIde
 public import GroundTheory.GlobalFields.GlobalReciprocity.RangeDiagonalLeKerIdeleSymbol
 import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.InfiniteAdeleRingMapInfiniteAdeleRingMap
 import GroundTheory.GlobalFields.NormResidueSymbol.Functorial
-import GroundTheory.GlobalFields.NormResidueSymbol.Surjective
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

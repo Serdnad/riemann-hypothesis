@@ -1,11 +1,11 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CanonGaugeDmonOfHLIntegral
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ConstantCoeffDmonOfSubMem
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsGroupedOfSublist
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.InvariantDerivAlongEndo
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NabValPullbackMonomial
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle083
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

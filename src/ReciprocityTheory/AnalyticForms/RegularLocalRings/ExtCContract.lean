@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.BaseChangeC
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle011
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

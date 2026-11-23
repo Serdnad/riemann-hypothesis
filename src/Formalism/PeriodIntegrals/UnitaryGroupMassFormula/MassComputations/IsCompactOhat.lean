@@ -44,7 +44,7 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.Measures
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FundamentalEquivalence.LevelIntersectParabolic
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.GlobLevelS
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LatTop
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.Bundle007
 
 @[expose] public section
 

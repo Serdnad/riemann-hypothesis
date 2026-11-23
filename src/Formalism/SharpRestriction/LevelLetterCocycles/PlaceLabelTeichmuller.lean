@@ -1,12 +1,12 @@
 module
 
 import Formalism.SharpRestriction.Divisibility.PrimeDegreeVariant
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
-public import Formalism.PadicSubsetSums.CentralIdempotents.GaloisIrreducibility
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
 public import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 public import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfTypeSetWeight
-public import Formalism.SharpRestriction.LevelLetterCocycles.PrimesEffectiveChebotarev
-public import Formalism.SharpRestriction.LevelLetterCocycles.ResidualIrreducibleOfTheoremThreePrime
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle005
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

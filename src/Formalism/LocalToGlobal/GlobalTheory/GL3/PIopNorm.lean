@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PIopIso
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PLinkThIndep
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EpEqOneIff
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

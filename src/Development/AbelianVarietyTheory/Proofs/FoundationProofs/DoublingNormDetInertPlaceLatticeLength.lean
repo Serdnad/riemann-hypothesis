@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.GraphHeightLattice
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle009
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthCommensurableSpanSpanOfDetNeZero
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OrdLEqNegLog
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle098
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IrreducibleOfValued
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

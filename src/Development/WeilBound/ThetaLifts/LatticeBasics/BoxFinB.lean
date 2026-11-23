@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LatticeBasics.RealInvL
-public import Development.WeilBound.ThetaLifts.LatticeBasics.RealInv
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -73,9 +73,9 @@ def DP (a : κ → mixedEmbedding.mixedSpace F) (L : (κ → mixedEmbedding.mixe
     (κ → AF F) → ℂ :=
   fun z => fderiv ℝ (fun x => Φ (pt x (fn z))) (nf z) a + (-(2 * Real.pi * Complex.I) * (L (nf z) : ℂ)) * Φ z
 
-def D (w : (κ → AF F) × (κ → AF F)) : ((κ → AF F) → ℂ) → (κ → AF F) → ℂ := DP (nf w.1) (linForm (nf w.2))
+def D (w : (κ → AF F) × (κ → AF F)) : ((κ → AF F) → ℂ) → (κ → AF F) → ℂ := DP (nf w.1) (_root_.GlobalTheory.ThK.Dbl.Dense.linForm (nf w.2))
 
-theorem linForm_add (b b' : κ → mixedEmbedding.mixedSpace F) : linForm (b + b') = linForm b + linForm b' := by
+theorem linForm_add (b b' : κ → mixedEmbedding.mixedSpace F) : _root_.GlobalTheory.ThK.Dbl.Dense.linForm (b + b') = _root_.GlobalTheory.ThK.Dbl.Dense.linForm b + _root_.GlobalTheory.ThK.Dbl.Dense.linForm b' := by
   ext y
   simp only [add_apply, linForm_apply, Pi.add_apply, mul_add, Finset.sum_add_distrib, map_add (f := _)]
 
@@ -134,7 +134,7 @@ theorem DP_mem {Φ : (κ → AF F) → ℂ} (h : Φ ∈ schA F κ) (a L) : DP a 
   | smul c _ h1 h => rw [DP_smul h1]; exact Submodule.smul_mem _ _ h
 
 theorem schr_pt (hψ : IsStd ψ) {w : (κ → AF F) × (κ → AF F)} (hw : At (evI F) w) (Ψ : (κ → AF F) → ℂ) (t : ℝ) (x y) :
-    schr ψ (realAd F t • w) Ψ (pt x y) = hl (nf w.1) (linForm (nf w.2)) t (fun x => Ψ (pt x y)) x := by
+    schr ψ (realAd F t • w) Ψ (pt x y) = hl (nf w.1) (_root_.GlobalTheory.ThK.Dbl.Dense.linForm (nf w.2)) t (fun x => Ψ (pt x y)) x := by
   have ha : At (evI F) w.1 := fun s hs => congrArg Prod.fst (hw s hs)
   have hb : At (evI F) w.2 := fun s hs => congrArg Prod.snd (hw s hs)
   have e : pt x y + realAd F t • w.1 = pt (x + t • nf w.1) y := by
@@ -179,7 +179,7 @@ theorem Imp.of_ne (hψ : IsStd ψ) (h : Imp ψ T g) {w} (hw : At (evI F) w) (ha 
   | mem Φ hm =>
     have hs : Φ ∈ schA F κ := Submodule.subset_span hm
     obtain ⟨f, φ, hφ, rfl⟩ := hm
-    obtain ⟨G, hG, hD⟩ := hl_line_deriv (nf w.1) (linForm (nf w.2)) f
+    obtain ⟨G, hG, hD⟩ := hl_line_deriv (nf w.1) (_root_.GlobalTheory.ThK.Dbl.Dense.linForm (nf w.2)) f
     funext z
     obtain ⟨S, hS⟩ := h.adm _ (eval_adm z) φ hφ
     have h1 := hD ha S

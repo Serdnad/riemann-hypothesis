@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PairedDualFirstOrderDualMatrixSpace
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DensityProd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IntertwinerIso
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IrredIffSpan
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.SpanDesc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

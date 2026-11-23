@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.ShortNorms.ShortNorm
-public import Formalism.CyclotomicNorms.StatementI
+public import Formalism.CyclotomicNorms.Bundle001
 public import Mathlib.Order.CompletePartialOrder
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DivLeRpowThreeQuarters
-public import Development.AutomorphicArithmetic.ShortNorms.normPrimesN
+public import Development.AutomorphicArithmetic.ShortNorms.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

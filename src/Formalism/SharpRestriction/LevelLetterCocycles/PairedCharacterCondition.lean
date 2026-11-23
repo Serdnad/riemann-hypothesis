@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.LargeLevelLemmas
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle007
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 public import Formalism.SharpRestriction.LevelLetterCocycles.ElementDenominator
 public import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoDuality
 import Mathlib.Algebra.Order.Floor.Extended

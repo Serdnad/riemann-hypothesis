@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsBlockEmb
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExpGLiAddSmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockMatrixMulVecBasis
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1911
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle328
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1997
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BlockEmbeddingArchimedeanComponents
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CutPMulCutP
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DetALeviTorus
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1915
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -42,7 +42,7 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.DegreeFormula.FlagDegFormula
 import Formalism.LocalToGlobal.LatticeGeometry.DegFlLApply
 import Formalism.MoebiusJetDuality.StatementU
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 public import Mathlib.Data.Fintype.Defs
 
 @[expose] public section

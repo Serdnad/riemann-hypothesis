@@ -2,9 +2,9 @@ module
 
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.ClassNumber
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSmoothHomogeneousHasSumUnitSmul
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IdealSumPeriodicDilate
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TsumIdealEqSumClassGroup
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

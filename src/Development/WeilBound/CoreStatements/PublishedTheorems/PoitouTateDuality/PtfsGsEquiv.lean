@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Algebra
 public import Mathlib.RingTheory.PicardGroup
 public import ReciprocityTheory.GaloisValuations.Global
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.NSEqFixingSubgroup
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle013
 import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.NormalFixingSubgroupGaloisClosure
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.IsUnramifiedOutsideIffLeMaxUnramifiedOutside
 import Mathlib.Algebra.Order.Floor.Extended

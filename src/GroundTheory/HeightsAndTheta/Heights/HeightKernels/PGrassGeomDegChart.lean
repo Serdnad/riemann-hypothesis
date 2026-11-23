@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassGeomDegChart
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PGrassLeRoot
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -237,9 +237,9 @@ theorem ptsIntegralAt_eq {Ψ : (((k : Fin 1) → plBlocks 1 1 n k) → ℂ) →�
   unfold ptsIntegralAt chartMass
   congr 1
   funext y
-  have hfib : fibre (grassIdeal 1 1 n) Ψ y = {L (Fin.cons 1 y)} := by
+  have hfib : ReciprocityTheory.ChartRestriction.G.Geo.fibre (grassIdeal 1 1 n) Ψ y = {L (Fin.cons 1 y)} := by
     ext w
-    simp only [fibre, Set.mem_ofPred_eq, Set.mem_singleton_iff]
+    simp only [ReciprocityTheory.ChartRestriction.G.Geo.fibre, Set.mem_ofPred_eq, Set.mem_singleton_iff]
     constructor
     · rintro ⟨z, -, -, hw⟩
       rw [← hw, hLΨ]

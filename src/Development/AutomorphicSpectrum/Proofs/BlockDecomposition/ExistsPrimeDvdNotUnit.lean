@@ -3,7 +3,7 @@ module
 public import Mathlib.Algebra.MvPolynomial.PDeriv
 public import Mathlib.FieldTheory.Separable
 public import Mathlib.RingTheory.Trace.Defs
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsPderivNotDvd
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle085
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

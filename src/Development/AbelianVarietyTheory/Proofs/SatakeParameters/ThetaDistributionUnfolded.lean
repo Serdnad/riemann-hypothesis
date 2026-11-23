@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ProdFinEqProdCastLE
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle001
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.DualWeylPoint
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LSatLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.TensorBasis
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle010
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle013
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended

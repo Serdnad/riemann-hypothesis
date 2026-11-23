@@ -56,8 +56,8 @@ import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FunJetApply
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.RealPlaceAnalysis.StatementA
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.RealPlaceAnalysis.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.Analysis.Calculus.Deriv.Mul
 public import Mathlib.Analysis.Calculus.Deriv.Pow
 public import Mathlib.Analysis.Calculus.Deriv.Shift

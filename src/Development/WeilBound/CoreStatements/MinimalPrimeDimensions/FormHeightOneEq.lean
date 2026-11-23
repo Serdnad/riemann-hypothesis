@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.OnbMat
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
 
 @[expose] public section
 

@@ -1,10 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsQuadraticSignCharacter
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.ResTwo
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.SignNe
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.TwCard
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle054
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.Bundle004
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.ExplicitConstants.SplitCharY
 public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.HeckeCharacterChoice.ExistsSqEqNegOfDiscr
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,7 +55,7 @@ open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.Conjuga
 namespace UpperTheory.V.Z.Win
 
 private theorem fix_root {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : ValuationSubring Ω) {l p c : ℕ} (hc : p + 1 = 4 * l * c)
-    (hl : A.valuation (l : Ω) < 1) {g : G ℚ Ω} (hg : g ∈ Dec (F := ℚ) A) {δ : Ω} (hδ : δ ^ 2 = -(p : Ω)) : g δ = δ := by
+    (hl : A.valuation (l : Ω) < 1) {g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω} (hg : g ∈ _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A) {δ : Ω} (hδ : δ ^ 2 = -(p : Ω)) : g δ = δ := by
   haveI : CharZero Ω := charZero_of_injective_algebraMap (algebraMap ℚ Ω).injective
   have hcast : (p : Ω) + 1 = 4 * (l : Ω) * (c : Ω) := by
     have := congrArg (Nat.cast : ℕ → Ω) hc
@@ -105,7 +103,7 @@ private theorem fix_root {Ω : Type} [Field Ω] [Algebra ℚ Ω] (A : ValuationS
   simp at h1
 
 private theorem fix_field {Ω K : Type} [Field K] [NumberField K] [Field Ω] [Algebra ℚ Ω] [Algebra K Ω] [IsScalarTower ℚ K Ω]
-    (h2 : Module.finrank ℚ K = 2) {δ : K} {p : ℕ} (hp : 0 < p) (hδ : δ ^ 2 = -(p : K)) (g : G ℚ Ω)
+    (h2 : Module.finrank ℚ K = 2) {δ : K} {p : ℕ} (hp : 0 < p) (hδ : δ ^ 2 = -(p : K)) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω)
     (hg : g (algebraMap K Ω δ) = algebraMap K Ω δ) (x : K) : g (algebraMap K Ω x) = algebraMap K Ω x := by
   have hli : LinearIndependent ℚ ![(1 : K), δ] := by
     rw [LinearIndependent.pair_iff]
@@ -180,11 +178,11 @@ theorem quadFamSplit (l : ℕ) [hl : Fact l.Prime] (N : ℕ) :
     exact ⟨P i, c, δ, (hPp i).pos, hc, hδ⟩
 
 def SplitIn (l : ℕ) (K Ω : Type) [Field K] [Field Ω] [Algebra ℚ Ω] [Algebra K Ω] : Prop :=
-  ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ g ∈ Dec (F := ℚ) A, ∀ x : K, g (algebraMap K Ω x) = algebraMap K Ω x
+  ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ g ∈ _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A, ∀ x : K, g (algebraMap K Ω x) = algebraMap K Ω x
 
 theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Field K'] [NumberField K'] [IsCMField K'] [Field Ω]
     [Algebra ℚ Ω] [Algebra K Ω] [Algebra K' Ω] [IsScalarTower ℚ K Ω] [IsScalarTower ℚ K' Ω] [IsAlgClosure ℚ Ω]
-    (hK : Module.finrank ℚ K = 2) (hK' : Module.finrank ℚ K' = 2) (l : ℕ) [Fact l.Prime] (n : ℕ) (r : G ℚ Ω →* GL (Fin n) (Qbar l))
+    (hK : Module.finrank ℚ K = 2) (hK' : Module.finrank ℚ K' = 2) (l : ℕ) [Fact l.Prime] (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin n) (Qbar l))
     (hr : IsIrr (r.comp (resG ℚ K Ω))) (hr' : IsIrr (r.comp (resG ℚ K' Ω))) :
     ∃ (K'' : Type) (_ : Field K'') (_ : NumberField K'') (_ : IsCMField K'') (_ : Algebra K'' Ω) (_ : IsScalarTower ℚ K'' Ω),
       Module.finrank ℚ K'' = 2 ∧ SplitIn l K'' Ω ∧ IsIrr (r.comp ((resG ℚ K Ω).range ⊓ (resG ℚ K'' Ω).range).subtype) ∧
@@ -205,7 +203,7 @@ theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Fie
     letI : Algebra (Kf i) Ω := f.toRingHom.toAlgebra
     exact ⟨inferInstance, IsScalarTower.of_algebraMap_eq (fun x => (f.commutes x).symm)⟩
   choose algI towI using hemb
-  have hsign : ∀ i, ∃ δ : G ℚ Ω →* (Qbar l)ˣ, δ ≠ 1 ∧ IsSign (Kf i) δ := by
+  have hsign : ∀ i, ∃ δ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ, δ ≠ 1 ∧ IsSign (Kf i) δ := by
     intro i
     haveI := hclos (Kf i)
     obtain ⟨δ, -, h1, h2, -⟩ := UpperTheory.exists_quadratic_sign_character ℚ (Kf i) Ω l (h2f i)
@@ -221,7 +219,7 @@ theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Fie
     apply UpperTheory.V.Br.signNe (Kf i) (Kf j) Ω (h2f i) (hcop i j hne)
     ext s
     rw [← (hδs i).1 s, ← (hδs j).1 s, hij]
-  have card_bad {Γ' : Type} [Group Γ'] (φ : Γ' →* G ℚ Ω) (η : G ℚ Ω →* (Qbar l)ˣ)
+  have card_bad {Γ' : Type} [Group Γ'] (φ : Γ' →* _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (η : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ)
       (hker : ∀ s, η s = 1 ↔ s ∈ φ.range) (hsign : ∀ s, η s = 1 ∨ η s = -1)
       (hne : η ≠ 1) (hirr : IsIrr (r.comp φ)) :
       (Finset.univ.filter fun i => RepIso (r.comp φ) (tw (r.comp φ) ((δf i).comp φ))).card ≤ 2 * n ^ 2 := by
@@ -237,7 +235,7 @@ theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Fie
       · intro i hi j hj hij
         have hat : δf i t = δf j t :=
           (Finset.mem_filter.1 hi).2.trans (Finset.mem_filter.1 hj).2.symm
-        have hagree (s : G ℚ Ω) (hs : η s = 1) : δf i s = δf j s := by
+        have hagree (s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (hs : η s = 1) : δf i s = δf j s := by
           obtain ⟨x, rfl⟩ := (hker s).1 hs
           exact DFunLike.congr_fun hij x
         apply hinj
@@ -266,7 +264,7 @@ theorem thirdSplit (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Fie
     simp at h2
     linarith
   simp only [Finset.mem_union, Finset.mem_filter, Finset.mem_univ, true_and, not_or] at hi
-  have irr_inf {Γ' : Type} [Group Γ'] (φ : Γ' →* G ℚ Ω) (hirr : IsIrr (r.comp φ))
+  have irr_inf {Γ' : Type} [Group Γ'] (φ : Γ' →* _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (hirr : IsIrr (r.comp φ))
       (hn : ¬ RepIso (r.comp φ) (tw (r.comp φ) ((δf i).comp φ))) :
       IsIrr (r.comp (φ.range ⊓ (resG ℚ (Kf i) Ω).range).subtype) := by
     have h := (Br.resTwo _ _ (Qbar l) n ((δf i).comp φ).ker.subtype ((δf i).comp φ)

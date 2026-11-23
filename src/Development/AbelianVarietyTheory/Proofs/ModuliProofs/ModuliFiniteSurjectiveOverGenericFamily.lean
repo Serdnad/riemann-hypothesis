@@ -3,25 +3,25 @@ module
 import Development.WeilBound.CoreStatements.FlagImmersions.ValAtOfExtends
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushEquivSymmLeft
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RangeSubsetOfGeom
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsCoprimeZpow
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RelAmpleOfLocallyOnBase
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoIffBijectiveOverAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFiniteEtaleLatticeTorsionHom
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFormEqOne
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsObjTwistBySimilitude
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSimilitudeOfAutModLevelIdealStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullObjOfObj
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsReducedIsNormalSchemeIsLocallyNoetherianOfSmoo
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SpMapComp
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TateIsoDifferBySimilitude
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle026
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle067
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle141
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle077
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle030
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsGrpPullbackOfCommute
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricallyReducedOfPerfectField
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,7 +70,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 
@@ -424,7 +424,7 @@ theorem GlobalTheory.moduli_finite_surjective_over_family : Out.Laws → Out.Law
   refine ⟨a, ν, h, hν, ?_, ⟨fun y => ?_⟩⟩
   · obtain ⟨tY, ⟨m⟩⟩ := exists_sabPull (pullback.fst sM (spMap β)) tM
     have oY : FullObj D (pullback.snd sM (spMap β) ≫ spMap β) tY _ :=
-      (pullback.condition (f := sM) (g := spMap β)) ▸ fullObj_pull F.obj m
+      (pullback.condition (f := sM) (g := spMap β)) ▸ GlobalTheory.ModFam.fullObj_pull F.obj m
     obtain ⟨q, hq⟩ := exists_cancel (pullback.lift_fst a _ h) m ν
     have : IsSeparated sM := by
       obtain ⟨N, i, hi, -, rfl⟩ := F.qproj
@@ -442,7 +442,7 @@ theorem GlobalTheory.moduli_finite_surjective_over_family : Out.Laws → Out.Law
     obtain ⟨t, ⟨m⟩⟩ := exists_sabPull (z ≫ pullback.fst sM (spMap β)) tM
     have e : (z ≫ pullback.fst sM (spMap β)) ≫ sM = (z ≫ pullback.snd sM (spMap β)) ≫ spMap β := by
       rw [Category.assoc, Category.assoc, pullback.condition]
-    have o : FullObj D ((z ≫ pullback.snd sM (spMap β)) ≫ spMap β) t _ := e ▸ fullObj_pull F.obj m
+    have o : FullObj D ((z ≫ pullback.snd sM (spMap β)) ≫ spMap β) t _ := e ▸ GlobalTheory.ModFam.fullObj_pull F.obj m
     obtain ⟨χ, hχ⟩ := exists_isLev o l
     obtain ⟨f, ⟨hf, ⟨p⟩⟩, -⟩ := Xo.rep (Sp k) _ inferInstance (objOfFull hc hβ o hχ)
     obtain ⟨r, hr⟩ := sabComp pullCubComp E H _ _ _ _ _ _ _ _ ν p.toSABMap

@@ -3,11 +3,10 @@ module
 public import Mathlib
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.DimSplitPf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoordinatesExtendingRegularParameters
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2381
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.KaehlerBasisSpreadsToNeighbourhoodStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SmoothLocalRingFreeDifferentialsStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.RegularSequenceGermsRegularLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.KaehlerBasisOnLocalizationAwayStatement
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle008
 
 @[expose] public section
 
@@ -86,6 +85,8 @@ theorem coords_at_point (K : Type) [Field K] [CharZero K] (D : ℕ) (Y : Scheme.
   let _ := secAlgebra g U.1
   obtain ⟨hregP, hrspP, hmem⟩ := stalk_transfer Y U y hy hreg m f hf
   obtain ⟨hfp, hfree, hfin, hrank⟩ := omega_free K D Y g hD U (U.2.primeIdealOf ⟨y, hy⟩).asIdeal
+  letI : IsNoetherianRing (Localization.AtPrime (U.2.primeIdealOf ⟨y, hy⟩).asIdeal) :=
+    hregP.toIsNoetherian
   obtain ⟨x, e, hxe, bs, hbs⟩ := GlobalTheory.exists_coords_extending_regularParams K Γ(Y, U.1)
     (Localization.AtPrime (U.2.primeIdealOf ⟨y, hy⟩).asIdeal) (U.2.primeIdealOf ⟨y, hy⟩).asIdeal D hrank m f hrspP
   have hb : (fun i => KaehlerDifferential.D K (Localization.AtPrime (U.2.primeIdealOf ⟨y, hy⟩).asIdeal)

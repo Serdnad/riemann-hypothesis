@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.TwChrOne
+public import Formalism.PeriodIntegrals.Bundle010
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TwistedCharacterOne.IsIntegralAtSuperdiagonalSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

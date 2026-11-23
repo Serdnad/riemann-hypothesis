@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.ProjFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.ProjProd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

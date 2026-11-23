@@ -55,8 +55,8 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.KummerNotCoboundary
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LMulBeta
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle051
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Mathlib.Algebra.CharP.Algebra
 public import Mathlib.Algebra.Polynomial.Degree.Lemmas

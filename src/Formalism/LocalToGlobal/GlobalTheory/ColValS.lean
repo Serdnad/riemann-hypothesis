@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardIntegralLatticeExists
 public import Formalism.SharpRestriction.GlobalSchurBounds.LinkGLOBAL7Tied4
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColFin
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.MemIffOfLocBasisG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

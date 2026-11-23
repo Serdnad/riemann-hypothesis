@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OneLeftSpMap
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle120
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.DualLiftInjective
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TangentBijectionOfValues
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,12 +47,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasisBaseChange
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle017
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushRProdPtsResP
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RankLie
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExponentialFamilyPeriods
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeGram
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.EigLatBasis
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle011
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle008
 
 @[expose] public section
 
@@ -257,6 +257,10 @@ open scoped CategoryTheory.Obj
 theorem eta_pull {R : Type} [CommRing R] (G : Over (Sp R)) [GrpObj G] (φ : R →+* ℂ) :
     (η[(Over.pullback (spMap φ)).obj G]).left ≫ pullback.fst G.hom (spMap φ) =
       (1 : Over.mk (spMap φ) ⟶ G).left := by
+  letI : (Over.pullback (spMap φ)).Monoidal :=
+    (Over.instBraidedPullback (f := spMap φ)).toMonoidal
+  letI : GrpObj ((Over.pullback (spMap φ)).obj G) :=
+    Functor.grpObjObj (F := Over.pullback (spMap φ)) (G := G)
   have h1 := congrArg (fun q => Over.Hom.left q) (map_one (pushHom (isGrpPullback_pullback G (spMap φ)) (𝟙_ _)))
   change (1 : 𝟙_ _ ⟶ (Over.pullback (spMap φ)).obj G).left ≫ pullback.fst G.hom (spMap φ) = _ at h1
   rw [Chart.one_left', Chart.one_left'] at h1
@@ -270,6 +274,9 @@ theorem lie_der_basis : ∀ (R : Type) [CommRing R] (G : Over (Sp R)) [GrpObj G]
   intro R _ G _ g M φ hs V hV h1 D hc hD
   have : Smooth G.hom := hs
   let G' := (Over.pullback (spMap φ)).obj G
+  letI : (Over.pullback (spMap φ)).Monoidal :=
+    (Over.instBraidedPullback (f := spMap φ)).toMonoidal
+  letI : GrpObj G' := Functor.grpObjObj (F := Over.pullback (spMap φ)) (G := G)
   let F : G'.left ⟶ G.left := pullback.fst G.hom (spMap φ)
   have hG : IsGrpPullback G' G (spMap φ) F := isGrpPullback_pullback G (spMap φ)
   have hS : Smooth G'.hom := show Smooth (pullback.snd G.hom _) from inferInstance
@@ -280,7 +287,9 @@ theorem lie_der_basis : ∀ (R : Type) [CommRing R] (G : Over (Sp R)) [GrpObj G]
     rw [frv_left]
     exact (tan_over M φ _).trans (by simp [spMap, ← Spec.map_comp, ← CommRingCat.ofHom_comp])
   let u' : Fin g → (epsR ℂ ⟶ G') := fun a => Over.homMk (pullback.lift _ _ (hw a)) (pullback.lift_snd _ _ _)
-  have hu' : IsLieBasis u' := Chart.frameLieBC G hu φ hG fun i => pullback.lift_fst _ _ _
+  have hu' : IsLieBasis u' := Chart.frameLieBC G hu φ hG (u' := u') fun i => by
+    change pullback.lift _ _ (hw i) ≫ pullback.fst G.hom (spMap φ) = _
+    exact pullback.lift_fst _ _ (hw i)
   obtain ⟨x, hx, hxv⟩ := Chart.chart_of_basis hu'
   let ξ : Sp (J1 g) ⟶ G.left := (x 1).left ≫ F
   have hη : (η[G']).left ≫ F = (1 : Over.mk (spMap φ) ⟶ G).left := eta_pull G φ

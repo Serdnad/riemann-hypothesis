@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TranslateMemIndOrder
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUnitFormLocalizationEtaleNbhd
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.DualOrder
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BaseChangePointsCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderComapHomStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle020
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteOpenHopfOrder
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatBcPull
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatDesc
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle005
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle003
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHens
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfFlat
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfTop
-import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfFin
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle033
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfInd
 import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfSec
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsBaseChangeGroupStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
 
 @[expose] public section
 

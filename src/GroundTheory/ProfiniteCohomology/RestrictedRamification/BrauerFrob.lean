@@ -3,15 +3,15 @@ module
 public import GroundTheory.ProfiniteCohomology.Characters
 public import GroundTheory.LocalFields.MaximalUnramified
 public import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolBridge
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.DivisorModule
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MulDistribMulActionGalUnitsFiniteSubfield
 public import Mathlib.FieldTheory.Galois.Profinite
 public import GroundTheory.LocalFields.LocalArtinTransport
-public import GroundTheory.LocalFields.TameExtension
+public import GroundTheory.LocalFields.Bundle007
 import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
-import GroundTheory.ProfiniteCohomology.CupProducts.ExistsCocycleMapFEqD
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 import GroundTheory.ProfiniteCohomology.CyclicCupBrauer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerOrd
 import Mathlib.Algebra.Order.Floor.Extended

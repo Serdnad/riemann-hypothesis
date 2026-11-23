@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.FglChordFactor
+public import Formalism.PeriodIntegrals.Bundle002
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Mathlib.RingTheory.PowerSeries.Derivative
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.DvCoeffMulEqZeroOfLtOrder
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FormalGroupChords.SubstPairSecondVariable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

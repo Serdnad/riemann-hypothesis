@@ -5,7 +5,7 @@ public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyPoints
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraicPoints
 public import Mathlib.Analysis.Complex.Polynomial.Basic
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraicIndependent
-public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraicUnivAdd
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle005
 import GroundTheory.GlobalFields.ComplexMultiplication.EllipticRational
 import GroundTheory.GlobalFields.ComplexMultiplication.UniformizationAddition
 import Mathlib.Algebra.Order.Floor.Extended

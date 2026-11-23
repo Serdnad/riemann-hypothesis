@@ -1,9 +1,9 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafKillCut
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFiniteExtPullbackIntegralClosureEqZero
+public import Development.EtaleCohomology.EtaleSheaves.Bundle016
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle016
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsFiniteSurjectiveCurveCoverOfFunctionFieldE
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsMayerVietorisPreimageOfRestrictionsVanish
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle019
 import Development.EtaleCohomology.EtaleSheaves.ProperLineCovers.CoverPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.LinCombTrivG
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle001
 
 @[expose] public section
 

@@ -4,8 +4,8 @@ public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.DedekindDomain.Basic
 public import Mathlib.RingTheory.Etale.Basic
 public import Mathlib.RingTheory.Valuation.ValuationRing
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.MvPolynomialMapMaximalIdealIsPrime
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ValuationRingOfFlatOfFormallyUnramified
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

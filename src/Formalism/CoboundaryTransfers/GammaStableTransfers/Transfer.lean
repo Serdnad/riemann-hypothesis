@@ -1,7 +1,7 @@
 module
 
 public import Formalism.CoboundaryTransfers.StatementBridge
-public import Formalism.CoboundaryTransfers.StatementTransfer
+public import Formalism.CoboundaryTransfers.Bundle001
 public import Formalism.LagrangeIdealLifts.LiftLagrangeIdealInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

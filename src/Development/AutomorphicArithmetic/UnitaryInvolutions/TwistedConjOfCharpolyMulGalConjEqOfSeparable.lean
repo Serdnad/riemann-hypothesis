@@ -1,11 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.IsHerm
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.ModelEx
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.ReflectCpInv
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.TBase
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.TClass
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.ThInvVal
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle006
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

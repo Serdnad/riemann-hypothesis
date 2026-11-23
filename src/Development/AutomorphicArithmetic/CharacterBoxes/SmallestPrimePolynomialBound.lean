@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.CharacterBoxes.Supply
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LogCondLeThree
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NcardPrimesOverOfStabilizer
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle256
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GrpObjPullG
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmallTorsionSetForEndomorphismStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteCardTorsionQuotSmulTopLePowFinrankStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowMapsTorsionIntoSmulTopStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2369
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2417
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle228
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

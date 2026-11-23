@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramSchmidtFrames.SMulVec
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramSchmidtFrames.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianCurvature.BigCellVanishingOfCommute
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFdGramCut
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.Bundle001
 
 @[expose] public section
 

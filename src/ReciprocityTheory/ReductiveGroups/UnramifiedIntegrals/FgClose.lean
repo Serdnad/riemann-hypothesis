@@ -44,11 +44,11 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffOneSubstOfConstantCoeffEqZero
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.EndIntegral
 import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.FgBasic
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.FgMulN
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle013
 import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.NormSqrtNegPowPrimeSqSub
 import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ShortWIntModel
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TchOfIntegral
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubTwoOmegaSq
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle014
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle091
 
 @[expose] public section
 

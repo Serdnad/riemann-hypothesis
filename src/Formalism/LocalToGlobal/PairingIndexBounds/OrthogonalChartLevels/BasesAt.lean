@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.PairingIndexBounds.OrthogonalChartLevels.FdOfCharts
-public import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
+public import Formalism.SharpRestriction.GrowthBounds.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

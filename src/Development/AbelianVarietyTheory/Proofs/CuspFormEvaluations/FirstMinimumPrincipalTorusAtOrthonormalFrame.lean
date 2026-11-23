@@ -4,10 +4,10 @@ public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Differ
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.L2CanThEqInvSqrtTwoPowMulDetIm
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ExistsMemRowHighestTotalDegreeEqTwo
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiablePolyDeriv
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FirstMinimumEqZeroOfRankZero
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SupLeL2PrincipalTorus
-import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MajLactRmul
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle007
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle016
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpCStatementPfA
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle023
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainExtension.PointAssembly.Frames
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.OrthonormalFlagTranslateHolds
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.L2NormFundamentalDomain
@@ -348,7 +348,7 @@ def orthoDir (l : Harm.Var X.Ψ q0 X.p0 (Fin n)) : Fin n → EuclideanSpace ℂ 
 
 variable (X bas) in
 def orthoJet (P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)) (x : Frame X.Ψ r) : ℂ :=
-  polyDeriv P (orthoDir X idx hr) (fun w => ∏ k, canSec X bas idx (a k) (b k) x (w k)) 0
+  _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (orthoDir X idx hr) (fun w => ∏ k, canSec X bas idx (a k) (b k) x (w k)) 0
 
 theorem thFr_eq_orthoJet (hs : IsSympl X bas) (hP : P ∈ Harm.rowHighest ℂ c c') {x : Frame X.Ψ r}
     (hx : x ∈ X.dom) :

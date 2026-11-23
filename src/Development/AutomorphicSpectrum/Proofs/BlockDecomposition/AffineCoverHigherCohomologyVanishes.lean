@@ -2,9 +2,9 @@ module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechSeparated
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFrameOfForallExists
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.CapOComp
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.SubsingletonOfSheafPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIsoToBidualOfLocalFrames
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.Bundle001
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

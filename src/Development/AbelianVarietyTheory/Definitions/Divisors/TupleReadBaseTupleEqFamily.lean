@@ -3,19 +3,19 @@ module
 public import Formalism.LocalToGlobal.Divisibility.PsiWeilOfAbsNorm
 public import Formalism.LocalToGlobal.Divisibility.NumericScaleExponentEqExtended
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
-public import Formalism.SharpRestriction.PageFix
+public import Formalism.SharpRestriction.Bundle002
 public import Formalism.SharpRestriction.SmoothDesignExistence.DGamSmooth
-public import Formalism.SharpRestriction.Divisibility.SmallFirstModulusBelowScale
-public import Formalism.SharpRestriction.LevelLetterCocycles.AlignN
-public import Formalism.SharpRestriction.GlobalSchurBounds.WeightVectorSmallSharesEight
-public import Formalism.LocalToGlobal.IndefiniteReal.RealTB
+public import Formalism.SharpRestriction.Divisibility.Bundle001
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle013
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle030
 public import Formalism.LocalToGlobal.IndefiniteReal.RealRecPins
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsDeltaDelAtOwnAt
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle046
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsIsScalar
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.FamilyClassSevenDutiesAndStableLattices
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle010
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.RationalRayLevels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DimPartsAtIffBadAndOff
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RayFieldTheta
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SchwartzMoments.MulLPowApply
+public import Development.WeilBound.ThetaLifts.SchwartzMoments.Bundle001
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.NormIteratedFDerivCexpCompLe
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.DictIrr
 import Development.WeilBound.ThetaLifts.SchwartzMoments.DenseC

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
-public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
+public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ObjMapIdCompCancel
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsIsHeckeIsog
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfProper
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsReducedIsNormalSchemeIsLocallyNoetherianOfSmoo
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle100
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle087
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ObjIsAbelianSchemeDimRigidifiedSym
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

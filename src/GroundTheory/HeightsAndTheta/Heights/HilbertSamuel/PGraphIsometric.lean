@@ -1,11 +1,11 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsChangeOfModel
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle027
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Cartier
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChangeOfModel
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.StdPolyEq
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.MultMk
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.RestRoom
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.YcondFactor
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle008
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

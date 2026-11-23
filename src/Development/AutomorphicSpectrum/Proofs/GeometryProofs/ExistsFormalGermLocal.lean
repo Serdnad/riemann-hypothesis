@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ChartOfBasis
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle222
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

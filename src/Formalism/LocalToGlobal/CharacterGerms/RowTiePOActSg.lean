@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActLog
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle012
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogSt
+import Formalism.LocalToGlobal.CharacterGerms.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -201,7 +201,7 @@ theorem sg_act (Y : FBChart C V O dd) (α : O) (v : Fin dd → C) (hv : ∀ i, V
       rw [linM, ← coeff_zero_eq_constantCoeff_apply, coeff_pderiv]
       simp
     rw [show ((![pt C dd 0, Bp] : Fin 2 → Pt C 2 dd) 1 j) = ev (n := 2) ![pt C dd 1] (ψ j) from rfl, pderiv_second_eval_second,
-      ev_mul constant_zero_first_zero, eval_second_then_zero, hc]
+      PartialDerivEval.ev_mul constant_zero_first_zero, eval_second_then_zero, hc]
     congr 1
     exact eval_eval_pair hZB constant_zero_first_zero (a' := pt C dd 0) (b' := 0) (fun k => ev_X constant_zero_first_zero 0 k)
       (fun k => by
@@ -215,7 +215,8 @@ theorem sg_act (Y : FBChart C V O dd) (α : O) (v : Fin dd → C) (hv : ∀ i, V
         FB.expS C H * pderiv (R := C) ((1 : Fin 2), i) H := by
       unfold FB.expS
       rw [Formalism.G.LogCR.pderiv_psubst hH0, PowerSeries.derivative_exp]
-    rw [had, hExp, ← had, ev_mul constant_zero_first_zero, Y.B.adjoint_zero_snd, one_mul, hH, map_sub, ev_sub constant_zero_first_zero, t1, t2]
+    rw [had, hExp, ← had, PartialDerivEval.ev_mul constant_zero_first_zero, Y.B.adjoint_zero_snd,
+      one_mul, hH, map_sub, ev_sub constant_zero_first_zero, t1, t2]
   have hl : ∀ j, linAct ψ v j = ∑ i, linM ψ j i * v i := fun j => rfl
   have e : ∑ j, MvPowerSeries.C (linAct ψ v j) * ev (n := 1) ![pt C dd 0, 0] (pderiv (R := C) ((1 : Fin 2), j) Y.h) =
       ∑ i, MvPowerSeries.C (v i) *
@@ -233,7 +234,7 @@ theorem sg_act (Y : FBChart C V O dd) (α : O) (v : Fin dd → C) (hv : ∀ i, V
       rw [ev_neg hZ, ev_sum hZ]
       congr 1
       refine Finset.sum_congr rfl fun i _ => ?_
-      rw [ev_mul hZ, ev_C, eval_eval_pair constant_zero_first_zero hZ
+      rw [PartialDerivEval.ev_mul hZ, PartialDerivEval.ev_C, eval_eval_pair constant_zero_first_zero hZ
         (a' := φ) (b' := 0) (fun j => ev_X hZ 0 j) (fun _ => ev_zero hZ)]
     rw [hsg, show Y.sgP (linAct ψ v) = -∑ j, MvPowerSeries.C (linAct ψ v j) *
         ev (n := 1) ![pt C dd 0, 0] (pderiv (R := C) ((1 : Fin 2), j) Y.h) from rfl, e]

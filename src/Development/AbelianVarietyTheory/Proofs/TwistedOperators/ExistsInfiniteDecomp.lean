@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.QuadraticClassFieldTheory
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsSupersetMemSUnits
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitNormFormAtOddPlace
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EtaProdEqOfEverywhereNormDiv
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsBasisOfIsQuadraticExtension
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle197
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle162
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEverywhereNormDivOfEtaProdEqOne
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IndexTwoOfFiniteReal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HDiscAA
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle011
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

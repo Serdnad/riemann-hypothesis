@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfDvdOfClosedDiscDvdEisensteinPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EisensteinImagePowIdealAinfPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCongrPowE
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDiscMaps
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsInvLiftStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsUnitClosedDiscFrobeniusEisenstein
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle708
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle759
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle662
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle684
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle784
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle607
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.PolyApproxZeroPadic
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TrivIsCr
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle024
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

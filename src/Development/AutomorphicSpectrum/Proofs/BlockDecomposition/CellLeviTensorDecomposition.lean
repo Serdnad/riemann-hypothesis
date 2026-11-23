@@ -50,7 +50,7 @@ import Mathlib.Topology.Sheaves.Init
 public import GroundTheory.AutomorphicForms.FiniteBruhat
 public import GroundTheory.AutomorphicForms.GeometricLemmaJacquetCell
 public import GroundTheory.AutomorphicForms.GeometricLemmaNormal
-import GroundTheory.AutomorphicForms.GeometricLemmaOrbit
+import GroundTheory.AutomorphicForms.Bundle002
 import GroundTheory.AutomorphicForms.Iwasawa
 
 @[expose] public section

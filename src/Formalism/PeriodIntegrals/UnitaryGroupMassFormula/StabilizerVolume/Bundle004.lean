@@ -1,0 +1,207 @@
+module
+
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Compactification.OnePoint.ProjectiveLine
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PI.VolStabS
+
+open scoped TensorProduct
+open NumberField IsDedekindDomain Filter Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+
+namespace IdxHW
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {d : ℕ}
+  (b : Module.Basis (Fin d) F E) (v : HeightOneSpectrum (𝓞 F)) (σ : E →ₐ[F] E)
+
+theorem crd_sigR (y : Fv F v ⊗[F] E) (k : Fin d) :
+    (Algebra.TensorProduct.basis (Fv F v) b).repr (sigR (Fv F v) σ y) k =
+      ∑ l, algebraMap F (Fv F v) (b.repr (σ (b l)) k) *
+        (Algebra.TensorProduct.basis (Fv F v) b).repr y l := by
+  induction y using TensorProduct.induction_on with
+  | zero => simp
+  | tmul r e =>
+    have hs : sigR (Fv F v) σ (r ⊗ₜ[F] e) = r ⊗ₜ[F] σ e := by
+      simp [sigR, Algebra.TensorProduct.map_tmul]
+    rw [hs]
+    simp only [Algebra.TensorProduct.basis_repr_tmul, Finsupp.smul_apply, Finsupp.mapRange_apply,
+      smul_eq_mul]
+    have he : σ e = ∑ l, b.repr e l • σ (b l) := by
+      have h := congrArg σ (b.sum_repr e)
+
+      rw [map_sum] at h
+      simp only [map_smul] at h
+      exact h.symm
+
+    rw [he, map_sum]
+
+    simp only [map_smul, Finsupp.coe_finsetSum, Finset.sum_apply, Finsupp.smul_apply, smul_eq_mul,
+    map_sum, map_mul, Finset.mul_sum]
+    refine Finset.sum_congr rfl fun l _ => ?_
+    ring
+  | add x y hx hy =>
+    rw [map_add (f := _), map_add (f := _), Finsupp.add_apply, hx, hy, map_add (f := _)]
+    simp only [Finsupp.add_apply, mul_add, Finset.sum_add_distrib]
+
+theorem eventually_int (x : F) :
+    ∀ᶠ v in cofinite, algebraMap F (Fv F v) x ∈ v.adicCompletionIntegers F := by
+  filter_upwards [(IsDedekindDomain.HeightOneSpectrum.Support.finite (𝓞 F) x).compl_mem_cofinite] with v hv
+  rw [IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers]
+  have hv' : v.valuation F x ≤ 1 := by
+    simpa [IsDedekindDomain.HeightOneSpectrum.Support] using hv
+  exact (IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v x).le.trans hv'
+
+end IdxHW
+
+theorem fix2 {F : Type} [Field F] (C : Matrix (Fin 2) (Fin 2) F) (hC : C ≠ 1) (u : Fin 2 → F)
+    (hu : u ≠ 0) (hCu : Matrix.mulVec C u = u) :
+    ∃ k0 k1 : Fin 2, k0 ≠ k1 ∧ u k0 ≠ 0 ∧ ∃ ρ : F, ∀ (K : Type) [Field K] [Algebra F K]
+      (x : Fin 2 → K), Matrix.mulVec (C.map (algebraMap F K)) x = x → x k1 = algebraMap F K ρ * x k0 := by
+  obtain ⟨i, hi⟩ : ∃ i, (C - 1) i ≠ 0 := by
+    by_contra h
+    push_neg at h
+    apply hC
+    ext a c
+    have := congrFun (h a) c
+    simpa [sub_eq_zero] using this
+  have hab : (C - 1) i 0 ≠ 0 ∨ (C - 1) i 1 ≠ 0 := by
+    by_contra h
+    push_neg at h
+    apply hi
+    funext j
+    fin_cases j
+    · exact h.1
+    · exact h.2
+  have hrow : ∀ (K : Type) [Field K] [Algebra F K] (x : Fin 2 → K),
+      Matrix.mulVec (C.map (algebraMap F K)) x = x →
+      algebraMap F K ((C - 1) i 0) * x 0 + algebraMap F K ((C - 1) i 1) * x 1 = 0 := by
+    intro K _ _ x hx
+    have := congrFun hx i
+    simp only [Matrix.mulVec, dotProduct, Fin.sum_univ_two, Matrix.map_apply] at this
+    fin_cases i <;> simp [Matrix.sub_apply, Matrix.one_apply] at this ⊢ <;> linear_combination this
+  have key : ∀ (K : Type) [Field K] [Algebra F K] (x : Fin 2 → K),
+      Matrix.mulVec (C.map (algebraMap F K)) x = x →
+      x 0 * algebraMap F K (u 1) = x 1 * algebraMap F K (u 0) := by
+    intro K _ _ x hx
+    have E1 := hrow K x hx
+    have E2 : algebraMap F K ((C - 1) i 0) * algebraMap F K (u 0) +
+        algebraMap F K ((C - 1) i 1) * algebraMap F K (u 1) = 0 := by
+      have := hrow F u (by simpa using hCu)
+      have := congrArg (algebraMap F K) this
+      simpa [map_add (f := _), map_mul] using this
+    rcases hab with ha | hb
+    · have hA : algebraMap F K ((C - 1) i 0) ≠ 0 := (map_ne_zero _).2 ha
+      apply mul_left_cancel₀ hA
+      linear_combination algebraMap F K (u 1) * E1 - x 1 * E2
+    · have hB : algebraMap F K ((C - 1) i 1) ≠ 0 := (map_ne_zero _).2 hb
+      apply mul_left_cancel₀ hB
+      linear_combination x 0 * E2 - algebraMap F K (u 0) * E1
+  by_cases hu0 : u 0 ≠ 0
+  · refine ⟨0, 1, by decide, hu0, u 1 / u 0, fun K _ _ x hx => ?_⟩
+    have h1 := key K x hx
+    have hu0' : algebraMap F K (u 0) ≠ 0 := (map_ne_zero _).2 hu0
+    rw [map_div₀]
+    field_simp
+    linear_combination -h1
+  · push_neg at hu0
+    have hu1 : u 1 ≠ 0 := by
+      intro h1
+      apply hu
+      funext j
+      fin_cases j
+      · exact hu0
+      · exact h1
+    refine ⟨1, 0, by decide, hu1, u 0 / u 1, fun K _ _ x hx => ?_⟩
+    have h1 := key K x hx
+    have hu1' : algebraMap F K (u 1) ≠ 0 := (map_ne_zero _).2 hu1
+    rw [map_div₀]
+    field_simp
+    linear_combination h1
+
+end PI.VolStabS
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.VolStabS
+
+open MeasureTheory Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+
+def FibLat : Prop :=
+  ∀ (V X Y : Type) [AddCommGroup V] [TopologicalSpace V] [IsTopologicalAddGroup V]
+    [T2Space V] [LocallyCompactSpace V] [SecondCountableTopology V]
+    [MeasurableSpace V] [BorelSpace V] [AddCommGroup X] [TopologicalSpace X]
+    [IsTopologicalAddGroup X] [T2Space X] [LocallyCompactSpace X] [SecondCountableTopology X]
+    [MeasurableSpace X] [BorelSpace X] (μ : Measure V) (ν : Measure X),
+    μ.IsAddHaarMeasure → ν.IsAddHaarMeasure →
+    ∀ (f : V → Y) (ι : X → Y), Function.Injective ι → ∀ (G : V → X), Continuous G →
+    (∀ x, f x = ι (G x)) → ∀ (U : Set V) (B : Set X) (fib : X → Measure V),
+    IsFibreFamily μ f ι U ν B fib → ∀ (T : X), B ∈ 𝓝 T → ∀ Nb ∈ 𝓝 T, (∀ x, G x ∈ Nb → x ∈ U) →
+    ∀ (L : AddSubgroup V), IsOpen (L : Set V) → IsCompact (L : Set V) →
+    ∀ (Λ : ℕ → AddSubgroup V) (H : ℕ → AddSubgroup X), Λ 0 ≤ L →
+      (∀ n, IsOpen (Λ n : Set V)) → (∀ n, IsCompact (Λ n : Set V)) → Antitone Λ →
+      (∀ n, IsOpen (H n : Set X)) → (∀ n, IsCompact (H n : Set X)) →
+      (∀ N' ∈ 𝓝 (0 : X), ∃ n, (H n : Set X) ⊆ N') →
+      (∀ y ∈ L, G y - T ∈ H 0 → ∃ D : V →+ X, (∀ n, (Λ n).map D = H n) ∧
+        ∀ n, ∀ Z ∈ Λ 0, ∀ W ∈ Λ n, G (y + Z + W) - G (y + Z) - D W ∈ H (n + 1)) →
+      ∫ x, (L : Set V).indicator (1 : V → ℂ) x ∂(fib T) =
+        (((μ ((L : Set V) ∩ G ⁻¹' {z | z - T ∈ H 0})) / ν (H 0)).toReal : ℂ)
+
+end PI.VolStabS
+end
+end

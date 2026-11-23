@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClassesAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdeleEmbeddingExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDoubleClassesRationalLiftFormsLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
-import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocG
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2426
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2492
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2490
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle005
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.CubicFields.ComplexMultiplication.ExtEmbEquivComp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.OneAddXMulDerivativeBinomial
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InclWFrobIter
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgHomExtOfConstantCoeffZero
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLaws
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle135
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle403
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle245
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersCompleteDVR
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCrysLatOfTrivial
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle178
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

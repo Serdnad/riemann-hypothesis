@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementRho
+public import Formalism.CharacterColumnKernels.Bundle002
 public import Mathlib.Topology.LocallyConstant.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.WachLatticeTwists.CharacterSplitJumps.Statement
 import Formalism.WachLatticeTwists.CoprimeLiftBounds.Statement
 import ReciprocityTheory.GaloisValuations.GlobalA

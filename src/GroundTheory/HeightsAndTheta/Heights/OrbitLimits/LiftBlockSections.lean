@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlock
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle072
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLiftBirationalAmple
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 import Mathlib.Algebra.Order.Floor.Extended
@@ -144,7 +144,7 @@ theorem eval_rename_old {r : ℕ} (z : (Σ k, addIdx ι r k) → ℂ) (g : MRing
   rfl
 
 theorem isSmallH_of_lift [DecidableEq K] {r : ℕ} {y : (Σ k, ι k) → Ω} {v : Fin r → Ω} {N : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {a : ℕ}
-    {B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine (addIdx ι r)} (hB : B.a = unitDeg (none : Option K))
+    {B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine (addIdx ι r)} (hB : B.a = _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg (none : Option K))
     (hv : ∀ j, v j ∈ chartLat y N.a a)
     (hmet : ∀ z ∈ mcPts (mCoordIdeal (addBlock y v)), ∀ j,
       secNormAt y N a (v j) (basePart₂ z) * B.h z = ‖z ⟨none, j⟩‖)
@@ -224,11 +224,11 @@ theorem isSmallH_of_lift [DecidableEq K] {r : ℕ} {y : (Σ k, ι k) → Ω} {v 
     intro o
     rw [hB, hdG, hdH]
     rcases o with _ | k
-    · simp [unitDeg]
+    · simp [_root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
     · have h1 := hdeg k
       have h2 := hdeg₁ k
       simp only [Pi.add_apply, Pi.smul_apply, Option.elim_some, smul_eq_mul, Pi.single_apply, reduceCtorEq,
-        if_false, mul_zero, add_zero, unitDeg] at h2 ⊢
+        if_false, mul_zero, add_zero, _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg] at h2 ⊢
       push_cast at h1 h2 ⊢
       simp only [ht] at h2
       linear_combination h1 - (n : ℤ) * h2

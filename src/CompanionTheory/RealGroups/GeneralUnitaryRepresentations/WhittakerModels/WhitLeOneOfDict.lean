@@ -4,7 +4,7 @@ public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.
 public import GroundTheory.AutomorphicForms.WhittakerCriterion
 public import GroundTheory.AutomorphicForms.WhittakerGroups
 public import CompanionTheory.AutomorphicTheory.TemperedLocalSpectra.BernsteinZelevinsky.TopAdm
-public import GroundTheory.AutomorphicForms.ContragredientTranspose
+public import GroundTheory.AutomorphicForms.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

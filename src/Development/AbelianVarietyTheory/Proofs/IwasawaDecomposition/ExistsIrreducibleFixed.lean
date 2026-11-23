@@ -1,24 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsUnitaryOfCharIff
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsBorelSphRevInv
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle050
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.LocalLanglandsGL
-import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle006
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CommuteCapOfCommuteEop
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfValuedEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivOfISupRange
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle119
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle132
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle096
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEquivOfMapEq
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFixedOfMemISup
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasInfCharInfCharOfCommute
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle134
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPlaceOverMoveValConjPl
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwasawaBlockTriangular
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.FixedNeBotOfEquiv
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,18 +146,18 @@ theorem val_diagU (b : borel k (Fin n)) (i : Fin n) : (diagU b i : k) = b.1.val 
 
 variable (k) in
 def borelChar (α : Fin n → ℂˣ) : borel k (Fin n) →* ℂˣ :=
-  (deltaHalf k (fun _ : Fin n => Unit) * (torusChar fun i => SmGL.unrChar k (α i)).comp
+  (deltaHalf k (fun _ : Fin n => Unit) * (_root_.GlobalTheory.SmGL.torusChar fun i => SmGL.unrChar k (α i)).comp
     (leviTorus k (Fin n)).symm.toMonoidHom).comp (leviProj k (points (Fin n)))
 
 theorem borelChar_apply (α : Fin n → ℂˣ) (b : borel k (Fin n)) : borelChar k α b =
     ∏ i : Fin n, absPow k ((((n : ℤ) - 1 - 2 * (i : ℕ) : ℤ) : ℂ) / 2) (diagU b i) * α i ^ ord k (diagU b i) := by
   rw [Finset.prod_mul_distrib]
-  refine congrArg₂ (· * ·) ((deltaHalf_apply k _).trans (Finset.prod_congr rfl fun i _ => ?_)) (torusChar_apply _ _)
+  refine congrArg₂ (· * ·) ((deltaHalf_apply k _).trans (Finset.prod_congr rfl fun i _ => ?_)) (_root_.GlobalTheory.SmGL.torusChar_apply _ _)
   rw [modExp_fin _ (fun _ => by simp)]
   rfl
 
 theorem law_iff (α : Fin n → ℂˣ) (φ : GL (Fin n) k → ℂ) :
-    φ ∈ indSpace (parab k (points (Fin n))) ((twist ((ofChar (torusChar fun i => SmGL.unrChar k (α i))).comp
+    φ ∈ indSpace (parab k (points (Fin n))) ((_root_.GlobalTheory.SmGL.twist ((ofChar (_root_.GlobalTheory.SmGL.torusChar fun i => SmGL.unrChar k (α i))).comp
       (leviTorus k (Fin n)).symm.toMonoidHom) (deltaHalf k fun _ : Fin n => Unit)).comp (leviProj k (points (Fin n)))) ↔
     ∀ (b : borel k (Fin n)) g, φ (b * g) = borelChar k α b * φ g :=
   forall₂_congr fun b g => Iff.of_eq (congrArg (φ (b * g) = ·) (mul_assoc _ _ _).symm)

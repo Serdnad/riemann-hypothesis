@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsNormalisationStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueDominatingMapStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveModelNonempty
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle167
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle098
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle047
 public import Development.WeilBound.CoreStatements.VolumeEquality.PrimeIdealOfFromSpec
 public import Development.WeilBound.CoreStatements.VolumeEquality.RegularFunctionChartAdjoin
 import Mathlib.Algebra.Order.Floor.Extended

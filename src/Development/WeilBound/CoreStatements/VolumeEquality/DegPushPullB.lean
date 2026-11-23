@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
-public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDim
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PDivPushForward
-public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.NumericalSegre
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle010
+public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -265,7 +265,7 @@ theorem numPull : NumPull := by
     exact Sigma.ext (hv p).symm (cast_heq _ _)
   have hbinj : Function.Injective (blockIncl j ι') := by
     rintro ⟨b1, i1⟩ ⟨b2, i2⟩ h
-    simp only [blockIncl, Sigma.mk.inj_iff] at h
+    simp only [FieldNumbers.blockIncl, Sigma.mk.inj_iff] at h
     obtain ⟨h1, h2⟩ := h
     have hb : b1 = b2 := hκ h1
     subst hb

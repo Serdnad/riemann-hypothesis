@@ -3,9 +3,9 @@ module
 public import Mathlib
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AbsCentral
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.WeakOfAtt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.AutP
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.HasFixedOfAlgNormFixedNeBot
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AdmissibleLevelRestriction.UnlOfOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle043
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AdmissibleLevelRestriction.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.FlagLaws
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 namespace UpperTheory.V.Keep
 
 theorem sphV {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {n : ℕ}
-    {w : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω} {h : IsPlaceOver A w}
+    {w : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω} {h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w}
     {rc : IrrGL (k := w.adicCompletion F) → WD h} (hrc : IsRecV h rc) (σ : SmIrr (GL (Fin n) (w.adicCompletion F)))
     (h0 : (rc (algNorm σ)).mono0) (d : ℕ)
     (hI : ∀ s : ↥(Ine (F := F) A), (rc (algNorm σ)).charPol (ineIncl h s) = (X - 1) ^ d) : GlobalTheory.SmGL.IsSpherical σ.ρ := by
@@ -77,12 +77,12 @@ theorem sphV {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [
 section
 variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {n : ℕ}
 
-def OddA (l : ℕ) [Fact l.Prime] (r : G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
+def OddA (l : ℕ) [Fact l.Prime] (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) : Prop :=
   ∀ w : HeightOneSpectrum (𝓞 F), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → Unl1 r w ∨ PotUnl r w
 
-variable [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime] {r : G F Ω →* GL (Fin n) (Qbar l)}
+variable [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime] {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)}
 
-theorem oddTw' (μ : G F Ω →* (Qbar l)ˣ) (h : OddA l r) : OddA l (tw r μ) := fun w hw =>
+theorem oddTw' (μ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (h : OddA l r) : OddA l (tw r μ) := fun w hw =>
   (h w hw).imp (((flagLaws F Ω l n r).2.1 μ).2.2 w).1.1 (((flagLaws F Ω l n r).2.1 μ).2.2 w).2.1
 
 theorem oddA_of_unl {M : ℕ} {m : Fin n → ℤ} (h : Th.Unl l M m r) : OddA l r := fun w hw => by
@@ -93,7 +93,7 @@ end
 def LevelKA : Prop :=
   ∀ (K : Type) [Field K] [NumberField K] [IsCMField K] (n : ℕ), 2 ≤ n → ∀ (m : Fin n → ℤ), StrictAnti m → ∀ M : ℕ, 1 ≤ M →
     ∀ (l : ℕ) [Fact l.Prime], l ≠ 2 → ∀ (Ω : Type) [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] (ι : Qbar l ≃+* ℂ)
-      (r : G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n), Level l M m r → OddA l r → WitA ι r → (CG.mk π).IsRegAlg →
+      (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (π : CuspSub K n), Level l M m r → OddA l r → WitA ι r → (CG.mk π).IsRegAlg →
       GlobalTheory.ContraPair.DualIsConj π → AttC ι r π →
       π ∈ SigK K m M ∧ ∀ w : HeightOneSpectrum (𝓞 K), (l : 𝓞 K) ∉ w.asIdeal → ∀ B, (CG.mk π).HasSat w B →
         FrobEig ι r w (algSat n (normV w) B)

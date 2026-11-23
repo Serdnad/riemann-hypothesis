@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PolynomialDimension.WeylDim
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.GainBoundAt
-public import Formalism.PolynomialDimension.MultinomialDepth.FrameMultinomialBoundHolds
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RankMulConductorDivLeOne
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.WeylDimShift
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

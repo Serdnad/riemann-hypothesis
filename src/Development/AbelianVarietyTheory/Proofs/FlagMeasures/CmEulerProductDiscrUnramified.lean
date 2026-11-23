@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SelfDualUnramifiedPlaces
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle003
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Mathlib.RingTheory.DedekindDomain.Different
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RootDiscrGeThreeHalvesOfIsTotallyComplex
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsFieldAdicCompletionTensorOfInert
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NotIsFieldAdicCompletionTensorOfSplit
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.QuadraticUnramifiedIffInertOrSplit
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle008
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

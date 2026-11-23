@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.ComplexMultiplication.EllipticResidues
 public import GroundTheory.GlobalFields.ComplexMultiplication.EllipticRational
-import GroundTheory.GlobalFields.ComplexMultiplication.ResidueTheorem
+import GroundTheory.GlobalFields.ComplexMultiplication.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

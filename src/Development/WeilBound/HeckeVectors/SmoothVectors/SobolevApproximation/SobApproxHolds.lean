@@ -1,12 +1,11 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfSt
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfAs
+public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle002
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfAvg
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfBdd
+public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle003
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfChart
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfHaar
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfKFin
+public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle004
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfKer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +42,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfA
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Character
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ContinuousToZModPow
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

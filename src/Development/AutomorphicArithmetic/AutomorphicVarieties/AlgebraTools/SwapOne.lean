@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HkDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle003
 public import Mathlib.RingTheory.Localization.FractionRing
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.EqOneOfStrictMono
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HkBern
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HkInd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.SwapOneAlt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle019
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

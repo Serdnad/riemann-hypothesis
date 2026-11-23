@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNeZeroOfResidueNeZero
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.OldestLetterInSegment
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ColumnConditionsOfNumericBounds
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle010
 
 @[expose] public section
 

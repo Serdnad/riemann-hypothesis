@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjAverageUnipotentLocallyConstantCompactSuppor
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1682
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
 import Mathlib.Algebra.Order.Floor.Extended

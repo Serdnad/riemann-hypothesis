@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Determinant
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SmithMat
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartDim
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.BaseChangeC
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle010
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle011
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.MemConePtsIffChartIdeal
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothMetricOfIsSmoothHerm
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

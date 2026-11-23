@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.EtArch
-public import Formalism.LocalToGlobal.ProjectiveLattices.Adm3OfExtension
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ArchimedeanBoundTotalConstantSize
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle040
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsCuspFormFourClausesExplicitConstantStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.LogCardComponentsLeOfRowsBoundStatement
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle022
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Formalism.LocalToGlobal.ProjectiveLattices.HostSize
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -80,3 +80,17 @@ theorem etEx_deg_two : ∀ (D : D7) (T : Top D) (h : LawsP T) (large₂ : SizeDa
     (etexnum_one_le_rd _) lρ (by rw [hostSize_f]; exact lf) lr lq hN).2
 
 end GlobalTheory.EtaAn
+
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.EtaForm GlobalTheory.EtaAn
+
+theorem _root_.GlobalTheory.T.etaleExtension_degreeTwo_constants : ∀ (D : D7) (T : Top D) (h : LawsP T) (large₂ : SizeData₂ D), (2 ≤ large₂.sc.L ∧ Real.log D.R.r ≤ large₂.sc.L ∧ Real.log D.host.rdE ≤ 2 * large₂.sc.L ∧ Real.log D.R.f ≤ 2 * large₂.sc.L ∧ (∀ i, Real.log (D.host.g i) ≤ 9 * large₂.sc.L + 1) ∧ 16 ≤ D.R.f) → ∀ (DF q : ℕ) (R0 : ℝ), RunOK D.host.E D.R.r DF q R0 D.R.m → 1 ≤ q → Real.log q ≤ 70 * large₂.sc.L → ETEx h (WeightFamilies.PPv D large₂ 200000 2) (EtArch h (I2.th (E := D.host.E) q R0) (200000 * zBase large₂ ^ 2)) := by
+  first | exact @GlobalTheory.EtaAn.etEx_deg_two | exact GlobalTheory.EtaAn.etEx_deg_two | (intros; apply GlobalTheory.EtaAn.etEx_deg_two <;> assumption)
+
+end
+end

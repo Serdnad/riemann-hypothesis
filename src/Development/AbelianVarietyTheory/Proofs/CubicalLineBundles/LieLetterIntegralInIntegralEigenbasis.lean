@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsLieBasisLocalModelStatement
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LieLetterIntegralOfLocalGenerator
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle060
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsSchemeTheoreticallyDominantSpecOfInjective
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsLieBasisIffIsUnitDet
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTangentModuleUniversalGroup
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFramesDifferByUnit
 import Mathlib.Algebra.Order.Floor.Extended
@@ -87,10 +87,10 @@ theorem comb_match {V K F : Type} [CommRing V] [CommRing K] [CommRing F] {X : Sc
   let T : Over X := Over.mk (spMap (algebraMap F (DualNumber F)) ≫ spMap α ≫ f₁)
   have e₁ : spMap (dualMap α) ≫ spMap (algebraMap V (DualNumber V)) ≫ f₁ =
       spMap (algebraMap F (DualNumber F)) ≫ spMap α ≫ f₁ := by
-    rw [← Category.assoc, ← Category.assoc, spMap_comp₂, spMap_comp₂, dualMap_alg]
+    rw [← Category.assoc, ← Category.assoc, spMap_comp₂, spMap_comp₂, GlobalTheory.IntLie.dualMap_alg]
   have e₂ : spMap (dualMap β) ≫ spMap (algebraMap K (DualNumber K)) ≫ f₂ =
       spMap (algebraMap F (DualNumber F)) ≫ spMap α ≫ f₁ := by
-    rw [hf, ← Category.assoc, ← Category.assoc, spMap_comp₂, spMap_comp₂, dualMap_alg]
+    rw [hf, ← Category.assoc, ← Category.assoc, spMap_comp₂, spMap_comp₂, GlobalTheory.IntLie.dualMap_alg]
   let Z : Fin m → (T ⟶ B) := fun i => Over.homMk (spMap (dualMap α) ≫ (u₁ i).left ≫ φ₁) (by
     show (spMap (dualMap α) ≫ (u₁ i).left ≫ φ₁) ≫ B.hom = spMap (algebraMap F (DualNumber F)) ≫ spMap α ≫ f₁
     rw [Category.assoc, Category.assoc, h₁.1.w, ← Category.assoc (u₁ i).left, Over.w (u₁ i)]
@@ -231,7 +231,7 @@ theorem letter_integral_in_eigenbasis : ∀ (E : Type) [Field E] [NumberField E]
   have hsq : (spMap (dualMap iK) ≫ s.left) ≫ z.Φ.T.t.G.hom =
       spMap (algebraMap T.Fr (DualNumber T.Fr)) ≫ spMap iK := by
     rw [Category.assoc, Over.w s]
-    exact (spMap_comp₂ _ _).trans ((congrArg spMap (dualMap_alg iK)).trans (spMap_comp₂ _ _).symm)
+    exact (spMap_comp₂ _ _).trans ((congrArg spMap (GlobalTheory.IntLie.dualMap_alg iK)).trans (spMap_comp₂ _ _).symm)
   let s' : Sp (DualNumber T.Fr) ⟶ M.t'.t.G.left := M.n'.cart.1.lift _ _ hsq
   have hs1 : s' ≫ M.n'.φ = spMap (dualMap iK) ≫ s.left := M.n'.cart.1.lift_fst _ _ _
   have hs2 : s' ≫ M.t'.t.G.hom = spMap (algebraMap T.Fr (DualNumber T.Fr)) := M.n'.cart.1.lift_snd _ _ _
@@ -242,7 +242,7 @@ theorem letter_integral_in_eigenbasis : ∀ (E : Type) [Field E] [NumberField E]
       refine Eq.trans ?_ hmatch.symm
       exact (congrArg (s' ≫ ·) M.h2).trans (by rw [reassoc_of% hs1])
     · rw [Category.assoc, M.m2.cart.1.w, reassoc_of% hs2, Category.assoc, Over.w W']
-      exact (spMap_comp₂ _ _).trans ((congrArg spMap (dualMap_alg _).symm).trans (spMap_comp₂ _ _).symm)
+      exact (spMap_comp₂ _ _).trans ((congrArg spMap (GlobalTheory.IntLie.dualMap_alg _).symm).trans (spMap_comp₂ _ _).symm)
   have hm1 : s' ≫ M.m1.φ = spMap (epsMul (iK cl)) ≫ yT.u b j := by
     have a₁ : spMap (dualMap iK) ≫ spMap (epsMul cl) = spMap (epsMul (iK cl)) ≫ spMap (dualMap iK) := by
       rw [spMap_comp₂, spMap_comp₂, ← dualMap_epsMul]

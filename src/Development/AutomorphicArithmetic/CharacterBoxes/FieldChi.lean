@@ -1,11 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.TwistForm
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle003
 public import Development.AutomorphicArithmetic.CoprimeRanks.SecondSetNoRelation
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ExplicitFormulaErrorOfHostConditions
-public import Development.AutomorphicArithmetic.CharacterBoxes.KerChiAny
-public import Development.AutomorphicArithmetic.CharacterBoxes.OrdAny
-public import Development.AutomorphicArithmetic.CharacterBoxes.TwistAny
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle005
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.OfRawToHostRaw
 import Mathlib.Algebra.Order.Floor.Extended

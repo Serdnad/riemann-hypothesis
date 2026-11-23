@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.CuspDecayHeights.HeightLe
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdelicNormVecMulGeOfHeight
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.InvTransposeGLInvTransposeGL
 import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.IsNormAlong
 import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
-import GroundTheory.GlobalFields.SemilocalAlgebras.ContinuousCompletionMap
+import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 
 @[expose] public section
 

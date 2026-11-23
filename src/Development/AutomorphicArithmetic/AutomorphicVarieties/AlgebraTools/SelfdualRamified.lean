@@ -2,9 +2,9 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.AlmostSelfdual
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DualLattice
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.SmithZeroOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle018
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

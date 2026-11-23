@@ -1,10 +1,10 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.CardH1EqCardH0MulCardH2
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle049
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ContinuousCompOfIsOpenKer
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DualityForAbsGal
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ExistsPrimeMemAsIdeal
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle044
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

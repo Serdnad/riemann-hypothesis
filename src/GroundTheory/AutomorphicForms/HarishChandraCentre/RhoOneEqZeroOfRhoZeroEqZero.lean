@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.HarishChandraCentre.MemCenterOfCommuteE
-public import GroundTheory.AutomorphicForms.HarishChandraCentre.RepBase
+public import GroundTheory.AutomorphicForms.HarishChandraCentre.Bundle001
 public import Mathlib.RingTheory.Derivation.Lie
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

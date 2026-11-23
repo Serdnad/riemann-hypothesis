@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.FrameEstimates.CoefSumB
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle014
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionHeisenbergInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

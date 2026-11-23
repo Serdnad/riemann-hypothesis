@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FdEqZero
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CountableCompactOpen
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.IntegrableOnRight
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle001
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FinOrbit
-public import Development.WeilBound.ThetaLifts.LatticeBasics.NonZero
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

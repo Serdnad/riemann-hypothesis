@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsGenericFlag
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle005
 public import Mathlib.RingTheory.Valuation.ValuationSubring
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushFibLinkA
 import Mathlib.Algebra.Module.StablyFree.Basic

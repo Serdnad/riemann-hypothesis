@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.SigDEqStar
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle006
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGlob
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle002
 public import Formalism.LocalToGlobal.GlobalTheory.GramNDetNe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

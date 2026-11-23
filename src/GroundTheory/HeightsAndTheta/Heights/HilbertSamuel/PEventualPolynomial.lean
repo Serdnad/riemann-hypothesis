@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsEventualPolynomial
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle008
 public import Mathlib.Algebra.Group.ForwardDiff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

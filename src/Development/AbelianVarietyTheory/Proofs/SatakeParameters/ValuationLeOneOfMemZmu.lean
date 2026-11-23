@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JetOpIntegral
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle118
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPDelStdOfIsBasisAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteDivLatticeQuotient
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle211
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NotDvdCardOfInjective
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.TauLatticeLatticeHolds
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,7 +57,7 @@ noncomputable section
 
 namespace GlobalTheory.ColPeriod
 
-open NumberField IsDedekindDomain Formalism.L2.Col Formalism.HermitianLatticesTheory Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Ker
+open NumberField IsDedekindDomain _root_.Formalism.L2.Col Formalism.HermitianLatticesTheory Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Ker
 open GlobalTheory.IndefiniteRowSideFullHecke.FourierColumnIndicator (FnModAt FnMod facTop facPen Zmu)
 open GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance (DegOneUnram)
 open GlobalTheory.IndefiniteRowSideFullHecke.CharacterValuation (StdOver IsFrames)
@@ -428,7 +428,7 @@ end Jets
 section Point
 
 theorem latWithBasis_of_stdOver {E K : Type} [Field E] [NumberField E] [StarRing E] [Field K] [NumberField K] {ι : Type} [Fintype ι]
-    (emb : ι → E →+* K) {n p : ℕ} (hp : p ≠ 0) {N : Submodule (𝓞 E) (Sp E n)} (hN : Submodule.IsLattice E N) (hs : StdOver p N)
+    (emb : ι → E →+* K) {n p : ℕ} (hp : p ≠ 0) {N : Submodule (𝓞 E) (Sp E n)} (hN : Submodule.IsLattice E N) (hs : _root_.GlobalTheory.IndefiniteRowSideFullHecke.CharacterValuation.StdOver p N)
     (w : HeightOneSpectrum (𝓞 K)) (hw : (p : 𝓞 K) ∈ w.asIdeal) : LatWithBasis w (fun τ => tauLat emb τ N) 1 := by
   classical
   intro τ

@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChange
 public import GroundTheory.GlobalFields.ComplexMultiplication.ClassGroupActionIso
-public import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialConstantField
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Endomorphisms
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle006
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeDescent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

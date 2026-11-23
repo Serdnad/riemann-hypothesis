@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ConclusionA2
+public import Formalism.SharpRestriction.GrowthBounds.Bundle003
 public import Mathlib.Analysis.CStarAlgebra.CStarMatrix
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

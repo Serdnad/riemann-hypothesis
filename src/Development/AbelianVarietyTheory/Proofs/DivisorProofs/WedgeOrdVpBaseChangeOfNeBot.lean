@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsTanFrameOfIsEmpty
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.CrysToDRBijective
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle023
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsChernExistsUniqueAndIso
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsNormalFormArcDatumFramedPointRootOfUnity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -238,14 +238,14 @@ theorem IsKS.baseChange (P : AbelianDeRham) (h : FrMap ψ y y') {x : Sp (DualNum
   let : Algebra K K' := ψ.toRingHom.toAlgebra
   obtain ⟨B, _, φ, hφ⟩ := exists_isGrpPullback A (spMap (algebraMap K K'))
   obtain ⟨B', _, φ', hφ'⟩ := exists_isGrpPullback A' (spMap (dualMap (algebraMap K K')))
-  have e₀ : spMap (algebraMap K K') ≫ epsRed K = epsRed K' ≫ spMap (dualMap (algebraMap K K')) := by
+  have e₀ : spMap (algebraMap K K') ≫ _root_.GlobalTheory.DeRham.epsRed K = _root_.GlobalTheory.DeRham.epsRed K' ≫ spMap (dualMap (algebraMap K K')) := by
     rw [← Cris.spMap_comp, ← Cris.spMap_comp]
     congr 1
     ext a <;> simp [dualMap, TrivSqZeroExt.algebraMap_eq_inl]
-  have w : (φ ≫ i) ≫ A'.hom = (B.hom ≫ epsRed K') ≫ spMap (dualMap (algebraMap K K')) := by
+  have w : (φ ≫ i) ≫ A'.hom = (B.hom ≫ _root_.GlobalTheory.DeRham.epsRed K') ≫ spMap (dualMap (algebraMap K K')) := by
     rw [(hφ.comp hi).1.w, e₀, Category.assoc]
   have sq : hφ'.1.lift _ _ w ≫ φ' = φ ≫ i := hφ'.1.lift_fst _ _ _
-  have hj : IsGrpPullback B B' (epsRed K') (hφ'.1.lift _ _ w) :=
+  have hj : IsGrpPullback B B' (_root_.GlobalTheory.DeRham.epsRed K') (hφ'.1.lift _ _ w) :=
     hφ'.cancel ((hφ.comp hi).congr e₀ sq.symm) (hφ'.1.lift_snd _ _ _)
   have hU := ObjDim.isAbelianScheme Xo.univ
   have hg := ObjDim.smoothOfRelativeDimension Xo.univ

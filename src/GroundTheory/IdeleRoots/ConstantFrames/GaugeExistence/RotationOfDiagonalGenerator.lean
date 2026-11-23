@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreCut
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeCut
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle040
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle037
+import Formalism.HermitianCurvature.Bundle001
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 
 @[expose] public section

@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SubspaceCounting.StatementB
+public import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.LinearAlgebra.Quotient.Defs
-public import Formalism.SubspaceCounting.SubspaceCountingProofs.QVandermonde
-public import Formalism.SubspaceCounting.SubspaceCountingProofs.SubspaceCount
+public import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FilteredPoleLength.ReducedBasisBounds.ReductionQuotient
+public import Formalism.FilteredPoleLength.ReducedBasisBounds.Bundle001
 public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxDet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

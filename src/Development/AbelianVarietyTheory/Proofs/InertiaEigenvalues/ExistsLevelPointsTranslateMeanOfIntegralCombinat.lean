@@ -1,19 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValRingLocRing
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle854
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.BaseIntSet
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsInertTop
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle843
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulMemLatO
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeIsometrySignSecond
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DatumFnLevPeriod
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinVecMemGLatOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MovedLevPoint
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle864
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle857
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TranslateSumVacuumMovedByAdelicPair
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeisenbergOperatorFixThetaDatumAwaySplitPlaces
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle162
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 
 @[expose] public section
 

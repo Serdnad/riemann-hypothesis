@@ -1,7 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.QmRowExp
-public import Formalism.PeriodIntegrals.QmRowForm
+public import Formalism.PeriodIntegrals.Bundle019
 public import Mathlib.GroupTheory.Perm.Fin
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorCommutatorQuantumDet
 import Mathlib.Algebra.Order.Floor.Extended

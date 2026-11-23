@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GeometricLemmaFiltration
 public import GroundTheory.AutomorphicForms.AdmissibleInduction
 import GroundTheory.AutomorphicForms.GLnLattice
-public import GroundTheory.AutomorphicForms.GeometricLemmaOrbit
+public import GroundTheory.AutomorphicForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

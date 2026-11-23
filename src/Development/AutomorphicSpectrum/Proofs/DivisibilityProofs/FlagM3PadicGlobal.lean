@@ -1,9 +1,9 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ModelDescentIntegralClosure
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.LocalAtPlaces
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CycNumIntAndComb
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FinitePlacesModelFamilyStatement
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

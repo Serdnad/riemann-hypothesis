@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
 public import Development.WeilBound.CoreStatements.FlagImmersions.ExistsInverse
-public import Development.WeilBound.CoreStatements.FlagImmersions.NeZeroOfHasVal
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle008
 public import Development.WeilBound.CoreStatements.VolumeEquality.Pieces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

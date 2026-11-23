@@ -1,17 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.CuspFrame
+public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.Bundle001
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.SameKindIsometric
-public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.ConvolutionSmoothL2
-public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.NearNonzeroTerms
+public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CanonicalFlagExistsUniqueSemistable
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CountHypPAtAddQAt
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle123
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsSizeEqLeast
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsRadicalSpanPrimeOfNcardPrimesOverEqFinrank
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LayerProdCountMulDensityLeTwo
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LintegralTypeLe
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle198
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PowLePowRatio
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SizeIntegralsAndCardCompositions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

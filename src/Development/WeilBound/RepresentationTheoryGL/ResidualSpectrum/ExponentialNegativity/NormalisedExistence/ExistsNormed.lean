@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.ExpNegGlue
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleModuleDetDiagUnitsPosIdele
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsAddHaarMeasureUnipMeasure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsLeftInvariantOfIsAutForm
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle245
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle240
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.ExistsLintegralConstantTermL2SqLe
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,7 +97,7 @@ section CT
 variable (E) (N r : ℕ)
 omit [_root_.NumberField.IsTotallyComplex E]
 
-theorem pi_eq_borel : (MeasurableSpace.pi : MeasurableSpace (BlockIx N r → Ad E)) = borel _ := by
+theorem pi_eq_borel : (MeasurableSpace.pi : MeasurableSpace (BlockIx N r → Ad E)) = _root_.borel _ := by
   have := GlobalTheory.AdelicUnitaryTop.secondCountable_adele E
   exact BorelSpace.measurable_eq
 

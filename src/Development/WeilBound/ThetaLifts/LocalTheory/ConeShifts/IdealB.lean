@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.IdealA
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualLatticeDifferentIndex
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrimeAdditiveCharacterUnramified
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle143
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

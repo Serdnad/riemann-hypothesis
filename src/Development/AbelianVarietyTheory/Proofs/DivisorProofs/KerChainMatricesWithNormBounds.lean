@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FactorBounds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCbData
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OpNormAtPairingSqLeOfValueBoundStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1049
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1079
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

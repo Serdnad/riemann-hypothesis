@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFubiniStudyPositive
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,10 +2,9 @@ module
 
 public import Formalism.HermitianLattices.StatementLat
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetAssembly
-public import Formalism.HermitianLattices.HermitianLatticesProofs.FinIntermediate
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovolBound
 import Formalism.HermitianLattices.HermitianLatticesProofs.GenusScale
-public import Formalism.HermitianLattices.HermitianLatticesProofs.IsomOfTrace
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ShortVectors
 public import Formalism.HermitianLattices.HermitianLatticesProofs.TraceReal
 import Mathlib.Algebra.Order.Floor.Extended

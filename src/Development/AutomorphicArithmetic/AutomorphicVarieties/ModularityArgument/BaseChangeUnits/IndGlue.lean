@@ -1,12 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.QuadraticInductionGL2Alt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSSRepTraceNondegenerate
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FrobeniusRestrictScalarsPowModInertia
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsQuadraticSignCharacter
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusEigenvaluesTwist
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusSignCompatibility
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle060
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle054
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -107,17 +105,17 @@ variable {F E Ω : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Fi
   [IsScalarTower F E Ω]
 
 omit [NumberField F] in
-private theorem val_lt (A : ValuationSubring Ω) (t : G F Ω) (y : Ω) :
+private theorem val_lt (A : ValuationSubring Ω) (t : _root_.Formalism.ConjugateSelfDual.G F Ω) (y : Ω) :
     (t⁻¹ • A).valuation y < 1 ↔ A.valuation (t y) < 1 := by
   have hm : ∀ x, x ∈ t⁻¹ • A ↔ t x ∈ A := fun x => ValuationSubring.mem_inv_pointwise_smul_iff
   rw [valuation_lt_one_iff', valuation_lt_one_iff', hm, hm, map_inv₀, map_eq_zero_iff _ t.injective]
 
-private theorem place_conj {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 F)} (h : IsPlaceOver A v) (t : G F Ω) :
-    IsPlaceOver (t⁻¹ • A) v := fun x => by
+private theorem place_conj {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 F)} (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (t : _root_.Formalism.ConjugateSelfDual.G F Ω) :
+    _root_.Formalism.ConjugateSelfDual.IsPlaceOver (t⁻¹ • A) v := fun x => by
   rw [val_lt, AlgEquiv.commutes]
   exact h x
 
-private theorem frob_conj {A : ValuationSubring Ω} {q : ℕ} {σ : G F Ω} (hσ : IsFrob (F := F) A q σ) (t : G F Ω) :
+private theorem frob_conj {A : ValuationSubring Ω} {q : ℕ} {σ : _root_.Formalism.ConjugateSelfDual.G F Ω} (hσ : IsFrob (F := F) A q σ) (t : _root_.Formalism.ConjugateSelfDual.G F Ω) :
     IsFrob (F := F) (t⁻¹ • A) q (t⁻¹ * σ * t) := by
   refine ⟨?_, fun x hx => ?_⟩
   · have h1 : σ • A = A := hσ.1
@@ -128,16 +126,16 @@ private theorem frob_conj {A : ValuationSubring Ω} {q : ℕ} {σ : G F Ω} (hσ
         ← ValuationSubring.valuation_le_one_iff])
     rwa [val_lt, map_sub, map_pow, AlgEquiv.mul_apply, AlgEquiv.mul_apply, mul_inv_apply]
 
-private theorem ine_iff {A : ValuationSubring Ω} {σ : G F Ω} : σ ∈ Ine (F := F) A ↔ IsFrob (F := F) A 1 σ := by
+private theorem ine_iff {A : ValuationSubring Ω} {σ : _root_.Formalism.ConjugateSelfDual.G F Ω} : σ ∈ Ine (F := F) A ↔ IsFrob (F := F) A 1 σ := by
   simp only [IsFrob, pow_one]
   rfl
 
 omit [NumberField F] [NumberField E] in
-private theorem frob_emb {A : ValuationSubring Ω} {q : ℕ} {g : G E Ω} (h : IsFrob (F := F) A q (galEmb F E Ω g)) :
+private theorem frob_emb {A : ValuationSubring Ω} {q : ℕ} {g : _root_.Formalism.ConjugateSelfDual.G E Ω} (h : IsFrob (F := F) A q (galEmb F E Ω g)) :
     IsFrob (F := E) A q g := ⟨h.1, h.2⟩
 
-private theorem place_between {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 F)} (hA : IsPlaceOver A v) :
-    ∃ w : HeightOneSpectrum (𝓞 E), IsPlaceOver A w ∧ w.under (𝓞 F) = v := by
+private theorem place_between {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 F)} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) :
+    ∃ w : HeightOneSpectrum (𝓞 E), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w ∧ w.under (𝓞 F) = v := by
   have hint : ∀ x : 𝓞 E, algebraMap E Ω (x : E) ∈ A := fun x => by
     have h : IsIntegral A (algebraMap E Ω (x : E)) := (x.isIntegral_coe.map (algebraMap E Ω).toIntAlgHom).tower_top
     obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.1 h
@@ -205,7 +203,7 @@ private theorem res_surj (w : HeightOneSpectrum (𝓞 E)) (h : normV w = normV (
   obtain ⟨c, rfl⟩ := Ideal.Quotient.mk_surjective c
   exact ⟨c, Ideal.Quotient.eq.1 hc.symm⟩
 
-private theorem exists_moved (h2 : Module.finrank F E = 2) {t : G F Ω} (ht : t ∉ galOf F E Ω) :
+private theorem exists_moved (h2 : Module.finrank F E = 2) {t : _root_.Formalism.ConjugateSelfDual.G F Ω} (ht : t ∉ galOf F E Ω) :
     ∃ x y : 𝓞 E, y - x ≠ 0 ∧ t (algebraMap E Ω x) = algebraMap E Ω y := by
   haveI : Algebra.IsQuadraticExtension F E := ⟨h2⟩
   by_contra h
@@ -221,8 +219,8 @@ private theorem exists_moved (h2 : Module.finrank F E = 2) {t : G F Ω} (ht : t 
   rw [map_div₀, map_div₀]
   exact congrArg₂ _ (h1 a) (h1 b)
 
-private theorem place_ne {t : G F Ω} {x y : 𝓞 E} (hxy : t (algebraMap E Ω x) = algebraMap E Ω y) {A : ValuationSubring Ω}
-    {w : HeightOneSpectrum (𝓞 E)} (h : normV w = normV (w.under (𝓞 F))) (hA : IsPlaceOver A w) (hA' : IsPlaceOver (t⁻¹ • A) w) :
+private theorem place_ne {t : _root_.Formalism.ConjugateSelfDual.G F Ω} {x y : 𝓞 E} (hxy : t (algebraMap E Ω x) = algebraMap E Ω y) {A : ValuationSubring Ω}
+    {w : HeightOneSpectrum (𝓞 E)} (h : normV w = normV (w.under (𝓞 F))) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hA' : _root_.Formalism.ConjugateSelfDual.IsPlaceOver (t⁻¹ • A) w) :
     y - x ∈ w.asIdeal := by
   obtain ⟨c, hc⟩ := res_surj w h x
   have e : ∀ z : 𝓞 E, algebraMap E Ω ((z - algebraMap (𝓞 F) (𝓞 E) c : 𝓞 E) : E) = algebraMap E Ω z - algebraMap F Ω c := fun z => by
@@ -263,12 +261,12 @@ private theorem prod_inert (q : ℕ) (B : Multiset ℂˣ) :
 
 private theorem loc {F E Ω : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Field Ω] [Algebra F E] [Algebra F Ω]
     [Algebra E Ω] [IsScalarTower F E Ω] [IsAlgClosure E Ω] {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ)
-    (h2 : Module.finrank F E = 2) {δ : G F Ω →* (Qbar l)ˣ} (hδ : IsSign E δ) {t : G F Ω} (ht : t ∉ (galEmb F E Ω).range)
-    {x y : 𝓞 E} (hxy : t (algebraMap E Ω x) = algebraMap E Ω y) {r : G E Ω →* GL (Fin 2) (Qbar l)}
-    {R : G F Ω →* GL (Fin 4) (Qbar l)} (hR : IsSSRep R) (H : IndCh (galEmb F E Ω) r R)
+    (h2 : Module.finrank F E = 2) {δ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ} (hδ : IsSign E δ) {t : _root_.Formalism.ConjugateSelfDual.G F Ω} (ht : t ∉ (galEmb F E Ω).range)
+    {x y : 𝓞 E} (hxy : t (algebraMap E Ω x) = algebraMap E Ω y) {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* GL (Fin 2) (Qbar l)}
+    {R : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 4) (Qbar l)} (hR : IsSSRep R) (H : IndCh (galEmb F E Ω) r R)
     {sat : HeightOneSpectrum (𝓞 E) → Multiset ℂˣ → Prop} (hu : ∀ w B B', sat w B → sat w B' → B = B')
     {satP : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop} {v : HeightOneSpectrum (𝓞 F)}
-    (ha : ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ s ∈ Ine (F := F) A, δ s = 1)
+    (ha : ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ s ∈ Ine (F := F) A, δ s = 1)
     (hb : ∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) = v → ∃ B, sat w B ∧ FrobEig ι r w (algSat 2 (normV w) B))
     (hc : ∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) = v →
       (∀ w' : HeightOneSpectrum (𝓞 E), w' ≠ w → w'.under (𝓞 F) = w.under (𝓞 F) →
@@ -276,8 +274,8 @@ private theorem loc {F E Ω : Type} [Field F] [NumberField F] [Field E] [NumberF
       (normV w = normV (w.under (𝓞 F)) ^ 2 → ∃ B B' : Multiset ℂˣ, sat w (B'.map (· ^ 2)) ∧
         B = B' + B'.map (fun b => -b) ∧ satP (w.under (𝓞 F)) B))
     (hd : ∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) = v → y - x ∉ w.asIdeal)
-    (A : ValuationSubring Ω) (hA : IsPlaceOver A v) :
-    (∀ s ∈ Ine (F := F) A, R s = 1) ∧ ∀ σ : G F Ω, IsFrob A (normV v) σ → ∃ B, satP v B ∧
+    (A : ValuationSubring Ω) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) :
+    (∀ s ∈ Ine (F := F) A, R s = 1) ∧ ∀ σ : _root_.Formalism.ConjugateSelfDual.G F Ω, IsFrob A (normV v) σ → ∃ B, satP v B ∧
       (R σ⁻¹ : Matrix (Fin 4) (Fin 4) (Qbar l)).charpoly.map ι.toRingHom =
         ((algSat 2 (normV v) B).map fun b => X - C b).prod := by
   have h1 : ∀ s, δ s = 1 ↔ s ∈ (galEmb F E Ω).range := hδ.1
@@ -367,7 +365,7 @@ theorem UpperTheory.V.Z.Bc.attInd : AttInd := by
     by_contra h
     exact hδ1 (MonoidHom.ext fun s => (hδ.1 s).2 (not_not.1 fun hs => h ⟨s, hs⟩))
   obtain ⟨x, y, hne, hxy⟩ := exists_moved h2 (range_galEmb F E Ω ▸ ht)
-  refine ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (G F Ω) _ 4 R).2.2 _ hR, ?_⟩
+  refine ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (_root_.Formalism.ConjugateSelfDual.G F Ω) _ 4 R).2.2 _ hR, ?_⟩
   filter_upwards [hδu, ev_over (F := F) hatt.2, ev_over (F := F) hfin, ev_over (F := F) (ev_notMem hne),
     ev_notMem (E := F) (a := (l : 𝓞 F)) (Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero)] with u ha hb hc hd hl
   have h3 := loc ι h2 hδ ht hxy hR H' (sat := sat) hu (satP := satP) ha hb hc hd
@@ -381,7 +379,7 @@ theorem UpperTheory.V.Z.Bc.attInd : AttInd := by
   rw [huP _ _ _ hB hB', e]
 
 private theorem tw_back {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {l : ℕ} [Fact l.Prime]
-    (R : G F Ω →* GL (Fin 4) (Qbar l)) : R = tw (tw R (cycBar F Ω l)⁻¹) (cycBar F Ω l ^ (1 : ℤ) * 1) := by
+    (R : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 4) (Qbar l)) : R = tw (tw R (cycBar F Ω l)⁻¹) (cycBar F Ω l ^ (1 : ℤ) * 1) := by
   refine MonoidHom.ext fun s => Units.ext ?_
   rw [tw_val, tw_val, smul_smul, ← Units.val_mul]
   simp

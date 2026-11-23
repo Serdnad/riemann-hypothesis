@@ -1,8 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ClassCounting.LemmaKOfSteps
-public import Development.EtaleCohomology.CyclotomicDiscriminants.SChainPf
-public import Development.EtaleCohomology.CyclotomicDiscriminants.SZcTPf
+public import Development.EtaleCohomology.CyclotomicDiscriminants.Bundle001
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

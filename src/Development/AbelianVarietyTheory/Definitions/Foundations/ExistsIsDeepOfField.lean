@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FacWithCsNonneg
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MemLevEigenIffTransl
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLatBasisHtLatIffSpanEq
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspMulOf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -140,8 +140,9 @@ set_option synthInstance.maxHeartbeats 400000 in
 def Ph : Y.V (gKapMinus T.Q ((i : ℕ) + 1)) →ₗ[Y.c.F] (Y.Hb → Y.V (gKap T.Q ((i : ℕ) + 1))) :=
   LinearMap.pi fun h => restrictOr (LinearMap.proj h ∘ₗ levPh Y.Xo Y.c Y.Hb (chiHR Y.fr Y.ψ) Y.u₀) _ _
 
-def eGood : Y.V (gKap T.Q ((i : ℕ) + 1)) →ₗ[Y.c.F] Y.V (gKap T.Q ((i : ℕ) + 1)) :=
-  restrictOr (goodOp Y.Xo Y.c Y.typeLevel Y.fr Y.om i) _ _
+def eGood :=
+  restrictOr (goodOp Y.Xo Y.c Y.typeLevel Y.fr Y.om i)
+    (Y.V (gKap T.Q ((i : ℕ) + 1))) (Y.V (gKap T.Q ((i : ℕ) + 1)))
 
 variable (h : T.Q.Pins) (hK : KeepsCusp Y.U (gKap T.Q ((i : ℕ) + 1))) (he : IsIdempotentElem (goodIdemTw Y.om i))
 include h hK he

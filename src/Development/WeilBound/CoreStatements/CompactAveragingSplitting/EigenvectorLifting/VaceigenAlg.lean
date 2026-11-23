@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.LaEqSqrtSmulLam
+public import Development.AutomorphicSpectrum.Definitions.MembershipCriteria.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.RingTheory.DedekindDomain.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -404,7 +404,7 @@ theorem chiGrid_row_entries_upper_bound {l : ℕ} (h1 : 1 ≤ l) (h2 : l ≤ D.R
     · rw [mem_singleton.1 hx]
     · linarith [(blockM_bd D C τ hx).2]
 
-theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (entries ((Γ).parD D.R.m D.R.m)) := by
+theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (_root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m)) := by
   have hm : (Γ).m = D.R.m := rfl
   have hk : (Γ).k = D.R.k := rfl
   have hk2 : 2 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
@@ -521,7 +521,7 @@ theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (entries ((Γ).parD D.R.
       · exact Or.inr ⟨l, ⟨h1, by omega⟩, hx⟩
   have hB : ∅ ∪ (Ico 1 (1 + D.R.m)).biUnion (fun i => (Γ).blockC i) ∪
       (Ico 2 (2 + (D.R.k - 1))).biUnion (fun j => ({((Γ).v j : ℚ)} : Finset ℚ)) ∪
-      (Ico 1 (1 + D.R.m)).biUnion (fun l => {-((Γ).b l : ℚ)} ∪ (Γ).blockM l) = entries ((Γ).parD D.R.m D.R.m) := by
+      (Ico 1 (1 + D.R.m)).biUnion (fun l => {-((Γ).b l : ℚ)} ∪ (Γ).blockM l) = _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m) := by
     ext x
     rw [GridData.entries_parD]
     simp only [empty_union, mem_union, mem_singleton, mem_biUnion, mem_Ico, mem_Icc, GridData.mem_cloud,
@@ -641,7 +641,7 @@ theorem min_weightX {y : ℚ} (hy : y ∈ (Γ).weightX D.R.m) : -((Γ).e D.R.m :
   · exact (weightX_above D C τ (j := j) (by omega) hy hz').le
   · exact (blockMPlus_bd D C τ hy).1
 
-theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ entries ((Γ).parD D.R.m D.R.m) := by
+theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m) := by
   have hm2 := D.R.two_le_m
   have ht := D.R.t_odd.pos
   have et : ((Γ).t : ℚ) = D.R.t := rfl
@@ -652,7 +652,7 @@ theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ en
   rw [GridData.entries_parD]
   exact mem_union_left _ (mem_union_right _ (mem_biUnion.2 ⟨D.R.m, mem_Icc.2 ⟨by omega, le_rfl⟩, hmem⟩))
 
-theorem min_parD {y : ℚ} (hy : y ∈ entries ((Γ).parD D.R.m D.R.m)) :
+theorem min_parD {y : ℚ} (hy : y ∈ _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m)) :
     -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ≤ y := by
   have hm2 := D.R.two_le_m
   have hm : (Γ).m = D.R.m := rfl
@@ -695,14 +695,14 @@ theorem weights_top_grid : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts}
   have h1 := isHC_grid D sc.cGap τ (i := D.R.m) le_rfl r1
   have hA := h0.1.card_entries.trans h0.2.1
   have hB := h1.1.card_entries.trans h1.2.1
-  have eA : entries (Node.par D sc.cGap (.top D.R.m) τ) = (num D sc.cGap τ).weightX D.R.m := entries_plus _
-  have eB : entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ) = entries ((num D sc.cGap τ).parD D.R.m D.R.m) := by
-    have : entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ) =
-        entries (shift (if Odd (D.R.m + D.R.m) then -(1 / 2) else 0) ((num D sc.cGap τ).parD D.R.m (num D sc.cGap τ).m)) := rfl
+  have eA : _root_.GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.top D.R.m) τ) = (num D sc.cGap τ).weightX D.R.m := entries_plus _
+  have eB : _root_.GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ) = _root_.GlobalTheory.SignedHC.entries ((num D sc.cGap τ).parD D.R.m D.R.m) := by
+    have : _root_.GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ) =
+        _root_.GlobalTheory.SignedHC.entries (shift (if Odd (D.R.m + D.R.m) then -(1 / 2) else 0) ((num D sc.cGap τ).parD D.R.m (num D sc.cGap τ).m)) := rfl
     rw [this, if_neg (by rw [Nat.odd_iff]; omega), shift_zero]
     rfl
-  have hSI : StrictInterlace (entries (Node.par D sc.cGap (.top D.R.m) τ))
-      (entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ)) := by
+  have hSI : StrictInterlace (_root_.GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.top D.R.m) τ))
+      (_root_.GlobalTheory.SignedHC.entries (Node.par D sc.cGap (.grid D.R.m D.R.m) τ)) := by
     rw [eA, eB]; exact strictInterlace_of_good (good_top_grid D sc.cGap τ)
   have hn : 0 < (G.V (.grid D.R.m D.R.m)).rank := by rw [r1]; exact rankV_pos D _ _
   refine ⟨interlace_wtOf G.sp.topDec.rank.symm hA hB h0.2.2 h1.2.2 hSI,

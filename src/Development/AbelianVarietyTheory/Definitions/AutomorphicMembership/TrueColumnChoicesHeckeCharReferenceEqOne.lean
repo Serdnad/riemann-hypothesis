@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BaseDataEmbeddingConj
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DuStarPos
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AssembleLattice
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsDiscriminantTwelfthRootOfIdealLatticeIffDelta1
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
-public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Chr
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Chr
 open ReciprocityTheory.Neutral.Bridge.HCFR Neutral.B1
 open Formalism.L2.Host (HChar atFin unif ordF)
 open scoped TensorProduct
@@ -79,11 +79,11 @@ theorem mem_suppAt_iff (v : HeightOneSpectrum (𝓞 F)) (y : (AfE F E)ˣ) :
     y ∈ suppAt E v ↔ ∀ P : HeightOneSpectrum (𝓞 E), P.under (𝓞 F) ≠ v → afIso F E (y : AfE F E) P = 1 :=
   (GlobalTheory.AdeleBaseChange.exists_finiteAdele_baseChange_equiv F E).choose_spec.2.2.1 v y
 
-def finAf : Ideles E →* (AfE F E)ˣ :=
+def finAf : _root_.GlobalTheory.Mem.Chr.Ideles E →* (AfE F E)ˣ :=
   Units.map (((afIso F E).symm : FiniteAdeleRing (𝓞 E) E →* AfE F E).comp
     (MonoidHom.snd (InfiniteAdeleRing E) (FiniteAdeleRing (𝓞 E) E)))
 
-theorem afIso_finAf (a : Ideles E) : afIso F E (finAf F E a : AfE F E) = (a : AdeleRing (𝓞 E) E).2 :=
+theorem afIso_finAf (a : _root_.GlobalTheory.Mem.Chr.Ideles E) : afIso F E (finAf F E a : AfE F E) = (a : AdeleRing (𝓞 E) E).2 :=
   (afIso F E).apply_symm_apply _
 
 theorem finAf_surjective : Function.Surjective (finAf F E) := fun y =>
@@ -92,32 +92,32 @@ theorem finAf_surjective : Function.Surjective (finAf F E) := fun y =>
 
 variable {F E} {K : Type} [Field K] (σ : K →+* ℂ)
 
-def Reads (μ : Chr F E K) (ξ : HChar E) : Prop :=
-  ∀ a : Ideles E, ((ξ.1 a : ℂˣ) : ℂ) = σ ((μ (finAf F E a) : Kˣ) : K)
+def Reads (μ : Chr F E K) (ξ : _root_.Formalism.L2.Host.HChar E) : Prop :=
+  ∀ a : _root_.GlobalTheory.Mem.Chr.Ideles E, ((ξ.1 a : ℂˣ) : ℂ) = σ ((μ (finAf F E a) : Kˣ) : K)
 
 variable {σ}
 
-theorem Reads.unique {μ : Chr F E K} {ξ ξ' : HChar E} (h : Reads σ μ ξ) (h' : Reads σ μ ξ') : ξ = ξ' :=
+theorem Reads.unique {μ : Chr F E K} {ξ ξ' : _root_.Formalism.L2.Host.HChar E} (h : Reads σ μ ξ) (h' : Reads σ μ ξ') : ξ = ξ' :=
   Subtype.ext (MonoidHom.ext fun a => Units.ext ((h a).trans (h' a).symm))
 
-theorem Reads.inj {μ μ' : Chr F E K} {ξ : HChar E} (h : Reads σ μ ξ) (h' : Reads σ μ' ξ) : μ = μ' := by
+theorem Reads.inj {μ μ' : Chr F E K} {ξ : _root_.Formalism.L2.Host.HChar E} (h : Reads σ μ ξ) (h' : Reads σ μ' ξ) : μ = μ' := by
   refine MonoidHom.ext fun y => ?_
   obtain ⟨a, rfl⟩ := finAf_surjective F E y
   exact Units.ext (σ.injective ((h a).symm.trans (h' a)))
 
 
 variable (σ) in
-theorem reads_one : Reads σ (1 : Chr F E K) (1 : HChar E) := fun a => by
+theorem reads_one : Reads σ (1 : Chr F E K) (1 : _root_.Formalism.L2.Host.HChar E) := fun a => by
   show ((1 : ℂˣ) : ℂ) = σ ((1 : Kˣ) : K)
   simp
 
-theorem Reads.apply {μ : Chr F E K} {ξ : HChar E} (h : Reads σ μ ξ) (a : Ideles E) (y : (AfE F E)ˣ)
+theorem Reads.apply {μ : Chr F E K} {ξ : _root_.Formalism.L2.Host.HChar E} (h : Reads σ μ ξ) (a : _root_.GlobalTheory.Mem.Chr.Ideles E) (y : (AfE F E)ˣ)
     (hy : afIso F E (y : AfE F E) = (a : AdeleRing (𝓞 E) E).2) : ((ξ.1 a : ℂˣ) : ℂ) = σ ((μ y : Kˣ) : K) := by
   have : y = finAf F E a := Units.ext ((afIso F E).injective (hy.trans (afIso_finAf F E a).symm))
   rw [this]
   exact h a
 
-theorem Reads.orderDvd {μ : Chr F E K} {ξ : HChar E} (h : Reads σ μ ξ) {n : ℕ} (hn : μ ^ n = 1) : ξ.OrderDvd n := by
+theorem Reads.orderDvd {μ : Chr F E K} {ξ : _root_.Formalism.L2.Host.HChar E} (h : Reads σ μ ξ) {n : ℕ} (hn : μ ^ n = 1) : ξ.OrderDvd n := by
   refine Subtype.ext (MonoidHom.ext fun a => Units.ext ?_)
   have h1 : μ (finAf F E a) ^ n = 1 := congrArg (fun f : Chr F E K => f (finAf F E a)) hn
   show ((ξ.1 a ^ n : ℂˣ) : ℂ) = ((1 : ℂˣ) : ℂ)
@@ -126,22 +126,22 @@ theorem Reads.orderDvd {μ : Chr F E K} {ξ : HChar E} (h : Reads σ μ ξ) {n :
 
 end Reads
 
-def chiId {L : Type} [Field L] [NumberField L] (χ : HChar L) (𝔞 : Submodule (𝓞 L) L) : ℂ :=
+def chiId {L : Type} [Field L] [NumberField L] (χ : _root_.Formalism.L2.Host.HChar L) (𝔞 : Submodule (𝓞 L) L) : ℂ :=
   ((∏ᶠ w : HeightOneSpectrum (𝓞 L), χ.val w ^ (ordSub w 𝔞).toNat : ℂˣ) : ℂ)
 
-theorem chiId_ne_zero {L : Type} [Field L] [NumberField L] (χ : HChar L) (𝔞 : Submodule (𝓞 L) L) : chiId χ 𝔞 ≠ 0 :=
+theorem chiId_ne_zero {L : Type} [Field L] [NumberField L] (χ : _root_.Formalism.L2.Host.HChar L) (𝔞 : Submodule (𝓞 L) L) : chiId χ 𝔞 ≠ 0 :=
   Units.ne_zero _
 
-theorem chiId_span_singleton {L : Type} [Field L] [NumberField L] (χ : HChar L) (u : Lˣ) :
+theorem chiId_span_singleton {L : Type} [Field L] [NumberField L] (χ : _root_.Formalism.L2.Host.HChar L) (u : Lˣ) :
     chiId χ (Submodule.span (𝓞 L) {(u : L)}) =
-      ((∏ᶠ w : HeightOneSpectrum (𝓞 L), χ.val w ^ (ordF w u).toNat : ℂˣ) : ℂ) := by
+      ((∏ᶠ w : HeightOneSpectrum (𝓞 L), χ.val w ^ (_root_.Formalism.L2.Host.ordF w u).toNat : ℂˣ) : ℂ) := by
   simp only [chiId, ordSub_span_singleton]
 
-theorem chiId_one {L : Type} [Field L] [NumberField L] (χ : HChar L) : chiId χ 1 = 1 := by
+theorem chiId_one {L : Type} [Field L] [NumberField L] (χ : _root_.Formalism.L2.Host.HChar L) : chiId χ 1 = 1 := by
   have h := chiId_span_singleton χ 1
   rw [Units.val_one, ← Submodule.one_eq_span] at h
   rw [h]
-  simp [ordF]
+  simp [_root_.Formalism.L2.Host.ordF]
 
 theorem detId_std {R : Ranks} (H : Host R) (N : ℕ) : Th.detId H (Th.stdL H N) (Th.stdL H N) = 1 := by
   classical
@@ -227,7 +227,7 @@ structure ColIn (B : Base) (X : PreX B.toPre) where
   muStar' : ι
   trueColumn_tuple_trivial_eq_one : tup mu0 = 1
 
-  xi : ι → HChar B.host.E
+  xi : ι → _root_.Formalism.L2.Host.HChar B.host.E
 
   cst : ∀ a, LocCst B.fields (rowSG (B.primes X) sel (tup a))
 

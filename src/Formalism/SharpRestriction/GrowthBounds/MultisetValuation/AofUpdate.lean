@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.RamifiedLatticeOfChainEstimates
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle010
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.TheoremOfAlternateForm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

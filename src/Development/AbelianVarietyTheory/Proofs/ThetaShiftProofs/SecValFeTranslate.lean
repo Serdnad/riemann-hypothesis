@@ -70,7 +70,7 @@ theorem val_eq_stU {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} {u :
   have h := le_wchart_chartAt hL φ y
   refine Units.ext (((gs_unit y pt _ (h trivial) _).symm.trans (gs_eq_toStalk _ _ h _)).trans
     (congrArg toStalk ?_))
-  refine ((div_eq_iff (frameProd_ne_zero hz ε h)).1 hc).trans ?_
+  refine ((div_eq_iff (_root_.GlobalTheory.FrameValue.frameProd_ne_zero hz ε h)).1 hc).trans ?_
   have := map_prod (Units.coeHom ℂ) (fun k => frU u hL (z k) ^ ε k) Finset.univ
   simp only [map_zpow, Units.coeHom_apply] at this
   rw [Units.val_mul, this]

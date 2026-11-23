@@ -1,9 +1,9 @@
 module
 
 public import CompanionTheory.AutomorphicTheory.SchurLimitBounds.ZuckermanDuality.ZuckDualTOfZuckDual
-public import Formalism.PeriodIntegrals.DSInfCharCap
+public import Formalism.PeriodIntegrals.Bundle020
 public import CompanionTheory.AutomorphicTheory.ZuckermanCommutation.CapelliEigenvalues.FunAct
-public import CompanionTheory.AutomorphicTheory.ZuckermanCommutation.CapelliEigenvalues.Transport
+public import CompanionTheory.AutomorphicTheory.ZuckermanCommutation.CapelliEigenvalues.Bundle001
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.CapelliHighestWeightConjugated
 import Formalism.RealPlaceAnalysis.QuotientSettingHolds
 import Mathlib.Algebra.Order.Floor.Extended

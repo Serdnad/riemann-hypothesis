@@ -1,11 +1,8 @@
 module
 
 public import Formalism.WindowSums.Statement
-import Formalism.WindowSums.AnnihilatorPolynomials.EvalOneSmulDecomposition
-import Formalism.WindowSums.AnnihilatorPolynomials.Lagrange
-import Formalism.WindowSums.AnnihilatorPolynomials.ValProd
-public import Formalism.WindowSums.AnnihilatorPolynomials.WindowSum
-public import Formalism.WindowSums.AnnihilatorPolynomials.ZpowVal
+import Formalism.WindowSums.AnnihilatorPolynomials.Bundle002
+public import Formalism.WindowSums.AnnihilatorPolynomials.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

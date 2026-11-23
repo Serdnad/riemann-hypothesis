@@ -1,6 +1,6 @@
 module
 
-public import Formalism.DistinguishedUnitIdeals.UnivPart
+public import Formalism.DistinguishedUnitIdeals.Bundle001
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

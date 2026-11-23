@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.SheetUnsheet
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ToZIsArithHeightIff
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

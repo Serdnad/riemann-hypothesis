@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FixedNondeg
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuotientCardStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

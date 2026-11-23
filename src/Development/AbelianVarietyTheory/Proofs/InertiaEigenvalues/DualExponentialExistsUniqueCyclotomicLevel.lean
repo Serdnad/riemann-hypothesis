@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExpStar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousOrbitPadicComplex
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTwistCocycleCoboundaryStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamFilQuotientXiPowerAinfStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFontaineThetaOnAinfStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.H1BallCocycleLogCyclotomicStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyThetaOnBdRPlusPeriodDataStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle504
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle501
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle413
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormUnitPowSubOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateInvariantsCyclotomicTwistStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle497
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -267,7 +267,7 @@ include T
 
 open scoped Formalism.Per in
 theorem q_int {c : ℚ_[l]} (hc : ‖c‖ ≤ 1) : ∃ a, P.ιB (AI.ιA a) = qB P c := by
-  have h : algebraMap ℚ_[l] P.R.B ((⟨c, hc⟩ : ℤ_[l]) : ℚ_[l]) = AI.ιA (Per.zA l ⟨c, hc⟩) :=
+  have h : algebraMap ℚ_[l] P.R.B ((⟨c, hc⟩ : ℤ_[l]) : ℚ_[l]) = AI.ιA (_root_.Formalism.Per.zA l ⟨c, hc⟩) :=
     T.eB.injective (((T.zB _).trans (GlobalTheory.RingIface.zB_eq_aB_zA l _)).trans (T.ιA _).symm)
   exact ⟨_, by rw [← h, AlgHom.commutes]⟩
 

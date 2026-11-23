@@ -1,10 +1,10 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SlopeSqSubLeSlopeSqSpan
-public import Formalism.HermitianLattices.StatementMass
+public import Formalism.HermitianLattices.Bundle003
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.CountStB
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidSt
-public import ReciprocityTheory.SemistableReduction.SemiDegSt
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle002
+public import ReciprocityTheory.SemistableReduction.Bundle017
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -66,11 +66,11 @@ import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ArakelovDegreeEqDegreeOfFamily
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.CountSt
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.CountZSt
-public import ReciprocityTheory.SemistableReduction.SemiDegC
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
+public import ReciprocityTheory.SemistableReduction.Bundle026
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.Analysis.Real.Pi.Bounds
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 public import Mathlib.Analysis.SpecialFunctions.Gamma.BohrMollerup

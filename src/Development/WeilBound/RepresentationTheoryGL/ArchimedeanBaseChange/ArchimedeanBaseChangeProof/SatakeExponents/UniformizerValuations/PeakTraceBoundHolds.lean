@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.PeakTraceBound
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RegularizedExponentialSumStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle075
 public import Mathlib.Algebra.DirectSum.LinearMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

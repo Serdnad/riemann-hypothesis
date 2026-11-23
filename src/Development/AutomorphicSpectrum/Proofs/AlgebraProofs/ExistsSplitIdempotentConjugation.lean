@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.StepOrderRes
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtraFurther
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GaussSumValuationTeichmullerStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TeichmullerCharacterOrderGeneratesStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle019
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle010
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.RiRank
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ImportsAlt
+public import ReciprocityTheory.DualLattices.Bundle020
 
 @[expose] public section
 

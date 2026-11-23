@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle009
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOfFiniteOfClosedFibres
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolLinearLift
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsRelativeExpOfParts
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSiegelForm
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniformisationOfPoint
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueHalfChar
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HolomorphicMapModuliLiftsLocallyToPeriods
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LatContMapContinuous
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TorsionEqAndWeilIsOfIsHolTo
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsHolUnifReparam
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsNormalOfWeil
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UnitOnInjectiveOfCommRing
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,7 +62,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 

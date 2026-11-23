@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptyTransferEquiv
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.GaussianBinomialFormula
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CycOfPrime
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GaussBinomMulProd
 import Mathlib.Algebra.Order.Floor.Extended

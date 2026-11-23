@@ -3,8 +3,8 @@ module
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSERDIdentSpec
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ActualAdjointnessFromHermitian
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRadAdj
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.MeasurableOfContinuousOnZero
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.OperatorPreservesFusionForms
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle098
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

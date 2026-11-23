@@ -42,19 +42,18 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.BasicIdentity.Imports
-import ReciprocityTheory.L2DbarEstimates.BasicIdentity.TstarNormSq
+import ReciprocityTheory.L2DbarEstimates.BasicIdentity.Bundle003
 public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Closed
-public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.HStatementOf
+public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Bundle001
 import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.RegMDbEqZeroOfNotMem
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.ImportsAlt
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.IntegrableWd
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.MacofFderivApplyContDiffOn
-import ReciprocityTheory.L2DbarEstimates.Localization.Extend
-public import ReciprocityTheory.L2DbarEstimates.Mollifiers.HasCompactSupport
+public import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle006
+public import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle004
+import ReciprocityTheory.L2DbarEstimates.Localization.Bundle002
+public import ReciprocityTheory.L2DbarEstimates.Mollifiers.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.Mollifiers.MollGraph
-public import ReciprocityTheory.L2DbarEstimates.NormFibrations.Imports
+public import ReciprocityTheory.L2DbarEstimates.NormFibrations.Bundle001
 public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.VolProdFinApply
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegBall
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle005
 
 @[expose] public section
 

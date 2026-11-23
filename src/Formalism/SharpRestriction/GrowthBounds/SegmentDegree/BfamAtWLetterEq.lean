@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.RestLamOfRests
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DivMulSubLeDivSubDiv
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle017
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FrameZeroStrictMono
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.LamMZero
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ReflectionMemGlevCastSucc
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle011
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SumPosOfPer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

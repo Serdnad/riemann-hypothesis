@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasTemperate
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasFderivAtSchwartzOperatorFirstStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzSliceSeminormLeStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle366
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle174
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

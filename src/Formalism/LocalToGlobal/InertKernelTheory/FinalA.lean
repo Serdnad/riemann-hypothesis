@@ -1,9 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.CoeffOneLNe
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsBeW
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsSigma
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementBeW
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle002
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle001
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.BeProp
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.BeWInertOfSigma
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.HurwitzSubstituteTwoSeries

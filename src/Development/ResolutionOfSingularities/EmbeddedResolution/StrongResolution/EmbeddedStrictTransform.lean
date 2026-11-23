@@ -1,8 +1,8 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.RemoveIsoBlowups
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineResolutionRule
-public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.FunctorialPrincipalization
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle003
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.Bundle001
 public import Mathlib.CategoryTheory.Functor.OfSequence
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended

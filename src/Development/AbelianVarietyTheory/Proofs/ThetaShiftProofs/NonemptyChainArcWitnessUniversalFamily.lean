@@ -1,11 +1,11 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IdealPart
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsRigidifiedIsoAgreeAbelianFibresStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSecThroughUp
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.GenericPointsConstantPointsFormalSumValuesStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyConstPts
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

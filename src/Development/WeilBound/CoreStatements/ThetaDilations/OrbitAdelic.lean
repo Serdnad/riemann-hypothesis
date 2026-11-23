@@ -1,8 +1,8 @@
 module
 
-import CompanionTheory.AutomorphicTheory.ThetaDilations.OrbitAdelic
+import CompanionTheory.AutomorphicTheory.ThetaDilations.Bundle001
 public import Development.WeilBound.CoreStatements.ThetaDilations.IsOpenCoset
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.FiniteAdeleTopologyStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

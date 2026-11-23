@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.PairLift
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FinalTheorems
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraicGerm
-public import GroundTheory.GlobalFields.ComplexMultiplication.UniformizationGroup
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle004
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogeny
 import GroundTheory.GlobalFields.ComplexMultiplication.EllipticRational
 import Mathlib.Algebra.Order.Floor.Extended

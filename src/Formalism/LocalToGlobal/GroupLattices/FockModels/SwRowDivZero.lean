@@ -1,8 +1,8 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementA
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWRaise
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

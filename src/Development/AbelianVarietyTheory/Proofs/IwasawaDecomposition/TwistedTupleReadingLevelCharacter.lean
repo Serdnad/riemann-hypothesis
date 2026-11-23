@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RdLevOn
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle387
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsPtOfOfRat
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle474
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPtOfOfDecoRaw
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RepresentativeImagePointOfLift
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedLtOfMem
@@ -191,7 +191,7 @@ theorem chr_inv_val (Λ : LevFam X.E X.K n SG) (Θ : LevQFam X.E X.K n Q) (emb :
     LevFam.chr_apply, hc, Units.coe_prod, map_prod, Finset.prod_inv_distrib, Units.coe_prod, map_prod, Finset.prod_inv_distrib]
 
 variable {Pr : Primes X} {R : Ranks} {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {S : Set ℕ}
-  {mu : Tup X.F X.E X.K S}
+  {mu : _root_.Formalism.L2.DIV.Tup X.F X.E X.K S}
 
 theorem levQX_lam_inv (emb : X.K →+* ℂ) (hn : R.N R.m - 1 = R.r + R.m * R.t) (P : QE sel (mu : Chr X.F X.E X.K))
     (k : (levQX R sel mu P).H) (hk : GlobalTheory.TopStep.redGL _ P.1 k.1 ∈ blockTri (blk2 R.r)) :

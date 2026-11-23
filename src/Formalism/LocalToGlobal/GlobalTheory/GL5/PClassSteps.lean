@@ -39,8 +39,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PeriodIntegrals.UJClassFin
-import Formalism.PeriodIntegrals.UJClassMass
+import Formalism.PeriodIntegrals.Bundle009
+import Formalism.PeriodIntegrals.Bundle014
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryClassMass.Reduce
 public import Mathlib.Algebra.Algebra.Defs
 public import Mathlib.Algebra.Field.Defs

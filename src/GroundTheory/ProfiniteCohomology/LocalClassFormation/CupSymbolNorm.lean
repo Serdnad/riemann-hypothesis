@@ -1,13 +1,13 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.ClassFormations.CorestrictionDefs
-public import GroundTheory.ProfiniteCohomology.CyclicCupGaloisDefs
+public import GroundTheory.ProfiniteCohomology.Bundle009
 public import GroundTheory.ProfiniteCohomology.ClassFormations.Corestriction
 public import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
-public import GroundTheory.ProfiniteCohomology.CupProducts.Projection
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
+public import GroundTheory.ProfiniteCohomology.Bundle010
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.H0IsoHomCohomologyClassZero
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ProfiniteCohomology.CupProducts.Functoriality
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 
 @[expose] public section
 

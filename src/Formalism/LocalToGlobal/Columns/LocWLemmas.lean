@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Places
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.InvariantKernelTraceVanishes
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 public import Formalism.LocalRingCardinality.Lemmas
 import Mathlib.Algebra.Order.Floor.Extended

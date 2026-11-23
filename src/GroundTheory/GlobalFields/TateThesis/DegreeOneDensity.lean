@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.DegreeOnePrimes
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.DedekindDomain.Different
 import Batteries.Tactic.OpenPrivate

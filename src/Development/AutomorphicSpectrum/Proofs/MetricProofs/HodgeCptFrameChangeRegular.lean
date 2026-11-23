@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.DetMemSubring
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle126
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecializesOfUnits
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CauchyBinetSumPositionedMinorsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsComponentInChartRegularStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalFrameOfTwistGenerationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorExpansionOfScaledProductStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorRatioRegularOfMatrixIdentityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProdXbPowEqXcOfPowStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.TMatBlockDiagDetFactorsStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.YvEqSumMinorsGMat
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle142
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle143
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle140
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle141
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle144
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle128
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

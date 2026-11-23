@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LiftQMk
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle308
 public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.HasPres
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocMulVec
-public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.ExistsLinearMapSpanBaseChangeOfSemilinear
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle327
+public import Development.AutomorphicArithmetic.CyclotomicBounds.DeRhamLattices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GlobalCore
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConstOneMem
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle337
 
 @[expose] public section
 

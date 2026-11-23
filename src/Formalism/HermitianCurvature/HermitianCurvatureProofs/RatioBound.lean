@@ -6,7 +6,7 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfChoices
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSettingBis
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVnice
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBGWave
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SizeAtMinusW
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle060
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

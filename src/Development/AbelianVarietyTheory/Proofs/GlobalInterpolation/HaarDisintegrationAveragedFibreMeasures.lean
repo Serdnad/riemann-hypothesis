@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FibOfZero
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle005
 public import Mathlib.MeasureTheory.Group.Measure
 public import Mathlib.Topology.MetricSpace.Ultra.Basic
 import Mathlib.Algebra.Order.Floor.Extended

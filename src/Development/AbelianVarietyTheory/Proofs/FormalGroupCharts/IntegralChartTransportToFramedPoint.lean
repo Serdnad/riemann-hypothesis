@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartTransportSt
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GlobalBasisAlgebra
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.CanonGaugeExists
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IntegralFramesTransportToFramedPointStatement
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetSubPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBMapPf
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IntegralFramesTransportToFramedPoint
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle020
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

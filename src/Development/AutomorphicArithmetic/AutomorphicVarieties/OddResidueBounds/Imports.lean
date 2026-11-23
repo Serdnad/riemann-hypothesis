@@ -2,12 +2,12 @@ module
 
 public import Formalism.GaloisCohomology.Statement
 public import Mathlib.NumberTheory.Cyclotomic.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.LenOfCard
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.FnOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.LogH
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.SelCard
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.UnrInj
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.UnrSel
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.KummerTheory.Mk0IdMapCongr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerCharacterEval.MemZpowersIff
-import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.CoefMapSingle
+import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Bundle001
 
 @[expose] public section
 

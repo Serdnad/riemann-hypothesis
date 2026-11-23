@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.CurveIsOrbit
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCurve
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.MemMCoordIdealIffOfIsWeightedHomogeneous
 import Mathlib.Algebra.Order.Floor.Extended

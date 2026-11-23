@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.OmegaFactorization
-public import ReciprocityTheory.Chebotarev.EulerSum
+public import ReciprocityTheory.Chebotarev.Bundle001
 public import Mathlib.Analysis.SpecialFunctions.Gamma.Deligne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KFacDifferentiable
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle150
 
 @[expose] public section
 

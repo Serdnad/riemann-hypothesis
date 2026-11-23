@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsUnitIffUnitAt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle023
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsSubMemEigW
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ProjectiveLinePlaceTrivialOnConstants
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FormalIsomorphismTransportStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BaseConstantsRegularStatement
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle164
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CharpolySplitsOfEmbeddingsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FibreCurveGermPowersStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeLatticeGermEigenStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeLatticeSpanIndependentStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionHiddenSecondStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuationBoundedFrameStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FibreCurveGermPowers
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle087
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle197
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 
 @[expose] public section
 

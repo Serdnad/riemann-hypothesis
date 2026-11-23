@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisOApplyZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1183
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSigmaList
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicHeightGrowthOfCosetGrowthUnitaryPair
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOpenLevelFixingThetaFunction
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WeilRepThetaFunctionPolynomialGrowthRealPoints
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompAtMtEqInfMat
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DRhoSumAndSobOLe
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsModGrowthExpLeNormInfPow
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle326
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle419
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle470
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle172
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle195
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsFinNormComparison
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.WordDerivatives
+public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle003
 import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.AdjointIsotropicDecomposition
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 

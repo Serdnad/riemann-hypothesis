@@ -1,13 +1,13 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndAll
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpActOf
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle023
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpGauge
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FrRatio
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LinEigPf
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

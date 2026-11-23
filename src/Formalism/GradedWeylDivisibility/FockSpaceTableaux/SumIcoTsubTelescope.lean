@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

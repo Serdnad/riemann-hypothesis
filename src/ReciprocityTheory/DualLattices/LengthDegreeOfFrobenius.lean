@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.EigenQuotientSmithStatement
+public import ReciprocityTheory.DualLattices.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.BasechangeProjectorIdempotentAction
 public import ReciprocityTheory.DualLattices.InvolutionPermApplyZero
-public import ReciprocityTheory.DualLattices.RestrictHopfOrderLength
+public import ReciprocityTheory.DualLattices.Bundle023
 public import ReciprocityTheory.DualLattices.SmithNormalFormStatement
-public import ReciprocityTheory.DualLattices.WdetDegreeOfSmithRestrict
+public import ReciprocityTheory.DualLattices.Bundle026
 
 @[expose] public section
 

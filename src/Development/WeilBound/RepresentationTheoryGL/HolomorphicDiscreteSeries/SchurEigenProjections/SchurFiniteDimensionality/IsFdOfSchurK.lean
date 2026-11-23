@@ -1,8 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.HolomorphicDiscreteSeries.SchurEigenProjections.BigProjP
-public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.IntegralGermIndependentOfSystem
-public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.ColSq
+public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.Bundle002
 public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.Imports
 import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.IsFdAbs
 import Mathlib.Algebra.Order.Floor.Extended
@@ -143,11 +142,11 @@ theorem bigProjP_of (hg0 : PositivityTheory.UnitaryDecomposition.X4.IntegralGerm
       have a2 := UnitaryDecomposition.X4.isU_adj hUσ h z (ContinuousLinearMap.adjoint i y)
       have e1 : onU ε π (ι h) = π (emb e (um h)) := by
         show π (umat (ι h)) = _
-        rw [hιum]
+        rw [hιum] <;> rfl
       have e2 : onU ε π (ι h)⁻¹ (i z) = i (σ (um h⁻¹) z) := by
         rw [← map_inv]
         show π (umat (ι h⁻¹)) (i z) = _
-        rw [hιum, hint]
+        rw [hιum, hint] <;> rfl
       rw [e1] at a1
       rw [a1, e2, ← ContinuousLinearMap.adjoint_inner_right]
       exact a2.symm

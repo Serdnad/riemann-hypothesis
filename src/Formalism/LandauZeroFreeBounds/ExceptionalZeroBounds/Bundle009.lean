@@ -1,0 +1,203 @@
+module
+
+public import Formalism.LandauZeroFreeBounds.Bundle001
+public import Mathlib.NumberTheory.Harmonic.EulerMascheroni
+public import Mathlib.NumberTheory.LSeries.Nonvanishing
+public import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+public import Mathlib.NumberTheory.Harmonic.ZetaAsymp
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Complex Filter Topology
+
+noncomputable section
+
+namespace Formalism.ZeroFreeDirichlet
+
+def zetaSubPole : ℂ → ℂ :=
+  Function.update (fun s : ℂ => riemannZeta s - 1 / (s - 1)) 1 (Real.eulerMascheroniConstant : ℂ)
+
+theorem zeta_sub_pole_differentiable : Differentiable ℂ zetaSubPole := by
+  rw [← differentiableOn_univ,
+    ← Complex.differentiableOn_compl_singleton_and_continuousAt_iff (c := 1) Filter.univ_mem]
+  refine ⟨fun s hs => ?_, ?_⟩
+  · have hs1 : s ≠ 1 := hs.2
+    have hev : zetaSubPole =ᶠ[𝓝 s] fun z => riemannZeta z - 1 / (z - 1) := by
+      filter_upwards [isOpen_ne.mem_nhds hs1] with z hz
+      exact Function.update_of_ne hz _ _
+    have hd : DifferentiableAt ℂ (fun z => riemannZeta z - 1 / (z - 1)) s :=
+      (differentiableAt_riemannZeta hs1).sub
+        ((differentiableAt_const _).div (differentiableAt_id.sub_const 1) (sub_ne_zero.mpr hs1))
+    exact (hd.congr_of_eventuallyEq hev).differentiableWithinAt
+  · unfold zetaSubPole
+    exact continuousAt_update_same.mpr tendsto_riemannZeta_sub_one_div
+
+theorem zeta_minus_pole_eq {s : ℂ} (hs : s ≠ 1) : zetaSubPole s = riemannZeta s - 1 / (s - 1) := by
+  unfold zetaSubPole
+  exact Function.update_of_ne hs _ _
+
+theorem dirichlet_product_entire : BqEntire := by
+  intro q₁ q₂ _ _ _ χ₁ χ₂ ψ h₁ h₂ hψ
+  obtain ⟨P, hP⟩ : ∃ P : ℂ → ℂ, P = fun s => DirichletCharacter.LFunction χ₁ s *
+      DirichletCharacter.LFunction χ₂ s * DirichletCharacter.LFunction ψ s := ⟨_, rfl⟩
+  have hPd : Differentiable ℂ P := by
+    rw [hP]
+    exact ((DirichletCharacter.differentiable_LFunction h₁).mul
+      (DirichletCharacter.differentiable_LFunction h₂)).mul
+      (DirichletCharacter.differentiable_LFunction hψ)
+  have hds : Differentiable ℂ (dslope P 1) := by
+    rw [← differentiableOn_univ, Complex.differentiableOn_dslope Filter.univ_mem]
+    exact hPd.differentiableOn
+  refine ⟨fun s => zetaSubPole s * P s + dslope P 1 s,
+    (zeta_sub_pole_differentiable.mul hPd).add hds, fun s hs => ?_⟩
+  have hs' : s - 1 ≠ 0 := sub_ne_zero.mpr hs
+  show _ = zetaSubPole s * P s + dslope P 1 s + _
+  rw [dslope_of_ne _ hs, slope_def_field, zeta_minus_pole_eq hs]
+  simp only [Fbq, lamBq, hP]
+  field_simp
+  ring
+
+end Formalism.ZeroFreeDirichlet
+end
+end
+
+section
+
+open Complex ArithmeticFunction
+open scoped ComplexOrder LSeries.notation
+
+noncomputable section
+
+namespace Formalism.ZeroFreeDirichlet
+
+lemma dirichlet_character_lseries_summable {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) {s : ℂ}
+    (hs : 1 < s.re) : LSeriesSummable ⇑(toArithmeticFunction (fun m : ℕ => χ (m : ZMod N))) s := by
+  refine (LSeriesSummable_congr s (fun {n} hn => ?_)).mpr (χ.LSeriesSummable_of_one_lt_re hs)
+  simp [toArithmeticFunction, hn]
+
+lemma dirichlet_character_lseries_eq {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) {s : ℂ}
+    (hs : 1 < s.re) :
+    LSeries ⇑(toArithmeticFunction (fun m : ℕ => χ (m : ZMod N))) s = DirichletCharacter.LFunction χ s := by
+  rw [DirichletCharacter.LFunction_eq_LSeries χ hs]
+  exact LSeries_congr (fun {n} hn => by simp [toArithmeticFunction, hn]) s
+
+set_option backward.isDefEq.respectTransparency.types false in
+lemma lseries_zetaMul_eq {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) {s : ℂ}
+    (hs : 1 < s.re) :
+    LSeries (DirichletCharacter.zetaMul χ) s = riemannZeta s * DirichletCharacter.LFunction χ s := by
+  have h1 : LSeriesSummable ⇑(ArithmeticFunction.zeta : ArithmeticFunction ℂ) s := by
+    have := ArithmeticFunction.LSeriesSummable_zeta_iff.mpr hs
+    exact (LSeriesSummable_congr s (fun {n} hn => by simp [hn])).mp this
+  rw [DirichletCharacter.zetaMul, ArithmeticFunction.LSeries_mul' h1 (dirichlet_character_lseries_summable χ hs),
+    dirichlet_character_lseries_eq χ hs]
+  congr 1
+  rw [← ArithmeticFunction.LSeries_zeta_eq_riemannZeta hs]
+  exact LSeries_congr (fun {n} hn => by simp [hn]) s
+
+theorem dirichlet_product_coefficients : BqCoeff := by
+  intro q₁ q₂ _ _ _ χ₁ χ₂ ψ h1 h2 hψ
+  set f : ArithmeticFunction ℂ := DirichletCharacter.zetaMul χ₁ *
+    (toArithmeticFunction (fun m : ℕ => χ₂ (m : ZMod q₂)) *
+      toArithmeticFunction (fun m : ℕ => ψ (m : ZMod (q₁ * q₂)))) with hf
+
+  have hvals : ∀ {N : ℕ} (χ : DirichletCharacter ℂ N), χ ^ 2 = 1 →
+      ∀ x, χ x = 0 ∨ χ x = 1 ∨ χ x = -1 := by
+    intro N χ hχ x
+    by_cases hx : IsUnit x
+    · have h := congrArg (fun φ : DirichletCharacter ℂ N => φ x) hχ
+      simp only [MulChar.pow_apply' χ two_ne_zero, MulChar.one_apply hx] at h
+      have h' : χ x * χ x = 1 := by rw [← sq]; exact h
+      rcases (mul_self_eq_one_iff).mp h' with h' | h'
+      · exact Or.inr (Or.inl h')
+      · exact Or.inr (Or.inr h')
+    · exact Or.inl (MulChar.map_nonunit χ hx)
+  have hmul : f.IsMultiplicative :=
+    (DirichletCharacter.isMultiplicative_zetaMul χ₁).mul
+      ((DirichletCharacter.isMultiplicative_toArithmeticFunction χ₂).mul
+        (DirichletCharacter.isMultiplicative_toArithmeticFunction ψ))
+  have hswap : f = DirichletCharacter.zetaMul χ₂ *
+      (toArithmeticFunction (fun m : ℕ => χ₁ (m : ZMod q₁)) *
+        toArithmeticFunction (fun m : ℕ => ψ (m : ZMod (q₁ * q₂)))) := by
+    simp only [hf, DirichletCharacter.zetaMul]
+    ring
+  have hψ' : ∀ n : ℕ, ψ (n : ZMod (q₁ * q₂)) = χ₂ (n : ZMod q₂) * χ₁ (n : ZMod q₁) := by
+    intro n
+    rw [hψ n, mul_comm]
+  have hpp : ∀ p k : ℕ, p.Prime → 0 ≤ f (p ^ k) := by
+    intro p k hp
+    rcases hvals χ₂ h2 (p : ZMod q₂) with h | h | h
+    · exact prime_power_coefficient_nonneg h1 hψ hp (Or.inl h) k
+    · exact prime_power_coefficient_nonneg h1 hψ hp (Or.inr (Or.inl h)) k
+    · rcases hvals χ₁ h1 (p : ZMod q₁) with h' | h' | h'
+      · rw [hswap]; exact prime_power_coefficient_nonneg h2 hψ' hp (Or.inl h') k
+      · rw [hswap]; exact prime_power_coefficient_nonneg h2 hψ' hp (Or.inr (Or.inl h')) k
+      · exact prime_power_coefficient_nonneg h1 hψ hp (Or.inr (Or.inr ⟨h, h'⟩)) k
+  have hnn : ∀ n, 0 ≤ f n := by
+    intro n
+    rcases eq_or_ne n 0 with rfl | hn
+    · simp
+    · rw [ArithmeticFunction.IsMultiplicative.multiplicative_factorization f hmul hn, Finsupp.prod]
+      exact Finset.prod_nonneg fun p hp =>
+        hpp p _ (Nat.prime_of_mem_primeFactors (by simpa using hp))
+  have hsum : ∀ s : ℂ, 1 < s.re → LSeriesSummable (⇑f) s := fun s hs =>
+    ArithmeticFunction.LSeriesSummable_mul (DirichletCharacter.LSeriesSummable_zetaMul χ₁ hs)
+      (ArithmeticFunction.LSeriesSummable_mul (dirichlet_character_lseries_summable χ₂ hs)
+        (dirichlet_character_lseries_summable ψ hs))
+  refine ⟨⇑f, hnn, hmul.map_one, ?_, ?_⟩
+  · have := LSeries.abscissaOfAbsConv_le_of_forall_lt_LSeriesSummable (f := ⇑f) (x := 1)
+      (fun y hy => hsum y (by simpa using hy))
+    simpa using this
+  · intro s hs
+    rw [Fbq, ArithmeticFunction.LSeries_mul' (DirichletCharacter.LSeriesSummable_zetaMul χ₁ hs)
+      (ArithmeticFunction.LSeriesSummable_mul (dirichlet_character_lseries_summable χ₂ hs)
+        (dirichlet_character_lseries_summable ψ hs)),
+      ArithmeticFunction.LSeries_mul' (dirichlet_character_lseries_summable χ₂ hs) (dirichlet_character_lseries_summable ψ hs),
+      lseries_zetaMul_eq χ₁ hs, dirichlet_character_lseries_eq χ₂ hs, dirichlet_character_lseries_eq ψ hs]
+    ring
+
+end Formalism.ZeroFreeDirichlet
+end
+end

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.HermitianCurvature.Bundle004
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumDualVectorEqZeta

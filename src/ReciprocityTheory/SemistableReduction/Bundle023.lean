@@ -1,0 +1,347 @@
+module
+
+public import ReciprocityTheory.SemistableReduction.Bundle017
+public import ReciprocityTheory.SemistableReduction.SJCoreA
+public import ReciprocityTheory.SemistableReduction.Bundle007
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.MeasureTheory.Measure.RegularityCompacts
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Mathlib.Topology.UniformSpace.Uniformizable
+public import ReciprocityTheory.SemistableReduction.Bundle016
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace ReciprocityTheory.MultiplicativeHeights.SemiPt
+
+open Matrix NumberField ComplexConjugate
+open scoped ComplexOrder
+
+def wPart (r m : ℕ) (i : Fin r) : Fin r :=
+  if (i : ℕ) < m ∨ r ≤ (i : ℕ) + m then Fin.rev i else i
+
+def wVal {K : Type} [Field K] (r m : ℕ) (g : Fin r → K) (i : Fin r) : K :=
+  if (i : ℕ) < m ∨ r ≤ (i : ℕ) + m then 1 else g i
+
+theorem wPart_wPart (r m : ℕ) (i : Fin r) : wPart r m (wPart r m i) = i := by
+  have hi := i.isLt
+  unfold wPart
+  by_cases h : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m
+  · rw [if_pos h, if_pos (by simp only [Fin.val_rev]; omega), Fin.rev_rev]
+  · rw [if_neg h, if_neg h]
+
+theorem wPart_outer (r m : ℕ) (i : Fin r) (h : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m) :
+    wPart r m i = Fin.rev i := by
+  unfold wPart
+  rw [if_pos h]
+
+theorem wPart_mid (r m : ℕ) (i : Fin r) (h : ¬ ((i : ℕ) < m ∨ r ≤ (i : ℕ) + m)) :
+    wPart r m i = i := by
+  unfold wPart
+  rw [if_neg h]
+
+theorem wVal_outer {K : Type} [Field K] (r m : ℕ) (g : Fin r → K) (i : Fin r)
+    (h : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m) : wVal r m g i = 1 := by
+  unfold wVal
+  rw [if_pos h]
+
+theorem wVal_mid {K : Type} [Field K] (r m : ℕ) (g : Fin r → K) (i : Fin r)
+    (h : ¬ ((i : ℕ) < m ∨ r ≤ (i : ℕ) + m)) : wVal r m g i = g i := by
+  unfold wVal
+  rw [if_neg h]
+
+theorem wittMat_eq {K : Type} [Field K] (r m : ℕ) (g : Fin r → K) :
+    wittMat r m g = Matrix.of fun i j => if j = wPart r m i then wVal r m g i else 0 := by
+  ext i j
+  have hi := i.isLt
+  have hj := j.isLt
+  simp only [wittMat, Matrix.of_apply]
+  by_cases h : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m
+  · rw [wPart_outer r m i h, wVal_outer r m g i h]
+    by_cases hj' : j = Fin.rev i
+    · subst hj'
+      rw [if_pos rfl, if_pos (by simp only [Fin.val_rev]; omega)]
+    · rw [if_neg hj']
+      rw [if_neg (by rintro ⟨h1, -⟩; apply hj'; ext; simp only [Fin.val_rev]; omega),
+        if_neg (by rintro ⟨rfl, h2, h3⟩; omega)]
+  · rw [wPart_mid r m i h, wVal_mid r m g i h]
+    by_cases hij : j = i
+    · subst hij
+      rw [if_pos rfl, if_neg (by rintro ⟨h1, h2⟩; omega), if_pos ⟨rfl, by omega, by omega⟩]
+    · rw [if_neg hij, if_neg (by rintro ⟨h1, h2⟩; omega), if_neg (by rintro ⟨h1, -⟩; exact hij h1.symm)]
+
+theorem wittMat_map_mul {K : Type} [Field K] (r m : ℕ) (g : Fin r → K) (σ : K →+* ℂ)
+    (v : Fin r → ℂ) :
+    (wittMat r m g).map σ * diagonal v * (wittMat r m g).map σ =
+      diagonal fun i => σ (wVal r m g i) * v (wPart r m i) * σ (wVal r m g (wPart r m i)) := by
+  rw [wittMat_eq]
+  ext i k
+  rw [Matrix.mul_apply, Finset.sum_eq_single (wPart r m i)]
+  · simp only [Matrix.mul_diagonal, Matrix.map_apply, Matrix.of_apply, if_pos rfl, wPart_wPart,
+      Matrix.diagonal_apply]
+    by_cases hik : i = k
+    · subst hik
+      simp
+    · rw [if_neg (Ne.symm hik), if_neg hik, map_zero, mul_zero]
+  · intro j _ hj
+    simp only [Matrix.mul_diagonal, Matrix.map_apply, Matrix.of_apply, if_neg hj, map_zero, zero_mul]
+  · intro h
+    exact absurd (Finset.mem_univ _) h
+
+def adMet {K : Type} [Field K] [NumberField K] (r m : ℕ) (g : Fin r → K) (dd : Fin r → ℝ) :
+    (K →+* ℂ) → Fin r → ℝ :=
+  fun σ i => if (i : ℕ) < m then dd i else if r ≤ (i : ℕ) + m then (dd (Fin.rev i))⁻¹
+    else ‖σ (g i)‖
+
+theorem adMet_pos {K : Type} [Field K] [NumberField K] (r m : ℕ) (g : Fin r → K)
+    (dd : Fin r → ℝ) (hdd : ∀ i, 0 < dd i)
+    (hg : ∀ i : Fin r, m ≤ (i : ℕ) → (i : ℕ) + m < r → g i ≠ 0) (σ : K →+* ℂ) (i : Fin r) :
+    0 < adMet r m g dd σ i := by
+  have hi := i.isLt
+  unfold adMet
+  split_ifs with h1 h2
+  · exact hdd i
+  · exact inv_pos.mpr (hdd _)
+  · exact norm_pos_iff.mpr ((map_ne_zero σ).mpr (hg i (by omega) (by omega)))
+
+theorem adMet_conj {K : Type} [Field K] [NumberField K] (r m : ℕ) (g : Fin r → K)
+    (dd : Fin r → ℝ) (σ : K →+* ℂ) :
+    adMet r m g dd ((starRingEnd ℂ).comp σ) = adMet r m g dd σ := by
+  funext i
+  unfold adMet
+  simp only [RingHom.comp_apply, Complex.norm_conj]
+
+theorem wVal_adMet {K : Type} [Field K] [NumberField K] (r m : ℕ) (g : Fin r → K)
+    (dd : Fin r → ℝ) (h2m : 2 * m ≤ r)
+    (hg : ∀ i : Fin r, m ≤ (i : ℕ) → (i : ℕ) + m < r → g i ≠ 0) (σ : K →+* ℂ)
+    (hreal : ∀ i : Fin r, m ≤ (i : ℕ) → (i : ℕ) + m < r → conj (σ (g i)) = σ (g i))
+    (i : Fin r) :
+    σ (wVal r m g i) * (((adMet r m g dd σ (wPart r m i) : ℝ) : ℂ))⁻¹ *
+      σ (wVal r m g (wPart r m i)) = ((adMet r m g dd σ i : ℝ) : ℂ) := by
+  have hi := i.isLt
+  by_cases h1 : (i : ℕ) < m
+  · have ho : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m := Or.inl h1
+    rw [wPart_outer r m i ho, wVal_outer r m g i ho,
+      wVal_outer r m g (Fin.rev i) (by simp only [Fin.val_rev]; omega)]
+    unfold adMet
+    simp only [Fin.val_rev, Fin.rev_rev]
+    rw [if_neg (show ¬ (r - ((i : ℕ) + 1) < m) by omega), if_pos (show r ≤ r - ((i : ℕ) + 1) + m by omega),
+      if_pos h1]
+    simp
+  · by_cases h2 : r ≤ (i : ℕ) + m
+    · have ho : (i : ℕ) < m ∨ r ≤ (i : ℕ) + m := Or.inr h2
+      rw [wPart_outer r m i ho, wVal_outer r m g i ho,
+        wVal_outer r m g (Fin.rev i) (by simp only [Fin.val_rev]; omega)]
+      unfold adMet
+      simp only [Fin.val_rev]
+      rw [if_pos (show r - ((i : ℕ) + 1) < m by omega), if_neg h1, if_pos h2]
+      simp
+    · have hm : ¬ ((i : ℕ) < m ∨ r ≤ (i : ℕ) + m) := by omega
+      rw [wPart_mid r m i hm, wVal_mid r m g i hm]
+      unfold adMet
+      rw [if_neg h1, if_neg h2]
+      have hr := hreal i (by omega) (by omega)
+      have hne : σ (g i) ≠ 0 := (map_ne_zero σ).mpr (hg i (by omega) (by omega))
+      have hz : ((σ (g i)).re : ℂ) = σ (g i) := Complex.conj_eq_iff_re.mp hr
+      rw [← hz, Complex.norm_real, Real.norm_eq_abs]
+      have hx : (σ (g i)).re ≠ 0 := by
+        intro h0
+        apply hne
+        rw [← hz, h0, Complex.ofReal_zero]
+      have habs : ((|(σ (g i)).re| : ℝ) : ℂ) ≠ 0 := by exact_mod_cast abs_ne_zero.mpr hx
+      have hsq : ((σ (g i)).re : ℂ) * (σ (g i)).re = ((|(σ (g i)).re| : ℝ) : ℂ) * |(σ (g i)).re| := by
+        exact_mod_cast (abs_mul_abs_self (σ (g i)).re).symm
+      calc ((σ (g i)).re : ℂ) * (↑|(σ (g i)).re|)⁻¹ * ((σ (g i)).re : ℂ)
+          = (((σ (g i)).re : ℂ) * (σ (g i)).re) * (↑|(σ (g i)).re|)⁻¹ := by ring
+        _ = (((|(σ (g i)).re| : ℝ) : ℂ) * |(σ (g i)).re|) * (↑|(σ (g i)).re|)⁻¹ := by rw [hsq]
+        _ = ((|(σ (g i)).re| : ℝ) : ℂ) := by field_simp
+
+end ReciprocityTheory.MultiplicativeHeights.SemiPt
+end
+end
+
+section
+
+noncomputable section
+
+namespace ReciprocityTheory.MultiplicativeHeights
+
+open MeasureTheory Metric Set Real
+
+theorem sphereProb_eq (n : ℕ) : sphereProb n =
+    ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ)⁻¹ •
+      (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere := by
+  simp only [sphereProb, ProbabilityTheory.cond, Measure.restrict_univ]
+
+private lemma log_norm_sum_smul_sphere_mul_exp_eq {n : ℕ} (c : EuclideanSpace ℂ (Fin n)) (z : UnitSphereC n) (r : ℝ) (hr : 0 < r)
+    (hz : ∑ i, WithLp.ofLp c i * spherePoint z i ≠ 0) :
+    log ‖∑ i, WithLp.ofLp c i * WithLp.ofLp (r • (z : EuclideanSpace ℂ (Fin n))) i‖ *
+        exp (-‖r • (z : EuclideanSpace ℂ (Fin n))‖ ^ 2) =
+      (log r + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖) * exp (-r ^ 2) := by
+  have h1 : ∑ i, WithLp.ofLp c i * WithLp.ofLp (r • (z : EuclideanSpace ℂ (Fin n))) i =
+      (r : ℂ) * ∑ i, WithLp.ofLp c i * spherePoint z i := by
+    rw [Finset.mul_sum]
+    refine Finset.sum_congr rfl fun i _ => ?_
+    simp only [WithLp.ofLp_smul, Pi.smul_apply, Complex.real_smul, spherePoint]
+    ring
+  have h2 : ‖r • (z : EuclideanSpace ℂ (Fin n))‖ = r := by
+    rw [norm_smul, norm_eq_of_mem_sphere z, mul_one, Real.norm_of_nonneg hr.le]
+  rw [h1, h2, norm_mul, Complex.norm_real, Real.norm_of_nonneg hr.le,
+    Real.log_mul hr.ne' (norm_ne_zero_iff.mpr hz)]
+
+theorem polar_mean {n : ℕ} (hn : 0 < n) (c : EuclideanSpace ℂ (Fin n)) (hc : c ≠ 0) :
+    Integrable (fun z : UnitSphereC n ↦ log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖)
+        (sphereProb n) ∧
+      ∫ z, log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ ∂(sphereProb n) =
+        gaussLogC ‖c‖ / gaussOneC - radK (2 * n - 1) / radJ (2 * n - 1) := by
+  have hdim : Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) = 2 * n := by
+    rw [← Module.finrank_mul_finrank ℝ ℂ (EuclideanSpace ℂ (Fin n)), Complex.finrank_real_complex,
+      finrank_euclideanSpace_fin]
+  have hk : Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) - 1 = 2 * n - 1 := by rw [hdim]
+  have hk1 : 1 ≤ 2 * n - 1 := by omega
+  haveI : Nontrivial (EuclideanSpace ℂ (Fin n)) :=
+    Module.nontrivial_of_finrank_pos (R := ℝ) (by rw [hdim]; omega)
+  have hJ : radJ (2 * n - 1) ≠ 0 := (radJ_pos _).ne'
+
+  have h2n : ((Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) : ℕ) : ENNReal) ≠ 0 := by
+    rw [hdim]; exact Nat.cast_ne_zero.mpr (by omega)
+  have hA0 : (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ ≠ 0 := by
+    rw [Measure.toSphere_apply_univ]
+    exact mul_ne_zero h2n (measure_ball_pos _ _ one_pos).ne'
+  have hAtop : (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ ≠ ⊤ := by
+    rw [Measure.toSphere_apply_univ]
+    exact ENNReal.mul_ne_top (ENNReal.natCast_ne_top _) measure_ball_lt_top.ne
+  haveI : IsFiniteMeasure (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere := ⟨lt_top_iff_ne_top.mpr hAtop⟩
+  have hA : ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ).toReal =
+      (Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) : ℝ) * (volume : Measure (EuclideanSpace ℂ (Fin n))).real (ball 0 1) := by
+    rw [Measure.toSphere_apply_univ, ENNReal.toReal_mul, ENNReal.toReal_natCast, measureReal_def]
+  have hApos : 0 < ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ).toReal := ENNReal.toReal_pos hA0 hAtop
+
+  have hIe : ∫ x : EuclideanSpace ℂ (Fin n), exp (-‖x‖ ^ 2) = ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ).toReal * radJ (2 * n - 1) := by
+    have h := integral_fun_norm_addHaar (volume : Measure (EuclideanSpace ℂ (Fin n))) (fun y : ℝ => exp (-y ^ 2))
+    simp only [nsmul_eq_mul, smul_eq_mul] at h
+    rw [h, hA, hk, radJ, mul_assoc]
+  obtain ⟨s, hs, hGi, hIG0, hIe0⟩ := gauss_pair hn c hc
+  have hae : ∀ᵐ z ∂(volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere, ∑ i, WithLp.ofLp c i * spherePoint z i ≠ 0 := by
+    rw [ae_iff]
+    simp only [ne_eq, not_not]
+    exact sphere_linear_zero_null c hc
+
+  have hinner : ∀ z : UnitSphereC n, ∑ i, WithLp.ofLp c i * spherePoint z i ≠ 0 →
+      ∫ r : Ioi (0 : ℝ), log ‖∑ i, WithLp.ofLp c i * WithLp.ofLp ((r : ℝ) • (z : EuclideanSpace ℂ (Fin n))) i‖ *
+          exp (-‖(r : ℝ) • (z : EuclideanSpace ℂ (Fin n))‖ ^ 2)
+        ∂(Measure.volumeIoiPow (Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) - 1)) =
+      radK (2 * n - 1) + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ * radJ (2 * n - 1) := by
+    intro z hz
+    calc _ = ∫ r : Ioi (0 : ℝ), (fun t : ℝ => (log t + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖) * exp (-t ^ 2)) (r : ℝ)
+            ∂(Measure.volumeIoiPow (Module.finrank ℝ (EuclideanSpace ℂ (Fin n)) - 1)) :=
+          integral_congr_ae (ae_of_all _ fun r => log_norm_sum_smul_sphere_mul_exp_eq c z r.1 r.2 hz)
+      _ = ∫ t in Ioi (0 : ℝ), t ^ (2 * n - 1) * ((log t + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖) * exp (-t ^ 2)) := by
+          rw [hk]
+          exact integral_volumeIoiPow (2 * n - 1)
+            (fun t : ℝ => (log t + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖) * exp (-t ^ 2))
+      _ = ∫ t in Ioi (0 : ℝ), (t ^ (2 * n - 1) * log t * exp (-t ^ 2) +
+            log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ * (t ^ (2 * n - 1) * exp (-t ^ 2))) := by
+          congr 1; funext t; ring
+      _ = radK (2 * n - 1) + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ * radJ (2 * n - 1) := by
+          rw [integral_add (integrableOn_radK hk1) (Integrable.const_mul (integrableOn_radJ _) _),
+            integral_const_mul] <;> rfl
+  have hΦ := integrable_polar n hGi
+  have hψint : Integrable (fun z : UnitSphereC n => radK (2 * n - 1) + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ * radJ (2 * n - 1))
+      (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere := by
+    refine hΦ.integral_prod_left.congr ?_
+    filter_upwards [hae] with z hz
+    exact hinner z hz
+  have hLσ : Integrable (fun z : UnitSphereC n => log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖) (volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere := by
+    refine ((hψint.sub (integrable_const (radK (2 * n - 1)))).div_const (radJ (2 * n - 1))).congr
+      (ae_of_all _ fun z => ?_)
+    simp only [Pi.sub_apply]
+    rw [add_sub_cancel_left, mul_div_cancel_right₀ _ hJ]
+  have hIG : ∫ x : EuclideanSpace ℂ (Fin n), log ‖∑ i, WithLp.ofLp c i * WithLp.ofLp x i‖ * exp (-‖x‖ ^ 2) =
+      ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ).toReal * radK (2 * n - 1) + (∫ z, log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ ∂(volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere) * radJ (2 * n - 1) := by
+    rw [integral_polar hn, integral_prod _ hΦ]
+    calc _ = ∫ z, (radK (2 * n - 1) + log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ * radJ (2 * n - 1)) ∂(volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere := by
+            apply integral_congr_ae
+            filter_upwards [hae] with z hz
+            exact hinner z hz
+      _ = _ := by
+            rw [integral_add (integrable_const _) (hLσ.mul_const _), integral_mul_const]
+            simp only [integral_const, smul_eq_mul, measureReal_def]
+  have e1 := hIG.symm.trans hIG0
+  have e2 := hIe.symm.trans hIe0
+  have hgn : gaussOneC ^ n = gaussOneC * gaussOneC ^ (n - 1) := by
+    rw [← pow_succ', Nat.sub_add_cancel (by omega : 1 ≤ n)]
+  have hg : gaussOneC ≠ 0 := by
+    intro h0
+    rw [hgn, h0, zero_mul, mul_zero] at e2
+    exact (mul_pos hApos (radJ_pos _)).ne' e2
+  rw [sphereProb_eq]
+  refine ⟨hLσ.smul_measure (ENNReal.inv_ne_top.mpr hA0), ?_⟩
+  rw [integral_smul_measure, ENNReal.toReal_inv, smul_eq_mul]
+  set A := ((volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere univ).toReal with hAdef
+  set IL := ∫ z, log ‖∑ i, WithLp.ofLp c i * spherePoint z i‖ ∂(volume : Measure (EuclideanSpace ℂ (Fin n))).toSphere with hILdef
+  have hA0' : A ≠ 0 := hApos.ne'
+  have hIL : IL = (s * (gaussLogC ‖c‖ * gaussOneC ^ (n - 1)) - A * radK (2 * n - 1)) /
+      radJ (2 * n - 1) := by
+    rw [eq_div_iff hJ]
+    linear_combination e1
+  have hX : s * (gaussLogC ‖c‖ * gaussOneC ^ (n - 1)) / (A * radJ (2 * n - 1)) =
+      gaussLogC ‖c‖ / gaussOneC := by
+    rw [div_eq_div_iff (mul_ne_zero hA0' hJ) hg]
+    linear_combination (-gaussLogC ‖c‖) * e2 - (gaussLogC ‖c‖ * s) * hgn
+  rw [hIL, ← hX]
+  field_simp <;> ring
+
+end ReciprocityTheory.MultiplicativeHeights
+end
+end

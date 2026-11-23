@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitaryDualGL.TemperedEigenvalueNorms.Centred
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsListPairwiseNotRel
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle463
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitaryDualGL.TemperedEigenvalueNorms.AddOneLeOfPrecedes
 public import Development.WeilBound.CoreStatements.PublishedTheorems.LanglandsClassification.Bridge
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.LocalComponentGL
 import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound

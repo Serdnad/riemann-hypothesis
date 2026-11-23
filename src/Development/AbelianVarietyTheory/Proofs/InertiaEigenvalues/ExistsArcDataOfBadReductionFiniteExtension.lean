@@ -2,22 +2,21 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsRationalPair
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.QkRelQkScaleEquiv
-public import Formalism.LocalToGlobal.ProjectiveLattices.OneLtAbsNormReal
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.WchartLePreimage
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ArcGenericPointDescendsToPowerSeries
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsPelUnifPull
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartFiniteType
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsCdvrExtensionQkPointsRationalStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsGrpPullbackGenericFibre
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GenericLieMultiplicitiesUniformisedGroupStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NontrivialOfNotRangeSubsetAbLocusStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PsiUnitOnRescaleUniformizerOfQValStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QValPullbackMulRamificationCompleteDvrStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfUnifOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LinearUniformisationTorsionIsomorphism
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsRootOfIsAlgClosed
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle816
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle311
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle573
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle428
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle397
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle175
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle200
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +54,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DvrAll
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle016
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
@@ -188,7 +187,7 @@ theorem exists_arcIn_of_unif {V : ValuationSubring c.F} (Y : Model Xo c V.subtyp
     exact Submodule.smul_mem_smul ((Ideal.mul_le_inf hm).1) Submodule.mem_top
   choose pM hpM using fun v => exists_rational_pair hA P hT Y.oF.t z ψ gψ hM0 (rat _ dM) _ (tM v)
   choose pA hpA using fun v => exists_rational_pair hA P hT Y.oF.t z ψ gψ l.A_pos (rat _ dA) _ (tA v)
-  refine ⟨{ D₀ := twist P.D.toPre H.w0 tf
+  refine ⟨{ D₀ := _root_.GlobalTheory.TauTwist.twist P.D.toPre H.w0 tf
             mod := P.mod
             oa := twistAct hw ht P.oD
             nontriv := hX
@@ -234,10 +233,10 @@ theorem exists_arcIn_of_unif {V : ValuationSubring c.F} (Y : Model Xo c V.subtyp
         (∀ (q : QkPt P.D.toPre F k) (x : TFK (R := T.V) F ⟶ P.A.A), QkExt (algebraMap _ F) p q →
           x.left ≫ ψ = jFK (R := T.V) F ≫ z ≫ σ.left → P.ToA F k q x) → ∀ q',
         QkExt (algebraMap _ F) (qkScale hw ht hq (hr hd) _ p) q' →
-        QkPt.Equiv (twist P.D.toPre H.w0 tf) F q' (I'.ev k v) := by
+        QkPt.Equiv (_root_.GlobalTheory.TauTwist.twist P.D.toPre H.w0 tf) F q' (I'.ev k v) := by
       intro k hk hd p v σ hσ hp q' hq'
       obtain ⟨q, rfl⟩ := (qkScaleEquiv hw ht hq (s₁ k hk) _).surjective q'
-      have e₁ := qkRel_qkScaleEquiv (D := P.D.toPre) (hψ := (twist P.D.toPre H.w0 tf).psi_gen)
+      have e₁ := qkRel_qkScaleEquiv (D := P.D.toPre) (hψ := (_root_.GlobalTheory.TauTwist.twist P.D.toPre H.w0 tf).psi_gen)
         hw ht hq (s₁ k hk) q
       have e₂ : (e.symm (J.ev k v)).left ≫ ψ = (J.ev k v).left := by rw [← he, MulEquiv.apply_symm_apply]
       refine e₁.equiv hw ht hq (s₁ k hk) (s₅ k hk v) (eI k hk v q _ e₂ (hp q _ (QkRel.qkExt_of (fun y x => ?_)

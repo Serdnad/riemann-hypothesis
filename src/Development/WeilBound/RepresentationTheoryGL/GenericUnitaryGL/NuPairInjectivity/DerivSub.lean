@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.DerivSub
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeJacquetHolds
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeviIrreducibleTensorDecompositionStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.JacquetModuleFiniteLength
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle576
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle019
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -159,18 +159,18 @@ theorem jac_deriv_rel (ψ : AddChar k Circle) (n j : ℕ) {V : Type} [AddCommGro
     ∃ L : Jacquet π (unipRad k (stdBlocks (dd n (j + 1)) (dd_sum n j))) →ₗ[ℂ]
         TwJacquet (iterPhi k ψ j (resM k π)).ρ (MirUin k n) 1,
       Function.Surjective L ∧ ∀ g x,
-        L (((jac (stdBlocks (dd n (j + 1)) (dd_sum n j)) π).comp (iota n (j + 1)) :
+        L (((GlobalTheory.SmGL.jac (stdBlocks (dd n (j + 1)) (dd_sum n j)) π).comp (iota n (j + 1)) :
           Representation ℂ (GL (Fin n) k) _) g x) =
-        twist (GlobalTheory.BZMir.deriv k ψ j π) (detChar (Fin n) (absPow k (-(((j : ℂ) + 1) / 2)))) g (L x) := by
+        GlobalTheory.SmGL.twist (GlobalTheory.BZMir.deriv k ψ j π) (detChar (Fin n) (absPow k (-(((j : ℂ) + 1) / 2)))) g (L x) := by
   obtain ⟨L, hL, hLe⟩ := exists_jac_deriv ψ n j π
   refine ⟨L, hL, fun g x => ?_⟩
   obtain ⟨v, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-  rw [twist_apply]
+  rw [GlobalTheory.SmGL.twist_apply]
   have h1 := congrArg (fun c : ℂˣ => (c : ℂ) • GlobalTheory.BZMir.deriv k ψ j π g (L (Submodule.Quotient.mk v)))
     (delta_mulSingle n j g)
   refine Eq.trans ?_ h1
   have h2 := hLe g v
-  have h3 : (jac (stdBlocks (dd n (j + 1)) (dd_sum n j)) π).comp (iota n (j + 1)) g (Submodule.Quotient.mk v) =
+  have h3 : (GlobalTheory.SmGL.jac (stdBlocks (dd n (j + 1)) (dd_sum n j)) π).comp (iota n (j + 1)) g (Submodule.Quotient.mk v) =
       (((deltaHalf k (fun a => Fin (dd n (j + 1) a))
         (Pi.mulSingle (M := fun a => GL (Fin (dd n (j + 1) a)) k) (0 : Fin 2) g))⁻¹ : ℂˣ) : ℂ) •
       Submodule.Quotient.mk (π (leviEmb k (stdBlocks (dd n (j + 1)) (dd_sum n j))
@@ -197,11 +197,11 @@ theorem derivSub (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) : GlobalT
     exact hy (by rw [h0, LinearMap.zero_apply])
   obtain ⟨S0, f, hf'⟩ := exists_irr_sub_of_quot hA _ (isSmooth_jac _ hs)
     (GlobalTheory.CompanionTheory.JacquetBridge.jacquetFiniteLength k _ _ _ _ V π hs hf) _ L hLe hne
-  refine ⟨⟨S0.V, twist S0.ρ (detChar (Fin (n + 1)) (absPow k (-(((j : ℂ) + 1) / 2))))⁻¹,
+  refine ⟨⟨S0.V, GlobalTheory.SmGL.twist S0.ρ (detChar (Fin (n + 1)) (absPow k (-(((j : ℂ) + 1) / 2))))⁻¹,
     isSmooth_twist S0.smooth hχi, isIrreducible_twist S0.irr _⟩, ⟨f.toLinearMap, fun g => ?_⟩, hf'⟩
   ext w
   have e := LinearMap.congr_fun (f.isIntertwining' g) w
-  simp only [LinearMap.coe_comp, Function.comp_apply, twist_apply] at e ⊢
+  simp only [LinearMap.coe_comp, Function.comp_apply, GlobalTheory.SmGL.twist_apply] at e ⊢
   rw [map_smul, e, smul_smul]
   simp
 

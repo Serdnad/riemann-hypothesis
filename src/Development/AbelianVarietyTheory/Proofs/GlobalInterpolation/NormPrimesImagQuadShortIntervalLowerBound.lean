@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LamIdealOfNotPrimePow
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RayPrimes
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 public import Mathlib.NumberTheory.Chebyshev
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsLFamRayStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TrivialClassShortIntervalStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle104
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

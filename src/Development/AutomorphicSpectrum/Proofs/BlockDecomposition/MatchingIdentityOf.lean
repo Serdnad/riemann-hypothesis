@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviMatchingWords.MatchLM
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasCompactSupportTj
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle642
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermLocallyConstant
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle550
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatchingTransferOf
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitaryLevelSubgroupProperties
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle587
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -127,24 +127,24 @@ theorem eqv_of_hecke (hI : IdemAlg) {d : LocData E n} (hd : d.Ok) {a : ℕ} (ha 
     (hs : ∀ w, w ∉ d.P → IsHecke (d.lev a w) (L.s w))
     (ht : ∀ w, IsHecke (d.lev₂ a w) (L.t w)) :
     (L.mul (d.eL a)).Eqv d.P L ∧ ((d.eL a).mul L).Eqv d.P L := by
-  have I1 : ∀ w f, IsHecke (d.lev a w) f → mconv (idem (d.lev a w)) f = f ∧ mconv f (idem (d.lev a w)) = f :=
+  have I1 : ∀ w f, IsHecke (d.lev a w) f → mconv (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) f = f ∧ mconv f (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) = f :=
     fun w f hf => by
       obtain ⟨o, l⟩ := lev_ok hd ha w
       obtain ⟨h1, h2⟩ := (hI E a (n - a) w _ o l).2.2 f hf |>.imp id (fun h => h.1)
       exact ⟨h1, h2⟩
-  have I2' : ∀ w f, IsHecke (d.lev₂ a w) f → mconv (idem (d.lev₂ a w)) f = f ∧ mconv f (idem (d.lev₂ a w)) = f :=
+  have I2' : ∀ w f, IsHecke (d.lev₂ a w) f → mconv (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev₂ a w)) f = f ∧ mconv f (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev₂ a w)) = f :=
     fun w f hf => by
       obtain ⟨o, l⟩ := lev₂_ok hd ha w
       obtain ⟨h1, h2⟩ := (hI E a (n - a) w _ o l).2.2 f hf |>.imp id (fun h => h.1)
       exact ⟨h1, h2⟩
   refine ⟨⟨fun w hw => ?_, fun w hw => ?_, ?_⟩, ⟨fun w hw => ?_, fun w hw => ?_, ?_⟩⟩
   · funext x y
-    exact (sum_mconv_diag_right d (L.m w x) (fun _ => idem (d.lev a w)) y).trans (I1 w _ (hm w hw x y)).2
+    exact (sum_mconv_diag_right d (L.m w x) (fun _ => _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) y).trans (I1 w _ (hm w hw x y)).2
   · exact (I1 w _ (hs w hw)).2
   · funext w
     exact (I2' w _ (ht w)).2
   · funext x y
-    exact (sum_mconv_diag_left d (fun z => L.m w z y) (fun _ => idem (d.lev a w)) x).trans (I1 w _ (hm w hw x y)).1
+    exact (sum_mconv_diag_left d (fun z => L.m w z y) (fun _ => _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) x).trans (I1 w _ (hm w hw x y)).1
   · exact (I1 w _ (hs w hw)).1
   · funext w
     exact (I2' w _ (ht w)).1
@@ -170,11 +170,11 @@ theorem isHecke_diag (d : LocData E n) {a : ℕ} {w : Pl E} {L : Subgroup (GLw a
   · exact isHecke_zero' L
 
 theorem idem_lev (hI : IdemAlg) {d : LocData E n} (hd : d.Ok) {a : ℕ} (ha : a ≤ n) (w : Pl E) :
-    IsHecke (d.lev a w) (idem (d.lev a w)) :=
+    IsHecke (d.lev a w) (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) :=
   (hI E a (n - a) w _ (lev_ok hd ha w).1 (lev_ok hd ha w).2).1
 
 theorem idem_lev₂ (hI : IdemAlg) {d : LocData E n} (hd : d.Ok) {a : ℕ} (ha : a ≤ n) (w : Pl E) :
-    IsHecke (d.lev₂ a w) (idem (d.lev₂ a w)) :=
+    IsHecke (d.lev₂ a w) (_root_.PositivityTheory.Rg.BcB.F.idem (d.lev₂ a w)) :=
   (hI E a (n - a) w _ (lev₂_ok hd ha w).1 (lev₂_ok hd ha w).2).1
 
 theorem compact_m {κ : Pl E → Type} [∀ w, Fintype (κ w)] {a b : ℕ} {P : Finset (Pl E)} {L : LM κ a b}
@@ -255,13 +255,13 @@ theorem eqv_eL (hI : IdemAlg) {d : LocData E n} (hd : d.Ok) {a : ℕ} (ha : a �
 theorem eqv_fixL (hI : IdemAlg) {d : LocData E n} (hd : d.Ok) {a : ℕ} (ha : a ≤ n) :
     ((d.fixL a).mul (d.eL a)).Eqv d.P (d.fixL a) ∧ ((d.eL a).mul (d.fixL a)).Eqv d.P (d.fixL a) := by
   have hm : ∀ w x y, IsHecke (d.lev a w) ((d.fixL a).m w x y) := fun w x y => by
-    show IsHecke _ (d.diag (fun _ => if w ∈ d.T then idem (d.lev a w) else d.sgn a w • idem (d.lev a w)) x y)
+    show IsHecke _ (d.diag (fun _ => if w ∈ d.T then _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w) else d.sgn a w • _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w)) x y)
     refine isHecke_diag d (fun _ => ?_) x y
     split_ifs
     · exact idem_lev hI hd ha w
     · exact isHecke_smul' _ (idem_lev hI hd ha w)
   refine eqv_of_hecke hI hd ha _ (fun w _ x y => hm w x y) (fun w hw => ?_) (fun w => idem_lev₂ hI hd ha w)
-  · show IsHecke _ (if w ∈ d.Bad then d.fix a w else idem (d.lev a w))
+  · show IsHecke _ (if w ∈ d.Bad then d.fix a w else _root_.PositivityTheory.Rg.BcB.F.idem (d.lev a w))
     split_ifs with hB
     · have hT : w ∉ d.T := fun h => hw (Finset.mem_union_left _ h)
       have e : d.lev a w = d.L a w := by

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.CmpLApply
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ColSpanMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

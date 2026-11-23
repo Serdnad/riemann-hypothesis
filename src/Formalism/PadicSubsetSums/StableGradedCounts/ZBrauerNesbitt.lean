@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.LinearAlgebra.Trace

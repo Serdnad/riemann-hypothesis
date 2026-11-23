@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.TensorProductTheorem.MatrixCoeff
 public import GroundTheory.AutomorphicForms.GKModules.GKModule
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.SimpleModule.Isotypic
-public import GroundTheory.AutomorphicForms.TensorProductTheorem.CompactRep
+public import GroundTheory.AutomorphicForms.TensorProductTheorem.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

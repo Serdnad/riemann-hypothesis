@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFinprodSchwartzBruhatFiniteAdel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantFinprodSchwartzBruhatFiniteAdel
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissibleStatement
-public import Development.WeilBound.ThetaLifts.SmallCones.FourierUniq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1769
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle007
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

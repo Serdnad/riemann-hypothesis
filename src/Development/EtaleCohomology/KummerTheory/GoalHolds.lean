@@ -3,10 +3,10 @@ module
 public import Development.EtaleCohomology.KummerTheory.InjSlice
 public import Development.EtaleCohomology.KummerTheory.FinAdicDeg
 public import Development.EtaleCohomology.KummerTheory.FinBock
-public import Development.EtaleCohomology.KummerTheory.FinLimit
+public import Development.EtaleCohomology.KummerTheory.Bundle014
 public import Development.EtaleCohomology.KummerTheory.FinSHInv
-public import Development.EtaleCohomology.KummerTheory.FinStalk
-public import Development.EtaleCohomology.KummerTheory.InvOfField
+public import Development.EtaleCohomology.KummerTheory.Bundle018
+public import Development.EtaleCohomology.KummerTheory.Bundle003
 public import Development.EtaleCohomology.KummerTheory.LocalHomotopyEtaleCohomology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

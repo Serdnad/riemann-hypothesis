@@ -1,8 +1,8 @@
 module
 
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.SquareIntegrable.WhittakerModelGL2
-public import GroundTheory.AutomorphicForms.ReductionMeasure
-public import GroundTheory.AutomorphicForms.GL2Classical.IsWeightLevelAdelicLift
+public import GroundTheory.AutomorphicForms.Bundle012
+public import GroundTheory.AutomorphicForms.GL2Classical.Bundle002
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CuspidalContinuity.ArchimedeanCuspidal.AdFormOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
 public import GroundTheory.AutomorphicForms.GL2.GodementSection
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionSplit
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 
 @[expose] public section
 

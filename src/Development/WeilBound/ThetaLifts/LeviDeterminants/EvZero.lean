@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvCone
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ExistsAdaptedModelSkewPlane
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.EtaleCohomology.EtaleSheaves.LeafDescendChainPf
+import Development.EtaleCohomology.EtaleSheaves.Bundle046
 import Development.EtaleCohomology.EtaleSheaves.PropertyDescent.BaseChange
 
 @[expose] public section

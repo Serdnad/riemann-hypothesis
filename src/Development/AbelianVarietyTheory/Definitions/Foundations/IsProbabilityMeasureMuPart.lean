@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.SectionInputData
-public import Formalism.LocalToGlobal.ProjectiveLattices.L2DefiniteCuspForms
-public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
+public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle002
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle028
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.QuotRealize
 public import Formalism.HarderNarasimhan.ShiftInvariance
 public import Formalism.MeanHeightDescent.AverageDegreeBounds.GlobalBoundRefinements

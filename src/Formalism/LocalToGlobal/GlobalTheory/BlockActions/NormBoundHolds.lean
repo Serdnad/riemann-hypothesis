@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassMapEstimateOfPartial
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NormBoundOfInjectiveStable
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle005
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle013
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.SymmetricClausesOfFormsNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

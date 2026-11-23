@@ -1,20 +1,12 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.Statements
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PAENeighbourhoods
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PAETopologicalRing
+public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PClosureIsSubmonoid
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PEDenseInAE
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PEichlerAtPlace
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PEichlerDense
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PHypPairExists
+public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PLocalInClosure
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PLocalRingHypotheses
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.POrthProjection
 public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PPlaceMaps
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PSAHolds
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PSAOpenHolds
-public import GroundTheory.HeightsAndTheta.Heights.StrongApproximation.PTruncation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

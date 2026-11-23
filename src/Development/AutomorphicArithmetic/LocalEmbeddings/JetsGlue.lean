@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.LocalEmbeddings.JetsChain
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteFinClAndGamOrd
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1857
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralEqFinClSumAvg
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle533
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralEqVolMulSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

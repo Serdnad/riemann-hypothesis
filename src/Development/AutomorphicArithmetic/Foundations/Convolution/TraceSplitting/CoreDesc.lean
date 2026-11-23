@@ -2,19 +2,17 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.EigBasic
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.OccursBasics
+public import Development.WeilBound.CuspidalAdmissibility.OccursIff
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.AbsLast
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDescOf
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FdFixed
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.GoodEx
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.OneTerm
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PickInf
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PickS
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle005
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PullBack
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SideSum
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.TyEx
-import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.UnitTrace
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle006
+import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

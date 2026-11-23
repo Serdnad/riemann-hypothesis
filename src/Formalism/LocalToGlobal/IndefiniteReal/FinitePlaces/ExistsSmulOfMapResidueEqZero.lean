@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
-public import Formalism.SubspaceCounting.StatementB
+public import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Rank
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapLoc

@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DoublingConfigurationLeviIntegralImports
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1196
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.BaseChange
 public import GroundTheory.GlobalFields.TateThesis.GlobalZetaFinite
-public import GroundTheory.GlobalFields.TateThesis.GlobalZetaInfinite
+public import GroundTheory.GlobalFields.TateThesis.Bundle007
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
 public import GroundTheory.GlobalFields.TateThesis.GlobalZeta
 import Mathlib.Algebra.Order.Floor.Extended

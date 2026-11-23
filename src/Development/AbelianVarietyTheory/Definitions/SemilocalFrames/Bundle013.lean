@@ -1,0 +1,117 @@
+module
+
+public import Formalism.SharpRestriction.CuspSpanNormBounds.NonGenericAndKTwoTheorems
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle009
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open MeasureTheory NumberField Matrix Finset IsDedekindDomain
+open scoped TensorProduct
+
+noncomputable section
+
+namespace GlobalTheory.GaussMean
+
+open Formalism.MainNotions.S GlobalTheory.Count GlobalTheory.FlagMeas Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice
+
+def OneVectorCc : Prop :=
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E),
+    IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J →
+    SW1a1 F E σ M J ∧
+    (3 ≤ M → ∀ (β : F), β ≠ 0 → ∀ (d : ℕ) (b : Module.Basis (Fin d) F E)
+      (Φ : (Fin 1 → Fin M → AF F ⊗[F] E) → ℂ) (Φi : (Fin 1 → Fin M → Ainf F ⊗[F] E) → ℂ)
+      (Φf : (Fin 1 → Fin M → Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F ⊗[F] E) → ℂ)
+      (Φv : ∀ v : HeightOneSpectrum (𝓞 F), (Fin 1 → Fin M → Fv F v ⊗[F] E) → ℂ),
+      Continuous Φi → HasCompactSupport Φi →
+      (∀ (N : ℕ) (e : (Fin 1 → Fin M → Ainf F ⊗[F] E) ≃+ (Fin N → ℝ)), Continuous e → Continuous e.symm →
+        ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Φi ∘ e.symm)) →
+      IsPureFin b Φf Φv → IsProdInfFin Φ Φi Φf →
+      AllSome (IsCharAF F) fun ψ =>
+      OnH F E σ M J fun μ 𝓕 =>
+      OnSD F E σ M J ψ 1 (Ainf F) (Fv F) (fun s t => psiInf F ψ (s * t)) (fun v s t => psiV F ψ v (s * t))
+        fun μi νi μv νv =>
+        ∃ (Fi : Ainf F → ℂ) (Fl : ∀ v, Fv F v → ℂ),
+          IsContDensityOn μi (fun X => qR (Ainf F) σ J (X 0)) id νi {c | IsUnit c} Φi Fi ∧
+          (∀ v, IsContDensityOn (μv v) (fun X => qR (Fv F v) σ J (X 0)) id (νv v) {c | c ≠ 0} (Φv v) (Fl v)) ∧
+          Multipliable (fun v => Fl v (algebraMap F (Fv F v) β)) ∧
+          meanC μ 𝓕 (thSum F E σ M J Φ {x | hE σ J (x 0) (x 0) = algebraMap F E β}) =
+            Fi (algebraMap F (Ainf F) β) * ∏' v, Fl v (algebraMap F (Fv F v) β))
+
+def IsDens {n : ℕ} (ε : Fin n → Bool) (φ : (Fin n → ℂ) → ℝ) (D : ℝ → ℝ) : Prop :=
+  ContinuousOn D {t | t ≠ 0} ∧ ∀ S : Set ℝ, IsCompact S → S ⊆ {t | t ≠ 0} →
+    ∫ y in {y | qEps ε y ∈ S}, φ y = ∫ t in S, D t
+
+def SiegelMeanCc : Prop :=
+  ∀ (I : AutInst), 3 ≤ I.n → ∀ (s : Bool) (μf : Measure I.Gf) [SigmaFinite μf] [μf.IsHaarMeasure]
+    (fund : Set I.GA), I.IsFundDom (I.muA μf) fund →
+    I.muA μf fund < ⊤ ∧
+    ∀ (φ : InfinitePlace I.F → (Fin I.n → ℂ) → ℝ) (D : InfinitePlace I.F → ℝ → ℝ),
+      (∀ v, ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (φ v) ∧ HasCompactSupport (φ v) ∧ (∀ y, 0 ≤ φ v y) ∧
+        IsDens (I.ε v) (φ v) (D v)) →
+      ∫⁻ x in fund, (∑' y : {y : Fin I.n → I.E // y ∈ lamX I x ∧ star y ⬝ᵥ (I.J *ᵥ y) = sgn I.E s},
+          ENNReal.ofReal (∏ v, φ v (((uMat (x.1 v))⁻¹ * (I.P v)⁻¹) *ᵥ fun i => I.φ v (y.1 i)))) ∂(I.muA μf) =
+        I.muA μf fund * ENNReal.ofReal (meanConst I.E I.n * ∏ v, D v (sgn ℝ s))
+
+end GlobalTheory.GaussMean
+end
+end
+
+section
+
+noncomputable section
+open MeasureTheory Formalism.BasicNotions Formalism.MainNotions.S GlobalTheory.Amp
+namespace GlobalTheory.TypeAsm
+
+def TailAt (D : D7) (large₂ : SizeData₂ D) (CH : ℝ) (C₁ : ℕ) : Prop :=
+  ∀ (τ : D.what₂.Tau) (u : D.what₂.Word) (W : LocW D.R.k D.R.rS), GoodW D τ u u 1 W →
+    ∀ A : LocS W, GoodS D (lamD D τ) A →
+      TailBd W.z W.νS A.Φ (C₁ * D.R.k * D.R.rS) (large₂.sc.b ^ (CH * (D.R.m : ℝ))) ∧
+      TailBd W.z' W.νS' A.Φ' (C₁ * D.R.k * D.R.rS) (large₂.sc.b ^ (CH * (D.R.m : ℝ)))
+
+def TailP : Prop :=
+  ∀ Cg cb Cw cT CT C0 : ℝ, 0 < cb → 0 < cT → ∃ CH : ℝ, 0 ≤ CH ∧ ∀ C₁ : ℕ, ∃ C'₀ Cl₀ : ℝ, ∀ C' Cl : ℝ, C'₀ ≤ C' → Cl₀ ≤ Cl →
+    ∀ (D : D7) (large₂ : SizeData₂ D), Formalism.BasicNotions.Ties D → Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoHypotheses D large₂ C' Cl Cg cb Cw cT CT C0 →
+      (∀ w : D.what₂.Word, 1 ≤ Tr D w * Formalism.MainNotions.S.Bridge.kaS D ^ (2 * D.R.rS)) → TailAt D large₂ CH C₁
+
+end GlobalTheory.TypeAsm
+end
+end

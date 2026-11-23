@@ -1,19 +1,15 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetFactsPAlt
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.BlockSubstitutionBlockEmb
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.ContractionOfPairingLemmas
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetFactsP
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DetYNeZero
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.ExplicitMapOntoTwoLetterSpace
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.InitialMinorLiftFirstEntry
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.QaNuNextAdd
 import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.QaWeightRowInd
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.SubCoeffP
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.SubYDPsiMonomial
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.TheoremIOfTwoLetterClausesContraction
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.TopLinePOf
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.TwoLetterLatticeGaussInverse
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +44,6 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DerivativeRepresentation
 
 @[expose] public section
 

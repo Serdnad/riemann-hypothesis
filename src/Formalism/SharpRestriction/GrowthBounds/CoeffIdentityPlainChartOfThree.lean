@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MixedCoefficientClosed
-public import Formalism.LocalToGlobal.CharacterGerms.CoefficientIdentitySelfConjugate
+public import Formalism.SharpRestriction.GrowthBounds.Bundle005
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle037
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePAxesSelfSt
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePHStabSelf
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle026
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCartSelfSt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
 
 @[expose] public section
 

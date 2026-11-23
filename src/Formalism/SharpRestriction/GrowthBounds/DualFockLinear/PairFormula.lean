@@ -1,12 +1,12 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideEdge
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRAddRight
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle011
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.LetterWtAnti
 import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.ProdBlockEmbMonomial
-import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRLinDual
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.LaTwInvT
+import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle009
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle012
 import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EdgePlane
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,14 +1,13 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.BernsteinUnitaryProductIrreducible
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OmegaEquivInducedFibreStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle001
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ContinuousFinId
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsExtZ
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsFull
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.SoStatement
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.TopOfMap
@@ -49,8 +48,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.OpenClosedSequences
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FibRepApply
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle122
 
 @[expose] public section
 

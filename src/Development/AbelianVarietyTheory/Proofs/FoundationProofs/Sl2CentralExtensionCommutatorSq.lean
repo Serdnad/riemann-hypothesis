@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiagMod
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle023
 public import Mathlib.FieldTheory.Finite.Basic
 public import Mathlib.FieldTheory.Finite.GaloisField
 public import Mathlib.GroupTheory.PGroup

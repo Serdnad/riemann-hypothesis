@@ -1,0 +1,253 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.SfDefs
+import GroundTheory.AutomorphicForms.LocallyProfinite
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle004
+import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
+import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.CuspidalMultiplicityOneTotallyComplex
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
+import GroundTheory.AutomorphicForms.QuotientMeasure
+import GroundTheory.AutomorphicForms.Bundle003
+
+@[expose] public section
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain Filter GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.CuspidalSpectrum GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets GlobalTheory.PRep Formalism.BasicNotions GlobalTheory.CuspRep GlobalTheory.SmGL UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.C UpperTheory.ConvolutionTheory.C.Sf
+
+private theorem oneStep {G H : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
+    [LocallyCompactSpace G] [T2Space G] [TotallyDisconnectedSpace G] [NormedAddCommGroup H]
+    [InnerProductSpace ℂ H] [CompleteSpace H] (π : UnitaryRep G H) (Y : Submodule ℂ H)
+    (hY : IsClosed (Y : Set H)) (hinv : π.IsInvariant Y) (v : H) (hvY : v ∈ Y) (hv : v ≠ 0) :
+    ∃ U : Subgroup G, IsCompact (U : Set G) ∧ IsOpen (U : Set G) ∧
+      ∃ y ∈ Y, y ≠ 0 ∧ ∀ u ∈ U, π u y = y := by
+  have hpos : 0 < ‖v‖ := norm_pos_iff.mpr hv
+  obtain ⟨r, hr⟩ : ∃ r : ℝ, r = ‖v‖ / 2 := ⟨_, rfl⟩
+  have hr0 : 0 < r := by rw [hr]; positivity
+  have hrv : r < ‖v‖ := by rw [hr]; linarith
+  have hnhds : {g : G | ‖π g v - v‖ < r} ∈ nhds (1 : G) := by
+    have hc : Continuous fun g : G => ‖π g v - v‖ :=
+      ((π.continuous_orbit v).sub continuous_const).norm
+    have ho : IsOpen {g : G | ‖π g v - v‖ < r} := isOpen_lt hc continuous_const
+    refine ho.mem_nhds ?_
+    simpa using hr0
+  obtain ⟨K, hKc, hKU⟩ := exists_openSubgroup_isCompact_subset hnhds
+  refine ⟨(K : Subgroup G), hKc, K.isOpen, ?_⟩
+  letI := InnerProductSpace.rclikeToReal ℂ H
+  obtain ⟨C, hC⟩ : ∃ C : Set H, C = (Y : Set H) ∩ ⋂ u ∈ (K : Subgroup G), Metric.closedBall (π u v) r :=
+    ⟨_, rfl⟩
+  have hmem : ∀ x, x ∈ C ↔ x ∈ Y ∧ ∀ u ∈ (K : Subgroup G), ‖x - π u v‖ ≤ r := by
+    intro x
+    simp [hC, dist_eq_norm]
+  have hCcl : IsClosed C := by
+    rw [hC]
+    exact hY.inter (isClosed_biInter fun u _ => Metric.isClosed_closedBall)
+  have hconv : Convex ℝ C := by
+    rw [hC]
+    refine Convex.inter ?_ (convex_iInter₂ fun u _ => convex_closedBall _ _)
+    intro a ha b hb s t _ _ _
+    exact Y.add_mem (Y.smul_mem (s : ℂ) ha) (Y.smul_mem (t : ℂ) hb)
+  have hvC : v ∈ C := by
+    refine (hmem v).2 ⟨hvY, fun u hu => ?_⟩
+    have : ‖π u v - v‖ < r := hKU hu
+    rw [norm_sub_rev]
+    exact this.le
+  have h0 : (0 : H) ∉ C := by
+    intro h
+    have := ((hmem 0).1 h).2 1 (one_mem _)
+    simp only [UnitaryRep.map_one_apply, zero_sub, norm_neg] at this
+    linarith
+  have hstab : ∀ x ∈ C, ∀ g ∈ (K : Subgroup G), π g x ∈ C := by
+    intro x hx g hg
+    obtain ⟨hxY, hxb⟩ := (hmem x).1 hx
+    refine (hmem _).2 ⟨hinv g x hxY, fun u hu => ?_⟩
+    have e : π g x - π u v = π g (x - π (g⁻¹ * u) v) := by
+      rw [map_sub, ← UnitaryRep.map_mul_apply, mul_inv_cancel_left]
+    rw [e, UnitaryRep.norm_map]
+    exact hxb _ (mul_mem (inv_mem hg) hu)
+  obtain ⟨y, hyC, hy⟩ := exists_norm_eq_iInf_of_complete_convex ⟨v, hvC⟩ hCcl.isComplete hconv (0 : H)
+  have hmin : ∀ w ∈ C, ‖y‖ ≤ ‖w‖ := by
+    intro w hw
+    have h1 := ciInf_le (f := fun w : C => ‖(0 : H) - (w : H)‖)
+      ⟨0, by rintro _ ⟨a, rfl⟩; exact norm_nonneg _⟩ ⟨w, hw⟩
+    rw [← hy] at h1
+    simpa using h1
+  refine ⟨y, ((hmem y).1 hyC).1, fun h => h0 (h ▸ hyC), fun g hg => ?_⟩
+  have hz : π g y ∈ C := hstab y hyC g hg
+  have hm : (1 / 2 : ℝ) • y + (1 / 2 : ℝ) • π g y ∈ C :=
+    hconv hyC hz (by norm_num) (by norm_num) (by norm_num)
+  have h2 : ‖y‖ ≤ ‖(1 / 2 : ℝ) • y + (1 / 2 : ℝ) • π g y‖ := hmin _ hm
+  rw [← smul_add, norm_smul] at h2
+  have h3 : 2 * ‖y‖ ≤ ‖y + π g y‖ := by
+    have : ‖(1 / 2 : ℝ)‖ = 1 / 2 := by norm_num
+    rw [this] at h2
+    linarith
+  have hp := parallelogram_law_with_norm ℂ y (π g y)
+  rw [UnitaryRep.norm_map] at hp
+  have h4 : ‖y - π g y‖ * ‖y - π g y‖ ≤ 0 := by
+    nlinarith [norm_nonneg y, norm_nonneg (y + π g y)]
+  have h5 : ‖y - π g y‖ = 0 := by
+    nlinarith [norm_nonneg (y - π g y)]
+  exact (sub_eq_zero.mp (norm_eq_zero.mp h5)).symm
+
+theorem UpperTheory.exists_compactOpen_family_inf_fixed_ne_bot :
+    ∀ (r : ℕ) (G : Fin r → Type) [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)] [∀ i, IsTopologicalGroup (G i)] [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, TotallyDisconnectedSpace (G i)] (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] (π : ∀ i, UnitaryRep (G i) H), (∀ i j, i ≠ j → ∀ g h v, π i g (π j h v) = π j h (π i g v)) → ∀ Z : Submodule ℂ H, IsClosed (Z : Set H) → (∀ i, (π i).IsInvariant Z) → Z ≠ ⊥ → ∃ U : ∀ i, Subgroup (G i), (∀ i, IsCompact (U i : Set (G i)) ∧ IsOpen (U i : Set (G i))) ∧ (Z ⊓ ⨅ i, fixU (π i) (U i)) ≠ ⊥ := by
+  intro r G _ _ _ _ _ _ H _ _ _ π hcomm Z hZ hinv hne
+  classical
+  have key : ∀ s : Finset (Fin r), ∃ U : ∀ i, Subgroup (G i),
+      (∀ i, IsCompact (U i : Set (G i)) ∧ IsOpen (U i : Set (G i))) ∧
+        ∃ w ∈ Z, w ≠ 0 ∧ ∀ i ∈ s, ∀ u ∈ U i, π i u w = w := by
+    intro s
+    induction s using Finset.induction_on with
+    | empty =>
+      have h0 : ∀ i, ∃ K : Subgroup (G i), IsCompact (K : Set (G i)) ∧ IsOpen (K : Set (G i)) :=
+        fun i => by
+          obtain ⟨K, hK, -⟩ := exists_openSubgroup_isCompact_subset (G := G i) (U := Set.univ)
+            Filter.univ_mem
+          exact ⟨K, hK, K.isOpen⟩
+      choose U hU using h0
+      obtain ⟨w, hw, hw0⟩ := Z.ne_bot_iff.mp hne
+      exact ⟨U, hU, w, hw, hw0, by simp⟩
+    | insert j s hj ih =>
+      obtain ⟨U, hU, w, hwZ, hw0, hwf⟩ := ih
+      obtain ⟨Y, hYdef⟩ : ∃ Y : Submodule ℂ H, Y = Z ⊓ ⨅ i ∈ s, fixU (π i) (U i) := ⟨_, rfl⟩
+      have hmemY : ∀ x, x ∈ Y ↔ x ∈ Z ∧ ∀ i ∈ s, ∀ u ∈ U i, π i u x = x := by
+        intro x
+        simp [hYdef, Submodule.mem_inf, Submodule.mem_iInf, mem_fixU]
+      have hYc : IsClosed (Y : Set H) := by
+        have e : (Y : Set H) = (Z : Set H) ∩ ⋂ i ∈ s, (fixU (π i) (U i) : Set H) := by
+          ext x
+          simp [hYdef, Submodule.mem_inf, Submodule.mem_iInf]
+        rw [e]
+        exact hZ.inter (isClosed_biInter fun i _ => isClosed_fixU _ _)
+      have hYinv : (π j).IsInvariant Y := by
+        intro g x hx
+        rw [hmemY] at hx ⊢
+        refine ⟨hinv j g x hx.1, fun i hi u hu => ?_⟩
+        have hij : i ≠ j := fun h => hj (h ▸ hi)
+        rw [hcomm i j hij, hx.2 i hi u hu]
+      obtain ⟨K, hKc, hKo, y, hyY, hy0, hyf⟩ :=
+        oneStep (π j) Y hYc hYinv w ((hmemY w).2 ⟨hwZ, hwf⟩) hw0
+      have hyY' := (hmemY y).1 hyY
+      refine ⟨Function.update U j K, ?_, y, hyY'.1, hy0, ?_⟩
+      · intro i
+        by_cases h : i = j
+        · subst h
+          simpa using And.intro hKc hKo
+        · simpa [Function.update_of_ne h] using hU i
+      · intro i hi u hu
+        by_cases h : i = j
+        · subst h
+          exact hyf u (by simpa using hu)
+        · have hi' : i ∈ s := (Finset.mem_insert.mp hi).resolve_left h
+          exact hyY'.2 i hi' u (by simpa [Function.update_of_ne h] using hu)
+  obtain ⟨U, hU, w, hwZ, hw0, hwf⟩ := key Finset.univ
+  refine ⟨U, hU, fun hbot => hw0 ?_⟩
+  have hw : w ∈ Z ⊓ ⨅ i, fixU (π i) (U i) := by
+    refine Submodule.mem_inf.mpr ⟨hwZ, ?_⟩
+    rw [Submodule.mem_iInf]
+    intro i
+    exact mem_fixU.mpr (hwf i (Finset.mem_univ i))
+  rw [hbot] at hw
+  simpa using hw
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain Filter GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.CuspidalSpectrum GlobalTheory.IndefiniteRowSideFullHecke.IwahoriDoubleCosets GlobalTheory.PRep Formalism.BasicNotions GlobalTheory.CuspRep GlobalTheory.SmGL UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.C UpperTheory.ConvolutionTheory.C.Sf
+
+private theorem prod_res {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] (X : Submodule ℂ H) :
+    ∀ (r : ℕ) (T : Fin r → H →L[ℂ] H) (t : Fin r → Module.End ℂ X), (∀ i (v : X), ((t i v : X) : H) = T i v) →
+      ∀ v : X, (((List.ofFn t).prod v : X) : H) = (List.ofFn T).prod v := by
+  intro r
+  induction r with
+  | zero => intro T t _ v; simp
+  | succ r ih =>
+    intro T t h v
+    rw [List.ofFn_succ, List.ofFn_succ, List.prod_cons, List.prod_cons, Module.End.mul_apply, h,
+      ih (fun i => T i.succ) (fun i => t i.succ) (fun i => h _) v]
+    rfl
+
+
+theorem UpperTheory.isotypic_subspace_product_closed :
+    ∀ (r : ℕ) (G : Fin r → Type) [∀ i, Group (G i)] [∀ i, TopologicalSpace (G i)] [∀ i, IsTopologicalGroup (G i)] [∀ i, LocallyCompactSpace (G i)] [∀ i, T2Space (G i)] [∀ i, TotallyDisconnectedSpace (G i)] (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] (S : Fin r → Type) [∀ i, AddCommGroup (S i)] [∀ i, Module ℂ (S i)] (π : ∀ i, UnitaryRep (G i) H) (τ : ∀ i, Representation ℂ (G i) (S i)) (Z : Submodule ℂ H) (U : ∀ i, Subgroup (G i)) (c : ∀ i, Module.End ℂ (fixedVectors (τ i) (U i)) →ₐ[ℂ] Module.End ℂ ↥(Z ⊓ ⨅ i, fixU (π i) (U i))) (T : Fin r → H →L[ℂ] H) (B : ∀ i, Module.End ℂ (fixedVectors (τ i) (U i))), (∀ i t f, Eqv (τ i) (π i) (Z ⊓ ⨅ j, ⨅ _ : j ≠ i, fixU (π j) (U j)) f → ∀ (x : fixedVectors (τ i) (U i)) (y : ↥(Z ⊓ ⨅ i, fixU (π i) (U i))), (y : H) = f x → ((c i t y : ↥(Z ⊓ ⨅ i, fixU (π i) (U i))) : H) = f (t x)) → (∀ i, (Z ⊓ ⨅ i, fixU (π i) (U i)) ≤ spanFix (τ i) (π i) (Z ⊓ ⨅ j, ⨅ _ : j ≠ i, fixU (π j) (U j)) (U i)) → (∀ i f, Eqv (τ i) (π i) ⊤ f → ∀ x : fixedVectors (τ i) (U i), T i (f x) = f (B i x)) → ∀ v : ↥(Z ⊓ ⨅ i, fixU (π i) (U i)), (((List.ofFn fun i => c i (B i)).prod v : ↥(Z ⊓ ⨅ i, fixU (π i) (U i))) : H) = (List.ofFn T).prod v := by
+  intro r G _ _ _ _ _ _ H _ _ _ S _ _ π τ Z U c T B hc1 hle hB
+  let X : Submodule ℂ H := Z ⊓ ⨅ i, fixU (π i) (U i)
+  have hX : X = Z ⊓ ⨅ i, fixU (π i) (U i) := rfl
+  let D : Fin r → Submodule ℂ H := fun i => Z ⊓ ⨅ j, ⨅ _ : j ≠ i, fixU (π j) (U j)
+  have hD : ∀ i v, v ∈ D i ↔ v ∈ Z ∧ ∀ j, j ≠ i → v ∈ fixU (π j) (U j) := fun i v => by
+    simp only [D, Submodule.mem_inf, Submodule.mem_iInf]
+  have hXD : ∀ i, X = D i ⊓ fixU (π i) (U i) := fun i => by
+    ext v
+    simp only [hX, Submodule.mem_inf, Submodule.mem_iInf, hD]
+    refine ⟨fun h => ⟨⟨h.1, fun j _ => h.2 j⟩, h.2 i⟩, fun h => ⟨h.1.1, fun j => ?_⟩⟩
+    by_cases e : j = i
+    · exact e ▸ h.2
+    · exact h.1.2 j e
+  have hm : ∀ i f, Eqv (τ i) (π i) (D i) f → ∀ x : fixedVectors (τ i) (U i), f x ∈ X := fun i f hf x => by
+    rw [hXD i]
+    exact ⟨hf.mem _, fun u hu => by rw [← hf.map, mem_fixedVectors.1 x.2 u hu]⟩
+  refine prod_res X r T _ fun i v => ?_
+  have key : ∀ y ∈ spanFix (τ i) (π i) (D i) (U i), ∃ h : y ∈ X, ((c i (B i) ⟨y, h⟩ : X) : H) = T i y := fun y hy => by
+    induction hy using Submodule.span_induction with
+    | mem y hy =>
+      obtain ⟨f, hf, x, hx, rfl⟩ := hy
+      exact ⟨hm i f hf ⟨x, hx⟩, (hc1 i (B i) f hf ⟨x, hx⟩ _ rfl).trans (hB i f ⟨fun _ => trivial, hf.map⟩ ⟨x, hx⟩).symm⟩
+    | zero => exact ⟨X.zero_mem, (congrArg Subtype.val (map_zero (c i (B i)))).trans (map_zero (T i)).symm⟩
+    | add u v _ _ h1 h2 =>
+      obtain ⟨a, ha⟩ := h1
+      obtain ⟨b, hb⟩ := h2
+      refine ⟨X.add_mem a b, (congrArg Subtype.val (map_add (c i (B i)) ⟨u, a⟩ ⟨v, b⟩)).trans ?_⟩
+      rw [map_add (f := _), ← ha, ← hb]; rfl
+    | smul k u _ h1 =>
+      obtain ⟨a, ha⟩ := h1
+      refine ⟨X.smul_mem k a, (congrArg Subtype.val (map_smul (c i (B i)) k ⟨u, a⟩)).trans ?_⟩
+      rw [map_smul, ← ha]; rfl
+  exact (key v (hle i v.2)).2
+end

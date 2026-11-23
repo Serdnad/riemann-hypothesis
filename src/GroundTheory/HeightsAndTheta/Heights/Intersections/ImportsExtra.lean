@@ -1,8 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullBad
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsBlockGenFinite
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreIsolFinite
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle012
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ContinuousMinorRatioLift
 import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjectionPullbackZeroSetNull
 import Mathlib.Algebra.Order.Floor.Extended

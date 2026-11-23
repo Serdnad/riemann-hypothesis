@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.IsChainFirst
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle030
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
 public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.Statements
 import Mathlib.Algebra.Order.Floor.Extended

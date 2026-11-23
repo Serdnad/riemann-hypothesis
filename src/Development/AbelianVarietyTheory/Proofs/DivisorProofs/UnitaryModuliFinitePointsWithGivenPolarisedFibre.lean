@@ -1,11 +1,11 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.BaseOver
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteIntegerRingActionsPrincipallyPolarisedStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModuliGeometricPointEqOfSameFibreActionLevelStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolarizationPartBaseChange
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsTripleOfFieldExtension
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2766
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2763
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1154
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle101
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushEquivSymmLeft
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsMonHomOfMul
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsOverIff
-import Development.AbelianVarietyTheory.Definitions.Divisors.SymTupOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 
 @[expose] public section
 

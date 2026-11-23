@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SemiDegCA
-public import ReciprocityTheory.SemistableReduction.TorsionNonvanishStatement
+public import ReciprocityTheory.SemistableReduction.Bundle004
+public import ReciprocityTheory.SemistableReduction.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,9 +49,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.SemiDegCB
-public import ReciprocityTheory.SemistableReduction.SemiDegCC
-public import ReciprocityTheory.SemistableReduction.SemiDegCD
+public import ReciprocityTheory.SemistableReduction.Bundle011
+public import ReciprocityTheory.SemistableReduction.Bundle015
 public import Mathlib.RingTheory.Norm.Basic
 
 @[expose] public section

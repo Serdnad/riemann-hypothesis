@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.Statement
+public import Formalism.PieriBlockIdeals.Bundle001
 public import Mathlib.NumberTheory.Harmonic.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

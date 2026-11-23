@@ -1,7 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.LoweredSignatureVanishing
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -126,13 +125,13 @@ def CompactFockAll (D : D7) : Prop :=
 
 def fockSpan {V W : HSp D} (ψ : AddChar (AF D.host.F) ℂ) (θ : InfFam D) (A : Fr V) (B : Fr W)
     (U : AddSubgroup (WO V W)) : Submodule ℂ (WO V W → ℂ) :=
-  Submodule.span ℂ {g | ∃ f₀ P, IsVacF ψ θ A B f₀ ∧ f₀ ∈ thetaLevel ψ V W U ∧ g = ptF ψ θ A B f₀ P}
+  Submodule.span ℂ {g | ∃ f₀ P, IsVacF ψ θ A B f₀ ∧ f₀ ∈ GlobalTheory.Size.thetaLevel ψ V W U ∧ g = ptF ψ θ A B f₀ P}
 
 def FockDense (D : D7) : Prop :=
   ∀ (V W : HSp D) (A : Fr V) (B : Fr W) (θ : InfFam D) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → IsInfFam θ →
     ∀ (μ : Measure (WO V W)) (𝓕 : Set (WO V W)), IsCovolOne (ratL W V) μ 𝓕 → ∀ f, IsThetaFunO ψ V W f →
-      ∃ U : AddSubgroup (WO V W), IsOpen (U : Set (WO V W)) ∧ f ∈ thetaLevel ψ V W U ∧
-        ∀ (d : ℕ) (δ : ℝ≥0∞), 0 < δ → ∃ g ∈ fockSpan ψ θ A B U, g ∈ thetaLevel ψ V W U ∧ sobO ψ θ μ 𝓕 d (f - g) < δ
+      ∃ U : AddSubgroup (WO V W), IsOpen (U : Set (WO V W)) ∧ f ∈ GlobalTheory.Size.thetaLevel ψ V W U ∧
+        ∀ (d : ℕ) (δ : ℝ≥0∞), 0 < δ → ∃ g ∈ fockSpan ψ θ A B U, g ∈ GlobalTheory.Size.thetaLevel ψ V W U ∧ sobO ψ θ μ 𝓕 d (f - g) < δ
 
 def LowVanishFock (D : D7) : Prop :=
   ∀ (k : Fin D.R.m) (i : ℕ) (V' W : HSp D) (M' : DSModel W (parB (Ptw D) (k + 1)))

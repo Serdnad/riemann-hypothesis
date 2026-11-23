@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.HeisSch
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWeilDatumOOneOfRankZero
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HypsSatisfiable
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle525
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasDerivAtAndIsTheta
-public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.AdelicConjTransposeBlockMatrixTwoByTwoFin
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TraceInnerMul
+public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle460
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HalfData
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle020
 
 @[expose] public section
 

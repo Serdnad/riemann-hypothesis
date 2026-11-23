@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypRankGe
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.MRatSpanOfRatInv
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.LowestInvariantLeDelta
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle011
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

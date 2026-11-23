@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsPowSubMemSpanOfIsUnitModOfIsAlgClosed
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IntegralClosurePlaceRingsDataStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ProdNormEmbeddingsEqAbsNorm
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle026
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle003
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemOfAevalEqZero
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormScaleConjugateInvariantStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle083
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

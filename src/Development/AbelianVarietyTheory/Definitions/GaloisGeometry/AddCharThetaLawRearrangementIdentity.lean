@@ -37,8 +37,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsUniqueVec
 public import Formalism.LocalToGlobal.ClassRec
-public import Formalism.LocalToGlobal.Divisibility.HeckeRI
-public import Formalism.LocalToGlobal.HilbertRowConditions.ColumnsFunctionAtSubspaces
+public import Formalism.LocalToGlobal.Divisibility.Bundle003
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle002
 import Formalism.LocalToGlobal.HilbertRowConditions.IsHilbertCF
 import Formalism.LocalToGlobal.IndefiniteReal.RecTie
 public import Formalism.LocalToGlobal.IndefiniteReal.TrISepWith

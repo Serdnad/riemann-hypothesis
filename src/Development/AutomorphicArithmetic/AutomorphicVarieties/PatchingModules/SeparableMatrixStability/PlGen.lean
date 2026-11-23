@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ProfDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.ThetaCoefficientMapEq
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ProBurnside
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle036
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.SeparableMatrixStability.PlProps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

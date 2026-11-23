@@ -1,16 +1,14 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InhabitBis
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagFurtherTermIndependentStatementStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagModelJoinLeftStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagModelJoinRightStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagPlainValueIndependentStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ImportsAlt
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.JoinTwoModels
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.JoinVerticalDivisorStatement
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinFlagModelCommonModel
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinFlagModelValueIndep
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinFlagPairValueIndep
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle034
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle070
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle083
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle054
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle058
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -47,7 +47,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.LocallyProfinite
-import GroundTheory.LocalFields.FilteredSurj
+import GroundTheory.LocalFields.Bundle001
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
 public import Mathlib.NumberTheory.LocalField.Basic
 

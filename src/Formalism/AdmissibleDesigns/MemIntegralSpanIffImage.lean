@@ -5,8 +5,8 @@ public import Formalism.AdmissibleDesigns.CohomZeroEquivContinuous
 public import Formalism.AdmissibleDesigns.CoboundaryMemFiniteClasses
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.GaloisConditionFiveExtraOf
 public import Formalism.AdmissibleDesigns.EKSymmCont
-public import Formalism.SharpRestriction.LevelLetterCocycles.IsobaricMultiplicityOne
-import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Galois
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle012
+import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Bundle002
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

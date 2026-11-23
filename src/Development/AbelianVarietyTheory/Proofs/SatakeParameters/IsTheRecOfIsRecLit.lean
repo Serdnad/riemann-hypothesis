@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Langlands
 public import GroundTheory.LocalFields.PadicLogSeries
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalLanglandsTransport
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PlaceOverTransportRingIsoStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PlaceOverTransportRingIsoSymm
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TransportKeepsCuspidalTwistsCharacters
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle885
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle481
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle490
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle472
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RatioInvLeFrameFactor
-public import Formalism.SharpRestriction.CuspSpanNormBounds.StarVecMulDM
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.FiniteEtaleModels.SecInjG
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualLatticeDegreeNeg
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeCompletionEqLatticeVectorAddNsmul
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.FiniteEtaleModels.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2206
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2205
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SimilitudeActionAdelicLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

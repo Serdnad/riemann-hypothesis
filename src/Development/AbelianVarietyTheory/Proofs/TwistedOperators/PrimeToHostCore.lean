@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LiftFormsMainTerm
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle013
 public import Development.AbelianVarietyTheory.Counterexamples.RotationExamples.LevelVectorSizeBounds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicScalarBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1158
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralTsumOfFactor
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormLiftFormsFiniteGroupAction
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle330
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

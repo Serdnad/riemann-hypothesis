@@ -3,7 +3,7 @@ module
 public import GroundTheory.LocalFields.LocalArtinMap
 public import GroundTheory.LocalFields.SeparableClosure
 import GroundTheory.LocalFields.AbstractLocalReciprocity.IsoCyclic
-public import GroundTheory.LocalFields.LocalArtinUniqueness
+public import GroundTheory.LocalFields.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

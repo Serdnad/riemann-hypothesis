@@ -1,6 +1,6 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockGenFinite
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle027
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.ExistsFormOfMemChartRingZ
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.EventuallyDifferentiableAt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -111,10 +111,10 @@ def Qf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing 
 def Rf (d : (∀ k, ι k) → K → ℕ) (x : (Σ k, ι k) → ℂ) : ℝ :=
   ∑ c, ‖ev (chartMon c (d c)) x‖ ^ 2 / Nd (d c) x
 
-def Ef (A : HermLine ι) (m : ℕ) (F : Finset (MRing ι × (K → ℕ))) (x : (Σ k, ι k) → ℂ) : ℝ :=
+def Ef (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m : ℕ) (F : Finset (MRing ι × (K → ℕ))) (x : (Σ k, ι k) → ℂ) : ℝ :=
   A.h x ^ (2 * m) * ∑ p ∈ F, ‖ev p.1 x‖ ^ 2 / Nd p.2 x
 
-def Sf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : HermLine ι) (m : ℕ)
+def Sf (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N → MRing ι) (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m : ℕ)
     (F : Finset (MRing ι × (K → ℕ))) (x : (Σ k, ι k) → ℂ) : ℝ :=
   (Qf d G x + Ef A m F x) / (Rf d x * A.h x ^ (2 * m))
 
@@ -131,7 +131,7 @@ theorem Qf_nonneg (d : (∀ k, ι k) → K → ℕ) (G : (∀ k, ι k) → Fin N
 
 section Data
 
-variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m : ℕ} {v : Fin N → Ω}
+variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m : ℕ} {v : Fin N → Ω}
   {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι} {F : Finset (MRing ι × (K → ℕ))}
 
 theorem QE_pos (hgen : KH.GeneratesOn y (fun k => (m : ℤ) * A.a k) v)
@@ -240,7 +240,7 @@ theorem term_smul {F : MRing ι} {a b : K → ℕ} (hF : IsMultiHomog F a) (t : 
   rw [norm_ev_smul hF, Nd_smul, prod_norm_pow_eq_wt, prod_norm_pow_eq_wt, hw, mul_assoc,
     mul_div_mul_left _ _ (wt_ne_zero hc _), mul_div_assoc]
 
-theorem h_pow_smul (A : HermLine ι) (m : ℕ) {c : K → ℂ} (hc : ∀ k, c k ≠ 0) (x : (Σ k, ι k) → ℂ) :
+theorem h_pow_smul (A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m : ℕ) {c : K → ℂ} (hc : ∀ k, c k ≠ 0) (x : (Σ k, ι k) → ℂ) :
     A.h (fun p => c p.1 * x p) ^ (2 * m) = wt c (fun k => 2 * ((m : ℤ) * A.a k)) * A.h x ^ (2 * m) := by
   rw [A.smul c x hc, mul_pow]
   congr 1
@@ -252,7 +252,7 @@ theorem h_pow_smul (A : HermLine ι) (m : ℕ) {c : K → ℂ} (hc : ∀ k, c k 
   push_cast
   ring
 
-theorem Sf_smul {m : ℕ} {A : HermLine ι} {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι}
+theorem Sf_smul {m : ℕ} {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι}
     {F : Finset (MRing ι × (K → ℕ))} (he : ∀ c k, (e c k : ℤ) = d c k + m * A.a k)
     (hG : ∀ c j, IsMultiHomog (G c j) (e c)) (hF : ∀ p ∈ F, IsMultiHomog p.1 p.2)
     {c : K → ℂ} (hc : ∀ k, c k ≠ 0) (x : (Σ k, ι k) → ℂ) :
@@ -292,7 +292,7 @@ theorem ev_conj (F : MRing ι) (x : (Σ k, ι k) → ℂ) :
 theorem Nd_conj (d : K → ℕ) (x : (Σ k, ι k) → ℂ) : Nd d (fun p => starRingEnd ℂ (x p)) = Nd d x := by
   simp [Nd, nrm]
 
-theorem Sf_conj {A : HermLine ι} (hconj : IsConjInvariantH A) (m : ℕ) (d : (∀ k, ι k) → K → ℕ)
+theorem Sf_conj {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hconj : IsConjInvariantH A) (m : ℕ) (d : (∀ k, ι k) → K → ℕ)
     (G : (∀ k, ι k) → Fin N → MRing ι) (F : Finset (MRing ι × (K → ℕ))) (x : (Σ k, ι k) → ℂ) :
     Sf d G A m F (fun p => starRingEnd ℂ (x p)) = Sf d G A m F x := by
   simp only [Sf, Qf, Rf, Ef, ev_conj, Complex.norm_conj, Nd_conj, hconj x]
@@ -301,7 +301,7 @@ end Conj
 
 section Value
 
-variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m : ℕ} {v : Fin N → Ω}
+variable {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {A : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m : ℕ} {v : Fin N → Ω}
   {d e : (∀ k, ι k) → K → ℕ} {G : (∀ k, ι k) → Fin N → MRing ι} {F : Finset (MRing ι × (K → ℕ))}
 
 theorem Sf_value (hv : ∀ j, v j ∈ chartLat y A.a m)

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxPosDens
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSt
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SetFibreFiniteOfGoodProj
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PtsSumMeasurableA
@@ -49,10 +49,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.NullZero
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle001
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetA
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 
 @[expose] public section
 
@@ -62,7 +62,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.Ar.Pub.CxPosMeas
 
-open MvPolynomial MeasureTheory Metric Filter Topology ReciprocityTheory.ChartRestriction.G.Geo GlobalTheory.CompanionTheory.Ar.Pub.CxInt
+open MvPolynomial MeasureTheory _root_.Metric Filter Topology ReciprocityTheory.ChartRestriction.G.Geo GlobalTheory.CompanionTheory.Ar.Pub.CxInt
   GlobalTheory.CompanionTheory.Ar.Pub.CxComp
 open ReciprocityTheory.AnForm.R (conePts)
 

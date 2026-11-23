@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TranslateMemIndOrder
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUnitFormLocalizationEtaleNbhd
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExtensionOrderEqSpanStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BaseChangePointsCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemBtOrderIffBtSet
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularFunctionIffSectionStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle020
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

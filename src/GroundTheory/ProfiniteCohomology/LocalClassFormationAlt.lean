@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.InvariantRes
-public import GroundTheory.Brauer.BaseChangeRestriction
-public import GroundTheory.ProfiniteCohomology.ClassFormationDefs
+public import GroundTheory.Brauer.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle008
 import GroundTheory.ProfiniteCohomology.ClassFormations.IsIsoCohomologyMapAlongResSubgroupOfHom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

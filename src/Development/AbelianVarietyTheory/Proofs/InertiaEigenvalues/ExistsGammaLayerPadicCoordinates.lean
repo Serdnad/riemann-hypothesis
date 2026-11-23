@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralCyclotomicChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocPrimeVNormalised
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle377
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle307
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormUnitPowSubOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -207,8 +207,17 @@ theorem two_adic_cases (h : l = 2) (u : ℤ_[l]ˣ) :
     Units.val_neg, map_neg, ← hv]
   clear hv
   subst h
-  revert v
-  decide
+  change (↑v : ZMod 4) - 1 = 0 ∨ -(↑v : ZMod 4) - 1 = 0
+  have hval := ZMod.natCast_zmod_val (v : ZMod 4)
+  have hlt := ZMod.val_lt (v : ZMod 4)
+  generalize (v : ZMod 4).val = n at hval hlt
+  have hcop : Nat.Coprime n 4 := (ZMod.isUnit_iff_coprime n 4).1 (by rw [hval]; exact v.isUnit)
+  rw [← hval]
+  interval_cases n
+  · exact False.elim ((by decide : ¬ Nat.Coprime 0 4) hcop)
+  · decide
+  · exact False.elim ((by decide : ¬ Nat.Coprime 2 4) hcop)
+  · decide
 
 theorem Lg_neg (u : ℤ_[l]ˣ) : large₂ (-u) = large₂ u := by
   have h : large₂ (-1 : ℤ_[l]ˣ) = 0 := (Lg_eq_zero_iff _).2 ⟨2, by norm_num, by simp⟩

@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SubsetSpanBy
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemiAbelianHomExtensionHolds
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2412
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsSemiAbelianOfCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,11 +43,11 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullbackFactor
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle013
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 
@@ -223,6 +223,14 @@ theorem hasExt_two {X X₁ Y Y₁ Y₂ : Scheme.{0}} [AlgebraicGeometry.IsNoethe
   have hn₀ := GlobalTheory.IsNormalScheme.of_isOpenImmersion (pullback.fst f₁ f₂)
   obtain ⟨a₁, ha₁⟩ := exists_factor _ _ w₁ g₁
   obtain ⟨a₂, ha₂⟩ := exists_factor _ _ w₂ ((isGrpPullback_pullback A k).comp g₂)
+  letI : (Over.pullback (pullback.fst f₁ f₂)).Monoidal :=
+    (Over.instBraidedPullback (f := pullback.fst f₁ f₂)).toMonoidal
+  letI : (Over.pullback (pullback.snd f₁ f₂)).Monoidal :=
+    (Over.instBraidedPullback (f := pullback.snd f₁ f₂)).toMonoidal
+  letI : GrpObj ((Over.pullback (pullback.fst f₁ f₂)).obj G₁) :=
+    Functor.grpObjObj (F := Over.pullback (pullback.fst f₁ f₂))
+  letI : GrpObj ((Over.pullback (pullback.snd f₁ f₂)).obj G₂) :=
+    Functor.grpObjObj (F := Over.pullback (pullback.snd f₁ f₂))
   obtain ⟨E, ⟨hE, -⟩, -⟩ := GlobalTheory.semiAbelianHomExtension_holds.existsUnique_iso_of_extensions
     (GlobalTheory.IsNormalScheme.pred _) (IsSemiAbelian.pullback _ G₁ s₁) (IsSemiAbelian.pullback _ G₂ s₂) ha₁ ha₂
   obtain ⟨G, iG, ψ₁, ψ₂, s, -, g, -⟩ := exists_semiAbelian_two (IsPullback.of_hasPullback f₁ f₂) hcov s₁ s₂
@@ -231,7 +239,14 @@ theorem hasExt_two {X X₁ Y Y₁ Y₂ : Scheme.{0}} [AlgebraicGeometry.IsNoethe
       (Category.id_comp _) rfl)
   exact ⟨G, iG, e₂ ≫ ψ₂, s, g₂.comp g⟩
 
-theorem hasExt_of_locally : ∀ (X S : Scheme.{0}) [AlgebraicGeometry.IsNoetherian S], ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme S → ∀ (j : X ⟶ S) [IsOpenImmersion j], IsDominant j → ∀ (A : Over X) [GrpObj A], IsAbelianScheme A → (∀ s : S, ∃ U : S.Opens, s ∈ U ∧ HasExt (j ∣_ U) ((Over.pullback (j ⁻¹ᵁ U).ι).obj A)) → HasExt j A := by
+theorem hasExt_of_locally : ∀ (X S : Scheme.{0}) [AlgebraicGeometry.IsNoetherian S],
+    ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme S → ∀ (j : X ⟶ S)
+    [IsOpenImmersion j], IsDominant j → ∀ (A : Over X) [GrpObj A], IsAbelianScheme A →
+    (∀ s : S, ∃ U : S.Opens, s ∈ U ∧
+      (letI : (Over.pullback (j ⁻¹ᵁ U).ι).Monoidal :=
+        (Over.instBraidedPullback (f := (j ⁻¹ᵁ U).ι)).toMonoidal
+      @GlobalTheory.Desc.HasExt _ _ (j ∣_ U) ((Over.pullback (j ⁻¹ᵁ U).ι).obj A)
+        (Functor.grpObjObj (F := Over.pullback (j ⁻¹ᵁ U).ι)))) → HasExt j A := by
   intro X S _ hn j _ hj A _ hA hloc
   classical
   choose U hU hE using hloc

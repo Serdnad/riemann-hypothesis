@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.GlobalFields.GlobalReciprocity.NormSquare
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.PowInvariant
+public import GroundTheory.GlobalFields.GlobalReciprocity.Bundle001
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle001
 public import GroundTheory.GlobalFields.GlobalReciprocity.PrimesAbove
 public import GroundTheory.GlobalFields.GlobalReciprocity.DegreeLift
-public import GroundTheory.GlobalFields.GlobalReciprocity.Layers
 public import GroundTheory.GlobalFields.GlobalReciprocity.LocalSurjective
 import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
 import Mathlib.Algebra.Order.Floor.Extended

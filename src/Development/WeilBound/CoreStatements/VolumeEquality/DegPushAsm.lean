@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifEx2
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBoundsStatement
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealAgreementStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerProportionalStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle038
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TestPolynomialShiftTotalStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -73,6 +73,7 @@ theorem asm_vdeg_join_inr (O : ValuationSubring Ω) (y : (Σ b, ι b) → Ω) (y
 
 end
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem degPush_of (hEq : NumEq) (hPF : GeoPF) (hFib : FibNum) (hTr : TrdegU) (hRel : TestRelabel) (hTest : GeoTest)
     (hMap : NumMap) (hMass : MuMass) (hJoin : FieldJoin) (hIso : GenIso) (hFL : FibLink) (hML : MuLink) : DegPush := by
   classical

@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
-public import GroundTheory.AutomorphicForms.ReductionSplitting
+public import GroundTheory.AutomorphicForms.Bundle017
 public import GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCusp
 
 @[expose] public section

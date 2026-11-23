@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsIntTens
-public import Formalism.LocalToGlobal.GlobalTheory.GL3.ThirdClauseIntegralCombination
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle002
 public import Formalism.LocalToGlobal.AlgebraicTheory.StatementKer
-public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.KerJet
+public import Formalism.LocalToGlobal.AlgebraicTheory.AlgebraicTheoryProofs.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
-public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharacterIdentityReformulated2
+public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

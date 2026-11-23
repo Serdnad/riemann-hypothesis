@@ -3,11 +3,11 @@ module
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.NefRR
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
-public import Development.AutomorphicArithmetic.PrimeDiscriminants.BadPrimes
+public import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle001
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsIntIffOfNatural
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianCmCompLawsBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FieldOfDatumAbelian
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GoodDatumParametersStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle329
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle236
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle301
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

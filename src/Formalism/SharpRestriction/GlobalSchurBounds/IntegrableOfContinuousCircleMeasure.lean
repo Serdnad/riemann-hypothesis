@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
-public import Formalism.GL3MeanSquares.ConcavityEquidistribution
+public import Formalism.GL3MeanSquares.Bundle002
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.SquareMomentArithmeticBound
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.SquareMomentFromBound
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle003
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

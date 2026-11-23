@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.SheetUnsheet
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NontrivialIsomClassInt
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ToZIsArithHeightIffStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarInt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ToZPowCombIsometricStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WZIsCInfStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle257
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle174
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -75,3 +75,20 @@ theorem isArFun_toZ_iff : ∀ (k : Type) [CommRing k] (X : Scheme.{0}) [IsIntegr
   exact ⟨fun h => ⟨fun n => (key n _).1 (h.1 n), h.2⟩, fun h => ⟨fun n => (key n _).2 (h.1 n), h.2⟩⟩
 
 end GlobalTheory.CompanionTheory.Ar.BaseZ
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits AlgebraicGeometry TopologicalSpace Filter Topology MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open ReciprocityTheory.ChartRestriction.G.Out (nonzeroLocus)
+open GlobalTheory GlobalTheory.Points GlobalTheory.ArInt GlobalTheory.Cartier GlobalTheory.CxPts GlobalTheory.ProjSpace GlobalTheory.CompanionTheory.Ar.BaseZ
+
+theorem _root_.GlobalTheory.T.toZ_isArFun_iff : ∀ (k : Type) [CommRing k] (X : Scheme.{0}) [IsIntegral X] (p : X ⟶ Sp k) (t : X ⟶ Sp ℤ) (D : ℕ), IsArithVar p D → ∀ (ι : Type) [Fintype ι] (L : ι → HermLB p) (hL : ∀ i τ, (wZ (L i) t τ).IsCInf) (Φ : MvPolynomial ι ℝ →ₗ[ℝ] ℝ), IsArFun (fun i => toZ (L i) t (hL i)) D Φ ↔ IsArFun L D Φ := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.BaseZ.isArFun_toZ_iff | exact GlobalTheory.CompanionTheory.Ar.BaseZ.isArFun_toZ_iff | (intros; apply GlobalTheory.CompanionTheory.Ar.BaseZ.isArFun_toZ_iff <;> assumption)
+
+end
+end

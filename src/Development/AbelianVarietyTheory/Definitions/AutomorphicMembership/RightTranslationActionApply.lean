@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CongruenceLevelEqDepthSucc
 public import Formalism.LocalToGlobal.Columns.RowFormsLemmas
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TensorMapDescent
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanMapNabKDelK
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.TopStep
 
 section CForms
 

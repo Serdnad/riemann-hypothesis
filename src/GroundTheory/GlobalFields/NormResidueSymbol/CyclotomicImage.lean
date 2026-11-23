@@ -3,8 +3,8 @@ module
 public import GroundTheory.GlobalFields.NormResidueSymbol.CyclotomicCompositum
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Degree
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
-public import GroundTheory.GlobalFields.NormResidueSymbol.CyclotomicBase
-public import GroundTheory.GlobalFields.NormResidueSymbol.Rational
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle002
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle004
 public import GroundTheory.GlobalFields.IdeleGroups.NormOneCompact
 import GroundTheory.GlobalFields.NormResidueSymbol.RationalDiagonal
 import Mathlib.Algebra.Order.Floor.Extended

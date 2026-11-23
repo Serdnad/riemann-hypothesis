@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalRingCardinality.KernelPlaceMeanBound
+public import Formalism.LocalRingCardinality.Bundle007
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 public import Formalism.LocalToGlobal.Divisibility.NumbersLink
-public import Formalism.SharpRestriction.Divisibility.HookProducts.HookProd
+public import Formalism.SharpRestriction.Divisibility.HookProducts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

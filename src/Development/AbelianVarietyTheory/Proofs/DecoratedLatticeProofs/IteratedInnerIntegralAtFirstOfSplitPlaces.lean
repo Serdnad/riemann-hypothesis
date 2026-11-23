@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ValQOfValQr
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle381
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinsetSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisenbergCombAwayFromPlaceKeepsVacuumStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalInvariantIntegralsSymmetricHaarSubgroupsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OtherPlacesConvolutionFiniteAwayOrthogonalStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceDoubleStepLocalIteratedIntegralProofStatement
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceLocalGroupClosedEmbeddingIntegralStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle431
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle487
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle551
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle405
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -104,7 +103,7 @@ theorem conv_support_mem {G : Type} [Monoid G] (M : Submonoid G) (l : List (G â†
   induction l with
   | nil =>
     intro g hg
-    have : g = 1 := by simpa [conv] using Finsupp.support_single_subset hg
+    have : g = 1 := by simpa [GlobalTheory.QPl.conv] using Finsupp.support_single_subset hg
     exact this â–¸ M.one_mem
   | cons e l ih =>
     intro g hg

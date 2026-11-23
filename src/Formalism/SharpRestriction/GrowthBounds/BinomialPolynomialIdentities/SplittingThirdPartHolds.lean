@@ -1,12 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.StatementOfDegreeAndBound
-public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.AdmFourteen
+public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.AdmissibleExternalProduct
-public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.AdmissiblePolynomialBasisProv
-import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.AdmissibleWordBasis
-public import Formalism.SharpRestriction.GrowthBounds.FrobeniusPaths
-public import Formalism.SharpRestriction.GrowthBounds.GLWeightTheory
+public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.Bundle003
+import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

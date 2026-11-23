@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.CuspAlongSmoothRows
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsRealThetaParameterPairThetaPartnerSignedParameStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle461
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -429,7 +429,7 @@ theorem card_parD_le (D : D7) (τ : D.what₂.Tau) (i j : ℕ) (hi : i ≤ D.R.m
   unfold rkV Ranks.r
   omega
 
-theorem int_parD (D : D7) (τ : D.what₂.Tau) (i j : ℕ) : ∀ x ∈ entries ((grid D τ).parD i j), ∃ z : ℤ, x = z := by
+theorem int_parD (D : D7) (τ : D.what₂.Tau) (i j : ℕ) : ∀ x ∈ GlobalTheory.SignedHC.entries ((grid D τ).parD i j), ∃ z : ℤ, x = z := by
   have hr : Odd D.R.r := by
     obtain ⟨a, ha⟩ := D.R.k_even; obtain ⟨b, hb⟩ := D.R.m_even
     have := D.R.two_le_m
@@ -506,7 +506,7 @@ theorem removeBlock_pairPar : ∀ D : D7, GlobalTheory.IndefiniteRowSideFullHeck
     show _ ≤ D.R.k + D.R.m * (D.R.t + sLen D + 1)
     unfold rkV Ranks.r at h0
     omega
-  have hcos : InCoset (-(G.e (j + 1) : ℚ) + δ + ((D.R.t : ℚ) + 1) / 2) (entries P) := by
+  have hcos : InCoset (-(G.e (j + 1) : ℚ) + δ + ((D.R.t : ℚ) + 1) / 2) (GlobalTheory.SignedHC.entries P) := by
     intro x hx
     obtain ⟨s, hs⟩ := mem_entries.1 hx
     have hy := fst_mem_entries (mem_shift.1 hs)

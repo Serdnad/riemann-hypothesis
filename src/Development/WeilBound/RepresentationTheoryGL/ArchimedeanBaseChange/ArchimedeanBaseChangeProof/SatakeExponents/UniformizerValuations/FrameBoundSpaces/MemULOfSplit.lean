@@ -46,9 +46,9 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.LocalRingCardinality.SpanPowerMembership.HasStrictFDerivAtExpZero
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle002
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 public import Mathlib.NumberTheory.NumberField.CMField
 
 @[expose] public section

@@ -1,9 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwSymP
+public import Formalism.LocalToGlobal.HermitianForms.Bundle011
 public import Formalism.LocalToGlobal.HermitianColumns.TiedQCHost
-public import Formalism.LocalToGlobal.HermitianForms.BothSym
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwJSym
+public import Formalism.LocalToGlobal.HermitianForms.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

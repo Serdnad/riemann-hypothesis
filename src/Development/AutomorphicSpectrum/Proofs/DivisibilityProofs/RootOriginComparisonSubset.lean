@@ -1,30 +1,29 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsLatFlagPair
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SplitComps
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProperSemiAbelianFamily
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsChartOfLineBundle
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.HodgeComponentFactorPointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianSchemePointObjectStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarCommonCoverStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeConstantRankStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle025
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle197
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle185
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle187
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FullTorsionIntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FullTorsionIntegrallyClosedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompFieldExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeComponentTwistAutomorphism
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle246
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle251
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle155
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeComponentTwistLatticeCompat
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFieldExtension
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFieldExtensionStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateWeilPullbackStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeVectorBundlePullbackStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeDominantCompatStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueEquivStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsoTransportStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalCptIffNormalSchemeStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.OmegaLatticeDominantCompatStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtNoetherianModelNoetherianStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle250
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle249
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle054
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle196
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle021
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle145
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle076
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StalkSpecializesBijective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,9 +63,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EventuallyOneTmulAdicIntegralCoords
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle073
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
 
 @[expose] public section
 
@@ -225,7 +224,7 @@ theorem exists_common_model (K₀ : Type) [Fintype K₀] (ι₀ : K₀ → Type)
     (y₀ : (Σ k, ι₀ k) → Ω₀) (y₁ : (Σ k, ι₁ k) → Ω₁) (y₂ : (Σ k, ι₂ k) → Ω₂) (d : ℕ)
     (X₀ X₁ X₂ : Scheme.{0}) (ξ₀ : Spec (CommRingCat.of Ω₀) ⟶ X₀) (ξ₁ : Spec (CommRingCat.of Ω₁) ⟶ X₁)
     (ξ₂ : Spec (CommRingCat.of Ω₂) ⟶ X₂)
-    (a₀ : IsArithVar (mCoordIdeal y₀) d) (a₁ : IsArithVar (mCoordIdeal y₁) d) (a₂ : IsArithVar (mCoordIdeal y₂) d)
+    (a₀ : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y₀) d) (a₁ : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y₁) d) (a₂ : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal y₂) d)
     (b₀ : Birational y₀) (b₁ : Birational y₁) (b₂ : Birational y₂)
     (f₀ : FiniteDimensional i₀.fieldRange Ω) (f₁ : FiniteDimensional i₁.fieldRange Ω)
     (f₂ : FiniteDimensional i₂.fieldRange Ω)
@@ -715,3 +714,23 @@ theorem common : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Hos
   · exact omP_ext' i₁ o₁.𝔐 𝔐 (a₁.hom ≫ h₁) m₁ j₁ _ p hp hdom₁ hf₁ q5 q6 q7 hx₁ (hv₁ p hp).1
 
 end GlobalTheory.CompanionTheory.Ar.OrLinked
+
+end
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
+open MvPolynomial Filter Topology
+open ReciprocityTheory.ChartRestriction.G.AI.I1 (IsBlockMap pullDeg)
+open ReciprocityTheory.ChartRestriction.G.AI.I4 (imageZ IsPullHerm blockFnField)
+open GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Inter (pullHerm)
+open GlobalTheory.CompanionTheory.Ar.Num
+
+theorem _root_.GlobalTheory.T.root_origin_comparison_subset : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (S₀ S : Finset ℕ) (M₀ M₁ Rf : RootModel (CMType H) (D.p + D.q)) (Sys : PB.AnSys (dimFl (CMType H) (D.p + D.q)) (Option (RootIx D))) (Fx : FixedData Y Sys) (o₀ : RootOrigin Y S₀ M₀ Fx) (o₁ : RootOrigin Y S M₁ Fx) (oR : RootOrigin Y ∅ Rf Fx), S₀ ⊆ S → (∀ p : ℕ, p.Prime → (p : ℤ) ∣ NumberField.discr E → p ∈ S₀) → o₀.𝔐.OmVB → o₁.𝔐.OmVB → (∀ p ∈ S₀, o₀.𝔐.R p = o₁.𝔐.R p) → oR.Fl.deg = 1 → ∃ (Ω : Type) (_ : Field Ω) (_ : CharZero Ω) (K : Type) (_ : Fintype K) (J : K → Type) (_ : ∀ k, Fintype (J k)) (y : (Σ k, J k) → Ω) (κ₀ : M₀.K → K) (v₀ : (Σ k, M₀.ι k) → Σ k, J k) (κ₁ : M₁.K → K) (v₁ : (Σ k, M₁.ι k) → Σ k, J k) (κR : Rf.K → K) (vR : (Σ k, Rf.ι k) → Σ k, J k) (i₀ : M₀.Ω →+* Ω) (i₁ : M₁.Ω →+* Ω) (iR : Rf.Ω →+* Ω) (𝔐 : HodgeCpt Y S y) (Fl : 𝔐.Flag), IsBlockMap κ₀ v₀ ∧ IsBlockMap κ₁ v₁ ∧ IsBlockMap κR vR ∧ (∀ p, y (v₀ p) = i₀ (M₀.y p)) ∧ (∀ p, y (v₁ p) = i₁ (M₁.y p)) ∧ (∀ p, y (vR p) = iR (Rf.y p)) ∧ i₀.comp o₀.g = iR.comp oR.g ∧ i₁.comp o₁.g = iR.comp oR.g ∧ IntermediateField.relfinrank (blockFnField (y ∘ v₀)) (blockFnField y) ≠ 0 ∧ IntermediateField.relfinrank (blockFnField (y ∘ v₀)) (blockFnField y) * M₀.δ = IntermediateField.relfinrank (blockFnField (y ∘ v₁)) (blockFnField y) * M₁.δ ∧ (∃ (h : S₀ ⊆ S) (hvb : ∀ s, (𝔐.VAt S₀ s).IsVB (labelRk D s) (𝔐.Vgen s)) (hsub : ∀ s, (𝔐.VAt S₀ s).IsFlagVBOn Set.univ (Fl.b s)), (Fl.shrink S₀ h hvb hsub).RootLines (fun r => pullDeg κ₀ (M₀.xdeg r)) (fun r => i₀ (o₀.e r))) ∧ Fl.RootLines (fun r => pullDeg κ₁ (M₁.xdeg r)) (fun r => i₁ (o₁.e r)) ∧ ∀ p ∈ S, HT.HTFree 𝔐 p := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.OrLinked.common | exact GlobalTheory.CompanionTheory.Ar.OrLinked.common | (intros; apply GlobalTheory.CompanionTheory.Ar.OrLinked.common <;> assumption)
+
+end
+end

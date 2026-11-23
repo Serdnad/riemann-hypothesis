@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNormRsHatLeConst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MeasurableCompInfGLProd
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousIntegralOfCompact
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle935
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2283
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle926
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivariantProj
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SetIntegralRsHatZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TendstoResidueTermRankinSelbergInnerProductStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaIntegralUpperMspan
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle918
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle931
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Mathlib.Algebra.Order.Floor.Extended
@@ -120,7 +119,7 @@ theorem setIntegral_rsHat_zero_of_bdd {ℓ : Fin a} {Φ : (Fin a → Cinf E) →
   have hΦ : GlobalTheory.CuspQuot.IsTest (rowSet E ℓ) Φ := ⟨hΦ1, hΦ2, hΦ3⟩
   haveI : DiscreteTopology (latticeGL E a) := GlobalTheory.CuspRep.CuspidalL2GL.discreteTopology_latticeGL
   haveI := GlobalTheory.CovolGL.isFiniteMeasure_quotMeasure E a μ
-  haveI : IsFiniteMeasure (μ.restrict 𝓕') :=
+  have hfin : IsFiniteMeasure (μ.restrict 𝓕') :=
     ⟨by rw [Measure.restrict_apply_univ, ← GlobalTheory.AutomorphicL2Unitary.quotMeasure_univ h𝓕]; exact measure_lt_top _ _⟩
   haveI : SFinite (infMeasure E a) := by unfold infMeasure; infer_instance
   obtain ⟨C, hC⟩ := hb.2.2.2
@@ -143,6 +142,8 @@ theorem setIntegral_rsHat_zero_of_bdd {ℓ : Fin a} {Φ : (Fin a → Cinf E) →
     exact GlobalTheory.RSResidue.setIntegral_mul_right h𝓕 (f := fun g => φ.1 g * conj (φ'.1 g))
       (GlobalTheory.Petersson.leftInv_mul_conj hω hb hb') _
   simp only [GlobalTheory.RSResidue.rsHat_zero J η φ φ' hΦ]
+  haveI : SFinite (μ.restrict 𝓕') :=
+    @MeasureTheory.instSFiniteOfSigmaFinite _ _ _ (@IsFiniteMeasure.toSigmaFinite _ _ _ hfin)
   rw [integral_mul_const, integral_integral_swap hi]
   simp only [hx, integral_const_mul]
   ring

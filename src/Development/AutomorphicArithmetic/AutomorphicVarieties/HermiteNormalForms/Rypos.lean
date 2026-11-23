@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulStrictMono
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle001
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Grampd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.RealVec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Realsurj
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

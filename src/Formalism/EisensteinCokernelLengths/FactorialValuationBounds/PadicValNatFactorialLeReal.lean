@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EisensteinCokernelLengths.ExponentChainBound
+public import Formalism.EisensteinCokernelLengths.Bundle001
 public import Formalism.LagrangeIdealLifts.LiftLagrangeIdealInt
 public import Formalism.WindowSums.PowerSeriesRelationList
 import Mathlib.Algebra.Order.Floor.Extended

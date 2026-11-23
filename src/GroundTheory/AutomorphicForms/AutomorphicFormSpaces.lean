@@ -10,7 +10,7 @@ public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Translation
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.SmoothKZ
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStructure
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

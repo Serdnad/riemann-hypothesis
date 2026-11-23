@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.AgreementPos
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CmpPair
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle003
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle005
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.PadicIntegersHenselianFiniteResidue
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerConvI2Statement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle038
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TowerOriginVectorBundleStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,6 +49,7 @@ open GroundTheory.Heights₂.Heights.LowerBoundFree (ComponentData ComponentSett
 
 namespace GlobalTheory.CompanionTheory.Ar.Top
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem propA_of_goodOrigin : PB.AgreementPos → TwistAut → Cmp.CmpPair → Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (l : Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) [DecidableEq (CMType H)] (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem), IsGlobal Xo l c Y → o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → T.PropA II := by
   intro hAg hTw hCmp hG E _ _ _ _ H D Xo l c Y _ T o II _ hX hII _ _
   obtain ⟨_, _, _, _, _, _, _, _, _, hIn, _⟩ := hG

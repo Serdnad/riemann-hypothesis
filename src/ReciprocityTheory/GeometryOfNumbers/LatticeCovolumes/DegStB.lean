@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.DegStA
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle003
 public import Mathlib.LinearAlgebra.FreeModule.Finite.CardQuotient
 public import Mathlib.NumberTheory.NumberField.Norm
 

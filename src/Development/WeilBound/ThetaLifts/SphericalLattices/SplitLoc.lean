@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EventuallyCompSideMulEq
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle043
 public import Development.WeilBound.ThetaLifts.SphericalLattices.ExistsFixedSum
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended

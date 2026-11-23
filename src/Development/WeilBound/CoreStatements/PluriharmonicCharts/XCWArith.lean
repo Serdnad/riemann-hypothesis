@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
 public import Mathlib.FieldTheory.RatFunc.AsPolynomial
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsPenFrame
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle018
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.IsBlockMapInitialVertex
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.MinorElementaryColumnOp
 import Mathlib.Algebra.Order.Floor.Extended

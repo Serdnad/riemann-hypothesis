@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.StabIntPfSk
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle036
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.LocFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -136,25 +136,25 @@ theorem untyped (hs : (M p).split = none) :
   simp only [Finset.mem_insert, Finset.mem_singleton, not_or] at this
   exact this
 
-theorem unitAt_untyped (hs : (M p).split = none) : (uP p : ℚ) = 1 / (gS D : ℚ) := by
+theorem unitAt_untyped (hs : (M p).split = none) : (uP p : ℚ) = 1 / (_root_.Formalism.MainNotions.S.Lat.gS D : ℚ) := by
   obtain ⟨h0, h1⟩ := untyped δ M hA p hs
   unfold uP gpart
   rw [if_neg h0, if_neg h1]
   simp
 
 theorem gS_mul_uP (hs : (M p).split = none) :
-    (D.s.atP p).ιE ((gS D : ℕ) : D.host.E) * (D.s.atP p).ιE (uP p : D.host.E) = 1 := by
+    (D.s.atP p).ιE ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * (D.s.atP p).ιE (uP p : D.host.E) = 1 := by
   rw [← map_mul, unitAt_untyped δ M hA p hs]
-  have hg : (gS D : ℚ) ≠ 0 := by
-    unfold gS; push_cast
+  have hg : (_root_.Formalism.MainNotions.S.Lat.gS D : ℚ) ≠ 0 := by
+    unfold _root_.Formalism.MainNotions.S.Lat.gS; push_cast
     exact mul_ne_zero (by exact_mod_cast (D.host.g_prime 0).ne_zero) (by exact_mod_cast (D.host.g_prime 1).ne_zero)
-  have : ((gS D : ℕ) : D.host.E) * (((1 / (gS D : ℚ)) : ℚ) : D.host.E) = 1 := by
-    rw [show ((gS D : ℕ) : D.host.E) = (((gS D : ℚ)) : D.host.E) by push_cast; rfl, ← Rat.cast_mul,
+  have : ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * (((1 / (_root_.Formalism.MainNotions.S.Lat.gS D : ℚ)) : ℚ) : D.host.E) = 1 := by
+    rw [show ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) = (((_root_.Formalism.MainNotions.S.Lat.gS D : ℚ)) : D.host.E) by push_cast; rfl, ← Rat.cast_mul,
       mul_one_div_cancel hg, Rat.cast_one]
   rw [this, map_one]
 
 omit δ M hA in
-theorem gS_mem_qq : ((gS D : ℕ) : 𝓞 D.host.E) ∈ qq D :=
+theorem gS_mem_qq : ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : 𝓞 D.host.E) ∈ qq D :=
   Ideal.mem_span_singleton_self _
 
 theorem locMem_qd_of (hs : (M p).split = none) (k : ℕ) {x : D.host.E} (h : LocMem D p (ddPow D k) x) :
@@ -162,7 +162,7 @@ theorem locMem_qd_of (hs : (M p).split = none) (k : ℕ) {x : D.host.E} (h : Loc
   unfold LocMem at *
   set ι := (D.s.atP p).ιE
   have key : ∀ y ∈ Submodule.span (D.s.atP p).O (ι '' (ddPow D k : Set D.host.E)),
-      ι ((gS D : ℕ) : D.host.E) * y ∈ Submodule.span (D.s.atP p).O (ι '' (qdPow D k : Set D.host.E)) := by
+      ι ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * y ∈ Submodule.span (D.s.atP p).O (ι '' (qdPow D k : Set D.host.E)) := by
     intro y hy
     induction hy using Submodule.span_induction with
     | mem y hy =>
@@ -171,7 +171,7 @@ theorem locMem_qd_of (hs : (M p).split = none) (k : ℕ) {x : D.host.E} (h : Loc
       apply Submodule.subset_span
       refine ⟨_, ?_, rfl⟩
       unfold qdPow
-      have hq : ((gS D : ℕ) : D.host.E) ∈ (qq D : FI D) := by
+      have hq : ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) ∈ (qq D : FI D) := by
         rw [FractionalIdeal.mem_coeIdeal]
         exact ⟨_, gS_mem_qq, map_natCast _ _⟩
       exact FractionalIdeal.mul_mem_mul hq hz
@@ -181,10 +181,10 @@ theorem locMem_qd_of (hs : (M p).split = none) (k : ℕ) {x : D.host.E} (h : Loc
       rw [Subring.smul_def, smul_eq_mul, mul_left_comm, ← smul_eq_mul, ← Subring.smul_def]
       exact Submodule.smul_mem _ o hy
   have hu : ι (uP p : D.host.E) ∈ (D.s.atP p).O := LocFacts.unitPart_mem₂ p
-  have e : ι x = ι (uP p : D.host.E) * (ι ((gS D : ℕ) : D.host.E) * ι x) := by
+  have e : ι x = ι (uP p : D.host.E) * (ι ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * ι x) := by
     rw [← mul_assoc, mul_comm (ι (uP p : D.host.E)), gS_mul_uP δ M hA p hs, one_mul]
-  rw [e, show ι (uP p : D.host.E) * (ι ((gS D : ℕ) : D.host.E) * ι x) =
-    (⟨_, hu⟩ : (D.s.atP p).O) • (ι ((gS D : ℕ) : D.host.E) * ι x) by rw [Subring.smul_def, smul_eq_mul]]
+  rw [e, show ι (uP p : D.host.E) * (ι ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * ι x) =
+    (⟨_, hu⟩ : (D.s.atP p).O) • (ι ((_root_.Formalism.MainNotions.S.Lat.gS D : ℕ) : D.host.E) * ι x) by rw [Subring.smul_def, smul_eq_mul]]
   exact Submodule.smul_mem _ _ (key _ h)
 
 theorem lL_low (a : MatR D) (i j : Fin (D.R.rS + 1)) (hji : j < i) :

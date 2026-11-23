@@ -1,17 +1,13 @@
 module
 
 public import Formalism.GradedWeylDivisibility.StatementD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.BlockActTensor
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLBasis
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle012
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLDiag
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLKBasis
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLLe
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwMem
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowActDiagWeight
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowActMul
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle014
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SSBasis
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SSIdxFinite
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.TensorBasis
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

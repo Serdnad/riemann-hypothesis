@@ -1,14 +1,14 @@
 module
 
 public import Mathlib.AlgebraicGeometry.Morphisms.Etale
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OverSchemeGrpObjOfMonoFactorStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle195
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFiniteEtaleLatticeTorsionHom
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ClopenCondOfIsClosedSubgroupLocus
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsClosedLocusOfTorsionAbelianScheme
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ExistsLiftOfClosedSubgroupLocus
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle031
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle006
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle022
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle009
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsFiniteEtaleRepresentingClopenSubschemes
 import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.SubRepPull
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,8 +54,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsTjCorrDiagModel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RangeSubsetOfGeom
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle007
 
 @[expose] public section
 

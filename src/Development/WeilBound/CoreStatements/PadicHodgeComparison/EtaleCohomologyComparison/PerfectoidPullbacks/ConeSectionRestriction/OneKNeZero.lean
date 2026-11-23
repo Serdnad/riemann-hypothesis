@@ -2,9 +2,9 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.CechDefs
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AffineGradedQuotientVanishAboveDimStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CupPowerSmulStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnitClassNeZeroOfNonemptyStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle380
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle140
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle173
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

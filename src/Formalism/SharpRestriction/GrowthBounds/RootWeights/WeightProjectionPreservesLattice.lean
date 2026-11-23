@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.OperatorsKillInvariantProjection
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.MemWeightSpaceIffDiagonalEigen
 import Mathlib.Algebra.Order.Floor.Extended

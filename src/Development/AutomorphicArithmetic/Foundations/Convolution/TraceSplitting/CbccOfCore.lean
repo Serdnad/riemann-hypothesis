@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.ComplexBaseChangeOfLiterature
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeckeInert
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Cbcc
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle007
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDesc
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreLift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.DescStep
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.LiftAll
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.LiftStep
 import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStrong
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

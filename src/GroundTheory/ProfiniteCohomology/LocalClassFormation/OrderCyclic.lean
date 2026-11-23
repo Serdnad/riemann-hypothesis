@@ -5,8 +5,8 @@ public import GroundTheory.LocalFields.CompleteTrivial
 public import GroundTheory.ProfiniteCohomology.GaloisModules.CoeGalRootsOfUnityHomApply
 public import Mathlib.FieldTheory.Galois.Basic
 public import Mathlib.NumberTheory.LocalField.Basic
-public import GroundTheory.LocalFields.HerbrandLocal
-public import GroundTheory.TateCohomology.Herbrand
+public import GroundTheory.LocalFields.Bundle007
+public import GroundTheory.TateCohomology.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

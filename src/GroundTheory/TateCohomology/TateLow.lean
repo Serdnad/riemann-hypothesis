@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.TateCohomology.ModuleHomologyData
+public import GroundTheory.TateCohomology.Bundle001
 public import Mathlib.RepresentationTheory.Coinduced
 public import Mathlib.RepresentationTheory.Homological.TateCohomology.Basic
 import Mathlib.Algebra.Order.Floor.Extended

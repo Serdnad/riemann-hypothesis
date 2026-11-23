@@ -1,16 +1,16 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.IsArithVarBotDualBlocksUnit
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle023
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCoordCurveAlgebraic
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCoordCurveDegree
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveComplexPoint
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.FlagBundleSt
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.POneBlockPoints
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

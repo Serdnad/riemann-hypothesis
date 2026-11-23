@@ -2,7 +2,7 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DvdMulOfIdem
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUnimodDiv
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HostGeneratorPowFourTraceNormModEight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

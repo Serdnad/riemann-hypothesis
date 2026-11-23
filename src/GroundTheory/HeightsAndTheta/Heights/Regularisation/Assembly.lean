@@ -1,19 +1,14 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.StLogCoverDescent
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.StPuncturedExpOrder
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.StRiemannSlices
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PAnalyticDerivBound
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PGramEntryDeriv
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PInvEntryBound
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PInvEntryDeriv
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PLogDetGramDeriv
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PMatrixDetDeriv
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PExpExtension
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PGlueRegularised
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PHodgeDerivative
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PImTauBounds
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PKernelPositive
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle003
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.PosSemidefOfIntQuadNonneg
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

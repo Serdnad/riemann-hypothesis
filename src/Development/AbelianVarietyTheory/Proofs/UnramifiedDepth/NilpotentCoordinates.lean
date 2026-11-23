@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.DualLattices.CotangentSurjective
+import ReciprocityTheory.DualLattices.Bundle007
 import ReciprocityTheory.DualLattices.FormalChartAtZero
-import ReciprocityTheory.DualLattices.SqZeroOfSpan
+import ReciprocityTheory.DualLattices.Bundle002
 
 @[expose] public section
 

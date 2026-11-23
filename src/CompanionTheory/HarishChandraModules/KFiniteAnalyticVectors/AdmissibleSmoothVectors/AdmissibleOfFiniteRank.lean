@@ -1,8 +1,7 @@
 module
 
-public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.MapStdPoly
-public import Formalism.PeriodIntegrals.IsLowUnitH
-public import Formalism.PeriodIntegrals.KFinSmooth
+public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.Bundle002
+public import Formalism.PeriodIntegrals.Bundle013
 import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.InPCommutatorOfInK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

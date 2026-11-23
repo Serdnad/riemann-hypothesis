@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 public import Mathlib.AlgebraicGeometry.Stalk
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 import Mathlib.Algebra.Order.Floor.Extended

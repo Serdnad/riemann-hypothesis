@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.LocalQuadraticParts
-public import Formalism.SharpRestriction.GlobalSchurBounds.JointsF
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle003
 public import Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

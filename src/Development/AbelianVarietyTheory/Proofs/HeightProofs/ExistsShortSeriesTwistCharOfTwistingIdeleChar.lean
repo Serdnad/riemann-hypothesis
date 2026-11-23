@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.PowClassNumberIntegral
-public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.IntUnit
-public import Formalism.LocalToGlobal.ProjectiveLattices.FullXi
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsXiOKNotTwistCond
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Hilbert90FiniteIdelesCongruenceStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsGeneratingCharacters
+public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle010
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

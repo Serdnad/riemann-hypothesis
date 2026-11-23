@@ -2,13 +2,13 @@ module
 
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
 public import Formalism.LocalToGlobal.UnitaryNorms.LeastSplitAuxiliaryPrimeThetaChainSpec
-public import Formalism.LocalToGlobal.UnitaryNorms.CharGal
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwAll
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
+public import Formalism.LocalToGlobal.HermitianForms.Bundle009
 public import Formalism.LocalToGlobal.JointCharacters.SameChr
-public import Formalism.LocalToGlobal.HilbertRowConditions.KaTiedIffKapDef
-public import Formalism.LocalToGlobal.BesselHermitianTheta.AllTied
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle001
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle004
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.EMtLevel
-public import Formalism.LocalToGlobal.UnitaryNorms.JointCut
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

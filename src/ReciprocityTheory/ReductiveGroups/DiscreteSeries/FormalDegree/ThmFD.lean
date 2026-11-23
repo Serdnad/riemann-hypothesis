@@ -1,10 +1,9 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Transported
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdDefs
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Bundle005
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle001
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PmatIsHermitian
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.LaplaceFoundations.RaisingLoweringNormIdentities
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Residue
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,14 +44,13 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdConst
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdLower
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdPointwise
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdStep
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdUpper
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle013
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle010
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.IntegrableOfContinuousCompact
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.ProdSubLtEqFactorial
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SumNormAdjointSqEqHsOp
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.VolUFactProdMulLe
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle006
 
 @[expose] public section
 

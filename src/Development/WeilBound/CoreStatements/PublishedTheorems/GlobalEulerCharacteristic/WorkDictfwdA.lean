@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.RatioOneKilled
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Bundle001
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Character
 public import GroundTheory.LocalFields.LocalArtinBaseChange
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.WorkDictfwdB

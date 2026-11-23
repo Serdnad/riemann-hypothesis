@@ -1,7 +1,7 @@
 module
 
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
-public import Formalism.AdmissibleDesigns.InertiaActsTrivially
+public import Formalism.AdmissibleDesigns.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

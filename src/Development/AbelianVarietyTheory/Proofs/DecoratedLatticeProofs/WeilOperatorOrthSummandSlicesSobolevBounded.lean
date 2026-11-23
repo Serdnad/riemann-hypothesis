@@ -4,9 +4,9 @@ public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RealSiz
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ThetaFunctionProductsSlicesOrthogonalDecompositiStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SupNormWordSumSubLeAndDerivativeCost
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaKernelModerateGrowthWithSeminorms
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle323
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle333
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -235,7 +235,7 @@ theorem isSobForm_slice {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} (hθ : 
     obtain ⟨μ, 𝓕, hμ⟩ := exists_isCovolOne A T
     obtain ⟨K, hKs⟩ := sobO_slice_le (T := T) hψ hθ o d
     refine ⟨d, C * (ENNReal.ofReal ((height A p.1 * height T p.2) ^ e)).toNNReal * K, fun f hf => ?_⟩
-    have hsl : slA o f ∈ thetaLevel ψ A T U' := by
+    have hsl : slA o f ∈ _root_.GlobalTheory.Size.thetaLevel ψ A T U' := by
       refine ⟨((GlobalTheory.T.thetaFunction_products_slices_orthogonalDecomposition D ψ hψ S A B T o).2.2.2 f hf.1).1 0, fun u hu h0 => ?_⟩
       rw [heisO_slice, ← extA_apply, hf.2 _ hu]
       rw [extA_apply, symm_left, Matrix.map_mul, h0, Matrix.zero_mul]

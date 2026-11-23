@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BadElt
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle021
 public import Formalism.LocalToGlobal.Divisibility.GoodPartHermitianSpec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankRangeMulLeftIdempotentGroupAlgebra
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitriSubOnePow
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle745
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle134
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

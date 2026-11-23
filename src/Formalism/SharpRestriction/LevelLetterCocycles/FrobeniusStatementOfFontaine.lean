@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ExistsGaloisExtendingAlgHom
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ExistsLiftFLeSgOfThick
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.LenQuotSpanNeTopDvr
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle010
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle008
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.LogbHBNonneg
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TowerEx
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowBesZeroE
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsOrthDec
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CmHostImaginaryGeneratorNeZero
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle574
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle138
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle313
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaIntegrandIntegrable
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AdelicUnitaryTopCong
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsCompactParahoricLevelAndContainsLifts
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle041
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
 import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -131,7 +131,7 @@ def jacobiWittDecomposition (ρ : ℕ) (h : 2 * ρ + 2 ≤ D.R.m) : HypDec (G.V 
   rescale (GlobalTheory.RowUnf.jacDec (G.colDec (2 * ρ + 1) (by omega) (by omega)) (by omega)) (fun p => (-D.host.xi0) ^ (p.1 + 1))
     fun _ => xiPow_ne D _
 
-def auxiliaryFrames : Frames G where
+def auxiliaryFrames : _root_.GlobalTheory.Asc.Frames G where
   Lz := pLine D
   rk := rfl
   oz := lineDec G.sp.dec0

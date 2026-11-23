@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CasselmanCriterion.Zj
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsTemperedCoeff
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle002
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsSideSide
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

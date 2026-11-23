@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.LintegralImageEqLintegralNormSqDetMul
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithRes
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
 public import GroundTheory.HeightsAndTheta.Heights.LocalDensities.PChartPartitionExists
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

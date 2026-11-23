@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TrivFlagMod
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.ExistsMinorNeZero
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GfCurve
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle008
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle032
 import Development.WeilBound.CoreStatements.HodgeTatePoints.GfForms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

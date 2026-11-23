@@ -2,11 +2,10 @@ module
 
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.EqVolSDOf
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.LevelIdeal
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IdealInfSmulTopOfProjective
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MemIdealSmulTopIffForallDual
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle003
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MultilinearSubMem
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PowEqOneOfIsIntegralOfMulComplexConjEqOneAlt
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RootOfUnityEqOneOfSubOneMemSpan
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle004
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.DiagMulVecTmul
 import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.InclAdInjective
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,7 +55,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.LiftFactorization
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle002
 
 @[expose] public section
 

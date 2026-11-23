@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.AmpRootCut
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AmpOrbQuot
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AmpRelAtPt
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AmpRootHaar
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AmpRootJac
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle020
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle024
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle021
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCSB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,9 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PeriodIntegrals.AmpOrbQ
-public import Formalism.PeriodIntegrals.AmpRoot
-public import Formalism.PeriodIntegrals.AmpRootH
+public import Formalism.PeriodIntegrals.Bundle027
 
 @[expose] public section
 

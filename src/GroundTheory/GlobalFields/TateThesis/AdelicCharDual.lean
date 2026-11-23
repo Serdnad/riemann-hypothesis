@@ -1,12 +1,11 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
-public import GroundTheory.GlobalFields.TateThesis.TracePairing
-public import GroundTheory.GlobalFields.Adele.IntegersLattice
-public import GroundTheory.GlobalFields.Adele.Discrete
-public import GroundTheory.GlobalFields.Adele.IdeleBasis
-public import GroundTheory.GlobalFields.TateThesis.ArchChars
-public import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+public import GroundTheory.GlobalFields.TateThesis.Bundle002
+public import GroundTheory.GlobalFields.Adele.Bundle001
+public import GroundTheory.GlobalFields.Adele.Bundle003
+public import GroundTheory.GlobalFields.Adele.Bundle002
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

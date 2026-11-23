@@ -1,7 +1,7 @@
 module
 
 public import Formalism.WindowSums.Statement
-public import Formalism.FrobeniusContraction.Statement
+public import Formalism.FrobeniusContraction.Bundle001
 public import Mathlib.RingTheory.Polynomial.Eisenstein.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

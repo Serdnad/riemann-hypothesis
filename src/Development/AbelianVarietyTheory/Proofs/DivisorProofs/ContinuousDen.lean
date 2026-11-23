@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RangeShape
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PmatIsHermitian
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PBConjTranspose
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1747
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,8 +48,8 @@ import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.KFacts
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarMirror
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KSchur
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KinstSecondCountable
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarHaarA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle004
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle010
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarInv
 import Std.Tactic.BVDecide.Normalize.Prop
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.AdKMeasurePreserving

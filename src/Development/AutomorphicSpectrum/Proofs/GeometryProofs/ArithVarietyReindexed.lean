@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PAdjoinIndepRelfinrank
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PChartScalingIndep
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsPowOfMemCellSec
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PGenFibreChartDeg
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle054
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FormalDegreeBessel.StatementIO
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

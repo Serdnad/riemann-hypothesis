@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.RangeShape
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Smooth
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AnalyticIntertwiners.SubquotientNontrivial
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactTypeInCompactStableSubmodule
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAdmissibleSubTop
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1654
 import Formalism.RealPlaceAnalysis.FinalF
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended

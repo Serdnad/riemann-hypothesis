@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsUniqueNormPrim
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ValSerGermFnVal
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsLawOfOfMatch
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

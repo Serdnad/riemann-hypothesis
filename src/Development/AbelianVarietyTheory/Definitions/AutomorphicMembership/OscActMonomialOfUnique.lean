@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousOfDense
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCoverTensorHom
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle203
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.NotTrivialAndTwist
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

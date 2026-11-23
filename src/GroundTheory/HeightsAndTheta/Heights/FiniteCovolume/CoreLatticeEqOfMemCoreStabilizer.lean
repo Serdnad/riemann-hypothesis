@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.DefiniteClassNumber.AdelicLattice
-import GroundTheory.GlobalFields.Adele.Compact
+import GroundTheory.GlobalFields.Adele.Bundle003
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended

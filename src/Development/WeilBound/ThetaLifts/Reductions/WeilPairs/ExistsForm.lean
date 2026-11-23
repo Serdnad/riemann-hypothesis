@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.SplitPlaceSiegelLawDiagonalLagrangianCharacterIm
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalMatricesDiscreteCocompactAdelicMatrixSpa
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPlaceThetaFunctionVacuumConjugatePlace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1639
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.ExistsCompactOfFinite
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.IntegralCompAddEquiv
-import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.SmulMemConjHalf
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle008
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNsmulFix
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1591
 
 @[expose] public section
 

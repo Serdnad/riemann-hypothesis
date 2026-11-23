@@ -1,8 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsEmbeddingPadicAlgClPlace
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsFrONB
-public import Formalism.LocalToGlobal.GlobalTheory.GL3.IsometryLinkageTrivialLevel
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle014
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle006
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle003
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfTrace
 import Formalism.LocalToGlobal.GlobalTheory.GL3.PSelfDual

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Uniformization.WCompat
+public import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueTorusCompat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,6 +54,12 @@ attribute [local instance] Over.cartesianMonoidalCategory
 
 noncomputable section
 namespace GlobalTheory.IndefiniteRowSideFullHecke.AlgebraLevelSetting
+
+local instance (priority := high) grpObjLevelThick {R : Type} [CommRing R] (I : Ideal R) (e : ℕ)
+    (G : Over (Spec (CommRingCat.of R))) [GrpObj G] : GrpObj (thickObj R I e G) :=
+  letI : (Over.pullback (thick R I e)).Monoidal :=
+    (Over.instBraidedPullback (f := thick R I e)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback (thick R I e))
 
 structure SymTriv {S S' : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj G] (P : CP G) {f : S' ⟶ S}
     {H : Over S'} [GrpObj H] (j : H.left ⟶ G.left) (hj : j ≫ G.hom = H.hom ≫ f) where

@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LieLatticeData
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle002
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HodgeAnnihilatorLatticeHolds
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.KernelGraphBaseChangeHolds
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChange
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeSecondGoodness
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LocallyFreeTestPointMembership
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MemOfTestIdeal
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PowSpanLocFreeBaseChange
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle017
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle052
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle022
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle046
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

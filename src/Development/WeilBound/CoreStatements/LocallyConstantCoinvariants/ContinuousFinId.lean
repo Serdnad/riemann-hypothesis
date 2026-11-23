@@ -1,9 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfFree
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdditiveCharConductorExists
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

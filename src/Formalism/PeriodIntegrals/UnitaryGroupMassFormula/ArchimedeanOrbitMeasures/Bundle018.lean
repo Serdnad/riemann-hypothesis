@@ -1,0 +1,253 @@
+module
+
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle013
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushInv
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushLF
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle015
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.T2SpaceTensorProductFiniteExtension
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MassComputations.ProdFirstProjectionSmul
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.HformEntry
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.StLamOf
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.Bundle014
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianDiagonalization.ExistsOrthogonalFamily
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.Bundle005
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PI.AprimeInfW
+
+open MeasureTheory Topology Filter Formalism.BasicNotions Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.SG.Sub
+  Formalism.L2.SG.TypedSets Formalism.L2.SG.Pf.NcReal
+open scoped TensorProduct
+
+theorem rmulFacts_holds : RmulFacts := by
+  intro D X
+  haveI : FiniteDimensional X.B.I.F X.B.I.E := fd_of X
+  haveI : BorelSpace (TupI X) :=
+    PI.AprimeInfT.borelSpace_tup (F := X.B.I.F) (E := X.B.I.E) (Ainf X.B.I.F) (D.R.rS + 1 + D.R.rS)
+  have hcont : ∀ a : MfI X, Continuous (rmulT X a) := by
+    intro a
+    unfold rmulT
+    refine continuous_pi fun b => continuous_pi fun i => ?_
+    exact continuous_finsetSum _ fun c _ => continuous_const.mul ((continuous_apply i).comp (continuous_apply c))
+  refine ⟨fun a => (hcont a).measurable, ?_, ?_, ?_, ?_, ?_, fun K hK => hK.isClosed.measurableSet, hcont⟩
+  · intro a b Y
+    funext b' i
+    simp only [rmulT, Matrix.mul_apply, Finset.mul_sum, Finset.sum_mul]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
+    ring
+  · intro g a Y
+    funext b i
+    show ((HA.mat (Ainf X.B.I.F) X.B.I.cm.sig X.B.I.J g : GL _ _) : Matrix _ _ _).mulVec (rmulT X a Y b) i =
+      ∑ c, a c b * ((HA.mat (Ainf X.B.I.F) X.B.I.cm.sig X.B.I.J g : GL _ _) : Matrix _ _ _).mulVec (Y c) i
+    simp only [rmulT, Matrix.mulVec, dotProduct, Finset.mul_sum]
+    rw [Finset.sum_comm]
+    refine Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun d _ => ?_
+    ring
+  · intro a Y
+    exact sq_gramR_rmul (Ainf X.B.I.F) X.B.I.cm.sig X.B.I.J a Y
+  · intro a b
+    simp only [cTI, Matrix.map_mul, Matrix.transpose_mul]
+  · simp only [cTI, Matrix.map_one _ (map_zero _) (map_one _), Matrix.transpose_one]
+
+end PI.AprimeInfW
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.AprimeInfWitt
+
+open Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes NumberField Matrix Formalism.UG PI.VolStabSW.OrbR
+open scoped TensorProduct
+
+theorem witt_R {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+    (σ : E →ₐ[F] E) (h2 : Module.finrank F E = 2) (hfix : ∀ a : E, σ a = a ↔ a ∈ (algebraMap F E).range)
+    (hinv : ∀ x, σ (σ x) = x) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (hJ : IsHermND σ J) {a : ℕ}
+    (X0 : Fin a → Fin M → E) (hT : ∀ i j, σ (gramE σ J X0 j i) = gramE σ J X0 i j)
+    (hdet : (gramE σ J X0).det ≠ 0) (R : Type) [CommRing R] [Algebra F R]
+    (hU : PIW.AdelicOrbitU.UnitChoice R) (y : Fin a → Fin M → R ⊗[F] E)
+    (hy : gramR R σ J y = (gramE σ J X0).map (inclR R)) :
+    ∃ g : HA R σ J, g • ratTup (F := F) R X0 = y := by
+  set T := gramE σ J X0 with hTdef
+  let sE : E →+* E := σ
+  have hTH : IsHerm sE T := by
+    ext i j; exact hT i j
+  have hh : PI.UnitaryGroupMassFormula.HermConj.IsHermForm sE (_root_.Formalism.UG.hform sE T) :=
+    { add := fun x y z => by
+        rw [PIW.AdelicOrbitU.hform_eq_dot, PIW.AdelicOrbitU.hform_eq_dot,
+          PIW.AdelicOrbitU.hform_eq_dot, mulVec_add, dotProduct_add]
+      smul := fun x c y => PIW.AdelicOrbitU.hform_smul_right sE T c x y
+      herm := fun x y => (PIW.AdelicOrbitU.hform_conj sE T hinv hTH x y).symm }
+  obtain ⟨v, hvli, hvo⟩ := PI.UnitaryGroupMassFormula.HermConj.exists_orthogonal_family sE a (Fin a → E)
+    (by simp) (_root_.Formalism.UG.hform sE T) hh
+  set P : Matrix (Fin a) (Fin a) E := tM v with hP
+  have hPu : IsUnit P.det := by
+    have h1 : IsUnit (Matrix.of v) := Matrix.linearIndependent_rows_iff_isUnit.mp hvli
+    have h2 : P = (Matrix.of v)ᵀ := rfl
+    rw [h2, det_transpose]
+    exact (Matrix.isUnit_iff_isUnit_det _).mp h1
+  set D := _root_.Formalism.UG.cT sE P * T * P with hD
+  have hDv : ∀ j k, _root_.Formalism.UG.hform sE T (v j) (v k) = D j k := fun j k => gram_tM sE T v j k
+  have hDoff : ∀ j k, j ≠ k → D j k = 0 := fun j k hjk => by rw [← hDv]; exact hvo j k hjk
+  have hDdiag : D = Matrix.diagonal fun j => D j j := by
+    ext j k
+    by_cases hjk : j = k
+    · subst hjk; simp
+    · rw [hDoff j k hjk, Matrix.diagonal_apply_ne _ hjk]
+  have hDdet : D.det ≠ 0 := by
+    have hc : (_root_.Formalism.UG.cT sE P).det = sE P.det := by
+      rw [_root_.Formalism.UG.cT, det_transpose, RingHom.map_det]; rfl
+    rw [hD, det_mul, det_mul, hc]
+    refine mul_ne_zero (mul_ne_zero ?_ hdet) hPu.ne_zero
+    exact (map_ne_zero sE).mpr hPu.ne_zero
+  have hDne : ∀ j, D j j ≠ 0 := by
+    intro j
+    rw [hDdiag, det_diagonal] at hDdet
+    exact Finset.prod_ne_zero_iff.mp hDdet j (Finset.mem_univ j)
+  have hDfix : ∀ j, σ (D j j) = D j j := fun j => by
+    rw [← hDv]; exact PIW.AdelicOrbitU.hform_conj sE T hinv hTH _ _
+
+  let sS := _root_.Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR R σ
+  let JS := JR (F := F) R J
+  have hsS : ∀ z, sS (sS z) = z := (PIW.AdelicOrbitU.stFix F E σ h2 hfix R).1
+  have hJS : IsHerm sS JS := PIW.AdelicOrbitU.isHerm_JR R σ J hJ.1
+  have hJSd : IsUnit JS.det := PIW.AdelicOrbitU.isUnit_det_JR (F := F) R J hJ.2
+  have hcTmap : ∀ {p q : ℕ} (N : Matrix (Fin p) (Fin q) E),
+      _root_.Formalism.UG.cT sS (N.map (inclR (F := F) R)) = (_root_.Formalism.UG.cT sE N).map (inclR (F := F) R) := by
+    intro p q N; ext i j
+    simp only [_root_.Formalism.UG.cT, Matrix.map_apply, Matrix.transpose_apply]
+    exact PIW.AdelicOrbitU.sigR_inclR (F := F) R σ _
+  set Xm : Matrix (Fin M) (Fin a) (R ⊗[F] E) := (tM X0).map (inclR (F := F) R) with hXm
+  set Pm : Matrix (Fin a) (Fin a) (R ⊗[F] E) := P.map (inclR (F := F) R) with hPm
+  have hTg : _root_.Formalism.UG.cT sE (tM X0) * J * tM X0 = T := by
+    ext i j; rw [← gram_tM]; rfl
+  have hyg : _root_.Formalism.UG.cT sS (tM y) * JS * tM y = T.map (inclR (F := F) R) := by
+    ext i j; rw [← gram_tM]; exact congrFun (congrFun hy i) j
+  let x' : Fin a → Fin M → R ⊗[F] E := fun j r => (Xm * Pm) r j
+  let y' : Fin a → Fin M → R ⊗[F] E := fun j r => (tM y * Pm) r j
+  have hGx : ∀ j k, _root_.Formalism.UG.hform sS JS (x' j) (x' k) = inclR (F := F) R (D j k) := by
+    intro j k
+    rw [gram_tM]
+    have e : tM x' = Xm * Pm := rfl
+    rw [e, gram_mul, hXm, hPm, hcTmap, hcTmap]
+    show ((_root_.Formalism.UG.cT sE P).map (inclR (F := F) R) * ((_root_.Formalism.UG.cT sE (tM X0)).map (inclR (F := F) R) * J.map (inclR (F := F) R) *
+      (tM X0).map (inclR (F := F) R)) * P.map (inclR (F := F) R)) j k = _
+    rw [← Matrix.map_mul, ← Matrix.map_mul, ← Matrix.map_mul, ← Matrix.map_mul, hTg]
+    rfl
+  have hGy : ∀ j k, _root_.Formalism.UG.hform sS JS (y' j) (y' k) = inclR (F := F) R (D j k) := by
+    intro j k
+    rw [gram_tM]
+    have e : tM y' = tM y * Pm := rfl
+    rw [e, gram_mul, hyg, hPm, hcTmap, ← Matrix.map_mul, ← Matrix.map_mul]
+    rfl
+  obtain ⟨g, hgU, hgx⟩ := orb_orth sS JS hsS hJS hJSd a x' y'
+    (fun j k hjk => by rw [hGx, hDoff j k hjk, map_zero])
+    (fun j k => by rw [hGx, hGy])
+    (fun j => by rw [hGx]; exact (isUnit_iff_ne_zero.mpr (hDne j)).map _)
+    (fun j t => by
+      obtain ⟨β, hβ⟩ := (hfix _).mp (hDfix j)
+      have hβ0 : β ≠ 0 := by
+        rintro rfl; exact hDne j (by rw [← hβ, map_zero])
+      obtain ⟨lam, hlam, hu⟩ := PIW.AdelicOrbitU.stLam F E σ h2 hfix R hU t β hβ0
+      refine ⟨lam, hlam, ?_⟩
+      rw [hGx, ← hβ, PIW.AdelicOrbitU.inclR_algebraMap]
+      exact hu)
+  have hmat : (g : Matrix (Fin M) (Fin M) (R ⊗[F] E)) * Xm * Pm = tM y * Pm := by
+    ext r j
+    rw [Matrix.mul_assoc]
+    have := congrFun (hgx j) r
+    simpa [x', y', Matrix.mul_apply, mulVec, dotProduct] using this
+  have hPmu : IsUnit Pm.det := by
+    show IsUnit ((inclR (F := F) R).mapMatrix P).det
+    rw [← RingHom.map_det]; exact hPu.map _
+  have hmat2 : (g : Matrix (Fin M) (Fin M) (R ⊗[F] E)) * Xm = tM y := by
+    have := congrArg (fun N => N * Pm⁻¹) hmat
+    simpa only [Matrix.mul_nonsing_inv_cancel_right _ _ hPmu] using this
+  refine ⟨(⟨g, hgU⟩ : HR R σ J), ?_⟩
+  funext i
+  funext r
+  show ((g : Matrix (Fin M) (Fin M) (R ⊗[F] E)) *ᵥ ratTup (F := F) R X0 i) r = y i r
+  have := congrFun (congrFun hmat2 r) i
+  simpa [Xm, tM, ratTup, Matrix.mul_apply, mulVec, dotProduct] using this
+
+end PI.AprimeInfWitt
+
+namespace PI.AprimeInfW
+
+open MeasureTheory Formalism.BasicNotions Formalism.L2.SG.HidaSetting Formalism.L2.SG.RealObj Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.SG.Sub
+  Formalism.L2.SG.TypedSets Formalism.L2.SG.Pf.NcReal
+open scoped TensorProduct
+
+theorem wittInf_holds : WittInf := by
+  intro D X u' ψ hT μinf νinf fibInf hP y hy
+  have h2 : Module.finrank X.B.I.F X.B.I.E = 2 := X.B.I.cm.deg2
+  have hfix : ∀ a : X.B.I.E, X.B.I.cm.sig a = a ↔ a ∈ (algebraMap X.B.I.F X.B.I.E).range :=
+    fun a => X.B.I.cm.fixed a
+  have hinv : ∀ x, X.B.I.cm.sig (X.B.I.cm.sig x) = x := fun x => star_star x
+  have hJ : IsHermND X.B.I.cm.sig X.B.I.J := by
+    refine ⟨fun i j => ?_, X.B.I.J_det⟩
+    have := congrFun (congrFun X.B.I.J_herm i) j
+    simp only [Formalism.UG.cT, Matrix.transpose_apply, Matrix.map_apply] at this
+    exact this
+  have hdet := detNZ_holds X u' ψ hT μinf νinf fibInf hP
+  have hU : PIW.AdelicOrbitU.UnitChoice (Ainf X.B.I.F) :=
+    PIW.AdelicOrbitU.uc_pi (fun v : NumberField.InfinitePlace X.B.I.F => v.Completion)
+  have hyG : gramR (Ainf X.B.I.F) X.B.I.cm.sig X.B.I.J y =
+      (gramE X.B.I.cm.sig X.B.I.J (tupH (frameOf X u'))).map (inclR (Ainf X.B.I.F)) :=
+    Set.mem_singleton_iff.1 (Set.mem_preimage.1 hy.1)
+  obtain ⟨g, hg⟩ := PI.AprimeInfWitt.witt_R X.B.I.cm.sig h2 hfix hinv X.B.I.J hJ (tupH (frameOf X u')) hT hdet
+    (Ainf X.B.I.F) hU y hyG
+  exact ⟨g, hg⟩
+
+end PI.AprimeInfW
+end
+end

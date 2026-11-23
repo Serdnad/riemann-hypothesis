@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.CoefficientMapHeightBound
+public import Formalism.LocalToGlobal.Columns.Bundle008
 import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 import Formalism.TameInertiaTowers.CentralOrderTwo.OrderOfThreeUnitsTwoPow
-public import Formalism.TameInertiaTowers.StatementGroup
+public import Formalism.TameInertiaTowers.Bundle001
 public import Mathlib.NumberTheory.LegendreSymbol.ZModChar
 public import Mathlib.RingTheory.IntegralDomain
 import Mathlib.Algebra.Order.Floor.Extended

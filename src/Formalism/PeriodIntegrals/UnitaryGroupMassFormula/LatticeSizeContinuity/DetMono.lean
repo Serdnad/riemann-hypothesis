@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeSizeContinuity.LatSizeContOfSteps
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.HermDefON
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

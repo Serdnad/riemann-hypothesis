@@ -1,22 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.IndexExponentDegree
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralDensEqZero
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AbsNormEqOfSplit
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CrdSurjective
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle098
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle138
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsLocalIdele
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsNatMulIntegral
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsSdLatTwOExpS
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsTransvSurjInv
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LatSumReindexOfLeSup
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PerOComponents
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexEqProdLocP
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RelIndexLocPNeZero
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SignedLiftWEq
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SmulMemLocPPerO
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle096
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle105
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle100
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitOfConjPNe
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnderEqIffMapLe
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle053
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.XiIndEqInter
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -74,7 +72,7 @@ noncomputable section
 
 namespace GlobalTheory.ThetaMove
 
-open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV Formalism.L2.Col Formalism.L2.Ker Formalism.MainNotions Formalism.L2.Th1.H GlobalTheory.IndefiniteRowSideFullHecke.IndexExponentDegree
+open Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.L2.DIV _root_.Formalism.L2.Col Formalism.L2.Ker Formalism.MainNotions Formalism.L2.Th1.H GlobalTheory.IndefiniteRowSideFullHecke.IndexExponentDegree
 
 section Lattices
 

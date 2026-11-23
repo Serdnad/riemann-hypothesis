@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StTransverseSliceGeneral
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle064
 public import Mathlib.Algebra.MvPolynomial.PDeriv
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsExpansion
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.JacMinorC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

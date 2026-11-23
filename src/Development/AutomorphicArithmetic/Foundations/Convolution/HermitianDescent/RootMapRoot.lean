@@ -1,11 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.NormAlmostAll
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.ConjSep
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.GalBase
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.GalExt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.NormProd
-public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.RepNmSucc
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.HermitianDescent.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

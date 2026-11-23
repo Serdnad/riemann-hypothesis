@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.PrimeToDifferent
-public import Formalism.HermitianCurvature.StatementL
+public import Formalism.HermitianCurvature.Bundle002
+public import Formalism.HermitianCurvature.Bundle001
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DualIdealInclusion
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle004
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

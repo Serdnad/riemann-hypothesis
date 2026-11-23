@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.ContentLargeFromSupplies
-public import Formalism.LocalToGlobal.CharacterGerms.ContentZeroAt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle021
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle005
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffIterateZero
 import Mathlib.Algebra.Order.Floor.Extended

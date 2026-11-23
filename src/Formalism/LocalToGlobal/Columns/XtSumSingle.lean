@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.XtPhiTopGCongr
+public import Formalism.LocalToGlobal.Columns.Bundle024
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.MemGoodPrimesOfNoExceptional
 import Mathlib.Algebra.Order.Floor.Extended

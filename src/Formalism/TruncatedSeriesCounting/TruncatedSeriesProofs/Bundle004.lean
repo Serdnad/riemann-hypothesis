@@ -1,0 +1,364 @@
+module
+
+public import Formalism.TruncatedSeriesCounting.Bundle002
+public import Formalism.WindowSums.AnnihilatorPolynomials.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Int
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.TruncatedSeriesCounting.RamifiedCoefficientChains
+
+open Finset
+
+private lemma sum_erase_union_le (f : ℤ → ℕ) (A B : Finset ℤ) :
+    (∑ j ∈ (A ∪ B).erase 0, f j) ≤ (∑ j ∈ A.erase 0, f j) + ∑ j ∈ B.erase 0, f j := by
+  classical
+  rw [Finset.erase_union_distrib]
+  have h := Finset.sum_union_inter (s₁ := A.erase 0) (s₂ := B.erase 0) (f := f)
+  first
+  | omega
+  | (rw [← h]; exact Nat.le_add_right _ _)
+
+private lemma sum_Icc_padicValNat_add_factorial_eq (ℓ : ℕ) [Fact ℓ.Prime] (m L : ℕ) :
+    (∑ n ∈ Finset.Icc (m + 1) (m + L), padicValNat ℓ n) + padicValNat ℓ m.factorial =
+      padicValNat ℓ (m + L).factorial := by
+  induction L with
+  | zero =>
+    simp only [add_zero]
+    rw [Finset.Icc_eq_empty (by omega)]
+    simp
+  | succ L ih =>
+    rw [show m + (L + 1) = m + L + 1 by omega, Finset.sum_Icc_succ_top (by omega), Nat.factorial_succ,
+      (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) (by omega) (Nat.factorial_ne_zero _), ← ih]
+    omega
+
+private lemma sub_one_mul_padicValNat_factorial_le' (ℓ : ℕ) [Fact ℓ.Prime] (N : ℕ) :
+    (ℓ - 1) * padicValNat ℓ N.factorial ≤ N := by
+  rw [Nat.padicValNat_def, (Fact.out : ℓ.Prime).sub_one_mul_multiplicity_factorial]
+  omega
+
+private lemma padicValNat_factorial_add_le_add_log (ℓ : ℕ) [Fact ℓ.Prime] (m L : ℕ) :
+    padicValNat ℓ (m + L).factorial ≤
+      padicValNat ℓ m.factorial + padicValNat ℓ L.factorial + Nat.log ℓ (m + L) := by
+  have h := Nat.add_choose_mul_factorial_mul_factorial m L
+  have hc : (m + L).choose L ≠ 0 := (Nat.choose_pos (by omega)).ne'
+  have hlog : padicValNat ℓ ((m + L).choose L) ≤ Nat.log ℓ (m + L) := by
+    rw [Nat.padicValNat_def, ← Nat.factorization_def _ (Fact.out : ℓ.Prime)]
+    exact Nat.factorization_choose_le_log
+  rw [← h, (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) (by positivity) (Nat.factorial_ne_zero _),
+    (show ∀ {p a b : ℕ} [_root_.Fact (_root_.Nat.Prime p)], a ≠ 0 → b ≠ 0 → _root_.padicValNat p (a * b) = _root_.padicValNat p a + _root_.padicValNat p b from by simpa only [← _root_.Nat.padicValNat_def] using @_root_.Nat.multiplicity_mul) hc (Nat.factorial_ne_zero _)]
+  omega
+
+private lemma sum_Icc_one_padicValNat_eq_factorial (ℓ : ℕ) [Fact ℓ.Prime] (L : ℕ) :
+    (∑ n ∈ Finset.Icc 1 L, padicValNat ℓ n) = padicValNat ℓ L.factorial := by
+  have h := sum_Icc_padicValNat_add_factorial_eq ℓ 0 L
+  simpa [Nat.padicValNat_def] using h
+
+theorem first_sigma_valuation_bound : TwoIntervalValuationSumBound := by
+  intro ℓ _ h η S b a hab hbS
+  have hℓ : ℓ.Prime := Fact.out
+  have hℓ2 : 2 ≤ ℓ := hℓ.two_le
+  have step1 := sum_erase_union_le (padicValInt ℓ) (Finset.Icc (1 - (η : ℤ)) ((η : ℤ) + a))
+    (Finset.Icc (1 - ((b + S : ℕ) : ℤ)) ((a : ℤ) - b))
+  have hI1 : (∑ j ∈ (Finset.Icc (1 - (η : ℤ)) ((η : ℤ) + a)).erase 0, padicValInt ℓ j) ≤
+      padicValNat ℓ (η - 1).factorial + padicValNat ℓ (η + a).factorial := by
+    have hsub : (Finset.Icc (1 - (η : ℤ)) ((η : ℤ) + a)).erase 0 ⊆
+        Finset.Icc (1 - (η : ℤ)) (-1) ∪ Finset.Icc 1 ((η : ℤ) + a) := by
+      intro j hj
+      simp only [Finset.mem_erase, Finset.mem_Icc, Finset.mem_union] at hj ⊢
+      omega
+    have hdisj : Disjoint (Finset.Icc (1 - (η : ℤ)) (-1)) (Finset.Icc 1 ((η : ℤ) + a)) := by
+      rw [Finset.disjoint_left]
+      intro j h1 h2
+      simp only [Finset.mem_Icc] at h1 h2
+      omega
+    have hneg : (∑ j ∈ Finset.Icc (1 - (η : ℤ)) (-1), padicValInt ℓ j) =
+        ∑ n ∈ Finset.Icc 1 (η - 1), padicValNat ℓ n := by
+      apply Finset.sum_nbij' (fun j : ℤ => ((-j).toNat : ℕ)) (fun n : ℕ => -(n : ℤ))
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj ⊢
+        omega
+      · intro n hn
+        simp only [Finset.mem_Icc] at hn ⊢
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        omega
+      · intro n hn
+        try dsimp only
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        rw [padicValInt, Nat.padicValNat_def]
+        congr 1
+        omega
+    have hpos : (∑ j ∈ Finset.Icc 1 ((η : ℤ) + a), padicValInt ℓ j) =
+        ∑ n ∈ Finset.Icc 1 (η + a), padicValNat ℓ n := by
+      apply Finset.sum_nbij' (fun j : ℤ => (j.toNat : ℕ)) (fun n : ℕ => (n : ℤ))
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj ⊢
+        omega
+      · intro n hn
+        simp only [Finset.mem_Icc] at hn ⊢
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        omega
+      · intro n hn
+        try dsimp only
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        rw [padicValInt, Nat.padicValNat_def]
+        congr 1
+        omega
+    calc _ ≤ ∑ j ∈ Finset.Icc (1 - (η : ℤ)) (-1) ∪ Finset.Icc 1 ((η : ℤ) + a), padicValInt ℓ j :=
+          Finset.sum_le_sum_of_subset hsub
+      _ = _ := by rw [Finset.sum_union hdisj, hneg, hpos, sum_Icc_one_padicValNat_eq_factorial, sum_Icc_one_padicValNat_eq_factorial]
+  have hI2 : (∑ j ∈ (Finset.Icc (1 - ((b + S : ℕ) : ℤ)) ((a : ℤ) - b)).erase 0, padicValInt ℓ j) ≤
+      padicValNat ℓ (a + S).factorial + Nat.log ℓ (b - a - 1 + (a + S)) := by
+    have heq : (∑ j ∈ Finset.Icc (1 - ((b + S : ℕ) : ℤ)) ((a : ℤ) - b), padicValInt ℓ j) =
+        ∑ n ∈ Finset.Icc (b - a - 1 + 1) (b - a - 1 + (a + S)), padicValNat ℓ n := by
+      apply Finset.sum_nbij' (fun j : ℤ => ((-j).toNat : ℕ)) (fun n : ℕ => -(n : ℤ))
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj ⊢
+        omega
+      · intro n hn
+        simp only [Finset.mem_Icc] at hn ⊢
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        omega
+      · intro n hn
+        try dsimp only
+        omega
+      · intro j hj
+        simp only [Finset.mem_Icc] at hj
+        try dsimp only
+        rw [padicValInt, Nat.padicValNat_def]
+        congr 1
+        omega
+    have h1 := sum_Icc_padicValNat_add_factorial_eq ℓ (b - a - 1) (a + S)
+    have h2 := padicValNat_factorial_add_le_add_log ℓ (b - a - 1) (a + S)
+    calc _ ≤ ∑ j ∈ Finset.Icc (1 - ((b + S : ℕ) : ℤ)) ((a : ℤ) - b), padicValInt ℓ j :=
+          Finset.sum_le_sum_of_subset (Finset.erase_subset _ _)
+      _ = _ := heq
+      _ ≤ _ := by omega
+  have tot : (∑ j ∈ (Finset.Icc (1 - (η : ℤ)) ((η : ℤ) + a) ∪
+        Finset.Icc (1 - ((b + S : ℕ) : ℤ)) ((a : ℤ) - b)).erase 0, padicValInt ℓ j) ≤
+      padicValNat ℓ (η - 1).factorial + padicValNat ℓ (η + a).factorial +
+        padicValNat ℓ (a + S).factorial + Nat.log ℓ (b - a - 1 + (a + S)) := by
+    omega
+  have hℓR : (1 : ℝ) < ℓ := by exact_mod_cast (show 1 < ℓ by omega)
+  have hpos : (0 : ℝ) < (ℓ : ℝ) - 1 := by linarith
+  have hsubℓ : ((ℓ - 1 : ℕ) : ℝ) = (ℓ : ℝ) - 1 := by
+    rw [Nat.cast_sub (by omega)]
+    simp
+  have r : ∀ N : ℕ, ((ℓ : ℝ) - 1) * (padicValNat ℓ N.factorial : ℝ) ≤ (N : ℝ) := by
+    intro N
+    have c := sub_one_mul_padicValNat_factorial_le' ℓ N
+    have c' : ((ℓ - 1 : ℕ) : ℝ) * (padicValNat ℓ N.factorial : ℝ) ≤ (N : ℝ) := by exact_mod_cast c
+    rwa [hsubℓ] at c'
+  have hsum : (padicValNat ℓ (η - 1).factorial : ℝ) + (padicValNat ℓ (η + a).factorial : ℝ) +
+      (padicValNat ℓ (a + S).factorial : ℝ) ≤ (2 * (a : ℝ) + 2 * (η : ℝ) + (S : ℝ)) / ((ℓ : ℝ) - 1) := by
+    rw [le_div_iff₀ hpos]
+    have e1 := r (η - 1)
+    have e2 := r (η + a)
+    have e3 := r (a + S)
+    have e4 : ((η - 1 : ℕ) : ℝ) ≤ (η : ℝ) := by exact_mod_cast Nat.sub_le η 1
+    push_cast at e2 e3
+    nlinarith [e1, e2, e3, e4]
+  have hlam0 : 0 ≤ lam ℓ (h + η) := by
+    unfold lam
+    by_cases h0 : h + η = 0
+    · rw [h0]
+      simp
+    · have h1 : (1 : ℝ) ≤ ((h + η : ℕ) : ℝ) := by exact_mod_cast Nat.one_le_iff_ne_zero.mpr h0
+      have h2 : (1 : ℝ) ≤ 2 * ((h + η : ℕ) : ℝ) := by linarith
+      have := Real.logb_nonneg hℓR h2
+      linarith
+  have hk : ((Nat.log ℓ (b - a - 1 + (a + S)) : ℕ) : ℝ) ≤ lam ℓ (h + η) := by
+    by_cases hN : b - a - 1 + (a + S) = 0
+    · rw [hN, Nat.log_zero_right]
+      simpa using hlam0
+    · have hpow : ℓ ^ Nat.log ℓ (b - a - 1 + (a + S)) ≤ b - a - 1 + (a + S) :=
+        Nat.pow_log_le_self ℓ hN
+      have hNh : b - a - 1 + (a + S) ≤ 2 * (h + η) := by omega
+      have hNpos : (0 : ℝ) < ((b - a - 1 + (a + S) : ℕ) : ℝ) := by
+        exact_mod_cast Nat.pos_of_ne_zero hN
+      have h1 : ((Nat.log ℓ (b - a - 1 + (a + S)) : ℕ) : ℝ) ≤
+          Real.logb ℓ ((b - a - 1 + (a + S) : ℕ) : ℝ) := by
+        rw [Real.le_logb_iff_rpow_le hℓR hNpos, Real.rpow_natCast]
+        exact_mod_cast hpow
+      have h2 : Real.logb ℓ ((b - a - 1 + (a + S) : ℕ) : ℝ) ≤
+          Real.logb ℓ (2 * ((h + η : ℕ) : ℝ)) := by
+        apply Real.logb_le_logb_of_le hℓR hNpos
+        exact_mod_cast hNh
+      unfold lam
+      linarith
+  refine le_trans (Nat.cast_le.mpr tot) ?_
+  push_cast
+  linarith
+
+end Formalism.TruncatedSeriesCounting.RamifiedCoefficientChains
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.TruncatedSeriesCounting.RamifiedCoefficientChains
+
+open PowerSeries
+
+theorem ramified_valuation_inequality : RamifiedValuationInequality := by
+  intro O _ _ _ ℓ hℓ ϖ e hϖ he hass ε u hε hu b y t hb hby hmem
+  have hℓpos : 0 < ℓ := hℓ.out.pos
+  obtain ⟨v₀, hv₀⟩ := hass
+
+  have hℓnu : ¬ IsUnit (ℓ : O) := by
+    intro h
+    have h1 : IsUnit (ϖ ^ e) := by rw [← hv₀]; exact h.mul v₀.isUnit
+    exact hϖ.not_isUnit ((isUnit_pow_iff (by omega)).mp h1)
+
+  have hpow : ∀ k : ℕ, (ℓ : O) ^ k = ((v₀⁻¹ : Oˣ) : O) ^ k * ϖ ^ (e * k) := by
+    intro k
+    have : (ℓ : O) = ((v₀⁻¹ : Oˣ) : O) * ϖ ^ e := by
+      rw [← hv₀, mul_comm (ℓ : O), ← mul_assoc, Units.inv_mul, one_mul]
+    rw [this, mul_pow, ← pow_mul]
+
+  set i₀ := (b - 1) / ℓ with hi₀def
+  have h1 : ℓ * i₀ ≤ b - 1 := Nat.mul_div_le (b - 1) ℓ
+  have h2 : b - 1 < ℓ * (i₀ + 1) := Nat.lt_mul_div_succ (b - 1) hℓpos
+  have hi₀b : ℓ * i₀ < b := by omega
+  have hbi : b ≤ ℓ * (i₀ + 1) := by omega
+  have hyb : b ≤ ℓ * y := by
+    have : (b : ℝ) ≤ (ℓ : ℝ) * (y : ℝ) := by
+      rw [div_le_iff₀ (by exact_mod_cast hℓpos)] at hby; linarith
+    exact_mod_cast this
+  have hi₀y : i₀ < y := Nat.lt_of_mul_lt_mul_left (lt_of_lt_of_le hi₀b hyb)
+
+  let vv : ℕ → ℕ := fun i => (y.choose i).factorization ℓ
+  let mm : ℕ → ℕ := fun i => ordCompl[ℓ] (y.choose i)
+  have hmmU : ∀ i ∈ Finset.range (y + 1), IsUnit ((mm i : ℕ) : O) := by
+    intro i hi
+    have hle : i ≤ y := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
+    have hcop : Nat.Coprime ℓ (mm i) := Nat.coprime_ordCompl hℓ.out (Nat.choose_pos hle).ne'
+    have hic : IsCoprime (ℓ : ℤ) (mm i : ℤ) := Nat.isCoprime_iff_coprime.2 hcop
+    obtain ⟨a, c, hac⟩ := hic
+    have hac' : (a : O) * ℓ + (c : O) * (mm i : O) = 1 := by
+      have := congrArg (Int.cast : ℤ → O) hac
+      push_cast at this
+      exact this
+    have : IsUnit ((a : O) * ℓ + (c : O) * (mm i : O)) := by rw [hac']; exact isUnit_one
+    rcases IsLocalRing.isUnit_or_isUnit_of_isUnit_add this with h | h
+    · exact absurd (isUnit_of_mul_isUnit_right h) hℓnu
+    · exact isUnit_of_mul_isUnit_right h
+  let mexp : ℕ → ℕ := fun i => vv i + (y - i)
+  let w : ℕ → PowerSeries O := fun i =>
+    C ((mm i : ℕ) : O) * ε ^ (y - i) * u ^ i * C (((v₀⁻¹ : Oˣ) : O) ^ mexp i)
+  let ee : ℕ → ℕ := fun i => ℓ * i
+  let ms : ℕ → ℕ := fun i => e * mexp i
+  have hsum : (Formalism.WindowSums.p1 ℓ ε u) ^ y =
+      ∑ i ∈ Finset.range (y + 1), w i * X ^ ee i * C (ϖ ^ ms i) := by
+    unfold Formalism.WindowSums.p1
+    rw [add_comm, add_pow]
+    refine Finset.sum_congr rfl (fun i hi => ?_)
+    have hn : ((y.choose i : ℕ) : PowerSeries O) = C (ℓ : O) ^ vv i * C ((mm i : ℕ) : O) := by
+      conv_lhs => rw [← Nat.ordProj_mul_ordCompl_eq_self (y.choose i) ℓ]
+      rw [Nat.cast_mul, Nat.cast_pow, ← map_natCast (C (R := O)) ℓ,
+        ← map_natCast (C (R := O)) (mm i)]
+    have hC : C (ℓ : O) ^ vv i * C (ℓ : O) ^ (y - i) =
+        C (((v₀⁻¹ : Oˣ) : O) ^ mexp i) * C (ϖ ^ ms i) := by
+      rw [← pow_add, ← map_pow, ← map_mul, ← hpow]
+    have : (u * X ^ ℓ) ^ i * (C (ℓ : O) * ε) ^ (y - i) * ((y.choose i : ℕ) : PowerSeries O)
+        = (C (ℓ : O) ^ vv i * C (ℓ : O) ^ (y - i)) * (C ((mm i : ℕ) : O) * ε ^ (y - i) * u ^ i)
+          * X ^ (ℓ * i) := by
+      rw [hn, mul_pow, mul_pow, ← pow_mul]; ring
+    rw [this, hC]
+    simp only [w, ee]
+    ring
+  have hw : ∀ i ∈ Finset.range (y + 1), IsUnit (w i) := fun i hi =>
+    ((((hmmU i hi).map C).mul (hε.pow _)).mul (hu.pow _)).mul
+      (((v₀⁻¹).isUnit.pow _).map C)
+  have hinj : Set.InjOn ee (Finset.range (y + 1) : Set ℕ) := fun a _ c _ h =>
+    Nat.eq_of_mul_eq_mul_left hℓpos h
+  have hmem' : (∑ i ∈ Finset.range (y + 1), w i * X ^ ee i * C (ϖ ^ ms i)) ∈
+      Ideal.span {(X : PowerSeries O) ^ b, C (ϖ ^ t)} := by
+    rw [← hsum, Set.pair_comm]; exact hmem
+  have hterm := (Formalism.WindowSums.mem_span_iff_of_distinct_exponents O ϖ hϖ.ne_zero hϖ.not_isUnit (Finset.range (y + 1))
+    w ee ms b t hw hinj).1 hmem' i₀ (Finset.mem_range.2 (by omega))
+  have htm : t ≤ e * (vv i₀ + (y - i₀)) := by
+    rcases hterm with h | h
+    · exact absurd h (by simp only [ee]; omega)
+    · exact h
+  have hv : vv i₀ ≤ Nat.log ℓ y := Nat.factorization_choose_le_log
+  have hlog : ((Nat.log ℓ y : ℕ) : ℝ) ≤ Real.logb ℓ y := Real.natLog_le_logb y ℓ
+  have hbl : (b : ℝ) / (ℓ : ℝ) ≤ (i₀ : ℝ) + 1 := by
+    rw [div_le_iff₀ (by exact_mod_cast hℓpos)]
+    exact_mod_cast (by linarith [hbi] : b ≤ (i₀ + 1) * ℓ)
+  have hepos : (0 : ℝ) < (e : ℝ) := by exact_mod_cast (by omega : 0 < e)
+  have hte : (t : ℝ) / (e : ℝ) ≤ ((vv i₀ + (y - i₀) : ℕ) : ℝ) := by
+    rw [div_le_iff₀ hepos]
+    have : (t : ℝ) ≤ ((e * (vv i₀ + (y - i₀)) : ℕ) : ℝ) := by exact_mod_cast htm
+    rw [Nat.cast_mul] at this
+    linarith
+  rw [Nat.cast_add, Nat.cast_sub hi₀y.le] at hte
+  have hvR : (vv i₀ : ℝ) ≤ (Nat.log ℓ y : ℝ) := by exact_mod_cast hv
+  linarith
+
+end Formalism.TruncatedSeriesCounting.RamifiedCoefficientChains
+end
+end

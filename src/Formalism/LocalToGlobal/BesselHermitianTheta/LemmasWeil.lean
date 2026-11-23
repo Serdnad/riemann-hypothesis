@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSplitSupportedUnitaryComponent
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle140
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

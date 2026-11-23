@@ -1,13 +1,13 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.ExistsUniqueStatement
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsBridge
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsDivSupport
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsVerticalDivOfIsVerticalDivisorAlt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle022
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PIntNumPoint
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PIntNumRatSection
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PVocabDivCycle
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumUnique
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle027
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle026
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.DictAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VwNatCastNonneg
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2050
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.BdLoss
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle007
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.JetInt
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.JetOpMulTab
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle003
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.TabBd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

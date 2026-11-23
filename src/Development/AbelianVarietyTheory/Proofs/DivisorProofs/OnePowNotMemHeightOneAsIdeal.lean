@@ -405,7 +405,7 @@ theorem chiGrid_row_entries_upper_bound {l : ℕ} (h1 : 1 ≤ l) (h2 : l ≤ D.R
     · rw [mem_singleton.1 hx]
     · linarith [(blockM_bd D C τ hx).2]
 
-theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (entries ((Γ).parD D.R.m D.R.m)) := by
+theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (_root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m)) := by
   have hm : (Γ).m = D.R.m := rfl
   have hk : (Γ).k = D.R.k := rfl
   have hk2 : 2 ≤ D.R.k := by have := D.R.m_add_three_le_k; omega
@@ -522,7 +522,7 @@ theorem good_top_grid : Good 0 1 1 ((Γ).weightX D.R.m) (entries ((Γ).parD D.R.
       · exact Or.inr ⟨l, ⟨h1, by omega⟩, hx⟩
   have hB : ∅ ∪ (Ico 1 (1 + D.R.m)).biUnion (fun i => (Γ).blockC i) ∪
       (Ico 2 (2 + (D.R.k - 1))).biUnion (fun j => ({((Γ).v j : ℚ)} : Finset ℚ)) ∪
-      (Ico 1 (1 + D.R.m)).biUnion (fun l => {-((Γ).b l : ℚ)} ∪ (Γ).blockM l) = entries ((Γ).parD D.R.m D.R.m) := by
+      (Ico 1 (1 + D.R.m)).biUnion (fun l => {-((Γ).b l : ℚ)} ∪ (Γ).blockM l) = _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m) := by
     ext x
     rw [GridData.entries_parD]
     simp only [empty_union, mem_union, mem_singleton, mem_biUnion, mem_Ico, mem_Icc, GridData.mem_cloud,
@@ -642,7 +642,7 @@ theorem min_weightX {y : ℚ} (hy : y ∈ (Γ).weightX D.R.m) : -((Γ).e D.R.m :
   · exact (weightX_above D C τ (j := j) (by omega) hy hz').le
   · exact (blockMPlus_bd D C τ hy).1
 
-theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ entries ((Γ).parD D.R.m D.R.m) := by
+theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m) := by
   have hm2 := D.R.two_le_m
   have ht := D.R.t_odd.pos
   have et : ((Γ).t : ℚ) = D.R.t := rfl
@@ -653,7 +653,7 @@ theorem half_mem_parD : -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ∈ en
   rw [GridData.entries_parD]
   exact mem_union_left _ (mem_union_right _ (mem_biUnion.2 ⟨D.R.m, mem_Icc.2 ⟨by omega, le_rfl⟩, hmem⟩))
 
-theorem min_parD {y : ℚ} (hy : y ∈ entries ((Γ).parD D.R.m D.R.m)) :
+theorem min_parD {y : ℚ} (hy : y ∈ _root_.GlobalTheory.SignedHC.entries ((Γ).parD D.R.m D.R.m)) :
     -((Γ).e D.R.m : ℚ) - (D.R.t : ℚ) / 2 + 1 / 2 ≤ y := by
   have hm2 := D.R.two_le_m
   have hm : (Γ).m = D.R.m := rfl

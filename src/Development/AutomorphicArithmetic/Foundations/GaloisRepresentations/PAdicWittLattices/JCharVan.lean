@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.SplitDesc
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyBijectiveOfSupportBijectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleMemIffPoints
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafOfRingFunctorSectionsLocallyBijective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HypercohomologyCoefficientMapFunctorialAdditive
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle854
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle344
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle511
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

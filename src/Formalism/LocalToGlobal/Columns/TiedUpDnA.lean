@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.RecLevel
-public import Formalism.LocalToGlobal.Columns.SmulMemTrpSet
-public import Formalism.LocalToGlobal.Columns.BtExistsSmulLeOfFg
+public import Formalism.LocalToGlobal.Columns.Bundle010
+public import Formalism.LocalToGlobal.Columns.Bundle011
+public import Formalism.LocalToGlobal.Columns.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

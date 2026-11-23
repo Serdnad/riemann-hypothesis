@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.ContinuousTorusCharacter
 public import Mathlib.Basic.Complex.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsFun
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle070
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +47,9 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Exists
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
-import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
-import Formalism.ConjugateSelfDual.Statement
-import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeD
+import Development.AutomorphicArithmetic.IntegralCasts.Bundle001
+import Formalism.ConjugateSelfDual.Bundle001
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import ReciprocityTheory.GaloisValuations.GlobalA
 
 @[expose] public section

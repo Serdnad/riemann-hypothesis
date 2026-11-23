@@ -1,14 +1,14 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ClassFormationDefs
-public import GroundTheory.ProfiniteCohomology.CupProducts.Functoriality
+public import GroundTheory.ProfiniteCohomology.Bundle008
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 public import GroundTheory.TateCohomology.CupProduct
-public import GroundTheory.ProfiniteCohomology.ClassFormations
+public import GroundTheory.ProfiniteCohomology.Bundle011
 public import GroundTheory.ProfiniteCohomology.ClassFormations.Corestriction
 public import GroundTheory.ProfiniteCohomology.ClassFormations.HighFinite
-public import GroundTheory.ProfiniteCohomology.Colimit
+public import GroundTheory.ProfiniteCohomology.Bundle007
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
-public import GroundTheory.ProfiniteCohomology.CupProducts.GroupCohomology
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle002
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolDefs
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.FormationThree
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolBridge
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
 
 @[expose] public section
 

@@ -4,8 +4,8 @@ public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.LocalToGlobal.Columns.CoefModB
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AlgWtDualUniq
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AlgWtHwUnq
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle012
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle019
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.ExtremalFactsProofA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

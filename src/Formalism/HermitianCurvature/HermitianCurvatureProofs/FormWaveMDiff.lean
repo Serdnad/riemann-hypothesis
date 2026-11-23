@@ -1,10 +1,10 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.WaveDiffForm
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableOfDecay4
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle178
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBFVnice
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBGSlice
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.VectorIsomorphismCompactSupport
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle188
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

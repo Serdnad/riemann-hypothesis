@@ -1,7 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.CharacterBoxes.EveryCharacter
-public import Development.AutomorphicArithmetic.CharacterBoxes.HalfPlane
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle001
 public import Development.AutomorphicArithmetic.CharacterBoxes.ClaimStrip
 public import Development.AutomorphicArithmetic.CharacterBoxes.MainConclusion
 import Mathlib.Algebra.Order.Floor.Extended

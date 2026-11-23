@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.ConstRankBaseLePolyFourth
 public import Formalism.SharpRestriction.Divisibility.LocalQuadraticParts
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.LowerSlopeInequalityFamily
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle005
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PStmtFree
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.HeightBoundOfComponentBounds
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.UniformSizeBoundOfOpenFamily
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLm
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 import Formalism.SharpRestriction.SmoothDesignExistence.DGamSmooth
 
 @[expose] public section

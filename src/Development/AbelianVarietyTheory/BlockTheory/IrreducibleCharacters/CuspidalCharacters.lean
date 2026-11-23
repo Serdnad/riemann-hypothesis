@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RepresentationTheory.Irreducible
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ImportsAlt
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

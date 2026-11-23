@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.StepOrderRes
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.CharacterIdealPrincipalEigen
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FrobeniusChainCarry
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle025
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle008
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FundamentalCharacterIdealPowers
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FundamentalIdealFrobeniusPowersStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle044
 import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TeichmullerCharacterOrderGenerates
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.RbProj
 import Mathlib.Algebra.Order.Floor.Extended

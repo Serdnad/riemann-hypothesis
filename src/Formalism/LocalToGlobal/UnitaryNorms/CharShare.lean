@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ToricLam0HasInfinityTypeConjRatio
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle324
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

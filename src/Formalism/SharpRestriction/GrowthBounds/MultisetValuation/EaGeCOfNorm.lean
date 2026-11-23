@@ -1,12 +1,11 @@
 module
 
-public import Formalism.GaussJetBounds.StatementP
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.AuxUOfFirstTheoremPlaceBound
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EntryAOneParity
+public import Formalism.GaussJetBounds.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle004
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementE
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementG
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EaNuTwoLeOne
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NatCastInvMemRp
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EGaussK
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.StatementsBounds
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.BoundsY
+public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

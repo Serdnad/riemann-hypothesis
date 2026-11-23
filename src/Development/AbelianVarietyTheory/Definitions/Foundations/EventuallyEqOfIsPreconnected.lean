@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SiegelWeilAnisotropic
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle959
 public import Mathlib.Analysis.Meromorphic.Order
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LaurentConstEqOfTendsto
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle976
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

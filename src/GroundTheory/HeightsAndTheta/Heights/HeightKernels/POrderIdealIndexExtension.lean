@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsOrderIdealIndexExtension
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PInvertibleIdealIndex
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended

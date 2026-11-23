@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.UnfoldedThetaIntegralConvergesSimilitudeOne
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalLattice
-import GroundTheory.AutomorphicForms.ReductionIdele
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-public import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 import Mathlib.Algebra.Module.ZLattice.Summable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

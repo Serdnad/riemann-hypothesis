@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.BlowupCategories.AffC
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsIsoOfBijectiveOnSimplices
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle013
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.TateTwistAffineLineProjectionEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

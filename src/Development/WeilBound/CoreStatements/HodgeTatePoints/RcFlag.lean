@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.StepOrderRes
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.Invres
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle022
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.RangeSubtypeEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

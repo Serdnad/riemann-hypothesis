@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.U
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ChartCoverFOfSecBaseChange
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeComposeInvertBaseChangeTriangular
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle081
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,7 +70,7 @@ theorem evR_frBor_univ {p A : TRing c.F} {j : Sp p.R ⟶ Xo.XF c} {y₀ : FrPt X
     {a a' : A.R →ₐ[c.F] S} (ha : FrMap a u y) (ha' : FrMap a' u y') (h : FrBor t y y') :
     evR Xo c f y' = ((∏ i, t i ^ e i : Sˣ) : S) * evR Xo c f y := by
   obtain ⟨B, uB, uB', tB, q, q', hq, hq', hB, hU⟩ :=
-    univFrame_borelPairs GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c p A j y₀ π X s u hj hu
+    _root_.GlobalTheory.FrameEval.univFrame_borelPairs GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c p A j y₀ π X s u hj hu
   obtain ⟨b, e1, e2, e3⟩ := hU S a a' y y' t ha ha' h
   have k : FrMap b uB y := GlobalTheory.FlagTan.frMap_of_comp hq ha fun x => DFunLike.congr_fun e1 x
   have k' : FrMap b uB' y' := GlobalTheory.FlagTan.frMap_of_comp hq' ha' fun x => DFunLike.congr_fun e2 x

@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifDefsB
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TangentBijectionOfValues
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero

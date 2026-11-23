@@ -3,9 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.CoordOfHasWeight
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsAbelianSchemeThick
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntChartFrTruncExists
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenOfRangeGenericSubset
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.SemiAbelianDvrExtensionsIsoCompatible
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle117
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle121
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle079
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntAllProofFree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

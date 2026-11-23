@@ -1,27 +1,26 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.SymplecticGSp4
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Counts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CongruenceNumberRankThree
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicCases.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.FramedTwoCoboundaries
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CoefIndep
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CoefSup
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostIndex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.HostOdd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.PZeroLe
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.CountNormInt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle010
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle018
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DataEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DirGPowOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle013
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExModel
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.GaloisRepIneqOfAllIrreducibleNonvanishing
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LocBase
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.NumsZero
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PhiGam
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle015
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.RgAdjConj
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TwoPowClogLe
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ValProd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,6 +57,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForSympConductor (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 

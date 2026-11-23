@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModBasic
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModDeltaInt
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModEisInt
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle005
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle007
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle004
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
 public import Mathlib.NumberTheory.ModularForms.CuspFormSubmodule

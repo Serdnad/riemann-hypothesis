@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AbsCharNotUnitary
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.OrderAsym
-import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.IsGalAd
+import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle001
 
 @[expose] public section
 

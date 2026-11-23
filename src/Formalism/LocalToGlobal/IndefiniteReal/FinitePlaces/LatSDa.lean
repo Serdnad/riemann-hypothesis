@@ -3,18 +3,18 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-public import Formalism.LocalToGlobal.IndefiniteReal.PHeisFC
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LatticeVariant
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle014
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle080
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ExistsNatSmulSingle
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemUniq
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatMod
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle015
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle008
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle010
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceDualB
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.VacExA
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.VacExApp
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle004
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.ConjPurelyImaginaryGenerator
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.FDMSubCompact
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

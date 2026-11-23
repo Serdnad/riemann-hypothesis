@@ -1,9 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedBr
-public import Formalism.LocalToGlobal.HermitianForms.TiedBrCo
+public import Formalism.LocalToGlobal.HermitianForms.Bundle006
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrRep
-public import Formalism.LocalToGlobal.KernelLattices.InterlaceAll
+public import Formalism.LocalToGlobal.KernelLattices.Bundle001
 public import Formalism.LocalToGlobal.HermitianForms.TiedBrCl
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
 import Mathlib.Algebra.Order.Floor.Extended

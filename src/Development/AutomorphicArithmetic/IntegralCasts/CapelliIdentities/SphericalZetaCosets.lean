@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.InstBorelGL
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import GroundTheory.LocalFields.PadicLogSeries
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic

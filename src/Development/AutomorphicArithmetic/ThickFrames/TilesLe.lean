@@ -3,8 +3,8 @@ module
 public import Development.AutomorphicArithmetic.ThickFrames.MarkedLow
 public import Formalism.SubspaceCounting.GoodOrbitIntervalTileCondition
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ChoiceOfTops
-public import Development.AutomorphicArithmetic.ThickFrames.MarkedGe
-import Development.AutomorphicArithmetic.ThickFrames.expectationSpec
+public import Development.AutomorphicArithmetic.ThickFrames.Bundle002
+import Development.AutomorphicArithmetic.ThickFrames.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

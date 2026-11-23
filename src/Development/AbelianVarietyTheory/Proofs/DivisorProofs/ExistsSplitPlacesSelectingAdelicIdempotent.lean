@@ -1,8 +1,8 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsIsArchimedeanAdeleChartOfRealChart
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIntegralSplitIdempotentOverTwo
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DiscreteSeriesWeylDimension
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLitG
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle017
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
-public import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeUnderScaleOfGeneral
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.TheoremThreeAllUnitary
 public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.WeylForK
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FormalDegreeGap.DimensionBoundOfGapUniform

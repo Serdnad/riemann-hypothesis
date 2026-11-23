@@ -1,0 +1,110 @@
+module
+
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.ArithmeticGapBounds.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.ActLPos
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.ArithmeticGapBounds.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.ArithmeticGapBounds.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.StabDirectedSystem
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField Matrix UpperTheory.V.KT UpperTheory.V.KL
+
+namespace PositivityTheory.KB.SpectralGap
+
+variable (L : Type) [Field L] [NumberField L] (N : ℕ)
+
+def dg (π : 𝓞 L) (r : ℕ) : Matrix (Fin N) (Fin N) L := diagonal fun i => if (i : ℕ) < r then (π : L) else 1
+
+def mt : Matrix.SpecialLinearGroup (Fin N) L →* Matrix (Fin N) (Fin N) L := Matrix.SpecialLinearGroup.coeMonoidHom
+
+def mo : Matrix.SpecialLinearGroup (Fin N) (𝓞 L) →* Matrix (Fin N) (Fin N) L :=
+  (mt L N).comp (Matrix.SpecialLinearGroup.map (algebraMap (𝓞 L) L))
+
+def Kg (π : 𝓞 L) (r : ℕ) : Subgroup (Matrix.SpecialLinearGroup (Fin N) L) where
+  carrier := {g | ∃ γ, dg L N π r * mt L N g = mo L N γ * dg L N π r}
+  one_mem' := ⟨1, by rw [map_one, map_one, mul_one, one_mul]⟩
+  mul_mem' := by
+    rintro g g' ⟨γ, h⟩ ⟨γ', h'⟩
+    exact ⟨γ * γ', by rw [map_mul, map_mul, ← mul_assoc, h, mul_assoc, h', mul_assoc]⟩
+  inv_mem' := by
+    rintro g ⟨γ, h⟩
+    refine ⟨γ⁻¹, ?_⟩
+    have h1 : mo L N γ⁻¹ * mo L N γ = 1 := by rw [← map_mul, inv_mul_cancel, map_one]
+    have h2 : mt L N g * mt L N g⁻¹ = 1 := by rw [← map_mul, mul_inv_cancel, map_one]
+    calc dg L N π r * mt L N g⁻¹ = mo L N γ⁻¹ * (mo L N γ * dg L N π r) * mt L N g⁻¹ := by
+          rw [← mul_assoc, h1, one_mul]
+      _ = _ := by rw [← h, mul_assoc, mul_assoc, h2, mul_one]
+
+def jS : Matrix.SpecialLinearGroup (Fin N) L →* Sp L N :=
+  MonoidHom.pi fun w : InfinitePlace L => Matrix.SpecialLinearGroup.map (n := Fin N) w.embedding
+
+def Arith : Prop := ∀ (L : Type) [Field L] [NumberField L] (π : 𝓞 L), Prime π →
+  25 ≤ Ideal.absNorm (Ideal.span {π}) → ∀ N : ℕ, 3 ≤ N → Tri (Kg L N π 0) (Kg L N π 1) (Kg L N π 2)
+
+def Dens : Prop := ∀ (L : Type) [Field L] [NumberField L], IsTotallyComplex L → ∀ (π : 𝓞 L), Prime π → ∀ N : ℕ, 3 ≤ N →
+  Dense (((Kg L N π 0 ⊔ Kg L N π 1).map (jS L N) : Subgroup (Sp L N)) : Set (Sp L N))
+
+end PositivityTheory.KB.SpectralGap
+
+end
+end
+
+section
+
+namespace PositivityTheory.KB.SpectralGap
+
+theorem unfold_holds : Unfold := by
+  intro Λ S _ _ _ _ _ μ _ j hj B K hBK hi
+  exact ⟨fun u hu => UnfoldA.avg_linv j B K hi u hu, fun u hu => UnfoldA.avg_of_linv j B K hi u hu,
+    fun u hu => UnfoldA.avg_meas j B K hi u hu,
+    fun E hBE hEK u hu => UnfoldA.avg_tower j B E K hBE hEK hi u hu,
+    UnfoldB.unfold_fd Λ S μ j hj B K hBK hi⟩
+
+end PositivityTheory.KB.SpectralGap
+end

@@ -4,17 +4,17 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalHec
 public import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitAtOfIsSplitPl
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FiniteCosetsInDoset
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 public import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 public import Mathlib.Data.Multiset.Functor
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DeltaHalfMulUnrTorus
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SatakeParametersOfTwist
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeVecMemFixed
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSubquotientOfSameSphericalHeckeEigenvalues
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle611
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1124
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle307
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle314
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIdempotentElemCharIdem
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle440
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviIntegralFacts
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle062
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SatakeParameterOfSpherical
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -243,7 +243,7 @@ theorem exists_fixed_apply_one {x : W} (hx : ∀ g : Levi k m, (∀ a, g a ∈ K
     ∃ f ∈ fixed (parInd e ρ) (KO k n), f.1.1 1 = x := by
   obtain ⟨-, h1, -, -, -, -, -, -, h2⟩ := LeviInt.levi_integral_facts k α n m e
   choose p hp u hu hpu using h2
-  let τ := (twist ρ (deltaHalf k m)).comp (leviProj k e)
+  let τ := (_root_.GlobalTheory.SmGL.twist ρ (deltaHalf k m)).comp (leviProj k e)
   have h3 : ∀ q : parab k e, (q : GL n k) ∈ KO k n → τ q x = x := fun q hq => by
     show (deltaHalf k m (leviProj k e q) : ℂ) • ρ (leviProj k e q) x = x
     rw [deltaHalf_eq_one (h1 q hq), hx _ (h1 q hq), Units.val_one, one_smul]
@@ -589,7 +589,7 @@ theorem absPow_det_of_mem (s : ℂ) {g : GL (Fin n) (w.adicCompletion E)} (hg : 
     rw [KGL, ← SphCompletion.KO_completion w n] at hg
     simp [val_absPow, LeviInt.nabs_det_eq_one hg])
 
-theorem mem_fixed_twist (T : (twist ρ (detChar (Fin n) (absPow _ s))).Equiv ρ') (x : V) :
+theorem mem_fixed_twist (T : (_root_.GlobalTheory.SmGL.twist ρ (detChar (Fin n) (absPow _ s))).Equiv ρ') (x : V) :
     T x ∈ fixed ρ' (KGL w (n := n)) ↔ x ∈ fixed ρ (KGL w (n := n)) := by
   simp only [GlobalTheory.LGrp.mem_fixed]
   refine forall₂_congr fun g hg => ?_
@@ -597,7 +597,7 @@ theorem mem_fixed_twist (T : (twist ρ (detChar (Fin n) (absPow _ s))).Equiv ρ'
   rw [twist_apply, detChar_apply, absPow_det_of_mem s hg, Units.val_one, one_smul] at this
   exact (Eq.congr_left this.symm).trans T.toLinearEquiv.injective.eq_iff
 
-theorem hasSatGL_of_twist (T : (twist ρ (detChar (Fin n) (absPow _ s))).Equiv ρ') {B : Multiset ℂˣ}
+theorem hasSatGL_of_twist (T : (_root_.GlobalTheory.SmGL.twist ρ (detChar (Fin n) (absPow _ s))).Equiv ρ') {B : Multiset ℂˣ}
     (hB : HasSatGL w ρ B) {z : ℂˣ} (hz : (z : ℂ) = (qV E w : ℂ) ^ (-s)) : HasSatGL w ρ' (B.map (· * z)) := by
   constructor
   · obtain ⟨x, hx, h0⟩ := (Submodule.ne_bot_iff _).1 hB.1
@@ -650,7 +650,7 @@ theorem exists_sat_of_isSpeh {a d : ℕ} (hd : 1 ≤ d) {ρ : Representation ℂ
   obtain ⟨R, hR, hfR⟩ := exists_sat_multiProd hn (fun k => (spehFactor (IrrGL.of ρ hs hi) d k).2.rep.smooth)
     (fun k => (spehFactor (IrrGL.of ρ hs hi) d k).2.rep.irr) hf fun e => hx.1 (by rw [e, map_zero])
   obtain rfl := hx.unique (hfR.map p.toLinearMap (fun g y => p.isIntertwining _ _ g y) hx.1)
-  let T : ∀ k : Fin d, (twist ρ (detChar (Fin a) (absPow _ (((d : ℂ) - 1) / 2 - (k : ℕ))))).Equiv
+  let T : ∀ k : Fin d, (_root_.GlobalTheory.SmGL.twist ρ (detChar (Fin a) (absPow _ (((d : ℂ) - 1) / 2 - (k : ℕ))))).Equiv
       (spehFactor (IrrGL.of ρ hs hi) d k).rep := fun k =>
     (twistEquiv (IrrGL.equivOf ρ hs hi) _).trans ((IrrGL.of ρ hs hi).twEquiv _ (isSmoothChar_absPow _))
   obtain ⟨S, hS⟩ := exists_hasSatGL_of_isIrreducible hs hi (by

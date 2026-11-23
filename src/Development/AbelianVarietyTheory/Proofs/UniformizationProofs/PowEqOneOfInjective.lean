@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsFinsetRepresentatives
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsMoveMap
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle035
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpansionBijectiveOverFields
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsFOfIntegral
 import Mathlib.Algebra.Order.Floor.Extended

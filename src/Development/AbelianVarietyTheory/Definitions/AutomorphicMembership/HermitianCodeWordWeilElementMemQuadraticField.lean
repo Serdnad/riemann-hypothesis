@@ -1,17 +1,17 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InterlacingEquivariance
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BaseDataEmbeddingConj
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TensorPlaceNorm
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle008
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ExistsPowPrincipalFractionalIdeal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorNormLeIffTensorNormBound
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsAlgClosureEmbeddingExtendingOnAlgebraic
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle811
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle239
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LiesOverSpanOfNatCastMemHeightOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDefiniteLaws
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle277
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalAdditiveCharApply
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdAbsNormDivsDvd
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle278
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.LocalRingCardinality.ConjSqrtMinusD
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
@@ -56,10 +56,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEq
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NuInRange
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ResCharThetaJetPlaceDegOne
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SCuIsom
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle009
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
 
 @[expose] public section
@@ -68,7 +66,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker
 
 section Psi
 

@@ -6,7 +6,7 @@ public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FirstKernelP
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.KernelNonzeroModulusDeterminantEq
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.KernelQuotientFinite
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LatticeAverageIdentity
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TripleForm
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

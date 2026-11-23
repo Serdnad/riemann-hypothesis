@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubMemMaximalIdealIff
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle303
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.TameGeneratorProjectors
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ListFormLabels
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle175
 
 @[expose] public section
 

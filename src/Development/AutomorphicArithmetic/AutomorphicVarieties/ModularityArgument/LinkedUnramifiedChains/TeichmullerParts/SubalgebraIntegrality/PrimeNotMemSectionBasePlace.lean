@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueAdmissibleLocalComponentDefiniteUnit
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankIntegralFixedVectorsEqOneAlmostAll
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankLevelFixedVectorsDefiniteUnitaryEqProdStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnramifiedVectorGivesLocalComponentSphericalVectStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousRetractionOntoUnitaryLocalPoints
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1863
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2182
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2262
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2116
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle296
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GelfandPairSphericalVectorUnique
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.HasWeightAtOfTensorDualIntertwiner
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.InjectiveInfinitePlaceOfEmbAtSplitPlaces
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsSplitAtOfDecompositionLeRestrictionRange
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle086
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle091
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle037
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsUnramifiedAtTotallyRealOfInertiaLeRestrictionR
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.MemMaximalCompactOfUnderEq
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle087
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PlaceBetween
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -78,6 +78,10 @@ private theorem box_tmul (ρ : Representation ℂ G W) (τ : Representation ℂ 
 private theorem box_fix (ρ : Representation ℂ G W) (τ : Representation ℂ H W') (K : Subgroup G) (K' : Subgroup H) :
     Module.rank ℂ (fixd ρ K) * Module.rank ℂ (fixd τ K') ≤ Module.rank ℂ (fixd (box ρ τ) (K.prod K')) := by
   rw [← rank_tensorProduct']
+  haveI : Module.Free ℂ (fixd ρ K) := Module.Free.of_divisionRing _ _
+  haveI : Module.Free ℂ (fixd τ K') := Module.Free.of_divisionRing _ _
+  haveI : Module.Flat ℂ (fixd ρ K) := Module.Flat.of_free
+  haveI : Module.Flat ℂ (fixd τ K') := Module.Flat.of_free
   have hi : Function.Injective (TensorProduct.map (fixd ρ K).subtype (fixd τ K').subtype) :=
     TensorProduct.map_injective_of_flat_flat _ _ Subtype.val_injective Subtype.val_injective
   refine rank_le_of _ hi _ fun z => ?_
@@ -89,11 +93,13 @@ private theorem box_fix (ρ : Representation ℂ G W) (τ : Representation ℂ H
     rw [TensorProduct.map_tmul, box_tmul]
     exact congrArg₂ _ (a.2 _ hu.1) (b.2 _ hu.2)
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing in
 private theorem pi_fix {I : Type} [Fintype I] {Gi Wi : I → Type} [∀ i, Group (Gi i)] [∀ i, AddCommGroup (Wi i)]
     [∀ i, Module ℂ (Wi i)] (τ : ∀ i, Representation ℂ (Gi i) (Wi i)) (K : ∀ i, Subgroup (Gi i))
     (h : ∀ i, 0 < Module.finrank ℂ (fixd (τ i) (K i))) :
     ((∏ i, Module.finrank ℂ (fixd (τ i) (K i)) : ℕ) : Cardinal) ≤ Module.rank ℂ (fixd (piRep τ) (Subgroup.pi Set.univ K)) := by
   classical
+  haveI : ∀ i, Module.Free ℂ (fixd (τ i) (K i)) := fun i => Module.Free.of_divisionRing _ _
   haveI : ∀ i, Module.Finite ℂ (fixd (τ i) (K i)) := fun i => Module.finite_of_finrank_pos (h i)
   have e : ((∏ i, Module.finrank ℂ (fixd (τ i) (K i)) : ℕ) : Cardinal) = Module.rank ℂ (⨂[ℂ] i, fixd (τ i) (K i)) := by
     rw [rank_eq_card_basis (Basis.piTensorProduct fun i => Module.finBasis ℂ (fixd (τ i) (K i)))]

@@ -1,16 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FirstIndexEqOfUnfolded
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.TriangularFrameChangeOfTriangularPeriod
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsInvariantNatLengthLattice
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CmTypeLetterFrameColumnDictionary
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsInverseBlock
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsPeriodMulVec
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExponentialDerivativeAtZeroIsTangent
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsCombAtIffIsDerivAt0
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0CompLinear
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsEigAtIffOfIsDerivAt0
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle024
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle006
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle061
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle029
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle035
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle046
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UniformizationPeriodLatticeChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -190,14 +188,14 @@ theorem exists_frame_mulVec (X : Data E r) {p : ℕ} (hr : r = p + X.p0) (ρ : (
     (hV : IsUnit V.det) (hVt : ∀ j j', V j j' ≠ 0 → (e j).1 = (e j').1) (x : Frame X.Ψ r) :
     ∃ b : Frame X.Ψ r, (∀ τ, (mat b τ).det ≠ 0) ∧
       (∀ τ (a c : Fin r), (c : ℕ) < X.p0 → ¬ (a : ℕ) < X.p0 → b τ a c = 0) ∧
-      ∀ v j, perFr X (rmul x b) v (ρ (e j).1) (e j).2 = (V *ᵥ fun j => perFr X x v (ρ (e j).1) (e j).2) j := by
+      ∀ v j, _root_.Formalism.L2.PjFree.perFr X (rmul x b) v (ρ (e j).1) (e j).2 = (V *ᵥ fun j => _root_.Formalism.L2.PjFree.perFr X x v (ρ (e j).1) (e j).2) j := by
   classical
   obtain ⟨f, hf⟩ := GlobalTheory.FrameUnif.exists_letter_equiv X.Ψ X.cmType p X.p0 r hr ρ hρ m hp hq
   obtain ⟨idx, hi⟩ : ∃ idx : Fin g ≃ X.Ψ × Fin r, ∀ j,
       (ρ (e j).1 ∈ X.Ψ ∧ (idx j).1.1 = ρ (e j).1 ∧ ((idx j).2 : ℕ) = X.p0 + (e j).2) ∨
       (ρ (e j).1 ∉ X.Ψ ∧ (idx j).1.1 = ComplexEmbedding.conjugate (ρ (e j).1) ∧
         ((idx j).2 : ℕ) = X.p0 - 1 - (e j).2 ∧ ((e j).2 : ℕ) < X.p0) := ⟨e.trans f, fun j => hf (e j)⟩
-  have hfr : ∀ (x : Frame X.Ψ r) (v : Fin r → E) j, perFr X x v (ρ (e j).1) (e j).2 =
+  have hfr : ∀ (x : Frame X.Ψ r) (v : Fin r → E) j, _root_.Formalism.L2.PjFree.perFr X x v (ρ (e j).1) (e j).2 =
       if ((idx j).2 : ℕ) < X.p0 then hermC (idx j).1.1 X.Gm (FD.col (mat x (idx j).1) (idx j).2)
         (Data.emb (idx j).1.1 v) else ((mat x (idx j).1)⁻¹ *ᵥ Data.emb (idx j).1.1 v) (idx j).2 := by
     intro x v j
@@ -207,10 +205,10 @@ theorem exists_frame_mulVec (X : Data E r) {p : ℕ} (hr : r = p + X.p0) (ρ : (
     dsimp only at h ⊢
     rcases h with ⟨a, rfl, rfl⟩ | ⟨a, rfl, rfl, d⟩
     · rw [if_neg (by omega)]
-      unfold perFr
+      unfold _root_.Formalism.L2.PjFree.perFr
       rw [dite_eq_left a, dite_eq_left hn]
     · rw [if_pos (by omega)]
-      unfold perFr
+      unfold _root_.Formalism.L2.PjFree.perFr
       rw [dite_eq_right a, dite_eq_left (show conjEmb (ρ (e j).1) ∈ X.Ψ from hτ), dite_eq_left hn]
       rfl
   have hbl : ∀ j j', V j j' ≠ 0 → (idx j).1 = (idx j').1 ∧ (((idx j).2 : ℕ) < X.p0 ↔ ((idx j').2 : ℕ) < X.p0) := by
@@ -274,12 +272,12 @@ theorem exists_frame_mulVec (X : Data E r) {p : ℕ} (hr : r = p + X.p0) (ρ : (
 
 theorem exists_adapted {H : Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ}
     {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
-    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1))
+    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1))
     (y : FrPt Xo c (CAt σ)) (k : Fin F.n) (P : (F.Di k).La →+ (Fin g → ℂ))
-    (hP : IsPeriod (F.Di k) (fun j => relab c σ (e j).1) P) (hy : F.u k P = y.x) :
+    (hP : IsPeriod (F.Di k) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1) P) (hy : F.u k P = y.x) :
     ∃ (V : Matrix (Fin g) (Fin g) ℂ) (P' : (F.Di k).La →+ (Fin g → ℂ)), IsUnit V.det ∧
       (∀ j j', V j j' ≠ 0 → (e j).1 = (e j').1) ∧ (∀ a, P' a = V *ᵥ P a) ∧
-      IsPeriod (F.Di k) (fun j => relab c σ (e j).1) P' ∧ y.x = F.u k P' ∧
+      IsPeriod (F.Di k) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1) P' ∧ y.x = F.u k P' ∧
       ∀ τ (i : Fin (Dw.mult τ)),
         IsDerivAt0 (fun z => (F.ex k P' z).left) (Pi.single (e.symm ⟨τ, i⟩) 1) (y.u τ i) := by
   classical
@@ -320,7 +318,7 @@ theorem exists_adapted {H : Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw
   exact this
 
 theorem exists_frBor {H : Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ}
-    (U : Unf Xo c σ r) (hU : IsUnf U) (hσ : GoodEmb c σ) (k : U.Comp) (x : (U.X k).dom) (y : FrPt Xo c (CAt σ))
+    (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r) (hU : _root_.Formalism.L2.PjFree.IsUnf U) (hσ : _root_.Formalism.L2.PjFree.GoodEmb c σ) (k : U.Comp) (x : (U.X k).dom) (y : FrPt Xo c (CAt σ))
     (h : (U.un k x).x = y.x) :
     ∃ b : Frame (U.X k).Ψ r, (∀ τ, (mat b τ).det ≠ 0) ∧
       (∀ τ (a c : Fin r), (c : ℕ) < (U.X k).p0 → ¬ (a : ℕ) < (U.X k).p0 → b τ a c = 0) ∧
@@ -331,7 +329,7 @@ theorem exists_frBor {H : Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l
   obtain ⟨hp0, hΨ⟩ := hty k
   obtain ⟨P, hPe, hP, hx, -, -⟩ := hpt k x
   obtain ⟨V, P', hV, hVt, hP'e, hP', hy, hd⟩ := exists_adapted e F y (ik k) P hP (hx.symm.trans h)
-  obtain ⟨b, hb, hb0, hbe⟩ := exists_frame_mulVec (U.X k) (p := Dw.p) (by omega) (relab c σ) hbij Dw.mult
+  obtain ⟨b, hb, hb0, hbe⟩ := exists_frame_mulVec (U.X k) (p := Dw.p) (by omega) (_root_.Formalism.L2.PjFree.relab c σ) hbij Dw.mult
     (fun τ h => by unfold Datum.mult; rw [if_pos ((hrt τ).1 ((hΨ _).1 h))])
     (fun τ h => by unfold Datum.mult; rw [if_neg (fun h' => h ((hΨ _).2 ((hrt τ).2 h'))), hp0]) e V hV hVt x.1
   have hm := rmul_mem_dom (U.X k) x.2 b hb hb0

@@ -2,8 +2,8 @@ module
 
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohDefs
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
-public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTateA
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

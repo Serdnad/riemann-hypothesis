@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CountLow
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentChainDegreeEven
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CoarseDegreeAlternative
-import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.LeAndHalfLeProdOneSubExpNegOfBounds
+import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle005
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ThresholdLowerBounds
 import Mathlib.Algebra.Order.Floor.Extended

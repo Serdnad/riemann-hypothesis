@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemParahoricOfTrivialReduction
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntAtNatCast
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle097
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

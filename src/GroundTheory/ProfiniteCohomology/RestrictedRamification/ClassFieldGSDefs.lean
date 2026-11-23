@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.ClassFieldConsequences.CongruenceSubgroupLeStandardOpenSubgroup
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SPicDefs
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

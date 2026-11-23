@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementTC
+public import Formalism.HermitianCurvature.Bundle003
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

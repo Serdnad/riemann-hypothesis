@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.InseparableFrobenius
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle004
 public import GroundTheory.GlobalFields.ComplexMultiplication.DualDescent
-import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyFrobeniusSep
-public import GroundTheory.ArithmeticGeometry.AbelianVarieties.SupersingularPowField
-import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialSeparable
+import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle004
+public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Bundle003
+import GroundTheory.GlobalFields.ComplexMultiplication.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

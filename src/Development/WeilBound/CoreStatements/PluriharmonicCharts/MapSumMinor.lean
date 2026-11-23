@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.MinorColsBEqZero
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishing
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorSumIdentityBaseChangeStatement
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle083
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsFlagFrame
 import Development.WeilBound.CoreStatements.PluriharmonicCharts.MinorUpdateColLin
 import Mathlib.Algebra.Order.Floor.Extended

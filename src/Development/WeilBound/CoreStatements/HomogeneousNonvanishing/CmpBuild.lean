@@ -1,15 +1,14 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.BlowupProjections.BlowupProjStatement
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsSncModel
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LineIsomorphismGroupoidLawsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BlockExtensionArithVar
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BlockJoinInclusionsCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BlockPullbackHermLineStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LineIsomorphismDefectFunctionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionCoversComplexPointsStatement
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.DenseNonvan
-public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.RCombine
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle041
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle204
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle067
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle042
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle047
+public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +51,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.DegreeInhab
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.IdeleGroups.LocalNorms
 public import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeRangeNormUnits
 public import Mathlib.RingTheory.TotallySplit
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.LocalFields.UnramifiedNormSurj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.LocalFields.UnramifiedDefs
+public import GroundTheory.LocalFields.Bundle003
 
 @[expose] public section
 

@@ -1,11 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SatakeParametersOfTwist
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusEigenvaluesTwist
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1124
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,10 +70,10 @@ private theorem sat_twist {K : Type} [Field K] [NumberField K] [_root_.NumberFie
 
 theorem UpperTheory.V.Af.Cq.attTwist :
     ∀ (K Ω : Type) [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ)
-        (R : G K Ω →* GL (Fin n) (Qbar l)) (P : CuspSub K n), AttC ι R P → ∀ (art : Ideles K →* Gab K Ω) (κ : HChar K) (m : (K →+* ℂ) → ℤ)
-        (μ : G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsLAdicOf art ι κ m μ → AttC ι (tw R μ) (P.twist κ) := by
+        (R : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)) (P : CuspSub K n), AttC ι R P → ∀ (art : Ideles K →* Gab K Ω) (κ : HChar K) (m : (K →+* ℂ) → ℤ)
+        (μ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsLAdicOf art ι κ m μ → AttC ι (tw R μ) (P.twist κ) := by
   intro K Ω _ _ _ _ _ _ l _ ι n R P hA art κ m μ ha h
-  refine ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (G K Ω) _ n R).2.2 μ hA.1, ?_⟩
+  refine ⟨(UpperTheory.galoisRep_irreducibility_criterion.1 _ (_root_.Formalism.ConjugateSelfDual.G K Ω) _ n R).2.2 μ hA.1, ?_⟩
   filter_upwards [hA.2, Filter.eventually_cofinite.2 (GlobalTheory.Mem.UnrAe.finite_ramified κ), ev_notMem (K := K) l]
     with w ⟨B, hB, hE⟩ hu hl
   refine ⟨_, sat_twist P hB hu, ?_⟩

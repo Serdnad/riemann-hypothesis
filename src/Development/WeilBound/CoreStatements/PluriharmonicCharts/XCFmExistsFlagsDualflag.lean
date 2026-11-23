@@ -1,9 +1,9 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagFramesGenericModelLeft
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle103
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.FiniteEtaleSurjectiveOfPullback
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapStalkMap
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StalkSpecializesBijective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.GenUIsGenFam
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle021
 
 @[expose] public section
 

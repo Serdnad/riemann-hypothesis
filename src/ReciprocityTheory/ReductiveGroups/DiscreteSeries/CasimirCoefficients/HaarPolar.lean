@@ -43,11 +43,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.KFacts
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.IntMuCD
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.JacBound
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KinstSecondCountable
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle004
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarHaar
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarHaarA
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle010
 
 @[expose] public section
 

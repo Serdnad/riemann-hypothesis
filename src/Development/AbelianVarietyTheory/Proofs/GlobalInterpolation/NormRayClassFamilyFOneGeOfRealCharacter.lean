@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LamIdealOfNotPrimePow
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExpSumBoundsStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

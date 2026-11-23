@@ -1,8 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStable
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.CharIndep
-public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.PowIndep
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle003
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.LanglandsExhaustion.IrreducibleAdmissibleGL
 import GroundTheory.AutomorphicForms.MeasuresGL
 import Mathlib.Algebra.Order.Floor.Extended

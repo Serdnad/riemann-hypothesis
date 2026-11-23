@@ -3,8 +3,8 @@ module
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.LocVol
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.KUnip1Of
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.LocalMassTypeOfParts
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.RightInvariantCompact
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.SplitB
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle005
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

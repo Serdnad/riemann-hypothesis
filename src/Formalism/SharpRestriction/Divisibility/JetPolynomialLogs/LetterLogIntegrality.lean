@@ -1,8 +1,8 @@
 module
 
-public import Formalism.GaussJetBounds.Statement
+public import Formalism.GaussJetBounds.Bundle002
 public import Formalism.SharpRestriction.Divisibility.ProductZerothFirstParts
-public import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffEvenDerivativeEqZero
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ChowProduct
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.SchemeImage
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

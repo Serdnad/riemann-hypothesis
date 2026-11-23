@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SigmaContOn
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CkOnZeroOfContOn
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle034
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LUFactorOrbitBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

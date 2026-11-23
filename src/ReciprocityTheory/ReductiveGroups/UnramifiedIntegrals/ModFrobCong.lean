@@ -1,8 +1,8 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModGDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle003
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-public import ReciprocityTheory.NeutralLocalFields.HilbertClassField
+public import ReciprocityTheory.NeutralLocalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,14 +40,14 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModCMPoint
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle002
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModFrobSer
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModGBasic
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModJTau
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModKronPt
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModLatTau
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModPrincNorm
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModVanish
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle012
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle016
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle004
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle010
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle006
 public import Mathlib.RingTheory.RootsOfUnity.Minpoly
 
 @[expose] public section

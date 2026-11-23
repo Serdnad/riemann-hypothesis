@@ -3,16 +3,16 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NontrivialOfIrreducible
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivExteriorTensorOfIrreducibleProdRep
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIrreducibleSmoothQuotient
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InjectiveTensorLiftEquivariantMapsOfIrreducible
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle795
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle082
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIrreducibleSecondFactorOfIrreducibleProduct
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsLocCompAndIsLocLoc
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContractsTensorProductChain
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsOpenNormalisedSubgroupSubset
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle039
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsIrreducibleIffOfLinearEquiv
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SchurAdmissibleAlt
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle382
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,7 +56,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsIrreducibleIff
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle001
 
 @[expose] public section
 
@@ -373,7 +373,7 @@ theorem finFixed_levi (hBZ : GlobalTheory.Published.BernsteinZelevinskyFinitenes
       map_smul' := fun _ _ => rfl }
   refine Submodule.finiteDimensional_of_le (S₂ := LinearMap.range ev) fun u hu => ?_
   obtain ⟨f, hf, hf1⟩ := exists_fixed_smInd_apply_one (parab k e)
-    ((twist τ.ρ (deltaHalf k c)).comp (leviProj k e)) J hJo u fun p hp => by
+    ((GlobalTheory.SmGL.twist τ.ρ (deltaHalf k c)).comp (leviProj k e)) J hJo u fun p hp => by
       obtain ⟨a, b⟩ := hNS (hJN hp)
       have b' : deltaHalf k c (leviProj k e p) = 1 := b
       show (deltaHalf k c (leviProj k e p) : ℂ) • τ.ρ (leviProj k e p) u = u

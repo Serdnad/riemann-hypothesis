@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ZsmulGeneratorEqZeroOfProjection
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CardExtendedGaloisGroup
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle001
 public import Formalism.FrobeniusOrbits.HostThickExists
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CoprimeTwoPow
 import Mathlib.Algebra.Order.Floor.Extended

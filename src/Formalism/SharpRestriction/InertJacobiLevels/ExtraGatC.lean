@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.GatTies
-public import Formalism.SharpRestriction.InertJacobiLevels.ExtraGat
-public import Formalism.LocalRingCardinality.DataGatTies
+public import Formalism.SharpRestriction.InertJacobiLevels.Bundle002
+public import Formalism.LocalRingCardinality.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

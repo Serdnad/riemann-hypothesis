@@ -4,7 +4,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Derivativ
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
 public import Mathlib.AlgebraicGeometry.Noetherian
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
+public import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

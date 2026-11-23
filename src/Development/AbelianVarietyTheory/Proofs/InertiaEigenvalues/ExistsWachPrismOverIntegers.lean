@@ -2,19 +2,19 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NormLeOneOfMemOL
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EmbWInjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CDvdOfMapEqZero
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle153
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle271
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPlaceEmb
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgHomExtOfConstantCoeffZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicIntegersEqWittZetaSubOneStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLaws
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFontaineThetaOnAinf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegralCyclotomicChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUniqueUnramifiedIntegersCoordsBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsWachInclusionPowerSeriesIntoOneTmulAinfStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle403
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle389
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle245
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle384
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle269
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle377
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle517
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle536
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GeomSumOneAddPrime
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegersCompleteDVR
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormEqZpowOfMemMaxUnramifiedSubfield
@@ -238,9 +238,10 @@ theorem coeff_tf (x : WK K) (h : (l : WK K) * x = 0) : x = 0 := by
   exact (mul_eq_zero.1 h).resolve_left l0
 
 theorem coeff_complete (K : FinExt l) : IsAdicComplete (Ideal.span {(l : WK K)}) (WK K) := by
-  obtain ⟨_, hc, -, lu, -⟩ := GlobalTheory.Per.integers_completeDVR l (unr K)
+  obtain ⟨hDVR, hc, -, lu, -⟩ := GlobalTheory.Per.integers_completeDVR l (unr K)
+  letI : IsLocalRing (WK K) := hDVR.toIsLocalRing
   have h : IsLocalRing.maximalIdeal (WK K) = Ideal.span {(l : WK K)} :=
-    le_antisymm (fun w hw => Ideal.mem_span_singleton.2 (dvd_of_not_isUnit K w hw))
+    _root_.le_antisymm (α := Ideal (WK K)) (fun w hw => Ideal.mem_span_singleton.2 (dvd_of_not_isUnit K w hw))
       ((Ideal.span_singleton_le_iff_mem _).2 lu)
   rwa [h] at hc
 

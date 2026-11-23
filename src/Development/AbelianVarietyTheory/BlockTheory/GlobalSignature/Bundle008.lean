@@ -1,0 +1,497 @@
+module
+
+public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.OverPlaceIntegralForm
+
+open NumberField IsDedekindDomain Matrix Formalism.UG Formalism.BasicNotions
+open scoped TensorProduct
+
+def stabRow {A : Type} [CommRing A] {n : Type} [Fintype n] [DecidableEq n] (φ : n → A) :
+    Subgroup (GL n A) where
+  carrier := {g | φ ᵥ* (g : Matrix n n A) = φ}
+  one_mem' := by simp
+  mul_mem' := by
+    intro a b ha hb
+    have ha' : φ ᵥ* (a : Matrix n n A) = φ := ha
+    have hb' : φ ᵥ* (b : Matrix n n A) = φ := hb
+    show φ ᵥ* ((a * b : GL n A) : Matrix n n A) = φ
+    rw [Units.val_mul, ← Matrix.vecMul_vecMul, ha', hb']
+  inv_mem' := by
+    intro g hg
+    have hg' : φ ᵥ* (g : Matrix n n A) = φ := hg
+    show φ ᵥ* ((g⁻¹ : GL n A) : Matrix n n A) = φ
+    conv_lhs => rw [← hg']
+    rw [Matrix.vecMul_vecMul, Units.mul_inv, Matrix.vecMul_one]
+
+section Local
+
+variable {F : Type} [Field F] [NumberField F] (E : Type) [Field E] [NumberField E] [Algebra F E]
+  (v : HeightOneSpectrum (𝓞 F))
+
+def toIntV : 𝓞 E →+* intV E v :=
+  ((inclE (F := F) (v.adicCompletion F)).comp (algebraMap (𝓞 E) E)).codRestrict (intV E v)
+    (fun a => Subring.subset_closure (Or.inl ⟨⟨algebraMap (𝓞 E) E a, ⟨a, rfl⟩⟩, rfl⟩))
+
+variable {E} {n : Type}
+
+abbrev latV (Λ : Submodule (𝓞 E) (n → E)) :
+    Submodule (intV E v) (n → E ⊗[F] v.adicCompletion F) :=
+  latS (F := F) (v.adicCompletion F) (intV E v) Λ
+
+variable {v}
+
+def pr₁ (s : E ⊗[F] v.adicCompletion F ≃+* v.adicCompletion F × v.adicCompletion F)
+    (x : n → E ⊗[F] v.adicCompletion F) : n → v.adicCompletion F := fun i => (s (x i)).1
+
+def pr₂ (s : E ⊗[F] v.adicCompletion F ≃+* v.adicCompletion F × v.adicCompletion F)
+    (x : n → E ⊗[F] v.adicCompletion F) : n → v.adicCompletion F := fun i => (s (x i)).2
+
+def IsSplitting (σ : E →ₐ[F] E) (P Pb : HeightOneSpectrum (𝓞 E))
+    (s : E ⊗[F] v.adicCompletion F ≃+* v.adicCompletion F × v.adicCompletion F) : Prop :=
+  P ≠ Pb ∧
+  v.asIdeal.map (algebraMap (𝓞 F) (𝓞 E)) = P.asIdeal * Pb.asIdeal ∧
+  (∀ a : v.adicCompletion F, s ((1 : E) ⊗ₜ[F] a) = (a, a)) ∧
+  (∀ x, s (sigR σ (v.adicCompletion F) x) = swapR _ (s x)) ∧
+  (∀ x, x ∈ intV E v ↔
+    (s x).1 ∈ v.adicCompletionIntegers F ∧ (s x).2 ∈ v.adicCompletionIntegers F) ∧
+  (∀ a : 𝓞 E, a ∈ P.asIdeal ↔ Valued.v (s ((a : E) ⊗ₜ[F] (1 : v.adicCompletion F))).1 < 1) ∧
+  (∀ a : 𝓞 E, a ∈ Pb.asIdeal ↔ Valued.v (s ((a : E) ⊗ₜ[F] (1 : v.adicCompletion F))).2 < 1)
+
+end Local
+
+section Level
+
+variable {R : Ranks} {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E]
+    [StarRing E] [Algebra F E] {sp : Spaces R F E} {gp : Fin 2 → ℕ}
+    {ι : Type} [Fintype ι] {hc : ι → HCParam R} {C : ColumnChain R ι hc} {A : ColumnsAtT R C}
+    {clsLat : ∀ i, C.cls i → Submodule (𝓞 E) (sp.X i).V}
+
+abbrev baseDual (L : ColLevel R F E sp gp C A clsLat) : Submodule (𝓞 E) (Fin R.k → E) :=
+  Submodule.span (𝓞 E) (dualSet (sp.cm.sig : E →+* E) sp.gram0 L.Lb)
+
+def OverAt (L : ColLevel R F E sp gp C A clsLat) (N : Submodule (𝓞 E) (Fin R.k → E))
+    (v : HeightOneSpectrum (𝓞 F)) (hv : (A.T : 𝓞 F) ∈ v.asIdeal) : Prop :=
+  ∃ (P Pb : HeightOneSpectrum (𝓞 E))
+    (s : E ⊗[F] v.adicCompletion F ≃+* v.adicCompletion F × v.adicCompletion F),
+
+    IsSplitting sp.cm.sig P Pb s ∧
+
+    (∀ x : latV v (baseDual L), pr₁ s (x : Fin R.k → _) = 0 → L.fT v hv x = 0) ∧
+
+    (∀ x : latV v (baseDual L),
+      L.fT v hv x = 0 ↔ pr₁ s (x : Fin R.k → _) ∈ pr₁ s '' (latV v L.Lb : Set (Fin R.k → _))) ∧
+
+    Nonempty ((latV v (baseDual L) ⧸ (latV v L.Lb).submoduleOf (latV v (baseDual L))) ≃ₗ[intV E v]
+      ((intV E v ⧸ P.asIdeal.map (toIntV E v)) × (intV E v ⧸ Pb.asIdeal.map (toIntV E v)))) ∧
+
+    pr₁ s '' (latV v N : Set (Fin R.k → _)) = pr₁ s '' (latV v (baseDual L) : Set (Fin R.k → _)) ∧
+    pr₂ s '' (latV v N : Set (Fin R.k → _)) = pr₂ s '' (latV v L.Lb : Set (Fin R.k → _)) ∧
+
+    (∃ hle : latV v N ≤ latV v (baseDual L),
+      (L.fT v hv).comp (Submodule.inclusion hle) ≠ 0 ∧
+      L.Uloc v = levelVL sp.cm.sig sp.gram0 v N ⊓
+        stabFun (latV v N) ((L.fT v hv).comp (Submodule.inclusion hle))) ∧
+
+    ∃ (h : GL (Fin R.k) (v.adicCompletion F))
+      (φ : Fin R.k → v.adicCompletionIntegers F ⧸ IsLocalRing.maximalIdeal (v.adicCompletionIntegers F))
+      (e : L.fM v hv ≃+
+        v.adicCompletionIntegers F ⧸ IsLocalRing.maximalIdeal (v.adicCompletionIntegers F)),
+      pr₁ s '' (latV v N : Set (Fin R.k → _)) =
+        Set.range (fun y : Fin R.k → v.adicCompletionIntegers F =>
+          (h : Matrix (Fin R.k) (Fin R.k) (v.adicCompletion F)) *ᵥ fun i => (y i : v.adicCompletion F)) ∧
+      Set.BijOn (fun g : GL (Fin R.k) (E ⊗[F] v.adicCompletion F) =>
+          h⁻¹ * bc ((RingHom.fst _ _).comp s.toRingHom) g * h)
+        (levelVL sp.cm.sig sp.gram0 v N)
+        (bc (n := Fin R.k) (algebraMap (v.adicCompletionIntegers F) (v.adicCompletion F))).range ∧
+      φ ≠ 0 ∧
+      (∀ (x : latV v (baseDual L)) (y : Fin R.k → v.adicCompletionIntegers F),
+        pr₁ s (x : Fin R.k → _) =
+          (h : Matrix (Fin R.k) (Fin R.k) (v.adicCompletion F)) *ᵥ (fun i => (y i : v.adicCompletion F)) →
+        e (L.fT v hv x) = ∑ i, φ i * Ideal.Quotient.mk _ (y i)) ∧
+      ∀ g ∈ UPts sp.cm.sig sp.gram0 (v.adicCompletion F),
+        g ∈ L.Uloc v ↔ h⁻¹ * bc ((RingHom.fst _ _).comp s.toRingHom) g * h ∈
+          congPre (algebraMap (v.adicCompletionIntegers F) (v.adicCompletion F))
+            (IsLocalRing.maximalIdeal (v.adicCompletionIntegers F)) (stabRow φ)
+
+def IsOverLattice (L : ColLevel R F E sp gp C A clsLat) (N : Submodule (𝓞 E) (Fin R.k → E)) : Prop :=
+  Module.Finite (𝓞 E) N ∧
+  Submodule.span E (N : Set (Fin R.k → E)) = ⊤ ∧
+  dualSet (sp.cm.sig : E →+* E) sp.gram0 N = (N : Set (Fin R.k → E)) ∧
+  L.Lb ≤ N ∧
+  (N : Set (Fin R.k → E)) ⊆ dualSet (sp.cm.sig : E →+* E) sp.gram0 L.Lb ∧
+  (∀ v : HeightOneSpectrum (𝓞 F), (A.T : 𝓞 F) ∉ v.asIdeal → latV v N = latV v L.Lb) ∧
+  (∀ (v : HeightOneSpectrum (𝓞 F)) (hv : (A.T : 𝓞 F) ∈ v.asIdeal), OverAt L N v hv) ∧
+  L.U ≤ levelAfL sp.cm.sig sp.gram0 N
+
+end Level
+
+def OverLatticeAt (D : D7) (Lv : LevelData D) (u : D.what₂.Word) : Prop :=
+  letI := D.host.cmStar
+  Formalism.MainNotions.StandardLattice.SplitsF D (D.mem u).A.T →
+    (∀ i : Fin 2, (D.mem u).A.T ≠ D.host.g i) ∧
+    ∃ N : Submodule (𝓞 D.host.E) (Fin D.R.k → D.host.E), IsOverLattice (Lv u) N
+
+def OverLattice : Prop :=
+  ∀ (D : D7) (Lv : LevelData D) (u : D.what₂.Word), OverLatticeAt D Lv u
+
+end GlobalTheory.IndefiniteRowSideFullHecke.OverPlaceIntegralForm
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.SelfDualLatticeOrthogonalParts
+
+open scoped TensorProduct Pointwise
+open NumberField IsDedekindDomain
+open Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice
+
+def UnramifiedAtFinite (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E]
+    [Algebra F E] : Prop :=
+  ∀ P : HeightOneSpectrum (𝓞 E), Algebra.IsUnramifiedAt (𝓞 F) P.asIdeal
+
+section Lattice
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+  (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)
+
+def IsSelfDualLattice (L : Submodule (𝓞 E) (Fin M → E)) : Prop :=
+  L.FG ∧ Submodule.span E (L : Set (Fin M → E)) = ⊤ ∧
+    ∀ y : Fin M → E, y ∈ L ↔ ∀ x ∈ L, IsIntegral ℤ (hE σ J x y)
+
+def perpPart (L : Set (Fin M → E)) (x : Fin M → E) : Set (Fin M → E) :=
+  {y | y ∈ L ∧ hE σ J x y = 0}
+
+def actVec (k : HA (Af F) σ J) (y : Fin M → Af F ⊗[F] E) : Fin M → Af F ⊗[F] E :=
+  ((HA.mat (Af F) σ J k : GL (Fin M) (Af F ⊗[F] E)) :
+    Matrix (Fin M) (Fin M) (Af F ⊗[F] E)).mulVec y
+
+def ratVec (F : Type) [Field F] [NumberField F] [Algebra F E] (x : Fin M → E) :
+    Fin M → Af F ⊗[F] E := fun i => inclR (Af F) (x i)
+
+omit [NumberField E] in
+theorem actVec_one (y : Fin M → Af F ⊗[F] E) : actVec σ J 1 y = y := by
+  show ((1 : GL (Fin M) (Af F ⊗[F] E)) : Matrix (Fin M) (Fin M) _).mulVec y = y
+  simp
+
+omit [NumberField E] in
+theorem actVec_mul (g k : HA (Af F) σ J) (y : Fin M → Af F ⊗[F] E) :
+    actVec σ J (g * k) y = actVec σ J g (actVec σ J k y) := by
+  show (((HA.mat (Af F) σ J g) * (HA.mat (Af F) σ J k) : GL (Fin M) (Af F ⊗[F] E)) :
+      Matrix (Fin M) (Fin M) _).mulVec y = _
+  unfold actVec
+  rw [Units.val_mul, Matrix.mulVec_mulVec]
+
+def stabHat (L : Set (Fin M → E)) : Subgroup (HA (Af F) σ J) where
+  carrier := {k | ∀ y, y ∈ latHat F E L ↔ actVec σ J k y ∈ latHat F E L}
+  one_mem' := by intro y; rw [actVec_one]
+  mul_mem' := by
+    intro a b ha hb y
+    rw [actVec_mul]
+    exact (hb y).trans (ha _)
+  inv_mem' := by
+    intro g hg y
+    have := hg (actVec σ J g⁻¹ y)
+    rw [← actVec_mul, mul_inv_cancel, actVec_one] at this
+    exact this.symm
+
+abbrev stabVec (x : Fin M → E) : Subgroup (HA (Af F) σ J) := Hstab (Af F) σ J (fun _ => x)
+
+def OrbitClaims (L : Set (Fin M → E)) (x : Fin M → E) (β : F) : Prop :=
+  (∀ y ∈ latHat F E L, qR (Af F) σ J y = algebraMap F (Af F) β →
+    ∃ k ∈ stabHat σ J L, actVec σ J k (ratVec F x) = y) ∧
+  {h : HA (Af F) σ J | actVec σ J h⁻¹ (ratVec F x) ∈ latHat F E L} =
+    (stabVec σ J x : Set (HA (Af F) σ J)) * (stabHat σ J L : Set (HA (Af F) σ J)) ∧
+  stabHat σ J L ⊓ stabVec σ J x = stabHat σ J (perpPart σ J L x) ⊓ stabVec σ J x
+
+end Lattice
+
+def StabTransitive : Prop :=
+  ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+    (σ : E →ₐ[F] E), IsCMExt F E σ → UnramifiedAtFinite F E →
+    ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J →
+    ∀ L : Submodule (𝓞 E) (Fin M → E), IsSelfDualLattice σ J L →
+    ∀ (β : F), (β = 1 ∨ β = -1) →
+    ∀ x ∈ L, hE σ J x x = algebraMap F E β →
+      OrbitClaims σ J (L : Set (Fin M → E)) x β
+
+section Basic₂
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+  (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)
+
+
+omit [NumberField E] in
+theorem mem_stabVec (x : Fin M → E) (k : HA (Af F) σ J) :
+    k ∈ stabVec σ J x ↔ actVec σ J k (ratVec F x) = ratVec F x := by
+  constructor
+  · intro h
+    exact congrFun (MulAction.mem_stabilizer_iff.1 h) 0
+  · intro h
+    exact MulAction.mem_stabilizer_iff.2 (funext fun _ => h)
+
+end Basic₂
+
+end GlobalTheory.IndefiniteRowSideFullHecke.SelfDualLatticeOrthogonalParts
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.ColumnStabiliser
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.UG Formalism.MainNotions.StandardLattice
+open scoped TensorProduct
+
+def colStab (D : D7) (Lv : LevelData D) (u : D.what₂.Word) :
+    letI := D.host.cmStar
+    UPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F) →
+      Subgroup (GL (Fin D.R.k) D.host.E) :=
+  letI := D.host.cmStar
+  fun y =>
+    UJ (D.sp.cm.sig : D.host.E →+* D.host.E) D.sp.gram0 ⊓
+      ((Lv u).U.comap (MulAut.conj (y : GL (Fin D.R.k)
+          (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F))⁻¹).toMonoidHom).comap
+        (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)))
+
+theorem mem_colStab (D : D7) (Lv : LevelData D) (u : D.what₂.Word) :
+    letI := D.host.cmStar
+    ∀ (y : UPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F))
+      (γ : GL (Fin D.R.k) D.host.E),
+      γ ∈ colStab D Lv u y ↔
+        γ ∈ UJ (D.sp.cm.sig : D.host.E →+* D.host.E) D.sp.gram0 ∧
+          (y : GL (Fin D.R.k) _)⁻¹ *
+            bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) γ *
+            (y : GL (Fin D.R.k) _) ∈ (Lv u).U := by
+  intro y γ
+  simp [colStab, Subgroup.mem_inf, Subgroup.mem_comap]
+
+def ColStabTrivialAt (D : D7) (Lv : LevelData D) (u : D.what₂.Word) : Prop :=
+  letI := D.host.cmStar
+  GBig D → (∀ i : Fin 2, SplitsF D (D.host.g i)) →
+    ∀ y : UPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F),
+      colStab D Lv u y = ⊥
+
+def ColStabTrivial : Prop :=
+  ∀ (D : D7) (Lv : LevelData D) (u : D.what₂.Word), ColStabTrivialAt D Lv u
+
+theorem map_colStab (D : D7) (Lv : LevelData D) (u : D.what₂.Word) :
+    letI := D.host.cmStar
+    ∀ y : UPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F),
+      (colStab D Lv u y).map (bc (inclE (F := D.host.F) (FiniteAdeleRing (𝓞 D.host.F) D.host.F))) =
+        ratPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F) ⊓
+          (Lv u).U.map (MulAut.conj (y : GL (Fin D.R.k) _)).toMonoidHom := by
+  intro y
+  ext x
+  constructor
+  · rintro ⟨γ, hγ, rfl⟩
+    obtain ⟨h1, h2⟩ := (mem_colStab D Lv u y γ).1 hγ
+    exact ⟨⟨γ, h1, rfl⟩, ⟨_, h2, by simp [mul_assoc]⟩⟩
+  · rintro ⟨⟨γ, h1, rfl⟩, z, hz, hz'⟩
+    refine ⟨γ, (mem_colStab D Lv u y γ).2 ⟨h1, ?_⟩, rfl⟩
+    rw [← hz']
+    simpa [mul_assoc] using hz
+
+end GlobalTheory.IndefiniteRowSideFullHecke.ColumnStabiliser
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.TrivialColumnStabiliser
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.UG Formalism.MainNotions.StandardLattice
+open scoped TensorProduct
+
+def GAf (D : D7) :
+    Subgroup (GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :=
+  letI := D.host.cmStar
+  UPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F)
+
+def GRat (D : D7) :
+    Subgroup (GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :=
+  letI := D.host.cmStar
+  ratPts D.sp.cm.sig D.sp.gram0 (FiniteAdeleRing (𝓞 D.host.F) D.host.F)
+
+def colU (D : D7) (Lv : LevelData D) (u : D.what₂.Word) :
+    Subgroup (GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :=
+  letI := D.host.cmStar
+  ColLevel.U (Lv u)
+
+def stabGroup (D : D7) (Lv : LevelData D) (u : D.what₂.Word)
+    (y : GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :
+    Subgroup (GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :=
+  GRat D ⊓ (colU D Lv u).map (MulAut.conj y).toMonoidHom
+
+def ColumnStabilisersTrivial : Prop :=
+  ∀ (D : D7) (Lv : LevelData D) (u : D.what₂.Word),
+    GBig D → (∀ i : Fin 2, SplitsF D (D.host.g i)) →
+      ∀ y ∈ GAf D, stabGroup D Lv u y = ⊥
+
+theorem mem_stabGroup (D : D7) (Lv : LevelData D) (u : D.what₂.Word)
+    (y γ : GL (Fin D.R.k) (D.host.E ⊗[D.host.F] FiniteAdeleRing (𝓞 D.host.F) D.host.F)) :
+    γ ∈ stabGroup D Lv u y ↔ γ ∈ GRat D ∧ y⁻¹ * γ * y ∈ colU D Lv u := by
+  unfold stabGroup
+  rw [Subgroup.mem_inf, Subgroup.mem_map]
+  refine and_congr_right fun _ => ⟨?_, fun h => ⟨_, h, ?_⟩⟩
+  · rintro ⟨x, hx, rfl⟩
+    simpa [mul_assoc] using hx
+  · simp [mul_assoc]
+
+end GlobalTheory.IndefiniteRowSideFullHecke.TrivialColumnStabiliser
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.InfiniteCoordinateUnfold
+
+open NumberField MeasureTheory Matrix Formalism.BasicNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice
+open scoped ENNReal TensorProduct
+
+abbrev RightCosets {G' G : Type} [Group G'] [Group G] (j : G' →* G) : Type :=
+  Quotient (QuotientGroup.rightRel j.range)
+
+def IsQuotientMeasure {G' G : Type} [Group G'] [Group G] [MeasurableSpace G'] [MeasurableSpace G]
+    (j : G' →* G) (m' : Measure G') (m : Measure G) (ν : Measure (RightCosets j)) : Prop :=
+  ∀ f : G → ℝ≥0∞, Measurable f →
+    ∫⁻ g, f g ∂m = ∫⁻ c, ∫⁻ g', f (j g' * Quotient.out c) ∂m' ∂ν
+
+def IsStabEmb {P' Q' P Q : ℕ} (x₀ : Fin P ⊕ Fin Q → ℂ) (j : UpqT P' Q' →* UpqT P Q) : Prop :=
+  ∃ C : Matrix (Fin P ⊕ Fin Q) (Fin P' ⊕ Fin Q') ℂ,
+    Cᴴ * Formalism.UG.Jpq P Q * C = Formalism.UG.Jpq P' Q' ∧
+    (Cᴴ * Formalism.UG.Jpq P Q) *ᵥ x₀ = 0 ∧
+    ∀ g' : UpqT P' Q', UpqT.mat (j g') *ᵥ x₀ = x₀ ∧ UpqT.mat (j g') * C = C * UpqT.mat g'
+
+def piEmb {T : Type} {P' Q' P Q : ℕ} (j : T → (UpqT P' Q' →* UpqT P Q)) :
+    (T → UpqT P' Q') →* (T → UpqT P Q) where
+  toFun g ρ := j ρ (g ρ)
+  map_one' := by funext ρ; simp
+  map_mul' g h := by funext ρ; simp
+
+def infCoord {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {M P Q : ℕ}
+    (θ : Ainf F ⊗[F] E →+* ℂ) (A : Matrix (Fin P ⊕ Fin Q) (Fin M) ℂ)
+    (Y : Fin 1 → Fin M → Ainf F ⊗[F] E) : Fin P ⊕ Fin Q → ℂ :=
+  A *ᵥ fun i => θ (Y 0 i)
+
+def phiLat {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {M : ℕ}
+    (L : Set (Fin M → E)) (Φi : (Fin 1 → Fin M → Ainf F ⊗[F] E) → ℝ≥0∞)
+    (X : Fin 1 → Fin M → AF F ⊗[F] E) : ℝ≥0∞ :=
+  (latHat F E L : Set (Fin M → Af F ⊗[F] E)).indicator 1 (projFin X 0) * Φi (projInf X)
+
+def atInv {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] (σ : E →ₐ[F] E) {M : ℕ}
+    (J : Matrix (Fin M) (Fin M) E) (Φ : (Fin 1 → Fin M → AF F ⊗[F] E) → ℝ≥0∞)
+    (h : HA (AF F) σ J) (x : Fin 1 → Fin M → E) : ℝ≥0∞ :=
+  Φ (h⁻¹ • ratTup (F := F) (AF F) x)
+
+def coordTup {E : Type} [Field E] [NumberField E] [StarRing E] (W : HSpace E) (x : W.V) :
+    Fin 1 → Fin W.rank → E :=
+  fun _ i => W.frame.repr x i
+
+def UnfoldAt (D : D7) : letI := D.host.cmStar;
+    ∀ (W W' : HSpace D.host.E) (_P _Q _P' _Q' : ℕ) (_β : D.host.E) (_x : W.V), Prop :=
+  letI := D.host.cmStar
+  fun W W' P Q P' Q' β x =>
+  ∀ (μ : Measure (HA (AF D.host.F) D.sp.cm.sig W.gram))
+    (μ' : Measure (HA (AF D.host.F) D.sp.cm.sig W'.gram))
+    (𝓕 : Set (HA (AF D.host.F) D.sp.cm.sig W.gram))
+    (𝓕' : Set (HA (AF D.host.F) D.sp.cm.sig W'.gram)),
+    IsVolMeas D W P Q μ → IsVolMeas D W' P' Q' μ' →
+    IsFundamentalDomain (HFinIn (AF D.host.F) D.sp.cm.sig W.gram) 𝓕 μ →
+    IsFundamentalDomain (HFinIn (AF D.host.F) D.sp.cm.sig W'.gram) 𝓕' μ' →
+    μ 𝓕 < ⊤ → μ' 𝓕' < ⊤ →
+    AllSome (fun θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.host.F] D.host.E →+* ℂ) =>
+      ∀ ρ, IsInfEmb (embOf D ρ) (θ ρ)) fun θ =>
+    AllSome (fun A : D.what₂.Tau → Matrix (Fin P ⊕ Fin Q) (Fin W.rank) ℂ =>
+      ∀ ρ, (A ρ)ᴴ * Formalism.UG.Jpq P Q * A ρ = W.gram.map (embOf D ρ)) fun A =>
+    AllSome (fun j : D.what₂.Tau → (UpqT P' Q' →* UpqT P Q) =>
+      ∀ ρ, IsStabEmb (A ρ *ᵥ fun i => embOf D ρ (coordTup W x 0 i)) (j ρ)) fun j =>
+    AllSome (IsQuotientMeasure (piEmb j) (Measure.pi fun _ => D.cd.cd P' Q')
+      (Measure.pi fun _ => D.cd.cd P Q)) fun ν =>
+    AllSome (fun pt : (D.what₂.Tau → UpqT P Q) →
+        (Fin 1 → Fin W.rank → Ainf D.host.F ⊗[D.host.F] D.host.E) =>
+      ∀ g ρ, infCoord (θ ρ) (A ρ) (pt g) =
+        UpqT.mat (g ρ)⁻¹ *ᵥ (A ρ *ᵥ fun i => embOf D ρ (coordTup W x 0 i))) fun pt =>
+    ∀ Φi : (Fin 1 → Fin W.rank → Ainf D.host.F ⊗[D.host.F] D.host.E) → ℝ≥0∞, Measurable Φi →
+      ∫⁻ h in 𝓕, ∑' x' : {x' : W.V // W.hT x' x' = β},
+          atInv D.sp.cm.sig W.gram (phiLat (L0c D W) Φi) h (coordTup W x'.1) ∂μ =
+        μ' 𝓕' * ∫⁻ c, Φi (pt (Quotient.out c)) ∂ν
+
+def Unfolding (D : D7) : Prop :=
+  letI := D.host.cmStar
+  ∀ (W : HSpace D.host.E) (P Q : ℕ), W.SigOK → (∀ τ, W.sig τ = (P, Q)) → 3 ≤ W.rank →
+    ∀ s : Bool, (if s then 1 ≤ P else 1 ≤ Q) →
+    ∀ x : W.V, W.hT x x = (if s then 1 else -1) → x ∈ W.L0 →
+    ∀ (W' : HSpace D.host.E) (ι : W'.V →ₗ[D.host.E] W.V),
+      HSpace.IsIsomEmb W' W ι → LinearMap.range ι = LinearMap.ker (W.hT x) → W'.SigOK →
+      (∀ τ, W'.sig τ = (if s then (P - 1, Q) else (P, Q - 1))) →
+      (∀ y, y ∈ W'.L0 ↔ ι y ∈ W.L0) →
+      UnfoldAt D W W' P Q (if s then P - 1 else P) (if s then Q else Q - 1) (if s then 1 else -1) x
+
+theorem IsStabEmb.inv_mul_fix {P' Q' P Q : ℕ} {x₀ : Fin P ⊕ Fin Q → ℂ} {j : UpqT P' Q' →* UpqT P Q}
+    (hj : IsStabEmb x₀ j) (g' : UpqT P' Q') (g : UpqT P Q) :
+    UpqT.mat (j g' * g)⁻¹ *ᵥ x₀ = UpqT.mat g⁻¹ *ᵥ x₀ := by
+  obtain ⟨C, -, -, h⟩ := hj
+  have h1 := (h g'⁻¹).1
+  have e : UpqT.mat (j g' * g)⁻¹ = UpqT.mat g⁻¹ * UpqT.mat (j g'⁻¹) := by
+    rw [_root_.mul_inv_rev, ← map_inv]; rfl
+  rw [e, ← Matrix.mulVec_mulVec, h1]
+
+end GlobalTheory.IndefiniteRowSideFullHecke.InfiniteCoordinateUnfold
+end
+end

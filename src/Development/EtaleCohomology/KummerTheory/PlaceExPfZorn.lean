@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.KummerTheory.PlaceExPf
+public import Development.EtaleCohomology.KummerTheory.Bundle006
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,9 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.LocHerm
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalGluing.ExistsIntegralMultiple
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalGluing.MemOfProjEqZero
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalGluing.RieszRepresentationHolds
+public import Formalism.PeriodIntegrals.Bundle016
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalGluing.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

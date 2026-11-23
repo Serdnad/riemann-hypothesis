@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlockTriangularOneAddMat
 public import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwasawaBlockTriangular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,6 +64,8 @@ open GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.SmGL ValuativeRel Mea
 open scoped TensorProduct ENNReal
 
 namespace GlobalTheory.SmGL.UnitInd
+
+attribute [local instance 2000] _root_.GlobalTheory.SplitWeil.matrixMeasurableSpace
 
 section Tensor
 

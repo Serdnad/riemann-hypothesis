@@ -1,13 +1,13 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MixedCoefficientClosed
+public import Formalism.SharpRestriction.GrowthBounds.Bundle005
 public import Formalism.LocalToGlobal.CharacterGerms.FirstPartialLawAtPoints
-public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerate
-import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle030
+import Formalism.LocalToGlobal.CharacterGerms.Bundle007
+import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 import Formalism.LocalToGlobal.CharacterGerms.RowTieJet
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCartSelfSt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
 import Formalism.LocalToGlobal.CharacterGerms.TripleSubstSecondCoordinate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.TateUnramifiedOfTorsionUnramified
 public import Mathlib.RingTheory.Invariant.Defs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubMemPowSucc
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

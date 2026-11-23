@@ -1,17 +1,17 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BundleIsoOntoPullbackIntertwinesTransitionsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsVectorFieldPullbackBaseChangeDerivationStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FromSpecAppLETopEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAffineHomOfField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDeformationChartPointSpecMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsKodairaSpencerOfCohomologousCocycleStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerConditionRestrictBasicOpenOfAffine
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LePreimageOfIsTranslate
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PointDerivationsEqZeroKillingBothFactorsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReductionEqBasePoint
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TangentTranslateLiftsSemiAbelianTripleMapStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2877
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3073
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle779
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2295
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2293
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2859
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2375
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2612
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3080
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle780
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle810
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,10 +51,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLinearHomPull
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle031
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 import Development.AbelianVarietyTheory.Definitions.Divisors.RigidForFan
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsInvDer
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 

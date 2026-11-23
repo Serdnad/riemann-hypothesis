@@ -140,7 +140,7 @@ variable {l : ℕ} [Fact l.Prime] (ι : Qbar l ≃+* ℂ) {E : Type} [Field E] [
   {u : HeightOneSpectrum (𝓞 E)} (ψ : u.adicCompletion E →+* ℂ)
 
 private noncomputable def dg {n : ℕ} (ϖ : (u.adicCompletion E)ˣ) (a : Fin n → ℤ) : GL (Fin n) (u.adicCompletion E) :=
-  diagGL _ n fun i => ϖ ^ a i
+  _root_.Formalism.BasicNotions.diagGL _ n fun i => ϖ ^ a i
 
 private theorem dg_inv {n : ℕ} (ϖ : (u.adicCompletion E)ˣ) (a : Fin n → ℤ) : (dg ϖ a)⁻¹ = dg ϖ (-a) := by
   refine inv_eq_of_mul_eq_one_right (Units.ext ?_)
@@ -196,7 +196,7 @@ private theorem side {n : ℕ} (lam : DomWeight n) {κ : Type} [Fintype κ] [Dec
         simp [c]
       · simp [h, Ne.symm h]
     · ext r s
-      simp [dg, diagGL, diagonal_apply, apply_ite ψ]
+      simp [dg, _root_.Formalism.BasicNotions.diagGL, diagonal_apply, apply_ite ψ]
   have hT : ∀ x y : GL (Fin n) ℂ, LinearMap.toMatrix b b (GlobalTheory.Branching.sqRep ℂ n lam (x * y)) =
       LinearMap.toMatrix b b (GlobalTheory.Branching.sqRep ℂ n lam x) * LinearMap.toMatrix b b (GlobalTheory.Branching.sqRep ℂ n lam y) :=
     fun x y => by rw [map_mul, Module.End.mul_eq_comp, LinearMap.toMatrix_comp b b b]
@@ -238,7 +238,7 @@ private theorem decomp (hψ : ∀ x, Valued.v x ≤ 1 → nu ι (ψ x) ≤ 1) {n
     rw [h1] at h2
     have h3 : Valued.v ((ϖ : u.adicCompletion E) ^ a i) ≤ 1 := by
       have : (dg ϖ a).val i i = (ϖ : u.adicCompletion E) ^ a i := by
-        simp [dg, diagGL, Units.val_zpow_eq_zpow_val]
+        simp [dg, _root_.Formalism.BasicNotions.diagGL, Units.val_zpow_eq_zpow_val]
       rw [← this]
       exact h2
     rw [map_zpow₀] at h3

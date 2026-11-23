@@ -378,7 +378,7 @@ theorem iota_move {Λ : Submodule (𝓞 E) S.V} {F : LFlag S r T} {G₁ G₂ K�
 end MoveC
 
 def IotaRowC : Prop :=
-  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (s₁ s₂ : TT Y u u'),
+  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (s₁ s₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'),
     rowOf Y.TR (Y.cs u) (Y.cs u') s₁ = rowOf Y.TR (Y.cs u) (Y.cs u') s₂ →
     IotaCompat s₁.lam (lf D (X.Fu u)) s₁.frame s₂.frame (s₂.lin * s₁.lin⁻¹) (gS D)
 
@@ -389,7 +389,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7} {X : HidaSetting D} {Y : Full X} {u u' : D.what₂.Word}
 
 open Formalism.L2.SG.TermTieOf in
-theorem dc_rep {s : TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
+theorem dc_rep {s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
     s.lam = t.lam ∧ TermDef.DCRel s.lam (lf D (X.Fu u)) s.frame (repF t) := by
   subst h
   refine ⟨rfl, ?_⟩
@@ -398,7 +398,7 @@ theorem dc_rep {s : TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
     (Quot.out s.toTerm.cls)).1 (Quot.out_eq _).symm
 
 open Formalism.L2.SG.TermTieOf in
-theorem mv_spec {s : TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
+theorem mv_spec {s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
     s.lam = t.lam ∧ ∃ n ∈ NLam t.lam (lf D (X.Fu u)), ∃ m ∈ NLam t.lam s.frame,
       (∀ a, frame (repF t) a = n (m (frame s.frame a))) ∧ (repF t).zt = n (m s.frame.zt) ∧
       mvOf t.lam (lf D (X.Fu u)) s.frame (repF t) = n * m := by
@@ -409,7 +409,7 @@ theorem mv_spec {s : TT Y u u'} {t : RT Y u u'} (h : s.toTerm = t) :
   unfold mvOf
   rw [dite_eq_left hdc']
 
-theorem beta_Xsp (s₁ s₂ : TT Y u u') :
+theorem beta_Xsp (s₁ s₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') :
     (Xsp s₁.frame).map ((s₂.lin * s₁.lin⁻¹ : (VS D).V ≃ₗ[D.host.E] (VS D).V) : (VS D).V →ₗ[D.host.E] (VS D).V) =
       Xsp s₂.frame := by
   rw [Xsp_frame, Xsp_frame]
@@ -425,13 +425,13 @@ theorem beta_Xsp (s₁ s₂ : TT Y u u') :
     show s₂.lin (s₁.lin.symm (s₁.lin x0)) = s₂.lin x0
     rw [LinearEquiv.symm_apply_apply]
 
-theorem beta_frame (s₁ s₂ : TT Y u u') (a : Fin (D.R.rS + 1)) :
+theorem beta_frame (s₁ s₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (a : Fin (D.R.rS + 1)) :
     (s₂.lin * s₁.lin⁻¹) (frame s₁.frame a) = frame s₂.frame a := by
   rw [frame_apply, frame_apply]
   show s₂.lin (s₁.lin.symm (s₁.lin _)) = _
   rw [LinearEquiv.symm_apply_apply]
 
-theorem beta_aut (s₁ s₂ : TT Y u u') (hl : s₁.lam = s₂.lam) (hl' : s₁.lam' = s₂.lam') :
+theorem beta_aut (s₁ s₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (hl : s₁.lam = s₂.lam) (hl' : s₁.lam' = s₂.lam') :
     IsAutLam (VS D) s₁.lam (s₂.lin * s₁.lin⁻¹) := by
   refine ⟨(Formalism.HermitianLatticesTheory.isom (VS D).hT).mul_mem (lin_isom s₂) ((Formalism.HermitianLatticesTheory.isom (VS D).hT).inv_mem (lin_isom s₁)), ?_⟩
   rw [gmap_mul, gmap_inv (lin_lam s₁), hl', lin_lam s₂, hl]

@@ -1,12 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.BqOriginSt
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhOneValSt
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle027
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ScaleGenIsGen
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpSActPS
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle028
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GmHomAt
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.HasSubstActPS
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle025
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSEqJetMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,14 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.PowerSeriesHasSumAt
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle001
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.Topology.MetricSpace.Ultra.Basic
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FormalGroupNatMulSeriesEvalOpenDiscPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FormalGroupNatMulSeriesPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FormalGroupTorsionTowerExactOrderStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MvPowerSeriesIntegralBoundedClosureStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NormCoeffIntegralPowerSeriesLeProdZerosStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PowerSeriesEvalTsumUnitDiscPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle058
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle015
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

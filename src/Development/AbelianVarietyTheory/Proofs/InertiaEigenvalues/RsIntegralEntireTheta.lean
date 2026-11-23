@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DecaysOfMemSmoothSpan
 public import GroundTheory.AutomorphicForms.FourierWhittaker.PartialCoeffDiagonalBlockGLEqVecCoeff
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixAdelic
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqZeroOfMemWeakIn
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeAdelicMatrixIntegralTranslate
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemContraIff
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SchwartzBruhatIntegrableMomentsStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1298
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle105
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle648
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle553
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+import GroundTheory.AutomorphicForms.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

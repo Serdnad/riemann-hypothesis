@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
-public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidSt
+public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

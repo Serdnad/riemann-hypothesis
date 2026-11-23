@@ -2,8 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FubiniHeadLastPart
 public import Mathlib.Tactic.Linter.HaveILetI
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousInvUpper
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.StabilizerBlockPoint
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle005
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SymmetricScalarBlockMatrixMul
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

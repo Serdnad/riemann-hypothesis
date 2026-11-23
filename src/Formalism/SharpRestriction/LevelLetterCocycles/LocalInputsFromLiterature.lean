@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.KillWinFromCut
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle033
 import Formalism.SharpRestriction.LevelLetterCocycles.PsCoprimeOf
 import Formalism.SharpRestriction.LevelLetterCocycles.RingConditionOfDeltaInvariants
 import Formalism.SharpRestriction.LevelLetterCocycles.SaturationPullbackOfRingCondition

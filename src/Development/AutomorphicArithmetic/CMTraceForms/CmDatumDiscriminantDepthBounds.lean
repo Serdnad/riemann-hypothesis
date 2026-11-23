@@ -2,10 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.PrimeDiscriminants.SlopeTestRemainingChoices
 public import Mathlib.Analysis.SpecialFunctions.Log.Base
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.InertD
-import Development.AutomorphicArithmetic.FrobeniusLocalisation.LayerBot
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.VdLe
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle008
+import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle005
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FRatioSelf
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle055
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ComparisonMemCechHodgeFiltration
 public import Development.AbelianVarietyTheory.Definitions.Divisors.DetJacMatCoordsEqTransitionJacobianDet
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RingKrullDimLeOfQuasiFinite
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AlgebraMapBasicOpen
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsCotangentBasis
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsGenericForms
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsProjFormNonvanishingGenericPointComplexPoi
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FRatioLinear
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RatioSpanCotangentChangeDenominator
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle128
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle125
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle129
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle060
 import Mathlib.Algebra.Module.Submodule.Union
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,8 +50,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
-import Development.AbelianVarietyTheory.Definitions.Divisors.CupPair
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
 
 @[expose] public section
 

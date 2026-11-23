@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementE
+public import Formalism.RealPlaceAnalysis.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousConjFin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SiegelHeights.MultiCentre
 import Mathlib.Algebra.Order.Floor.Extended
@@ -44,7 +44,7 @@ import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlice
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OneMemGoodCT
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.AltSum
 import GroundTheory.AutomorphicForms.QuotientMeasure
-import GroundTheory.AutomorphicForms.ReductionBlock
+import GroundTheory.AutomorphicForms.Bundle003
 
 @[expose] public section
 

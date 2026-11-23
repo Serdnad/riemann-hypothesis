@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementF
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ImportsTail
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle020
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Heckecomm
 import Mathlib.Algebra.Order.Floor.Extended

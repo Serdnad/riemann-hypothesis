@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
-public import Formalism.LocalToGlobal.Divisibility.ZscOfNum
-public import Formalism.SharpRestriction.ElevenLe
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.RBLam
-import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GZeroLogBound
+public import Formalism.LocalToGlobal.Divisibility.Bundle006
+public import Formalism.SharpRestriction.Bundle001
+public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.Bundle001
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

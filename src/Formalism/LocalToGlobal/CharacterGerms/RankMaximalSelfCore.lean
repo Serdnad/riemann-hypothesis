@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieSelfCuts
-public import Formalism.LocalToGlobal.CharacterGerms.FirstVanishingAt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle035
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroFirstThenZero
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePAddCvSelf
-public import Formalism.LocalToGlobal.CharacterGerms.UncurryLinearCombination
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

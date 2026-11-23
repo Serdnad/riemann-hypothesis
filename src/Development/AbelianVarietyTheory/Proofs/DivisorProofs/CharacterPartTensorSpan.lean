@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TprodMemTensSpan
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TprodMemDegLE
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1373
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1367
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemSpanTprodOfCommuteAtEachPlace
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MinFirst
 import Mathlib.Algebra.Order.Floor.Extended

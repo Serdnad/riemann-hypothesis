@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ArchSlice
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
-import Development.AbelianVarietyTheory.Definitions.Foundations.ConstTermOnMulLeftOfNormalizer
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle015
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsMaximalCompactInfinite
-public import Development.WeilBound.ThetaLifts.FrameEstimates.GrpTop
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle006
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.SliceAn
 public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.SliceLine
 import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.TracePiReal
@@ -213,7 +213,7 @@ theorem k_ops (hS : StabEx) (hO : ArchOp) {K : Subgroup (UA σ X.J)} (hK : IsSta
       exact ⟨C, fun k => hC k trivial⟩) q hq
   refine ⟨T, hT, fun k => hPol k ⟨(mem_kAt.1 k.2).2, ((hK _).1 (mem_kAt.1 k.2).1).1⟩ ⟨h1, fun w => ?_⟩,
     fun f => strong_of_weak _ (hw f) (hb f), fun q hq => equicont T q hq fun f => hb f q hq⟩
-  rw [mat_one', Matrix.map_one _ (map_zero _) (map_one _)]
+  rw [PositivityTheory.ThKF.mat_one', Matrix.map_one _ (map_zero _) (map_one _)]
   exact Commute.one_left _
 
 theorem op_comp (hH : ArchHeis) (hU : ArchUniq) {χX χW om r s r' s'} (hP : IsPair B M χX χW om r s r' s') {k T}

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTPresNuOfPolys
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle021
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HtCoLOfEq
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UniqTrue
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FiniteIndexStabilizer
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RecipConj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

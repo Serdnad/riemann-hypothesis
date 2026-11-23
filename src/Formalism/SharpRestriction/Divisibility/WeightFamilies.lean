@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.ModuliIntegralCharts
-public import Formalism.GelfandTransference.EnergyIdentity
+public import Formalism.GelfandTransference.Bundle001
 public import Formalism.SharpRestriction.ParConsts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

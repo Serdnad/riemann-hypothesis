@@ -1,8 +1,8 @@
 module
 
-public import Formalism.GaussJetBounds.Statement
+public import Formalism.GaussJetBounds.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.AsmOne
-public import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffEvenDerivativeEqZero
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle003
 public import Formalism.GaussJetBounds.GaussJetProofs.ExistsNeZeroOfFinsumNeZero
 public import Formalism.GaussJetBounds.GaussJetProofs.LogStep
 import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison

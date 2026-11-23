@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsComplDescCompl
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle204
 public import Formalism.LocalRingCardinality.ConjSqrtMinusD
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Module.Lattice.Full

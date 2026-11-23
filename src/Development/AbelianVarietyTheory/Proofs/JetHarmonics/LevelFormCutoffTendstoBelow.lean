@@ -1,8 +1,8 @@
 module
 
 public import Formalism.HermitianCurvature.RealInputsClosedAdmissibleSettings
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BetaFinsetSumSmulOfXiExists
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BXiAsm
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle143
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle135
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CccoefMono
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactlySupportedBanachModel
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyContinuousOn

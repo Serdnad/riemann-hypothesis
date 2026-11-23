@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesOfLevelZeroParts
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesAdmittedOfLevels
-public import Formalism.SharpRestriction.LevelLetterCocycles.PolarToPoleOfCtx
-public import Formalism.SharpRestriction.LevelLetterCocycles.SplitPolarLOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle042
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

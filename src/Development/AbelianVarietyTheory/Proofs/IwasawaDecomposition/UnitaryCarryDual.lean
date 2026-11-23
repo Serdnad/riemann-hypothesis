@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataLevel
+public import Formalism.LocalRingCardinality.Bundle002
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

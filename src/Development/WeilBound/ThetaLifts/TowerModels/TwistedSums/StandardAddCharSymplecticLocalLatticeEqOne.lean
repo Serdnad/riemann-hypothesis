@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.LatAtVAtStable
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TraceMixedEmbedding
+public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle021
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

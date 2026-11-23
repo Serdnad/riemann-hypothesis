@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowEqPowOfModEqSim
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSimSys
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle547
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle597
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

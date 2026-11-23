@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Formalism.LocalToGlobal.GroupLattices.DownNaturalLevelZero
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
 public import Formalism.LocalToGlobal.Columns.PolyFnLemmas
-public import Formalism.LocalToGlobal.Columns.TiedValRat
+public import Formalism.LocalToGlobal.Columns.Bundle038
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColStd
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.RankConditionsOfLayerTwo
 import Mathlib.Algebra.Order.Floor.Extended

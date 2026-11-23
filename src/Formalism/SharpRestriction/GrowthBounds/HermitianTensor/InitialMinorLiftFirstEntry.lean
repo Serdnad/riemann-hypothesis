@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.DerivativeRepresentation
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle003
 import Formalism.GradedWeylDivisibility.FinalC
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.OneMemDualWeyl
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.NuOfLoZero

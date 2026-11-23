@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColFin
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColInf
-public import Formalism.LocalToGlobal.GlobalTheory.HLatOps
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.SlopeMaxOpenOfHookTwoLeV
-public import Formalism.LocalToGlobal.Columns.BrzoPairAtZeroRight
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PColStd
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PZBasis
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.AlternatingFormStandardHermitian

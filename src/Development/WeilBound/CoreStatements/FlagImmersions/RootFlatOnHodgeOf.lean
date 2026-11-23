@@ -2,12 +2,12 @@ module
 
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NearRecordOfValue
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatDegree
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatHermRootLineDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalSystemSplitFibresStatement
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
 public import Development.WeilBound.CoreStatements.FlagImmersions.SpecMapFactorisation
 public import Development.WeilBound.CoreStatements.FlagImmersions.TauInInjective
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsPoint
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -69,6 +69,7 @@ theorem sum_Iic_step {M : Type} [AddCommGroup M] {N : ℕ} (f : Fin N → M) (i 
       omega
     rw [this]; simp
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem rootFlatOnHodge_of (h1 : CptEx) (h2 : PeriodOf) (h3 : SmoothLine) (h4 : LocalCmp) (h5 : ChiEx) (h6 : Numerics)
     (hFD : FlatDegree) (hG : Top.Given) : RootFlatOnHodge := by
   intro E _ _ _ _ H D Xo l c Y bad M Sys Fx o hY hp hq hbad hom τ

@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.DeltaProdAlt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CharacterLaplaceFactorisation
-public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.RealProd
+public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Branch
+public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Bundle001
 
 @[expose] public section
 

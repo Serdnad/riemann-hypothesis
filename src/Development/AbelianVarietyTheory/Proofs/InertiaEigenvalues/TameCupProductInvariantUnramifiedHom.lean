@@ -54,12 +54,12 @@ import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.H1MapSubgroup
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTameInertiaElementAtTwistPrime
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Small2
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceOverMoveValCc
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.VecPairApply
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle016
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle297
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle367
 import Formalism.SharpRestriction.LevelLetterCocycles.BlochKatoPhases
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.HermitianForms.TiedStep
+public import Formalism.LocalToGlobal.HermitianForms.Bundle002
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalToGlobal.HermitianColumns.StarConj
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,9 +41,9 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.IsComplRatCompl
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.InvarianceIffAdditiveMapsExist
 import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
-import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
 import Formalism.SharpRestriction.GrowthBounds.ChartComparison.NrmAMemAdForms
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CoeffProdRename
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 
 @[expose] public section
 

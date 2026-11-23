@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotCoboundaryConstantOne
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CompletedLaurentIsDVRStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DivMemSubalgebraOfValuationLeOneOfUniformizerStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePidSubalgebraDivPadicIntStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGaloisInvariantValuationIntegersEqIntegral
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsGeneratorValuationPrimeDvdPowSubOfFinitePaStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsPowDivPrimeZpowIntegralClosureUnit
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GeometricFixedMemClosureFiniteAlgZpStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle121
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle100
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle067
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ResidueTowerPowersLinearIndependent
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TowerParameterNotPowModMaximalIdealAdjoinAlgebra
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnramifiedIntegersAdicCompleteStatement
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -412,10 +412,13 @@ theorem orth : ∀ (p : ℕ) [Fact p.Prime] (Ω : Type) [Field Ω] [Algebra (O0 
   have hmem : ∀ x : integralClosure (O0 p) Ω, Ideal.Quotient.mk M x = 0 ↔
       ∃ m : ℕ, 0 < m ∧ IsInt (p := p) ((x : Ω) ^ m / (p : Ω)) := fun x => by
     rw [Ideal.Quotient.eq_zero_iff_mem, hM, mem_rad_iff]
-  have : M.IsMaximal := ResidueIndep.rad_isMaximal h
+  have hMmax : M.IsMaximal := ResidueIndep.rad_isMaximal h
   let : Field (integralClosure (O0 p) Ω ⧸ M) := Ideal.Quotient.field M
   have : CharP (integralClosure (O0 p) Ω ⧸ M) p := by
-    rw [CharP.charP_iff_prime_eq_zero hp.out, ← map_natCast (Ideal.Quotient.mk M),
+    haveI : Nontrivial (integralClosure (O0 p) Ω ⧸ M) :=
+      Ideal.Quotient.nontrivial_iff.2 hMmax.ne_top
+    rw [CharP.charP_iff_prime_eq_zero (R := integralClosure (O0 p) Ω ⧸ M) hp.out,
+      ← map_natCast (Ideal.Quotient.mk M),
       Ideal.Quotient.eq_zero_iff_mem]
     exact Ideal.le_radical (Ideal.mem_span_singleton_self _)
   let K : Subfield (integralClosure (O0 p) Ω ⧸ M) :=

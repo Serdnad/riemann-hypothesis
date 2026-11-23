@@ -1,13 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.LatticeGeometry.NormDetInf
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
+public import Formalism.LocalToGlobal.LatticeGeometry.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CurvNormNonneg
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.FundSetMeasStatement
 public import Development.AbelianVarietyTheory.Counterexamples.UpperHalfSurvey.ExistsFundSetOrth
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.FinMuAllData
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.LintegralFundSetInterLe
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,8 +51,8 @@ import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.FundSetMeasPf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.MeasInvStatementPf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.OrthoStatementPf
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle024
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle007
 
 @[expose] public section
 
@@ -344,7 +344,7 @@ def cxOfModels : CxPkg Tau r j Comp where
   connN := fun z => onQuot (connNorm (hodgeI (hodgeC (Y z.1) (κ z.1))) (B z.1).met (B z.1).beta) z.2
   curvN := fun z => onQuot (curvNorm (hodgeI (hodgeC (Y z.1) (κ z.1))) (B z.1).beta) z.2
   normDetInf := fun t z => onQuot
-    (fun w => detNorm (hodgeC (Y z.1) (κ z.1)) ((s z.1 t : ℂ) / (mat (x0F (Y z.1)) (κ z.1 t)).det) w t) z.2
+    (fun w => _root_.GlobalTheory.HodgeDomain.detNorm (hodgeC (Y z.1) (κ z.1)) ((s z.1 t : ℂ) / (mat (x0F (Y z.1)) (κ z.1 t)).det) w t) z.2
 
 end Models
 
@@ -353,7 +353,7 @@ section Moduli
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism.L2.Pj Formalism.L2.PjFree
 
 variable {H : Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ}
-  (U : Unf Xo c σ r) (hU : IsUnf U) (e : Dw.p = j)
+  (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r) (hU : _root_.Formalism.L2.PjFree.IsUnf U) (e : Dw.p = j)
 
 include hU e in
 theorem le_of_isUnf : j ≤ r := by have := hU.1; omega
@@ -365,7 +365,7 @@ theorem first_index_eq_of_unfolded (k : U.Comp) : (U.X k).p0 = r - j := by
 def cmEquiv (T : Tau ≃ {τ : E →+* ℂ // τ (H.rt : E) = H.rt0}) (k : U.Comp) : Tau ≃ (U.X k).Ψ :=
   T.trans (Equiv.subtypeEquivRight fun τ => ((hU.2.1 k).2 τ).symm)
 
-def letterAt (hσ : GoodEmb c σ) :
+def letterAt (hσ : _root_.Formalism.L2.PjFree.GoodEmb c σ) :
     {τ : E →+* ℂ // τ (H.rt : E) = H.rt0} ≃ {τ : E →+* ℂ // τ (H.rt : E) = H.rt0} :=
   (Equiv.ofBijective _ (GlobalTheory.Relab.relab_good E H l c σ hσ).1).subtypeEquiv
     fun τ => ((GlobalTheory.Relab.relab_good E H l c σ hσ).2.1 τ).symm

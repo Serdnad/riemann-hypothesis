@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ArtinDefs
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalEulerCharacteristic.Reduce
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroReal

@@ -1,13 +1,13 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.RefLinked
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Pull1
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FunctionalProductLinearFormsStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.MonomialLinesPermutationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ArithmeticIntersectionMultilinearPolarStatement
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle030
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle015
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PResAboveCover
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -44,8 +44,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.HeisenbergDualBaseVectorFormulaAlt
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.ScaleInt
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle006
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle001
 
 @[expose] public section
 

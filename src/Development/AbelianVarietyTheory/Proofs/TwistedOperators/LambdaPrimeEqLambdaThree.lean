@@ -2,18 +2,17 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsNormLeHeightPow
-public import Formalism.LocalToGlobal.IndefiniteReal.IsMultMapUnivZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsThetaPToLiftReal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelCharacterConjugate
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1117
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MultiplicitySpaceEqZeroOfLowestKTypes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlacesApart
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1603
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RankWeightComponentEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaAdjointAtLiftEqLowestKTypeRestriction
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExtVMemLevSubVOfLift
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GWEqChiSmul
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormLiftFormsFiniteGroupAction
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThGEquiv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TranslateLiftLinearIsometry
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2532
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle646
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle330
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle187
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmoothVecLowKSub
 
 @[expose] public section

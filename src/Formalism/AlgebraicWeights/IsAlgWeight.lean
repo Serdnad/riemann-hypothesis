@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SatakeDualWeyl.Statement
-public import ReciprocityTheory.Automorphisms.Unitary
+public import ReciprocityTheory.Automorphisms.Bundle001
 public import Formalism.ConjugateSelfDual.StatementRest
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

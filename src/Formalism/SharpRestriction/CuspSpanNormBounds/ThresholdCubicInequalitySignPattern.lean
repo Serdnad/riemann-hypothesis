@@ -1,9 +1,9 @@
 module
 
-import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyFormalDegreeLowerBound
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.Bundle004
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NonGenericAndKTwoTheorems
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PlaceDegreeData
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle005
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleySignature
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.CuspSpanNormBounds.SBridge
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle009
 
 @[expose] public section
 

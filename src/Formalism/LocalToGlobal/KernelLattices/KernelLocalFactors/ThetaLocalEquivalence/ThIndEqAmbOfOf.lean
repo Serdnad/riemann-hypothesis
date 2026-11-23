@@ -1,12 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPOf
-public import Formalism.LocalToGlobal.KernelLattices.ThEquiv
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PLinkThIndep
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.StdOK
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ChiLawAmbOf
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.GMConjTranspose
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.Bundle001
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle001
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Outright
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

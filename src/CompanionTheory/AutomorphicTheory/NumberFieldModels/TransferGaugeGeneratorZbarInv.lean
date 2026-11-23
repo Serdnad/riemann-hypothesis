@@ -4,10 +4,10 @@ import Formalism.HermitianCurvature.HermitianCurvatureProofs.SquareIntegrableGam
 public import CompanionTheory.AutomorphicTheory.NumberFieldModels.NFTieProv
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ActualAdjointnessFromHermitian
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeVLem
-public import Formalism.HermitianCurvature.StatementTop
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeGTrChain
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeGVTr
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.NFRadRedA
+public import Formalism.HermitianCurvature.Bundle006
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle132
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle128
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle082
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

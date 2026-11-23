@@ -1,7 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.OnePlusPowerAssembly
-public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.KernelCharacterDelta
+public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

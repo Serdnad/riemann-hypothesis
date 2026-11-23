@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.StatementC
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.PtEquivApply
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.PairVal
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.Corank
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.Bundle001
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalModelPeriodLattices
 import Mathlib.Algebra.Order.Floor.Extended

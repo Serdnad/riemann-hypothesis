@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InhabitAlt
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle031
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FlagModelValueIndependentStatement
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinFlagModelRootIndep
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,3 +50,16 @@ theorem main : GroundTheory.Heights₂.Heights.NumbersDVR.FlagModelRootIndepende
   GroundTheory.Heights₂.Heights.NumbersDVR.FlagModelRootIndependence.proof GlobalTheory.T.flag_model_value_independent
 
 end GlobalTheory.CompanionTheory.Ar.RootIndep
+
+end
+
+section
+
+@[expose] public section
+
+
+theorem _root_.GlobalTheory.T.flag_model_root_independent : GroundTheory.Heights₂.Heights.NumbersDVR.FlagModelRootIndependence.Statement := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.RootIndep.main | exact GlobalTheory.CompanionTheory.Ar.RootIndep.main | (intros; apply GlobalTheory.CompanionTheory.Ar.RootIndep.main <;> assumption)
+
+end
+end

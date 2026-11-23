@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FormalDegreeUpperC
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle050
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearLift
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLinearSection
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormOfClassSums
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ToNatFloorLe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VolEqIndexMulMass
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.HostTorsionOrderLe
-public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.MassNumeric
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1759
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1679
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1686
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.Bundle002
+public import Development.AutomorphicArithmetic.CyclotomicBounds.RootsOfUnity.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

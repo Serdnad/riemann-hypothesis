@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsFinFlatSub
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle003
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaTlog
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle025
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.DetUpdateRowDiagonal
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle008
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.FormMemLin
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaChar
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle007
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.MulMemPInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.DualLattices.HasLenCokerDet
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaCpaf
+public import ReciprocityTheory.DualLattices.Bundle022
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
 
 @[expose] public section
 

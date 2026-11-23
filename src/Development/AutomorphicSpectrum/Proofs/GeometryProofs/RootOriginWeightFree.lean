@@ -1,15 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalMultihomogQuotientExistsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginDegreeCountAltBis
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginDegreeCountStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginMultiplicityBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginWeightComparisonShiftStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginWeightComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RootOriginWeightIdentityStatement
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.GenericComplexPoint
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle059
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle067
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

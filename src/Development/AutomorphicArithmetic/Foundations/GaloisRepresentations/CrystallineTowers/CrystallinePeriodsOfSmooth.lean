@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.SemistableModelSemistable
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.LocTied6
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.TiltedDrinfeld.Bridge
-import Development.WeilBound.CoreStatements.CrystallinePeriodRings.AinfMapSurjective
+import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

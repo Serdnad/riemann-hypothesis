@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdeleJoinZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle359
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Deriv
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchHeisenbergDerivativesExist
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteL2ABoundWords
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHaarAdelicVectorsBoundsPureTensorsSlices
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrArchPairAdeleJoin
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzSeminormLinearPhaseSecondOrderLeStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzSeminormSmulLeftLinearPhaseLeStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzSeminormTranslateSubLineDerivLeStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1344
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1363
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle306
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle198
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle199
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.IsIsotropicHermitianSetting
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsBisBis
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle056
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MultilinearSubMem
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.CongCompactOpen
 public import Development.WeilBound.CoreStatements.EqualVolumeCompactOpens.InclAdInjective

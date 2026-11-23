@@ -1,13 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.HeckeInj
-public import Development.AutomorphicArithmetic.AdelicQuotients.AdeleGaloisActionBaseChangeCompat
-public import Development.AutomorphicArithmetic.AdelicQuotients.CentralSectionBaseChange
+public import Development.AutomorphicArithmetic.AdelicQuotients.Bundle010
+public import Development.AutomorphicArithmetic.AdelicQuotients.Bundle009
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SplitLoc
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.OffStable
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitMatch
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.SplitStableAlt
 public import GroundTheory.AutomorphicForms.CuspidalAdmissible
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsAreCuspForms
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

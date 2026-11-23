@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.ParConsts
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
-public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.DvdCondNIffCls
+public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

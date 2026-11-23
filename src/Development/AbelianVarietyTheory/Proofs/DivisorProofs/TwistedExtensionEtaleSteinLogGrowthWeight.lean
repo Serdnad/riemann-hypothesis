@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CutoffHoloSmoothDbarFormulaStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HoloLimitIncreasingWeightsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedExtensionEtaleSteinSqIntegrableStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle671
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle875
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle850
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,9 +49,9 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
-import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.CommFderivApply
+import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.Bundle001
 public import ReciprocityTheory.L2DbarEstimates.NormFibrations.LseSmoothRIffReal
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle003
 
 @[expose] public section
 

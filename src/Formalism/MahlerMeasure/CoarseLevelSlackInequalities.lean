@@ -1,9 +1,9 @@
 module
 
-public import Formalism.MahlerMeasure.QuotientUpperBoundsOfPowerBounds
-import Formalism.MahlerMeasure.FinalD
+public import Formalism.MahlerMeasure.Bundle003
+import Formalism.MahlerMeasure.Bundle005
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.WindowAP
-public import Formalism.MahlerMeasure.MahlerMeasureProofs.WindowMeanAP
+public import Formalism.MahlerMeasure.MahlerMeasureProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

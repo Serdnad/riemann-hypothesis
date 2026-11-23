@@ -1,17 +1,17 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ContDiffUncentre
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ConjugatePointSameCentreStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsConjugateLogPeriodsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameDomainInSegreChartStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle273
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle139
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GlobalPairSumGramBound
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixConjugationStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicCoordsOfGenericPointStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicDiscOverNumberFieldRingStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUniqueStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SncChartLocalNormalFormStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TBijectiveStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle108
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle140
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle269
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle126
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle058
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -85,7 +85,7 @@ theorem exists_isFramePeriods_noGlobal : ∀ (E : Type) [Field E] [NumberField E
   have fin : ∀ (g : ℕ) (Λ : Type) (_ : AddCommGroup Λ) (L : Flat.LogPeriods n a₀ g Λ) (ρ₁ : ℝ)
       (U : Fin N → (Fin n → ℂ) → Fin g → ℂ), 0 < ρ₁ → ρ₁ ≤ 1 →
       (∀ k, DifferentiableOn ℂ (U k) (Metric.ball 0 1)) → LinearIndependent ℂ (fun k => U k 0) →
-      (∀ u ∈ Flat.punct n a₀ 1, ∀ z : Sp ℂ ⟶ 𝔐.X, CoordsAt 𝔐.ξ y z (w ((ρ₁ : ℂ) • u)) →
+      (∀ u ∈ _root_.GlobalTheory.CompanionTheory.Ar.Flat.punct n a₀ 1, ∀ z : Sp ℂ ⟶ 𝔐.X, CoordsAt 𝔐.ξ y z (w ((ρ₁ : ℂ) • u)) →
         𝔐.M.GramAt 𝔐.t.PP.L z (fun k => ((bb k : ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) : 𝔐.Li)) (HodgeMetric.periodGram L U u)) →
       ∃ (a₀ g : ℕ) (Λ : Type) (_ : AddCommGroup Λ) (L : Flat.LogPeriods n a₀ g Λ) (π : Equiv.Perm (Fin n)) (ρ : ℝ) (U : Fin N → (Fin n → ℂ) → Fin g → ℂ), HodgeMetric.IsFramePeriods 𝔐 (fun k => ((bb k : ↥(𝔐.Vgen a ⊔ 𝔐.Vgen b)) : 𝔐.Li)) χ t₀ cc f L π ρ U := by
     intro g Λ _ L ρ₁ U h1 h2 h3 h4 h5
@@ -123,7 +123,7 @@ theorem exists_isFramePeriods_noGlobal : ∀ (E : Type) [Field E] [NumberField E
   haveI : FiniteDimensional ℚ c.F := c.fin
   haveI : NumberField c.F := ⟨⟩
   obtain ⟨τ, hτ⟩ := GlobalTheory.T.holomorphic_disc_over_number_field_ring c.F 𝔐.X (𝔐.f ≫ Y.s) n p hhol
-  have hint : ∀ u ∈ Flat.punct n a₀ 1, 𝔐.Interior (p u) := fun u hu => by
+  have hint : ∀ u ∈ _root_.GlobalTheory.CompanionTheory.Ar.Flat.punct n a₀ 1, 𝔐.Interior (p u) := fun u hu => by
     have h1 := (hgeo ρ₀ hρ₀ le_rfl u hu.1).2.2
     have h2 := hBd (p u) (w u) (hp u hu.1)
     by_contra h
@@ -152,7 +152,7 @@ theorem exists_isFramePeriods_noGlobal : ∀ (E : Type) [Field E] [NumberField E
         spMap (((starRingEnd ℂ).comp τ).comp (algebraMap (𝓞 c.F) c.F)) := fun u hu => by
       rw [hp', Category.assoc, hτ _ (star_mem_ball' hu)]
       exact (Spec.map_comp (CommRingCat.ofHom (τ.comp (algebraMap (𝓞 c.F) c.F))) (CommRingCat.ofHom (starRingEnd ℂ))).symm
-    have hint' : ∀ u ∈ Flat.punct n a₀ 1, 𝔐.Interior (p' u) := fun u hu => by
+    have hint' : ∀ u ∈ _root_.GlobalTheory.CompanionTheory.Ar.Flat.punct n a₀ 1, 𝔐.Interior (p' u) := fun u hu => by
       change centre (p' u) ∈ _
       rw [hcen]
       exact hint _ (star_mem_punct' hu)

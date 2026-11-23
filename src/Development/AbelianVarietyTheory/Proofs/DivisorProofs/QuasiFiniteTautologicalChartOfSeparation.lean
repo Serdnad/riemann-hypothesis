@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
-public import Development.AbelianVarietyTheory.Definitions.Divisors.MinSt5OfMinSt4
-public import Development.AbelianVarietyTheory.Definitions.Divisors.FromBase
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle071
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle068
 public import Mathlib.AlgebraicGeometry.Morphisms.QuasiFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGensOfDataFrom
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteTypeCycAway
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3036
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2752
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FormallyUnramifiedOfTangentMapInjective
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResidueFieldMapFiniteOfQuasiFinite
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.IsSemiAbelianOfGenericAbelianOfClosedIsGt
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle005
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle061
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

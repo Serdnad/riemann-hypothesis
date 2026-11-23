@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChartMult
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartMultLemmas
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartQuot
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle012
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCurve
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterDivSupp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle015
 
 @[expose] public section
 

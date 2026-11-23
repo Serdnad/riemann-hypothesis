@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDVal
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle005
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

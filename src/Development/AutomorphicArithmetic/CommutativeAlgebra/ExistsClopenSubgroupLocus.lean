@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.SpecialMaps.QuotObjDefs
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsClopenTorsionKernelLocusStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPullbackKernelOfKernelPair
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuotGlobalHolds
-public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.ExistsMemUIdealIdempotentModPrimePow
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle752
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3285
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1690
+public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

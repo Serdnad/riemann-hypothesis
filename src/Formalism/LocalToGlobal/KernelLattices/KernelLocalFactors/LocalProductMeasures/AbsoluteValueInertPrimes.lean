@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
-public import Formalism.LocalToGlobal.Columns.RecLevelHost
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
+public import Formalism.LocalToGlobal.Columns.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

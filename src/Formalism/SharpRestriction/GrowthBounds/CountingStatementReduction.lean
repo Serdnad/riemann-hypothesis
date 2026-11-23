@@ -1,22 +1,20 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.FlipOneThree
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ContravariantOrthogonalityHolds
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle012
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsHighestWeightVectorFindim
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExponentFactorialAddSingleOne
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.FockLatticeFiniteSpanning
-public import Formalism.SharpRestriction.GrowthBounds.GLWeightTheory
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.GlOperatorPreservesMultidegree
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.HighestWeightDominantHolds
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle017
+public import Formalism.SharpRestriction.GrowthBounds.Bundle007
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle010
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle011
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralPolyLinearMapClosed
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralPolynomialsEnvelopingStable
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IsotypicProjectorLatticeScaling
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IsotypicProjectorSelfAdjoint
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.MemWeightSpaceIffDiagonalRep
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.PolarizationDividedPowerMonomial
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.PolynomialMemWeightSpaceIff
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle019
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle007
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle004
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle013
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationNonnegIffIntegral
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightComponentsMemInvariant
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightConditionFromIntegralForm
 public import Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.LatticeTheoremEps28Valid
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.Discharge
@@ -66,7 +64,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.MahlerMeasure.QuotientUpperBoundsOfPowerBounds
+public import Formalism.MahlerMeasure.Bundle003
 
 @[expose] public section
 

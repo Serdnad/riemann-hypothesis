@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.CuspSpanNormBounds.IsGramNorm
-import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
-import Formalism.SharpRestriction.CuspSpanNormBounds.PSDKOnOfPSDK
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle006
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle005
 
 @[expose] public section
 

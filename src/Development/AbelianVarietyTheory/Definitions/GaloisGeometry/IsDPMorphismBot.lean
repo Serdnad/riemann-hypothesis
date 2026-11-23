@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OfNatTrans
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle001
 public import Mathlib.Algebra.Algebra.Rat
 public import Mathlib.Algebra.Category.Ring.Basic
 public import Mathlib.Algebra.DualNumber

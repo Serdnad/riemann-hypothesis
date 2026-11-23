@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.TensorProductTheorem.CoeToRepresentationApply
+public import GroundTheory.AutomorphicForms.TensorProductTheorem.Bundle002
 public import GroundTheory.AutomorphicForms.TensorProductTheorem.KProjApplyEqSelfIff
 public import GroundTheory.AutomorphicForms.SmoothRep
 public import GroundTheory.AutomorphicForms.TensorProductTheorem.TwoFactor

@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsDensity
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsOmegaLeb
 public import Mathlib.Analysis.Matrix.Normed
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Upqcpt
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

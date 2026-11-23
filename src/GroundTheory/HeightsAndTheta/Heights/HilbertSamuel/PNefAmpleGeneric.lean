@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNefAmpleGeneric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle038
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.Statements
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyBridgeFull
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PGenericFibProps
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefOnGenericOfSemipos
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle005
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRat
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle012
 
 @[expose] public section
 

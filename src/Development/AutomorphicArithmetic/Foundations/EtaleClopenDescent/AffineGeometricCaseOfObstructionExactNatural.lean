@@ -1,9 +1,9 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.GeoProof
+public import Development.EtaleCohomology.EtaleSheaves.Bundle092
 public import Development.EtaleCohomology.KummerTheory.InjSlice
-public import Development.EtaleCohomology.KummerTheory.FinCont
-public import Development.EtaleCohomology.KummerTheory.FinSHen
+public import Development.EtaleCohomology.KummerTheory.Bundle018
+public import Development.EtaleCohomology.KummerTheory.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

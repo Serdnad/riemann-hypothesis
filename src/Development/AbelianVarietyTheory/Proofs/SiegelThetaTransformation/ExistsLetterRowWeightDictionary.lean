@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsSymplecticCoordinatesAdapted
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.PointwiseNormCanonicalThetaEqSqThetaConstant
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaLetterEquivConjugate
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.TensorLatticeSelfDualSemicharacterIndex
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CoordLetterEquivApplyConjugate
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.PushLettersIntCastOfIsHomogeneous
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle008
 
 @[expose] public section
 
@@ -150,7 +150,7 @@ end GlobalTheory.Dict.Letters
 
 
 open GlobalTheory.Dict.Letters GlobalTheory.Harm in
-theorem GlobalTheory.Dict.exists_dic : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (c : Coeff l) (σ : c.F →+* ℂ) (r g n : ℕ) (X : Data E r) (a : (E →+* ℂ) × ℕ → ℕ) (e : Fin g ≃ Lt1 Dw), GoodEmb c σ → r = Dw.p + Dw.q → X.p0 = Dw.q → (∀ τ : E →+* ℂ, τ ∈ X.Ψ ↔ τ (H.rt : E) = H.rt0) → SelfD X X.Λ → Dom a n → ∃ Dc : Dic Dw c σ X g Dw.p n a, Dc.e = e ∧ (LastPos Dw a → 0 < Dw.p → ∃ τ, ∃ i : Fin Dw.p, i.val + 1 = Dw.p ∧ 1 ≤ Dc.k τ i) := by
+theorem GlobalTheory.Dict.exists_dic : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (c : Coeff l) (σ : c.F →+* ℂ) (r g n : ℕ) (X : Data E r) (a : (E →+* ℂ) × ℕ → ℕ) (e : Fin g ≃ Lt1 Dw), _root_.Formalism.L2.PjFree.GoodEmb c σ → r = Dw.p + Dw.q → X.p0 = Dw.q → (∀ τ : E →+* ℂ, τ ∈ X.Ψ ↔ τ (H.rt : E) = H.rt0) → SelfD X X.Λ → Dom a n → ∃ Dc : Dic Dw c σ X g Dw.p n a, Dc.e = e ∧ (LastPos Dw a → 0 < Dw.p → ∃ τ, ∃ i : Fin Dw.p, i.val + 1 = Dw.p ∧ 1 ≤ Dc.k τ i) := by
   intro E _ _ _ H Dw l c σ r g n X a e hσ hr hp0 hΨ hL hD
   obtain ⟨hbij, hrt, hcj, -⟩ := GlobalTheory.Relab.relab_good E H l c σ hσ
   have hr' : X.p0 + Dw.p = r := by omega
@@ -161,7 +161,7 @@ theorem GlobalTheory.Dict.exists_dic : ∀ (E : Type) [Field E] [NumberField E] 
     (mult_conjEmb_of_mem Dw h).trans hp0.symm
   let f : {τ // InPsi H τ} ≃ X.Ψ := (Equiv.ofBijective _ hbij).subtypeEquiv fun τ =>
     ((hΨ _).trans (hrt τ)).symm
-  have hf (t : {τ // InPsi H τ}) : (f t).1 = relab c σ t.1 := rfl
+  have hf (t : {τ // InPsi H τ}) : (f t).1 = _root_.Formalism.L2.PjFree.relab c σ t.1 := rfl
   let ρ : Lt1 Dw ≃ X.Ψ × (Fin Dw.p ⊕ Fin X.p0) :=
     (halfRowEquiv i1 i2 i3 i4).trans (f.prodCongr (Equiv.refl _))
   let idx : Fin g ≃ X.Ψ × Fin r := e.trans (ρ.trans (rowOf X hr'))
@@ -191,23 +191,23 @@ theorem GlobalTheory.Dict.exists_dic : ∀ (E : Type) [Field E] [NumberField E] 
     rw [Equiv.coe_trans, ← MvPolynomial.rename_rename,
       rename_place_mem_iff f (c := k₀) (c' := k₀') (fun t => by simp) (fun t => by simp)]
     simp only [mem_HHa_iff_rename i1 i2 i3 i4, mem_rowHighest_iff_rowAdd, hx, hy]
-  have hinv (τ) : Function.invFun (relab c σ) (relab c σ τ) = τ := Function.leftInverse_invFun hbij.1 τ
+  have hinv (τ) : Function.invFun (_root_.Formalism.L2.PjFree.relab c σ) (_root_.Formalism.L2.PjFree.relab c σ τ) = τ := Function.leftInverse_invFun hbij.1 τ
   refine ⟨⟨hr', bas, idx, hbas, e, eL, k₀ ∘ f.symm, k₀' ∘ f.symm, fun x v j => ?_, fun j => ?_,
     fun ℓ => ?_, ?_, fun P hP => ?_, ?_⟩, rfl, fun hpos hp => ?_⟩
   · rcases hidx j with ⟨t, i, h1, h2, h3⟩ | ⟨t, i, h1, h2, h3⟩
     · have hi := i.isLt
-      rw [pv, Function.comp_apply, h3, h2, h1, per_of_le _ _ _ _ (by simp), perFr,
-        dite_eq_left (show relab c σ t.1 ∈ X.Ψ from (f t).2), dite_eq_left (by omega)]
+      rw [pv, Function.comp_apply, h3, h2, h1, per_of_le _ _ _ _ (by simp), _root_.Formalism.L2.PjFree.perFr,
+        dite_eq_left (show _root_.Formalism.L2.PjFree.relab c σ t.1 ∈ X.Ψ from (f t).2), dite_eq_left (by omega)]
       rfl
     · have hi := i.isLt
-      have h4 : relab c σ (ComplexEmbedding.conjugate t.1) = ComplexEmbedding.conjugate (f t).1 := hcj t.1
+      have h4 : _root_.Formalism.L2.PjFree.relab c σ (ComplexEmbedding.conjugate t.1) = ComplexEmbedding.conjugate (f t).1 := hcj t.1
       rw [pv, Function.comp_apply, h3, h2, h1, per_of_lt _ _ _ _ (by rw [rowIdx_inr]; omega), h4]
       have h5 : rowIdx hr' (Sum.inr i) = ⟨X.p0 - 1 - i, by omega⟩ := Fin.ext (rowIdx_inr hr' i)
       rw [h5]
       generalize f t = u
       obtain ⟨τ, hτ⟩ := u
       obtain ⟨τ, rfl⟩ := i1.surjective τ
-      rw [show ComplexEmbedding.conjugate (ComplexEmbedding.conjugate τ) = τ from i1 τ, perFr,
+      rw [show ComplexEmbedding.conjugate (ComplexEmbedding.conjugate τ) = τ from i1 τ, _root_.Formalism.L2.PjFree.perFr,
         dite_eq_right (fun h => (X.cmType τ).1 h hτ), dite_eq_left (show conjEmb τ ∈ X.Ψ from hτ), dite_eq_left (by omega)]
       rfl
   · rcases hidx j with ⟨t, i, h1, h2, h3⟩ | ⟨t, i, h1, h2, h3⟩

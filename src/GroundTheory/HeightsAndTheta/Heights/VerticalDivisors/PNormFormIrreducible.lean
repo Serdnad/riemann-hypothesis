@@ -1,7 +1,7 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PNormFormEval
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChowNorm
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle006
 public import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

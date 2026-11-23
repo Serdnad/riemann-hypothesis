@@ -3,7 +3,7 @@ module
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.Topology.Instances.Matrix
 public import Mathlib.Topology.MetricSpace.Pseudo.Defs
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PosDefQuadMargin
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMulEqZeroOfSumToReal
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsSiegelZeroFront
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle012
 
 @[expose] public section
 

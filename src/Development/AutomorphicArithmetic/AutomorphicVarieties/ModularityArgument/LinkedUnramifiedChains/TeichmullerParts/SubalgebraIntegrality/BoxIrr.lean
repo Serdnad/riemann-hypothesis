@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -63,8 +63,7 @@ private theorem irr_eq {ρ : Representation ℂ G W} (h : ρ.IsIrreducible) (S :
 private theorem exists_ne {ρ : Representation ℂ G W} (h : ρ.IsIrreducible) : ∃ v : W, v ≠ 0 := by
   by_contra hc
   push Not at hc
-  haveI := h
-  apply bot_ne_top (α := Subrepresentation ρ)
+  apply @IsSimpleOrder.bot_ne_top _ _ _ h
   apply Subrepresentation.toSubmodule_injective
   ext x
   have hx := hc x
@@ -287,6 +286,6 @@ theorem boxIrr : BoxIrr := by
     obtain ⟨a, ha⟩ := hτ.2 γ hI
     refine ⟨a, TensorProduct.ext' fun w u => ?_⟩
     rw [hk, ← hγ, ha]
-    simp [TensorProduct.tmul_smul]
+    simp only [TensorProduct.tmul_smul, LinearMap.smul_apply, LinearMap.id_coe, id_eq]
 
 end UpperTheory.V.Z.J.D

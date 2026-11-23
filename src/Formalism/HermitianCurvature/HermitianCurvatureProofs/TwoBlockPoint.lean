@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.ThetaExistenceInductiveFromPieces
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FirstKernelExplicitFormula
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.LowUniMulVecELast
-import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.IsIntOfLatOfLe
+import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.Bundle001
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.KernelQuotientFinite
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ModulusLocallyConstant
 import Mathlib.Algebra.Order.Floor.Extended

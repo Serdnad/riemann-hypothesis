@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FamilyDegreesAdmissible
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.FactorialMulChooseEqProdRange
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SumMemLaSet
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

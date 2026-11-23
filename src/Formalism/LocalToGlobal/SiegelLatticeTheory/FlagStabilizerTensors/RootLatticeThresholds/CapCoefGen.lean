@@ -2,8 +2,8 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Smooth
 public import Formalism.FormalDegreeBessel.StatementIO
-public import Formalism.RealPlaceAnalysis.StatementE
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CentralCharacters.AdjointEquivalence
+public import Formalism.RealPlaceAnalysis.Bundle003
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CentralCharacters.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CentralCharacters.QuasiDeterminantConjInv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

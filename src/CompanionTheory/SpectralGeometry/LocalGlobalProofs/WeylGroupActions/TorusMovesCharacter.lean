@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.BesselL2FixAtZero
+public import Formalism.PeriodIntegrals.Bundle016
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianCurvature.BesselNonvanishingReduction
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.Bundle001
 
 @[expose] public section
 

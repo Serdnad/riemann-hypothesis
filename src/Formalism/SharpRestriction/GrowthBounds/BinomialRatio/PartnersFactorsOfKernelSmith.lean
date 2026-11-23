@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ExtendedStatementOfParts
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FactorsOfPerturb
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.TotalDegreeEplus
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExponentFactorialAddSingleOne
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

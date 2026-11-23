@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.AltInv
-public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
-public import Formalism.LocalToGlobal.CharacterGerms.Interface
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle002
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle003
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
-public import Formalism.LocalToGlobal.CharacterGerms.WipDworkInvG
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

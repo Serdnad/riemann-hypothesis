@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ParRowZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelModelsOfFunctoriality
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle354
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

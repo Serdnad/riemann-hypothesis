@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LevelSectionsExactKernelLocusOpen
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.FlatBCSec
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsGenericFlag
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.AlgClosedTensorIsDomainStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueSection
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializesOfSpecializes
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GermStalkClosedPointToBaseChange
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOneOfChartGenerators
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineLatticeGenericSectionsStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle005
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle019
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle045
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle107
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

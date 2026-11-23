@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.StNbarLeviChartReg
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsProjSmoothAlong
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PNbarSmooth
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PTopNPoly
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle024
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorSmooth
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.RegularizedCurvature

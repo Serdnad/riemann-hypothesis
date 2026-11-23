@@ -1,0 +1,196 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsLevPairA
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Matrix Finset
+open scoped InnerProductSpace
+
+namespace PositivityTheory.RgBcC.RealD
+
+open PositivityTheory.RgBcC.Real
+open Formalism.REAL (GlRel)
+
+variable {n : ℕ}
+
+def nsq (x : Fin n → ℝ) : ℝ := ∑ a, x a ^ 2
+
+def inCone (lev : Fin n → ℕ) (Q : Fin n → ℝ) : Prop :=
+  ∃ c : Fin n → Fin n → ℕ, (∀ a b, c a b ≠ 0 → lev a < lev b) ∧
+    ∀ x, Q x = ∑ a, ∑ b, (c a b : ℝ) * ((if x = a then 1 else 0) - (if x = b then 1 else 0))
+
+structure Model (lam : Fin n → ℤ) (lev : Fin n → ℕ) : Type 1 where
+  W : Type
+  [nacg : NormedAddCommGroup W]
+  [ips : InnerProductSpace ℂ W]
+  F1 : Fin n → Fin n → Module.End ℂ W
+  F2 : Fin n → Fin n → Module.End ℂ W
+  f : W
+  gl1 : GlRel F1
+  gl2 : GlRel F2
+  comm : ∀ a b c d, F1 a b * F2 c d = F2 c d * F1 a b
+  unitK : ∀ a b (x y : W), ⟪kF F1 F2 a b x, y⟫_ℂ = ⟪x, kF F1 F2 b a y⟫_ℂ
+  locFin : ∀ x : W, ∃ S : Submodule ℂ W, FiniteDimensional ℂ S ∧ x ∈ S ∧ ∀ a b, ∀ w ∈ S, kF F1 F2 a b w ∈ S
+  ch1 : ∀ m (x : W), gelA F1 m x = GlobalTheory.Dec.gelfVal (infOf lam true) m • x
+  ch2 : ∀ m (x : W), gelA (barF F2) m x = GlobalTheory.Dec.gelfVal (infOf lam false) m • x
+  hw : f ∈ hwSp F1 F2 (muQ lam lev)
+  ne : f ≠ 0
+  cone : ∀ (ν : Fin n → ℝ) (x : W), x ∈ hwSp F1 F2 ν → x ≠ 0 → inCone lev (ν - muQ lam lev)
+
+attribute [instance] Model.nacg Model.ips
+
+def N1 : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev lev' : Fin n → ℕ, IsLev lam lev → IsLev lam lev' →
+    inCone lev (muQ lam lev' - muQ lam lev) → muQ lam lev' = muQ lam lev
+
+def ConeWeightsNotSecondType : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev → ∀ ν : Fin n → ℝ,
+    inCone lev (ν - muQ lam lev) → ¬ IsSecondTypeWeight lam lev ν
+
+def ModelEx : Prop := ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev → Nonempty (Model lam lev)
+
+def AdmLeast : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V]
+    (E1 E2 : Fin n → Fin n → Module.End ℂ V) (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V),
+    IsCoreMod (infOf lam) E1 E2 σ A → ∀ lev : Fin n → ℕ, IsLev lam lev → hwSp E1 E2 (muQ lam lev) ≠ ⊥ →
+      (∀ lev' : Fin n → ℕ, IsLev lam lev' → hwSp E1 E2 (muQ lam lev') ≠ ⊥ →
+        nsq (muQ lam lev + rhoV n) ≤ nsq (muQ lam lev' + rhoV n)) → AdmFor lam lev E1 E2
+
+def KTypeGenerationHighest : Prop :=
+  MultFor → ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V),
+      IsPair E1 E2 → AdmFor lam lev E1 E2 → ∀ (M : Model lam lev), (∀ ν, IsSecondTypeWeight lam lev ν → hwSp M.F1 M.F2 ν = ⊥) →
+      ∀ v : V, v ∈ hwSp E1 E2 (muQ lam lev) → v ≠ 0 → ∀ (ν : Fin n → ℝ) (x : V), x ∈ hwSp E1 E2 ν → x ≠ 0 →
+        (∃ a ∈ alg E1 E2, a v = x) → inCone lev (ν - muQ lam lev)
+
+end PositivityTheory.RgBcC.RealD
+end
+end
+
+section
+
+noncomputable section
+
+open Finset
+
+namespace PositivityTheory.RgBcC.RealD
+
+variable {n : ℕ}
+
+def BdSqL : Prop :=
+  ∀ (n : ℕ) (S : Lt n → Prop), (∀ l m k : Lt n, S l → S m → l.2.1.2 = m.2.1.1 → k.1 = xor l.1 m.1 →
+      k.2.1 = (l.2.1.1, m.2.1.2) → S k) →
+    ∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      bdL S E1 E2 * bdL S E1 E2 = 0
+
+def VanKL : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V),
+      AdmFor lam lev E1 E2 → ∀ (B : Finset (Lt n)) (j : ℕ) (z : Cq n V), B.Nonempty →
+        (∀ l ∈ B, l.1 = true ∧ inUU lev l) → PartL B z → DegL j z →
+        WtL E1 E2 (muQ lam lev + (2 : ℝ) • rhoV n) z → bdL isK E1 E2 z = 0 →
+        ∃ t : Cq n V, PartL B t ∧ DegL (j + 1) t ∧ WtL E1 E2 (muQ lam lev + (2 : ℝ) • rhoV n) t ∧ bdL isK E1 E2 t = z
+
+def InjRL : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V),
+      AdmFor lam lev E1 E2 → ∀ (u : V) (y : Cq n V), u ∈ hwSp E1 E2 (muQ lam lev) → SuppL (inRR lev) y →
+        DegL ((omN n).card + 1) y → bdL (inRR lev) E1 E2 y = Pi.single (omN n) u → u = 0
+
+def InjUU : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V),
+      AdmFor lam lev E1 E2 → ∀ (u : V) (y : Cq n V), u ∈ hwSp E1 E2 (muQ lam lev) → SuppL (inUU lev) y →
+        DegL ((omU lev).card + 1) y → bdL (inUU lev) E1 E2 y = Pi.single (omU lev) u → u = 0
+
+def HCdecL : Prop :=
+  ∀ (n : ℕ) (lev : Fin n → ℕ), Monotone lev → ∀ a : FreeAlgebra ℂ (Bool × Fin n × Fin n),
+    (∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      ∀ c d, Commute (kA E1 E2 c d) (evKP E1 E2 a)) →
+    ∃ b : FreeAlgebra ℂ (Bool × Fin n × Fin n),
+      (∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+        ∀ c d, lev c = lev d → Commute (kA E1 E2 c d) (evLv lev E1 E2 b)) ∧
+      ∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+        ∀ x : V, ∃ w : Lt n → V, evKP E1 E2 a x - evLv lev E1 E2 b x = ∑ l : Lt n, if inUU lev l then xL E1 E2 l (w l) else 0
+
+def HCdecLv : Prop :=
+  ∀ (n : ℕ) (lev : Fin n → ℕ), Monotone lev → ∀ a : FreeAlgebra ℂ (Bool × Fin n × Fin n),
+    (∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      ∀ c d, Commute (kA E1 E2 c d) (evKP E1 E2 a)) →
+    ∃ b : FreeAlgebra ℂ (Bool × Fin n × Fin n),
+      (∀ (H : Type) [AddCommGroup H] [Module ℂ H] (F1 F2 : Fin n → Fin n → Module.End ℂ H), IsLevPairA lev F1 F2 →
+        ∀ c d, lev c = lev d → Commute (kA F1 F2 c d) (evLv lev F1 F2 b)) ∧
+      ∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+        ∀ x : V, ∃ w : Lt n → V, evKP E1 E2 a x - evLv lev E1 E2 b x = ∑ l : Lt n, if inUU lev l then xL E1 E2 l (w l) else 0
+
+theorem isLevPairA_of {V : Type} [AddCommGroup V] [Module ℂ V] {E1 E2 : Fin n → Fin n → Module.End ℂ V}
+    (h : IsPairA E1 E2) (lev : Fin n → ℕ) : IsLevPairA lev E1 E2 :=
+  fun a b c d _ _ => ⟨h.1 a b c d, h.2.1 a b c d, h.2.2 a b c d⟩
+
+theorem hcdecL_of (h : HCdecLv) : HCdecL := by
+  intro n lev hlev a ha
+  obtain ⟨b, hb, hb'⟩ := h n lev hlev a ha
+  exact ⟨b, fun V _ _ E1 E2 hE c d hcd => hb V E1 E2 (isLevPairA_of hE lev) c d hcd, hb'⟩
+
+def ActUU : Prop :=
+  ∀ (n : ℕ) (lev : Fin n → ℕ), Monotone lev → ∀ a b : FreeAlgebra ℂ (Bool × Fin n × Fin n),
+    (∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      ∀ c d, Commute (kA E1 E2 c d) (evKP E1 E2 a)) →
+    (∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      ∀ x : V, ∃ w : Lt n → V, evKP E1 E2 a x - evLv lev E1 E2 b x = ∑ l : Lt n, if inUU lev l then xL E1 E2 l (w l) else 0) →
+    ∀ (V : Type) [AddCommGroup V] [Module ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPairA E1 E2 →
+      ∀ v : V, (∀ l : Lt n, l.1 = false → inUU lev l → xL E1 E2 l v = 0) →
+        ∃ w : Cq n V, SuppL (inUU lev) w ∧ DegL ((omU lev).card + 1) w ∧
+          Pi.single (omU lev) (evKP E1 E2 a v) - evLc lev E1 E2 b (Pi.single (omU lev) v) = bdL (inUU lev) E1 E2 w
+
+def InjectiveDecompositionAction : Prop := InjUU ∧ HCdecL ∧ ActUU
+
+theorem injective_decomposition_action_of (hB : BdSqL) (hV : VanKL) (hR : BdSqL → VanKL → InjRL) (hU : InjRL → InjUU) (hH : HCdecL) (hA : ActUU) :
+    InjectiveDecompositionAction :=
+  ⟨hU (hR hB hV), hH, hA⟩
+
+end PositivityTheory.RgBcC.RealD
+end
+end

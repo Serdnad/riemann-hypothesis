@@ -1,19 +1,18 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ClopenCondOnto
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle012
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import Mathlib.Analysis.Matrix.Order
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.StarInvMulVecDotProductMulVecInvMulVec
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogPeriodsSubframeDetBounds
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PeriodMatrixLocalTrivialization
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SubframeDetLogGrowth
-import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PAnalyticDerivBound
-import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PGramEntryDeriv
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle077
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle070
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle010
+import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle003
 import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.PInvEntryBound
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.Assembly
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PHodgeDerivative
-import GroundTheory.HeightsAndTheta.Heights.Regularisation.PLogCoverDescent
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle004
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PPuncturedExpOrder
 import GroundTheory.HeightsAndTheta.Heights.Regularisation.PRiemannExtensionSlices
 import Mathlib.Algebra.Order.Floor.Extended

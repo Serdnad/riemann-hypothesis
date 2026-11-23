@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 public import Formalism.SatakeDualWeyl.DefsCS
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

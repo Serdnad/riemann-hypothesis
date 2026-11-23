@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Commut
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.EqZeroOfPartialSumsNonneg
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ColumnDegreeLe
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ProdLeadMinorDiagonal
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RowAddGenericRowAddTerm
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Sl2NonnegWeightOfHighestWeightVector
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.StatementNF
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsPFSum
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle070
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.InterlaceSignTwo
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QuasiDeterminantFromEntries
 import Mathlib.Algebra.Module.StablyFree.Basic

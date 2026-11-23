@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselQuotientMassEqConstMulNormSqTranslatesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsKFinNeZeroOfCwCont
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle328
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle238
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselGapDimensionFormula
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselSubgroupProductMeasureIsHaar
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DecSmoothAtGapOfDecSmooth
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DecayThresholdsOfSpectralGapCondition
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasic
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle046
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle058
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FrechetContinuousContinuousOnOrbitHasDerivAt
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GrowthUnitaryGroupRpowNegIntegrable
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HaarEqSmul
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SumNonneg
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle095
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle090
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.ReproducingFormulaReduction
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle034
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,8 +57,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.SideNormalisedGap
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OnePlaceKF
+public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.Bundle004
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle011
 import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 
 @[expose] public section

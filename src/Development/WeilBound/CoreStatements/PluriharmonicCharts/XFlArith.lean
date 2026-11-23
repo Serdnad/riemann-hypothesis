@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFlagArithVar
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle017
 public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.Statements
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PFlagRatioTrdeg
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PGenLeadMinorNeZero
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ImageCoord
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle015
 import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,8 +58,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.PairRelationOfScaledRatio
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
-import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialOfFun
 import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRatA
 
@@ -79,13 +79,13 @@ theorem arith_of_trdeg {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype 
     IsArithVar (mCoordIdeal y) (d + 1) := by
   have hhor : IsHorizontal (mCoordIdeal y) := horizontal y
   refine ⟨hK, ⟨RingHom.ker_isPrime _, isMultiHomogIdeal y, relevant y _ hc⟩, hhor, ?_⟩
-  have htr := ConeTrdeg.full _ ι (ratioField y c) (ratioPtL y c) (birational y _ hc)
+  have htr := ConeTrdeg.full _ ι (CoordinateConeArithVar.ratioField y c) (ratioPtL y c) (birational y _ hc)
     (fun k ↦ ⟨c k, fun h0 ↦ by
       have h1 := congrArg Subtype.val h0
       simp [ratioPtL, ratioPt, hc] at h1⟩)
     (by rw [mCoordIdeal_ratioPtL y _ hc]; exact hhor)
-  have hL : Algebra.trdeg ℤ (ratioField y c) = ((d : ℕ) : Cardinal) := by
-    rw [ratioField, trdeg_int_adjoin]
+  have hL : Algebra.trdeg ℤ (CoordinateConeArithVar.ratioField y c) = ((d : ℕ) : Cardinal) := by
+    rw [CoordinateConeArithVar.ratioField, trdeg_int_adjoin]
     exact hd
   rw [mCoordIdeal_ratioPtL y _ hc, hL] at htr
   have : (mCoordIdeal y).IsPrime := RingHom.ker_isPrime _

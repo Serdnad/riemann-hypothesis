@@ -1,0 +1,483 @@
+module
+
+public import Mathlib.Algebra.Algebra.Operations
+public import Mathlib.RingTheory.Ideal.Span
+public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.Data.Fintype.Basic
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Algebra.Category.ModuleCat.Basic
+public import Mathlib.NumberTheory.NumberField.Basic
+public import Mathlib.RingTheory.ClassGroup.Basic
+public import Mathlib.Algebra.Category.Ring.Basic
+public import Mathlib.CategoryTheory.Limits.Shapes.Pullback.IsPullback.Defs
+public import Mathlib.Combinatorics.Quiver.ReflQuiver
+public import Mathlib.RingTheory.Ideal.Maps
+public import Mathlib.Algebra.Field.Defs
+public import Mathlib.Data.Matrix.Mul
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.NumberField.ClassNumber
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Separation.CompletelyRegular
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+public import Mathlib.RingTheory.Ideal.Operations
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.BigOperators.GroupWithZero.Finset
+public import Mathlib.Algebra.BigOperators.Pi
+public import Mathlib.Algebra.BigOperators.Ring.Finset
+public import Mathlib.Algebra.Order.BigOperators.Group.Finset
+public import Mathlib.Analysis.Normed.Field.Basic
+public import Mathlib.Analysis.Normed.Module.RCLike.Real
+public import Mathlib.Algebra.Module.FinitePresentation
+public import Mathlib.RingTheory.Flat.EquationalCriterion
+public import Mathlib.RingTheory.Ideal.Quotient.Defs
+public import Mathlib.Algebra.Module.Submodule.Ker
+public import Mathlib.LinearAlgebra.Basis.VectorSpace
+public import Mathlib.LinearAlgebra.Matrix.ToLin
+
+@[expose] public section
+
+section
+
+namespace GlobalTheory.SpanPairPowSucc
+
+theorem mem_span_pair_pow_succ {R : Type} [inst : CommRing R] (p w : R) (k : ℕ) :
+    ∀ x ∈ Ideal.span {p, w} ^ (k + (1 : ℕ)),
+      ∃ (c : R), ∃ G ∈ Ideal.span {p, w} ^ k, x = w ^ (k + (1 : ℕ)) * c + p * G := by
+  induction k with
+  | zero =>
+    intro x hx
+    rw [zero_add, pow_one] at hx
+    obtain ⟨a, b, rfl⟩ := Ideal.mem_span_pair.mp hx
+    exact ⟨b, a, by simp, by ring⟩
+  | succ k ih =>
+    intro x hx
+    rw [pow_succ] at hx
+    refine Submodule.mul_induction_on hx ?_ ?_
+    · intro y hy z hz
+      obtain ⟨c, G, hG, rfl⟩ := ih y hy
+      obtain ⟨a, b, rfl⟩ := Ideal.mem_span_pair.mp hz
+      refine ⟨c * b, w ^ (k + 1) * c * a + G * (a * p + b * w), ?_, by ring⟩
+      refine Ideal.add_mem _ ?_ ?_
+      · have hw : w ∈ Ideal.span ({p, w} : Set R) := Ideal.subset_span (by simp)
+        exact Ideal.mul_mem_right _ _ (Ideal.mul_mem_right _ _ (Ideal.pow_mem_pow hw _))
+      · rw [pow_succ]
+        exact Ideal.mul_mem_mul hG hz
+    · rintro _ _ ⟨c₁, G₁, hG₁, rfl⟩ ⟨c₂, G₂, hG₂, rfl⟩
+      exact ⟨c₁ + c₂, G₁ + G₂, Ideal.add_mem _ hG₁ hG₂, by ring⟩
+
+end GlobalTheory.SpanPairPowSucc
+end
+
+section
+
+open Matrix
+
+namespace GlobalTheory
+
+theorem laurentMonomial_of_multiplicative :
+    ∀ (n : ℕ) (χ : (Fin n → ℂ) → ℂ), χ 1 = 1 →
+      (∀ s t : Fin n → ℂ, (∀ i, s i ≠ 0) → (∀ i, t i ≠ 0) → χ (s * t) = χ s * χ t) →
+      (∀ i : Fin n, ∃ k : ℤ, ∀ t : ℂ, t ≠ 0 → χ (Pi.mulSingle i t) = t ^ k) →
+      ∃ μ : Fin n → ℤ, ∀ d : Fin n → ℂ, (∀ i, d i ≠ 0) → χ d = ∏ i, d i ^ μ i := by
+  intro n χ h1 hmul hk
+  choose k hk using hk
+  refine ⟨k, fun d hd => ?_⟩
+  have hne : ∀ (s : Finset (Fin n)) (i : Fin n), (∏ j ∈ s, Pi.mulSingle j (d j)) i ≠ 0 := by
+    intro s i
+    rw [Finset.prod_apply]
+    refine Finset.prod_ne_zero_iff.mpr fun j _ => ?_
+    rw [Pi.mulSingle_apply]
+    split_ifs with h
+    · subst h; exact hd _
+    · exact one_ne_zero
+  have key : ∀ s : Finset (Fin n), χ (∏ i ∈ s, Pi.mulSingle i (d i)) = ∏ i ∈ s, d i ^ k i := by
+    intro s
+    refine Finset.induction_on s ?_ ?_
+    · simpa using h1
+    · intro a s ha ih
+      rw [Finset.prod_insert ha, Finset.prod_insert ha, hmul _ _ ?_ (hne s), hk a (d a) (hd a), ih]
+      intro i
+      rw [Pi.mulSingle_apply]
+      split_ifs with h
+      · subst h; exact hd _
+      · exact one_ne_zero
+  have := key Finset.univ
+  rwa [Finset.univ_prod_mulSingle] at this
+
+end GlobalTheory
+end
+
+section
+
+namespace GlobalTheory
+
+private lemma quad_smul {ι : Type} [Fintype ι] (M : ι → ι → ℝ) (a : ℝ) (c : ι → ℝ) :
+    ∑ i, ∑ j, (a • c) i * (a • c) j * M i j = a ^ 2 * ∑ i, ∑ j, c i * c j * M i j := by
+  rw [Finset.mul_sum]; refine Finset.sum_congr rfl fun i _ => ?_
+  rw [Finset.mul_sum]; refine Finset.sum_congr rfl fun j _ => ?_
+  simp only [Pi.smul_apply, smul_eq_mul]; ring
+
+private lemma quad_err {ι : Type} [Fintype ι] (E : ι → ι → ℝ) (η : ℝ) (_hη : 0 ≤ η)
+    (hE : ∀ i j, |E i j| ≤ η) (c : ι → ℝ) :
+    |∑ i, ∑ j, c i * c j * E i j| ≤ (Fintype.card ι : ℝ) ^ 2 * (‖c‖ ^ 2 * η) := by
+  have hc : ∀ i, |c i| ≤ ‖c‖ := fun i => by
+    simpa [Real.norm_eq_abs] using norm_le_pi_norm c i
+  calc |∑ i, ∑ j, c i * c j * E i j|
+      ≤ ∑ i, ∑ j, |c i * c j * E i j| :=
+        (Finset.abs_sum_le_sum_abs _ _).trans
+          (Finset.sum_le_sum fun i _ => Finset.abs_sum_le_sum_abs _ _)
+    _ ≤ ∑ _i : ι, ∑ _j : ι, ‖c‖ ^ 2 * η := by
+        refine Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun j _ => ?_
+        rw [abs_mul, abs_mul, sq]
+        have h1 := hc i; have h2 := hc j; have h3 := hE i j
+        have := abs_nonneg (c i); have := abs_nonneg (c j); have := abs_nonneg (E i j)
+        have := norm_nonneg c
+        calc |c i| * |c j| * |E i j| ≤ ‖c‖ * ‖c‖ * |E i j| := by gcongr
+          _ ≤ ‖c‖ * ‖c‖ * η := by gcongr
+    _ = (Fintype.card ι : ℝ) ^ 2 * (‖c‖ ^ 2 * η) := by
+        simp only [Finset.sum_const, Finset.card_univ, nsmul_eq_mul]; ring
+
+theorem posDef_quad_margin {ι : Type} [Fintype ι] (M : ι → ι → ℝ)
+    (hM : ∀ c : ι → ℝ, c ≠ 0 → 0 < ∑ i, ∑ j, c i * c j * M i j) :
+    ∃ η : ℝ, 0 < η ∧ ∀ E : ι → ι → ℝ, (∀ i j, |E i j| ≤ η) →
+      ∀ c : ι → ℝ, c ≠ 0 → 0 < ∑ i, ∑ j, c i * c j * (M i j + E i j) := by
+  rcases isEmpty_or_nonempty ι with hι | hι
+  · exact ⟨1, one_pos, fun E _ c hc => absurd (Subsingleton.elim c 0) hc⟩
+  set q : (ι → ℝ) → ℝ := fun c => ∑ i, ∑ j, c i * c j * M i j with hq
+  have hcont : Continuous q := by
+    simp only [hq]; fun_prop
+  have hne : (Metric.sphere (0 : ι → ℝ) 1).Nonempty :=
+    (NormedSpace.sphere_nonempty).mpr zero_le_one
+  obtain ⟨c₀, hc₀, hmin⟩ :=
+    (isCompact_sphere (0 : ι → ℝ) 1).exists_isMinOn hne hcont.continuousOn
+  have hc₀ne : c₀ ≠ 0 := by
+    rintro rfl; simp at hc₀
+  set μ := q c₀ with hμ
+  have hμpos : 0 < μ := hM c₀ hc₀ne
+  have hlow : ∀ c : ι → ℝ, c ≠ 0 → μ * ‖c‖ ^ 2 ≤ q c := by
+    intro c hc
+    have hs : 0 < ‖c‖ := norm_pos_iff.mpr hc
+    have hmem : ‖c‖⁻¹ • c ∈ Metric.sphere (0 : ι → ℝ) 1 := by
+      rw [mem_sphere_zero_iff_norm, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hs.ne']
+    have h1 : μ ≤ q (‖c‖⁻¹ • c) := hmin hmem
+    have h2 : q (‖c‖⁻¹ • c) = (‖c‖⁻¹) ^ 2 * q c := quad_smul M _ c
+    rw [h2] at h1
+    have h3 : (‖c‖⁻¹) ^ 2 * ‖c‖ ^ 2 = 1 := by
+      rw [← mul_pow, inv_mul_cancel₀ hs.ne', one_pow]
+    calc μ * ‖c‖ ^ 2 ≤ ((‖c‖⁻¹) ^ 2 * q c) * ‖c‖ ^ 2 := by gcongr
+      _ = q c := by rw [mul_comm ((‖c‖⁻¹) ^ 2), mul_assoc, h3, mul_one]
+  set K : ℝ := (Fintype.card ι : ℝ) ^ 2 with hK
+  have hK0 : 0 ≤ K := sq_nonneg _
+  refine ⟨μ / (2 * K + 1), div_pos hμpos (by linarith), ?_⟩
+  intro E hE c hc
+  have hη0 : 0 ≤ μ / (2 * K + 1) := (div_pos hμpos (by linarith)).le
+  have herr := quad_err E _ hη0 hE c
+  have hs : 0 < ‖c‖ := norm_pos_iff.mpr hc
+  have hsplit : ∑ i, ∑ j, c i * c j * (M i j + E i j)
+      = q c + ∑ i, ∑ j, c i * c j * E i j := by
+    simp only [hq, mul_add, Finset.sum_add_distrib]
+  rw [hsplit]
+  have hKη : K * (μ / (2 * K + 1)) < μ := by
+    rw [mul_div_assoc', div_lt_iff₀ (by linarith)]; nlinarith
+  have hs2 : 0 < ‖c‖ ^ 2 := by positivity
+  have := hlow c hc
+  have hlow' := (abs_le.mp herr).1
+  rw [← hK] at hlow'
+  nlinarith [mul_lt_mul_of_pos_right hKη hs2]
+
+end GlobalTheory
+end
+
+section
+
+open NumberField
+
+namespace GlobalTheory
+namespace ProjModClasses
+
+variable {R : Type} [CommRing R] [IsDomain R] [IsDedekindDomain R]
+
+noncomputable def rep (c : ClassGroup R) : Ideal R :=
+  ((ClassGroup.mk0_surjective (R := R) c).choose : Ideal R)
+
+theorem rep_mem (c : ClassGroup R) : rep c ∈ nonZeroDivisors (Ideal R) :=
+  (ClassGroup.mk0_surjective (R := R) c).choose.2
+
+theorem mk0_rep (c : ClassGroup R) : ClassGroup.mk0 ⟨rep c, rep_mem c⟩ = c :=
+  (ClassGroup.mk0_surjective (R := R) c).choose_spec
+
+instance ideal_projective (I : Ideal R) : Module.Projective R I := by
+  have : Module.FinitePresentation R I := Module.finitePresentation_of_finite _ _
+  exact Module.Flat.projective_of_finitePresentation
+
+theorem map_mulLeft_eq (x : R) (I : Ideal R) :
+    Submodule.map (LinearMap.mulLeft R x) I = Ideal.span {x} * I := by
+  ext z
+  rw [Ideal.mem_span_singleton_mul, Submodule.mem_map]
+  simp [LinearMap.mulLeft_apply]
+
+noncomputable def mulEquiv {x : R} (hx : x ≠ 0) (I : Ideal R) :
+    I ≃ₗ[R] (Ideal.span {x} * I : Ideal R) :=
+  (Submodule.equivMapOfInjective (LinearMap.mulLeft R x) (mul_right_injective₀ hx) I).trans
+    (LinearEquiv.ofEq _ _ (map_mulLeft_eq x I))
+
+theorem nonempty_equiv_of_mk0_eq {I J : nonZeroDivisors (Ideal R)}
+    (h : ClassGroup.mk0 I = ClassGroup.mk0 J) : Nonempty ((I : Ideal R) ≃ₗ[R] (J : Ideal R)) := by
+  obtain ⟨x, y, hx, hy, hxy⟩ := ClassGroup.mk0_eq_mk0_iff.1 h
+  exact ⟨(mulEquiv hx I).trans ((LinearEquiv.ofEq _ _ hxy).trans (mulEquiv hy J).symm)⟩
+
+abbrev Model {r : ℕ} (c : Fin r → ClassGroup R) : Type := ∀ j, (rep (c j) : Ideal R)
+
+noncomputable def consLin {r : ℕ} (d : ClassGroup R) (c : Fin r → ClassGroup R) :
+    (↥(rep d) × Model c) ≃ₗ[R] Model (Fin.cons d c : Fin (r + 1) → ClassGroup R) :=
+  { Fin.consEquiv (fun j => ↥(rep ((Fin.cons d c : Fin (r + 1) → ClassGroup R) j))) with
+    map_add' := fun a b => by
+      funext j
+      refine Fin.cases ?_ (fun i => ?_) j <;> rfl
+    map_smul' := fun s a => by
+      funext j
+      refine Fin.cases ?_ (fun i => ?_) j <;> rfl }
+
+theorem exists_equiv_model : ∀ (r : ℕ) (X : Type) [AddCommGroup X] [Module R X] [Module.Finite R X]
+    [Module.Projective R X], Module.finrank R X = r →
+    ∃ c : Fin r → ClassGroup R, Nonempty (X ≃ₗ[R] Model c) := by
+  intro r
+  induction r with
+  | zero =>
+    intro X _ _ _ _ h
+    have : Subsingleton X := by
+      by_contra hX
+      rw [not_subsingleton_iff_nontrivial] at hX
+      have := (Module.finrank_pos_iff (R := R) (M := X)).2 hX
+      omega
+    exact ⟨Fin.elim0, ⟨LinearEquiv.ofSubsingleton _ _⟩⟩
+  | succ r ih =>
+    intro X _ _ _ _ h
+    have hX : Nontrivial X := (Module.finrank_pos_iff (R := R) (M := X)).1 (by omega)
+    obtain ⟨x, hx⟩ := exists_ne (0 : X)
+    obtain ⟨f, hf⟩ := Module.Projective.exists_dual_ne_zero R hx
+    set I : Ideal R := LinearMap.range f with hIdef
+    have hI : I ≠ ⊥ := fun h0 => hf (by
+      have : f x ∈ I := LinearMap.mem_range_self f x
+      rw [h0] at this
+      simpa using this)
+    let g : X →ₗ[R] I := f.rangeRestrict
+    have hg : Function.Surjective g := LinearMap.surjective_rangeRestrict f
+    obtain ⟨s, hs⟩ := Module.projective_lifting_property g LinearMap.id hg
+    let K := LinearMap.ker g
+    have hex : Function.Exact K.subtype g := LinearMap.exact_subtype_ker_map g
+    let e := ((hex.splitSurjectiveEquiv Subtype.val_injective) ⟨s, hs⟩).1
+    have he := ((hex.splitSurjectiveEquiv Subtype.val_injective) ⟨s, hs⟩).2
+    haveI : Module.Projective R K := by
+      refine Module.Projective.of_split K.subtype (LinearMap.fst R K I ∘ₗ e.toLinearMap) ?_
+      ext y
+      have h1 : (K.subtype y) = e.symm (y, 0) := by
+        rw [he.1]; rfl
+      show ((e (K.subtype y)).1 : X) = (y : X)
+      rw [h1]
+      simp
+
+    have hrk := LinearMap.rank_range_add_rank_ker g
+    rw [LinearMap.range_eq_top.2 hg, rank_top] at hrk
+    have hIne : Nontrivial I := Submodule.nontrivial_iff_ne_bot.2 hI
+    have hI1 : Module.finrank R I = 1 := by
+      have a := (Module.finrank_pos_iff (R := R) (M := I)).2 hIne
+      have b : Module.finrank R I ≤ 1 := (Submodule.finrank_le I).trans (by simp)
+      omega
+    have hK : Module.finrank R K = r := by
+      have := congrArg Cardinal.toNat hrk
+      rw [Cardinal.toNat_add (Module.rank_lt_aleph0 R I) (Module.rank_lt_aleph0 R K)] at this
+      change Module.finrank R I + Module.finrank R K = Module.finrank R X at this
+      omega
+    obtain ⟨c, ⟨eK⟩⟩ := ih K hK
+    have hmem : I ∈ nonZeroDivisors (Ideal R) := mem_nonZeroDivisors_of_ne_zero hI
+    obtain ⟨eI⟩ := nonempty_equiv_of_mk0_eq (I := ⟨I, hmem⟩)
+      (J := ⟨rep (ClassGroup.mk0 ⟨I, hmem⟩), rep_mem _⟩) (mk0_rep _).symm
+    exact ⟨Fin.cons (ClassGroup.mk0 ⟨I, hmem⟩) c,
+      ⟨e.trans ((LinearEquiv.prodComm R K I).trans ((eI.prodCongr eK).trans (consLin _ c)))⟩⟩
+
+end ProjModClasses
+
+open ProjModClasses in
+theorem exists_fin_reps_projective_finrank_le :
+    ∀ (E : Type) [Field E] [NumberField E] (q : ℕ), ∃ (n : ℕ) (R : Fin n → ModuleCat.{0} (𝓞 E)),
+    (∀ k, Module.Finite (𝓞 E) (R k) ∧ Module.Projective (𝓞 E) (R k) ∧ Module.finrank (𝓞 E) (R k) ≤ q) ∧
+    ∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X],
+      Module.finrank (𝓞 E) X ≤ q → ∃ k, Nonempty (X ≃ₗ[𝓞 E] R k) := by
+  intro E _ _ q
+  let T := Σ r : Fin (q + 1), (Fin r → ClassGroup (𝓞 E))
+  let g : T → ModuleCat.{0} (𝓞 E) := fun t => ModuleCat.of (𝓞 E) (Model t.2)
+  let P : T → Prop := fun t => Module.Finite (𝓞 E) (g t) ∧ Module.Projective (𝓞 E) (g t) ∧
+    Module.finrank (𝓞 E) (g t) ≤ q
+  let S := {t : T // P t}
+  haveI : Finite S := inferInstance
+  let eS := Finite.equivFin S
+  refine ⟨Nat.card S, fun k => g (eS.symm k).1, fun k => (eS.symm k).2, ?_⟩
+  intro X _ _ _ _ hq
+  obtain ⟨c, ⟨eX⟩⟩ := exists_equiv_model (R := 𝓞 E) (Module.finrank (𝓞 E) X) X rfl
+  let t : T := ⟨⟨Module.finrank (𝓞 E) X, Nat.lt_succ_of_le hq⟩, c⟩
+  have ht : P t := by
+    refine ⟨Module.Finite.equiv eX, Module.Projective.of_equiv eX, ?_⟩
+    change Module.finrank (𝓞 E) (Model c) ≤ q
+    rw [← eX.finrank_eq]
+    exact hq
+  refine ⟨eS ⟨t, ht⟩, ?_⟩
+  show Nonempty (X ≃ₗ[𝓞 E] (g (eS.symm (eS ⟨t, ht⟩)).1))
+  rw [Equiv.symm_apply_apply]
+  exact ⟨eX⟩
+
+end GlobalTheory
+end
+
+section
+
+open CategoryTheory Limits
+
+namespace GlobalTheory.TorsionChart
+
+theorem pushout_inl_surjective_and_ker {A B C D : CommRingCat.{0}} {f : A ⟶ B} {g : A ⟶ C}
+    {i : B ⟶ D} {j : C ⟶ D} (po : IsPushout f g i j) (hg : Function.Surjective g.hom) :
+    Function.Surjective i.hom ∧ RingHom.ker i.hom = Ideal.map f.hom (RingHom.ker g.hom) := by
+  set I := Ideal.map f.hom (RingHom.ker g.hom) with hIdef
+  have hw : ∀ a, i.hom (f.hom a) = j.hom (g.hom a) := fun a => congr($(po.w).hom a)
+  have hI : I ≤ RingHom.ker i.hom := by
+    rw [hIdef, Ideal.map_le_iff_le_comap]
+    intro a ha
+    rw [Ideal.mem_comap, RingHom.mem_ker, hw, (RingHom.mem_ker).1 ha, map_zero]
+  let mk : B ⟶ CommRingCat.of (B ⧸ I) := CommRingCat.ofHom (Ideal.Quotient.mk I)
+  have hker : RingHom.ker g.hom ≤ RingHom.ker ((Ideal.Quotient.mk I).comp f.hom) := by
+    intro a ha
+    rw [RingHom.mem_ker, RingHom.comp_apply, Ideal.Quotient.eq_zero_iff_mem]
+    exact Ideal.mem_map_of_mem _ ha
+  let φ : {g' : A →+* B ⧸ I // RingHom.ker g.hom ≤ RingHom.ker g'} :=
+    ⟨(Ideal.Quotient.mk I).comp f.hom, hker⟩
+  let ψ : C ⟶ CommRingCat.of (B ⧸ I) := CommRingCat.ofHom (g.hom.liftOfSurjective hg φ)
+  have hψ : f ≫ mk = g ≫ ψ := by
+    ext a
+    exact (RingHom.liftOfSurjective_comp_apply g.hom hg φ a).symm
+  let lift : CommRingCat.of (B ⧸ I) ⟶ D := CommRingCat.ofHom (Ideal.Quotient.lift I i.hom hI)
+  have h1 : i ≫ po.desc mk ψ hψ = mk := po.inl_desc _ _ _
+  have h2 : po.desc mk ψ hψ ≫ lift = 𝟙 D := by
+    refine po.hom_ext ?_ ?_
+    · rw [← Category.assoc, h1, Category.comp_id]
+      ext b
+      rfl
+    · rw [← Category.assoc, po.inr_desc, Category.comp_id]
+      ext c
+      obtain ⟨a, rfl⟩ := hg c
+      change lift.hom (ψ.hom (g.hom a)) = j.hom (g.hom a)
+      rw [show ψ.hom (g.hom a) = mk.hom (f.hom a) from
+        (RingHom.liftOfSurjective_comp_apply g.hom hg φ a), ← hw]
+      rfl
+  refine ⟨fun d => ?_, le_antisymm (fun b hb => ?_) hI⟩
+  · obtain ⟨b, hb⟩ := Ideal.Quotient.mk_surjective ((po.desc mk ψ hψ).hom d)
+    refine ⟨b, ?_⟩
+    have := congr($(h2).hom d)
+    change lift.hom ((po.desc mk ψ hψ).hom d) = d at this
+    rw [← hb] at this
+    exact this
+  · have := congr($(h1).hom b)
+    change (po.desc mk ψ hψ).hom (i.hom b) = Ideal.Quotient.mk I b at this
+    rw [(RingHom.mem_ker).1 hb, map_zero] at this
+    exact Ideal.Quotient.eq_zero_iff_mem.1 this.symm
+
+end GlobalTheory.TorsionChart
+end
+
+section
+
+namespace GlobalTheory
+
+theorem matrix_exists_left_inverse_of_field {K : Type} [Field K] {m n : ℕ}
+    (Q : Matrix (Fin m) (Fin n) K) (h : Function.Injective Q.mulVec) :
+    ∃ Q' : Matrix (Fin n) (Fin m) K, Q' * Q = 1 := by
+  have hk : LinearMap.ker (Matrix.toLin' Q) = ⊥ := by
+    rw [LinearMap.ker_eq_bot]
+    intro x y hxy
+    apply h
+    simpa [Matrix.toLin'_apply] using hxy
+  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective _ hk
+  refine ⟨LinearMap.toMatrix' g, ?_⟩
+  have := congrArg LinearMap.toMatrix' hg
+  rwa [LinearMap.toMatrix'_comp, LinearMap.toMatrix'_toLin', LinearMap.toMatrix'_id] at this
+
+end GlobalTheory
+end
+
+section
+
+namespace GlobalTheory.IsolatedTheoremFive
+
+theorem main {K K' : Type} [Field K] [Field K'] (φ : K →+* K') {n d : ℕ}
+    (E : Matrix (Fin n) (Fin d) K) (h : Function.Injective (Matrix.mulVec E)) :
+    Function.Injective (Matrix.mulVec (Matrix.map E (⇑φ : K → K'))) := by
+  have hl : LinearMap.ker (Matrix.mulVecLin E) = ⊥ := LinearMap.ker_eq_bot.mpr h
+  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.mulVecLin E) hl
+  have hB : LinearMap.toMatrix' g * E = 1 := by
+    have e : Matrix.mulVecLin E = Matrix.toLin' E := rfl
+    have : LinearMap.toMatrix' (g ∘ₗ Matrix.mulVecLin E) = LinearMap.toMatrix' g * E := by
+      rw [LinearMap.toMatrix'_comp, e, LinearMap.toMatrix'_toLin']
+    rw [← this, hg, LinearMap.toMatrix'_id]
+  have hB' : (LinearMap.toMatrix' g).map φ * E.map φ = 1 := by
+    rw [← Matrix.map_mul, hB, Matrix.map_one _ (map_zero φ) (map_one φ)]
+  intro x y hxy
+  have := congrArg (Matrix.mulVec ((LinearMap.toMatrix' g).map φ)) hxy
+  simpa [Matrix.mulVec_mulVec, hB'] using this
+
+theorem target : ∀ {K K' : Type} [inst : Field K] [inst_1 : Field K'] (φ : K →+* K') {n d : ℕ} (E : Matrix (Fin n) (Fin d) K), Function.Injective (Matrix.mulVec E) → Function.Injective (Matrix.mulVec (Matrix.map E (⇑φ : K → K'))) := by
+  intro K K' _ _ φ n d E h
+  exact main φ E h
+
+end GlobalTheory.IsolatedTheoremFive
+end

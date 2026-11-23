@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntDerApply
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle228
 public import Mathlib.RingTheory.MvPowerSeries.Order
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TaylorIsRingHomStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1069
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -80,7 +80,7 @@ theorem iterOp_single {A : Type} {n : ℕ} (ds : Fin n → A → A) (a : Fin n) 
 
 theorem coeff_taylor {A B : Type} [CommRing A] [CommRing B] [Algebra ℚ B] {n : ℕ} (ev : A →+* B)
     (ds : Fin n → A → A) (f : A) (α : Fin n →₀ ℕ) :
-    coeff α (taylor ev ds f) = (∏ i, ((α i).factorial : ℚ))⁻¹ • ev (iterOp ds α f) := rfl
+    coeff α (GlobalTheory.FormalOrigin.taylor ev ds f) = (∏ i, ((α i).factorial : ℚ))⁻¹ • ev (iterOp ds α f) := rfl
 
 theorem degree_eq_one {n : ℕ} {D : Fin n →₀ ℕ} (h : D.degree = 1) : ∃ s, D = Finsupp.single s 1 := by
   have hsum := h
@@ -200,7 +200,7 @@ section Main
 variable {R A : Type} [CommRing R] [Algebra ℚ R] [CommRing A] {n : ℕ}
 
 theorem rel_const (ev : A →+* R) (ds : Fin n → A → A) (T : A →+* MvPowerSeries (Fin n) R)
-    (hT : ∀ f, T f = taylor ev ds f) (c : A) : Rel 0 (T c) (C (ev c)) := by
+    (hT : ∀ f, T f = GlobalTheory.FormalOrigin.taylor ev ds f) (c : A) : Rel 0 (T c) (C (ev c)) := by
   refine ⟨by simp, ?_⟩
   have h0 : constantCoeff (T c) = ev c := by
     rw [← coeff_zero_eq_constantCoeff_apply, hT, coeff_taylor]; simp [iterOp_zero]
@@ -208,7 +208,7 @@ theorem rel_const (ev : A →+* R) (ds : Fin n → A → A) (T : A →+* MvPower
   simp
 
 theorem rel_coord (ev : A →+* R) (ds : Fin n → Derivation ℤ A A) (T : A →+* MvPowerSeries (Fin n) R)
-    (hT : ∀ f, T f = taylor ev (fun i => ⇑(ds i)) f) (z : Fin n → A) (hz : ∀ i, ev (z i) = 0)
+    (hT : ∀ f, T f = GlobalTheory.FormalOrigin.taylor ev (fun i => ⇑(ds i)) f) (z : Fin n → A) (hz : ∀ i, ev (z i) = 0)
     (hd : ∀ a i, ev (ds a (z i)) = if a = i then 1 else 0) (i : Fin n) :
     Rel 1 (T (z i)) (X i) := by
   refine ⟨?_, ?_⟩
@@ -227,7 +227,7 @@ theorem rel_coord (ev : A →+* R) (ds : Fin n → Derivation ℤ A A) (T : A �
       · simp [hai, Finsupp.single_left_inj (one_ne_zero)]
 
 theorem step (ev : A →+* R) (ds : Fin n → Derivation ℤ A A) (T : A →+* MvPowerSeries (Fin n) R)
-    (hT : ∀ f, T f = taylor ev (fun i => ⇑(ds i)) f) (z : Fin n → A) (hz : ∀ i, ev (z i) = 0)
+    (hT : ∀ f, T f = GlobalTheory.FormalOrigin.taylor ev (fun i => ⇑(ds i)) f) (z : Fin n → A) (hz : ∀ i, ev (z i) = 0)
     (hd : ∀ a i, ev (ds a (z i)) = if a = i then 1 else 0)
     (hker : RingHom.ker ev ≤ Ideal.span (Set.range z)) (k : ℕ) (f : A) (hf : T f = 0)
     (hk : f ∈ Ideal.span (Set.range z) ^ k) : f ∈ Ideal.span (Set.range z) ^ (k + 1) := by
@@ -276,7 +276,7 @@ theorem step (ev : A →+* R) (ds : Fin n → Derivation ℤ A A) (T : A →+* M
 
 end Main
 
-theorem taylor_injective : ∀ (R A : Type) [CommRing R] [IsLocalRing R] [Algebra ℚ R] [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (inc : R →+* A) (ev : A →+* R), (∀ r, ev (inc r) = r) → ∀ (n : ℕ) (ds : Fin n → Derivation ℤ A A) (z : Fin n → A), (∀ i, ev (z i) = 0) → (∀ a i, ev (ds a (z i)) = if a = i then 1 else 0) → maximalIdeal A = (maximalIdeal R).map inc ⊔ Ideal.span (Set.range z) → ∀ f, taylor ev (fun i => ⇑(ds i)) f = 0 → f = 0 := by
+theorem taylor_injective : ∀ (R A : Type) [CommRing R] [IsLocalRing R] [Algebra ℚ R] [CommRing A] [IsLocalRing A] [IsNoetherianRing A] (inc : R →+* A) (ev : A →+* R), (∀ r, ev (inc r) = r) → ∀ (n : ℕ) (ds : Fin n → Derivation ℤ A A) (z : Fin n → A), (∀ i, ev (z i) = 0) → (∀ a i, ev (ds a (z i)) = if a = i then 1 else 0) → maximalIdeal A = (maximalIdeal R).map inc ⊔ Ideal.span (Set.range z) → ∀ f, GlobalTheory.FormalOrigin.taylor ev (fun i => ⇑(ds i)) f = 0 → f = 0 := by
   intro R A _ _ _ _ _ _ inc ev hev n ds z hz hd hm f hf
   obtain ⟨T, hT⟩ := GlobalTheory.T.exists_ringHom_eq_taylor A R n ev ds
   have hker := ker_le_span inc ev hev z hz hm

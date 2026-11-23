@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorPos
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenFibreHomog
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle046
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

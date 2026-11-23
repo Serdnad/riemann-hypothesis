@@ -56,15 +56,15 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.HasBoundedPolesGlobalData
 import Development.AbelianVarietyTheory.Definitions.Divisors.HermSysHypOneLeLambdaZero
-import Development.AbelianVarietyTheory.Definitions.Divisors.JoinCastSucc
-import Development.AbelianVarietyTheory.Definitions.Divisors.LinearIndependentBasisCoords
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle031
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
 import Development.AbelianVarietyTheory.Definitions.Divisors.MemSubPtsCutBaseChangeIff
-import Development.AbelianVarietyTheory.Definitions.Divisors.PointHeight
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsAddEquivOfSurjectiveOfKerIff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle001
 public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.LinearAlgebra.Matrix.Block
-import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.EllipsoidStA
-import ReciprocityTheory.SemistableReduction.DetGramEqProdGramSchmidt
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.Bundle001
+import ReciprocityTheory.SemistableReduction.Bundle002
 
 @[expose] public section
 

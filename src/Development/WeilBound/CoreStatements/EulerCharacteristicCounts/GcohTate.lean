@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohDefs
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTateA
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle001
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTateB
 public import GroundTheory.ProfiniteCohomology.LocalTateDuality.MainDefs
 import GroundTheory.ProfiniteCohomology.PoincareDuality

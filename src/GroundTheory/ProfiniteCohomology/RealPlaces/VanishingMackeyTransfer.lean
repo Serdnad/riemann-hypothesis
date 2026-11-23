@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackeyPlaces
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeModules
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingUnitsTwo
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteOpen
 import Mathlib.Algebra.Order.Floor.Extended

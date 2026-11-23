@@ -1,0 +1,410 @@
+module
+
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.ThetaLifts.LatticeBasics.EulerProd
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2020
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1968
+public import Development.WeilBound.ThetaLifts.LatticeBasics.CommuteTheta
+public import Development.WeilBound.ThetaLifts.LatticeBasics.BoxFinC
+public import Development.WeilBound.ThetaLifts.LatticeBasics.ContinuousFlat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzDeterminedBySchrodingerThetaValues
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1230
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle019
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.AdelInt
+import Development.WeilBound.ThetaLifts.LatticeBasics.SliceSeminorm
+public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsB
+public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
+import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle018
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.ThK.Dbl.Bad
+
+open scoped TensorProduct NNReal Matrix
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels
+open GlobalTheory.Doubling (absE)
+open PositivityTheory.ThKG.Loc (idem)
+open PositivityTheory.ThKG.Loc.Cone
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {n d : ℕ}
+
+variable {X : Spc F E n} {W : Spc F E d} {B : Base F E} {M : Model σ X W} {χX χW : Chr F E} {om : Rep σ X W} {r s r' s' : ℕ}
+
+theorem orth (P : IsPair B M χX χW om r s r' s') {ν} (hν : @Measure.IsAddHaarMeasure _ _ _ (borel _) ν) {Φ} (h : Φ ∈ schA F _)
+    (h0 : Φ ≠ 0) {g u} {c c' : ℂ} (hc : c ≠ c') (h1 : M.co.rho B.ψ u Φ = c • Φ) (h2 : M.co.rho B.ψ (mat g * u) Φ = c' • Φ) :
+    coef om ν Φ g = 0 := by
+  by_contra hn
+  have i := P.weil.isUSplitting.impl (g, 1) u Φ h
+  rw [h1, map_smul, show actAB (cA σ) (g, 1) u = mat g * u from (congrArg _ Matrix.transpose_one).trans (Matrix.mul_one _)] at i
+  have a1 := schr_unit P.base.std ν hν (M.co.e (mat g * u)) (om (g, 1) Φ) Φ
+  have a2 := schr_unit P.base.std ν hν (M.co.e (mat g * u)) Φ Φ
+  have k : ∀ (A : Fn F n d) (t : ℂ), ∫ x, (t • A) x * star ((c' • Φ) x) ∂ν = t * star c' * ∫ x, A x * star (Φ x) ∂ν := fun A t => by
+    rw [← integral_const_mul]
+    exact integral_congr_ae (.of_forall fun x => by simp only [Pi.smul_apply, smul_eq_mul, star_mul']; ring)
+  rw [show schr B.ψ (M.co.e (mat g * u)) Φ = _ from h2] at a1 a2
+  rw [show schr B.ψ (M.co.e (mat g * u)) (om (g, 1) Φ) = _ from i.symm, k] at a1
+  rw [k] at a2
+  have b1 := (mul_eq_right₀ hn).1 a1
+  have b2 := (mul_eq_right₀ (sq_ne ν hν h h0)).1 a2
+  exact hc (mul_right_cancel₀ (right_ne_zero_of_mul_eq_one b1) (b1.trans b2.symm))
+
+theorem fix_of_parts (P : IsPair B M χX χW om r s r' s') {Φ} (h : Φ ∈ schA F _) {g : UA σ X.J}
+    (h1 : om (partU real_mul_self g, 1) Φ = Φ) (h2 : ∀ v, om (partU (idem_mul_self v) g, 1) Φ = Φ) : om (g, 1) Φ = Φ := by
+  classical
+  have step : ∀ S : Finset (Pl F), om (partU (aS_mul_self S) g, 1) Φ = Φ := fun S => by
+    induction S using Finset.induction_on with
+    | empty => rwa [show partU (aS_mul_self ∅) g = partU real_mul_self g from
+        mat_inj (by rw [mat_partU, mat_partU, aS, Finset.sum_empty, add_zero])]
+    | insert v S hv ih =>
+      have e : partU (aS_mul_self (insert v S)) g = partU (idem_mul_self v) g * partU (aS_mul_self S) g := by
+        rw [← partU_add (idem_mul_self v) (aS_mul_self S) (idem_mul_aS hv) (aS_insert hv ▸ aS_mul_self (insert v S))]
+        exact mat_inj (by rw [mat_partU, mat_partU, aS_insert hv])
+      rw [e, ← mul_one (1 : UA σ W.J), ← Prod.mk_mul_mk, map_mul, Module.End.mul_apply, ih, h2]
+  funext x
+  have t := ((P.weil.2.2 _ (ev_adm x) _ h).continuousAt (x := (g, 1))).tendsto.comp
+    ((tendsto_partU g).prodMk_nhds tendsto_const_nhds)
+  exact tendsto_nhds_unique t (tendsto_const_nhds.congr fun S => (congrFun (step S) x).symm)
+
+theorem prj_eq (v : Pl F) (g : UA σ X.J) : partU (idem_mul_self v) g = Euler.prj v g := mat_inj (add_comm _ _)
+
+theorem cont_emb {e : UA σ X.J × UA σ X.J →* G2 σ X} (he : ∀ g g', IsEmb g g' (e (g, g'))) : Continuous fun g => e (g, 1) := by
+  have c : Continuous fun g => mat2 (e (g, 1)) :=
+    (Euler.cont_mat.matrix_fromBlocks continuous_const continuous_const continuous_const).congr fun g => (he g 1).symm
+  refine continuous_induced_rng.2 (Units.continuous_iff.2 ⟨c, (c.comp continuous_inv).congr fun g => ?_⟩)
+  change mat2 (e (g⁻¹, 1)) = mat2 (e (g, 1))⁻¹
+  rw [← map_inv, Prod.inv_mk, inv_one]
+
+theorem par_one : IsPar (1 : G2 σ X) 1 := (Matrix.one_mul _).trans (Matrix.mul_one _).symm
+
+theorem hgt_mul {K : Subgroup (G2 σ X)} {a : G2 σ X → ℝ} (ha : IsHgt K a) (y) {k} (hk : k ∈ K) : a (y * k) = a y := by
+  obtain ⟨p, t, hp, k', hk', rfl⟩ := ha.iwa y
+  rw [mul_assoc, ha.val p t hp _ (mul_mem hk' hk), ha.val p t hp _ hk']
+
+theorem hgt_one {K : Subgroup (G2 σ X)} {a : G2 σ X → ℝ} (ha : IsHgt K a) {k} (hk : k ∈ K) : a k = 1 := by
+  simpa using ha.val 1 1 par_one k hk
+
+theorem law {dd om₂ S l} (hB : B.IsGood σ) (h : IsDbl (σ := σ) (A := W) (Y := X) (κ := (Fin n × Fin d) ⊕ (Fin n × Fin d)) B.ψ dd χW om₂ S l)
+    {Ψ} (hΨ : Ψ ∈ schA F _) : Law χW (d / 2) fun x => l (om₂ x Ψ) := fun p t x hp => by
+  have := hB.cm.1
+  beta_reduce
+  rw [map_mul, Module.End.mul_apply, h.weil.2.2 l h.adm h.kill p t hp _ (h.weil.2.1.pres x Ψ hΨ), PositivityTheory.ThKF0.Chr.absE_eq,
+    Complex.ofReal_cpow (NNReal.coe_nonneg _), Fintype.card_fin]
+  push_cast
+  rfl
+
+theorem at_emb {e : UA σ X.J × UA σ X.J →* G2 σ X} (he : ∀ g g', IsEmb g g' (e (g, g'))) {v} {u : UA σ X.J} (hu : u ∈ locGrp σ X v) :
+    At (evFin F v) (mat2 (e (u, 1)) - 1) := fun t ht => by
+  have : t • (mat u - 1) = 0 := by rw [← Euler.mem_loc.1 hu, ← prj_eq]; exact partU_idem_mem v u t ht
+  rw [he u 1, show mat (1 : UA σ X.J) = 1 from rfl, ← Matrix.fromBlocks_one, sub_eq_add_neg, Matrix.fromBlocks_neg,
+    Matrix.fromBlocks_add, Matrix.fromBlocks_smul, ← sub_eq_add_neg, this]
+  simp
+
+theorem int_all {v} {u : UA σ X.J} (hu : u ∈ locGrp σ X v) (h : IntAt v u) (w) : IntAt w u := by
+  rcases eq_or_ne w v with rfl | hw
+  · exact h
+  · rw [← mul_one u, Euler.int_mul_ne hw hu]; exact (Euler.intGrp σ X w).one_mem
+
+theorem _root_.GlobalTheory.ThK.Dbl.badFactor_of (hD : DblX) (hS : StabEx) (hV : VacFix2) (hB : Bump) : BadFactor := by
+  intro F E _ _ _ _ _ σ B n d X W M χX χW om r s r' s' P h0 _ hn _ T hT _ uW f₀ p0 n0 i0 K a e hK ha he ν hν
+  classical
+  choose! β β1 β2 β3 using hB F E σ B n d X W M χX χW om r s r' s' P hn
+  let φ : ∀ v : Pl F, (Fin n × Fin d → Fv F v) → ℂ := fun v => if v ∈ T then β v else M.vac v
+  have φ1 : ∀ v ∈ T, φ v = β v := fun v h => if_pos h
+  have φ2 : ∀ v ∉ T, φ v = M.vac v := fun v h => if_neg h
+  have hSB : ∀ v, φ v ∈ SB _ := fun v => by
+    by_cases h : v ∈ T
+    exacts [φ1 v h ▸ β1 v (hT h), φ2 v h ▸ (P.good.vac v).1]
+  have hne : ∀ v, φ v ≠ 0 := fun v => by
+    by_cases h : v ∈ T
+    exacts [φ1 v h ▸ β2 v (hT h), φ2 v h ▸ (P.good.vac v).2.1]
+  have hv : ∀ᶠ v in cofinite, φ v = M.vac v := T.eventually_cofinite_notMem.mono φ2
+  have hs := (hv.and P.good.std).mono fun v h => h.1.trans h.2
+  refine ⟨pure f₀ φ, Submodule.subset_span ⟨f₀, p0, φ, hSB, hv, rfl⟩, ?_⟩
+  have m := GlobalTheory.TensUniq.pure_mem_schA f₀ φ hSB hs
+  have m0 := GlobalTheory.EvNonzero.pure_ne_zero f₀ n0 φ hne hs
+  obtain ⟨dd, om₂, S, l, d1, d2, d3, d4⟩ := hD F E σ B n d X W M χX χW om r s r' s' P
+  obtain ⟨c, c0, hc⟩ := d4 ν hν
+  have c1 := Complex.ofReal_ne_zero.2 c0.ne'
+  have fx : ∀ v ∉ T, ∀ k ∈ K, At (evFin F v) (mat2 k - 1) → om₂ k (boxFun (pure f₀ φ) (star (pure f₀ φ))) = _ := fun v h k hk h' =>
+    fix_box hSB hs (φ2 v h ▸ hV F E σ B n d X W M r s r' s' P.base P.herm P.skew P.good χW P.hW dd om₂ d3 d1.weil K hK v
+      (fun w hw => uW w (by show ¬ w.under (𝓞 F) ∈ (T : Set (Pl F)); rw [hw]; exact h)) k hk h')
+  have e1 := fun v (h : v ∈ T) S (c : ℂ) (h' : Acts (evFin F v) S (β v) (c • β v)) => eig (f := f₀) hSB hs (φ1 v h ▸ h')
+  have e2 := fun S => fix_real (f := f₀) (S := S) hSB hs
+  generalize pure f₀ φ = Φ at *
+  have bx : ∀ g, om₂ (e (g, 1)) (boxFun Φ (star Φ)) = boxFun (om (g, 1) Φ) (star Φ) := fun g => by
+    simpa [detInv, show ((1, 1) : UA σ X.J × UA σ W.J) = 1 from rfl] using ((d2 Φ m Φ m).2 1 g 1 _ (he g 1)).2
+  have cf : ∀ g, l (om₂ (e (g, 1)) (boxFun Φ (star Φ))) = c * coef om ν Φ g := fun g => by
+    rw [bx, hc _ (P.weil.isUSplitting.pres _ _ m) _ m]; rfl
+  have N : coef om ν Φ 1 ≠ 0 := by
+    rw [coef, show ((1, 1) : UA σ X.J × UA σ W.J) = 1 from rfl, map_one]; exact sq_ne ν hν m m0
+  have a0 : ∀ x, 0 < a x := fun x => by
+    obtain ⟨p, t, hp, k, hk, rfl⟩ := ha.iwa x
+    rw [ha.val p t hp k hk]; exact absE_pos _
+  refine ⟨fun z v hvT => ?_, ?_⟩
+  · set G := flat a (fun x => l (om₂ x (boxFun Φ (star Φ)))) (((d : ℂ) - n) / 2) z with hG
+    have L : Law χW (z + n / 2) G := by
+      have := (law P.base d1 (d2 Φ m Φ m).1).flat (s₀ := ((d : ℂ) - n) / 2) ha a0 z
+      rwa [show z - ((d : ℂ) - n) / 2 + d / 2 = z + n / 2 by ring] at this
+    have R : ∀ k ∈ K, At (evFin F v) (mat2 k - 1) → ∀ y, G (y * k) = G y := fun k hk h y => by
+      simp only [hG, flat, hgt_mul ha y hk, map_mul, Module.End.mul_apply, fx v hvT k hk h]
+    have Z : ∀ g, G (e (g, 1)) = c * zint om ν a e Φ z g := fun g => by rw [hG, flat, cf, zint]; ring
+    have G1 : G 1 ≠ 0 := by
+      rw [← map_one e, show (1 : UA σ X.J × UA σ X.J) = (1, 1) from rfl, Z, zint, hgt_one ha (show e (1, 1) ∈ K from map_one e ▸ K.one_mem)]
+      simpa using ⟨c0.ne', N⟩
+    refine ⟨fun x => G x / G 1, fun p t hp _ k hk h => ?_, fun u hu => ⟨fun hi => ?_, fun g hg => ?_⟩⟩ <;> beta_reduce
+    · rw [L p t k hp, ← one_mul k, R k hk h, mul_div_cancel_right₀ _ G1]
+    · rw [← one_mul (e (u, 1)), R _ (emb_mem P.base P.herm h0 hK he (int_all hu hi)) (at_emb he hu), div_self G1]
+    · obtain ⟨p, t, k, hp, hk, h, e'⟩ := loc_iwa hK ha (at_emb he hu)
+      refine mul_left_cancel₀ c1 ?_
+      rw [mul_left_comm, ← Z, ← Z, show e (u * g, 1) = e (u, 1) * e (g, 1) by rw [← map_mul, Prod.mk_mul_mk, mul_one], e',
+        mul_assoc, L p t _ hp, L p t _ hp, comm_off he hg h, R k hk h, ← one_mul k, R k hk h, mul_div_cancel_right₀ _ G1]
+  have key : ∀ g, (∀ v ∉ T, IntAt v g) → coef om ν Φ g ≠ 0 → (∀ v, IntAt v g) ∧ coef om ν Φ g = coef om ν Φ 1 := fun g hg h => by
+    have b : ∀ v ∈ T, IntAt v g ∧ om (partU (idem_mul_self v) g, 1) Φ = Φ := fun v hv => by
+      rcases β3 v (hT hv) _ (partU_idem_mem v g) with ⟨b1, b2⟩ | ⟨u, c, c', b1, b2, b3, b4⟩
+      · exact ⟨Euler.int_prj.1 (prj_eq v g ▸ b1), (e1 v hv _ 1 (by rwa [one_smul])).trans (one_smul _ _)⟩
+      · refine absurd (orth P hν m m0 b2 (e1 v hv _ _ b3) (e1 v hv _ _ ?_)) h
+        rwa [mat_partU, Matrix.add_mul, Matrix.smul_mul, Matrix.smul_mul, Matrix.one_mul, sub_smul, one_smul, idem_smul b1,
+          sub_self, add_zero, ← Matrix.mul_smul, idem_smul b1] at b4
+    have hi : ∀ v, IntAt v g := fun v => (em (v ∈ T)).elim (fun h => (b v h).1) (hg v)
+    refine ⟨hi, ?_⟩
+    rw [coef, coef, show ((1, 1) : UA σ X.J × UA σ W.J) = 1 from rfl, map_one, fix_of_parts P m
+      (e2 _ (i0 _ ⟨partU_real_mem g, fun w => commute_theta P.base P.herm h0 w _⟩)) fun v => ?_]
+    · rfl
+    by_cases h : v ∈ T
+    · exact (b v h).2
+    have l1 : partU (idem_mul_self v) g ∈ locGrp σ X v := Subgroup.subset_closure (partU_idem_mem v g)
+    have := fx v h _ (emb_mem P.base P.herm h0 hK he (int_all l1 (prj_eq v g ▸ Euler.int_prj.2 (hi v)))) (at_emb he l1)
+    obtain ⟨y, hy⟩ := Function.ne_iff.1 m0
+    rw [bx] at this
+    exact funext fun x => mul_right_cancel₀ (star_ne_zero.2 hy) (congrFun this (Sum.elim x y))
+  have cl : IsClosed {g : UA σ X.J | ∀ v ∉ T, IntAt v g} := by
+    simp only [Set.setOf_forall]
+    exact isClosed_iInter fun v => isClosed_iInter fun _ => Euler.isClosed_int P.herm.lat.toIsLattice v
+  have ct : Continuous (coef om ν Φ) := by
+    refine (((d1.weil.2.1.cont l d1.adm _ (d2 Φ m Φ m).1).comp (cont_emb he)).div_const (c : ℂ)).congr fun g => ?_
+    exact (congrArg (· / (c : ℂ)) (cf g)).trans (mul_div_cancel_left₀ _ c1)
+  have op : IsOpen {g | coef om ν Φ g ≠ 0} := isOpen_ne_fun ct continuous_const
+  have val : ∀ z, ∫ g in {g | ∀ v ∉ T, IntAt v g}, zint om ν a e Φ z g ∂M.μ =
+      M.μ.real ({g | coef om ν Φ g ≠ 0} ∩ {g | ∀ v ∉ T, IntAt v g}) • coef om ν Φ 1 := fun z => by
+    rw [← measureReal_restrict_apply op.measurableSet, ← integral_indicator_const _ op.measurableSet]
+    refine setIntegral_congr_fun cl.measurableSet fun g hg => ?_
+    by_cases h : coef om ν Φ g = 0
+    · rw [zint, h, mul_zero, Set.indicator_of_notMem (not_not.2 h)]
+    · rw [zint, hgt_one ha (emb_mem P.base P.herm h0 hK he (key g hg h).1), (key g hg h).2, Set.indicator_of_mem h]
+      simp
+  simp only [val]
+  refine ⟨differentiable_const _, smul_ne_zero (ENNReal.toReal_ne_zero.2 ⟨?_, ?_⟩) N⟩
+  · have := P.good.haar
+    refine (M.μ.measure_pos_of_mem_nhds (x := 1) (inter_mem (op.mem_nhds N) ?_)).ne'
+    exact mem_of_superset (int_nhds P.herm.lat) fun g h v _ => h v
+  · have := P.good.haar
+    obtain ⟨K₁, -, -, k1, k2, -⟩ := hS F E σ B n X r s P.base P.herm
+    exact ((measure_mono fun g (h : g ∈ {g | coef om ν Φ g ≠ 0} ∩ {g | ∀ v ∉ T, IntAt v g}) =>
+      (stab_iff P.base P.herm h0 k1).2 (key g h.2 h.1).1).trans_lt k2.measure_lt_top).ne
+
+end GlobalTheory.ThK.Dbl.Bad
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.ThK.Dbl.Box
+
+open scoped TensorProduct NNReal Matrix SchwartzMap Classical
+open NumberField IsDedekindDomain MeasureTheory Filter Topology Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
+open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels GlobalTheory.ThK.Dbl.Dense
+open GlobalTheory.Doubling (absE)
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
+  {κ : Type} [Fintype κ] {m n : ℕ} {A : Spc F E m} {Y : Spc F E n} {B : Base F E} {ψ : AddChar (AF F) ℂ}
+
+theorem theta_inj (hψ : IsStd ψ) {φ : (κ → AF F) → ℂ} (hφ : φ ∈ schA F κ) (h : ∀ w, thetaSum F (schr ψ w φ) = 0) : φ = 0 := by
+  have hn := GlobalTheory.StdCharFromIsStd.norm_psi hψ
+  obtain ⟨a₀, ha₀⟩ := GlobalTheory.StdCharFromIsStd.exists_ne_one hψ
+  have r0 : rt (0 : κ → F) = 0 := funext fun _ => map_zero _
+  funext x
+  have key := GlobalTheory.SchrodingerUniq.coeff_zero_eq_zero (χ := fun (y : κ → AF F) (ξ : κ → F) => ψ (rt ξ ⬝ᵥ y))
+    (c := fun ξ => φ (rt ξ + x)) (fun y ξ => hn _) (fun y y' ξ => by simp only [dotProduct_add, AddChar.map_add_eq_mul])
+    (fun ξ => by simp only [dotProduct_zero, AddChar.map_zero_eq_one])
+    (fun y => by simp only [r0, zero_dotProduct, AddChar.map_zero_eq_one])
+    (fun ξ hξ => by
+      obtain ⟨i, hi⟩ := Function.ne_iff.1 hξ
+      refine ⟨Pi.single i (algebraMap F (AF F) (ξ i)⁻¹ * a₀), ?_⟩
+      beta_reduce
+      rwa [dotProduct_single, ← mul_assoc, ← map_mul, mul_inv_cancel₀ hi, map_one, one_mul])
+    (by convert summable_norm_of_mem_schA F (GlobalTheory.SchwartzTranslate.schA_translate F x hφ) using 1) fun y => by
+      have hb : ψ (⅟(2 : AF F) * (x ⬝ᵥ y)) ≠ 0 := norm_ne_zero_iff.1 (by rw [hn]; exact one_ne_zero)
+      refine (mul_eq_zero.1 (Eq.trans ?_ (h (x, y)))).resolve_left hb
+      rw [← tsum_mul_left, thetaSum]
+      refine tsum_congr fun ξ => ?_
+      simp only [schr, AddChar.map_add_eq_mul]
+      ring
+  simpa [r0] using key
+
+theorem schr_schr (w w' : (κ → AF F) × (κ → AF F)) : ∃ c : ℂ, ∀ φ, schr ψ w (schr ψ w' φ) = c • schr ψ (w + w') φ :=
+  ⟨ψ (⅟(2 : AF F) * (w.1 ⬝ᵥ w'.2 - w'.1 ⬝ᵥ w.2)), fun φ => funext fun x => by
+    simp only [schr, Pi.smul_apply, smul_eq_mul, ← mul_assoc, ← AddChar.map_add_eq_mul, Prod.fst_add, Prod.snd_add, add_assoc,
+      add_dotProduct, dotProduct_add]
+    congr 2
+    linear_combination (-(w.1 ⬝ᵥ w'.2)) * invOf_mul_self (2 : AF F)⟩
+
+variable {dd} {χ : Chr F E} {om S l}
+
+theorem dbl_inj (hψ : IsStd ψ) (h : IsDbl (σ := σ) (A := A) (Y := Y) (κ := κ) ψ dd χ om S l) {Φ} (hΦ : Φ ∈ schA F κ)
+    (h0 : ∀ w, l (dd.rho ψ w Φ) = 0) : Φ = 0 := theta_inj hψ hΦ fun w => by
+  obtain ⟨w, rfl⟩ := dd.e.surjective w
+  refine (h.theta _ (GlobalTheory.HeisSchA.schr_mem_schA ψ hψ _ Φ hΦ)).unique (by
+    convert hasSum_zero with y
+    obtain ⟨c, e⟩ := schr_schr (ψ := ψ) (dd.e (incM F (Matrix.fromCols y (-y)))) (dd.e w)
+    rw [Darboux.rho, e, map_smul, ← map_add (f := _), ← Darboux.rho, h0, smul_zero])
+
+theorem dbl_comm (hψ : IsStd ψ) (h : IsDbl (σ := σ) (A := A) (Y := Y) (κ := κ) ψ dd χ om S l) {p t} (hp : IsPar p t) (g)
+    {Φ} (hΦ : Φ ∈ schA F κ) : om p (S g Φ) = S g (om p Φ) := by
+  have hw := h.weil.2.1
+  have mem : ∀ w, ∀ Φ ∈ schA F κ, dd.rho ψ w Φ ∈ schA F κ := fun w => GlobalTheory.HeisSchA.schr_mem_schA ψ hψ _
+  refine sub_eq_zero.1 (dbl_inj hψ h (sub_mem (hw.pres _ _ (h.lin.pres g Φ hΦ)) (h.lin.pres _ _ (hw.pres p Φ hΦ))) fun w => ?_)
+  obtain ⟨w, rfl⟩ : ∃ w', w = mat g * actB (cA σ) p w' := ⟨mat g⁻¹ * actB (cA σ) p⁻¹ w, by
+    simp [actB, mat, Matrix.mul_assoc, ← Matrix.transpose_mul]⟩
+  have law := h.weil.2.2 l h.adm h.kill p t hp
+  rw [show ∀ w (a b : (κ → AF F) → ℂ), dd.rho ψ w (a - b) = dd.rho ψ w a - dd.rho ψ w b from
+      fun w a b => funext fun x => mul_sub _ _ _, map_sub, ← h.lin.impl g _ _ (hw.pres p Φ hΦ), ← hw.impl p w Φ hΦ,
+    h.fix g _ (hw.pres _ _ (mem w Φ hΦ)), law _ (mem w Φ hΦ),
+    show mat g * actB (cA σ) p w = actB (cA σ) p (mat g * w) from (Matrix.mul_assoc _ _ _).symm,
+    ← hw.impl p _ _ (h.lin.pres g Φ hΦ), ← h.lin.impl g w Φ hΦ, law _ (h.lin.pres g _ (mem w Φ hΦ)), h.fix g _ (mem w Φ hΦ),
+    sub_self]
+
+theorem sw_transl (h1 : SiegelWeilStd) (h2 : FrameConj) {r s r' s'} (hB : B.IsGood σ) (hm : 1 ≤ m) (hn : 1 ≤ n) (h0 : min r s = 0)
+    (hA : A.IsHerm σ B r s ∧ Y.IsSkew σ B r' s' ∨ A.IsSkew σ B r s ∧ Y.IsHerm σ B r' s') (hχ : IsHecke F E χ)
+    (hc : ResEtaPow (Units.map (algebraMap F (AF F)).toMonoidHom).range χ m) {dd om S l}
+    (h : IsDbl (σ := σ) (A := A) (Y := Y) (κ := κ ⊕ κ) B.ψ dd χ om S l) {K a} (hK : IsStab2 B K) (ha : IsHgt K a)
+    {μ : Measure (UA σ A.J)} {D : Set (UA σ A.J)} (hμ : μ.IsHaarMeasure) (hD : IsFundamentalDomain (ratU σ A.J) D μ)
+    {Φ} (hΦ : Φ ∈ kfin om K) : EisValueAt (flat a (fun x => l (om x Φ)) (((m : ℂ) - n) / 2)) (((m : ℂ) - n) / 2)
+      fun x => (if n < m then 1 else 2) * ⨍ g in D, thetaSum F (om x (S g Φ)) ∂μ := by
+  obtain ⟨N, _, n0, n1, n2⟩ := hΦ
+  obtain ⟨b, K₀, p, t, hb, hK₀, hp, hk⟩ := h2 F E σ B n Y r' s' hB (hA.symm.imp And.right And.right) K hK
+  obtain ⟨d, hd⟩ : ∃ d : ℝ, d = absE F E (Matrix.GeneralLinearGroup.det t) := ⟨_, rfl⟩
+  have d0 : 0 < d := hd ▸ absE_pos _
+  have a0 : ∀ x, 0 < a x := fun x => by
+    obtain ⟨q, u, hq, k, hk, rfl⟩ := ha.iwa x
+    exact ha.val q u hq k hk ▸ absE_pos _
+  have hk' : ∀ k ∈ K₀, p * k * p⁻¹ ∈ K := fun k h => (hk _).2 (by simpa [mul_assoc] using h)
+  have ha₀ : IsHgt K₀ fun x => d * a (x * p⁻¹) := by
+    refine ⟨fun x => ?_, fun q u hq k h => ?_⟩
+    · obtain ⟨q, u, hq, k, h, e⟩ := ha.iwa (x * p⁻¹)
+      exact ⟨q * p, _, hq.mul hp, _, (hk k).1 h, by rw [mul_inv_eq_iff_eq_mul.1 e]; group⟩
+    · rw [show q * k * p⁻¹ = q * p⁻¹ * (p * k * p⁻¹) by group, ha.val _ _ (hq.mul hp.inv) _ (hk' k h), map_mul, map_mul, map_inv,
+        map_inv, NNReal.coe_mul, NNReal.coe_inv, ← hd]
+      field_simp
+  have mul : ∀ x y Ψ, om x (om y Ψ) = om (x * y) Ψ := fun x y Ψ => by rw [map_mul, Module.End.mul_apply]
+  intro x
+  obtain ⟨e, e1, ⟨t₁, e2⟩, e3, e4⟩ := h1 F E σ B m n A Y r s r' s' hB hm hn h0 hA χ hχ hc _ dd om S l h b K₀ _ hb hK₀ ha₀ μ D hμ hD
+    (om p⁻¹ Φ) (h.weil.2.1.pres _ _ (n0 n1)) (Submodule.finiteDimensional_of_le (S₂ := N.map (om p⁻¹)) (Submodule.span_le.2 (by
+      rintro _ ⟨k, rfl⟩
+      exact ⟨_, n2 _ (hk' k k.2) Φ n1, by simp only [mul]; congr 2; group⟩))) (x * p)
+  have dc : Differentiable ℂ fun z : ℂ => (d : ℂ) ^ (((m : ℂ) - n) / 2 - z) :=
+    (differentiable_id.const_sub _).const_cpow (.inl (Complex.ofReal_ne_zero.2 d0.ne'))
+  refine ⟨fun z => (d : ℂ) ^ (((m : ℂ) - n) / 2 - z) * e z, fun z hz => (dc.analyticAt z).meromorphicAt.mul (e1 z hz),
+    ⟨t₁, fun z hz => ?_⟩, (dc.analyticAt _).mul e3, ?_⟩
+  · refine (congrArg (HasSum · _) (funext fun q => ?_)).mpr ((e2 z hz).mul_left ((d : ℂ) ^ (((m : ℂ) - n) / 2 - z)))
+    simp only [eisTerm, flat, mul, ← mul_assoc, mul_inv_cancel_right]
+    rw [Complex.ofReal_mul, Complex.mul_cpow_ofReal_nonneg d0.le (a0 _).le, ← mul_assoc,
+      ← Complex.cpow_add _ _ (Complex.ofReal_ne_zero.2 d0.ne')]
+    simp
+  · simp only [e4, sub_self, Complex.cpow_zero, one_mul, ← dbl_comm hB.std h hp.inv _ (n0 n1), mul, mul_inv_cancel_right]
+
+theorem _root_.GlobalTheory.ThK.Dbl.siegelWeilAniso_of (h1 : SiegelWeilStd) (h2 : FrameConj) (hL : FinLevel) (hC : Stab2Cpt) :
+    SiegelWeilAniso := by
+  refine ⟨?_, ?_⟩
+  · intro F E _ _ _ _ _ σ B m n A Y M r s r' s' hB hm hn hA h0 hY hM χ hχ hc dd om S l hd h K a hK ha Φ₁ p1 Φ₂ p2
+    refine sw_transl h1 h2 hB hm hn h0 (.inl ⟨hA, hY⟩) hχ hc h hK ha hM.haar hM.dom
+      (polData_kfin hM (fun g₁ s1 g₂ s2 f₁ p1 f₂ p2 => box_kfin hL hB hK (hC F E σ B n Y r' s' hB (.inr hY) K hK)
+      h.weil.2.1.toIsSplitting hd (fun N n1 n2 => (sInf_le (a := N) ⟨fun f ⟨ε, hε⟩ => n1 ε f fun u u' hu hu' e => by
+        exact hε u u' hu hu' e _ _ (actsD_dop M hB.std hu f) (actsD_dop M hB.std hu' f),
+        fun u hu f hf f₁ e => ?_⟩ : M.Pol B.ψ B.emb ≤ N)) s1 s2 p1 p2) p1 p2)
+    · rw [actsD_unique' M hB.std hu e]; exact n2 u hu f hf
+  · intro F E _ _ _ _ _ σ B n d X W M r s r' s' hB hn hd' hX hW h0 hM χ hχ hc dd om S l ⟨d', ht, hd⟩ h K a hK ha μ D hμ hD Φ₁ p1 Φ₂ p2
+    have tr : ∀ {p q : ℕ} {u : Matrix (Fin p) (Fin q) (AE F E)}, At (evI F) u → At (evI F) uᵀ := fun hu c hc => by
+      rw [← Matrix.transpose_smul, hu c hc, Matrix.transpose_zero]
+    refine sw_transl h1 h2 hB hd' hn h0 (.inr ⟨hW, hX⟩) hχ hc h hK ha hμ hD
+      (polData_kfin hM (fun g₁ s1 g₂ s2 f₁ p1 f₂ p2 => box_kfin hL hB hK (hC F E σ B n X r s hB (.inl hX) K hK)
+      h.weil.2.1.toIsSplitting hd (fun N n1 n2 => (sInf_le (a := N) ⟨fun f ⟨ε, hε⟩ => n1 ε f fun u u' hu hu' e => by
+        rw [← u.transpose_transpose, ← u'.transpose_transpose, ht, ht]
+        refine hε uᵀ u'ᵀ (tr hu) (tr hu') (fun w => ?_) _ _ (actsD_dop M hB.std (tr hu) f) (actsD_dop M hB.std (tr hu') f)
+        rw [Matrix.transpose_map, Matrix.transpose_map, e w, Matrix.transpose_smul, Matrix.transpose_mul, Matrix.transpose_mul,
+          Matrix.transpose_transpose, Matrix.mul_assoc],
+        fun u hu f hf f₁ e => ?_⟩ : M.Pol B.ψ B.emb ≤ N)) s1 s2 p1 p2) p1 p2)
+    · rw [actsD_unique' M hB.std hu e]
+      have := n2 uᵀ (tr hu) f hf
+      rwa [ht] at this
+
+end GlobalTheory.ThK.Dbl.Box
+
+end
+end
+
+section
+
+namespace GlobalTheory.ThK.Dbl
+
+theorem polFinTri : PolFin := fun _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ h => polFin (PositivityTheory.ThKG.pairV h)
+
+theorem pairsIrr_of_arch (hO : PositivityTheory.ThKF.ArchOp) : PairsIrr :=
+  pairsIrr_of PositivityTheory.ThKH.Locrep.locRepEx PositivityTheory.ThKF.pureAct hO polFinTri
+
+end GlobalTheory.ThK.Dbl
+end

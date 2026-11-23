@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ShortSpanUnitOfExactValues
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle105
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

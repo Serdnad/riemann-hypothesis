@@ -2,11 +2,11 @@ module
 
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.SingSt
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsCoordsAtOfCoordTie
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentresStatement
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle092
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemAbLocusIff
-public import Development.WeilBound.CoreStatements.FlagImmersions.SumFundOnRoot
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

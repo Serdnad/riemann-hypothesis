@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import Development.WeilBound.CoreStatements.CentralCharts.PshAt0
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices.InstFintypeFlIdx
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFinsetOfMemNhds
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.BoundaryPointsClosedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicAtlasCoordCompatStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle273
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle141
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelAnalyticDataExists
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FubiniStudyMetricSmooth
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsArithVarOfSncModelStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogResolutionFubiniStudyPositive
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LowerBoundHeightOnBoundaryStatement
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle117
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle154
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SmoothContinuous
 public import Development.WeilBound.CoreStatements.CentralCharts.CommonMembers
 public import Development.WeilBound.CoreStatements.CentralCharts.IsPosPotBlock
@@ -88,6 +88,7 @@ theorem weight_orbit {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J 
   rw [this]
   ring
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem one_le_dimFl {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) {N : ℕ} (hN : 2 ≤ N) :
     1 ≤ Top.dimFl (CMType H) N := by
   have h1 : Fintype.card (CMType H) = Module.finrank ℚ E / 2 := by
@@ -100,6 +101,7 @@ theorem one_le_dimFl {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Hos
   unfold Top.dimFl
   exact Nat.mul_pos (by omega) (by omega)
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem of_local (hI : PB.Inputs) {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H}
     {l : Tor.Level H} {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)}
     (hp : 1 ≤ D.p) (hq : 1 ≤ D.q) (G : RefGeo Y) (sing : RootIx D → HermLine G.J)
@@ -113,7 +115,8 @@ theorem of_local (hI : PB.Inputs) {E : Type} [Field E] [NumberField E] [IsCMFiel
     ∃ A : G.An, (∃ inv : A.Sys.X → A.Re.R.X, ReciprocityTheory.AnForm.M.HoloMap A.Sys.A A.Re.R.A inv ∧
       ∀ x, inv (A.Re.π x) = x) := by
   classical
-  have harith := GlobalTheory.T.isArithVar_of_snc_model G.𝔐.X G.Ω G.𝔐.ξ G.K G.J G.y _ G.bd (one_le_dimFl H (by omega)) G.𝔐.tie G.snc
+  have harith := GlobalTheory.T.isArithVar_of_snc_model G.𝔐.X G.Ω G.𝔐.ξ G.K G.J G.y _ G.bd
+    (one_le_dimFl H (N := D.p + D.q) (by omega)) G.𝔐.tie G.snc
   obtain ⟨y1, y2, y3⟩ := GlobalTheory.T.boundary_points_closed G.𝔐.X G.Ω G.𝔐.ξ G.K G.J G.y (abLocus G.𝔐.t.G) G.bd G.𝔐.tie G.bd_iff
   obtain ⟨R, L, s, nb, m, W, hL, hs, snc, hn, hbd, hrc⟩ := GlobalTheory.T.lowerBound_height_on_boundary G.K G.J G.Ω G.y _ G.bd G.snc harith y1 y2 y3
   have hmem : ∀ x, R.lift x x ∈ mcPts (mCoordIdeal G.y) := fun x => R.mem x x (R.mem_U x)

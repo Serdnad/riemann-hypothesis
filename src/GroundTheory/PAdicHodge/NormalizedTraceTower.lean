@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.PAdicHodge.NormalizedTrace
-public import GroundTheory.PAdicHodge.CyclotomicField
+public import GroundTheory.PAdicHodge.Bundle002
 public import Mathlib.Order.CompletePartialOrder
 public import Mathlib.Tactic.Linter.HaveILetI
-import GroundTheory.PAdicHodge.GaloisOnCp
+import GroundTheory.PAdicHodge.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

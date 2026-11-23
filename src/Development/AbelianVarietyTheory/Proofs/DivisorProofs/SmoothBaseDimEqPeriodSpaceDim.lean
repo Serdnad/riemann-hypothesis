@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexUniformisationsSamePointDifferByIsometryStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCountableCharts
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicMapLiftsLocallyToPeriodFamiliesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeOfCountableHolomorphicImagesCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeOfInjOnDifferentiableOnComplexStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1836
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1929
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle671
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle628
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

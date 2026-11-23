@@ -4,7 +4,7 @@ public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import Formalism.ZeroFreeRegion.FinalZFR
-import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.LandauLocalOf
+import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.SumVonMangoldtNotCoprimeLe
+import Formalism.LandauZeroFreeBounds.ExceptionalZeroBounds.Bundle002
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
-public import GroundTheory.GlobalFields.TateThesis.HeckeTheoremScaling
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
+public import GroundTheory.GlobalFields.TateThesis.Bundle011
 public import GroundTheory.LocalFields.LocalZetaEpsilon
 public import GroundTheory.AutomorphicForms.GL2.FiniteAdeleDecomp
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace

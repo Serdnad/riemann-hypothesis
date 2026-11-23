@@ -1,0 +1,272 @@
+module
+
+public import Formalism.GradedWeylDivisibility.StatementD
+public import Formalism.PolynomialDimension.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.flipOneThree.Pf
+
+open Formalism.MainNotions.G Formalism.MainNotions.flipOneThree Formalism.GradedWeylDivisibility MvPolynomial
+
+def ExistsIO : Prop :=
+  ∀ (K : Type) [Field K] (S α : Type) [Fintype S] [DecidableEq S] (TT : Finset S)
+    (i : TT → MvPolynomial α K →ₗ[K] MvPolynomial (Bool × α) K),
+    ∃ IO : MvPolynomial (S × α) K →ₗ[K] MvPolynomial ((TT × Bool) × α) K, ∀ P : S → MvPolynomial α K,
+      (∀ s, s ∉ TT → P s = 1) → IO (∏ s, rename (fun v => (s, v)) (P s)) =
+        ∏ s : TT, rename (fun v : Bool × α => ((s, v.1), v.2)) (i s (P s.val))
+
+def ExistsPR : Prop :=
+  ∀ (K : Type) [Field K] (S α : Type) [Fintype S] [DecidableEq S] (TT : Finset S)
+    (pr : TT → MvPolynomial (Bool × α) K →ₗ[K] MvPolynomial α K),
+    ∃ PR : MvPolynomial ((TT × Bool) × α) K →ₗ[K] MvPolynomial (S × α) K, ∀ Y : TT → MvPolynomial (Bool × α) K,
+      PR (∏ s : TT, rename (fun v : Bool × α => ((s, v.1), v.2)) (Y s)) =
+        ∏ s : TT, rename (fun v => (s.val, v)) (pr s (Y s))
+
+def RegroupP : Prop :=
+  ∀ (R K : Type) [CommRing R] [CommRing K] [Algebra R K] (T α : Type) [Fintype T] [DecidableEq T]
+    (N : T × Bool → Submodule R (MvPolynomial α K)) (y : T → MvPolynomial (Bool × α) K),
+    (∀ s, y s ∈ Submodule.span R {P | ∃ F : Bool → MvPolynomial α K, (∀ b, F b ∈ N (s, b)) ∧
+      P = ∏ b, rename (fun v => (b, v)) (F b)}) →
+    ∏ s, rename (fun v : Bool × α => ((s, v.1), v.2)) (y s) ∈
+      Submodule.span R {P | ∃ F : T × Bool → MvPolynomial α K, (∀ x, F x ∈ N x) ∧
+        P = ∏ x, rename (fun v => (x, v)) (F x)}
+
+section Abs
+
+variable {A K : Type} [CommRing A] [Field K] [Algebra A K] {n' k n : ℕ} (TT : Finset (Fin n'))
+
+theorem prodSmulPowT {σ ι : Type} [Fintype ι] (c : K) (w : ι → MvPolynomial σ K) :
+    ∏ s, (c • w s) = c ^ Fintype.card ι • ∏ s, w s := by
+  simp only [MvPolynomial.smul_eq_C_mul, Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ,
+    map_pow]
+
+theorem genRegroupT (F : TT × Bool → MvPolynomial (Fin k × Fin n) K) :
+    ∏ x, blockEmb K x (F x) =
+      ∏ s : TT, rename (fun v : Bool × (Fin k × Fin n) => ((s, v.1), v.2)) (∏ b, blockEmb K b (F (s, b))) := by
+  rw [Fintype.prod_prod_type]
+  refine Finset.prod_congr rfl fun s _ => ?_
+  rw [map_prod]
+  exact Finset.prod_congr rfl fun b _ =>
+    (MvPolynomial.rename_rename (R := K) (fun v : Fin k × Fin n => (b, v))
+      (fun v : Bool × (Fin k × Fin n) => ((s, v.1), v.2)) (F (s, b))).symm
+
+theorem prodTopsT (G : TT → MvPolynomial (Fin k × Fin n) K) :
+    ∏ s : TT, rename (fun v => (s.val, v)) (G s) =
+      ∏ s : Fin n', blockEmb K s (if h : s ∈ TT then G ⟨s, h⟩ else 1) := by
+  symm
+  rw [← Finset.prod_subset (Finset.subset_univ TT)]
+  · rw [← Finset.prod_coe_sort TT]
+    refine Finset.prod_congr rfl fun s _ => ?_
+    rw [dite_eq_left s.2]
+    rfl
+  · intro s _ hs
+    rw [dif_neg hs, map_one]
+
+theorem ioMem (hK2 : RegroupP) (i : TT → MvPolynomial (Fin k × Fin n) K →ₗ[K] MvPolynomial (Bool × (Fin k × Fin n)) K)
+    (IO : MvPolynomial (Fin n' × (Fin k × Fin n)) K →ₗ[K] MvPolynomial ((TT × Bool) × (Fin k × Fin n)) K)
+    (hIO : ∀ P : Fin n' → MvPolynomial (Fin k × Fin n) K, (∀ s, s ∉ TT → P s = 1) →
+      IO (∏ s, rename (fun v => (s, v)) (P s)) =
+        ∏ s : TT, rename (fun v : Bool × (Fin k × Fin n) => ((s, v.1), v.2)) (i s (P s.val)))
+    (Nv : Fin n' → Submodule A (MvPolynomial (Fin k × Fin n) K))
+    (N2 : TT × Bool → Submodule A (MvPolynomial (Fin k × Fin n) K)) (c : K)
+    (h1 : ∀ s : TT, ∀ y ∈ Nv s.val, c • i s y ∈ tensorLat A K (fun b => N2 (s, b)))
+    (h0 : ∀ s, s ∉ TT → ∀ y ∈ Nv s, ∃ a : A, y = C (algebraMap A K a)) :
+    ∀ y ∈ tensorLat A K Nv, c ^ TT.card • IO y ∈ tensorLat A K N2 := by
+  have hcomm : ∀ (a : A) (z : MvPolynomial ((TT × Bool) × (Fin k × Fin n)) K),
+      c ^ TT.card • a • z = a • c ^ TT.card • z := fun a z => by
+    rw [← algebraMap_smul K a z, smul_smul, mul_comm, ← smul_smul, algebraMap_smul]
+  intro y hy
+  induction hy using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨F, hF, rfl⟩ := hx
+    classical
+    let a' : Fin n' → A := fun s =>
+      if h : s ∈ TT then 1 else Classical.choose (h0 s h (F s) (hF s))
+    let P : Fin n' → MvPolynomial (Fin k × Fin n) K := fun s => if s ∈ TT then F s else 1
+    have hP : ∀ s, s ∉ TT → P s = 1 := fun s hs => if_neg hs
+    have hPF : ∀ s : TT, P s.val = F s.val := fun s => if_pos s.2
+    have hterm : ∀ s, blockEmb K s (F s) =
+        MvPolynomial.C (algebraMap A K (a' s)) * rename (fun v : Fin k × Fin n => (s, v)) (P s) := by
+      intro s
+      by_cases h : s ∈ TT
+      · simp [a', P, h, blockEmb]
+      · have e := Classical.choose_spec (h0 s h (F s) (hF s))
+        simp only [a', P, dif_neg h, if_neg h, map_one, mul_one]
+        conv_lhs => rw [e]
+        exact MvPolynomial.rename_C _ _
+    have hy : ∏ s, blockEmb K s (F s) =
+        (∏ s, a' s) • ∏ s, rename (fun v : Fin k × Fin n => (s, v)) (P s) := by
+      rw [Finset.prod_congr rfl fun s _ => hterm s, Finset.prod_mul_distrib, Algebra.smul_def,
+        MvPolynomial.algebraMap_apply]
+      simp only [map_prod]
+    have hmem := hK2 A K TT (Fin k × Fin n) N2 (fun s => c • i s (P s.val))
+      (fun s => by
+        simp only [hPF s]
+        exact h1 s (F s.val) (hF s.val))
+    have hc : ∀ w : TT → MvPolynomial ((TT × Bool) × (Fin k × Fin n)) K,
+        c ^ TT.card • ∏ s, w s = ∏ s, c • w s := fun w => by
+      rw [prodSmulPowT, Fintype.card_coe]
+    rw [hy, LinearMap.map_smul_of_tower, hcomm]
+    refine Submodule.smul_mem _ _ ?_
+    rw [hIO P hP, hc]
+    simp only [map_smul] at hmem
+    exact hmem
+  | zero =>
+    rw [map_zero, smul_zero]
+    exact Submodule.zero_mem _
+  | add x y _ _ ihx ihy =>
+    rw [map_add (f := _), smul_add]
+    exact Submodule.add_mem _ ihx ihy
+  | smul a x _ ih =>
+    rw [LinearMap.map_smul_of_tower, hcomm]
+    exact Submodule.smul_mem _ a ih
+
+theorem prMem (pr : TT → MvPolynomial (Bool × (Fin k × Fin n)) K →ₗ[K] MvPolynomial (Fin k × Fin n) K)
+    (PR : MvPolynomial ((TT × Bool) × (Fin k × Fin n)) K →ₗ[K] MvPolynomial (Fin n' × (Fin k × Fin n)) K)
+    (hPR : ∀ Y : TT → MvPolynomial (Bool × (Fin k × Fin n)) K,
+      PR (∏ s : TT, rename (fun v : Bool × (Fin k × Fin n) => ((s, v.1), v.2)) (Y s)) =
+        ∏ s : TT, rename (fun v => (s.val, v)) (pr s (Y s)))
+    (Nv : Fin n' → Submodule A (MvPolynomial (Fin k × Fin n) K))
+    (N2 : TT × Bool → Submodule A (MvPolynomial (Fin k × Fin n) K)) (c : K)
+    (h1 : ∀ s : TT, ∀ x ∈ tensorLat A K (fun b => N2 (s, b)), c • pr s x ∈ Nv s.val)
+    (h0 : ∀ s, s ∉ TT → (1 : MvPolynomial (Fin k × Fin n) K) ∈ Nv s) :
+    ∀ x ∈ tensorLat A K N2, c ^ TT.card • PR x ∈ tensorLat A K Nv := by
+  have hcomm : ∀ (a : A) (z : MvPolynomial (Fin n' × (Fin k × Fin n)) K),
+      c ^ TT.card • a • z = a • c ^ TT.card • z := fun a z => by
+    rw [← algebraMap_smul K a z, smul_smul, mul_comm, ← smul_smul, algebraMap_smul]
+  have hc : ∀ w : TT → MvPolynomial (Fin n' × (Fin k × Fin n)) K,
+      c ^ TT.card • ∏ s, w s = ∏ s, c • w s := fun w => by
+    rw [prodSmulPowT, Fintype.card_coe]
+  intro x hx
+  induction hx using Submodule.span_induction with
+  | mem x hx =>
+    obtain ⟨F, hF, rfl⟩ := hx
+    have ht := prodTopsT TT (fun s => c • pr s (∏ b, blockEmb K b (F (s, b))))
+    simp only [map_smul] at ht
+    rw [genRegroupT, hPR, hc, ht]
+    refine Submodule.subset_span ⟨fun s => if h : s ∈ TT then
+      c • pr ⟨s, h⟩ (∏ b, blockEmb K b (F (⟨s, h⟩, b))) else 1, fun s => ?_, rfl⟩
+    dsimp only
+    by_cases h : s ∈ TT
+    · rw [dite_eq_left h]
+      exact h1 ⟨s, h⟩ _ (Submodule.subset_span ⟨fun b => F (⟨s, h⟩, b), fun b => hF _, rfl⟩)
+    · rw [dif_neg h]
+      exact h0 s h
+  | zero =>
+    rw [map_zero, smul_zero]
+    exact Submodule.zero_mem _
+  | add x y _ _ ihx ihy =>
+    rw [map_add (f := _), smul_add]
+    exact Submodule.add_mem _ ihx ihy
+  | smul a x _ ih =>
+    rw [LinearMap.map_smul_of_tower, hcomm]
+    exact Submodule.smul_mem _ a ih
+
+end Abs
+
+end Formalism.MainNotions.flipOneThree.Pf
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.flipOneThree.Pf
+
+open Formalism.MainNotions.G Formalism.MainNotions.flipOneThree Formalism.CountingSumsFrames Formalism.GradedWeylDivisibility MvPolynomial
+
+def covY (K : Type) [Field K] (m : ℕ) (i : Fin (m + 1)) : MvPolynomial (Fin (m + 1) × Fin (m + 1)) K :=
+  (-1) ^ (i : ℕ) * Matrix.det (fun a b : Fin m => (X (i.succAbove a, b.castSucc) : MvPolynomial (Fin (m + 1) × Fin (m + 1)) K))
+
+def PsiXY (K : Type) [Field K] (m : ℕ) : PolXY K (m + 1) →ₐ[K] MvPolynomial (Bool × (Fin (m + 1) × Fin (m + 1))) K :=
+  aeval (Sum.elim (fun i : Fin (m + 1) => X (true, (i, (0 : Fin (m + 1)))))
+    (fun i : Fin (m + 1) => rename (Prod.mk false) (covY K m i)))
+
+def deltaB (K : Type) [Field K] (m : ℕ) :
+    MvPolynomial (Bool × (Fin (m + 1) × Fin (m + 1))) K →ₐ[K] MvPolynomial (Fin (m + 1) × Fin (m + 1)) K :=
+  rename Prod.snd
+
+theorem sum_covY (K : Type) [Field K] (m : ℕ) (hm : 1 ≤ m) :
+    ∑ i : Fin (m + 1), (X (i, (0 : Fin (m + 1))) : MvPolynomial (Fin (m + 1) × Fin (m + 1)) K) * covY K m i = 0 := by
+  obtain ⟨k, rfl⟩ : ∃ k, m = k + 1 := ⟨m - 1, by omega⟩
+  let N : Matrix (Fin (k + 2)) (Fin (k + 2)) (MvPolynomial (Fin (k + 2) × Fin (k + 2)) K) :=
+    Matrix.of fun a c => Fin.cases (X (a, 0)) (fun b : Fin (k + 1) => X (a, b.castSucc)) c
+  have h0 : N.det = 0 :=
+    Matrix.det_zero_of_column_eq (i := 0) (j := (0 : Fin (k + 1)).succ) (Fin.succ_ne_zero 0).symm
+      (fun a => rfl)
+  rw [Matrix.det_succ_column_zero] at h0
+  rw [← h0]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  have hsub : N.submatrix i.succAbove Fin.succ =
+      fun a b => (X (i.succAbove a, b.castSucc) : MvPolynomial (Fin (k + 2) × Fin (k + 2)) K) := by
+    ext a b
+    simp [N]
+  have hN0 : N i 0 = X (i, 0) := by simp [N]
+  rw [hsub, hN0, covY]
+  ring
+
+theorem delta_Psi_h (K : Type) [Field K] (m : ℕ) (hm : 1 ≤ m) : deltaB K m (PsiXY K m (hXY K (m + 1))) = 0 := by
+  have hid : (Prod.snd ∘ Prod.mk false : Fin (m + 1) × Fin (m + 1) → Fin (m + 1) × Fin (m + 1)) = id := rfl
+  have h1 : ∀ i : Fin (m + 1), deltaB K m (PsiXY K m (X (Sum.inl i) * X (Sum.inr i))) =
+      X (i, 0) * covY K m i := by
+    intro i
+    simp only [PsiXY, deltaB, map_mul, aeval_X, Sum.elim_inl, Sum.elim_inr, rename_X, rename_rename, hid,
+      rename_id, AlgHom.id_apply]
+
+  rw [hXY, map_sum, map_sum, Finset.sum_congr rfl fun i _ => h1 i]
+  exact sum_covY K m hm
+
+end Formalism.MainNotions.flipOneThree.Pf
+
+end
+end

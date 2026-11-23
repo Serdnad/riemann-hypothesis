@@ -3,8 +3,8 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.HeckeCommuteOfCompatibility
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitB
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Transport
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

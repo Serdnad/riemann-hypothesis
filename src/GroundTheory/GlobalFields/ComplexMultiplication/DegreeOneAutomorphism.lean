@@ -1,12 +1,12 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.Isogeny
-public import GroundTheory.GlobalFields.ComplexMultiplication.WeberFunction
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle002
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.DivisorsValuation
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.IsogenyRamification
 public import GroundTheory.GlobalFields.ComplexMultiplication.BaseChangeDescent
-public import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialConstantField
-public import GroundTheory.GlobalFields.ComplexMultiplication.DualDescentBase
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle009
 public import GroundTheory.GlobalFields.ComplexMultiplication.IsogenyDegreeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

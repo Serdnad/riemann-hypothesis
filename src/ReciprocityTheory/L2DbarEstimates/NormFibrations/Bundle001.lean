@@ -1,0 +1,196 @@
+module
+
+public import ReciprocityTheory.L2DbarEstimates.JacobianInterpolationStatement
+public import ReciprocityTheory.L2DbarEstimates.SymmetricSections.HoloSectionStatement
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
+public import Mathlib.Analysis.Calculus.ContDiff.Basic
+public import Mathlib.Analysis.Calculus.ContDiff.Comp
+public import Mathlib.Analysis.Calculus.ContDiff.Deriv
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle009
+
+@[expose] public section
+
+section
+
+namespace ReciprocityTheory.L2DbarEstimates
+
+open Filter Topology
+
+private theorem wd_wdb_ofReal_comp_of_differentiableAt {n : ℕ} {φ : ℝ → ℝ} {u : V n → ℝ} {y : V n}
+    (hφ : DifferentiableAt ℝ φ (u y)) (hu : DifferentiableAt ℝ u y) (j : Fin n) :
+    wd n j (fun w => (φ (u w) : ℂ)) y = ((deriv φ (u y) : ℝ) : ℂ) * wd n j (fun w => (u w : ℂ)) y ∧
+      wdb n j (fun w => (φ (u w) : ℂ)) y = ((deriv φ (u y) : ℝ) : ℂ) * wdb n j (fun w => (u w : ℂ)) y := by
+  have h1 : HasFDerivAt (fun w => (φ (u w) : ℂ))
+      (Complex.ofRealCLM.comp (deriv φ (u y) • fderiv ℝ u y)) y :=
+    Complex.ofRealCLM.hasFDerivAt.comp y (hφ.hasDerivAt.comp_hasFDerivAt y hu.hasFDerivAt)
+  have h2 : HasFDerivAt (fun w => (u w : ℂ)) (Complex.ofRealCLM.comp (fderiv ℝ u y)) y :=
+    Complex.ofRealCLM.hasFDerivAt.comp y hu.hasFDerivAt
+  constructor <;>
+    simp only [wd, wdb, h1.fderiv, h2.fderiv, ContinuousLinearMap.comp_apply,
+      ContinuousLinearMap.smul_apply, smul_eq_mul, Complex.ofRealCLM_apply, Complex.ofReal_mul] <;> ring
+
+private theorem wdb_ofReal_eq_conj_wd_ofReal {n : ℕ} {u : V n → ℝ} {y : V n} (hu : DifferentiableAt ℝ u y) (j : Fin n) :
+    wdb n j (fun w => (u w : ℂ)) y = (starRingEnd ℂ) (wd n j (fun w => (u w : ℂ)) y) := by
+  have h2 : HasFDerivAt (fun w => (u w : ℂ)) (Complex.ofRealCLM.comp (fderiv ℝ u y)) y :=
+    Complex.ofRealCLM.hasFDerivAt.comp y hu.hasFDerivAt
+  simp only [wd, wdb, h2.fderiv, ContinuousLinearMap.comp_apply, Complex.ofRealCLM_apply, map_div₀,
+    map_sub, map_mul, Complex.conj_ofReal, Complex.conj_I, map_ofNat]
+  ring
+
+private theorem wd_mul_apply {n : ℕ} {p q : V n → ℂ} {y : V n} (hp : DifferentiableAt ℝ p y)
+    (hq : DifferentiableAt ℝ q y) (j : Fin n) :
+    wd n j (fun w => p w * q w) y = wd n j p y * q y + p y * wd n j q y := by
+  have hF : fderiv ℝ (fun w => p w * q w) y = p y • fderiv ℝ q y + q y • fderiv ℝ p y :=
+    (hp.hasFDerivAt.mul hq.hasFDerivAt).fderiv
+  simp only [wd, hF, ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply, smul_eq_mul]
+  ring
+
+private theorem differentiableAt_wdb_of_contDiffAt_two {n : ℕ} {g : V n → ℂ} {y : V n} (hg : ContDiffAt ℝ 2 g y) (k : Fin n) :
+    DifferentiableAt ℝ (wdb n k g) y := by
+  have h1 : ContDiffAt ℝ 1 (fderiv ℝ g) y := hg.fderiv_right (by norm_num)
+  have hb : ∀ u : V n, DifferentiableAt ℝ (fun v => fderiv ℝ g v u) y := fun u =>
+    (h1.clm_apply contDiffAt_const).differentiableAt one_ne_zero
+  have := ((hb (bas n k)).add ((hb (Complex.I • bas n k)).const_mul Complex.I)).mul_const (2⁻¹ : ℂ)
+  unfold wdb
+  simp only [div_eq_mul_inv]
+  exact this
+
+theorem chain (n : ℕ) (M : Type*) [TopologicalSpace M] : ChainStatement n M := by
+  intro z hz φ v hφ hv x ξ
+  obtain ⟨e, he, hx⟩ := exists_chart n z hz x
+  have hT : e.target ∈ 𝓝 (z x) := by
+    rw [he hx]; exact e.open_target.mem_nhds (e.map_source hx)
+  have hx' : e.symm (z x) = x := by rw [he hx, e.left_inv hx]
+  have hU : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun y => ((v (e.symm y) : ℝ) : ℂ)) e.target := hv e he
+  have hur : ContDiffOn ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun y => v (e.symm y)) e.target := by
+    have := Complex.reCLM.contDiff.comp_contDiffOn hU
+    exact this.congr fun y _ => by simp
+  have hu2 : ∀ y ∈ e.target, ContDiffAt ℝ 2 (fun y => v (e.symm y)) y := fun y hy =>
+    (contDiffOn_infty.1 hur 2).contDiffAt (e.open_target.mem_nhds hy)
+  have hud : ∀ y ∈ e.target, DifferentiableAt ℝ (fun y => v (e.symm y)) y := fun y hy =>
+    (hu2 y hy).differentiableAt (by simp)
+  have hz0 : z x ∈ e.target := mem_of_mem_nhds hT
+  have hU2 : ContDiffAt ℝ 2 (fun y => ((v (e.symm y) : ℝ) : ℂ)) (z x) :=
+    (contDiffOn_infty.1 hU 2).contDiffAt hT
+  have hφ1 : ContDiff ℝ 1 (deriv φ) :=
+    ((contDiff_succ_iff_deriv (n := 1)).1 (by rw [one_add_one_eq_two]; exact hφ)).2.2
+  have hφd : ∀ t, DifferentiableAt ℝ φ t := fun t => hφ.differentiable (by simp) t
+  have hφ1d : ∀ t, DifferentiableAt ℝ (deriv φ) t := fun t => hφ1.differentiable one_ne_zero t
+  have ev : ∀ l, wdb n l (fun y => ((φ (v (e.symm y)) : ℝ) : ℂ)) =ᶠ[𝓝 (z x)]
+      fun y => ((deriv φ (v (e.symm y)) : ℝ) : ℂ) * wdb n l (fun w => ((v (e.symm w) : ℝ) : ℂ)) y := by
+    intro l
+    filter_upwards [hT] with y hy
+    exact (wd_wdb_ofReal_comp_of_differentiableAt (hφd _) (hud y hy) l).2
+  have key : ∀ j l, wd n j (wdb n l (fun y => ((φ (v (e.symm y)) : ℝ) : ℂ))) (z x) =
+      ((deriv φ (v (e.symm (z x))) : ℝ) : ℂ) * wd n j (wdb n l (fun w => ((v (e.symm w) : ℝ) : ℂ))) (z x) +
+        ((deriv (deriv φ) (v (e.symm (z x))) : ℝ) : ℂ) *
+          (wd n j (fun w => ((v (e.symm w) : ℝ) : ℂ)) (z x) *
+            (starRingEnd ℂ) (wd n l (fun w => ((v (e.symm w) : ℝ) : ℂ)) (z x))) := by
+    intro j l
+    have e1 : wd n j (wdb n l (fun y => ((φ (v (e.symm y)) : ℝ) : ℂ))) (z x) =
+        wd n j (fun y => ((deriv φ (v (e.symm y)) : ℝ) : ℂ) *
+          wdb n l (fun w => ((v (e.symm w) : ℝ) : ℂ)) y) (z x) := by
+      simp only [wd, (ev l).fderiv_eq]
+    have hp : DifferentiableAt ℝ (fun y => ((deriv φ (v (e.symm y)) : ℝ) : ℂ)) (z x) :=
+      Complex.ofRealCLM.differentiableAt.comp (z x) ((hφ1d _).comp (z x) (hud _ hz0))
+    rw [e1, wd_mul_apply hp (differentiableAt_wdb_of_contDiffAt_two hU2 l) j, (wd_wdb_ofReal_comp_of_differentiableAt (hφ1d _) (hud _ hz0) j).1, ← wdb_ofReal_eq_conj_wd_ofReal (hud _ hz0) l]
+    try beta_reduce
+    ring
+  have hdd : dDot n z (fun y => (v y : ℂ)) x ξ =
+      ∑ j, wd n j (fun w => ((v (e.symm w) : ℝ) : ℂ)) (z x) * ξ j := by
+    unfold dDot
+    exact Finset.sum_congr rfl fun j _ => by rw [d_eq_wd n z e he j _ x hx]; rfl
+  rw [levi_eq_leviV n z e he _ x hx ξ, levi_eq_leviV n z e he v x hx ξ, hdd, Complex.sq_norm,
+    ← Complex.mul_conj]
+  unfold leviV
+  try beta_reduce
+  simp only [key, hx']
+
+  rw [map_sum]
+  simp only [map_mul]
+  rw [Finset.sum_mul_sum, Finset.mul_sum, Finset.mul_sum, ← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [Finset.mul_sum, Finset.mul_sum, ← Finset.sum_add_distrib]
+  refine Finset.sum_congr rfl fun l _ => ?_
+  ring
+
+end ReciprocityTheory.L2DbarEstimates
+end
+
+section
+
+universe u
+
+namespace ReciprocityTheory.L2DbarEstimates
+
+open Filter Topology
+
+def NormOrdStatement : Prop :=
+  ∀ (n : ℕ) (M : Type u) [TopologicalSpace M] (z : M → V n) (f : M → ℂ) (x : M) (m : ℕ),
+    IsLocalHomeomorph z → Holo n z f → VanishesBeyond n z f x m →
+    Norm.VanishOrder n z f x (m + 1)
+
+theorem normOrd : NormOrdStatement.{u} := by
+  intro n M _ z f x m hz hf hv
+  obtain ⟨e, he, hx⟩ := exists_chart n z hz x
+  have hzx : z x ∈ e.target := by rw [he hx]; exact e.map_source hx
+  obtain ⟨C, hC⟩ := Y.bound_of_iteratedFDeriv_eq_zero (f ∘ e.symm) e.target (z x)
+    e.open_target hzx (hf e he) m (hv e he hx)
+  have h1 : ∀ᶠ y in 𝓝 x, ‖(f ∘ e.symm) (z y)‖ ≤ C * ‖z y - z x‖ ^ (m + 1) :=
+    hz.continuous.continuousAt.tendsto.eventually hC
+  have h2 : ∀ᶠ y in 𝓝 x, y ∈ e.source := e.open_source.mem_nhds hx
+  rw [Norm.VanishOrder, Asymptotics.isBigO_iff]
+  refine ⟨C, ?_⟩
+  filter_upwards [h1, h2] with y hy hys
+  have hy' : e.symm (z y) = y := by rw [he hys]; exact e.left_inv hys
+  simp only [Function.comp_apply, hy'] at hy
+  rw [norm_pow, norm_norm]
+  exact hy
+
+end ReciprocityTheory.L2DbarEstimates
+end

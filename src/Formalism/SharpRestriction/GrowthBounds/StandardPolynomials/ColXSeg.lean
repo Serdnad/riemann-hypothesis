@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.ColDef
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.OtherStart
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

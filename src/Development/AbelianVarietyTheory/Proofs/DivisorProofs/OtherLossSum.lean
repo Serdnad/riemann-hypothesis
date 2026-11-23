@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataErr
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.LocalRingCardinality.Bundle007
+public import Formalism.SharpRestriction.Bundle001
 public import Development.AutomorphicArithmetic.OrbitLabellings.SumLogDivCubeLeOfTwoPowDvd
 public import Development.AutomorphicArithmetic.OrbitLabellings.TwoPowDvdSubOrAddOneOfOddAddOrderOfHP
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalRingCardinality.DataAmbForm
+import Formalism.LocalRingCardinality.Bundle004
 
 @[expose] public section
 

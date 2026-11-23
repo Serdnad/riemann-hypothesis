@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.ZeroPull
+import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle001
 import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.GenericMulOfProd
 
 @[expose] public section

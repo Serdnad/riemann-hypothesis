@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.FrameEstimates.TowerRallisLemma
-public import Development.WeilBound.ThetaLifts.FrameEstimates.LevelA
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle002
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle008
 import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
 public import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LinearIndependentOfNotMem
-public import Development.WeilBound.ThetaLifts.FrameEstimates.Parity
+public import Development.WeilBound.ThetaLifts.FrameEstimates.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormWt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle051
 public import Mathlib.NumberTheory.NumberField.ClassNumber
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ClassGroupCoprimeRepresentative
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.TsumIdealEqSumClassGroup
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RayLSeriesEulerProduct
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle167
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

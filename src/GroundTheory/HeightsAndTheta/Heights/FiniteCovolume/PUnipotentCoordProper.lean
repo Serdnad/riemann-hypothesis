@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StUnipotentCoordProper
-public import GroundTheory.AutomorphicForms.HermitianOrthogonal
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PHermAtPlace
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle024
+public import GroundTheory.AutomorphicForms.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

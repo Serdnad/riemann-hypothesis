@@ -44,10 +44,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.Bundle001
 import Formalism.HermitianCurvature.StatementQ
 import Formalism.HermitianCurvature.StatementQr
-import Formalism.RealPlaceAnalysis.StatementA
+import Formalism.RealPlaceAnalysis.Bundle001
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 public import Mathlib.Algebra.BigOperators.Intervals
 public import Mathlib.Analysis.InnerProductSpace.Defs

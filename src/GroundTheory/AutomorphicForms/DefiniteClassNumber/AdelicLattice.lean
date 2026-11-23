@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.AutomorphicForms.DefiniteClassNumber.Places
-public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.LatticeCompact
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.AutomorphicForms.DefiniteClassNumber.Bundle001
+public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Bundle002
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.AutomorphicForms.StrongApproximationSLDense
-import GroundTheory.GlobalFields.Adele.Compact
-import GroundTheory.GlobalFields.Adele.Discrete
+import GroundTheory.GlobalFields.Adele.Bundle003
 public import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended

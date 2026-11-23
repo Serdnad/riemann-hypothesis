@@ -1,14 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSecDegreeGe
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSecFiniteUnit
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsSecRankSpecialize
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Assembly
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.AssemblyPartial
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Imports
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowFormHomog
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowNormForm
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowNormFormGeneric
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle014
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle010
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowSecDegree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.QZDefs
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,12 +43,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HSubsingletonOfUniquelyDivisible
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle011
 import ReciprocityTheory.GroupCohomology.ComapZeroCoboundariesEqBot
 import ReciprocityTheory.GroupCohomology.ConnNatHolds
-import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
-import ReciprocityTheory.GroupCohomology.PairHomFCoeOfId
+import ReciprocityTheory.GroupCohomology.Bundle002
+import ReciprocityTheory.GroupCohomology.Bundle005
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.BlowupCategories.SpanScale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCohomologyEquivalenceBasicPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle677
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EqvTwistBlowupRestriction
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.StackProductIsPullbackOfActionPullback
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

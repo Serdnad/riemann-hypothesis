@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.SliceShift
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleModuleDetDiagUnitsPosIdele
-public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.SliceBound
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle245
+public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.CuspidalNormBounds.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.BlockHeckeSlices.DatCons
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasDerivAtTorusTranslate
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle575
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PSliceA
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsHeight
 import Mathlib.Algebra.Order.Floor.Extended

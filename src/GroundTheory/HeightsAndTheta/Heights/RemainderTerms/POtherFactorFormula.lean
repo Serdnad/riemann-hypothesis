@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsCoinv
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.StatementsTop
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.JacobiTrudi
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PSameFactorFormula
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.PowerSums
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -5,7 +5,7 @@ public import Development.WeilBound.CoreStatements.PeriodRingComparison.Crystall
 import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.EqZeroOfPMulEqZero
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FrobAinfMapFrobenius
 public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.AcrisNAlgebraMapAinf
-import GroundTheory.PAdicHodge.ACrisBdRInj
+import GroundTheory.PAdicHodge.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

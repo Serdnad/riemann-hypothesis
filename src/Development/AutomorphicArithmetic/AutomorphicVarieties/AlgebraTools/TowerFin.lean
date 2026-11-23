@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Presheaf
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.UltraDefs
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle007
 public import Mathlib.Algebra.Module.Projective
 public import Mathlib.RingTheory.Finiteness.Cardinality
 

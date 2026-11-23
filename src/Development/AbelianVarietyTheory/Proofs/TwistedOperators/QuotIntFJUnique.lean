@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.FourierJacobiAverage
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulLeftInvariantVolGL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemFourierJacobiSubgroupIffParabolicMulColumn
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemNormalizerOfTri
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProperTriple
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle129
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle130
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle068
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.QuotientIntegralParabolicUnfolding
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RootExchangeUnipotentHaarAndModulus
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFormulaRootExchangeParabolicIntersection
@@ -57,7 +57,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.SimpleSumRowCol
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
 
 @[expose] public section
 
@@ -82,8 +82,18 @@ theorem _root_.GlobalTheory.QuotIntFJ.quotIntFJ_unique : ∀ (k : Type) [Field k
   haveI := _root_.GlobalTheory.SplitWeil.secondCountable k
   have hA := _root_.GlobalTheory.SplitWeil.volGL_haar k n ν
   have hB := _root_.GlobalTheory.SplitWeil.volGL_haar k (n ⊕ Fin c) ν
-  haveI := hA.1; haveI := hA.2.1; haveI := hB.1; haveI := hB.2.1
+  haveI : BorelSpace (GL n k) := hA.1
+  haveI : LocallyCompactSpace (GL n k) := hA.2.1
+  haveI : SecondCountableTopology (GL n k) := hA.2.2.1
+  haveI : BorelSpace (GL (n ⊕ Fin c) k) := hB.1
+  haveI : LocallyCompactSpace (GL (n ⊕ Fin c) k) := hB.2.1
+  haveI : SecondCountableTopology (GL (n ⊕ Fin c) k) := hB.2.2.1
+  haveI : MeasurableMul (GL n k) :=
+    ⟨fun g => (continuous_const.mul continuous_id).measurable,
+      fun g => (continuous_id.mul continuous_const).measurable⟩
   set U := _root_.GlobalTheory.RootEx.N k n c (ρ + 1)
+  haveI : BorelSpace U := Subtype.borelSpace _
+  haveI : SecondCountableTopology U := TopologicalSpace.Subtype.secondCountableTopology _
   set μU := _root_.GlobalTheory.RootEx.volN ν n c (ρ + 1)
   haveI : μU.IsHaarMeasure := _root_.GlobalTheory.RootEx.VolN.isHaarMeasure_volN ν (ρ + 1)
   haveI : SFinite μU := by
@@ -109,13 +119,14 @@ theorem _root_.GlobalTheory.QuotIntFJ.quotIntFJ_unique : ∀ (k : Type) [Field k
       Integrable (fun p => φ (m p)) μP := by
     intro φ hφ
     obtain ⟨D, hD, hDm⟩ := hcs φ hφ
-    refine ((hSB φ hφ).1.comp hm).integrable_of_hasCompactSupport ?_
+    refine ((hSB φ hφ).1.comp hm).integrable_of_hasCompactSupport (μ := μP) ?_
     exact HasCompactSupport.intro hD (fun p hp => by by_contra h; exact hp (hDm p h))
   have hint2 : ∀ φ ∈ _root_.GlobalTheory.SplitWeil.SB (GL (n ⊕ Fin c) k), ∀ g : GL n k,
       Integrable (fun y : U × (n → k) => φ (m (g, y))) (μU.prod (Measure.pi fun _ : n => ν)) := by
     intro φ hφ g
     obtain ⟨D, hD, hDm⟩ := hcs φ hφ
-    refine ((hSB φ hφ).1.comp (hm.comp (Continuous.prodMk_right g))).integrable_of_hasCompactSupport ?_
+    refine ((hSB φ hφ).1.comp (hm.comp (Continuous.prodMk_right g))).integrable_of_hasCompactSupport
+      (μ := μU.prod (Measure.pi fun _ : n => ν)) ?_
     exact HasCompactSupport.intro (hD.image continuous_snd)
       (fun y hy => by by_contra h; exact hy ⟨(g, y), hDm _ h, rfl⟩)
   set Λ : (GL (n ⊕ Fin c) k → ℂ) → ℂ := fun φ => ∫ (g : GL n k), ∫ (u : U),
@@ -237,7 +248,7 @@ theorem _root_.GlobalTheory.QuotIntFJ.quotIntFJ_unique : ∀ (k : Type) [Field k
     exact H.mul_mem (H.mul_mem (hembH x) (hUH u hu)) (hcolH β)
   have hF : (F₁ - F₂) ∈ _root_.GlobalTheory.SplitWeil.SB (GL (n ⊕ Fin c) k) := sub_mem hF₁ hF₂
   have hG : ∀ φ ∈ _root_.GlobalTheory.SplitWeil.SB (GL (n ⊕ Fin c) k), Integrable φ μG :=
-    fun φ hφ => (hSB φ hφ).1.integrable_of_hasCompactSupport (hSB φ hφ).2
+    fun φ hφ => (hSB φ hφ).1.integrable_of_hasCompactSupport (μ := μG) (hSB φ hφ).2
   have hΛf : ∀ F ∈ _root_.GlobalTheory.SplitWeil.SB (GL (n ⊕ Fin c) k),
       (∀ h, f h = ∫ (g : GL n k), ∫ (u : U), ∫ (β : n → k), F (emb g * ↑u * col β * h)
         ∂(Measure.pi fun _ ↦ ν) ∂μU ∂μX) → ∀ h, (Λ fun g ↦ F (g * h)) = f h := by

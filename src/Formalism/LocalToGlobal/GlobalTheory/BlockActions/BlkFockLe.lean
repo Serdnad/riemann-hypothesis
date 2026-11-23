@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NfAllBrTenLe
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle005
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
 import Mathlib.Algebra.Order.Floor.Extended

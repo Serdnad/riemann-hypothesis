@@ -3,9 +3,9 @@ module
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.NonnegNormSums.SumNonnegNorms
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DoubleBoundAndExtensionOfSmooth
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvPi
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvPsi
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.Bundle003
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvSig
-public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.IdempotentTranslateMeasurable
+public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselLine
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.Bundle001
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvGrp
 
 @[expose] public section
@@ -65,9 +65,8 @@ theorem bessel_on (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (π : Mx k r → (
     (μW μN : Measure (Mt k r)) [SFinite μN] (σ : Mx k r → (H →L[ℂ] H)) {V : H → Prop}
     (hG : GrpF k r z) (hσ : SigU σ) (hπ : PiU z π) (hψ : PsiF k r z c) (hM : MeasF z π μW μN)
     (hD : DecayOn μW μN σ V) {v : H} (hv : V v) (ξ : Wp) :
-    IsBesselMapSm z (psi k r z c) σ π (fun u => be z c π μW μN σ u v ξ) := by
-  refine ⟨fun w hw w' hw' => ?_, fun a w hw => ?_, fun h hh m hm w hw => ?_,
-    cont_on z c π μW μN σ hG hπ hM hD v hv ξ⟩
+    _root_.Formalism.MainNotions.S.IsBesselMapSm z (psi k r z c) σ π (fun u => be z c π μW μN σ u v ξ) := by
+  refine ⟨fun w hw w' hw' => ?_, fun a w hw => ?_, fun h hh m hm w hw => ?_, ?_⟩
   · show be z c π μW μN σ (w + w') v ξ = be z c π μW μN σ w v ξ + be z c π μW μN σ w' v ξ
     have e : be z c π μW μN σ (w + w') v = be z c π μW μN σ w v + be z c π μW μN σ w' v := by
       unfold be
@@ -92,12 +91,26 @@ theorem bessel_on (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (π : Mx k r → (
   · show be z c π μW μN σ (σ (h * m) w) v ξ = psi k r z c m • π h (be z c π μW μN σ w v ξ)
     rw [equiv_on z c π μW μN σ hG hσ hπ hψ hM hD h hh m hm w hw v hv]
     rfl
+  · obtain ⟨C, Ws, hW, hB⟩ := cont_on z c π μW μN σ hG hπ hM hD v hv ξ
+    have hdsig (W : List (Mx k r)) (w : H) :
+        Formalism.MainNotions.S.dsigW (k := k) (r := r) σ W w =
+          PI.UpqRep.dsigW (k := k) (r := r) σ W w := by
+      induction W with
+      | nil => rfl
+      | cons X W ih =>
+        show Formalism.MainNotions.S.dsig (k := k) (r := r) σ X
+            (Formalism.MainNotions.S.dsigW (k := k) (r := r) σ W w) =
+          PI.UpqRep.dsig (k := k) (r := r) σ X (PI.UpqRep.dsigW (k := k) (r := r) σ W w)
+        rw [ih]
+        rfl
+    refine ⟨C, Ws, hW, fun w hw => ?_⟩
+    simpa only [← hdsig] using hB w hw
 
 theorem bessel_on_FI (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (π : Mx k r → (Wp →L[ℂ] Wp))
     (μW μN : Measure (Mt k r)) [SFinite μN] (σ : Mx k r → (H →L[ℂ] H)) {V : H → Prop}
     (hG : GrpF k r z) (hσ : SigU σ) (hπ : PiU z π) (hψ : PsiF k r z c) (hM : MeasF z π μW μN)
     (hD : DecayOn μW μN σ V) {v : H} (hv : V v) (ξ : Wp) :
-    IsBesselMapSm z (psi k r z c) σ π
+    _root_.Formalism.MainNotions.S.IsBesselMapSm z (psi k r z c) σ π
       (fun u => (∫ p, Formalism.MainNotions.DoubleDerivativeSmoothness.FI z c π σ u v p ∂(μW.prod μN)) ξ) :=
   bessel_on z c π μW μN σ hG hσ hπ hψ hM hD hv ξ
 
@@ -109,7 +122,7 @@ theorem beBessel_DD {ε : Fin (2 * r + k + 1) → Bool} {lam : Fin (2 * r + k + 
     (hgr : Integrable (fun p : Mt k r × Mt k r => Formalism.FourierDecayAlt.B.gN (Matrix.of p.1 * Matrix.of p.2 : Mx k r) ^ (1 - a))
       (μW.prod μN))
     (ha : 1 ≤ a) (h0 : PtB σ a w0) :
-    ∀ v ∈ Formalism.MainNotions.BridgeLemma₄.DDsp σ w0, ∀ ξ : Wp, IsBesselMapSm z (psi k r z c) σ π
+    ∀ v ∈ Formalism.MainNotions.BridgeLemma₄.DDsp σ w0, ∀ ξ : Wp, _root_.Formalism.MainNotions.S.IsBesselMapSm z (psi k r z c) σ π
       (fun u => (∫ p, Formalism.MainNotions.DoubleDerivativeSmoothness.FI z c π σ u v p ∂(μW.prod μN)) ξ) := by
   intro v hv ξ
   have hG := grpAll k r z
@@ -128,7 +141,7 @@ theorem beBessel_K {ε : Fin (2 * r + k + 1) → Bool} {lam : Fin (2 * r + k + 1
     (hgr : Integrable (fun p : Mt k r × Mt k r => Formalism.FourierDecayAlt.B.gN (Matrix.of p.1 * Matrix.of p.2 : Mx k r) ^ (1 - a))
       (μW.prod μN))
     (hK : PtDec σ a (fun v => IsKFinHpk (k := k) (r := r) σ v)) :
-    ∀ v : H, IsKFinHpk (k := k) (r := r) σ v → ∀ ξ : Wp, IsBesselMapSm z (psi k r z c) σ π
+    ∀ v : H, IsKFinHpk (k := k) (r := r) σ v → ∀ ξ : Wp, _root_.Formalism.MainNotions.S.IsBesselMapSm z (psi k r z c) σ π
       (fun u => (∫ p, Formalism.MainNotions.DoubleDerivativeSmoothness.FI z c π σ u v p ∂(μW.prod μN)) ξ) := by
   intro v hv ξ
   have hG := grpAll k r z

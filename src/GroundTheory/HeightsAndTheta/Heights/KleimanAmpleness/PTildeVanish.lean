@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Statements
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.StatementsTildeVanish
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PTildeVanishLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

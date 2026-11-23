@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocCore
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.WtTieOf
+public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.CmpJMemSpan
-public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocMore
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

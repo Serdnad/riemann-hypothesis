@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GlobalSchurBounds.JointsF
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle003
 public import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
 public import Formalism.LocalRingCardinality.Lemmas
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

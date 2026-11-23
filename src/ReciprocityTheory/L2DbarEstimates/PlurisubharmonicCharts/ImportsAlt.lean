@@ -42,11 +42,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.DifferentiableAtLocalCoordinates
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle004
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatCalc
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatNull
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.IteratedFDerivEqZeroOfIsBigO
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.VanishingOrderTransfer
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle011
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle009
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle006
 public import Mathlib.Analysis.Calculus.FDeriv.Mul
 public import Mathlib.Analysis.Calculus.FDeriv.Pow
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.ContinuousOnSec

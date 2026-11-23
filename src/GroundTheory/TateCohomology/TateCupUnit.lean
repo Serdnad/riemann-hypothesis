@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.TateCohomology.CupTateShift
 public import GroundTheory.TateCohomology.TateLow
-public import GroundTheory.TateCohomology.CupTate
-import GroundTheory.TateCohomology.DimensionShift
+public import GroundTheory.TateCohomology.Bundle009
+import GroundTheory.TateCohomology.Bundle003
 import GroundTheory.TateCohomology.InducedNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

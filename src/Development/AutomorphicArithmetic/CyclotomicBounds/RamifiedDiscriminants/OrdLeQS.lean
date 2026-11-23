@@ -1,8 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ConjEMemHostFIff
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.InertD
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle008
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.CycBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

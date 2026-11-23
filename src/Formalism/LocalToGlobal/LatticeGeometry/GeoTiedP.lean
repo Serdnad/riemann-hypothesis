@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.LatticeGeometry.Inhabited
-public import Formalism.LocalToGlobal.LatticeGeometry.LevPrPrime
+public import Formalism.LocalToGlobal.LatticeGeometry.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

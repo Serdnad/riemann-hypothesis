@@ -1,6 +1,6 @@
 module
 
-public import Formalism.IncomingBounds.IncomingBound
+public import Formalism.IncomingBounds.Bundle001
 public import Mathlib.Analysis.Convex.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

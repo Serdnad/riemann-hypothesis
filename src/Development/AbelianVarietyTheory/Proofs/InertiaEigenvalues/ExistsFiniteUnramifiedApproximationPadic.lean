@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NatCastMemPlaceAt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsNormEqOfMemClosure
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsRamificationOverPlaceOfCdvrReadingInCp
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle822
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle823
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

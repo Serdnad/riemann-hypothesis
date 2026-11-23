@@ -1,8 +1,8 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsHomogOfMemQuotPartAlt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.CellResMemLocPart
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,37 +71,37 @@ variable {S : Type} [CommRing S] {K : Type} [Fintype K] {ι : K → Type} [∀ k
 
 section Homog
 
-theorem isMultiHomog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver S ι) a := by
+theorem isMultiHomog_zero (a : K → ℕ) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (0 : MRingOver S ι) a := by
   intro m hm
   simp at hm
 
-theorem isMultiHomog_C (r : S) : IsMultiHomog (C r : MRingOver S ι) 0 := by
+theorem isMultiHomog_C (r : S) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (C r : MRingOver S ι) 0 := by
   intro m hm k
   rw [C_apply] at hm
   rw [Finset.mem_singleton.mp (support_monomial_subset hm)]
   simp
 
-theorem isMultiHomog_add {p q : MRingOver S ι} {a : K → ℕ} (hp : IsMultiHomog p a)
-    (hq : IsMultiHomog q a) : IsMultiHomog (p + q) a := by
+theorem isMultiHomog_add {p q : MRingOver S ι} {a : K → ℕ} (hp : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog p a)
+    (hq : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog q a) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (p + q) a := by
   classical
   intro m hm k
   rcases Finset.mem_union.mp (support_add hm) with h | h
   · exact hp m h k
   · exact hq m h k
 
-theorem isMultiHomog_smul {p : MRingOver S ι} {a : K → ℕ} (s : S) (hp : IsMultiHomog p a) :
-    IsMultiHomog (s • p) a :=
+theorem isMultiHomog_smul {p : MRingOver S ι} {a : K → ℕ} (s : S) (hp : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog p a) :
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (s • p) a :=
   fun m hm k => hp m (support_smul hm) k
 
-theorem isMultiHomog_mul {p q : MRingOver S ι} {a b : K → ℕ} (hp : IsMultiHomog p a)
-    (hq : IsMultiHomog q b) : IsMultiHomog (p * q) (a + b) := by
+theorem isMultiHomog_mul {p q : MRingOver S ι} {a b : K → ℕ} (hp : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog p a)
+    (hq : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog q b) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (p * q) (a + b) := by
   classical
   intro m hm k
   obtain ⟨m₁, h₁, m₂, h₂, rfl⟩ := Finset.mem_add.mp (support_mul p q hm)
   simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hp m₁ h₁ k, hq m₂ h₂ k]
 
 theorem isMultiHomog_X_pow [DecidableEq K] (k : K) (i : ι k) (n : ℕ) :
-    IsMultiHomog ((X ⟨k, i⟩ : MRingOver S ι) ^ n) (Pi.single k n) := by
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog ((X ⟨k, i⟩ : MRingOver S ι) ^ n) (Pi.single k n) := by
   classical
   rw [X_pow_eq_monomial]
   intro m hm l
@@ -122,9 +122,9 @@ theorem isMultiHomog_X_pow [DecidableEq K] (k : K) (i : ι k) (n : ℕ) :
     exact hl (Sigma.mk.inj_iff.mp h).1.symm
 
 theorem isMultiHomog_prod_X (c : ∀ k, ι k) (e : K → ℕ) :
-    IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ e k) e := by
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRingOver S ι) ^ e k) e := by
   classical
-  have h : ∀ s : Finset K, IsMultiHomog (∏ k ∈ s, (X ⟨k, c k⟩ : MRingOver S ι) ^ e k)
+  have h : ∀ s : Finset K, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (∏ k ∈ s, (X ⟨k, c k⟩ : MRingOver S ι) ^ e k)
       (∑ k ∈ s, Pi.single k (e k)) := by
     intro s
     induction s using Finset.induction_on with
@@ -140,14 +140,14 @@ section Eval
 
 variable {Ω : Type} [Field Ω] [Algebra S Ω] (y : (Σ k, ι k) → Ω)
 
-theorem mConeMapOver_homog {g : MRingOver S ι} {d : K → ℕ} (hg : IsMultiHomog g d) :
+theorem mConeMapOver_homog {g : MRingOver S ι} {d : K → ℕ} (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g d) :
     mConeMapOver S y g = C (aeval y g) * ∏ k, (X k : MvPolynomial K Ω) ^ d k := by
   apply GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.mConeMapOver_homog <;> assumption
 
 theorem aeval_eq_zero_of_mem {f : MRingOver S ι} (hf : f ∈ mIdealOver S y) : aeval y f = 0 := by
   apply GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.aeval_eq_zero_of_mem <;> assumption
 
-theorem mk_eq_zero_of_aeval {g : MRingOver S ι} {d : K → ℕ} (hg : IsMultiHomog g d) (h0 : aeval y g = 0) :
+theorem mk_eq_zero_of_aeval {g : MRingOver S ι} {d : K → ℕ} (hg : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g d) (h0 : aeval y g = 0) :
     Ideal.Quotient.mk (mIdealOver S y) g = 0 := by
   rw [Ideal.Quotient.eq_zero_iff_mem]
   show g ∈ RingHom.ker (mConeMapOver S y)
@@ -239,14 +239,14 @@ section Rep
 variable {V : Ideal (MRingOver S ι)}
 
 theorem exists_homog_of_mem_quotPart {d : K → ℤ} {m : MRingOver S ι ⧸ V} (hm : m ∈ quotPart S V d) :
-    ∃ g : MRingOver S ι, IsMultiHomog g (fun k => (d k).toNat) ∧ ((∀ k, 0 ≤ d k) ∨ g = 0) ∧
+    ∃ g : MRingOver S ι, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g (fun k => (d k).toNat) ∧ ((∀ k, 0 ≤ d k) ∨ g = 0) ∧
       Ideal.Quotient.mk V g = m := by
   apply GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.exists_homog_of_mem_quotPart <;> assumption
 
 theorem exists_rep {T : Submonoid (MRingOver S ι)} {β : K → ℤ}
     {x : LocalizedModule T (MRingOver S ι ⧸ V)} (hx : x ∈ locPart ι (quotPart S V) T β) :
-    ∃ (g : MRingOver S ι) (t : T) (a : K → ℕ), IsMultiHomog (t : MRingOver S ι) a ∧
-      IsMultiHomog g (fun k => (β k + a k).toNat) ∧ ((∀ k, 0 ≤ β k + a k) ∨ g = 0) ∧
+    ∃ (g : MRingOver S ι) (t : T) (a : K → ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (t : MRingOver S ι) a ∧
+      _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g (fun k => (β k + a k).toNat) ∧ ((∀ k, 0 ≤ β k + a k) ∨ g = 0) ∧
       x = LocalizedModule.mk (Ideal.Quotient.mk V g) t := by
   induction hx using Submodule.span_induction with
   | mem x hx =>
@@ -323,7 +323,7 @@ theorem prod_pow_add (c : ∀ k, ι k) (b b' : K → ℕ) :
   rw [← Finset.prod_mul_distrib]
   exact Finset.prod_congr rfl fun k _ => pow_add _ _ _
 
-theorem aeval_div_mem_chartRing (c : ∀ k, ι k) {p : MRingOver S ι} {d : K → ℕ} (hp : IsMultiHomog p d) :
+theorem aeval_div_mem_chartRing (c : ∀ k, ι k) {p : MRingOver S ι} {d : K → ℕ} (hp : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog p d) :
     aeval y p / ∏ k, y ⟨k, c k⟩ ^ d k ∈ chartRingOver S y c := by
   classical
 
@@ -345,7 +345,7 @@ theorem aeval_div_mem_chartRing (c : ∀ k, ι k) {p : MRingOver S ι} {d : K �
 
 theorem exists_of_mem_chartRing (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) {w : Ω}
     (hw : w ∈ chartRingOver S y c) :
-    ∃ (b : K → ℕ) (h : MRingOver S ι), IsMultiHomog h b ∧ w = aeval y h / ∏ k, y ⟨k, c k⟩ ^ b k := by
+    ∃ (b : K → ℕ) (h : MRingOver S ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog h b ∧ w = aeval y h / ∏ k, y ⟨k, c k⟩ ^ b k := by
   classical
   have hP : ∀ b : K → ℕ, ∏ k, y ⟨k, c k⟩ ^ b k ≠ 0 :=
     fun b => Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hc k)
@@ -426,7 +426,7 @@ theorem cellRes_mem_locPart {J I : ∀ k, Finset (ι k)} (h : cellMon S J ≤ ce
   | smul s x _ h' => rw [cellRes_smul]; exact Submodule.smul_mem _ s h'
 
 theorem cechD_mem_locPart (β : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
-    (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) β n) (I : Cell K ι (n + 1)) :
+    (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) β n) (I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι (n + 1)) :
     cechD S ι _ n f I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) β := by
   rw [cechD_apply]
   refine Submodule.sum_mem _ fun k _ => Submodule.sum_mem _ fun i _ => ?_

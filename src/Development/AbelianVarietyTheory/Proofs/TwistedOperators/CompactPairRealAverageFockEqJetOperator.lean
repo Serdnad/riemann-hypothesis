@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfOfMulFinOf
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.KerFockMovedReal
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle520
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle617
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.StabOrd
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsRealFnNeZero
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EvalAtJetMap
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsInvertibleFamilyEvalSpan
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FockSubstitutionIdentities
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MvZOneEqMapUnivSubst
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PsiTContinuous
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle057
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle083
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle058
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle288
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaGridCharactersArchExponentsGapGtRank
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterInfinityExponentGroupLaws
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TendstoInfMulProd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2233
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle311
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle211
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.GinfCSecondCountable
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ClassFunctionSumIntegral
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle010
 
 @[expose] public section
 
@@ -274,11 +274,11 @@ theorem step_vals {a b t : ℕ} (hb : b = a + t) {E F : Finset ℚ} (δ c : ℚ)
     rw [h2, hB r hr]
 
 private theorem wt_grid_eq_highestWeight {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} (G : GridData L sc) (τ : D.what₂.Tau) {j : ℕ} (hj : j ≤ D.R.m)
-    (hc : (entries (parV D sc.cGap j D.R.m τ)).card = (G.V (.grid j D.R.m)).rank)
-    (hc' : ((entries (parV D sc.cGap j D.R.m τ)).image Neg.neg).card = (G.V (.grid j D.R.m)).rank)
+    (hc : (GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)).card = (G.V (.grid j D.R.m)).rank)
+    (hc' : ((GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)).image Neg.neg).card = (G.V (.grid j D.R.m)).rank)
     (r : Fin (G.V (.grid j D.R.m)).rank) :
-    ((wt G (.grid j D.R.m) τ).w r : ℚ) = highestWeight ((entries (parV D sc.cGap j D.R.m τ)).image Neg.neg) hc' r := by
-  have hin : InCoset ((((G.V (.grid j D.R.m)).rank : ℚ) - 1) / 2) (entries (parV D sc.cGap j D.R.m τ)) :=
+    ((wt G (.grid j D.R.m) τ).w r : ℚ) = highestWeight ((GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)).image Neg.neg) hc' r := by
+  have hin : InCoset ((((G.V (.grid j D.R.m)).rank : ℚ) - 1) / 2) (GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)) :=
     (isHC_grid D sc.cGap τ hj (rank_grid G hj)).2.2
   rw [highestWeight_neg hc hc' r]
   show (((-(listedWt G (.grid j D.R.m) τ).w r.rev : ℤ)) : ℚ) = _
@@ -300,22 +300,22 @@ theorem grid_vals {i : ℕ} (hi : i + 1 ≤ D.R.m) (τ : D.what₂.Tau)
     rw [rank_grid G hi, rank_grid G hi0]
     simp only [rankV]
     ring
-  have cardP : ∀ j, j ≤ D.R.m → (entries (parV D sc.cGap j D.R.m τ)).card = (G.V (.grid j D.R.m)).rank := by
+  have cardP : ∀ j, j ≤ D.R.m → (GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)).card = (G.V (.grid j D.R.m)).rank := by
     intro j hj
     unfold parV
     rw [entries_shift, Finset.card_image_of_injective _ (add_left_injective _)]
     exact (GlobalTheory.FunObj.card_entries_parD D sc.cGap τ hj).trans (rank_grid G hj).symm
   have cardN : ∀ j, j ≤ D.R.m →
-      ((entries (parV D sc.cGap j D.R.m τ)).image Neg.neg).card = (G.V (.grid j D.R.m)).rank := by
+      ((GlobalTheory.SignedHC.entries (parV D sc.cGap j D.R.m τ)).image Neg.neg).card = (G.V (.grid j D.R.m)).rank := by
     intro j hj
     rw [Finset.card_image_of_injective _ neg_injective, cardP j hj]
-  have hFe : (entries (parV D sc.cGap (i + 1) D.R.m τ)).image Neg.neg =
-      ((entries (parV D sc.cGap i D.R.m τ)).image Neg.neg).image (· + ((if Odd (i + D.R.m) then -(1 / 2) else 0) - (if Odd (i + 1 + D.R.m) then -(1 / 2) else 0))) ∪
+  have hFe : (GlobalTheory.SignedHC.entries (parV D sc.cGap (i + 1) D.R.m τ)).image Neg.neg =
+      ((GlobalTheory.SignedHC.entries (parV D sc.cGap i D.R.m τ)).image Neg.neg).image (· + ((if Odd (i + D.R.m) then -(1 / 2) else 0) - (if Odd (i + 1 + D.R.m) then -(1 / 2) else 0))) ∪
         TPar.block (-(cen D sc.cGap τ (D.R.m - i) : ℚ) - (if Odd (i + 1 + D.R.m) then -(1 / 2) else 0)) (sLen D) := by
     unfold parV
     rw [entries_shift, entries_shift, GlobalTheory.FunObj.entries_parD_succ D sc.cGap τ hi]
     exact neg_step _ _ _ _ _
-  have hlt : ∀ x ∈ (entries (parV D sc.cGap i D.R.m τ)).image Neg.neg,
+  have hlt : ∀ x ∈ (GlobalTheory.SignedHC.entries (parV D sc.cGap i D.R.m τ)).image Neg.neg,
       ∀ y ∈ TPar.block (-(cen D sc.cGap τ (D.R.m - i) : ℚ) - (if Odd (i + 1 + D.R.m) then -(1 / 2) else 0)) (sLen D), y < x + ((if Odd (i + D.R.m) then -(1 / 2) else 0) - (if Odd (i + 1 + D.R.m) then -(1 / 2) else 0)) := by
     intro x hx y hy
     obtain ⟨x1, hx1, rfl⟩ := Finset.mem_image.mp hx

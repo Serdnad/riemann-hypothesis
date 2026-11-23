@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.HermitianColumns.StarConj
-public import Formalism.LocalToGlobal.HermitianForms.FormsTied
-public import Formalism.LocalToGlobal.HermitianForms.DefsChi
+public import Formalism.LocalToGlobal.HermitianForms.Bundle004
+public import Formalism.LocalToGlobal.HermitianForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

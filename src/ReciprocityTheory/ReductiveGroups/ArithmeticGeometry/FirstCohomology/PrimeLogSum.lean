@@ -52,7 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 public import Mathlib.NumberTheory.Primorial
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SumPrimeLogDivPredLeLogAdd
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle005
 
 @[expose] public section
 

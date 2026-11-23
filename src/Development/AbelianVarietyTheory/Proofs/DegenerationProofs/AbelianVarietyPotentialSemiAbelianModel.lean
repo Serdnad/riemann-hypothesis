@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.SemistableFin
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsCompleteDvrIntegralClosureFiniteStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsogenousRetractPolarisedFiniteExtStatement
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle199
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PotentialSemiAbelianModelOfSymmetryHypStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PotentialSemiAbelianReductionOfIsogenyStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PotentialSemiAbelianReductionOfRetractStatement
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle177
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,3 +74,20 @@ theorem potModel_isSemiAbelian : ∀ (V : Type) [CommRing V] [IsDomain V] [IsDis
         geomConnected := by change GeometricallyConnected (pullback.snd A.hom _); infer_instance }
   exact hup A _ (GlobalTheory.T.potentialSemiAbelianReduction_of_isogeny W L _ B g m hAL hp hs hsB i r hi hr hm hri hB)
 end GlobalTheory.SS
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry
+open scoped CategoryTheory.Obj
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open GlobalTheory.SS
+
+theorem _root_.GlobalTheory.T.abelianVariety_potential_semiAbelian_model : ∀ (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuationRing V] [IsAdicComplete (IsLocalRing.maximalIdeal V) V] (K : Type) [Field K] [CharZero K] [Algebra V K] [IsFractionRing V K] (A : Over (Spec (CommRingCat.of K))) [GrpObj A], IsAbelianScheme A → PotModel V K A (fun _ _ _ G _ => IsSemiAbelian G) := by
+  first | exact @GlobalTheory.SS.potModel_isSemiAbelian | exact GlobalTheory.SS.potModel_isSemiAbelian | (intros; apply GlobalTheory.SS.potModel_isSemiAbelian <;> assumption)
+
+end
+end

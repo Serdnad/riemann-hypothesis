@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.ExpansionFromLemmaB
-public import Formalism.PeriodIntegrals.KFinSmooth
-public import Formalism.PeriodIntegrals.PhMeasCore
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle019
+public import Formalism.PeriodIntegrals.Bundle013
+public import Formalism.PeriodIntegrals.Bundle003
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleySignature
 import Mathlib.Algebra.Order.Floor.Extended

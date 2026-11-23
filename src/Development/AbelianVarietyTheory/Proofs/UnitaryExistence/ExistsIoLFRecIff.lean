@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClassPinsRec
-public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.CoefficientSpaceWeights
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle036
+public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaLetterEquivConjugate
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.EqZeroOfMul
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf

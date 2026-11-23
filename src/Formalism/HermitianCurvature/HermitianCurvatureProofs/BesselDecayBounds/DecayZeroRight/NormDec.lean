@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselBoundFamilyOfDoubleCoset
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle012
 public import Formalism.HermitianCurvature.StatementB
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.MajorantEstimate
-public import Formalism.SharpRestriction.CuspSpanNormBounds.ExpansionFromLemmaB
-public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.OrderedAtRanksOfPositionElement
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle042
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle019
+public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

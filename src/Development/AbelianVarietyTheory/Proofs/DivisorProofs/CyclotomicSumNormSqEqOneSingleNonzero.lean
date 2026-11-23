@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm
 import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.InvariantSubspaceMobiusInverseRecEqOfFinrankLt
-import Development.AbelianVarietyTheory.Definitions.Divisors.OrthSubrepresentation
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle003
 public import Mathlib.Algebra.Star.BigOperators
 public import Mathlib.Analysis.Complex.Basic
 public import Mathlib.FieldTheory.Minpoly.Basic

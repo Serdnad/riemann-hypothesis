@@ -40,12 +40,12 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
+import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndSt
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpBijectiveUniformisation
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LemmaBStatement
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
 
 @[expose] public section
 

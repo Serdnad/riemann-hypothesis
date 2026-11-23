@@ -1,10 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.SummandSlopeOfThreeLemmas
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.CoeffMemOfIntSpanAt
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.ThirdLinkOfArchimedean
+public import Formalism.LocalToGlobal.Columns.Bundle002
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle004
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle005
 public import Formalism.LocalToGlobal.Columns.TwistedLocalisationComparable
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.CfMemTwId
 import Formalism.LocalToGlobal.GlobalTheory.GL4.ColumnLatticeExactSlope
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.NfAllSelfEq
 import Formalism.SharpRestriction.GlobalSchurBounds.TotallyPositiveTraceGeOfNormDiscr

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Brauer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.IsAlgChar
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.EpsArt
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle027
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaArith
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaHecke
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle039
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LaUnique
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,14 +52,14 @@ open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.LocLanglands Glo
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
 theorem UpperTheory.heckeChar_localArtin_eq_cyclotomic_twist :
-    GlobalTheory.Mem.LiteralAutomorphy.LitN → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (χ : HChar F) (ξ : G F Ω →* (Qbar l)ˣ) (t : ℤ), IsOpen (ξ.ker : Set (G F Ω)) → IsCharOf ι χ (cycBar F Ω l ^ t * ξ) → ∀ (w : HeightOneSpectrum (𝓞 F)), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ (A : ValuationSubring Ω) (h : IsPlaceOver A w) (a : Weil h →* (w.adicCompletion F)ˣ), IsLocalArtin h a → ∀ s : Weil h, ((χ.loc w (a s) : ℂˣ) : ℂ) = ((normV w : ℕ) : ℂ) ^ (t * deg s) * ι (ξ (s : G F Ω) : Qbar l) := by
+    GlobalTheory.Mem.LiteralAutomorphy.LitN → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (χ : HChar F) (ξ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (t : ℤ), IsOpen (ξ.ker : Set (_root_.Formalism.ConjugateSelfDual.G F Ω)) → IsCharOf ι χ (cycBar F Ω l ^ t * ξ) → ∀ (w : HeightOneSpectrum (𝓞 F)), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ (A : ValuationSubring Ω) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (a : Weil h →* (w.adicCompletion F)ˣ), IsLocalArtin h a → ∀ s : Weil h, ((χ.loc w (a s) : ℂˣ) : ℂ) = ((normV w : ℕ) : ℂ) ^ (t * deg s) * ι (ξ (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : Qbar l) := by
   intro N F Ω _ _ _ _ _ l _ ι χ ξ t hξ ⟨hc, art, n, hart, _, hL⟩ w hw A h a ha s
-  haveI : Finite (G F Ω ⧸ ξ.ker) := ξ.ker.quotient_finite_of_isOpen hξ
+  haveI : Finite (_root_.Formalism.ConjugateSelfDual.G F Ω ⧸ ξ.ker) := ξ.ker.quotient_finite_of_isOpen hξ
   have hN : ξ.ker.index ≠ 0 := Subgroup.index_ne_zero_of_finite
   have h1 := UpperTheory.V.Loc.laHecke h art hart ι χ n _ hL ⟨a, ha⟩
-  have h2 := UpperTheory.V.Loc.laArith N.aut.art h hw ((cycBar F Ω l ^ t * ξ).comp (Dec (F := F) A).subtype)
+  have h2 := UpperTheory.V.Loc.laArith N.aut.art h hw ((cycBar F Ω l ^ t * ξ).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype)
     (hc.comp continuous_subtype_val) t ξ.ker.index (Nat.pos_of_ne_zero hN) fun g _ => by
-      have e : ((cycBar F Ω l ^ t * ξ).comp (Dec (F := F) A).subtype) g * cycBar F Ω l g ^ (-t) = ξ g := by
+      have e : ((cycBar F Ω l ^ t * ξ).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) g * cycBar F Ω l g ^ (-t) = ξ g := by
         show cycBar F Ω l g ^ t * ξ g * cycBar F Ω l g ^ (-t) = ξ g
         rw [mul_right_comm, ← zpow_add, add_neg_cancel, zpow_zero, one_mul]
       rw [e, ← map_pow]
@@ -78,8 +78,8 @@ theorem UpperTheory.heckeChar_localArtin_eq_cyclotomic_twist :
     exact Finset.prod_ne_zero_iff.2 fun j _ => zpow_ne_zero _ ((map_ne_zero j.1).2 (a s).ne_zero)
   have h5 := hL.loc (a s) s (ha.glob art hart s)
   have h6 := UpperTheory.V.Loc.epsArt N.aut.art h hw a ha s
-  have h7 : (((cycBar F Ω l ^ t * ξ) (s : G F Ω) : (Qbar l)ˣ) : Qbar l) =
-      (cycBar F Ω l (s : G F Ω) : Qbar l) ^ t * (ξ (s : G F Ω) : Qbar l) := by
+  have h7 : (((cycBar F Ω l ^ t * ξ) (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : (Qbar l)ˣ) : Qbar l) =
+      (cycBar F Ω l (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : Qbar l) ^ t * (ξ (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : Qbar l) := by
     rw [← Units.val_zpow_eq_zpow_val, ← Units.val_mul]
     rfl
   rw [h7, h6, h4, mul_zpow, mul_right_comm, mul_left_inj' h0, eq_comm, RingEquiv.symm_apply_eq] at h5

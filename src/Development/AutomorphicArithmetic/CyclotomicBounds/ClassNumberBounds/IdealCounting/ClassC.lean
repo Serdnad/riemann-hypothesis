@@ -1,8 +1,7 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.ClassNumber
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.ClassA
-public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.ClassB
+public import Development.AutomorphicArithmetic.CyclotomicBounds.ClassNumberBounds.IdealCounting.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

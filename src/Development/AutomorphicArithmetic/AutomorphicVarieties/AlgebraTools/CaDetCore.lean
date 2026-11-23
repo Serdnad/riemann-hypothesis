@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CotInd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DetLocus
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle003
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaDetLocus
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Integral
+public import ReciprocityTheory.CommutativeAlgebra.SaturatedChains.Bundle001
 
 @[expose] public section
 

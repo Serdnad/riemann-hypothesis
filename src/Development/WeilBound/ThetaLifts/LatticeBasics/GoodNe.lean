@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsStable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCharacterOfIdeleClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeValueNotFiniteOrder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceSplitOrInert
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SplitPrimeDegreeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnramifiedCharacterAtUniformizer
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1733
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1674
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1193
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1295
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

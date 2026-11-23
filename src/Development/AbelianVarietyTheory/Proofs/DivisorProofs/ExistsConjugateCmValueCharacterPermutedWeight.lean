@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LatticeNormTransport
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfTameLoc
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousInfIdele
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatHeckeCharacterTrivialCongruentUnits
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeCharFiniteOrderUnitIdele
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1892
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle168
 public import Formalism.LocalToGlobal.UnitaryNorms.CharExGen
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

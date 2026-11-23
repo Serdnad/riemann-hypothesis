@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PartsSt
-public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
+public import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Formalism.SharpRestriction.LevelLetterCocycles.QuotientHomNonvanishingBound
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CycZBridge
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MaxLengthLocalInvariantsTwistedFractionModIntege
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle453
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle467
 import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

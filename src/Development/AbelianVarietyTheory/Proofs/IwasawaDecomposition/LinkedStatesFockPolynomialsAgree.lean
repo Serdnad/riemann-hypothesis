@@ -2,19 +2,19 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RealMoveOfParts
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsBaseEnlargementFixedCoefFieldOfCoeffEnlargemen
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOmPinsLev
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NonzeroIndexPlacesAdelicDataResizedEq
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NonzeroPlacesOverPrimesOfLifts
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoefficientMapEnlargedBaseEqComplexMultiple
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteFamilyCoefficientMapsMulRootOfUnity
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAdelicCoreTransportEnlargedCoefficientBase
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCoefficientMapExtensionOverEnlargedBase
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle458
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle026
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle540
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle466
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle523
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle575
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCoefficientMapsAgreeRootOfUnityEnlarged
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsIntegralOfLine
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ReferenceTupleLiftFormsPassToCoeffEnlargement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ClassPresBasic
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle108
 import Formalism.LocalToGlobal.Columns.RowFormsAdelic
-import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -167,7 +167,7 @@ theorem heq_pol (q : B'.toPre = B.toPre) (i : Fin (w.st Z).toD7.R.m) (i' : Fin (
   exact heq_of_eq ((MvPolynomial.map_map _ _ _).trans (congrArg (fun s => MvPolynomial.map s F) (RingHom.ext hι)))
 
 section Lift
-open OmExt LiftUnit Formalism.DivisionValues Formalism.L2.Col
+open OmExt LiftUnit Formalism.DivisionValues _root_.Formalism.L2.Col
 
 
 

@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalRingCardinality.DataAmbForm
-import Formalism.LocalToGlobal.Divisibility.ClassSum
+import Formalism.LocalRingCardinality.Bundle004
+import Formalism.LocalToGlobal.Divisibility.Bundle001
 
 @[expose] public section
 

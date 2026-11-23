@@ -1,12 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualLatticeIndex
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BoxBounds
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLinesGenIndexDet
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLinesGenIndexTrans
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLinesIdealLatticeFG
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLinesIsLattice
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PLinesLatticeBasis
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle023
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle057
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

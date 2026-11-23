@@ -2,9 +2,9 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.DworkExponentialRestrictions
 import Formalism.GaussJetBounds.GaussJetProofs.LogarithmWeightComparison
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.AllPlacesOfRestrictions
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.IntRPsubst
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NatCastInvMemRp
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle012
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle006
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

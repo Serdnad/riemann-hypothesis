@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -150,9 +150,9 @@ theorem eval_map_int_rat (z : (Σ k, ι k) → ℂ) (f : MRing ι) :
 theorem h_continuousOn (d : HSMBlockDatum D K ι Ω) : ContinuousOn d.A.h {z | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} :=
   d.semipos.1.continuousOn
 
-theorem prod_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
-  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]
-  simp [unitDeg]
+theorem prod_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀ k = ‖c k₀‖ := by
+  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]]
+  simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
 
 theorem ratio_continuousOn (d : HSMBlockDatum D K ι Ω) (f : MRing ι) (n : ℕ) :
     ContinuousOn (fun z => ‖eval z (map (Int.castRingHom ℂ) f)‖ / d.A.h z ^ n)
@@ -166,11 +166,11 @@ theorem ratio_torus (d : HSMBlockDatum D K ι Ω) {f : MRing ι} {n : ℕ} (hf :
       ‖eval z (map (Int.castRingHom ℂ) f)‖ / d.A.h z ^ n :=
   SupBoundBlock.normRatio_torus hf d.A d.deg ⟨c, hc, rfl⟩
 
-def pairRe (A : HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) : ℝ :=
+def pairRe (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) : ℝ :=
   ((eval z (map (Int.castRingHom ℂ) f)).re * (eval z (map (Int.castRingHom ℂ) f')).re +
     (eval z (map (Int.castRingHom ℂ) f)).im * (eval z (map (Int.castRingHom ℂ) f')).im) / A.h z ^ (2 * n)
 
-theorem pairValH_re (A : HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) :
+theorem pairValH_re (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) :
     (pairValH A n (map (Int.castRingHom ℚ) f) (map (Int.castRingHom ℚ) f') z).re = pairRe A n f f' z := by
   simp only [pairValH, eval_map_int_rat, pairRe, Complex.div_ofReal_re, Complex.mul_re, Complex.conj_re,
     Complex.conj_im]
@@ -247,7 +247,7 @@ theorem comb_im {r : ℕ} (f : Fin r → MRing ι) (a : Fin r → ℝ) (z : (Σ 
     (comb f a z).im = ∑ k, a k * (eval z (map (Int.castRingHom ℂ) (f k))).im := by
   simp [comb, Complex.im_sum]
 
-theorem quad_pairRe (A : HermLine ι) (n : ℕ) {r : ℕ} (f : Fin r → MRing ι) (a : Fin r → ℝ)
+theorem quad_pairRe (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) {r : ℕ} (f : Fin r → MRing ι) (a : Fin r → ℝ)
     (z : (Σ k, ι k) → ℂ) :
     ∑ k, a k * ∑ l, pairRe A n (f k) (f l) z * a l = ‖comb f a z‖ ^ 2 / A.h z ^ (2 * n) := by
   rw [Complex.sq_norm, Complex.normSq_apply, comb_re, comb_im, Finset.sum_mul_sum, Finset.sum_mul_sum,
@@ -357,7 +357,7 @@ theorem isSmallH_iff (d : HSMBlockDatum D K ι Ω) (n : ℕ) {F : MRing ι} (hF 
   constructor
   · intro h z hz
     have := h (blockDeg d.k₀ n) 0 F 1 z hF isMultiHomog_one'
-      (fun k => by by_cases hk : k = d.k₀ <;> simp [d.deg, blockDeg, unitDeg, hk]) (by simp) hz
+      (fun k => by by_cases hk : k = d.k₀ <;> simp [d.deg, blockDeg, ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]) (by simp) hz
     simpa using this
   · intro h dg dh g g' z hg hg' hdeg hval hz
     have hdg : dg = blockDeg d.k₀ n + dh := by
@@ -366,10 +366,10 @@ theorem isSmallH_iff (d : HSMBlockDatum D K ι Ω) (n : ℕ) {F : MRing ι} (hF 
       rw [d.deg] at this
       by_cases hk : k = d.k₀
       · subst hk
-        simp only [unitDeg, if_true, mul_one] at this
+        simp only [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, if_true, mul_one] at this
         simp only [Pi.add_apply, blockDeg, if_true]
         omega
-      · simp only [unitDeg, hk, if_false, mul_zero, add_zero] at this
+      · simp only [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk, if_false, mul_zero, add_zero] at this
         simp only [Pi.add_apply, blockDeg, hk, if_false, zero_add]
         omega
     have hmh : IsMultiHomog (g - F * g') dg := isMultiHomog_sub' hg (hdg ▸ isMultiHomog_mul' hF hg')

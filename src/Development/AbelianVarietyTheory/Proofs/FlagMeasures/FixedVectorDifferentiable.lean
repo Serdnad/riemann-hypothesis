@@ -3,8 +3,8 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DFactsHolds
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsContDiffExtensionOfIsClosed
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle027
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

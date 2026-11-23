@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.HarishChandraCentre.Projection
-public import GroundTheory.AutomorphicForms.HarishChandraCentre.FischerForm
+public import GroundTheory.AutomorphicForms.HarishChandraCentre.Bundle001
 public import GroundTheory.AutomorphicForms.HarishChandraCentre.Fischer
 public import Mathlib.Algebra.MvPolynomial.Funext
 import Mathlib.Algebra.Order.Floor.Extended

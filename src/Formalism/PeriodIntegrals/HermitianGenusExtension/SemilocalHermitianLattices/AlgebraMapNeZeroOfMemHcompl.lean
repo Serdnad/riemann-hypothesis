@@ -1,10 +1,9 @@
 module
 
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.AlgebraMapNeZeroOfMemHcompl
-public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsNormOneOfPair
-public import Formalism.HermitianLattices.StatementMass
-public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.MassSt
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle011
+public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.Bundle001
+public import Formalism.HermitianLattices.Bundle003
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsSqAbsNormOfInert
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylLatticeDescentHolds
+public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.ColSpanMulUnit
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.SelfDualCongr
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.BlockRationalityField
-import Formalism.LocalRingCardinality.DataKerI
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.BlockRatReal
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+import Formalism.LocalRingCardinality.Bundle008
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,8 @@ import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.GroupLattices.CloudFilling.ExistsPowOrbRep
 public import Formalism.LocalToGlobal.GroupLattices.CloudFilling.FillInstRecEqWj
 public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.ExistsSqEqIntCast
-public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.ExtWRec
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.FullTiedCBase
+public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.Bundle001
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle006
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TieFin
 
 @[expose] public section

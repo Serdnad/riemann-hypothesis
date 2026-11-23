@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.TateUnramifiedOfTorsionUnramified
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PotentialGoodReductionOfNeronOggShafarevich
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2316
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GoodReduction.CMGood
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GoodReduction.NeronOggShafarevich
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,9 +2,8 @@ module
 
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.RegularizedMaxC2ExampleRealLine
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.CpRegPhRegOfNonneg
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.NormIteratedFDerivCompLeOfIsOpen
-public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.PPropertyF
-public import GroundTheory.HeightsAndTheta.Heights.Regularisation.GlueCharts
+public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Bundle006
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.RegMaxReindex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

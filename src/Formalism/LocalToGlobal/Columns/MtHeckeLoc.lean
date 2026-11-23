@@ -6,7 +6,7 @@ public import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExist
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 import Formalism.LocalToGlobal.Columns.RecLevelCls
 public import Formalism.LocalToGlobal.Columns.TiedUpDnA
-public import Formalism.LocalToGlobal.Columns.TiedUpDnLoc
+public import Formalism.LocalToGlobal.Columns.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

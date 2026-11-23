@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemOfAssembleMem
 public import Mathlib.Algebra.Module.Lattice.Full
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ZpowSmulMem
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeTied
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeMkF
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Formalism.LocalToGlobal.Divisibility.HeckeCSDICommTrRep
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

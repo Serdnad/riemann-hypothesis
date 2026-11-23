@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeModules
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroRatio
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackeyTransfer

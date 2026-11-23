@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefiniteThetaPairNormNeZeroOfCoordNeZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneSqStOfClaims
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsRatios
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StepRatioAbsVwProd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2025
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1917
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle147
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle148
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.AuxiliaryPrimeNeTypePrime
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended

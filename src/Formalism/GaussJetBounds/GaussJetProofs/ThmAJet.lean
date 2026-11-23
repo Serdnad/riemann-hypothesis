@@ -1,7 +1,6 @@
 module
 
-public import Formalism.GaussJetBounds.Statement
-public import Formalism.GaussJetBounds.StatementA
+public import Formalism.GaussJetBounds.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.PureCrossTermWeight
 import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
 import Mathlib.Algebra.Order.Floor.Extended

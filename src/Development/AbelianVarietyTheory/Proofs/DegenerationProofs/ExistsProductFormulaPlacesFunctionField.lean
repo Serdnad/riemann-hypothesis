@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.ValNorm
-import ReciprocityTheory.SemistableReduction.AlgAll
+import ReciprocityTheory.SemistableReduction.Bundle019
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.RingTheory.RamificationInertia.Inertia
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.AlgebraMapOLInjective

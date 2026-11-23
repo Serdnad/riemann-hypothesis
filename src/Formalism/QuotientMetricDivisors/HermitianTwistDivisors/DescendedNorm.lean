@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.HeightBoundExactNorms
+public import Formalism.QuotientMetricDivisors.Bundle005
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean

@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IsScaleStable
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MeasurableFibreCountOverStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

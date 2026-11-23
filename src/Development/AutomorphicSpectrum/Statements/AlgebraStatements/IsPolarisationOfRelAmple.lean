@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ExistsCrystalPairing
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZeroSectionBase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDualOfIsPerfectOfAdditive
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AdjointEndomorphismsCubeLBOfDenseFibres
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2252
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle157
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SmulSubMulLe
 public import Mathlib.Algebra.Module.LinearMap.End
 public import Mathlib.LinearAlgebra.Span.Defs
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FourModel
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

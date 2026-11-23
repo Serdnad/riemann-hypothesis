@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.ProjectiveLattices.ExistsParameterConditions
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.PermutesRefl
-public import Formalism.LocalToGlobal.ProjectiveLattices.ThClassPins
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle039
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 import Mathlib.Algebra.Order.Floor.Extended

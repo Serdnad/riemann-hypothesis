@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.CoeffMemOfLoc
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle002
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
 import Mathlib.Algebra.Order.Floor.Extended

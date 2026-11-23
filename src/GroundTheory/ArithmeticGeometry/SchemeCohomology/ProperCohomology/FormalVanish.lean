@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechNaturality.CechFunctor
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalDegree
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalIdealMul
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle013
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle010
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalBounds
-import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalCechSmul
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.CechFamily
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle004
 
 @[expose] public section
 

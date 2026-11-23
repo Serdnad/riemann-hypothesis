@@ -44,8 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.CoefDec
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.CoefIntCpt
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.CoefIntVG
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle003
 
 @[expose] public section
 

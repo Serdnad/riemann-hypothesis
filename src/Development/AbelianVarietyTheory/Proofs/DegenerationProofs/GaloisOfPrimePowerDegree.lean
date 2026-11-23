@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfDerivationFnOn
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.RegularLocalRing.Defs

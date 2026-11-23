@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.LocalTransition
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle002
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.LiesOver
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.ProfiniteCohomology.Factor
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+public import GroundTheory.ProfiniteCohomology.Bundle004
+import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.ApplyCompletionEmbeddingOfLocalDecompHomEqOne
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended

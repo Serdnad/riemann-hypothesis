@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.Divisibility.ClassSum
+import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Formalism.LocalToGlobal.ExponentGrids.IntegerShiftClosedExponent
 
 @[expose] public section

@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HasBaseDegreeSettingStrict
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsZhangLowerX
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle006
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TestPolynomialShiftTotalStatement
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PZhangLowerX
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

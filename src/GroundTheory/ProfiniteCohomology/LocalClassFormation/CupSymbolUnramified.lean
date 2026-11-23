@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolDefs
 public import GroundTheory.LocalFields.MaximalUnramified
-public import GroundTheory.ProfiniteCohomology.CyclicCupProf
+public import GroundTheory.ProfiniteCohomology.Bundle010
 import GroundTheory.LocalFields.AbstractLocalReciprocity.ExistsEqNsmulOfProjEqZero
 public import GroundTheory.ProfiniteCohomology.CyclicCupBrauer
 import Mathlib.Algebra.Order.Floor.Extended

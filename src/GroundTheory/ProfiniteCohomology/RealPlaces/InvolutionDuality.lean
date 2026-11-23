@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.TorsionDualDefs
-public import GroundTheory.ProfiniteCohomology.TorsionDualFinite
+public import GroundTheory.ProfiniteCohomology.Bundle002
+public import GroundTheory.ProfiniteCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

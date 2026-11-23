@@ -1,9 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilRepresentationIntegralAction
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle200
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
-public import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

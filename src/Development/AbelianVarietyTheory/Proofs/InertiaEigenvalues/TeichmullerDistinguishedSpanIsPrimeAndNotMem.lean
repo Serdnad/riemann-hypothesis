@@ -3,8 +3,8 @@ module
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Mathlib.RingTheory.Valuation.ValuationRing
 public import Mathlib.RingTheory.WittVector.Teichmuller
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TeichmullerDistinguishedRegularSequenceStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WittVectorTeichmullerIsAdicCompleteOfPerfectStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle336
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertPointLengthSteps
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle021
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveDivVertical
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.CharacterNondegenerate
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle015
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionsNonzero
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

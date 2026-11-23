@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.OcbLevIsSym
+public import Formalism.LocalToGlobal.Columns.Bundle021
 public import Formalism.LocalToGlobal.Columns.RecLevelDiv
 public import Formalism.LocalToGlobal.Columns.RecLevelSymF
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.SymGSupport
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.MembDd
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundReal
 import Mathlib.Algebra.Order.Floor.Extended

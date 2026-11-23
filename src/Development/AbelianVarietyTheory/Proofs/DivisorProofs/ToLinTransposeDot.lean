@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PDivGroupOmegaFiniteFreeAndPSqMemDlogSpan
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle492
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvEqOneOfForallPairing
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIntegers
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FontaineAinfLocalDomainXiAdicOrder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeTateSandwichStarRep
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsRegularOfMulEqSmul
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemRange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle731
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle393
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1137
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle250
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle444
 import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Kernel
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

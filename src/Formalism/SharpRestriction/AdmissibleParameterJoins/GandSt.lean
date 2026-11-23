@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSo
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 public import Formalism.SharpRestriction.GrowthBounds.FormalGroupSystem
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MemWOfNorm
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle027
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

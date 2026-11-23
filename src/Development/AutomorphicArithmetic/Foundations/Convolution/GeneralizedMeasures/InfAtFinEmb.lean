@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.HeckeFinAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.PolyMem
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.RepOne
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TensF
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TensHt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.WordHt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

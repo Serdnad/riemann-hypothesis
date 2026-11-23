@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.SymUse
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle010
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.WeilDeligneUnramified.UnitaryTwoForm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Ad0IrrMulVec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.NormOneOfFin
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.QuadraticCharpolyCoeffDifference
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ResFacts
-import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ShapeFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.PotOrd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle009
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle008
+import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.Bundle006
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.NewformTwistNorms.NewformOfAdmissibleTwist
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -106,12 +105,12 @@ private theorem norm_of_finOrder {Γ : Type} [Group Γ] {φ : Γ →* (Qbar l)ˣ
   have h3 : ‖(φ s : Qbar l)‖ ^ n = 1 := by rw [← norm_pow, ← Units.val_pow_eq_pow_val, h2]; simp
   exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) hn.ne').1 h3
 variable {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω]
-private theorem cyc_val (s : G F Ω) :
+private theorem cyc_val (s : _root_.Formalism.ConjugateSelfDual.G F Ω) :
     ((cycBar F Ω l s : (Qbar l)ˣ) : Qbar l) = algebraMap ℚ_[l] (Qbar l) ((cycZ F Ω l s : ℤ_[l]) : ℚ_[l]) := rfl
-private theorem norm_cyc (s : G F Ω) : ‖((cycBar F Ω l s : (Qbar l)ˣ) : Qbar l)‖ = 1 := by
+private theorem norm_cyc (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : ‖((cycBar F Ω l s : (Qbar l)ˣ) : Qbar l)‖ = 1 := by
   rw [cyc_val, norm_algebraMap']
   exact PadicInt.norm_units _
-private theorem cong_cyc (s : G F Ω) : Cong (cycBar F Ω l s ^ (l - 1)) 1 := by
+private theorem cong_cyc (s : _root_.Formalism.ConjugateSelfDual.G F Ω) : Cong (cycBar F Ω l s ^ (l - 1)) 1 := by
   unfold Cong
   have e : ((cycBar F Ω l s ^ (l - 1) : (Qbar l)ˣ) : Qbar l) - ((1 : (Qbar l)ˣ) : Qbar l) =
       algebraMap ℚ_[l] (Qbar l) ((((cycZ F Ω l s : ℤ_[l]) ^ (l - 1) - 1 : ℤ_[l])) : ℚ_[l]) := by
@@ -121,7 +120,7 @@ private theorem cong_cyc (s : G F Ω) : Cong (cycBar F Ω l s ^ (l - 1)) 1 := by
   rw [← PadicInt.mem_nonunits, ← IsLocalRing.mem_maximalIdeal, ← PadicInt.ker_toZMod, RingHom.mem_ker, map_sub, map_pow,
     map_one, ZMod.pow_card_sub_one_eq_one, sub_self]
   exact ((cycZ F Ω l s).isUnit.map _).ne_zero
-private theorem cong_cyc_pow (s : G F Ω) (j t : ℕ) : Cong (cycBar F Ω l s ^ (j + (l - 1) * t)) (cycBar F Ω l s ^ j) := by
+private theorem cong_cyc_pow (s : _root_.Formalism.ConjugateSelfDual.G F Ω) (j t : ℕ) : Cong (cycBar F Ω l s ^ (j + (l - 1) * t)) (cycBar F Ω l s ^ j) := by
   rw [pow_add, pow_mul]
   have := cong_mul (cong_refl (cycBar F Ω l s ^ j)) (cong_pow (cong_cyc (l := l) s) (by simp) t)
     (norm_pow_one (norm_cyc s) j) (by simp)
@@ -129,7 +128,7 @@ private theorem cong_cyc_pow (s : G F Ω) (j t : ℕ) : Cong (cycBar F Ω l s ^ 
 end CongLemmas
 section Gal
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω]
-private theorem finOrder_of_kills {C : Type} [CommGroup C] {N : ℕ} (hN : 0 < N) {φ : G ℚ Ω →* C} (h : KillsMu N φ) :
+private theorem finOrder_of_kills {C : Type} [CommGroup C] {N : ℕ} (hN : 0 < N) {φ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* C} (h : KillsMu N φ) :
     IsOfFinOrder φ := by
   haveI : NeZero N := ⟨hN.ne'⟩
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
@@ -142,13 +141,13 @@ private theorem finOrder_of_kills {C : Type} [CommGroup C] {N : ℕ} (hN : 0 < N
   rw [map_pow, pow_card_eq_one, Units.val_one, ZMod.val_one_eq_one_mod, ← pow_eq_pow_mod 1 hz.pow_eq_one, pow_one] at h1
   rw [map_pow, ← h1]
 omit [IsAlgClosure ℚ Ω] in
-private theorem cc_sq {c : G ℚ Ω} (h : IsCC c) : c * c = 1 := by
+private theorem cc_sq {c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω} (h : IsCC c) : c * c = 1 := by
   obtain ⟨j, hj⟩ := h
   ext x
   apply j.injective
   rw [AlgEquiv.mul_apply, hj, hj]; simp
 omit [IsAlgClosure ℚ Ω] in
-private theorem cc_not_mem (K : Type) [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] [Algebra K Ω] {c : G ℚ Ω} (h : IsCC c) :
+private theorem cc_not_mem (K : Type) [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] [Algebra K Ω] {c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω} (h : IsCC c) :
     c ∉ galOf ℚ K Ω := by
   obtain ⟨j, hj⟩ := h
   intro hc
@@ -156,7 +155,7 @@ private theorem cc_not_mem (K : Type) [Field K] [NumberField K] [_root_.NumberFi
   rw [ComplexEmbedding.isReal_iff]
   ext x
   rw [ComplexEmbedding.conjugate_coe_eq, RingHom.comp_apply, ← hj, hc x]
-private theorem sq_mem_galOf (K : Type) [Field K] [NumberField K] [Algebra K Ω] (h : Module.finrank ℚ K = 2) (s : G ℚ Ω) :
+private theorem sq_mem_galOf (K : Type) [Field K] [NumberField K] [Algebra K Ω] (h : Module.finrank ℚ K = 2) (s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) :
     s * s ∈ galOf ℚ K Ω := by
   haveI : Algebra.IsQuadraticExtension ℚ K := ⟨h⟩
   haveI : IsGalois ℚ K := inferInstance
@@ -173,14 +172,14 @@ private theorem algClosure (K : Type) [Field K] [NumberField K] [Algebra K Ω] :
 end Gal
 section Shape
 variable {l : ℕ} [Fact l.Prime] {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω]
-private theorem ordAt_change {n : ℕ} {r : G F Ω →* GL (Fin n) (Qbar l)} {m : Fin n → ℤ} {ψ ψ' : Fin n → G F Ω →* (Qbar l)ˣ}
+private theorem ordAt_change {n : ℕ} {r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)} {m : Fin n → ℤ} {ψ ψ' : Fin n → _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ}
     {A : ValuationSubring Ω} (h : OrdAt r m ψ A) (h' : ∀ i s, Cong (ψ' i s) (ψ i s)) : OrdAt r m ψ' A := by
   obtain ⟨κ, h1, h2, h3⟩ := h
   exact ⟨κ, h1, h2, fun i s => cong_trans (h3 i s) (cong_symm (h' i s))⟩
-private theorem order_at_adjoint_zero {ρ : G F Ω →* GL (Fin 2) (Qbar l)} {m : ℤ} {Φ : G F Ω →* (Qbar l)ˣ} (hΦ : ∀ s, ‖(Φ s : Qbar l)‖ = 1)
+private theorem order_at_adjoint_zero {ρ : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l)} {m : ℤ} {Φ : _root_.Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ} (hΦ : ∀ s, ‖(Φ s : Qbar l)‖ = 1)
     {A : ValuationSubring Ω} (h : OrdAt ρ ![m, 0] ![Φ, 1] A) : OrdAt (ad0 ρ) ![m, 0, -m] ![Φ, 1, Φ⁻¹] A := by
   obtain ⟨κ, h1, h2, h3⟩ := h
-  have h4 : ∀ s : ↥(Dec (F := F) A), Cong ((κ 0 / κ 1) s) (Φ s) := fun s => by
+  have h4 : ∀ s : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A), Cong ((κ 0 / κ 1) s) (Φ s) := fun s => by
     have := cong_mul (h3 0 s) (cong_inv (h3 1 s) (by simp)) (hΦ s) (by simp)
     simpa [div_eq_mul_inv] using this
   refine ⟨_, (ad0Facts l _ ρ).2.2.2.1 _ κ h1, fun i s hs => ?_, fun i s => ?_⟩
@@ -284,7 +283,7 @@ theorem UpperTheory.V.Z.Sym.W.adjoint_lift_from_eisenstein_of_propagation :
   have RL := resFacts ℚ L Ω l 3 (ad0 ρ)
   have hiL : IsIrr ((ad0 ρ).comp (galEmb ℚ L Ω)) := RL.2.2.2.1.1 (hio' _ RL.2.1)
   obtain ⟨P, hP1, hP2⟩ := exists_symmetric_pairing_adjoint_zero ρ hcc
-  have hψ : ∀ (i : Fin 3) (s : G L Ω), Cong ((![Ψ, 1, Ψ⁻¹] i).comp (galEmb ℚ L Ω) s) ((![Φ, 1, Φ⁻¹] i).comp (galEmb ℚ L Ω) s) := by
+  have hψ : ∀ (i : Fin 3) (s : _root_.Formalism.ConjugateSelfDual.G L Ω), Cong ((![Ψ, 1, Ψ⁻¹] i).comp (galEmb ℚ L Ω) s) ((![Φ, 1, Φ⁻¹] i).comp (galEmb ℚ L Ω) s) := by
     intro i s
     have h := cong_symm (hΦΨ _ (galEmb_mem ℚ L Ω s))
     fin_cases i

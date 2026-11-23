@@ -57,7 +57,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Algebra.MvPolynomial.Funext
 public import Mathlib.FieldTheory.Finite.Basic
 public import Mathlib.LinearAlgebra.Vandermonde
-import ReciprocityTheory.DualLattices.TensorSpan
+import ReciprocityTheory.DualLattices.Bundle002
 
 @[expose] public section
 

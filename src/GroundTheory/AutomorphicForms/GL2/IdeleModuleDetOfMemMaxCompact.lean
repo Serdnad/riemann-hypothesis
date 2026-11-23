@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.AutomorphicForms.ReductionIwasawa
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
-public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
-import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
+public import GroundTheory.AutomorphicForms.Bundle016
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.IdeleGroups.UnitBound
 public import GroundTheory.GlobalFields.TateThesis.AdeleScaling

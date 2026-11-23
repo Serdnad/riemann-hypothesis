@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.EqZeroOfLocW
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductFunctionOnSumCoordsMemAdelicSchwartzSpace
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DblCoordUnique
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsEqMulApplyZero
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumTensorProduct
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1191
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle012
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

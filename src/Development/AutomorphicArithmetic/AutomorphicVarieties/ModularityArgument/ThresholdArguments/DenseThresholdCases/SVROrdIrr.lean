@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.WeightChange
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsPowHeckeCharUnramifiedEverywhere
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDecompositionGroupCyclotomicCharacterZpowN
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.EveryPointSatisfiesFrameCondition
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutNewform2A
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.ExRS
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.SVConv
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.Bundle010
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle078
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle026
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle016
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgOfCyc
-public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.RatioWOfHasSat
-import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AdmissibleResidues.Bundle006
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -146,7 +146,7 @@ private theorem charpoly_tri {K : Type} [Field K] (g r : GL (Fin 2) K)
   rw [← e, Matrix.charpoly_of_isUpperTriangular _ (fun i j hij => h i j hij), Fin.prod_univ_two]
 variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime]
 private theorem cyc_ine {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω} (hl : ((l : ℕ) : 𝓞 F) ∈ v.asIdeal)
-    (hA : IsPlaceOver A v) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ Ine (F := F) A, cycBar F Ω l g ^ n ≠ 1 := by
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ Ine (F := F) A, cycBar F Ω l g ^ n ≠ 1 := by
   have : CharZero Ω := charZero_of_injective_algebraMap (algebraMap F Ω).injective
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed F
   have : Algebra.IsAlgebraic ℚ Ω := Algebra.IsAlgebraic.trans ℚ F Ω
@@ -164,7 +164,7 @@ private theorem cyc_ine {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring �
   have : K.fixingSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   obtain ⟨N, hN, -, hmem⟩ := Subgroup.exists_pow_mem_of_index_ne_zero
     (Subgroup.FiniteIndex.index_ne_zero (H := K.fixingSubgroup)) σ
-  let g : G F Ω := { (σ ^ N).toRingEquiv with
+  let g : _root_.Formalism.ConjugateSelfDual.G F Ω := { (σ ^ N).toRingEquiv with
     commutes' := fun x => (IntermediateField.mem_fixingSubgroup_iff _ _).1 hmem _ ⟨x, rfl⟩ }
   have hD : σ ^ N ∈ Ine (F := ℚ) A := (Ine (F := ℚ) A).pow_mem hσ N
   have hc : cycZ F Ω l g = cycZ ℚ Ω l (σ ^ N) := rfl
@@ -180,7 +180,7 @@ theorem UpperTheory.V.Sd.ordinary_irreducible_of_printed_hida :
   intro P F Ω _ _ _ _ _ _ l _ hl2 hs ι ξ s c m a π r hr
   by_contra hirr
   obtain ⟨c₁, c₂, hc₁, hc₂, hch⟩ := chars_of_red r hr.cont hirr
-  have hI : ∀ w : HeightOneSpectrum (𝓞 F), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, IsPlaceOver A w →
+  have hI : ∀ w : HeightOneSpectrum (𝓞 F), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w →
       ∃ d : ℤ, d ≠ 0 ∧ ∀ g ∈ Ine (F := F) A, (c₁ / c₂) g = cycBar F Ω l g ^ d := by
     intro w hw A hA
     obtain ⟨κ, ⟨g, hg⟩, hκ, -⟩ := _root_.UpperTheory.V.Z.Win.RR.ordAbove_of_printsH P F Ω l hl2 hs ι ξ s c m a π r hr w hw A hA
@@ -188,7 +188,7 @@ theorem UpperTheory.V.Sd.ordinary_irreducible_of_printed_hida :
     have key : ∀ t ∈ Ine (F := F) A, (X - C (c₁ t : Qbar l)) * (X - C (c₂ t : Qbar l)) =
         (X - C ((cycBar F Ω l t ^ m w 0 : (Qbar l)ˣ) : Qbar l)) * (X - C ((cycBar F Ω l t ^ m w 1 : (Qbar l)ˣ) : Qbar l)) := by
       intro t ht
-      let t' : ↥(Dec (F := F) A) := ⟨t, Ine_le_Dec A ht⟩
+      let t' : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A) := ⟨t, Ine_le_Dec A ht⟩
       rw [← hch, charpoly_tri g _ (hg t').1, (hg t').2 0, (hg t').2 1, hκ 0 t' ht, hκ 1 t' ht]
     have hp : ∀ t ∈ Ine (F := F) A, c₁ t * c₂ t = cycBar F Ω l t ^ m w 0 * cycBar F Ω l t ^ m w 1 := fun t ht => by
       have := congrArg (eval 0) (key t ht)
@@ -223,17 +223,17 @@ theorem UpperTheory.V.Sd.ordinary_irreducible_of_printed_hida :
     obtain ⟨w, hw, ⟨B, hB, hF⟩, hu⟩ := (hl.and (hr.att.2.and (GlobalTheory.Mem.UnrAe.unr_ae_and_level F χ).1)).exists
     obtain ⟨A, hA⟩ := exists_isPlaceOver Ω w
     have hR := _root_.UpperTheory.Gal.SV.ratioW_of_hasSat_alt P.toClassicalTheorems hG hw hA hB
-    have r1 : ((r ((frob hA : Weil hA) : G F Ω)⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly.map ι.toRingHom).IsRoot
-        (ι (c₁ (frob hA : G F Ω)⁻¹ : Qbar l)) := IsRoot.map (f := ι.toRingHom) (by rw [hch]; simp)
-    have r2 : ((r ((frob hA : Weil hA) : G F Ω)⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly.map ι.toRingHom).IsRoot
-        (ι (c₂ (frob hA : G F Ω)⁻¹ : Qbar l)) := IsRoot.map (f := ι.toRingHom) (by rw [hch]; simp)
+    have r1 : ((r ((frob hA : Weil hA) : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly.map ι.toRingHom).IsRoot
+        (ι (c₁ (frob hA : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹ : Qbar l)) := IsRoot.map (f := ι.toRingHom) (by rw [hch]; simp)
+    have r2 : ((r ((frob hA : Weil hA) : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).charpoly.map ι.toRingHom).IsRoot
+        (ι (c₂ (frob hA : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹ : Qbar l)) := IsRoot.map (f := ι.toRingHom) (by rw [hch]; simp)
     have e1 := UpperTheory.GalN.V.ratio_roots hr.cont hw hR r1 r2
     have e2 := UpperTheory.GalN.V.ratio_roots hr.cont hw hR r2 r1
     have e3 := hL.frob_unr hart (Or.inl hw) hu hA (isFrob_frob (h := hA))
-    have e4 : ((χ.val w : ℂˣ) : ℂ) = ι (c₁ (frob hA : G F Ω)⁻¹) / ι (c₂ (frob hA : G F Ω)⁻¹) := by
+    have e4 : ((χ.val w : ℂˣ) : ℂ) = ι (c₁ (frob hA : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹) / ι (c₂ (frob hA : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹) := by
       rw [← map_div₀, ← Units.val_div_eq_div_val, ← MonoidHom.div_apply, map_inv, Units.val_inv_eq_inv_val, e3, inv_inv,
         RingEquiv.apply_symm_apply]
-    have p2 : 0 < ‖ι (c₂ (frob hA : G F Ω)⁻¹ : Qbar l)‖ := norm_pos_iff.2 ((map_ne_zero ι).2 (Units.ne_zero _))
+    have p2 : 0 < ‖ι (c₂ (frob hA : _root_.Formalism.ConjugateSelfDual.G F Ω)⁻¹ : Qbar l)‖ := norm_pos_iff.2 ((map_ne_zero ι).2 (Units.ne_zero _))
     refine UpperTheory.GalN.V.type_zero_window χ n hn w ?_ ?_
     · rw [e4, norm_div, div_lt_iff₀ p2]; exact e1
     · rw [e4, norm_div, ← mul_div_assoc, lt_div_iff₀ p2, one_mul]; exact e2

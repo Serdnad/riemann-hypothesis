@@ -1,10 +1,10 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDACapTodaVCrdAlg
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDACapTodaVCrdLoc
-import Formalism.FormalDegreeBessel.FormalDegreeRatio.WRPres
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle001
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle203
+import Formalism.FormalDegreeBessel.FormalDegreeRatio.Bundle001
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.WRWeyl
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatJDACapTodaVCrdGerm
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle204
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

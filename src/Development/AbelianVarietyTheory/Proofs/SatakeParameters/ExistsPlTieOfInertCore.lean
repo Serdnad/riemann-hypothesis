@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Mathlib.RingTheory.WittVector.Complete
 public import Mathlib.RingTheory.WittVector.Isocrystal
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FractionRingFrobeniusAlgebraMap
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle010
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

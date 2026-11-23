@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 public import Mathlib.GroupTheory.Nilpotent
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemRootsBarXSubC
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CharacterIdempotents.Scalar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle013
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CharacterIdempotents.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

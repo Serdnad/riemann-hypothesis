@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsInt
-public import Formalism.PeriodIntegrals.UnimodGenus
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnimodGenus
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
+public import Formalism.PeriodIntegrals.Bundle001
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle020
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

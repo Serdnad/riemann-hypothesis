@@ -1,7 +1,7 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineResolutionRule
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.FieldExtensionEtaleCover
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle003
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

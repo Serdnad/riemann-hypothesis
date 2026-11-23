@@ -1,6 +1,6 @@
 module
 
-public import Formalism.WachLatticeTwists.RamifiedBlockRings.RightIdealImageOfSurjective
+public import Formalism.WachLatticeTwists.RamifiedBlockRings.Bundle001
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.SplitFibre
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

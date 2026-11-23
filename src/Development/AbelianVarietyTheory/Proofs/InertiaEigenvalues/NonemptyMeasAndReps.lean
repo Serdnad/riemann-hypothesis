@@ -1,15 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
 public import Mathlib.Topology.Algebra.Group.Extension
 public import Mathlib.Topology.Algebra.IsOpenUnits
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousDistribHaarCharUnitsOfCompactOpen
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DistribHaarCharTransport
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsHaarQuotientIntegralFormula
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle079
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSelfDualOfDualSubgroups
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSmallDualLattices
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteNormedAlgebraEqModuleTopology
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticStarStructure
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle099
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

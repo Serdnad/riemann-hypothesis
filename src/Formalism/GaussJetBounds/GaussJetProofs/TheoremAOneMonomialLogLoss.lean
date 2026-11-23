@@ -1,8 +1,8 @@
 module
 
-public import Formalism.GaussJetBounds.StatementG
-public import Formalism.GaussJetBounds.StatementA
-public import Formalism.GaussJetBounds.GaussJetProofs.AsmRDotAddRight
+public import Formalism.GaussJetBounds.Bundle004
+public import Formalism.GaussJetBounds.Bundle002
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.CapacityLeReachCapacity
 public import Formalism.GaussJetBounds.GaussJetProofs.FrameCoeffMulLin
 public import Formalism.GaussJetBounds.GaussJetProofs.LemmaRA

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.SpanPowerMembership.GatSetting
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle005
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

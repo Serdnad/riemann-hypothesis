@@ -1,10 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
-public import Development.WeilBound.ThetaLifts.SphericalLattices.LatDefs
-public import Development.WeilBound.ThetaLifts.SphericalLattices.ExistsIsUnitAddMul
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle001
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle002
 public import Development.WeilBound.ThetaLifts.SphericalLattices.ExistsVBallSubset
-public import Development.WeilBound.ThetaLifts.SphericalLattices.LattEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndicatorIntMMemSB
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1193
 public import Formalism.DoubleCosetMeasures.StatementZ
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CartanAntitone
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ZetaIntegralEquivariantNonzeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ZetaIntegralShellsVanishBeyondPeriodRamifiedStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegrableZetaIntegrand
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulLeftInvariantVolGL
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LinearChangeOfVariablesLocalFieldMatrix
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1821
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1556
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle081
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle049
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle040
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,6 +59,7 @@ import Mathlib.Topology.Sheaves.Init
 open MeasureTheory ValuativeRel Matrix GlobalTheory.SplitWeil GlobalTheory.SplitFlip GlobalTheory.KSplit
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 
 noncomputable section
 namespace GlobalTheory.ShellSumEqv
@@ -174,7 +175,7 @@ theorem integral_eq_shellSum (hϖ : IsUnif ϖ) (hram : ¬ IsUnram ν) (hcond : C
     Set.eq_univ_of_forall fun g => Set.mem_iUnion.2 (exists_unique_shell hϖ g).exists
   have hd : Pairwise (Function.onFun Disjoint S) := fun m m' hne =>
     Set.disjoint_left.2 fun g h1 h2 => hne ((exists_unique_shell hϖ g).unique h1 h2)
-  haveI : BorelSpace (GL (Fin a) k) := borel_GL
+  haveI : BorelSpace (GL (Fin a) k) := _root_.GlobalTheory.SplitFlip.borel_GL
   have hm : ∀ m, MeasurableSet (S m) := fun m => (isOpen_shellSet ϖ m.1).measurableSet
   calc _ = ∫ g in ⋃ m, S m, φ g.val * (ν (gdet g) : ℂ) * apow (gdet g) w ∂(haarVol (KO k (Fin a))) := by
         rw [hU, Measure.restrict_univ]
@@ -189,7 +190,7 @@ theorem shell_eq_mul [BorelSpace k] {a : ℕ} (μ : Measure (GL (Fin a) k)) (φ 
       apow (gdet (diagGL fun i => ϖ ^ m i)) w := by
   unfold shell
   rw [← integral_mul_const]
-  haveI : BorelSpace (GL (Fin a) k) := borel_GL
+  haveI : BorelSpace (GL (Fin a) k) := _root_.GlobalTheory.SplitFlip.borel_GL
   exact setIntegral_congr_fun (isOpen_shellSet ϖ m).measurableSet fun g hg => by
     simp only [apow_of_mem_shellSet hg]
 
@@ -264,7 +265,7 @@ theorem shellSum_eqv (hϖ : IsUnif ϖ) (hν : IsSmU ν) (hram : ¬ IsUnram ν) (
 theorem exists_ne_zero (hϖ : IsUnif ϖ) (hcond : CondLE ϖ e ν) {a : ℕ} (z : ℂ) :
     ∃ φ ∈ SB (Matrix (Fin a) (Fin a) k), shellSum (haarVol (KO k (Fin a))) ϖ ν z φ ≠ 0 := by
   obtain ⟨_, _⟩ := Model.secondCountable_and_t2_local_field (k := k)
-  haveI : BorelSpace (GL (Fin a) k) := borel_GL
+  haveI : BorelSpace (GL (Fin a) k) := _root_.GlobalTheory.SplitFlip.borel_GL
   set D := detCong (ϖ ^ e) (Fin a) with hDdef
   have hDo : IsOpen (D : Set (GL (Fin a) k)) := isOpen_detCong _ _
   have hDc : IsClosed (D : Set (GL (Fin a) k)) := D.isClosed_of_isOpen hDo

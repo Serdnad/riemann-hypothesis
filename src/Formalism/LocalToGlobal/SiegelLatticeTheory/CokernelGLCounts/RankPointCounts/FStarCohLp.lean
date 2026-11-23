@@ -2,15 +2,15 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ScalarFramePfA
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ScalarFramePfB
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ScalarFramePfC
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarCohPfB
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarGlob
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ScalarFramePfD
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle008
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle071
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle068
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle009
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.EmbeddingIntegerAlgebraMap
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarCohPfE
-import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarFrame
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarGenLoc
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FStarIdentPf
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle085
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle060
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle069
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.Bundle075
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -147,13 +147,13 @@ variable {M : Loc.Model F E} {V : Type} [AddCommGroup V] [Module E V] (H : Loc.H
 theorem lset_map {r : ℕ} (f₁ f₂ : Fin (r + 1) → V) (e : V ≃ₗ[E] V) (hiso : ∀ v w, H.h (e v) (e w) = H.h v w)
     (h12 : ∀ x ∈ H.X f₁, e x ∈ H.X f₂) (h21 : ∀ y ∈ H.X f₂, e.symm y ∈ H.X f₁) (abelian₂ : Submodule M.L.O V)
     (hL : ∀ x ∈ abelian₂, e x ∈ abelian₂) (hL' : ∀ x ∈ abelian₂, e.symm x ∈ abelian₂) :
-    ⇑(qEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21) '' H.Lset abelian₂ f₁ = H.Lset abelian₂ f₂ := by
+    ⇑(_root_.Formalism.L2.SG.Pf.ScalarFramePf.qEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21) '' H.Lset abelian₂ f₁ = H.Lset abelian₂ f₂ := by
   ext w
   simp only [Set.mem_image]
   constructor
   · rintro ⟨w0, ⟨x, hxL, rfl⟩, rfl⟩
     refine ⟨perpEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21 x, hL _ hxL, ?_⟩
-    exact (qEquiv_mk H e hiso _ _ h12 h21 x).symm
+    exact (_root_.Formalism.L2.SG.Pf.ScalarFramePf.qEquiv_mk H e hiso _ _ h12 h21 x).symm
   · rintro ⟨y, hyL, rfl⟩
     refine ⟨H.mkW f₁ ((perpEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21).symm y),
       ⟨(perpEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21).symm y, ?_, rfl⟩, ?_⟩
@@ -162,10 +162,10 @@ theorem lset_map {r : ℕ} (f₁ f₂ : Fin (r + 1) → V) (e : V ≃ₗ[E] V) (
         simp [perpEquiv, LinearEquiv.ofSubmodules_symm_apply]
       rw [hy]
       exact hL' _ hyL
-    · show qEquiv H e hiso _ _ h12 h21
+    · show _root_.Formalism.L2.SG.Pf.ScalarFramePf.qEquiv H e hiso _ _ h12 h21
           (Submodule.Quotient.mk ((perpEquiv H e hiso (H.X f₁) (H.X f₂) h12 h21).symm y)) =
         Submodule.Quotient.mk y
-      rw [qEquiv_mk, LinearEquiv.apply_symm_apply]
+      rw [_root_.Formalism.L2.SG.Pf.ScalarFramePf.qEquiv_mk, LinearEquiv.apply_symm_apply]
 
 end Generic
 
@@ -197,7 +197,7 @@ def starPhi (g : (VS D).V ≃ₗ[D.host.E] (VS D).V) (hiso : ∀ x y, (VS D).hT 
     (f₁ f₂ : Fin (D.R.rS + 1) → (VS D).V) (hg1 : ∀ b, g (f₁ b) = f₂ b) :
     (locH Zd p).Wb (fun b => sF' Zd p b • baseChange₂ D p (f₁ b)) ≃ₗ[(D.s.atP p).Ep]
       (locH Zd p).Wb (fun b => sF' Zd p b • baseChange₂ D p (f₂ b)) :=
-  qEquiv (locH Zd p) (betaP p g) (betaP_iso Zd p g hiso) _ _ (local_beta_mem_x Zd p g f₁ f₂ hg1) (local_beta_symm_mem_x Zd p g f₁ f₂ hg1)
+  _root_.Formalism.L2.SG.Pf.ScalarFramePf.qEquiv (locH Zd p) (betaP p g) (betaP_iso Zd p g hiso) _ _ (local_beta_mem_x Zd p g f₁ f₂ hg1) (local_beta_symm_mem_x Zd p g f₁ f₂ hg1)
 
 end Concrete
 

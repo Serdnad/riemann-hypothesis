@@ -2,13 +2,12 @@ module
 
 public import Mathlib
 public import Formalism.LocalToGlobal.IndefiniteReal.FWExist
-public import Formalism.LocalToGlobal.IndefiniteReal.OneMapEq
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetReducedBlockEqResidueDet
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralFramedPointOfLevelMove
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.LevActMemMlat
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.LevelActionMemCuspForms
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteDimensionalOfLeHolSub
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle176
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle057
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Formalism.LocalToGlobal.ProjectiveLattices.SpMapAlgHomId
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -100,6 +99,9 @@ theorem actLev_integral (h : LawsM T) (hj : InR D j) (hL : ActLev (Xo := T.Q.Xo 
   show 0 ≤ nval S.V e (evI y (actLev (Xo := T.Q.Xo j) T.Q.c lev g f))
   rw [e1]
   exact h0
+
+local instance (priority := 2000) moduleCuspAForLevRep (a : (D.host.E →+* ℂ) × ℕ → ℕ) (n : ℕ) :
+    Module T.Q.c.F (T.cuspA j a n) := Submodule.module (T.cuspA j a n)
 
 def levRep (h : LawsM T) (hj : InR D j) (hL : ActLev (Xo := T.Q.Xo j) T.Q.c lev) (w : WeightFamilies.Wt D j) :
     G →* (T.cuspA j (wtA w) w.n →ₗ[T.Q.c.F] T.cuspA j (wtA w) w.n) where

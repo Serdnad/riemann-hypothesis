@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
 public import Mathlib.Analysis.CStarAlgebra.Classes
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsInfiniteAdelicCharNeOne
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FactorialTendstoZero
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle075
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle021
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.UnitaryAnnihilator
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalPlace

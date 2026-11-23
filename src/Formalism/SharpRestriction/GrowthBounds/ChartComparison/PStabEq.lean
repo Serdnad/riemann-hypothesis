@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocCore
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsOrb
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle005
 import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ColSpanMap
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.RationalPointsLeHolds
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

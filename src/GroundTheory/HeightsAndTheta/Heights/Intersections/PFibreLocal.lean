@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreLocal
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Statements
 public import GroundTheory.HeightsAndTheta.Heights.FlagBundles.Assembly
 import GroundTheory.HeightsAndTheta.Heights.FlagBundles.PFibreIntegralInvariant
@@ -54,7 +54,7 @@ import Mathlib.Tactic.TypeStar
 public import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.KappaA
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.KappaB
 import Std.Tactic.BVDecide.Normalize.Prop
 

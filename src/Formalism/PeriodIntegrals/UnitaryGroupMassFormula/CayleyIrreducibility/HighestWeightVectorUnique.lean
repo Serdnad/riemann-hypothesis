@@ -1,13 +1,12 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CayleyIrreducibility.DivClosedOf
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwrowLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWLine
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowDivStable
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.SumIcoTsubTelescope
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.WeylLeDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

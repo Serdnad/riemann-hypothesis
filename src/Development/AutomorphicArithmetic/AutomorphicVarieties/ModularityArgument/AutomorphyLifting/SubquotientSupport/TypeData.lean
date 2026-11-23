@@ -1,11 +1,11 @@
 module
 
 public import Mathlib.NumberTheory.NumberField.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BernsteinZelevinskyFinitenessHolds
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1827
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasSupportOfIsSubquotientProdIrr
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIrreducibleSecondFactorOfIrreducibleProduct
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ToralAndGoodOfIsSpherical
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedWeilDeligneEqDiagonalInv
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle705
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle416
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AbsCentral
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,17 +40,11 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.CuspidalSupport2
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.DeterminantVector
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle009
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle006
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Isotypic₂
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PProdRc
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSumList
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PUntwistRc
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.ProductIrreducible2
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.ScalarInertia
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.SphericalUnramified
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.UnramifiedTwist
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Brauer
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle034
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
 import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.KIface
 
@@ -67,7 +61,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 namespace UpperTheory.V.Z.Win.T2
 
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
-  {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : IsPlaceOver A w}
+  {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w}
   {a : Weil h →* (w.adicCompletion E)ˣ} {ha : IsLocalArtin h a} {ε : EpsFamily A}
   {rc : IrrGL (k := w.adicCompletion E) → WD h}
 

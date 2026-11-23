@@ -227,7 +227,7 @@ theorem ti_ker [CharZero k] (hy : TIHyp H res ρ κ Gm T R P) (t : Γ) (ht : t �
 end Gen
 
 theorem ti_tenB_val {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime] {c : Coef l}
-    (ρ₁ τ : G ℚ Ω →* M2 c.O) (x : G ℚ Ω) :
+    (ρ₁ τ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* M2 c.O) (x : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) :
     ((tenB ρ₁ τ x : GL (Fin 4) (Qbar l)) : Matrix (Fin 4) (Fin 4) (Qbar l)) =
       tn (mapRep (algebraMap c.O (PadicAlgCl l)) ρ₁ x) (mapRep (algebraMap c.O (PadicAlgCl l)) τ x) := by
   ext i j

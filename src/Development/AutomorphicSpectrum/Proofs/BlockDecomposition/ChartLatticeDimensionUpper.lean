@@ -1,30 +1,30 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsKodairaGeneric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle053
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsFieldSubalgebraSelf
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimensionalChartLattice
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinrankChartLatQMono
-import Development.WeilBound.CoreStatements.HodgeTatePoints.A12
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.A28
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle237
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle177
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle038
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle041
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.A36
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.KTwins
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.KleimanInputUniverseZero
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.SiuaNum
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.SiubOf
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Assembly
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle037
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle001
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle036
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle014
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PCutRegular
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLiftBirationalNef
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefPlusAmpleDegree
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.BlockVecSegreJoin
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle044
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle095
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle045
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
 import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsNeZeroOfWeight
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTer
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsMultiProjPrimeMIdealOverGraph
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsMultiProjPrimeSegreLift
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RelDimMIdealOverEqTrdeg
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ZpowMemSubalgebraOfInvMem
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle058
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle050
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle060
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle055
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle054
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

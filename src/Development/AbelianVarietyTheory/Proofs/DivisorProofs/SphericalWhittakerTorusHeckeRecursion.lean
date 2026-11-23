@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.MacdonaldHecke
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.NotIsGenericDetRepTwo
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle002
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import GroundTheory.AutomorphicForms.AffineBruhat
 public import GroundTheory.GlobalFields.CompletionAtPlace.Inertia

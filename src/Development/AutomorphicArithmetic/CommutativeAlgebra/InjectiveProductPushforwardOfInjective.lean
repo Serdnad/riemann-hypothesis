@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.BconeDefs
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

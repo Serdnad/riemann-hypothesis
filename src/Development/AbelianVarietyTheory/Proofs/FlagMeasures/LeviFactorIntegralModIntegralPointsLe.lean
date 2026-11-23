@@ -1,13 +1,13 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeftQuotientCovolumeWithDensityDetNormSq
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamental
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamentalStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagLeviRealPlacesProductMeasureStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeftQuotientCovolumeWithDensityDetNormSqStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LintegralRpowNegChangeOfVariable
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle283
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle137
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalUnitaryPointsDiscreteFundamentalDomain
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -266,7 +266,7 @@ section GenLin
 
 variable {E : Type} [Field E] [NumberField E] {j : ℕ}
 
-theorem measurable_detNorm : Measurable (detNorm E j) := by
+theorem measurable_detNorm : Measurable (_root_.GlobalTheory.FlagMeas.detNorm E j) := by
   have hc : Continuous fun x : InfinitePlace E → Fin j → Fin j → ℂ =>
       ∏ w, ‖(Matrix.of (x w)).det‖ ^ 2 := by
     refine continuous_finsetProd _ fun w _ => ?_
@@ -284,7 +284,7 @@ theorem sigmaFinite_haarGL : SigmaFinite (haarGL E j) := by
   exact SigmaFinite.withDensity_ofReal _
 
 theorem detNorm_aut_mul (hE : IsTotallyComplex E) {Λ : Submodule (𝓞 E) (Fin j → E)} (hΛ : Submodule.IsFullLattice E Λ)
-    {γ : MatInf E j} (hγ : γ ∈ autGL E j Λ) (g : MatInf E j) : detNorm E j (γ * g) = detNorm E j g := by
+    {γ : MatInf E j} (hγ : γ ∈ autGL E j Λ) (g : MatInf E j) : _root_.GlobalTheory.FlagMeas.detNorm E j (γ * g) = _root_.GlobalTheory.FlagMeas.detNorm E j g := by
   obtain ⟨γ', hγΛ, hγw⟩ := hγ
 
   have hstab : ∀ a : 𝓞 E, ∀ y ∈ Submodule.span ℚ (Λ : Set (Fin j → E)),
@@ -408,35 +408,35 @@ theorem detNorm_aut_mul (hE : IsTotallyComplex E) {Λ : Submodule (𝓞 E) (Fin 
     simp_rw [h1, InfinitePlace.norm_embedding_eq]
     rw [← hnorm, ← InfinitePlace.prod_eq_abs_norm]
     simp_rw [h2]
-  unfold detNorm
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   have h3 : ∀ w, (Matrix.of ((γ * g) w)).det = (Matrix.of (γ w)).det * (Matrix.of (g w)).det :=
     fun w => by rw [← Matrix.det_mul]; rfl
   simp_rw [h3, norm_mul, mul_pow, Finset.prod_mul_distrib, hprod, one_mul]
 
-theorem haarGL_restrict (hj : 1 ≤ j) : (haarGL E j).restrict {g | 0 < detNorm E j g} = haarGL E j := by
+theorem haarGL_restrict (hj : 1 ≤ j) : (haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} = haarGL E j := by
   apply GlobalTheory.DetSlab.restrict_pos <;> assumption
 
 theorem exists_dom (hE : IsTotallyComplex E) (hj : 1 ≤ j) {Λ : Submodule (𝓞 E) (Fin j → E)}
     (hΛ : Submodule.IsFullLattice E Λ) {N κ : ℝ} (hN : 0 < N) (hκ : 0 < κ) :
-    ∃ D : Set (MatInf E j), MeasurableSet D ∧ D ⊆ {g | 0 < detNorm E j g} ∧
-      (∀ g, 0 < detNorm E j g → ∃ γ ∈ autGL E j Λ, γ * g ∈ D) ∧
-      ∀ G : ℝ → ENNReal, Measurable G → ∫⁻ x in D, G ((detNorm E j x / κ) ^ (-(1 / N))) ∂haarGL E j =
+    ∃ D : Set (MatInf E j), MeasurableSet D ∧ D ⊆ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} ∧
+      (∀ g, 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g → ∃ γ ∈ autGL E j Λ, γ * g ∈ D) ∧
+      ∀ G : ℝ → ENNReal, Measurable G → ∫⁻ x in D, G ((_root_.GlobalTheory.FlagMeas.detNorm E j x / κ) ^ (-(1 / N))) ∂haarGL E j =
         slabVol E j Λ * ∫⁻ t in Set.Ioi (0 : ℝ), G t * ENNReal.ofReal (N / t) := by
   obtain ⟨D, hDm, hDpos, hDcov, -, hDint⟩ :=
     GlobalTheory.T.exists_scalarStable_latticeAutomorphismFundamentalDomain E hE j Λ hΛ
   refine ⟨D, hDm, hDpos, hDcov, fun G hG => ?_⟩
-  have hAm : MeasurableSet {g : MatInf E j | 0 < detNorm E j g} :=
+  have hAm : MeasurableSet {g : MatInf E j | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} :=
     measurableSet_lt measurable_const measurable_detNorm
   have hF : Measurable fun t : ℝ => G ((t / κ) ^ (-(1 / N))) :=
     hG.comp ((measurable_id.div_const κ).pow_const (-(1 / N)))
-  have hGd : Measurable fun x : MatInf E j => G ((detNorm E j x / κ) ^ (-(1 / N))) :=
+  have hGd : Measurable fun x : MatInf E j => G ((_root_.GlobalTheory.FlagMeas.detNorm E j x / κ) ^ (-(1 / N))) :=
     hF.comp measurable_detNorm
-  have h1 := hDint (fun x => G ((detNorm E j x / κ) ^ (-(1 / N)))) {g | 0 < detNorm E j g}
+  have h1 := hDint (fun x => G ((_root_.GlobalTheory.FlagMeas.detNorm E j x / κ) ^ (-(1 / N)))) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}
     (hGd.indicator hAm)
     (fun γ hγ g _ => by beta_reduce; rw [detNorm_aut_mul hE hΛ hγ g])
     hAm (fun _ h => h)
     (fun γ hγ g hg => by
-      show 0 < detNorm E j (γ * g)
+      show 0 < _root_.GlobalTheory.FlagMeas.detNorm E j (γ * g)
       rw [detNorm_aut_mul hE hΛ hγ g]
       exact hg)
   rw [haarGL_restrict hj, Set.inter_eq_right.2 hDpos] at h1
@@ -476,15 +476,15 @@ theorem covol_leviGroup_le : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf :
         ∫⁻ τ in {τ : Fin a → ℝ | ∀ i, 0 < τ i}, F τ * ENNReal.ofReal (∏ i, 2 * (I.f : ℝ) * j i / τ i))
       fun D₀ hD₀m hD₀cov => ?_) (le_of_eq (by ring))
 
-  have hPosm : MeasurableSet {z₁ : ∀ i, MatInf I.E (j i) | ∀ i, 0 < detNorm I.E (j i) (z₁ i)} := by
-    have : {z₁ : ∀ i, MatInf I.E (j i) | ∀ i, 0 < detNorm I.E (j i) (z₁ i)} =
-        Set.univ.pi fun i => {g | 0 < detNorm I.E (j i) g} := by
+  have hPosm : MeasurableSet {z₁ : ∀ i, MatInf I.E (j i) | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)} := by
+    have : {z₁ : ∀ i, MatInf I.E (j i) | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)} =
+        Set.univ.pi fun i => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) g} := by
       ext z; simp
     rw [this]
     exact MeasurableSet.univ_pi fun i => measurableSet_lt measurable_const measurable_detNorm
   obtain ⟨ρ, hρ⟩ : ∃ ρ : Measure ((∀ i, MatInf I.E (j i)) × I₀.Ginf),
       ρ = ((Measure.pi fun i => haarGL I.E (j i)).restrict
-        {z₁ | ∀ i, 0 < detNorm I.E (j i) (z₁ i)}).prod (Measure.pi fun v => Formalism.REAL.muG (I₀.ε v)) :=
+        {z₁ | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)}).prod (Measure.pi fun v => Formalism.REAL.muG (I₀.ε v)) :=
     ⟨_, rfl⟩
   have hmeas : Measure.pi μM = ((∏ i, ENNReal.ofReal (2 ^ (I.f * j i ^ 2))) *
       ENNReal.ofReal (∏ v, c₀ v)) • Measure.map Θ ρ := by
@@ -502,16 +502,16 @@ theorem covol_leviGroup_le : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf :
       ENNReal.ofReal (∏ v, c₀ v) := ⟨_, rfl⟩
   rw [← hC] at hmeas
   obtain ⟨ψ, hψdef⟩ : ∃ ψ : (∀ i, MatInf I.E (j i)) → ENNReal, ∀ z₁, ψ z₁ =
-      F (fun i => (detNorm I.E (j i) (z₁ i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) :=
+      F (fun i => (_root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) :=
     ⟨_, fun _ => rfl⟩
   have hψ : Measurable ψ := by
-    have hψf : ψ = fun z₁ => F (fun i => (detNorm I.E (j i) (z₁ i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) :=
+    have hψf : ψ = fun z₁ => F (fun i => (_root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) :=
       funext hψdef
     rw [hψf]
     exact hF.comp (Measurable.of_eval fun i =>
       ((measurable_detNorm.comp (measurable_pi_apply i)).div_const _).pow_const _)
   have hBoxm : MeasurableSet ((Set.univ.pi D) ×ˢ D₀) := (MeasurableSet.univ_pi hDm).prod hD₀m
-  have hBoxpos : ∀ z ∈ (Set.univ.pi D) ×ˢ D₀, ∀ i, 0 < detNorm I.E (j i) (z.1 i) :=
+  have hBoxpos : ∀ z ∈ (Set.univ.pi D) ×ˢ D₀, ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i) :=
     fun z hz i => hDpos i (hz.1 i (Set.mem_univ i))
   have hDDm : MeasurableSet (Θ '' ((Set.univ.pi D) ×ˢ D₀)) :=
     hBoxm.image_of_measurable_injOn hΘm fun z hz z' hz' h =>
@@ -556,7 +556,7 @@ theorem covol_leviGroup_le : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf :
         have hle : ∫⁻ m, (Θ '' ((Set.univ.pi D) ×ˢ D₀)).indicator (fun m => F (sizesAt I xf S m)) m
             ∂Measure.map Θ ρ ≤ ∫⁻ z, ((Set.univ.pi D) ×ˢ D₀).indicator (fun z => ψ z.1) z ∂ρ := by
           refine le_trans (lintegral_map_le _ hΘm.aemeasurable) (lintegral_mono_ae ?_)
-          have hae : ∀ᵐ z ∂ρ, ∀ i, 0 < detNorm I.E (j i) (z.1 i) := by
+          have hae : ∀ᵐ z ∂ρ, ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i) := by
             rw [hρ]
             exact Measure.QuasiMeasurePreserving.ae Measure.quasiMeasurePreserving_fst
               (ae_restrict_mem hPosm)
@@ -574,9 +574,9 @@ theorem covol_leviGroup_le : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf :
           (Measure.pi fun v => Formalism.REAL.muG (I₀.ε v)) D₀) := by
         refine mul_le_mul' le_rfl ?_
         have hprod : ∫⁻ z, ((Set.univ.pi D) ×ˢ D₀).indicator (fun z => ψ z.1) z
-            ∂(((Measure.pi fun i => haarGL I.E (j i)).restrict {z₁ | ∀ i, 0 < detNorm I.E (j i) (z₁ i)}).prod
+            ∂(((Measure.pi fun i => haarGL I.E (j i)).restrict {z₁ | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)}).prod
               (Measure.pi fun v => Formalism.REAL.muG (I₀.ε v))) =
-            ∫⁻ z₁ in {z₁ | ∀ i, 0 < detNorm I.E (j i) (z₁ i)}, ∫⁻ z₂, ((Set.univ.pi D) ×ˢ D₀).indicator
+            ∫⁻ z₁ in {z₁ | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)}, ∫⁻ z₂, ((Set.univ.pi D) ×ˢ D₀).indicator
               (fun z => ψ z.1) (z₁, z₂) ∂(Measure.pi fun v => Formalism.REAL.muG (I₀.ε v))
               ∂(Measure.pi fun i => haarGL I.E (j i)) :=
           lintegral_prod _ ((hψ.comp measurable_fst).indicator hBoxm).aemeasurable
@@ -590,7 +590,7 @@ theorem covol_leviGroup_le : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf :
         refine (lintegral_congr fun z => hψdef z).trans_le ?_
         refine (lintegral_pi_comp (volume.restrict (Set.Ioi 0)) a (fun i => MatInf I.E (j i))
           (fun i => (haarGL I.E (j i)).restrict (D i))
-          (fun i x => (detNorm I.E (j i) x / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i))))
+          (fun i x => (_root_.GlobalTheory.FlagMeas.detNorm I.E (j i) x / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i))))
           (fun i t => ENNReal.ofReal (2 * (I.f : ℝ) * j i / t)) (fun i => slabVol I.E (j i) (Λ i))
           (fun i => (measurable_detNorm.div_const _).pow_const _)
           (fun i => (measurable_const.div measurable_id).ennreal_ofReal)

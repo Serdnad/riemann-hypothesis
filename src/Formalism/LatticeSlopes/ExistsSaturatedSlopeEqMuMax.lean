@@ -2,17 +2,13 @@ module
 
 public import Formalism.LatticeSlopes.CovolAntiSameRank
 import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqCovolume
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
 import Formalism.LatticeSlopes.LatticeSlopesProofs.FiniteSaturated
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.GramDetLe
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.MuMaxLeMin
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.OrthSum
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SaturationProperties
-import Formalism.LatticeSlopes.LatticeSlopesProofs.ShortVector
-import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopeLeMuMaxOf
-import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopesBdd
+import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

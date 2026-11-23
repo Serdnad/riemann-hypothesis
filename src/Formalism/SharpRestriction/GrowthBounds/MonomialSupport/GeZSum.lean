@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.RestPlOf
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.LowestWeightCNonpos
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.DerivativeValuationBounds
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationBoundDetPowerFactor
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle014
 import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.TwistedMonomialFiltration.MaxTwistDegreePderivLeAddOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

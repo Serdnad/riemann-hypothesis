@@ -1,7 +1,7 @@
 module
 
 import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ExistsPowIdem
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LinearDescent
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.IsCrdExists
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.SecondBranchInclLengthOfLengths
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.SharpRestriction.GlobalSchurBounds.LemmaBSecondBranchOfLength
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.CrdLBwLe
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.PowSmulLatticeLeWeightLatticeTop

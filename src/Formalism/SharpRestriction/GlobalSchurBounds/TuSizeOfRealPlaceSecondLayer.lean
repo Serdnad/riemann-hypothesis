@@ -2,15 +2,15 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.DiscreteSeriesOfFormalDegree
 public import Formalism.SharpRestriction.GlobalSchurBounds.LinkTied
-public import Formalism.SharpRestriction.GlobalSchurBounds.LogXLowerFamilyOfTheorems
-public import Formalism.SharpRestriction.GlobalSchurBounds.MassRatioUnfoldedOfTheoremTwo
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle006
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.SecondBranchAllMembers
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.LowerSlopeInequalityFamily
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle005
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PStmtFree
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.PacketStatementOfIndependence
 public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.IntegralAtT0Lattice
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalLinkOfBranchIdentitiesAndMultiplicity
-public import Formalism.SharpRestriction.GlobalSchurBounds.MainSup
+public import Formalism.SharpRestriction.GlobalSchurBounds.Bundle005
 public import Formalism.SharpRestriction.GlobalSchurBounds.RamifiedLevelZeroHolds
 public import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeFamilyOfGappedMultiplicity
 import Mathlib.Algebra.Order.Floor.Extended

@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PadicSubsetSums.CentralIdempotents.WindowSums
+import Formalism.PadicSubsetSums.CentralIdempotents.Bundle001
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic
 public import Mathlib.RingTheory.PowerSeries.Inverse
 

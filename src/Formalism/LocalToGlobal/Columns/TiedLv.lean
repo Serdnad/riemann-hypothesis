@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.TiedAtT
-public import Formalism.LocalToGlobal.Columns.BtExistsSmulLeOfFg
-public import Formalism.LocalToGlobal.Columns.TiedCls
+public import Formalism.LocalToGlobal.Columns.Bundle038
+public import Formalism.LocalToGlobal.Columns.Bundle032
+public import Formalism.LocalToGlobal.Columns.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

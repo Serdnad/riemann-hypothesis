@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.GlobalFields.ClassFieldConsequences.HilbertClassField
-public import GroundTheory.GlobalFields.ComplexMultiplication.Algebraicity
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle010
 public import GroundTheory.GlobalFields.ComplexMultiplication.HilbertClassFieldArtin
-public import GroundTheory.GlobalFields.ComplexMultiplication.HilbertClassFieldModels
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 public import GroundTheory.GlobalFields.ComplexMultiplication.AlgebraicityClass
-public import GroundTheory.GlobalFields.ComplexMultiplication.AlgebraicityGalois
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle011
 
 @[expose] public section
 

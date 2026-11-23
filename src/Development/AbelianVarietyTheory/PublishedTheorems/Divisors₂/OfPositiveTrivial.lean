@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.DataCD
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ExistsStabiliserImageSubgroup
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle024
 public import Mathlib.GroupTheory.Commensurable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

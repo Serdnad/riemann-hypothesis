@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SignsCup
-import GroundTheory.ProfiniteCohomology.Colimit
+import GroundTheory.ProfiniteCohomology.Bundle007
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalDegreeGen
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.RealPlaces
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.SumInvariants

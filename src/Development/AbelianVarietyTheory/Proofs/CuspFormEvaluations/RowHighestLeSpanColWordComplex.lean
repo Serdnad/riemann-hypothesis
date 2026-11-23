@@ -5,9 +5,9 @@ public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SumSmu
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
 public import Mathlib.Analysis.Complex.Basic
 public import Mathlib.RingTheory.TensorProduct.MvPolynomial
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.EventuallyExistsMulIsLowerTriangular
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsEqMulProdMinors
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsJointIntEigenvectorOfStable
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle002
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Sl2NonnegWeightOfHighestWeightVector
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

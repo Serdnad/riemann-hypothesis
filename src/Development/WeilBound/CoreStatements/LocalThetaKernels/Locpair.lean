@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairRep
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductFunctionOnSumCoordsMemAdelicSchwartzSpace
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.BoxFunMemSB
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1191
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
 import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissible
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictAd
 import GroundTheory.LocalFields.LocalFourierHaar
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.FinSplit
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
 
 @[expose] public section
 

@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KCoinvOfNarrow
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.PfDict
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDict
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfSurj
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.BernsteinNarrowness.BernsteinClosure.RamifiedMultiplicityOne
 public import Development.WeilBound.ThetaLifts.SphericalLattices.BelowIffRows
-public import Development.WeilBound.ThetaLifts.SphericalLattices.SphSplitOf
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

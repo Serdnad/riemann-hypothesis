@@ -1,0 +1,298 @@
+module
+
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
+public import Mathlib.RingTheory.RamificationInertia.Inertia
+public import Mathlib.Topology.Algebra.Module.ModuleTopology
+public import GroundTheory.GlobalFields.SemilocalAlgebras.LocalDegree
+import Mathlib.Algebra.Module.StablyFree.Basic
+public import GroundTheory.GlobalFields.SemilocalAlgebras.InfiniteAdele
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+public import Mathlib.RingTheory.RamificationInertia.Basic
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Connected.Separation
+import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+namespace GroundTheory.Global
+
+open IsDedekindDomain NumberField TensorProduct Module
+
+noncomputable section
+
+namespace SemiLocal
+
+variable {K L : Type*} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
+variable (L) (v : HeightOneSpectrum (𝓞 K))
+
+abbrev CompletionsOver : Type _ := (w : PlacesOver L v) → w.1.adicCompletion L
+
+def tensorMap : v.adicCompletion K ⊗[K] L →ₐ[v.adicCompletion K] CompletionsOver L v :=
+  Algebra.TensorProduct.lift (Algebra.ofId _ _) (IsScalarTower.toAlgHom K L _)
+    (fun _ _ ↦ Commute.all _ _)
+
+@[simp] theorem tensorMap_tmul (a : v.adicCompletion K) (x : L) :
+    tensorMap L v (a ⊗ₜ x) =
+      algebraMap (v.adicCompletion K) (CompletionsOver L v) a * algebraMap L _ x := by
+  simp [tensorMap]
+
+theorem denseRange_algebraMap_completionsOver :
+    DenseRange (algebraMap L (CompletionsOver L v)) :=
+  denseRange_algebraMap_pi (fun w : PlacesOver L v ↦ w.1) Subtype.val_injective
+
+open scoped Valued in
+theorem tensorMap_surjective : Function.Surjective (tensorMap L v) := by
+  have hclosed : IsClosed (LinearMap.range (tensorMap L v).toLinearMap :
+      Set (CompletionsOver L v)) :=
+    Submodule.isClosed_of_finiteDimensional _
+  have hdense : Dense (Set.range (tensorMap L v)) := by
+    refine (denseRange_algebraMap_completionsOver L v).mono ?_
+    rintro _ ⟨x, rfl⟩
+    exact ⟨1 ⊗ₜ x, by simp⟩
+  rw [LinearMap.coe_range] at hclosed
+  have h2 : closure (Set.range (tensorMap L v)) = Set.range (tensorMap L v) := hclosed.closure_eq
+  rw [← Set.range_eq_univ, ← h2, hdense.closure_eq]
+
+theorem sum_finrank_le :
+    ∑ w : PlacesOver L v, finrank (v.adicCompletion K) (w.1.adicCompletion L) ≤ finrank K L := by
+  rw [← Module.finrank_pi_fintype]
+  calc _ ≤ finrank (v.adicCompletion K) (v.adicCompletion K ⊗[K] L) :=
+        LinearMap.finrank_le_finrank_of_surjective (f := (tensorMap L v).toLinearMap)
+          (tensorMap_surjective L v)
+    _ = finrank K L := Module.finrank_baseChange
+
+theorem sum_ramificationIdx_mul_inertiaDeg :
+    ∑ w : PlacesOver L v, w.1.asIdeal.ramificationIdx (𝓞 K) * w.1.asIdeal.inertiaDeg (𝓞 K) =
+      finrank K L := by
+  have := v.isPrime
+  rw [IsFractionRing.finrank_eq (𝓞 K) K (𝓞 L) L,
+    ← Ideal.sum_ramification_inertia_eq_finrank v.asIdeal (𝓞 L)]
+  exact Fintype.sum_equiv (placesOverEquiv L v) _ _ (fun _ ↦ rfl)
+
+theorem sum_finrank_eq :
+    ∑ w : PlacesOver L v, finrank (v.adicCompletion K) (w.1.adicCompletion L) = finrank K L := by
+  refine le_antisymm (sum_finrank_le L v) ?_
+  rw [← sum_ramificationIdx_mul_inertiaDeg L v]
+  exact Finset.sum_le_sum fun w _ ↦ ramificationIdx_mul_inertiaDeg_le_finrank v w.1
+
+theorem finrank_eq_ramificationIdx_mul_inertiaDeg (w : HeightOneSpectrum (𝓞 L))
+    [w.asIdeal.LiesOver v.asIdeal] :
+    finrank (v.adicCompletion K) (w.adicCompletion L) =
+      w.asIdeal.ramificationIdx (𝓞 K) * w.asIdeal.inertiaDeg (𝓞 K) := by
+  have h := (Finset.sum_eq_sum_iff_of_le
+    (fun (w : PlacesOver L v) _ ↦ ramificationIdx_mul_inertiaDeg_le_finrank v w.1)).1
+    (by rw [sum_ramificationIdx_mul_inertiaDeg, sum_finrank_eq])
+  exact (h ⟨w, inferInstance⟩ (Finset.mem_univ _)).symm
+
+theorem tensorMap_injective : Function.Injective (tensorMap L v) :=
+  (LinearMap.injective_iff_surjective_of_finrank_eq_finrank
+    (f := (tensorMap L v).toLinearMap)
+    (by rw [Module.finrank_baseChange, Module.finrank_pi_fintype, sum_finrank_eq])).2
+    (tensorMap_surjective L v)
+
+def tensorEquiv : v.adicCompletion K ⊗[K] L ≃ₐ[v.adicCompletion K] CompletionsOver L v :=
+  AlgEquiv.ofBijective (tensorMap L v) ⟨tensorMap_injective L v, tensorMap_surjective L v⟩
+
+@[simp] theorem tensorEquiv_tmul (a : v.adicCompletion K) (x : L) :
+    tensorEquiv L v (a ⊗ₜ x) =
+      algebraMap (v.adicCompletion K) (CompletionsOver L v) a * algebraMap L _ x :=
+  tensorMap_tmul L v a x
+
+@[simp] theorem tensorEquiv_one_tmul (x : L) :
+    tensorEquiv L v (1 ⊗ₜ x) = algebraMap L (CompletionsOver L v) x := by
+  simp
+
+def tensorMap' : L ⊗[K] v.adicCompletion K →ₐ[L] CompletionsOver L v :=
+  Algebra.TensorProduct.lift (Algebra.ofId L _)
+    (IsScalarTower.toAlgHom K (v.adicCompletion K) _) (fun _ _ ↦ Commute.all _ _)
+
+@[simp] theorem tensorMap'_tmul (x : L) (a : v.adicCompletion K) :
+    tensorMap' L v (x ⊗ₜ a) =
+      algebraMap L (CompletionsOver L v) x * algebraMap (v.adicCompletion K) _ a := by
+  simp [tensorMap']
+
+theorem tensorMap'_eq_comp :
+    ⇑(tensorMap' L v) = tensorEquiv L v ∘ Algebra.TensorProduct.comm K L (v.adicCompletion K) := by
+  have : (tensorMap' L v).restrictScalars K =
+      ((tensorEquiv L v).toAlgHom.restrictScalars K).comp
+        (Algebra.TensorProduct.comm K L (v.adicCompletion K)).toAlgHom :=
+    Algebra.TensorProduct.ext' fun x a ↦ by simp [mul_comm]
+  exact congrArg DFunLike.coe this
+
+def tensorEquiv' : L ⊗[K] v.adicCompletion K ≃ₐ[L] CompletionsOver L v :=
+  AlgEquiv.ofBijective (tensorMap' L v) (by
+    rw [tensorMap'_eq_comp]
+    exact (tensorEquiv L v).bijective.comp (AlgEquiv.bijective _))
+
+@[simp] theorem tensorEquiv'_tmul (x : L) (a : v.adicCompletion K) :
+    tensorEquiv' L v (x ⊗ₜ a) =
+      algebraMap L (CompletionsOver L v) x * algebraMap (v.adicCompletion K) _ a :=
+  tensorMap'_tmul L v x a
+
+theorem tensorEquiv'_tmul_mul (a : v.adicCompletion K) (y : L ⊗[K] v.adicCompletion K) :
+    tensorEquiv' L v ((1 ⊗ₜ a) * y) =
+      algebraMap (v.adicCompletion K) (CompletionsOver L v) a * tensorEquiv' L v y := by
+  rw [map_mul, tensorEquiv'_tmul, map_one, one_mul]
+
+
+open scoped Valued in
+instance isModuleTopology_completionsOver :
+    IsModuleTopology (v.adicCompletion K) (CompletionsOver L v) :=
+  isModuleTopologyOfFiniteDimensional (𝕜 := v.adicCompletion K)
+
+end SemiLocal
+
+end
+
+end GroundTheory.Global
+end
+
+section
+
+noncomputable section
+
+namespace GroundTheory.Global
+
+open NumberField NumberField.InfinitePlace NumberField.InfinitePlace.Completion
+open scoped NumberField.LiesOver TensorProduct
+
+namespace InfinitePlace
+
+variable {K L : Type*} [Field K] [Field L] [Algebra K L] [NumberField K] [NumberField L]
+
+attribute [local instance] Algebra.TensorProduct.rightAlgebra
+
+def piPlacesOverCoord {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι K L)
+    (v : InfinitePlace K) (i : ι) : PiPlacesOver (L := L) v →ₗ[v.Completion] v.Completion :=
+  ((Algebra.TensorProduct.basis v.Completion b).coord i).comp
+    (tensorPiEquiv (L := L) v).symm.toLinearMap
+
+theorem continuous_piPlacesOverCoord {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Module.Basis ι K L) (v : InfinitePlace K) (i : ι) :
+    Continuous (piPlacesOverCoord b v i) :=
+  LinearMap.continuous_of_finiteDimensional _
+
+theorem sum_piPlacesOverCoord {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι K L)
+    (v : InfinitePlace K) (y : PiPlacesOver (L := L) v) (w : v.placesOver L) :
+    ∑ i, algebraMap v.Completion _ (piPlacesOverCoord b v i y) *
+      (b i : (w : InfinitePlace L).Completion) = y w := by
+  have h := (Algebra.TensorProduct.basis v.Completion b).sum_repr
+    ((tensorPiEquiv (L := L) v).symm y)
+  have h2 := congrArg (fun z => tensorPiEquiv (L := L) v z w) h
+  simp only [AlgEquiv.apply_symm_apply] at h2
+
+  rw [← h2, map_sum, Finset.sum_apply]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [Algebra.TensorProduct.basis_apply, map_smul, Pi.smul_apply, tensorPiEquiv_apply,
+    tensorPiHom_tmul, map_one, one_mul, Algebra.smul_def]
+  rfl
+
+def adeleCoord {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι K L) (i : ι)
+    (y : InfiniteAdeleRing L) : InfiniteAdeleRing K :=
+  fun v => piPlacesOverCoord b v i (fun w => y w)
+
+theorem continuous_adeleCoord {ι : Type*} [Fintype ι] [DecidableEq ι] (b : Module.Basis ι K L)
+    (i : ι) : Continuous (adeleCoord b i) :=
+  continuous_pi fun v => (continuous_piPlacesOverCoord b v i).comp
+    (continuous_pi fun w => continuous_apply (w : InfinitePlace L))
+
+theorem tensorInfiniteAdeleRingEquiv_sum_adeleCoord {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Module.Basis ι K L) (y : InfiniteAdeleRing L) :
+    tensorInfiniteAdeleRingEquiv (∑ i, b i ⊗ₜ[K] adeleCoord b i y) = y := by
+  funext w
+  have ev : ∀ f : ι → InfiniteAdeleRing L, (∑ i, f i) w = ∑ i, f i w := fun f =>
+    map_sum (Pi.evalAddMonoidHom (fun w : InfinitePlace L => w.Completion) w) f Finset.univ
+
+  rw [map_sum, ev]
+  simp_rw [tensorInfiniteAdeleRingEquiv_tmul]
+  have := sum_piPlacesOverCoord b (w.comap (algebraMap K L)) (fun w' => y w') ⟨w, liesOver_comap w⟩
+  rw [← this]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [mul_comm]
+  rfl
+
+def tmulLeft (l : L) : InfiniteAdeleRing K →ₗ[InfiniteAdeleRing K] L ⊗[K] InfiniteAdeleRing K where
+  toFun x := l ⊗ₜ x
+  map_add' x y := TensorProduct.tmul_add _ _ _
+  map_smul' c x := by
+    change l ⊗ₜ (c * x) = (1 ⊗ₜ c) * (l ⊗ₜ x)
+    rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
+
+def tensorInfiniteAdeleRingHomeomorph :
+    letI := moduleTopology (InfiniteAdeleRing K) (L ⊗[K] InfiniteAdeleRing K)
+    L ⊗[K] InfiniteAdeleRing K ≃ₜ InfiniteAdeleRing L :=
+  letI := moduleTopology (InfiniteAdeleRing K) (L ⊗[K] InfiniteAdeleRing K)
+  haveI : IsModuleTopology (InfiniteAdeleRing K) (L ⊗[K] InfiniteAdeleRing K) := ⟨rfl⟩
+  haveI := IsModuleTopology.toContinuousAdd (InfiniteAdeleRing K) (L ⊗[K] InfiniteAdeleRing K)
+  let b := Module.finBasis K L
+  { toEquiv := (tensorInfiniteAdeleRingEquiv (K := K) (L := L)).toEquiv
+    continuous_toFun := by
+      let φ : L ⊗[K] InfiniteAdeleRing K →ₛₗ[infiniteAdeleRingMap (K := K) (L := L)]
+          InfiniteAdeleRing L :=
+        { toFun := tensorInfiniteAdeleRingEquiv
+          map_add' := map_add _
+          map_smul' := fun c t => by
+            change tensorInfiniteAdeleRingEquiv ((1 ⊗ₜ c) * t) = infiniteAdeleRingMap c * _
+            rw [map_mul, tensorInfiniteAdeleRingEquiv_tmul', map_one, one_mul] }
+      exact IsModuleTopology.continuous_of_linearMapₛₗ continuous_infiniteAdeleRingMap φ
+    continuous_invFun := by
+      have h : ∀ y, (tensorInfiniteAdeleRingEquiv (K := K) (L := L)).symm y =
+          ∑ i, tmulLeft (b i) (adeleCoord b i y) := fun y => by
+        rw [AlgEquiv.symm_apply_eq]
+        exact (tensorInfiniteAdeleRingEquiv_sum_adeleCoord b y).symm
+      change Continuous fun y => (tensorInfiniteAdeleRingEquiv (K := K) (L := L)).symm y
+      simp_rw [h]
+      exact continuous_finsetSum _ fun i _ =>
+        (IsModuleTopology.continuous_of_linearMap (tmulLeft (b i))).comp
+          (continuous_adeleCoord b i) }
+
+end InfinitePlace
+
+end GroundTheory.Global
+end
+end

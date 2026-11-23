@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselBoundFamilyOfDoubleCoset
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle012
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.OpNormLeOneOfIso
 public import Formalism.HermitianCurvature.StatementB
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.PsiMulStar
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.Bundle002
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormDiagonalEntryDilationGeneratorLeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselLine
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.Bundle001
 
 @[expose] public section
 
@@ -97,10 +97,20 @@ theorem cont_on (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (π : Mx k r → (Wp
           refine integral_mono_of_nonneg (ae_of_all _ fun _ => norm_nonneg _) hi.norm ?_
           filter_upwards [hM.1] with p hp
           exact norm_beF_le z c π σ w v hG hπ p hp.1
+  have hdsig : ∀ W : List (Mx k r),
+      _root_.Formalism.MainNotions.S.dsigW σ W w = _root_.PI.UpqRep.dsigW σ W w := by
+    intro W
+    induction W with
+    | nil => rfl
+    | cons X W ih =>
+      simp only [_root_.Formalism.MainNotions.S.dsigW, _root_.PI.UpqRep.dsigW, ih,
+        _root_.Formalism.MainNotions.S.dsig, _root_.PI.UpqRep.dsig]
   calc ‖be z c π μW μN σ w v x‖ ≤ ‖be z c π μW μN σ w v‖ * ‖x‖ := (be z c π μW μN σ w v).le_opNorm x
     _ ≤ (C * (Ws.map fun W => ‖dsigW σ W w‖).sum) * ‖x‖ :=
         mul_le_mul_of_nonneg_right (hI.trans (hb w hw).2) (norm_nonneg _)
-    _ = ‖x‖ * C * (Ws.map fun W => ‖dsigW σ W w‖).sum := by ring
+    _ = ‖x‖ * C * (Ws.map fun W => ‖_root_.PI.UpqRep.dsigW σ W w‖).sum := by
+      simp only [hdsig]
+      ring
 
 theorem equiv_on (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (π : Mx k r → (Wp →L[ℂ] Wp))
     (μW μN : Measure (Mt k r)) [SFinite μN] (σ : Mx k r → (H →L[ℂ] H)) {V : H → Prop}

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.AmpRootH
+public import Formalism.PeriodIntegrals.Bundle027
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.ReverseCauchySchwarzHolds
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupHaar.ContinuousGS
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.RootSubgroupHaar.MatEqZeroOfSpan

@@ -4,7 +4,7 @@ public import Mathlib
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackey
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ShapiroCoind
 import GroundTheory.ProfiniteCohomology.MackeyFormula
-import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityPlace
+import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackeyPlaces
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

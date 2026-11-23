@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalRingCardinality.DataArith
+public import Formalism.LocalRingCardinality.Bundle001
 public import Formalism.QuotientMetricDivisors.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

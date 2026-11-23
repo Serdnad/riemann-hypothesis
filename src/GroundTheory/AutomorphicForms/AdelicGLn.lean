@@ -3,10 +3,9 @@ module
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import GroundTheory.AutomorphicForms.RestrictedProductMatrix
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.AutomorphicForms.LocallyProfinite
-public import GroundTheory.GlobalFields.Adele.Compact
-public import GroundTheory.GlobalFields.Adele.Discrete
+public import GroundTheory.GlobalFields.Adele.Bundle003
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

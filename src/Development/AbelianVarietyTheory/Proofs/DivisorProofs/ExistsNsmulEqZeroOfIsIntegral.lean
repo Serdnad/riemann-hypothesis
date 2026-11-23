@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeBundleGeneratedOfModelIso
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2752
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoNormalizationPullbackOfToIntegralClosure
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsIntegralAppOfUniversallyClosed
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LbIsoOfDisjointCover
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle671
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle067
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHomBirationalModelsAmpleFrames
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMinAt
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle067
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUnifOfIsMumfordOf
 
 @[expose] public section
@@ -247,6 +247,8 @@ theorem exists_common_cover {R : Type} [CommRing R] [IsDedekindDomain R] [CharZe
     obtain ⟨y, rfl⟩ := this
     exact ⟨y, by simp⟩
   have : IsDominant p := .of_comp u p
+  letI : (Over.pullback t).Monoidal := (Over.instBraidedPullback (f := t)).toMonoidal
+  letI : GrpObj ((Over.pullback t).obj A) := Functor.grpObjObj (F := Over.pullback t) (G := A)
   have lift : ∀ {Y : Scheme.{0}} {B : Over Y} [GrpObj B] (q : f.normalization ⟶ Y) {c : U ⟶ Y} {χ : A.left ⟶ B.left},
       IsGrpPullback A B c χ → u ≫ q = t ≫ c →
       ∃ χ', IsGrpPullback ((Over.pullback t).obj A) ((Over.pullback q).obj B) u χ' := by

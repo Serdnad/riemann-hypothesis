@@ -1,14 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HopfLaurent
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuasiCompactZeroSec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CotangentFormOfSqZeroPointLinearNaturalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCotangentFrameSmoothGroupSchemeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSqZeroPointOfCotangentLinearMapStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteProjectiveCotangentGlobalSectionsGroupScheStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIsoToBidualOfLocalFrames
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpecTrivSqZeroExtIsPushoutStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SqZeroPointEqOfCotangentFormEqStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1099
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1204
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1171
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1175
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle850
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Divisors.AxesVanishingStructureSheafDegOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle021
 import Development.AbelianVarietyTheory.Definitions.Divisors.CommAlgFunctorCoboundaryZeroMemCocyclesOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.OneFormMapEqKaehlerDifferentialMap
 import Development.AbelianVarietyTheory.Definitions.Divisors.Pullback1MemHodgeFiltration

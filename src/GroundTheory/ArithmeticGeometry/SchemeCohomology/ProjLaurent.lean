@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjSpace
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle003
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjTwistAway
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

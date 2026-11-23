@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.CuspidalAdmissible
 public import GroundTheory.AutomorphicForms.InductionParabolic
 import GroundTheory.AutomorphicForms.AdmissibleInduction
 import GroundTheory.AutomorphicForms.GLnLattice
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

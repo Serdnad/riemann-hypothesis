@@ -8,7 +8,7 @@ import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingConstruction
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingExistence
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle084
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.WittOrthonormalBasis
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCSB
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,7 +55,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.HermitianCurvature.StatementJF
+import Formalism.HermitianCurvature.Bundle004
 
 @[expose] public section
 

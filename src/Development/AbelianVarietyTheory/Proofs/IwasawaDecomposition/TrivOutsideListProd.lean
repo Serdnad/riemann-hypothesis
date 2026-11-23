@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BlockLiftActionOnPrincipalCongruenceFixedVectors
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle278
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SplitPlaceProjectionEqZeroOfPlaceComponentEqZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsTrivOutsideLoc
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle807
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlacesInjective
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgHomEqOrConj
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSplitPlaceWPlGw
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle296
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeDoubleCosetOperatorsStandardFacts
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.SharpRestriction.Divisibility.LiftErrorLocal
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsCompOfOne
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle264
 import Formalism.LocalToGlobal.IndefiniteReal.RecTie
 
 @[expose] public section

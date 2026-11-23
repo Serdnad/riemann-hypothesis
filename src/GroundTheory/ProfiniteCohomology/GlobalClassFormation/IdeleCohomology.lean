@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.SDecomposition
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.Decompose
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.Ramified
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

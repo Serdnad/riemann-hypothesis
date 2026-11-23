@@ -2,7 +2,7 @@ module
 
 public import Formalism.CoboundaryTransfers.Statement
 public import Mathlib.Algebra.Polynomial.AlgebraMap
-public import Formalism.CoboundaryTransfers.GammaStableTransfers.DiffOneSmulOfTower
+public import Formalism.CoboundaryTransfers.GammaStableTransfers.Bundle001
 public import Formalism.CoboundaryTransfers.GammaStableTransfers.TorsionKilledCriterionHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

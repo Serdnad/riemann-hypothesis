@@ -1,10 +1,10 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
-public import Formalism.LocalToGlobal.CharacterGerms.ConstantCoeffSinglePointZero
-public import Formalism.LocalToGlobal.CharacterGerms.ConstantCoeffTripleSubstitution
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle027
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle014
 import Formalism.LocalToGlobal.CharacterGerms.LemmaMLin
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 public import Formalism.LocalToGlobal.CharacterGerms.ValuationEqPairOfUnitGerm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Formalism.LocalToGlobal.CharacterGerms.PullbackLogCoordsEvalZero
 
 @[expose] public section
 

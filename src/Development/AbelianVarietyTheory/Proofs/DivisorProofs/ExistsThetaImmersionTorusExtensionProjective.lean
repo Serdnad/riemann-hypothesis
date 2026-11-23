@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsLeadOfUnif
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle073
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsUniqueLbIsoPullEqOfCoheightLeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSecBGenerating
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorusPt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsVeryAmpleBySecBZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GermPullbackRestrictEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsImmersionOfForallAffineSurjectiveAppLE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUnitSvalIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubringEqTopOfWeightUnits
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SvalEqSecRatioMul
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusExtensionSmoothAffineSurjectiveFourierTerms
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1155
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3028
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1972
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3026
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2869
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3029
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3098
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3100
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

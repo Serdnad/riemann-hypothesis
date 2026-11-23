@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsDivPushForward
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PDivPushForward
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.FieldNumbersDivPushForwardLocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

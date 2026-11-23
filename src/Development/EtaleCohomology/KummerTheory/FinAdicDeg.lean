@@ -1,9 +1,8 @@
 module
 
-public import Development.EtaleCohomology.KummerTheory.AdicLimPf
-public import Development.EtaleCohomology.KummerTheory.AdicAlgPf
-public import Development.EtaleCohomology.KummerTheory.AdicLimPfGlue
-public import Development.EtaleCohomology.WeilConjectures.AdicFinPf
+public import Development.EtaleCohomology.KummerTheory.Bundle006
+public import Development.EtaleCohomology.KummerTheory.Bundle018
+public import Development.EtaleCohomology.WeilConjectures.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

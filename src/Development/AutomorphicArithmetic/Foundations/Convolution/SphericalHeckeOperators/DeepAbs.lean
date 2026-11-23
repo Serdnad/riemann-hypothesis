@@ -2,10 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.CvSmulRight
-import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DcoShape
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.MemSuppMono
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.NonVan
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymAlg
+import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.Bundle001
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

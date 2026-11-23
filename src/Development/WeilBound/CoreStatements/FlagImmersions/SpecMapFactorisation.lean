@@ -1,13 +1,13 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatDegree
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatFirstFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatGenFrameComplexCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfParts
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatTheoremOfResolutionGagaStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlatZeroFromResolutionAndGagaStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.KroneckerCharacterPeriodFormulaStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle322
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle216
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle282
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle324
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle319
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle200
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,6 +86,7 @@ theorem int_frac (F : Type) [Field F] [NumberField F] : Function.Injective (alge
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H}
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem isGeom_of {l : Level H} {Xo : Moduli D l} {c : Coeff l} [NumberField c.F]
     {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {S : Finset ℕ} {M : Top.RootModel (CMType H) (D.p + D.q)}
     {Sys : PB.AnSys (Top.dimFl (CMType H) (D.p + D.q)) (Option (RootIx D))} {Fx : FixedData Y Sys}

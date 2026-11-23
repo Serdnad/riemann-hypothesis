@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DatumEquiv
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle037
 public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Statement
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,7 +49,7 @@ import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Continuou
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ContinuousTorepK
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.FromHCB
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.HasDerivAtRealOfComplex
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
 
 @[expose] public section
 

@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.CoefCol
-public import Formalism.SatakeDualWeyl.StatementB
+public import Formalism.LocalToGlobal.Columns.Bundle006
+public import Formalism.SatakeDualWeyl.Bundle002
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.LocalToGlobal.Columns.BaseLemmas
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomolog
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CmBridge
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalDefs
 public import GroundTheory.AutomorphicForms.GL2.GJStandardLFourier
-public import GroundTheory.AutomorphicForms.SmoothRepContragredient
+public import GroundTheory.AutomorphicForms.Bundle008
 public import Formalism.DoubleCosetMeasures.Statement
 import GroundTheory.AutomorphicForms.GL2.GJFEInducedLevi
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,6 +56,7 @@ open GroundTheory.Automorphic.GLnLocal
 open scoped SchwartzMap Classical
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 
 namespace UpperTheory.V.Z.Inf
 

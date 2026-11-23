@@ -46,9 +46,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.StatementWR
-import Formalism.HermitianCurvature.StatementI
+import Formalism.HermitianCurvature.Bundle001
 import Formalism.HermitianCurvature.StatementQ
-import Formalism.RealPlaceAnalysis.StatementA
+import Formalism.RealPlaceAnalysis.Bundle001
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 
 @[expose] public section

@@ -1,9 +1,9 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle003
 public import Formalism.LocalToGlobal.ProjectiveLattices.SatLeaves
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DegreeOneStatement
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

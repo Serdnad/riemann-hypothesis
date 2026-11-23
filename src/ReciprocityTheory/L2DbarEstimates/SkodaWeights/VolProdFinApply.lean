@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.NeedBergmanClosed
+public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Bundle002
 public import Mathlib.Topology.Connected.Separation
 public import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,7 +48,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
-public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IsLocalHomeomorphCompFst
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.Bundle001
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.MeasurableSetImageOfIsLocalHomeomorph
 import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
 public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.OntoWithBoundTop

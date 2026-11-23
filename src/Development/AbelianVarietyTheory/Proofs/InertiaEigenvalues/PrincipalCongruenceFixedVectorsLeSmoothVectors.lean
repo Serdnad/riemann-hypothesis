@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.BlockTriangularOfSubOne
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.DetCharacterMemPrincipalCongruenceFixedVectors
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemChainVecsDet
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LabelEqOfSuppAdds
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle199
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle338
 public import Mathlib.NumberTheory.Padics.LocalField
 public import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Algebra.AffineMonoid.UniqueSums

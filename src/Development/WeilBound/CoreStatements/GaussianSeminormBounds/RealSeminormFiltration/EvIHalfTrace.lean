@@ -3,7 +3,7 @@ module
 import Development.WeilBound.ThetaLifts.LatticeBasics.RealInvL
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.WeilBound.ThetaLifts.SchwartzMoments.NormIterComp
-public import Development.WeilBound.ThetaLifts.SchwartzMoments.SchwartzDqTendsto
+public import Development.WeilBound.ThetaLifts.SchwartzMoments.Bundle001
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

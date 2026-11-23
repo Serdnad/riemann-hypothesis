@@ -1,0 +1,231 @@
+module
+
+public import Formalism.CharacterColumnKernels.Bundle001
+public import Formalism.CharacterColumnKernels.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Finset Classical
+
+noncomputable section
+
+namespace Formalism.NG
+
+abbrev ColFreeJ (A : Type*) [Ring A] {T' : Type*} [CommRing T'] [Algebra T' A] {G : Type*} [Group G]
+    (r : G →* A) (χ : G →* T'ˣ) (E : A) (ι : Type*) (j : ι → ℕ) : Type _ :=
+  Ymod r χ E × ((l : ι) → A × (Fin (j l) → A) × A)
+
+def colGenJ {A : Type*} [Ring A] {T' : Type*} [CommRing T'] [Algebra T' A] {G : Type*} [Group G]
+    {r : G →* A} {χ : G →* T'ˣ} {E : A} {ι : Type*} [DecidableEq ι] {j : ι → ℕ} (y : Ymod r χ E)
+    (l : ι) (c : A) (s : Fin (j l) → A) (c₀ : A) : ColFreeJ A r χ E ι j :=
+  (y, Pi.single (M := fun l => A × (Fin (j l) → A) × A) l (c, s, c₀))
+
+def colRelJ {A : Type*} [Ring A] {T' : Type*} [CommRing T'] [Algebra T' A] {G : Type*} [Group G]
+    (r : G →* A) (χ : G →* T'ˣ) (E e₁ : A) (δ : T') {ι : Type*} [DecidableEq ι] (D : ι → Subgroup G)
+    (j : ι → ℕ) (Kc : ∀ l, Fin (j l) → G → A) (k0 : ι → G → A) : Submodule A (ColFreeJ A r χ E ι j) :=
+  Submodule.span A
+    ({z | ∃ l, z = colGenJ 0 l E 0 0} ∪
+     {z | ∃ l a, z = colGenJ 0 l 0 (Pi.single a (1 - e₁)) 0} ∪
+     {z | ∃ l, z = colGenJ 0 l 0 0 (algebraMap T' A δ - E)} ∪
+     {z | ∃ l, ∃ g ∈ D l, z = colGenJ ⟨ycoc r χ E g, Submodule.subset_span ⟨g, rfl⟩⟩ l
+        ((((χ g)⁻¹ : T'ˣ) : T') • r g - 1)
+        (fun a => -(algebraMap T' A δ * Kc l a g)) (-(algebraMap T' A δ * k0 l g))})
+
+abbrev ColNNJ {A : Type*} [Ring A] {T' : Type*} [CommRing T'] [Algebra T' A] {G : Type*} [Group G]
+    (r : G →* A) (χ : G →* T'ˣ) (E e₁ : A) (δ : T') {ι : Type*} [DecidableEq ι] (D : ι → Subgroup G)
+    (j : ι → ℕ) (Kc : ∀ l, Fin (j l) → G → A) (k0 : ι → G → A) : Type _ :=
+  ColFreeJ A r χ E ι j ⧸ colRelJ r χ E e₁ δ D j Kc k0
+
+def StatColumnJ : Prop :=
+  ∀ (A T' K V G : Type*) [Ring A] [CommRing T'] [Algebra T' A] [Field K] [Group G]
+    [AddCommGroup V] [Module A V] [Module K V] [SMulCommClass A K V] [FiniteDimensional K V]
+    [Module T' V] [IsScalarTower T' A V]
+    (r : G →* A) (χ : G →* T'ˣ) (E e₁ : A) (δ : T') (ι : Type*) [Fintype ι] [DecidableEq ι]
+    (D : ι → Subgroup G) (j : ι → ℕ) (Kc : ∀ l, Fin (j l) → G → A) (k0 : ι → G → A),
+    E * E = algebraMap T' A δ * E → e₁ * e₁ = e₁ →
+    ∀ δx : K, δx ≠ 0 → (∀ v : V, δ • v = δx • v) →
+    Module.finrank K (LinearMap.range (DistribSMul.toLinearMap K V E)) = 1 →
+    Module.finrank K (LinearMap.range (DistribSMul.toLinearMap K V e₁)) = 1 →
+    (∀ η ∈ LinearMap.range (DistribSMul.toLinearMap K V E), η ≠ 0 →
+      ∃ g : G, ((((χ g)⁻¹ : T'ˣ) : T') • r g) • η ≠ η) →
+    (∀ l, ∃ L : Submodule K (D l → V),
+      LinearMap.range (colD (K := K) (V := V) r χ (D l)) ≤ L ∧
+      (∀ a, ∀ s ∈ LinearMap.range (DistribSMul.toLinearMap K V e₁),
+        (fun g : D l => Kc l a g • s) ∈ L) ∧
+      (∀ s ∈ LinearMap.range (DistribSMul.toLinearMap K V E), (fun g : D l => k0 l g • s) ∈ L) ∧
+      Module.rank K (L ⧸ (LinearMap.range (colD (K := K) (V := V) r χ (D l))).comap L.subtype) ≤
+        (j l + Module.finrank K (LinearMap.ker (colD (K := K) (V := V) r χ (D l))) : ℕ)) →
+    ∃ φ : ColNNJ r χ E e₁ δ D j Kc k0 →ₗ[A] V, φ ≠ 0
+
+def StatCupKillAdm : Prop :=
+  ∀ (O D M₁ M₂ M₂' N N' M₁'' M₂'' P : Type*) [CommRing O] [Group D]
+    [AddCommGroup M₁] [Module O M₁] [AddCommGroup M₂] [Module O M₂] [AddCommGroup M₂'] [Module O M₂']
+    [AddCommGroup N] [Module O N] [AddCommGroup N'] [Module O N'] [AddCommGroup M₁''] [Module O M₁'']
+    [AddCommGroup M₂''] [Module O M₂''] [AddCommGroup P] [Module O P]
+    (ρ₁ : Representation O D M₁) (ρ₂ : Representation O D M₂) (ρ₂' : Representation O D M₂')
+    (ρN : Representation O D N) (ρN' : Representation O D N') (ρ₁'' : Representation O D M₁'')
+    (ρ₂'' : Representation O D M₂'') (ρP : Representation O D P)
+    (β : M₁ →ₗ[O] M₂ →ₗ[O] N) (β' : M₁ →ₗ[O] M₂' →ₗ[O] N') (γ : M₁'' →ₗ[O] M₂'' →ₗ[O] P)
+    (j : M₂ →ₗ[O] M₂') (ι : N →ₗ[O] N') (π : M₁ →ₗ[O] M₁'') (φ : M₂ →ₗ[O] M₂'') (ψ : N →ₗ[O] P)
+    (CN2 : (D → D → N) → Prop) (CN : (D → N) → Prop) (CN' : (D → N') → Prop) (CP : (D → P) → Prop),
+    IsEquivPairing ρ₁ ρ₂ ρN β → IsEquivPairing ρ₁ ρ₂' ρN' β' → IsEquivMap ρ₂ ρ₂' j →
+    IsEquivMap ρN ρN' ι → IsEquivMap ρ₁ ρ₁'' π → IsEquivMap ρ₂ ρ₂'' φ → IsEquivMap ρN ρP ψ →
+    (∀ m n, ι (β m n) = β' m (j n)) → (∀ m n, γ (π m) (φ n) = ψ (β m n)) →
+    (∀ f, CN f → CP (fun g => ψ (f g))) →
+    (∀ z ∈ characterColumnKernelPairSetVariant ρN, CN2 z →
+      (∃ f, CN' f ∧ ∀ g h, ι (z g h) = ρN' g (f h) - f (g * h) + f g) →
+      ∃ c, CN c ∧ ∀ g h, z g h = ρN g (c h) - c (g * h) + c g) →
+    ∀ (a : D → M₁) (b : D → M₂) (e : M₂'), a ∈ characterColumnKernelSet ρ₁ → b ∈ characterColumnKernelSet ρ₂ →
+      (∀ g, j (b g) = ρ₂' g e - e) →
+      CN2 (cup1 ρ₂ β a b) → CN' (fun g => -β' (a g) (ρ₂' g e)) →
+      ∃ c, CP c ∧ ∀ g h, cup1 ρ₂'' γ (fun g => π (a g)) (fun g => φ (b g)) g h =
+        ρP g (c h) - c (g * h) + c g
+
+def StatFinPres : Prop :=
+  ∀ (R : Type*) [Ring R] [IsNoetherian R R] (M : Type*) [AddCommGroup M] [Module R M]
+    (g₀ : ℕ) (n : Fin g₀ → M), Submodule.span R (Set.range n) = ⊤ →
+    ∃ (m : ℕ) (P : Matrix (Fin m) (Fin g₀) R), Nonempty (M ≃ₗ[R] Coker P)
+
+def StatGlobalModule : Prop :=
+  ∀ (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (X X' : Type*)
+    (T : Subalgebra O (X → O)) (T' : Subalgebra O (X' → O)) (Z : Set X) (p : X' → X) (q : ℕ)
+    (b : Fin q → (X' → O)),
+    (∀ f' ∈ T', ∃ a : Fin q → (X → O), (∀ k, a k ∈ T) ∧ f' = ∑ k, (a k ∘ p) * b k) →
+    (∀ x ∉ Z, ∀ a : Fin q → O, (∀ x', p x' = x → ∑ k, a k * b k x' = 0) → a = 0) →
+    ∀ (d : Type) [Fintype d] [DecidableEq d] (R' : Subalgebra O (X' → Matrix d d (FractionRing O)))
+      [IsNoetherian R' R'],
+    (∀ (g : Type) [Fintype g] [DecidableEq g] (Θ : Matrix g g R'), ∃ f ∈ T', ∀ x',
+      algebraMap O (FractionRing O) (f x') =
+        (bigMat (fun r : R' => (r : X' → Matrix d d (FractionRing O)) x') Θ).det) →
+    ∀ (NN : Type*) [AddCommGroup NN] [Module R' NN] (g₀ : ℕ) (n : Fin g₀ → NN),
+      Submodule.span R' (Set.range n) = ⊤ →
+    (∀ x', p x' ∉ Z → ∃ φ : NN →ₗ[R'] EvalSp O d R' x', φ ≠ 0) →
+    ∀ (π' : X') (ρπ : R' →ₐ[O] Matrix d d O),
+      (∀ r : R', (ρπ r).map (algebraMap O (FractionRing O)) = (r : X' → Matrix d d (FractionRing O)) π') →
+    ∀ (α : Type) [LinearOrder α] [Fintype α] (bl : d → α), (∀ r, (ρπ r).BlockTriangular bl) →
+    ∀ (ρk : ∀ k : α, R' →ₐ[O] Matrix {a // bl a = k} {a // bl a = k} O),
+      (∀ k, Function.Surjective (ρk k)) → (∀ r k, (ρπ r).toSquareBlock bl k = ρk k r) →
+      [∀ k, SMulCommClass R' O (LatQ O {a // bl a = k} (ρk k).toRingHom)] →
+      ((g₀ * ∑ k : α, Fintype.card {a // bl a = k} : ℕ) : Cardinal) <
+        Cardinal.mk (IsLocalRing.ResidueField O) →
+      vcc T Z (p π') ≤
+        ∑ k ∈ univ.image bl, Module.length O (NN →ₗ[R'] LatQ O {a // bl a = k} (ρk k).toRingHom)
+
+end Formalism.NG
+end
+end
+
+section
+
+open Finset
+
+noncomputable section
+
+namespace Formalism.NG
+
+def LocalSubalgebraEtaBound : Prop :=
+  ∀ (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (X : Type*) [Finite X]
+    (T : Subalgebra O (X → O)) [IsLocalRing T], (∀ x y : X, x ≠ y → ∃ f ∈ T, f x ≠ f y) →
+    ∀ (V : Type*) [AddCommGroup V] [Module (FractionRing O) V] [FiniteDimensional (FractionRing O) V]
+      [Module O V] [IsScalarTower O (FractionRing O) V]
+      (act : T →+* Module.End (FractionRing O) V), (⨆ x, Vx T act x) = ⊤ →
+    ∀ L : Submodule O V, L.FG → Submodule.span (FractionRing O) (L : Set V) = ⊤ →
+      (∀ f : T, ∀ v ∈ L, act f v ∈ L) →
+    ∀ (Z Zg : Finset X), Zg ⊆ Z → ∀ (a : Module.End (FractionRing O) V) (A : ℤ),
+      (∀ v ∈ L, a v ∈ L) → (∀ f : T, a * act f = act f * a) →
+      (∀ x ∈ Zg, ∀ v ∈ Vx T act x, a v = (A : FractionRing O) • v) →
+      (∀ x ∈ Z, x ∉ Zg → ∀ v ∈ Vx T act x, a v = 0) →
+    ∀ B : X → ℕ∞, (∀ x ∈ Zg, vcc T (Z : Set X) x ≤ B x) →
+      Module.length O (CongMod T act L (Zg : Set X)) ≤
+        ∑ x ∈ Zg, (Module.finrank (FractionRing O) (Vx T act x) : ℕ∞) *
+          (B x + IsDiscreteValuationRing.addVal O (A : O))
+
+end Formalism.NG
+end
+end
+
+section
+
+open Finset Classical
+
+noncomputable section
+
+namespace Formalism.NG
+
+instance evalSpSMulComm (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] {X' : Type*}
+    (d : Type*) [Fintype d] [DecidableEq d] (R' : Subalgebra O (X' → Matrix d d (FractionRing O)))
+    (x' : X') : SMulCommClass R' (FractionRing O) (EvalSp O d R' x') :=
+  ⟨fun r c v => by
+    show (matEnd (FractionRing O) (FractionRing O) d (evalAt O d R' x' r)) (c • v) =
+      c • (matEnd (FractionRing O) (FractionRing O) d (evalAt O d R' x' r)) v
+    exact LinearMap.map_smul _ c v⟩
+
+end Formalism.NG
+end
+end
+
+section
+
+open Finset
+
+noncomputable section
+
+namespace Formalism.NG
+
+def StatVccBaseChange : Prop :=
+  ∀ (O O' : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    [CommRing O'] [IsDomain O'] [IsDiscreteValuationRing O'] [Algebra O O'] [Module.Free O O']
+    [Module.Finite O O'] (e : ℕ),
+    (∀ y : O, IsDiscreteValuationRing.addVal O' (algebraMap O O' y) =
+      e * IsDiscreteValuationRing.addVal O y) →
+    ∀ (X : Type*) (T : Subalgebra O (X → O)) (T' : Subalgebra O' (X → O')),
+      (T' : Set (X → O')) = Submodule.span O' ((fun f : X → O => algebraMap O O' ∘ f) '' (T : Set (X → O))) →
+    ∀ (Z : Set X) (x : X), vcc T' Z x = e * vcc T Z x
+
+end Formalism.NG
+end
+end

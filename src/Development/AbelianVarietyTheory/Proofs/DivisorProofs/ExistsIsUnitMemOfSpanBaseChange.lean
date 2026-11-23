@@ -2,10 +2,10 @@ module
 
 public import Mathlib.Algebra.Central.Defs
 public import Mathlib.FieldTheory.IsAlgClosed.AlgebraicClosure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankIInfKerEqOfIsBaseChangeFamily
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NatDegreeMinpolyLeBaseChange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle312
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle442
 public import GroundTheory.AutomorphicForms.StableConjCyclic
-import GroundTheory.Brauer.Degree
+import GroundTheory.Brauer.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

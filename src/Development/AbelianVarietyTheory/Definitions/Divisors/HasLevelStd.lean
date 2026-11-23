@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.OmegaFactorization
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.DefiningCoordinates
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle007
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
 public import Mathlib.Data.Pi.Interval
 public import Mathlib.RingTheory.PowerSeries.Basic

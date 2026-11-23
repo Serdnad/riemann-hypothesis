@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.LatDefs
+public import Formalism.PeriodIntegrals.Bundle004
 public import Mathlib.NumberTheory.ModularForms.JacobiTheta.TwoVariable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

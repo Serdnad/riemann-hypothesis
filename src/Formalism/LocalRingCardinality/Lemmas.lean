@@ -1,11 +1,11 @@
 module
 
 import Mathlib.LinearAlgebra.TensorProduct.Lift
-public import Formalism.LocalRingCardinality.DataExtra
+public import Formalism.LocalRingCardinality.Bundle008
 public import Formalism.LocalRingCardinality.DataParams
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Rerealize
 import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
-public import Formalism.LocalRingCardinality.HostCls
+public import Formalism.LocalRingCardinality.Bundle002
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended

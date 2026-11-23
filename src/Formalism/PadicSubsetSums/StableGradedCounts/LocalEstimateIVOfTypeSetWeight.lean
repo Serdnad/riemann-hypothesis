@@ -2,10 +2,9 @@ module
 
 public import Formalism.PadicSubsetSums.CentralIdempotents.EigenbasisOfDistinctRoots
 public import Formalism.GaloisIrreducibility.NoSolvableTransitive
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRCycleProbSum
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRCycleTypeProb
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRDivisorDegreeSubSum
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle007
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle006
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
 public import Formalism.PadicSubsetSums.StableGradedCounts.IRRLemmaP
 public import Formalism.PadicSubsetSums.StableGradedCounts.IRRPrimeRecipSum
 public import Formalism.PadicSubsetSums.StableGradedCounts.IRRSquarefreeCount

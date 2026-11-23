@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjLinApply
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzConjMemStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjLocalOperatorStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1290
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1511
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1524
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSchwartzNe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalOperatorLeftPartialPureStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalOperatorRightPartialPureStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCM
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2026
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2121
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1602
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

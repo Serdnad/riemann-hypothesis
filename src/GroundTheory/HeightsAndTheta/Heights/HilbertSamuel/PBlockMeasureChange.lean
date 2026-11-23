@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockMeasureChange
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSupBoundBlock
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle053
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle055
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountLattice
-public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.DetIneq
+public import GroundTheory.HeightsAndTheta.Heights.MatrixCharts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountIntegrals
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSupBoundCount
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 
 @[expose] public section
 
@@ -155,7 +155,7 @@ theorem BlockMeasureChange.proof (hS : SupBoundBlock.Statement) : BlockMeasureCh
     have hf' : ∀ k, IsMultiHomog (f k) (blockDeg d'.k₀ n) := fun k => by rw [hk]; exact hf k
     have hli : LinearIndependent ℤ fun k => aeval d.y (f k) := by
       have := hb.2.1
-      simp only [hbf, aeval_map_int] at this
+      simp only [hbf, SupBoundCount.aeval_map_int] at this
       exact this
     have hli' : LinearIndependent ℤ fun k => aeval d'.y (f k) := by rw [hy]; exact hli
     have hsame : ∀ (y' : (Σ k, ι k) → Ω) (k' : K), y' = d.y → k' = d.k₀ →

@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionPotentialPullback
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle117
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionReindexed
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValuationCoordsComplexPoint
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsHermLineOfLocalSmooth
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FubiniStudyMetricSmooth
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle083
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

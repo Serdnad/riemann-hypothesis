@@ -1,0 +1,398 @@
+module
+
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle007
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ProdMemSpan
+public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle009
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ValUniqOf
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle004
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import Formalism.LocalRingCardinality.Bundle007
+public import Formalism.LocalToGlobal.HermitianColumns.Bundle002
+import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.G.Cmp
+
+open Formalism.MainNotions.G Formalism.MainNotions.G.LatticeSystems
+
+variable {p : ℕ} (G : GAtP p) {E LL : Type} [Field E] [Field LL] (e : LL →+* G.Kf)
+  (iw : ∀ v : Fin G.P.nV, E →+* G.P.Qq v) (t : ∀ v : Fin G.P.nV, Fin (G.P.n' v) → E →+* LL)
+
+def PosCompat : Prop :=
+  ∀ (v : Fin G.P.nV) (s : Fin (G.P.n' v)) (x : E), e (t v s x) = G.P.ι v ((G.P.σ v ^ s.val) (iw v x))
+
+def ActE : Prop :=
+  ∀ (i : G.comp) (γ : (G.lev i).Γ), ∃ a : GL (Fin (G.P.m + 1)) E,
+    ∀ v, (G.lev i).act v γ = Matrix.GeneralLinearGroup.map (iw v) a
+
+def ChiRat : Prop :=
+  ∀ (i : G.comp) (γ : (G.lev i).Γ), ∃ a : LL, e a = algebraMap G.O G.Kf ((G.lev i).χ γ : G.O)
+
+def RatTup : Prop :=
+  ∀ L : G.P.Tup, G.P.IsLatTup L → ∃ a : GL (Fin (G.P.m + 1)) E,
+    ∀ v, L v = colSpan (G.P.W v) ((a : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) E).map (iw v))
+
+theorem ratLev_of (hp : PosCompat G e iw t) (ha : ActE G iw) (hc : ChiRat G e) : RatLev G e := by
+  refine ⟨fun i γ v s => ?_, hc⟩
+  obtain ⟨a, ha⟩ := ha i γ
+  refine ⟨Matrix.GeneralLinearGroup.map (t v s) a, ?_⟩
+  rw [ha v]
+  ext j k
+  simp [gPosGL, hp v s]
+
+theorem ratBasis_of (hp : PosCompat G e iw t) (hr : RatTup G iw) : RatBasis G e := by
+  intro L hL v s
+  obtain ⟨a, ha⟩ := hr L hL
+  refine ⟨Matrix.GeneralLinearGroup.map (t v s) a, ?_⟩
+  rw [ha v, Formalism.MainNotions.G.LatticeSystems.la_extO_G]
+  congr 1
+  ext j k
+  simp [Formalism.MainNotions.G.LatticeSystems.la_tw, hp v s]
+
+end Formalism.L2.G.Cmp
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.G.Cmp
+
+open Formalism.MainNotions.G Formalism.BasicNotions NumberField
+
+section Gen
+
+variable {p : ℕ} {O Kf : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Field Kf] [Algebra O Kf]
+  (P : Places p O Kf) (α : Type) {LL : Type} [Field LL] (e : LL →+* Kf) (Mi : Submodule O (FnP P α))
+
+end Gen
+
+variable {D : D7} (c : LatCmp D) (Tw : TwForms D) (u : D.what₂.Word) (w : D.what₂.places.Pl)
+  (h : GIdx D.host (D.mem u).A.T (D.what₂.places.resChar w)) {Fl : Fills (D.gat u w h)} (Lv : Levels Fl)
+
+abbrev FormsJ (j : ℕ) : Type := FormsLL (Fl.Pj j) (Lv.comp j) (c.embW u w h) (Lv.Int j)
+
+variable {c Tw u w h Lv}
+
+
+def DescUp (c : LatCmp D) (u : D.what₂.Word) (w : D.what₂.places.Pl)
+    (h : GIdx D.host (D.mem u).A.T (D.what₂.places.resChar w)) {Fl : Fills (D.gat u w h)} (Lv : Levels Fl) : Prop :=
+  ∀ j, j + 1 ≤ D.R.m → MRatSpan (Fl.Pj (j + 1)) (Lv.comp (j + 1)) (c.embW u w h) (Lv.Int (j + 1))
+
+end Formalism.L2.G.Cmp
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.G.Cmp
+
+open Formalism.MainNotions.G Formalism.BasicNotions Formalism.L2.Forms NumberField
+
+section Gen
+
+variable {p : ℕ} {O Kf : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Field Kf] [Algebra O Kf]
+  (P : Places p O Kf) (α : Type) {LL : Type} [Field LL] (e : LL →+* Kf) (Mi : Submodule O (FnP P α))
+
+theorem span_image_of_surj {V : Type} [AddCommGroup V] [Module LL V] (cmp : V →ₛₗ[e] FnP P α) (A : Subring LL)
+    (hA : ∀ a ∈ A, e a ∈ Set.range (algebraMap O Kf)) (S : Set V)
+    (hsurj : ∀ F ∈ Mi, RatFnP P α e F → ∃ x, cmp x = F)
+    (hlat : ∀ x, cmp x ∈ Mi ↔ x ∈ Submodule.span A S) (hd : MRatSpan P α e Mi) :
+    Submodule.span O (cmp '' S) = Mi := by
+  apply le_antisymm
+  · rw [Submodule.span_le]
+    rintro _ ⟨s, hs, rfl⟩
+    exact (hlat s).mpr (Submodule.subset_span hs)
+  · have key : ∀ v ∈ Submodule.span A S, cmp v ∈ Submodule.span O (cmp '' S) := by
+      intro v hv
+      induction hv using Submodule.span_induction with
+      | mem x hx => exact Submodule.subset_span ⟨x, hx, rfl⟩
+      | zero => simp
+      | add x y _ _ hx hy =>
+        rw [map_add (f := _)]
+        exact Submodule.add_mem _ hx hy
+      | smul a x _ hx =>
+        obtain ⟨o, ho⟩ := hA a a.2
+        have h1 : cmp (a • x) = o • cmp x := by
+          rw [show a • x = (a : LL) • x from rfl, LinearMap.map_smulₛₗ, ← ho, algebraMap_smul]
+        rw [h1]
+        exact Submodule.smul_mem _ o hx
+    rw [← hd, Submodule.span_le]
+    rintro _ ⟨x, hx, rfl⟩
+    obtain ⟨v, hv⟩ := hsurj _ hx (cmpF_rat P α e Mi x)
+    rw [← hv]
+    exact key v ((hlat v).mp (by rw [hv]; exact hx))
+
+end Gen
+
+variable {D : D7} {X : Formalism.L2.Herm.Herm0 D}
+
+end Formalism.L2.G.Cmp
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.G.Cmp
+
+open Formalism.BasicNotions Formalism.MainNotions.G Formalism.L2.Forms Formalism.UG NumberField IsDedekindDomain Matrix
+open scoped TensorProduct
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+variable {D : D7} {X : Formalism.L2.Herm.Herm0 D}
+
+theorem embFr_inj (T : ∀ u : D.what₂.Word, Forms0 D u) (u : D.what₂.Word) : Function.Injective (embFr T u) := by
+  have hinj : Function.Injective ((D.fm u).emb 0) := by
+    exact (D.fm u).emb_inj 0
+  intro x y h
+  simp only [embFr, LinearMap.coe_mk, AddHom.coe_mk] at h
+  apply hinj
+  funext cl z
+  have h4 := congrFun (congrFun h cl) ((T u).val0.eY z)
+  simpa using h4
+
+structure CmpHyp0 (T : ∀ u : D.what₂.Word, Forms0 D u) (Gt : GatTies D) (I : CmpIn D X) : Prop where
+
+  ex : ∀ u w hg, ValEx ((T u).cls0).lev (embT D) D.what₂.embLL (D.gat u w hg)
+    (locAt X u w hg I.B) (Gt.gat_pos u w hg) (embFr T u) ((T u).cls0).y
+
+  evInj : ∀ u w hg, EvInj (embT D) (D.gat u w hg) (locAt X u w hg I.B) (Gt.gat_pos u w hg)
+    (J := gramN D 0 (Nat.zero_le _))
+
+  ptEx : ∀ u w hg, PtEx ((T u).cls0).lev (D.gat u w hg) (locAt X u w hg I.B)
+    ((T u).cls0).y
+
+  ptAll : ∀ u w hg, PtAll ((T u).cls0).lev (D.gat u w hg) (locAt X u w hg I.B)
+    ((T u).cls0).y
+
+  pos : ∀ u w hg v (s : Fin ((D.gat u w hg).P.n' v)) (x : D.host.E),
+    I.embW u w hg (tEL D (Gt.gat_pos u w hg ⟨v, s⟩) (if Even s.val then x else sigD D x)) =
+      (D.gat u w hg).P.ι v (((D.gat u w hg).P.σ v ^ s.val) ((locAt X u w hg I.B).iw v x))
+
+  chi : ∀ u w hg i (γ : ((D.gat u w hg).lev i).Γ) (κ : ((T u).cls0).lev.U),
+    (locAt X u w hg I.B).IsAway i γ κ.1 →
+    ∃ r : D.what₂.LL, D.what₂.embLL r = (((T u).cls0).lev.chi κ : ℂ) ∧
+      algebraMap (D.gat u w hg).O (D.gat u w hg).Kf (((D.gat u w hg).lev i).χ γ : (D.gat u w hg).O) * I.embW u w hg r = 1
+
+  latM : ∀ u w hg, Submodule.span (D.gat u w hg).O
+    (cmpRec T Gt I u w hg '' (((D.fm u).lat 0).L : Set ((D.fm u).lat 0).V)) = (D.gat u w hg).M
+
+theorem CmpHyp0.toHyp {T : ∀ u : D.what₂.Word, Forms0 D u} {Gt : GatTies D} {I : CmpIn D X} (H : CmpHyp0 T Gt I) :
+    CmpHyp T Gt I := by
+  exact {
+    ex := H.ex
+    uniq := fun u w hg => valUniq_of (embT_conj D) (H.evInj u w hg) (H.ptEx u w hg)
+    pos := H.pos
+    chi := H.chi
+    li := fun u w hg => cmpC_li (e := I.embW u w hg) (embT_conj D) (H.ex u w hg)
+      (valUniq_of (embT_conj D) (H.evInj u w hg) (H.ptEx u w hg)) (H.ptAll u w hg) (embFr_inj T u)
+      ((D.fm u).lat 0).b ((D.fm u).lat 0).b.linearIndependent
+    latM := H.latM }
+
+end Formalism.L2.G.Cmp
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.L2.G.Cmp
+
+open Formalism.MainNotions.G Formalism.BasicNotions Formalism.L2.Forms Formalism.UG NumberField IsDedekindDomain Matrix
+open scoped TensorProduct
+
+section Gen
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
+  {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {T f : ℕ} {bad : Set (HeightOneSpectrum (𝓞 F))}
+  {Tau : Type} [Fintype Tau] {LL : Type} [Field LL] {p : ℕ}
+  (S : StepLevel F E σ J T f bad) (emb : Tau → E →+* ℂ) (embLL : LL →+* ℂ)
+  (G : GAtP p) (e : LL →+* G.Kf) (A : LocAt F E n G) (pos : (Σ v : Fin G.P.nV, Fin (G.P.n' v)) ≃ Tau)
+  {V cls : Type} [AddCommGroup V] [Module LL V] (embV : V →ₛₗ[embLL] (cls → Frames (gramC J emb) → ℂ))
+  (yc : cls → UPts σ J (FiniteAdeleRing (𝓞 F) F))
+
+def PtRel (i : G.comp) (L : G.P.Tup) (c : cls) : Prop :=
+  ∃ (g : ∀ v, GL (Fin (G.P.m + 1)) (G.P.Qq v)) (γ : GL (Fin n) E) (κ : S.U),
+    (∀ v, L v = colSpan (G.P.W v) (g v : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) (G.P.Qq v))) ∧
+    γ ∈ UJ (σ : E →+* E) J ∧ A.IsPt i g (bc (inclE (F := F) (FiniteAdeleRing (𝓞 F) F)) γ * (yc c).1 * κ.1)
+
+def ValIntAt (IntAt : V → cls → Prop) : Prop :=
+  ∀ (x : V) (i : G.comp) (L : G.P.Tup) (c : cls), G.P.IsLatTup L → PtRel S G A yc i L c →
+    (cmpC S emb embLL G e A pos embV yc x i L ∈ G.P.HtupW L ↔ IntAt x c)
+
+variable {S emb embLL G e A pos embV yc}
+
+theorem exists_bases {L : G.P.Tup} (hL : G.P.IsLatTup L) :
+    ∃ g : ∀ v, GL (Fin (G.P.m + 1)) (G.P.Qq v),
+      ∀ v, L v = colSpan (G.P.W v) (g v : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) (G.P.Qq v)) := by
+  have hL' : ∀ v, ∃ g : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) (G.P.Qq v),
+      IsUnit g.det ∧ L v = colSpan (G.P.W v) g := hL
+  choose g hg using hL'
+  refine ⟨fun v => ((Matrix.isUnit_iff_isUnit_det (g v)).mpr (hg v).1).unit, fun v => ?_⟩
+  rw [IsUnit.unit_spec]
+  exact (hg v).2
+
+theorem cmpC_mem_M_iff (tE : Tau → E →+* LL) (htE : ∀ τ x, embLL (tE τ x) = emb τ x)
+    (hc : ∀ τ x, emb τ (σ x) = starRingEnd ℂ (emb τ x)) (hBs : cT (σ : E →+* E) A.B.1 * J * A.B.1 = 1) (hA : A.ActB)
+    (hex : ValEx S emb embLL G A pos embV yc)
+    (hpos : ∀ v (s : Fin (G.P.n' v)) (x : E),
+      e (tE (pos ⟨v, s⟩) (if Even s.val then x else σ x)) = G.P.ι v ((G.P.σ v ^ s.val) (A.iw v x)))
+    (hchi : ∀ i (γ : (G.lev i).Γ) (κ : S.U), A.IsAway i γ κ.1 →
+      ∃ r : LL, embLL r = (S.chi κ : ℂ) ∧ algebraMap G.O G.Kf ((G.lev i).χ γ : G.O) * e r = 1)
+    (hi : EvInj emb G A pos (J := J)) (hp : PtEx S G A yc) (hall : PtAll S G A yc)
+    (hU : ∀ i (γ : (G.lev i).Γ), A.gamI i γ ∈ UJ (σ : E →+* E) J)
+    (haw : ∀ i (γ : (G.lev i).Γ), ∃ κ : S.U, A.IsAway i γ κ.1)
+    (IntAt : V → cls → Prop) (hloc : ValIntAt S emb embLL G e A pos embV yc IntAt) (x : V) :
+    cmpC S emb embLL G e A pos embV yc x ∈ G.M ↔ ∀ c, IntAt x c := by
+  constructor
+  · intro hM c
+    obtain ⟨i, g, γ, κ, hγ, hpt⟩ := hall c
+    let L : G.P.Tup := fun v => colSpan (G.P.W v) (g v : Matrix (Fin (G.P.m + 1)) (Fin (G.P.m + 1)) (G.P.Qq v))
+    have hL : G.P.IsLatTup L := fun v => ⟨_, (Matrix.isUnit_iff_isUnit_det _).1 (g v).isUnit, rfl⟩
+    have hv : cmpC S emb embLL G e A pos embV yc x i L ∈ G.P.HtupW L :=
+      ((mem_funMod_iff G G.P.HtupW _).1 hM i).1 L hL
+    exact (hloc x i L c hL ⟨g, γ, κ, fun _ => rfl, hγ, hpt⟩).1 hv
+  · intro hI
+    refine cmpC_mem_funMod tE htE hc hBs hA hex hpos hchi hi hp hU haw G.P.HtupW x fun i L hL => ?_
+    obtain ⟨g, hg⟩ := exists_bases hL
+    obtain ⟨c, γ, κ, hγ, hpt⟩ := hp i g
+    have h1 := (hloc x i L c hL ⟨g, γ, κ, hg, hγ, hpt⟩).2 (hI c)
+    unfold cmpC at h1
+    rwa [if_pos hL] at h1
+
+end Gen
+
+section Rec
+
+variable {D : D7} {X : Formalism.L2.Herm.Herm0 D}
+
+def IntAtW (T : ∀ u : D.what₂.Word, Forms0 D u) (u : D.what₂.Word) (w : D.what₂.places.Pl)
+    (x : ((D.fm u).lat 0).V) (c : (D.mem u).C.cls 0) : Prop :=
+  ∀ B : GL (Fin (D.R.N 0)) D.host.E,
+    Formalism.L2.Forms.IsLocBasis (D.what₂.places.resChar w)
+      (dualSet (sigD D : D.host.E →+* D.host.E) (gramN D 0 (Nat.zero_le _)) (clsCrd D u 0 (Nat.zero_le _) c)) B →
+    ∃ P ∈ IntSpan D w ((D.fm u).lam 0),
+      ∀ z, (D.fm u).emb 0 x c z =
+        fnOf _ (shiftOf (lamT u 0)) (atInf (embT D) (B⁻¹ : GL (Fin (D.R.N 0)) D.host.E).1) P
+          (((T u).val0).eY z)
+
+def ValIntRec (T : ∀ u : D.what₂.Word, Forms0 D u) (Gt : GatTies D) (I : CmpIn D X) : Prop :=
+  ∀ u w hg, ValIntAt ((T u).cls0).lev (embT D) D.what₂.embLL (D.gat u w hg) (I.embW u w hg)
+    (locAt X u w hg I.B) (Gt.gat_pos u w hg) (embFr T u) ((T u).cls0).y (IntAtW T u w)
+
+def LocWCrit (T : ∀ u : D.what₂.Word, Forms0 D u) : Prop :=
+  ∀ u (w : D.what₂.places.Pl) (x : ((D.fm u).lat 0).V),
+    x ∈ locW D.what₂.places w ((D.fm u).lat 0).L ↔ ∀ c, IntAtW T u w x c
+
+def LocWBack (T : ∀ u : D.what₂.Word, Forms0 D u) : Prop :=
+  ∀ u (w : D.what₂.places.Pl) (x : ((D.fm u).lat 0).V),
+    (∀ c, IntAtW T u w x c) → x ∈ locW D.what₂.places w ((D.fm u).lat 0).L
+
+theorem intSpan_smul (w : D.what₂.places.Pl) {n : ℕ} (lam : D.what₂.Tau → DomWeight n) (a : D.what₂.LL)
+    (ha : a ∈ intW D.what₂.places w) {P : MvPolynomial (D.what₂.Tau × Fin n × Fin n) ℂ} (hP : P ∈ IntSpan D w lam) :
+    D.what₂.embLL a • P ∈ IntSpan D w lam := by
+  unfold IntSpan at hP ⊢
+  induction hP using AddSubgroup.closure_induction with
+  | mem p hp =>
+    obtain ⟨r, f, hr, hf, rfl⟩ := hp
+    refine AddSubgroup.subset_closure ⟨a * r, f, mul_mem ha hr, hf, ?_⟩
+    rw [map_mul, mul_smul]
+  | zero =>
+    rw [smul_zero]
+    exact zero_mem _
+  | add p q _ _ hp hq =>
+    rw [smul_add]
+    exact add_mem hp hq
+  | neg p _ hp =>
+    rw [smul_neg]
+    exact neg_mem hp
+
+theorem locW_intAtW (T : ∀ u : D.what₂.Word, Forms0 D u) (u : D.what₂.Word) (w : D.what₂.places.Pl)
+    (x : ((D.fm u).lat 0).V) (hx : x ∈ locW D.what₂.places w ((D.fm u).lat 0).L) (c : (D.mem u).C.cls 0) :
+    IntAtW T u w x c := by
+  induction hx using Submodule.span_induction with
+  | mem y hy =>
+    intro B hB
+    exact (((T u).val0).lat y).1 hy w c B hB
+  | zero =>
+    intro B _
+    refine ⟨0, AddSubgroup.zero_mem _, fun z => ?_⟩
+    rw [map_zero, map_zero]
+    rfl
+  | add y z _ _ h1 h2 =>
+    intro B hB
+    obtain ⟨P, hP, hPy⟩ := h1 B hB
+    obtain ⟨Q, hQ, hQz⟩ := h2 B hB
+    refine ⟨P + Q, AddSubgroup.add_mem _ hP hQ, fun t => ?_⟩
+    rw [map_add (f := _), map_add (f := _)]
+    show (D.fm u).emb 0 y c t + (D.fm u).emb 0 z c t = _
+    rw [hPy t, hQz t]
+    rfl
+  | smul a y _ h1 =>
+    intro B hB
+    obtain ⟨P, hP, hPy⟩ := h1 B hB
+    refine ⟨D.what₂.embLL a.1 • P, intSpan_smul w _ a.1 a.2 hP, fun t => ?_⟩
+    rw [Subring.smul_def, LinearMap.map_smulₛₗ, map_smul]
+    show D.what₂.embLL a.1 * (D.fm u).emb 0 y c t = _
+    rw [hPy t]
+    rfl
+
+theorem locWCrit_of (T : ∀ u : D.what₂.Word, Forms0 D u) (h : LocWBack T) : LocWCrit T :=
+  fun u w x => ⟨fun hx c => locW_intAtW T u w x hx c, h u w x⟩
+
+end Rec
+
+end Formalism.L2.G.Cmp
+end
+end

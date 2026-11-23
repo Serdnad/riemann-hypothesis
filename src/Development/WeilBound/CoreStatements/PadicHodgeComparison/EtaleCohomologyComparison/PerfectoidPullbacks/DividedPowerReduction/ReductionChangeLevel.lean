@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.DividedPowerReduction.IsFirstChernThickening
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InclRedM
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResKOne
+public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.DividedPowerReduction.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle496
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle175
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.FaceMapCompSuccAboveCastSucc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HermitianTensor
+public import GroundTheory.HeightsAndTheta.Heights.Bundle002
 public import Mathlib.Analysis.InnerProductSpace.GramMatrix
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

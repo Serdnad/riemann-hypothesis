@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.DeterminantCokernelCount.CokernelIndexFactors.StatementB
+public import Formalism.LocalToGlobal.KernelLattices.DeterminantCokernelCount.CokernelIndexFactors.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Jets.CmLatticeCommutatorPairingPowEqOneOfGoodLift
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HeisenbergOperatorsOrthogonalFrameCoords
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.OpUConstMul
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

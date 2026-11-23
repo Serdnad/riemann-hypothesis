@@ -6,11 +6,10 @@ public import GroundTheory.AutomorphicForms.GL2.GJMatrixSchwartz
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Uniform
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsSiegel
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalLatticeBounds
-public import GroundTheory.AutomorphicForms.GL2.GJGlobalLatticeCont
-public import GroundTheory.AutomorphicForms.GL2.GJGlobalLatticeSummable
+public import GroundTheory.AutomorphicForms.GL2.Bundle004
+public import GroundTheory.AutomorphicForms.GL2.Bundle005
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalMellin
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalPoisson
-public import GroundTheory.AutomorphicForms.GL2.GJGlobalSingular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

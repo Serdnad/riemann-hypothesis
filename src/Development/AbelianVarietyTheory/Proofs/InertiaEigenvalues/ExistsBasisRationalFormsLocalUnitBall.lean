@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValCCuspOfSmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralCuspFormsFullLattice
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormLeOneOfMemLocalUnitBallSideStatement
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SupLatticeLocalisationOfUnitBall
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle906
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2560
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle970
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

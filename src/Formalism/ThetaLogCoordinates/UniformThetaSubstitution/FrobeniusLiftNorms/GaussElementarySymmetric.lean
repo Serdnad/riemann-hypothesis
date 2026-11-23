@@ -4,7 +4,7 @@ public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementC
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.PowerSeries.Basic
 public import Formalism.ArtinHasse.ArtinHasseProofs.SymmSeries
-public import Formalism.SubspaceCounting.SubspaceCountingProofs.QVandermonde
+public import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

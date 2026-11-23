@@ -1,17 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPoints
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle035
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveSectionStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FiniteDimensionalOfModel
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LocStructStRecord
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.RealPtNZOfCurveHyp
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.SectionRatiosIntegral
-import Formalism.LocalToGlobal.ProjectiveLattices.CurveSec
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle050
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle033
 public import Formalism.LocalToGlobal.ProjectiveLattices.LiftModelHolds
 import Formalism.LocalToGlobal.ProjectiveLattices.LiftSec
-import Formalism.LocalToGlobal.ProjectiveLattices.SecPtRed
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

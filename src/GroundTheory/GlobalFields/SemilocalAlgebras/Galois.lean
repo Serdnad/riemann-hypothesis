@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.SemilocalAlgebras.Finite
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle002
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

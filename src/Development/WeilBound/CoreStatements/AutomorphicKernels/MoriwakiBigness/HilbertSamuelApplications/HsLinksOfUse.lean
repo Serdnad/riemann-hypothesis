@@ -1,12 +1,12 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.MoriwakiBigness.HilbertSamuelApplications.SmallGeneratedCountUpperOfUse
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsDimX
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsZhangLowerX
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PZhangLowerX
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.RingKrullDimLocalizationInt
 public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.BigLineBundleMoriwaki
-public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.Imports
+public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.ImportsBis
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

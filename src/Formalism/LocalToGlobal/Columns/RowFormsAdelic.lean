@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.Adelic
-public import Formalism.LocalToGlobal.Columns.ColForms
+public import Formalism.LocalToGlobal.Columns.Bundle007
 public import Formalism.LocalToGlobal.Columns.RowFormsLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

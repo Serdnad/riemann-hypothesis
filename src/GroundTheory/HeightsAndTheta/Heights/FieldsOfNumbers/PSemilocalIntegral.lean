@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsSemilocalIntegral
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsValuativeCentre
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PContractRelDimLe
-import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PExistsForm
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle007
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle004
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PPFContracted
 import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PPFDegree
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.TableDegreeThreeBase

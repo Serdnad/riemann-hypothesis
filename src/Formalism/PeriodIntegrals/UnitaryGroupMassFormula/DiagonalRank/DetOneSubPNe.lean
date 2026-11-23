@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.DiagRank
+public import Formalism.PeriodIntegrals.Bundle009
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

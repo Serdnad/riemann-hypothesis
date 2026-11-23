@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Group.Action.Pointwise.Finset
 public import Mathlib.Data.ZMod.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CardDvdSumOfInvariantOfCardStabilizerDvd
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle087
 public import Mathlib.Algebra.BigOperators.ModEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

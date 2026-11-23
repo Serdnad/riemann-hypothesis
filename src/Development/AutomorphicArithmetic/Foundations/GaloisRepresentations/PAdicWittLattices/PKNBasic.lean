@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.TransCancel
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.InvMemLatMonoidOfMemAwaySupp
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CentralizerAlgO
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoprimeNsmulEndomorphismPreservesCompletioStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle642
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2240
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

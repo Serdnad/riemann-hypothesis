@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ArchimedeanUnitIdempotentSmulMixedSpaceVecPairAs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicCharacterNontrivialAtPlaces
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisFCA
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1905
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

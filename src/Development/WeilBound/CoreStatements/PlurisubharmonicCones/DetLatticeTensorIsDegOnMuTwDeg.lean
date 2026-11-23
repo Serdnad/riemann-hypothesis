@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComponentDataHodgeSecond
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionSystemHodgeDegree
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NotInFibreOfIsUnit
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PairLatticeSumComapStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SegreChartBundleStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SumLatticeWedgeComapStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TensorWedgeDetChangeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle023
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle140
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ComponentDataHeightIdentity
-public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.DeterminantLatticeGenerator
+public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle007
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.DeterminantLatticeGradedTensor
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExistsUnitOfSum
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,6 +66,8 @@ namespace LevelTowerAlt
 namespace N1
 
 section Main
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Tor.Level H}
   {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {II : IntersectionSystem}
@@ -203,6 +205,7 @@ end N1
 
 open N1
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem det_lattice_tensor_isDegOn_muTwDeg : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (Ω : Type) [Field Ω] [Algebra ℚ Ω] (W : CMType H → Type) [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)] (Dc : ComponentData II (CMType H) K J Ω W) (Hd : HodgeData Dc) (S₀ : Finset ℕ) (Or : CptOrigin Y S₀ Dc Hd) (B : ℕ) (bb : ∀ τ, Fin Dc.N → W τ) (s : CMType H → Fin (Dc.N - Dc.j) → Or.𝔐.Li) (lam : Ω), (∀ τ k, s τ k ∈ Or.𝔐.Vgen (Or.sm τ) ∧ Or.i τ (bb τ (tailIdx Dc.j_le_N k)) - s τ k ∈ Or.𝔐.Vgen (Or.bg τ)) → Hd.Λ = lam • PiTensorProduct.tprod Ω (fun τ => quotWedge (Hd.F τ) Dc.j_le_N (bb τ)) → (∀ τ, LinearIndependent Ω (s τ)) ∧ (Lat.tens (fun τ => detLat (Or.𝔐.VS (S₀ ∪ Dc.SB B) (Or.sm τ)) (s τ)) (fun _ => -1)).IsDegOn Set.univ Dc.y (muTwDeg Hd B) (lam⁻¹ * ∏ p ∈ Dc.SB B, MvPolynomial.aeval Dc.y (Dc.vden p) / MvPolynomial.aeval Dc.y (Dc.vnum p)) := by
   intro E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or B bb s lam hs hΛ
   obtain ⟨hpr, -, -, hvb⟩ := component_data_height_identity E H D Xo l c Y II K J Ω W Dc Hd S₀ Or B

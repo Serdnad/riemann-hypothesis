@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
-public import Formalism.SharpRestriction.LevelLetterCocycles.TwGood
-public import Formalism.SharpRestriction.LevelLetterCocycles.LocsCoverTw
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle016
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 public import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

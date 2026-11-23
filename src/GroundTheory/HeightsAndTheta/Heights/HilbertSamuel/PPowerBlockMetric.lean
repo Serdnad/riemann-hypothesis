@@ -1,8 +1,7 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionNormSqExtension
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockMetric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -287,18 +286,18 @@ theorem exists_rep_at {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n : ℕ} {s : �
   · rw [eval_chartMon]
     exact Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hc k)
 
-theorem metric_ne {A : HermLine ι} {P : Ideal (MRing ι)} {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts P) (n : ℕ) :
+theorem metric_ne {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {P : Ideal (MRing ι)} {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts P) (n : ℕ) :
     (A.h z : ℂ) ^ n ≠ 0 :=
   pow_ne_zero _ (Complex.ofReal_ne_zero.mpr (A.pos z hz.1).ne')
 
-def val (y : (Σ k, ι k) → Ω) (A : HermLine ι) (n : ℕ) (s : Ω) (z : (Σ k, ι k) → ℂ) : ℂ := by
+def val (y : (Σ k, ι k) → Ω) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) (s : Ω) (z : (Σ k, ι k) → ℂ) : ℂ := by
   classical
   exact if hsz : s ∈ chartLat y A.a n ∧ z ∈ mcPts (mCoordIdeal y) then
     eval z (map (Int.castRingHom ℂ) (exists_rep_at hsz.1 hsz.2).choose.1) /
       (eval z (map (Int.castRingHom ℂ) (exists_rep_at hsz.1 hsz.2).choose.2) * (A.h z : ℂ) ^ n)
   else 0
 
-theorem val_spec {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : Ω} (hs : s ∈ chartLat y A.a n)
+theorem val_spec {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {n : ℕ} {s : Ω} (hs : s ∈ chartLat y A.a n)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts (mCoordIdeal y)) {g h : MRing ι} (hr : IsRep y A.a n s g h) :
     eval z (map (Int.castRingHom ℂ) g) =
       val y A n s z * eval z (map (Int.castRingHom ℂ) h) * (A.h z : ℂ) ^ n := by
@@ -310,7 +309,7 @@ theorem val_spec {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : Ω} 
   rw [eq_comm, div_mul_eq_mul_div, div_mul_eq_mul_div, div_eq_iff (mul_ne_zero h1 h2)]
   linear_combination (-(A.h z : ℂ) ^ n) * hc
 
-theorem secNormAt_eq {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : Ω} (hs : s ∈ chartLat y A.a n)
+theorem secNormAt_eq {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {n : ℕ} {s : Ω} (hs : s ∈ chartLat y A.a n)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts (mCoordIdeal y)) : secNormAt y A n s z = ‖val y A n s z‖ := by
   have hT : 0 < A.h z := A.pos z hz.1
   have hnT : ‖(A.h z : ℂ) ^ n‖ = A.h z ^ n := by
@@ -327,7 +326,7 @@ theorem secNormAt_eq {y : (Σ k, ι k) → Ω} {A : HermLine ι} {n : ℕ} {s : 
   rw [val_spec hs hz ⟨dg, dh, hg, hh, hd, hy⟩, norm_mul, norm_mul, hnT, mul_assoc, mul_assoc] at this
   exact le_of_mul_le_mul_right this (mul_pos (norm_pos_iff.mpr hne) (pow_pos hT n))
 
-theorem exists_val_ne {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m N : ℕ} {v : Fin N → Ω}
+theorem exists_val_ne {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m N : ℕ} {v : Fin N → Ω}
     (hv : ∀ j, v j ∈ chartLat y A.a m) (hgen : KH.GeneratesOn y (fun k => (m : ℤ) * A.a k) v)
     {x : (Σ k, ι k) → ℂ} (hx : x ∈ mcPts (mCoordIdeal y)) : ∃ j, val y A m (v j) x ≠ 0 := by
   by_contra hall
@@ -450,7 +449,7 @@ theorem new_cross {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n N : ℕ} {v : Fin
   simp only [map_sub, map_mul, map_X, eval_X, eval_rename_old, sub_eq_zero] at this
   simpa only [map_mul, eval_mul] using this
 
-theorem graph_prop {y : (Σ k, ι k) → Ω} {A : HermLine ι} {m N : ℕ} {v : Fin N → Ω}
+theorem graph_prop {y : (Σ k, ι k) → Ω} {A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} {m N : ℕ} {v : Fin N → Ω}
     (hv : ∀ j, v j ∈ chartLat y A.a m) (hgen : KH.GeneratesOn y (fun k => (m : ℤ) * A.a k) v)
     {z : (Σ k, addIdx ι N k) → ℂ} (hz : z ∈ mcPts (mCoordIdeal (addBlock y v))) :
     ∃ c : ℂ, ∀ j, z ⟨none, j⟩ = c * val y A m (v j) (basePart₂ z) := by
@@ -519,8 +518,8 @@ variable [DecidableEq K]
 def graphLine (S : ((Σ k, ι k) → ℂ) → ℝ)
     (hSp : ∀ x : (Σ k, ι k) → ℂ, (∀ k, ∃ i, x ⟨k, i⟩ ≠ 0) → 0 < S x)
     (hSt : ∀ (c : K → ℂ) (x : (Σ k, ι k) → ℂ), (∀ k, c k ≠ 0) → S (fun p => c p.1 * x p) = S x) (N : ℕ) :
-    HermLine (addIdx ι N) where
-  a := unitDeg (none : Option K)
+    ReciprocityTheory.ChartRestriction.G.Geo.HermLine (addIdx ι N) where
+  a := ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg (none : Option K)
   h z := Real.sqrt (addedBlockNormSq z) / Real.sqrt (S (basePart₂ z))
   pos z hz := div_pos (Real.sqrt_pos.mpr (newSq_pos hz)) (Real.sqrt_pos.mpr (hSp _ fun k => hz (some k)))
   smul c z hc := by
@@ -528,9 +527,9 @@ def graphLine (S : ((Σ k, ι k) → ℂ) → ℝ)
       simp only [addedBlockNormSq, norm_mul, mul_pow, Finset.mul_sum]
     have h2 : S (basePart₂ (fun p => c p.1 * z p)) = S (basePart₂ z) :=
       hSt (fun k => c (some k)) (basePart₂ z) fun k => hc (some k)
-    have h3 : (∏ k, ‖c k‖ ^ (unitDeg (none : Option K)) k) = ‖c none‖ := by
+    have h3 : (∏ k, ‖c k‖ ^ (ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg (none : Option K)) k) = ‖c none‖ := by
       rw [Fintype.prod_option]
-      simp [unitDeg]
+      simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
     rw [h1, h2, h3, Real.sqrt_mul (sq_nonneg _), Real.sqrt_sq (norm_nonneg _), mul_div_assoc]
 
 theorem isSmoothHerm_graphLine {S : ((Σ k, ι k) → ℂ) → ℝ}

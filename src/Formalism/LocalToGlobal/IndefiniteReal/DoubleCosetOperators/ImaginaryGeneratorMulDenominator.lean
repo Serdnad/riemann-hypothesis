@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.XiNeZeroOfIsStdGeneric
+public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle002
 public import Formalism.LocalRingCardinality.ConjSqrtMinusD
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

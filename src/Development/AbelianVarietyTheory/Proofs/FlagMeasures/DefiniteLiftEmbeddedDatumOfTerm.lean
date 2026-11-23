@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NormalFormDualOrthogonalLast
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagPairDefinitePartLatticeDiscriminantEqQuotienStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagPairDefiniteThetaLatticeLeFixedIndexBoundStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermFramePairNormalFormGeometrySummaryStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsHermIsometryGraphModScalarFlagPairIotaStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle278
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeOfLatMod
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -263,7 +263,7 @@ theorem dual_latIn (hS : S = C ⊔ I) (H : HermSpace K V) (H' : HermSpace K C)
 theorem intLat_latIn (hS : S = C ⊔ I) (hd : C ⊓ I = ⊥) (H : HermSpace K V) (H' : HermSpace K C)
     (hH : ∀ x y, H'.B x y = H.B x y) (ho : ∀ y ∈ S, ∀ i ∈ I, H.B y i = 0) {M : Submodule (𝓞 K) V}
     (hM : IsLatMod M S I) (hi : ∀ x ∈ M, ∀ y ∈ M, H.B x y ∈ (1 : Submodule (𝓞 K) K)) :
-    IsIntLat H'.B.flip (latIn C M) ∧ (discN H'.B.flip (latIn C M) : ℝ) = del H M ^ 2 := by
+    IsIntLat H'.B.flip (latIn C M) ∧ (discN H'.B.flip (latIn C M) : ℝ) = _root_.GlobalTheory.HermLat.del H M ^ 2 := by
   obtain ⟨p, hpC, hpI, hpI0, hpC1⟩ := exists_proj hS hd
   have hCS : C ≤ S := hS ▸ le_sup_left
   obtain ⟨hID, hDS, hDeq⟩ := dual_latIn hS H H' hH ho hM

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LatticeConditions
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthBaseChangeQuotientOfMapMaximalIdeal
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

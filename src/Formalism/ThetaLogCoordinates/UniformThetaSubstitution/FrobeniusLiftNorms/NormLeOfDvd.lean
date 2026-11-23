@@ -1,7 +1,7 @@
 module
 
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementE
-public import Formalism.GaussJetBounds.StatementJ
+public import Formalism.GaussJetBounds.Bundle005
 public import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 public import Formalism.GaussJetBounds.GaussJetProofs.ThmAOp
 import Mathlib.Algebra.Order.Floor.Extended

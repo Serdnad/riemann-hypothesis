@@ -2,9 +2,9 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoefficientRingIntegersCompactAdicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinsetFixedMemInvariants
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ImportsTail
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle113
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

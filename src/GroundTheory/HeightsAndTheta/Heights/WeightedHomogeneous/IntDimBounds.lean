@@ -1,11 +1,11 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitChartResidue
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle010
 public import Mathlib.RingTheory.AlgebraicIndependent.Basic
 public import Mathlib.RingTheory.Jacobson.Ring
 public import Mathlib.RingTheory.KrullDimension.Basic
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.IntDimTrdeg
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

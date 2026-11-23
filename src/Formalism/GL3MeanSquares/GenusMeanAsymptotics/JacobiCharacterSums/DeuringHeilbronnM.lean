@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MeanSquareHypWIff
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle006
 public import Formalism.LandauZeroFreeBounds.LogDerivRegionChiOf
 public import Formalism.LandauZeroFreeBounds.NoZeroComplex
 public import Mathlib.NumberTheory.DirichletCharacter.Orthogonality

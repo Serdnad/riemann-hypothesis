@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProdUpdateDiv
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle047
 public import Mathlib.FieldTheory.IntermediateField.Basic
 public import Mathlib.RingTheory.AlgebraicIndependent.Defs
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DetMulExpand
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

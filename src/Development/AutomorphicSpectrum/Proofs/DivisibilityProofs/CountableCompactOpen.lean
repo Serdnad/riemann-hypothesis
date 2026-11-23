@@ -52,7 +52,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFinLeOne
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
-import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 
 @[expose] public section
 

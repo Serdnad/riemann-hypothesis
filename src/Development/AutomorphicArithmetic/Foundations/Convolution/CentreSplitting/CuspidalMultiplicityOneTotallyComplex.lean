@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.CuspidalMultiplicityOneTotallyComplex
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
-import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.FormsIrr
+import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.IsoIff
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.OrthOrIso
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

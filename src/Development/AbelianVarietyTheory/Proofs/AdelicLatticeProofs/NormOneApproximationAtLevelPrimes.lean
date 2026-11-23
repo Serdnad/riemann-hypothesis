@@ -1,9 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsTraceZeroAdjustmentOfHermitianLattice
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsDenominatorPrimesPrescribed
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ValuationEqOneOfNormOneOfNotMoved
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle048
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle026
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

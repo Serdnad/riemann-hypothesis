@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.FiniteOrderCongruences.TwistIne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.RatTorsionFree
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDecompositionGroupCyclotomicCharacterZpowN
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IntegralityOfNormCoefficients
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle065
 import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ScNorm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.GalEmbTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -240,7 +240,7 @@ theorem res_inj (K' : IntermediateField ℚ Ω) : Function.Injective (resQ K') :
 
 theorem setup (K' : IntermediateField ℚ Ω) [NumberField K'] (hK : Module.finrank ℚ K' = 2) :
     (∀ g, g ∈ K'.fixingSubgroup ↔ ∃ x, resQ K' x = g) ∧ K'.fixingSubgroup.index = 2 ∧
-      Topology.IsEmbedding (resQ K') ∧ IsOpen (K'.fixingSubgroup : Set (G ℚ Ω)) := by
+      Topology.IsEmbedding (resQ K') ∧ IsOpen (K'.fixingSubgroup : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) := by
   haveI : FaithfulSMul K' Ω := (faithfulSMul_iff_algebraMap_injective K' Ω).2 (algebraMap K' Ω).injective
   haveI : Module.IsTorsionFree K' Ω := DivisionSemiring.to_moduleIsTorsionFree
   haveI : IsAlgClosure K' Ω := ⟨IsAlgClosure.isAlgClosed ℚ, Algebra.IsAlgebraic.tower_top (K := ℚ) K'⟩
@@ -257,7 +257,7 @@ theorem setup (K' : IntermediateField ℚ Ω) [NumberField K'] (hK : Module.finr
   · rw [← hfix]
     exact hopen
 
-theorem chi_coe (c : Coef l) (g : G ℚ Ω) (m : ℕ) :
+theorem chi_coe (c : Coef l) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (m : ℕ) :
     (((chiO ℚ Ω l c.O g ^ m : c.Oˣ) : c.O) : Qbar l) = ((cycBar ℚ Ω l g ^ m : (Qbar l)ˣ) : Qbar l) := by
   rw [Units.val_pow_eq_pow_val, SubmonoidClass.coe_pow, Units.val_pow_eq_pow_val]
   rfl
@@ -275,24 +275,24 @@ theorem exists_ine (A : ValuationSubring Ω) (hv : A.valuation (l : Ω) < 1) {n 
 
 section Kap
 
-variable (K' : IntermediateField ℚ Ω) (κ : G K' Ω →* (Qbar l)ˣ) (c : Coef l) (hc : ∀ h, (κ h : Qbar l) ∈ c.O)
+variable (K' : IntermediateField ℚ Ω) (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ) (c : Coef l) (hc : ∀ h, (κ h : Qbar l) ∈ c.O)
 
-def kO (g : G ℚ Ω) : c.O :=
+def kO (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : c.O :=
   @dite _ (∃ x, resQ K' x = g) (Classical.propDecidable _) (fun h => ⟨κ h.choose, hc _⟩) (fun _ => 1)
 
-theorem kO_res (x : G K' Ω) : ((kO K' κ c hc (resQ K' x) : c.O) : Qbar l) = κ x := by
+theorem kO_res (x : _root_.Formalism.ConjugateSelfDual.G K' Ω) : ((kO K' κ c hc (resQ K' x) : c.O) : Qbar l) = κ x := by
   have h : ∃ y, resQ K' y = resQ K' x := ⟨x, rfl⟩
   unfold kO
   rw [dite_eq_left h]
   show (κ h.choose : Qbar l) = κ x
   rw [res_inj K' h.choose_spec]
 
-theorem kO_off (g : G ℚ Ω) (hg : ¬ ∃ x, resQ K' x = g) : kO K' κ c hc g = 1 := by
+theorem kO_off (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (hg : ¬ ∃ x, resQ K' x = g) : kO K' κ c hc g = 1 := by
   unfold kO
   rw [dite_eq_right hg]
 
 def PP (e : ℤ) (A : ValuationSubring Ω) : Prop :=
-  ∀ h : G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ e
+  ∀ h : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' h ∈ Ine (F := ℚ) A → κ h = cycBar K' Ω l h ^ e
 
 
 open Classical in
@@ -301,8 +301,8 @@ def sA (m : ℕ) (A : ValuationSubring Ω) : c.O := if PP K' κ (m : ℤ) A then
 end Kap
 
 theorem excl (K' : IntermediateField ℚ Ω) (hH : ∀ g, g ∈ K'.fixingSubgroup ↔ ∃ x, resQ K' x = g)
-    (hDec : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Dec (F := ℚ) A ≤ K'.fixingSubgroup)
-    (κ : G K' Ω →* (Qbar l)ˣ) (m : ℕ) (hm : 1 ≤ m) (B : ValuationSubring Ω) (hB : B.valuation (l : Ω) < 1) :
+    (hDec : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A ≤ K'.fixingSubgroup)
+    (κ : _root_.Formalism.ConjugateSelfDual.G K' Ω →* (Qbar l)ˣ) (m : ℕ) (hm : 1 ≤ m) (B : ValuationSubring Ω) (hB : B.valuation (l : Ω) < 1) :
     ¬ (PP K' κ (m : ℤ) B ∧ PP K' κ (-(m : ℤ)) B) := by
   rintro ⟨h1, h2⟩
   obtain ⟨σ, hσ, hne⟩ := exists_ine B hB (n := 2 * (m : ℤ)) (by omega)
@@ -325,11 +325,11 @@ open TauOf in
 theorem tauOf : TauOf := by
   intro Ω _ _ _ l _ ι K' _ hl hK hDec g0 hg0 m κ hκ c₂ hc
   obtain ⟨hH, hi, hemb, hopen⟩ := setup K' hK
-  obtain ⟨k, kres, kred⟩ : ∃ k : G ℚ Ω → c₂.O, (∀ x, ((k (resQ K' x) : c₂.O) : Qbar l) = κ x) ∧
+  obtain ⟨k, kres, kred⟩ : ∃ k : _root_.Formalism.ConjugateSelfDual.G ℚ Ω → c₂.O, (∀ x, ((k (resQ K' x) : c₂.O) : Qbar l) = κ x) ∧
       (∀ g, (∀ x, resQ K' x ≠ g) → k g = 1) :=
     ⟨kO K' κ c₂ hc, kO_res K' κ c₂ hc, fun g hg => kO_off K' κ c₂ hc g (fun ⟨x, hx⟩ => hg x hx)⟩
   obtain ⟨u, hu⟩ : ∃ u : c₂.O, 2 * u = 1 := ⟨(((two_unit c₂ hl).unit⁻¹ : c₂.Oˣ) : c₂.O), (two_unit c₂ hl).mul_val_inv⟩
-  have kH : ∀ x : G K' Ω, resQ K' x ∈ K'.fixingSubgroup := fun x => (hH _).2 ⟨x, rfl⟩
+  have kH : ∀ x : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' x ∈ K'.fixingSubgroup := fun x => (hH _).2 ⟨x, rfl⟩
   have kone : k 1 = 1 := Subtype.ext (by rw [← map_one (resQ K'), kres, map_one]; rfl)
   have kmul : ∀ x ∈ K'.fixingSubgroup, ∀ y ∈ K'.fixingSubgroup, k (x * y) = k x * k y := by
     intro x hx y hy
@@ -368,22 +368,22 @@ theorem tauOf : TauOf := by
   refine ⟨tau hy, sA K' κ c₂ m, hκ.pos, ?_, fun g => form hy g, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_, hκ.cont, hκ.alg⟩
   ·
     intro i j
-    apply ((UpperTheory.integrality_of_norm_coefficients l).2 c₂ (G ℚ Ω) _).2
-    have hcl : IsClopen (K'.fixingSubgroup : Set (G ℚ Ω)) := ⟨Subgroup.isClosed_of_isOpen _ hopen, hopen⟩
+    apply ((UpperTheory.integrality_of_norm_coefficients l).2 c₂ (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) _).2
+    have hcl : IsClopen (K'.fixingSubgroup : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) := ⟨Subgroup.isClosed_of_isOpen _ hopen, hopen⟩
     have hK : Continuous fun g => ((k g : c₂.O) : Qbar l) := by
       rw [continuous_iff_continuousAt]
       intro g
       rcases em (∃ x, resQ K' x = g) with h | h
       · obtain ⟨x, rfl⟩ := h
         have hr : Set.range (resQ K') ∈ nhds (resQ K' x) := by
-          have e : Set.range (resQ K') = (K'.fixingSubgroup : Set (G ℚ Ω)) := Set.ext fun g => (hH g).symm
+          have e : Set.range (resQ K') = (K'.fixingSubgroup : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) := Set.ext fun g => (hH g).symm
           rw [e]
           exact hopen.mem_nhds (kH x)
         rw [← hemb.toIsInducing.continuousAt_iff' hr]
         have e : (fun g => ((k g : c₂.O) : Qbar l)) ∘ resQ K' = fun x => (κ x : Qbar l) := funext fun x => kres x
         rw [e]
         exact (Units.continuous_val.comp hκ.cont).continuousAt
-      · have hc' : (K'.fixingSubgroup : Set (G ℚ Ω))ᶜ ∈ nhds g :=
+      · have hc' : (K'.fixingSubgroup : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω))ᶜ ∈ nhds g :=
           hcl.isClosed.isOpen_compl.mem_nhds (fun hg => h ((hH g).1 hg))
         refine (continuousAt_const (y := (1 : Qbar l))).congr ?_
         filter_upwards [hc'] with y hy'
@@ -475,7 +475,7 @@ theorem tauOf : TauOf := by
       have e : UpperTheory.V.conjGal hL σ = g⁻¹ * σ * g := rfl
       rw [← e]
       exact UpperTheory.V.conjGal_mem_Ine hL hgA hσ
-    have tr : ∀ x' : G K' Ω, resQ K' x' ∈ Ine (F := ℚ) A' → ∃ y : G K' Ω, resQ K' y ∈ Ine (F := ℚ) A ∧
+    have tr : ∀ x' : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' x' ∈ Ine (F := ℚ) A' → ∃ y : _root_.Formalism.ConjugateSelfDual.G K' Ω, resQ K' y ∈ Ine (F := ℚ) A ∧
         cycBar K' Ω l x' = cycBar K' Ω l y ∧ (g ∈ K'.fixingSubgroup → κ x' = κ y) ∧
         (g ∉ K'.fixingSubgroup → κ x' = (κ y)⁻¹) := by
       intro x' hx'

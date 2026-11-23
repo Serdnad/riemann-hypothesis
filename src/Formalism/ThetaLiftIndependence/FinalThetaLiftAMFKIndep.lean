@@ -1,7 +1,7 @@
 module
 
 public import Formalism.ThetaLiftIndependence.Statement
-public import Formalism.ThetaLiftIndependence.ThetaOrbitSums.GaussOp
+public import Formalism.ThetaLiftIndependence.ThetaOrbitSums.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

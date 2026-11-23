@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BlockGLMap
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProjectiveBundleFormulaRankOneOfHomotopyInvarian
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProjectiveBundleFormulaRankTwo
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProjectiveBundleFormulaRankZero
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle023
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProjectiveBundleFormulaSuccOfForall
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

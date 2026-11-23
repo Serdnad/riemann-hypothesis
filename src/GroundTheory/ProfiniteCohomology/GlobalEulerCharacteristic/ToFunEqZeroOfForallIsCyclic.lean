@@ -4,7 +4,7 @@ public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ArtinDe
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnitsPerm
 public import Mathlib.Algebra.Group.Action.Sigma
 public import Mathlib.GroupTheory.Nilpotent
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.ArtinCount
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle001
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.OrbitInvariants
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.PermLattice
 import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Additive

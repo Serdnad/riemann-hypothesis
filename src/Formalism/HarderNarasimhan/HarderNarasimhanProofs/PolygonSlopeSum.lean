@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
+public import Formalism.HarderNarasimhan.Bundle001
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermod
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

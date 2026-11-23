@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.CTKernel
-public import Development.WeilBound.ThetaLifts.SmallCones.SoDefs
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
 public import Development.WeilBound.ThetaLifts.SmallCones.FormSwapZero
 public import Development.WeilBound.ThetaLifts.SmallCones.KerPol
 import Mathlib.Algebra.Order.Floor.Extended

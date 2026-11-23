@@ -1,7 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StSheetPieceProductAnalytic
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StUnbranchedFibreSections
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle016
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PRiemannExtensionAnalytic
 import Mathlib.Algebra.Order.Floor.Extended

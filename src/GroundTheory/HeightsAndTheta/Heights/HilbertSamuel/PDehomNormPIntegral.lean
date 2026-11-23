@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsDehomNormPIntegral
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullFormsGeneric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle084
 public import Mathlib.NumberTheory.Padics.PadicNumbers
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDehomCharpolyForms
 import Mathlib.Algebra.Order.Floor.Extended

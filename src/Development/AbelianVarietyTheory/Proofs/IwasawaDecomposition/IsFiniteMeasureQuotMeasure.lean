@@ -2,15 +2,14 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.T2SpaceAdelicGeneralLinearGroupNumberField
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IdeleClassFiniteness.OhatCompact
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAdelicGLHomeomorphInfiniteFiniteStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteMeasureReductionDomainInfinityStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLatticeStabilizerConjFiniteAdeleGLIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteVolumeAdelicUnitaryQuotient
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsCompactIntegralGLFiniteAdelesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IwasawaDecompositionFiniteAdelesGLStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StrongApproximationUpperUnitriangularFiniteAdeleStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle242
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle254
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle299
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle346
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle239
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulRightInvariantOfFundamentalDomain
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IdeleClassFiniteness.LatticeIdealNonzero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,6 +127,8 @@ theorem isMulRightInvariant (μ : Measure (GA E a)) [μ.IsHaarMeasure] : μ.IsMu
   have hfin := isFiniteMeasure_quotMeasure E a μ
   have h1 : μ (stdDom (latticeGL E a)) ≠ ⊤ := by
     rw [← quotMeasure_univ hd]; exact measure_ne_top _ _
+  letI : SMulInvariantMeasure (GA E a) (GA E a) μ := Measure.IsMulLeftInvariant.smulInvariantMeasure
+  letI : SMulInvariantMeasure (latticeGL E a) (GA E a) μ := Subgroup.smulInvariantMeasure (latticeGL E a)
   exact GlobalTheory.UnitU.isMulRightInvariant_of_fundamentalDomain _ μ hd (hd.measure_ne_zero (NeZero.ne μ)) h1
 
 theorem finvol : ∀ (E : Type) [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] (a : ℕ) (μ : Measure (GA E a))

@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.Inertia
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 public import GroundTheory.LocalFields.LocalArtinMap
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-import GroundTheory.LocalFields.Examples
-public import GroundTheory.LocalFields.LocalArtinCompletion
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+import GroundTheory.LocalFields.Bundle002
+public import GroundTheory.LocalFields.Bundle013
 public import GroundTheory.LocalFields.PrincipalUnitsRank
 import GroundTheory.LocalFields.SeparableClosureValuation
 import GroundTheory.LocalFields.UnitsPowers

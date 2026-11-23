@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LowerRankDatum
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinHeckeFunctional
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FlatSectionGrowthBoundStatement
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle534
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle446
 import Development.WeilBound.CoreStatements.AutomorphicKernels.EisensteinSeriesG2.AdelicHomeomorphisms.IsTopologicalGroupG2
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.GodementSumW
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.IsGrowFormEvAt
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.DiffContOfReg
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.Bundle001
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.EisensteinMeromorphy.HgtMulRight
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EisCont
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,7 +99,7 @@ theorem majorant_w (d : SD σ) {s₁ : ℂ} {f : d.G → ℂ} (hf : IsSec d.K d.
   refine ⟨fun q => |C0| * (|M| ^ σ' + (|M'|⁻¹) ^ σ') * d.a ((Quotient.out q).1 * 1) ^ σ', (hsum 1).1.mul_left _,
     fun g hg q => ?_⟩
   have hΦ : (fun x => ((d.Ht x : ℝ) : ℂ) ^ (z - s₁) * f x) = flat d.a f s₁ z := funext fun y => by
-    simp only [SD.Ht, flat]
+    simp only [SD.Ht, _root_.GlobalTheory.ThK.Dbl.flat]
     rw [Real.coe_toNNReal _ (hpos y).le]
   rw [hΦ]
   show ‖flat d.a f s₁ z ((Quotient.out q).1 * g)‖ ≤ _
@@ -129,7 +129,7 @@ theorem eisWk : EisWk := by
   obtain ⟨t2, hmaj⟩ := majorant_w d hf
   have hinv := eis_left_rat_w d.ok.hgt hf d.ok.hecke t Ê hsum
   have hfl : ∀ z, (fun y => ((d.Ht y : ℝ) : ℂ) ^ (z - s₁) * f y) = flat d.a f s₁ z := fun z => funext fun y => by
-    simp only [SD.Ht, flat]
+    simp only [SD.Ht, _root_.GlobalTheory.ThK.Dbl.flat]
     rw [Real.coe_toNNReal _ (GlobalTheory.CompanionTheory.EisRat.hgt_nonneg d.ok.hgt y)]
   have Heisenberg₂ : ∀ z : ℂ, t < z.re → ∀ g, d.eis f s₁ z g = Ê z g := fun z hz g => by
     simp only [SD.eis]

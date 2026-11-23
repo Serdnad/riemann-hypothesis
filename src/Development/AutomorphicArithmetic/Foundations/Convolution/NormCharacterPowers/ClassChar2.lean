@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.SumSatUnit
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlobalArtinReciprocityHolds
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle394
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
-public import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.Decomp
+public import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.PartBOfDecomposition
 import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 import Mathlib.Algebra.Order.Floor.Extended
@@ -103,17 +103,17 @@ theorem classChar2 : ClassChar := by
   let Ω := AlgebraicClosure M
   haveI : IsAlgClosure K Ω := ⟨IsAlgClosure.isAlgClosed M, Algebra.IsAlgebraic.trans K M Ω⟩
   obtain ⟨art, ha⟩ := GlobalTheory.globalArtinReciprocity_holds K Ω
-  let r : G K Ω →* (M ≃ₐ[K] M) := AlgEquiv.restrictNormalHom M
+  let r : _root_.Formalism.ConjugateSelfDual.G K Ω →* (M ≃ₐ[K] M) := AlgEquiv.restrictNormalHom M
   have hr : ∀ s (x : M), algebraMap M Ω (r s x) = s (algebraMap M Ω x) := fun s x => AlgEquiv.restrictNormal_commutes s M x
   let e : (M ≃ₐ[K] M) ≃* rootsOfUnity (Module.finrank K M) (Qbar 2) :=
     mulEquivOfPrimeCardEq (IsGalois.card_aut_eq_finrank K M) (HasEnoughRootsOfUnity.natCard_rootsOfUnity _ _)
-  let δ : G K Ω →* (Qbar 2)ˣ := ((rootsOfUnity _ _).subtype.comp e.toMonoidHom).comp r
+  let δ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar 2)ˣ := ((rootsOfUnity _ _).subtype.comp e.toMonoidHom).comp r
   have hδ : ∀ s, δ s = 1 ↔ r s = 1 := fun s =>
     ⟨fun h => e.injective (Subtype.ext (h.trans (by rw [map_one]; rfl))), fun h => by simp [δ, h]⟩
   choose θ hθ using fun τ : {τ : M ≃ₐ[K] M // τ ≠ 1} => moved τ.1 τ.2
   have hc : Continuous δ := by
     refine continuous_of_isOpen_ker' δ (Subgroup.isOpen_mono
-      (H₁ := ⨅ τ, MulAction.stabilizer (G K Ω) (algebraMap M Ω (θ τ))) (fun s hs => (hδ s).2 ?_) ?_)
+      (H₁ := ⨅ τ, MulAction.stabilizer (_root_.Formalism.ConjugateSelfDual.G K Ω) (algebraMap M Ω (θ τ))) (fun s hs => (hδ s).2 ?_) ?_)
     · by_contra h
       exact hθ ⟨r s, h⟩ ((algebraMap M Ω).injective ((hr s _).trans (Subgroup.mem_iInf.1 hs ⟨r s, h⟩)))
     · rw [Subgroup.coe_iInf]
@@ -134,7 +134,7 @@ theorem classChar2 : ClassChar := by
     filter_upwards [ev, (GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.tendsto_under K M).eventually (decomp K M hl)] with w hw hd
     have hd' := hd.imp (fun h => h.2 w rfl) fun h => h.2 w rfl
     obtain ⟨A, hA⟩ := exists_isPlaceOver Ω w
-    have hv : IsPlaceOver A (w.under (𝓞 K)) := fun x => by
+    have hv : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A (w.under (𝓞 K)) := fun x => by
       rw [IsScalarTower.algebraMap_apply K M Ω]
       exact hA (algebraMap (𝓞 K) (𝓞 M) x)
     have hur : ∀ s ∈ Ine (F := K) A, δ s = 1 := fun s hs => (hδ s).2 (by

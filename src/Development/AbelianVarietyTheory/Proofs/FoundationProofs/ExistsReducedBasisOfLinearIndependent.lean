@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsBimultiplicativeOfSecondQuotConst
-public import ReciprocityTheory.ReducedBases.ExistsBoundedBasis
+public import ReciprocityTheory.ReducedBases.Bundle002
 public import ReciprocityTheory.ReducedBases.LatticeReduction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,8 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReducedBases.ExistsRedOf
-public import ReciprocityTheory.ReducedBases.PrefixProdGeOne
+public import ReciprocityTheory.ReducedBases.Bundle003
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.IntegralModuleBases.NormGsoSqLeTwoPowMulOfValEqAdd
 import Std.Tactic.BVDecide.Normalize.Prop
 

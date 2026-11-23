@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.Descent.SliceVan
 public import Mathlib.NumberTheory.LocalField.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsRestSide
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle049
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StMinimalPrimePlace
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle063
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChartLocalOrder
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.CurveNormalisationFiniteLemmas
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle106
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

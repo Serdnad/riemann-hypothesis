@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.RealGroupsLie
 public import GroundTheory.AutomorphicForms.ReductionIwasawa
-import GroundTheory.GlobalFields.Adele.IntegersLattice
+import GroundTheory.GlobalFields.Adele.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

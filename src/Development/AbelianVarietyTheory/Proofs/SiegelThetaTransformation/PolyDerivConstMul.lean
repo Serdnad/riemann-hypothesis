@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.KernInvariantSymmPos
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PolyDerivEqSumList
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,13 +47,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.LineDerivListEqIteratedFDeriv
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle004
 
 @[expose] public section
 
 open Matrix Complex NumberField GlobalTheory GlobalTheory.SW GlobalTheory.ThFr ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.FD
 open scoped ComplexConjugate Real Topology
-open ReciprocityTheory.ChartRestriction.G.I2 (polyDeriv)
 
 namespace GlobalTheory.SW.KernSum
 
@@ -165,7 +164,7 @@ theorem exists_majorant {ι : Type} (A : ι → ℂ) (B : ι → W →ₗ[ℂ] W
 variable {σ : Type}
 
 noncomputable def bd (P Q : MvPolynomial σ ℂ) (u : σ → W) (F : W × W → ℂ) : ℂ :=
-  polyDeriv P u (fun z => polyDeriv Q u (fun w => F (z, w)) 0) 0
+  _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u (fun z => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u (fun w => F (z, w)) 0) 0
 
 theorem bd_hasSum (P Q : MvPolynomial σ ℂ) (u : σ → W) {ι : Type} {F : ι → W × W → ℂ}
     {S : W × W → ℂ} (hF : ∀ i p, AnalyticAt ℂ (F i) p) (hS : ∀ p, HasSum (fun i => F i p) (S p))
@@ -230,7 +229,7 @@ theorem bd_const_mul (P Q : MvPolynomial σ ℂ) (u : σ → W) (c : ℂ) {F : W
 
 omit [FiniteDimensional ℂ W] in
 theorem polyDeriv_const_mul (P : MvPolynomial σ ℂ) (u : σ → W) (c : ℂ) {F : W → ℂ}
-    (hF : AnalyticAt ℂ F 0) : polyDeriv P u (fun p => c * F p) 0 = c * polyDeriv P u F 0 := by
+    (hF : AnalyticAt ℂ F 0) : _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u (fun p => c * F p) 0 = c * _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u F 0 := by
   rw [KernSym.polyDeriv_eq_sum_list _ _ hF,
     KernSym.polyDeriv_eq_sum_list _ _ (F := fun p => c * F p) (analyticAt_const.mul hF),
     Finset.mul_sum]
@@ -249,8 +248,8 @@ theorem analyticAt_conj {h : W → ℂ} (hh : ∀ p, AnalyticAt ℂ h p) (p : W)
 theorem bd_prod (P Q : MvPolynomial σ ℂ) (u : σ → W) (hu : ∀ s, star (u s) = u s) {f h : W → ℂ}
     (hf : ∀ p, AnalyticAt ℂ f p) (hh : ∀ p, AnalyticAt ℂ h p) :
     bd P (barP Q) u (fun p => f p.1 * conj (h (star p.2))) =
-      polyDeriv P u f 0 * conj (polyDeriv Q u h 0) := by
-  have h1 : polyDeriv (barP Q) u (fun w => conj (h (star w))) 0 = conj (polyDeriv Q u h 0) := by
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u f 0 * conj (_root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u h 0) := by
+  have h1 : _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (barP Q) u (fun w => conj (h (star w))) 0 = conj (_root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u h 0) := by
 
     rw [KernSym.polyDeriv_eq_sum_list _ _ (analyticAt_conj hh 0),
     KernSym.polyDeriv_eq_sum_list _ _ (hh 0), map_sum, barP,
@@ -290,8 +289,11 @@ private theorem kZero_quad_expansion {E : Type} [Field E] [NumberField E] [IsCMF
     rw [quadPoint, sgnM, diagonal_neg]
     rfl
   rw [h, quadMatrix]
-  change ((τ.1 X.κ0 / 2) • ((_ *ᵥ KernSym.mixV X idx τ (w k) (z k)) ᵥ* _)) ⬝ᵥ _ *ᵥ
-    ((-(τ.1 X.κ0 / 2)) • (_ *ᵥ _ *ᵥ KernSym.mixV X idx τ (z k) (w k))) = _
+  change ((τ.1 X.κ0 / 2) •
+    (((aLin X x₁ x₂ τ)⁻¹ *ᵥ KernSym.mixV X idx τ (w k) (z k)) ᵥ* X.Gm.map τ.1)) ⬝ᵥ
+    (imH (quadPoint (τ.1 X.κ0) (X.Gm.map τ.1) (-sgnM X) (aLin X x₁ x₂ τ)))⁻¹ *ᵥ
+    ((-(τ.1 X.κ0 / 2)) • (X.Gm.map τ.1 *ᵥ (aAnti X x₁ x₂ τ)⁻¹ *ᵥ
+      KernSym.mixV X idx τ (z k) (w k))) = _
   rw [smul_dotProduct, mulVec_smul, dotProduct_smul, smul_mulVec, dotProduct_smul, smul_smul,
     mul_comm, ← vecMul_transpose, ← dotProduct_mulVec, ← dotProduct_mulVec]
   simp only [mulVec_mulVec, Matrix.mul_assoc]

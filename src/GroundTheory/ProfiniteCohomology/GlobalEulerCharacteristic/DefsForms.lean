@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.GlobalEulerFormulaInf
+public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.Bundle002
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Devissage
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.MainCoind
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Finite

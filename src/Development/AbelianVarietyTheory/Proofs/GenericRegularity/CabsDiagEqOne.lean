@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TriangularFrameMovesPeriodBlockTriangular
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CmTypeLetterFrameColumnDictionary
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.EqOfImHermFormEq
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExponentialDerivativeAtZeroIsTangent
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FamilyUnifExpUnique
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsCombAtIffIsDerivAt0
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDerivAt0CompLinear
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle029
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemIffConjugateNotMem
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UnitFrameEqOrthonormalMulTriangular
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.RegularCharts.Reframe
+import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
 
 @[expose] public section
 

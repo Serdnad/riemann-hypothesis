@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntEmbInjective
-public import GroundTheory.AutomorphicForms.HermitianOrthogonal
+public import GroundTheory.AutomorphicForms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

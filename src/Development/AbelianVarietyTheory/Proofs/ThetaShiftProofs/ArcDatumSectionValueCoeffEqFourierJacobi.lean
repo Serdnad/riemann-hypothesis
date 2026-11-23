@@ -1,30 +1,29 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsLetterRingBaseChange
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.MemOfPowEqInt
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle027
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
 public import Development.AbelianVarietyTheory.Counterexamples.UpperHalfSurvey.FirstMinimumRankZero
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsSchemeTheoreticallyDominantSpecOfInjective
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcFrameChangeByConstantsStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcFramedPointUniqueAndBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcFramedPointValueIsHomogeneousLetters
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcPointTangentPart
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.DegenerationDataBaseChangesExistPid
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsNeZeroIff
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsUniqueConstantTangentVectorsAlongArcStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeComposeInvertBaseChangeTriangularStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeExistsUniqueInvertible
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FramedPointEvalNaturalWeightScalingStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsFramedPointOfArcBaseChangeStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle032
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle038
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle029
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle054
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsIntegralElemOfIsAlgebraicInt
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsOpenImmersionJKPowerSeries
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LaurentCoeffSectionValueArcEqFourierJacobiStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyUnifWitnessDataOfIsUnfStatement
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorusExtExponentialDerivativeBijectiveTangentStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
-public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.ArcSPin
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle031
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle037
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
+public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.ArcLineFunctions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,7 +65,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.RigidSys
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.BoundedSectionAlgebra
 
 @[expose] public section
@@ -267,7 +266,7 @@ theorem generic_mem {K₁ : Type} [Field K₁] [Algebra c.F K₁] (d : ArcDatum 
   refine ⟨z η, ?_⟩
   rw [← Scheme.Hom.comp_apply, hz, Scheme.Hom.comp_apply, Scheme.Hom.comp_apply, hη]
 
-theorem ajAt_eq_fj_of_overBase : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt → Out.Laws5 → ToroidalArchimedeanCondition → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (ι : K₁ →+* ℂ) (r : ℕ) (U : Unf Xo c (ι.comp (algebraMap c.F K₁)) r) (ξ : Module.Dual ℤ d.a.D₀.X) (ν₀ : E) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), GlobalTheory.Reg.EvLaws Xo c → GoodEmb c (ι.comp (algebraMap c.F K₁)) → IsUnf U → d.OverBase → PushInvertible d.Y.t.G d.Y.t.PP.L → Module.finrank (𝓞 E) d.a.D₀.X = 1 → ξ ≠ 0 → BetaAt ξ l.M' d.a.be ν₀ d.jj → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (laU U a' n k)) → ∃ (k : U.Comp) (ξ' : Fin r → E) (fr : (ArcLt Dw → ℂ) → Frame (U.X k).Ψ r) (u₁ : ℂ) (κ : (ArcLt Dw → ℂ) → ℂ), u₁ ≠ 0 ∧ (U.X k).IsIso ξ' ∧ (∀ x, InvBl x → κ x ≠ 0) ∧ (∀ x, InvBl x → fr x ∈ (U.X k).dom) ∧ ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (laU U a' n k) (rdU U F k) → ∀ x, InvBl x → ajAt d ι F x * u₁ ^ d.jj = κ x * (U.X k).fj (laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) (fr x) := by
+theorem ajAt_eq_fj_of_overBase : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt → Out.Laws5 → ToroidalArchimedeanCondition → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (ι : K₁ →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c (ι.comp (algebraMap c.F K₁)) r) (ξ : Module.Dual ℤ d.a.D₀.X) (ν₀ : E) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), GlobalTheory.Reg.EvLaws Xo c → _root_.Formalism.L2.PjFree.GoodEmb c (ι.comp (algebraMap c.F K₁)) → _root_.Formalism.L2.PjFree.IsUnf U → d.OverBase → PushInvertible d.Y.t.G d.Y.t.PP.L → Module.finrank (𝓞 E) d.a.D₀.X = 1 → ξ ≠ 0 → BetaAt ξ l.M' d.a.be ν₀ d.jj → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (_root_.Formalism.L2.PjFree.laU U a' n k)) → ∃ (k : U.Comp) (ξ' : Fin r → E) (fr : (ArcLt Dw → ℂ) → Frame (U.X k).Ψ r) (u₁ : ℂ) (κ : (ArcLt Dw → ℂ) → ℂ), u₁ ≠ 0 ∧ (U.X k).IsIso ξ' ∧ (∀ x, InvBl x → κ x ≠ 0) ∧ (∀ x, InvBl x → fr x ∈ (U.X k).dom) ∧ ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) → ∀ x, InvBl x → ajAt d ι F x * u₁ ^ d.jj = κ x * (U.X k).fj (_root_.Formalism.L2.PjFree.laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) (fr x) := by
   intro h1 h2 hU h5 hN E _ _ _ H Dw l Xo c K₁ _ _ d ι r U ξ ν₀ a' n hev hgood hunf hover hpush hrk hξ hbeta hdom htv
   letI : Algebra (FractionRing ℂ) ℂ := FractionRing.liftAlgebra ℂ ℂ
   haveI : IsScalarTower ℂ (FractionRing ℂ) ℂ := FractionRing.isScalarTower_liftAlgebra ℂ ℂ
@@ -306,9 +305,9 @@ theorem ajAt_eq_fj_of_overBase : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt
   choose z₁ hz₁ using fun τ i =>
     (v₁ (e₁ τ i) (htan _ _ (he₁ τ i) (gtTanR_of_isArcFr h1.globalFns hι hy₀ τ i))).exists
   have key : ∀ x, InvBl x → ∃ (fr : (U.X k).dom) (κ : ℂ), κ ≠ 0 ∧
-      ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (laU U a' n k) (rdU U F k) →
+      ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) →
         ajAt d ι F x * eTwoPi (((Ha.T + 1 : ℝ) : ℂ) * Complex.I) ^ d.jj =
-          κ * (U.X k).fj (laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) fr.1 := fun x hx => by
+          κ * (U.X k).fj (_root_.Formalism.L2.PjFree.laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) fr.1 := fun x hx => by
     choose e₂ he₂ using fun (τ : E →+* ℂ) (i : Fin (Dw.mult τ)) => (v₂ (∑ j, x ⟨τ, (i, j)⟩ • z₁ τ j)).exists
     obtain ⟨hζ, y, hy, hval⟩ := exists_frPt_at h1 h2 hev d ι (fun _ => rfl) hy₀ hc hth hp hW₁ he₁ hth₁
       (hnz _ _ hth₁ hth) hx (fun τ i => (v₄ _ _ _ _ _ (hz₁ τ)).2 (he₂ τ i)) a' n
@@ -330,7 +329,7 @@ theorem ajAt_eq_fj_of_overBase : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt
   · simpa only [dif_pos hx] using (fr x hx).2
   · simpa only [dif_pos hx] using hF x hx F h hb
 
-theorem ajAt_eq_fj : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt → Out.Laws5 → ToroidalArchimedeanCondition → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (ι : K₁ →+* ℂ) (r : ℕ) (U : Unf Xo c (ι.comp (algebraMap c.F K₁)) r) (ξ : Module.Dual ℤ d.a.D₀.X) (ν₀ : E) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), GlobalTheory.Reg.EvLaws Xo c → GoodEmb c (ι.comp (algebraMap c.F K₁)) → IsUnf U → d.OverBase → (∀ τ k, GtTanR (d.e τ k)) → PushInvertible d.Y.t.G d.Y.t.PP.L → Module.finrank (𝓞 E) d.a.D₀.X = 1 → ξ ≠ 0 → BetaAt ξ l.M' d.a.be ν₀ d.jj → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (laU U a' n k)) → ∃ (k : U.Comp) (ξ' : Fin r → E) (fr : (ArcLt Dw → ℂ) → Frame (U.X k).Ψ r) (u₁ : ℂ) (κ : (ArcLt Dw → ℂ) → ℂ), u₁ ≠ 0 ∧ (U.X k).IsIso ξ' ∧ (∀ x, InvBl x → κ x ≠ 0) ∧ (∀ x, InvBl x → fr x ∈ (U.X k).dom) ∧ ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (laU U a' n k) (rdU U F k) → ∀ x, InvBl x → ajAt d ι F x * u₁ ^ d.jj = κ x * (U.X k).fj (laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) (fr x) :=
+theorem ajAt_eq_fj : Out.Laws → Out.Laws2 → Out.UnifBaseChangeSt → Out.Laws5 → ToroidalArchimedeanCondition → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (K₁ : Type) [Field K₁] [Algebra c.F K₁] (d : ArcDatum Xo c K₁) (ι : K₁ →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c (ι.comp (algebraMap c.F K₁)) r) (ξ : Module.Dual ℤ d.a.D₀.X) (ν₀ : E) (a' : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), GlobalTheory.Reg.EvLaws Xo c → _root_.Formalism.L2.PjFree.GoodEmb c (ι.comp (algebraMap c.F K₁)) → _root_.Formalism.L2.PjFree.IsUnf U → d.OverBase → (∀ τ k, GtTanR (d.e τ k)) → PushInvertible d.Y.t.G d.Y.t.PP.L → Module.finrank (𝓞 E) d.a.D₀.X = 1 → ξ ≠ 0 → BetaAt ξ l.M' d.a.be ν₀ d.jj → Dom a' n → (∀ k, TransvIn (U.X k) l.M' (_root_.Formalism.L2.PjFree.laU U a' n k)) → ∃ (k : U.Comp) (ξ' : Fin r → E) (fr : (ArcLt Dw → ℂ) → Frame (U.X k).Ψ r) (u₁ : ℂ) (κ : (ArcLt Dw → ℂ) → ℂ), u₁ ≠ 0 ∧ (U.X k).IsIso ξ' ∧ (∀ x, InvBl x → κ x ≠ 0) ∧ (∀ x, InvBl x → fr x ∈ (U.X k).dom) ∧ ∀ F ∈ sec Xo c a' n, (U.X k).IsBddSec (_root_.Formalism.L2.PjFree.laU U a' n k) (rdU U F k) → ∀ x, InvBl x → ajAt d ι F x * u₁ ^ d.jj = κ x * (U.X k).fj (_root_.Formalism.L2.PjFree.laU U a' n k) ξ' (fun τ => (τ.1 ν₀).re) (rdU U F k) (fr x) :=
   fun h1 h2 hU h5 hN E _ _ _ H Dw l Xo c K₁ _ _ d ι r U ξ ν₀ a' n hev hgood hunf hover _ =>
     ajAt_eq_fj_of_overBase h1 h2 hU h5 hN E H Dw l Xo c K₁ d ι r U ξ ν₀ a' n hev hgood hunf hover
 

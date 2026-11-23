@@ -1,7 +1,7 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountNonIntegrality.NGCong
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BlockEnds
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountNonIntegrality.Bundle002
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.Ab
 public import Mathlib.Algebra.Group.Action.Pointwise.Finset
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.GroupTheory.SemidirectProduct
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.VirtualCharactersMulComapConjIndLinear
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.InvariantSubspaceMobiusInverseRecEqOfFinrankLt
-import Development.AbelianVarietyTheory.Definitions.Divisors.OrthSubrepresentation
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle003
 
 @[expose] public section
 

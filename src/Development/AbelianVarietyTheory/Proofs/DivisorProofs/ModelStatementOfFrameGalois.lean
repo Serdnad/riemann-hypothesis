@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ChebotarevDegreeOneIffCheb
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasBlockOfOccurs
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SumExpSt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgChainBStable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnifDvd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueDualWeylWeightProjector
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeStableOfHeckeFramePolynomialActionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.JKInvOfTriv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeLinkOfSurvivingSimpleSubquotientStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SimpleSubquotientDualWeylEmbedsHighestWeightStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle921
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2414
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle861
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle890
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle860
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2504
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2535
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LiftFrameEmbeddingBase
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
 
 @[expose] public section
 

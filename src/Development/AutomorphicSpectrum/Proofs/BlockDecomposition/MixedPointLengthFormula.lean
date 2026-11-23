@@ -1,10 +1,9 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsSmoothHermCombLine
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FiniteResidueFieldOfIsClosedOfLocallyOfFiniteTyp
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MultiprojectivePrimeEqPointIdeal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointIdealMultiprojectivePrime
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResidueFieldMapPtCoordSndM
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle435
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle442
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageInverse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.StatementD
 public import Formalism.HermitianCurvature.StatementMA
 public import Formalism.HermitianCurvature.LowerBlockNormalisedBoundFromComponents
-public import Formalism.HermitianCurvature.LatticeHerglotzBound
+public import Formalism.HermitianCurvature.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

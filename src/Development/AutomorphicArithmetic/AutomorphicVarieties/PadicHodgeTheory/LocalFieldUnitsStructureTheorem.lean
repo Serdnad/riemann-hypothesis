@@ -4,8 +4,8 @@ public import GroundTheory.LocalFields.UnitsBasic
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.NumberTheory.Padics.ValuativeRel
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.ExistsPrincipalUnitsRetractionLocalField
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteZpModuleTorsionFreeSplitting
-import GroundTheory.LocalFields.Examples
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle001
+import GroundTheory.LocalFields.Bundle002
 import GroundTheory.LocalFields.Integers
 public import GroundTheory.LocalFields.PrincipalUnitsRank
 import Mathlib.Algebra.Order.Floor.Extended

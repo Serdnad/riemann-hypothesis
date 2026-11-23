@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.HoweMaximalTori.MaxSplit
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.Factor
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCountDef
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle007
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PolReOf2T
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle691
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

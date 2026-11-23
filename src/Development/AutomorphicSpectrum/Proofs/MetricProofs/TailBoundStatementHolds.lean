@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.TailBound
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CompChartEventuallyEq
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,16 +49,16 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.LeviForms.TailBoundA
-public import ReciprocityTheory.AnalyticForms.LeviForms.TailBoundB
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle003
 import ReciprocityTheory.AnalyticForms.LeviForms.TailCut
-import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle002
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffOnFubiniStudyProfileInvNormSqFirst
 import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
 import ReciprocityTheory.AnalyticForms.PotentialTheory.LogInt
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.MaMeasure
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PLLocalStatement
-import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 import ReciprocityTheory.AnalyticForms.PotentialTheory.SNCAtlas
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.Stokes
 

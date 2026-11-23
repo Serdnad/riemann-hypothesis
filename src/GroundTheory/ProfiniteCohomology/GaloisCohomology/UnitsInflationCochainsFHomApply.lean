@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ContinuousCochains
+public import GroundTheory.ProfiniteCohomology.Bundle005
 public import GroundTheory.ProfiniteCohomology.GaloisModules.Discrete
 public import Mathlib.RepresentationTheory.Homological.GroupCohomology.Functoriality
 import Mathlib.Algebra.Order.Floor.Extended

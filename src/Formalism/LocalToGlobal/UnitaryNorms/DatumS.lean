@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.ClassS
-public import Formalism.LocalToGlobal.UnitaryNorms.DefsDatum
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle003
 public import Formalism.LocalToGlobal.PlaceMapInjectivity.MapPlInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

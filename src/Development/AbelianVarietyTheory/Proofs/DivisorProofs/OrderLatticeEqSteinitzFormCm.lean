@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.OmegaFact
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EntireEqOfHalfPlane
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteRingClassGroupOfConductorNeZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemIntegersOfMemHatO
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1064
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1065
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdicCompactDensity.ExistsNatLocal
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

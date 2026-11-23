@@ -1,8 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.MultMk
+public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials.SgKSPowP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

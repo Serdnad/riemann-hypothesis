@@ -53,7 +53,7 @@ import Mathlib.Topology.Sheaves.Init
 import GroundTheory.AutomorphicForms.GL2.GodementSection
 import GroundTheory.AutomorphicForms.GL2.SummableNormIffAndTsumEqCoset2
 import GroundTheory.AutomorphicForms.LocallyProfinite
-import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+import GroundTheory.GlobalFields.TateThesis.Bundle001
 public import Mathlib.Analysis.Calculus.BumpFunction.Basic
 public import Mathlib.NumberTheory.NumberField.Basic
 import Mathlib.NumberTheory.NumberField.InfiniteAdeleRing

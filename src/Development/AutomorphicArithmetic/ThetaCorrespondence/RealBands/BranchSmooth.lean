@@ -1,8 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.RealBands.BranchDefs
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProjectionSmooth
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitaryStabiliserEmbeddingNormLawsStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle114
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

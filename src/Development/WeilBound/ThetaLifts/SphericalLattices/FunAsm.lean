@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.ThetaLifts.SphericalLattices.FunDefs
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Inertof
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Kcompact
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle002
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle003
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlMain
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasMain
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC

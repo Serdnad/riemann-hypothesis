@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Reduction
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.NormOneUnitIdeal
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.PullIopOf
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle002
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle003
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.ReductionOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

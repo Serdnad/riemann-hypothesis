@@ -1,24 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverCompOfIsClosedImmersion
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AbelianLocusIsOpenOfOpenImmersionCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CardBasisPolarisationPowerZeroEqOneStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CardPulledSectionsFormBasisEqPowDimStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsAbelianTripleGlueTwoOpenImmersionsStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsCompleteDVRPointGenericPointStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabCancel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSectionPowerTransportCartesianSquareStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FibresSplitOfOpenImmersionCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasFibrewiseThetaOfOpenImmersionCoverStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasFramesDisjointUnionCechDataStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasTransitionCompatibleFramesOfNoCompleteDVRPoinStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAmpleCechLineBundleDisjointUnionPushforwardStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsQProjOverOfIsComplOpenImmersionsStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PulledSectionsFormBasisIdOfPulledSectionsFormBasStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TransitionFramesPushOpenImmersionImageStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle148
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle146
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle147
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle150
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
+
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,11 +51,11 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AmplePt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
-import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
 
 @[expose] public section
 
@@ -206,7 +198,7 @@ theorem hasModel_of_maps {Y Z : Scheme.{0}} (a : Y ⟶ M) [IsOpenImmersion a] [I
   obtain ⟨tW, ⟨k⟩⟩ := exists_pull a.isoOpensRange.inv tY
   obtain ⟨k₁⟩ := map_comp k m₁ a.isoOpensRange_inv_comp
   obtain ⟨k₂⟩ := map_comp k m₂ rfl
-  exact ⟨⟨Z, z, h₁, h₂, h₃, t, h₄, h₅, a.opensRange, a.denseRange, a.isoOpensRange.inv ≫ j, inferInstance, inferInstance,
+  exact ⟨⟨Z, z, GlobalTheory.IsNormalScheme.of_pred h₁, h₂, h₃, t, h₄, h₅, a.opensRange, a.denseRange, a.isoOpensRange.inv ≫ j, inferInstance, inferInstance,
     by rw [Category.assoc, h, ← Category.assoc, a.isoOpensRange_inv_comp], tW, k₁, k₂, A⟩, rfl, rfl, rfl⟩
 
 theorem isDominant_ι {X : Scheme.{0}} {W : X.Opens} (h : Dense (W : Set X)) : IsDominant W.ι :=
@@ -226,7 +218,7 @@ theorem HasModel.shrink (h : HasModel sM tM m n r s) {V : Scheme.{0}} (i : V ⟶
   obtain ⟨p₁⟩ := map_comp p C.m₁ rfl
   obtain ⟨p₂⟩ := map_cancel p₁ k pullback.condition
   obtain ⟨p₃⟩ := map_comp p C.m₂ rfl
-  exact hasModel_of_maps (pullback.fst i C.W.ι) (pullback.snd i C.W.ι ≫ C.j) C.s C.normal C.proj C.flat C.t C.qproj C.good
+  exact hasModel_of_maps (pullback.fst i C.W.ι) (pullback.snd i C.W.ι ≫ C.j) C.s ((GlobalTheory.isNormalScheme_iff_pred _).mp C.normal) C.proj C.flat C.t C.qproj C.good
     (by rw [Category.assoc, C.j_over, pullback.condition_assoc]) p₂ p₃ C.amp
 
 theorem HasModel.grow {V : Scheme.{0}} (i : V ⟶ M) [IsOpenImmersion i] [IsDominant i]
@@ -236,7 +228,7 @@ theorem HasModel.grow {V : Scheme.{0}} (i : V ⟶ M) [IsOpenImmersion i] [IsDomi
   have := C.j_open
   have := C.j_dom
   obtain ⟨p⟩ := map_comp C.m₁ k rfl
-  exact hasModel_of_maps (C.W.ι ≫ i) C.j C.s C.normal C.proj C.flat C.t C.qproj C.good
+  exact hasModel_of_maps (C.W.ι ≫ i) C.j C.s ((GlobalTheory.isNormalScheme_iff_pred _).mp C.normal) C.proj C.flat C.t C.qproj C.good
     (by rw [Category.assoc, C.j_over]) p C.m₂ C.amp
 
 theorem hasModel_of_isEmpty [IsEmpty M] : HasModel sM tM m n r s := by
@@ -325,7 +317,8 @@ theorem HasModel.sum [IsNoetherianRing O] [IsReduced M] (hp : IsProper tM.G.hom)
   have d₂ := isDominant_map C₁.j (𝟙 C₂.W.toScheme)
   have o₃ := isOpenImmersion_map (𝟙 C₁.Z) C₂.j
   have d₃ := isDominant_map (𝟙 C₁.Z) C₂.j
-  have hZ := isNormalScheme_coprod C₁.normal C₂.normal
+  have hZ := isNormalScheme_coprod ((GlobalTheory.isNormalScheme_iff_pred _).mp C₁.normal)
+    ((GlobalTheory.isNormalScheme_iff_pred _).mp C₂.normal)
   have hP := ProjSpace.isProjOver_coprodDesc C₁.proj C₂.proj
   have := noetherianSpace_of_isProjOver hP
   have := isReduced_of_isNormalScheme hZ
@@ -348,7 +341,7 @@ theorem HasModel.sum [IsNoetherianRing O] [IsReduced M] (hp : IsProper tM.G.hom)
       · exact .inl ⟨(coprod.inr : _ ⟶ C₁.W.toScheme ⨿ C₂.W.toScheme) y, by
           rw [← Scheme.Hom.comp_apply, coprod.inr_map, Category.id_comp]⟩)
     ⟨isReduced_of_isOpenImmersion a, fun _ _ _ _ _ _ _ => inferInstance⟩
-    ⟨isReduced_of_isNormalScheme C₁.normal, genericPoints_subset_abLocus C₁.m₂ (proper_of_map q₁ hp)⟩
+    ⟨isReduced_of_isNormalScheme ((GlobalTheory.isNormalScheme_iff_pred _).mp C₁.normal), genericPoints_subset_abLocus C₁.m₂ (proper_of_map q₁ hp)⟩
   obtain ⟨v₂⟩ := map_comp (k := coprod.inr) p₂ u₀ (by simp)
   obtain ⟨t, ⟨w₀⟩, ⟨w₂⟩⟩ := GlobalTheory.T.exists_abelianTriple_glue_two_open_immersions E H _ _ _ _ (coprod.map (𝟙 C₁.Z) C₂.j) coprod.inr coprod.inr C₂.j _ _ _
     v₂ C₂.m₂ o₃ inferInstance (isPullback_inr_inr_coprodMap _ _).flip (fun x => by
@@ -357,7 +350,7 @@ theorem HasModel.sum [IsNoetherianRing O] [IsReduced M] (hp : IsProper tM.G.hom)
           rw [← Scheme.Hom.comp_apply, coprod.inl_map, Category.id_comp]⟩
       · exact .inr h)
     ⟨isReduced_of_isOpenImmersion (coprod.map (𝟙 C₁.Z) C₂.j), genericPoints_subset_abLocus u₀ pY⟩
-    ⟨isReduced_of_isNormalScheme C₂.normal, genericPoints_subset_abLocus C₂.m₂ (proper_of_map q₂ hp)⟩
+    ⟨isReduced_of_isNormalScheme ((GlobalTheory.isNormalScheme_iff_pred _).mp C₂.normal), genericPoints_subset_abLocus C₂.m₂ (proper_of_map q₂ hp)⟩
   obtain ⟨w₁⟩ := map_comp (k := coprod.inl) u₁ w₀ (by simp)
   obtain ⟨w⟩ := map_comp u₀ w₀ rfl
   obtain ⟨A, e₁, e₂, e₃⟩ := amp_of_two w₁ w₂ (isCompl_range_inl_inr _ _) C₁.amp C₂.amp hn hr hs

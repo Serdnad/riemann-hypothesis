@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTPresNuOfPolys
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle021
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HtCoLOfEq
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PieceEqPieceT
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HtCoLSum
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HtPresNu7MonoLoss
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsPrimitiveRootEOmLevel
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MapOneDirichlet
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PsumGaloisUnitPiece
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle365
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle373
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle067
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Foundations.Mdl
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle004
 
 @[expose] public section
 

@@ -6,10 +6,10 @@ public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.PhiPair
 import Formalism.MahlerMeasure.MahlerMeasureProofs.MeanGam
 import Formalism.MahlerMeasure.MahlerMeasureProofs.RemoveS
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.GramWindow2Proved
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.LettersAtUPos
+public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.NeglogPowMul
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.NormFockLe
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.DegFactNeZero
+public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

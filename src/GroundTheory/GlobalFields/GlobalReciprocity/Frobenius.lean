@@ -8,9 +8,9 @@ public import GroundTheory.LocalFields.UnramifiedHensel
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.RingTheory.Frobenius
 public import GroundTheory.GlobalFields.CompletionAtPlace.Inertia
-public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialLocal
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle004
 import GroundTheory.LocalFields.LocalArtinTransport
-public import GroundTheory.LocalFields.TameExtension
+public import GroundTheory.LocalFields.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

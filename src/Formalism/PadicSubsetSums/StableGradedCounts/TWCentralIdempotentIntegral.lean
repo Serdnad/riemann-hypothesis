@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EndLatticeTraceIntegral
-public import Formalism.PadicSubsetSums.CentralIdempotents.CentralIdempotentIntegral
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle517
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
 public import Mathlib.LinearAlgebra.Matrix.Trace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

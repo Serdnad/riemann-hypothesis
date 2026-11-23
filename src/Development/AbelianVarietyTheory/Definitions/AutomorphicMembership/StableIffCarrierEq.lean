@@ -1,16 +1,16 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
-public import Formalism.LocalToGlobal.IndefiniteReal.BridgeSeed
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
 public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.NormalFrameClauses
-public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.SignsG
+public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.Bundle002
 public import Formalism.LocalToGlobal.Divisibility.PsiWeilOfAbsNorm
 public import Formalism.LocalToGlobal.HilbertRowConditions.CenterIdempotentAction
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.JEvExists
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle007
 public import Formalism.LocalToGlobal.Divisibility.DivisionCompatibleToSub2Indef2
 public import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
-public import Formalism.LocalToGlobal.IndefiniteReal.IsMultMapUnivZero
-public import Formalism.LocalToGlobal.IndefiniteReal.PackageFromPrimitiveStatements
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle025
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import GroundTheory.PAdicHodge.LocalBridge
+public import GroundTheory.PAdicHodge.Bundle004
 public import GroundTheory.PAdicHodge.NormalizedTraceTower
 public import GroundTheory.PAdicHodge.SenTateCharTower
-public import GroundTheory.PAdicHodge.TateCpTwist
+public import GroundTheory.PAdicHodge.Bundle003
 public import GroundTheory.PAdicHodge.UnramifiedClosure
 public import GroundTheory.PAdicHodge.BCrisEigenFrob
 public import GroundTheory.PAdicHodge.ExistsGalFixCyclotomicLayerCycloCharNeOne
@@ -47,15 +47,15 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EvalMod
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
-import Formalism.ConjugateSelfDual.Statement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle223
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle214
+import Formalism.ConjugateSelfDual.Bundle001
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
-import GroundTheory.PAdicHodge.BCrisEigenChar
+import GroundTheory.PAdicHodge.Bundle013
 import ReciprocityTheory.GaloisValuations.GlobalA
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 

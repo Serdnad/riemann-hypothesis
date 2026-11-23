@@ -1,6 +1,6 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.AsmDiff
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.Bundle004
 public import CompanionTheory.AutomorphicTheory.CompactTopologicalForms.NormalFormTopDomination
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

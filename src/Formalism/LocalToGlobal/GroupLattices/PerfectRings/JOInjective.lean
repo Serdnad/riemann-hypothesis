@@ -5,7 +5,7 @@ public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.ExistsSqEqIntCa
 public import Mathlib.Algebra.QuadraticAlgebra.Basic
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.WittVector.DiscreteValuationRing
-public import Formalism.LocalRingCardinality.SpanPowerMembership.GatRing
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.AlgebraMapFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

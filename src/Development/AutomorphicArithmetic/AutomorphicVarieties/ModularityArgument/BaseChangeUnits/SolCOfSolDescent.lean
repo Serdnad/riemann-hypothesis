@@ -51,9 +51,9 @@ def SolC : Prop :=
     [Algebra F₀ F] [Algebra F M] [Algebra F₀ Ω] [Algebra F Ω] [Algebra M Ω] [IsScalarTower F₀ F Ω] [IsScalarTower F M Ω]
     [IsAlgClosure F₀ Ω] [IsAlgClosure F Ω] [IsAlgClosure M Ω] [IsGalois F M], IsSolvable (M ≃ₐ[F] M) → IsPlusOf F₀ F →
     IsCMField F → IsCMField M → ∀ (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n →
-    ∀ (r : G F Ω →* GL (Fin n) (Qbar l)) (μ : G F₀ Ω →* (Qbar l)ˣ), Continuous r → IsIrr (r.comp (resG F M Ω)) →
-      IsAlgChar ι μ → (∀ c c' : G F₀ Ω, IsConjEl c → IsConjEl c' → μ c = μ c') →
-      (∃ (c : G F₀ Ω) (P : GL (Fin n) (Qbar l)), IsConjEl c ∧ IsPairing c r (μ.comp (resG F₀ F Ω)) P) →
+    ∀ (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (μ : _root_.Formalism.ConjugateSelfDual.G F₀ Ω →* (Qbar l)ˣ), Continuous r → IsIrr (r.comp (resG F M Ω)) →
+      IsAlgChar ι μ → (∀ c c' : _root_.Formalism.ConjugateSelfDual.G F₀ Ω, IsConjEl c → IsConjEl c' → μ c = μ c') →
+      (∃ (c : _root_.Formalism.ConjugateSelfDual.G F₀ Ω) (P : GL (Fin n) (Qbar l)), IsConjEl c ∧ IsPairing c r (μ.comp (resG F₀ F Ω)) P) →
       (IsAut ι r ↔ IsAut ι (r.comp (resG F M Ω)))
 
 theorem solC_of_solDescent (h : SolDescent) : SolC :=
@@ -66,13 +66,13 @@ def BiQuad : Prop :=
     ∃ (M : Type) (_ : Field M) (_ : NumberField M) (_ : IsCMField M) (_ : Algebra K M) (_ : Algebra K' M) (_ : Algebra M Ω)
       (_ : IsScalarTower K M Ω) (_ : IsScalarTower K' M Ω) (_ : IsGalois K M) (_ : IsGalois K' M),
       IsSolvable (M ≃ₐ[K] M) ∧ IsSolvable (M ≃ₐ[K'] M) ∧
-      (∀ s : G K Ω, s ∈ (resG K M Ω).range ↔ resG ℚ K Ω s ∈ (resG ℚ K' Ω).range) ∧
-      ∀ s : G K' Ω, s ∈ (resG K' M Ω).range ↔ resG ℚ K' Ω s ∈ (resG ℚ K Ω).range
+      (∀ s : _root_.Formalism.ConjugateSelfDual.G K Ω, s ∈ (resG K M Ω).range ↔ resG ℚ K Ω s ∈ (resG ℚ K' Ω).range) ∧
+      ∀ s : _root_.Formalism.ConjugateSelfDual.G K' Ω, s ∈ (resG K' M Ω).range ↔ resG ℚ K' Ω s ∈ (resG ℚ K Ω).range
 
 def Third : Prop :=
   ∀ (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Field K'] [NumberField K'] [IsCMField K'] [Field Ω] [Algebra ℚ Ω]
     [Algebra K Ω] [Algebra K' Ω] [IsScalarTower ℚ K Ω] [IsScalarTower ℚ K' Ω] [IsAlgClosure ℚ Ω],
-    Module.finrank ℚ K = 2 → Module.finrank ℚ K' = 2 → ∀ (l : ℕ) [Fact l.Prime] (n : ℕ) (r : G ℚ Ω →* GL (Fin n) (Qbar l)),
+    Module.finrank ℚ K = 2 → Module.finrank ℚ K' = 2 → ∀ (l : ℕ) [Fact l.Prime] (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin n) (Qbar l)),
     IsIrr (r.comp (resG ℚ K Ω)) → IsIrr (r.comp (resG ℚ K' Ω)) →
     ∃ (K'' : Type) (_ : Field K'') (_ : NumberField K'') (_ : IsCMField K'') (_ : Algebra K'' Ω) (_ : IsScalarTower ℚ K'' Ω),
       Module.finrank ℚ K'' = 2 ∧ IsIrr (r.comp ((resG ℚ K Ω).range ⊓ (resG ℚ K'' Ω).range).subtype) ∧
@@ -82,21 +82,21 @@ def Across : Prop :=
   ∀ (K K' Ω : Type) [Field K] [NumberField K] [IsCMField K] [Field K'] [NumberField K'] [IsCMField K'] [Field Ω] [Algebra ℚ Ω]
     [Algebra K Ω] [Algebra K' Ω] [IsScalarTower ℚ K Ω] [IsScalarTower ℚ K' Ω] [IsAlgClosure ℚ Ω],
     Module.finrank ℚ K = 2 → Module.finrank ℚ K' = 2 → ∀ (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n →
-    ∀ (r : G ℚ Ω →* GL (Fin n) (Qbar l)) (θ : G ℚ Ω →* (Qbar l)ˣ), Continuous r → IsAlgChar ι θ → DualTw r θ →
+    ∀ (r : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin n) (Qbar l)) (θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ), Continuous r → IsAlgChar ι θ → DualTw r θ →
     IsIrr (r.comp ((resG ℚ K Ω).range ⊓ (resG ℚ K' Ω).range).subtype) →
     IsAut ι (r.comp (resG ℚ K Ω)) → IsAut ι (r.comp (resG ℚ K' Ω))
 
 def PolK : Prop :=
   ∀ (K : Type) [Field K] [NumberField K] [IsCMField K], Module.finrank ℚ K = 2 → ∀ (n : ℕ), 1 ≤ n →
     ∀ (l : ℕ) [Fact l.Prime] (Ω : Type) [Field Ω] [Algebra ℚ Ω] [Algebra K Ω] [IsScalarTower ℚ K Ω] [IsAlgClosure K Ω]
-      (ι : Qbar l ≃+* ℂ) (r : G ℚ Ω →* GL (Fin n) (Qbar l)) (wt : ℤ) (θ : G ℚ Ω →* (Qbar l)ˣ) (P : CuspSub K n),
+      (ι : Qbar l ≃+* ℂ) (r : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin n) (Qbar l)) (wt : ℤ) (θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (P : CuspSub K n),
       IsCycWt l wt θ → DualTw r θ → AttC ι (r.comp (res ℚ Ω K)) P →
-      ∃ (χ : HChar (maximalRealSubfield K)) (μ : G (maximalRealSubfield K) Ω →* (Qbar l)ˣ),
+      ∃ (χ : HChar (maximalRealSubfield K)) (μ : _root_.Formalism.ConjugateSelfDual.G (maximalRealSubfield K) Ω →* (Qbar l)ˣ),
         GlobalTheory.ContraPair.PolarizedPair P χ ∧ IsLAdicCharOf ι χ μ ∧
         μ.comp (res (maximalRealSubfield K) Ω K) = θ.comp (res ℚ Ω K) * cycBar K Ω l ^ ((n : ℤ) - 1)
 
 def AutQIso : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ)
-    (r r' : G F Ω →* GL (Fin n) (Qbar l)), RepIso r r' → IsAutQ ι r' → IsAutQ ι r
+    (r r' : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)), RepIso r r' → IsAutQ ι r' → IsAutQ ι r
 
 end UpperTheory.V.Z.Bc

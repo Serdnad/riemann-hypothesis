@@ -1,17 +1,16 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.Cross
-public import Development.WeilBound.ThetaLifts.LocalTheory.SplitInv2
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsPureML
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle006
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PolDense
-public import Development.WeilBound.ThetaLifts.LocalTheory.SplitInv
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFactorPureTensorComponentAtPlace
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNatMulIntegralOfIsCompact
-import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
+import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
-import Development.WeilBound.ThetaLifts.LocalTheory.UatClosure
+import Development.WeilBound.ThetaLifts.LocalTheory.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

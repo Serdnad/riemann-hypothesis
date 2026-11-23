@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNormFormGaussBound
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDehomCharpolyForms
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDehomNormPIntegral
 import Mathlib.Algebra.Order.Floor.Extended

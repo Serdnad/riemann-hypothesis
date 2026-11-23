@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSerreGraded
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle001
 public import Mathlib.Algebra.MvPolynomial.Eval
 public import Mathlib.Algebra.Polynomial.Basic
 import Mathlib.Algebra.Order.Floor.Extended

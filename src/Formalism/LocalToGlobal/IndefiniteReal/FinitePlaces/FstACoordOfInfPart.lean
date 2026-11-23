@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemLoc
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.TendstoCut
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle065
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Mathlib.Algebra.Order.Floor.Extended

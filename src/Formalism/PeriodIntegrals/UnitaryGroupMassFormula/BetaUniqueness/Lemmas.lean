@@ -1,6 +1,6 @@
 module
 
-import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.ExtendByIdentitySymmFixOrth
+import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.Bundle003
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
 public import Lemmata.GeneralBFactThirdRest.Imports
 import Mathlib.Algebra.Order.Floor.Extended

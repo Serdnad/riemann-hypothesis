@@ -1,0 +1,134 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.MajorantInvolutionDiagonalForm
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.Matrix.PosDef
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+namespace GroundTheory.Heights₂.Heights.FiniteCovolume
+
+open Matrix
+open scoped ComplexOrder
+
+theorem majorant_mul_inv_mul {ι : Type*} [Fintype ι] [DecidableEq ι] {H P : Matrix ι ι ℂ}
+    (hM : IsMajorantOf H P) : H * P⁻¹ * H = P := by
+  obtain ⟨hP, -, hdet, hPHP⟩ := hM
+  have hPdet : IsUnit P.det := isUnit_iff_ne_zero.mpr (ne_of_gt hP.det_pos)
+  calc H * P⁻¹ * H = (P * H⁻¹ * P) * P⁻¹ * H := by rw [hPHP]
+    _ = P * H⁻¹ * (P * P⁻¹) * H := by simp only [Matrix.mul_assoc]
+    _ = P := by
+      rw [Matrix.mul_nonsing_inv _ hPdet, Matrix.mul_one, Matrix.mul_assoc,
+        Matrix.nonsing_inv_mul _ hdet, Matrix.mul_one]
+
+theorem MajorantBound.proof (ι : Type*) [Fintype ι] [DecidableEq ι] :
+    MajorantBound.Statement ι := by
+  intro H P hM z
+  have key := majorant_mul_inv_mul hM
+  obtain ⟨hP, hH, hdet, hPHP⟩ := hM
+  have hPdet : IsUnit P.det := isUnit_iff_ne_zero.mpr (ne_of_gt hP.det_pos)
+  set w := P⁻¹ *ᵥ (H *ᵥ z) with hw
+  have h1 : P *ᵥ w = H *ᵥ z := by
+    rw [hw, mulVec_mulVec, Matrix.mul_nonsing_inv _ hPdet, one_mulVec]
+  have hPinv : (P⁻¹)ᴴ = P⁻¹ := by rw [conjTranspose_nonsing_inv, hP.1.eq]
+  have h2 : star w ⬝ᵥ (P *ᵥ w) = star z ⬝ᵥ (P *ᵥ z) := by
+    rw [h1, hw, star_mulVec, star_mulVec, hPinv, hH.eq, vecMul_vecMul, ← dotProduct_mulVec,
+      mulVec_mulVec, key]
+  let _ := P.toSeminormedAddCommGroup hP.posSemidef
+  let _ := P.toInnerProductSpace hP.posSemidef
+  have cs := inner_mul_inner_self_le (𝕜 := ℂ) z w
+  have e1 : (inner ℂ z w : ℂ) = star z ⬝ᵥ (H *ᵥ z) := by
+    change (P *ᵥ w) ⬝ᵥ star z = _
+    rw [dotProduct_comm, h1]
+  have e2 : (inner ℂ w z : ℂ) = star (star z ⬝ᵥ (H *ᵥ z)) := by
+    rw [← e1]; exact (inner_conj_symm (𝕜 := ℂ) w z).symm
+  have e3 : (inner ℂ z z : ℂ) = star z ⬝ᵥ (P *ᵥ z) := by
+    change (P *ᵥ z) ⬝ᵥ star z = _
+    rw [dotProduct_comm]
+  have e4 : (inner ℂ w w : ℂ) = star z ⬝ᵥ (P *ᵥ z) := by
+    change (P *ᵥ w) ⬝ᵥ star w = _
+    rw [dotProduct_comm, h2]
+  rw [e1, e2, e3, e4, norm_star] at cs
+  have hnn : 0 ≤ (star z ⬝ᵥ (P *ᵥ z)).re := hP.posSemidef.re_dotProduct_nonneg z
+  have hn : 0 ≤ ‖star z ⬝ᵥ (H *ᵥ z)‖ := norm_nonneg _
+  simp only [RCLike.re_to_complex] at cs
+  nlinarith
+
+end GroundTheory.Heights₂.Heights.FiniteCovolume
+end
+
+section
+
+namespace GroundTheory.Heights₂.Heights.FiniteCovolume
+
+open NumberField GroundTheory.Automorphic Module Matrix
+open scoped ComplexOrder
+
+noncomputable section
+
+variable {F E : Type*} [Field F] [Field E] [NumberField F] [NumberField E] [Algebra F E]
+  [Algebra.IsQuadraticExtension F E] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E]
+variable {W : Type*} [AddCommGroup W] [Module E W] {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+
+omit [DecidableEq ι] in
+theorem LenSq.re_nonneg {P : Matrix ι ι ℂ} (hP : P.PosDef) (y : ι → ℂ) :
+    0 ≤ (star y ⬝ᵥ (P *ᵥ y)).re :=
+  (Complex.nonneg_iff.mp (hP.posSemidef.dotProduct_mulVec_nonneg y)).1
+
+
+omit [NumberField F] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E] in
+theorem LenSq.proof (h : HermitianForm F E W) (v : Basis ι E W) : LenSq.Statement h v := by
+  intro M y
+  have hw : ∀ w, 0 ≤ (star (y w) ⬝ᵥ (M.P w *ᵥ y w)).re := fun w =>
+    LenSq.re_nonneg (M.posDef w) (y w)
+  refine ⟨hw, ?_⟩
+  unfold Majorant.len
+  exact Real.sq_sqrt (Finset.sum_nonneg fun w _ => hw w)
+
+end
+
+end GroundTheory.Heights₂.Heights.FiniteCovolume
+end

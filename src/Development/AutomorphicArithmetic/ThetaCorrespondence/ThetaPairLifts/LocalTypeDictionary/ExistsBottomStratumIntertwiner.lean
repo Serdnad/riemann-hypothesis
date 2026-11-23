@@ -1,18 +1,18 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.Bundle001
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFinPt
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SplitPart
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsWeilDatumConjNegHermitianSpaces
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BottomTriangleConstantExists
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicThetaReadsCurveThetaFunctionStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1901
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2437
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2490
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockVacuumRealRestrictionGaussianEntire
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MovedThetaFunctionsReadOfMovedVacuumReadsStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormPeriodSq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilDatumFinitePartMovesVacuumAsThetaModelStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2269
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2038
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2607
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.VacuumUnderAdelicPairModulusOne
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsWeilDatumComplexConjugateOfNegHermitianSpace
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle635
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ConjugateAdjointDagger
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjRepApply
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle627
 
 @[expose] public section
 

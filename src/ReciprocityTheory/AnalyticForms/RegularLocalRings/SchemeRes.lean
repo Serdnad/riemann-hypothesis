@@ -1,9 +1,8 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsSncDataW
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WeightedSieveThreeParameter
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.NormEvalLeOfVarsSubset
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.LogResStC
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle016
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,8 +41,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.NeZeroOfSpanEqMaximalIdeal
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.WCharts
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle015
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle014
 
 @[expose] public section
 

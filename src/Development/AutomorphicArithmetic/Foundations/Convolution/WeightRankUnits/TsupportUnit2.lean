@@ -2,10 +2,10 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.DeltaProdAlt
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalTwistContinuousInvolutionIntegralProperties
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1818
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
-public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.OrbZero
-public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.PolFin
+public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

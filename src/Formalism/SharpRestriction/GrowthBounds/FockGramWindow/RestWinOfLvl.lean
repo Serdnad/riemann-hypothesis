@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow.LvlDef
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BejjSmulLeft
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BlockValuationZpOfLatticeInclusion
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.FockKSmulRight
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle012
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle011
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

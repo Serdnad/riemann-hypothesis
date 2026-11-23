@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.T2SpaceNumberFieldInfiniteAdeles
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntegralPointsFinitePlaceTensorPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MeasurableEmbeddingAdelicTupleLocalComponentsStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -203,7 +203,8 @@ theorem map_lrAct {S' : Type} [CommRing S'] (φ : S →+* S') (g : Matrix (Fin M
 
 theorem continuous_lrAct [TopologicalSpace S] [IsTopologicalRing S] (g : Matrix (Fin M) (Fin M) S)
     (γ : Matrix (Fin n) (Fin n) S) : Continuous (lrAct g γ) := by
-  unfold lrAct Matrix.mulVec dotProduct
+  unfold lrAct
+  refine continuous_pi fun _ => continuous_const.matrix_mulVec ?_
   fun_prop
 
 def lrHomeo [TopologicalSpace S] [IsTopologicalRing S] (g : GL (Fin M) S) (γ : GL (Fin n) S) :

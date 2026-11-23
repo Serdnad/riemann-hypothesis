@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsHomogOfMemQuotPartBis
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ConstVanishHypSegment
-import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.CellResMemLocPart
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle016
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,18 +71,18 @@ section Cells
 
 variable {K : Type} [Fintype K] [LinearOrder K] {ι : K → Type} [∀ k, Fintype (ι k)] [∀ k, LinearOrder (ι k)]
 
-def cell0 (c : ∀ k, ι k) : Cell K ι 0 :=
+def cell0 (c : ∀ k, ι k) : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0 :=
   ⟨chart c, fun _ => Finset.singleton_nonempty _, by simp [chart]⟩
 
-theorem degree_zero_cell_eq_chart (I : Cell K ι 0) : ∃ c, I = cell0 c := by
-  refine ⟨fun k => (I.1 k).min' (I.2.1 k), Subtype.ext (funext fun k => ?_)⟩
+theorem degree_zero_cell_eq_chart (I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0) : ∃ c, I = cell0 c := by
+  refine ⟨fun k => (I.1 k).min' (I.2.1 k), Subtype.ext (_root_.funext fun k => ?_)⟩
   have h0 : (I.1 k).card - 1 = 0 := (Finset.sum_eq_zero_iff.mp I.2.2) k (Finset.mem_univ _)
   have h1 : (I.1 k).card = 1 := by have := (I.2.1 k).card_pos; omega
   show I.1 k = {(I.1 k).min' (I.2.1 k)}
   rw [Finset.eq_singleton_iff_unique_mem]
   exact ⟨Finset.min'_mem _ _, fun x hx => Finset.card_le_one.mp h1.le x hx _ (Finset.min'_mem _ _)⟩
 
-theorem degree_one_cell_eq_chart_update (J : Cell K ι 1) : ∃ (c : ∀ k, ι k) (k : K) (b : ι k), c k < b ∧
+theorem degree_one_cell_eq_chart_update (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 1) : ∃ (c : ∀ k, ι k) (k : K) (b : ι k), c k < b ∧
     J.1 = Function.update (chart c) k {c k, b} := by
   have hpos : ∀ l, 1 ≤ (J.1 l).card := fun l => (J.2.1 l).card_pos
   obtain ⟨k, hk⟩ : ∃ k, (J.1 k).card - 1 ≠ 0 := by
@@ -105,7 +105,7 @@ theorem degree_one_cell_eq_chart_update (J : Cell K ι 1) : ∃ (c : ∀ k, ι k
     have := hpos l
     omega
   have hlt : (J.1 k).min' (J.2.1 k) < (J.1 k).max' (J.2.1 k) := Finset.min'_lt_max'_of_card _ (by omega)
-  refine ⟨fun l => (J.1 l).min' (J.2.1 l), k, (J.1 k).max' (J.2.1 k), hlt, funext fun l => ?_⟩
+  refine ⟨fun l => (J.1 l).min' (J.2.1 l), k, (J.1 k).max' (J.2.1 k), hlt, _root_.funext fun l => ?_⟩
   by_cases hl : l = k
   · subst hl
     rw [Function.update_self]
@@ -136,7 +136,7 @@ theorem pair_isCell (c : ∀ k, ι k) (k : K) (b : ι k) (hb : c k ≠ b) :
       simp [chart]
     · intro h; exact absurd (Finset.mem_univ k) h
 
-theorem constD_pair {V : Type} [AddCommGroup V] (f : Cell K ι 0 → V) (J : Cell K ι 1) (c : ∀ k, ι k) (k : K)
+theorem constD_pair {V : Type} [AddCommGroup V] (f : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0 → V) (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 1) (c : ∀ k, ι k) (k : K)
     (b : ι k) (hb : c k < b) (hJ : J.1 = Function.update (chart c) k {c k, b}) :
     constD K ι V 0 f J = f (cell0 (Function.update c k b)) - f (cell0 c) := by
   have hne : c k ≠ b := hb.ne
@@ -168,8 +168,8 @@ theorem constD_pair {V : Type} [AddCommGroup V] (f : Cell K ι 0 → V) (J : Cel
   rw [Finset.sum_eq_single k]
   · rw [hJk, Finset.sum_pair hne]
     split_ifs with h1 h2 h2
-    · rw [show (⟨_, h1⟩ : Cell K ι 0) = cell0 (Function.update c k b) from Subtype.ext e1,
-        show (⟨_, h2⟩ : Cell K ι 0) = cell0 c from Subtype.ext e2, sgn1, sgn2, one_zsmul, neg_one_zsmul,
+    · rw [show (⟨_, h1⟩ : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0) = cell0 (Function.update c k b) from Subtype.ext e1,
+        show (⟨_, h2⟩ : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0) = cell0 c from Subtype.ext e2, sgn1, sgn2, one_zsmul, neg_one_zsmul,
         sub_eq_add_neg]
     · exact (h2 (by rw [e2]; exact (cell0 c).2)).elim
     · exact (h1 (by rw [e1]; exact (cell0 _).2)).elim
@@ -184,7 +184,7 @@ theorem constD_pair {V : Type} [AddCommGroup V] (f : Cell K ι 0 → V) (J : Cel
     simp at this
   · intro h; exact absurd (Finset.mem_univ k) h
 
-theorem constD_const {V : Type} [AddCommGroup V] (v : V) (J : Cell K ι 1) :
+theorem constD_const {V : Type} [AddCommGroup V] (v : V) (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 1) :
     constD K ι V 0 (fun _ => v) J = 0 := by
   obtain ⟨c, k, b, hb, hJ⟩ := degree_one_cell_eq_chart_update J
   rw [constD_pair _ J c k b hb hJ, sub_self]
@@ -210,7 +210,7 @@ theorem evMap_cellRes {J I : ∀ k, Finset (ι k)} (hJI : ∀ k, J k ⊆ I k) (h
     obtain ⟨g, rfl⟩ := Ideal.Quotient.mk_surjective m
     rw [CechPointVanish.cellRes_mk (CechPointVanish.cellMon_mono hJI), evMap_mk y hI, evMap_mk y hJ]
 
-theorem evMap_cechD (x : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 0) (J : Cell K ι 1) (hJ : Good y J.1) :
+theorem evMap_cechD (x : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 0) (J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 1) (hJ : Good y J.1) :
     evMap y J.1 (cechD S ι _ 0 x J) = constD K ι Ω 0 (fun I => evMap y I.1 (x I)) J := by
   rw [CechPointVanish.cechD_apply]
 
@@ -235,7 +235,7 @@ theorem ev_step_lt {z : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 0} (hz : 
     · rw [Function.update_of_ne hl] at hi
       rw [show i = c l from Finset.mem_singleton.mp hi]
       exact hc l
-  set J : Cell K ι 1 := ⟨Function.update (chart c) k {c k, b}, pair_isCell c k b hb.ne⟩ with hJdef
+  set J : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 1 := ⟨Function.update (chart c) k {c k, b}, pair_isCell c k b hb.ne⟩ with hJdef
   have h := evMap_cechD z J hJ
   have h0 : cechD S ι _ 0 z J = 0 := congrFun hz J
   rw [h0, map_zero, constD_pair _ J c k b hb rfl] at h
@@ -266,7 +266,7 @@ theorem ev_agree {z : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 0} (hz : ce
     induction s using Finset.induction_on with
     | empty =>
       intro c _ h
-      rw [show c = c' from funext fun k => h k (Finset.notMem_empty k)]
+      rw [show c = c' from _root_.funext fun k => h k (Finset.notMem_empty k)]
     | @insert k s hk ih =>
       intro c hc hcs
       rw [ev_step hz hc k (c' k) (hc' k)]
@@ -293,7 +293,7 @@ theorem aeval_ratio_cellMon {c : ∀ k, ι k} (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)
   | mul x w _ _ hx hw => rw [map_mul, hx, hw, one_mul]
 
 theorem aeval_homog_eq {c : ∀ k, ι k} (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) {p : MRingOver S ι} {d : K → ℕ}
-    (hp : IsMultiHomog p d) : aeval y p = (∏ k, y ⟨k, c k⟩ ^ d k) * aeval (ratio y c) p := by
+    (hp : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog p d) : aeval y p = (∏ k, y ⟨k, c k⟩ ^ d k) * aeval (ratio y c) p := by
   have hP : ∏ k, y ⟨k, c k⟩ ^ d k ≠ 0 := Finset.prod_ne_zero_iff.mpr fun k _ => pow_ne_zero _ (hc k)
   conv_lhs => rw [p.as_sum]
   conv_rhs => rw [p.as_sum]
@@ -363,10 +363,10 @@ theorem HZeroRowPlaceData.full : GlobalSectionsComparisonStatement := by
   have hg₀ : Good y (cell0 c₀).1 := good_chart hc₀
   let Z := cechZc ι (quotPart S (mIdealOver S y)) n 0
   let φ : ↥Z →ₗ[S] Ω := (evMap y (cell0 c₀).1).comp ((LinearMap.proj (R := S)
-    (φ := fun I : Cell K ι 0 => LocalizedModule (cellMon S I.1) (MRingOver S ι ⧸ mIdealOver S y)) (cell0 c₀)).comp
+    (φ := fun I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0 => LocalizedModule (cellMon S I.1) (MRingOver S ι ⧸ mIdealOver S y)) (cell0 c₀)).comp
       Z.subtype)
   have hφ : ∀ z : ↥Z, φ z = evMap y (cell0 c₀).1 (z.1 (cell0 c₀)) := fun z => rfl
-  have hZ : ∀ z : ↥Z, (∀ I : Cell K ι 0, z.1 I ∈
+  have hZ : ∀ z : ↥Z, (∀ I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0, z.1 I ∈
       locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n) ∧ cechD S ι _ 0 z.1 = 0 := by
     intro z
     obtain ⟨hC, hK⟩ := Submodule.mem_inf.mp z.2
@@ -416,19 +416,19 @@ theorem HZeroRowPlaceData.full : GlobalSectionsComparisonStatement := by
           s * ∏ k, y ⟨k, c k⟩ ^ (-n k) ∈ chartRingOver S y c := by
         intro c hc
         exact (Submodule.mem_iInf _).mp ((Submodule.mem_iInf _).mp hs c) hc
-      have hlift : ∀ I : Cell K ι 0, Good y I.1 → ∃ w ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n,
+      have hlift : ∀ I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0, Good y I.1 → ∃ w ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n,
           evMap y I.1 w = s := fun I hI =>
         exists_lift hI (fun k => Finset.min'_mem _ (I.2.1 k)) n
           (hs' _ fun k => hI k _ (Finset.min'_mem _ (I.2.1 k)))
       classical
       let z : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) 0 := fun I =>
         if hI : Good y I.1 then (hlift I hI).choose else 0
-      have hzC : ∀ I : Cell K ι 0, z I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n := by
+      have hzC : ∀ I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0, z I ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I.1) n := by
         intro I
         by_cases hI : Good y I.1
         · simp only [z, dif_pos hI]; exact (hlift I hI).choose_spec.1
         · simp only [z, dif_neg hI]; exact Submodule.zero_mem _
-      have hzv : ∀ I : Cell K ι 0, Good y I.1 → evMap y I.1 (z I) = s := by
+      have hzv : ∀ I : _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.Cell K ι 0, Good y I.1 → evMap y I.1 (z I) = s := by
         intro I hI
         simp only [z, dif_pos hI]
         exact (hlift I hI).choose_spec.2

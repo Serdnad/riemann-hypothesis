@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.PolynomialSiteTraces.AdmissibleMap
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.XSmulSucc
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExtendedDividedPowers
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle088
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.ZariskiCocycleRefinement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -219,12 +219,22 @@ def mkLoc (F : Q'.FullSubcategory ⥤ ModuleCat.{0} R)
   surj S y := hs T _ _ y
   ker S x h := hk T _ _ x h
 
-def mulQ (a b : IdF (sP Q').A) (T : Q'.FullSubcategory) : T.obj.B →+* Module.End R (sqM a b T) where
-  toFun c := (LinearMap.mulLeft R (Ideal.Quotient.mk (b.S T) c)).restrict fun x hx => Ideal.mul_mem_left _ _ hx
-  map_one' := LinearMap.ext fun x => Subtype.ext (by simp)
-  map_mul' c c' := LinearMap.ext fun x => Subtype.ext (by simp [mul_assoc])
-  map_zero' := LinearMap.ext fun x => Subtype.ext (by simp)
-  map_add' c c' := LinearMap.ext fun x => Subtype.ext (by simp [add_mul])
+def mulQ (a b : IdF (sP Q').A) (T : Q'.FullSubcategory) : T.obj.B →+* Module.End R (sqM a b T) := by
+  let quotientMap : T.obj.B →+* ((sP Q').A.obj T ⧸ b.S T) := Ideal.Quotient.mk (b.S T)
+  refine
+    { toFun := fun c => (LinearMap.mulLeft R (quotientMap c)).restrict fun x hx => Ideal.mul_mem_left _ _ hx
+      map_one' := LinearMap.ext fun x => Subtype.ext ?_
+      map_mul' := fun c c' => LinearMap.ext fun x => Subtype.ext ?_
+      map_zero' := LinearMap.ext fun x => Subtype.ext ?_
+      map_add' := fun c c' => LinearMap.ext fun x => Subtype.ext ?_ }
+  · change quotientMap 1 * x.val = x.val
+    rw [map_one, one_mul]
+  · change quotientMap (c * c') * x.val = quotientMap c * (quotientMap c' * x.val)
+    rw [map_mul, mul_assoc]
+  · change quotientMap 0 * x.val = 0
+    rw [map_zero, zero_mul]
+  · change quotientMap (c + c') * x.val = quotientMap c * x.val + quotientMap c' * x.val
+    rw [map_add, add_mul]
 
 theorem mulQ_map (a b : IdF (sP Q').A) {T T' : Q'.FullSubcategory} (t : T ⟶ T') (c : T.obj.B) (x : sqM a b T) :
     ((sq a b).map t).hom (mulQ a b T c x) = mulQ a b T' (t.hom.φ c) (((sq a b).map t).hom x) := by

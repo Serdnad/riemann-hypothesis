@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAFSmulMemLatOF
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceDualB
-public import GroundTheory.GlobalFields.Adele.Compact
+public import GroundTheory.GlobalFields.Adele.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

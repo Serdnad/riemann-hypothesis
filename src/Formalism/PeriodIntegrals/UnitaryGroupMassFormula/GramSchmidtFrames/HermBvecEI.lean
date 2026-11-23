@@ -2,10 +2,10 @@ module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerPairs.IsUnitDetOfMemGV
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramSchmidtFrames.IsotropicSubspaceEqPrimed
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramSchmidtFrames.Bundle001
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermitianFormFlagVector
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFdGramCut
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle038
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

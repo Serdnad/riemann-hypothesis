@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NuInRange
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoordMapBasisFun
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle174
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

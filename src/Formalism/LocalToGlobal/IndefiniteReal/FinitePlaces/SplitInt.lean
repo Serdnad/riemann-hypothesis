@@ -5,8 +5,8 @@ public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartPhiE
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSplit
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatMod
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.TwoSplit
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle010
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle006
 import Formalism.LocalToGlobal.SiegelLatticeTheory.TraceIntegralEstimates.PsiTrCoreApprox
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.EqOfLeOfAbsNormEq
 import Mathlib.Algebra.Order.Floor.Extended

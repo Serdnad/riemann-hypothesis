@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.KillerLevCoreOf
 public import Formalism.SharpRestriction.LevelLetterCocycles.LemmasUnramifiedOfRingCondition
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvOZeroHigh
-public import Formalism.SharpRestriction.LevelLetterCocycles.InId0OfMem
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle035
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle043
 import Formalism.SharpRestriction.LevelLetterCocycles.LatticeMembershipPolynomialGamma
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

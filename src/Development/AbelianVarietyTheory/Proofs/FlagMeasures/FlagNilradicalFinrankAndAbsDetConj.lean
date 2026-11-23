@@ -1,9 +1,9 @@
 module
 
-import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.InitialStatement
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetConjOnMatricesKillingIntoSubspaceStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicFlagLeviMaxCompactClosedSubgroups
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.Bundle042
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle139
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

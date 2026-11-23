@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFlatAnIffIsConstMul
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeConstantRank
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeVectorBundleStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenvectorComplexPointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsActionComplexPointStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle111
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle121
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeFrameSpecializesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle203
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieOmegaLatticeVectorBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalLieModelExtendsStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle186
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

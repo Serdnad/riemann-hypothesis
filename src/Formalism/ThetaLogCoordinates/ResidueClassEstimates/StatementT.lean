@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.Letters
+public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.Bundle001
 public import Mathlib.Analysis.Calculus.Deriv.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

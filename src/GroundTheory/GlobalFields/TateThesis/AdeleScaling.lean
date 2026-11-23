@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
 public import GroundTheory.GlobalFields.TateThesis.FiniteAdeleScaling
 import Mathlib.Algebra.Order.Floor.Extended

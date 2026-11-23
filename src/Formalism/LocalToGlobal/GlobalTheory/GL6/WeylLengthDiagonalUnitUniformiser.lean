@@ -1,9 +1,9 @@
 module
 
-import Formalism.LocalToGlobal.HermitianForms.TiedBrInj
+import Formalism.LocalToGlobal.HermitianForms.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.BwAValIntegralNonneg
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.DoubleCosetDecompositionAll
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.FourierCommutesHeckeScalar
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle002
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StNbarLeviChart
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
   {D : ComponentData II Ψ K ι Ω E}
 
 def regNbarQ (H : HodgeData D) (M : XModel D) (S : LogLogRegularisationSetting M D.Xo (muLine H)) (B p q : ℕ) (t : ℝ) :
-    HermLine ι :=
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι :=
   smoothRep (mCoordIdeal D.y)
     (hermOfFun ι ((q : ℤ) • muTwDeg H B + (p : ℤ) • D.a') fun z =>
       (S.ref.h z * Real.exp (S.regWeight t (M.proj z))) ^ q *

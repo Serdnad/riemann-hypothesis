@@ -45,15 +45,15 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.HSubsingletonOfUniquelyDivisible
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle011
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsCT
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtC
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle015
 import ReciprocityTheory.GroupCohomology.ComapZeroCoboundariesEqBot
 import ReciprocityTheory.GroupCohomology.ConnNatHolds
-import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
-import ReciprocityTheory.GroupCohomology.PairHomFCoeOfId
+import ReciprocityTheory.GroupCohomology.Bundle002
+import ReciprocityTheory.GroupCohomology.Bundle005
 
 @[expose] public section
 

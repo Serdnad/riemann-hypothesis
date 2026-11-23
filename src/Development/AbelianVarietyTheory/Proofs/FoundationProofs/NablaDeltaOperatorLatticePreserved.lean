@@ -1,10 +1,10 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ImportsTer
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeHasBasisAtEveryFinitePlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StdWeylLatticesFgAndSpanCoeffSpaceStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TransportedLatticeLocalizationFreeLeCoefficientSStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle137
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle210
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle234
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle269
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

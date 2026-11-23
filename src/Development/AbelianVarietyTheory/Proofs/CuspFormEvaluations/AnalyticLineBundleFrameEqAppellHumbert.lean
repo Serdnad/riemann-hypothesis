@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ComposeLinearAction
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AppLESpMapJetPt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CmFrameJetPointsAreExponentialJets
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CorrOfJetsOfAnalyticFrameProducts
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle037
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsNormalisedIsoReadingOneAnalyticFrame
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.JetRdMulInvPow
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.JetReadingLinearSubstitutionPoints
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBGen
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,11 +55,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetC
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetD
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle008
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ValAtLem
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.TaylorComp
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.TaylorMul
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle004
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -197,18 +196,18 @@ theorem corr_rig {n m : ℕ} {K : Type} [Fintype K] (φ : K → (Sp (Jet ℂ (Fi
   apply Units.ext
   set W := LB.wchart L.L (fun k => (homAt x0 (jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ)).left ≫ φ k) j ⊓
     LB.wchart L.L (fun _ : Fin 1 => (overAt x0 ℂ).hom ≫ eSec A) j' with hWdef
-  by_cases hc : cpt ∈ W
+  by_cases hc : _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.cpt ∈ W
   · have hW : (⊤ : (Sp ℂ).Opens) ≤ W := top_le_of_mem (x := 𝟙 (Sp ℂ)) hc
     have hW1 := hW.trans inf_le_left
     have hW2 := hW.trans inf_le_right
     haveI : IsLocalHom ((jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ) : Jet ℂ (Fin n × Fin g) m →+* ℂ) :=
       ⟨fun a ha => isUnit_of_jetAug a ha.ne_zero⟩
-    have hp : spMap ((jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ) : Jet ℂ (Fin n × Fin g) m →+* ℂ) cpt =
+    have hp : spMap ((jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ) : Jet ℂ (Fin n × Fin g) m →+* ℂ) _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.cpt =
         IsLocalRing.closedPoint _ := Spec_closedPoint
     have hT : ⊤ ≤ LB.wchart L.L φ j := by
       refine (Scheme.preimage_eq_top_of_closedPoint_mem
         (𝟙 (Spec (CommRingCat.of (Jet ℂ (Fin n × Fin g) m)))) (U := LB.wchart L.L φ j) ?_).ge
-      have : spMap ((jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ) : Jet ℂ (Fin n × Fin g) m →+* ℂ) cpt ∈
+      have : spMap ((jetAug : Jet ℂ (Fin n × Fin g) m →ₐ[ℂ] ℂ) : Jet ℂ (Fin n × Fin g) m →+* ℂ) _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.cpt ∈
           LB.wchart L.L φ j := Set.mem_iInter.2 fun k => Set.mem_iInter.1 hc.1 k
       rwa [hp] at this
     have hU : ⊤ ≤ (Φ.e 0).left ⁻¹ᵁ L.L.U (j' 0) := by
@@ -233,7 +232,7 @@ theorem corr_rig {n m : ℕ} {K : Type} [Fintype K] (φ : K → (Sp (Jet ℂ (Fi
     rw [prod_zpow_sum hne, hε, zpow_one]
   · have hb : W = ⊥ := by
       refine le_bot_iff.1 fun p hp => hc ?_
-      rwa [Subsingleton.elim cpt p]
+      rwa [Subsingleton.elim _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.cpt p]
     haveI : Subsingleton Γ(Sp ℂ, W) := by rw [hb]; infer_instance
     exact Subsingleton.elim (α := Γ(Sp ℂ, W)) _ _
 

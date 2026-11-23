@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CrystallineCocycles
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CupProductFiniteClassesCoboundary
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContCoreTied
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineCoboundaryLift
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TensorFundamentalExactSequenceCrystalline
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle446
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle485
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle613
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

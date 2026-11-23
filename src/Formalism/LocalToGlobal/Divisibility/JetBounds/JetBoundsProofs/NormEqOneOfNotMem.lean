@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.GaussJetBounds.StatementH
-import Formalism.MirabolicMackeyTheory.StatementT
+import Formalism.GaussJetBounds.Bundle001
+import Formalism.MirabolicMackeyTheory.Bundle001
 
 @[expose] public section
 

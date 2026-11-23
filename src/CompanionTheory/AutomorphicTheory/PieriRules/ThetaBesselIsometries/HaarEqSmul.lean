@@ -1,8 +1,8 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HaarUniquenessConjugation
-public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
-public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.CayleyExistsAndAny
+public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle001
+public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.Bundle002
 public import Formalism.FormalDegreeBessel.FinalG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.KoszulLowersPower

@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSecondVeroneseParts
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle057
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BergmanProjective
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BergmanProjectiveVolume
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BergmanObjects
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle009
 
 @[expose] public section
 

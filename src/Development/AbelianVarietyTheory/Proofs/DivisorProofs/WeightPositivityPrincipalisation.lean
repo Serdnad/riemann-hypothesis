@@ -1,39 +1,39 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle034
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FlagComponentFramedPointFrame
 public import Development.AbelianVarietyTheory.Definitions.UpperBounds.FreeBallIffOfDimXEqZero
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.UnfGroupContainsCongruenceUptoRootsOfUnity
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexUniformizationLawsOfGoodDeepCover
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousOnReadingIntegerExponentSectionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspFormsComponentFiniteDimensionalAndSpanned
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2534
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2638
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2583
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspCentre
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCuspFormPairQuotientHorizontalGeneratorStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsKeySectionFourthRootPerComponentStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPrincipalCongruenceBackTriangularFrame
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSectionQuotientOfContinuousReadingStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTwSecOfConst
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitSectionThetaKeyRuleWeightFourStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FramesOnEqModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GoodCoverComponentExtendsToRankOneCuspData
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HorizontalGeneratorZpowMulCuspFormMemSpan
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2749
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1854
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2349
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2721
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2668
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2321
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2335
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2582
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModuliLawsOfPrincipalLevelFieldOfDefinition
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulMemCuspFormsOfBoundedSectionComponent
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2635
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrdConjDifferentEqZero
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SecZEqZeroOfGenVal
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKeySectionNormComplexPointsEqTwoPiPowStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldingSectionsFiniteType
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2115
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2667
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2119
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemSuppOnIffIdemMulOfNatural
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsBijectiveKappa
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle385
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle049
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenFrExAndGenFromTest
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.UnfoldingConstantTermsAgreeAtGoodEmbeddings
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyFamOne
 public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.IndicatorMemSSAndDomSpan
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CoreArithmeticGroupContainsPrincipalCongruence
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsDatumRankOne
-public import Formalism.LocalToGlobal.ProjectiveLattices.ModelAt
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle078
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,12 +70,12 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.FundSetPf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle013
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.RealPlaceEmbeddings
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GGConn
-import Development.AbelianVarietyTheory.Definitions.Divisors.GenRatios
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle014
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle057
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MulSmulIdemMem
 import Development.AbelianVarietyTheory.Definitions.Divisors.Multiplier
 
@@ -556,7 +556,7 @@ theorem exists_cuspOn_ne_zero_of_ball (hL : Laws U x) (hp : 1 ≤ Dw.p) (hq : 1 
       have a2 := hanti ⟨conjEmb ρ, conj_mem h⟩ (j - i) ⟨Dw.p + (Dw.q - 1 - j), by omega⟩
         ⟨Dw.p + (Dw.q - 1 - i), by omega⟩ (by simp only; omega)
       have a3 := hbar ⟨conjEmb ρ, conj_mem h⟩
-      simp only [Pi.add_apply, parWt, hw, conjEmb_conjEmb] at e1 e2
+      simp only [Pi.add_apply, parWt, hw, _root_.GlobalTheory.AllWt.conjEmb_conjEmb] at e1 e2
       rw [hG, e1, e2]
       omega
   have hoff : ∀ ρ j, ¬ j < Dw.mult ρ → G.1 (ρ, j) = 0 := fun ρ j hj => by

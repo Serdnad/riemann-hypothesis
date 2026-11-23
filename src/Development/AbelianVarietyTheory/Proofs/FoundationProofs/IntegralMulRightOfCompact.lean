@@ -4,8 +4,8 @@ public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsAux
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 import Aesop.Main
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CentralIdempotentIrreducibleCharacterProps
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIdempotentElemCharIdem
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle184
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle440
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

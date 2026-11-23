@@ -3,8 +3,8 @@ module
 public import Mathlib.Analysis.CStarAlgebra.CStarMatrix
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsGLOfSpanRangeEqLocalRing
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSpanIndicatorLowerSetsFinitePoset
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

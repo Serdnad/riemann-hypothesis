@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SubspaceCounting.Statement
+import Formalism.SubspaceCounting.Bundle001
 public import Mathlib.Algebra.BigOperators.Group.Finset.Powerset
 
 @[expose] public section

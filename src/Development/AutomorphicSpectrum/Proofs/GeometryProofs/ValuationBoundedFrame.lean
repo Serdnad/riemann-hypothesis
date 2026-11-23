@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsSubMemEigW
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.BundleDegreeEqSumValuationsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FamilyHodgeLatticeDataStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FormalIsomorphismTransportStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SplitHermitianGeneratorsExistStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubAndQuotientBundlesStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle069
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle056
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 
 @[expose] public section
 
@@ -83,9 +83,11 @@ theorem exists_quot_basis {r : ℕ} (x : Fin r → V)
   classical
   obtain ⟨B, hB⟩ : ∃ B : Basis (Fin r × J) K V, ∀ q, B q = ρ (b q.2) (x q.1) :=
     ⟨Basis.mk hli hsp.ge, fun q => by simp⟩
-  obtain ⟨φ, hφB⟩ : ∃ φ : V →ₗ[K] (Fin r → K),
-      ∀ q, φ (B q) = χ (b q.2) • Pi.single q.1 (1 : K) :=
-    ⟨B.constr K fun q => χ (b q.2) • Pi.single q.1 (1 : K), fun q => B.constr_basis K _ q⟩
+  let basisValue : Fin r × J → Fin r → K := fun q =>
+    χ (b q.2) • (Pi.single q.1 (1 : K) : Fin r → K)
+  let φ : V →ₗ[K] (Fin r → K) := B.constr K basisValue
+  have hφB (q : Fin r × J) : φ (B q) = χ (b q.2) • (Pi.single q.1 (1 : K) : Fin r → K) :=
+    B.constr_basis K basisValue q
   obtain ⟨ψ, hψ⟩ : ∃ ψ : (Fin r → K) →ₗ[K] V ⧸ eigSpan ρ χ,
       ∀ j, ψ (Pi.single j 1) = (eigSpan ρ χ).mkQ (x j) :=
     ⟨(Pi.basisFun K (Fin r)).constr K fun j => (eigSpan ρ χ).mkQ (x j), fun j => by

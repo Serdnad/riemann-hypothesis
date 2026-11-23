@@ -1,9 +1,8 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.DetNeZeroOfIsOrth
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.IsCompactOrthBounded
-public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.OrthonormalFramesBoundedOfDefinite
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

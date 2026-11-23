@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FaceOf3
-public import Formalism.LocalToGlobal.IndefiniteReal.LiftCoordinatesInGoodPartOfDefinite
-public import Formalism.LocalToGlobal.IndefiniteReal.EigSumLeComapSemi
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle004
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle007
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle005
 public import Formalism.LocalToGlobal.IndefiniteReal.CxHecke
 public import Formalism.LocalToGlobal.IndefiniteReal.RationalAdjoints.RatZOfTests
 public import Formalism.LocalToGlobal.IndefiniteReal.IsometricPeriodsOfUnitHypotheses

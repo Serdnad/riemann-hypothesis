@@ -3,16 +3,16 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsAlgHomOfComp
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueSubMemInitSpan
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvaluationLawsGenericFramesAtlasHold
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsFrPtTie
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle023
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NonemptyLift
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.TieBaseChange
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeCommBaseChange
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-import Formalism.LocalToGlobal.ProjectiveLattices.UnifGen
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle024
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle027
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FrMapComp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle012
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.ModelAt
 
 @[expose] public section

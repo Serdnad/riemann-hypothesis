@@ -5,7 +5,7 @@ public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
 import Aesop.Main
 import Development.AbelianVarietyTheory.Definitions.Foundations.MeasurePreservingRmulQuotMeas
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DifferentiableIntegralMulCpow
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegrableOnAbsDetRpowLeOneFundamentalDomain
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle890
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsFundamentalDomainIUnion
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsFiniteMeasureQuotMeasure
 import Mathlib.Algebra.Order.Floor.Extended

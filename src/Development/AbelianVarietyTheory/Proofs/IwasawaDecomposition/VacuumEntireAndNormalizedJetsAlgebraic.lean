@@ -1,23 +1,23 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FinAlgOfFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle158
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1019
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTaylorCoeffsAlgebraicAtComplexMultiplicatio
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PeriodLatticeSesquilinearFormIsHerm
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetIndicatorThetaTorsionTranslates
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DerivAtZeroReindexEqTaylorCoefficient
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianLatticeTransportPreservesSelfDual
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RationalPoints
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AlgebraicTaylorTorsionTranslateEvenTheta
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1027
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1048
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1151
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle254
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmThetaTaylorCoeffAlgebraicAndConjugate
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IdealPeriodLatticeOfCurveDatum
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle230
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsTraceCompatibleTorusEmbeddingStandardTorus
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddThetaFunctionExistenceUniqueness
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslationIntertwinerUnitary
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsWeilOThZeroTriv
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CoefInTranslate
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle195
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended
@@ -159,7 +159,7 @@ theorem step4 (f : Fin 4 → (n → ℂ) → ℂ) (hf : ∀ a, Differentiable �
   convert h.deriv w using 1
   funext y
   have hd : ∀ b ∈ Finset.univ, HasFDerivAt (fun z => f b (sl b z)) ((fderiv ℂ (f b) (sl b y)).comp (sl b)) y := fun b _ =>
-    (hf b _).hasFDerivAt.comp y (sl b).hasFDerivAt
+    (hf b (sl b y)).hasFDerivAt.comp y (ContinuousLinearMap.hasFDerivAt (x := y) (sl b))
   rw [(HasFDerivAt.finsetProd hd).fderiv, _root_.sum_apply, Finset.sum_eq_single a]
   · rw [← Finset.mul_prod_erase _ _ (Finset.mem_univ a), Function.update_self, _root_.smul_apply,
       ContinuousLinearMap.comp_apply, hw, if_pos rfl, smul_eq_mul, mul_comm]
@@ -373,7 +373,7 @@ theorem ta_thMoved (hC : Crv D cc δ) {L : Submodule (𝓞 D.host.E) (Fin N → 
 
 end Vacuum
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2.JetEx
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatticesTheory Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker GlobalTheory.Mem.Col2.JetEx
 
 theorem derivAt0_mul {ι : Type} [Fintype ι] {a b : ℕ} (c : ℂ) (f : VCx ι a b → ℂ) (hf : ∀ k : ℕ, ContDiff ℂ k f)
     (m : DVar ι a b →₀ ℕ) : derivAt0 (fun z => c * f z) m = c * derivAt0 f m := by

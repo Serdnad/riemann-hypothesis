@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle214
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsUnitDetEmbMat
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.LocTied6
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinrankDdRFinsum
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDeRhamFilGradedSymbolToTateTwist
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LinearIndepOnOfInvariant
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle363
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.NonemptyThetaLOfTied
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.TiedAInvOfTheta
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,10 +51,10 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 

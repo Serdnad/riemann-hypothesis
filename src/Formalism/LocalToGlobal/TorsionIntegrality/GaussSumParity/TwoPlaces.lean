@@ -40,12 +40,12 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.GaussJetBounds.Statement
-import Formalism.GaussJetBounds.StatementH
-public import Formalism.GaussJetBounds.StatementP
+public import Formalism.GaussJetBounds.Bundle002
+import Formalism.GaussJetBounds.Bundle001
+public import Formalism.GaussJetBounds.Bundle003
 public import Formalism.GaussJetBounds.StatementW
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.CyclicPowerClassOfExpEquiv
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.IsLawOfLog
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.OddLogRelation
 
 @[expose] public section

@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ClassCounting.TorsionRankCounts.RankCount
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Assembly
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.HomologicalStability.KStability
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.DedekindSR
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TensorHomCubes.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

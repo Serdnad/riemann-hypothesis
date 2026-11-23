@@ -1,8 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.ComapMaximalIdealParDVR
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsSecIdealOfPrime
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsGenSecKer
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Statements
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

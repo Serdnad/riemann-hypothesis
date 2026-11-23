@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SplitStab
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SelfDualLoc
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

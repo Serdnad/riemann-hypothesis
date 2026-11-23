@@ -1,11 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.SplitEquiv
-public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.NormEx
-public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.QuotEq
-public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.QuotLin
-public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.QuotPi
-public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.QuotProd
+public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.LocalGroupAnalysis.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

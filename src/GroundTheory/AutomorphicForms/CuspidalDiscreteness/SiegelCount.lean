@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.ReductionMahler
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
-public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+public import GroundTheory.AutomorphicForms.Bundle016
 import GroundTheory.AutomorphicForms.ReductionFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

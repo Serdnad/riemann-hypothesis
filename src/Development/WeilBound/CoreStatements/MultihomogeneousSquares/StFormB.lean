@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenAbelianLocus
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptInteriorGenericStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptMultihomogForm
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle678
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle295
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUnique
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NormalSchemeCoordsInjectiveStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle123
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

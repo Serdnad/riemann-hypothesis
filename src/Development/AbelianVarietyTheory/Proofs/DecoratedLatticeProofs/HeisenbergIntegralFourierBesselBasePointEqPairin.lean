@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.QuasiOfFam
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralFundamentalDomainEqIteratedDecomp
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle166
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,7 +86,7 @@ def splitLine {σ n : ℕ} (L : HSp D) (ζ : Fin L.rank → D.host.E) (i₀ : Fi
     · ext k j
       simp only [zEll_mul_eq, vecMulVec_apply, ratV, Matrix.of_apply, Fin.lastCases_last]
       rw [h1 k, ← mul_assoc, ← map_mul, mul_inv_cancel₀ h0, map_one, one_mul]
-  map_add' b b' := Prod.ext (by ext i j; simp) (Matrix.mul_add _ _ _)
+  map_add' b b' := Prod.ext (by ext i j; rfl) (Matrix.mul_add _ _ _)
 
 theorem continuous_splitLine {σ n : ℕ} (L : HSp D) (ζ : Fin L.rank → D.host.E) (i₀ : Fin L.rank)
     (h1 : ∀ i : Fin L.rank, i = i₀) (h0 : ζ i₀ ≠ 0) :

@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.MemPowSub
-import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.SqSubLeNormSub
+import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
+import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 
 @[expose] public section
 

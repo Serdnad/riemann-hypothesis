@@ -1,26 +1,23 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
-import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.AGraded
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
+import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ASmooth
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.AVal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ConjTorus
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExistsLiftOfDerivationOnIdeal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.FgMapMk
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.MPrime
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle012
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Nval
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtActInternal
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtExt
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle010
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle011
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtLift
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtScale
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.QuotientSaturatedSquareTorsionFree
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SgnMulSelf
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle004
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ShaCoc
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TorusConjugateCornerEntryEq
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.TwoIrr
-import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.WcompMulHomog
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.WeightAlgebraGeneratedDegreeTwo
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -64,6 +61,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 
 @[expose] public section
+
+local instance (priority := 2000) ratFieldIsTorsionFreeForGaloisRepIneqOfAllIrreducibleNonvanishing (Ω : Type) [Field Ω] [Algebra ℚ Ω] :
+    Module.IsTorsionFree ℚ Ω := DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 

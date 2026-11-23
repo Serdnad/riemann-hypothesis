@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.PreMemIrreducibleComponents
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle005
 public import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

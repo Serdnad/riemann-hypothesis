@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SemiDegSt
+public import ReciprocityTheory.SemistableReduction.Bundle017
 public import Lemmata.GeneralBFactSecondAlt.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,11 +51,11 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.SemistableReduction.SemiDegE
-public import ReciprocityTheory.SemistableReduction.SemiDegG
+public import ReciprocityTheory.SemistableReduction.Bundle024
 public import ReciprocityTheory.SemistableReduction.SemiDegM
 public import ReciprocityTheory.SemistableReduction.SemiDegW
-public import ReciprocityTheory.SemistableReduction.SemiDegZ
-public import ReciprocityTheory.SemistableReduction.SemiDegF
+public import ReciprocityTheory.SemistableReduction.Bundle009
+public import ReciprocityTheory.SemistableReduction.Bundle023
 
 @[expose] public section
 

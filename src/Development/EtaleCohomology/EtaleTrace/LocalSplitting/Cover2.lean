@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.GalMapMul
-import Development.EtaleCohomology.EtaleTrace.LDblPf
+import Development.EtaleCohomology.EtaleTrace.Bundle001
 public import Development.EtaleCohomology.EtaleTrace.LTwoEpiPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

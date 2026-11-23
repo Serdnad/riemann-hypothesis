@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.MatchIndOf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsHcharPrescribedTrivial
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GaussSumNeZeroOfRamified
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle642
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle085
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 import Formalism.DoubleCosetMeasures.Statement
 import GroundTheory.GlobalFields.SemilocalAlgebras.LocalDegree

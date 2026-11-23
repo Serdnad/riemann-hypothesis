@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import GroundTheory.GlobalFields.Adele.Approximation
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIntLevelSchwartzBruhatFiniteAdelicStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.StandardCharSeparatesIntegralFiniteAdelesStatement
+public import GroundTheory.GlobalFields.Adele.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle318
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle400
 import GroundTheory.GlobalFields.TateThesis.AdelicChar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

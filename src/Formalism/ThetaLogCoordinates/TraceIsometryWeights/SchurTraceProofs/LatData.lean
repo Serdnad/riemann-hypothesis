@@ -1,7 +1,7 @@
 module
 
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.WeightCompApply
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.StatementD
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.Bundle002
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.FischerAdjointnessHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

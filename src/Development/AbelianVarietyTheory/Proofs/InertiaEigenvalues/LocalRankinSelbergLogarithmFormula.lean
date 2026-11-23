@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.UnrOutside
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 public import Mathlib.Data.Multiset.Functor
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMaxLocLConjBound
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RankinSelbergPartialLPoleAtOneConjStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1219
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle954
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

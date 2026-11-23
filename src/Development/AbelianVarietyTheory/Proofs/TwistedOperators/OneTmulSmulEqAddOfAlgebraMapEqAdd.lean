@@ -3,7 +3,7 @@ module
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Adelic
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LatSelfDualOfUnimod
 import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.AdelicUnitaryGroups
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HeightOneSpectrumPlacesOverFiniteSet
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDecompChainSpaceDefiniteAddNormalFrame
 import Formalism.HermitianLattices.HermitianLatticesProofs.UnimodUnramUnique
 import Mathlib.Algebra.Order.Floor.Extended

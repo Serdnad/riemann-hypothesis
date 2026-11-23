@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.GlobSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.Bundle002
 public import Mathlib.RingTheory.DedekindDomain.Factorization
 public import Mathlib.RingTheory.FractionalIdeal.Norm
 import Mathlib.Algebra.Order.Floor.Extended

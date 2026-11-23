@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.CycMOfNot
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsScalarTowerMdlOm
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsPrimitiveRootTopZeta
-public import Development.AbelianVarietyTheory.Definitions.Foundations.LiftSL
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ShCocOn
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SlMulToRingEquiv

@@ -270,15 +270,15 @@ open Classical in
 def PropMV : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [IsTotallyReal F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime], l ≠ 2 →
     2 ≤ Module.finrank ℚ F → SplitL F l →
-    ∀ (ι : Qbar l ≃+* ℂ) (ξ : G F Ω →* (Qbar l)ˣ), IsOpen (ξ.ker : Set (G F Ω)) → (∀ c, IsConjEl c → ξ c = -1) →
+    ∀ (ι : Qbar l ≃+* ℂ) (ξ : Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ), IsOpen (ξ.ker : Set (Formalism.ConjugateSelfDual.G F Ω)) → (∀ c, IsConjEl c → ξ c = -1) →
     (∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → Ine (F := F) A ≤ ξ.ker) →
-    (∃ (u : Pl F) (A : ValuationSubring Ω), normV u = 2 ∧ IsPlaceOver A u ∧ ¬ Ine (F := F) A ≤ ξ.ker) →
+    (∃ (u : Pl F) (A : ValuationSubring Ω), normV u = 2 ∧ Formalism.ConjugateSelfDual.IsPlaceOver A u ∧ ¬ Ine (F := F) A ≤ ξ.ker) →
     ∀ P : Set (Pl F),
-    (∃ w ∈ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal ∧ ∃ A, IsPlaceOver A w ∧ ∃ σ ∈ Dec (F := F) A, ¬ Cong (ξ σ) 1) →
-    (∃ w ∉ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal ∧ ∃ A, IsPlaceOver A w ∧ ∃ σ ∈ Dec (F := F) A, ¬ Cong (ξ σ) 1) →
+    (∃ w ∈ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal ∧ ∃ A, Formalism.ConjugateSelfDual.IsPlaceOver A w ∧ ∃ σ ∈ ReciprocityTheory.Gal.Dec (F := F) A, ¬ Cong (ξ σ) 1) →
+    (∃ w ∉ P, ((l : ℕ) : 𝓞 F) ∈ w.asIdeal ∧ ∃ A, Formalism.ConjugateSelfDual.IsPlaceOver A w ∧ ∃ σ ∈ ReciprocityTheory.Gal.Dec (F := F) A, ¬ Cong (ξ σ) 1) →
     ∃ k t : ℕ, 2 ≤ k ∧ 2 ≤ t ∧ l - 1 ∣ k ∧ l - 1 ∣ t ∧ ∃ c a π r,
       OrdForm ι ξ (-(k : ℤ)) c (fun w => if w ∈ P then ![(t : ℤ), -(k : ℤ) - t] else ![0, -(k : ℤ)]) a π r ∧ ResSum r ![1, ξ] ∧
-      ∀ (w : Pl F), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, IsPlaceOver A w → ∀ σ : G F Ω, IsFrob A (normV w) σ →
+      ∀ (w : Pl F), ((l : ℕ) : 𝓞 F) ∈ w.asIdeal → ∀ A, Formalism.ConjugateSelfDual.IsPlaceOver A w → ∀ σ : Formalism.ConjugateSelfDual.G F Ω, IsFrob A (normV w) σ →
         (w ∈ P → a w = (ξ σ⁻¹ : (Qbar l)ˣ)) ∧ (w ∉ P → a w = 1)
 
 end UpperTheory.Esk

@@ -1,11 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdjugateGramSymm
-public import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorOrderFaithfulLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralCasimirElementCentralStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralCasimirElementMulPosStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceCompPosOfAdjoint
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle220
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle596
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle357
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle641
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

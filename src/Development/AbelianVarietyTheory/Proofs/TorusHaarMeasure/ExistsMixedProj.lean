@@ -47,7 +47,7 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.NormFibrations.MvBlowup
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.APrimeLoc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.InterpStatementPfH
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.DetSubUpper
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle003
 
 @[expose] public section
 

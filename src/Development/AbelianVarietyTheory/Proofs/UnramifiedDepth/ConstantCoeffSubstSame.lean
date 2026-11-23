@@ -1,6 +1,6 @@
 module
 
-public import Formalism.IncomingBounds.StatementThmP
+public import Formalism.IncomingBounds.Bundle002
 public import Formalism.LocalToGlobal.CharacterGerms.GeNatCast
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 public import Mathlib.RingTheory.MvPowerSeries.Rename

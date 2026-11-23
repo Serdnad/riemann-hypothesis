@@ -45,7 +45,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Compactness.Paracompact
 public import Mathlib.Topology.ContinuousMap.StoneWeierstrass
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.IdThmA
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.Bundle007
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 public import Mathlib.Topology.UrysohnsLemma

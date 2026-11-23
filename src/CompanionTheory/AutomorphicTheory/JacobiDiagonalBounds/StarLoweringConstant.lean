@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementTL
 public import CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.TieAlg
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameOfAdmissibleWord
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle025
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RuleGD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.CrystallineComparison.Bridge
-public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.BcrisPlusHomAlgebraMap
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.CrystallineComparison.Bundle004
+public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.Bundle001
 public import Development.WeilBound.CoreStatements.PeriodRingComparison.ThetaKernelDeRham.KerThetaEqSpanSymmTBdR
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.CrystallineComparison.InclAsm
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.CrystallineComparison.LeafMain
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.CrystallineComparison.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

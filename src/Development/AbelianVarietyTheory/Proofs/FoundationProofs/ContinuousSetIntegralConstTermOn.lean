@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MemL2OfBoundedContinuousInvariant
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ConstantTermAlongFlagEqZeroOfCuspidalStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ContinuousIntegralInvMulOfLocallyIntegrable
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemExtSubSpanDepth
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemLpLiftL2DiscreteQuotientOnCompact
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SetIntegralNormRmulLe
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle384
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle318
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle382
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle312
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle311
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,7 +71,7 @@ theorem exists_setIntegral_norm_le (hS : IsCompact S) :
     ∃ c : ℝ, ∀ F : L2 Γ μ, ∫ y in S, ‖lift Γ F y‖ ∂μ ≤ c * ‖F‖ := by
   set a : ℝ≥0∞ := ({γ : Γ | (γ : G) ∈ S * S⁻¹}.encard : ℝ≥0∞) with ha
   have ha' : a ≠ ∞ := by simpa [ha] using finite_mem_compact (Γ := Γ) (hS.mul hS.inv)
-  have hle : (μ.restrict S).map (mk Γ) ≤ a • quotMeasure Γ μ := Measure.le_iff.2 fun A hA => by
+  have hle : (μ.restrict S).map (mk Γ) ≤ a • _root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ := Measure.le_iff.2 fun A hA => by
     rw [Measure.map_apply measurable_mk hA, Measure.restrict_apply (measurable_mk hA),
       ← lintegral_indicator_one ((measurable_mk hA).inter hS.measurableSet),
       lintegral_eq_lintegral_tsum (Γ := Γ)
@@ -85,7 +85,7 @@ theorem exists_setIntegral_norm_le (hS : IsCompact S) :
   have hm : AEStronglyMeasurable (lift Γ F) (μ.restrict S) :=
     ((Lp.stronglyMeasurable F).comp_measurable measurable_mk).aestronglyMeasurable
   have h1 := eLpNorm_le_eLpNorm_mul_rpow_measure_univ (p := 1) (q := 2) (by norm_num) hm
-  have h2 : eLpNorm (lift Γ F) 2 (μ.restrict S) ≤ a ^ (1 / 2 : ℝ) * eLpNorm F 2 (quotMeasure Γ μ) := by
+  have h2 : eLpNorm (lift Γ F) 2 (μ.restrict S) ≤ a ^ (1 / 2 : ℝ) * eLpNorm F 2 (_root_.GlobalTheory.AutomorphicL2Unitary.quotMeasure Γ μ) := by
     refine (eLpNorm_map_measure (Lp.stronglyMeasurable F).aestronglyMeasurable measurable_mk.aemeasurable).ge.trans
       ((eLpNorm_mono_measure _ hle).trans (le_of_eq ?_))
     rw [eLpNorm_smul_measure_of_ne_top (by norm_num) _ _ (Lp.stronglyMeasurable F).aestronglyMeasurable]

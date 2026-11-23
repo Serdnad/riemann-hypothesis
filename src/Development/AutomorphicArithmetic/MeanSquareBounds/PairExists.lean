@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PairShare
-public import Development.AutomorphicArithmetic.MeanSquareBounds.RowsOfMem
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

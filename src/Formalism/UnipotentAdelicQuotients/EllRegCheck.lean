@@ -1,20 +1,14 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.EllReg
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.BaseLevel
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.ConvolutionBound
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Bundle002
+public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Bundle003
 public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Decompose
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.ExistsSmoothExt
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.IteratedPartialFourierChar
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Moments
+public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Bundle004
 public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.PairingFourier
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.PairingLocal
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.SmoothOfLocallySmooth
 public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.StepCore
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.SymbLower
 public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.WeakFourier
 public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.WeightDiff
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.WeightedNormFinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +48,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.UnipotentAdelicQuotients.EllRegCut
+public import Formalism.UnipotentAdelicQuotients.Bundle003
 public import Formalism.UnipotentAdelicQuotients.EllRegStep
 
 @[expose] public section

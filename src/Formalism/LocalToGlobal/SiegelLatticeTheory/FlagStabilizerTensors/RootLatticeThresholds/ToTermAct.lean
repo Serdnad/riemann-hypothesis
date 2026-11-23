@@ -1,13 +1,13 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.KernelOfEmbedding
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle016
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.RightActionThreeFamilies
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ActMass
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SatGramActL
-import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SatGramActLIota
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle021
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.TermDefPf
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.FormHermitianPositive
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.FibreCounting
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle017
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.LatDictK
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.SubMemOfIndQ
 import Mathlib.Algebra.Order.Floor.Extended
@@ -91,16 +91,16 @@ theorem isoG_lift (q : {Λ // Λ ∈ Y.what₂ u'}) (γ : Formalism.L2.SG.Pf.Act
 
 
 variable (Y) in
-def act (q : {Λ // Λ ∈ Y.what₂ u'}) (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : TT Y u u') : TT Y u u' :=
+def act (q : {Λ // Λ ∈ Y.what₂ u'}) (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : _root_.Formalism.L2.SG.PackageTie2.TT Y u u' :=
   Formalism.L2.SG.Pf.SatGramActR.tmap (γ.1 : X.B.I.GA) (Formalism.L2.SG.Pf.Act.isoG γ.1)
     Formalism.L2.SG.Pf.SatGramActR.autFConjN_holds (isoG_lift Y q γ).1 t
 
-theorem toTerm_act (q : {Λ // Λ ∈ Y.what₂ u'}) (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : TT Y u u') :
+theorem toTerm_act (q : {Λ // Λ ∈ Y.what₂ u'}) (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') :
     (act Y q γ t).toTerm = t.toTerm :=
   Formalism.L2.SG.Pf.SatGramActR.toTerm_tmap _ _ _ _ t
 
 theorem iota_act (hIR : Formalism.L2.SG.Pf.SatGramRep.IotaRepC) (q : {Λ // Λ ∈ Y.what₂ u'})
-    (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : TT Y u u') (ht : t.lam' = q.1) :
+    (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (ht : t.lam' = q.1) :
     iotaOf Y.TR (Y.cs u) (Y.cs u') (act Y q γ t) =
       iotaOf Y.TR (Y.cs u) (Y.cs u') t * (levi Y.TR (Formalism.L2.SG.Pf.SatGramActL.kB (Y.cs u') q.1 γ.1))⁻¹ := by
   have hβt : Formalism.L2.SG.Pf.Act.isoG γ.1 ∈ Formalism.L2.SG.Saturated.AutF t.lam' (lf D (X.Fu u')) := by
@@ -133,7 +133,7 @@ theorem iota_act (hIR : Formalism.L2.SG.Pf.SatGramRep.IotaRepC) (q : {Λ // Λ �
 
 theorem amp_act (hB : Formalism.L2.SG.Pf.SatGramActL.ChiNBiAll) (hAR : Formalism.L2.SG.Pf.SatGramRep.AmpRepNC)
     (hOI : OOIntAll X u u' (X.Fu u) (X.Fu u') (Y.what₂ u) (Y.what₂ u')) (q : {Λ // Λ ∈ Y.what₂ u'})
-    (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : TT Y u u') (ht : t.lam' = q.1) :
+    (γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') q) (t : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (ht : t.lam' = q.1) :
     amp Y (act Y q γ t) = (amp Y t).comp (X.piU u' ((γ.1 : X.B.I.GA).1)⁻¹) := by
   have hβt : Formalism.L2.SG.Pf.Act.isoG γ.1 ∈ Formalism.L2.SG.Saturated.AutF t.lam' (lf D (X.Fu u')) := by
     rw [ht]; exact (isoG_lift Y q γ).2
@@ -177,7 +177,7 @@ theorem amp_act (hB : Formalism.L2.SG.Pf.SatGramActL.ChiNBiAll) (hAR : Formalism
   rw [eχ, Formalism.L2.SG.Pf.SatGramActR.ooR_holds D X u u' γ.1 (FundOf t) t.rep.1.1.1]
   rw [ContinuousLinearMap.smul_comp, ContinuousLinearMap.smul_comp]
 
-theorem fib_gam (hN : Formalism.L2.SG.PoincareInHH.Cut.NeatKu X u' Y.hK) {s s' : TT Y u u'} (h : s.toTerm = s'.toTerm) :
+theorem fib_gam (hN : Formalism.L2.SG.PoincareInHH.Cut.NeatKu X u' Y.hK) {s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h : s.toTerm = s'.toTerm) :
     ∃ γ : Formalism.L2.SG.Pf.Act.GamL (Y.cs u') ⟨s.lam', s.mem'⟩, s' = act Y ⟨s.lam', s.mem'⟩ γ s := by
   obtain ⟨c, hc, hg, hfix, n, hn, ν, hν, he⟩ := Formalism.L2.SG.Pf.FibreCounting.fib_c h
   have hst := Formalism.L2.SG.Pf.FibreCounting.stabF_of_fix (X.Fu u') hc hfix
@@ -237,14 +237,14 @@ theorem fib_gam (hN : Formalism.L2.SG.PoincareInHH.Cut.NeatKu X u' Y.hK) {s s' :
   rcases s' with ⟨k, hk, k', hk', q'⟩
   simp only at hl hl' he
   subst hl hl'
-  show (⟨s.lam, hk, s.lam', hk', q'⟩ : TT Y u u') =
+  show (⟨s.lam, hk, s.lam', hk', q'⟩ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') =
     ⟨s.lam, s.mem, s.lam', s.mem', (Formalism.L2.SG.Pf.SatGramActR.tmap (γ.1 : X.B.I.GA) (Formalism.L2.SG.Pf.Act.isoG γ.1)
       Formalism.L2.SG.Pf.SatGramActR.autFConjN_holds (isoG_lift Y ⟨s.lam', s.mem'⟩ γ).1 s).cls⟩
   rw [hcls]
   congr 1
   rw [← Quot.out_eq q']
   refine (Quot.sound ⟨n, hn, (G⁻¹ * ν * G⁻¹⁻¹) * (c⁻¹ * G)⁻¹, hν3, ?_⟩).symm
-  show GTerm.lin (⟨s.lam, hk, s.lam', hk', q'⟩ : TT Y u u') =
+  show GTerm.lin (⟨s.lam, hk, s.lam', hk', q'⟩ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') =
     n * (GTerm.lin s * (Formalism.L2.SG.Pf.Act.isoG γ.1)⁻¹) * ((G⁻¹ * ν * G⁻¹⁻¹) * (c⁻¹ * G)⁻¹)
   rw [he, hiso]
   group

@@ -1,9 +1,9 @@
 module
 
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.GenBCFrameR
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsThRule
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GlobalBasisAlgebra
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsLieBasisBaseChange
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.LiePush
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 
 @[expose] public section
 
@@ -93,6 +93,10 @@ theorem basis_baseChange {S T : Type} [CommRing S] [CommRing T] (ψ : S →+* T)
     ∀ w, IsTanAt (spMap ψ ≫ x) w →
       ∃! a : Fin n → T, IsCombAt (spMap ψ ≫ x) (fun i => spMap (dualMap ψ) ≫ u i) a w := by
   classical
+  letI : (Over.pullback x).Monoidal := (Over.instBraidedPullback (f := x)).toMonoidal
+  letI := Functor.grpObjObj (F := Over.pullback x) (G := Xo.univ.t.G)
+  letI : (Over.pullback (spMap ψ)).Monoidal := (Over.instBraidedPullback (f := spMap ψ)).toMonoidal
+  letI := Functor.grpObjObj (F := Over.pullback (spMap ψ)) (G := (Over.pullback x).obj Xo.univ.t.G)
   have hS := isGrpPullback_pullback Xo.univ.t.G x
   have hT0 := isGrpPullback_pullback ((Over.pullback x).obj Xo.univ.t.G) (spMap ψ)
   have hT := hT0.comp hS

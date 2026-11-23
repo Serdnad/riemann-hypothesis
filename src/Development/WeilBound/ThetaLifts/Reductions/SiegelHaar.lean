@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.WittVector.IsPoly
 public import Mathlib.Tactic.ReduceModChar
 import Batteries.Tactic.Lint.Basic
 import Batteries.Tactic.Lint.Misc
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SmulNn
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle052
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HaarProductClosedCompactHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

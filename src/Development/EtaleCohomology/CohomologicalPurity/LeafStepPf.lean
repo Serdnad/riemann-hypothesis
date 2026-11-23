@@ -1,9 +1,8 @@
 module
 
-public import Development.EtaleCohomology.CohomologicalPurity.LeafFlqPf
-public import Development.EtaleCohomology.KummerTheory.ContCut
-public import Development.EtaleCohomology.KummerTheory.FlasquePf
-public import Development.EtaleCohomology.KummerTheory.GluePf
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle013
+public import Development.EtaleCohomology.KummerTheory.Bundle003
+public import Development.EtaleCohomology.KummerTheory.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

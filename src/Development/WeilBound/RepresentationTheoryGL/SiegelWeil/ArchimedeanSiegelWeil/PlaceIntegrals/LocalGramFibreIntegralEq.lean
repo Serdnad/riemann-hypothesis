@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FreeCell
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalGramFibreIntegralEq
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle107
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle430
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle672
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

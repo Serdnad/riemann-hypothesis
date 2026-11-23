@@ -2,7 +2,7 @@ module
 
 public import Formalism.SizeWindowBrackets.SecondKindBucket
 public import Formalism.LogFactorialBounds.LogFactorialProofs.PrimeSum
-public import Formalism.RankGapBounds.RankGapProofs.FourNotDvdOddSqAddOne
+public import Formalism.RankGapBounds.RankGapProofs.Bundle001
 public import Formalism.RankGapBounds.RankGapProofs.PmModulusFacts
 public import Mathlib.Algebra.Order.Field.GeomSum
 import Mathlib.Algebra.Order.Floor.Extended

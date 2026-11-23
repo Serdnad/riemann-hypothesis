@@ -1,10 +1,10 @@
 module
 
-public import Formalism.FrobeniusOrbits.DiscrMaximalRealCyclotomic
+public import Formalism.FrobeniusOrbits.Bundle001
 public import Formalism.CMTypeGalois.CMTypeFrobenius.MQGalois
 public import Formalism.DirichletDensity.DirichletDensityProofs.MQDiscr
 public import Formalism.DirichletDensity.HostDensityArith
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.ConjReal
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.RealCyclotomicSubfield
 public import Formalism.FrobeniusOrbits.RealSubfieldLeCompositum

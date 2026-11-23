@@ -2,8 +2,8 @@ module
 
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.BesselOrbitConvolutions.BesselNonvanishingReduction
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselNeZeroOfCyclicOrbit
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothAdd
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle036
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle035
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ZeroOfAe
 import Mathlib.Algebra.Order.Floor.Extended

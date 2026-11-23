@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SplittingProjection
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsPrincipalIdealRingSemiLoc
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MulVecMemLocLatIffOfFrame
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ValuedAlgebraMapLtOneIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

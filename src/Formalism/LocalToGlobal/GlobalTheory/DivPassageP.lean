@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.DivPassage
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle001
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.MapScale
 public import Formalism.BranchSandwichDivisors.BranchIsometryProofs.Transfer
 public import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
@@ -49,8 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalRingCardinality.DataArith
-public import Formalism.LocalToGlobal.GlobalTheory.HLatOps
+public import Formalism.LocalRingCardinality.Bundle001
 
 @[expose] public section
 

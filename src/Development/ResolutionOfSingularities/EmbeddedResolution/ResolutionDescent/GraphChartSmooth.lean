@@ -1,9 +1,8 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GraphChart
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GraphAlgebraStandardSmooth
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceGlobalSections
-public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.GraphAlgebraSpecSmooth
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle005
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle001
+public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

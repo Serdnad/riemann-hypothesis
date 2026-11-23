@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BlochKatoDuality
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle081
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,28 +1,25 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HeckeLEntireAndNonzeroAtOne
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle002
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesS
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle012
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.UnitaryDensity.EqTopOfLines
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BoxSec
-public import Development.WeilBound.ThetaLifts.LatticeBasics.CartanBound2
-public import Development.WeilBound.ThetaLifts.LatticeBasics.CoefLine
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle019
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle017
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle014
 public import Development.WeilBound.ThetaLifts.LatticeBasics.EisCont
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsIsGauss
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FinLevel
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle018
 public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameConj
 public import Development.WeilBound.ThetaLifts.LatticeBasics.GoodNe
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HermCpt
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HgtIntOf
-public import Development.WeilBound.ThetaLifts.LatticeBasics.LocDist
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsFin
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PolZero
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle023
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
 public import Development.WeilBound.ThetaLifts.LatticeBasics.RatEquiv
-import Development.WeilBound.ThetaLifts.LatticeBasics.SWFull
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SiegelWeilAnisoOf
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ThConstFin
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle010
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

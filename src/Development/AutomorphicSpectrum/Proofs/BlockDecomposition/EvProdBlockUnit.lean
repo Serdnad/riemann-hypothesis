@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ArakelovCycleHeights.QpSndStr
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsPullHermPullLine
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsIsUnder
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProdZpowSingle
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PullRatioTopEq
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle418
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle456
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle440
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle434
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

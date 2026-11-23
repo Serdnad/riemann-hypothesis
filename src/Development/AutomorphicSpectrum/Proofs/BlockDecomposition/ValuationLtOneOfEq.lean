@@ -1,8 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
-public import GroundTheory.PAdicHodge.LocalBridge
-public import GroundTheory.PAdicHodge.FieldOfNormsCyclBase
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle214
+public import GroundTheory.PAdicHodge.Bundle004
 public import GroundTheory.LocalFields.LubinTateLimitGalois
 public import GroundTheory.LocalFields.UnramifiedHensel
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemFiniteExtPadicRingOfIntegersIffNormLeOne

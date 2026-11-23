@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ProdFormula
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 import Mathlib.Algebra.Order.Floor.Extended

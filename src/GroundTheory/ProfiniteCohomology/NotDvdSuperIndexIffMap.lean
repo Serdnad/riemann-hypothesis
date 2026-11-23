@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.OpenNormal
-public import GroundTheory.ProfiniteCohomology.OfNatRelIndexSupAntitone
-public import GroundTheory.ProfiniteCohomology.IsProPGroupSubgroupIffIsPGroupMap
+public import GroundTheory.ProfiniteCohomology.Bundle003
+public import GroundTheory.ProfiniteCohomology.Bundle002
 public import Mathlib.CategoryTheory.Category.Preorder
 public import Mathlib.CategoryTheory.Types.Basic
 public import Mathlib.GroupTheory.Sylow

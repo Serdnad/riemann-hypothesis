@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.UnitaryNorms.CharTransport
 public import GroundTheory.AutomorphicForms.StrongApproximationSLDense
-import GroundTheory.GlobalFields.Adele.Compact
+import GroundTheory.GlobalFields.Adele.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.AutomorphicForms.ReductionBlock
+import GroundTheory.AutomorphicForms.Bundle003
 
 @[expose] public section
 

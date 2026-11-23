@@ -6,10 +6,10 @@ public import GroundTheory.AutomorphicForms.GL2.GJMatrixSchwartz
 public import Mathlib.Analysis.MellinTransform
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Uniform
 public import GroundTheory.AutomorphicForms.GL2.GJGlobalBound
-public import GroundTheory.AutomorphicForms.GL2.GJGlobalEntire
+public import GroundTheory.AutomorphicForms.GL2.Bundle001
 import GroundTheory.AutomorphicForms.GL2.GJGlobalHaar
 import GroundTheory.AutomorphicForms.GL2.GJGlobalLatticeBounds
-import GroundTheory.AutomorphicForms.GL2.GJGlobalLatticeCont
+import GroundTheory.AutomorphicForms.GL2.Bundle004
 import GroundTheory.AutomorphicForms.GL2.GJGlobalMellin
 import GroundTheory.AutomorphicForms.GL2.GJGlobalTheta
 import Mathlib.Algebra.Order.Floor.Extended

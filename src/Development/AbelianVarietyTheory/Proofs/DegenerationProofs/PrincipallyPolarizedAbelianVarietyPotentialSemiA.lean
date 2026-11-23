@@ -5,15 +5,15 @@ public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.RelAmpleOfLocallyOnBase
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFieldOfValues
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PotModelTrans
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.PotentialSemistableOfRationalLTorsionStatement
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TorsionPointsPolarisedAbelianVarietyGaloisStatement
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsCompleteDvrFiniteSubalgebra
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle205
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle197
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsMulEquivOfIsGrpPullback
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -187,12 +187,14 @@ theorem potModel_semiAbelian : ∀ (V K : Type) [CommRing V] [IsDomain V] [IsDis
     rfl)
   have hK₁ : CharZero K₁ := charZero_of_injective_algebraMap (algebraMap K K₁).injective
   have hal : Algebra.IsAlgebraic K₁ Ω := Algebra.IsAlgebraic.tower_top (K := K) K₁
+  haveI : Module.IsTorsionFree K₁ Ω := DivisionSemiring.to_moduleIsTorsionFree
   have hac : IsAlgClosure K₁ Ω := ⟨inferInstance, hal⟩
   have hres₁ : Finite (IsLocalRing.ResidueField W) :=
     Module.finite_of_finite (IsLocalRing.ResidueField V)
   obtain ⟨P₁, φ, hφ⟩ := exists_pullback (spMap (algebraMap K K₁)) P
   refine GlobalTheory.SS.potModel_trans V K W K₁ (RingHom.ext fun a => (c₁ a).symm) hWf hWl P.A P₁.A φ hφ _ ?_
   refine GlobalTheory.T.potentialSemistable_of_rational_lTorsion W K₁ hres₁ l hl h3 (by simpa using hu.map (algebraMap V W)) P₁ ?_
+  haveI : Module.IsTorsionFree K₁ (AlgebraicClosure K₁) := DivisionSemiring.to_moduleIsTorsionFree
   refine fixed_of_rational (IsAlgClosure.equiv K₁ Ω (AlgebraicClosure K₁)) hφ l (hs K₁ fun c hc => ?_)
   obtain ⟨a, ha, b, hb, hb0, h⟩ := hWs c hc
   refine ⟨algebraMap W K₁ ⟨a, ha⟩ / algebraMap W K₁ ⟨b, hb⟩, ?_⟩

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypVinRec
+public import Formalism.SharpRestriction.GrowthBounds.ChartRank.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ValIntN
-import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocMore
+import Formalism.SharpRestriction.GrowthBounds.ChartComparison.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypChi
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypEvChain
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypFin

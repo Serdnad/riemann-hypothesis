@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.GlobalTheory.CoordinateLengths.IntSpanLeRa
 import Formalism.GradedWeylDivisibility.FinalD
 import Formalism.LocalToGlobal.GlobalTheory.GL6.WeylLengthDiagonalUnitUniformiser
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.SwRowGenMonomial
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.DualWeylModuleStable
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle009
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.RankConditionsOfLayerTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

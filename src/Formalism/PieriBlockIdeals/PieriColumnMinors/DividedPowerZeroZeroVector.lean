@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLD
+public import Formalism.PieriBlockIdeals.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsLeadOfUnif
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPullPt
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2889
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpandsGTransport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

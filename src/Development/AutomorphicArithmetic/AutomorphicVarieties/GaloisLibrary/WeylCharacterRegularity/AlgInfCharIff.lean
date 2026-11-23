@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.HasCohomology
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ProjectionCompact
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

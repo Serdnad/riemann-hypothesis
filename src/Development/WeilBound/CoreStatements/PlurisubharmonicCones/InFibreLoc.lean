@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalFractionField
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalFractionFieldStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GhModelGeo
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle202
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle203
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.AevalCyclotomic
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.NormBound
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapFromSpecStalk
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle044
 
 @[expose] public section
 

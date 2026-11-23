@@ -3,7 +3,7 @@ module
 public import CompanionTheory.AutomorphicTheory.HeckeStandardModules.HeckeStdStatement
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverF
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverSplit
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverStdL
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

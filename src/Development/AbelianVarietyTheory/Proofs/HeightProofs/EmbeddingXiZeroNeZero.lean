@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueInfEmb
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle159
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.WeilIdempotents
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension

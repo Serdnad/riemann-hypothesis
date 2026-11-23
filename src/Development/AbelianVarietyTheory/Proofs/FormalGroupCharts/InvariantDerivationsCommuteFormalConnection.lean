@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalEvSecondPointOfXZero
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeExp
-import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle006
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -150,12 +150,12 @@ theorem ezF (h : PS k 1 d) : ev (n := 1) ![pt k d 0, 0] (ev (n := 2) ![G.F] h) =
   exact formalGroupLaw_ev_x_zero G c
 
 theorem ez_y (h : PS k 1 d) : ev (n := 1) ![pt k d 0, 0] (ev (n := 2) ![pt k d 1] h) = C (constantCoeff h) := by
-  rw [ev_ev cz1 czY]
+  rw [_root_.GlobalTheory.FormalLog.ev_ev cz1 czY]
   have e : (fun j c => ev (n := 1) ![pt k d 0, 0] ((![pt k (n := 2) d 1] : Fin 1 → Pt k 2 d) j c)) =
       fun _ _ => (0 : PS k 1 d) := by
     funext j c
     fin_cases j
-    simp [pt_apply, ev_X cz1]
+    simp [pt_apply, _root_.GlobalTheory.FormalLog.ev_X cz1]
   rw [e, ev_zeroFam]
 
 theorem d_y (h : PS k 1 d) (b : Fin d) :

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BadElt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.CongModRefl
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle021
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle028
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CovolXOfCovol
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MemLevEigenIffTransl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelActionMemCuspFormsOfActionLaws
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActLevIffLevelActionOver
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2254
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle311
 public import Development.AutomorphicArithmetic.LocalEmbeddings.KeepsOfGood
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

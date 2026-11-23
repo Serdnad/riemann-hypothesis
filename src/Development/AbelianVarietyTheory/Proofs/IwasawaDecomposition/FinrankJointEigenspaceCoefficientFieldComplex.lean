@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverPoly
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoverThm
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle001
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 

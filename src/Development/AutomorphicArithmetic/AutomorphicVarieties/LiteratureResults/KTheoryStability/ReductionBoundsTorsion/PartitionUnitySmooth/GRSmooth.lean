@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.PartitionUnitySmooth.Smoothing
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Locfin
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

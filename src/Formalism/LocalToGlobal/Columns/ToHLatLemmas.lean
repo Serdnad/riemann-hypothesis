@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ToHLat
-public import Formalism.LocalToGlobal.GlobalTheory.HLatOps
-public import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.LocalToGlobal.Columns.Bundle013
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle001
+public import Formalism.LocalToGlobal.Columns.Bundle031
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 public import Formalism.LocalToGlobal.Columns.RowFormsGood
 public import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas

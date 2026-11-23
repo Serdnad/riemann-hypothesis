@@ -1,8 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.StrictLocalStalks
-public import Development.EtaleCohomology.EtaleSheaves.StrictLocalStalks.FracOf
-public import Development.EtaleCohomology.EtaleSheaves.StrictLocalStalks.PolyPO
+public import Development.EtaleCohomology.EtaleSheaves.Bundle021
+public import Development.EtaleCohomology.EtaleSheaves.StrictLocalStalks.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

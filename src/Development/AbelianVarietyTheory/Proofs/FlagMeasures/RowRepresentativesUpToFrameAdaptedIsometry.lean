@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle017
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.LatSpanLeSpan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -230,7 +230,7 @@ theorem exists_adapt (Λ : LV D) (hΛ : IsRowLat D (X.Fu u) Λ) :
   have hδ1 : ∀ x ∈ latSpan (aaS D) (X.Fu u).e, δ.symm x ∈ Λ' := fun x hx => by
     have h1 : x ∈ XLam Λ (lf D (X.Fu u)) := (hXΛ'.trans hXΛ.symm).le (hXLam x hx)
     have h2 : x ∈ Formalism.HermitianLatticesTheory.gmap δ Λ' := by rw [hδΛ]; exact h1.1
-    rwa [mem_gmap_iff] at h2
+    rwa [_root_.Formalism.L2.SG.Saturated.mem_gmap_iff] at h2
   have hδ2 : ∀ x ∈ latSpan (aaS D) (X.Fu u).e, δ.symm.symm x ∈ Λ' := fun x hx => by
     rw [LinearEquiv.symm_symm]
     have hx' := hXLam x hx
@@ -312,10 +312,10 @@ theorem eq_of_adapt (Λ : LV D) (hΛ : Λ ∈ Y.what₂ u) (Λ' : LV D) (hΛ' : 
     congr 1
     exact Set.image_congr fun i _ => hγe i
   have hσΛ1 : ∀ v ∈ Λ', σ v ∈ Λ := fun v hv => by rw [← hσΛ]; exact (gmap_apply_mem σ Λ' v).2 hv
-  have hσΛ2 : ∀ v ∈ Λ, σ.symm v ∈ Λ' := fun v hv => by rw [← hσΛ, mem_gmap_iff] at hv; exact hv
+  have hσΛ2 : ∀ v ∈ Λ, σ.symm v ∈ Λ' := fun v hv => by rw [← hσΛ, _root_.Formalism.L2.SG.Saturated.mem_gmap_iff] at hv; exact hv
   have hγΛ : Formalism.HermitianLatticesTheory.gmap γ Λ' = Λ := by
     ext x
-    rw [mem_gmap_iff]
+    rw [_root_.Formalism.L2.SG.Saturated.mem_gmap_iff]
     constructor
     · intro h
       have h1 : γ (γ.symm x) ∈ Λ := chg_mem hee hff hef hff' hef' (aaS D) hsplit hLp hsplit' hLp' hσΛ1 _ h

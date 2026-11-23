@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SegreJoin
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -161,7 +161,7 @@ theorem segre_diag_le (c : ∀ k, ι k) :
   · exact Algebra.subset_adjoin ⟨⟨k, i⟩, rfl⟩
 
 theorem segreBlock_le (d c : ∀ k, ι k) :
-    chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d) ≤
+    chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d) ≤
       chartRingOver S (segreJoin y) (segreChart d c) := by
   refine Algebra.adjoin_le ?_
   rintro _ ⟨⟨⟨⟩, d'⟩, rfl⟩
@@ -170,8 +170,8 @@ theorem segreBlock_le (d c : ∀ k, ι k) :
 theorem exists_mul_pow_mem [DecidableEq K] (d c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) {x : Ω}
     (hx : x ∈ chartRingOver S (segreJoin y) (segreChart d c)) :
     ∃ n : ℕ, x * (segreVec y c / segreVec y d) ^ n ∈
-      chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d) := by
-  set B := chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d)
+      chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d) := by
+  set B := chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d)
   have hu : segreVec y c / segreVec y d ∈ B := Algebra.subset_adjoin ⟨⟨(), c⟩, rfl⟩
   induction hx using Algebra.adjoin_induction with
   | mem x hx =>
@@ -228,7 +228,7 @@ theorem generatesOver_segreJoin (β : K → ℤ) (n : ℕ) (η : Fin n → Ω) :
     exact ⟨u, fun j => chartRingOver_le_segre y d c (hu j), by rw [prod_segreChart]; exact hsum⟩
 
 theorem modelPts_segreJoin_le [DecidableEq K] :
-    modelPts S (segreJoin y) ⊆ modelPts S (oneBlock (segreVec y)) := by
+    modelPts S (segreJoin y) ⊆ modelPts S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) := by
   rintro _ ⟨C, hC, P, hP, rfl⟩
   obtain ⟨d, c, rfl⟩ := segreChart_eta C
   have hd : segreVec y d ≠ 0 := hC (Sum.inl ())
@@ -239,7 +239,7 @@ theorem modelPts_segreJoin_le [DecidableEq K] :
   intro r
   obtain ⟨n, hn⟩ := exists_mul_pow_mem y d c hc r.2
   have hu : segreVec y c / segreVec y d ∈
-      chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d) :=
+      chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d) :=
     Algebra.subset_adjoin ⟨⟨(), c⟩, rfl⟩
   have hv : segreVec y d / segreVec y c ∈ chartRingOver S (segreJoin y) (segreChart d c) := by
     unfold segreVec
@@ -260,14 +260,14 @@ theorem modelPts_segreJoin_le [DecidableEq K] :
 
 theorem segre_diag_le_block [DecidableEq K] (d : ∀ k, ι k) (hd : segreVec y d ≠ 0) :
     chartRingOver S (segreJoin y) (segreChart d d) ≤
-      chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d) := by
+      chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d) := by
   intro x hx
   obtain ⟨n, hn⟩ := exists_mul_pow_mem y d d (ne_zero_of_segreVec y hd) hx
   rwa [div_self hd, one_pow, mul_one] at hn
 
 theorem locIn_segre_diag [DecidableEq K] (d : ∀ k, ι k) (hd : segreVec y d ≠ 0)
-    (p : Ideal (chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d))) [p.IsPrime] :
-    locIn (chartRingOver S (oneBlock (segreVec y)) (fun _ : Unit => d)) p =
+    (p : Ideal (chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d))) [p.IsPrime] :
+    locIn (chartRingOver S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) (fun _ : Unit => d)) p =
       locIn (chartRingOver S (segreJoin y) (segreChart d d))
         (p.comap (Subalgebra.inclusion (segre_diag_le_block (S := S) y d hd))) := by
   have h1 := segreBlock_le (S := S) y d d
@@ -283,7 +283,7 @@ theorem locIn_segre_diag [DecidableEq K] (d : ∀ k, ι k) (hd : segreVec y d �
   exact (Ideal.ne_top_iff_one _).mp (Ideal.IsPrime.ne_top inferInstance)
 
 theorem le_modelPts_segreJoin [DecidableEq K] :
-    modelPts S (oneBlock (segreVec y)) ⊆ modelPts S (segreJoin y) := by
+    modelPts S (_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.Kleiman2.oneBlock (segreVec y)) ⊆ modelPts S (segreJoin y) := by
   rintro _ ⟨c', hc', p, hp, rfl⟩
   have ec : c' = fun _ : Unit => c' () := funext fun u => by cases u; rfl
   generalize c' () = d at ec

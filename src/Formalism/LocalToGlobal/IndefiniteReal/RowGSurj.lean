@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.InBlock
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle015
 import Formalism.LocalToGlobal.Divisibility.RowLatLemmas
 import Formalism.LocalToGlobal.IndefiniteReal.CxLemmas
 public import Formalism.LocalToGlobal.IndefiniteReal.CxPassSand
-public import Formalism.LocalToGlobal.IndefiniteReal.EqZeroOfMemRangeAdjoint
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle004
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.AuxStatement14
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SecondStepGluing
 import Mathlib.Algebra.Order.Floor.Extended

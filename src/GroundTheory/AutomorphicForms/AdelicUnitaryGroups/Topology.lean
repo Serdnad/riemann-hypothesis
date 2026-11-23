@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.AutomorphicForms.UnitaryGroupEquations
-public import GroundTheory.AutomorphicForms.UnitaryGroupScheme
+public import GroundTheory.AutomorphicForms.Bundle003
+public import GroundTheory.AutomorphicForms.Bundle006
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
 public import Mathlib.Topology.Instances.Matrix
 import Mathlib.Algebra.Order.Floor.Extended

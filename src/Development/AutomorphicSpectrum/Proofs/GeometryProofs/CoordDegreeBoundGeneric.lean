@@ -1,13 +1,13 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LatticeRationalEmbedding
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle056
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GradedSandwichDegreeBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeRegularAtLocalPointStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalAtLocalRingStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinearStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelIsBaseChangeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle181
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle203
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle195
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle064
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle177
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

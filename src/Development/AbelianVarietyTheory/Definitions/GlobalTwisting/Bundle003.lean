@@ -1,0 +1,352 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
+public import Mathlib.NumberTheory.Padics.HeightOneSpectrum
+public import Mathlib.RingTheory.Frobenius
+public import Development.AbelianVarietyTheory.Definitions.Jets.CmLatticeCommutatorPairingPowEqOneOfGoodLift
+public import Formalism.GL3MeanSquares.Bundle002
+public import Mathlib.Analysis.Analytic.Order
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Int
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.FieldTheory.Galois.IsGaloisGroup
+import Mathlib.Geometry.Euclidean.Volume.Basic
+public import Mathlib.LinearAlgebra.FreeModule.IdealQuotient
+import Mathlib.NumberTheory.Chebyshev
+public import Mathlib.NumberTheory.Harmonic.ZetaAsymp
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.NT
+
+open Formalism.MainNotions Formalism.MainNotions.GlobalTheoryTheory NumberField IsDedekindDomain
+
+def mult {N : ℕ} [NeZero N] (χ : DirichletCharacter ℂ N) (ρ : ℂ) : ℕ :=
+  analyticOrderNatAt (DirichletCharacter.LFunction χ) ρ
+
+def NormOne (d M p : ℕ) : Prop :=
+  ∃ u v : ℤ, (p : ℤ) = (1 + M * u) ^ 2 + (1 + M * u) * (M * v) + (M * v) ^ 2 * (((d + 1) / 4 : ℕ) : ℤ)
+
+theorem normOne_iff {d : ℕ} (hd : d % 4 = 3) (M p : ℕ) : NormOne d M p ↔ GlobalTheory.Mem.An.NormOne d M p := by
+  obtain ⟨k, hk, rfl⟩ : ∃ k : ℕ, (d + 1) / 4 = k + 1 ∧ d = 4 * k + 3 := ⟨d / 4, by omega, by omega⟩
+  unfold NormOne GlobalTheory.Mem.An.NormOne
+  rw [hk]
+  push_cast
+  constructor
+  · rintro ⟨u, v, h⟩
+    exact ⟨2 * (1 + M * u) + M * v, M * v, by rw [h]; ring, ⟨v, rfl⟩, ⟨u, by ring⟩⟩
+  · rintro ⟨A, B, h, ⟨v, rfl⟩, ⟨u, hu⟩⟩
+    obtain rfl : A = 2 * (1 + M * u) + M * v := by linarith
+    exact ⟨u, v, by nlinarith [h]⟩
+
+section Hecke
+
+variable {K : Type} (L : Type) [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
+
+def IsFrob (𝔭 : HeightOneSpectrum (𝓞 K)) (σ : L ≃ₐ[K] L) : Prop :=
+  ∃ P : Ideal (𝓞 L), P.IsPrime ∧ P.LiesOver 𝔭.asIdeal ∧ ∀ x : 𝓞 L, σ • x - x ^ Ideal.absNorm 𝔭.asIdeal ∈ P
+
+def InInertia (𝔭 : HeightOneSpectrum (𝓞 K)) (σ : L ≃ₐ[K] L) : Prop :=
+  ∃ P : Ideal (𝓞 L), P.IsPrime ∧ P.LiesOver 𝔭.asIdeal ∧ ∀ x : 𝓞 L, σ • x - x ∈ P
+
+def UnramIn (𝔭 : HeightOneSpectrum (𝓞 K)) : Prop := ∀ σ : L ≃ₐ[K] L, InInertia L 𝔭 σ → σ = 1
+
+
+open Classical in
+def heckeVal (χ : (L ≃ₐ[K] L) →* ℂˣ) (𝔭 : HeightOneSpectrum (𝓞 K)) : ℂ :=
+  if h : (∀ σ, InInertia L 𝔭 σ → χ σ = 1) ∧ ∃ σ, IsFrob L 𝔭 σ then ((χ h.2.choose : ℂˣ) : ℂ) else 0
+
+
+open Classical in
+def heckeIdeal (χ : (L ≃ₐ[K] L) →* ℂˣ) (I : Ideal (𝓞 K)) : ℂ :=
+  ∏ᶠ 𝔭 : HeightOneSpectrum (𝓞 K), heckeVal L χ 𝔭 ^ (Associates.mk 𝔭.asIdeal).count (Associates.mk I).factors
+
+def RayPair (𝔪 : Ideal (𝓞 K)) (α β : 𝓞 K) : Prop :=
+  α ≠ 0 ∧ β ≠ 0 ∧ IsCoprime (Ideal.span {α}) 𝔪 ∧ IsCoprime (Ideal.span {β}) 𝔪 ∧ α - β ∈ 𝔪 ∧
+    ∀ φ : K →+* ℝ, 0 < φ (α : K) * φ (β : K)
+
+def IsModulus (χ : (L ≃ₐ[K] L) →* ℂˣ) (𝔪 : Ideal (𝓞 K)) : Prop :=
+  𝔪 ≠ ⊥ ∧ (∀ 𝔭 : HeightOneSpectrum (𝓞 K), ¬ 𝔭.asIdeal ∣ 𝔪 → heckeVal L χ 𝔭 ≠ 0) ∧
+    ∀ α β : 𝓞 K, RayPair 𝔪 α β → heckeIdeal L χ (Ideal.span {α}) = heckeIdeal L χ (Ideal.span {β})
+
+def condNorm (χ : (L ≃ₐ[K] L) →* ℂˣ) : ℕ :=
+  sInf {n | ∃ 𝔪 : Ideal (𝓞 K), IsModulus L χ 𝔪 ∧ Ideal.absNorm 𝔪 = n}
+
+
+variable (K) in
+def bigQ : ℝ :=
+  |(discr K : ℝ)| * ((⨆ χ : (L ≃ₐ[K] L) →* ℂˣ, condNorm L χ : ℕ) : ℝ) *
+    (Module.finrank ℚ K : ℝ) ^ Module.finrank ℚ K
+
+def HeckeZero (χ : (L ≃ₐ[K] L) →* ℂˣ) (β : ℂ) : Prop :=
+  β ≠ 1 ∧ ∃ F : ℂ → ℂ, DifferentiableOn ℂ F {1}ᶜ ∧
+    (∀ s : ℂ, 1 < s.re → HasProd (fun 𝔭 : HeightOneSpectrum (𝓞 K) =>
+      (1 - heckeVal L χ 𝔭 * ((Ideal.absNorm 𝔭.asIdeal : ℕ) : ℂ) ^ (-s))⁻¹) (F s)) ∧ F β = 0
+
+
+omit [NumberField K] [NumberField L] in
+instance smulCommClass_gal_integers : SMulCommClass (L ≃ₐ[K] L) (𝓞 K) (𝓞 L) where
+  smul_comm s a x := by
+    apply RingOfIntegers.ext
+    rw [Algebra.smul_def, Algebra.smul_def]
+    change s (algebraMap K L a * x) = algebraMap K L a * s x
+    rw [map_mul, AlgEquiv.commutes]
+
+theorem isFrob_iff (𝔭 : HeightOneSpectrum (𝓞 K)) (σ : L ≃ₐ[K] L) :
+    IsFrob L 𝔭 σ ↔ ∃ P : Ideal (𝓞 L), P.IsPrime ∧ P.LiesOver 𝔭.asIdeal ∧ IsArithFrobAt (𝓞 K) σ P := by
+  refine exists_congr fun P => and_congr_right fun _ => and_congr_right fun hP => ?_
+  have h : P.under (𝓞 K) = 𝔭.asIdeal := hP.over.symm
+  unfold IsArithFrobAt AlgHom.IsArithFrobAt
+  rw [h, Ideal.absNorm_apply, Submodule.cardQuot_apply]
+  rfl
+
+theorem inInertia_iff (𝔭 : HeightOneSpectrum (𝓞 K)) (σ : L ≃ₐ[K] L) :
+    InInertia L 𝔭 σ ↔ ∃ P : Ideal (𝓞 L), P.IsPrime ∧ P.LiesOver 𝔭.asIdeal ∧ σ ∈ P.inertia (L ≃ₐ[K] L) :=
+  Iff.rfl
+
+theorem exists_isFrob [IsGalois K L] (𝔭 : HeightOneSpectrum (𝓞 K)) : ∃ σ : L ≃ₐ[K] L, IsFrob L 𝔭 σ := by
+  have := 𝔭.isPrime
+  obtain ⟨P, hP, hP'⟩ := (inferInstance : Nonempty (𝔭.asIdeal.primesOver (𝓞 L)))
+  have hne : P ≠ ⊥ := Ideal.ne_bot_of_liesOver_of_ne_bot 𝔭.ne_bot P
+  have : Finite (𝓞 L ⧸ P) := Ideal.finiteQuotientOfFreeOfNeBot _ hne
+  obtain ⟨σ, hσ⟩ := IsArithFrobAt.exists_of_isInvariant (𝓞 K) (L ≃ₐ[K] L) P
+  exact ⟨σ, (isFrob_iff L 𝔭 σ).2 ⟨P, hP, hP', hσ⟩⟩
+
+theorem heckeVal_eq [IsGalois K L] (χ : (L ≃ₐ[K] L) →* ℂˣ) (𝔭 : HeightOneSpectrum (𝓞 K))
+    (hχ : ∀ τ, InInertia L 𝔭 τ → χ τ = 1) {σ : L ≃ₐ[K] L} (hσ : IsFrob L 𝔭 σ) :
+    heckeVal L χ 𝔭 = (χ σ : ℂˣ) := by
+  have h : (∀ σ, InInertia L 𝔭 σ → χ σ = 1) ∧ ∃ σ, IsFrob L 𝔭 σ := ⟨hχ, σ, hσ⟩
+  unfold heckeVal
+  rw [dite_eq_left h]
+  obtain ⟨P, hP, hPo, h1⟩ := (isFrob_iff L 𝔭 _).1 h.2.choose_spec
+  obtain ⟨P', hP', hPo', h2⟩ := (isFrob_iff L 𝔭 _).1 hσ
+  have := 𝔭.isPrime
+  obtain ⟨τ, hτ⟩ := Algebra.IsInvariant.exists_smul_of_under_eq (𝓞 K) (𝓞 L) (L ≃ₐ[K] L) P' P
+    (hPo'.over.symm.trans hPo.over)
+  have h3 := h2.conj τ
+  rw [← hτ] at h3
+  have h4 := hχ _ ((inInertia_iff L 𝔭 _).2 ⟨P, hP, hPo, h1.mul_inv_mem_inertia h3⟩)
+  simp only [map_mul, map_inv, mul_inv_eq_one] at h4
+  rw [h4, mul_inv_cancel_comm]
+
+theorem heckeVal_eq_zero (χ : (L ≃ₐ[K] L) →* ℂˣ) (𝔭 : HeightOneSpectrum (𝓞 K))
+    (hχ : ¬ ∀ τ, InInertia L 𝔭 τ → χ τ = 1) : heckeVal L χ 𝔭 = 0 := by
+  unfold heckeVal
+  rw [dite_eq_right fun h => hχ h.1]
+
+theorem heckeVal_of_unramIn [IsGalois K L] (χ : (L ≃ₐ[K] L) →* ℂˣ) {𝔭 : HeightOneSpectrum (𝓞 K)}
+    (hu : UnramIn L 𝔭) {σ : L ≃ₐ[K] L} (hσ : IsFrob L 𝔭 σ) : heckeVal L χ 𝔭 = (χ σ : ℂˣ) :=
+  heckeVal_eq L χ 𝔭 (fun τ hτ => by rw [hu τ hτ, map_one]) hσ
+
+theorem heckeVal_one [IsGalois K L] (𝔭 : HeightOneSpectrum (𝓞 K)) :
+    heckeVal L (1 : (L ≃ₐ[K] L) →* ℂˣ) 𝔭 = 1 := by
+  obtain ⟨σ, hσ⟩ := exists_isFrob L 𝔭
+  rw [heckeVal_eq L 1 𝔭 (fun _ _ => rfl) hσ]
+  simp
+
+theorem condNorm_one [IsGalois K L] : condNorm L (1 : (L ≃ₐ[K] L) →* ℂˣ) = 1 := by
+  have hm : IsModulus L (1 : (L ≃ₐ[K] L) →* ℂˣ) ⊤ :=
+    ⟨top_ne_bot, fun p _ => by simp [heckeVal_one], fun a b _ => by simp [heckeIdeal, heckeVal_one]⟩
+  apply le_antisymm
+  · exact Nat.sInf_le ⟨⊤, hm, by simp⟩
+  · unfold condNorm
+    refine le_csInf ⟨1, ⊤, hm, by simp⟩ ?_
+    rintro n ⟨m, hm, rfl⟩
+    exact Nat.one_le_iff_ne_zero.2 (by simpa [Ideal.absNorm_eq_zero_iff] using hm.1)
+
+theorem heckeZero_iff (χ : (L ≃ₐ[K] L) →* ℂˣ) {G : ℂ → ℂ} (hG : DifferentiableOn ℂ G {1}ᶜ)
+    (hp : ∀ s : ℂ, 1 < s.re → HasProd (fun 𝔭 : HeightOneSpectrum (𝓞 K) =>
+      (1 - heckeVal L χ 𝔭 * ((Ideal.absNorm 𝔭.asIdeal : ℕ) : ℂ) ^ (-s))⁻¹) (G s)) (β : ℂ) :
+    HeckeZero L χ β ↔ β ≠ 1 ∧ G β = 0 := by
+  refine and_congr_right fun hβ => ⟨?_, fun h => ⟨G, hG, hp, h⟩⟩
+  rintro ⟨F, hF, hFp, h0⟩
+  have ho : IsOpen ({1}ᶜ : Set ℂ) := isOpen_compl_singleton
+  have hc : IsPreconnected ({1}ᶜ : Set ℂ) :=
+    (isConnected_compl_singleton_of_one_lt_rank (by simp) (1 : ℂ)).isPreconnected
+  have he : F =ᶠ[nhds (2 : ℂ)] G := by
+    have : {s : ℂ | 1 < s.re} ∈ nhds (2 : ℂ) :=
+      (isOpen_lt continuous_const Complex.continuous_re).mem_nhds (by simp)
+    filter_upwards [this] with s hs using (hFp s hs).unique (hp s hs)
+  have := (hF.analyticOnNhd ho).eqOn_of_preconnected_of_eventuallyEq (hG.analyticOnNhd ho) hc
+    (z₀ := 2) (by norm_num) he hβ
+  rw [← this, h0]
+
+end Hecke
+
+theorem absNorm_rat (p : HeightOneSpectrum (𝓞 ℚ)) :
+    Ideal.absNorm p.asIdeal = (Rat.HeightOneSpectrum.primesEquiv p : ℕ) := by
+  have e := Ideal.quotientEquiv p.asIdeal _ (Rat.IsIntegralClosure.intEquiv (𝓞 ℚ)) (Rat.HeightOneSpectrum.span_natGenerator p)
+  rw [Ideal.absNorm_apply, Submodule.cardQuot_apply, Nat.card_congr e.toEquiv]
+  have := Ideal.absNorm_span_singleton ((Rat.HeightOneSpectrum.natGenerator p : ℕ) : ℤ)
+  rw [Ideal.absNorm_apply, Submodule.cardQuot_apply] at this
+  rw [this]
+  simp only [Algebra.norm_self, MonoidHom.id_apply, Int.natAbs_natCast]
+  rfl
+
+theorem heckeZero_rat_one_iff (L : Type) [Field L] [NumberField L] [Algebra ℚ L] [IsGalois ℚ L] (β : ℂ) :
+    HeckeZero L (1 : (L ≃ₐ[ℚ] L) →* ℂˣ) β ↔ riemannZeta β = 0 := by
+  rw [heckeZero_iff L 1 (G := riemannZeta)
+    (fun s hs => (differentiableAt_riemannZeta hs).differentiableWithinAt) ?_ β]
+  · exact ⟨fun h => h.2, fun h => ⟨fun h1 => riemannZeta_one_ne_zero (h1 ▸ h), h⟩⟩
+  · intro s hs
+    have := (Rat.HeightOneSpectrum.primesEquiv (R := 𝓞 ℚ)).hasProd_iff.2 (riemannZeta_eulerProduct_hasProd hs)
+    convert this using 2 with p
+    simp [heckeVal_one, absNorm_rat]
+
+end GlobalTheory.NT
+
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.MomN
+
+open GlobalTheory.MomOne
+
+variable {q : ℕ} [Fact q.Prime] {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V]
+
+def IsMom (ι : ℂ ≃+* ℂ_[q]) {κ : Type} [Fintype κ] (v : κ → V) (G : V → ℂ) (μ : C(κ → ℤ_[q], ℂ_[q]) →L[ℂ_[q]] ℂ_[q]) : Prop :=
+  ∀ (k : ℕ) (j : Fin k → κ) (f : C(κ → ℤ_[q], ℂ_[q])), (∀ a, f a = ∏ l, zc (a (j l))) →
+    ι (iteratedFDeriv ℂ k G 0 fun l => v (j l)) = μ f
+
+def MomInt (ι : ℂ ≃+* ℂ_[q]) {κ : Type} [Fintype κ] (v : κ → V) (G : V → ℂ) : Prop :=
+  ∃ μ : C(κ → ℤ_[q], ℂ_[q]) →L[ℂ_[q]] ℂ_[q], ‖μ‖ ≤ 1 ∧ IsMom ι v G μ
+
+def LatInt (ι : ℂ ≃+* ℂ_[q]) (ω : ℂ_[q]) (Λ : AddSubgroup V) (G : V → ℂ) : Prop :=
+  ∀ (κ : Type) [Fintype κ] (v : κ → V), (∀ i, v i ∈ Λ) → MomInt ι (fun i => ι.symm ω • v i) G
+
+def monoJet {κ : Type} [Fintype κ] (v : κ → V) (G : V → ℂ) (m : κ →₀ ℕ) : ℂ :=
+  iteratedFDeriv ℂ m.toMultiset.toList.length G 0 fun l => v (m.toMultiset.toList.get l)
+
+def mahler {κ : Type} [Fintype κ] (v : κ → V) (G : V → ℂ) (n : κ → ℕ) : ℂ :=
+  let P : MvPolynomial κ ℂ :=
+    ∏ i, MvPolynomial.C (((n i).factorial : ℂ)⁻¹) * Polynomial.aeval (MvPolynomial.X i : MvPolynomial κ ℂ) (descPochhammer ℂ (n i))
+  ∑ m ∈ P.support, P.coeff m * monoJet v G m
+
+def Per (d : ℕ) (ι : ℂ ≃+* ℂ_[q]) (δ₀ : ℂ) (θ : ℂ → ℂ) (Ω : ℂ_[q]) : Prop :=
+  IsTh d θ ∧ δ₀ ^ 12 = discr d ∧ δ₀ ≠ 0 ∧
+  (∀ ι' : ℂ ≃+* ℂ_[q], ∃ Ω' : ℂ_[q], ‖Ω'‖ = 1 ∧ ThetaLaws ι' d (Ω' / ι' δ₀) θ) ∧
+  ‖Ω‖ = 1 ∧ ThetaLaws ι d (Ω / ι δ₀) θ ∧ ∃ M : Mdl q, M.ι = ι ∧ IsOK d M.L ∧ M.MChart (Ω / ι δ₀)
+
+theorem latInt_zero (ι : ℂ ≃+* ℂ_[q]) (ω : ℂ_[q]) (Λ : AddSubgroup V) : LatInt ι ω Λ (fun _ => 0) := by
+  intro κ _ v _
+  refine ⟨0, by simp, ?_⟩
+  intro k j f _
+  simp
+
+theorem latInt_one (ι : ℂ ≃+* ℂ_[q]) (ω : ℂ_[q]) (Λ : AddSubgroup V) : LatInt ι ω Λ (fun _ => 1) := by
+  intro κ _ v _
+  refine ⟨ContinuousMap.evalCLM ℂ_[q] 0, ?_, ?_⟩
+  · refine ContinuousLinearMap.opNorm_le_bound _ zero_le_one fun f => ?_
+    rw [one_mul]
+    exact f.norm_coe_le_norm 0
+  · intro k j f hf
+    rw [ContinuousMap.evalCLM_apply, hf]
+    cases k with
+    | zero => simp
+    | succ k =>
+      rw [iteratedFDeriv_const_of_ne (Nat.succ_ne_zero k), Finset.prod_eq_zero (Finset.mem_univ 0)]
+      · simp
+      · simp [zc]
+
+end GlobalTheory.MomN
+end
+end
+
+section
+
+noncomputable section
+
+open Finset ArithmeticFunction
+
+namespace GlobalTheory.Lin
+
+def zerosBox {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (σ T : ℝ) : Set ℂ :=
+  {ρ | σ ≤ ρ.re ∧ ρ.re < 1 ∧ |ρ.im| ≤ T ∧ DirichletCharacter.LFunction χ ρ = 0}
+
+def ord {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (ρ : ℂ) : ℕ :=
+  analyticOrderNatAt (DirichletCharacter.LFunction χ) ρ
+
+def zerosDisc {q : ℕ} [NeZero q] (χ : DirichletCharacter ℂ q) (c : ℂ) (R : ℝ) : Set ℂ :=
+  {w | ‖w - c‖ ≤ R ∧ (χ ≠ 1 ∨ w ≠ 1) ∧ DirichletCharacter.LFunction χ w = 0}
+
+def derSeries (c : ℕ → ℂ) (k : ℕ) (s : ℂ) : ℂ :=
+  ∑' n : ℕ, ((Λ n : ℝ) : ℂ) * c n * ((Real.log n : ℂ) ^ k / (k.factorial : ℂ)) * (n : ℂ) ^ (-s)
+
+def primesIoc (x y : ℝ) : Finset ℕ := (Ioc ⌊x⌋₊ ⌊y⌋₊).filter Nat.Prime
+
+def psiAP (M b : ℕ) (u : ℝ) : ℝ := ∑ n ∈ (Icc 1 ⌊u⌋₊).filter (fun n => n ≡ b [MOD M]), Λ n
+
+def IsExc (c₁ : ℝ) {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (β : ℝ) : Prop :=
+  χ ^ 2 = 1 ∧ 1 - c₁ / Real.log M < β ∧ β < 1 ∧
+    haveI : NeZero χ.conductor := ⟨χ.conductor_ne_zero⟩
+    DirichletCharacter.LFunction χ.primitiveCharacter β = 0
+
+def ExcData (c₁ : ℝ) (M : ℕ) [NeZero M] (b : ℕ) (θ : ℤ) (β : ℝ) : Prop :=
+  (θ = 0 ∧ ∀ (χ : DirichletCharacter ℂ M) (β' : ℝ), ¬ IsExc c₁ χ β') ∨
+    ∃ χ : DirichletCharacter ℂ M, IsExc c₁ χ β ∧ χ (b : ZMod M) = (θ : ℂ)
+
+def PrimesRel : Prop :=
+  ∃ c₁ c₂ c₃ CA cS : ℝ, 0 < c₁ ∧ c₁ ≤ 1 / 8 ∧ 0 < c₂ ∧ 0 < c₃ ∧ 0 < CA ∧ 0 < cS ∧ ∀ (M : ℕ) [NeZero M], 3 ≤ M →
+    (∀ (χ χ' : DirichletCharacter ℂ M) (β β' : ℝ), IsExc c₁ χ β → IsExc c₁ χ' β' → χ = χ' ∧ β = β') ∧
+    (∀ (χ : DirichletCharacter ℂ M) (β : ℝ), IsExc c₁ χ β → cS / ((M : ℝ) ^ 2 * Real.log M) ≤ 1 - β) ∧
+    ∀ (b : ℕ) (θ : ℤ) (β : ℝ), Nat.Coprime b M → ExcData c₁ M b θ β →
+      ∀ X : ℝ, (M : ℝ) ^ c₂ ≤ X →
+        |(M.totient : ℝ) * (((Icc 1 ⌊X⌋₊).filter (fun p => p.Prime ∧ p ≡ b [MOD M])).card : ℝ) - Formalism.HermitianLattices.GL2PrimeSums.Emain θ β X| ≤
+          CA * (Real.exp (-c₃ * Real.log X / Real.log M) + Real.exp (-Real.sqrt (c₃ * Real.log X))) *
+            Formalism.HermitianLattices.GL2PrimeSums.Emain θ β X
+
+end GlobalTheory.Lin
+
+end
+end

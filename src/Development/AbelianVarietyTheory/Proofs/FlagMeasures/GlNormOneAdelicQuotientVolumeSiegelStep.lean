@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GlVolEqTsumSlabVol
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamentalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeTraceDualAndTraceDualTraceDualStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LineLatticeClassMeanCovolumeFunctionStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LineLatticeClassMeanSumNonzeroUnfoldStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle209
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle238
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LineLatticeClassMeanTraceFormDualLattice
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableTranslatedLatticeFunctionsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PoissonSummationInfinitePlaceGaussianLatticeStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TranslatedLatticeAtInfinityFullCovolumeDualStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle185
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle186
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,23 +61,23 @@ namespace GlobalTheory.FlagBase.SiegelStep
 
 variable (E : Type) [Field E] [NumberField E] (j : ℕ)
 
-theorem measurable_detNorm : Measurable (detNorm E j) := by
+theorem measurable_detNorm : Measurable (_root_.GlobalTheory.FlagMeas.detNorm E j) := by
   have h : Continuous fun x : InfinitePlace E → Fin j → Fin j → ℂ => ∏ w, ‖(Matrix.of (x w)).det‖ ^ 2 := by
     refine continuous_finsetProd _ fun w _ => ?_
     refine (Continuous.norm (Continuous.matrix_det ?_)).pow 2
     exact continuous_apply w
   exact h.measurable
 
-theorem ae_detNorm_pos (hj : 1 ≤ j) : ∀ᵐ g ∂(haarGL E j), 0 < detNorm E j g := by
+theorem ae_detNorm_pos (hj : 1 ≤ j) : ∀ᵐ g ∂(haarGL E j), 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g := by
   unfold haarGL
   refine (ae_withDensity_iff (((measurable_detNorm E j).inv.pow_const j).ennreal_ofReal)).2
     (Filter.Eventually.of_forall fun g hg => ?_)
-  have h0 : 0 ≤ detNorm E j g := by unfold detNorm; positivity
+  have h0 : 0 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j g := by unfold _root_.GlobalTheory.FlagMeas.detNorm; positivity
   refine lt_of_le_of_ne h0 fun h => hg ?_
   simp [← h, show j ≠ 0 by omega]
 
 theorem latMean_congr (hj : 1 ≤ j) {F G : Submodule ℤ (VecInf E j) → ENNReal}
-    (h : ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ → ∀ g, 0 < detNorm E j g →
+    (h : ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ → ∀ g, 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g →
       F (latAt E j Λ g) = G (latAt E j Λ g)) : latMean E j F = latMean E j G := by
   unfold latMean
   refine tsum_congr fun c => ?_
@@ -87,20 +87,20 @@ theorem latMean_congr (hj : 1 ≤ j) {F G : Submodule ℤ (VecInf E j) → ENNRe
 
 theorem latMean_add (hE : IsTotallyComplex E) (hj : 1 ≤ j) {F G : Submodule ℤ (VecInf E j) → ENNReal}
     (hF : ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ →
-      Measurable (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g))
+      Measurable (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g))
     (hG : ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ →
-      Measurable (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator (fun g => G (latAt E j Λ g)) g)) :
+      Measurable (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => G (latAt E j Λ g)) g)) :
     latMean E j (fun L => F L + G L) = latMean E j F + latMean E j G := by
   unfold latMean
   rw [← ENNReal.tsum_add]
   refine tsum_congr fun c => ?_
   obtain ⟨Λ, hΛ⟩ := Quot.out c
   obtain ⟨D, hD, hDP, -, -, H⟩ := GlobalTheory.T.exists_scalarStable_latticeAutomorphismFundamentalDomain E hE j Λ hΛ
-  have hP : MeasurableSet {g | 0 < detNorm E j g} := measurableSet_lt measurable_const (measurable_detNorm E j)
-  rw [Measure.restrict_eq_self_of_ae_mem (s := {g | 0 < detNorm E j g}) (ae_detNorm_pos E j hj)] at H
-  have hinv : ∀ γ ∈ autGL E j Λ, ∀ g ∈ {g | 0 < detNorm E j g}, γ * g ∈ {g | 0 < detNorm E j g} := by
+  have hP : MeasurableSet {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} := measurableSet_lt measurable_const (measurable_detNorm E j)
+  rw [Measure.restrict_eq_self_of_ae_mem (s := {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}) (ae_detNorm_pos E j hj)] at H
+  have hinv : ∀ γ ∈ autGL E j Λ, ∀ g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}, γ * g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} := by
     rintro γ ⟨c, -, hc⟩ g hg
-    simp only [Set.mem_setOf_eq, detNorm] at hg ⊢
+    simp only [Set.mem_setOf_eq, _root_.GlobalTheory.FlagMeas.detNorm] at hg ⊢
     refine Finset.prod_pos fun w _ => ?_
     have h1 : Matrix.of ((γ * g) w) = (c : Matrix (Fin j) (Fin j) E).map w.embedding * Matrix.of (g w) := by
       have : Matrix.of (γ w) = (c : Matrix (Fin j) (Fin j) E).map w.embedding := by
@@ -114,19 +114,19 @@ theorem latMean_add (hE : IsTotallyComplex E) (hj : 1 ≤ j) {F G : Submodule �
     rw [h1, Matrix.det_mul]
     exact pow_pos (norm_pos_iff.2 (mul_ne_zero h3.ne_zero h5)) 2
   have key : ∀ K : Submodule ℤ (VecInf E j) → ENNReal,
-      Measurable (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator (fun g => K (latAt E j Λ g)) g) →
-      covol (autGL E j Λ) ((haarGL E j).withDensity fun g => K (latAt E j Λ g)) {g | 0 < detNorm E j g} =
-        ∫⁻ g in D, {g | 0 < detNorm E j g}.indicator (fun g => K (latAt E j Λ g)) g ∂(haarGL E j) := by
+      Measurable (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => K (latAt E j Λ g)) g) →
+      covol (autGL E j Λ) ((haarGL E j).withDensity fun g => K (latAt E j Λ g)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} =
+        ∫⁻ g in D, {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => K (latAt E j Λ g)) g ∂(haarGL E j) := by
     intro K hK
     rw [H _ _ hK (fun γ hγ g _ => by rw [Test.latAt_aut_mul E j Λ hγ g]) hP subset_rfl hinv,
       Set.inter_eq_right.2 hDP]
     exact setLIntegral_congr_fun hD fun g hg => (Set.indicator_of_mem (hDP hg) fun g => K (latAt E j Λ g)).symm
-  have hadd : (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator
+  have hadd : (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator
       (fun g => F (latAt E j Λ g) + G (latAt E j Λ g)) g) = fun g =>
-      {g | 0 < detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g +
-      {g | 0 < detNorm E j g}.indicator (fun g => G (latAt E j Λ g)) g := by
+      {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g +
+      {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => G (latAt E j Λ g)) g := by
     funext g
-    by_cases hg : g ∈ {g | 0 < detNorm E j g} <;> simp [hg]
+    by_cases hg : g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} <;> simp [hg]
   dsimp only
   have hFm := hF Λ hΛ
   have hGm := hG Λ hΛ
@@ -135,11 +135,11 @@ theorem latMean_add (hE : IsTotallyComplex E) (hj : 1 ≤ j) {F G : Submodule �
 
 theorem measurable_weight_mul_sum (hE : IsTotallyComplex E) (w : ℝ → ENNReal) (Φ : VecInf E j → ENNReal)
     (hw : Measurable w) (hΦ : Measurable Φ) (Λ : Submodule (𝓞 E) (Fin j → E)) (hΛ : Submodule.IsFullLattice E Λ) :
-    Measurable (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator (fun g => w (covAt E j (latAt E j Λ g)) *
+    Measurable (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => w (covAt E j (latAt E j Λ g)) *
       ∑' x : {x : VecInf E j // x ∈ latAt E j Λ g ∧ x ≠ 0}, Φ x.1) g) := by
   obtain ⟨h1, h2, -⟩ := GlobalTheory.T.measurable_translatedLattice_functions E hE j w Φ hw hΦ Λ hΛ
   convert h1.mul h2 using 2 with g
-  by_cases hg : g ∈ {g | 0 < detNorm E j g} <;> simp [hg]
+  by_cases hg : g ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} <;> simp [hg]
 
 theorem tsum_eq_zero_add (L : Submodule ℤ (VecInf E j)) (Φ : VecInf E j → ENNReal) :
     ∑' x : L, Φ x = Φ 0 + ∑' x : {x : VecInf E j // x ∈ L ∧ x ≠ 0}, Φ x.1 := by
@@ -262,7 +262,7 @@ theorem weighted {c : ℝ} (hc : 0 < c) {A B : ENNReal} (h : 1 + A = ENNReal.ofR
 open GlobalTheory.MeanDual in
 private theorem latMean_dualAt_full (hE : IsTotallyComplex E) (F : Submodule ℤ (VecInf E j) → ENNReal)
     (hF : ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ →
-      Measurable ({g | 0 < detNorm E j g}.indicator fun g => F (latAt E j Λ g))) :
+      Measurable ({g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator fun g => F (latAt E j Λ g))) :
     latMean E j (fun L => F (dualAt E j L)) = latMean E j F := by
   let X := {Λ : Submodule (𝓞 E) (Fin j → E) // Submodule.IsFullLattice E Λ}
   let r : X → X → Prop := fun Λ Λ' => ∃ γ : GL (Fin j) E,

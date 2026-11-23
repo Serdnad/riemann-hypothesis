@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UpVApply
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle113
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentChartNinth
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalIntegrabilityStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalResolutionOpenStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PMatStepColsEntryStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle173
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle135
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle136
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

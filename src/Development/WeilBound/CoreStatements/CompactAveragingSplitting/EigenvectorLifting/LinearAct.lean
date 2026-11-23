@@ -1,11 +1,10 @@
 module
 
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.LocalDef
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle003
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.LinearActAlg
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DblCoordUnique
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsInvariantForm
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
 import Development.AutomorphicSpectrum.Proofs.MembershipProofs.LagrangianStabilizerCharacterTrivial
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.SplitQuadraticAlgebraOrderStatement
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.LinearActInt
 import Development.WeilBound.CoreStatements.LocalThetaKernels.EvlLoc
 import Mathlib.Algebra.Order.Floor.Extended

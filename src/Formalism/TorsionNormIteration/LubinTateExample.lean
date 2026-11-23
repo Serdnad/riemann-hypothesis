@@ -2,11 +2,9 @@ module
 
 public import Formalism.FormalGroupLog.Statement
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.InvInt
-public import Formalism.TorsionNormIteration.InverseIntegralClasses.MapSubtypeInjective
+public import Formalism.TorsionNormIteration.InverseIntegralClasses.Bundle001
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.MemSpanOfNormLe
-public import Formalism.TorsionNormIteration.InverseIntegralClasses.NormSigmaLeOne
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.SigmaNormLeOne
-public import Formalism.TorsionNormIteration.InverseIntegralClasses.SolveExistsProof
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

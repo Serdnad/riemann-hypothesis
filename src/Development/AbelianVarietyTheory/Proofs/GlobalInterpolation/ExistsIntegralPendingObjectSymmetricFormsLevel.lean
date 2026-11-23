@@ -2,21 +2,20 @@ module
 
 public import Formalism.LocalToGlobal.HilbertRowConditions.RowPin
 public import Formalism.LocalToGlobal.Columns.TiedValLatG
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ArchimedeanSignatureMatchingOfTrivialBranchingSymm
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ClassLatticeSelfDual
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FnOfMapInjective
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CoMTSOfGaInv
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsIsLocBasisClsP
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsPtEmbOfCoordInt
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PtCoMemIntSpan
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle193
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle134
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle150
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.PairBDual
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.TauLatticeLatticeHolds
 public import Formalism.LocalToGlobal.Columns.TiedValBwG
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ExistsOnOfPosDef
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle003
 import Formalism.LocalToGlobal.GlobalTheory.BlockActions.HformSmulRightB
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.MulLatMulLat
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle006
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.NfAllSmulReB
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.RestrictionSymmetric
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle007
 import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypLat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -217,7 +216,7 @@ end Dual
 
 section Localisation
 
-open Formalism.L2.DIV Formalism.L2.Col
+open Formalism.L2.DIV _root_.Formalism.L2.Col
 
 theorem mem_localization_delAtr_of_basis {E K : Type} [Field E] [NumberField E] [Field K] [NumberField K] (Pl : Rows.Places K)
     (pw : Pl.Pl → HeightOneSpectrum (𝓞 K))
@@ -281,8 +280,8 @@ theorem mem_SP_of_coord_integral (D : D7) (u : D.what₂.Word) (Ch : ℕ → Typ
     refine mem_localization_delAtr_of_basis D.what₂.places D.plEq D.val_eq _ D.what₂.embLL (embT D) he (gramP D) (sgT u) (D.fm u).sg
       (fun τ => natW_shW _ _) (Tf.clsP.lat c) (hK c) (val y c) w (B w c) (hB w c) ?_
     have := h c
-    simp only [Formalism.L2.GlobalTheoryTheory.Br.coPTS, LinearMap.pi_apply, LinearMap.coe_comp, Function.comp_apply, LinearMap.coe_proj,
-      Function.eval, LinearEquiv.coe_coe] at this
+    change (fnInv (gramC (gramP D) (_root_.Formalism.L2.Forms.embT D)) (shiftOf (sgT u))
+      (atInf (_root_.Formalism.L2.embT D) (↑(B w c))⁻¹) (Tf.valP.eW ((D.fm u).ptEmb y) c)) ∈ _ at this
     rw [hval] at this
     exact this
   choose s hs hx using hc

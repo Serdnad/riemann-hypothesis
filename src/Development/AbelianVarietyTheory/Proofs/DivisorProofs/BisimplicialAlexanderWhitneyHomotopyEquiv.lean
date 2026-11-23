@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasTotalBiChains
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AwOCommDStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalDifferentialEval
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TotalDifferentialEval
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle426
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle519
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle570
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExtId
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidCoords
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DivisionPointsCorrespondMatchedPullbacksStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLevelPointLiftZeroFirstCoordinate
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LineBundleIsoOfActionCompatibleMatchStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowLeftOfIsGrpPullback
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PsiUnitOnUniv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SecHom
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle076
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle077
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3273
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3247
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3214
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3197
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2980
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3248
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsPeriodGens
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle078
 
 @[expose] public section
 

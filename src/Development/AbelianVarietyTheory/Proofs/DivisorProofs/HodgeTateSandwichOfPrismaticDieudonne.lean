@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.InjectiveOfSmulMemRange
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvEqOneOfForallPairing
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FontaineAinfLocalDomainXiAdicOrder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemRange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle393
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle444
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

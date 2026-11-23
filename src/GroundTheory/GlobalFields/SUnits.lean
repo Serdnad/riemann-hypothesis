@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.SUnitsKernel
+public import GroundTheory.GlobalFields.Bundle001
 public import Mathlib.NumberTheory.NumberField.ClassNumber
 public import Mathlib.NumberTheory.NumberField.Units.DirichletTheorem
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.FibreIdem
+public import Development.EtaleCohomology.EtaleSheaves.Bundle053
 public import Development.EtaleCohomology.EtaleSheaves.LZProperCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

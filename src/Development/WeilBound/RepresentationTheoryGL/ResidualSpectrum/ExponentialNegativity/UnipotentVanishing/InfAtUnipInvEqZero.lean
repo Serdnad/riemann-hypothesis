@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.L2DecayOfCountEscape
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsNcardEntrywiseBoxLe
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExponentMemFinset
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProdEntrywiseLe
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle286
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle013
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SiegelCount
-import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+import GroundTheory.AutomorphicForms.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
-public import Formalism.GaussJetBounds.GenLogInverse
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.EqSingleOfDegreeEqOne
+public import Formalism.GaussJetBounds.Bundle003
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
 public import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
-public import Formalism.IncomingBounds.FlowDegreeBounds.PadicValFactorialRatioProd
+public import Formalism.IncomingBounds.FlowDegreeBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

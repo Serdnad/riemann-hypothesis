@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChartA
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChartB
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle014
 import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
 import Std.Tactic.BVDecide.Normalize.Prop
 

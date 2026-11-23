@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DecompositionData
-public import Formalism.CharacterColumnKernels.StatementN
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.CharacterColumnKernelLengthBound
+public import Formalism.CharacterColumnKernels.Bundle003
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle001
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthQuotSmulRangeFree
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.SumIteLe
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

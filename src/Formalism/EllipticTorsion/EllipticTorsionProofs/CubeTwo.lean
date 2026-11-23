@@ -1,10 +1,10 @@
 module
 
-public import Formalism.EllipticTorsion.CoeffRing
+public import Formalism.EllipticTorsion.Bundle002
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WChord
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.ExistsUnitFactor
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.FormalGroupPointsHomDef
-public import Formalism.EllipticTorsion.EllipticTorsionProofs.JetsTwo
+public import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle002
 import Formalism.EllipticTorsion.EllipticTorsionProofs.WPoint
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WSeries
 import Formalism.EllipticTorsion.EllipticTorsionProofs.WSubst

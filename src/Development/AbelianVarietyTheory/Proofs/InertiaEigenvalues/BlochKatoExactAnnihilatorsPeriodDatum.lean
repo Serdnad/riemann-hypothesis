@@ -3,11 +3,11 @@ module
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Formalism.GaloisCohomology.LocalTateDualityK
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CupProductFiniteClassesCoboundaryStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamFiltrationDualityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankH1DualPairStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankH1fDeRhamStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDualityDegreeOneContinuousCocyclesStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle670
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle571
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle597
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle696
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle548
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

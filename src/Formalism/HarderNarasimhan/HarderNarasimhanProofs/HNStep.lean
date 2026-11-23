@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
+public import Formalism.HarderNarasimhan.Bundle001
 public import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

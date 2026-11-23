@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RestCloudOfX
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.OrdMaxRest
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RankMulConductorDivLeOne
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

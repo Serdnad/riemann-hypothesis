@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GaugeUnfold
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ComplexCoordinatesMeasurePreservingStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GaussianPushforwardDensityStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SelfDualMeasureRealDiagonalStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CmDataIsCMExtAndGramIsHermND
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle205
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle219
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

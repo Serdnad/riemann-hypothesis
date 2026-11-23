@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AnalyticDeterminants.TopCompS
+public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AnalyticDeterminants.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -74,7 +74,7 @@ lemma iter_diffAt {F : V → ℂ} {Ω : Set V} (hΩ : IsOpen Ω) (hF : ContDiffO
     DifferentiableAt ℂ (iteratedFDeriv ℂ i F) y := by
   exact ((iter_smooth hΩ hF i).differentiableOn (by simp)).differentiableAt (hΩ.mem_nhds hy)
 
-lemma iter_cast {F : V → ℂ} {c : V} {m m' : ℕ} (h : m = m') (v : Fin m → V) :
+private lemma iter_cast_index {F : V → ℂ} {c : V} {m m' : ℕ} (h : m = m') (v : Fin m → V) :
     iteratedFDeriv ℂ m F c v = iteratedFDeriv ℂ m' F c (v ∘ Fin.cast h.symm) := by
   subst h; rfl
 
@@ -217,7 +217,7 @@ lemma iter_mixed {F : V → ℂ} {Ω : Set V} (hΩ : IsOpen Ω) (hF : ContDiffOn
   induction a with
   | zero =>
     intro c hc u
-    rw [iteratedFDeriv_zero_apply, iter_cast (zero_add b) (Fin.append u w),
+    rw [iteratedFDeriv_zero_apply, iter_cast_index (zero_add b) (Fin.append u w),
       Fin.append_left_nil u w rfl]
     congr 1
   | succ a ih =>
@@ -234,7 +234,7 @@ lemma iter_mixed {F : V → ℂ} {Ω : Set V} (hΩ : IsOpen Ω) (hF : ContDiffOn
     have hs := iteratedFDeriv_succ_apply_left (𝕜 := ℂ) (f := F) (x := c) (n := a + b)
       (Fin.cons (u 0) (Fin.append (Fin.tail u) w))
     rw [Fin.cons_zero, Fin.tail_cons] at hs
-    rw [← hs, iter_cast (show a + 1 + b = a + b + 1 by omega) (Fin.append u w)]
+    rw [← hs, iter_cast_index (show a + 1 + b = a + b + 1 by omega) (Fin.append u w)]
     congr 1
     conv_rhs => rw [← Fin.cons_self_tail u, Fin.append_cons]
     funext i

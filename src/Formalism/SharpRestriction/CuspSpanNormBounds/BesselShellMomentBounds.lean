@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.OnePlaceEstimates
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle010
 public import Formalism.FlagUnipotentLattices.UnipotentStabiliserCharacterisation
 public import Formalism.FlagUnipotentLattices.AlgebraicIdentityHigherDegree
 public import Formalism.FormalDegreeBessel.FinalG
@@ -264,13 +264,13 @@ theorem card_places : Fintype.card (InfinitePlace D.host.E) = Fintype.card D.wha
   exact (Fintype.card_of_bijective (plOf_bij D)).symm
 
 theorem blockEnds_prod (F : ℕ → ℝ) (bs : List (D.host.E × ℕ)) : ∀ acc : ℕ,
-    ((blockEnds D acc bs).map F).prod = ∏ a : Fin bs.length, F (acc + pS bs ((a : ℕ) + 1)) := by
+    ((_root_.Formalism.MainNotions.S.ThB.blockEnds D acc bs).map F).prod = ∏ a : Fin bs.length, F (acc + pS bs ((a : ℕ) + 1)) := by
   induction bs with
-  | nil => intro acc; simp [blockEnds]
+  | nil => intro acc; simp [_root_.Formalism.MainNotions.S.ThB.blockEnds]
   | cons b bs ih =>
     obtain ⟨t, s⟩ := b
     intro acc
-    simp only [blockEnds, List.map_cons, List.prod_cons, List.length_cons]
+    simp only [_root_.Formalism.MainNotions.S.ThB.blockEnds, List.map_cons, List.prod_cons, List.length_cons]
     rw [Fin.prod_univ_succ, ih]
     have e0 : F (acc + s) = F (acc + pS ((t, s) :: bs) (((0 : Fin (bs.length + 1)) : ℕ) + 1)) := by simp [pS]
     rw [e0]
@@ -362,7 +362,7 @@ section ThmB
 variable (D : D7)
 
 def wLoc (v : D.what₂.Tau) (γ : Point D.host.E (D.R.rS + 1)) : ℝ :=
-  ((blockEnds D 0 γ.1).map fun l =>
+  ((_root_.Formalism.MainNotions.S.ThB.blockEnds D 0 γ.1).map fun l =>
     if hl : l ≤ D.R.rS + 1 then (1 + absV D v (leadMinorK (ptMat γ) l hl) ^ 2) ^ 2 else 1).prod
 
 def dLoc (v : D.what₂.Tau) (γ : Point D.host.E (D.R.rS + 1)) : ℝ :=
@@ -405,7 +405,7 @@ theorem ptWeightG_eq_prod (T T' : ℕ) (γ : Point D.host.E (D.R.rS + 1)) :
     ptWeightG D (rhoReal D) T T' γ.1 = ∏ v, nLoc D T T' v γ := rfl
 
 def WLoc (T T' : ℕ) (v : D.what₂.Tau) (γ : Point D.host.E (D.R.rS + 1)) : ℝ :=
-  absV D v (Gglob D T T' γ) * ((blockEnds D 0 γ.1).map fun l =>
+  absV D v (Gglob D T T' γ) * ((_root_.Formalism.MainNotions.S.ThB.blockEnds D 0 γ.1).map fun l =>
     if hl : l ≤ D.R.rS + 1 then absV D v (leadMinorK (ptMat γ) l hl) ^ 2 else 1).prod
 
 theorem WLoc_nonneg (T T' : ℕ) (v : D.what₂.Tau) (γ : Point D.host.E (D.R.rS + 1)) : 0 ≤ WLoc D T T' v γ := by

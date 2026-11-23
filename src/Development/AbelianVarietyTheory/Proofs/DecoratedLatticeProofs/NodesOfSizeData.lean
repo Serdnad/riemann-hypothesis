@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SecondLabelsNonempty
 public import Formalism.LocalRingCardinality.DataParams
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

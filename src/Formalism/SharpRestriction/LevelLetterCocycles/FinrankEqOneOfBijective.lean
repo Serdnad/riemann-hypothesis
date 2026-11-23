@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.CoordHomMapTrace
 public import Formalism.SharpRestriction.LevelLetterCocycles.ExponentWindowSubsetShort
-public import Formalism.SharpRestriction.LevelLetterCocycles.LiftFOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

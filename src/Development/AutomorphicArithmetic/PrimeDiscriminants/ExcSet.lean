@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.JumpSets
 public import Formalism.PieriBlockIdeals.StatementE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumExponentLogLeOfCut
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle958
 import Formalism.PieriBlockIdeals.PieriColumnMinors.ParameterBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

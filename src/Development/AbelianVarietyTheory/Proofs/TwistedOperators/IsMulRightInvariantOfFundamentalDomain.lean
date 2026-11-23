@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitOfCocompact
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -299,6 +299,10 @@ theorem isUnitU_exists_unique_rightInvariant : ∀ (D : D7) (ρ : ℕ), (∃ ν,
     set c := Measure.haarScalarFactor ν' ν with hc
     have hF'' : IsFundamentalDomain (UXQ D ρ) 𝓤 ν' :=
       hF.mono (by rw [hsm]; exact Measure.smul_absolutelyContinuous)
+    haveI : SMulInvariantMeasure (UX D ρ) (UX D ρ) ν' :=
+      Measure.IsMulLeftInvariant.smulInvariantMeasure
+    haveI : SMulInvariantMeasure (UXQ D ρ) (UX D ρ) ν' :=
+      Subgroup.smulInvariantMeasure (UXQ D ρ)
     have e := hF''.measure_eq hF'
     rw [h1', hsm, Measure.smul_apply, h1] at e
     have hc1 : (c : ENNReal) = 1 := by simpa [ENNReal.smul_def] using e

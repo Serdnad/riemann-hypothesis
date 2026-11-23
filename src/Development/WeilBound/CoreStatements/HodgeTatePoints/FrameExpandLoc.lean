@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.LeadMinor
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CoefMemDual
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle005
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle020
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GaGram
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GeFrame
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

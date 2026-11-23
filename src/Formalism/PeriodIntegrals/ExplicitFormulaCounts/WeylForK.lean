@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.WeylForK
-public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.WeylForU
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.WeylForK
+public import Formalism.PeriodIntegrals.Bundle013
+public import Formalism.PeriodIntegrals.ExplicitFormulaCounts.Bundle001
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

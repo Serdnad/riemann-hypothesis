@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalInvariants
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle002
 public import GroundTheory.GlobalFields.CyclotomicCharacters.Character
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ClassLimitDefs
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolPrime
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.ClassLevels
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

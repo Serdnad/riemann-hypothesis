@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.RestRawTail1Of
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle003
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.HookKeyOrderGeOne
 import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Lemma44IdentityOfRawTail
 import Mathlib.Algebra.Order.Floor.Extended

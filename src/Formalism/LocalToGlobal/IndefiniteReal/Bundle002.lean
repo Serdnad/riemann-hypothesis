@@ -1,0 +1,261 @@
+module
+
+public import Formalism.HarderNarasimhan.Bundle001
+public import Mathlib.RepresentationTheory.Basic
+public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.LocalToGlobal.IndefiniteReal.DatumF
+
+@[expose] public section
+
+section
+
+open Module NumberField IsDedekindDomain
+
+noncomputable section
+
+namespace Formalism.IndefR.TransferLatticeStatement
+
+open Formalism.HN
+
+section Defs
+
+variable {K : Type*} [Field K] {G : Type*} [Group G] [Fintype G]
+
+def charOf {T : Type*} [AddCommGroup T] [Module K T] (τ : Representation K G T) (x : G) : K :=
+  LinearMap.trace K T (τ x)
+
+def eS {T V : Type*} [AddCommGroup T] [Module K T] [AddCommGroup V] [Module K V]
+    (τ : Representation K G T) (ρ : Representation K G V) : V →ₗ[K] V :=
+  (charOf τ 1 / (Fintype.card G : K)) • ∑ x : G, charOf τ x⁻¹ • ρ x
+
+def eGood {S : Type*} [Fintype S] {T : S → Type*} [∀ s, AddCommGroup (T s)] [∀ s, Module K (T s)]
+    {V : Type*} [AddCommGroup V] [Module K V]
+    (τ : ∀ s, Representation K G (T s)) (ρ : Representation K G V) : V →ₗ[K] V :=
+  ∑ s, eS (τ s) ρ
+
+open Classical in
+def epP (H : Subgroup G) (χ : H →* (𝓞 K)ˣ) {V : Type*} [AddCommGroup V] [Module K V]
+    (ρ : Representation K G V) : V →ₗ[K] V :=
+  ((Nat.card H : ℕ) : K)⁻¹ • ∑ h : H, ((((χ h⁻¹ : (𝓞 K)ˣ) : 𝓞 K) : K)) • ρ (h : G)
+
+def nS {T : Type*} [AddCommGroup T] [Module K T] (τ : Representation K G T) (H : Subgroup G)
+    (χ : H →* (𝓞 K)ˣ) : ℕ :=
+  finrank K (LinearMap.range (epP H χ τ))
+
+def IsGood {S : Type*} {T : S → Type*} [∀ s, AddCommGroup (T s)] [∀ s, Module K (T s)]
+    (τ : ∀ s, Representation K G (T s)) : Prop :=
+  (∀ s, Nontrivial (T s)) ∧
+  (∀ s (W : Submodule K (T s)), (∀ g : G, ∀ w ∈ W, τ s g w ∈ W) → W = ⊥ ∨ W = ⊤) ∧
+  (∀ s (f : T s →ₗ[K] T s), (∀ g : G, f ∘ₗ τ s g = τ s g ∘ₗ f) → ∃ c : K, f = c • LinearMap.id) ∧
+  (∀ s t, charOf (τ s) = charOf (τ t) → s = t)
+
+def M1 {S : Type*} {T : S → Type*} [∀ s, AddCommGroup (T s)] [∀ s, Module K (T s)]
+    (τ : ∀ s, Representation K G (T s)) (H₀ : Subgroup G) (χ₀ : H₀ →* (𝓞 K)ˣ) : Prop :=
+  ∀ s, nS (τ s) H₀ χ₀ = 1
+
+variable {V : Type*} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+
+def cut (A : Submodule (𝓞 K) V) (φ : V →ₗ[K] V) : Submodule (𝓞 K) V :=
+  A ⊓ (LinearMap.range φ).restrictScalars (𝓞 K)
+
+def IsGLat (ρ : Representation K G V) (A : Submodule (𝓞 K) V) : Prop :=
+  A.FG ∧ Submodule.span K (A : Set V) = ⊤ ∧ ∀ g : G, ∀ a ∈ A, ρ g a ∈ A
+
+def IsUnitaryRep [NumberField K] [StarRing K] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (ρ : Representation K G V) : Prop :=
+  ∀ (v : InfinitePlace K) (g : G) (x y : V),
+    Formalism.HermitianLatticesTheory.majAt b X v (ρ g x) (ρ g y) = Formalism.HermitianLatticesTheory.majAt b X v x y
+
+def degT [NumberField K] [StarRing K] {ι : Type*} [Fintype ι] [DecidableEq ι]
+    (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (M : Submodule (𝓞 K) V) : ℝ :=
+  (rkK M : ℝ) * muDef b X M
+
+end Defs
+
+section Places
+
+variable {K : Type*} [Field K] [NumberField K]
+
+
+end Places
+
+section Parts
+
+variable {K : Type*} [Field K] [NumberField K] [StarRing K] {G : Type*} [Group G] [Fintype G]
+  {S : Type*} [Fintype S] {T : S → Type*} [∀ s, AddCommGroup (T s)] [∀ s, Module K (T s)]
+  {V : Type*} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+  {ι : Type*} [Fintype ι] [DecidableEq ι]
+
+def TransferLatticeConditions (τ : ∀ s, Representation K G (T s)) (H₀ : Subgroup G) (χ₀ : H₀ →* (𝓞 K)ˣ)
+    (H : Subgroup G) (χ : H →* (𝓞 K)ˣ) (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ)
+    (ρ : Representation K G V) (A : Submodule (𝓞 K) V) : Prop :=
+  let la : ℝ := Real.log (Fintype.card G)
+  let n : S → ℕ := fun s => nS (τ s) H χ
+  let APs : S → Submodule (𝓞 K) V := fun s => cut A (epP H χ ρ ∘ₗ eS (τ s) ρ)
+  let AP0 : Submodule (𝓞 K) V := cut A (epP H χ ρ ∘ₗ eGood τ ρ)
+  let As : S → Submodule (𝓞 K) V := fun s => cut A (epP H₀ χ₀ ρ ∘ₗ eS (τ s) ρ)
+  let A00 : Submodule (𝓞 K) V := cut A (epP H₀ χ₀ ρ ∘ₗ eGood τ ρ)
+  let r : S → ℕ := fun s => rkK (As s)
+  let rk : ℕ := ∑ s, n s * r s
+
+  ((∀ s, rkK (APs s) = n s * r s) ∧ rkK AP0 = rk) ∧
+
+  ((⨆ s, APs s) ≤ AP0 ∧
+    (∀ a ∈ AP0, (Fintype.card G : 𝓞 K) • a ∈ ⨆ s, APs s) ∧
+    (∀ s t, s ≠ t → ∀ x ∈ APs s, ∀ y ∈ APs t, ∀ v, Formalism.HermitianLatticesTheory.majAt b X v x y = 0) ∧
+    0 ≤ degT b X AP0 - ∑ s, degT b X (APs s) ∧
+    degT b X AP0 - ∑ s, degT b X (APs s) ≤ 2 * la * (rk : ℝ) ∧
+    0 ≤ degT b X A00 - ∑ s, degT b X (As s) ∧
+    degT b X A00 - ∑ s, degT b X (As s) ≤ 2 * la * ∑ s, (r s : ℝ)) ∧
+
+  (∀ s, |degT b X (APs s) - (n s : ℝ) * degT b X (As s)| ≤
+        (6 * la + Real.log (n s)) * ((n s : ℝ) * r s) ∧
+      (6 * la + Real.log (n s)) * ((n s : ℝ) * r s) ≤ 6.5 * la * ((n s : ℝ) * r s)) ∧
+
+  (|degT b X AP0 - ∑ s, (n s : ℝ) * degT b X (As s)| ≤ 8.5 * la * (rk : ℝ) ∧
+    8.5 * la * (rk : ℝ) ≤ 10 * la * (rk : ℝ)) ∧
+
+  (AP0 ≠ ⊥ →
+    muMaxDef b X AP0 ≤ muMaxDef b X A00 + 8.5 * la ∧
+    muMaxDef b X A00 + 8.5 * la ≤ muMaxDef b X A00 + 10 * la)
+
+end Parts
+
+end Formalism.IndefR.TransferLatticeStatement
+end
+end
+
+section
+
+noncomputable section
+
+open MeasureTheory
+
+namespace Formalism.IndefR.LiftF
+
+section Chars
+
+variable {C : Type*} [CommGroup C]
+
+end Chars
+
+section Step
+
+variable {G H S Sinf Ds Dt : Type*} [MeasurableSpace H]
+  [AddCommGroup Sinf] [Module ℂ Sinf] [AddCommGroup Ds] [Module ℂ Ds] [AddCommGroup Dt] [Module ℂ Dt]
+
+end Step
+
+section Adj
+
+variable {M N : Type*} [AddCommGroup M] [Module ℂ M] [AddCommGroup N] [Module ℂ N]
+
+end Adj
+
+section Chain
+
+variable {G : ℕ → Type*} {D : ℕ → Type*} [∀ j, AddCommGroup (D j)] [∀ j, Module ℂ (D j)]
+  (CC : ∀ j, Submodule ℂ (D j →ₗ[ℂ] (G j → ℂ)))
+
+end Chain
+
+section Rows
+
+variable {M N : Type*} [AddCommGroup M] [Module ℂ M] [AddCommGroup N] [Module ℂ N]
+
+end Rows
+
+section ThetaP
+
+variable {G' H' S' Sinf' TK Tau : Type*} [MeasurableSpace H']
+  [AddCommGroup Sinf'] [Module ℂ Sinf'] [AddCommGroup TK] [Module ℂ TK] [AddCommGroup Tau] [Module ℂ Tau]
+
+variable {A Amb : Type*} [AddCommGroup A] [Module ℂ A] [AddCommGroup Amb] [Module ℂ Amb]
+
+end ThetaP
+
+section Kap
+
+variable {N : Type*} [AddCommGroup N] [Module ℂ N]
+
+def IsKap {Tup Sig : Type*} (m : ℕ) (dnup : Tup → N →ₗ[ℂ] N) (partE : Sig → Submodule ℂ N)
+    (lam : Tup → ℕ → Sig → ℝ) (κ : ℝ) : Prop :=
+  ∀ μ σ, ∀ x ∈ partE σ, dnup μ x = ((κ * ∏ j ∈ Finset.Icc 1 m, lam μ j σ : ℝ) : ℂ) • x
+
+end Kap
+
+section Bu
+
+variable {M N Mu : Type*} [AddCommGroup M] [Module ℂ M] [AddCommGroup N] [Module ℂ N]
+
+end Bu
+
+section Statements
+
+variable {M N Mu : Type*} [AddCommGroup M] [Module ℂ M] [AddCommGroup N] [Module ℂ N]
+
+end Statements
+
+section Kernels
+
+open Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.IndefR.DatumF IsDedekindDomain NumberField
+open scoped TensorProduct
+
+variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
+  {Tau : Type} [Fintype Tau] (tauE : Tau → (E →+* ℂ)) (xi0 : E)
+
+
+variable (F) in
+def intAfF : Set (Af F) := {a | ∀ v : HeightOneSpectrum (𝓞 F), evalV F v a ∈ v.adicCompletionIntegers F}
+
+
+variable (F E) in
+def intAEF : AddSubgroup (Af F ⊗[F] E) :=
+  AddSubgroup.closure {y | ∃ a ∈ intAfF F, ∃ x : 𝓞 E, y = a ⊗ₜ[F] (x : E)}
+
+end Kernels
+
+end Formalism.IndefR.LiftF
+
+end
+end

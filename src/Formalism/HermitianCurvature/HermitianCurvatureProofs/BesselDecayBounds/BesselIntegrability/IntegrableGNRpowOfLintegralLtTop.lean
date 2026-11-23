@@ -1,7 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingExistence
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle084
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

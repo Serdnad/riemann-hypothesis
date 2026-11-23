@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsEtCoord
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankKaehlerResidueField
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2236
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

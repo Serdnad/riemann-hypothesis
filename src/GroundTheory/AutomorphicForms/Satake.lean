@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.AutomorphicForms.SatakeNormalized
 public import Mathlib.RepresentationTheory.Irreducible
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsSideLast
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle029
 import GroundTheory.AutomorphicForms.HeckeIrreducible
 public import GroundTheory.AutomorphicForms.SatakeTriangular
-public import GroundTheory.AutomorphicForms.Spherical
+public import GroundTheory.AutomorphicForms.Bundle018
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

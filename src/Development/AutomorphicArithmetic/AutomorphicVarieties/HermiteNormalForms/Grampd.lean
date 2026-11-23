@@ -2,7 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Matrix.PosDef
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Gramlow
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Grampsd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

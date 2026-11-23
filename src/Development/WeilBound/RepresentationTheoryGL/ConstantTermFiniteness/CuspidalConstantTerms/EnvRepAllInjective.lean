@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPlaceRep
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle978
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSquareIntegrableIffMemL2
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EnvRepAllEnvIncl
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1724
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CenterEnvelopingAlgebraDirectSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EnvelopingActionCommutesTranslation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FaithfulOfDerivationsDualFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAutOfMemAutForms
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolyFunMemSmoothVectors
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RightLieDerivativeRealEntryPolynomialFunctionStatement
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryLieGeneratorsRep
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1796
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1982
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1759
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1791
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

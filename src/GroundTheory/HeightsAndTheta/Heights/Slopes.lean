@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Slopes
-public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FiniteSupportHeight
+public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle002
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.LinearIndependentSumElimOfExact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,20 +1,16 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.ComapMaximalIdealParDVR
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChartTorsion
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowFormHomog
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PIncidenceNull
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle009
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle006
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle014
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle005
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PLengthDecomp
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PNormFormEval
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PNormFormLocalization
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PNormLength
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PParAlgIndep
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PParDVRIsDVR
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PParFracIsFractionRing
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PPrimitiveScale
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle004
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle013
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle007
 import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSecBFinite
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSecBGeneric
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PVertTermEq
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

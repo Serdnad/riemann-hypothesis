@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

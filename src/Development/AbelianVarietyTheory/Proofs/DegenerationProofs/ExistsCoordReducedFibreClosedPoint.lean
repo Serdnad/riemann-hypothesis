@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsNormalSchemeSp
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AbelianSchemeProperClosureDataBasicProperties
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle089
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsLocalCoordinates
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.JacobsonClosedPointsToolsInt
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.KbIsAlgClosedAndConj
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle038
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle054
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.FinrankOfIsStandardSmoothOfRelativeDimension
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
@@ -378,6 +378,8 @@ theorem Core.exists_coord : ∀ C : Core, C.HasTests → C.Fib → ∀ w : C.G.t
           ← eq_inv_of_mul_eq_one_right hy']
         exact (norm_iff _).mp y.2
       exact IsUnit.of_mul_eq_one ⟨_, hinv⟩ (Subtype.ext (mul_inv_cancel₀ h0))
+    letI : IsLocalRing (integralClosure ℤ_[p] K) :=
+      integralClosureToPadicAlgClIntegers.domain_isLocalRing
     refine ⟨p, inferInstance, spMap integralClosureToPadicAlgClIntegers ≫ y, ?_, ?_⟩
     · exact (Scheme.Hom.comp_apply _ _ _).trans
         ((congrArg y (IsLocalRing.comap_closedPoint integralClosureToPadicAlgClIntegers)).trans hy)

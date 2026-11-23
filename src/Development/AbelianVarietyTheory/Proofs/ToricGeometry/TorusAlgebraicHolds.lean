@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Statements.ThetaLevelCharacters.MemThetaLevelCharDimZero
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.FormallyUnramifiedOfDerivations
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.SectionsPowEqThetaLevelChar
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TorusAlgebraicOfSectionsOfVeryAmple
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

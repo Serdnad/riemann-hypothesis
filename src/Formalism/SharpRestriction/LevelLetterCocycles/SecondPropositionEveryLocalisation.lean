@@ -1,14 +1,13 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.LargeLevelLemmas
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle007
 public import Aesop.BuiltinRules
 public import Formalism.TruncatedSeriesCounting.LemmaDetPoly
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GenFin
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle003
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.IsUnitDetOfConst
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.VccSpan
 public import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
-public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.BridgeDet
+public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.Bundle007
 public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.LemmaDetPoly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

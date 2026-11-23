@@ -3,8 +3,8 @@ module
 public import Development.AutomorphicArithmetic.LocalEmbeddings.ArchSz
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralDetCharInvertibleMatrixBallMemSubfield
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SumRightInverse
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle409
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

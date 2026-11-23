@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertPointNagata
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PLocRingPow
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsVertPointLengthSteps
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PVertPointMultChart
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle032
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle041
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PVertPointResidue
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 import Mathlib.Algebra.AffineMonoid.UniqueSums
@@ -70,7 +69,7 @@ abbrev comp (n : ℕ) (f : MRing (fun _ : Unit => T)) : MRing (fun _ : Unit => T
   weightedHomogeneousComponent (Inter.LocRingPow.multiDegWeight (fun _ : Unit => T)) (fun _ => n) f
 
 theorem isMultiHomog_comp (n : ℕ) (f : MRing (fun _ : Unit => T)) :
-    IsMultiHomog (comp n f) (fun _ => n) :=
+    _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (comp n f) (fun _ => n) :=
   Inter.LocRingPow.isMultiHomog_iff.mpr (weightedHomogeneousComponent_isWeightedHomogeneous _ _)
 
 
@@ -91,7 +90,7 @@ theorem aeval_eq_eval₂ {S : Type*} [CommRing S] [Algebra ℤ S] (v : (Σ _ : U
   rw [aeval_def, show algebraMap ℤ S = Int.castRingHom S from RingHom.ext_int _ _]
 
 theorem aeval_C_mul_X' {S : Type*} [CommRing S] [Algebra ℤ S] [Algebra ℤ (Polynomial S)] (r : (Σ _ : Unit, T) → S)
-    (f : MRing (fun _ : Unit => T)) (d : ℕ) (hf : IsMultiHomog f (fun _ => d)) :
+    (f : MRing (fun _ : Unit => T)) (d : ℕ) (hf : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog f (fun _ => d)) :
     (aeval (fun p => Polynomial.C (r p) * Polynomial.X) f : Polynomial S) =
       Polynomial.C (aeval r f) * Polynomial.X ^ d := by
   rw [aeval_eq_eval₂, aeval_eq_eval₂, VerticalPointMultiplicityChart.aeval_C_mul_X r f d hf]
@@ -102,7 +101,7 @@ theorem coeff_aeval {S : Type*} [CommRing S] [Algebra ℤ S] [Algebra ℤ (Polyn
   classical
   induction f using MvPolynomial.induction_on' with
   | monomial u c =>
-    have hu : IsMultiHomog (monomial u c : MRing (fun _ : Unit => T)) (fun _ => ∑ i, u ⟨(), i⟩) := by
+    have hu : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (monomial u c : MRing (fun _ : Unit => T)) (fun _ => ∑ i, u ⟨(), i⟩) := by
       intro m hm k
       have := Finset.mem_singleton.mp (support_monomial_subset hm)
       subst this
@@ -125,7 +124,7 @@ theorem VertPointNagata.proof (hCh : VertPointChart.Statement) : VertPointNagata
   have hPW : mCoordIdeal y ≤ W := le_sup_left.trans hW.1.1.2
   have hPh : IsMultiHomogIdeal (mCoordIdeal y) := hP.2.1.2.1
   have hWh : IsMultiHomogIdeal W := isMultiHomogIdeal_of_mem_minimalPrimes hPh hs hW.1
-  have hformP : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), IsMultiHomog g (fun _ => d) →
+  have hformP : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g (fun _ => d) →
       g ∈ mCoordIdeal y → aeval y g = 0 := by
     intro g d hg hgP
     have h0 : mConeMap y g = 0 := hgP
@@ -170,11 +169,11 @@ theorem VertPointNagata.proof (hCh : VertPointChart.Statement) : VertPointNagata
     show IsLocalization.lift hu (IsLocalization.mk' Bm (a p.2) (⟨b p.2, hb p.2⟩ : m.primeCompl)) = _
     rw [IsLocalization.lift_mk'_spec]
     exact (hab p.2).symm
-  have hιev : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), IsMultiHomog g (fun _ => d) →
+  have hιev : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g (fun _ => d) →
       ι (aeval r g) = aeval y g * (y ⟨(), t⟩ ^ d)⁻¹ := fun g d hg => by
     rw [hιaeval, VerticalPointResidue.aeval_div y t g d hg]
 
-  have hcrit : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), IsMultiHomog g (fun _ => d) →
+  have hcrit : ∀ (g : MRing (fun _ : Unit => T)) (d : ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g (fun _ => d) →
       (g ∈ W ↔ aeval r g ∈ IsLocalRing.maximalIdeal Bm) := by
     intro g d hg
     have h3 := (hCh T K' y s hP hs hsP W hW t ht).2.2 d g hg
@@ -207,7 +206,7 @@ theorem VertPointNagata.proof (hCh : VertPointChart.Statement) : VertPointNagata
   let M := (IsLocalRing.maximalIdeal Bm).map (Polynomial.C : Bm →+* Polynomial Bm)
   let N := nagataRing Bm
   have hψcoeff : ∀ f n, (ψ f).coeff n = aeval r (comp n f) := fun f n => coeff_aeval r f n
-  have hψform : ∀ (G : MRing (fun _ : Unit => T)) (d : ℕ), IsMultiHomog G (fun _ => d) →
+  have hψform : ∀ (G : MRing (fun _ : Unit => T)) (d : ℕ), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G (fun _ => d) →
       ψ G = Polynomial.C (aeval r G) * Polynomial.X ^ d := fun G d hG => aeval_C_mul_X' r G d hG
   have hrt : r ⟨(), t⟩ = 1 := by
     apply hι
@@ -264,7 +263,7 @@ theorem VertPointNagata.proof (hCh : VertPointChart.Statement) : VertPointNagata
     IsLocalization.injective (R := Polynomial Bm) (M := M.primeCompl) N (Ideal.primeCompl_le_nonZeroDivisors M)
   refine ⟨Φ, ?_, ?_, hΦ⟩
   ·
-    have hB : ∀ β : curveRing y, ∃ (d : ℕ) (G : MRing (fun _ : Unit => T)), IsMultiHomog G (fun _ => d) ∧
+    have hB : ∀ β : curveRing y, ∃ (d : ℕ) (G : MRing (fun _ : Unit => T)), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog G (fun _ => d) ∧
         aeval r G = algebraMap _ Bm β := by
       intro β
       have hβ := mem_curveRing.mp β.2 (fun _ => t) (fun _ => hyt)

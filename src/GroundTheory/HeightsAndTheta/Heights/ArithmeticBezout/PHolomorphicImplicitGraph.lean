@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsHolomorphicImplicitGraph
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle013
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.ContDiff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

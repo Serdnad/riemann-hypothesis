@@ -1,12 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PGoodChartDim
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProjChartSetEqSetChartSet
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PChartHomogenise
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PChartDehomogPrime
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PConeSliceIdeal
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PConeVanishingHomog
-import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PGoodChartZeroSet
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle065
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle027
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
 import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

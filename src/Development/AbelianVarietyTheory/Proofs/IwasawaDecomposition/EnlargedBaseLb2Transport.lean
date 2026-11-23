@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaPsi
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CoefAEqOfHeq
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ThirdLevelOfGoodTwists
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsExtTwistedPlaces
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NonzeroForcedContentPlacesAgreeOverEnlargement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle576
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle035
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle560
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle489
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -37,7 +37,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AuxiliaryPlacesEqUnionThreeParts
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle430
 
 @[expose] public section
 
@@ -47,7 +47,7 @@ namespace GlobalTheory.HeightCounting.Up.CopyEx
 
 section Gen
 
-open Formalism Formalism.BasicNotions Formalism.BasicNotions.Rows Formalism.MainNotions NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal GlobalTheory.TwInputs.Move
+open _root_.Formalism Formalism.BasicNotions Formalism.BasicNotions.Rows Formalism.MainNotions NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal GlobalTheory.TwInputs.Move
 
 
 
@@ -336,7 +336,7 @@ theorem trueTypesIdempotent_coeff_heq {R R' : Ranks} {H : Host R} {H' : Host R'}
 
 end Types
 
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField IsDedekindDomain GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Top GlobalTheory.Mem.Top.GroupRetwisting GlobalTheory.Mem.Top.Bl GlobalTheory.Mem.R3 GlobalTheory.Mem.R3.Rw GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up GlobalTheory.TwistChoice
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N _root_.Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField IsDedekindDomain GlobalTheory.Mem GlobalTheory.Mem.Col2 GlobalTheory.Mem.Top GlobalTheory.Mem.Top.GroupRetwisting GlobalTheory.Mem.Top.Bl GlobalTheory.Mem.R3 GlobalTheory.Mem.R3.Rw GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up GlobalTheory.TwistChoice
 open GlobalTheory.Mem.Top.TwChar (plUnder incl embLL_incl mem_plUnder plUnder_surjective)
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
@@ -353,8 +353,9 @@ theorem exists_fixedEquiv {B B' : Base} (h : Enl B B') :
   have hj : Function.Surjective j := fun x' => by
     obtain ⟨y, hy, e⟩ : B'.embLL (x' : B'.LL) ∈ B.embLL '' (B.LL0 : Set B.LL) := h.2.2.1 ▸ ⟨x', x'.2, rfl⟩
     exact ⟨⟨y, hy⟩, Subtype.ext (B'.embLL.injective ((embLL_incl h y).trans e))⟩
-  exact ⟨(RingEquiv.ofBijective j ⟨j.injective, hj⟩).symm,
-    fun x => congrArg Subtype.val ((RingEquiv.ofBijective j ⟨j.injective, hj⟩).apply_symm_apply x)⟩
+  haveI : Nontrivial B'.LL0 := (IntermediateField.toField B'.LL0).toDivisionRing.toNontrivial
+  let e := RingEquiv.ofBijective j ⟨j.injective, hj⟩
+  exact ⟨e.symm, fun x => congrArg Subtype.val (e.apply_symm_apply x)⟩
 
 theorem same_pre (X X' : Stages) (h : X'.B.toPre = X.B.toPre) : avPrimes X.toD7 = avPrimes X'.toD7 ∧ HEq X.toD7.sp X'.toD7.sp ∧
     X.toD7.what₂.Tau = X'.toD7.what₂.Tau ∧ HEq X.toD7.eTau X'.toD7.eTau ∧ HEq X.toD7.hc X'.toD7.hc := by

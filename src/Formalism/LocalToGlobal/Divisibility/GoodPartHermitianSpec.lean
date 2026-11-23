@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.ClassSum
+public import Formalism.LocalToGlobal.Divisibility.Bundle001
 public import Mathlib.RepresentationTheory.Character
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.PhiCubeOfFactor
+public import Formalism.PeriodIntegrals.Bundle008
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FormalGroupCommon.ExpLog
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FormalGroupCommon.CoeffSingleLg
 import Mathlib.Algebra.Order.Floor.Extended

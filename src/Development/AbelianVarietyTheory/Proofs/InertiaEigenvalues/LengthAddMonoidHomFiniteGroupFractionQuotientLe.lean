@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.Statement
+public import Formalism.CharacterColumnKernels.Bundle001
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

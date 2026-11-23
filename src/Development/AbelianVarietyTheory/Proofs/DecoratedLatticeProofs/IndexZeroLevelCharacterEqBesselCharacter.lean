@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PlacedBy
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChainEdge
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselCharacterLocalElementEqSimpleEntrySum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReductionStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle353
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdempotentSubMulComplementEqComplement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LamEqOfRed
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LevelZeroElementReduction
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle399
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle334
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnipotentRadicalBasic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,7 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PairForm
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle019
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.UnitRatio
 
 @[expose] public section

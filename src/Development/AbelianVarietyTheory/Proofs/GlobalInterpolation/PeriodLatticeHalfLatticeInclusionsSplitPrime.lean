@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TranslateMomentsAll
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HeisenbergCocycleFormIntegralSelfDual
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PerLatticeFactsStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle096
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle107
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.AffineMonoid.Basic

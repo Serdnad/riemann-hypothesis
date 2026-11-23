@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -229,7 +229,7 @@ private lemma piIsot_card (hB : BoxIsot) (hP : PiIrr) (n : ℕ) :
     haveI : Nonempty I := Fintype.card_pos_iff.1 (by omega)
     obtain ⟨i₀⟩ := ‹Nonempty I›
     have hJ : Fintype.card {i // i ≠ i₀} = n := by
-      simp [Fintype.card_subtype_compl, hc]
+      rw [Fintype.card_subtype_compl (fun i => i = i₀), Fintype.card_subtype_eq, hc] <;> omega
     let J := {i // i ≠ i₀}
     let κ' : Representation ℂ (Gi i₀ × ∀ j : J, Gi j.1) X := κ.comp (insHom Gi i₀)
     have h1 : Isot (κ'.comp (MonoidHom.inl _ _)) (τ i₀) := by

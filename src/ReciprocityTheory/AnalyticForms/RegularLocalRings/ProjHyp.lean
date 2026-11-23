@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjDehom
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinTypeQE
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
 public import Mathlib.AlgebraicGeometry.Noetherian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypA
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypB
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle012
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypC
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ProjHypStalk
 

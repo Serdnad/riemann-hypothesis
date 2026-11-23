@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.ZuckTensor
-public import Formalism.PeriodIntegrals.KFinSmooth
+public import Formalism.PeriodIntegrals.Bundle016
+public import Formalism.PeriodIntegrals.Bundle013
 public import Formalism.HermitianCurvature.StatementQ
-public import Formalism.PeriodIntegrals.CapelliEig
+public import Formalism.PeriodIntegrals.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

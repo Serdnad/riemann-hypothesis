@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MemLineIff
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IncAdjYZeroMulVec
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle474
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FractionalIdealCompletionLocallyPrincipal
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSelfDualLatticeAtPlaceLatticeCompletion
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle423
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle192
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeRationalLineTraceFractionalIdeal
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle463
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -122,7 +122,7 @@ theorem last_iff {V₀ W W₀ : HSp D} {ρ : ℕ} (d : HypDec W W₀ ρ) (z : Fi
     ← herm_conj V₀ y, int_conj, mul_smul]
   have e1 := herm_smul V₀ 1 m y (a • ratV z)
   rw [one_smul] at e1
-  rw [e1, Units.val_mul, Units.val_mul, RingHom.map_mul, RingHom.map_mul, cU_val, cA_cA, xiU, inU_val, cA_xi]
+  rw [e1, Units.val_mul, Units.val_mul, RingHom.map_mul, RingHom.map_mul, cU_val, Formalism.L2.Theta.cA_cA, xiU, inU_val, cA_xi]
   have e2 := α.mul_inv
   have e3 : incA D D.host.xi0 * incA D D.host.xi0⁻¹ = 1 := (xiU D).mul_inv
   refine iff_of_eq (congrArg (· ∈ _) ?_)
@@ -144,7 +144,7 @@ theorem int_of_smul {S : HSp D} (hS : 0 < S.rank) {L : Lat S} (hL : IsSelfDualC 
 theorem isU_of_norm {x : Pl D} {u : AE D} (h : ∀ t ∈ intAt D (· = x), u * t ∈ intAt D (· = x)) (hn : IsU x (u * cA D u)) :
     IsU x u := fun a ha => ⟨h a, fun H => by
   have h1 := int_conj.2 (h _ (int_conj.2 H))
-  rw [RingHom.map_mul, cA_cA, ← mul_assoc, mul_comm (cA D u)] at h1
+  rw [RingHom.map_mul, Formalism.L2.Theta.cA_cA, ← mul_assoc, mul_comm (cA D u)] at h1
   exact (hn a ha).2 h1⟩
 
 theorem kap_test {L L'' S : HSp D} (τ : Matrix (Fin L.rank) (Fin L''.rank) D.host.E) {ζ : Fin L.rank → D.host.E}
@@ -202,7 +202,7 @@ theorem top_norm {lam t t₀ : D.host.E} (hlam : lam ≠ 0) (hn : lam * star lam
     simp only [Units.val_mul, inU_val, cU_inv, xiU, inU_inv]
   have f3 : cA D (m : AE D) = cA D α * (-incA D D.host.xi0⁻¹ * (α⁻¹ : (AE D)ˣ)) * incA D (star lam) := by
     rw [f2]
-    simp only [RingHom.map_mul, cA_cA, cA_xi_inv, FrameLat.cA_incA lam]
+    simp only [RingHom.map_mul, Formalism.L2.Theta.cA_cA, cA_xi_inv, FrameLat.cA_incA lam]
   have g1 := α.mul_inv
   have g2 : cA D (α : AE D) * cA D ((α⁻¹ : (AE D)ˣ) : AE D) = 1 := (cU α).mul_inv
   have g3 : incA D D.host.xi0 * incA D D.host.xi0⁻¹ = 1 := (xiU D).mul_inv

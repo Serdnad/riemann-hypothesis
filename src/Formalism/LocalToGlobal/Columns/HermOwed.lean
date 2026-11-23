@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ValuationPosIffMemSeen
-public import Formalism.LocalToGlobal.Columns.ExistsPlaceOverFirstPrime
+public import Formalism.LocalToGlobal.Columns.Bundle041
+public import Formalism.LocalToGlobal.Columns.Bundle042
 public import Formalism.LocalToGlobal.Columns.TiedLv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LocalToGlobal.Columns.LocalLevelIsKOneEverywhere
+public import Formalism.LocalToGlobal.Columns.Bundle043
 
 @[expose] public section
 

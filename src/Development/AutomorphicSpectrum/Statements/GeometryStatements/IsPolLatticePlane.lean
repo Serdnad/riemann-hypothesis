@@ -1,8 +1,8 @@
 module
 
 import Development.WeilBound.CoreStatements.HodgeTatePoints.RaTlog
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.OmStable
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.NonemptyLinearEquivOfPiFinPowFinite
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle003
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
 import Mathlib.Algebra.Order.Floor.Extended

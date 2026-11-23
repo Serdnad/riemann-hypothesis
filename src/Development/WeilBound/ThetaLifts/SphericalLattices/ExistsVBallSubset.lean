@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.LatDefs
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle001
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.Topology.Instances.Matrix
 public import Mathlib.Topology.LocallyConstant.Basic

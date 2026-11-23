@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsObj
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.RhoLoc
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FiniteCosetsInDoset
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle003
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
-public import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundAdic
+public import GroundTheory.IdeleRoots.TorusPowers.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Formalism.LocalToGlobal.Columns.GenericUnipotentCharacter
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.LengthQuotientBoundGeneral
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle003
 public import Formalism.HermitianLattices.HermitianLatticesProofs.AutFinite
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

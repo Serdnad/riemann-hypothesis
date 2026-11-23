@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.SIdeleGroups
-public import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

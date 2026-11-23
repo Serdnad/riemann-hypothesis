@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSplitting
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle098
 public import Mathlib.RingTheory.TensorProduct.Quotient
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

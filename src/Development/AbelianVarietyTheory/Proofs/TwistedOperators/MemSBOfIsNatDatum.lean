@@ -2,35 +2,32 @@ module
 
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocIsoRefl
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle386
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsNotRelZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareStanding
-public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNegConjMemberHermitianLatticeSpaceData
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsThetaTripleOfSquareGridLatticeCompatibleStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilRepSquarePairCharactersAlphaQuotientStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsNatDatumSquareFlip
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemGlLatCongOfSmul
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLatSmulBlockLat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1780
+public import Formalism.LocalToGlobal.Columns.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1872
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2736
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2617
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1916
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1855
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrientedHermitianFormQuadSumEqTrace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrimitiveFrameDatumZetaIntegralEqSmallerStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SelfDualLocalSubgroupFirstProjEqAnnihilator
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareModelNegSpaceGoodSchroedingerStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2133
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1797
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2233
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsGaussianVacuumProductUnitVacuaStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsMixedLagrangianChartIntegralRowChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPartialFourierColumnBlockSchwartzBruhatStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPlaceIsoReadingComponentsCharactersStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsScalarFiniteTensorEqDatumSmallModelStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteDatumLocalFunctionsEqPureTensorScalarStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeisenbergOperatorIsotropicTranslationCharSplitStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MixedLagrangianOppositeLagrangianChartStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PartialFourierSumInverseOfLatticeDepthStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensorSymplecticFormAtSplitFinitePlaceStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitVacuaProductEqGaussianDatumSmallModelStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ZetaIdentityPersistsRowColumnChangesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ZetaIdentityTransportLocalFieldIsoStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle591
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle496
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle461
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle553
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle497
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle443
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle494
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle608
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle471
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle462
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -330,13 +327,15 @@ theorem local_match (hL : L.Is μ₀) (W : G.Weil) (B : Frames G) (t : T) (i j :
   have h1 := GivenAdm.givenLevel_open hL hw ((i : ℕ), (j : ℕ))
   have h2 := isOpen_map_invT h1.1 h1.2
   haveI hμ := isHaarMeasure_haarVol h2.1 h2.2
-  haveI := isHaarMeasure_haarVol (k := Kw w) (n := Fin (spW₁ G i j).rank) isOpen_KO le_rfl
-  haveI := isHaarMeasure_haarVol (k := Fv D.host.F v) (n := Fin (spW₁ G i j).rank) isOpen_KO le_rfl
-  obtain ⟨l₂, hl₂, z₂⟩ := GlobalTheory.T.zetaIdentity_persists_row_column_changes (Kw w) _ _ (rankW G t i j w) _ _ _ _ (finCongr (rankW₁ G t i j w)) (colsEq t e w) finSumFinEquiv
-    (stdSplit ((locGrid G t w).rank_square i j)) (haarVol (KO (Kw w) _)) (haarVol ((givenLevel G t w (i, j)).map invT))
+  haveI hHaarKw := isHaarMeasure_haarVol (k := Kw w) (n := Fin (spW₁ G i j).rank) isOpen_KO le_rfl
+  haveI hHaarFv := isHaarMeasure_haarVol (k := Fv D.host.F v) (n := Fin (spW₁ G i j).rank) isOpen_KO le_rfl
+  obtain ⟨l₂, hl₂, z₂⟩ := @GlobalTheory.T.zetaIdentity_persists_row_column_changes (Kw w) _ _ _ _ _ _
+    _ _ (rankW G t i j w) _ _ _ _ _ _ _ _ _ _ _ _ (finCongr (rankW₁ G t i j w)) (colsEq t e w) finSumFinEquiv
+    (stdSplit ((locGrid G t w).rank_square i j)) (haarVol (KO (Kw w) _)) hHaarKw (haarVol ((givenLevel G t w (i, j)).map invT)) hμ
     (unifAt w) ((locGrid G t w).nu i j) 1 g g' cc hg
-  obtain ⟨l₁, hl₁, z₁⟩ := GlobalTheory.T.zetaIdentity_transport_localFieldIso (Fv D.host.F v) (Kw w) jj j2 (spW G i j).rank (Fin (spW₁ G i j).rank) _ finSumFinEquiv
-    (haarVol (KO _ _)) (haarVol (KO _ _)) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt v) (unifAt w) (exists_isUnif (k := Fv D.host.F v)).choose_spec
+  obtain ⟨l₁, hl₁, z₁⟩ := @GlobalTheory.T.zetaIdentity_transport_localFieldIso
+    (Fv D.host.F v) _ _ _ _ _ _ (Kw w) _ _ _ _ _ _ jj j2 (spW G i j).rank (Fin (spW₁ G i j).rank) _ _ _ _ _ finSumFinEquiv
+    (haarVol (KO _ _)) hHaarFv (haarVol (KO _ _)) hHaarKw (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt v) (unifAt w) (exists_isUnif (k := Fv D.host.F v)).choose_spec
     hS.unif (chrW X.ν (Bs.τ v')) (chrW X.β (Bs.τ v')) _ 1 j3
   refine ⟨ι, (l₁ * l₂)⁻¹ • ι', i1, isLagrModel_smul k1 (inv_ne_zero (mul_ne_zero hl₁ hl₂)), fun n Φ hn hΦ φ hφ φ' hφ' e1 e2 => ?_⟩
   have e3 : ι' ((l₁ * l₂)⁻¹ • φ') = Φ := by rw [map_smul]; exact e2
@@ -352,7 +351,8 @@ theorem local_match (hL : L.Is μ₀) (W : G.Weil) (B : Frames G) (t : T) (i j :
     simp [chrW, GlobalTheory.LFun.locChar, Chars.ν]
   refine (hz φ hφ φ' hφ').2 ?_
   rw [e5, e6]
-  refine (z₁ _ _ (z₂ _ _ (GlobalTheory.T.primitiveFrameDatum_zetaIntegral_eq_smaller (Kw w) _ _ _ _ _ _ 1 _ n _ _ hS.unif))).trans ?_
+  refine (z₁ _ _ (z₂ _ _ (@GlobalTheory.T.primitiveFrameDatum_zetaIntegral_eq_smaller (Kw w) _ _ _ _ _ _
+    _ _ _ _ _ _ _ (haarVol ((givenLevel G t w (i, j)).map invT)) hμ _ _ 1 _ n _ _ hS.unif))).trans ?_
   congr 1
   funext Y
   have := congrFun e4 Y

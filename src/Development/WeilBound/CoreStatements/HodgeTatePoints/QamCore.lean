@@ -2,11 +2,10 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TranslDiffEq
 public import Mathlib.Tactic.ENatToNat
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArtinSchreierCocycleRootStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineBundleCocyclePullbackTransformStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PowerSeriesExpansionInDeltaUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TruncatedExpansionPthPowerCoeffStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ZeroSectionSurjectiveStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle143
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle153
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle159
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle162
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

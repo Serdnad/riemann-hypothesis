@@ -1,24 +1,23 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.XiEqXiOffMul
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HzUnit
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle022
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IdentityCosetEntryProportionalColumnDatum
 public import Formalism.LocalToGlobal.Columns.ChainTw
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsAddChar
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIdemSumLeft
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle379
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSymDataOfUnifCongr
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSymmetricDataConductorOne
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IntIffFrame
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NatCastNotMemUnderSq
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PsiDatumAgreeColumnDatumAtTypePrime
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPointHeckeComponentTameAndResidualStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle380
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle200
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle349
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle068
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SymmetricChainSupportOneOfPattern
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartReadsAtClassGL
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle494
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMemberStepCharts
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalGroupElementEqLevelComponentBadPrime
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemberLevelPrimeNotMemUnderLevelPrimes
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdAbsNormDivsDvd
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle493
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle362
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle278
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -71,7 +70,7 @@ open GlobalTheory.SymBridge GlobalTheory.SplitWeil GlobalTheory.RootEx GlobalThe
 
 noncomputable section
 namespace GlobalTheory.Fam.MidLoc
-open Formalism.L2.Col (IntAt redP qOf)
+open _root_.Formalism.L2.Col (IntAt redP qOf)
 
 section Loc
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
@@ -285,7 +284,7 @@ theorem toLoc_inFr (ι : E →+* k) {Y Y' : Type} [Fintype Y] [DecidableEq Y] [F
 end Mat
 
 section Tuple
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 theorem xiAt_tw_eq {X : Fields} {Pr : Primes X} {R : Ranks} (Ch : Chars X Pr R.m)
     (sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)) {S : Set ℕ} (mu mu' : Formalism.L2.DIV.Tup X.F X.E X.K S) (G : ChGlob X R.m)

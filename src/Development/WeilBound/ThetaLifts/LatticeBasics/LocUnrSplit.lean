@@ -1,16 +1,16 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnr
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle013
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrSplitA
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.InstBorelGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnramifiedCharacterAtUniformizer
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsSplitChartOne
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSplitChartSplitChart
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormUniformiserEqInvAbsNorm
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormSatakeLeOfUnitarySphericalGL
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1295
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle315
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle319
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle075
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle212
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LocalFieldUniformizerNormProperties
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasMain
-import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrInertA
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle021
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocUnrSplitL
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

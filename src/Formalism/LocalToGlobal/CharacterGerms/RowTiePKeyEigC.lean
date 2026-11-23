@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyEigA
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyTeichDef
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyEigB
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle011
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

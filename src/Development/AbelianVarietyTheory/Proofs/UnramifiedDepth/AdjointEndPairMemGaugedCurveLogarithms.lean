@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-public import Formalism.LocalToGlobal.CharacterGerms.ValNonnegLeadingCoeffOfMemTySet
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 
 @[expose] public section
 

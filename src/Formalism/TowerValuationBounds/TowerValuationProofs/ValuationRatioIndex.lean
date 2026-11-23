@@ -1,6 +1,6 @@
 module
 
-public import Formalism.TowerValuationBounds.TowerValuationBoundIndexed
+public import Formalism.TowerValuationBounds.Bundle001
 public import Formalism.TowerValuationBounds.TowerValuationProofs.SumAdditiveCharacterEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

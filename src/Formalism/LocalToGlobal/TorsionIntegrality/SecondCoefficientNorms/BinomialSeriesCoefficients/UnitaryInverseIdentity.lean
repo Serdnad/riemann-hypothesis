@@ -1,9 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.IsotropicVanish
-public import Formalism.GL3MeanSquares.InvariantSeriesBidegreeOneOne
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.CocycleIsCoboundary
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.HyperbolicPlaneSplit
+public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.Bundle001
+public import Formalism.GL3MeanSquares.Bundle001
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle002
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.CoeffPowEqZeroOfCc
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.Points
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.SecondCoeffConsistency

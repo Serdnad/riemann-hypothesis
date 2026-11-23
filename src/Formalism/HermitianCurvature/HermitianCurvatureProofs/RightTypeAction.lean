@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementQ
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OneParameterDifferentiable
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle072
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 import Mathlib.Algebra.Order.Floor.Extended

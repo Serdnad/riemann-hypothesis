@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GlobalTheoremInputs
+public import Formalism.SharpRestriction.Bundle002
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
 public import Formalism.LocalRingCardinality.Lemmas
 public import Formalism.SharpRestriction.GrowthBounds.CornerGLContinuity
@@ -9,17 +9,17 @@ public import Formalism.SharpRestriction.GrowthBounds.ProjectionLemmaBaseLevel
 public import Formalism.SharpRestriction.GrowthBounds.SourceCleaning
 public import Formalism.SharpRestriction.GrowthBounds.TableLineDegreeFive
 public import Development.AutomorphicArithmetic.OrbitLabellings.EvenAddOrderOfHPOfPowLe
-public import Development.AutomorphicArithmetic.OrbitLabellings.GalEArithFrobEqIotaHP
-public import Development.AutomorphicArithmetic.PrimeDiscriminants.SplitLow
-import Formalism.LocalRingCardinality.HostCls
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSk
-public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle003
+public import Development.AutomorphicArithmetic.PrimeDiscriminants.Bundle003
+import Formalism.LocalRingCardinality.Bundle002
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.CountingStatementReduction
-import Formalism.SharpRestriction.GrowthBounds.GLWeightTheory
+import Formalism.SharpRestriction.GrowthBounds.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.Joints
 import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments
-public import Formalism.SharpRestriction.GrowthBounds.PathWeight
+public import Formalism.SharpRestriction.GrowthBounds.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.PolBridge
 public import Formalism.SharpRestriction.GrowthBounds.ProofLW
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.PositivityConditionHolds
@@ -28,7 +28,7 @@ import Formalism.SharpRestriction.GrowthBounds.TopChoiceBounds
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Formalism.SubspaceCounting.ChoiceOfTopsRefined
-import Formalism.SubspaceCounting.SubspaceCountingProofs.SubspaceCount
+import Formalism.SubspaceCounting.SubspaceCountingProofs.Bundle001
 public import Lemmata.GeneralBFactUpperBis.Imports
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

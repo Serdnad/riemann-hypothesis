@@ -1,0 +1,201 @@
+module
+
+public import Formalism.PolynomialDimension.Bundle001
+public import Mathlib.Basic.Real.Basic
+public import Mathlib.Data.Nat.Choose.Basic
+public import Formalism.PolynomialDimension.FrameSum
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Rat
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Algebra.BigOperators.Fin
+public import Mathlib.Algebra.Order.BigOperators.GroupWithZero.Finset
+public import Mathlib.Analysis.Complex.Exponential
+public import Mathlib.Algebra.CharP.Algebra
+public import Mathlib.Algebra.CharP.Frobenius
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open scoped BigOperators
+open Finset Real
+
+namespace Formalism.CountingSumsFrames
+
+theorem gram_weylDim_cons (n : ℕ) (A : ℤ) (μ : Fin n → ℤ) :
+    weylDim (n + 1) (Fin.cons A μ : Fin (n + 1) → ℤ) =
+      (∏ j : Fin n, ((((A - μ j : ℤ)) : ℚ) + ((j : ℕ) : ℚ) + 1) / (((j : ℕ) : ℚ) + 1)) * weylDim n μ := by
+  unfold weylDim
+  rw [Fin.prod_univ_succ]
+  congr 1
+  · rw [Fin.prod_univ_succ]
+    simp only [Fin.cons_zero, Fin.cons_succ, lt_self_iff_false, if_false, one_mul, Fin.succ_pos, if_true,
+      Fin.val_succ, Fin.val_zero]
+    refine Finset.prod_congr rfl (fun j _ => ?_)
+    push_cast
+    ring
+  · refine Finset.prod_congr rfl (fun i _ => ?_)
+    rw [Fin.prod_univ_succ]
+    simp only [Fin.cons_succ, Fin.cons_zero, Fin.not_lt_zero, if_false, one_mul, Fin.succ_lt_succ_iff,
+      Fin.val_succ]
+    refine Finset.prod_congr rfl (fun j _ => ?_)
+    split_ifs
+    · push_cast
+      congr 1 <;> ring
+    · rfl
+
+theorem gram_choose_prod (a' : ℕ) : ∀ n : ℕ,
+    (((a' + n).choose n : ℕ) : ℝ) = ∏ j : Fin n, ((a' : ℝ) + ((j : ℕ) : ℝ) + 1) / (((j : ℕ) : ℝ) + 1) := by
+  intro n
+  induction n with
+  | zero => simp
+  | succ n ih =>
+    rw [Fin.prod_univ_castSucc]
+    simp only [Fin.val_castSucc, Fin.val_last]
+    rw [← ih]
+    have h := Nat.add_one_mul_choose_eq (a' + n) n
+    have h' : ((a' + n : ℝ) + 1) * (((a' + n).choose n : ℕ) : ℝ) =
+        (((a' + n + 1).choose (n + 1) : ℕ) : ℝ) * ((n : ℝ) + 1) := by exact_mod_cast h
+    rw [show a' + (n + 1) = a' + n + 1 by ring]
+    have hn : (0 : ℝ) < (n : ℝ) + 1 := by positivity
+    rw [mul_div_assoc', eq_div_iff hn.ne']
+    linarith
+
+theorem gram_prod_le (m : ℕ) (f g : Fin m → ℝ) (t : ℝ) (hf : ∀ j, 0 ≤ f j)
+    (hfg : ∀ j, f j ≤ (1 + t) * g j) :
+    ∏ j, f j ≤ (1 + t) ^ m * ∏ j, g j := by
+  calc ∏ j, f j ≤ ∏ j, ((1 + t) * g j) := Finset.prod_le_prod₀ (fun j _ => hf j) (fun j _ => hfg j)
+    _ = (1 + t) ^ m * ∏ j, g j := by
+      rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
+
+theorem gram_key (n : ℕ) (x y : ℝ) (hx : 0 ≤ x) (hy : (n : ℝ) * x ≤ y) :
+    (1 - y) * (1 + x) ^ n ≤ 1 := by
+  have hp : 0 ≤ (1 + x) ^ n := by positivity
+  by_cases h : 1 - y ≤ 0
+  · nlinarith
+  · rw [not_le] at h
+    have e1 : 1 - y ≤ Real.exp (-y) := by linarith [Real.add_one_le_exp (-y)]
+    have e2 : (1 + x) ^ n ≤ Real.exp (n * x) := by
+      rw [Real.exp_nat_mul]
+      exact pow_le_pow_left₀ (by linarith) (by linarith [Real.add_one_le_exp x]) n
+    calc (1 - y) * (1 + x) ^ n ≤ Real.exp (-y) * Real.exp (n * x) :=
+          mul_le_mul e1 e2 hp (Real.exp_pos _).le
+      _ = Real.exp (n * x - y) := by rw [← Real.exp_add]; ring_nf
+      _ ≤ Real.exp 0 := Real.exp_le_exp.mpr (by linarith)
+      _ = 1 := Real.exp_zero
+
+theorem gram_weylDim_pos (m : ℕ) (μ : Fin m → ℤ) (hμ : Antitone μ) : 0 < weylDim m μ := by
+  unfold weylDim
+  apply Finset.prod_pos; intro i _
+  apply Finset.prod_pos; intro j _
+  split_ifs with h
+  · have h1 : ((i : ℕ) : ℚ) < ((j : ℕ) : ℚ) := by exact_mod_cast (show (i : ℕ) < (j : ℕ) from h)
+    have h2 : μ j ≤ μ i := hμ h.le
+    have h3 : ((μ j : ℤ) : ℚ) ≤ ((μ i : ℤ) : ℚ) := by exact_mod_cast h2
+    push_cast
+    apply div_pos <;> linarith
+  · exact one_pos
+
+theorem one_sub_mul_mul_le (y P W C x : ℝ) (n : ℕ) (hW : 0 ≤ W) (hP0 : 0 ≤ P) (hC : 0 ≤ C)
+    (hPle : P ≤ (1 + x) ^ n * C) (hkey : (1 - y) * (1 + x) ^ n ≤ 1) : (1 - y) * (P * W) ≤ C * W := by
+  have hPW : 0 ≤ P * W := mul_nonneg hP0 hW
+  have hCW : 0 ≤ C * W := mul_nonneg hC hW
+  by_cases h : 1 - y ≤ 0
+  · nlinarith
+  · rw [not_le] at h
+    calc (1 - y) * (P * W) ≤ (1 - y) * (((1 + x) ^ n * C) * W) :=
+          mul_le_mul_of_nonneg_left (mul_le_mul_of_nonneg_right hPle hW) h.le
+      _ = ((1 - y) * (1 + x) ^ n) * (C * W) := by ring
+      _ ≤ 1 * (C * W) := mul_le_mul_of_nonneg_right hkey hCW
+      _ = C * W := one_mul _
+
+end Formalism.CountingSumsFrames
+end
+end
+
+section
+
+open scoped BigOperators
+open Finset Matrix
+
+namespace Formalism.CountingSumsFrames
+
+theorem submatrix_swapCol {R : Type} [CommRing R] {r k : ℕ} (h : r ≤ k) (H : Matrix (Fin r) (Fin k) R)
+    (i : Fin r) (c : Fin k) :
+    H.submatrix id (swapCol r k h i c) = (H.submatrix id (Fin.castLE h)).updateCol i (fun m => H m c) := by
+  ext m j
+  by_cases hj : j = i
+  · subst hj
+    simp [swapCol]
+  · simp [swapCol, hj]
+
+theorem piMinor_map {p r k : ℕ} [Fact p.Prime] {F A : Type} [Field F] [CharP F p] [CommRing A] [Algebra F A]
+    [Nontrivial A] (H : Matrix (Fin r) (Fin k) F) (pos : Fin r → ℕ) (t : Fin r → Fin r → A) (zj : ℕ)
+    (cols : Fin r → Fin k) (hpos : ∀ l, pos l ≤ zj) :
+    piMinor p r k (H.map (algebraMap F A)) pos t zj cols =
+      (Matrix.of fun l m => t l m ^ p ^ (zj - pos l)).det *
+        algebraMap F A ((H.submatrix id cols).det ^ p ^ zj) := by
+  have : CharP A p := charP_of_injective_algebraMap (algebraMap F A).injective p
+  have : ExpChar A p := ExpChar.prime (Fact.out : p.Prime)
+  have : ExpChar F p := ExpChar.prime (Fact.out : p.Prime)
+  let g : F →+* A := (algebraMap F A).comp (iterateFrobenius F p zj)
+  have hg : ∀ x, g x = algebraMap F A (x ^ p ^ zj) := fun x => by
+    simp [g, iterateFrobenius_def]
+  have hmat : (Matrix.of fun l c' => (frameRow p r k (H.map (algebraMap F A)) (pos l) (t l) (cols c')) ^ p ^ (zj - pos l)) =
+      (Matrix.of fun l m => t l m ^ p ^ (zj - pos l)) * (g.mapMatrix (H.submatrix id cols)) := by
+    ext l c'
+    simp only [Matrix.of_apply, frameRow, Matrix.vecMul, dotProduct, Matrix.mul_apply, Matrix.map_apply,
+      RingHom.mapMatrix_apply, Matrix.submatrix_apply, id, hg]
+    rw [sum_pow_char_pow]
+    refine Finset.sum_congr rfl (fun m _ => ?_)
+    rw [mul_pow, ← pow_mul, ← pow_add, Nat.add_sub_of_le (hpos l), map_pow]
+  unfold piMinor
+  rw [hmat, Matrix.det_mul, ← RingHom.map_det, hg]
+
+end Formalism.CountingSumsFrames
+end

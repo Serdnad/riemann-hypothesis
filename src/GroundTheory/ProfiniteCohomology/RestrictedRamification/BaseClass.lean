@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseKummerDefs
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle006
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SDivisor
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.ConePairing
-import GroundTheory.ProfiniteCohomology.CupProducts.ExistsCocycleMapFEqD
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

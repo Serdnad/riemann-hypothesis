@@ -1,0 +1,265 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TensFun
+public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.IsNormAlong
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
+public import Development.AutomorphicArithmetic.AdelicGluing.Bundle001
+public import Development.AutomorphicArithmetic.AdelicGluing.GalTwistFinProjEqOfGalAdFinEmbEq
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle006
+public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain MvPolynomial Filter
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum UpperTheory.ConvolutionTheory.C PositivityTheory.Rg.Tf.Core PositivityTheory.Rg.Tf.Geo
+open GroundTheory.Global GroundTheory.Global.SemiLocal GroundTheory.Automorphic.Spherical
+open UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.GM
+open scoped ComplexConjugate
+
+private theorem finprod_split_at {α : Type*} (a : α → ℂ) (ha : (Function.mulSupport a).Finite) (q : α)
+    [DecidablePred fun v => v = q] :
+    (∏ᶠ v, a v) = (∏ᶠ v, if v = q then (1 : ℂ) else a v) * a q := by
+  have hA : (Function.mulSupport fun v => if v = q then (1 : ℂ) else a v).Finite := by
+    refine ha.subset fun v hv => ?_
+    by_cases h : v = q
+    · exact absurd (if_pos h) hv
+    · intro h0
+      exact hv ((if_neg h).trans h0)
+  have hB : (Function.mulSupport fun v => if v = q then a q else (1 : ℂ)).Finite := by
+    refine (Set.finite_singleton q).subset fun v hv => ?_
+    by_contra h
+    exact hv (if_neg h)
+  have hq : (∏ᶠ v, if v = q then a q else (1 : ℂ)) = a q := by
+    rw [finprod_eq_single _ q fun v hv => if_neg hv]
+    exact if_pos rfl
+  rw [← hq, ← finprod_mul_distrib hA hB]
+  refine finprod_congr fun v => ?_
+  by_cases h : v = q
+  · subst h
+    simp
+  · simp [h]
+
+theorem UpperTheory.factorizable_finprod_eq_away_finprod_mul_local_factor :
+    ∀ (K : Type) [Field K] [NumberField K] (n : ℕ) (f : ∀ v : Pl K, GL (Fin n) (v.adicCompletion K) → ℂ) (S : Finset (Pl K)),
+      (∀ v, v ∉ S → f v = (GLnLocal.integralGL (v.adicCompletion K) n : Set (GL (Fin n) (v.adicCompletion K))).indicator 1) →
+      ∀ (q : Pl K) (x : AdelicGLn.FiniteAdelicGL K n), (∏ᶠ v, f v (cf v x)) = (∏ᶠ v, (open Classical in if v = q then (1 : ℂ) else f v (cf v x))) * f q (cf q x) := by
+  intro K _ _ n f S hf q x
+  have hfin : (Function.mulSupport fun v => f v (cf v x)).Finite := by
+    have h := Filter.eventually_cofinite.1 (AdelicGLn.eventually_mem_integralGL K n (finEmb K n x))
+    refine (h.union S.finite_toSet).subset fun v hv => ?_
+    by_contra hc
+    rw [Set.mem_union, not_or] at hc
+    have h1 : cf v x ∈ GLnLocal.integralGL (v.adicCompletion K) n := not_not.1 hc.1
+    apply hv
+    simp only [hf v hc.2]
+    exact Set.indicator_of_mem (by exact h1) _
+  exact @finprod_split_at _ (fun v => f v (cf v x)) hfin q fun _ => Classical.propDecidable _
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain MvPolynomial Filter
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum UpperTheory.ConvolutionTheory.C PositivityTheory.Rg.Tf.Core PositivityTheory.Rg.Tf.Geo
+open GroundTheory.Global GroundTheory.Global.SemiLocal GroundTheory.Automorphic.Spherical
+open UpperTheory.ConvolutionTheory UpperTheory.ConvolutionTheory.GM
+open scoped ComplexConjugate
+
+private theorem prj_map {H : Type*} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+    (U : H ≃ₗᵢ[ℂ] H) (W W' : Submodule ℂ H) (hW : IsClosed (W : Set H)) (hW' : IsClosed (W' : Set H))
+    (hU : ∀ v, U v ∈ W' ↔ v ∈ W) (v : H) : U (prj W v) = prj W' (U v) := by
+  have hc : W.topologicalClosure = W := hW.submodule_topologicalClosure_eq
+  have hc' : W'.topologicalClosure = W' := hW'.submodule_topologicalClosure_eq
+  have hm : ∀ v, v ∈ W.topologicalClosure ↔ v ∈ W := fun v => by rw [hc]
+  have hm' : ∀ v, v ∈ W'.topologicalClosure ↔ v ∈ W' := fun v => by rw [hc']
+  have a1 : prj W v ∈ W := (hm _).1 (Submodule.starProjection_apply_mem _ v)
+  symm
+  refine Submodule.eq_starProjection_of_mem_of_inner_eq_zero ((hm' _).2 ((hU _).2 a1)) fun u hu => ?_
+  have hu' : U.symm u ∈ W := (hU _).1 (by simpa using (hm' _).1 hu)
+  have e : u = U (U.symm u) := by simp
+  rw [e, ← map_sub, LinearIsometryEquiv.inner_map_map]
+  exact Submodule.starProjection_inner_eq_zero v _ ((hm _).2 hu')
+
+private theorem mk_iff {G G' : Type} [Group G] [Group G'] (s : G ≃* G') (J : Subgroup G) (J' : Subgroup G')
+    (hJ : ∀ g, g ∈ J ↔ s g ∈ J') (a b : G) :
+    (QuotientGroup.mk (s a) : G' ⧸ J') = QuotientGroup.mk (s b) ↔
+      (QuotientGroup.mk a : G ⧸ J) = QuotientGroup.mk b := by
+  rw [QuotientGroup.eq, QuotientGroup.eq, hJ, map_mul, map_inv]
+
+private theorem cosets {G G' : Type} [Group G] [Group G'] (s : G ≃* G') (J : Subgroup G) (J' : Subgroup G')
+    (hJ : ∀ g, g ∈ J ↔ s g ∈ J') (x : G)
+    (hS : {c : G ⧸ J | ∃ k ∈ J, c = QuotientGroup.mk (k * x)}.Finite) :
+    ∃ (ι : Type) (_ : Fintype ι) (y : ι → G),
+      Function.Injective (fun i => (QuotientGroup.mk (y i) : G ⧸ J)) ∧
+      Set.range (fun i => (QuotientGroup.mk (y i) : G ⧸ J)) = {c | ∃ k ∈ J, c = QuotientGroup.mk (k * x)} ∧
+      Function.Injective (fun i => (QuotientGroup.mk (s (y i)) : G' ⧸ J')) ∧
+      Set.range (fun i => (QuotientGroup.mk (s (y i)) : G' ⧸ J')) =
+        {c | ∃ k ∈ J', c = QuotientGroup.mk (k * s x)} := by
+  classical
+  let S := {c : G ⧸ J | ∃ k ∈ J, c = QuotientGroup.mk (k * x)}
+  haveI : Fintype S := hS.fintype
+  have hout : ∀ c : S, (QuotientGroup.mk (c.1.out) : G ⧸ J) = c.1 := fun c => QuotientGroup.out_eq' c.1
+  refine ⟨S, inferInstance, fun c => c.1.out, ?_, ?_, ?_, ?_⟩
+  · intro a b h
+    apply Subtype.ext
+    have h' : (QuotientGroup.mk (a.1.out) : G ⧸ J) = QuotientGroup.mk (b.1.out) := h
+    rwa [hout, hout] at h'
+  · ext c
+    constructor
+    · rintro ⟨i, rfl⟩
+      have : (QuotientGroup.mk (i.1.out) : G ⧸ J) ∈ S := by rw [hout]; exact i.2
+      exact this
+    · intro hc
+      exact ⟨⟨c, hc⟩, hout ⟨c, hc⟩⟩
+  · intro a b h
+    apply Subtype.ext
+    have h' := (mk_iff s J J' hJ _ _).1 h
+    rwa [hout, hout] at h'
+  · ext c
+    constructor
+    · rintro ⟨i, rfl⟩
+      obtain ⟨k, hk, e⟩ := i.2
+      refine ⟨s k, (hJ k).1 hk, ?_⟩
+      have h1 : (QuotientGroup.mk (i.1.out) : G ⧸ J) = QuotientGroup.mk (k * x) := (hout i).trans e
+      have h2 := (mk_iff s J J' hJ _ _).2 h1
+      rw [map_mul] at h2
+      exact h2
+    · rintro ⟨k, hk, rfl⟩
+      have hk0 : s.symm k ∈ J := (hJ _).2 (by simpa using hk)
+      have hc : (QuotientGroup.mk (s.symm k * x) : G ⧸ J) ∈ S := ⟨_, hk0, rfl⟩
+      refine ⟨⟨_, hc⟩, ?_⟩
+      have h2 := (mk_iff s J J' hJ _ _).2 (hout ⟨_, hc⟩)
+      rw [map_mul, MulEquiv.apply_symm_apply] at h2
+      exact h2
+
+private theorem cosets_eq {G : Type} [Group G] (J : Subgroup G) (a b x : G) (ha : a ∈ J) (hb : b ∈ J) :
+    {c : G ⧸ J | ∃ k ∈ J, c = QuotientGroup.mk (k * (a * x * b))} =
+      {c | ∃ k ∈ J, c = QuotientGroup.mk (k * x)} := by
+  have key : ∀ k : G, (QuotientGroup.mk (k * (a * x * b)) : G ⧸ J) = QuotientGroup.mk (k * a * x) := fun k => by
+    rw [QuotientGroup.eq]
+    have e : (k * (a * x * b))⁻¹ * (k * a * x) = b⁻¹ := by group
+    rw [e]
+    exact J.inv_mem hb
+  ext c
+  constructor
+  · rintro ⟨k, hk, rfl⟩
+    exact ⟨k * a, J.mul_mem hk ha, key k⟩
+  · rintro ⟨k, hk, rfl⟩
+    refine ⟨k * a⁻¹, J.mul_mem hk (J.inv_mem ha), ?_⟩
+    rw [key]
+    simp
+
+private theorem fixL_iff {K : Type} [Field K] [NumberField K] {n : ℕ} (μ : Measure (normOneGL (K := K) (n := n))) [μ.IsHaarMeasure]
+    (w : Pl K) (J : Subgroup (GL (Fin n) (w.adicCompletion K))) (v : LL μ) :
+    v ∈ fixL μ w J ↔ ∀ k ∈ J, rhoL μ w k v = v := by
+  unfold fixL
+  rw [(UpperTheory.ConvolutionTheory.Tf.commPrj K n μ (J.map (AdelicGLn.localEmbedding w))).2.1]
+  constructor
+  · exact fun h k hk => h _ (Subgroup.mem_map_of_mem _ hk)
+  · rintro h _ ⟨k, hk, rfl⟩
+    exact h k hk
+
+theorem UpperTheory.galoisTwist_comp_uOperator_eq_uOperator_smul_place :
+    ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [IsGalois F E] (σ : E ≃ₐ[F] E) (n : ℕ), 0 < n →
+          ∀ (μ : Measure (normOneGL (K := E) (n := n))) [μ.IsHaarMeasure] (θ : Twist μ), IsGalTwist σ θ → ∀ (w : Pl E) (ν : Fin n → ℤ),
+            θ.U ∘L Uiw μ w ν = Uiw μ (σ • w) ν ∘L θ.U := by
+  intro F E _ _ _ _ _ _ σ n hn μ _ θ hθ w ν
+  obtain ⟨s, hs1, hs2, hs3⟩ := UpperTheory.exists_galois_transport_localGL_preserving_iwahori F E σ n hn w
+  obtain ⟨U, hU, hint, -⟩ := UpperTheory.ConvolutionTheory.C.twistUnitary E n μ θ
+  have hO := GLnLocal.isOpen_iwahori (w.adicCompletion E) n
+  have hC := GLnLocal.isCompact_iwahori (w.adicCompletion E) n
+  have hO' := GLnLocal.isOpen_iwahori ((σ • w).adicCompletion E) n
+  have hC' := GLnLocal.isCompact_iwahori ((σ • w).adicCompletion E) n
+  have hrho : ∀ g v, U (rhoL μ w g v) = rhoL μ (σ • w) (s g) (U v) := fun g v => by
+    have e := UpperTheory.galTwist_finProj_eq_of_galAd_finEmb_eq F E σ n hn μ θ hθ _ _ (hs1 g)
+    show U (rightRegularRep (rationalGLOne (K := E) (n := n)) μ (MultiplicityOne.finProj E n (AdelicGLn.localEmbedding w g)) v) =
+      rightRegularRep (rationalGLOne (K := E) (n := n)) μ (MultiplicityOne.finProj E n (AdelicGLn.localEmbedding (σ • w) (s g))) (U v)
+    rw [hint, e]
+  have hfx : ∀ v, U v ∈ fixL μ (σ • w) (GLnLocal.iwahori ((σ • w).adicCompletion E) n) ↔
+      v ∈ fixL μ w (GLnLocal.iwahori (w.adicCompletion E) n) := fun v => by
+    rw [fixL_iff, fixL_iff]
+    constructor
+    · intro h k hk
+      apply U.injective
+      rw [hrho]
+      exact h _ ((hs2 k).1 hk)
+    · intro h k' hk'
+      have e : k' = s (s.symm k') := by simp
+      rw [e, ← hrho, h _ ((hs2 _).2 (by simpa using hk'))]
+  have hP : ∀ v, U (prj (fixL μ w (GLnLocal.iwahori (w.adicCompletion E) n)) v) =
+      prj (fixL μ (σ • w) (GLnLocal.iwahori ((σ • w).adicCompletion E) n)) (U v) :=
+    prj_map U _ _ (UpperTheory.ConvolutionTheory.Tf.commPrj E n μ _).1 (UpperTheory.ConvolutionTheory.Tf.commPrj E n μ _).1 hfx
+  obtain ⟨hf, -, hHP, hsum, -, -⟩ := UpperTheory.ConvolutionTheory.Tf.hopBasic E n μ w _
+    (Cartan.diagPow (w.adicCompletion E) n ν) hO hC
+  obtain ⟨-, -, hHP', hsum', -, -⟩ := UpperTheory.ConvolutionTheory.Tf.hopBasic E n μ (σ • w) _
+    (s (Cartan.diagPow (w.adicCompletion E) n ν)) hO' hC'
+  obtain ⟨ι, _, y, i1, r1, i2, r2⟩ := cosets s _ _ hs2 _ hf
+  have hmain : ∀ v ∈ fixL μ w (GLnLocal.iwahori (w.adicCompletion E) n),
+      U (Hop μ w (GLnLocal.iwahori (w.adicCompletion E) n) (Cartan.diagPow (w.adicCompletion E) n ν) v) =
+        Hop μ (σ • w) (GLnLocal.iwahori ((σ • w).adicCompletion E) n) (s (Cartan.diagPow (w.adicCompletion E) n ν)) (U v) := fun v hv => by
+
+    rw [hsum ι y i1 r1 v hv, hsum' ι (fun i => s (y i)) i2 r2 (U v) ((hfx v).2 hv), map_sum]
+    exact Finset.sum_congr rfl fun i _ => hrho _ _
+  obtain ⟨a, ha, b, hb, hab⟩ := hs3 ν
+  have hH : Hop μ (σ • w) (GLnLocal.iwahori ((σ • w).adicCompletion E) n) (s (Cartan.diagPow (w.adicCompletion E) n ν)) =
+      Uiw μ (σ • w) ν := by
+    unfold Uiw Hop
+    rw [hab, cosets_eq _ a b _ ha hb]
+  rw [← hU, ← hH]
+  refine ContinuousLinearMap.ext fun v => ?_
+  have e1 := DFunLike.congr_fun hHP v
+  have e2 := DFunLike.congr_fun hHP' (U v)
+  simp only [ContinuousLinearMap.comp_apply] at e1 e2
+  have hm : prj (fixL μ w (GLnLocal.iwahori (w.adicCompletion E) n)) v ∈ fixL μ w (GLnLocal.iwahori (w.adicCompletion E) n) :=
+    (UpperTheory.ConvolutionTheory.Tf.commPrj E n μ _).2.2.1 v
+  show U (Hop μ w (GLnLocal.iwahori (w.adicCompletion E) n) (Cartan.diagPow (w.adicCompletion E) n ν) v) =
+    Hop μ (σ • w) (GLnLocal.iwahori ((σ • w).adicCompletion E) n) (s (Cartan.diagPow (w.adicCompletion E) n ν)) (U v)
+  rw [← e1, hmain _ hm, hP, e2]
+end

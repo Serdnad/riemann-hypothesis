@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.DigAbs
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.DecompositionOfThreeParts
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.FactorLeProductSeven
-import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PickLem
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle005
+import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle004
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.DerivativeValuationBounds
 import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationNonnegIffIntegral
 import Mathlib.Algebra.Order.Floor.Extended

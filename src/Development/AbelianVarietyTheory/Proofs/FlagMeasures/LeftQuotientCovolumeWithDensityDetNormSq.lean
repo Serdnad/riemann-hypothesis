@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsScalarStableLatticeAutomorphismFundamentalStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryLatticeStabilizerDetRoot
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle181
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,18 +55,18 @@ namespace GlobalTheory.DetSlab
 
 variable (E : Type) [Field E] [NumberField E] (j : ℕ)
 
-theorem detNorm_mul (x y : MatInf E j) : detNorm E j (x * y) = detNorm E j x * detNorm E j y := by
-  unfold detNorm
+theorem detNorm_mul (x y : MatInf E j) : _root_.GlobalTheory.FlagMeas.detNorm E j (x * y) = _root_.GlobalTheory.FlagMeas.detNorm E j x * _root_.GlobalTheory.FlagMeas.detNorm E j y := by
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   rw [← Finset.prod_mul_distrib]
   refine Finset.prod_congr rfl fun w _ => ?_
   have : Matrix.of ((x * y) w) = Matrix.of (x w) * Matrix.of (y w) := rfl
   rw [this, Matrix.det_mul, norm_mul, mul_pow]
 
-theorem detNorm_nonneg (x : MatInf E j) : 0 ≤ detNorm E j x :=
+theorem detNorm_nonneg (x : MatInf E j) : 0 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j x :=
   Finset.prod_nonneg fun _ _ => sq_nonneg _
 
 theorem detNorm_aut (hE : IsTotallyComplex E) (Λ : Submodule (𝓞 E) (Fin j → E)) (hΛ : Submodule.IsFullLattice E Λ)
-    {x : MatInf E j} (hx : x ∈ autGL E j Λ) : detNorm E j x = 1 := by
+    {x : MatInf E j} (hx : x ∈ autGL E j Λ) : _root_.GlobalTheory.FlagMeas.detNorm E j x = 1 := by
   obtain ⟨γ, hγ, hx⟩ := hx
   have h1 : IsIntegral ℤ (γ : Matrix (Fin j) (Fin j) E).det :=
     GlobalTheory.Mem.StabDet.isIntegral_det Λ hΛ.fg (Submodule.IsFullLattice.span_eq_top (self := hΛ)) _ fun v hv => (hγ v).2 hv
@@ -80,7 +80,7 @@ theorem detNorm_aut (hE : IsTotallyComplex E) (Λ : Submodule (𝓞 E) (Fin j �
   rw [NumberField.Units.norm] at h4
   have hu : ((u : 𝓞 E) : E) = (γ : Matrix (Fin j) (Fin j) E).det := rfl
   rw [hu] at h4
-  unfold detNorm
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   rw [Rat.cast_one] at h4
   rw [← h4]
   refine Finset.prod_congr rfl fun w _ => ?_
@@ -90,12 +90,12 @@ theorem detNorm_aut (hE : IsTotallyComplex E) (Λ : Submodule (𝓞 E) (Fin j �
   rw [h5, ← RingHom.map_det, InfinitePlace.norm_embedding_eq, (IsTotallyComplex.isComplex w).mult_eq_two]
 
 theorem continuous_detNorm :
-    Continuous (fun x : InfinitePlace E → Fin j → Fin j → ℂ => detNorm E j x) := by
-  unfold detNorm
+    Continuous (fun x : InfinitePlace E → Fin j → Fin j → ℂ => _root_.GlobalTheory.FlagMeas.detNorm E j x) := by
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   refine continuous_finsetProd _ fun w _ => ?_
   exact (Continuous.matrix_det (continuous_apply w)).norm.pow 2
 
-theorem measurable_detNorm : Measurable (detNorm E j) := (continuous_detNorm E j).measurable
+theorem measurable_detNorm : Measurable (_root_.GlobalTheory.FlagMeas.detNorm E j) := (continuous_detNorm E j).measurable
 
 def scal (t : ℝ) (x : MatInf E j) : MatInf E j := fun w a b => (t : ℂ) * x w a b
 
@@ -103,8 +103,8 @@ theorem measurable_scal (t : ℝ) : Measurable (scal E j t) :=
   (continuous_const_smul t : Continuous fun x : InfinitePlace E → Fin j → Fin j → ℂ => t • x).measurable
 
 theorem detNorm_scal (t : ℝ) (x : MatInf E j) :
-    detNorm E j (scal E j t x) = |t| ^ (2 * j * Fintype.card (InfinitePlace E)) * detNorm E j x := by
-  unfold detNorm
+    _root_.GlobalTheory.FlagMeas.detNorm E j (scal E j t x) = |t| ^ (2 * j * Fintype.card (InfinitePlace E)) * _root_.GlobalTheory.FlagMeas.detNorm E j x := by
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   have : ∀ w, Matrix.of (scal E j t x w) = (t : ℂ) • Matrix.of (x w) := fun w => rfl
   simp only [this, Matrix.det_smul, norm_mul, norm_pow, Complex.norm_real, Real.norm_eq_abs, mul_pow,
     Finset.prod_mul_distrib, Finset.prod_const, Fintype.card_fin, Finset.card_univ, ← pow_mul]
@@ -117,7 +117,7 @@ theorem isAddHaar_volume : (volume : Measure (InfinitePlace E → Fin j → Fin 
 
 theorem lintegral_scal (t : ℝ) (ht : t ≠ 0) (f : MatInf E j → ENNReal) (hf : Measurable f) :
     ∫⁻ x, f (scal E j t x) ∂(haarGL E j) = ∫⁻ x, f x ∂(haarGL E j) := by
-  have hd : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((detNorm E j x)⁻¹ ^ j) :=
+  have hd : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((_root_.GlobalTheory.FlagMeas.detNorm E j x)⁻¹ ^ j) :=
     (((measurable_detNorm E j).inv).pow_const j).ennreal_ofReal
   have hf' : Measurable (fun x : InfinitePlace E → Fin j → Fin j → ℂ => f x) := hf
   have hf'' : Measurable (fun x : InfinitePlace E → Fin j → Fin j → ℂ => f (t • x)) :=
@@ -137,10 +137,10 @@ theorem lintegral_scal (t : ℝ) (ht : t ≠ 0) (f : MatInf E j → ENNReal) (hf
   rw [hm, lintegral_smul_measure, hrk, smul_eq_mul] at e3
   set N := 2 * j * Fintype.card (InfinitePlace E) with hN
   have hpos : 0 < |t| ^ (N * j) := pow_pos (abs_pos.2 ht) _
-  have e4 : ∀ x : InfinitePlace E → Fin j → Fin j → ℂ, ENNReal.ofReal ((detNorm E j (t • x))⁻¹ ^ j) =
-      ENNReal.ofReal |(t ^ (N * j))⁻¹| * ENNReal.ofReal ((detNorm E j x)⁻¹ ^ j) := by
+  have e4 : ∀ x : InfinitePlace E → Fin j → Fin j → ℂ, ENNReal.ofReal ((_root_.GlobalTheory.FlagMeas.detNorm E j (t • x))⁻¹ ^ j) =
+      ENNReal.ofReal |(t ^ (N * j))⁻¹| * ENNReal.ofReal ((_root_.GlobalTheory.FlagMeas.detNorm E j x)⁻¹ ^ j) := by
     intro x
-    have h : detNorm E j (t • x) = |t| ^ N * detNorm E j x := detNorm_scal E j t x
+    have h : _root_.GlobalTheory.FlagMeas.detNorm E j (t • x) = |t| ^ N * _root_.GlobalTheory.FlagMeas.detNorm E j x := detNorm_scal E j t x
     rw [← ENNReal.ofReal_mul (abs_nonneg _), h, abs_inv, abs_pow, mul_inv, mul_pow,
       inv_pow, ← pow_mul]
   have e5 := lintegral_const_mul (μ := (volume : Measure (InfinitePlace E → Fin j → Fin j → ℂ)))
@@ -151,9 +151,9 @@ theorem lintegral_scal (t : ℝ) (ht : t ≠ 0) (f : MatInf E j → ENNReal) (hf
     rw [Ne, ENNReal.ofReal_eq_zero, not_le, abs_inv, abs_pow]; exact inv_pos.2 hpos
   exact ((ENNReal.mul_right_inj hne ENNReal.ofReal_ne_top).1 e3).symm
 
-theorem restrict_pos (hj : 1 ≤ j) : (haarGL E j).restrict {g | 0 < detNorm E j g} = haarGL E j := by
+theorem restrict_pos (hj : 1 ≤ j) : (haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} = haarGL E j := by
   refine Measure.restrict_eq_self_of_ae_mem ?_
-  have hd : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((detNorm E j x)⁻¹ ^ j) :=
+  have hd : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((_root_.GlobalTheory.FlagMeas.detNorm E j x)⁻¹ ^ j) :=
     (((measurable_detNorm E j).inv).pow_const j).ennreal_ofReal
   refine (ae_withDensity_iff hd).2 (Filter.Eventually.of_forall fun x hx => ?_)
   refine lt_of_le_of_ne (detNorm_nonneg E j x) fun h => hx ?_
@@ -176,15 +176,15 @@ theorem lintegral_exp (F : ℝ → ENNReal) :
     (by simpa using Real.exp_pos u) ENNReal.ofReal_ne_top]
 
 theorem lintegral_cone (hj : 1 ≤ j) (D : Set (MatInf E j)) (hD : MeasurableSet D)
-    (hpos : D ⊆ {g | 0 < detNorm E j g}) (hsc : ∀ g ∈ D, ∀ t : ℝ, 0 < t → scal E j t g ∈ D)
+    (hpos : D ⊆ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}) (hsc : ∀ g ∈ D, ∀ t : ℝ, 0 < t → scal E j t g ∈ D)
     (F : ℝ → ENNReal) (hF : Measurable F) :
-    ∫⁻ g in D, F (detNorm E j g) ∂(haarGL E j) =
-      haarGL E j ({x | 1 ≤ detNorm E j x ∧ detNorm E j x < Real.exp 1} ∩ D) *
+    ∫⁻ g in D, F (_root_.GlobalTheory.FlagMeas.detNorm E j g) ∂(haarGL E j) =
+      haarGL E j ({x | 1 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j x ∧ _root_.GlobalTheory.FlagMeas.detNorm E j x < Real.exp 1} ∩ D) *
         ∫⁻ t in Set.Ioi (0 : ℝ), F t / ENNReal.ofReal t := by
   haveI := sFinite_haarGL E j
-  have hl : Measurable fun g => Real.log (detNorm E j g) := Real.measurable_log.comp (measurable_detNorm E j)
-  set ν : Measure ℝ := ((haarGL E j).restrict D).map fun g => Real.log (detNorm E j g) with hν
-  have hνa : ∀ s, MeasurableSet s → ν s = haarGL E j ((fun g => Real.log (detNorm E j g)) ⁻¹' s ∩ D) :=
+  have hl : Measurable fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g) := Real.measurable_log.comp (measurable_detNorm E j)
+  set ν : Measure ℝ := ((haarGL E j).restrict D).map fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g) with hν
+  have hνa : ∀ s, MeasurableSet s → ν s = haarGL E j ((fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g)) ⁻¹' s ∩ D) :=
     fun s hs => by rw [hν, Measure.map_apply hl hs, Measure.restrict_apply (hl hs)]
   set N := 2 * j * Fintype.card (InfinitePlace E) with hN
   have hN0 : (N : ℝ) ≠ 0 := by
@@ -195,8 +195,8 @@ theorem lintegral_cone (hj : 1 ≤ j) (D : Set (MatInf E j)) (hD : MeasurableSet
     ext s hs
     have hc : Measurable fun u : ℝ => c + u := measurable_const_add c
     rw [Measure.map_apply hc hs, hνa _ (hc hs), hνa _ hs]
-    have hA : MeasurableSet ((fun g => Real.log (detNorm E j g)) ⁻¹' s ∩ D) := (hl hs).inter hD
-    have hB : MeasurableSet ((fun g => Real.log (detNorm E j g)) ⁻¹' ((fun u => c + u) ⁻¹' s) ∩ D) :=
+    have hA : MeasurableSet ((fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g)) ⁻¹' s ∩ D) := (hl hs).inter hD
+    have hB : MeasurableSet ((fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g)) ⁻¹' ((fun u => c + u) ⁻¹' s) ∩ D) :=
       (hl (hc hs)).inter hD
     have ht : 0 < Real.exp (c / N) := Real.exp_pos _
     rw [← lintegral_indicator_one hA, ← lintegral_indicator_one hB,
@@ -206,9 +206,9 @@ theorem lintegral_cone (hj : 1 ≤ j) (D : Set (MatInf E j)) (hD : MeasurableSet
       funext w a b
       simp only [scal]
       rw [← mul_assoc, ← Complex.ofReal_mul, inv_mul_cancel₀ ht.ne', Complex.ofReal_one, one_mul]
-    have hlog : x ∈ D → Real.log (detNorm E j (scal E j (Real.exp (c / N)) x)) =
-        c + Real.log (detNorm E j x) := fun hx => by
-      have h0 : 0 < detNorm E j x := hpos hx
+    have hlog : x ∈ D → Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j (scal E j (Real.exp (c / N)) x)) =
+        c + Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j x) := fun hx => by
+      have h0 : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x := hpos hx
       rw [detNorm_scal, abs_of_pos ht, Real.log_mul (pow_pos ht _).ne' h0.ne', Real.log_pow, Real.log_exp, ← hN,
         mul_div_cancel₀ _ hN0]
     refine (Set.indicator_const_eq_indicator_const (c := (1 : ENNReal)) ⟨fun h => ⟨?_, hsc _ h.2 _ ht⟩, fun h => ?_⟩)
@@ -226,31 +226,31 @@ theorem lintegral_cone (hj : 1 ≤ j) (D : Set (MatInf E j)) (hD : MeasurableSet
   simp only [measure_preimage_add_right] at h1
   rw [hv, one_mul, lintegral_const_mul _ (f := fun u => F (Real.exp (-u))) (hFe.comp measurable_neg), lintegral_neg_eq_self (fun u => F (Real.exp u)),
     hνa _ measurableSet_Ico] at h1
-  have hset : (fun g => Real.log (detNorm E j g)) ⁻¹' Set.Ico 0 1 ∩ D =
-      {x | 1 ≤ detNorm E j x ∧ detNorm E j x < Real.exp 1} ∩ D := by
+  have hset : (fun g => Real.log (_root_.GlobalTheory.FlagMeas.detNorm E j g)) ⁻¹' Set.Ico 0 1 ∩ D =
+      {x | 1 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j x ∧ _root_.GlobalTheory.FlagMeas.detNorm E j x < Real.exp 1} ∩ D := by
     ext x
     refine and_congr_left fun hx => ?_
-    have h0 : 0 < detNorm E j x := hpos hx
+    have h0 : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x := hpos hx
     simp only [Set.mem_preimage, Set.mem_Ico, Set.mem_setOf_eq]
     rw [Real.log_nonneg_iff h0, Real.log_lt_iff_lt_exp h0]
   rw [hset] at h1
-  have h2 : ∫⁻ u, F (Real.exp u) ∂ν = ∫⁻ g in D, F (detNorm E j g) ∂(haarGL E j) := by
+  have h2 : ∫⁻ u, F (Real.exp u) ∂ν = ∫⁻ g in D, F (_root_.GlobalTheory.FlagMeas.detNorm E j g) ∂(haarGL E j) := by
     rw [hν, lintegral_map hFe hl]
     refine setLIntegral_congr_fun hD fun x hx => ?_
     simp only [Real.exp_log (hpos hx)]
   rw [← h2, h1, lintegral_exp]
 
-theorem covol_withDensity_detNorm : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ (j : ℕ), 1 ≤ j → ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ → ∀ F : ℝ → ENNReal, Measurable F → covol (autGL E j Λ) ((haarGL E j).withDensity fun x => F (detNorm E j x)) {x | 0 < detNorm E j x} = covol (autGL E j Λ) (haarGL E j) {x | 1 ≤ detNorm E j x ∧ detNorm E j x < Real.exp 1} * ∫⁻ t in Set.Ioi (0 : ℝ), F t / ENNReal.ofReal t := by
+theorem covol_withDensity_detNorm : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ (j : ℕ), 1 ≤ j → ∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsFullLattice E Λ → ∀ F : ℝ → ENNReal, Measurable F → covol (autGL E j Λ) ((haarGL E j).withDensity fun x => F (_root_.GlobalTheory.FlagMeas.detNorm E j x)) {x | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x} = covol (autGL E j Λ) (haarGL E j) {x | 1 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j x ∧ _root_.GlobalTheory.FlagMeas.detNorm E j x < Real.exp 1} * ∫⁻ t in Set.Ioi (0 : ℝ), F t / ENNReal.ofReal t := by
   intro E _ _ hE j hj Λ hΛ F hF
   obtain ⟨D, hD, hpos, -, hsc, hcov⟩ :=
     GlobalTheory.T.exists_scalarStable_latticeAutomorphismFundamentalDomain E hE j Λ hΛ
   have hm := measurable_detNorm E j
-  have hP : MeasurableSet {g : MatInf E j | 0 < detNorm E j g} := measurableSet_lt measurable_const hm
-  have hS : MeasurableSet {x : MatInf E j | 1 ≤ detNorm E j x ∧ detNorm E j x < Real.exp 1} :=
+  have hP : MeasurableSet {g : MatInf E j | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} := measurableSet_lt measurable_const hm
+  have hS : MeasurableSet {x : MatInf E j | 1 ≤ _root_.GlobalTheory.FlagMeas.detNorm E j x ∧ _root_.GlobalTheory.FlagMeas.detNorm E j x < Real.exp 1} :=
     (measurableSet_le measurable_const hm).inter (measurableSet_lt hm measurable_const)
-  have hinv : ∀ γ ∈ autGL E j Λ, ∀ g, detNorm E j (γ * g) = detNorm E j g := fun γ hγ g => by
+  have hinv : ∀ γ ∈ autGL E j Λ, ∀ g, _root_.GlobalTheory.FlagMeas.detNorm E j (γ * g) = _root_.GlobalTheory.FlagMeas.detNorm E j g := fun γ hγ g => by
     rw [detNorm_mul, detNorm_aut E j hE Λ hΛ hγ, one_mul]
-  have h1 := hcov (fun x => F (detNorm E j x)) _ ((hF.comp hm).indicator hP)
+  have h1 := hcov (fun x => F (_root_.GlobalTheory.FlagMeas.detNorm E j x)) _ ((hF.comp hm).indicator hP)
     (fun γ hγ g _ => by simp only [hinv γ hγ g]) hP subset_rfl
     (fun γ hγ g hg => by simpa only [Set.mem_setOf_eq, hinv γ hγ g] using hg)
   have h2 := hcov (fun _ => 1) _ (measurable_const.indicator hP) (fun _ _ _ _ => rfl) hS

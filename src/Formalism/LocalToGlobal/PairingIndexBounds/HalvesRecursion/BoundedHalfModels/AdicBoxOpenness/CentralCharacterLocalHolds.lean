@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.PairingIndexBounds.HalvesRecursion.BoundedHalfModels.EqOffBound
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.PLinkThU
-public import Formalism.LocalToGlobal.GlobalTheory.GL3.PHfGen
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

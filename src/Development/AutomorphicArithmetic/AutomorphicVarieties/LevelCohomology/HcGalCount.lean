@@ -1,19 +1,17 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDefs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
 public import Mathlib.RingTheory.AdicCompletion.Noetherian
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.FiniteCompactlySupportedH1
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDecZhat
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcFrameOb
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcGalIdx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcGalTail
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcGlobEuler
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcLocEuler
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUrAbs
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcUrIndex
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,15 +52,19 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
 
 @[expose] public section
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Module UpperTheory.V UpperTheory.V.X
 
+local instance (Ω : Type) [Field Ω] [Algebra ℚ Ω] : Module.IsTorsionFree ℚ Ω :=
+  _root_.DivisionSemiring.to_moduleIsTorsionFree
+
 theorem UpperTheory.V.X.galCount :
     HcPublished → ∀ (Ω : Type) [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] (l : ℕ) [Fact l.Prime] {SP : Set (HeightOneSpectrum (𝓞 ℚ))} {T Q : Finset ℕ} (v0 : T) {pl : ℕ → ValuationSubring Ω} {K : Subgroup (G ℚ Ω)}, GalData l SP T Q pl K → ∀ (k : Type) [Field k] [Finite k] [CharP k l] (M : Type) [AddCommGroup M] [Module k M] [Module.Finite k M] (ρ : Representation k (GS Ω SP) M), (∀ m, IsLocallyConstant fun g => ρ g m) → (∀ q ∈ Q, ∀ g ∈ Ine (F := ℚ) (pl q), g ∈ K → ρ (toGS Ω SP g) = 1) → ∀ σ : G ℚ Ω, IsCC σ → Module.Finite k ((galFrame SP T Q v0 pl K).Ob ρ) ∧ Module.Finite k ((galFrame SP T Q v0 pl K).H1c ρ) ∧ finrank k ((galFrame SP T Q v0 pl K).Ob ρ) = finrank k ((galFrame SP T Q v0 pl K).H1c ρ) + finrank k (LinearMap.ker (ρ (toGS Ω SP σ) - 1)) + finrank k (Loc.H0dual (cycK Ω l k) (ρ.comp (toGS Ω SP))) := by
   intro P Ω _ _ _ l _ SP T Q v0 pl K hD k _ _ _ M _ _ _ ρ hlc hN σ hσ
+  letI : Nonempty ↥T := ⟨v0⟩
   letI : TopologicalSpace M := ⊥
   haveI : DiscreteTopology M := ⟨rfl⟩
   haveI : Finite M := Module.finite_of_finite k

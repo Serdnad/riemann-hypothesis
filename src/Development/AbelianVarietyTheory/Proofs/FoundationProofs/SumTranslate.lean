@@ -1,16 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsZetaSystemFixedExponent
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AdmissibleNewformZetaData
-public import Development.AbelianVarietyTheory.Definitions.Foundations.AdmissibleHodgeTateZetaClassParams
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsLamFR2
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ChiProj
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle021
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormLPowLe
-public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.ZetaUr
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HtCoLSum
+public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.Bundle002
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle365
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.KumValSubMem
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PieceTUnitSetMuModelSmoothedSb
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ShCocQuotCoord
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle159
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle087
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UntwistedRepresentationOrdinaryTriangularShape
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

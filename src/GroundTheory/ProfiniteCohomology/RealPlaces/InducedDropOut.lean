@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RealPlaces.InducedDefs
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle001
 import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.Pairing
 import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 import Mathlib.Algebra.Order.Floor.Extended

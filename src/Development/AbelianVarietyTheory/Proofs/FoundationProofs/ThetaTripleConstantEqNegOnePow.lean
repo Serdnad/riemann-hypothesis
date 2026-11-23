@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HESmulRight
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinsumNormNeg
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTripleConstantEqCocycleSum
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle268
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

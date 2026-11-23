@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.DensityNumericalFacts
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.NumBase
-public import Formalism.PolynomialDimension.DigitClassCount
+public import Formalism.PolynomialDimension.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.DensAbs
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FourDepthLtConductorOfBounds
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.ThresholdFinalFacts
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.PolynomialDimension.WeylDim
+import Formalism.PolynomialDimension.Bundle001
 
 @[expose] public section
 

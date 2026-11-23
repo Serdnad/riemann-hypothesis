@@ -2,8 +2,8 @@ module
 
 public import Formalism.PieriBlockIdeals.LatticeInclusionRealSettingAlt
 public import Formalism.LocalToGlobal.Divisibility.RowLat
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CharAbove
-public import Formalism.PieriBlockIdeals.LocalFaithfullyFlat
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+public import Formalism.PieriBlockIdeals.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,12 +3,11 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.FiniteOrderCongruences.ExistsSplittingAuxiliaryCharacterForTower
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.RatTorsionFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.LevelIso
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IntegralityOfNormCoefficients
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SymmetricCubeLineExists
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SymmetricCubeRootMem
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle065
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle064
 import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ScNorm
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CoefSup
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.FinCoef
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.RibetLat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,7 +63,7 @@ namespace ModEx4
 
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [Fact l.Prime]
 
-structure RibetLatticeEisensteinRep (Φ φ θ : G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (g0 : G ℚ Ω) (ρ : G ℚ Ω →* GL (Fin 2) (Qbar l))
+structure RibetLatticeEisensteinRep (Φ φ θ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (g0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (ρ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l))
     (x : ValuationSubring Ω → Qbar l) : Prop where
   cont : Continuous ρ
   red : ∀ g, ‖ρ g 0 0 - Φ g‖ < 1 ∧ ‖ρ g 1 1 - 1‖ < 1 ∧ ‖ρ g 0 1‖ < 1 ∧ ‖ρ g 1 0‖ ≤ 1
@@ -74,7 +73,7 @@ structure RibetLatticeEisensteinRep (Φ φ θ : G ℚ Ω →* (Qbar l)ˣ) (k : �
   away : ∀ A : ValuationSubring Ω, ¬ A.valuation (l : Ω) < 1 → ∀ g ∈ Ine (F := ℚ) A, φ g = 1 → θ g = 1 → ρ g = 1
   int : ∀ A, ‖x A‖ ≤ 1
   mem : ∀ E : IntermediateField ℚ_[l] (Qbar l), (∀ g i j, ρ g i j ∈ E) → ∀ A, x A ∈ E
-  flag : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ s ∈ Dec (F := ℚ) A,
+  flag : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ s ∈ _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A,
     ρ s 1 0 + ρ s 1 1 * x A = (ρ s 0 0 + ρ s 0 1 * x A) * x A
   ine : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∀ s ∈ Ine (F := ℚ) A,
     ρ s 0 0 + ρ s 0 1 * x A = (cycBar ℚ Ω l s ^ (k - 1) : (Qbar l)ˣ) ∧ ρ s 1 1 - x A * ρ s 0 1 = 1
@@ -104,13 +103,13 @@ private theorem norm_unit {c : Coef l} (a : c.Oˣ) : ‖((a : c.O) : PadicAlgCl 
   refine le_antisymm (UpperTheory.V.Fr.sc_norm l c _).1 (not_lt.1 fun h => ?_)
   exact (mem_maximalIdeal _).1 ((UpperTheory.V.Fr.sc_norm l c _).2.2 h) a.isUnit
 
-theorem exists_ribetLattice_of_eisensteinRep (ι : Qbar l ≃+* ℂ) (φ θ Φ : G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (hk : 1 ≤ k)
-    (hΦ : Φ = cycBar ℚ Ω l ^ (k - 1) * φ) (ρ : G ℚ Ω →* GL (Fin 2) (Qbar l)) (hρ : EisRep ι φ θ k ρ)
+theorem exists_ribetLattice_of_eisensteinRep (ι : Qbar l ≃+* ℂ) (φ θ Φ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ) (k : ℕ) (hk : 1 ≤ k)
+    (hΦ : Φ = cycBar ℚ Ω l ^ (k - 1) * φ) (ρ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) (hρ : EisRep ι φ θ k ρ)
     (hΦn : ∀ g, ‖(Φ g : Qbar l)‖ = 1)
-    (hloc : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∃ s ∈ Dec (F := ℚ) A, ¬ Cong (Φ s) 1)
-    (g0 : G ℚ Ω) (hg0 : ¬ Cong (Φ g0) 1) : ∃ ρ' x, RepIso ρ ρ' ∧ RibetLatticeEisensteinRep Φ φ θ k g0 ρ' x := by
+    (hloc : ∀ A : ValuationSubring Ω, A.valuation (l : Ω) < 1 → ∃ s ∈ _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A, ¬ Cong (Φ s) 1)
+    (g0 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) (hg0 : ¬ Cong (Φ g0) 1) : ∃ ρ' x, RepIso ρ ρ' ∧ RibetLatticeEisensteinRep Φ φ θ k g0 ρ' x := by
   have hres : ResSum ρ ![1, Φ] := by rw [hΦ]; exact hρ.res
-  obtain ⟨ρ₁, i1, d01, d10, r1, s₀, hs₀⟩ := UpperTheory.V.Sd.ribetLat l (G ℚ Ω) ρ 1 Φ hρ.cont hρ.irr
+  obtain ⟨ρ₁, i1, d01, d10, r1, s₀, hs₀⟩ := UpperTheory.V.Sd.ribetLat l (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) ρ 1 Φ hρ.cont hρ.irr
     (fun s => ⟨by simp, hΦn s⟩) hres g0
     (fun h => hg0 (by unfold Cong at h ⊢; rw [norm_sub_rev]; exact h))
   obtain ⟨σ, i2, hσ⟩ := swap_basis ρ₁
@@ -123,12 +122,12 @@ theorem exists_ribetLattice_of_eisensteinRep (ι : Qbar l ≃+* ℂ) (φ θ Φ :
     rw [a, b, c, d]
     exact ⟨(r1 g).2.1, (r1 g).1, (r1 g).2.2.1, (r1 g).2.2.2⟩
   have hx : ∀ A : ValuationSubring Ω, ∃ x : Qbar l, ‖x‖ ≤ 1 ∧ (¬ A.valuation (l : Ω) < 1 → x = 0) ∧
-      (A.valuation (l : Ω) < 1 → (∀ s ∈ Dec (F := ℚ) A, σ s 1 0 + σ s 1 1 * x = (σ s 0 0 + σ s 0 1 * x) * x) ∧
+      (A.valuation (l : Ω) < 1 → (∀ s ∈ _root_.ReciprocityTheory.Gal.Dec (F := ℚ) A, σ s 1 0 + σ s 1 1 * x = (σ s 0 0 + σ s 0 1 * x) * x) ∧
         ∀ s ∈ Ine (F := ℚ) A, σ s 0 0 + σ s 0 1 * x = (cycBar ℚ Ω l s ^ (k - 1) : (Qbar l)ˣ) ∧ σ s 1 1 - x * σ s 0 1 = 1) := by
     intro A
     by_cases hA : A.valuation (l : Ω) < 1
     · obtain ⟨κ, k1, k2, k3⟩ := hρ.above A hA
-      obtain ⟨x, x1, x2⟩ := UpperTheory.symmetric_cube_line_exists l (G ℚ Ω) (Dec (F := ℚ) A) σ Φ κ (fun g => ⟨(red g).2.1, (red g).2.2.2⟩)
+      obtain ⟨x, x1, x2⟩ := UpperTheory.symmetric_cube_line_exists l (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) (_root_.ReciprocityTheory.Gal.Dec (F := ℚ) A) σ Φ κ (fun g => ⟨(red g).2.1, (red g).2.2.2⟩)
         (k1.of_iso iso) (fun s => by rw [hΦ]; exact k3 0 s) (hloc A hA)
       refine ⟨x, x1, fun h => absurd hA h, fun _ => ⟨fun s hs => ?_, fun s hs => ?_⟩⟩
       · obtain ⟨a, b, -⟩ := x2 ⟨s, hs⟩
@@ -186,7 +185,7 @@ open ModEx4 in
 theorem modEx4 : ModEx4 := by
   intro Ω _ _ _ l _ ι c D pr θ k hk ρ hρ hloc g0 hg0 c₀
   haveI : IsGalois ℚ Ω := IsAlgClosure.isGalois ℚ Ω
-  haveI : CompactSpace (G ℚ Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[ℚ] Ω))
+  haveI : CompactSpace (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[ℚ] Ω))
   have hT : ∀ g, ((toB (Phi D pr k) g : (Qbar l)ˣ) : Qbar l) =
       ((cycBar ℚ Ω l ^ (k - 1) * toB (phi D pr)) g : (Qbar l)ˣ) := fun g => by
     change (((Phi D pr k g : c.Oˣ) : c.O) : PadicAlgCl l) = _
@@ -201,7 +200,7 @@ theorem modEx4 : ModEx4 := by
       obtain ⟨s, hs, hn⟩ := hloc A hA
       exact ⟨s, hs, fun h => hn ((cong_iff _).1 h)⟩)
     g0 (fun h => hg0 ((cong_iff _).1 h))
-  obtain ⟨E, hE, hmem⟩ := UpperTheory.V.Sd.finCoef l (G ℚ Ω) 2 ρ' hB.cont
+  obtain ⟨E, hE, hmem⟩ := UpperTheory.V.Sd.finCoef l (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) 2 ρ' hB.cont
   obtain ⟨hC1, hC2⟩ := UpperTheory.integrality_of_norm_coefficients l
   obtain ⟨c', hcc', hc0⟩ := (UpperTheory.V.HV.coefSup l).1 c c₀
   obtain ⟨c₁, h', hc₁⟩ := hC1 c' E hE
@@ -223,7 +222,7 @@ theorem modEx4 : ModEx4 := by
       rw [e]
       exact (IsUltrametricDist.norm_add_le_max _ _).trans (max_le h1.le norm_one.le)
   have hO : ∀ g i j, ρ' g i j ∈ c₁.O := fun g i j => hc₁ _ (hmem g i j) (hint g i j)
-  let ρ₁ : G ℚ Ω →* M2 c₁.O :=
+  let ρ₁ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* M2 c₁.O :=
     { toFun := fun g => Matrix.of fun i j => ⟨ρ' g i j, hO g i j⟩
       map_one' := by
         ext i j

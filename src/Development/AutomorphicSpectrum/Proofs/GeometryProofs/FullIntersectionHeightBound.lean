@@ -2,13 +2,13 @@ module
 
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.NefRR
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithmeticDegreePositiveHermStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.StrictWeightGrowthBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WeightThresholdLimitCoefficientsStatement
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMetricMaxComparison
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefOnGenericOfSemipos
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle302
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle303
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle103
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

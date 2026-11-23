@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraic
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle009
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.KodairaNeron
 public import GroundTheory.GlobalFields.ComplexMultiplication.JInvariantSurjective
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,7 +2,7 @@ module
 
 public import Mathlib.RingTheory.AlgebraicIndependent.Basic
 public import Mathlib.RingTheory.Ideal.Height
-public import GroundTheory.ArithmeticGeometry.ToricVarieties.Dimension
+public import GroundTheory.ArithmeticGeometry.ToricVarieties.Bundle001
 public import Mathlib.Algebra.MvPolynomial.NoZeroDivisors
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvalBasePtTopMinors
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BigMatConjTransposeMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ColSubEqDetCharSmulOfMemInv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockDetCharInvariantsLeSpanProdMaximalMinors
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle809
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle810
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle898
 import Formalism.LocalRingCardinality.DataHost
 import Formalism.LocalToGlobal.Columns.PolyFn
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,10 +63,10 @@ public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPa
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsMatchOver
 import Formalism.LocalRingCardinality.DataTheta
 import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.RealCubicMeans.LeafBounds.IntegralLeaf.LeafINTFree
-import Formalism.LocalToGlobal.IndefiniteReal.IndefiniteWeightData
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 
 @[expose] public section

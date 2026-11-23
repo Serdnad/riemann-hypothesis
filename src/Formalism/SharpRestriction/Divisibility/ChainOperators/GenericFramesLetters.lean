@@ -2,7 +2,7 @@ module
 
 public import Formalism.PeriodIntegrals.NablaSpans.ExpansionCoeffValuationGe
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GenFrameSB
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle011
 public import Formalism.SharpRestriction.Divisibility.ChainOperators.WeightFramesOfSubgroupFrames
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

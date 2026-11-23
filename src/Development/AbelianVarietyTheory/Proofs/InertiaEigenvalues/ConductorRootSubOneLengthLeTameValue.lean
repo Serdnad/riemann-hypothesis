@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.CommutingEndomorphismCondition
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemZpowersOfTameGen
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle423
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
 import Formalism.SharpRestriction.LevelLetterCocycles.CommutingEndomorphismPreservesInvariants
 public import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
-public import Formalism.SharpRestriction.LevelLetterCocycles.VKEqOfFrac
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

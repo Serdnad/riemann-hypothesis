@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HeckeLEntireAndNonzeroAtOne
-public import Development.WeilBound.ThetaLifts.LatticeBasics.PairsStable
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryMatrixEqProdQuasiReflectionsStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.Bundle002
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle041
 public import Development.WeilBound.CoreStatements.AbelianHeightsDuality.UnitaryDensity.Cayley
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ConstIdele
-public import Development.WeilBound.ThetaLifts.LatticeBasics.ConstOfGood
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle005
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle009
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.UniqPlugPl
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ContinuousInfiniteAdeleMap
 
 @[expose] public section

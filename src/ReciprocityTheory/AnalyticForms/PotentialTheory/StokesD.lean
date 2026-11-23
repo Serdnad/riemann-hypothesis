@@ -49,11 +49,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffAtOfIsPotential
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle003
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.PotentialContDiffAt
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle006
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesA
-public import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesB
+public import ReciprocityTheory.AnalyticForms.PotentialTheory.Bundle001
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.StokesC
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Analysis.Calculus.ContDiff.Basic

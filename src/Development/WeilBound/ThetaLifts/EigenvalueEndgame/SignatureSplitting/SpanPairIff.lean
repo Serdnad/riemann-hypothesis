@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.Emb2DiaMulVecIncVY
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.AeFacts
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicGroupTopology
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1387
 import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.StabClosed
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.StageSub

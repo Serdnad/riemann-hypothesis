@@ -1,17 +1,17 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFree
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
-public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIsNab
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ShortValTotOfPinned
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LevelMapsClosed
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CuspFormsVanishingOffFramesLeSpanShortThetaStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ShortThetaSeriesDominantWeightIsCuspFormStatement
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsDeltaDatumHigherLevel
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsEquivariantFunOnSpanningFamilies
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle128
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle066
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle096
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedModuliAlgebraicLawsChartWeightIntegrality
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointReducedFromTestRing
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.DatEqZero
+import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle002
 
 @[expose] public section
 

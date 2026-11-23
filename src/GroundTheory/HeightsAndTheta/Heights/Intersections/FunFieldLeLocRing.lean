@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsTerFurther
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.LocRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotIsUnitOfNumMem
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.NotMemOfNonZeroDivisor
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PHorizNotMem
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PLocRingFrac
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle032
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

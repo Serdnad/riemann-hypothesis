@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.EllipticConstant
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle002
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.KodairaNeron
-public import GroundTheory.GlobalFields.ComplexMultiplication.UniformizationGroup
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle004
 public import GroundTheory.GlobalFields.ComplexMultiplication.ClassGroupActionIso
 public import GroundTheory.GlobalFields.ComplexMultiplication.JInvariantHomothety
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,15 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DegVand
-public import Formalism.LocalRingCardinality.DataTies
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AmplitudeSizeConsequencesOfWordIndependentHypsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselDoubleCosetMeasureBigCellEqStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselModelSchurOfFormalDegreeDensityStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniqueHaarDensityAtIdentityStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsHaarOnBesselSubgroupProdMapStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LintegralHilbertSchmidtNormSqBesselAmplitudeLeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalDataBothAmplitudeSidesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableHsNormSqAmplitudeBesselUnitaryStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Formalism.LocalRingCardinality.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle205
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle422
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle394
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle302
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle274
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle418
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle147
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryQuotientCompactness.MaximalCompactIsCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.BlockAnti
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
 
 @[expose] public section
 
@@ -329,6 +328,6 @@ theorem schurSt_of_big_tie : ∀ Cg cb Cu cT CT C0 C1 : ℝ, ∃ C₀ : ℝ, ∀
   rw [hE, hk', hX2, hr, SchurBound.dp_dq_div_eq_mul_div _ _ _ _ _ _ _ _ _ _ _ _ _ hc0 hVn (volUn_pos _) (volUn_pos _) hdeg hTw hTw' hθ0
     hX hP (by positivity)]
   refine mul_le_mul_of_nonneg_left ?_ (mul_nonneg hP.le (by positivity))
-  exact factor_le _ _ _ _ _ _ _ _ _ (by linarith) hm1 hTw hTw' hθ0 (hTr w) (hTr w') hθw.2 hC
+  exact _root_.GlobalTheory.Amp.SchurBound.factor_le _ _ _ _ _ _ _ _ _ (by linarith) hm1 hTw hTw' hθ0 (hTr w) (hTr w') hθw.2 hC
 
 end GlobalTheory.Amp

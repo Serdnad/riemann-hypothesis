@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.KftwoDefs
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.KftwoHostA
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
 import Mathlib.Algebra.Order.Floor.Extended

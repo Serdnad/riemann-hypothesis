@@ -1,19 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAutLoc
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.HeckeStdTwOfStd
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.TwoPowS0EqTwoPartModulus
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.TwistedCharacterValue
-public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsRowLoc
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle001
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle004
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
+public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocAutHodgeTateWeightsLevelZeroDef
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CGTrue
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ConcreteTwistFrameExtraExcludedOverSmallPrimes
-public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsFinTyp
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.XiNeZeroOfIsStdGeneric
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.RingSpecSidedEmbeddingFixedField
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle017
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Formalism.LocalToGlobal.UnitaryNorms.CharGal
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +50,7 @@ noncomputable section
 
 namespace GlobalTheory.HeightCounting
 
-open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut Formalism.AUTREP Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField
+open Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.N Formalism.ConjugateSelfDual ReciprocityTheory.Gal ReciprocityTheory.Aut Formalism.AUTREP _root_.Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX NumberField
   IsDedekindDomain Polynomial
 open scoped TensorProduct
 

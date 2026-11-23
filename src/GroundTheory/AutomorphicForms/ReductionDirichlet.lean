@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.AutomorphicForms.ReductionHeight
-public import GroundTheory.GlobalFields.Adele.IntegersLattice
+public import GroundTheory.GlobalFields.Adele.Bundle001
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureNormOne
-import GroundTheory.GlobalFields.Adele.Discrete
+import GroundTheory.GlobalFields.Adele.Bundle003
 public import GroundTheory.GlobalFields.IdeleGroups.LocalConditionIndex
 public import GroundTheory.GlobalFields.IdeleGroups.NormOneCompact
 import Mathlib.Algebra.Order.Floor.Extended

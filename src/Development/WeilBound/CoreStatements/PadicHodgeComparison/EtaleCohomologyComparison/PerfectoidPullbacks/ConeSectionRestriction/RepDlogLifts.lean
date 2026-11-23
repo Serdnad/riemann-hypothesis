@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.CechDefs
 public import Mathlib.RingTheory.Derivation.Basic
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCupListRepresentativeStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TorusJacobianDetStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle197
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

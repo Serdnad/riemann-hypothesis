@@ -1,19 +1,19 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ValueDoubleExact
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeCompletionSelfAnnihilatorAtPlaces
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle148
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemRangeOfOneTmulMem
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OneEqSumPlaceIdempotentsOverTwoAddTwoMul
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselToJacobiFlatMapVacuumAtGoodPlace
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EventuallyIncAMulMemIntAt
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeIndicatorOnSplitHalfEqHalfIndicator
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaDecompositionSelfDualWittSplitAtPlaceStatement
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle063
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle146
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle320
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle329
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlaceIdempotentActsOnSupportedAndOff
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualLatticeStabilizersFixWeilVacuumOnPlaceSeStatement
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle143
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle490
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittCoreEmbeddingPreservesSupportedUnitarySubgro
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle147
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -649,7 +649,7 @@ theorem supportShift : ∀ D : D7, GlobalTheory.FinPl.SupportShift D := by
     rw [map_one, mul_one, he, he₀, Module.End.one_apply] at h1
     rw [hmul, hκf, h1] at hne
     obtain ⟨hK, hz⟩ := support_parts s hA h𝔉 hsh hf ht htG γ (right_ne_zero_of_smul hne)
-    refine ⟨n, hnN, hnG, γ, hγ, B.d.levi t * κ, inK_mul hK hκ, ?_, hz⟩
+    refine ⟨n, hnN, hnG, γ, hγ, B.d.levi t * κ, SuppShift.inK_mul hK hκ, ?_, hz⟩
     rw [mul_assoc n (B.d.levi t), ← B.d.wittHyperbolic_anisotropic_commute_levi γ t]
     simp only [mul_assoc]
 

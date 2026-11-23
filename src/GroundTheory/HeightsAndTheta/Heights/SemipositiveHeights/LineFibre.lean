@@ -1,8 +1,8 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.ContractMixedFieldStatement
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsHomogeneousOfIsMultiHomogOne
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PLinearQuotient
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

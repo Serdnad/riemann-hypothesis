@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinLatticeExponentsAinfComparisonStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TeichmullerSubOneAinfPropertiesCompatibleRootsStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle735
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle706
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -203,8 +203,8 @@ theorem actB_jB_of_mem_L {ι : Type} [Fintype ι] [DecidableEq ι] {P : PhiMod O
     {γ : TameGal K l e a} (hc : Covers K t ϖ (sQ l g) γ) {v v' : Vec K a ι} (hv : v ∈ P.L) (hv' : v' ∈ P.L)
     (hvv : v' = Δ.act γ v) (hS : v ∈ P.MMl) (hS' : v' ∈ P.MMl) :
     actB (sQ l) T g (jB (toBcris t ϖ P ⟨v, hS⟩)) = jB (toBcris t ϖ P ⟨v', hS'⟩) := by
-  set c : ι → OA l O := fun i => ϖ.iTot t K (coordL P _ ⟨v, hv⟩ i) with hc_def
-  set c' : ι → OA l O := fun i => ϖ.iTot t K (coordL P _ ⟨v', hv'⟩ i) with hc'_def
+  set c : ι → OA l O := fun i => ϖ.iTot t K (coordL P (A O K) ⟨v, hv⟩ i) with hc_def
+  set c' : ι → OA l O := fun i => ϖ.iTot t K (coordL P (A O K) ⟨v', hv'⟩ i) with hc'_def
   have hW : toW t ϖ P ⟨v, mem_ME_of_mem_L hv⟩ = inclL t ϖ P c :=
     (toW_toCris_of_mem_L t ϖ P hv (P.ext_mono (A_le_S l e) hv)).1
   have hW' : toW t ϖ P ⟨v', mem_ME_of_mem_L hv'⟩ = inclL t ϖ P c' :=
@@ -278,7 +278,7 @@ theorem actB_jB_toBcris {ι : Type} [Fintype ι] [DecidableEq ι] {P : PhiMod O 
     {Δ : Descent P} (hcmp : IsCrisCmp I jB) (hdesc : IsGalDesc (sQ l) I Δ) {g : Gl l}
     {γ : TameGal K l e a} (hc : Covers K t ϖ (sQ l g) γ) (σ σ' : P.MMl) (hσ : σ'.1 = Δ.act γ σ.1) :
     actB (sQ l) T g (jB (toBcris t ϖ P σ)) = jB (toBcris t ϖ P σ') := by
-  let f : ι → ZMod a → invL l (S O K e) := fun i => coordL P _ σ i
+  let f : ι → ZMod a → invL l (S O K e) := fun i => _root_.GlobalTheory.BKReal.coordL P (invL l (S O K e)) σ i
   let f' : ι → ZMod a → invL l (S O K e) := fun i τ =>
     ⟨ringAct γ (fun τ' => (f i τ' : K⟦X⟧)) τ, (rot_S.invL).ringAct_mem γ (fun τ' => (f i τ').2) τ⟩
   let w : ι → Vec K a ι := fun i => P.phi (bas i)

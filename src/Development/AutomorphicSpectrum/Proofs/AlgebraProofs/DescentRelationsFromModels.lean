@@ -1,17 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsLatticeFamily
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ChartRingsNoetherianFractionStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HodgeAnnihilatorLatticeHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeFactsOfNormalHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeFamilyInjectiveModelStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeFamilyModelChernStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeFamilyModelComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeFamilyModelFactsStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle036
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle063
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle061
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle059
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ModelOverModPLatticeEigenSplitStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ModelOverPrimePermModuleLatticeStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ModelRefinementExistsStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle088
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -204,3 +202,19 @@ theorem ckRelations_of_model : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscr
   exact descend hmod hfn hp hfam z hmod' (stage1 hmod' hfn' hp hfam' h1')
 
 end GlobalTheory.CompanionTheory.Ar.Num.CkTop
+
+end
+
+section
+
+@[expose] public section
+
+open MvPolynomial GlobalTheory.CompanionTheory.Ar.Num GroundTheory.Heights₂.Heights.NumbersDVR
+open ReciprocityTheory.ChartRestriction.G.Geo (ChartBundle chartRing)
+open GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.NumbersDVR.Bundles (mseg mcIdeal chartMon joinCoord bcCoord pullDeg restrictChart fnField ck rootNum SameGeneric LatLE IsPull IsPullBC)
+
+theorem _root_.GlobalTheory.T.lattice_family_ckRelations : ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (Ω : Type) [Field Ω] [Algebra O Ω] (K : Type) [Fintype K] [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)] (x : (Σ k, ι k) → Ω) [CharZero O] (d : ℕ), GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.NumbersDVR.Bundles.IsModelOver O (mcIdeal O x) d → fnField O x = ⊤ → ∀ {F : Type} [Zero F] [One F] [Fintype F] {n : ℕ} {Sg : Type} [Fintype Sg] {r s : Sg → ℕ} (p : ℕ), p.Prime → ∀ (w : O) (χ : Sg → F → O) (φ : Equiv.Perm Sg) (D : (∀ k, ι k) → LieLatticeData Ω F n Sg r s), IsLatticeFamily O x p w χ φ D → ∀ (Lie W : ∀ τ, ChartBundle O (mseg x) (r τ) (Fin (r τ) → Ω)) (Om OmHT : ∀ τ, ChartBundle O (mseg x) (s τ) (Fin (s τ) → Ω)), HasBundles O x D Lie W Om OmHT → CkRelations O x d p φ Lie W Om OmHT := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Num.CkTop.ckRelations_of_model | exact GlobalTheory.CompanionTheory.Ar.Num.CkTop.ckRelations_of_model | (intros; apply GlobalTheory.CompanionTheory.Ar.Num.CkTop.ckRelations_of_model <;> assumption)
+
+end
+end

@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.GL2.GJParabolicFubini
 public import GroundTheory.AutomorphicForms.GL2.GJLeviZeta
 public import GroundTheory.AutomorphicForms.InductionParabolic
 import GroundTheory.AutomorphicForms.AdmissibleInduction
-public import GroundTheory.AutomorphicForms.HaarCosets
+public import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.Measures
 import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeRangeNormUnits
 import Mathlib.Algebra.Order.Floor.Extended

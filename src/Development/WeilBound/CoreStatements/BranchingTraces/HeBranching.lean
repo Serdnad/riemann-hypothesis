@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.DSInfCharCap
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedType
+public import Formalism.PeriodIntegrals.Bundle020
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

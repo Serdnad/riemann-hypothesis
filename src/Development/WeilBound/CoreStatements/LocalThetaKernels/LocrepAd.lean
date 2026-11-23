@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.LocrepSB
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinPartIdemMulMemIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchrodingerTensorEqLocalOfSupportedAt
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle304
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1881
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaSumAdmissibility
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.WeilRepresentationThetaEquivariance
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

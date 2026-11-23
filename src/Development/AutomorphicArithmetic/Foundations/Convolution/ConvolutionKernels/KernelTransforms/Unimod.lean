@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Smoothing
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.AutomorphicForms.L2LocalComponents.ArchHaar
-public import GroundTheory.AutomorphicForms.MultiplicityOne.FiniteAdelicHaar
-public import GroundTheory.AutomorphicForms.TraceFormulaWeil
+public import GroundTheory.AutomorphicForms.MultiplicityOne.Bundle001
+public import GroundTheory.AutomorphicForms.Bundle007
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

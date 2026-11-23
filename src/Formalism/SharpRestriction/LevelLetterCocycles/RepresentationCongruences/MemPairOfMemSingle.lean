@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.QuotientDistinguishedTorsionFree
+public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.Bundle004
 import Mathlib.Data.Nat.Totient
 import Mathlib.Data.Rat.Floor
 public import Mathlib.RingTheory.LocalRing.ResidueField.Basic

@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormDwLeSobNorm
 public import Mathlib.Analysis.CStarAlgebra.lpSpace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CasselmanWallachExtensionBanachTargetStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAveragedOperatorMappingToKFiniteStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsInnerApprox
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsKFinDRep
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle266
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle320
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle223
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle222
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

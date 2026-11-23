@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.StatementPl
+public import Formalism.HarderNarasimhan.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DegSupermodZ

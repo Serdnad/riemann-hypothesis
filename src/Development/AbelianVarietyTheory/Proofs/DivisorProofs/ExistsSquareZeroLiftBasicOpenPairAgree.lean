@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCombIn
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle241
 public import Mathlib.AlgebraicGeometry.Morphisms.Smooth
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSqZeroExtendLocalizationAwayPowStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAffineCombinationInChartSpecMapComp
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PreimageEqOfSquareZeroThickeningStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle311
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle324
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

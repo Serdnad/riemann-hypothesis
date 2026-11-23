@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasSignatureDiagonalSgn
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NegOneNormFromCmFieldFiniteAdelesStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle255
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle283
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNoetherianModelOfDivisorOfConstants
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PointAtZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RingHomExtTensorAlt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle352
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle144
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

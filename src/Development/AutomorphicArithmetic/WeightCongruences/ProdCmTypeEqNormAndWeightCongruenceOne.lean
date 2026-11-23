@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.DataHost
-public import Development.AutomorphicArithmetic.WeightCongruences.ProdNegOneZpow
+public import Development.AutomorphicArithmetic.WeightCongruences.Bundle001
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

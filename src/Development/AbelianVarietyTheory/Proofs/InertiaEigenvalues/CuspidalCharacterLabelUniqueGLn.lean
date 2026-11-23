@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardLeCardMulCardSupport
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardProperSubfieldElementsLt
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIrreducibleCharpolyMemRootsBar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle128
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle113
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

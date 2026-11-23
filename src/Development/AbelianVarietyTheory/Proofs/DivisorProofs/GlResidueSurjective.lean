@@ -3,20 +3,19 @@ module
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMixModelB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareStanding
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1780
 import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GoodIdempotentBadPlaces
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CardResidueFieldOfRingEquivAdicCompletion
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemBlockUpperTriangularTwoIffLowerLeftZero
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.RealQuotientVolumeGrowthOfScalarHypotheses
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TwistedLevelRelIndexEqProdParabolicIndices
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaGridBlockCongruenceOffTypePrimeDescription
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle074
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle515
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle320
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PostOnGaLMemGoodPart
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridVertexMeasureEqOfSameNormalisation
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersRamificationLevelPlaces
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle379
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle481
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle188
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ParahoricLevelLiftsExist
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RelIndexMulMatrixVolumeOpenSubgroupIntegralGL
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle082
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsMatchOver
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2003
 import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
 
 @[expose] public section
@@ -85,6 +84,8 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 theorem vol_mul_relIndex [MeasurableSpace k] [BorelSpace k] {n : Type} [Fintype n] [DecidableEq n] (J : Subgroup (GL n k))
     (ho : IsOpen (J : Set (GL n k))) (hle : J ≤ KO k n) :
     (haarVol (KO k n)).real (J.map invT : Subgroup _) * (J.relIndex (KO k n) : ℝ) = 1 := by
+  letI : BorelSpace (GL n k) := GlobalTheory.SplitFlip.borel_GL
+  letI : MeasurableMul (GL n k) := ContinuousMul.measurableMul
   obtain ⟨ho', hle'⟩ := isOpen_map_invT ho hle
   have hK : (KO k n).map invT = KO k n := by
     refine le_antisymm ?_ fun g hg => ⟨invT g, invT_mem_KO hg, GlobalTheory.SplitFlip.invT_invT g⟩
@@ -99,10 +100,15 @@ theorem vol_mul_relIndex [MeasurableSpace k] [BorelSpace k] {n : Type} [Fintype 
     ho'.preimage continuous_subtype_val
   haveI : Finite (KO k n ⧸ (J.map invT).subgroupOf (KO k n)) := Subgroup.quotient_finite_of_isOpen _ ho2
   haveI : ((J.map invT).subgroupOf (KO k n)).FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
-  have h := GlobalTheory.IndexVolume.relIndex_mul_measure_subgroup _ (KO k n) hle' ho'.measurableSet (haarVol (KO k n))
-  rw [haarVol_self GlobalTheory.SplitFlip.isOpen_KO le_rfl, hi] at h
-  have h2 := congrArg ENNReal.toReal h
-  rw [ENNReal.toReal_mul, ENNReal.toReal_natCast, ENNReal.toReal_one, mul_comm] at h2
+  let μ := GlobalTheory.SplitFlip.haarVol (KO k n)
+  have hInv : μ.IsMulLeftInvariant :=
+    (GlobalTheory.SplitFlip.isHaarMeasure_haarVol_KO (k := k) (n := n)).toIsMulLeftInvariant
+  have hμ : μ (KO k n) = 1 :=
+    GlobalTheory.SplitFlip.haarVol_self (J := KO k n) GlobalTheory.SplitFlip.isOpen_KO le_rfl
+  have h := @GlobalTheory.IndexVolume.relIndex_mul_measure_subgroup (GL n k) _ _ _ _
+    (KO k n) hle' _ ho'.measurableSet μ hInv
+  have h2 := congrArg ENNReal.toReal (h.trans hμ)
+  rw [hi, ENNReal.toReal_mul, ENNReal.toReal_natCast, ENNReal.toReal_one, mul_comm] at h2
   exact h2
 
 theorem gl_residue_surjective (O : Type) [CommRing O] [IsLocalRing O] (n : ℕ) :

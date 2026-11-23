@@ -1,13 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WtRInjective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MonomialCoefficientComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProdPairSumsEqSumPowersetScoreStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ScoreRigidityPermEqOneStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ScoreTZeroEqLevelCountStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.VandermondeSquaresStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WeylDenominatorProductStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle492
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle088
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

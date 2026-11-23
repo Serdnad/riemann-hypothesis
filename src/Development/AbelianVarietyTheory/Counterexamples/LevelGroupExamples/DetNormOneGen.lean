@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSplitSupportedUnitaryComponent
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle140
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Mathlib.Algebra.Order.Floor.Extended

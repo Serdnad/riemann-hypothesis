@@ -1,6 +1,6 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.CJDefs
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -33,19 +33,11 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.CuspidalSupport2
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle009
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpCount
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpLat
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpLift
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpOrd
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpPiEta
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpPiSub
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpRes
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpSupp
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpTop
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpTwBasic
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle013
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.Bundle012
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PSpUniq
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.ProductIrreducible2
 import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.TensorVector
 
 @[expose] public section

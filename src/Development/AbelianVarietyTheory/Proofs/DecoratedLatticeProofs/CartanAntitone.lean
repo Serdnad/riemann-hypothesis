@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.PairwiseDisjointCell
 public import Mathlib.Data.Matrix.PEquiv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ValuationDivZpowOrd
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +47,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.VolumeFlatSection
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCoType
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BorelParam
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle003
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle073
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 
 @[expose] public section
 
@@ -118,4 +118,18 @@ theorem cartan_antitone : ∀ (k : Type) [Field k] [ValuativeRel k] [Topological
 
 end GlobalTheory.SortedCartan
 
+end
+
+end
+
+section
+
+@[expose] public section
+
+open MeasureTheory ValuativeRel Matrix GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.SmGL GlobalTheory.Doubling GlobalTheory.GLDoubling GlobalTheory.IndefiniteRowSideFullHecke.VolumeFlatSection GlobalTheory.ZonalCellDecomposition GlobalTheory.SatakeBound GlobalTheory.ParHecke
+
+theorem _root_.GlobalTheory.T.exists_antitone_cartan_decomposition : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (N : ℕ) (ϖ : kˣ), valuation k (ϖ : k) = uniformizer k → ∀ x : GL (Fin N) k, ∃ ν : Fin N → ℤ, Antitone ν ∧ ∃ κ ∈ KO k (Fin N), ∃ κ' ∈ KO k (Fin N), x = κ * GlobalTheory.GLDoubling.torusElt k (Fin N) ϖ ν * κ' := by
+  exact @GlobalTheory.SortedCartan.cartan_antitone
+
+end
 end

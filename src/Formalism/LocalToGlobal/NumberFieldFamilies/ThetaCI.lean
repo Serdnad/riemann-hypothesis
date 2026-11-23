@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCW
+public import Formalism.LocalToGlobal.NumberFieldFamilies.Bundle003
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 public import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Mathlib.Algebra.Order.Floor.Extended

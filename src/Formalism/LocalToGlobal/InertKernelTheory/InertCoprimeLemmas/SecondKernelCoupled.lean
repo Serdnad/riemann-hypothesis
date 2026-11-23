@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelCoupledLastLift
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle010
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.OrbitSumStabilizer
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.SecondKernelInstances
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle005
 import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.SecondKernelNonzeroUnit
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CoupledSumOfEntries
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.LowestInvariantLeDelta
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle023
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

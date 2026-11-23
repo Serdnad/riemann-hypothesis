@@ -1,18 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SumLieCoord
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRapidInf
-public import Development.AbelianVarietyTheory.Definitions.Divisors.MemL2OfSmoothVector
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle362
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle024
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle040
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.CuspDiscreteDecompositionGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AutomorphicFormGLContinuous
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasFDerivAtRealLieChartKernelOperatorAtOneStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralFderivRealLieChartEqSumKernelOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsBoundedContinuousCuspidalAutomorphicZeroAddSmuStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCuspidalArchimedeanKernelConvolutionOperatorStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.KernelOperatorIntegrableContinuousSmoothStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSmoothOfChartDerivativesAtIdentityStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RapidlyDecreasingKernelMulAdjointConjCoefficientStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CapCommuteRtInfGL
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle849
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle591
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle536
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle527
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle537
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle119
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.UnrOutside
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 
 @[expose] public section
 

@@ -3,9 +3,9 @@ module
 public import Formalism.SharpRestriction.Divisibility.WeightDegreeSizes
 public import Formalism.SharpRestriction.ParamsHeightRankConstant
 public import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLi
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.DIVfromGLs
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSy
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle002
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle007
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle006
 public import Formalism.SharpRestriction.Divisibility.ChainOperators.PerCol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

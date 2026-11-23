@@ -1,35 +1,35 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DropPlInsert
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle566
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle133
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddNsmulResidueAssoc
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EventuallyFinEqOne
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle065
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle072
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.NotMemSpanOfCommute
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmVacuumEqSplitFacSmulSum
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompletedHomLatticeFinitelyGenerated
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompletedHomLatticeMultipleMemOpenLevel
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1067
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1151
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalVAlgebraMapMem
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSameImagesMatrix
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsPlaceChartOfSplitIdempotent
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSplitFrameSelfDualLatticeCompletion
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsSplitSupportedUnitaryComponent
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FockVectorsChainIsVacuumOffThetaLevels
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeisenbergOperatorFixThetaDatumAwaySplitPlaces
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsLocalVacuumOfIsLatticeVacuumCoprimeLevel
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle207
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle140
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle180
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle162
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle159
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLatticeIffIntegralMatrixSplitChart
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHyperspecialIffGIntOfSuppAtSplit
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IdempotentMulAddOneSubInverse
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OmEqSumLattice
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionLiftPairStepVectorInvLevelChar
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle602
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -69,7 +69,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsDetInt
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle170
 
 @[expose] public section
 
@@ -284,7 +284,7 @@ theorem exists_coord (S T : HSp D) (he : IsSplitIdem D e) :
       ⟨γ.1ᵀ, (γ⁻¹).1ᵀ, by rw [← Matrix.transpose_mul, Units.inv_mul, Matrix.transpose_one],
         by rw [← Matrix.transpose_mul, Units.mul_inv, Matrix.transpose_one]⟩
     obtain ⟨h, hh, hρ⟩ := GlobalTheory.SplitOnto.exists_suppAt_rho_eq e v π he hπ T βT γ'
-    refine ⟨h⁻¹, suppAt_of (GlobalTheory.SplitScalar.off_smul_mt_inv hh), fun m => ?_⟩
+    refine ⟨h⁻¹, _root_.GlobalTheory.SplitLinear.suppAt_of (GlobalTheory.SplitScalar.off_smul_mt_inv hh), fun m => ?_⟩
     have e1 : (mt T h).map π * βT.1 = βT.1 * γ'.1 := by
       rw [← hρ, rho_val, Matrix.mul_assoc (βT⁻¹).1, ← Matrix.mul_assoc βT.1, Units.mul_inv, Matrix.one_mul]
     rw [AddMonoidHom.comp_apply, AddMonoidHom.comp_apply, section_act hπ q1 q2, inv_inv, one]

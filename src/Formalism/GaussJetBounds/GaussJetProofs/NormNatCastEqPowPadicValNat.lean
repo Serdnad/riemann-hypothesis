@@ -1,9 +1,9 @@
 module
 
-public import Formalism.GaussJetBounds.GenLogInverse
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormNatCastEqOneOfNotDvd
+public import Formalism.GaussJetBounds.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle016
 public import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
-public import Formalism.IncomingBounds.FlowDegreeBounds.ProdRangeEqFactorialMulProdIco
+public import Formalism.IncomingBounds.FlowDegreeBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

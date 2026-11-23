@@ -1,12 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PrincipalLattices.LogHermFormOfUnitDiscriminant
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.EllipticCurveLatticeBaseChangeStable
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.HomDerivBaseChange
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.HomDerivDescendsToNumberField
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.HomDerivativeClosure
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MultiplierIffExistsHom
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.PolFibreIdCompCancel
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle026
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

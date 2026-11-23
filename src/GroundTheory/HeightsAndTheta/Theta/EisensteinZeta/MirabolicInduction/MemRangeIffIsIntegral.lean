@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HermitianLattice
-public import GroundTheory.AutomorphicForms.HermitianDisc
+public import GroundTheory.AutomorphicForms.Bundle010
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Mathlib.Analysis.InnerProductSpace.Dual
 public import Mathlib.LinearAlgebra.Dual.BaseChange

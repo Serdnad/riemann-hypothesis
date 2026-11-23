@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatiosEqOfSameOrbit
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle464
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegrableOnSourceIffOfDensity
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RestrictChernPart
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1159
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HolomorphicLiftGivesHolomorphicSection
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -126,7 +126,7 @@ end Change
 
 section Piece
 
-open Filter Topology ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M
+open Filter _root_.Topology ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M
 
 variable {m : ℕ} {n : Fin (m + 1) → ℕ} {X : Scheme.{0}} (i : X ⟶ MP ℤ m n)
 

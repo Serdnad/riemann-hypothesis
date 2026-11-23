@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
-public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.ConeWeightsNotSecondType
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.CfBasic
-public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.SgSmul
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.SymOfMul
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PartialDerivMonomialLaplace
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -97,7 +97,7 @@ private def partialDerivMonomialLaplace (a : Fin n) (f : FR n) : FR n :=
 
 private theorem coeff_laplacian_diagonal (a : Fin n) (f : FR n) (x : Wt n) :
     cf (partialDerivMonomialLaplace a f) x = (x a : ℂ) * cf f x := by
-  simp [cf, partialDerivMonomialLaplace]
+  simp [_root_.UpperTheory.RealTr.cf, partialDerivMonomialLaplace]
 
 private def lapD (a : Fin n) : FR n →ₗ[ℂ] FR n where
   toFun := partialDerivMonomialLaplace a
@@ -115,8 +115,8 @@ private theorem lapD_single (a : Fin n) (m : Wt n) (r : ℂ) :
   refine cf_ext' fun x => ?_
   rw [cf_lapD]
   by_cases h : m = x
-  · subst h; simp [cf]
-  · simp [cf, Finsupp.single_apply, h]
+  · subst h; simp [_root_.UpperTheory.RealTr.cf]
+  · simp [_root_.UpperTheory.RealTr.cf, Finsupp.single_apply, h]
 
 private theorem lapD_ex (a : Fin n) (m : Wt n) : lapD a (ex m) = (m a : ℂ) • ex m := by
   simp [ex, lapD_single]

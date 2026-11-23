@@ -2,9 +2,9 @@ module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.LeOrdASmulOsK
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HasseJacobsonPowers.SfrMulMemJHfr
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HasseOrderBound.CompositionalInverseSymm
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.Vanish
-import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.FinitePtsOfCurve
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HasseOrderBound.Bundle001
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.Bundle003
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

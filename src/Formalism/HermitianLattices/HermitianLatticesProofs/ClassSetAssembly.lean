@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.GenusCovolBound
+public import Formalism.HermitianLattices.Bundle003
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

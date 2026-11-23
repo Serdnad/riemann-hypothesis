@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.WeilJacquetShalikaLaw
 public import Formalism.SharpRestriction.Divisibility.ProductZerothFirstParts
-public import Formalism.LocalRingCardinality.DataKerI
-public import Development.AutomorphicArithmetic.OrbitLabellings.ColDefs
+public import Formalism.LocalRingCardinality.Bundle008
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

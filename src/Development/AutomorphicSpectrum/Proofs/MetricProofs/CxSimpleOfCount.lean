@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CxSimple
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSheetLift
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProjChartSetEqSetChartSet
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.SegreChartProjObjects
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsWeightedHomogeneousOfIsMultiHomog
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PDiscriminantSheetCover
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PComponentsGenericCount
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle065
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle116
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle094
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheetB
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle008
 
 @[expose] public section
 

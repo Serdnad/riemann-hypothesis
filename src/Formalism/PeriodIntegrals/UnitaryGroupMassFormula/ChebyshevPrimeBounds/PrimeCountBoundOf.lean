@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.PrimeCount
+public import Formalism.PeriodIntegrals.Bundle002
 public import Mathlib.NumberTheory.Chebyshev
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

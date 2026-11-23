@@ -1,0 +1,364 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle057
+public import Mathlib.Algebra.Group.ForwardDiff
+public import Mathlib.RingTheory.Polynomial.HilbertPoly
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle020
+import Mathlib.Algebra.Order.Antidiag.FinsuppEquiv
+public import Mathlib.Algebra.MvPolynomial.Expand
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Rat
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle006
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle005
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle004
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.HilbertSamuel
+
+noncomputable section
+
+def SublatticeDegree.Statement : Prop :=
+  ∀ (E E' : Type) [AddCommGroup E] [AddCommGroup E'] (R R' : ℕ) (φ : E →+ EuclideanSpace ℝ (Fin R))
+    (φ' : E' →+ EuclideanSpace ℝ (Fin R')) [DiscreteTopology (imageLattice φ)] [IsZLattice ℝ (imageLattice φ)]
+    [DiscreteTopology (imageLattice φ')] [IsZLattice ℝ (imageLattice φ')] (ψ : E' →+ E) (S : Set E) (C : ℝ),
+    Function.Injective φ → Function.Injective φ' → Function.Injective ψ → (∀ x, ‖φ (ψ x)‖ ≤ ‖φ' x‖) →
+    AddSubgroup.closure S = ⊤ → (∀ s ∈ S, ‖φ s‖ ≤ C) → 1 ≤ C →
+    -Real.log (ZLattice.covolume (imageLattice φ')) ≤
+      -Real.log (ZLattice.covolume (imageLattice φ)) + R * Real.log C
+
+namespace SublatticeDegree
+
+abbrev b1 : Module.Basis (Fin 1) ℝ (EuclideanSpace ℝ (Fin 1)) := (EuclideanSpace.basisFun (Fin 1) ℝ).toBasis
+
+abbrev lat1 : Submodule ℤ (EuclideanSpace ℝ (Fin 1)) := Submodule.span ℤ (Set.range b1)
+
+abbrev φ1 : lat1 →+ EuclideanSpace ℝ (Fin 1) := lat1.subtype.toAddMonoidHom
+
+end SublatticeDegree
+
+end
+
+end GroundTheory.Heights₂.Heights.HilbertSamuel
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.HilbertSamuel
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.ArakelovGeometry Filter fwdDiff
+open scoped Pointwise
+
+noncomputable section
+
+namespace VeroneseGenDeg
+
+theorem finrank_homog (D n : ℕ) :
+    Module.finrank ℤ (homogeneousSubmodule (Fin (D + 1)) ℤ n) = (n + D).choose D := by
+  have hs : {d : Fin (D + 1) →₀ ℕ | d.degree = n} =
+      ((Finset.univ.finsuppAntidiag n : Finset (Fin (D + 1) →₀ ℕ)) : Set (Fin (D + 1) →₀ ℕ)) := by
+    ext d; simp [Finset.mem_finsuppAntidiag, Finsupp.degree_eq_sum]
+  rw [MvPolynomial.homogeneousSubmodule_eq_finsupp_supported, hs,
+    (AddMonoidAlgebra.supportedEquivFinsupp _).finrank_eq, Module.finrank_finsupp_self]
+  simp only [Finset.coe_sort_coe, Fintype.card_coe, Finset.card_finsuppAntidiag_nat_eq_choose,
+    Finset.card_univ, Fintype.card_fin]
+  rw [show D + 1 + n - 1 = n + D by omega]
+  exact Nat.choose_symm_add
+
+theorem range_alt (D : ℕ) : Set.range (Veronese.x D) = Set.range (Veronese.t D) ^ 2 := by
+  ext y
+  rw [pow_two, Set.mem_mul]
+  constructor
+  · rintro ⟨q, rfl⟩
+    exact ⟨_, ⟨_, rfl⟩, _, ⟨_, rfl⟩, rfl⟩
+  · rintro ⟨a, ⟨i, rfl⟩, b, ⟨j, rfl⟩, rfl⟩
+    rcases le_total i j with hij | hij
+    · exact ⟨⟨(), ⟨(i, j), hij⟩⟩, rfl⟩
+    · exact ⟨⟨(), ⟨(j, i), hij⟩⟩, mul_comm _ _⟩
+
+theorem aeval_t_injective (D : ℕ) :
+    Function.Injective (aeval (Veronese.t D) : MvPolynomial (Fin (D + 1)) ℤ →ₐ[ℤ] Veronese.Fld D) := by
+  have h : (aeval (Veronese.t D) : MvPolynomial (Fin (D + 1)) ℤ →ₐ[ℤ] Veronese.Fld D).toRingHom =
+      (algebraMap (MvPolynomial (Fin (D + 1)) ℚ) (Veronese.Fld D)).comp
+        (MvPolynomial.map (Int.castRingHom ℚ)) := by
+    refine MvPolynomial.ringHom_ext (fun a => ?_) (fun i => ?_)
+    · simp
+    · simp [Veronese.t]
+  have hinj : Function.Injective ((algebraMap (MvPolynomial (Fin (D + 1)) ℚ) (Veronese.Fld D)).comp
+      (MvPolynomial.map (Int.castRingHom ℚ))) :=
+    (IsFractionRing.injective (MvPolynomial (Fin (D + 1)) ℚ) (Veronese.Fld D)).comp
+      (MvPolynomial.map_injective _ (RingHom.injective_int _))
+  rw [← h] at hinj
+  exact hinj
+
+theorem finrank_sec (D n : ℕ) :
+    Module.finrank ℤ (sec ℤ (Veronese.x D) n) = (2 * n + D).choose D := by
+  have h1 : sec ℤ (Veronese.x D) n = sec ℤ (Veronese.t D) (2 * n) := by
+    rw [SectionsRank.sec_eq_span, SectionsRank.sec_eq_span, range_alt, ← pow_mul]
+  rw [h1, ← finrank_homog D (2 * n)]
+  exact (Submodule.equivMapOfInjective _ (aeval_t_injective D) _).finrank_eq.symm
+
+theorem mixedDiff_const {K : Type*} (D : ℕ) (b : K → ℤ) (h : (K → ℤ) → ℤ) :
+    GroundTheory.Heights₂.Heights.NumbersDVR.mixedDiff (fun _ : Fin D => b) h =
+      (GroundTheory.Heights₂.Heights.NumbersDVR.diffStep b)^[D] h := by
+  unfold GroundTheory.Heights₂.Heights.NumbersDVR.mixedDiff
+  rw [List.ofFn_const]
+  induction D with
+  | zero => rfl
+  | succ D ih => rw [List.replicate_succ, List.foldr_cons, ih, Function.iterate_succ_apply']
+
+theorem iterate_diffStep (D : ℕ) (H : (Unit → ℤ) → ℤ) (k : ℤ) :
+    (GroundTheory.Heights₂.Heights.NumbersDVR.diffStep 1)^[D] H (fun _ => k) =
+      (fwdDiff (1 : ℤ))^[D] (fun j : ℤ => H (fun _ => j)) (k - D) := by
+  induction D generalizing H with
+  | zero => simp
+  | succ D ih =>
+    rw [Function.iterate_succ_apply, ih]
+    have hg : (fun j : ℤ => GroundTheory.Heights₂.Heights.NumbersDVR.diffStep 1 H (fun _ => j)) =
+        fun j : ℤ => fwdDiff 1 (fun j : ℤ => H (fun _ => j)) (j + -1) := by
+      funext j
+      have e1 : (fun _ : Unit => j + -1 + 1) = fun _ => j := by funext u; ring
+      have e2 : ((fun _ : Unit => j) - 1) = fun _ => j + -1 := by funext u; simp; ring
+      simp only [GroundTheory.Heights₂.Heights.NumbersDVR.diffStep, fwdDiff, e1, e2]
+    rw [hg, fwdDiff_iter_comp_add, ← Function.iterate_succ_apply,
+      show k - (D : ℤ) + -1 = k - ((D + 1 : ℕ) : ℤ) by push_cast; ring]
+
+def hilbPoly (D : ℕ) : Polynomial ℚ :=
+  (Polynomial.preHilbertPoly ℚ D 0).comp (Polynomial.C 2 * Polynomial.X)
+
+theorem hilbPoly_eval (D n : ℕ) : (hilbPoly D).eval (n : ℚ) = ((2 * n + D).choose D : ℚ) := by
+  rw [hilbPoly, Polynomial.eval_comp]
+  simp only [Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_X]
+  have := Polynomial.preHilbertPoly_eq_choose_sub_add ℚ D (k := 0) (n := 2 * n) (Nat.zero_le _)
+  push_cast at this
+  rw [this, Nat.sub_zero]
+
+theorem fwdDiff_hilbPoly (D : ℕ) (y : ℚ) : (fwdDiff (1 : ℚ))^[D] (hilbPoly D).eval y = 2 ^ D := by
+  have hdeg : (hilbPoly D).natDegree = D := by
+    rw [hilbPoly, Polynomial.natDegree_comp, Polynomial.natDegree_preHilbertPoly,
+      Polynomial.natDegree_C_mul_X _ two_ne_zero, mul_one]
+  have hlc : (hilbPoly D).leadingCoeff = (D.factorial : ℚ)⁻¹ * 2 ^ D := by
+    rw [hilbPoly, Polynomial.leadingCoeff_comp (by rw [Polynomial.natDegree_C_mul_X _ two_ne_zero]; exact one_ne_zero),
+      Polynomial.leadingCoeff_preHilbertPoly, Polynomial.leadingCoeff_C_mul_X,
+      Polynomial.natDegree_preHilbertPoly]
+  have h := congrFun (Polynomial.fwdDiff_iter_degree_eq_factorial (hilbPoly D)) y
+  rw [hdeg, hlc] at h
+  rw [h]
+  have hf : (D.factorial : ℚ) ≠ 0 := by positivity
+  simp only [Pi.smul_apply, Pi.natCast_apply, smul_eq_mul]
+  field_simp
+
+theorem eventualValue_eq {K : Type*} (F : (K → ℤ) → ℤ) (c : ℤ)
+    (h : ∀ᶠ m in atTop, F m = c) : GroundTheory.Heights₂.Heights.NumbersDVR.eventualValue F = c := by
+  unfold GroundTheory.Heights₂.Heights.NumbersDVR.eventualValue
+  have hex : ∃ c, ∀ᶠ m in atTop, F m = c := ⟨c, h⟩
+  rw [dite_eq_left hex]
+  obtain ⟨m, h1, h2⟩ := (hex.choose_spec.and h).exists
+  rw [← h1, h2]
+
+end VeroneseGenDeg
+
+
+open VeroneseGenDeg in
+theorem VeroneseGenDeg.proof : VeroneseGenDeg.Statement := by
+  intro D _
+  set q := (coordIdeal ℤ (Veronese.x D)).map (MvPolynomial.map (Int.castRingHom ℚ)) with hq
+  set g : ℤ → ℤ := fun j => GroundTheory.Heights₂.Heights.NumbersDVR.hilbFn (ι := GlobalTheory (Veronese.Idx D)) q (fun _ => j)
+    with hgdef
+
+  have hg : ∀ j : ℤ, 0 ≤ j → (g j : ℚ) = (hilbPoly D).eval (j : ℚ) := by
+    intro j hj
+    obtain ⟨n, rfl⟩ := Int.eq_ofNat_of_zero_le hj
+    have h := SectionsRank.proof (Veronese.Fld D) (Veronese.Idx D) (Veronese.x D) n
+    rw [finrank_sec] at h
+    simp only [hgdef]
+    rw [← hq] at h
+    rw [h, Int.cast_natCast, Int.cast_natCast, hilbPoly_eval]
+  have hev : ∀ᶠ m in atTop, GroundTheory.Heights₂.Heights.NumbersDVR.mixedDiff (fun _ : Fin D => (1 : Unit → ℤ))
+      (GroundTheory.Heights₂.Heights.NumbersDVR.hilbFn (ι := GlobalTheory (Veronese.Idx D)) q) m = 2 ^ D := by
+    filter_upwards [eventually_ge_atTop (fun _ : Unit => (D : ℤ))] with m hm
+    have hm' : m = fun _ => m () := funext fun u => rfl
+    have hD : (D : ℤ) ≤ m () := hm ()
+    rw [mixedDiff_const, hm', iterate_diffStep]
+    have key : (((fwdDiff (1 : ℤ))^[D] g (m () - D) : ℤ) : ℚ) = 2 ^ D := by
+      rw [← fwdDiff_hilbPoly D ((m () - D : ℤ) : ℚ), fwdDiff_iter_eq_sum_shift, fwdDiff_iter_eq_sum_shift]
+      push_cast
+      refine Finset.sum_congr rfl fun i _ => ?_
+      simp only [nsmul_eq_mul, mul_one, smul_eq_mul, zsmul_eq_mul]
+      push_cast
+      rw [hg _ (by omega)]
+      push_cast
+      ring
+    exact_mod_cast key
+  unfold genDeg GroundTheory.Heights₂.Heights.NumbersDVR.intNum
+  apply eventualValue_eq
+  convert hev
+
+end
+
+end GroundTheory.Heights₂.Heights.HilbertSamuel
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.HilbertSamuel
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.ArakelovGeometry
+
+noncomputable section
+
+namespace VeroneseArith
+
+open Veronese
+
+def sq (D : ℕ) (i : Fin (D + 1)) : Ix (Idx D) := ⟨(), ⟨(i, i), le_rfl⟩⟩
+
+theorem sq_injective (D : ℕ) : Function.Injective (sq D) := by
+  intro i j h
+  have := congrArg (fun q : Ix (Idx D) => q.2.1.1) h
+  simpa [sq] using this
+
+theorem t_ne_zero (D : ℕ) (i : Fin (D + 1)) : t D i ≠ 0 := by
+  rw [t, ← map_zero (algebraMap (MvPolynomial (Fin (D + 1)) ℚ) (Fld D))]
+  exact (IsFractionRing.injective (MvPolynomial (Fin (D + 1)) ℚ) (Fld D)).ne (X_ne_zero i)
+
+theorem aeval_sq (D : ℕ) (f : MvPolynomial (Fin (D + 1)) ℤ) :
+    aeval (x D ∘ sq D) f = algebraMap (MvPolynomial (Fin (D + 1)) ℚ) (Fld D)
+      (MvPolynomial.map (Int.castRingHom ℚ) (expand 2 f)) := by
+  induction f using MvPolynomial.induction_on with
+  | C a => simp
+  | add p q hp hq => simp only [map_add (f := _), hp, hq]
+  | mul_X p i hp =>
+    rw [map_mul, hp, map_mul, map_mul, map_mul, aeval_X, expand_X, map_pow, map_X, map_pow]
+    simp [x, sq, t, pow_two]
+
+theorem coordIdeal_sq (D : ℕ) : coordIdeal ℤ (x D ∘ sq D) = ⊥ := by
+  rw [eq_bot_iff]
+  intro f hf
+  rw [Ideal.mem_bot, ← sum_homogeneousComponent f]
+  refine Finset.sum_eq_zero fun d _ => ?_
+  have h1 : aeval (x D ∘ sq D) (homogeneousComponent d f) = 0 := by
+    rw [← coeff_coneMap ℤ]
+    rw [coordIdeal, RingHom.mem_ker] at hf
+    rw [hf, Polynomial.coeff_zero]
+  rw [aeval_sq] at h1
+  have h2 := IsFractionRing.injective (MvPolynomial (Fin (D + 1)) ℚ) (Fld D) (h1.trans (map_zero _).symm)
+  have h3 := MvPolynomial.map_injective _ (Int.castRingHom ℚ).injective_int (h2.trans (map_zero _).symm)
+  exact (expand_eq_zero two_pos).mp h3
+
+theorem isIntegral_coord (D : ℕ) (q : Ix (Idx D)) :
+    IsIntegral (coneRing ℤ (x D ∘ sq D)) (Polynomial.C (x D q) * Polynomial.X : Polynomial (Fld D)) := by
+  have hmem : ∀ i, (Polynomial.C (x D (sq D i)) * Polynomial.X : Polynomial (Fld D)) ∈
+      coneRing ℤ (x D ∘ sq D) := fun i => ⟨X i, by simp [coneMap]⟩
+  have hsq : (Polynomial.C (x D q) * Polynomial.X : Polynomial (Fld D)) ^ 2 =
+      (Polynomial.C (x D (sq D q.2.1.1)) * Polynomial.X) * (Polynomial.C (x D (sq D q.2.1.2)) * Polynomial.X) := by
+    simp only [x, sq, map_mul]
+    ring
+  refine IsIntegral.of_pow two_pos ?_
+  rw [hsq]
+  exact isIntegral_algebraMap (R := coneRing ℤ (x D ∘ sq D)) (A := Polynomial (Fld D))
+    (x := ⟨_, mul_mem (hmem _) (hmem _)⟩)
+
+theorem isProjFrame_sq (D : ℕ) : IsProjFrame (x D) (sq D) :=
+  ⟨sq_injective D, coordIdeal_sq D, isIntegral_coord D⟩
+
+theorem proof : VeroneseArith.Statement := by
+  intro D _
+  refine ⟨⟨()⟩, ⟨coordIdeal_isPrime ℤ _, isMultiHomogIdeal_coordIdeal _, ?_⟩, isHorizontal_coordIdeal _, ?_⟩
+  · intro k
+    refine ⟨⟨(0, 0), le_rfl⟩, ?_⟩
+    rw [X_mem_coordIdeal_iff]
+    exact mul_ne_zero (t_ne_zero D 0) (t_ne_zero D 0)
+  · rw [ringKrullDim_quot_of_frame _ (sq D) (isProjFrame_sq D), Fintype.card_unit]
+
+end VeroneseArith
+
+end
+
+end GroundTheory.Heights₂.Heights.HilbertSamuel
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.HilbertSamuel
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.ArakelovGeometry ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I4
+
+noncomputable section
+
+namespace Veronese
+
+def forms (D : ℕ) : Ix (Idx D) → MRing (GlobalTheory (Fin (D + 1))) :=
+  fun q => X ⟨(), q.2.1.1⟩ * X ⟨(), q.2.1.2⟩
+
+end Veronese
+
+def VeroneseGraphImage.Statement : Prop :=
+  ∀ D : ℕ, imageZ (inrV (ι := GlobalTheory (Fin (D + 1))) (ι₂ := GlobalTheory (Veronese.Idx D)))
+      (graphIdeal ⊥ (Veronese.forms D)) = coordIdeal ℤ (Veronese.x D)
+
+def VeroneseGraphDeg.Statement : Prop :=
+  ∀ D : ℕ, 1 ≤ D →
+    ∃ (G : GenFibre (inrV (ι := GlobalTheory (Fin (D + 1))) (ι₂ := GlobalTheory (Veronese.Idx D))) (graphIdeal ⊥ (Veronese.forms D)))
+      (J : IFamily G.Φ (fibreIdx (Sum.elim (GlobalTheory (Fin (D + 1))) (GlobalTheory (Veronese.Idx D))) (Sum.inr : Unit → Unit ⊕ Unit))),
+      IsFieldIntersection J ∧ J (ReciprocityTheory.ChartRestriction.G.AI.I4.fibreIdeal Sum.inr G) 0 Fin.elim0 = 1
+
+end
+
+end GroundTheory.Heights₂.Heights.HilbertSamuel
+end

@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsAdapted
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.ArithDegree
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LogIndexOfOrthogonalFamily
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ExistsSmulMemEig

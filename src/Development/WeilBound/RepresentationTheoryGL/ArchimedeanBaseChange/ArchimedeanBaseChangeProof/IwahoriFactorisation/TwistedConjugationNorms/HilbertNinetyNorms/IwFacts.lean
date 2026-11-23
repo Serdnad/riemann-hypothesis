@@ -4,10 +4,10 @@ public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.LocalB
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.IwahoriFactorisation.TwistedConjugationNorms.OneCoset
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwahoriProjSurjective
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwahoriTraceOfBorelCasselman
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsValueSubset
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MonomialOfConjTorus
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PermEqOneOfMonomialMem
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PowUnifLeOne
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle399
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle381
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle389
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle390
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

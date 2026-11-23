@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.WhitGenOf
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKA
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle467
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

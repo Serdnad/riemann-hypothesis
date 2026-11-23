@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.GlobalTheory.HLatOps
-import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.StExtInv
+import Formalism.LocalToGlobal.GlobalTheory.Bundle001
+import Formalism.LocalToGlobal.LatticeGeometry.OperatorNormFibers.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.CrystallineMapLemmas
-public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.ColTwoStep
-public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Galois
+public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.Bundle003
+public import Formalism.WeaklyAdmissibleFiltrations.CrystallineStableLifts.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

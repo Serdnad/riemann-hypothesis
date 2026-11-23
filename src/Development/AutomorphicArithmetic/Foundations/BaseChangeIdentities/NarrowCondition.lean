@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.NarrowSpeh
-public import Formalism.SharpRestriction.LevelLetterCocycles.SphericalInertData
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.BaseChangeDistinctness
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BaseChangeDefiniteOfCmDatumRecLaws
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfNodupSumMultisetOfEq
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle674
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle003
 import Development.AutomorphicArithmetic.ThetaCorrespondence.FockModels.TwoAtCharZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FinIso
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle021
 
 @[expose] public section
 

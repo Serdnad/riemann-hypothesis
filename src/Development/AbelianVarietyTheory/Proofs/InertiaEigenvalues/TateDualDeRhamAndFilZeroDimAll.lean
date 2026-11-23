@@ -1,13 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConcretePeriodDeRhamModuleFinrankLe
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle397
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfForallMemFilV
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEqOfExhaustive
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFinExtEmbeddingSplitting
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankPeriodFunctorCoeffBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankSplit
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GaloisRepresentationHomFiniteDimensional
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle411
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle153
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle176
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle400
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle512
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

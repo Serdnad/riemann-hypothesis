@@ -1,47 +1,41 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsCan
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.HeckePrimeDetection
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SplitOffDetection
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle411
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle020
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.KerScheme
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
-import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.HeckeKerZero
+import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.LawsFieldsSeparately
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsUnitGramFrameBorelChange
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsReducedAlgebraOfSmoothOfIsNoetherianRing
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NotAntiIsometryOfTriangularRelatedPeriodsStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle159
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HeckeInFamilies
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsFormExtendToAllLattices
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IsStabiliserInvariantPullBoundedSection
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EtaleLinearHomFramedPointEigenbasesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEquivHeckeKernelSchemePointsHeckeKernelsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEtaleCoverListingHeckeKernelSchemeStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFiniteEtaleAlgebraPullbackAffineStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFunctionOfSmoothLocalDescentReducedStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsHeckeIsogenyFamilyPullbackCorrespondenceStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRationalIsometryOfTraceSimilitudeSqStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsScalarHeckeTraceThetaGeneratorFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSimilitudeTriangularPeriodsOfHeckePointStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsThetaLineGeneratorZariskiLocallyStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsTraceEqFinsumGeometricPointsEtaleStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FramesDifferByIsometryOfTriangularPeriodsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeIsogenyGeneratorRatioLeTraceTermsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeckeKernelValueSumWeightTriangularFrameStatement
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle476
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle549
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle515
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle507
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle559
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle567
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle553
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle480
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle498
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle584
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle534
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsHkIsogEtaleUnique
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LieDividedHomTangentImageBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemCuspSectionsOfDominatedRationalIsometriesStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SectionValueAtMultipleOfBaseChangedGeneratorStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteDimensionalOfLeHolSub
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeCommBaseChange
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle539
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle057
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle027
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedModuliAlgebraicLawsChartWeightIntegrality
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointBaseChangeUniqueReflIff
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointReducedFromTestRingStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PointsDetectFrobeniusSections
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle025
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle082
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle107
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Formalism.LocalToGlobal.ProjectiveLattices.FrameCharts
-public import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -107,7 +101,8 @@ abbrev term (P : Ideal (𝓞 E)) (p i : ℕ) (f : Rul Xo c) {Ω : Type} [Field �
 
 theorem bc_exists {S T : Type} [CommRing S] [Algebra c.F S] [CommRing T] [Algebra c.F T] (φ : S →ₐ[c.F] T)
     (y : FrPt Xo c S) : ∃ z, FrMap φ y z :=
-  FramedBaseChange.exists_frMap GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c S T φ y
+  GlobalTheory.Frames.FramedBaseChange.exists_frMap
+    GlobalTheory.lawsFieldsSeparately.2.1 E H Dw l Xo c S T φ y
 
 theorem bc_unique {S T : Type} [CommRing S] [Algebra c.F S] [CommRing T] [Algebra c.F T] {φ : S →ₐ[c.F] T}
     {y : FrPt Xo c S} {z z' : FrPt Xo c T} (h : FrMap φ y z) (h' : FrMap φ y z') : z = z' :=

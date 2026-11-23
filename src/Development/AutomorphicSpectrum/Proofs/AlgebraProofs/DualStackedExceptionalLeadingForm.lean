@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedExcLead
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DenominatorOfSpan
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtraLast
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle039
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle058
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

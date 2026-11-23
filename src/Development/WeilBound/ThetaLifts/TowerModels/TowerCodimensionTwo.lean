@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.TowerModels.PlaneHerm
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 public import Development.WeilBound.ThetaLifts.TowerModels.PlaneSkew
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

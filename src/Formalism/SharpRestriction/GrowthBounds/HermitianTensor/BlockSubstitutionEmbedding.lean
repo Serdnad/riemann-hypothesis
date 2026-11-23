@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CoeffSumMonomialLinear
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ColSums
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle002
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.SubYGenCoefHom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

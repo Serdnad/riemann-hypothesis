@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.SplitLineAlt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalFixedOpenSubgroupGLw
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SupportOutFinite
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1845
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1232
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraceOfNotFinite
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
 import GroundTheory.GlobalFields.LocalFieldAtPlace

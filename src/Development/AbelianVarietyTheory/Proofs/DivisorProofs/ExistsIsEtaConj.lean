@@ -1,18 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilGramSignature
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle015
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
 public import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsBaseChangeFiniteAdeleRingEquiv
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle305
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePlaceIdempotentBaseChangeAdeles
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCmAdeleUnitCharacterReadingHeckeChar
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle205
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnramifiedHeckeCharHalfExponentRestrictQua
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteIndexUnitIdlSup
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitOpenAndCongrOpen
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadingsExistRow
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1389
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
 @[expose] public section
@@ -68,35 +68,35 @@ theorem fin_supp {M : Type} [CommGroup M] (c : HeightOneSpectrum (𝓞 L) → M)
     (h : {v | n v ≠ 0}.Finite) : (Function.mulSupport fun v => c v ^ n v).Finite :=
   h.subset fun v hv h0 => hv (by simp only [h0, zpow_zero])
 
-noncomputable def idealChar (c : HeightOneSpectrum (𝓞 L) → ℂˣ) : Ideles L →* ℂˣ :=
+noncomputable def idealChar (c : HeightOneSpectrum (𝓞 L) → ℂˣ) : _root_.Neutral.B1.Ideles L →* ℂˣ :=
   MonoidHom.mk' (fun a => ∏ᶠ v, c v ^ GlobalTheory.Idele.ord_vw (GlobalTheory.HeckeProduct.finPart L a) v) fun a b => by
     rw [← finprod_mul_distrib (fin_supp c (Filter.eventually_cofinite.1 (GlobalTheory.Idele.ord_vw_eventually_zero _)))
       (fin_supp c (Filter.eventually_cofinite.1 (GlobalTheory.Idele.ord_vw_eventually_zero _)))]
     refine finprod_congr fun v => ?_
     rw [map_mul, GlobalTheory.Idele.ord_vw_mul, zpow_add]
 
-theorem idealChar_apply (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (a : Ideles L) :
+theorem idealChar_apply (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (a : _root_.Neutral.B1.Ideles L) :
     idealChar c a = ∏ᶠ v, c v ^ (-WithZero.log (Valued.v ((a : AdeleRing (𝓞 L) L).2 v))) := rfl
 
-theorem idealChar_unit (c : HeightOneSpectrum (𝓞 L) → ℂˣ) {a : Ideles L} (ha : a ∈ unitIdl L) : idealChar c a = 1 := by
+theorem idealChar_unit (c : HeightOneSpectrum (𝓞 L) → ℂˣ) {a : _root_.Neutral.B1.Ideles L} (ha : a ∈ unitIdl L) : idealChar c a = 1 := by
   rw [idealChar_apply]
   refine finprod_eq_one_of_forall_eq_one fun v => ?_
   rw [ha v, WithZero.log_one, neg_zero, zpow_zero]
 
 theorem idealChar_local (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (v : HeightOneSpectrum (𝓞 L)) (x : (v.adicCompletion L)ˣ) :
-    idealChar c (localIdele L v x) = c v ^ (-WithZero.log (Valued.v (x : v.adicCompletion L))) := by
+    idealChar c (_root_.Neutral.B1.localIdele L v x) = c v ^ (-WithZero.log (Valued.v (x : v.adicCompletion L))) := by
   rw [idealChar_apply, finprod_eq_single _ v, GlobalTheory.HeckeProduct.localIdele_snd_self]
   intro w hw
   rw [GlobalTheory.HeckeProduct.localIdele_snd_ne L v w hw, map_one, WithZero.log_one, neg_zero, zpow_zero]
 
-theorem exists_classChar (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (h : ∀ k : Lˣ, ∏ᶠ v, c v ^ ordF v k = 1) :
-    ∃ ξ : HChar L, ξ.IsUnitary ∧ (∀ v, ξ.UnrAt v) ∧ ∀ v, ξ.val v = c v := by
-  have hd : ∀ k : Lˣ, idealChar c (diagUnits L k) = 1 := fun k => by
+theorem exists_classChar (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (h : ∀ k : Lˣ, ∏ᶠ v, c v ^ _root_.Formalism.L2.Host.ordF v k = 1) :
+    ∃ ξ : _root_.Formalism.L2.Host.HChar L, ξ.IsUnitary ∧ (∀ v, ξ.UnrAt v) ∧ ∀ v, ξ.val v = c v := by
+  have hd : ∀ k : Lˣ, idealChar c (_root_.Neutral.B1.diagUnits L k) = 1 := fun k => by
     rw [idealChar_apply, ← h k]
     refine finprod_congr fun v => ?_
-    have hk : Valued.v ((diagUnits L k : AdeleRing (𝓞 L) L).2 v) = v.valuation L (k : L) :=
+    have hk : Valued.v ((_root_.Neutral.B1.diagUnits L k : AdeleRing (𝓞 L) L).2 v) = v.valuation L (k : L) :=
       HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v (k : L)
-    rw [hk, ordF]
+    rw [hk, _root_.Formalism.L2.Host.ordF]
   have hc : Continuous (idealChar c) := by
     refine continuous_of_continuousAt_one _ ?_
     refine (continuousAt_const (y := (1 : ℂˣ))).congr ?_
@@ -104,19 +104,19 @@ theorem exists_classChar (c : HeightOneSpectrum (𝓞 L) → ℂˣ) (h : ∀ k :
     exact (idealChar_unit c ha).symm
   refine ⟨⟨idealChar c, hc, hd⟩, fun x => ?_, fun v x hx => ?_, fun v => ?_⟩
   · have := GlobalTheory.Mem.UnitIndex.finiteIndex_unitIdl_sup L
-    obtain ⟨u, hu, _, ⟨k, rfl⟩, e⟩ := Subgroup.mem_sup.1 ((unitIdl L ⊔ (diagUnits L).range).pow_index_mem x)
+    obtain ⟨u, hu, _, ⟨k, rfl⟩, e⟩ := Subgroup.mem_sup.1 ((unitIdl L ⊔ (_root_.Neutral.B1.diagUnits L).range).pow_index_mem x)
     have e1 := congrArg (fun z => ((idealChar c z : ℂˣ) : ℂ)) e
     simp only [map_mul, map_pow, idealChar_unit c hu, hd, one_mul, Units.val_one, Units.val_pow_eq_pow_val] at e1
     exact Complex.norm_eq_one_of_pow_eq_one e1.symm this.index_ne_zero
   · refine (idealChar_local c v x).trans ?_
     rw [show Valued.v (x : v.adicCompletion L) = 1 from hx, WithZero.log_one, neg_zero, zpow_zero]
   · refine (idealChar_local c v _).trans ?_
-    rw [show Valued.v ((atFin v (unif v) : (v.adicCompletion L)ˣ) : v.adicCompletion L) = _ from unif_spec v,
+    rw [show Valued.v ((_root_.Formalism.L2.Host.atFin v (_root_.Formalism.L2.Host.unif v) : (v.adicCompletion L)ˣ) : v.adicCompletion L) = _ from _root_.Formalism.L2.Host.unif_spec v,
       WithZero.log_exp, neg_neg, zpow_one]
 
 theorem finprod_sqrt [_root_.NumberField.IsTotallyComplex L] {I : Type} [Fintype I] (φ : I → L →+* ℂ)
     (hφ : Function.Bijective fun i => InfinitePlace.mk (φ i)) (k : Lˣ) :
-    (∏ᶠ v : HeightOneSpectrum (𝓞 L), ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ ordF v k) *
+    (∏ᶠ v : HeightOneSpectrum (𝓞 L), ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ _root_.Formalism.L2.Host.ordF v k) *
       ∏ i, ‖φ i (k : L)‖ = 1 := by
   have h1 := prod_abs_eq_one k.ne_zero
   rw [← hφ.prod_comp, ← finprod_comp_equiv FinitePlace.equivHeightOneSpectrum.symm] at h1
@@ -124,16 +124,16 @@ theorem finprod_sqrt [_root_.NumberField.IsTotallyComplex L] {I : Type} [Fintype
     intro i
     rw [InfinitePlace.apply, IsTotallyComplex.mult_eq, sq]
   have h3 : ∀ v : HeightOneSpectrum (𝓞 L), FinitePlace.equivHeightOneSpectrum.symm v (k : L) =
-      ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ ordF v k *
-        ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ ordF v k := fun v => by
+      ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ _root_.Formalism.L2.Host.ordF v k *
+        ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ _root_.Formalism.L2.Host.ordF v k := fun v => by
     have h0 : v.valuation L (k : L) ≠ 0 := (Valuation.ne_zero_iff _).2 k.ne_zero
     rw [← mul_zpow, ← mul_inv, Real.mul_self_sqrt (Nat.cast_nonneg _), inv_zpow',
       FinitePlace.equivHeightOneSpectrum_symm_apply, FinitePlace.norm_embedding, HeightOneSpectrum.adicAbv_def,
-      WithZeroMulInt.toNNReal_neg_apply _ h0, ordF, neg_neg]
+      WithZeroMulInt.toNNReal_neg_apply _ h0, _root_.Formalism.L2.Host.ordF, neg_neg]
     push_cast
     congr 1
   have h4 : (Function.mulSupport fun v : HeightOneSpectrum (𝓞 L) =>
-      ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ ordF v k).Finite :=
+      ((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) ^ _root_.Formalism.L2.Host.ordF v k).Finite :=
     (GlobalTheory.HeckeProduct.finite_ordF k).subset fun v hv h0 => hv (by simp only [h0, zpow_zero])
   simp only [h2, h3] at h1
   rw [finprod_mul_distrib h4 h4, Finset.prod_mul_distrib] at h1
@@ -142,20 +142,20 @@ theorem finprod_sqrt [_root_.NumberField.IsTotallyComplex L] {I : Type} [Fintype
   linarith
 
 theorem finprod_alg [_root_.NumberField.IsTotallyComplex L] {I : Type} [Fintype I] (φ : I → L →+* ℂ)
-    (hφ : Function.Bijective fun i => InfinitePlace.mk (φ i)) (χ : HChar L) (hu : ∀ v, χ.UnrAt v)
+    (hφ : Function.Bijective fun i => InfinitePlace.mk (φ i)) (χ : _root_.Formalism.L2.Host.HChar L) (hu : ∀ v, χ.UnrAt v)
     (hi : χ.HasInf φ fun _ => 1) (w : HeightOneSpectrum (𝓞 L) → ℂˣ)
     (hw : ∀ v, (w v : ℂ) = χ.val v * (((Real.sqrt (Ideal.absNorm v.asIdeal : ℕ))⁻¹ : ℝ) : ℂ)) (k : Lˣ) :
-    ((∏ᶠ v, w v ^ ordF v k : ℂˣ) : ℂ) * ∏ i, φ i (k : L) = 1 := by
+    ((∏ᶠ v, w v ^ _root_.Formalism.L2.Host.ordF v k : ℂˣ) : ℂ) * ∏ i, φ i (k : L) = 1 := by
   have e5 := GlobalTheory.HeckeProduct.productRule χ ∅ (fun v _ => hu v) k
   simp only [Finset.prod_empty, mul_one, Finset.notMem_empty, not_false_eq_true, finprod_true] at e5
   have e6 := finprod_sqrt φ hφ k
-  have hs : ∀ {M : Type} [CommGroupWithZero M] (f : HeightOneSpectrum (𝓞 L) → M), ∏ᶠ v, f v ^ ordF v k =
-      ∏ v ∈ (GlobalTheory.HeckeProduct.finite_ordF k).toFinset, f v ^ ordF v k := fun f =>
+  have hs : ∀ {M : Type} [CommGroupWithZero M] (f : HeightOneSpectrum (𝓞 L) → M), ∏ᶠ v, f v ^ _root_.Formalism.L2.Host.ordF v k =
+      ∏ v ∈ (GlobalTheory.HeckeProduct.finite_ordF k).toFinset, f v ^ _root_.Formalism.L2.Host.ordF v k := fun f =>
     finprod_eq_prod_of_mulSupport_subset _ fun v hv => by
       simp only [Set.Finite.coe_toFinset]
       exact fun h0 => hv (by simp only [h0, zpow_zero])
-  have hs' : ∀ (f : HeightOneSpectrum (𝓞 L) → ℂˣ), ((∏ᶠ v, f v ^ ordF v k : ℂˣ) : ℂ) =
-      ∏ v ∈ (GlobalTheory.HeckeProduct.finite_ordF k).toFinset, (f v : ℂ) ^ ordF v k := fun f => by
+  have hs' : ∀ (f : HeightOneSpectrum (𝓞 L) → ℂˣ), ((∏ᶠ v, f v ^ _root_.Formalism.L2.Host.ordF v k : ℂˣ) : ℂ) =
+      ∏ v ∈ (GlobalTheory.HeckeProduct.finite_ordF k).toFinset, (f v : ℂ) ^ _root_.Formalism.L2.Host.ordF v k := fun f => by
     rw [finprod_eq_prod_of_mulSupport_subset (s := (GlobalTheory.HeckeProduct.finite_ordF k).toFinset) _ fun v hv => by
       simp only [Set.Finite.coe_toFinset]
       exact fun h0 => hv (by simp only [h0, zpow_zero])]
@@ -173,17 +173,17 @@ theorem finprod_alg [_root_.NumberField.IsTotallyComplex L] {I : Type} [Fintype 
   rw [mul_right_comm, mul_comm _ (∏ i, φ i (k : L)), e7, mul_comm, e8]
 
 theorem finprod_quot {M : Type} [Field M] (e σ : M →+* ℂ) (y : HeightOneSpectrum (𝓞 L) → Mˣ) (k : Lˣ) (n : M)
-    (h : ((∏ᶠ v, Units.map e.toMonoidHom (y v) ^ ordF v k : ℂˣ) : ℂ) * e n = 1) (hn : σ n = e n) :
-    ∏ᶠ v, (Units.map σ.toMonoidHom (y v) / Units.map e.toMonoidHom (y v)) ^ ordF v k = 1 := by
+    (h : ((∏ᶠ v, Units.map e.toMonoidHom (y v) ^ _root_.Formalism.L2.Host.ordF v k : ℂˣ) : ℂ) * e n = 1) (hn : σ n = e n) :
+    ∏ᶠ v, (Units.map σ.toMonoidHom (y v) / Units.map e.toMonoidHom (y v)) ^ _root_.Formalism.L2.Host.ordF v k = 1 := by
   have hf := GlobalTheory.HeckeProduct.finite_ordF k
-  have hm : ∀ f : M →+* ℂ, ∏ᶠ v, Units.map f.toMonoidHom (y v) ^ ordF v k =
-      Units.map f.toMonoidHom (∏ᶠ v, y v ^ ordF v k) := fun f => by
+  have hm : ∀ f : M →+* ℂ, ∏ᶠ v, Units.map f.toMonoidHom (y v) ^ _root_.Formalism.L2.Host.ordF v k =
+      Units.map f.toMonoidHom (∏ᶠ v, y v ^ _root_.Formalism.L2.Host.ordF v k) := fun f => by
     rw [MonoidHom.map_finprod _ (fin_supp y hf)]
     simp only [map_zpow]
   simp only [div_zpow]
   rw [finprod_div_distrib (fin_supp _ hf) (fin_supp _ hf), hm, hm, div_eq_one]
   rw [hm] at h
-  have h1 : ((∏ᶠ v, y v ^ ordF v k : Mˣ) : M) * n = 1 := e.injective (by rw [map_mul, map_one]; exact h)
+  have h1 : ((∏ᶠ v, y v ^ _root_.Formalism.L2.Host.ordF v k : Mˣ) : M) * n = 1 := e.injective (by rw [map_mul, map_one]; exact h)
   have h2 := congrArg σ h1
   rw [map_mul, map_one, hn, ← h] at h2
   exact Units.ext (mul_right_cancel₀ (right_ne_zero_of_mul_eq_one h) h2)

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ConstTermOnMulLeftOfNormalizer
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CocompactFibrationSectionMeasure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CocompactNormalSubgroupFibration
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1242
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

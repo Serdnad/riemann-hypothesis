@@ -2,8 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.IsAdmissiblePrimeListNil
 public import Mathlib.RingTheory.Ideal.Norm.RelNorm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.ThDist
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.XUniqConj
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.Bundle002
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.GroupWithZero.Torsion
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,13 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.CuspidalTwists.FiniteOrderCongruences.ExistsSplittingAuxiliaryCharacterForTower
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.CyclotomicCharPowNTrivial
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsSplitPrimeCmDatum
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsThetaCharacterCmDatum
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle064
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle078
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.PlacesQ
-import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.BchiFacts
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.DirichletGroupPowers.DirGPowOne
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.DirichletGroupPowers.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +56,7 @@ open scoped Matrix
 
 namespace UpperTheory.V.Cu2
 
-private theorem cls_one {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (N : ℕ) [NeZero N] (s : G ℚ Ω)
+private theorem cls_one {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] (N : ℕ) [NeZero N] (s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω)
     (hs : ∀ ζ : Ω, ζ ^ N = 1 → s ζ = ζ) : UpperTheory.V.Chr.cls ℚ Ω N s = 1 := by
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
   obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot Ω N
@@ -111,32 +110,32 @@ private theorem e_even (D : Raw Ω c) (h3 : Ctx3 D) : Even D.e := by
   rw [he]
   exact (neg_one_pow_eq_one_iff_even hne).1 hev.symm
 
-private theorem cc_sq {cc : G ℚ Ω} (h : ReciprocityTheory.Gal.IsCC cc) : cc * cc = 1 := by
+private theorem cc_sq {cc : _root_.Formalism.ConjugateSelfDual.G ℚ Ω} (h : ReciprocityTheory.Gal.IsCC cc) : cc * cc = 1 := by
   obtain ⟨j, hj⟩ := h
   ext x
   apply j.injective
   rw [AlgEquiv.mul_apply, hj, hj, Complex.conj_conj, AlgEquiv.one_apply]
 
-private theorem bar_mul (γ δ : G ℚ Ω →* c.Oˣ) (g : G ℚ Ω) : Raw.bar (γ * δ) g = Raw.bar γ g * Raw.bar δ g := by
+private theorem bar_mul (γ δ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar (γ * δ) g = Raw.bar γ g * Raw.bar δ g := by
   simp only [Raw.bar, MonoidHom.mul_apply, Units.val_mul, map_mul]
 
-private theorem bar_inv (γ : G ℚ Ω →* c.Oˣ) (g : G ℚ Ω) : Raw.bar γ⁻¹ g = (Raw.bar γ g)⁻¹ := by
+private theorem bar_inv (γ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar γ⁻¹ g = (Raw.bar γ g)⁻¹ := by
   simp only [Raw.bar, MonoidHom.inv_apply]
   exact map_units_inv (residue c.O) (γ g)
 
-private theorem bar_pow (γ : G ℚ Ω →* c.Oˣ) (n : ℕ) (g : G ℚ Ω) : Raw.bar (γ ^ n) g = Raw.bar γ g ^ n := by
+private theorem bar_pow (γ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (n : ℕ) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar (γ ^ n) g = Raw.bar γ g ^ n := by
   simp only [Raw.bar, MonoidHom.pow_apply, Units.val_pow_eq_pow_val, map_pow]
 
-private theorem bar_zpow (γ : G ℚ Ω →* c.Oˣ) (n : ℕ) (g : G ℚ Ω) : Raw.bar (γ ^ (n : ℤ)) g = Raw.bar γ g ^ n := by
+private theorem bar_zpow (γ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (n : ℕ) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar (γ ^ (n : ℤ)) g = Raw.bar γ g ^ n := by
   rw [zpow_natCast, bar_pow]
 
-private theorem bar_one (g : G ℚ Ω) : Raw.bar (1 : G ℚ Ω →* c.Oˣ) g = 1 := by
+private theorem bar_one (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar (1 : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) g = 1 := by
   simp only [Raw.bar, MonoidHom.one_apply, Units.val_one, map_one]
 
-private theorem bar_ne (γ : G ℚ Ω →* c.Oˣ) (g : G ℚ Ω) : Raw.bar γ g ≠ 0 :=
+private theorem bar_ne (γ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (g : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar γ g ≠ 0 :=
   ((γ g).isUnit.map (residue c.O)).ne_zero
 
-private theorem bar_conj (γ : G ℚ Ω →* c.Oˣ) (u s : G ℚ Ω) : Raw.bar γ (u⁻¹ * s * u) = Raw.bar γ s := by
+private theorem bar_conj (γ : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* c.Oˣ) (u s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) : Raw.bar γ (u⁻¹ * s * u) = Raw.bar γ s := by
   have h : γ (u⁻¹ * s * u) = γ s := by
     rw [map_mul, map_mul, map_inv, mul_right_comm, inv_mul_cancel, one_mul]
   simp only [Raw.bar, h]
@@ -191,16 +190,16 @@ theorem exists_weight_four_auxiliary_characters : ExistsSplittingAuxiliaryCharac
     unfold phi
     split <;> simp [toB, h1, h2]
   obtain ⟨-, -, -, -, -, -, -, -, -, -, -, ho1, ho2, -⟩ := UpperTheory.V.GradeZeroInterpolatingElement.facts D hG
-  have ho0 : IsOpen (T.F.fixingSubgroup : Set (G ℚ Ω)) := IntermediateField.fixingSubgroup_isOpen T.F
-  have hc0 : commutator (G ℚ Ω) ≤ T.F.fixingSubgroup := by
+  have ho0 : IsOpen (T.F.fixingSubgroup : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) := IntermediateField.fixingSubgroup_isOpen T.F
+  have hc0 : commutator (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) ≤ T.F.fixingSubgroup := by
     have hn := T.abF.toIsGalois.to_normal
     rw [← @IntermediateField.restrictNormalHom_ker ℚ Ω _ _ _ T.F hn]
     exact comm_le _ fun a b => T.abF.toIsMulCommutative.is_comm.comm _ _
-  have hc1 : commutator (G ℚ Ω) ≤ D.rbar.ker := comm_le _ fun a b => by
+  have hc1 : commutator (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) ≤ D.rbar.ker := comm_le _ fun a b => by
     rw [← map_mul, ← map_mul]
     ext i j
     simp [Raw.rbar, Raw.r0, diagRep, GradeZeroInterpolatingElement.mapRep, Matrix.diagonal_apply, mul_comm]
-  have hc2 : commutator (G ℚ Ω) ≤ D.om.ker := comm_le _ fun a b => mul_comm _ _
+  have hc2 : commutator (_root_.Formalism.ConjugateSelfDual.G ℚ Ω) ≤ D.om.ker := comm_le _ fun a b => mul_comm _ _
   obtain ⟨w, hw, hlt, hmod, hs⟩ := UpperTheory.exists_splitPrime_cmDatum Ω (T.F.fixingSubgroup ⊓ D.rbar.ker ⊓ D.om.ker)
     ((ho0.inter ho1).inter ho2) (le_inf (le_inf hc0 hc1) hc2) (N * l) (Nat.mul_pos hN hl.out.pos)
   obtain ⟨θ, t1, t2, t3⟩ := UpperTheory.exists_theta_character_cmDatum Ω l w hw (hmod.of_mul_left N)

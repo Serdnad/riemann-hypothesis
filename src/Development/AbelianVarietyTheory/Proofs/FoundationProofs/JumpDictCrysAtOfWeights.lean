@@ -1,9 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DenseFrobeniusSplitPlaces
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.JumpDictionary
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GaloisSideTwistedSelmerAuxiliaryPrimes
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle203
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle005
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle014
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.GaloisValuations.ContinuousConstSMulQuotient
+public import ReciprocityTheory.GaloisValuations.Bundle001
 public import ReciprocityTheory.GaloisValuations.Global
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Basic
 public import Mathlib.Order.CompletePartialOrder

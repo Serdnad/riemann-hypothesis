@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AdelicDataRowMeasureScaleTrivialTuple
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChainWideTwistTransport
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle117
 import Formalism.LocalRingCardinality.SpanPowerMembership.Spaces
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureExists
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle005
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

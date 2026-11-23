@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.AlgebraicCharacterWD
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Bundle006
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DeRhamPotSemistable
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterAboveIff
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.CsdSsOfFull
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SumSegmentsLanglands
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FontaineParameterTwistPotentiallySemistableStatement
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle465
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle346
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.ConclusionFinite
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.SsCalcP
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SemisimpleLevels.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -54,35 +54,35 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 theorem UpperTheory.V.Lev.untwistS :
     GlobalTheory.Published.HeckeLAdicCharacterAbove → GlobalTheory.Published.AlgebraicCharacterWD → GlobalTheory.Published.DeRhamPotSemistable →
                  ∀ (K Ω : Type) [Field K] [NumberField K] [_root_.NumberField.IsTotallyComplex K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ)
-                 (R : G K Ω →* GL (Fin n) (Qbar l)), Continuous R → ∀ (art : Ideles K →* Gab K Ω) (κ : HChar K) (m : (K →+* ℂ) → ℤ)
-                 (μ : G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsAlgPos κ m → Continuous μ → IsLAdicOf art ι κ m μ →
-                 ∀ (w : HeightOneSpectrum (𝓞 K)) (A : ValuationSubring Ω) (h : IsPlaceOver A w) (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l K Ω (Dec (F := K) A) O) (hj : Induces Bw),
-                   IsPstAt (Loc.PP l) Bw (R.comp (Dec (F := K) A).subtype) → IsPstAt (Loc.PP l) Bw ((tw R μ).comp (Dec (F := K) A).subtype) →
+                 (R : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin n) (Qbar l)), Continuous R → ∀ (art : Ideles K →* Gab K Ω) (κ : HChar K) (m : (K →+* ℂ) → ℤ)
+                 (μ : _root_.Formalism.ConjugateSelfDual.G K Ω →* (Qbar l)ˣ), IsGlobalArtin art → IsAlgPos κ m → Continuous μ → IsLAdicOf art ι κ m μ →
+                 ∀ (w : HeightOneSpectrum (𝓞 K)) (A : ValuationSubring Ω) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l K Ω (_root_.ReciprocityTheory.Gal.Dec (F := K) A) O) (hj : Induces Bw),
+                   IsPstAt (Loc.PP l) Bw (R.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype) → IsPstAt (Loc.PP l) Bw ((tw R μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype) →
                    ∀ (σ : SmIrr (GL (Fin n) (w.adicCompletion K))) rc, IsRec h rc →
-                     Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj ((tw R μ).comp (Dec (F := K) A).subtype))
+                     Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj ((tw R μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype))
                        (rc (algNorm (σ.twist (CuspSub.locDet n κ w) (CuspSub.isOpen_ker_locDet κ w)))) →
-                     Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj (R.comp (Dec (F := K) A).subtype)) (rc (algNorm σ)) := by
+                     Lev.SsCmp (wdAt (Loc.PP l) ι Bw h hj (R.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)) (rc (algNorm σ)) := by
   intro hA hW hD K Ω _ _ _ _ _ _ l _ ι n R hR art κ m μ hart hκ hμ hL w A h O _ _ _ Bw hj hP hP' σ rc hrc H
   obtain ⟨T⟩ := Loc.tiedP l
-  have hdet : Matrix.GeneralLinearGroup.det.comp ((GlobalTheory.TripleGal.rk1 μ).comp (Dec (F := K) A).subtype)
-      = μ.comp (Dec (F := K) A).subtype := by
+  have hdet : Matrix.GeneralLinearGroup.det.comp ((GlobalTheory.TripleGal.rk1 μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)
+      = μ.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype := by
     ext g
     simp [GlobalTheory.TripleGal.rk1, Matrix.det_unique]
-  have htw : (tw R μ).comp (Dec (F := K) A).subtype =
-      Formalism.MainNotions.SumRepresentations.At.twGL (R.comp (Dec (F := K) A).subtype)
-        (Matrix.GeneralLinearGroup.det.comp ((GlobalTheory.TripleGal.rk1 μ).comp (Dec (F := K) A).subtype)) := by
+  have htw : (tw R μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype =
+      Formalism.MainNotions.SumRepresentations.At.twGL (R.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)
+        (Matrix.GeneralLinearGroup.det.comp ((GlobalTheory.TripleGal.rk1 μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)) := by
     rw [hdet]
     ext g i j
     simp [Formalism.MainNotions.SumRepresentations.At.twGL, tw_val, Algebra.algebraMap_eq_smul_one, Matrix.smul_apply]
-  have hcR : Continuous fun g : ↥(Dec (F := K) A) =>
-      ((R.comp (Dec (F := K) A).subtype g : GL (Fin n) (Loc.Om l)) : Matrix (Fin n) (Fin n) (Loc.Om l)) :=
+  have hcR : Continuous fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := K) A) =>
+      ((R.comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype g : GL (Fin n) (Loc.Om l)) : Matrix (Fin n) (Fin n) (Loc.Om l)) :=
     Units.continuous_val.comp (hR.comp continuous_subtype_val)
-  have hcμ : Continuous fun g : ↥(Dec (F := K) A) =>
-      (((GlobalTheory.TripleGal.rk1 μ).comp (Dec (F := K) A).subtype g : GL (Fin 1) (Loc.Om l)) :
+  have hcμ : Continuous fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := K) A) =>
+      (((GlobalTheory.TripleGal.rk1 μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype g : GL (Fin 1) (Loc.Om l)) :
         Matrix (Fin 1) (Fin 1) (Loc.Om l)) := by
     refine continuous_matrix fun i j => ?_
     fin_cases i; fin_cases j
-    have := Units.continuous_val.comp (hμ.comp (continuous_subtype_val (p := fun x => x ∈ Dec (F := K) A)))
+    have := Units.continuous_val.comp (hμ.comp (continuous_subtype_val (p := fun x => x ∈ _root_.ReciprocityTheory.Gal.Dec (F := K) A)))
     simpa [GlobalTheory.TripleGal.rk1, Function.comp_def] using this
   have hdR := (GlobalTheory.Published.heckeLAdicCharacterAbove_iff.1 hA K Ω l _ _ ⟨T⟩ ι art hart κ m μ hκ hμ hL w A h O Bw hj).1
   have hPμ := GlobalTheory.Published.DeRhamPotSemistable.isPstAt hD T Bw _ hcμ hdR

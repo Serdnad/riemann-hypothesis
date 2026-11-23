@@ -1,6 +1,6 @@
 module
 
-import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnBlockEquiv
+import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.Bundle005
 public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.MirabolicColumnBlock
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

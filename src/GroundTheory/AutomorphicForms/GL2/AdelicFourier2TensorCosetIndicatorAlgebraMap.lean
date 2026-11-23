@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.SummableNormIffAndTsumEqCoset2
 public import GroundTheory.AutomorphicForms.GL2.ExistsForallAddEqOfMemFiniteSchwartzBruhat2
 public import GroundTheory.AutomorphicForms.GL2.IdeleModuleDetOfMemMaxCompact
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 public import GroundTheory.GlobalFields.TateThesis.AdelePoisson
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

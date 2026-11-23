@@ -2,7 +2,7 @@ module
 
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.Topology.Separation.CompletelyRegular
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloWeakStatement
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Circle
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle003
 public import Mathlib.MeasureTheory.Measure.Lebesgue.Basic
 
 @[expose] public section

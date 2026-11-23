@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsCombAt
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle011
 public import Formalism.LocalToGlobal.ProjectiveLattices.FrameCharts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,9 +39,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ChosenEqOfAllRules
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompOrd
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.PTNonempty
+public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle016
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle001
 
 @[expose] public section
 

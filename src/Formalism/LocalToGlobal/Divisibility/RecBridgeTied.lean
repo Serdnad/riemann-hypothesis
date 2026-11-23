@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.RecBridge
-public import Formalism.LocalToGlobal.HilbertRowConditions.ColumnsFunctionAtSubspaces
-public import Formalism.LocalToGlobal.IndefiniteReal.FaceOf3
+public import Formalism.LocalToGlobal.HilbertRowConditions.Bundle002
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle004
 public import Formalism.LocalToGlobal.Divisibility.TrivialExtensionSideWellFormed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

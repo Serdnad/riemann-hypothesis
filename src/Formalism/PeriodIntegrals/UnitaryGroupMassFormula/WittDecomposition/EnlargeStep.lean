@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Module.LinearMap.Star
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Imports
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittDecomposition.Bundle001
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

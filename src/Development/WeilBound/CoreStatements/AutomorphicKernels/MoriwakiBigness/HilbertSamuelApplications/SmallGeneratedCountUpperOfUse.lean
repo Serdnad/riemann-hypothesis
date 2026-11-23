@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArithKleiman
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCurvePointsFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PtsIntegralCurveConst
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle092
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

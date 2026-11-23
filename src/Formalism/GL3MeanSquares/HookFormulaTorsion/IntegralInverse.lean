@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GL3MeanSquares.LegendreCoefficient
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.EqSingleOfDegreeEqOne
+public import Formalism.GL3MeanSquares.Bundle003
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.IntegralSubstVector
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.InvIntV
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV

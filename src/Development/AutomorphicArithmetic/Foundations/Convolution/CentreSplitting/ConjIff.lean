@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsTw
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ConjCarries
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle006
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExCusp
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExSummand
-import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.GalCentral
+import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle003
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.IsoEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

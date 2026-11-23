@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.LocallyConstantCompact
+public import GroundTheory.AutomorphicForms.Bundle005
 public import Mathlib.Algebra.Algebra.Operations
 public import Mathlib.Algebra.Algebra.Pi
 public import Mathlib.Basic.Complex.Basic

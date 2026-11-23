@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaAtOfIsEtaConj
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryGroupCharacterOfHeckeChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartConjMem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1184
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1096
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1728
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardKerSubspacesAndHeckePolyOfConvolution
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PeterssonFormProportionalClassSumAllLevelsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplittingCharactersUnramifiedOffLevelsStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftLevelsGoodPrimesPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuaMatchingConjugatePrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaVacuumHeckeIdentitySplitPlaceStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle276
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle171
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle253
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.SecondStepGluing
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -67,7 +67,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 namespace GlobalTheory.Hk3.SplitChain
 
-open Formalism.L2.Col (heckePolyOf blockPoly gaussBin)
+open _root_.Formalism.L2.Col (heckePolyOf blockPoly gaussBin)
 
 def stepMat (q n t : ℕ) (ν s : ℂ) (k j : ℕ) : ℂ :=
   if j ≤ k then (q : ℂ) ^ ((n - j) * (k - j)) * (gaussBin q t (k - j) : ℂ) * ν ^ (k - j) * s ^ j else 0
@@ -207,9 +207,9 @@ theorem splitC_delta {n k : ℕ} (hk : k ≤ n) :
   rw [Finset.sum_eq_single k (fun b _ hb => by simp [hb]) (fun h => absurd (Finset.mem_range.2 (by omega)) h)]
   simp
 
-theorem absNorm_conjPl (P : Pl D.host.E) : Ideal.absNorm (conjPl P).asIdeal = Ideal.absNorm P.asIdeal := by
+theorem absNorm_conjPl (P : Pl D.host.E) : Ideal.absNorm (_root_.Formalism.DivisionValues.conjPl P).asIdeal = Ideal.absNorm P.asIdeal := by
   rw [Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]
-  exact (Nat.card_congr (Ideal.quotientEquiv P.asIdeal (conjPl P).asIdeal (Formalism.DivisionValues.cO D.host.E) rfl).toEquiv).symm
+  exact (Nat.card_congr (Ideal.quotientEquiv P.asIdeal (_root_.Formalism.DivisionValues.conjPl P).asIdeal (Formalism.DivisionValues.cO D.host.E) rfl).toEquiv).symm
 
 theorem unrPl_mul_inv {P : Pl D.host.E} {χ η : (AE D)ˣ →* Circle} (h : UnrPl P χ) (h' : UnrPl P η) :
     UnrPl P (χ * η⁻¹) := fun e f he x h1 h2 h3 => by
@@ -225,17 +225,17 @@ theorem unrPl_step {P : Pl D.host.E} {μ : ℕ → (AE D)ˣ →* Circle} {η : (
 
 theorem step_match {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D} {χS χT : (AE D)ˣ →* Circle}
     {om : GA D S × GA D T →* Module.End ℂ (WO S T → ℂ)} {P : Pl D.host.E} (hW : IsWeilDatumO ψ S T χS χT om)
-    (hP : conjPl P ≠ P) (u : UnrPl P χS ∧ UnrPl P χT) (u' : UnrPl (conjPl P) χS ∧ UnrPl (conjPl P) χT)
-    {e : AE D} {ϖ : 𝓞 D.host.E} {x : (AE D)ˣ} {t n n' : ℕ} (he : Formalism.L2.NTheta.IsIdemAt e (conjPl P))
-    (h1 : ϖ ∈ (conjPl P).asIdeal) (h2 : ϖ ∉ (conjPl P).asIdeal ^ 2) (hx : (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e))
+    (hP : _root_.Formalism.DivisionValues.conjPl P ≠ P) (u : UnrPl P χS ∧ UnrPl P χT) (u' : UnrPl (_root_.Formalism.DivisionValues.conjPl P) χS ∧ UnrPl (_root_.Formalism.DivisionValues.conjPl P) χT)
+    {e : AE D} {ϖ : 𝓞 D.host.E} {x : (AE D)ˣ} {t n n' : ℕ} (he : Formalism.L2.NTheta.IsIdemAt e (_root_.Formalism.DivisionValues.conjPl P))
+    (h1 : ϖ ∈ (_root_.Formalism.DivisionValues.conjPl P).asIdeal) (h2 : ϖ ∉ (_root_.Formalism.DivisionValues.conjPl P).asIdeal ^ 2) (hx : (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e))
     (hS : S.rank = n) (hT : T.rank = n') (hr : n' = n + t) {q : ℕ} (hq : q = Ideal.absNorm P.asIdeal) {ν s : ℂ}
     (hν : ν = ((χS x : ℂ) * (Real.sqrt q : ℂ) ^ n)⁻¹) (hs : s = ν * ((χT x : ℂ) * (Real.sqrt q : ℂ) ^ n')) (w : ℕ → ℂ) :
     Match ψ om P (splitC n fun i => ∑ l ∈ Finset.range (n' + 1), w l * stepMat q n t ν s l i) (dualC (splitC n' w)) := by
   subst hS hT
   rw [← absNorm_conjPl] at hq
-  have hP' : conjPl (conjPl P) ≠ conjPl P := by rw [Formalism.DivisionValues.ValuationRepresentative.conjPl_conjPl]; exact hP.symm
+  have hP' : _root_.Formalism.DivisionValues.conjPl (_root_.Formalism.DivisionValues.conjPl P) ≠ _root_.Formalism.DivisionValues.conjPl P := by rw [Formalism.DivisionValues.ValuationRepresentative.conjPl_conjPl]; exact hP.symm
   have hv := (GlobalTheory.T.thetaVacuum_heckeIdentity_splitPlace ψ S T χS χT om P hW hP u.1 u.2).1
-  have hm := ((GlobalTheory.T.thetaVacuum_heckeIdentity_splitPlace ψ S T χS χT om (conjPl P) hW hP' u'.1 u'.2).2 e ϖ x t he h1 h2 hx).1 hr
+  have hm := ((GlobalTheory.T.thetaVacuum_heckeIdentity_splitPlace ψ S T χS χT om (_root_.Formalism.DivisionValues.conjPl P) hW hP' u'.1 u'.2).2 e ϖ x t he h1 h2 hx).1 hr
   rw [splitC_sum, dualC_splitC]
   refine match_sum _ _ _ _ fun l hl => ?_
   have h3 := (((GlobalTheory.T.thetaVacua_matching_conjugatePrime ψ S T χS χT om P hW).2 hv).2 _ _).1 (hm l (Nat.lt_succ_iff.1 (Finset.mem_range.1 hl)))
@@ -250,8 +250,8 @@ theorem step_match {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D} {χS χT : (AE
 
 open Formalism.L2.JoinChr in
 theorem val_conj {χ : (AE D)ˣ →* Circle} {n : ℕ} (hχ : ResEta D χ n) {P : Pl D.host.E} (u : UnrPl P χ)
-    {e : AE D} {ϖ : 𝓞 D.host.E} {x : (AE D)ˣ} (he : Formalism.L2.NTheta.IsIdemAt e (conjPl P))
-    (h1 : ϖ ∈ (conjPl P).asIdeal) (h2 : ϖ ∉ (conjPl P).asIdeal ^ 2) (hx : (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e)) :
+    {e : AE D} {ϖ : 𝓞 D.host.E} {x : (AE D)ˣ} (he : Formalism.L2.NTheta.IsIdemAt e (_root_.Formalism.DivisionValues.conjPl P))
+    (h1 : ϖ ∈ (_root_.Formalism.DivisionValues.conjPl P).asIdeal) (h2 : ϖ ∉ (_root_.Formalism.DivisionValues.conjPl P).asIdeal ^ 2) (hx : (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e)) :
     ∃ (e' : AE D) (y : (AE D)ˣ), IsPlIdem D e' P ∧ (y : AE D) = locE D e' (Formalism.L2.Host.unif P : D.host.Eˣ) ∧ (χ x)⁻¹ = χ y := by
   have hc : ∀ a : 𝓞 D.host.E, Formalism.DivisionValues.cO D.host.E (Formalism.DivisionValues.cO D.host.E a) = a := fun a => Subtype.ext (star_star _)
   have hmem : ∀ (I : Ideal (𝓞 D.host.E)) (a : 𝓞 D.host.E),
@@ -350,12 +350,12 @@ theorem exists_transfer : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T :
   obtain ⟨u1, u2⟩ := GlobalTheory.T.splittingCharacters_unramified_offLevels R F hC.lev t _ hG
   obtain ⟨v1, v2⟩ := GlobalTheory.T.splittingCharacters_unramified_offLevels R F hC.lev t _ hG'
   have hm := D.R.two_le_m
-  have hP' : conjPl (conjPl (R.pl P)) ≠ conjPl (R.pl P) := by rw [Formalism.DivisionValues.ValuationRepresentative.conjPl_conjPl]; exact hP.symm
-  obtain ⟨e, he⟩ := GlobalTheory.MovedIdem.exists_isIdemAt (conjPl (R.pl P)) (by
+  have hP' : _root_.Formalism.DivisionValues.conjPl (_root_.Formalism.DivisionValues.conjPl (R.pl P)) ≠ _root_.Formalism.DivisionValues.conjPl (R.pl P) := by rw [Formalism.DivisionValues.ValuationRepresentative.conjPl_conjPl]; exact hP.symm
+  obtain ⟨e, he⟩ := GlobalTheory.MovedIdem.exists_isIdemAt (_root_.Formalism.DivisionValues.conjPl (R.pl P)) (by
     rw [Formalism.DivisionValues.GluingInclusion.conjIdeal_eq]
     exact fun h => hP' (HeightOneSpectrum.ext h))
-  obtain ⟨ϖ, h1, h2⟩ : ∃ ϖ ∈ (conjPl (R.pl P)).asIdeal, ϖ ∉ (conjPl (R.pl P)).asIdeal ^ 2 :=
-    SetLike.exists_of_lt (Ideal.pow_lt_self _ (conjPl (R.pl P)).ne_bot (conjPl (R.pl P)).isPrime.ne_top 2 le_rfl)
+  obtain ⟨ϖ, h1, h2⟩ : ∃ ϖ ∈ (_root_.Formalism.DivisionValues.conjPl (R.pl P)).asIdeal, ϖ ∉ (_root_.Formalism.DivisionValues.conjPl (R.pl P)).asIdeal ^ 2 :=
+    SetLike.exists_of_lt (Ideal.pow_lt_self _ (_root_.Formalism.DivisionValues.conjPl (R.pl P)).ne_bot (_root_.Formalism.DivisionValues.conjPl (R.pl P)).isPrime.ne_top 2 le_rfl)
   have h0 : (ϖ : D.host.E) ≠ 0 := RingOfIntegers.coe_ne_zero_iff.2 fun h => h2 (h ▸ zero_mem _)
   obtain ⟨x, hx⟩ : ∃ x : (AE D)ˣ, (x : AE D) = e * incA D (ϖ : D.host.E) + (1 - e) :=
     ⟨Formalism.L2.JoinChr.locU he.1.1 (Units.mk0 _ h0), by

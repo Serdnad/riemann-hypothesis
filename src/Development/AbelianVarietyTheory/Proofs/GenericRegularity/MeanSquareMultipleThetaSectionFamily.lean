@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.RigFrame
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFundamentalDomainMeanNormSqThetaChar
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExpMulThetaCharAutomorphy
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HermEqOfNormalised
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle021
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.NormalisedPointsSatisfySingleFrame
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ThetaCharHalfDifferentiableNeZeroFamilies
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

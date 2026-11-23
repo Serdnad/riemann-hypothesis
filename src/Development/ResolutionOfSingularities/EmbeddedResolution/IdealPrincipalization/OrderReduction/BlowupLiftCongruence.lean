@@ -6,7 +6,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversal
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupExistence
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupOpenCover
-import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
+import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Jets.SameFns
+import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Mathlib.Analysis.Calculus.BumpFunction.Basic
 

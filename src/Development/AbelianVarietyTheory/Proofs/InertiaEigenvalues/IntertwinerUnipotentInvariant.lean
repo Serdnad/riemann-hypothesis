@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LabelDatum
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
 public import Mathlib.GroupTheory.Nilpotent
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CentralIdempotentOfIrrCharacterOrthogonalCentralStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GroupAlgebraTraceIdempotentAndIrreducibleDegreeStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraFrobeniusReciprocityStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraSeriesCentralIdempotentLawsStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraSeriesLabelExistsUniqueGLnStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraSeriesLabelMulOfConstituentStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle289
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle340
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle577
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle531
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle489
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsCharLab
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle011
 public import Mathlib.Basic.PEquiv
 
 @[expose] public section

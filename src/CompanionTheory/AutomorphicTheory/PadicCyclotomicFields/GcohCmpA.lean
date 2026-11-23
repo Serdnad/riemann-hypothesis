@@ -3,7 +3,7 @@ module
 import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohCmpA
 public import GroundTheory.ProfiniteCohomology.CupProducts
 public import ReciprocityTheory.GaloisValuations.SeparatedDvrSecondCohomologyMem
-public import GroundTheory.ProfiniteCohomology.FilteredHomology
+public import GroundTheory.ProfiniteCohomology.Bundle001
 import Mathlib.Algebra.Homology.ShortComplex.ModuleCat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.GJLeviZetaBlocks
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

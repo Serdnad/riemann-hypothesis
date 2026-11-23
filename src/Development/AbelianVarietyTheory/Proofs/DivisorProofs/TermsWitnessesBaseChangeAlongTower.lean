@@ -1,14 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasTraitsOnOfHasTraitsP
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrPull
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2826
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPullIso
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFramesOnUniformisedModelFibre
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.YKThNeZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3170
 import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverMove
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueThickTorusLevelWeightExpansion
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.StalkMapInjectiveOfFlat
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

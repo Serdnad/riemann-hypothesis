@@ -1,13 +1,12 @@
 module
 
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocallyConstantSplitOm
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLocallyConstantAddChar
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle009
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle345
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.CyclicAndLine
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.DualNumberGraphFiltrationIsotropicOfSkew
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ExistsInvariantForm
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.IntegrablePair
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle002
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HeckePairTop
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle017
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwBruhatKO
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwFactTorus
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHeckePairIwC
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkApply
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkTrace
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle030
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle025
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle022
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle026
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwMemIwC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

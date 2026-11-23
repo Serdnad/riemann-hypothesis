@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementN
+public import Formalism.CharacterColumnKernels.Bundle003
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

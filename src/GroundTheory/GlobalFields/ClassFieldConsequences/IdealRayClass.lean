@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.ClassFieldConsequences.RayClass
-public import GroundTheory.GlobalFields.Adele.WeakApproxUnits
+public import GroundTheory.GlobalFields.Adele.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

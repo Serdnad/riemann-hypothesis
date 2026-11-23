@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.DegProd
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsIsUnitField
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

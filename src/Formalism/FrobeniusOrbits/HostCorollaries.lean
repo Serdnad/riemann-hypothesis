@@ -1,11 +1,10 @@
 module
 
 public import Formalism.FrobeniusOrbits.Statement
-import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CardTrivialFirstComponent
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.ConjReal
+import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle003
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.CoprimeTwoPow
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.FrobMulInertia
 import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Inertia
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.MuCardLeTwo

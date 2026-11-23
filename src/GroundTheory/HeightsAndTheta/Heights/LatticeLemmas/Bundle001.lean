@@ -1,0 +1,203 @@
+module
+
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.Embeddings
+public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.Ideal.Norm.RelNorm
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+public import Mathlib.RingTheory.RootsOfUnity.CyclotomicUnits
+public import Mathlib.RingTheory.RootsOfUnity.Lemmas
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Lean.Meta.Basic
+public import Mathlib.Algebra.Module.Torsion.Basic
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
+public import Mathlib.Algebra.BigOperators.Associated
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.LatticeLemmas
+
+open NumberField GroundTheory.Heights₂.Heights
+
+noncomputable section
+
+end
+
+end GroundTheory.Heights₂.Heights.LatticeLemmas
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.LatticeLemmas
+
+open NumberField TensorProduct
+
+noncomputable section
+
+variable {K : Type*} [Field K] [NumberField K] (L : Type*) [Field L] [NumberField L] [Algebra K L]
+
+theorem finrank_integers : Module.finrank (𝓞 K) (𝓞 L) = Module.finrank K L :=
+  (IsFractionRing.finrank_eq (𝓞 K) K (𝓞 L) L).symm
+
+theorem card_tensor_quotient (I : Ideal (𝓞 K)) :
+    Nat.card (𝓞 L ⊗[𝓞 K] (𝓞 K ⧸ I)) = Nat.card (𝓞 K ⧸ I) ^ Module.finrank K L := by
+  rw [← Nat.card_congr (Algebra.TensorProduct.quotIdealMapEquivTensorQuot (𝓞 L) I).toEquiv,
+    ← Submodule.cardQuot_apply, ← Submodule.cardQuot_apply, ← Ideal.absNorm_apply,
+    ← Ideal.absNorm_apply, Ideal.absNorm_algebraMap, finrank_integers]
+
+theorem card_tensor_integers (Q : Type*) [AddCommGroup Q] [Module (𝓞 K) Q] [Finite Q] :
+    Nat.card (𝓞 L ⊗[𝓞 K] Q) = Nat.card Q ^ Module.finrank K L := by
+  induction hn : Nat.card Q using Nat.strong_induction_on generalizing Q with
+  | _ n ih =>
+  subst hn
+  rcases subsingleton_or_nontrivial Q with hQ | hQ
+  · have h0 : ∀ z : 𝓞 L ⊗[𝓞 K] Q, z = 0 := fun z ↦ by
+      induction z using TensorProduct.induction_on with
+      | zero => rfl
+      | tmul b q => rw [Subsingleton.elim q 0, tmul_zero]
+      | add a b ha hb => rw [ha, hb, add_zero]
+    have : Subsingleton (𝓞 L ⊗[𝓞 K] Q) := ⟨fun x y ↦ by rw [h0 x, h0 y]⟩
+    rw [Nat.card_of_subsingleton (0 : 𝓞 L ⊗[𝓞 K] Q), Nat.card_of_subsingleton (0 : Q), one_pow]
+  obtain ⟨x, hx⟩ := exists_ne (0 : Q)
+  set C : Submodule (𝓞 K) Q := Submodule.span (𝓞 K) {x}
+  have : Finite (Q ⧸ C) := Finite.of_surjective _ (Submodule.mkQ_surjective C)
+  have hCQ : Nat.card Q = Nat.card (Q ⧸ C) * Nat.card C :=
+    AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup C.toAddSubgroup
+  have hC1 : 1 < Nat.card C := by
+    have : Nontrivial C := ⟨⟨⟨x, Submodule.mem_span_singleton_self x⟩, 0, fun h ↦ hx (congrArg Subtype.val h)⟩⟩
+    exact Finite.one_lt_card
+  have hlt : Nat.card (Q ⧸ C) < Nat.card Q := by
+    have : 0 < Nat.card (Q ⧸ C) := Nat.card_pos
+    rw [hCQ]
+    exact lt_mul_of_one_lt_right this hC1
+  have hquot := ih _ hlt (Q ⧸ C) rfl
+  have hcyc : Nat.card (𝓞 L ⊗[𝓞 K] C) = Nat.card C ^ Module.finrank K L := by
+    have e := Ideal.quotTorsionOfEquivSpanSingleton (𝓞 K) Q x
+    rw [← Nat.card_congr e.toEquiv, ← card_tensor_quotient L,
+      Nat.card_congr (LinearEquiv.lTensor (𝓞 L) e).toEquiv]
+  set f : 𝓞 L ⊗[𝓞 K] C →ₗ[𝓞 K] 𝓞 L ⊗[𝓞 K] Q := LinearMap.lTensor (𝓞 L) C.subtype
+  have hf : Function.Injective f :=
+    Module.Flat.lTensor_preserves_injective_linearMap C.subtype C.injective_subtype
+  have h1 : Nat.card (𝓞 L ⊗[𝓞 K] Q) =
+      Nat.card ((𝓞 L ⊗[𝓞 K] Q) ⧸ LinearMap.range f) * Nat.card (LinearMap.range f) :=
+    AddSubgroup.card_eq_card_quotient_mul_card_addSubgroup (LinearMap.range f).toAddSubgroup
+  have h2 : Nat.card (LinearMap.range f) = Nat.card (𝓞 L ⊗[𝓞 K] C) :=
+    Nat.card_congr (LinearEquiv.ofInjective f hf).toEquiv.symm
+  have h3 : Nat.card ((𝓞 L ⊗[𝓞 K] Q) ⧸ LinearMap.range f) = Nat.card (𝓞 L ⊗[𝓞 K] (Q ⧸ C)) :=
+    Nat.card_congr (TensorProduct.tensorQuotientEquiv (𝓞 L) C).toEquiv.symm
+  rw [h1, h2, h3, hquot, hcyc, hCQ, mul_pow]
+
+theorem card_extensions (σ : K →+* ℂ) :
+    Nat.card {τ : L →+* ℂ // τ.comp (algebraMap K L) = σ} = Module.finrank K L := by
+  let _ : Algebra K ℂ := σ.toAlgebra
+  rw [← AlgHom.natCard_of_splits K L ℂ (fun _ ↦ IsAlgClosed.splits _)]
+  exact Nat.card_congr
+    { toFun := fun τ ↦ (⟨τ.1, fun a ↦ RingHom.congr_fun τ.2 a⟩ : L →ₐ[K] ℂ)
+      invFun := fun g ↦ ⟨g.toRingHom, by
+        ext a
+        exact g.commutes a⟩
+      left_inv := fun τ ↦ rfl
+      right_inv := fun g ↦ rfl }
+
+theorem sum_comp_algebraMap (f : (K →+* ℂ) → ℝ) :
+    ∑ τ : L →+* ℂ, f (τ.comp (algebraMap K L)) = Module.finrank K L * ∑ σ : K →+* ℂ, f σ := by
+  classical
+  rw [← Finset.sum_fiberwise Finset.univ (fun τ : L →+* ℂ ↦ τ.comp (algebraMap K L)), Finset.mul_sum]
+  refine Finset.sum_congr rfl fun σ _ ↦ ?_
+  rw [Finset.sum_congr rfl (fun τ hτ ↦ by rw [(Finset.mem_filter.mp hτ).2]), Finset.sum_const,
+    nsmul_eq_mul, ← card_extensions L σ, Nat.card_eq_fintype_card, Fintype.card_subtype]
+
+end
+
+end GroundTheory.Heights₂.Heights.LatticeLemmas
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open NumberField Finset
+
+noncomputable section
+
+namespace RootsOfUnityValuation
+
+variable {A : Type*} [CommRing A] [IsDomain A]
+
+
+omit [IsDomain A] in
+theorem associated_sub_comm (a b : A) : Associated (a - b) (b - a) :=
+  ⟨-1, by simp⟩
+
+theorem one_sub_pow_associated {l : ℕ} (hl : l.Prime) {ζ : A} (hζ : IsPrimitiveRoot ζ l) :
+    Associated ((1 - ζ) ^ (l - 1)) (l : A) := by
+  obtain ⟨n, rfl⟩ : ∃ n, l = n + 1 := ⟨l - 1, (Nat.sub_add_cancel hl.one_lt.le).symm⟩
+  have h := hζ.prod_one_sub_pow_eq_order
+  have h1 : (1 - ζ) ^ n = ∏ _k ∈ range n, (1 - ζ) := by simp
+  rw [Nat.add_sub_cancel, h1]
+  push_cast
+  rw [← h]
+  refine Associated.prod _ _ _ fun k hk => ?_
+  have hcop : (k + 1).Coprime (n + 1) :=
+    (Nat.coprime_of_lt_prime (by omega) (by simpa using Finset.mem_range.1 hk) hl).symm
+  exact (associated_sub_comm 1 ζ).trans
+    ((hζ.associated_sub_one_pow_sub_one_of_coprime hcop).trans (associated_sub_comm _ _))
+
+end RootsOfUnityValuation
+
+end
+
+end GroundTheory.Heights₂.Heights
+end

@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OpenFns
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle297
 public import Mathlib.NumberTheory.LocalField.Basic
 
 @[expose] public section

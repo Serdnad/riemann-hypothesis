@@ -3,8 +3,8 @@ module
 public import Mathlib.Algebra.Polynomial.AlgebraMap
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.NumberTheory.Padics.RingHoms
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.NormCardQuotientSpan
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TateBasisMatrix
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle003
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -59,7 +59,7 @@ import Mathlib.CategoryTheory.Monoidal.Mon
 public import Mathlib.FieldTheory.Finiteness
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

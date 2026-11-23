@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.IsResidueClassZero
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.FrobGSpec
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.FrobHOrder
-public import Development.AutomorphicArithmetic.OrbitLabellings.GalEArithFrobEqIotaHP
-import Formalism.LocalRingCardinality.HostCls
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle001
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle002
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle003
+import Formalism.LocalRingCardinality.Bundle002
 import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

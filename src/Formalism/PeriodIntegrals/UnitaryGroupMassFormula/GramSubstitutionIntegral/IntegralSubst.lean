@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.FglGram
+public import Formalism.PeriodIntegrals.Bundle008
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PowerSeriesNormUnits.NormUnitsSubstitution
 import Mathlib.Algebra.Order.Floor.Extended
@@ -42,7 +42,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.PeriodIntegrals.PhNormUnits
 
 @[expose] public section
 

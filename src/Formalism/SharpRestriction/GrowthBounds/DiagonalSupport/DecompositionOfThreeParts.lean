@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.TwiceValuationFactorialProduct
-import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.FockRLinDual
+import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.ProjectionOfIsotypicDecomposition
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationNonnegIffIntegral
 import Mathlib.Algebra.Order.Floor.Extended

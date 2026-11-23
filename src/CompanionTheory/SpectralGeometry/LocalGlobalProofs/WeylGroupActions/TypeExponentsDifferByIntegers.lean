@@ -1,9 +1,9 @@
 module
 
 public import Formalism.HermitianCurvature.StatementQ
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.WeylGroupActions.CapelliParamsDiffInt
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DifferentialOperatorBracket
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameExtension
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.WeylGroupActions.Bundle001
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle111
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle091
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RestrictionIrrelevantDoubleLevelOperator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.HermitianCurvature.FrameExists2
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.Cut_BPEq
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle157
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormSqLeShifted
 
 @[expose] public section

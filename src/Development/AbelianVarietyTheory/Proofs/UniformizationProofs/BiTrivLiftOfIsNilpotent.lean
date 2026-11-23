@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.ExistsUniqueTorusCompat
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsPullLam
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.BiTrivTransport
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle064
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CoeffMemOfPoints
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.EqOneOfGroupLike
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

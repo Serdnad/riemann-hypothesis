@@ -1,0 +1,392 @@
+module
+
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatio
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.AlgebraMapIntCastSmul
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle010
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExtPPowLeSpanSup
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LinearIndependentOfGramDetNeZero
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.StarAlgebraMap
+public import Mathlib.Algebra.FiniteSupport.Basic
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.NumberTheory.NumberField.CanonicalEmbedding.Basic
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle017
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle009
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.DifferentIdealEqTop
+public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.Bundle003
+import Mathlib.Algebra.Module.Torsion.Prod
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.Convex.Measure
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+public import Mathlib.MeasureTheory.Integral.Pi
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.NumberField.Discriminant.Basic
+import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.RingTheory.Ideal.Norm.RelNorm
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Separation.CompletelyRegular
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.RingTheory.DedekindDomain.Factorization
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+open NumberField Module IsDedekindDomain Function
+
+noncomputable section
+
+namespace Formalism.HermitianLattices.Ext.L3.BrA
+
+variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberField F] [Algebra F K]
+
+def maxEquiv (F : Type) [Field F] [NumberField F] :
+    {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal} ≃ HeightOneSpectrum (𝓞 F) where
+  toFun 𝔭 := ⟨𝔭.1, 𝔭.2.isPrime, idealPowerSpanBounds.ne_bot 𝔭.2⟩
+  invFun v := ⟨v.asIdeal, v.isMaximal⟩
+  left_inv _ := rfl
+  right_inv _ := rfl
+
+theorem sSup_le_pow (v : HeightOneSpectrum (𝓞 F)) {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) :
+    sSup {e : ℕ | I ≤ v.asIdeal ^ e} = multiplicity v.asIdeal I := by
+  have hfin : FiniteMultiplicity v.asIdeal I :=
+    FiniteMultiplicity.of_not_isUnit v.prime.not_isUnit hI
+  have : {e : ℕ | I ≤ v.asIdeal ^ e} = Set.Iic (multiplicity v.asIdeal I) := by
+    ext e
+    simp only [Set.mem_ofPred_eq, Set.mem_Iic]
+    rw [← Ideal.dvd_iff_le, hfin.pow_dvd_iff_le_multiplicity]
+  rw [this, csSup_Iic]
+
+theorem absNorm_eq_tprod {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) :
+    (Ideal.absNorm I : ℝ) = ∏' 𝔭 : {𝔭 : Ideal (𝓞 F) // 𝔭.IsMaximal},
+      (Ideal.absNorm 𝔭.1 : ℝ) ^ sSup {e : ℕ | I ≤ 𝔭.1 ^ e} := by
+  let φ : Ideal (𝓞 F) →* ℝ :=
+    ((Nat.castRingHom ℝ : ℕ →+* ℝ) : ℕ →* ℝ).comp (Ideal.absNorm : Ideal (𝓞 F) →*₀ ℕ).toMonoidHom
+  have hφ : ∀ J, φ J = (Ideal.absNorm J : ℝ) := fun _ => rfl
+  have h0 : HasFiniteMulSupport fun v : HeightOneSpectrum (𝓞 F) => v.maxPowDividing I :=
+    Ideal.hasFiniteMulSupport hI
+  have h1 : φ I = ∏ᶠ v : HeightOneSpectrum (𝓞 F), φ (v.maxPowDividing I) := by
+    conv_lhs => rw [← Ideal.finprod_heightOneSpectrum_factorization hI]
+    exact map_finprod φ h0
+  have h2 : HasFiniteMulSupport fun v : HeightOneSpectrum (𝓞 F) => φ (v.maxPowDividing I) :=
+    h0.fun_comp (map_one φ)
+  have h3 : ∏' v : HeightOneSpectrum (𝓞 F), φ (v.maxPowDividing I) =
+      ∏ᶠ v : HeightOneSpectrum (𝓞 F), φ (v.maxPowDividing I) := tprod_eq_finprod h2
+  rw [← hφ, h1, ← h3, ← (maxEquiv F).tprod_eq]
+  refine tprod_congr fun 𝔭 => ?_
+  rw [HeightOneSpectrum.maxPowDividing_eq_pow_multiplicity hI, map_pow, hφ,
+    ← sSup_le_pow _ hI]
+  rfl
+
+theorem finrank_ringOfIntegers (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) :
+    finrank (𝓞 F) (𝓞 K) = 2 := by
+  rw [← MeanB.finrank_eq_two hK hF]
+  exact (IsFractionRing.finrank_eq (𝓞 F) F (𝓞 K) K).symm
+
+theorem absNorm_map (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) (I : Ideal (𝓞 F)) :
+    Ideal.absNorm (I.map (algebraMap (𝓞 F) (𝓞 K))) = Ideal.absNorm I ^ 2 := by
+  rw [Ideal.absNorm_algebraMap, finrank_ringOfIntegers hK hF]
+
+theorem map_le_extP_pow (I 𝔭 : Ideal (𝓞 F)) (e : ℕ) :
+    I.map (algebraMap (𝓞 F) (𝓞 K)) ≤ extP K 𝔭 ^ e ↔ I ≤ 𝔭 ^ e := by
+  rw [Ideal.map_le_iff_le_comap, MeanB.comap_extP_pow]
+
+variable {V : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+
+def discrF (F : Type) [Field F] [NumberField F] [Algebra F K] (h : V →ₗ⋆[K] V →ₗ[K] K)
+    (L : Submodule (𝓞 K) V) : Ideal (𝓞 F) :=
+  (discrIdeal h L).comap (algebraMap (𝓞 F) (𝓞 K))
+
+theorem discrIdeal_eq_map (hF : IsFixF K F) {h : V →ₗ⋆[K] V →ₗ[K] K} (hs : h.IsSymm)
+    (L : Submodule (𝓞 K) V) :
+    discrIdeal h L = (discrF F h L).map (algebraMap (𝓞 F) (𝓞 K)) := by
+  apply le_antisymm
+  · conv_lhs => unfold discrIdeal
+    rw [Ideal.span_le]
+    rintro z ⟨x, hx, hz⟩
+    have hzfix : conjO K z = z := by
+      apply RingOfIntegers.ext
+      rw [conjO_coe]
+      change star (algebraMap (𝓞 K) K z) = algebraMap (𝓞 K) K z
+      rw [hz, LocF.star_gram_det h hs]
+    obtain ⟨t, ht⟩ := (conjO_eq_iff_mem_range hF z).mp hzfix
+    rw [← ht]
+    apply Ideal.mem_map_of_mem
+    rw [discrF, Ideal.mem_comap, ht]
+    exact Ideal.subset_span ⟨x, hx, hz⟩
+  · exact Ideal.map_comap_le
+
+theorem vd_eq (hF : IsFixF K F) {h : V →ₗ⋆[K] V →ₗ[K] K} (hs : h.IsSymm)
+    (L : Submodule (𝓞 K) V) (𝔭 : Ideal (𝓞 F)) :
+    vd h L 𝔭 = sSup {e : ℕ | discrF F h L ≤ 𝔭 ^ e} := by
+  unfold vd
+  congr 1
+  ext e
+  simp only [Set.mem_ofPred_eq]
+  rw [discrIdeal_eq_map hF hs, map_le_extP_pow]
+
+theorem normD_eq (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) {h : V →ₗ⋆[K] V →ₗ[K] K}
+    (hs : h.IsSymm) (L : Submodule (𝓞 K) V) : normD h L = (Ideal.absNorm (discrF F h L) : ℝ) := by
+  unfold normD
+  rw [discrIdeal_eq_map hF hs, absNorm_map hK hF, Nat.cast_pow, Real.sqrt_sq (Nat.cast_nonneg _)]
+
+theorem discrIdeal_gmap {h : V →ₗ⋆[K] V →ₗ[K] K} {g : V ≃ₗ[K] V} (hg : g ∈ Formalism.HermitianLatticesTheory.isom h)
+    (A : Submodule (𝓞 K) V) : discrIdeal h (Formalism.HermitianLatticesTheory.gmap g A) = discrIdeal h A := by
+  unfold discrIdeal
+  congr 1
+  ext z
+  constructor
+  · rintro ⟨x, hx, e⟩
+    refine ⟨fun i => g.symm (x i), fun i => ?_, ?_⟩
+    · obtain ⟨y, hy, hyx⟩ := Submodule.mem_map.mp (hx i)
+      have : g y = x i := hyx
+      change g.symm (x i) ∈ A
+      rw [← this, LinearEquiv.symm_apply_apply]
+      exact hy
+    · rw [e]
+      congr 1
+      ext i j
+      have := hg (g.symm (x i)) (g.symm (x j))
+      rw [LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply] at this
+      exact this
+  · rintro ⟨x, hx, e⟩
+    refine ⟨fun i => g (x i), fun i => Submodule.mem_map.mpr ⟨x i, hx i, rfl⟩, ?_⟩
+    rw [e]
+    congr 1
+    ext i j
+    exact (hg (x i) (x j)).symm
+
+theorem form_mem_locF (hF : IsFixF K F) {h : V →ₗ⋆[K] V →ₗ[K] K} {L : Submodule (𝓞 K) V}
+    (hLi : Formalism.HermitianLatticesTheory.IsIntegralLat h L) {𝔭 : Ideal (𝓞 F)} (hp : 𝔭.IsPrime) {g : V ≃ₗ[K] V}
+    (hg : g ∈ Formalism.HermitianLatticesTheory.isom h) {x y : V} (hx : x ∈ Formalism.HermitianLatticesTheory.gmap g (locF 𝔭 L))
+    (hy : y ∈ Formalism.HermitianLatticesTheory.gmap g (locF 𝔭 L)) : h x y ∈ locF 𝔭 (1 : Submodule (𝓞 K) K) := by
+  obtain ⟨x', hx', ex⟩ := Submodule.mem_map.mp hx
+  obtain ⟨y', hy', ey⟩ := Submodule.mem_map.mp hy
+  have ex' : g x' = x := ex
+  have ey' : g y' = y := ey
+  obtain ⟨s, hs, hsx⟩ := (LocF.mem_locF_iff hp L x').mp hx'
+  obtain ⟨t, ht, hty⟩ := (LocF.mem_locF_iff hp L y').mp hy'
+  rw [← ex', ← ey', hg x' y', LocF.mem_locF_iff hp]
+  refine ⟨s * t, fun hm => (hp.mem_or_mem hm).elim hs ht, ?_⟩
+  have hsmul :
+      h (algebraMap (𝓞 F) (𝓞 K) s • x') (algebraMap (𝓞 F) (𝓞 K) t • y') =
+        algebraMap (𝓞 F) (𝓞 K) (s * t) • h x' y' := by
+    rw [← algebraMap_smul K (algebraMap (𝓞 F) (𝓞 K) s),
+      ← algebraMap_smul K (algebraMap (𝓞 F) (𝓞 K) t),
+      Algebra.smul_def (algebraMap (𝓞 F) (𝓞 K) (s * t))]
+    simp only [LinearMap.map_smulₛₗ₂, map_smul, smul_eq_mul, starRingEnd_apply,
+      MeanB.algebraMap_comp, MeanB.star_algebraMap hF, map_mul, mul_assoc]
+    exact mul_left_comm _ _ _
+  exact hsmul ▸ hLi _ hsx _ hty
+
+end Formalism.HermitianLattices.Ext.L3.BrA
+end
+end
+
+section
+
+open NumberField Module Filter Topology MeasureTheory Pointwise
+open scoped Classical
+
+noncomputable section
+
+namespace Formalism.HermitianLattices.Ext.L3.BoxSum
+
+variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberField F] [Algebra F K]
+
+def sBox (F : Type) [Field F] [NumberField F] : Set (mixedEmbedding.mixedSpace F) :=
+  {x | ∀ w, 0 < x.1 w ∧ x.1 w ≤ 1}
+
+def gW (F : Type) [Field F] [NumberField F] (m : ℕ) : mixedEmbedding.mixedSpace F → ℝ :=
+  fun x => ∏ w, (x.1 w) ^ (m - 1)
+
+theorem sBox_eq : sBox F = (Set.univ.pi fun _ => Set.Ioc (0 : ℝ) 1) ×ˢ Set.univ := by
+  ext x; simp [sBox, Set.mem_pi]
+
+theorem measurableSet_sBox : MeasurableSet (sBox F) := by
+  rw [sBox_eq]
+  exact (MeasurableSet.univ_pi fun _ => measurableSet_Ioc).prod MeasurableSet.univ
+
+theorem convex_sBox : Convex ℝ (sBox F) := by
+  rw [sBox_eq]
+  exact (convex_pi fun _ _ => convex_Ioc _ _).prod convex_univ
+
+theorem isBounded_sBox [IsTotallyReal F] : Bornology.IsBounded (sBox F) := by
+  refine (Metric.isBounded_closedBall (x := 0) (r := 1)).subset fun x hx => ?_
+  rw [mem_closedBall_zero_iff, Prod.norm_def, max_le_iff]
+  constructor
+  · rw [pi_norm_le_iff_of_nonneg zero_le_one]
+    intro w
+    rw [Real.norm_eq_abs, abs_of_pos (hx w).1]
+    exact (hx w).2
+  · rw [pi_norm_le_iff_of_nonneg zero_le_one]
+    intro w
+    exact absurd (IsTotallyReal.isReal w.1) (InfinitePlace.not_isReal_iff_isComplex.2 w.2)
+
+theorem continuous_gW (m : ℕ) : Continuous (gW F m) := by
+  unfold gW
+  fun_prop
+
+theorem integral_gW [IsTotallyReal F] {m : ℕ} (hm : 1 ≤ m) :
+    ∫ x in sBox F, gW F m x = ((m : ℝ)⁻¹) ^ Fintype.card {w : InfinitePlace F // w.IsReal} := by
+  have hE : IsEmpty {w : InfinitePlace F // w.IsComplex} :=
+    ⟨fun w => absurd (IsTotallyReal.isReal w.1) (InfinitePlace.not_isReal_iff_isComplex.2 w.2)⟩
+  have h1 : (volume : Measure ({w : InfinitePlace F // w.IsComplex} → ℂ)).real Set.univ = 1 := by
+    rw [volume_pi, Measure.pi_of_empty]
+    simp
+  rw [sBox_eq, Measure.volume_eq_prod, ← Measure.prod_restrict, Measure.restrict_univ]
+  unfold gW
+  rw [integral_fun_fst (f := fun y : {w : InfinitePlace F // w.IsReal} → ℝ => ∏ w, y w ^ (m - 1)),
+    h1, one_smul, volume_pi, Measure.restrict_pi_pi,
+    integral_fintype_prod_eq_prod (fun _ (y : ℝ) => y ^ (m - 1)), Finset.prod_const,
+    Finset.card_univ]
+  congr 1
+  rw [← intervalIntegral.integral_of_le zero_le_one, integral_pow, Nat.cast_sub hm]
+  simp
+
+def fracU {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) : (FractionalIdeal (nonZeroDivisors (𝓞 F)) F)ˣ :=
+  Units.mk0 (I : FractionalIdeal (nonZeroDivisors (𝓞 F)) F) (FractionalIdeal.coeIdeal_ne_zero.2 hI)
+
+theorem mem_idealLattice_iff {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) (y : mixedEmbedding.mixedSpace F) :
+    y ∈ mixedEmbedding.idealLattice F (fracU hI) ↔ ∃ n ∈ I, mixedEmbedding F (n : F) = y := by
+  rw [mixedEmbedding.mem_idealLattice]
+  constructor
+  · rintro ⟨a, ha, rfl⟩
+    have ha' : a ∈ (I : FractionalIdeal (nonZeroDivisors (𝓞 F)) F) := ha
+    obtain ⟨n, hn, rfl⟩ := (FractionalIdeal.mem_coeIdeal _).1 ha'
+    exact ⟨n, hn, rfl⟩
+  · rintro ⟨n, hn, rfl⟩
+    exact ⟨(n : F), (FractionalIdeal.mem_coeIdeal _).2 ⟨n, hn, rfl⟩, rfl⟩
+
+theorem gW_smul (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) (m : ℕ) {T : ℝ} {n : 𝓞 F}
+    (hn : n ∈ boxSet K F T) (c : ℝ) :
+    gW F m (c • mixedEmbedding F (n : F)) =
+      (Ideal.absNorm (Ideal.span {n}) : ℝ) ^ (m - 1) * c ^ (Formalism.HermitianLatticesTheory.fDeg K * (m - 1)) := by
+  unfold gW
+  rw [absNorm_eq_prod_of_mem hK hF hn, ← Finset.prod_pow, pow_mul, ← card_real hK hF,
+    ← Finset.card_univ, ← Finset.prod_const, ← Finset.prod_pow, ← Finset.prod_mul_distrib]
+  refine Finset.prod_congr rfl fun w _ => ?_
+  rw [Prod.smul_fst, Pi.smul_apply, mixedEmbedding.mixedEmbedding_apply_isReal, smul_eq_mul, mul_pow,
+    rEmb_apply, mul_comm]
+
+theorem tsum_eq (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) (m : ℕ) {I : Ideal (𝓞 F)}
+    (hI : I ≠ ⊥) {N : ℝ} (hN : 0 < N) :
+    ∑' x : ↑(sBox F ∩ N⁻¹ • (mixedEmbedding.idealLattice F (fracU hI) : Set (mixedEmbedding.mixedSpace F))), gW F m x =
+      (∑ᶠ n ∈ {n : 𝓞 F | n ∈ boxSet K F N ∧ n ∈ I},
+        (Ideal.absNorm (Ideal.span {n}) : ℝ) ^ (m - 1)) * N⁻¹ ^ (Formalism.HermitianLatticesTheory.fDeg K * (m - 1)) := by
+  have hfin : {n : 𝓞 F | n ∈ boxSet K F N ∧ n ∈ I}.Finite :=
+    (finite_boxSet hK hF N).subset fun n hn => hn.1
+  have hmem : ∀ n : {n : 𝓞 F | n ∈ boxSet K F N ∧ n ∈ I}, N⁻¹ • mixedEmbedding F ((n : 𝓞 F) : F) ∈
+      sBox F ∩ N⁻¹ • (mixedEmbedding.idealLattice F (fracU hI) : Set (mixedEmbedding.mixedSpace F)) := by
+    rintro ⟨n, hn, hnI⟩
+    refine ⟨fun w => ?_, Set.smul_mem_smul_set ((mem_idealLattice_iff hI _).2 ⟨n, hnI, rfl⟩)⟩
+    have h1 := (mem_boxSet_iff hK hF).1 hn w
+    rw [Prod.smul_fst, Pi.smul_apply, mixedEmbedding.mixedEmbedding_apply_isReal, smul_eq_mul,
+      ← rEmb_apply]
+    refine ⟨mul_pos (inv_pos.2 hN) h1.1, ?_⟩
+    rw [inv_mul_le_iff₀ hN, mul_one]
+    exact h1.2
+  let ε : {n : 𝓞 F | n ∈ boxSet K F N ∧ n ∈ I} →
+      ↑(sBox F ∩ N⁻¹ • (mixedEmbedding.idealLattice F (fracU hI) : Set (mixedEmbedding.mixedSpace F))) := fun n => ⟨_, hmem n⟩
+  have hε : Function.Bijective ε := by
+    constructor
+    · intro n n' h
+      have h1 : N⁻¹ • mixedEmbedding F ((n : 𝓞 F) : F) = N⁻¹ • mixedEmbedding F ((n' : 𝓞 F) : F) :=
+        congrArg Subtype.val h
+      have h2 := smul_right_injective _ (inv_ne_zero hN.ne') h1
+      exact Subtype.ext (RingOfIntegers.coe_injective (mixedEmbedding_injective F h2))
+    · rintro ⟨x, hx, hxL⟩
+      obtain ⟨y, hy, rfl⟩ := hxL
+      obtain ⟨n, hnI, rfl⟩ := (mem_idealLattice_iff hI _).1 hy
+      refine ⟨⟨n, (mem_boxSet_iff hK hF).2 fun w => ?_, hnI⟩, rfl⟩
+      have h1 := hx w
+      simp only [] at h1
+      rw [Prod.smul_fst, Pi.smul_apply, mixedEmbedding.mixedEmbedding_apply_isReal, smul_eq_mul,
+        ← rEmb_apply, inv_mul_le_iff₀ hN, mul_one] at h1
+      exact ⟨(mul_pos_iff_of_pos_left (inv_pos.2 hN)).1 h1.1, h1.2⟩
+  have : Finite {n : 𝓞 F | n ∈ boxSet K F N ∧ n ∈ I} := hfin
+  rw [← (Equiv.ofBijective ε hε).tsum_eq, tsum_eq_finsum (Set.toFinite _), finsum_mem_mul,
+    ← finsum_set_coe_eq_finsum_mem]
+  refine finsum_congr fun n => ?_
+  exact gW_smul hK hF m n.2.1 _
+
+theorem tendsto_sum_ideal (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) (hF : IsFixF K F) {m : ℕ} (hm : 1 ≤ m)
+    {I : Ideal (𝓞 F)} (hI : I ≠ ⊥) :
+    Tendsto (fun j : ℕ => ((j : ℝ) ^ 2) ^ (-((Formalism.HermitianLatticesTheory.fDeg K * m : ℕ) : ℤ)) *
+        ∑ᶠ n ∈ {n : 𝓞 F | n ∈ boxSet K F ((j : ℝ) ^ 2) ∧ n ∈ I},
+          (Ideal.absNorm (Ideal.span {n}) : ℝ) ^ (m - 1))
+      atTop (𝓝 ((m : ℝ) ^ (-(Formalism.HermitianLatticesTheory.fDeg K : ℤ)) /
+        Real.sqrt ((2 * Formalism.HermitianLatticesTheory.vInv K) ^ Formalism.HermitianLatticesTheory.fDeg K) / (Ideal.absNorm I : ℝ))) := by
+  have hR : IsTotallyReal F := QuadraticExtensionConjugation.isTotallyReal hK hF
+  obtain ⟨-, hfr, hdisc⟩ := discrTower K F hK hF
+  have key := LatSum.tendsto_tsum_div_pow (mixedEmbedding.idealLattice F (fracU hI)) volume
+    isBounded_sBox measurableSet_sBox (convex_sBox.addHaar_frontier volume) (continuous_gW m)
+  rw [integral_gW hm, card_real hK hF, mixedEmbedding.covolume_idealLattice,
+    mixedEmbedding.finrank, hfr, IsTotallyReal.nrComplexPlaces_eq_zero, pow_zero, mul_one] at key
+  have hsq : Tendsto (fun j : ℕ => j ^ 2) atTop atTop := tendsto_pow_atTop two_ne_zero
+  have key2 := key.comp hsq
+  have hlim : ((m : ℝ)⁻¹) ^ Formalism.HermitianLatticesTheory.fDeg K /
+      (((FractionalIdeal.absNorm ((fracU hI : (FractionalIdeal (nonZeroDivisors (𝓞 F)) F)ˣ) :
+        FractionalIdeal (nonZeroDivisors (𝓞 F)) F) : ℚ) : ℝ) * Real.sqrt |(discr F : ℝ)|) =
+      (m : ℝ) ^ (-(Formalism.HermitianLatticesTheory.fDeg K : ℤ)) /
+        Real.sqrt ((2 * Formalism.HermitianLatticesTheory.vInv K) ^ Formalism.HermitianLatticesTheory.fDeg K) / (Ideal.absNorm I : ℝ) := by
+    have h1 : FractionalIdeal.absNorm ((fracU hI : (FractionalIdeal (nonZeroDivisors (𝓞 F)) F)ˣ) :
+        FractionalIdeal (nonZeroDivisors (𝓞 F)) F) = (Ideal.absNorm I : ℚ) :=
+      FractionalIdeal.coeIdeal_absNorm I
+    have h2 : |(discr F : ℝ)| = (2 * Formalism.HermitianLatticesTheory.vInv K) ^ Formalism.HermitianLatticesTheory.fDeg K := by
+      rw [hdisc, abs_of_nonneg (pow_nonneg (mul_nonneg zero_le_two (vInv_pos K).le) _)]
+    rw [h1, h2, zpow_neg, zpow_natCast, inv_pow, div_div, Rat.cast_natCast, mul_comm]
+  rw [hlim] at key2
+  refine Tendsto.congr' ?_ key2
+  filter_upwards [eventually_gt_atTop 0] with j hj
+  have hj' : (0 : ℝ) < (j : ℝ) ^ 2 := by positivity
+  have hcast : ((j ^ 2 : ℕ) : ℝ) = (j : ℝ) ^ 2 := by push_cast; rfl
+  have h3 := tsum_eq hK hF m hI (N := ((j ^ 2 : ℕ) : ℝ)) (by rw [hcast]; exact hj')
+  rw [Function.comp_apply, h3, hcast, zpow_neg, zpow_natCast, inv_pow, div_eq_mul_inv, mul_assoc, ← mul_inv, ← pow_add, mul_comm]
+  congr 3
+  obtain ⟨m, rfl⟩ : ∃ m', m = m' + 1 := ⟨m - 1, by omega⟩
+  simp only [Nat.add_sub_cancel]
+  ring
+
+end Formalism.HermitianLattices.Ext.L3.BoxSum
+end
+end

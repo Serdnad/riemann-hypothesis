@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerOrd
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseCupLocal
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ClassFieldGSLocal
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle008
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle011
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.SDivisor
 import GroundTheory.ProfiniteCohomology.CupProducts.Cocycles
 import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer

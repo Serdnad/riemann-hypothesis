@@ -1,45 +1,36 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsFibreNormPullback
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGridSeparation
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullFormsGeneric
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullRatiosAlgebraic
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.NormFormGaussBoundHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PullbackConeNullModPHoldsStatement
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PFibreNormPullbackX
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle036
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle064
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle046
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle009
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PAvoidFormFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChartPrimePowerInverse
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PConductor
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle031
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle091
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDehomCharpolyForms
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PDehomNormPIntegral
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormBadPrimesFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormBound
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormDehomCharpoly
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormDehomIntegral
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormDehomRoots
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormGoodPrimeIntegral
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle035
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle025
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle090
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle052
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormMax
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreNormPrimeBound
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreRepresentatives
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGridSeparation
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMetricMaxComparison
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNmSectionsFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNmSectionsRankBound
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNormalLocusRep
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle039
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle026
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle032
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle083
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjAvoidingForm
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullConeDegree
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullConeDegreeInt
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullConeNull
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullGradedAlgebraic
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullRatiosAlgebraic
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle076
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle086
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle027
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle042
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullSectionIntegral
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullSectionIntegralInt
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRootGridLower
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSecEq
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSecMRankBound
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSegreArith
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallPacking
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionsSeparated
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle037
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle077
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle089
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle033
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -78,7 +69,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
+import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 
 @[expose] public section
 

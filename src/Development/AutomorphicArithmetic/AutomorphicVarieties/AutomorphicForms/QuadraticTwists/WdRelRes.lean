@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Lang
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PlaceOverTransportRingIsoStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle481
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeilDeligneParamAboveLIndependentLocalEmbedding
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,10 +45,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CharpolyEqOfIsNilpotentSub
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle002
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -60,8 +60,8 @@ private theorem wdAt_of_model {l : ℕ} [Fact l.Prime] (P : LocPrime l) (ι : Om
     {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
     {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)}
     {O : Type} [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O]
-    (B : LocBridge l E Ω (Dec (F := E) A) O) (h : IsPlaceOver A w) (hj : GlobalTheory.Pst.Induces B) {a : ℕ}
-    (r : ↥(Dec (F := E) A) →* GL (Fin a) (Om l)) (L₂ : FinExt l) (r₂ : ↥(Dec (F := E) A) →* GL (Fin a) ↥L₂.1)
+    (B : LocBridge l E Ω (_root_.ReciprocityTheory.Gal.Dec (F := E) A) O) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hj : GlobalTheory.Pst.Induces B) {a : ℕ}
+    (r : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) →* GL (Fin a) (Om l)) (L₂ : FinExt l) (r₂ : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) →* GL (Fin a) ↥L₂.1)
     (hm₂ : IsModel B r L₂ r₂) (hV₂ : IsPst P (B.repE L₂ r₂)) :
     wdAt P ι B h hj r = wdPst P ι B h hj (B.repE L₂ r₂) := by
   obtain ⟨L₁, r₁, hm₁, hV₁, e₁⟩ := wdAt_of_isPstAt ι B h hj (r := r) ⟨L₂, r₂, hm₂, hV₂⟩
@@ -70,14 +70,14 @@ private theorem wdAt_of_model {l : ℕ} [Fact l.Prime] (P : LocPrime l) (ι : Om
   have e : mapRep (IntermediateField.inclusion h₁).toRingHom r₁ =
       mapRep (IntermediateField.inclusion h₂).toRingHom r₂ := by
     ext g i j
-    exact congrArg (fun f : ↥(Dec (F := E) A) →* GL (Fin a) (Om l) => (f g : Matrix (Fin a) (Fin a) (Om l)) i j)
+    exact congrArg (fun f : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) →* GL (Fin a) (Om l) => (f g : Matrix (Fin a) (Fin a) (Om l)) i j)
       (hm₁.2.trans hm₂.2.symm)
   rw [e₁, BridgeParam.wdPst_enlarge P ι B h hj h₁ r₁ hV₁, BridgeParam.wdPst_enlarge P ι B h hj h₂ r₂ hV₂, e]
 
 private theorem wdRel_of_frobSS {E Ω E' Ω' : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
     [Field E'] [NumberField E'] [Field Ω'] [Algebra E' Ω'] [IsAlgClosure E' Ω']
-    {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : IsPlaceOver A w}
-    {A' : ValuationSubring Ω'} {w' : HeightOneSpectrum (𝓞 E')} {h' : IsPlaceOver A' w'} (φ : Ω ≃+* Ω')
+    {A : ValuationSubring Ω} {w : HeightOneSpectrum (𝓞 E)} {h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w}
+    {A' : ValuationSubring Ω'} {w' : HeightOneSpectrum (𝓞 E')} {h' : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A' w'} (φ : Ω ≃+* Ω')
     {V : Type} [AddCommGroup V] [Module ℂ V] [FiniteDimensional ℂ V]
     {ρ : Weil h → Module.End ℂ V} {ρ' : Weil h' → Module.End ℂ V} {N : Module.End ℂ V}
     {a : WDRep h V} {b : WDRep h' V} (ha : IsFrobSS ρ N a) (hb : IsFrobSS ρ' N b)
@@ -97,24 +97,24 @@ private theorem wdRel_of_frobSS {E Ω E' Ω' : Type} [Field E] [NumberField E] [
 
 
 theorem UpperTheory.V.Af.Cq.wdRelRes :
-    ∀ (F K Ω : Type) [Field F] [NumberField F] [Field K] [NumberField K] [Field Ω] [Algebra F K] [Algebra F Ω] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure F Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (A : ValuationSubring Ω) (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l F Ω (Dec (F := F) A) O) (Bw' : LocBridge l K Ω (Dec (F := K) A) O),
-        Bw'.Kw = Bw.Kw → Bw'.j = Bw.j → Bw'.LL = Bw.LL → ∀ (n : ℕ) (r : G F Ω →* GL (Fin n) (Qbar l)), IsPstAt (Loc.PP l) Bw (r.comp (Dec (F := F) A).subtype) →
-        ∀ (ι : Qbar l ≃+* ℂ) (v : HeightOneSpectrum (𝓞 F)) (w : HeightOneSpectrum (𝓞 K)) (h : IsPlaceOver A v) (h' : IsPlaceOver A w) (hj : Induces Bw) (hj' : Induces Bw')
+    ∀ (F K Ω : Type) [Field F] [NumberField F] [Field K] [NumberField K] [Field Ω] [Algebra F K] [Algebra F Ω] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure F Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (A : ValuationSubring Ω) (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l F Ω (_root_.ReciprocityTheory.Gal.Dec (F := F) A) O) (Bw' : LocBridge l K Ω (_root_.ReciprocityTheory.Gal.Dec (F := K) A) O),
+        Bw'.Kw = Bw.Kw → Bw'.j = Bw.j → Bw'.LL = Bw.LL → ∀ (n : ℕ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)), IsPstAt (Loc.PP l) Bw (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) →
+        ∀ (ι : Qbar l ≃+* ℂ) (v : HeightOneSpectrum (𝓞 F)) (w : HeightOneSpectrum (𝓞 K)) (h : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (h' : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w) (hj : Induces Bw) (hj' : Induces Bw')
           (i : v.adicCompletion F ≃+* w.adicCompletion K), PlaceIso A v A w (RingEquiv.refl Ω) (algebraMap F K) i →
-          WDRel (RingEquiv.refl Ω) (wdAt (Loc.PP l) ι Bw h hj (r.comp (Dec (F := F) A).subtype))
-            (wdAt (Loc.PP l) ι Bw' h' hj' ((r.comp (AlgEquiv.restrictScalarsHom F : G K Ω →* G F Ω)).comp (Dec (F := K) A).subtype)) := by
+          WDRel (RingEquiv.refl Ω) (wdAt (Loc.PP l) ι Bw h hj (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype))
+            (wdAt (Loc.PP l) ι Bw' h' hj' ((r.comp (AlgEquiv.restrictScalarsHom F : _root_.Formalism.ConjugateSelfDual.G K Ω →* _root_.Formalism.ConjugateSelfDual.G F Ω)).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)) := by
   intro F K Ω _ _ _ _ _ _ _ _ _ _ _ l _ A O _ _ _ Bw Bw' hK hJ hL n r hr ι v w h h' hj hj' i hP
   obtain ⟨Kw, j, j_E, j_dense, e, e_cont, e_symm_cont, e_comm, LL, LL_split, eO, eO_alg, eO_cont, eO_symm_cont⟩ := Bw'
   dsimp only at hK hJ hL
   subst hK hJ hL
-  set Bw' : LocBridge l K Ω (Dec (F := K) A) O :=
+  set Bw' : LocBridge l K Ω (_root_.ReciprocityTheory.Gal.Dec (F := K) A) O :=
     ⟨Bw.Kw, Bw.j, j_E, j_dense, e, e_cont, e_symm_cont, e_comm, Bw.LL, LL_split, eO, eO_alg, eO_cont, eO_symm_cont⟩
     with hB
   obtain ⟨L, r', hm, hV⟩ := hr
-  have key : ∀ (g : ↥(Dec (F := K) A)) (x : Ω), ((Bw.e.symm (e g) : ↥(Dec (F := F) A)) : G F Ω) x = (g : G K Ω) x :=
+  have key : ∀ (g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := K) A)) (x : Ω), ((Bw.e.symm (e g) : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) A)) : _root_.Formalism.ConjugateSelfDual.G F Ω) x = (g : _root_.Formalism.ConjugateSelfDual.G K Ω) x :=
     fun g x => Bw.j.injective (by rw [← Bw.e_comm, MulEquiv.apply_symm_apply, e_comm])
-  let r'' : ↥(Dec (F := K) A) →* GL (Fin n) ↥L.1 := r'.comp (e.trans Bw.e.symm).toMonoidHom
-  have hm' : IsModel Bw' ((r.comp (AlgEquiv.restrictScalarsHom F : G K Ω →* G F Ω)).comp (Dec (F := K) A).subtype)
+  let r'' : ↥(_root_.ReciprocityTheory.Gal.Dec (F := K) A) →* GL (Fin n) ↥L.1 := r'.comp (e.trans Bw.e.symm).toMonoidHom
+  have hm' : IsModel Bw' ((r.comp (AlgEquiv.restrictScalarsHom F : _root_.Formalism.ConjugateSelfDual.G K Ω →* _root_.Formalism.ConjugateSelfDual.G F Ω)).comp (_root_.ReciprocityTheory.Gal.Dec (F := K) A).subtype)
       L r'' := by
     refine ⟨hm.1, MonoidHom.ext fun g => ?_⟩
     have h1 := DFunLike.congr_fun hm.2 (Bw.e.symm (e g))

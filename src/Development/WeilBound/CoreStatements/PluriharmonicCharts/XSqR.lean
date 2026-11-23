@@ -1,11 +1,11 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PRFormula
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GeometricAbelianConnected
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntersectionVerticalPerturbationBoundStatement
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XSqDiag
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PZeroSetNull
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.PermFinTwoUniv
-import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreLocal
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
 
 @[expose] public section
 

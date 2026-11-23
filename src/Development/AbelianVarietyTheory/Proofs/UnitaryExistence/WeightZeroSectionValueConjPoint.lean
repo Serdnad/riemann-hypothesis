@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFrameChangeByMatrices
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeByMatricesReflAndComp
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TransvectionEq
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle103
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

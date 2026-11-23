@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PairRowIffQdRows
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
-public import Formalism.LogVandermondeBounds.LogRatioLowerBound
+public import Formalism.LogVandermondeBounds.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLattice
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExplicitRanksBasicBoundsLargeScale
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.GoodTopCountLeConstMulLog
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ScalePolynomialQuantitiesComparison
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmData
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.DimensionMassJointBound
-import Formalism.LocalRingCardinality.HostCls
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle073
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle253
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle004
+import Formalism.LocalRingCardinality.Bundle002
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LogVandermondeBounds.LogVandermondeProofs.CardStabilizerVector
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
@@ -55,7 +55,7 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.SetUnipotentTranslate
 public import Formalism.HermitianLattices.HermitianLatticesProofs.MassTelescope
 import Formalism.LocalToGlobal.GlobalTheory.IsResidueClassZero
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsExplicitParameters
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle108
 
 @[expose] public section
 

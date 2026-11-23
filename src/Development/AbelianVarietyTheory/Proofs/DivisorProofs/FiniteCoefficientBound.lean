@@ -1,17 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
-public import Formalism.SatakeDualWeyl.StatementE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BandMono
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsFurtherBis
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsFurtherMore
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImportsFurtherTer
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OneCosetOfIsTensor
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldingTermCoefEqResidueCardZpow
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnipotentLevelNilpotent
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets
 import Mathlib.Algebra.Order.Floor.Extended

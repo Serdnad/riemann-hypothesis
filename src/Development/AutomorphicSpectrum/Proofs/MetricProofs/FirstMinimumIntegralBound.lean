@@ -1,14 +1,14 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FirstMinimumAttainedWithBounds
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GroupDict
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FirstMinimumAttainedWithBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FirstMinimumContinuousCuspWeightMeasurableStatement
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle107
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle140
 import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Assembly
 import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Examples
-import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PAdelicCovolumeFinite
-import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PArithmeticCovolumeFinite
+import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle021
+import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle019
 public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StatementsProved
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

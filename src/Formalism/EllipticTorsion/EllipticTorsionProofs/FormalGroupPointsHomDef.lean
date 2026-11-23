@@ -5,7 +5,7 @@ public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.ExistsUnitFactor
-public import Formalism.EllipticTorsion.EllipticTorsionProofs.NDeriv
+public import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle001
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WChord
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WPoint
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WSubst

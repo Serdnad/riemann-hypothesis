@@ -1,9 +1,9 @@
 module
 
-public import Formalism.MirabolicMackeyTheory.StatementL
+public import Formalism.MirabolicMackeyTheory.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.IdxRules
-public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.OrthogonalityOfMackey
+public import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle001
 public import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

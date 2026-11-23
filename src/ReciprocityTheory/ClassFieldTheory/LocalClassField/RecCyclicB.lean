@@ -47,10 +47,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpen
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecCyclicA
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle016
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle006
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPair
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle015
 
 @[expose] public section
 

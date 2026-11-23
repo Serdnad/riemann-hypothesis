@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GlobalSchurBounds.GL3Theta
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementK
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KurComplete
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,10 +42,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NatCastMemPrimeOf
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TauPlBijective
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle014
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle122
 public import Formalism.LocalRingCardinality.DataDIV
-public import Formalism.LocalRingCardinality.DataKerP
+public import Formalism.LocalRingCardinality.Bundle007
 
 @[expose] public section
 

@@ -1,14 +1,14 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.GeneratorImageIsSymbol
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SPtrueHom
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.CoeUntopDLeAlt
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.LeadingDepthOneMemClosure
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.LetterWeightPos
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EDelApply
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EvensBeforePairwise
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ExistsPolFamilyOfMemGenOfVsDegLe
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.MultidegreeBoundLeA
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

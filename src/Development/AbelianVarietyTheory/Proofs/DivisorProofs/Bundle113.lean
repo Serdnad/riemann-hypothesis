@@ -1,0 +1,476 @@
+module
+
+public import Mathlib.NumberTheory.Padics.Complex
+public import Mathlib.RingTheory.DiscreteValuationRing.Basic
+public import Mathlib.NumberTheory.Padics.RingHoms
+public import Mathlib.RepresentationTheory.Basic
+public import Mathlib.RingTheory.AdicCompletion.Algebra
+public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Algebra.Ring.IsFormallyReal
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+public import Mathlib.RingTheory.Invariant.Basic
+public import Mathlib.RingTheory.AdicCompletion.LocalRing
+public import Mathlib.RingTheory.AdicCompletion.RingHom
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+public import Mathlib.RingTheory.Valuation.Integral
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+namespace GlobalTheory.NormExtensionBound
+
+open scoped Pointwise
+
+theorem exists_extension {A B K : Type} [CommRing A] [CommRing B] [Field K] [IsAlgClosed K]
+    [Algebra A B] [Algebra.IsIntegral A B] (hinj : Function.Injective (algebraMap A B))
+    (ev : A →+* K) : ∃ ev' : B →+* K, ∀ a, ev' (algebraMap A B a) = ev a := by
+  haveI hP : (RingHom.ker ev).IsPrime := RingHom.ker_isPrime ev
+  obtain ⟨Q, -, hQ, hQP⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (S := B)
+    (RingHom.ker ev) ⊥ (by
+      intro a ha
+      have : a = 0 := hinj (by simpa using ha)
+      simp [this])
+  haveI : Q.LiesOver (RingHom.ker ev) := ⟨hQP.symm⟩
+  letI : Algebra (A ⧸ RingHom.ker ev) K := (RingHom.kerLift ev).toAlgebra
+  haveI : FaithfulSMul (A ⧸ RingHom.ker ev) K :=
+    (faithfulSMul_iff_algebraMap_injective _ _).2 (RingHom.kerLift_injective ev)
+  haveI : Algebra.IsIntegral (A ⧸ RingHom.ker ev) (B ⧸ Q) := inferInstance
+  haveI : FaithfulSMul (A ⧸ RingHom.ker ev) (B ⧸ Q) := inferInstance
+  haveI : Module.IsTorsionFree (A ⧸ RingHom.ker ev) (B ⧸ Q) :=
+    Module.IsTorsionFree.of_smul_eq_zero fun r x h => by
+      rw [Algebra.smul_def, mul_eq_zero] at h
+      exact h.imp_left fun h => FaithfulSMul.algebraMap_injective _ (B ⧸ Q) (by rw [h, map_zero])
+  haveI : Module.IsTorsionFree (A ⧸ RingHom.ker ev) K :=
+    Module.IsTorsionFree.of_smul_eq_zero fun r x h => by
+      rw [Algebra.smul_def, mul_eq_zero] at h
+      exact h.imp_left fun h => FaithfulSMul.algebraMap_injective _ K (by rw [h, map_zero])
+  haveI : Algebra.IsAlgebraic (A ⧸ RingHom.ker ev) (B ⧸ Q) :=
+    ⟨fun x => (Algebra.IsIntegral.isIntegral x).isAlgebraic⟩
+  let f : (B ⧸ Q) →ₐ[A ⧸ RingHom.ker ev] K := (by
+    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
+    solve_by_elim* (maxDepth := 2) only [*,
+      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
+      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
+  refine ⟨f.toRingHom.comp (Ideal.Quotient.mk Q), fun a => ?_⟩
+  have h := f.commutes (Ideal.Quotient.mk _ a)
+  exact h
+
+theorem norm_le_one_of_extension {p : ℕ} [Fact p.Prime] {A B : Type} [CommRing A] [CommRing B]
+    [Algebra A B] [Algebra.IsIntegral A B] (ev : A →+* PadicAlgCl p) (h : ∀ a, ‖ev a‖ ≤ 1)
+    (ev' : B →+* PadicAlgCl p) (hev : ∀ a, ev' (algebraMap A B a) = ev a) (b : B) :
+    ‖ev' b‖ ≤ 1 := by
+  haveI : IsUltrametricDist (PadicAlgCl p) :=
+    IsUltrametricDist.isUltrametricDist_of_isNonarchimedean_norm (PadicAlgCl.isNonarchimedean p)
+  obtain ⟨q, hqm, hq⟩ := Algebra.IsIntegral.isIntegral (R := A) b
+  have hcomp : ev'.comp (algebraMap A B) = ev := RingHom.ext hev
+  have hq' := congrArg ev' hq
+  rw [map_zero, Polynomial.hom_eval₂, hcomp, hqm.as_sum, Polynomial.eval₂_add,
+    Polynomial.eval₂_X_pow, Polynomial.eval₂_finsetSum] at hq'
+  simp only [Polynomial.eval₂_mul, Polynomial.eval₂_C, Polynomial.eval₂_X_pow] at hq'
+  set y := ev' b
+  by_contra hy
+  push_neg at hy
+  have hxn : y ^ q.natDegree = -∑ i ∈ Finset.range q.natDegree, ev (q.coeff i) * y ^ i :=
+    eq_neg_of_add_eq_zero_left hq'
+  rcases Nat.eq_zero_or_pos q.natDegree with h0 | hn
+  · rw [h0] at hxn
+    simp at hxn
+  have hy1 : 1 ≤ ‖y‖ := hy.le
+  have hle : ‖∑ i ∈ Finset.range q.natDegree, ev (q.coeff i) * y ^ i‖ ≤ ‖y‖ ^ (q.natDegree - 1) := by
+    apply IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg (pow_nonneg (norm_nonneg _) _)
+    intro i hi
+    rw [norm_mul, norm_pow]
+    have hi' := Finset.mem_range.mp hi
+    calc ‖ev (q.coeff i)‖ * ‖y‖ ^ i ≤ 1 * ‖y‖ ^ (q.natDegree - 1) :=
+          mul_le_mul (h _) (pow_le_pow_right₀ hy1 (by omega)) (pow_nonneg (norm_nonneg _) _) zero_le_one
+      _ = ‖y‖ ^ (q.natDegree - 1) := one_mul _
+  have h1 : ‖y‖ ^ q.natDegree ≤ ‖y‖ ^ (q.natDegree - 1) := by
+    rw [← norm_pow, hxn, norm_neg]
+    exact hle
+  have h2 : ‖y‖ ^ (q.natDegree - 1) < ‖y‖ ^ q.natDegree := pow_lt_pow_right₀ hy (by omega)
+  linarith
+
+theorem main : ∀ (p : ℕ) [Fact (Nat.Prime p)] (A B : Type) [CommRing A] [IsLocalRing A]
+    [CommRing B] [IsDomain B] [Algebra A B] [Module.Finite A B] [Finite (B ≃ₐ[A] B)]
+    (𝔷 : Ideal B), Function.Injective (algebraMap A B) →
+    (∀ (b : B), (∀ (σ : B ≃ₐ[A] B), σ b = b) → b ∈ Set.range (algebraMap A B)) →
+    Ideal.IsMaximal 𝔷 → ∀ (ev : A →+* PadicAlgCl p), (∀ (a : A), ‖ev a‖ ≤ (1 : ℝ)) →
+    (∀ a ∈ IsLocalRing.maximalIdeal A, ‖ev a‖ < (1 : ℝ)) →
+    ∃ (ev' : B →+* PadicAlgCl p), (∀ (a : A), ev' (algebraMap A B a) = ev a) ∧
+      (∀ (b : B), ‖ev' b‖ ≤ (1 : ℝ)) ∧ ∀ b ∈ 𝔷, ‖ev' b‖ < (1 : ℝ) := by
+  intro p _ A B _ _ _ _ _ _ _ 𝔷 hinj hfix hmax ev h1 h2
+  obtain ⟨e, he⟩ := exists_extension hinj ev
+  have hle := norm_le_one_of_extension ev h1 e he
+  let m : Ideal B :=
+    { carrier := {b | ‖e b‖ < 1}
+      add_mem' := fun {a b} ha hb => by
+        show ‖e (a + b)‖ < 1
+        rw [map_add (f := _)]
+        exact lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max _ _) (max_lt ha hb)
+      zero_mem' := by simp
+      smul_mem' := fun c b hb => by
+        show ‖e (c * b)‖ < 1
+        rw [map_mul, norm_mul]
+        exact mul_lt_one_of_nonneg_of_lt_one_right (hle c) (norm_nonneg _) hb }
+  have hm : ∀ b, b ∈ m ↔ ‖e b‖ < 1 := fun _ => Iff.rfl
+  have hmne : m ≠ ⊤ := by
+    rw [Ideal.ne_top_iff_one, hm]
+    simp
+  have hmu : m.under A = IsLocalRing.maximalIdeal A := by
+    symm
+    apply (IsLocalRing.maximalIdeal.isMaximal A).eq_of_le (Ideal.comap_ne_top _ hmne)
+    intro a ha
+    rw [Ideal.mem_comap, hm, he]
+    exact h2 a ha
+  haveI hmm : m.IsPrime := ⟨hmne, fun {a b} hab => by
+    rw [hm, map_mul, norm_mul] at hab
+    by_contra hc
+    rw [not_or, hm, hm, not_lt, not_lt] at hc
+    exact absurd hab (not_lt.2 (one_le_mul_of_one_le_of_one_le hc.1 hc.2))⟩
+  have hzu : 𝔷.under A = IsLocalRing.maximalIdeal A :=
+    IsLocalRing.eq_maximalIdeal (Ideal.isMaximal_under_of_isIntegral_of_isMaximal (R := A) 𝔷)
+  haveI : Algebra.IsInvariant A B (B ≃ₐ[A] B) := ⟨fun b hb => hfix b hb⟩
+  obtain ⟨g, hg⟩ := Algebra.IsInvariant.exists_smul_of_under_eq A B (B ≃ₐ[A] B) 𝔷 m
+    (hzu.trans hmu.symm)
+  refine ⟨e.comp (g : B →+* B), fun a => ?_, fun b => hle _, fun b hb => ?_⟩
+  · simp [he]
+  · have : g • b ∈ m := by
+      rw [hg]
+      exact Ideal.smul_mem_pointwise_smul g b 𝔷 hb
+    exact this
+
+end GlobalTheory.NormExtensionBound
+end
+
+section
+
+namespace GlobalTheory
+
+theorem unitBall_eq_of_integral_dvr (p : ℕ) [Fact p.Prime] (V W : Type) [CommRing V] [IsDomain V]
+    [IsDiscreteValuationRing V] [CommRing W] [IsDomain W] [IsDiscreteValuationRing W] [Algebra V W]
+    [Algebra.IsIntegral V W] [IsLocalHom (algebraMap V W)]
+    (hinj : Function.Injective (algebraMap V W))
+    (κ : FractionRing V →+* PadicAlgCl p) (κ' : FractionRing W →+* PadicAlgCl p)
+    (hc : ∀ v : V, κ' (algebraMap W (FractionRing W) (algebraMap V W v)) =
+      κ (algebraMap V (FractionRing V) v))
+    (hV : ∀ x, ‖κ x‖ ≤ 1 ↔ x ∈ Set.range (algebraMap V (FractionRing V))) :
+    ∀ x, ‖κ' x‖ ≤ 1 ↔ x ∈ Set.range (algebraMap W (FractionRing W)) := by
+  classical
+  have hW1 : ∀ w : W, ‖κ' (algebraMap W (FractionRing W) w)‖ ≤ 1 := by
+    intro w
+    let vP : Valuation (PadicAlgCl p) NNReal := Valued.v
+    have hmem : ∀ a : V, κ (algebraMap V (FractionRing V) a) ∈ vP.integer := by
+      intro a
+      rw [Valuation.mem_integer_iff]
+      show ‖κ (algebraMap V (FractionRing V) a)‖₊ ≤ 1
+      exact NNReal.coe_le_coe.1 (by simpa using (hV _).2 ⟨a, rfl⟩)
+    let ψ : V →+* vP.integer :=
+      (κ.comp (algebraMap V (FractionRing V))).codRestrict vP.integer hmem
+    obtain ⟨q, hqm, hq⟩ := Algebra.IsIntegral.isIntegral (R := V) w
+    have hint : IsIntegral vP.integer (κ' (algebraMap W (FractionRing W) w)) := by
+      refine ⟨q.map ψ, hqm.map ψ, ?_⟩
+      have hcomp : (algebraMap vP.integer (PadicAlgCl p)).comp ψ =
+          (κ'.comp (algebraMap W (FractionRing W))).comp (algebraMap V W) :=
+        RingHom.ext fun a => (hc a).symm
+      rw [Polynomial.eval₂_map, hcomp]
+      have h0 : (κ'.comp (algebraMap W (FractionRing W))) (q.eval₂ (algebraMap V W) w) = 0 := by
+        rw [hq, map_zero]
+      exact (Polynomial.hom_eval₂ q (algebraMap V W) _ w).symm.trans h0
+    have h1 := (Valuation.integer.integers vP).mem_of_integral hint
+    rw [Valuation.mem_integer_iff] at h1
+    have h2 : ‖κ' (algebraMap W (FractionRing W) w)‖₊ ≤ 1 := h1
+    have h3 : ((‖κ' (algebraMap W (FractionRing W) w)‖₊ : NNReal) : ℝ) ≤ 1 := by exact_mod_cast h2
+    simpa using h3
+  have hunit : ∀ u : Wˣ, ‖κ' (algebraMap W (FractionRing W) u)‖ = 1 := by
+    intro u
+    have hm : ‖κ' (algebraMap W (FractionRing W) u)‖ *
+        ‖κ' (algebraMap W (FractionRing W) ↑u⁻¹)‖ = 1 := by
+      rw [← norm_mul, ← map_mul, ← map_mul, Units.mul_inv, map_one, map_one, norm_one]
+    have ha := hW1 u
+    have hb := hW1 ↑u⁻¹
+    refine le_antisymm ha ?_
+    nlinarith [mul_le_mul_of_nonneg_left hb (norm_nonneg (κ' (algebraMap W (FractionRing W) u)))]
+  obtain ⟨π, hπ⟩ := IsDiscreteValuationRing.exists_irreducible V
+  have hπK0 : algebraMap V (FractionRing V) π ≠ 0 := by
+    intro h
+    apply hπ.ne_zero
+    exact IsFractionRing.injective V (FractionRing V) (h.trans (map_zero _).symm)
+  have hπ1 : ‖κ (algebraMap V (FractionRing V) π)‖ < 1 := by
+    refine lt_of_le_of_ne ((hV _).2 ⟨π, rfl⟩) fun h => hπ.not_isUnit ?_
+    have hinv : ‖κ (algebraMap V (FractionRing V) π)⁻¹‖ ≤ 1 := by
+      rw [map_inv₀, norm_inv, h, inv_one]
+    obtain ⟨a, ha⟩ := (hV _).1 hinv
+    refine isUnit_iff_exists_inv.2 ⟨a, IsFractionRing.injective V (FractionRing V) ?_⟩
+    rw [map_mul, ha, mul_inv_cancel₀ hπK0, map_one]
+  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible W
+  have hϖ1 : ‖κ' (algebraMap W (FractionRing W) ϖ)‖ < 1 := by
+    have hπW0 : algebraMap V W π ≠ 0 := fun h =>
+      hπ.ne_zero (hinj (h.trans (map_zero _).symm))
+    obtain ⟨e, u, he⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hπW0 hϖ
+    have he0 : e ≠ 0 := by
+      rintro rfl
+      rw [pow_zero, mul_one] at he
+      exact hπ.not_isUnit (isUnit_of_map_unit (algebraMap V W) π (he ▸ u.isUnit))
+    have hnorm : ‖κ' (algebraMap W (FractionRing W) ϖ)‖ ^ e < 1 := by
+      have h := congrArg norm (hc π)
+      rw [he, map_mul, map_mul, norm_mul, map_pow, map_pow, norm_pow, hunit, one_mul] at h
+      rw [← h] at hπ1
+      exact hπ1
+    by_contra hge
+    exact absurd hnorm (not_lt.2 (one_le_pow₀ (not_lt.1 hge)))
+  intro x
+  constructor
+  · intro hx
+    by_contra hxW
+    rcases ValuationRing.isInteger_or_isInteger W x with ⟨a, ha⟩ | ⟨a, ha⟩
+    · exact hxW ⟨a, ha⟩
+    have hx0 : x ≠ 0 := by
+      rintro rfl
+      exact hxW ⟨0, map_zero _⟩
+    have ha0 : a ≠ 0 := by
+      rintro rfl
+      rw [map_zero] at ha
+      exact hx0 (inv_eq_zero.1 ha.symm)
+    obtain ⟨n, u, hn⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible ha0 hϖ
+    have hn0 : n ≠ 0 := by
+      rintro rfl
+      rw [pow_zero, mul_one] at hn
+      apply hxW
+      refine ⟨↑u⁻¹, ?_⟩
+      have h1 : algebraMap W (FractionRing W) ↑u * algebraMap W (FractionRing W) ↑u⁻¹ = 1 := by
+        rw [← map_mul, Units.mul_inv, map_one]
+      rw [eq_inv_of_mul_eq_one_right h1, ← hn, ha, inv_inv]
+    have hsmall : ‖κ' x⁻¹‖ < 1 := by
+      rw [← ha, hn, map_mul, map_mul, norm_mul, map_pow, map_pow, norm_pow, hunit, one_mul]
+      exact pow_lt_one₀ (norm_nonneg _) hϖ1 hn0
+    have hprod : ‖κ' x‖ * ‖κ' x⁻¹‖ = 1 := by
+      rw [← norm_mul, ← map_mul, mul_inv_cancel₀ hx0, map_one, norm_one]
+    have h0 := norm_nonneg (κ' x⁻¹)
+    nlinarith
+  · rintro ⟨w, rfl⟩
+    exact hW1 w
+
+end GlobalTheory
+end
+
+section
+
+namespace GlobalTheory
+
+theorem padicInt_toZModPow_not_dvd_mul :
+    ∀ (l : ℕ) [Fact l.Prime] (c : ℤ_[l]), c ≠ 0 → ∀ e : ℕ, 0 < e →
+      ∃ N : ℕ, ∀ m : ℤ, PadicInt.toZModPow N c = (m : ZMod (l ^ N)) →
+        ¬ ((l : ℤ) ^ N ∣ e * m) := by
+  intro l _ c hc e he
+  have hl : l.Prime := Fact.out
+  refine ⟨c.valuation + e.factorization l + 1, ?_⟩
+  intro m hm hdvd
+  set v := c.valuation with hv
+  set a := e.factorization l with ha
+  have hm1 : (l : ℤ) ^ (v + 1) ∣ m := by
+    have he' : (e : ℤ) = (l : ℤ) ^ a * ((e / l ^ a : ℕ) : ℤ) := by
+      exact_mod_cast (Nat.ordProj_mul_ordCompl_eq_self e l).symm
+    have hcop : IsCoprime ((l : ℤ) ^ (v + 1)) ((e / l ^ a : ℕ) : ℤ) := by
+      have h := (Nat.coprime_ordCompl hl he.ne').pow_left (v + 1)
+      have := Nat.isCoprime_iff_coprime.mpr h
+      simpa [Nat.cast_pow] using this
+    rw [he', show v + a + 1 = a + (v + 1) by ring, pow_add, mul_assoc] at hdvd
+    have h2 := (mul_dvd_mul_iff_left (pow_ne_zero a (by exact_mod_cast hl.ne_zero : (l : ℤ) ≠ 0))).mp hdvd
+    exact hcop.dvd_of_dvd_mul_left h2
+  have h0 : PadicInt.toZModPow (v + 1) c = 0 := by
+    rw [← PadicInt.cast_toZModPow (v + 1) (v + a + 1) (by omega) c, hm,
+      ZMod.cast_intCast (pow_dvd_pow l (by omega))]
+    rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
+    exact_mod_cast hm1
+  have hmem : c ∈ (Ideal.span {(l : ℤ_[l]) ^ (v + 1)} : Ideal ℤ_[l]) := by
+    rw [← PadicInt.ker_toZModPow]
+    exact h0
+  have := (PadicInt.mem_span_pow_iff_le_valuation c hc (v + 1)).mp hmem
+  omega
+
+end GlobalTheory
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.CharFlag
+
+variable {k Γ V : Type} [Field k] [Group Γ] [AddCommGroup V] [Module k V]
+
+def Stab (π : Representation k Γ V) (S : Submodule k V) : Prop := ∀ g, ∀ x ∈ S, π g x ∈ S
+
+def subRep (π : Representation k Γ V) (S : Submodule k V) (hS : Stab π S) : Representation k Γ S where
+  toFun g := (π g).restrict (hS g)
+  map_one' := by ext x; simp
+  map_mul' g h := by ext x; simp
+
+theorem subRep_apply (π : Representation k Γ V) (S : Submodule k V) (hS : Stab π S) (g : Γ) (x : S) :
+    ((subRep π S hS g x : S) : V) = π g x := rfl
+
+def quotRep (π : Representation k Γ V) (S : Submodule k V) (hS : Stab π S) : Representation k Γ (V ⧸ S) where
+  toFun g := S.mapQ S (π g) (hS g)
+  map_one' := by
+    refine Submodule.linearMap_qext _ (LinearMap.ext fun x => ?_)
+    simp
+  map_mul' g h := by
+    refine Submodule.linearMap_qext _ (LinearMap.ext fun x => ?_)
+    simp
+
+def HasCharFlag (π : Representation k Γ V) {t : ℕ} (ψ : Fin t → Γ →* kˣ) : Prop :=
+  ∃ (R : ℕ) (W : Fin (R + 1) → Submodule k V) (rs : Fin t → Fin R), W 0 = ⊥ ∧ W (Fin.last R) = ⊤ ∧
+    Monotone W ∧ (∀ g j x, x ∈ W j → π g x ∈ W j) ∧ Function.Injective rs ∧
+    ∀ s, ∃ x ∈ W (rs s).succ, x ∉ W (rs s).castSucc ∧
+      W (rs s).succ = W (rs s).castSucc ⊔ Submodule.span k {x} ∧
+      ∀ g, π g x - ((ψ s g : kˣ) : k) • x ∈ W (rs s).castSucc
+
+end GlobalTheory.CharFlag
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open IsLocalRing
+
+namespace GlobalTheory.LocalCompletion
+
+theorem exists_localHom_adicCompletion_extend :
+    ∀ (A R : Type) [CommRing A] [IsLocalRing A] [IsNoetherianRing A] [CommRing R] [IsLocalRing R],
+      IsAdicComplete (maximalIdeal R) R → ∀ (φ : A →+* R), IsLocalHom φ →
+      ∃ ψ : AdicCompletion (maximalIdeal A) A →+* R,
+        IsLocalHom ψ ∧ ψ.comp (algebraMap A (AdicCompletion (maximalIdeal A) A)) = φ := by
+  intro A R _ _ _ _ _ hR φ hφ
+  let I : Ideal A := maximalIdeal A
+  let J : Ideal R := maximalIdeal R
+  have hmap : I.map φ ≤ J := ((IsLocalRing.local_hom_tfae φ).out 1 3).1 hφ
+  have hle : ∀ n : ℕ, I ^ n ≤ (J ^ n).comap φ := fun n => by
+    rw [← Ideal.map_le_iff_le_comap, Ideal.map_pow]
+    exact Ideal.pow_right_mono hmap n
+  let g : ∀ n : ℕ, AdicCompletion I A →+* R ⧸ J ^ n := fun n =>
+    (Ideal.quotientMap (J ^ n) φ (hle n)).comp (AdicCompletion.evalₐ I n : AdicCompletion I A →+* A ⧸ I ^ n)
+  have hg : ∀ {m n : ℕ} (h : m ≤ n), (Ideal.Quotient.factorPow J h).comp (g n) = g m := by
+    intro m n h
+    refine RingHom.ext fun x => ?_
+    obtain ⟨x, rfl⟩ := AdicCompletion.mk_surjective I A x
+    simp only [g, RingHom.comp_apply, RingHom.coe_coe]
+    rw [AdicCompletion.evalₐ_mk, AdicCompletion.evalₐ_mk, ← AdicCompletion.Ideal.mk_eq_mk I h x]
+    rfl
+  let e : R ≃ₐ[R] AdicCompletion J R := AdicCompletion.ofAlgEquiv J
+  let ψ : AdicCompletion I A →+* R := (e.symm : AdicCompletion J R →+* R).comp (AdicCompletion.liftRingHom J g hg)
+  have hψ : ψ.comp (algebraMap A (AdicCompletion I A)) = φ := by
+    refine RingHom.ext fun b => e.injective ?_
+    refine AdicCompletion.ext_evalₐ fun n => ?_
+    simp only [ψ, RingHom.comp_apply, RingHom.coe_coe, AlgEquiv.apply_symm_apply]
+    rw [AdicCompletion.evalₐ_liftRingHom]
+    change Ideal.quotientMap (J ^ n) φ (hle n) (AdicCompletion.evalₐ I n (algebraMap A _ b)) = _
+    rw [AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of]
+    rw [show e (φ b) = algebraMap R (AdicCompletion J R) (φ b) from e.commutes (φ b),
+      AdicCompletion.algebraMap_apply, AdicCompletion.evalₐ_of]
+    rfl
+  refine ⟨ψ, ?_, hψ⟩
+  refine ((IsLocalRing.local_hom_tfae ψ).out 1 3).2 ?_
+  rw [AdicCompletion.maximalIdeal_eq_map, Ideal.map_map, hψ]
+  exact hmap
+
+end GlobalTheory.LocalCompletion
+end
+end
+
+section
+
+open IsLocalRing
+
+namespace GlobalTheory
+
+theorem exists_isLocalHom_adicCompletion_extend (O : Type) [CommRing O] [IsLocalRing O]
+    [IsNoetherianRing O] (V : Type) [CommRing V] [IsLocalRing V]
+    [IsAdicComplete (maximalIdeal V) V] (ψ : O →+* V) (hψ : IsLocalHom ψ) :
+    ∃ ev₀ : AdicCompletion (maximalIdeal O) O →+* V,
+      IsLocalHom ev₀ ∧ ∀ a, ev₀ (algebraMap O _ a) = ψ a := by
+  have h1 : maximalIdeal O ≤ (maximalIdeal V).comap ψ :=
+    (IsLocalRing.maximalIdeal_comap ψ).ge
+  have hn : ∀ n : ℕ, maximalIdeal O ^ n ≤ (maximalIdeal V ^ n).comap ψ := fun n =>
+    (Ideal.pow_right_mono h1 n).trans (Ideal.le_comap_pow ψ n)
+  let f : (n : ℕ) → AdicCompletion (maximalIdeal O) O →+* V ⧸ maximalIdeal V ^ n := fun n =>
+    (Ideal.quotientMap _ ψ (hn n)).comp (AdicCompletion.evalₐ (maximalIdeal O) n : _ →+* _)
+  have hf : ∀ {m n : ℕ} (hle : m ≤ n),
+      (Ideal.Quotient.factorPow (maximalIdeal V) hle).comp (f n) = f m := by
+    intro m n hle
+    refine RingHom.ext fun x => ?_
+    obtain ⟨c, rfl⟩ := AdicCompletion.mk_surjective _ _ x
+    simp only [f, RingHom.comp_apply, RingHom.coe_coe, AdicCompletion.evalₐ_mk,
+      Ideal.quotientMap_mk, Ideal.Quotient.factorPow, Ideal.Quotient.factor_mk]
+    rw [Ideal.Quotient.eq, ← map_sub]
+    apply hn m
+    have := c.2 hle
+    rw [SModEq.sub_mem] at this
+    have h2 := neg_mem this
+    simpa using h2
+  have hev : ∀ a, IsAdicComplete.liftRingHom (maximalIdeal V) f hf (algebraMap O _ a) = ψ a := by
+    intro a
+    refine congrFun (IsHausdorff.funext' (maximalIdeal V)
+      (f := fun a => IsAdicComplete.liftRingHom (maximalIdeal V) f hf (algebraMap O _ a))
+      (g := fun a => ψ a) fun n b => ?_) a
+    rw [IsAdicComplete.mk_liftRingHom]
+    simp only [f, RingHom.comp_apply, RingHom.coe_coe, AlgHom.commutes]
+    exact Ideal.quotientMap_mk
+  refine ⟨IsAdicComplete.liftRingHom (maximalIdeal V) f hf, ?_, hev⟩
+  apply ((IsLocalRing.local_hom_tfae _).out 1 3).mpr
+  rw [AdicCompletion.maximalIdeal_eq_map, Ideal.map_map, Ideal.map_le_iff_le_comap]
+  intro a ha
+  rw [Ideal.mem_comap, RingHom.comp_apply, hev]
+  exact h1 ha
+
+end GlobalTheory
+end

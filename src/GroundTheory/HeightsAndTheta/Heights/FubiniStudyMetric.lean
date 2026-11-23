@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FubiniStudyCharts
+public import GroundTheory.HeightsAndTheta.Heights.Bundle003
 public import Mathlib.Analysis.InnerProductSpace.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

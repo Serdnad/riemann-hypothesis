@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SupportPhiZeroSubset
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExistsSmoothExt
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle025
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FlagStabilizerFixesFrame
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFibreBoundX

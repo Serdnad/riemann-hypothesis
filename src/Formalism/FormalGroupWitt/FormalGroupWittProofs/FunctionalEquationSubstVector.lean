@@ -1,10 +1,10 @@
 module
 
 public import Formalism.FormalGroupWitt.SubstInjectiveV
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.CoeffV
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.IntegralSubstVector
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.MemSpanOfNormLe
-public import Formalism.TorsionNormIteration.InverseIntegralClasses.NormSigmaLeOne
+public import Formalism.TorsionNormIteration.InverseIntegralClasses.Bundle001
 public import Formalism.TorsionNormIteration.InverseIntegralClasses.SigmaNormLeOne
 public import Lemmata.MultivariateIntegrals.IntegralMv
 import Mathlib.Algebra.Order.Floor.Extended

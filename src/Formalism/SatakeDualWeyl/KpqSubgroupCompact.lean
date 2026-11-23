@@ -1,26 +1,23 @@
 module
 
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabstd
-public import Formalism.SatakeDualWeyl.StatementB
-public import Formalism.SatakeDualWeyl.StatementC
-public import Formalism.SatakeDualWeyl.StatementE
-public import Formalism.SatakeDualWeyl.StatementF
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
+public import Formalism.SatakeDualWeyl.Bundle002
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Formalism.SatakeDualWeyl.StatementW
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Cartan
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.ClassSet
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Ecompose
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawa
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Fcompose
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle014
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.HeckeActMem
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.HeckeAssoc
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.HeckeConvolutionMemHolds
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.LevelSubgroupFiniteAdelicStandard
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureExists
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle005
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Spherical
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SplitUnitaryGroupIso
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle004
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabfin
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stdform
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Tjcosets

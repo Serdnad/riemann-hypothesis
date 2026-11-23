@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ESmall
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,8 +38,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.BigBlockCharacters
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.FactorDepthInertBounds
-public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TypedPartSplitPrimes
+public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle017
 
 @[expose] public section
 
@@ -60,18 +59,18 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 open Classical
 
-theorem thA_big (u : Weight Dw) (n : ℕ) (τ : Psi H) (i : ℕ) (hi : i < Dw.p) :
+theorem thA_big (u : _root_.GlobalTheory.AllWt.Weight Dw) (n : ℕ) (τ : Psi H) (i : ℕ) (hi : i < Dw.p) :
     thA Dw u n (τ.1, i) = (u τ ⟨i, by omega⟩ - u τ ⟨Dw.p - 1, by omega⟩ + 1).toNat := by
   simp only [thA, wtOf_big _ _ τ i hi, shift, dif_pos (show 0 < Dw.p by omega), Pi.add_apply, GlobalTheory.FlatLine.parWt]
   congr 1; ring
 
-theorem thA_small (u : Weight Dw) (n : ℕ) (τ : Psi H) (i : ℕ) (hi : i < Dw.q) (hp : 0 < Dw.p) :
+theorem thA_small (u : _root_.GlobalTheory.AllWt.Weight Dw) (n : ℕ) (τ : Psi H) (i : ℕ) (hi : i < Dw.q) (hp : 0 < Dw.p) :
     thA Dw u n (conjEmb τ.1, i) =
       (u τ ⟨Dw.p - 1, by omega⟩ - u τ ⟨Dw.p + (Dw.q - 1 - i), by omega⟩ - 1 - 2 * ((n / 2 : ℕ) : ℤ)).toNat := by
   simp only [thA, wtOf_small _ _ τ i hi, shift, dif_pos hp, Pi.add_apply, GlobalTheory.FlatLine.parWt]
   congr 1; ring
 
-theorem thA_out (u : Weight Dw) (n : ℕ) (τ : E →+* ℂ) (i : ℕ) (h : Dw.mult τ ≤ i) : thA Dw u n (τ, i) = 0 := by
+theorem thA_out (u : _root_.GlobalTheory.AllWt.Weight Dw) (n : ℕ) (τ : E →+* ℂ) (i : ℕ) (h : Dw.mult τ ≤ i) : thA Dw u n (τ, i) = 0 := by
   unfold Datum.mult at h
   simp only [thA, wtOf]
   split_ifs at h ⊢ <;> first | omega | simp
@@ -79,7 +78,7 @@ theorem thA_out (u : Weight Dw) (n : ℕ) (τ : E →+* ℂ) (i : ℕ) (h : Dw.m
 theorem psi_or_conj (τ : E →+* ℂ) : (∃ τ' : Psi H, τ = τ'.1) ∨ ∃ τ' : Psi H, τ = conjEmb τ'.1 := by
   by_cases h : τ (H.rt : E) = H.rt0
   · exact Or.inl ⟨⟨τ, h⟩, rfl⟩
-  · exact Or.inr ⟨⟨conjEmb τ, conj_mem h⟩, (conjEmb_conjEmb τ).symm⟩
+  · exact Or.inr ⟨⟨conjEmb τ, conj_mem h⟩, (_root_.GlobalTheory.AllWt.conjEmb_conjEmb τ).symm⟩
 
 theorem mult_psi (τ : Psi H) : Dw.mult τ.1 = Dw.p := by unfold Datum.mult; rw [if_pos τ.2]
 
@@ -94,7 +93,7 @@ theorem tele_real (f : ℕ → ℝ) (K : ℕ) :
     simp only [Finset.sum_sub_distrib, Finset.sum_const, Finset.card_range, nsmul_eq_mul]
     push_cast; ring
 
-theorem thA_anti (u : Weight Dw) (n : ℕ) (hanti : ∀ τ, Antitone (u τ)) (hp : 0 < Dw.p) (τ : E →+* ℂ) :
+theorem thA_anti (u : _root_.GlobalTheory.AllWt.Weight Dw) (n : ℕ) (hanti : ∀ τ, Antitone (u τ)) (hp : 0 < Dw.p) (τ : E →+* ℂ) :
     Antitone fun i => thA Dw u n (τ, i) := by
   apply antitone_nat_of_succ_le
   intro i
@@ -113,7 +112,7 @@ theorem thA_anti (u : Weight Dw) (n : ℕ) (hanti : ∀ τ, Antitone (u τ)) (hp
       ⟨Dw.p + (Dw.q - 1 - i), by omega⟩ from Fin.mk_le_mk.2 (by omega))
     linarith
 
-theorem thA_le (u : Weight Dw) (n B : ℕ) (hB : ∀ τ i, |u τ i| ≤ B) (hp : 0 < Dw.p) (x : (E →+* ℂ) × ℕ) :
+theorem thA_le (u : _root_.GlobalTheory.AllWt.Weight Dw) (n B : ℕ) (hB : ∀ τ i, |u τ i| ≤ B) (hp : 0 < Dw.p) (x : (E →+* ℂ) × ℕ) :
     thA Dw u n x ≤ 2 * B + 1 := by
   obtain ⟨τ, i⟩ := x
   by_cases hm : Dw.mult τ ≤ i
@@ -130,7 +129,7 @@ theorem thA_le (u : Weight Dw) (n B : ℕ) (hB : ∀ τ i, |u τ i| ≤ B) (hp :
     have h2 := abs_le.1 (hB τ' ⟨Dw.p - 1, by omega⟩)
     omega
 
-theorem thA_le_conj (u : Weight Dw) (n B : ℕ) (hB : ∀ τ i, |u τ i| ≤ B) (hp : 0 < Dw.p) (τ : Psi H) (i : ℕ) :
+theorem thA_le_conj (u : _root_.GlobalTheory.AllWt.Weight Dw) (n B : ℕ) (hB : ∀ τ i, |u τ i| ≤ B) (hp : 0 < Dw.p) (τ : Psi H) (i : ℕ) :
     thA Dw u n (conjEmb τ.1, i) ≤ 2 * B := by
   by_cases hm : Dw.mult (conjEmb τ.1) ≤ i
   · rw [thA_out u n _ i hm]; omega
@@ -177,10 +176,10 @@ theorem card_psi (F : ℕ) (hF : Module.finrank ℚ E = 2 * F) :
       simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hτ ⊢
       exact conj_mem hτ
     · intro a _ b _ h
-      rw [← conjEmb_conjEmb a, h, conjEmb_conjEmb]
+      rw [← _root_.GlobalTheory.AllWt.conjEmb_conjEmb a, h, _root_.GlobalTheory.AllWt.conjEmb_conjEmb]
     · intro b hb
       simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hb
-      exact ⟨conjEmb b, by simpa using conj_not_mem (H := H) ⟨b, hb⟩, conjEmb_conjEmb b⟩
+      exact ⟨conjEmb b, by simpa using conj_not_mem (H := H) ⟨b, hb⟩, _root_.GlobalTheory.AllWt.conjEmb_conjEmb b⟩
   have ht := Finset.card_filter_add_card_filter_not (s := (Finset.univ : Finset (E →+* ℂ)))
     (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0)
   rw [Finset.card_univ, NumberField.Embeddings.card E ℂ, hF] at ht
@@ -188,18 +187,18 @@ theorem card_psi (F : ℕ) (hF : Module.finrank ℚ E = 2 * F) :
 
 
 open Classical in
-theorem big_le (u : Weight Dw) (k n B : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hanti : ∀ τ, Antitone (u τ))
+theorem big_le (u : _root_.GlobalTheory.AllWt.Weight Dw) (k n B : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hanti : ∀ τ, Antitone (u τ))
     (hz : ∀ τ (i : Fin (Dw.p + Dw.q)), (i : ℕ) + 2 = k → u τ i = 0) (hB : ∀ τ i, |u τ i| ≤ B) (τ : E →+* ℂ) :
-    ∑ f ∈ Finset.univ.filter (fun f : Lt1 Dw => IsBig k f ∧ f.1 = τ), gap Dw (thA Dw u n) f ≤ B + 1 := by
+    ∑ f ∈ Finset.univ.filter (fun f : Lt1 Dw => _root_.GlobalTheory.IndefiniteRowSideFullHecke.SplitQuadraticRamification.IsBig k f ∧ f.1 = τ), gap Dw (thA Dw u n) f ≤ B + 1 := by
   have hp : 0 < Dw.p := by omega
   by_cases h : InPsi H τ
   · obtain ⟨τ', rfl⟩ : ∃ τ' : Psi H, τ = τ'.1 := ⟨⟨τ, h⟩, rfl⟩
     have hlt : k - 2 < Dw.mult τ'.1 := by rw [mult_psi]; omega
     have e := sum_gap_row (Dw := Dw) (thA_anti u n hanti hp) τ'.1 ⟨k - 2, hlt⟩
-    have e2 : Finset.univ.filter (fun f : Lt1 Dw => IsBig k f ∧ f.1 = τ'.1) =
+    have e2 : Finset.univ.filter (fun f : Lt1 Dw => _root_.GlobalTheory.IndefiniteRowSideFullHecke.SplitQuadraticRamification.IsBig k f ∧ f.1 = τ'.1) =
         Finset.univ.filter (fun f : Lt1 Dw => f.1 = τ'.1 ∧ k - 2 < rk f) := by
       refine Finset.filter_congr fun f _ => ?_
-      unfold IsBig
+      unfold _root_.GlobalTheory.IndefiniteRowSideFullHecke.SplitQuadraticRamification.IsBig
       constructor
       · rintro ⟨⟨_, h2⟩, h3⟩
         exact ⟨h3, by omega⟩
@@ -217,7 +216,7 @@ theorem big_le (u : Weight Dw) (k n B : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 
       have hf' := (Finset.mem_filter.1 hf).2
       exact absurd (hf'.2 ▸ hf'.1.1) h
 
-theorem cloud_eq (u : Weight Dw) (k n : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hanti : ∀ τ, Antitone (u τ))
+theorem cloud_eq (u : _root_.GlobalTheory.AllWt.Weight Dw) (k n : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hanti : ∀ τ, Antitone (u τ))
     (hz : ∀ τ (i : Fin (Dw.p + Dw.q)), (i : ℕ) + 2 = k → u τ i = 0) (τ : Psi H) :
     ∑ j ∈ Finset.range (k - 2), ((thA Dw u n (τ.1, j) : ℝ) - thA Dw u n (τ.1, k - 2)) =
       ∑ i ∈ Finset.univ.filter (fun i : Fin (Dw.p + Dw.q) => (i : ℕ) + 2 < k), (u τ i : ℝ) := by
@@ -245,7 +244,7 @@ theorem cloud_eq (u : Weight Dw) (k n : ℕ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 
 
 
 open Classical in
-theorem row_le (u : Weight Dw) (k n B : ℕ) (Sg : ℝ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hu : WtBd Dw k n u B Sg)
+theorem row_le (u : _root_.GlobalTheory.AllWt.Weight Dw) (k n B : ℕ) (Sg : ℝ) (hk : 2 ≤ k) (hkp : k ≤ Dw.p + 1) (hu : WtBd Dw k n u B Sg)
     (τ : E →+* ℂ) :
     ∑ j : Fin (Dw.mult τ), (if IsSmall (⟨τ, j⟩ : Lt1 Dw) ∨ IsSpread k (⟨τ, j⟩ : Lt1 Dw) then
       ((rk (⟨τ, j⟩ : Lt1 Dw) * gap Dw (thA Dw u n) ⟨τ, j⟩ : ℕ) : ℝ) else 0) ≤

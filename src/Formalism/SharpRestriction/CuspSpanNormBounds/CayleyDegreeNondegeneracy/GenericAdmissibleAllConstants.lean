@@ -38,9 +38,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.FlagUnipotentLattices.DetIndexProductHyperbolicInequality
+import Formalism.FlagUnipotentLattices.Bundle002
 public import Formalism.LocalRingCardinality.DataParams₂
-import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.OwnEvIntro
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.Bundle006
 import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 import Formalism.SharpRestriction.CuspSpanNormBounds.IsPrimitiveSub
 public import Formalism.SharpRestriction.ParConsts

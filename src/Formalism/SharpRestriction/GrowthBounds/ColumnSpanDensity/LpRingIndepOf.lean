@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RestHLTransport
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.HLepolyTr
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

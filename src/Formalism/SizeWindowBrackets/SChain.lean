@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SizeWindowBrackets.QuotientSlopeBoundsWith
-public import Formalism.SizeWindowBrackets.GrowthBoundGivesRiemannHypothesis
+public import Formalism.SizeWindowBrackets.Bundle002
 public import Formalism.SizeWindowBrackets.ErrorFormsWeakWindowsFalse
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

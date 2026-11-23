@@ -1,0 +1,261 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.ExistsAwayFracOfMemHomLoc
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CubeComplexPolyGradingFiniteExact
+public import Mathlib.RingTheory.RegularLocalRing.Defs
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.NonzeroLocus
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsRegularRingOfSmooth
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle006
+public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.CoeNonzeroLocusCanonicalEqComplRange
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle016
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicGeometry.Modules.Sheaf
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.LinearAlgebra.DirectSum.Finite
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
+import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
+
+@[expose] public section
+
+section
+
+open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
+
+namespace GlobalTheory
+
+theorem cubeComplex_grFree_finite_and_exactAt :
+    ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R] (r : ℕ) (d : Fin r → ℤ),
+      (∀ n p, Module.Finite R ((cubeComplex (grCube ι (grFree ι R d) n)).homology p)) ∧
+        ∃ n₀ : ℤ, ∀ n, n₀ ≤ n → ∀ p, (cubeComplex (grCube ι (grFree ι R d) n)).ExactAt p := by
+  intro ι _ _ R _ r d
+  refine ⟨fun n p => ?_, 1 + ∑ k, |d k|, fun n hn p => ?_⟩
+  · have h (k : Fin r) : Module.Finite R
+        ((cubeComplex (grCube ι (grShift (polyGrading ι R) (-d k)) n)).homology p) :=
+      have : Module.Finite R (((cubeFunctor ι R).obj
+          (grCube ι (polyGrading ι R) (n + -d k))).homology p) :=
+        (GlobalTheory.T.finite_homology_and_exact_cubeComplex_polyGrading ι R (n + -d k)).1 p
+      Module.Finite.equiv (HomologicalComplex.homologyMapIso ((cubeFunctor ι R).mapIso
+        (grCubeShiftIso (polyGrading ι R) (-d k) n)) p).toLinearEquiv.symm
+    exact Module.Finite.equiv
+      (cubeHomologyDirectSumEquiv (fun k => grCube ι (grShift (polyGrading ι R) (-d k)) n) p ≪≫ₗ
+        (HomologicalComplex.homologyMapIso ((cubeFunctor ι R).mapIso
+          (grCubePiIso ι (fun k => grShift (polyGrading ι R) (-d k)) n)) p).toLinearEquiv.symm)
+  · refine (cubeComplex_grPi_exactAt_iff (fun k => grShift (polyGrading ι R) (-d k)) n p).2
+      fun k => ?_
+    have h₁ : |d k| ≤ ∑ k, |d k| :=
+      Finset.single_le_sum (f := fun k => |d k|) (fun _ _ => abs_nonneg _) (Finset.mem_univ k)
+    have h₂ := le_abs_self (d k)
+    exact (exactAt_iff_of_quasiIsoAt ((cubeFunctor ι R).mapIso
+      (grCubeShiftIso (polyGrading ι R) (-d k) n)).hom p).2
+      ((GlobalTheory.T.finite_homology_and_exact_cubeComplex_polyGrading ι R (n + -d k)).2 (by omega) p)
+
+end GlobalTheory
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+
+namespace GlobalTheory
+
+theorem isRegularLocalRing_and_ringKrullDim_eq_of_polAV :
+    ∀ (K : Type) [Field K] [IsAlgClosed K] (P : PolAV (Spec (CommRingCat.of K))) (R : Type) [CommRing R] (t₀ : Spec (CommRingCat.of R) ⟶ P.A.left) (m : Ideal R) [m.IsMaximal] (O : Type) [CommRing O] [Algebra R O] [IsLocalization.AtPrime O m], IsOpenImmersion t₀ → IsRegularLocalRing O ∧ ringKrullDim O = P.g := by
+  intro K _ _ P R _ t₀ m hm O _ _ _ ht
+  have hab := P.isAb
+  have hd := P.smoothDim
+  have hsm : Smooth P.A.hom := SmoothOfRelativeDimension.smooth P.g _
+  have hgi : GeometricallyIntegral P.A.hom :=
+    forall_geometricallyIntegral_of_smooth_of_geometricallyConnected _ _ _ hsm hab.geomConnected
+  have hint : IsIntegral P.A.left := GeometricallyIntegral.isIntegral_of_subsingleton P.A.hom
+  have hnt : Nontrivial R := ⟨⟨0, 1, fun h => hm.ne_top ((Ideal.eq_top_iff_one m).2 (h ▸ m.zero_mem))⟩⟩
+  let φ : CommRingCat.of K ⟶ CommRingCat.of R := Spec.preimage (t₀ ≫ P.A.hom)
+  have hφ : t₀ ≫ P.A.hom = Spec.map φ := (Spec.map_preimage _).symm
+  let _ : Algebra K R := φ.hom.toAlgebra
+  have hφ' : t₀ ≫ P.A.hom = Spec.map (CommRingCat.ofHom (algebraMap K R)) := hφ
+  have htr : Algebra.trdeg K R = P.g :=
+    trdeg_eq_of_smoothOfRelativeDimension K P.A.left P.A.hom P.g hd R t₀ ht hφ'
+  have : IsIntegral (Spec (CommRingCat.of R)) := isIntegral_of_isOpenImmersion t₀
+  have : IsDomain R := (affine_isIntegral_iff (CommRingCat.of R)).1 inferInstance
+  have hs : Smooth (Spec.map φ) := hφ ▸ inferInstance
+  have hs' : Algebra.Smooth K R := (HasRingHomProperty.Spec_iff (P := @Smooth)).1 hs
+  have hreg : IsRegularRing R := isRegularRing_of_smooth K R
+  have hh := ReciprocityTheory.CA.height_eq_of_isMaximal_of_trdeg_eq_field P.g htr m
+  refine ⟨?_, ?_⟩
+  · have := isRegularRing_iff.mp hreg m
+    exact IsRegularLocalRing.of_ringEquiv (IsLocalization.algEquiv m.primeCompl
+      (Localization.AtPrime m) O).toRingEquiv
+  · rw [IsLocalization.AtPrime.ringKrullDim_eq_height m O, hh]
+    rfl
+
+end GlobalTheory
+end
+
+section
+
+open CategoryTheory CategoryTheory.Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry DirectSum TensorProduct
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Out ReciprocityTheory.ChartRestriction.G.Semi
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory GlobalTheory.AbLaw
+
+namespace GlobalTheory.AffineComplement
+
+open ReciprocityTheory.AnForm.R
+
+theorem effCartier_of_stalkId_of_isLocallyNoetherian {W : Scheme.{0}} [IsLocallyNoetherian W]
+    (G : W.IdealSheafData)
+    (hG : ∀ x : W, ∃ t ∈ nonZeroDivisors (W.presheaf.stalk x), FinalTheorems.stalkId G x = Ideal.span {t}) :
+    FinalTheorems.EffCartier G := by
+  intro x
+  obtain ⟨t, htnzd, ht⟩ := hG x
+  obtain ⟨_, ⟨U, hU, rfl⟩, hxU, -⟩ :=
+    W.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
+  let U' : W.affineOpens := ⟨U, hU⟩
+  have hx : x ∈ U'.1 := hxU
+  rw [ds_stalkId_eq_map G U' x hx] at ht
+  haveI : IsNoetherianRing Γ(W, U) := IsLocallyNoetherian.component_noetherian U'
+  letI : Algebra Γ(W, U) (W.presheaf.stalk x) := W.presheaf.algebra_section_stalk ⟨x, hx⟩
+  haveI := hU.isLocalization_stalk ⟨x, hx⟩
+  have halg : algebraMap Γ(W, U) (W.presheaf.stalk x) = (W.presheaf.germ U x hx).hom := rfl
+  rw [Ideal.map] at ht
+  obtain ⟨y, ⟨a, haI, rfl⟩, c, hc⟩ := ds_gen_of_span _ t htnzd ht
+  have hmap : (G.ideal U').map (algebraMap Γ(W, U) (W.presheaf.stalk x)) =
+      Ideal.span {algebraMap Γ(W, U) (W.presheaf.stalk x) a} := by
+    rw [halg, Ideal.map, ht, hc, Ideal.span_singleton_mul_left_unit c.isUnit]
+  have hnzd : algebraMap Γ(W, U) (W.presheaf.stalk x) a ∈ nonZeroDivisors (W.presheaf.stalk x) := by
+    rw [halg, hc]
+    exact mul_mem (IsUnit.mem_nonZeroDivisors c.isUnit) htnzd
+  obtain ⟨σ, hσP, hT⟩ := ds_spread (hU.primeIdealOf ⟨x, hx⟩).asIdeal (G.ideal U') a haI hmap hnzd
+  haveI := hU.isLocalization_basicOpen σ
+  obtain ⟨h1, h2⟩ := hT Γ(W, W.basicOpen σ)
+  refine ⟨W.affineBasicOpen (U := U') σ, algebraMap Γ(W, U) Γ(W, W.basicOpen σ) a, ?_, h2, ?_⟩
+  · show x ∈ W.basicOpen σ
+    rw [W.mem_basicOpen σ x hx]
+    exact (IsLocalization.AtPrime.isUnit_to_map_iff (W.presheaf.stalk x)
+      (hU.primeIdealOf ⟨x, hx⟩).asIdeal σ).2 hσP
+  · rw [← G.map_ideal_basicOpen U' σ]
+    exact h1
+
+theorem exists_radical_span_singleton_eq {A : Type} [CommRing A] [IsDomain A]
+    [UniqueFactorizationMonoid A] {a : A} (ha : a ≠ 0) :
+    ∃ t ∈ nonZeroDivisors A, (Ideal.span {a}).radical = Ideal.span {t} := by
+  obtain ⟨y, n, hy, hya, hay⟩ := exists_squarefree_dvd_pow_of_ne_zero ha
+  refine ⟨y, mem_nonZeroDivisors_of_ne_zero hy.ne_zero, le_antisymm ?_ ?_⟩
+  · rw [← (isRadical_iff_span_singleton.1 hy.isRadical).radical]
+    exact Ideal.radical_mono (Ideal.span_singleton_le_span_singleton.2 hya)
+  · rw [Ideal.span_singleton_le_iff_mem]
+    exact ⟨n, Ideal.mem_span_singleton.2 hay⟩
+
+theorem stalkId_vanishingIdeal_compl {X : Scheme.{0}} (U : X.Opens) (x : X)
+    (a : X.presheaf.stalk x)
+    (h : ∀ q : PrimeSpectrum (X.presheaf.stalk x), X.fromSpecStalk x q ∈ U ↔ a ∉ q.asIdeal) :
+    FinalTheorems.stalkId (Scheme.IdealSheafData.vanishingIdeal U.compl) x = (Ideal.span {a}).radical := by
+  obtain ⟨_, ⟨W, hW, rfl⟩, hx, -⟩ :=
+    X.isBasis_affineOpens.exists_subset_of_mem_open (Set.mem_univ x) isOpen_univ
+  rw [ds_stalkId_eq_map _ ⟨W, hW⟩ x hx, Scheme.IdealSheafData.vanishingIdeal_ideal]
+  letI : Algebra Γ(X, W) (X.presheaf.stalk x) := X.presheaf.algebra_section_stalk ⟨x, hx⟩
+  haveI := hW.isLocalization_stalk ⟨x, hx⟩
+  have hcl : IsClosed (X := PrimeSpectrum Γ(X, W)) (hW.fromSpec ⁻¹' (U.compl : Set X)) :=
+    U.compl.isClosed.preimage hW.fromSpec.continuous
+  generalize hJ : PrimeSpectrum.vanishingIdeal (R := Γ(X, W)) (hW.fromSpec ⁻¹' (U.compl : Set X)) = J
+  have hz : PrimeSpectrum.zeroLocus (J : Set Γ(X, W)) = hW.fromSpec ⁻¹' (U.compl : Set X) := by
+    rw [← hJ, PrimeSpectrum.zeroLocus_vanishingIdeal_eq_closure, hcl.closure_eq]
+    rfl
+  have hr : J.radical = J := hJ ▸ (PrimeSpectrum.isRadical_vanishingIdeal _).radical
+  change J.map (algebraMap Γ(X, W) (X.presheaf.stalk x)) = _
+  rw [← hr, IsLocalization.map_radical (hW.primeIdealOf ⟨x, hx⟩).asIdeal.primeCompl,
+    ← PrimeSpectrum.zeroLocus_eq_iff]
+  ext q
+  have e : X.fromSpecStalk x q =
+      hW.fromSpec (PrimeSpectrum.comap (algebraMap Γ(X, W) (X.presheaf.stalk x)) q) := by
+    rw [← hW.fromSpecStalk_eq_fromSpecStalk hx]
+    rfl
+  rw [PrimeSpectrum.mem_zeroLocus, PrimeSpectrum.mem_zeroLocus, SetLike.coe_subset_coe,
+    SetLike.coe_subset_coe, Ideal.map_le_iff_le_comap, Ideal.span_singleton_le_iff_mem,
+    ← not_iff_not, ← h, e]
+  have := Set.ext_iff.1 hz (PrimeSpectrum.comap (algebraMap Γ(X, W) (X.presheaf.stalk x)) q)
+  exact (not_congr this).trans not_not
+
+theorem exists_nonzeroLocus_eq : ∀ (X : Scheme.{0}) [IsIntegral X] [IsLocallyNoetherian X] [X.IsSeparated] (U : X.Opens), IsAffineOpen U → (U : Set X).Nonempty → (∀ x : X, UniqueFactorizationMonoid (X.presheaf.stalk x)) → ∃ (L : LB X) (σ : LB.Sec L), L.IsLB ∧ nonzeroLocus σ = U := by
+  intro X _ _ _ U hU hne hufd
+  have hι : IsAffineHom U.ι :=
+    haveI : IsAffine U := hU
+    haveI : IsAffineHom (U.ι ≫ terminal.from X) := inferInstance
+    IsAffineHom.of_comp _ (terminal.from X)
+  have hE : FinalTheorems.EffCartier (Scheme.IdealSheafData.vanishingIdeal U.compl) := by
+    refine effCartier_of_stalkId_of_isLocallyNoetherian _ fun x => ?_
+    haveI := hufd x
+    have hd : IsDomain (X.presheaf.stalk x) := inferInstance
+    have hn : IsNoetherianRing (X.presheaf.stalk x) := inferInstance
+    have hA : IsAffineOpen (X.fromSpecStalk x ⁻¹ᵁ U) := by
+      have : IsAffineHom (X.fromSpecStalk x ⁻¹ᵁ U).ι :=
+        MorphismProperty.of_isPullback (P := @IsAffineHom)
+          (isPullback_morphismRestrict (X.fromSpecStalk x) U) hι
+      exact isAffine_of_isAffineHom (X.fromSpecStalk x ⁻¹ᵁ U).ι
+    have hg : genericPoint X ∈ Set.range (X.fromSpecStalk x) := by
+      rw [Scheme.range_fromSpecStalk]
+      exact (genericPoint_spec X).specializes trivial
+    obtain ⟨q, hq⟩ := hg
+    have hqU : q ∈ X.fromSpecStalk x ⁻¹ᵁ U := by
+      change X.fromSpecStalk x q ∈ U
+      rw [hq]
+      exact ((genericPoint_spec X).mem_open_set_iff U.isOpen).2 (by simpa using hne)
+    obtain ⟨a, ha⟩ := @GlobalTheory.exists_eq_basicOpen_of_isAffineOpen_of_uniqueFactorization (X.presheaf.stalk x) (X.presheaf.stalk x).commRing hd hn (hufd x)
+      (X.fromSpecStalk x ⁻¹ᵁ U) hA ⟨q, hqU⟩
+    have h : ∀ q : PrimeSpectrum (X.presheaf.stalk x),
+        X.fromSpecStalk x q ∈ U ↔ a ∉ q.asIdeal := fun q =>
+      iff_of_eq (congrArg (fun V => q ∈ V) ha)
+    have ha0 : a ≠ 0 := fun h0 => (h q).1 hqU (h0 ▸ zero_mem _)
+    rw [stalkId_vanishingIdeal_compl U x a h]
+    exact exists_radical_span_singleton_eq ha0
+  obtain ⟨D, hD⟩ := EffCartierData.exists_idealSheaf_eq hE
+  refine ⟨D.lb, D.canonical, D.isLB_lb, TopologicalSpace.Opens.ext ?_⟩
+  refine D.coe_nonzeroLocus_canonical.trans ?_
+  rw [hD]
+  exact compl_compl _
+
+end GlobalTheory.AffineComplement
+end

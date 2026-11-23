@@ -1,12 +1,12 @@
 module
 
-import Development.WeilBound.CoreStatements.PlurisubharmonicCones.DeterminantLatticeGenerator
+import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Bundle007
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.PotentialsBoundedRegSettingEqReference
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AlternatingMapSumSmulEqDetSmul
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsChartBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueLatOfChartBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SegreChartBundleStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle082
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

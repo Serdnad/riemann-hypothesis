@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
-public import ReciprocityTheory.DualLattices.TensorSpan
+public import ReciprocityTheory.DualLattices.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,9 +47,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.CharTableIsUnit
-public import ReciprocityTheory.DualLattices.ValuationDetEqOfSpanEq
-public import ReciprocityTheory.DualLattices.ValuationFourierLeOne
+public import ReciprocityTheory.DualLattices.Bundle008
+public import ReciprocityTheory.DualLattices.Bundle009
+public import ReciprocityTheory.DualLattices.Bundle011
 
 @[expose] public section
 

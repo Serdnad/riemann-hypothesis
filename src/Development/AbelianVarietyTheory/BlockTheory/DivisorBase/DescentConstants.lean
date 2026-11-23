@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.PlaceRankTwoOne
+public import Formalism.SharpRestriction.Divisibility.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.TableDegreeElevenProduct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

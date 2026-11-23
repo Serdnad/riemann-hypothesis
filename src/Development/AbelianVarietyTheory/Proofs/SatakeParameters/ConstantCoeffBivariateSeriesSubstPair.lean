@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Cobdry
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.DualOm
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JetZ
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle080
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSp
 public import Formalism.SharpRestriction.Divisibility.ProductZerothFirstParts
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ConstantCoeffJetLogG
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormPowDivFactorialLe
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle083
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle077
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

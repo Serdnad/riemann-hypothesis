@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.LocalFourierChar
+public import GroundTheory.LocalFields.Bundle008
 public import GroundTheory.LocalFields.LocalFourierHaar
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Topology.LocallyConstant.Basic

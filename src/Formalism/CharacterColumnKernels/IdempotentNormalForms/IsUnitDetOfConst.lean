@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementN
+public import Formalism.CharacterColumnKernels.Bundle003
 public import Mathlib.Data.Finsupp.Interval
 public import Mathlib.RingTheory.PowerSeries.Basic
 import Mathlib.Algebra.Order.Floor.Extended

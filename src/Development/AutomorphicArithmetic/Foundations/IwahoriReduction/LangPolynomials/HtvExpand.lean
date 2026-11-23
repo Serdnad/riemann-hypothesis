@@ -1,12 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.DvdOfNormLe
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.KumAlg
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PEvHom
+public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresDl
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresMono
-public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.PresTr
+public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.Bundle004
 import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.WdVal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

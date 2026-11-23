@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundStatement
+public import ReciprocityTheory.DualLattices.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

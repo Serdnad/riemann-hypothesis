@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.PetEqRelIndexMulPetProd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsMulOfDetZero
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

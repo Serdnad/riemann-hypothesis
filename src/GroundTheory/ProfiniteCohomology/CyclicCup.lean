@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CyclicCupDefs
+public import GroundTheory.ProfiniteCohomology.Bundle007
 public import GroundTheory.TateCohomology.TateLow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,10 +2,10 @@ module
 
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMatricesIntertwiningOfSemilinearStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteJointEigensystemsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatrixExistsCommonEigenvectorMemStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormEigenvalueLeOneOfEntries
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle225
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle309
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle110
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

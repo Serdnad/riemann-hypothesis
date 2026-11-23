@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.UniversalOrdinaryDeterminantRing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 
 private theorem place_under {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {A : ValuationSubring Ω} {p : ℕ}
     (hp0 : p ≠ 0) (hp : A.valuation (p : Ω) < 1) :
-    ∃ w : HeightOneSpectrum (𝓞 F), IsPlaceOver A w ∧ (p : 𝓞 F) ∈ w.asIdeal := by
+    ∃ w : HeightOneSpectrum (𝓞 F), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w ∧ (p : 𝓞 F) ∈ w.asIdeal := by
   have hint : A.valuation.Integers A :=
     { hom_inj := Subtype.coe_injective
       map_le_one := fun a => A.valuation_le_one a
@@ -110,7 +110,7 @@ private theorem place_under {F Ω : Type} [Field F] [NumberField F] [Field Ω] [
   exact ⟨⟨I, hI, hne⟩, fun x => Iff.rfl, hpI⟩
 
 private theorem pow_eq_one_of_kills {F Ω : Type} [Field F] [Field Ω] [Algebra F Ω]
-    {M : ℕ} (hM : 1 ≤ M) : ∃ k : ℕ, 0 < k ∧ ∀ (C : Type) [Monoid C] (χ : G F Ω →* C), KillsMu M χ → ∀ s, χ s ^ k = 1 := by
+    {M : ℕ} (hM : 1 ≤ M) : ∃ k : ℕ, 0 < k ∧ ∀ (C : Type) [Monoid C] (χ : _root_.Formalism.ConjugateSelfDual.G F Ω →* C), KillsMu M χ → ∀ s, χ s ^ k = 1 := by
   classical
   refine ⟨M.factorial, Nat.factorial_pos M, ?_⟩
   intro C _ χ hχ s

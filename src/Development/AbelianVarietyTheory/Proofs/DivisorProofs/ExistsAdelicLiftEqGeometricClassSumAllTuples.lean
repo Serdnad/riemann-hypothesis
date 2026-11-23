@@ -1,21 +1,21 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHomogeneousOfRowDeg
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ConstantUniqueOfEqProduct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClassScalarValueCore
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoverValueCore
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockCoefficientMapExtremalEqPhaseSmulLettersStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GenReadsOfUnfBC
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LettersEqFockVarsCore
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModelsAtRecordCore
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemLatGHat
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThAHeisEntireLinearInjective
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKernelOneClassEqClassicalShortSeriesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaLiftEqClassSumThetaKernelsLowestKTypeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnfoldingFrameDeltaChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilTwistBase
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle492
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1676
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2183
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2328
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1668
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1675
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1674
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1620
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1753
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2358
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2467
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2029
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1983
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DualHalfLevelMarkingExistsAndMatch
 import Mathlib.Algebra.Order.Floor.Extended
@@ -126,7 +126,7 @@ theorem ad_value_core (hC : GlobalTheory.Hk3.Core R F) (hT : TieIn T R κ v₀) 
   have hH := mem_HHa_of_span _ _ _ _ _ _ (hio.2.2.1 ▸ LinearMap.mem_range_self O.io (xs j))
   have hhom : (MvPolynomial.rename Dc.eL (MvPolynomial.map (inC O.c') (O.io (xs j)))).IsHomogeneous
       (degW (T.Q.Dw ((i : ℕ) + 1)) (wtA (κ i))) :=
-    ((isHomogeneous_of_rowDeg _ _ _ _ hH.2.2).map _).rename_isHomogeneous
+    ((_root_.GlobalTheory.PtId.isHomogeneous_of_rowDeg _ _ _ _ hH.2.2).map _).rename_isHomogeneous
   have hhalf : ∀ PP, PP ∈ R.Pg ∨ PP ∈ R.Q (tup t) → (O.dδ t).l₂.Mb ≤ PP.asIdeal ∧
       ((D.host.QS * D.host.q * Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal := fun PP hPP => by
     obtain ⟨k1, k2, k3⟩ := (hP.tuple t).half

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.SymmetryWindowLevelDimOnAdmissible
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.LvlDimCondition
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

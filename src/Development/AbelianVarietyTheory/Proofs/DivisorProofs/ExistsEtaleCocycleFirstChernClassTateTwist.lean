@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexBasicPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexDifferentialValuesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPrimitiveRootAndRootsOfUnityStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleLocalPropertyCalculusRulesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleSheafSectionsExtAndGlueStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCochainEvEqOfNaturalStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle463
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle462
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle563
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle458
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle461
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle491
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

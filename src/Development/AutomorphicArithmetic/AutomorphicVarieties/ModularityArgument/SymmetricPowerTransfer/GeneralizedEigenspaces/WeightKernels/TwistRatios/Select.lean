@@ -45,7 +45,7 @@ import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.N
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.IsLevel
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.Wcount
-import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeD
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

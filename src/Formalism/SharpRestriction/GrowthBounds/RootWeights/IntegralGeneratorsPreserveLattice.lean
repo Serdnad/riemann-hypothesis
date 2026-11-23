@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.PolarizationDividedPowerMonomial
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.DividedPowersPreserveZero
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.FockLatticeFiniteSpanning
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

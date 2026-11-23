@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.ConeIntegralFactorisation
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PureSt
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ArchCone
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ContinuousFc

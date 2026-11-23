@@ -1,9 +1,9 @@
 module
 
 import Development.WeilBound.CoreStatements.HodgeTatePoints.MlLift
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenspaceDecompositionInternalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializes
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle107
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle063
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 
 @[expose] public section
 
@@ -181,7 +181,7 @@ theorem mem_range_jQ {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Hos
     eq_of_specializes_of_fst Y.s β g₀ ξ₀ h₀ hs hg (exists_integral_multiple_of_injective β hβ) hy h'
 
 theorem mem_regAt_of_isIntegral {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Spec (CommRingCat.of Ω) ⟶ X}
-    (hg : IsCptGen ξ) (all : ∀ q : X, genPt ξ ⤳ q) (hn : IsNormalScheme X) (q : Cpt ξ) {a : Ω}
+    (hg : IsCptGen ξ) (all : ∀ q : X, genPt ξ ⤳ q) (hn : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme X) (q : Cpt ξ) {a : Ω}
     (ha : _root_.IsIntegral ℤ a) : a ∈ regAt ξ q := by
   have hgen : IsGenericPoint (genPt ξ) (Set.univ : Set X) :=
     Set.eq_univ_of_forall fun q => specializes_iff_mem_closure.1 (all q)

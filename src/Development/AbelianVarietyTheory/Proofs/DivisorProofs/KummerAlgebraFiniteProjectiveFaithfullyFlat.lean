@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgebraMapEqMk
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle076
 public import Mathlib.RingTheory.AdjoinRoot
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.PicardGroup

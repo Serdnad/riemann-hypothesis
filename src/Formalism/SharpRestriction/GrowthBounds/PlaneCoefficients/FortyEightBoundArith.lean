@@ -2,8 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.PlaneCoeffOneTTens
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.FrMemLetters
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.LeCubeMul
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PosULeIff
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle007
 import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundJoint
 import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundReal
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.OldestFar

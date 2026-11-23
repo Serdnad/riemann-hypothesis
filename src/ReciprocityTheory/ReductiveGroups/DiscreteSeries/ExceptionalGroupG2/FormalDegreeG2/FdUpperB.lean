@@ -43,12 +43,12 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.FormalDegreeG2.ProdSubLtEqFactorial
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HsEighthLeOfSmall
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.JacBound
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle012
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.JacobianLeExp
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PBridge
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SCoefGeTwoOfHc
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.TraceMulSelfEqSumEigenvaluesSq
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle011
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle005
 
 @[expose] public section
 

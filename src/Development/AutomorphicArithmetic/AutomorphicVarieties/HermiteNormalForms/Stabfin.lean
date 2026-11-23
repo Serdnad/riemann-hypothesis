@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulNeZeroLat
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle003
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Exbasis
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Locfin
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Rypos
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Spanpsd
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

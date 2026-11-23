@@ -1,6 +1,6 @@
 module
 
-public import Formalism.WachLatticeTwists.HodgeTateChains.InvariantsCohomologyData
+public import Formalism.WachLatticeTwists.HodgeTateChains.Bundle001
 public import Formalism.WachLatticeTwists.HodgeTateChains.HodgeTateFiltrations.InverseOperatorFromInjectivity
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

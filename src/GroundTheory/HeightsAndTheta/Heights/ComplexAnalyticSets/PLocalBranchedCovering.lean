@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLocalBranchedCovering
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StDiscriminantSheetCover
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StIsolatedFibreOpen
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PBranchOffHypersurface
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLinearNoetherNormalization
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle112
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle111
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PManifoldZerosComplementConnected
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

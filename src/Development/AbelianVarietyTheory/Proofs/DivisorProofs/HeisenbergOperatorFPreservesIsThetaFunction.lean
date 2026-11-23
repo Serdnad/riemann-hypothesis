@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasDerivAtOfContinuousRealToComplexExponential
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
-public import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle023
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

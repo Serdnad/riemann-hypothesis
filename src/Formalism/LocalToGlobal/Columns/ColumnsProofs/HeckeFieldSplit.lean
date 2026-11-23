@@ -1,10 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSCoef
+public import Formalism.LocalToGlobal.Columns.ColumnsProofs.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.LiftLatInst
 public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSData
-public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSSplit
-public import Formalism.LocalToGlobal.Columns.HeckeInert
+public import Formalism.LocalToGlobal.Columns.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

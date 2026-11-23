@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonUnitAtOfNotIsUnit
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCorrectionApproximateIdealSections
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GermMemIdealSheafStalkOfClosedFibreUnivClosed
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpecializesLiftClosedFibreStalkBaseChangeStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsNoetherianRingAdicCompletionOfNoetherian
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemIdealOfFlatStalkPullback
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PolarizationTransferWithFunction
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StalkGenerizationGermCompat
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StalkIdComapOfAffine
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2699
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3004
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2680
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle196
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle036
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle680
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle631
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle005
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle661
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LineSCShortExact
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralSubOfIsForm
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GlueMeasUnivNeTopOfCompactStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GluedChartDensityMeasureAddOfCompatibleOn
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1690
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle644
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle230
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

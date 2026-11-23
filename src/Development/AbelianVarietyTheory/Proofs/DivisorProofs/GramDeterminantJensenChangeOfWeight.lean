@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRatioOfWeight
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSimultaneousDiagonalisationPosDefHermitianStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramIsHermitianL2EqDoubleSumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramPosDefOfL2DefiniteStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1548
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1500
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1618
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

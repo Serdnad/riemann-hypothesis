@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.Algebraicity
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle010
 public import GroundTheory.GlobalFields.ComplexMultiplication.AlgebraicityHom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.ThetaOperatorCommutation.RealTh
-public import ReciprocityTheory.ThetaSummability.RealCoinvariants.Numbers
+public import ReciprocityTheory.ThetaSummability.RealCoinvariants.Bundle001
 public import Mathlib.LinearAlgebra.PiTensorProduct.Basic
-public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.FockAct1FockAct2Commute
+public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

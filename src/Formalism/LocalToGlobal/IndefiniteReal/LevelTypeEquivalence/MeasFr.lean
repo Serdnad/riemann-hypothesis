@@ -4,9 +4,9 @@ public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.UnimodInst
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HaarScaling.MapEqSelfOfIterate
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExistsOmegaLeb
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.MeasBrg
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle009
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.InstExists
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Upqcpt
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

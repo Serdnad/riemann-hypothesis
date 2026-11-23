@@ -1,12 +1,12 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.Topology.Algebra.OpenSubgroup
 public import GroundTheory.ProfiniteCohomology.GaloisModules.Discrete
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.IsUnramifiedOutsideIffLeMaxUnramifiedOutside
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Ramification
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.Unramified
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle002
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

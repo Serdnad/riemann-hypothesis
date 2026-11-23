@@ -1,7 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.BlockPolyLevelMove
-public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.BlockProductLattices
+public import Development.AbelianVarietyTheory.BlockTheory.ExistenceTori.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIndexIdeal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

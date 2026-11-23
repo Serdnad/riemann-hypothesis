@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.OrbitalCosetFiniteness.CvGelfandAlt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvenOrdLConjGramDetOfUnitGramAdicCompletion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBallSubset
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.HintSph
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeIndicatorFormula
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCompactSupportDcos
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1237
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1784
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.TraceAsymptotics.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle601
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle660
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

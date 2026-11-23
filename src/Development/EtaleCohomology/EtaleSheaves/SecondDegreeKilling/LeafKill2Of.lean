@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.SecondDegreeKilling
+public import Development.EtaleCohomology.EtaleSheaves.Bundle069
 public import Development.EtaleCohomology.EtaleSheaves.SecondDegreeKilling.HkpullComp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

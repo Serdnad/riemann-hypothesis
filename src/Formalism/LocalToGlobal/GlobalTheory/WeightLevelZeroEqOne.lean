@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.GlobalTheory.ActAllCancelInv
 public import Formalism.LocalToGlobal.GlobalTheory.GramNDetNe
 import Formalism.LocalToGlobal.GlobalTheory.GL4.PColInf
 import Formalism.LocalToGlobal.GlobalTheory.MemIffOfLocBasisG
-import Formalism.LocalToGlobal.GlobalTheory.NfAllSmulSelfRe
+import Formalism.LocalToGlobal.GlobalTheory.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,18 +1,17 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.InstBorelGL
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import GroundTheory.LocalFields.PadicLogSeries
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
 public import Mathlib.MeasureTheory.Integral.IntegrableOn
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GeneralLinearIntegralCompactOpen
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.GeneralLinearUnimodularHaar
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IntegrandEqOnPiece
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IwasawaDecompositionUpperTriangular
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle012
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LocalFieldUniformizerNormProperties
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MemIntegralGLIffIntegralUnitDet
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle008
 import GroundTheory.AutomorphicForms.GLnLocal
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended

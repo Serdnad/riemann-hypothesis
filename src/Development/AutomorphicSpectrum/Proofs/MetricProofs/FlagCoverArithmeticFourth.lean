@@ -1,25 +1,21 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PtsOverPt
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.GenFibreChartDeg
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarOfBlockAlgebraic
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PCoordArithOfFnField
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AevalNeZeroOfNotMem
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ExistsNormalise
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.Imports
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiHomogProdInt
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PAdjoinIndepRelfinrank
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PChartNormPts
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PChartPrimElt
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PChartScalingIndep
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle010
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle144
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle077
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle041
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle018
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle022
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PChartSpecCount
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PLocAwaySpec
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.POrbitCompNonvanish
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ChangeOfModel
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PCoordRatioDeg
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PGenFibreChartDeg
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle033
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

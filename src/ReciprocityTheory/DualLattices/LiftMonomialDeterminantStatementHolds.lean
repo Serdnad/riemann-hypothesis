@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.LiftMonomialDeterminantStatement
+public import ReciprocityTheory.DualLattices.Bundle025
 public import ReciprocityTheory.DualLattices.ProdEraseUpdate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

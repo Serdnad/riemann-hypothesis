@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutNFHatProdKBStmt
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle188
 public import CompanionTheory.AutomorphicTheory.LocalBesselUniqueness.HatCap
 public import CompanionTheory.AutomorphicTheory.LocalBesselUniqueness.HatKBSOf
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJDHatPolyOK
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

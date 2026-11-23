@@ -1,13 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.EmbeddingTypeJumps
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.CrysOnCond
-public import Development.AutomorphicArithmetic.ResidueCharacters.TwistDef
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle004
+public import Development.AutomorphicArithmetic.ResidueCharacters.Bundle001
 public import Development.AutomorphicArithmetic.ResidueCharacters.InvariantsKilledOverCyclotomicAlt
 public import Development.AutomorphicArithmetic.ResidueCharacters.LenLeTorsion
 public import Development.AutomorphicArithmetic.ResidueCharacters.LocNum
 public import Development.AutomorphicArithmetic.ResidueCharacters.LocRes
-public import Development.AutomorphicArithmetic.ResidueCharacters.TbTop
+public import Development.AutomorphicArithmetic.ResidueCharacters.Bundle005
 public import Development.AutomorphicArithmetic.ResidueCharacters.TransferMemBlochKatoCocycles
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PowerSeriesFrobeniusCongruence
+public import Formalism.SharpRestriction.GrowthBounds.Bundle006
 public import Formalism.DropLevelBounds.ConstantCoeffVanishing.UbintConstantCoeffEqZero
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
 public import Formalism.LocalToGlobal.CharacterGerms.TripleSubstSecondCoordinate
 public import Formalism.SharpRestriction.GrowthBounds.CoeffIdentityPlainChartOfThree
 import Mathlib.Algebra.Order.Floor.Extended

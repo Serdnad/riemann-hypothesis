@@ -1,13 +1,13 @@
 module
 
-public import Formalism.HermitianLattices.GenusCovolBound
+public import Formalism.HermitianLattices.Bundle003
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-public import Formalism.FockGram.FockGramProofs.CovolGram
+public import Formalism.FockGram.FockGramProofs.Bundle001
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusScale
 import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

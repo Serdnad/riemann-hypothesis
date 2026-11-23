@@ -6,9 +6,8 @@ public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeMackey
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FirstStatementD
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.ResH1BijectiveOfInverse
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.ResH2BijectiveOfInverse
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle012
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

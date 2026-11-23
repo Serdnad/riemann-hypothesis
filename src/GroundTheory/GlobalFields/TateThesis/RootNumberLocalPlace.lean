@@ -2,11 +2,11 @@ module
 
 public import GroundTheory.GlobalFields.TateThesis.EulerFactorsFourierFinite
 public import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 public import GroundTheory.LocalFields.LocalZetaEpsilon
 public import GroundTheory.GlobalFields.Artin.ConductorOneDim
-import GroundTheory.GlobalFields.KummerTheory.LocalIndexAtPlace
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
+import GroundTheory.GlobalFields.Bundle001
 public import GroundTheory.LocalFields.LocalZeta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

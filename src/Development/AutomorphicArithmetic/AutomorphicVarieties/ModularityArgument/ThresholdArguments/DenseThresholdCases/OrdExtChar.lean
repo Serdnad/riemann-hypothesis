@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.OrdinaryJacquetModules.CoreOrdAlt
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharZeroAdicCompletion
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalArtinExistsHolds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValSubLtIff
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle229
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle806
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle433
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalArtinCompNormCompat
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RestrictsExists
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle110
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,6 +128,7 @@ private theorem tendsto_pow (w : HeightOneSpectrum (𝓞 L)) (hl : ((l : ℕ) : 
   rw [h1, HeightOneSpectrum.algebraMap_adicCompletion]
   simp only [Function.comp_apply, HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
   exact (HeightOneSpectrum.valuation_lt_one_iff_mem w _).2 hl
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem exp_eq_zero (w : HeightOneSpectrum (𝓞 L)) (hl : ((l : ℕ) : 𝓞 L) ∈ w.asIdeal)
     [Fintype (UpperTheory.V.W.Emb l w)] (U : Subgroup (w.adicCompletion L)ˣ) (hU : IsOpen (U : Set (w.adicCompletion L)ˣ))
     (e : UpperTheory.V.W.Emb l w → ℤ)
@@ -213,6 +214,7 @@ end Grp
 section Ker
 variable {K Ω : Type} [Field K] [NumberField K] [Field Ω] [Algebra K Ω] [IsAlgClosure K Ω]
   {A : ValuationSubring Ω} {v : HeightOneSpectrum (𝓞 K)} {C : Type} [CommGroup C] [TopologicalSpace C] [T2Space C]
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem ker_art (h : IsPlaceOver A v) {a : Weil h →* (v.adicCompletion K)ˣ} (ha : IsLocalArtin h a)
     (κ : Dec (F := K) A →* C) (hκ : Continuous κ) (s : Weil h) (hs : a s = 1) :
     κ (Subgroup.inclusion (Weil_le_Dec h) s) = 1 := by
@@ -267,6 +269,7 @@ variable {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] [Algeb
   {v : HeightOneSpectrum (𝓞 K)} (w : PlacesOver L v)
 private noncomputable def resE (j : UpperTheory.V.W.Emb l w.1) : UpperTheory.V.W.Emb l v :=
   ⟨j.1.comp (completionMap v w.1), j.2.comp (continuous_completionMap v w.1)⟩
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem emb_norm [Fintype (UpperTheory.V.W.Emb l w.1)] [DecidableEq (UpperTheory.V.W.Emb l v)] (τ : UpperTheory.V.W.Emb l v)
     (y : w.1.adicCompletion L) :
     τ.1 (Algebra.norm (v.adicCompletion K) y) =
@@ -306,6 +309,7 @@ private noncomputable def powU {F : Type} [Field F] [NumberField F] (w : HeightO
     [Fintype (UpperTheory.V.W.Emb l w)] (c : UpperTheory.V.W.Emb l w → ℤ) : (w.adicCompletion F)ˣ →* (Qbar l)ˣ :=
   MonoidHom.mk' (fun y => ∏ j, Units.map (j.1 : w.adicCompletion F →* Qbar l) y ^ c j) fun x y => by
     simp only [map_mul, mul_zpow, Finset.prod_mul_distrib]
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem coe_powU {F : Type} [Field F] [NumberField F] (w : HeightOneSpectrum (𝓞 F))
     [Fintype (UpperTheory.V.W.Emb l w)] (c : UpperTheory.V.W.Emb l w → ℤ) (y : (w.adicCompletion F)ˣ) :
     ((powU w c y : (Qbar l)ˣ) : Qbar l) = ∏ j : UpperTheory.V.W.Emb l w, j.1 (y : w.adicCompletion F) ^ c j := by
@@ -322,6 +326,7 @@ section Const
 open GroundTheory.Global.SemiLocal
 variable {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L] {l : ℕ} [Fact l.Prime]
   {v : HeightOneSpectrum (𝓞 K)} (w : PlacesOver L v)
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem exists_const [Fintype (UpperTheory.V.W.Emb l w.1)] [Fintype (UpperTheory.V.W.Emb l v)]
     (hl : ((l : ℕ) : 𝓞 L) ∈ w.1.asIdeal) (ω : (w.1.adicCompletion L)ˣ →* ℂˣ) (hω : IsSmoothChar ω)
     (c : UpperTheory.V.W.Emb l w.1 → ℤ) (Hk : ∀ x, ω x = 1 → UpperTheory.V.Z.Gam.nm w x = 1 → powU w.1 c x = 1) :

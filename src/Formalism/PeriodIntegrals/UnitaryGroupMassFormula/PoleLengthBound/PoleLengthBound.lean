@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.LengthPoleInLift
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.BallQuot
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.Bundle003
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PoleLengthBound.StepsOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

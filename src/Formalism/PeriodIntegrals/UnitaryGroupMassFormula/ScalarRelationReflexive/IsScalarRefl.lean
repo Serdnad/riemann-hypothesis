@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ScalRelRepFree
+public import Formalism.PeriodIntegrals.Bundle031
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Lemmas
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ScalarRelationReflexive.MapMemSupThree
 import Mathlib.Algebra.Order.Floor.Extended

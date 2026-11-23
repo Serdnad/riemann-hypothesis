@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.EBeta
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.IdentityEvaluationGenericMatrix
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

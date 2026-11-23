@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.TrISepWith
-public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.ShiftOfColTie
+public import Formalism.LocalToGlobal.Divisibility.DivisibilityConstruction.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeTied
-public import Formalism.LocalToGlobal.IndefiniteReal.PrimitivePackageFullHecke
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

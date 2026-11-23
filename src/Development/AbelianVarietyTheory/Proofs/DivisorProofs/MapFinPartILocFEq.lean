@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOfBalanced
-import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.TotallyPositiveExponents
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TildeCharacterOnUnitary
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryDeterminantKernelOpenAndFactor
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
+import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.Bundle001
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle198
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle168
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -104,12 +104,12 @@ def mulU {N₁ N₂ : ℕ} (N : ℕ) (χ₁ : HeckeU D N₁) (χ₂ : HeckeU D N
 theorem mulU_f {N₁ N₂ : ℕ} (N : ℕ) (χ₁ : HeckeU D N₁) (χ₂ : HeckeU D N₂) (hN : Even ((N₁ : ℤ) + N₂ - N)) (x : (AE D)ˣ) :
     (mulU N χ₁ χ₂ hN).f x = χ₁.f x * χ₂.f x := rfl
 
-theorem eq_one_of_unr {χ : HChar D.host.E} (hχ : ∀ v, χ.UnrAt v) {u : (AE D)ˣ} (hu : IntU D u) :
+theorem eq_one_of_unr {χ : _root_.Formalism.L2.Host.HChar D.host.E} (hχ : ∀ v, χ.UnrAt v) {u : (AE D)ˣ} (hu : IntU D u) :
     χ.1 (finIdl D u) = 1 := by
   refine GlobalTheory.Mem.LocTriv.eq_one_of_local D.host.E χ.1 χ.2.1 (finIdl D u) (finIdl_unit hu) (fun w => ?_) fun v x hx => ?_
   · exact congrFun (finIdl_fst D u) w
-  · have hxu : IsUnitAt v x := by
-      unfold IsUnitAt
+  · have hxu : _root_.Formalism.L2.Host.IsUnitAt v x := by
+      unfold _root_.Formalism.L2.Host.IsUnitAt
       rw [hx]
       exact finIdl_unit hu v
     exact hχ v x hxu
@@ -124,11 +124,11 @@ open Neutral.B1 Formalism.L2.Host GlobalTheory.Mem.Chr GlobalTheory.Mem.Chr.IdlF
 
 variable {D : D7}
 
-theorem map_finPartI_locF_eq (χ : HChar D.host.E) (v : HeightOneSpectrum (𝓞 D.host.F)) (k : D.host.Fˣ) :
-    χ.1 (finPartI D.host.E (locF (L := D.host.E) D.host.F v k)) = χ.resFin v k := by
-  unfold HChar.resFin
+theorem map_finPartI_locF_eq (χ : _root_.Formalism.L2.Host.HChar D.host.E) (v : HeightOneSpectrum (𝓞 D.host.F)) (k : D.host.Fˣ) :
+    χ.1 (finPartI D.host.E (_root_.GlobalTheory.Mem.Chr.locF (L := D.host.E) D.host.F v k)) = χ.resFin v k := by
+  unfold _root_.Formalism.L2.Host.HChar.resFin
   rw [MonoidHom.finsetProd_apply]
-  unfold locF
+  unfold _root_.GlobalTheory.Mem.Chr.locF
   rw [map_prod, map_prod]
   exact Finset.prod_congr rfl fun Q _ => congrArg χ.1 (GlobalTheory.Mem.KerDet.finPartI_localIdele Q _)
 
@@ -141,7 +141,7 @@ theorem even_log_norm (z : (AE D)ˣ) (w : HeightOneSpectrum (𝓞 D.host.E))
   rw [e, WithZero.log_mul h0 h0]
   exact ⟨_, rfl⟩
 
-theorem eta_norm {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (z : (AE D)ˣ) :
+theorem eta_norm {χ : _root_.Formalism.L2.Host.HChar D.host.E} (hχ : _root_.Formalism.L2.Host.IsEtaT D.host χ) (z : (AE D)ˣ) :
     χ.1 (finIdl D (z * sgU D z)) = 1 := by
   classical
   obtain ⟨c, hc, hcm, hu, -⟩ := GlobalTheory.Mem.HostCM.host_cm D.R D.host
@@ -152,13 +152,13 @@ theorem eta_norm {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (z : (AE D)ˣ) :
     (finite_valAt_ne_one a).toFinset.image fun w => w.under (𝓞 D.host.F)
   let m : HeightOneSpectrum (𝓞 D.host.F) → ℤ := fun v =>
     if h : ∃ w : HeightOneSpectrum (𝓞 D.host.E), w.under (𝓞 D.host.F) = v then -WithZero.log (valAt h.choose a) else 0
-  let b : Ideles D.host.E := ∏ v ∈ T, locF (L := D.host.E) D.host.F v (unif v) ^ m v
+  let b : _root_.Neutral.B1.Ideles D.host.E := ∏ v ∈ T, _root_.GlobalTheory.Mem.Chr.locF (L := D.host.E) D.host.F v (_root_.Formalism.L2.Host.unif v) ^ m v
   have hm : ∀ w : HeightOneSpectrum (𝓞 D.host.E), m (w.under (𝓞 D.host.F)) = -WithZero.log (valAt w a) := fun w => by
     have hex : ∃ w' : HeightOneSpectrum (𝓞 D.host.E), w'.under (𝓞 D.host.F) = w.under (𝓞 D.host.F) := ⟨w, rfl⟩
     simp only [m]
     rw [dite_eq_left hex, ha w hex.choose hex.choose_spec]
   have hval : ∀ w, valAt w b = valAt w a := fun w => by
-    have h1 : ∀ v, v ≠ w.under (𝓞 D.host.F) → valAt w (locF (L := D.host.E) D.host.F v (unif v) ^ m v) = 1 :=
+    have h1 : ∀ v, v ≠ w.under (𝓞 D.host.F) → valAt w (_root_.GlobalTheory.Mem.Chr.locF (L := D.host.E) D.host.F v (_root_.Formalism.L2.Host.unif v) ^ m v) = 1 :=
       fun v hv => by rw [map_zpow, valAt_locF, if_neg hv.symm, one_zpow]
     simp only [b]
     rw [map_prod]
@@ -173,8 +173,8 @@ theorem eta_norm {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (z : (AE D)ˣ) :
   have hunit : b⁻¹ * a ∈ unitIdl D.host.E := fun w => by
     rw [← valAt_apply, map_mul, map_inv, hval]
     exact inv_mul_cancel₀ (valAt_ne_zero w a)
-  have hfac : ∀ v, χ.1 (finPartI D.host.E (locF (L := D.host.E) D.host.F v (unif v) ^ m v)) = 1 := fun v => by
-    rw [map_zpow, map_zpow, map_finPartI_locF_eq, hχ.res.1 v, etaFin]
+  have hfac : ∀ v, χ.1 (finPartI D.host.E (_root_.GlobalTheory.Mem.Chr.locF (L := D.host.E) D.host.F v (_root_.Formalism.L2.Host.unif v) ^ m v)) = 1 := fun v => by
+    rw [map_zpow, map_zpow, map_finPartI_locF_eq, hχ.res.1 v, _root_.Formalism.L2.Host.etaFin]
     split_ifs with h1
     · have hev : Even (m v) := by
         simp only [m]
@@ -185,8 +185,8 @@ theorem eta_norm {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (z : (AE D)ˣ) :
           have hu' : w'.under (𝓞 D.host.F) = w.under (𝓞 D.host.F) :=
             (under_eq_iff_conjPl c hcm.rank hcm.ne w w').2 (Or.inr (by rw [ec]; exact hw'))
           obtain ⟨x, hx⟩ := Finset.card_eq_one.1 h1
-          have m1 : w ∈ aboveF (L := D.host.E) D.host.F v := by simp [aboveF, hwv]
-          have m2 : w' ∈ aboveF (L := D.host.E) D.host.F v := by simp [aboveF, hu', hwv]
+          have m1 : w ∈ _root_.Formalism.L2.Host.aboveF (L := D.host.E) D.host.F v := by simp [_root_.Formalism.L2.Host.aboveF, hwv]
+          have m2 : w' ∈ _root_.Formalism.L2.Host.aboveF (L := D.host.E) D.host.F v := by simp [_root_.Formalism.L2.Host.aboveF, hu', hwv]
           rw [hx, Finset.mem_singleton] at m1 m2
           have e : w' = w := m2.trans m1.symm
           rw [e] at hw'
@@ -201,9 +201,9 @@ theorem eta_norm {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (z : (AE D)ˣ) :
   have hr : χ.1 (finPartI D.host.E (b⁻¹ * a)) = 1 := by
     refine GlobalTheory.Mem.LocTriv.eq_one_of_local D.host.E χ.1 χ.2.1 _ (finPartI_mem_unitIdl.2 hunit) (fun _ => rfl)
       fun v x hx => ?_
-    have hx' : (x : v.adicCompletion D.host.E) = ((b⁻¹ * a : Ideles D.host.E) : AdeleRing (𝓞 D.host.E) D.host.E).2 v := hx
-    have hxu : IsUnitAt v x := by
-      unfold IsUnitAt
+    have hx' : (x : v.adicCompletion D.host.E) = ((b⁻¹ * a : _root_.Neutral.B1.Ideles D.host.E) : AdeleRing (𝓞 D.host.E) D.host.E).2 v := hx
+    have hxu : _root_.Formalism.L2.Host.IsUnitAt v x := by
+      unfold _root_.Formalism.L2.Host.IsUnitAt
       rw [hx']
       exact hunit v
     exact hχ.unr v x hxu
@@ -254,7 +254,7 @@ open Neutral.B1 Formalism.L2.Host GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.Spl
 
 variable {D : D7}
 
-def etaU {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) : HeckeU D 1 where
+def etaU {χ : _root_.Formalism.L2.Host.HChar D.host.E} (hχ : _root_.Formalism.L2.Host.IsEtaT D.host χ) : HeckeU D 1 where
   f := χ.1.comp (finIdl D)
   n := fun _ => 1
   unitary := fun _ => hχ.unitary _
@@ -272,6 +272,6 @@ def etaU {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) : HeckeU D 1 where
   par := fun _ => by simp
   unr := fun _ hu _ => eq_one_of_unr hχ.unr hu
 
-theorem etaU_f {χ : HChar D.host.E} (hχ : IsEtaT D.host χ) (x : (AE D)ˣ) : (etaU hχ).f x = χ.1 (finIdl D x) := rfl
+theorem etaU_f {χ : _root_.Formalism.L2.Host.HChar D.host.E} (hχ : _root_.Formalism.L2.Host.IsEtaT D.host χ) (x : (AE D)ˣ) : (etaU hχ).f x = χ.1 (finIdl D x) := rfl
 
 end GlobalTheory.AlphaSplit

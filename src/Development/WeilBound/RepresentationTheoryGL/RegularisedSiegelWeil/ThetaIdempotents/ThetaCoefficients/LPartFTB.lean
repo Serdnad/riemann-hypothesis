@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSiegelTheta.EisCellsDefs
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.ThetaIdempotents.MapsExist
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BlockMatrixMul
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle443
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

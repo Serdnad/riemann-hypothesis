@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HeckeSplitOne
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle006
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PolarizedGaloisRep
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CharpolyFactorizationSemisimple
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ContinuousIotaOQOfData
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle063
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CuspidalStrongMultiplicityOneOfAnalytic
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLatticeComplement
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormEqOneOfCompact
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NotMemPlacesOverOfNe
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplitPlaceGoodSignature
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.WeightRegularOfExt
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle055
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle051
 import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.ResidualIrreducibleOfTheorem
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,12 +53,12 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.NoLocalInvariants
+public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.Bundle001
 import Development.AbelianVarietyTheory.Definitions.Foundations.MatrixMeasurableSpace
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle007
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.LeviEmbMemNormalizerLower
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle008
 
 @[expose] public section
 

@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.StatementsIntDim
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.StatementsConeTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.StatementsFibreCompDimZ
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PFibreCompDimZ
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PIntDomainDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

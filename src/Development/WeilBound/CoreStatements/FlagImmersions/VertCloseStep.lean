@@ -1,15 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginHeightComparisonThreeStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle053
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginHeightComparisonTwo
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagLabelBasesExist
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LogResolutionReindexed
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemAbLocusIff
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle096
 public import Development.WeilBound.CoreStatements.FlagImmersions.DivCycleEqZeroOfNotMemZ
 public import Development.WeilBound.CoreStatements.FlagImmersions.SamePotTransRsmul
-import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -149,6 +149,8 @@ theorem vertClose_step {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype 
     linarith
 
 section Origin
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar.Top
 

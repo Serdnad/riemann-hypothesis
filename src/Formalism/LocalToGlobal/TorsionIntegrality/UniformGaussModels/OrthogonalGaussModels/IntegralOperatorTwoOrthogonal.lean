@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.StatementH
-public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.StatementL
+public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.Bundle004
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.FinalL
 public import Formalism.LocalToGlobal.TorsionIntegrality.RamifiedCurveKernels.PairedSquareJets.Hurwitz
 public import Formalism.LocalToGlobal.TorsionIntegrality.RamifiedCurveKernels.PairedSquareJets.Several

@@ -1,14 +1,14 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CentredSegments.IrreducibleUnif
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.StandardFunctorsFiniteLength
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSemisimpleRepresentationTprodChevalley
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle049
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlgebraMapIntertwiningMapBijectiveOfIsSmooth
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEquivPiExteriorTensorBlockLevi
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JhMultSubAddQuot
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.BernsteinZelevinskyFiniteness
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -202,7 +202,7 @@ theorem exists_scalarBy (x : IrrGL (k := k)) (t : kˣ) : ∃ c : ℂ, Zl.ScalarB
 
 theorem jm_ne_zero_of_equiv {h N : ℕ} (x : Fin h → IrrGL (k := k)) (hx : ∑ a, (x a).1 = N) {V : Type} [AddCommGroup V]
     [Module ℂ V] (π : Representation ℂ (GL (Fin N) k) V)
-    (S : Subrepresentation (jac (stdBlocks (fun a => (x a).1) hx) π))
+    (S : Subrepresentation (_root_.GlobalTheory.SmGL.jac (stdBlocks (fun a => (x a).1) hx) π))
     (Φ : S.toRepresentation.Equiv (piTensor fun a => (x a).rep)) : Zc.jm x hx π ≠ 0 :=
   jhMult_ne_zero_iff.2 ⟨S, Φ.toIntertwiningMap, Φ.surjective⟩
 
@@ -217,14 +217,14 @@ theorem exists_constituent (N : ℕ) {V : Type} [AddCommGroup V] [Module ℂ V]
       Zl.ScalarBy (x 0) (Zls.unifU k) (μ * (Nat.card 𝓀[k] : ℂ) ^ (((d 0 * d 1 : ℕ) : ℂ) / 2)) ∧
       ∃ c1 : ℂ, Zl.ScalarBy (x 1) (Zls.unifU k) c1 := by
   have hBZ := GlobalTheory.CompanionTheory.Published.bernsteinZelevinskyFiniteness
-  have hfl : HasFiniteLength (jac (stdBlocks d hd) π) :=
+  have hfl : HasFiniteLength (_root_.GlobalTheory.SmGL.jac (stdBlocks d hd) π) :=
     (hBZ k).2.1 (Fin 2) (Fin N) (fun a => Fin (d a)) (stdBlocks d hd) V π hs
       (hasFiniteLength_of_isIrreducible hi)
   set ν : ℂ := μ * (Nat.card 𝓀[k] : ℂ) ^ (((d 0 * d 1 : ℕ) : ℂ) / 2) with hν
   set w' : Jacquet π (unipRad k (stdBlocks d hd)) := Submodule.Quotient.mk w with hw'
-  have heig : jac (stdBlocks d hd) π (omegaLevi k d) w' = ν • w' := by
-    rw [hw', jac_mk, leviEmb_omegaLevi, hμ, deltaHalf_omegaLevi, smul_smul, hν, mul_comm]
-  set E := eigenSub (jac (stdBlocks d hd) π) (omegaLevi k d) (omegaLevi_comm d) ν with hE
+  have heig : _root_.GlobalTheory.SmGL.jac (stdBlocks d hd) π (omegaLevi k d) w' = ν • w' := by
+    rw [hw', _root_.GlobalTheory.SmGL.jac_mk, leviEmb_omegaLevi, hμ, deltaHalf_omegaLevi, smul_smul, hν, mul_comm]
+  set E := eigenSub (_root_.GlobalTheory.SmGL.jac (stdBlocks d hd) π) (omegaLevi k d) (omegaLevi_comm d) ν with hE
   have hEne : E ≠ ⊥ := by
     intro h
     have : w' ∈ E.toSubmodule := mem_eigenSub.2 heig

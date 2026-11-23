@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,11 +43,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffRescaleExpandOfNotDvd
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModEvalMF
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle005
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle007
 import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModEvalSer
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModFacSer
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModGmForm
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle009
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle013
 import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
 
 @[expose] public section

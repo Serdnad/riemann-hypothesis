@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Height
-public import GroundTheory.AutomorphicForms.ReductionSplitting
+public import GroundTheory.AutomorphicForms.Bundle017
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
-public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+public import GroundTheory.AutomorphicForms.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

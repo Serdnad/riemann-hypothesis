@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GaussZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle051
 public import Mathlib.Analysis.Fourier.FourierTransform
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 import Mathlib.Algebra.Order.Floor.Extended

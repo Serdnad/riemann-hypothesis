@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.SemilocalAlgebras.Finite
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle002
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.LocalLimits.IsScalarTowerFiniteSubfieldAlgebraicClosure
 import Mathlib.Algebra.Order.Floor.Extended

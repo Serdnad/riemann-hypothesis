@@ -2,12 +2,12 @@ module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImportsBisExtra
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InclEIntMem
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle079
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Adelstab
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureExists
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

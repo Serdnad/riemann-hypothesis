@@ -2,14 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ReferenceCharactersFactorTame
 public import Formalism.LocalToGlobal.Columns.Adelic
-public import Formalism.LocalToGlobal.HermitianForms.DefsGH
-public import Formalism.LocalToGlobal.HermitianForms.DefsSym
+public import Formalism.LocalToGlobal.HermitianForms.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemPrinCongOfSm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemIdSOfResSEqZero
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle115
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 public import Formalism.LocalToGlobal.Columns.RecLevelLoc
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.JoinForms
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitIntLoc
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

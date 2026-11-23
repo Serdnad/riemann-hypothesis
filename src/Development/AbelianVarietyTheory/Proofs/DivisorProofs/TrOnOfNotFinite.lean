@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivOfISupRange
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfIsOpen
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexProd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TrOnMapOfInjective
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1237
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1623
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

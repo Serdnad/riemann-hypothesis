@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SizeWindowBrackets.LcvBaseChange
-public import Formalism.HarderNarasimhan.StatementMod
+public import Formalism.SizeWindowBrackets.Bundle002
+public import Formalism.HarderNarasimhan.Bundle002
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtGram
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.MuChar
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.ExistsNsmulMem

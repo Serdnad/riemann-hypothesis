@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BranchingAndRankConstants
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AmplitudeSchurBoundUniformConstantsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ElementarySizeBoundsOfSizeHypothesesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AmplitudeMultOneDecayOfLargeGapHypothesesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselMultiplicityOneLargeGapAndWhittakerBessel
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HypOfUniqGap
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SchurAlongFamily
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle297
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle110
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle278
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle458
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle452
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle431
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.VanishingGramTermsBoundParams
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DegVand
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UniqGapOfUniq
 
 @[expose] public section

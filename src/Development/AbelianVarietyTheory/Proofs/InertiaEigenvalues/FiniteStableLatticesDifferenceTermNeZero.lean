@@ -1,9 +1,9 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiscrMulMemOfIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DltEqZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardLatticesIdempotentPositionBoundedStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLatticeIdempotentPositionInvolutionStableStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle517
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

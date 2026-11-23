@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoAndThreeForFamily
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.JointConditionTameBound
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.CrysOnCond
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle020
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle005
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle004
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

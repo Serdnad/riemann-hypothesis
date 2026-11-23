@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteOpenHopfOrder
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsDenominatorRegular
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle011
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.Valuation.ValuationRing
 public import Mathlib.Tactic.ENatToNat
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinitePartLePreimageOfClosedFibreSubset
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsFinOpenSubOfFinite
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle037
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwpairAlg
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

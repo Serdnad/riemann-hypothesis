@@ -56,7 +56,7 @@ import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFi
 import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
 import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.LagrangianDecomposition.Em0Injective
 import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.IsSingTest
-import Development.WeilBound.ThetaLifts.LatticeBasics.Hypotheses2
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Lean.Elab.MutualDef
 

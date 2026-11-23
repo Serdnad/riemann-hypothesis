@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCusp
 public import GroundTheory.AutomorphicForms.UnitaryAdmissible.CuspCentral
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStableLaplacian
 public import GroundTheory.AutomorphicForms.SmoothRep
-public import GroundTheory.AutomorphicForms.TensorProductTheorem.PeterssonComplement
+public import GroundTheory.AutomorphicForms.TensorProductTheorem.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

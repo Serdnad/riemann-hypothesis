@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.GlobalTheory.IsResidueClassZero
-public import Formalism.QuotientMetricDivisors.Complement2Normaliser
+public import Formalism.QuotientMetricDivisors.Bundle004
 
 @[expose] public section
 

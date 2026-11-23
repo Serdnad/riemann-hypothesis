@@ -1,8 +1,8 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.BaseChange
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

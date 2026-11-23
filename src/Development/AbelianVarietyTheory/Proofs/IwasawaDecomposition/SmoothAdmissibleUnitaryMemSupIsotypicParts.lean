@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.ConjSubConjSub
-public import Formalism.LocalToGlobal.ProjectiveLattices.PartitionExtendByZeroAntitone
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IndEtOfForallFinset
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
 public import Mathlib.Tactic.Bound
 public import Mathlib.Tactic.Linter.HaveILetI
 public import Mathlib.Tactic.Monotonicity.Lemmas
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgHomExtLocalization
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsStrictHenselisation
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndEtaleLocalizedPiecesTrans
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle385
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle748
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle671
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStrictHenselisationOfDirectedUnion
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsRingHomOfIsStrictHenselisation
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

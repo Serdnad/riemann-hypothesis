@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.GlobQuotH
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.GlobQuotPf
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.Bundle005
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.Rationality.Bundle006
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdjInvol
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagOfUpTOfPreserves
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1223
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegativeFrameDomainProductOpenPreconnectedStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmoothGramSchmidtIndefiniteHermitianFrames
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusLawOfKilled
@@ -471,7 +471,7 @@ theorem holFn_of_killed : ∀ (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι
   obtain ⟨hopen, -, hstab, hx₀⟩ := GlobalTheory.HolDict.frDoms_open_preconnected_stable n ι Hm q x₀ h
   let bb : (ι → Fin n → Fin n → ℂ) → ι → Mt n := fun x τ => Matrix.of (β τ (x τ))
   let γ : (ι → Fin n → Fin n → ℂ) → ι → Mt n := fun x τ => Matrix.of (x τ) * (bb x τ)⁻¹ * (x₀ τ)⁻¹
-  let P : (ι → Fin n → Fin n → ℂ) → ℂ := fun x => chi w (bb x) * f (γ x)
+  let P : (ι → Fin n → Fin n → ℂ) → ℂ := fun x => _root_.GlobalTheory.HolDict.HolOf.chi w (bb x) * f (γ x)
   have hbb : ∀ x ∈ frDoms Hm q, ∀ τ, UpT (bb x τ) := fun x hx τ => (hβ' τ _ (hx τ)).1
   have hγ : ∀ x ∈ frDoms Hm q, γ x ∈ UG Hm := fun x hx τ => (hβ' τ _ (hx τ)).2
   have hdec : ∀ x ∈ frDoms Hm q, ∀ τ, γ x τ * x₀ τ * bb x τ = Matrix.of (x τ) := by
@@ -479,7 +479,7 @@ theorem holFn_of_killed : ∀ (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι
     simp only [γ]
     rw [nonsing_inv_mul_cancel_right _ _ (units_of_orth (h τ)).1, nonsing_inv_mul_cancel_right _ _ (hbb x hx τ).1.isUnit]
   have hdec' : ∀ x ∈ frDoms Hm q, co (γ x * x₀ * bb x) = x := fun x hx => funext fun τ => hdec x hx τ
-  have hP : ∀ u ∈ UG Hm, ∀ b : ι → Mt n, (∀ τ, UpT (b τ)) → P (co (u * x₀ * b)) = chi w b * f u := by
+  have hP : ∀ u ∈ UG Hm, ∀ b : ι → Mt n, (∀ τ, UpT (b τ)) → P (co (u * x₀ * b)) = _root_.GlobalTheory.HolDict.HolOf.chi w b * f u := by
     intro u hu b hb
     have hx : co (u * x₀ * b) ∈ frDoms Hm q := hstab u hu b hb _ hx₀
     set x := co (u * x₀ * b) with hxd
@@ -496,15 +496,15 @@ theorem holFn_of_killed : ∀ (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι
     have e2 : γ x = u * torEl x₀ s := by
       funext τ
       rw [e, hs']; rfl
-    have e3 : chi w b = torCh w s * chi w (bb x) := by
+    have e3 : _root_.GlobalTheory.HolDict.HolOf.chi w b = torCh w s * _root_.GlobalTheory.HolDict.HolOf.chi w (bb x) := by
       have e4 : b = fun τ => (b τ * (bb x τ)⁻¹) * bb x τ := by
         funext τ
         rw [nonsing_inv_mul_cancel_right _ _ (hbb x hx τ).1.isUnit]
       rw [e4, chi_mul w (fun τ => upT_mul (hb τ) (upT_inv (hbb x hx τ))) (hbb x hx)]
       congr 1
-      unfold chi torCh
+      unfold _root_.GlobalTheory.HolDict.HolOf.chi torCh
       simp only [hs', diagonal_apply_eq]
-    change chi w (bb x) * f (γ x) = _
+    change _root_.GlobalTheory.HolDict.HolOf.chi w (bb x) * f (γ x) = _
     rw [e2, torus_law_of_killed n ι Hm q x₀ w h f hs hk u hu s, e3]
     ring
   have hbs : ∀ τ a c, ContDiffOn ℝ ∞ (fun x => bb x τ a c) (frDoms Hm q) := by
@@ -520,8 +520,8 @@ theorem holFn_of_killed : ∀ (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι
     fun_prop
   have hfs : ContDiffOn ℝ ∞ (fun x => f (γ x)) (frDoms Hm q) :=
     (GlobalTheory.HolDict.Chart.main n ι Hm (fun τ => ⟨herm_of_orth (h τ), (units_of_orth (h τ)).2.ne_zero⟩) f hs _ _ _ hopen hγs hγ).1
-  have hcs : ContDiffOn ℝ ∞ (fun x => chi w (bb x)) (frDoms Hm q) := by
-    unfold chi
+  have hcs : ContDiffOn ℝ ∞ (fun x => _root_.GlobalTheory.HolDict.HolOf.chi w (bb x)) (frDoms Hm q) := by
+    unfold _root_.GlobalTheory.HolDict.HolOf.chi
     refine contDiffOn_prod fun τ _ => contDiffOn_prod fun a _ => ?_
     cases w τ a with
     | ofNat m => simpa using (hbs τ a a).pow m
@@ -541,11 +541,11 @@ theorem holFn_of_killed : ∀ (n : ℕ) (ι : Type) [Fintype ι] [DecidableEq ι
       rw [← hdec x hx τ, Matrix.mul_assoc]; rfl
     rw [e, chi_mul w (hbb x hx) hb] at h1
     rw [h1]
-    change _ = chi w b * (chi w (bb x) * f (γ x))
+    change _ = _root_.GlobalTheory.HolDict.HolOf.chi w b * (_root_.GlobalTheory.HolDict.HolOf.chi w (bb x) * f (γ x))
     ring
   · have h1 := hP u hu 1 fun _ => upT_one
     rw [mul_one] at h1
-    have e : chi w (1 : ι → Mt n) = 1 := by simp [chi]
+    have e : _root_.GlobalTheory.HolDict.HolOf.chi w (1 : ι → Mt n) = 1 := by simp [_root_.GlobalTheory.HolDict.HolOf.chi]
     rw [e, one_mul] at h1
     exact h1.symm
 

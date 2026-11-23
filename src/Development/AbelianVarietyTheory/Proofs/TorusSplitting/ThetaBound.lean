@@ -1,8 +1,8 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.GCauchyStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExtAllInputs
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.GreedySplittingPrincipalTorusExistsStatement
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

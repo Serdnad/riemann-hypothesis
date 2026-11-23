@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.EigenRatHermLcv
+public import Formalism.QuotientMetricDivisors.Bundle006
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

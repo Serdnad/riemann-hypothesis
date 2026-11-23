@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.InertKernelTheory.FirstKernelGeneratorOfOrthogonal
-public import Formalism.GL3MeanSquares.LegendreCoefficient
+public import Formalism.GL3MeanSquares.Bundle003
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.ExpSeries
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionHypothesesOfLevelOne
 public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.OneLetterGaussSharpTranslateHolds

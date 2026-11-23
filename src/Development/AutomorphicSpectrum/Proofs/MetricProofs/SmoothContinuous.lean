@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SameOrbitRefl
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BiholomorphicLiftSystemStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConjugationAntiholomorphicChartsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConjugationInvariantSingularPotentialStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HolomorphicDegreeOneBiholomorphismStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LiftSystemComplexConjugationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LiftSystemRealStructureStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SingularWeightMonotoneRegularizationStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle165
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HolomorphicConjugatePullback
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle156
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle164
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle032
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
+import ReciprocityTheory.AnalyticForms.LeviForms.Bundle002
 
 @[expose] public section
 

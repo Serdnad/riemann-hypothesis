@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.Mollifiers.MollifierL2LocTendsto
+public import ReciprocityTheory.L2DbarEstimates.Mollifiers.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.Mollifiers.FderivMollApply
+public import ReciprocityTheory.L2DbarEstimates.Mollifiers.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.Mollifiers.MollTendstoOfContinuous
 
 @[expose] public section

@@ -1,22 +1,22 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EtaLin
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle018
 public import Mathlib.RingTheory.Henselian
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle012
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsAlternatingSkewNatural
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeTorsionPointsRestrictBijectiveStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilIsDiagRoot
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GeomPointsFactorHenselianOfSpecializes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsClopenOfSpecializesIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootsOfUnityMapBijectiveOfHenselian
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TransportAlg
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1480
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2670
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle630
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle582
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle585
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle547
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoIffBijectiveOverAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubeOfExistsRelAmple
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubicalStrOfTrivTheta
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsThetaOfPowEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UnitOnInjectiveOfCommRing
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle147
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle068
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +58,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullGenLBIsGen
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.SiegelPullbackTransfer.ExistsGenTransfer
 
 @[expose] public section

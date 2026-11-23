@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.GlobalFields.NormResidueSymbol.RangeIdeleNormLeKerIdeleSymbol
-import GroundTheory.GlobalFields.NormResidueSymbol.AbstractUnique
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle001
 public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialFinite
-public import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialInfinite
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

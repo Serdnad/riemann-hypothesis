@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WeightLawGoodOfFieldEmbedding
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkMapInitMinor
 import Formalism.LocalToGlobal.Columns.PolyFnLemmas
@@ -52,7 +52,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2.MetricTie
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.DivisionValues Matrix
+open NumberField IsDedekindDomain Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Forms Formalism.DivisionValues Matrix
 open scoped ComplexOrder
 
 theorem majAt_classSum {K : Type} [Field K] [NumberField K] [StarRing K] (C : CSD K) (hb : C.HasRatBasis) (v : InfinitePlace K)

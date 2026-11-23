@@ -59,7 +59,7 @@ def ImagGen : Prop :=
 def IneRes : Prop :=
   ∀ (F₀ F Ω : Type) [Field F₀] [NumberField F₀] [Field F] [NumberField F] [Field Ω] [Algebra F₀ F] [Algebra F₀ Ω] [Algebra F Ω]
     [IsScalarTower F₀ F Ω] [IsAlgClosure F Ω], ∀ᶠ v : HeightOneSpectrum (𝓞 F₀) in Filter.cofinite,
-      ∀ A : ValuationSubring Ω, IsPlaceOver A v → Ine (F := F₀) A ≤ (res F₀ Ω F).range
+      ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → Ine (F := F₀) A ≤ (res F₀ Ω F).range
 
 def ExQuadR : Prop :=
   ∀ (F Ω : Type) [Field F] [NumberField F] [IsTotallyReal F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime],
@@ -67,13 +67,13 @@ def ExQuadR : Prop :=
     ∃ (K : Type) (_ : Field K) (_ : NumberField K) (_ : IsCMField K) (_ : Algebra F K) (_ : Algebra K Ω) (_ : IsScalarTower F K Ω)
       (_ : IsAlgClosure K Ω), Module.finrank F K = 2 ∧
       (∀ (j : Ω →+* Om l) (L : FinExt l), (∀ x : F, j (algebraMap F Ω x) ∈ L.1) → ∀ x : K, j (algebraMap K Ω x) ∈ L.1) ∧
-      ∃ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), S v ∧ IsPlaceOver A v ∧
+      ∃ (v : HeightOneSpectrum (𝓞 F)) (A : ValuationSubring Ω), S v ∧ _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v ∧
         ∃ s ∈ Ine (F := F) A, s ∉ (res F Ω K).range
 
 def NoTwistRam : Prop :=
   ∀ (F E Ω : Type) [Field F] [NumberField F] [IsTotallyReal F] [Field E] [NumberField E] [Field Ω] [Algebra F E] [Algebra F Ω]
     [Algebra E Ω] [IsScalarTower F E Ω] [IsAlgClosure E Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ), Module.finrank F E = 2 →
-    ∀ (n : ℕ), 1 ≤ n → ∀ (r : G F Ω →* GL (Fin n) (Qbar l)) (π : TR.CuspSub F n), Continuous r → AttR ι r π →
+    ∀ (n : ℕ), 1 ≤ n → ∀ (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)) (π : TR.CuspSub F n), Continuous r → AttR ι r π →
       (∃ s, s ∉ (res F Ω E).range ∧ r s = 1) → ∀ η : HChar F, IsQuadCharOf E η → ¬ IsoTwist π η
 
 def SSRes : Prop :=

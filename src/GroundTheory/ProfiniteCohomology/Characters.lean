@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.CharactersDefs
+public import GroundTheory.ProfiniteCohomology.Bundle003
 public import GroundTheory.ProfiniteCohomology.ContinuousCochains.LongExactSequence
-public import GroundTheory.TateCohomology.Characters
+public import GroundTheory.TateCohomology.Bundle006
 public import GroundTheory.ProfiniteCohomology.DiscreteModules.IsDiscreteRepIffForallExistsOpenNormalSubgroup
-public import GroundTheory.ProfiniteCohomology.Colimit
-import GroundTheory.TateCohomology.UniquelyDivisible
+public import GroundTheory.ProfiniteCohomology.Bundle007
+import GroundTheory.TateCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

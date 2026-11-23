@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 public import Mathlib.Algebra.CharP.Algebra
 public import Mathlib.Data.Nat.Prime.Int
 public import Mathlib.FieldTheory.IntermediateField.Adjoin.Basic

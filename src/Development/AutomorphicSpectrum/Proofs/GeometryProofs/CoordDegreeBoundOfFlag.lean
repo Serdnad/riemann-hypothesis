@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocRatio
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsOrthFull
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsIndepOfSat
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle046
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenMapFromSpecStalk
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrGenOfIsFlagVBOn
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GradedSandwichDegreeBound
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeEvalAtLocalRingStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle044
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle174
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle195
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

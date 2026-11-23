@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameA
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntAddConjEqOneOfBaseGood
-public import Development.WeilBound.ThetaLifts.LatticeBasics.FrameB
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1873
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -238,7 +238,7 @@ theorem mem_intHat (z : AE F E) : eF F • z ∈ intHat F E ↔ ∀ v, compFin F
       rw [Function.comp_apply, comp_eF]
       exact h v
 
-theorem keeps_iff (hL : Y.L.FG) {a : GL (Fin n) (AE F E)} (ha : IsLatticeFrame Y.L a) (x : G2 σ Y) :
+theorem keeps_iff (hL : Y.L.FG) {a : GL (Fin n) (AE F E)} (ha : GlobalTheory.AdelicU.IsLatticeFrame Y.L a) (x : G2 σ Y) :
     Keeps x ↔ ∀ v, Int (intLoc F E v) (bc (compFin F E v) ((two a)⁻¹ * x.1 * two a)).1 := by
   let P : (Fin n ⊕ Fin n → AE F E) → Prop := fun u => eF F • u = u ∧ ∀ v i, compFin F E v ((((two a)⁻¹).1 *ᵥ u) i) ∈ intLoc F E v
   have h1 : ∀ z, z ∈ latHat Y ↔ eF F • z = z ∧ ∀ v i, compFin F E v (((a⁻¹).1 *ᵥ z) i) ∈ intLoc F E v := fun z =>

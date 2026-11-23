@@ -1,12 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.LocRingPf
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.GenericSectionPointsInequivalentValuations
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveSec
-public import Formalism.LocalToGlobal.ProjectiveLattices.ESecPfA
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.FinitePtsOfCurve
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle033
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

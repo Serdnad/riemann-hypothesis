@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.DefsPl
+public import Formalism.HarderNarasimhan.Bundle002
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

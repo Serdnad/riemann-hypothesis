@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ChainMatrices
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle011
 public import Formalism.LocalToGlobal.IndefiniteReal.FrameExistence.NormalisedAdaptedVectorZero
 public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.FramesOKg2
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletelySplitPrimeHostPlaceProperties
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsAuxiliaryHyperbolicVectors
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsEqMulOfResSNeOne
-public import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle296
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle554
+public import Formalism.LocalRingCardinality.Bundle003
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

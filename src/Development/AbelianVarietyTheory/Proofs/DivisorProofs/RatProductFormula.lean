@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -165,7 +165,7 @@ theorem E_int (G : HTGroup p) {k : Gr G 1} (hk : k ∈ KHT p G.m G.n 1 G.Fw) :
   · refine enorm_le_of _ _ fun i j => ?_
     obtain ⟨x, hx⟩ := h1
     rw [← hx]
-    exact mem_Obar_iff.1 (((x : Matrix (Fin 1) (Fin 1) (GlobalTheory.LKLoc.intR p (Q0 p) 1)) i j).2)
+    exact mem_Obar_iff.1 (((x : Matrix (Fin 1) (Fin 1) (GlobalTheory.LKLoc.intR p (_root_.GlobalTheory.LKRes.Q0 p) 1)) i j).2)
   · refine enorm_le_of _ _ fun i j => ?_
     obtain ⟨x, hx⟩ := (Subgroup.mem_pi _).1 h2 w (Set.mem_univ w)
     rw [← hx]

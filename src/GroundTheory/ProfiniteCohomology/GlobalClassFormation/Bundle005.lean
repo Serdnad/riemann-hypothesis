@@ -1,0 +1,263 @@
+module
+
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle004
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle002
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RepresentationTheory.Homological.GroupCohomology.Hilbert90
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory NumberField IntermediateField GroundTheory.Global FiniteSubfield IsDedekindDomain
+
+open scoped DirectSum
+
+noncomputable section
+
+variable {K : FiniteSubfield}
+
+theorem exists_eq_one_iff_mem_range_norm (v : InfinitePlace K.1) (b : v.Completion) :
+    ∃ g : Gal(AlgebraicClosure v.Completion/v.Completion),
+      (g = 1 ↔ b ∈ Set.range (Algebra.norm v.Completion : AlgebraicClosure v.Completion → v.Completion)) := by
+  by_cases hb : b ∈ Set.range (Algebra.norm v.Completion : AlgebraicClosure v.Completion → v.Completion)
+  · exact ⟨1, iff_of_true rfl hb⟩
+  · by_contra hne
+    have hall : ∀ g : Gal(AlgebraicClosure v.Completion/v.Completion), g = 1 := fun g =>
+      by_contra fun hg => hne ⟨g, iff_of_false hg hb⟩
+    have hcard : Nat.card Gal(AlgebraicClosure v.Completion/v.Completion) = 1 :=
+      Nat.card_eq_one_iff_unique.2 ⟨⟨fun a c => (hall a).trans (hall c).symm⟩, ⟨1⟩⟩
+    rw [IsGalois.card_aut_eq_finrank] at hcard
+    exact hb ⟨algebraMap v.Completion _ b, by rw [Algebra.norm_algebraMap, hcard, pow_one]⟩
+
+variable (ι : LocalEmbeddings K)
+
+def localSymbolAt : Place K.1 → K.1ˣ → K.1.fixingSubgroup
+  | .inr v, a => globalDecomp (v.adicCompletion K.1) (ι.fin v)
+      ((GroundTheory.LocalField.localArtinMap (v.adicCompletion K.1) (AlgebraicClosure (v.adicCompletion K.1))
+        (Units.map (algebraMap K.1 (v.adicCompletion K.1) : K.1 →* v.adicCompletion K.1) a)).liftNormal
+          (AlgebraicClosure (v.adicCompletion K.1)))
+  | .inl v, a => globalDecomp v.Completion (ι.inf v)
+      (exists_eq_one_iff_mem_range_norm v (algebraMap K.1 v.Completion (a : K.1))).choose
+
+theorem placeInv_brauerLocal_globalCupClass (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ) :
+    ∀ v : Place K.1, placeInv v (brauerLocal ι (globalCupClass χ a) v) =
+      χ (Additive.ofMul (localSymbolAt ι v a))
+  | .inr v => placeInv_brauerLocal_globalCupClass_inr ι v χ a _ fun y hy =>
+      (AlgEquiv.liftNormal_commutes _ _ (⟨y, hy⟩ : GroundTheory.LocalField.maximalAbelianExtension
+        (v.adicCompletion K.1) (AlgebraicClosure (v.adicCompletion K.1))))
+  | .inl v => placeInv_brauerLocal_globalCupClass_inl ι v χ a _
+      (exists_eq_one_iff_mem_range_norm v (algebraMap K.1 v.Completion (a : K.1))).choose_spec
+
+theorem brauerSumInv_globalCupClass (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ) :
+    brauerSumInv ι (globalCupClass χ a) = ∑ᶠ v : Place K.1, χ (Additive.ofMul (localSymbolAt ι v a)) := by
+  classical
+  set x := brauerLocal ι (globalCupClass χ a) with hx
+  have hsum : brauerSumInv ι (globalCupClass χ a) = ∑ v ∈ x.support, placeInv v (x v) := by
+    change sumPlaceInv K x = _
+    conv_lhs => rw [← DFinsupp.sum_single (f := x)]
+
+    rw [DFinsupp.sum, map_sum]
+    refine Finset.sum_congr rfl fun v _ => ?_
+    exact sumPlaceInv_of v (x v)
+  rw [hsum, finsum_eq_sum_of_support_subset _ (s := x.support) ?_]
+  · exact Finset.sum_congr rfl fun v _ => placeInv_brauerLocal_globalCupClass ι χ a v
+  · intro v hv
+    rw [Function.mem_support, ← placeInv_brauerLocal_globalCupClass] at hv
+    rw [Finset.mem_coe, DFinsupp.mem_support_iff]
+    intro h
+    exact hv (by rw [h, map_zero])
+
+end
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory Limits groupCohomology IntermediateField GroundTheory.Global FiniteSubfield
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+attribute [local instance 2000] Rep.hV2 Submodule.module Submodule.Quotient.module
+
+noncomputable section
+
+section Hilbert90
+
+theorem isZero_cohomology_one_galUnitsZ (K L : Type) [Field K] [Field L] [Algebra K L] [FiniteDimensional K L] :
+    IsZero (cohomology (galUnitsZ K L) 1) := by
+  refine IsZero.of_iso ?_ (cohomologyIsoGroupCohomology (galUnitsZ K L) 1)
+  have hz : ∀ x : groupCohomology (galUnitsZ K L) 1, x = 0 := fun x =>
+    H1_induction_on x fun f => by
+      rw [H1π_eq_zero_iff]
+      have hf := (mem_cocycles₁_iff (A := galUnitsZ K L) f).1 f.2
+      obtain ⟨β, hβ⟩ := groupCohomology.isMulCoboundary₁_of_isMulCocycle₁_of_aut_to_units
+        (fun σ => Additive.toMul (α := Lˣ) (f σ)) fun g h =>
+          congrArg (Additive.toMul (α := Lˣ)) (hf g h)
+      exact ⟨Additive.ofMul β, funext fun σ => congrArg (Additive.ofMul (α := Lˣ)) (hβ σ)⟩
+  have : Subsingleton (groupCohomology (galUnitsZ K L) 1) := ⟨fun a b => by rw [hz a, hz b]⟩
+  exact ModuleCat.isZero_of_subsingleton _
+
+theorem isZero_cohomology_one_unitsLimitRep (E : FiniteSubfield) : IsZero (cohomology (unitsLimitRep E) 1) := by
+  have hz : ∀ z : cohomology (unitsLimitRep E) 1, z = 0 := fun z => by
+    obtain ⟨p, w, rfl⟩ := exists_unitsLevelInfl_eq 1 z
+    rw [ModuleCat.subsingleton_of_isZero (isZero_cohomology_one_galUnitsZ E.1 p.1.1) |>.elim w 0, map_zero]
+  have : Subsingleton (cohomology (unitsLimitRep E) 1) := ⟨fun x y => by rw [hz x, hz y]⟩
+  exact ModuleCat.isZero_of_subsingleton _
+
+end Hilbert90
+
+instance isDiscreteRep_res_unitsLimitRep (K : FiniteSubfield) (S : Subgroup K.1.fixingSubgroup) :
+    IsDiscreteRep (Rep.res S.subtype (unitsLimitRep K)) :=
+  isDiscreteRep_res_subtype _ _
+
+section Field
+
+variable {K E : FiniteSubfield} [Fact (K ≤ E)]
+
+theorem normal_subgroupOf_of_isGalois [IsGalois K.1 E.1] :
+    (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup).Normal := by
+  let : IsScalarTower K.1 E.1 ℚ̄ := IsScalarTower.of_algebraMap_eq fun _ => rfl
+  refine ⟨fun n hn g => ?_⟩
+  rw [Subgroup.mem_subgroupOf, IntermediateField.mem_fixingSubgroup_iff] at hn ⊢
+  intro x hx
+  let φ : ℚ̄ →ₐ[K.1] ℚ̄ := (IntermediateField.fixingSubgroupEquiv K.1 g⁻¹).toAlgHom
+  have hφ : ∀ y : ℚ̄, φ y = ((g⁻¹ : K.1.fixingSubgroup) : ℚ̄ ≃ₐ[ℚ] ℚ̄) y := fun _ => rfl
+  have hmem : ((g⁻¹ : K.1.fixingSubgroup) : ℚ̄ ≃ₐ[ℚ] ℚ̄) x ∈ E.1 := by
+    have hc := φ.restrictNormal_commutes E.1 ⟨x, hx⟩
+    rw [hφ] at hc
+    change _ = ((g⁻¹ : K.1.fixingSubgroup) : ℚ̄ ≃ₐ[ℚ] ℚ̄) x at hc
+    rw [← hc]
+    exact (φ.restrictNormal E.1 ⟨x, hx⟩).2
+  have h1 := hn _ hmem
+  change ((g : ℚ̄ ≃ₐ[ℚ] ℚ̄) * (n : ℚ̄ ≃ₐ[ℚ] ℚ̄) * (g : ℚ̄ ≃ₐ[ℚ] ℚ̄)⁻¹) x = x
+  rw [AlgEquiv.mul_apply, AlgEquiv.mul_apply]
+  change (g : ℚ̄ ≃ₐ[ℚ] ℚ̄) ((n : ℚ̄ ≃ₐ[ℚ] ℚ̄) (((g⁻¹ : K.1.fixingSubgroup) : ℚ̄ ≃ₐ[ℚ] ℚ̄) x)) = x
+  rw [h1]
+  change ((g * g⁻¹ : K.1.fixingSubgroup) : ℚ̄ ≃ₐ[ℚ] ℚ̄) x = x
+  rw [mul_inv_cancel]
+  rfl
+
+attribute [local instance] normal_subgroupOf_of_isGalois
+
+
+omit [Fact (K ≤ E)] in
+theorem isOpen_subgroupOf_fixingSubgroup :
+    IsOpen ((E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup : Subgroup K.1.fixingSubgroup) :
+      Set K.1.fixingSubgroup) :=
+  E.1.fixingSubgroup_isOpen.preimage continuous_subtype_val
+
+theorem isCyclic_quotient_subgroupOf [IsGalois K.1 E.1] [IsCyclic (E.1 ≃ₐ[K.1] E.1)] :
+    IsCyclic (K.1.fixingSubgroup ⧸ E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) := by
+  let e := (QuotientGroup.quotientMulEquivOfEq (ker_restrictHom (F := K) (E := E)).symm).trans
+    (QuotientGroup.quotientKerEquivOfSurjective _ (restrictHom_surjective (F := K) (E := E)))
+  exact isCyclic_of_surjective e.symm.toMonoidHom e.symm.surjective
+
+theorem unitsResField_eq_cohomologyRes_comp (n : ℕ) :
+    unitsResField K E n = cohomologyRes (unitsLimitRep K) (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) n ≫
+      cohomologyMapAlong (Subgroup.subgroupOfEquivOfLe
+          (IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E))).symm.toMonoidHom
+        (continuous_subgroupOfEquivOfLe_symm _) (resSubgroupOfHom _ unitsRep) n := by
+  rw [unitsResField, cohomologyRes, ← cohomologyMapAlong_comp]
+  exact cohomologyMapAlong_congr _ _ _ _ (by ext; rfl) (fun _ => rfl) n
+
+theorem unitsResField_eq_zero_iff (n : ℕ) (x : cohomology (unitsLimitRep K) n) :
+    (unitsResField K E n).hom x = 0 ↔
+      (cohomologyRes (unitsLimitRep K) (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) n).hom x = 0 := by
+  rw [unitsResField_eq_cohomologyRes_comp, ModuleCat.hom_comp, LinearMap.comp_apply]
+  have hinj : Function.Injective (cohomologyMapAlong (Subgroup.subgroupOfEquivOfLe
+      (IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E))).symm.toMonoidHom
+        (continuous_subgroupOfEquivOfLe_symm _) (resSubgroupOfHom _ unitsRep) n).hom :=
+    (ModuleCat.mono_iff_injective _).1 inferInstance
+  exact ⟨fun hx => hinj (by rw [hx, map_zero]), fun hx => by rw [hx, map_zero]⟩
+
+theorem isZero_cohomology_one_res_subgroupOf :
+    IsZero (cohomology (Rep.res (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup).subtype (unitsLimitRep K)) 1) :=
+  (isZero_cohomology_one_unitsLimitRep E).of_iso
+    (asIso (cohomologyMapAlong (Subgroup.subgroupOfEquivOfLe
+      (IntermediateField.fixingSubgroup_le (Fact.out : K ≤ E))).symm.toMonoidHom
+        (continuous_subgroupOfEquivOfLe_symm _) (resSubgroupOfHom _ unitsRep) 1))
+
+end Field
+
+theorem exists_unitsInvariantLimit_eq {K : FiniteSubfield} (a : (unitsLimitRep K).ρ.invariants) :
+    ∃ b : K.1ˣ, unitsInvariantLimit K b = a := by
+  set u : ℚ̄ˣ := Additive.toMul (a : Additive ℚ̄ˣ) with hu
+  have hfix : (u : ℚ̄) ∈ IntermediateField.fixedField K.1.fixingSubgroup := by
+    rw [IntermediateField.mem_fixedField_iff]
+    intro g hg
+    have h := a.2 ⟨g, hg⟩
+    have h' := congrArg (fun z : Additive ℚ̄ˣ => ((Additive.toMul z : ℚ̄ˣ) : ℚ̄)) h
+    simp only at h'
+    exact (coe_galUnitsHom_apply ℚ ℚ̄ g u).symm.trans h'
+  rw [InfiniteGalois.fixedField_fixingSubgroup] at hfix
+  refine ⟨Units.mk0 (⟨(u : ℚ̄), hfix⟩ : K.1) (fun h0 => u.ne_zero (congrArg Subtype.val h0)), ?_⟩
+  apply Subtype.ext
+  apply Additive.toMul.injective
+  apply Units.ext
+  rfl
+
+theorem exists_globalCupClass_eq_of_unitsResField_eq_zero {K E : FiniteSubfield} [Fact (K ≤ E)]
+    [IsGalois K.1 E.1] [IsCyclic (E.1 ≃ₐ[K.1] E.1)] (x : cohomology (unitsLimitRep K) 2)
+    (hx : (unitsResField K E 2).hom x = 0) :
+    ∃ (χ : Additive K.1.fixingSubgroup →ₜ+ QZ) (a : K.1ˣ),
+      (∀ g : K.1.fixingSubgroup, (g : ℚ̄ ≃ₐ[ℚ] ℚ̄) ∈ E.1.fixingSubgroup → χ (Additive.ofMul g) = 0) ∧
+        globalCupClass χ a = x := by
+  have := normal_subgroupOf_of_isGalois (K := K) (E := E)
+  have := isCyclic_quotient_subgroupOf (K := K) (E := E)
+  obtain ⟨χ, a, hχ, rfl⟩ := exists_cupCharClassProf_eq_of_cohomologyRes_eq_zero (unitsLimitRep K)
+    (E.1.fixingSubgroup.subgroupOf K.1.fixingSubgroup) isOpen_subgroupOf_fixingSubgroup
+    isZero_cohomology_one_res_subgroupOf x ((unitsResField_eq_zero_iff 2 x).1 hx)
+  obtain ⟨b, rfl⟩ := exists_unitsInvariantLimit_eq a
+  exact ⟨χ, b, fun g hg => hχ g (Subgroup.mem_subgroupOf.2 hg), rfl⟩
+
+end
+
+end GroundTheory.ProfCoh
+end

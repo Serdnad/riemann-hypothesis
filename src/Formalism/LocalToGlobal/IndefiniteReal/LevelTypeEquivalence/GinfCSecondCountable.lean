@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.BaseSt
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.FdomExistsAll
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.HfinExistsMat
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.NumFieldHosCountable
 import Mathlib.Algebra.Order.Floor.Extended

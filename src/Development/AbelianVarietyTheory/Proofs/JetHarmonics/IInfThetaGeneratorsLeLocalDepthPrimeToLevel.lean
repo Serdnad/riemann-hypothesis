@@ -1,15 +1,16 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UniformisationConclusion
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.WchartLePreimage
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCombinationIntegers
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsProductDataCopiesTrivialisationValuationStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyTateIsometryIntegralFramedPointChartStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PointStatementsOnCopiesHoldStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ValueTranslatePullbackEqGeneratorStatement
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsValuationClosure
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle168
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle166
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCharactersBoundedMinorsOfHodgeTateChartBou
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle178
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConstantCoeffAddFirstSecond
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle012
 
 @[expose] public section
 

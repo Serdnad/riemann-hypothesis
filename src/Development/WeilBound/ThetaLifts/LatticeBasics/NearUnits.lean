@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.ThetaLifts.LatticeBasics.MemLam
-public import Development.WeilBound.ThetaLifts.LatticeBasics.BadStmt
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompactOpenAddSubgroup
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.PfDict
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.KdMulRight
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle003
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictAd
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 public import Development.WeilBound.ThetaLifts.LatticeBasics.LocMeas

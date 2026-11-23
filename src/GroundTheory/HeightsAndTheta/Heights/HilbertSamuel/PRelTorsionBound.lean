@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsRelTorsionBound
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle041
 public import Mathlib.CategoryTheory.Category.Basic
 public import Mathlib.RingTheory.MvPolynomial.WeightedHomogeneous
 import Mathlib.Algebra.Order.Floor.Extended

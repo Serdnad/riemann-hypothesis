@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsHomOpenPart
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsClosedImmersionOfCoordinateDivisibility
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle062
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasTuplesOfLaws
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2499
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotents
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistCharacterOfArtin
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharPowPrimeOrderEmbeddingsDifferByCoprimePower
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2435
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle021
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsOfStarEq
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended

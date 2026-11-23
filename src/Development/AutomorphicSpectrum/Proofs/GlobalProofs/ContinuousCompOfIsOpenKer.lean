@@ -1,8 +1,8 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardDualZmodModuleEqCard
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedDualEvalBidualApply
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle194
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.ExistsCoprimePowOfMemIneKer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -581,7 +581,8 @@ theorem annihilators_of (χ : D →* (ZMod n)ˣ) (hχ : ContAction (charRep χ))
     obtain ⟨y', rfl⟩ := Submodule.Quotient.mk_surjective _ y
     obtain ⟨x', rfl⟩ := Submodule.Quotient.mk_surjective _ x
     refine (GlobalTheory.TameQuot.cup_product_class_eq_zero_iff _ _ _ _ _ _ _ _ _).2 ?_
-    exact exists_cochain (φ := φ) (I := I) evalPair.flip (fun g y x => evalPair_equiv χ rho g x y)
+    exact exists_cochain (φ := φ) (I := I) (LinearMap.flip _root_.ReciprocityTheory.Gal.evalPair)
+      (fun g y x => _root_.ReciprocityTheory.Gal.evalPair_equiv χ rho g x y)
       (NeZero.pos n) nsmul_eq_zero' nsmul_eq_zero' nsmul_eq_zero' hcT hrho hχ hgen hdeg hIT hI hIP
       y' x' ((mk_mem_H1ur hIT y').1 hy) ((mk_mem_H1ur hI x').1 hx)
   have h := exact_annihilators n B hB hB' (H1ur rho I) (H1ur (twDual χ rho) I)

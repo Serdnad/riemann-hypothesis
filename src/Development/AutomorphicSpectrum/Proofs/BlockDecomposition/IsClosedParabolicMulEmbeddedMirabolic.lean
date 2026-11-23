@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCIndValue
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousMatMir
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle302
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle098
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MulInvMemQOfRowQEq
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle111
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

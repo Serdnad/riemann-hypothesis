@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeCommBaseChange
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnitIndepOfCharts
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle027
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

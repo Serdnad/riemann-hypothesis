@@ -5,10 +5,10 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsResolP
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsTanFrameOfIsEmpty
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.DenseInterior
 public import Development.AbelianVarietyTheory.Definitions.Divisors.UnitaryWeightExponentVectorSignatureWeightMuZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvRFrMapOfIsReduced
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteFinrankLineBundleSectionsFiniteEtale
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2118
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1229
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LeastOrderBoundOfOrdTieTriv
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -276,14 +276,23 @@ def ruleOf : H0 (flagStr X) (X.LL e) (flagOpen X) →ₗ[c.F] secZ Xo c e where
     refine (FlagCover.IsVal.eq_val fun S' _ _ ψ P' hP k hz Q t hQ ht => ?_).symm
     have hO := FlagMod.le_preimage_map (z := X.pt P') X.inc (top_le_inc X) le_top
     change ψ (FlagCover.val _ P + FlagCover.val _ P) = _
-    rw [map_add (f := _), FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht, FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht,
+    have hadd : ψ (FlagCover.val (toSecO m) P + FlagCover.val (toSecO m') P) =
+        ψ (FlagCover.val (toSecO m) P) + ψ (FlagCover.val (toSecO m') P) := ψ.map_add _ _
+    rw [hadd, FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht, FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht,
       coef_toSecO _ _ _ _ hO, coef_toSecO _ _ _ _ hO, coef_toSecO _ _ _ _ hO, map_add, mul_add]
   map_smul' a m := Subtype.ext <| funext₂ fun p P => by
     refine (FlagCover.IsVal.eq_val fun S' _ _ ψ P' hP k hz Q t hQ ht => ?_).symm
     have hO := FlagMod.le_preimage_map (z := X.pt P') X.inc (top_le_inc X) le_top
-    change ψ (a • FlagCover.val _ P) = _
-    rw [map_smul, FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht, coef_toSecO _ _ _ _ hO, coef_toSecO _ _ _ _ hO,
-      Algebra.smul_def, mul_left_comm]
+    letI : SMul c.F p.R := (Ideal.instAlgebraQuotient c.F p.I).toSMul
+    change ψ (@SMul.smul c.F p.R _ a (FlagCover.val (toSecO m) P)) = _
+    have hsmul : @SMul.smul c.F p.R _ a (FlagCover.val (toSecO m) P) =
+        algebraMap c.F p.R a * FlagCover.val (toSecO m) P := Algebra.smul_def _ _
+    rw [hsmul]
+    have hmul : ψ (algebraMap c.F p.R a * FlagCover.val (toSecO m) P) =
+        algebraMap c.F S' a * ψ (FlagCover.val (toSecO m) P) :=
+      (ψ.map_mul _ _).trans (congrArg (· * _) (ψ.commutes a))
+    rw [hmul, FlagCover.isVal_val _ P S' ψ P' hP k hz Q t hQ ht, coef_toSecO _ _ _ _ hO, coef_toSecO _ _ _ _ hO,
+      mul_left_comm]
     refine congrArg (_ * ·) (Eq.symm ((val_fun_smul (B := X.LL e) _ k hO hz _ m).trans (congrArg (· * _) ?_)))
     exact evalPt_algX_of_eq _ _ (by rw [X.pt_inc]; exact ptY_str X P') _ _ a
 

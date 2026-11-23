@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.L2DecayOfCountEscape
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CountableSubgroupClosure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralNormSqLeToRealLintegralEnormSq
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LintegralEnormSqLe
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SetLIntegralLeMulFundamentalDomainDiff
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TendstoSetLIntegralDiffCompactCovering
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle286
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle020
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle021
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.ExistsLintegralConstantTermL2SqLe
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
@@ -122,7 +122,11 @@ theorem swap (μ : Measure (AdelicGLn.AdelicGL K n)) [μ.IsHaarMeasure] (φ : Ad
       _ ≤ ∫⁻ g in Q, ∫⁻ X in unipFundamentalDomain K n r, ‖φ (unipGL X * (An.aR K n r t * g))‖ₑ ^ 2
             ∂unipMeasure K n r ∂μ := lintegral_mono fun g => hpt _
       _ = ∫⁻ X in unipFundamentalDomain K n r, ∫⁻ g in Q, ‖φ (unipGL X * (An.aR K n r t * g))‖ₑ ^ 2
-            ∂μ ∂unipMeasure K n r := lintegral_lintegral_swap hcont.aemeasurable
+            ∂μ ∂unipMeasure K n r := by
+          haveI : IsFiniteMeasure (μ.restrict Q) := isFiniteMeasure_restrict.mpr hQ.measure_lt_top.ne
+          haveI : SigmaFinite (μ.restrict Q) := IsFiniteMeasure.toSigmaFinite _
+          haveI : SFinite (μ.restrict Q) := MeasureTheory.instSFiniteOfSigmaFinite
+          exact lintegral_lintegral_swap (μ := μ.restrict Q) hcont.aemeasurable
       _ ≤ ∫⁻ X in unipFundamentalDomain K n r, ∫⁻ x in sset K n r t D Q, ‖φ x‖ₑ ^ 2 ∂μ ∂unipMeasure K n r := by
           refine setLIntegral_mono' measurableSet_unipFundamentalDomain fun X hX => ?_
           calc ∫⁻ g in Q, ‖φ (unipGL X * (An.aR K n r t * g))‖ₑ ^ 2 ∂μ
@@ -170,6 +174,7 @@ end PositivityTheory.Rg.Rs.l2glue
 
 namespace PositivityTheory.Rg.Rs
 
+set_option synthInstance.maxHeartbeats 100000 in
 theorem l2glue_holds : An.L2DecayOfCountEscape := by
   intro hCount hEsc K _ _ n r hr hrn μ _ φ F hφ hinv hF hfin Q hQ
   obtain ⟨D, hD, hD0⟩ := exists_isCompact_superset_unipFundamentalDomain (K := K) (n := n) (r := r)
@@ -222,6 +227,13 @@ theorem l2glue_holds : An.L2DecayOfCountEscape := by
       _ = (Real.exp (-(2 * An.rho K n r * t)) * (⌈C * Real.exp (2 * An.rho K n r * t)⌉₊ : ℝ)) *
             (∫⁻ x in F \ T, ‖φ x‖ₑ ^ 2 ∂μ).toReal := by ring
       _ ≤ _ := mul_le_mul_of_nonneg_right h5 ENNReal.toReal_nonneg
+  haveI : LocallyCompactSpace (AdelicGLn.AdelicGL K n) := AdelicGLn.locallyCompactSpace K n
+  haveI : SecondCountableTopology (AdelicGLn.AdelicMatrix K n) := inferInstance
+  haveI : SecondCountableTopology (AdelicGLn.AdelicMatrix K n)ᵐᵒᵖ :=
+    (MulOpposite.opHomeomorph (M := AdelicGLn.AdelicMatrix K n)).symm.isEmbedding.secondCountableTopology
+  haveI : SecondCountableTopology (AdelicGLn.AdelicGL K n) :=
+    Units.isEmbedding_embedProduct.secondCountableTopology
+  haveI : SigmaCompactSpace (AdelicGLn.AdelicGL K n) := sigmaCompactSpace_of_locallyCompact_secondCountable
   have htail := l2glue.tail μ F (fun x => ‖φ x‖ₑ ^ 2) hfin
   rw [tendsto_order]
   refine ⟨fun a ha => Eventually.of_forall fun t => lt_of_lt_of_le ha

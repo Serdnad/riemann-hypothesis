@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.TiedGlMat
-public import Formalism.LocalToGlobal.HermitianForms.DefsSym
+public import Formalism.LocalToGlobal.HermitianForms.Bundle002
 public import Formalism.LocalToGlobal.Columns.LevGSym
 public import Formalism.LocalToGlobal.Columns.RecLevelSym
 public import Formalism.LocalToGlobal.Columns.RowFormsLemmas

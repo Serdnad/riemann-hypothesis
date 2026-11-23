@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LinkExactAff
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle002
 public import Mathlib.LinearAlgebra.DFinsupp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

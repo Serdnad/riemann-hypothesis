@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasTuplesOfLaws
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2499
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsModelsExt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMeasY
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2533
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntValuationEqOfMem
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsAtAndSeedFacts
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle599
 import Formalism.LocalToGlobal.IndefiniteReal.LinksExist
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -97,7 +97,7 @@ theorem Q_base (hL : R.toLevCh.Is A.μ0) : R.Q A.μ0 = ∅ :=
     exact fun _ _ => rfl)
 
 
-open Formalism.L2.Host Formalism.L2.Col GlobalTheory.RationalValues in
+open Formalism.L2.Host _root_.Formalism.L2.Col GlobalTheory.RationalValues in
 theorem xiR_mem (hL : R.toLevCh.Is A.μ0) (hF : R.IsFam) {χ xi Q xiR} (h : TwLev R χ xi Q xiR) :
     ∀ PP ∈ Q, ∀ x, ((xiR PP x : ℂˣ) : ℂ) ∈ D.what₂.embLL.fieldRange := by
   classical

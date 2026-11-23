@@ -1,15 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.CartanCoshPower
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ContinuousExptPY
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle096
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NonemptyCompactDualHaar
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqLocallyCompactGroup
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdMatSqMulVecAdSqEigenvectorMatrixUnitP
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetAdSqEigenvectorMatrixUnitPNeZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSvd
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PolarJacobianBlockDiagConjInvariant
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProdSinhcRootValueOfMatrixUnitP
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SinhcAdMulVecOfAdSqEigen
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle100
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle104
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

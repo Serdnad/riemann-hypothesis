@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.RingAFacts
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.NormRingALe
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle003
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle061
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

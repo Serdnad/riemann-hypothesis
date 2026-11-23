@@ -2,7 +2,7 @@ module
 
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.LocalRing.MaximalIdeal.Defs
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.BurnsideEnd
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

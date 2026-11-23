@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StIrreducibleGermPrimitiveForm
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StFiniteFibreGermIntegral
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StZariskiAnalyticNormality
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StDiscrAdjoin
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StGenericPrimitive
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle014
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle023
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle008
 import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

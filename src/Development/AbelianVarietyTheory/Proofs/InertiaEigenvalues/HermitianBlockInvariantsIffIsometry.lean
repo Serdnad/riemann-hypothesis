@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
 public import Mathlib.RingTheory.TensorProduct.IsBaseChangeFree
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaleHermitianPairStructureFactsStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisInvKRegularIffIsUnitStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle169
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle142
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

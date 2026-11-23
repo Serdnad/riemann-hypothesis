@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.RealGroupsLie
 public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
-public import GroundTheory.AutomorphicForms.DixmierMalliavinBasic
+public import GroundTheory.AutomorphicForms.Bundle004
 public import GroundTheory.AutomorphicForms.GKModules.SmoothVectors
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

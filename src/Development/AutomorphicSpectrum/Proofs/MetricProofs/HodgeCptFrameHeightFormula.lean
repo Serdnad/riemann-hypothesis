@@ -2,15 +2,12 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ColFlags
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsChartOfLineBundle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrGenOfIsFlagVBOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.EqNegSumIicDifferencesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameTwistCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameTwistDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorRatioRegularOfInverseStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ModelMonomialWeightProductStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProdIicBlockDiagDetFactorsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RatioSuccessiveNonzeroRegularStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle147
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,14 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPr
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CardFilterFinBounds
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CardFilterLeSuccAndSqSumLePow
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.LevSubspaceMono
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NormEigenLePowMulNormSum
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NormSumEigenprojectorLeOfResolventBound
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SplitCasEigenvalueSummand
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SplitCasimirResolventCircleBoundsStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UnitaryGlModuleProjComponentsLevelAddTwoStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

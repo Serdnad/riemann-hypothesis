@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsFrameIff
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle118
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsoSection
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsMinOn
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemMaximalIdeal
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormsOfAdapted
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SectionPowerCalculusGeometricFibre
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpBijFAndExpandsFLin
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle177
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle167
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle170
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

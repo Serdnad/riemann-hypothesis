@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.LocIsotypic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.EveryPointSatisfiesFrameCondition
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DecompositionGroupEquivLocalGaloisGroup
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle716
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.UpperTriangularPlaces.CrOnTri
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.DecEmb
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.PotCrysOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle031
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory
 
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 
-private def muFix (F Ω : Type) [Field F] [Field Ω] [Algebra F Ω] (M : ℕ) : Subgroup (G F Ω) where
+private def muFix (F Ω : Type) [Field F] [Field Ω] [Algebra F Ω] (M : ℕ) : Subgroup (_root_.Formalism.ConjugateSelfDual.G F Ω) where
   carrier := {s | ∀ ζ : Ω, ζ ^ M = 1 → s ζ = ζ}
   mul_mem' := fun {a b} ha hb ζ h => by
     change a (b ζ) = ζ
@@ -67,7 +67,7 @@ private theorem muFix_normal (F Ω : Type) [Field F] [Field Ω] [Algebra F Ω] (
     exact t.apply_symm_apply ζ⟩
 
 private theorem muFix_open (F Ω : Type) [Field F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {M : ℕ} (hM : 1 ≤ M) :
-    IsOpen (muFix F Ω M : Set (G F Ω)) := by
+    IsOpen (muFix F Ω M : Set (_root_.Formalism.ConjugateSelfDual.G F Ω)) := by
   have hfin : {ζ : Ω | ζ ^ M = 1}.Finite :=
     (Multiset.finite_toSet (Polynomial.nthRoots M (1 : Ω))).subset fun z hz => (Polynomial.mem_nthRoots hM).2 hz
   haveI : Finite ↥{ζ : Ω | ζ ^ M = 1} := hfin.to_subtype
@@ -80,25 +80,25 @@ private theorem muFix_open (F Ω : Type) [Field F] [Field Ω] [Algebra F Ω] [Is
   exact (IntermediateField.mem_fixingSubgroup_iff _ _).1 hs ζ (IntermediateField.subset_adjoin _ _ h)
 
 theorem UpperTheory.V.Z.Keep.potOfUnl :
-    Loc.LocalPublishedTheorems → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [CharZero Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (n M : ℕ) (m : Fin n → ℤ) (r : G F Ω →* GL (Fin n) (Qbar l)), 1 ≤ M → StrictAnti m → Continuous r → ∀ (A : ValuationSubring Ω), A.valuation (l : Ω) < 1 → ∀ κ, Af.FlagAt M m r A κ → (∀ i j, κ i ≠ κ j * (cycBar F Ω l).comp (Dec (F := F) A).subtype) → Af.PotCrysAt r A := by
+    Loc.LocalPublishedTheorems → ∀ (F Ω : Type) [Field F] [NumberField F] [Field Ω] [CharZero Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (n M : ℕ) (m : Fin n → ℤ) (r : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin n) (Qbar l)), 1 ≤ M → StrictAnti m → Continuous r → ∀ (A : ValuationSubring Ω), A.valuation (l : Ω) < 1 → ∀ κ, Af.FlagAt M m r A κ → (∀ i j, κ i ≠ κ j * (cycBar F Ω l).comp (_root_.ReciprocityTheory.Gal.Dec (F := F) A).subtype) → Af.PotCrysAt r A := by
   intro hP F Ω _ _ _ _ _ _ l _ n M m r hM hm hr A hA κ hfl hne
   obtain ⟨χ, hχ, ⟨P, hPt⟩, hIn⟩ := hfl
   obtain ⟨w, hw, hAw⟩ := GlobalTheory.DecLocal.exists_place_below (p := l) (F := F) A hA
   obtain ⟨j, rfl⟩ := (Loc.decEmb (F := F) (Ω := Ω) (v := l)).1 A w hAw hw
   obtain ⟨-, φ, hφ, hφj, -, hIq, hcyc, -⟩ := (Loc.decEmb (F := F) (Ω := Ω) (v := l)).2 j
   have hcl : IsClosed (φ.range : Set (Loc.GQ l)) := φ.range.isClosed_of_isOpen hφ.isOpen_range
-  haveI : CompactSpace ↥(Dec (F := F) (Loc.placeJ j)) :=
+  haveI : CompactSpace ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)) :=
     (Topology.IsClosedEmbedding.mk hφ.isEmbedding hcl).compactSpace
-  haveI : T2Space ↥(Dec (F := F) (Loc.placeJ j)) := hφ.isEmbedding.t2Space
-  let H : Subgroup ↥(Dec (F := F) (Loc.placeJ j)) := (muFix F Ω M).subgroupOf _
+  haveI : T2Space ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)) := hφ.isEmbedding.t2Space
+  let H : Subgroup ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)) := (muFix F Ω M).subgroupOf _
   haveI : (muFix F Ω M).Normal := muFix_normal F Ω M
   haveI : H.Normal := Subgroup.Normal.subgroupOf inferInstance _
-  have hH : IsOpen (H : Set ↥(Dec (F := F) (Loc.placeJ j))) := (muFix_open F Ω hM).preimage continuous_subtype_val
-  have hcb : ∀ g : ↥(Dec (F := F) (Loc.placeJ j)), Loc.cycA l l (Loc.Om l) (φ g) = cycBar F Ω l (g : G F Ω) := fun g => by
+  have hH : IsOpen (H : Set ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j))) := (muFix_open F Ω hM).preimage continuous_subtype_val
+  have hcb : ∀ g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)), Loc.cycA l l (Loc.Om l) (φ g) = cycBar F Ω l (g : _root_.Formalism.ConjugateSelfDual.G F Ω) := fun g => by
     change Units.map _ (Loc.cyc l l (φ g)) = _
     rw [hcyc]
     rfl
-  obtain ⟨E', r', hr', hcr⟩ := UpperTheory.V.Z.Keep.crDescend hP φ hφ H hH (r.comp (Dec (F := F) (Loc.placeJ j)).subtype)
+  obtain ⟨E', r', hr', hcr⟩ := UpperTheory.V.Z.Keep.crDescend hP φ hφ H hH (r.comp (_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)).subtype)
     (Units.continuous_val.comp (hr.comp continuous_subtype_val)) P κ m hPt hm
     (fun i g hg hg' => by
       have h1 := hIn i g ((hIq g).1 hg')
@@ -108,5 +108,5 @@ theorem UpperTheory.V.Z.Keep.potOfUnl :
       have h1 := DFunLike.congr_fun e g
       rw [MonoidHom.mul_apply, MonoidHom.comp_apply, hcb] at h1
       exact h1))
-  exact Loc.potCrysOf j (φ.comp H.subtype) ((Dec (F := F) (Loc.placeJ j)).subtype.comp H.subtype)
+  exact Loc.potCrysOf j (φ.comp H.subtype) ((_root_.ReciprocityTheory.Gal.Dec (F := F) (Loc.placeJ j)).subtype.comp H.subtype)
     (hφ.comp hH.isOpenEmbedding_subtypeVal) (fun h y => hφj h y) r hr E' r' hr' hcr

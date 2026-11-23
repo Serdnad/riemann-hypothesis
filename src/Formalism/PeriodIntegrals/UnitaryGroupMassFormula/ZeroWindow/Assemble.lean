@@ -1,11 +1,9 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.RightHalfWith
-public import Formalism.PeriodIntegrals.ZerosWindow
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.FinsumMemLeFinsumMem
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.Jensen
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.RightChi
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.RightOne
+public import Formalism.PeriodIntegrals.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ZeroWindow.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

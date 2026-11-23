@@ -2,9 +2,8 @@ module
 
 public import GroundTheory.GlobalFields.GlobalReciprocity.InfKerDegreeLeOfLeSupZhatField
 public import GroundTheory.GlobalFields.NormResidueSymbol.Cyclotomic
-public import GroundTheory.GlobalFields.GlobalReciprocity.NormSquare
-public import GroundTheory.GlobalFields.GlobalReciprocity.RealPlacesQuadratic
-import GroundTheory.GlobalFields.NormResidueSymbol.FunctorialInfinite
+public import GroundTheory.GlobalFields.GlobalReciprocity.Bundle001
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

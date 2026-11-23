@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
-import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

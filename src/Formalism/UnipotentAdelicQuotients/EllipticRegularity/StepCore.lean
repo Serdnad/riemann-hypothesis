@@ -1,7 +1,7 @@
 module
 
 public import Formalism.UnipotentAdelicQuotients.EllRegStep
-public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.KernDecay
+public import Formalism.UnipotentAdelicQuotients.EllipticRegularity.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

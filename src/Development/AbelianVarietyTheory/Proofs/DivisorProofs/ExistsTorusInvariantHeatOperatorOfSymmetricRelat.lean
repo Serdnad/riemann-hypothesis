@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDefect
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantVectorFieldConstFnEqZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantVectorFieldPreservesRaynaudTorusWeightStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusWeightScalarZeroCharacterEqOneStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LeISupInfPreimage
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2715
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2812
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2690
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.HasRigidChart
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
 
 @[expose] public section
 
@@ -560,7 +560,7 @@ theorem exists_basic_heat : ∀ (R : Type) [CommRing R] [IsDomain R] [IsLocalRin
       rw [← Finset.sum_neg_distrib]
       exact Finset.sum_congr rfl fun b _ => by rw [constFn_neg]; unfold dlg; ring
     unfold dlg at F1 F2 F3 E U1
-    simp only [ringOp, op, Matrix.map_apply]
+    simp only [ringOp, Heat.op, Matrix.map_apply]
     rw [E, U1]
     set g := pbT Y.q.left (Dd.toPre.P.L.g (j i) (j i')).val W
     set gi := pbT Y.q.left (Dd.toPre.P.L.g (j i) (j i'))⁻¹.val W

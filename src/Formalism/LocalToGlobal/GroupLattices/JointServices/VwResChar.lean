@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
-public import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.MirabolicMackeyTheory.Bundle001
 public import Formalism.LocalToGlobal.Divisibility.DivisibilityProofs.NumbersP
 public import Formalism.LocalToGlobal.GroupLattices.JointServices.VAddEqVw
 import Mathlib.Algebra.Order.Floor.Extended
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalRingCardinality.DataAmbForm
+import Formalism.LocalRingCardinality.Bundle004
 
 @[expose] public section
 

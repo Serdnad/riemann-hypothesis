@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ClsChartedLabAt
-public import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
+public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.Bundle002
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.SecondKernelStabilizers
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,15 +2,15 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Formalism.LocalToGlobal.Columns.RecLevelLocF
-public import Formalism.LocalToGlobal.Columns.SmulMemTrpSet
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelFunctionalLevelVectorLaws
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
+public import Formalism.LocalToGlobal.Columns.Bundle011
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedLtOfMem
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
-public import Formalism.LocalToGlobal.Columns.BtExistsSmulLeOfFg
+public import Formalism.LocalToGlobal.Columns.Bundle032
 import Formalism.LocalToGlobal.Columns.RecLevelLocK
 public import Formalism.LocalToGlobal.Columns.RecLevelLocP
 import Mathlib.Algebra.Order.Floor.Extended

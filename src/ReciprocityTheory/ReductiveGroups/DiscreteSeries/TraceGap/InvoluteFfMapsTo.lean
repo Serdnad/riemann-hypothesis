@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.LinearAlgebra.Trace
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.FockWeights
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Bundle004
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.LowFockB
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.IsPhysSet
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,11 +43,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.FockTA
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.LowFockA
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.AdMatConjTranspose
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.AdPhysDiagSingle
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.MemHighestWeightSubIff
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.Bundle005
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.Bundle001
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.Bundle003
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

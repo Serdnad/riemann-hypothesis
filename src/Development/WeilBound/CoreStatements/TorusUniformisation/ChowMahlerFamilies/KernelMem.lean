@@ -1,16 +1,16 @@
 module
 
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsFinFlatSub
-public import ReciprocityTheory.DualLattices.CotangentSurjective
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LemmaBTHoldsStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatBcTors
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.Weilreg
-import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.BtExistsBc
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle025
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle003
+public import ReciprocityTheory.DualLattices.Bundle007
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle246
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle011
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle051
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle012
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.CubNMulOfPow
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.ExistsDerGen
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.FunctionFamilyIdempotent
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.TensOfBc
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -171,8 +171,8 @@ theorem kernel_mem [Fact p.Prime] (hpS : p ∈ S) [CharZero Ω] [IsLocallyNoethe
       change _ = κ (algebraMap RC _ ((bi (qmk p x) (qmk p x') : RCˣ) : RC))
       rw [hκ, hbi, Units.val_pow_eq_pow_val, Subalgebra.coe_pow, hζ', map_pow]
     have k2 := (G.weil (p ^ (𝔐.R p - 1) • x) x' _ ik (ψ ≫ G.t₂.pt (qmk _ _)) (ψ ≫ G.t₂.pt (qmk _ _)) u rfl rfl).2 hu
-    haveI : Subsingleton (Over.mk (spMap ik ≫ 𝔐.ξ)).left :=
-      inferInstanceAs (Subsingleton (PrimeSpectrum (FractionRing RC)))
+    have spectrumSubsingleton (L : Type) [Field L] : Subsingleton (PrimeSpectrum L) := inferInstance
+    haveI : Subsingleton (Over.mk (spMap ik ≫ 𝔐.ξ)).left := spectrumSubsingleton (FractionRing RC)
     have k3 := PositivityTheory.HtPt.Weilfun.weilUnit_eq_of_weilIs 𝔐.t.cub (p ^ 𝔐.R p) (t2 _) (t2 _) (unitOn u)
       (by rw [Nat.cast_pow]; exact k2)
     rw [weilUnit_level 𝔐.t.cub p (p ^ (𝔐.R p - 1)) _ hpow (t1 _) (t1 _) (t2 _) (t2 _) e1 e2, k3] at k1

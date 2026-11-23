@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.UnifAlong
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle064
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.FiniteHomogeneousInf
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.LocTheta
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.ImmersedBy
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EqOfValFGeneric
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle005
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle073
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSecOnOfPowOne
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSecOnPowerOfLocalBases
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle080
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

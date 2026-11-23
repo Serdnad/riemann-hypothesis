@@ -1,10 +1,10 @@
 module
 
-import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.IAlgebra
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.Bundle008
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AevalNeZeroOfNotMem
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle078
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Values
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -193,13 +193,14 @@ section Forms
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
   {K' : Type} [Fintype K'] {ι' : K' → Type} [∀ k, Fintype (ι' k)]
 
-theorem isMultiHomog_finset_prod {α : Type} (s : Finset α) (f : α → MRing ι) (a : α → K → ℕ)
-    (h : ∀ i ∈ s, IsMultiHomog (f i) (a i)) : IsMultiHomog (∏ i ∈ s, f i) (∑ i ∈ s, a i) := by
+set_option maxHeartbeats 8000000 in
+theorem isMultiHomog_finset_prod {α : Type} (s : Finset α) (f : α → _root_.ReciprocityTheory.ChartRestriction.G.Geo.MRing ι) (a : α → K → ℕ)
+    (h : ∀ i ∈ s, _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (f i) (a i)) : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (∏ i ∈ s, f i) (∑ i ∈ s, a i) := by
   induction s using Finset.induction_on with
-  | empty => simpa using (isMultiHomog_one : IsMultiHomog (1 : MRing ι) 0)
+  | empty => simpa only [Finset.prod_empty, Finset.sum_empty] using (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_one : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (1 : _root_.ReciprocityTheory.ChartRestriction.G.Geo.MRing ι) 0)
   | insert b s hb ih =>
     rw [Finset.prod_insert hb, Finset.sum_insert hb]
-    exact isMultiHomog_mul (h b (Finset.mem_insert_self _ _))
+    exact _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul (h b (Finset.mem_insert_self _ _))
       (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
 
 theorem isMultiHomog_rename_block {κ : K → K'} {v : (Σ k, ι k) → (Σ k, ι' k)} (hv : IsBlockMap κ v) {f : MRing ι}
@@ -227,12 +228,13 @@ theorem fr_orbit {g h : MRing ι} {d : K → ℕ} (hg : IsMultiHomog g d) (hh : 
   have hu : (∏ k, c k ^ d k) ≠ 0 := Finset.prod_ne_zero_iff.2 fun k _ => pow_ne_zero _ (hc k)
   rw [fr, fr, ev, ev, eval_smul_homog g d hg, eval_smul_homog h d hh, mul_div_mul_left _ _ hu]
 
+set_option maxHeartbeats 8000000 in
 theorem exists_rep {Ω : Type} [Field Ω] [CharZero Ω] (y : (Σ k, ι k) → Ω) {c : Ω} (hc : c ∈ blockFnField y) :
-    ∃ (d : K → ℕ) (g h : MRing ι), IsMultiHomog g d ∧ IsMultiHomog h d ∧ aeval y h ≠ 0 ∧
+    ∃ (d : K → ℕ) (g h : _root_.ReciprocityTheory.ChartRestriction.G.Geo.MRing ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g d ∧ _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog h d ∧ aeval y h ≠ 0 ∧
       aeval y g = c * aeval y h := by
-  have zero_rep : ∃ (d : K → ℕ) (g h : MRing ι), IsMultiHomog g d ∧ IsMultiHomog h d ∧ aeval y h ≠ 0 ∧
+  have zero_rep : ∃ (d : K → ℕ) (g h : _root_.ReciprocityTheory.ChartRestriction.G.Geo.MRing ι), _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog g d ∧ _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog h d ∧ aeval y h ≠ 0 ∧
       aeval y g = (0 : Ω) * aeval y h :=
-    ⟨0, 0, 1, isMultiHomog_zero 0, isMultiHomog_one, by simp, by simp⟩
+    ⟨0, 0, 1, _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_zero 0, _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_one, by simp, by simp⟩
   unfold blockFnField at hc
   induction hc using IntermediateField.adjoin_induction with
   | mem x hx =>
@@ -255,9 +257,9 @@ theorem exists_rep {Ω : Type} [Field Ω] [CharZero Ω] (y : (Σ k, ι k) → Ω
   | add a b _ _ ha hb =>
     obtain ⟨d, g, h, hg, hh, hy, he⟩ := ha
     obtain ⟨d', g', h', hg', hh', hy', he'⟩ := hb
-    refine ⟨d + d', g * h' + g' * h, h * h', isMultiHomog_add (isMultiHomog_mul hg hh') ?_,
-      isMultiHomog_mul hh hh', ?_, ?_⟩
-    · rw [add_comm d d']; exact isMultiHomog_mul hg' hh
+    refine ⟨d + d', g * h' + g' * h, h * h', _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_add (_root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul hg hh') ?_,
+      _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul hh hh', ?_, ?_⟩
+    · rw [add_comm d d']; exact _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul hg' hh
     · rw [map_mul]; exact mul_ne_zero hy hy'
     · simp only [map_add (f := _), map_mul, he, he']; ring
   | inv a _ ha =>
@@ -270,7 +272,7 @@ theorem exists_rep {Ω : Type} [Field Ω] [CharZero Ω] (y : (Σ k, ι k) → Ω
   | mul a b _ _ ha hb =>
     obtain ⟨d, g, h, hg, hh, hy, he⟩ := ha
     obtain ⟨d', g', h', hg', hh', hy', he'⟩ := hb
-    refine ⟨d + d', g * g', h * h', isMultiHomog_mul hg hg', isMultiHomog_mul hh hh', ?_, ?_⟩
+    refine ⟨d + d', g * g', h * h', _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul hg hg', _root_.GroundTheory.Heights₂.Heights.LowerBoundFree.isMultiHomog_mul hh hh', ?_, ?_⟩
     · rw [map_mul]; exact mul_ne_zero hy hy'
     · simp only [map_mul, he, he']; ring
 

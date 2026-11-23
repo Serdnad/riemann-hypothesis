@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePCartSelfSt
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartTop
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieGermI
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePAxesSelfSt
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle010
+import Formalism.LocalToGlobal.CharacterGerms.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

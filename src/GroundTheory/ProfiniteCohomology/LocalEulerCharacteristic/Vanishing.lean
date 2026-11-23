@@ -2,11 +2,11 @@ module
 
 public import GroundTheory.ProfiniteCohomology.InflationRestriction.CohomologyResMemCohomologyConjInvariants
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.KummerOpen
-import GroundTheory.LocalFields.UnramifiedRootsOfUnity
+import GroundTheory.LocalFields.Bundle004
 import GroundTheory.ProfiniteCohomology.ClassFormations.CorestrictionDefs
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Vanishing
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.CohomologyKummer
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.VanishingCore
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle005
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.VanishingUnits
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

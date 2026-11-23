@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.MacdonaldWhittaker
+public import GroundTheory.AutomorphicForms.Bundle019
 public import GroundTheory.AutomorphicForms.MacdonaldFormula
 import GroundTheory.AutomorphicForms.SatakeTriangular
 import GroundTheory.LocalFields.LocalFourierHaar

@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.LocalEmbeddings.StageGeoDefs
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemScLatOfMem
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1994
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsMixedLagrangianChartIntegralRowChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

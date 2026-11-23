@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.CoefModB
-public import Formalism.LocalToGlobal.Columns.CoefModX
+public import Formalism.LocalToGlobal.Columns.Bundle004
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.BaseCh
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.TauLatticeLatticeHolds

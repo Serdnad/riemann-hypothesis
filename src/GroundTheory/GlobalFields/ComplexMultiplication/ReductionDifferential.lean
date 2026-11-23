@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.ComplexMultiplication.DifferentialConstantField
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle006
 public import GroundTheory.GlobalFields.ComplexMultiplication.ReductionIsogenyMap
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
 import GroundTheory.GlobalFields.ComplexMultiplication.ReductionComp

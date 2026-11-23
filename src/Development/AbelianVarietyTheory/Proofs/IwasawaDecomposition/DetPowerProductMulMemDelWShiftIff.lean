@@ -1,7 +1,7 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.WeylLatDual
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PolFunApply
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle004
 public import Mathlib.Analysis.Normed.Field.Instances
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended

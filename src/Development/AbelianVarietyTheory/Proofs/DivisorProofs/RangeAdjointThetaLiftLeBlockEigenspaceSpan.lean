@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ClassPresExtMemExtBijIsom
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FamilySplitOperatorsEqLabelOperatorsModels
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormalFamilyOrthogonalDecomposition
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalOperatorsFormsOnRankSpaceNormalStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftLevelsGoodPrimesProperties
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaLiftTransferHeckePolySplitPrimeStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle246
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle288
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -63,7 +63,7 @@ namespace GlobalTheory.LiftAdjointBlock
 
 section Abstract
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {K V W I : Type} [Field K] [AddCommGroup V] [Module K V] [AddCommGroup W] [Module ℂ W] {σ : K →+* ℂ}
 

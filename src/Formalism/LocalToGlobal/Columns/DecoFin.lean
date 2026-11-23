@@ -5,7 +5,7 @@ public import Formalism.HermitianLattices.FinalNeighbourConstruct
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetAssembly
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovolBound
-public import Formalism.HermitianLattices.HermitianLatticesProofs.NeighbourConstruct
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle001
 public import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

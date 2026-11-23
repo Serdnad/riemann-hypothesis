@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.LatticeGlueUnique
+public import Formalism.QuotientMetricDivisors.Bundle003
 public import Formalism.QuotientMetricDivisors.Statement
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic

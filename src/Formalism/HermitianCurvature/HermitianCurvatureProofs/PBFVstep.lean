@@ -2,12 +2,12 @@ module
 
 public import Formalism.HermitianCurvature.CompositeFormulaLevelZero
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DiagScalarCommuteTransposedRMatrix
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FsvMulFsvNeg
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle031
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.InsCombineMk
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LiftMemMatrixAlgebra
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormalFormOrderZeroOfParts
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TopTwistDensOfWaveQQ
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle019
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle030
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TopTwistDensOfZeta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockTwist
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle032
 
 @[expose] public section
 

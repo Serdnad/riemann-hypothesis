@@ -2,17 +2,17 @@ module
 
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatDegree
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NineGeoU
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordsAtComplexEmbedding
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspCorrespondenceBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspIntersectionFiniteStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspIntersectionHeightStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HeightOfZeroDimVarietyStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineHeightInvariantScalingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PhiDegFibLatLeOfIsOFamilyOfIsAdaptedStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SmallPointsOverNumberFieldStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.AdaptedFamilyExistsOnEigenspaceStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RegularizedWeightDominatesEventuallyStatement
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PZhangLowerX
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle095
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle149
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle316
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle309
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle165
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle326
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle314
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle151
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -154,6 +154,7 @@ end GlobalTheory.CompanionTheory.Ar.Cusp.TopHt
 
 namespace GlobalTheory.CompanionTheory.Ar.Cusp.TopHt
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem htU_of_given : Top.Given → Fl.FlatDegree → ∃ Ch : ℝ, ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
     [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H)
     (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K]

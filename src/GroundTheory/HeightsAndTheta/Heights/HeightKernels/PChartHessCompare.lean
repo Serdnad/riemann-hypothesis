@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsChartHessCompare
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsHermFormCompare
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ChartGramHess
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PChartDensityIntegrable
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.H0IsoHomCohomologyClassZero
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle004
 public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.SubsingletonCohomologyOneGalUnitsSubgroupOf
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

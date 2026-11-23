@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.ArithmeticCylinders
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ExistsReduction
 public import Formalism.CyclotomicNorms.NonsquarefreeBounds.NonsquarefreeMonicBoundHolds
 public import Formalism.SharpRestriction.Divisibility.PrimeDegreeVariant

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementRho
+public import Formalism.CharacterColumnKernels.Bundle002
 public import Mathlib.Algebra.Module.Torsion.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

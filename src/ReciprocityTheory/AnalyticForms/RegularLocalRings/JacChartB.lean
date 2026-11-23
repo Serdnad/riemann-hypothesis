@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.JacChartA
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.Algebra.Module.SpanRankOperations
 import Mathlib.Algebra.Order.Floor.Extended

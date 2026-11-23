@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertDensity.FinrankInfKerAddOne
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertDensity.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InertDensity.ValMain
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

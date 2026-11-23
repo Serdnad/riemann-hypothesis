@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.ConvolutionSmoothL2
+public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.Bundle001
 import Aesop.Main
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalL2BoundHeightStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightConvolutionOperatorAeEqIntegralAdelicStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightRegularRepUnitaryStronglyContinuous
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmoothContinuousConvolutionRealPointsUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TruncatedLeastLatticeSizeLipschitzPropertiesStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle261
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle194
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle146
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle212
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

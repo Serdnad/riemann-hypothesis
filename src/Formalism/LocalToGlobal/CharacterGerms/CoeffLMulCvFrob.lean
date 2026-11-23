@@ -1,8 +1,8 @@
 module
 
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.LinearFormDegree.InvFun
-public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerate
-public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerateOfUnitSeriesIntegral
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle030
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 public import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
 public import Formalism.LocalToGlobal.CharacterGerms.GermEvalOneStandardPointSelf
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne

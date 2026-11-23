@@ -1,20 +1,20 @@
 module
 
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushDefs
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspWeightRegularisationsTiedStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsCuspDataForTorusInvariantStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.GenericDegreeEqGeometricDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HeightComparisonBetweenModelsStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalOrbitChartStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MeasureLimitStatementHoldsStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle112
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle166
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle137
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle157
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHermExtend
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHoloInjDerivInj
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle007
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PProjSmoothAlong
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVerticalTwistGenDeg
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -61,6 +61,7 @@ open Filter Topology
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo
 open GroundTheory.Heights₂.Heights.LowerBoundFree GroundTheory.Heights₂.Heights.HilbertSamuel GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Cusp
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem muMass : MuMass := by
   intro hG hP E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or hII
   classical

@@ -2,15 +2,13 @@ module
 
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.LocalToGlobal.Divisibility.QLocTied
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardGLFiniteFieldEqPowMulProdStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardResidueRingCompletionChosenUniformiserStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAddHaarCompletionIntegralMatricesVolOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsAddHaarCompletionIntegralMatricesVolOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHaarGLCompletionIntegersVolOneStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsNrm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLocalAtCompletionIntegersChosenUniformiserStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle428
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle425
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle412
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle427
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle426
 public import Formalism.DoubleCosetMeasures.LatticeCoset
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.TopoAF
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +56,7 @@ import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.HostPins
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle018
 
 @[expose] public section
 
@@ -66,6 +64,8 @@ open MeasureTheory Matrix NumberField IsDedekindDomain Formalism.BasicNotions Fo
 open scoped ComplexConjugate
 
 noncomputable section
+
+attribute [local instance 10000] Formalism.DoubleCosetMeasures.instMeasMat
 
 namespace GlobalTheory.Mem.SingleQ
 
@@ -192,7 +192,6 @@ theorem rowEqM_apply {r t : ℕ} (x : Matrix (Fin r ⊕ Fin t) (Fin r) F) : rowE
 
 variable [TopologicalSpace F] [IsTopologicalRing F]
 
-omit [IsTopologicalRing F] in
 theorem localZ_map {r t : ℕ} (μ : Measure (GL (Fin r) F)) (m : Measure (Matrix (Fin r ⊕ Fin t) (Fin r) F))
     (χ : Fˣ →* ℂˣ) (nrm : AbsoluteValue F ℝ) (Φ : Matrix (Fin (r + t)) (Fin r) F → ℂ) (c : GL (Fin r) F → ℂ) :
     localZ μ (m.map (rowEqM r t)) χ nrm Φ Φ c = localZ μ m χ nrm (Φ ∘ rowEq r t) (Φ ∘ rowEq r t) c := by

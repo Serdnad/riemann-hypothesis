@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.FunctionField.PlaceDefs
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.LocRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.ExistsAlgPtOff
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle007
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.OneNotMemOfIsPrime
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.CurveVerticalPointChart
@@ -55,10 +55,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GapCondExample
+import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle001
 import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallSectionsNonzero
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PrimeComplMapLeNonZeroDivisorsQuot
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle007
 
 @[expose] public section
 

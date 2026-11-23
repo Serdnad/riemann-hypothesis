@@ -3,7 +3,7 @@ module
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformIsolation.RestrictionToOpens
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.CanonicalPrincipalization
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.DetachedLocus
-import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.GenericPointImage
+import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

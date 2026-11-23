@@ -1,16 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
-public import Formalism.LocalToGlobal.KernelLattices.RatKDeg
+public import Formalism.LocalToGlobal.KernelLattices.Bundle004
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.AmbOfENeSd
 public import Formalism.LocalToGlobal.KernelLattices.ColumnData.ColumnDataEquations.SplitPairOfGen
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkConj
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RkThindEq
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPAmbOfTiesD
-import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPStepCIff
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

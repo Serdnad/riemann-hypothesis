@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.EtaleChapterEFour
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleDescentPicardGroupStatement
+public import Development.EtaleCohomology.EtaleSheaves.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle967
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.EtaleTopology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

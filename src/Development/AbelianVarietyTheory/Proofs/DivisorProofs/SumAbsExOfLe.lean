@@ -1,17 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SemiposAtOfPositive
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle064
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.GradedDifferentComparison
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlCSurjectiveAndLinearIndependentBLie
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagNeZeroOfLinearIndependent
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHTFrameCpAndNonempty
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2213
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2580
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMapToModel
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeTateInclusionRaynaudExtensionAlgebraicPoint
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearIndependentEvLieOfLieTie
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilCharSurjectiveAndMapRangeAl
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2214
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2145
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -283,7 +282,7 @@ theorem sum_abs_exOf_le (u : AllWt.Weight Dw) :
     · have hq : (i : ℕ) < Dw.q := by simpa [Datum.mult, h] using hi
       refine ⟨(⟨conjEmb τ, conj_mem h⟩, ⟨Dw.p + (Dw.q - 1 - i), by omega⟩), ?_, .inr ⟨rfl, rfl, hq⟩⟩
       have e := wtOf_small u 0 ⟨conjEmb τ, conj_mem h⟩ i hq
-      simp only [conjEmb_conjEmb] at e
+      simp only [_root_.GlobalTheory.AllWt.conjEmb_conjEmb] at e
       rw [show exOf Dw u 0 (some ⟨τ, i⟩) = _ from e, sub_zero, Int.cast_neg, abs_neg]
   choose F hF hR using key
   have hinj : Function.Injective F := by
@@ -297,7 +296,7 @@ theorem sum_abs_exOf_le (u : AllWt.Weight Dw) :
       · exact h1.1.symm.trans h2.1
       · omega
       · omega
-      · rw [← conjEmb_conjEmb τ, ← h1.1, h2.1, conjEmb_conjEmb]
+      · rw [← _root_.GlobalTheory.AllWt.conjEmb_conjEmb τ, ← h1.1, h2.1, _root_.GlobalTheory.AllWt.conjEmb_conjEmb]
     obtain rfl : i = i' := Fin.ext (by omega)
     rfl
   rw [l1, ← Fintype.sum_prod_type', Finset.sum_congr rfl fun s _ => hF s,

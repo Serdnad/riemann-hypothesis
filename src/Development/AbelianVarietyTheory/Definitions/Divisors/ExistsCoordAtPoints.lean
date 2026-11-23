@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IntegralBound
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteFinrankLineBundleSectionsFiniteEtale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryOfFrameNormConj
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VecHeightSmulAlgebraMap
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1229
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1429
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1171
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,14 +2,14 @@ module
 
 public import GroundTheory.GlobalFields.IdeleClassGroup.IdeleClassMapIdeleClassMap
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.MaxUnramifiedOutside
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle001
 public import Mathlib.FieldTheory.KrullTopology
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FiniteCohomologyOfTrivialOfCyclic
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle074
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Devissage
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeModules
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteOpen
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteRoots
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

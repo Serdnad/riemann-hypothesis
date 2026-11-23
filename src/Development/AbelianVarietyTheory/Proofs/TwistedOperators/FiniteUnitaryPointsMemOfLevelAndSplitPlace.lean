@@ -1,18 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialRatAndSplit
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIntegralSplitIdempotentOverTwo
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRepSuppSplit
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryMatrixEqProdQuasiReflections
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle077
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle038
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIntegralBasisOfLatticeAtPlaceStable
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsRepsOfFiniteIndex
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsSplitAt
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsDvdCoprimeMulPow
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.AdelicUnitaryEqRealMulFiniteSplit
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CompletedLatticeEqAdelicCompletionAndGram
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RationalPointsAdelicUnitaryEqUnitary
-public import Formalism.SharpRestriction.CuspSpanNormBounds.JExistsNatSmulMemL
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle078
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle079
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
 
 @[expose] public section
 

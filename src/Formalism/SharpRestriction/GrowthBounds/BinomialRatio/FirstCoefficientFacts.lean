@@ -1,9 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.RankDefs
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.FamilyFourthBound
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.CoarseDegreeAlternative
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.OtherStart
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.ThresholdLowerBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

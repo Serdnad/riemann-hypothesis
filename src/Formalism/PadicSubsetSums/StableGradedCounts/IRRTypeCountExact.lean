@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PadicSubsetSums.CentralIdempotents.GaloisIrreducibility
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
+public import Formalism.PadicSubsetSums.CentralIdempotents.Bundle002
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

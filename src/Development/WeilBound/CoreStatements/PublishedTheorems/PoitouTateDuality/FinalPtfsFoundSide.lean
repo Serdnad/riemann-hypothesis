@@ -5,7 +5,7 @@ public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseDefs
 public import Mathlib.RingTheory.PicardGroup
 public import ReciprocityTheory.GaloisValuations.Global
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideD
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideE
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle008
 public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalTlPush
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.SUnits
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.FinalPtfsFoundSideA
+public import Development.WeilBound.CoreStatements.PublishedTheorems.PoitouTateDuality.Bundle007
 import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.GelfandSpectralNormalisation.NormalisedInvariants.PoitouTateExactSecond
 
 @[expose] public section

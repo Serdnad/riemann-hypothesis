@@ -1,22 +1,18 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChart
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChartPointTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsDerivSpanTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsFreeParAlgIndep
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsGenericFormsKer
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsSecPointSeparable
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PAffineChartTrdeg
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PConeDimOfChowForm
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PIncIdealDim
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.OfChartPointSecPointSpecChart
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChartPointTrdeg
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PDerivSpanTrdeg
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PGenSecSeparable
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PGenericFormsKer
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSecPointSeparable
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle007
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle003
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PSpecChart
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

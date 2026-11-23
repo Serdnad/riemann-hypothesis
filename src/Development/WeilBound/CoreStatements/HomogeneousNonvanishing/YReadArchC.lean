@@ -1,16 +1,16 @@
 module
 
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelSigBijective
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.BcExAll
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedModuliAlgebraicLawsChartWeightIntegralityStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompactificationCompEquivStatement
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle059
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle097
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle277
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFlagXdeg
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalRingPointsExistsUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginFrameSectionBound
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle256
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCompactificationInteriorPoint
-import Development.AutomorphicSpectrum.Statements.GeometryStatements.ExistsAlgPtOff
+import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle007
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.LeadMinorSmulOne
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.YReadArchA
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.YReadArchB
@@ -49,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 
@@ -67,6 +67,8 @@ namespace PositivityTheory.UnitarySelfGeneration.RA
 
 open GlobalTheory.CompanionTheory.Ar.Rec.FinRd
 open GlobalTheory.CompanionTheory.Ar.Small.ReadFinTest (hasVal_unique)
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {Dw : Datum H}
   {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {O : Type} [CommRing O] {β : O →+* c.F} {Y : Model Xo c β}
@@ -252,6 +254,11 @@ theorem core {r : ℕ} {U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r} {h : GenFrEx 
   · rw [norm_mul, norm_prod, norm_prod]
     simp only [norm_zpow, hwn]
     rw [prod_exZ Dw a fun j => ‖toC (t j : CAt σ)‖, hpn, lieFacZ_eq Dw hx0, prod_root, prod_root]
+    have huniv :
+        @Finset.univ (RootIx Dw) (@instFintypeProd (CMType H) (Fin (Dw.p + Dw.q))
+          GlobalTheory.CompHt.fintypePsi (Fin.fintype _)) = (Finset.univ : Finset (RootIx Dw)) :=
+      congrArg (fun f : Fintype (RootIx Dw) => @Finset.univ (RootIx Dw) f) (Subsingleton.elim _ _)
+    rw [huniv]
     exact norm_alg _ _ _ _ _ _ _ (fun _ => htpos t _) (rootSgn_mul_self Dw) hsome
   · rw [hdeg, mul_right_comm]
     simp only [hev']

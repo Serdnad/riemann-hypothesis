@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.MvPolynomial.Expand
-public import ReciprocityTheory.DualLattices.FischerAdjointStatement
+public import ReciprocityTheory.DualLattices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RiemannianHaarIndependentOfOrthonormalFrame
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ClosedMatrixSubgroupTheoremStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DensityInChartStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle295
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle309
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

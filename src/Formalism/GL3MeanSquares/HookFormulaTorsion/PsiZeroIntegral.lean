@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GL3MeanSquares.PrimeCountAsymptoticInProgressions
+public import Formalism.GL3MeanSquares.Bundle003
 public import Formalism.LandauZeroFreeBounds.SiegelWalfiszAPOfSiegelLower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

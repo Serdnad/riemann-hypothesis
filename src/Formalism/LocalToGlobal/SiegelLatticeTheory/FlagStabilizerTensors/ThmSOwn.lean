@@ -2,12 +2,11 @@ module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.NormalizingConstantEq
-public import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeCountE
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.TheoremSRecursion
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PExtra
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.Bundle003
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.ExplicitFormulaBoundHolds
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.WuDecayAll
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.RegroupPfAll
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle038
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SatGram
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.LevelSubgroupProperties
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.BunExists
@@ -190,7 +189,7 @@ theorem summable_ind_aM (hA : (Y.tO u u').AbsConv) (S : Set (TT Y u u')) :
 
 theorem kof_sOf (hA : (Y.tO u u').AbsConv) (S : Set (TT Y u u')) (Φ' : Set (RT Y u u'))
     (hS : ∀ s : TT Y u u', s ∈ S ↔ s.toTerm ∈ Φ') :
-    KOf (sOf hF) u u' Φ' = tr (hF.shBij u) (hF.shBij u') (∑' s, S.indicator (aM Y u u') s) := by
+    KOf (_root_.Formalism.L2.SG.PackageTie2.sOf hF) u u' Φ' = tr (hF.shBij u) (hF.shBij u') (∑' s, S.indicator (aM Y u u') s) := by
   let f : TT Y u u' → (ColT (hF.shInj u') →L[ℂ] ColT (hF.shInj u)) := S.indicator (aT hF u u')
   have hfe : ∀ s, f s = Formalism.L2.SG.Pf.trAdd (hF.shBij u) (hF.shBij u') (S.indicator (aM Y u u') s) := fun s => by
     by_cases h : s ∈ S
@@ -271,13 +270,13 @@ section Clauses
 
 open Formalism.L2.SG.Full
 
-variable {D : D7} {X : HidaSetting D} {Y : Full X} {hF : FinX Y} (hI : SIso D.s (sOf hF))
+variable {D : D7} {X : HidaSetting D} {Y : Full X} {hF : FinX Y} (hI : SIso D.s (_root_.Formalism.L2.SG.PackageTie2.sOf hF))
 
-def PhiC (u u' : D.what₂.Word) : Set (RT Y u u') := {t | (sOf hF).Gterm t = 0 ∧ ¬ (sOf hF).isId t}
+def PhiC (u u' : D.what₂.Word) : Set (RT Y u u') := {t | (_root_.Formalism.L2.SG.PackageTie2.sOf hF).Gterm t = 0 ∧ ¬ (_root_.Formalism.L2.SG.PackageTie2.sOf hF).isId t}
 
 theorem mem_degSet_iff {u u' : D.what₂.Word} (s : TT Y u u') :
     s ∈ (Y.tO u u').degSet ↔ s.toTerm ∈ PhiC (hF := hF) u u' := by
-  have e : ((sOf hF).Gterm s.toTerm = 0) ↔ s.toTerm.G = 0 := by
+  have e : ((_root_.Formalism.L2.SG.PackageTie2.sOf hF).Gterm s.toTerm = 0) ↔ s.toTerm.G = 0 := by
     constructor
     · intro h; exact congrArg Subtype.val h
     · intro h; exact Subtype.ext h
@@ -285,13 +284,13 @@ theorem mem_degSet_iff {u u' : D.what₂.Word} (s : TT Y u u') :
     show (if s.toTerm.G = 0 then (0 : ℝ) else 1) = 0 ↔ _
     split_ifs with h <;> simp [h]
   show ((Y.tO u u').G s = 0 ∧ ¬ (Y.tO u u').isId s) ↔
-    ((sOf hF).Gterm s.toTerm = 0 ∧ ¬ (sOf hF).isId s.toTerm)
+    ((_root_.Formalism.L2.SG.PackageTie2.sOf hF).Gterm s.toTerm = 0 ∧ ¬ (_root_.Formalism.L2.SG.PackageTie2.sOf hF).isId s.toTerm)
   exact and_congr (hG.trans e.symm) Iff.rfl
 
 theorem mem_PhiC_iff {u u' : D.what₂.Word} (t : D.s.Term u u') :
     t ∈ {t : D.s.Term u u' | D.s.Gterm t = 0 ∧ ¬ D.s.isId t} ↔ hI.eT u u' t ∈ PhiC (hF := hF) u u' := by
   show (D.s.Gterm t = 0 ∧ ¬ D.s.isId t) ↔
-    ((sOf hF).Gterm (hI.eT u u' t) = 0 ∧ ¬ (sOf hF).isId (hI.eT u u' t))
+    ((_root_.Formalism.L2.SG.PackageTie2.sOf hF).Gterm (hI.eT u u' t) = 0 ∧ ¬ (_root_.Formalism.L2.SG.PackageTie2.sOf hF).isId (hI.eT u u' t))
   rw [hI.Gterm t, hI.isId t]
 
 theorem conjE_Kpp {u u' : D.what₂.Word} (hA : (Y.tO u u').AbsConv) :
@@ -332,9 +331,9 @@ theorem kpp_zero {u u' : D.what₂.Word} (hZ : Formalism.L2.SG.RowsOther.KppTerm
     unfold aT
     rw [show aTerm (Y.cs u) (Y.cs u') (Y.FN u) (Y.FN u') c.1 = aM Y u u' c.1 from rfl, ha]
     exact map_zero (Formalism.L2.SG.Pf.trAdd (hF.shBij u) (hF.shBij u'))
-  have hK : KOf (sOf hF) u u' (PhiC (hF := hF) u u') = 0 := by
+  have hK : KOf (_root_.Formalism.L2.SG.PackageTie2.sOf hF) u u' (PhiC (hF := hF) u u') = 0 := by
     unfold KOf
-    exact (tsum_congr (fun t : PhiC (hF := hF) u u' => (h0 t.1 t.2 : (sOf hF).aTerm u u' t.1 = 0))).trans tsum_zero
+    exact (tsum_congr (fun t : PhiC (hF := hF) u u' => (h0 t.1 t.2 : (_root_.Formalism.L2.SG.PackageTie2.sOf hF).aTerm u u' t.1 = 0))).trans tsum_zero
   have h1 := conjE_KOf hI u u' _ (PhiC (hF := hF) u u') (mem_PhiC_iff hI)
   rw [hK] at h1
   exact (conjE hI u u').map_eq_zero_iff.1 h1
@@ -345,7 +344,7 @@ section Clauses2
 
 open Formalism.L2.SG.Full
 
-variable {D : D7} {X : HidaSetting D} {Y : Full X} {hF : FinX Y} (hI : SIso D.s (sOf hF))
+variable {D : D7} {X : HidaSetting D} {Y : Full X} {hF : FinX Y} (hI : SIso D.s (_root_.Formalism.L2.SG.PackageTie2.sOf hF))
 
 
 include hI in
@@ -353,7 +352,7 @@ theorem hsNormSq_off {u u' : D.what₂.Word}
     (hE : Formalism.L2.SG.TermOp.KExpansion (X.Fu u) (X.Fu u') (Y.cs u) (Y.cs u') (Y.FN u) (Y.FN u') Y.hK (Y.Dt u) (Y.Dt u'))
     (hA : (Y.tO u u').AbsConv) (hId : (Y.tO u u').IdDegenerate) (hZ : Formalism.L2.SG.RowsOther.KppTermZero (Y.tO u u')) :
     hsNormSq (Kmat D.s u u' - AdmissibleBoundsFromSource.Kpp D u u') = ‖(Y.tO u u').K0‖ ^ 2 := by
-  rw [kpp_zero hI hZ, sub_zero, Formalism.L2.SG.Pf.isoNorm D.s (sOf hF) hI u u',
+  rw [kpp_zero hI hZ, sub_zero, Formalism.L2.SG.Pf.isoNorm D.s (_root_.Formalism.L2.SG.PackageTie2.sOf hF) hI u u',
     Formalism.L2.SG.Pf.normTie hF u u' (Formalism.L2.SG.Pf.dimTie X u) (Formalism.L2.SG.Pf.dimTie X u') hE hA hId
       (Formalism.L2.SG.RowsOther.kppOff_of_termZero _ hZ)]
 
@@ -405,7 +404,7 @@ structure ConcK (D : D7) : Type 1 where
   X : HidaSetting D
   Y : Full X
   hF : FinX Y
-  hI : SIso D.s (sOf hF)
+  hI : SIso D.s (_root_.Formalism.L2.SG.PackageTie2.sOf hF)
   tie : Formalism.L2.SG.RowsConc.ConcTie X Y
 
 def CSelF {eps : ℝ} (Fm : FamP eps) : Type 1 :=

@@ -3,8 +3,8 @@ module
 public import Development.ResolutionOfSingularities.Statements
 public import Development.WeilBound.CoreStatements.ResolutionCharZero.WeakPair
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.ConclusionOfSmooth
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ResKOfResolutionPrincipalisation
-public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsNil
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle281
+public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.Bundle003
 public import Development.WeilBound.CoreStatements.ResolutionCharZero.FromResIso
 public import Development.WeilBound.CoreStatements.ResolutionCharZero.FromResSnc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,8 +46,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.AnalyticForms.RegularLocalRings.WChartsC
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle003
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossings
 

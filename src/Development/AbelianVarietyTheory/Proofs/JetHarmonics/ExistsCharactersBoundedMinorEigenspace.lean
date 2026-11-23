@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
-public import Development.AbelianVarietyTheory.Definitions.Jets.TwoPlaces
-public import Formalism.LocalToGlobal.CharacterGerms.PlugUP
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmTypeDirectionsEigenbasisValuedIntegers
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCmTypeEmbeddingsIntoValuationRing
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsPlaceUOfFrobeniusOrbit
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IdempotentEmbeddingsCard
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyUniformisedFormalChartAlgebraicPoint
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.StarRingExtOfStar
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ValuationIntegersPadicComplete
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePEmbIntSt
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle090
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle051
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle083
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle183
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle050
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeMin
-public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeBase
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle006
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
-public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeDiv
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle007
 public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeOrd
 public import Formalism.LocalToGlobal.ProjectiveLattices.CrudeVal
 import Mathlib.Algebra.Order.Floor.Extended

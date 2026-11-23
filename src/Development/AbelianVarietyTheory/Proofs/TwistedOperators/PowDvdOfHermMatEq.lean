@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SatakeTrivialRangeBound
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EqOfHasValueAtInfinite
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RelativeLatticeVolumeOfDetValuation
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle035
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsBorelSphRevInv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HermiteReductionUnipotent
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IwasawaBlockTriangular
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormLeCard
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormLeOfCompleteHomogeneousLe
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle064
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle011
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -181,8 +181,9 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 
 def hermGL (hp : Irreducible p) (a : Fin n → ℕ) (c : HermIdx p a) : GL (Fin n) k :=
   Matrix.GeneralLinearGroup.mkOfDetNeZero ((algebraMap 𝒪[k] k).mapMatrix (hermMat p a c)) (by
-    rw [← RingHom.map_det, det_hermMat]
-    simpa using fun h => absurd h hp.ne_zero)
+    rw [← RingHom.map_det, det_hermMat, map_pow]
+    change (p : k) ^ (∑ i, a i) ≠ 0
+    exact pow_ne_zero _ (fun h => hp.ne_zero (Subtype.ext h)))
 
 theorem val_hermGL (hp : Irreducible p) (a : Fin n → ℕ) (c : HermIdx p a) :
     (hermGL hp a c).val = (algebraMap 𝒪[k] k).mapMatrix (hermMat p a c) := rfl

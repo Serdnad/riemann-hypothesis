@@ -42,7 +42,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsInvOne
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle463
 
 @[expose] public section
 

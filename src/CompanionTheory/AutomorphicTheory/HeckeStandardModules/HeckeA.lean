@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SatakeDualWeyl.Statement
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EvalFg
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.HeckeActMem
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle014
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

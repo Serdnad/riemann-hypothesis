@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SphereLogIntegrableStatement
+public import ReciprocityTheory.SemistableReduction.Bundle001
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.MvPolynomial.Division
 import Mathlib.Algebra.Order.Floor.Extended

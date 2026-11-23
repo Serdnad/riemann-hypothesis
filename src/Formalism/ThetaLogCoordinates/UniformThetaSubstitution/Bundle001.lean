@@ -1,0 +1,218 @@
+module
+
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.OddLogRelation
+public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
+public import Mathlib.Data.ZMod.Defs
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import Formalism.GaussJetBounds.Bundle002
+import Formalism.GaussJetBounds.Bundle001
+public import Formalism.GaussJetBounds.Bundle003
+public import Formalism.GrowthSums.Bundle001
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open scoped BigOperators
+open Finset
+
+namespace Formalism.InvariantFactorPaths.G7
+
+open Formalism.DworkPowerSeriesWeights (Integral mvExp)
+
+def DworkMv : Prop :=
+  ∀ (K ι : Type) [Finite ι] [NormedField K] [IsUltrametricDist K] [CharZero K] (p : ℕ)
+    (σ : K →+* K), p.Prime → ‖(p : K)‖ = (p : ℝ)⁻¹ →
+    (∀ a : K, ‖a‖ ≤ 1 → ‖σ a - a ^ p‖ ≤ (p : ℝ)⁻¹) →
+    ∀ Ψ : MvPowerSeries ι K, MvPowerSeries.constantCoeff Ψ = 0 →
+      (Integral (mvExp Ψ) ↔
+        ∀ n, ‖MvPowerSeries.coeff n
+          (frobVar p (MvPowerSeries.map σ Ψ) - MvPowerSeries.C (p : K) * Ψ)‖ ≤ (p : ℝ)⁻¹)
+
+def Simeq {K ι : Type} [NormedField K] [CharZero K] (f g : MvPowerSeries ι K) : Prop :=
+  MvPowerSeries.constantCoeff (f - g) = 0 ∧ Integral (mvExp (f - g))
+
+def SimeqRules : Prop :=
+  ∀ (K ι : Type) [NormedField K] [IsUltrametricDist K] [CharZero K],
+    (∀ f : MvPowerSeries ι K, Simeq f f) ∧
+    (∀ f g : MvPowerSeries ι K, Simeq f g → Simeq g f) ∧
+    (∀ f g h : MvPowerSeries ι K, Simeq f g → Simeq g h → Simeq f h) ∧
+    (∀ f g f' g' : MvPowerSeries ι K, Simeq f g → Simeq f' g' → Simeq (f + f') (g + g')) ∧
+    (∀ (κ : Type) [Finite ι] (f g : MvPowerSeries ι K) (φ : ι → MvPowerSeries κ K),
+      (∀ i, MvPowerSeries.constantCoeff (φ i) = 0) → (∀ i, Integral (φ i)) → Simeq f g →
+      Simeq (MvPowerSeries.subst φ f) (MvPowerSeries.subst φ g))
+
+def lamF {K : Type} [Field K] (p : ℕ) (ϖ : K) : PowerSeries K :=
+  PowerSeries.mk fun n => ϖ ^ (n - 1) * PowerSeries.coeff n (lgF K p)
+
+def altF (K : Type) [Field K] (p : ℕ) : PowerSeries K :=
+  PowerSeries.mk fun n => ∑ l ∈ range (n + 1), if n = (p ^ 2) ^ l then (-1 : K) ^ l else 0
+
+def LogRescale : Prop :=
+  ∀ (K : Type) [NormedField K] [IsUltrametricDist K] (p : ℕ) (ϖ : K), p.Prime →
+    ‖(p : K)‖ = (p : ℝ)⁻¹ → ϖ ^ (p ^ 2 - 1) = (p : K) →
+    (PowerSeries.subst (PowerSeries.C ϖ * PowerSeries.X : PowerSeries K) (lgF K p) : PowerSeries K) =
+        PowerSeries.C ϖ * lamF p ϖ ∧
+      (∀ n, ‖PowerSeries.coeff n (lamF p ϖ - PowerSeries.X - PowerSeries.X ^ (p ^ 2))‖ ≤
+        (p : ℝ)⁻¹) ∧
+      ∃ μ : PowerSeries K, PowerSeries.constantCoeff μ = 0 ∧ (∀ n, ‖PowerSeries.coeff n μ‖ ≤ 1) ∧
+        (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X ∧
+        (PowerSeries.subst (lamF p ϖ) μ : PowerSeries K) = PowerSeries.X ∧
+        ∀ n, ‖PowerSeries.coeff n (μ - altF K p)‖ ≤ (p : ℝ)⁻¹
+
+def LogRescaleUnique : Prop :=
+  ∀ (K : Type) [Field K] (p : ℕ) (ϖ : K) (μ μ' : PowerSeries K), 2 ≤ p → (p : K) ≠ 0 →
+    PowerSeries.constantCoeff μ = 0 → PowerSeries.constantCoeff μ' = 0 →
+    (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X →
+    (PowerSeries.subst μ' (lamF p ϖ) : PowerSeries K) = PowerSeries.X → μ = μ'
+
+section Coord
+
+variable {K : Type} [Field K] {ν r0 r1 : ℕ}
+
+abbrev ZV (ν r0 r1 : ℕ) : Type := ZMod (2 * ν) × Fin r0 × Fin r1
+
+abbrev EV (ν r0 r1 : ℕ) : Type := Fin ν × Fin r0 × Fin r1
+
+def zLin [NeZero ν] (om oms : Fin ν → ZMod (2 * ν) → K) (x : Bool × EV ν r0 r1) :
+    MvPowerSeries (ZV ν r0 r1) K :=
+  ∑ s : ZMod (2 * ν),
+    if x.1 = false then
+      (if s.val % 2 = 0 then MvPowerSeries.C (oms x.2.1 s) * MvPowerSeries.X (s, x.2.2) else 0)
+    else
+      (if s.val % 2 = 1 then MvPowerSeries.C (om x.2.1 s) * MvPowerSeries.X (s, x.2.2) else 0)
+
+def sPos (p : ℕ) (s : ZMod (2 * ν)) (ab : Fin r0 × Fin r1) : MvPowerSeries (ZV ν r0 r1) K :=
+  fun n => ∑ l ∈ range (n.degree + 1),
+    if n = Finsupp.single (s - 2 * (l : ZMod (2 * ν)), ab) ((p ^ 2) ^ l) then (-1 : K) ^ l else 0
+
+def hhS [NeZero ν] (p : ℕ) (u : ZMod (2 * ν) → K) : MvPowerSeries (ZV ν r0 r1) K :=
+  ∑ s : ZMod (2 * ν), MvPowerSeries.C (u s) *
+    ∑ ab : Fin r0 × Fin r1, sPos p s ab ^ p * sPos p (s + 1) ab
+
+def uS (c c' : K) (s : ZMod (2 * ν)) : K := if s.val % 2 = 0 then -c' else c
+
+end Coord
+
+def OmOK {K : Type} [NormedField K] (p ν : ℕ) (om oms : Fin ν → ZMod (2 * ν) → K) : Prop :=
+  (∀ r s, ‖om r s‖ ≤ 1 ∧ ‖oms r s‖ ≤ 1) ∧
+  (∀ r s, ‖om r (s + 1) - om r s ^ p‖ ≤ (p : ℝ)⁻¹ ∧ ‖oms r (s + 1) - oms r s ^ p‖ ≤ (p : ℝ)⁻¹) ∧
+  (∀ a b : ZMod (2 * ν), a.val % 2 = b.val % 2 →
+    ∑ r, oms r a * om r b = if a = b then 1 else 0)
+
+def sSub {K : Type} [Field K] {ν r0 r1 : ℕ} [NeZero ν] (om oms : Fin ν → ZMod (2 * ν) → K)
+    (μ : PowerSeries K) (x : Bool × EV ν r0 r1) : MvPowerSeries (ZV ν r0 r1) K :=
+  PowerSeries.subst (zLin om oms x) μ
+
+def TwoSums : Prop :=
+  ∀ (K : Type) [NormedField K] [IsUltrametricDist K] (p ν r0 r1 : ℕ) [NeZero ν]
+    (om oms : Fin ν → ZMod (2 * ν) → K) (c c' : K) (μ : PowerSeries K), p.Prime →
+    ‖(p : K)‖ = (p : ℝ)⁻¹ → OmOK p ν om oms → ‖c‖ ≤ 1 → ‖c'‖ ≤ 1 →
+    PowerSeries.constantCoeff μ = 0 → (∀ n, ‖PowerSeries.coeff n (μ - altF K p)‖ ≤ (p : ℝ)⁻¹) →
+    ∃ Y : MvPowerSeries (ZV ν r0 r1) K, Integral Y ∧ MvPowerSeries.constantCoeff Y = 0 ∧
+      MvPowerSeries.subst (sSub om oms μ) (hh1 (E := EV ν r0 r1) p c c') =
+        hhS p (uS c c') + MvPowerSeries.C (p : K) * Y
+
+def ThmSCore : Prop :=
+  ∀ (K : Type) [NormedField K] [IsUltrametricDist K] [CharZero K] (p ν r0 r1 : ℕ) [NeZero ν]
+    (om oms : Fin ν → ZMod (2 * ν) → K) (c c' ϖ : K) (μ : PowerSeries K)
+    (U : MvPowerSeries (Bool × EV ν r0 r1) K), p.Prime →
+    ‖(p : K)‖ = (p : ℝ)⁻¹ → ϖ ^ (p ^ 2 - 1) = (p : K) → OmOK p ν om oms → ‖c‖ ≤ 1 → ‖c'‖ ≤ 1 →
+    PowerSeries.constantCoeff μ = 0 →
+    (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X → Integral U →
+    InClass (p : K) (hhS p (uS c c'))
+      (MvPowerSeries.subst (fun x => MvPowerSeries.C ϖ * sSub om oms μ x)
+        (mvExp (-(Gtot (E := EV ν r0 r1) p c c' 1)) * U))
+
+def CyclicPowerClassOfExpEquiv : Prop :=
+  ∀ (K : Type) [NormedField K] [IsUltrametricDist K] [CharZero K] (p ν r0 r1 : ℕ) [NeZero ν]
+    (om oms : Fin ν → ZMod (2 * ν) → K) (c c' ϖ : K) (μ : PowerSeries K)
+    (U0 Φ : MvPowerSeries (Bool × EV ν r0 r1) K) (be : MvPowerSeries (Fin 2) K), p.Prime →
+    ‖(p : K)‖ = (p : ℝ)⁻¹ → ϖ ^ (p ^ 2 - 1) = (p : K) → OmOK p ν om oms → ‖c‖ ≤ 1 → ‖c'‖ ≤ 1 →
+    PowerSeries.constantCoeff μ = 0 →
+    (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X → Integral U0 →
+    MvPowerSeries.constantCoeff Φ = 0 →
+    Simeq Φ (∑ e : EV ν r0 r1, MvPowerSeries.subst
+      (fun a : Fin 2 => (MvPowerSeries.X (if a = 0 then (false, e) else (true, e)) :
+        MvPowerSeries (Bool × EV ν r0 r1) K)) be) →
+    Simeq be (Gser p c c') →
+    InClass (p : K) (hhS p (uS c c'))
+      (MvPowerSeries.subst (fun x => MvPowerSeries.C ϖ * sSub om oms μ x) (mvExp (-Φ) * U0))
+
+end Formalism.InvariantFactorPaths.G7
+end
+end
+
+section
+
+noncomputable section
+
+open scoped BigOperators
+open Finset
+
+namespace Formalism.InvariantFactorPaths.G7
+
+open Formalism.DworkPowerSeriesWeights (Integral frameJet)
+open Formalism.GrowthSums (gamP rhoP gainG excessGain)
+
+section Shape
+
+variable {ν : ℕ}
+
+def alG (TT : Finset (ZMod (2 * ν))) (colN : ZMod (2 * ν) → ℕ) (hts : ∀ s, Fin (colN s) → ℕ)
+    (s : ZMod (2 * ν)) : ℕ :=
+  if s ∈ TT then (univ.filter (fun c => hts s c = 1)).card else 0
+
+def capG (TT : Finset (ZMod (2 * ν))) (colN : ZMod (2 * ν) → ℕ) (hts : ∀ s, Fin (colN s) → ℕ)
+    (s : ZMod (2 * ν)) : ℕ :=
+  colN s - alG TT colN hts s
+
+def lsG (TT : Finset (ZMod (2 * ν))) (colN : ZMod (2 * ν) → ℕ) (hts : ∀ s, Fin (colN s) → ℕ)
+    (s : ZMod (2 * ν)) : ℕ :=
+  ∑ c, hts s c - alG TT colN hts s
+
+end Shape
+
+end Formalism.InvariantFactorPaths.G7
+end
+end

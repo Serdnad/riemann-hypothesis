@@ -1,8 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.FactorialBounds.Statements
-public import GroundTheory.HeightsAndTheta.Heights.FactorialBounds.PSlopeParameterChoice
-public import GroundTheory.HeightsAndTheta.Heights.FactorialBounds.PSupOfOrthonormalSum
+public import GroundTheory.HeightsAndTheta.Heights.FactorialBounds.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.FactorialBounds.PTorsionEquidistribution
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,0 +1,161 @@
+module
+
+public import Formalism.GaussJetBounds.StatementS
+public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.CM4
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.StatementE
+public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import Formalism.GrowthSums.Bundle001
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementE
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+
+@[expose] public section
+
+section
+
+noncomputable section
+open scoped BigOperators
+open Finset
+
+namespace Formalism.L2.Th1.D
+
+open Formalism.IncomingBounds
+open Formalism.DworkPowerSeriesWeights (Integral frameJet frameJetOne nablaO)
+open Formalism.GrowthSums (gamP rhoP gainG excessGain)
+open Formalism.InvariantFactorPaths.G7 (lgF at1 Simeq cob UnrOK IsLawOfLog alG capG lsG deLoss dSet oddT)
+open Formalism.L2.Th1.CM (MaximalUnramifiedExtension)
+
+def ThmAEntryAll : Prop :=
+  ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l →
+  ∀ g2 g3 ε : MaximalUnramifiedExtension l, ‖g2‖ ≤ 1 → ‖g3‖ ≤ 1 → ‖ε‖ = 1 →
+    (∀ n, ‖PowerSeries.coeff n (thetaS l g2 g3 ε)‖ ≤ 1) →
+  ∀ σ : MaximalUnramifiedExtension l →+* MaximalUnramifiedExtension l, UnrOK (MaximalUnramifiedExtension l) l σ →
+  ∀ F : MvPowerSeries (Fin 2) (MaximalUnramifiedExtension l), IsLawOfLog l F →
+  ∀ s2 : MaximalUnramifiedExtension l, (∀ α : MaximalUnramifiedExtension l, ‖α‖ = 1 → σ (σ α) = α → NormRel l σ (phFF l g2 g3 s2 ε) α) →
+  ∀ (d N0 N1 : ℕ) [NeZero d], 2 ≤ d → Even d →
+  ∀ (ιr : Type) [Fintype ιr] [DecidableEq ιr] (om oms : ιr → MaximalUnramifiedExtension l), OwOK d σ om oms →
+    TrDual d σ om oms → (∃ ζ : MaximalUnramifiedExtension l, IsPrimitiveRoot ζ (l ^ d - 1)) →
+  ∀ U0 Φ : MvPowerSeries (Bool × ιr × Fin N0 × Fin N1) ℂ_[l], Integral U0 →
+    MvPowerSeries.constantCoeff Φ = 0 →
+    Simeq Φ (sumE (MvPowerSeries.map (MaximalUnramifiedExtension l).subtype (cob F (phFF l g2 g3 s2 ε)))) →
+    ∀ (TT : Finset (ZMod d)) (colN : ZMod d → ℕ) (p : ∀ s, Fin (colN s) → ℕ)
+      (hp : ∀ s c, p s c ≤ N0), (∀ s c, 1 ≤ p s c) → ∀ (I : ∀ s c, Fin (p s c) → Fin N1),
+    ∀ (nu1 nu2 size : ZMod d → ℕ), (∀ s, nu1 s = colN s) →
+      (∀ s, nu2 s = (Finset.univ.filter (fun c => 2 ≤ p s c)).card) → (∀ s, size s = ∑ c, p s c) →
+    ∀ a : ℕ, 1 ≤ a → (∀ s, size s ≤ a) → 2 * Real.logb l a + 2 ≤ (N0 : ℝ) - 1 →
+    ∀ δ : MvPolynomial (ZMod d × Fin N0 × Fin N0) ℂ_[l] →ₗ[ℂ_[l]] ℂ_[l],
+      (∀ P ∈ nablaO (K := ℂ_[l]) colN p hp, ‖δ P‖ ≤ 1) →
+      ‖δ (frameJet colN p hp I (thetaInZ l (MaximalUnramifiedExtension l).subtype σ om oms (Formalism.DworkPowerSeriesWeights.mvExp (-Φ) * U0)))‖ ≤
+        ‖(l : ℂ_[l])‖ ^ ((∑ s ∈ TT, (topTerm l d TT nu1 nu2 s -
+            gam l * (Wcap l d TT nu1 nu2 size s : ℝ))) +
+          Fnum l d (fun s => (Dl d TT nu1 size s : ℝ)) -
+          ((d : ℝ) * N0 * N1) * (Real.logb l (a : ℝ) + 1))
+
+def NRCM : Prop :=
+  ∀ (dK : ℕ) (L : PeriodPair), Squarefree dK → dK % 4 = 3 → Formalism.L2.Th1.CM.HasCMBy dK L →
+  ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l → ¬ l ∣ dK → (¬ ∃ a : ZMod l, a ^ 2 = -(dK : ZMod l)) →
+  ∀ ι : ℂ ≃+* ℂ_[l], ∀ g2 g3 ε : MaximalUnramifiedExtension l, Formalism.L2.Th1.CM.IsGoodModel l L ι g2 g3 → ‖ε‖ = 1 →
+    (∀ n, ‖PowerSeries.coeff n (thetaS l g2 g3 ε)‖ ≤ 1) →
+  ∃ s2 : MaximalUnramifiedExtension l, ‖s2‖ ≤ 1 ∧
+    (∃ (c : ℂ) (hc : c ≠ 0), (g2 : ℂ_[l]) = ι (Formalism.L2.Th1.F.scalePair L c hc).g₂ ∧
+      (g3 : ℂ_[l]) = ι (Formalism.L2.Th1.F.scalePair L c hc).g₃ ∧
+      (s2 : ℂ_[l]) = ι (Formalism.L2.Th1.F.s2 (Formalism.L2.Th1.F.scalePair L c hc))) ∧
+    ∀ σ : MaximalUnramifiedExtension l →+* MaximalUnramifiedExtension l, UnrOK (MaximalUnramifiedExtension l) l σ →
+    ∀ α : MaximalUnramifiedExtension l, ‖α‖ = 1 → σ (σ α) = α → NormRel l σ (phFF l g2 g3 s2 ε) α
+
+end Formalism.L2.Th1.D
+end
+end
+
+section
+
+noncomputable section
+open scoped BigOperators
+
+namespace Formalism.L2.Th1.D
+
+open Formalism.InvariantFactorPaths.G7 (UnrOK)
+open Formalism.L2.Th1.CM (MaximalUnramifiedExtension omegaK)
+
+def normInt (dK : ℕ) (m n : ℤ) : ℤ := m ^ 2 + m * n + n ^ 2 * (((dK : ℤ) + 1) / 4)
+
+def SqrtKur : Prop :=
+  ∀ (dK : ℕ), Squarefree dK → dK % 4 = 3 → ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l →
+    (¬ ∃ a : ZMod l, a ^ 2 = -(dK : ZMod l)) → ∀ ι : ℂ ≃+* ℂ_[l],
+    ι (omegaK dK) ∈ MaximalUnramifiedExtension l ∧
+    ∀ σ : MaximalUnramifiedExtension l →+* MaximalUnramifiedExtension l, UnrOK (MaximalUnramifiedExtension l) l σ → ∀ w : MaximalUnramifiedExtension l, (w : ℂ_[l]) = ι (omegaK dK) →
+      σ w = 1 - w
+
+def DenseOK : Prop :=
+  ∀ (dK : ℕ), Squarefree dK → dK % 4 = 3 → ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l →
+    (¬ ∃ a : ZMod l, a ^ 2 = -(dK : ZMod l)) → ∀ ι : ℂ ≃+* ℂ_[l],
+    ∀ σ : MaximalUnramifiedExtension l →+* MaximalUnramifiedExtension l, UnrOK (MaximalUnramifiedExtension l) l σ → ∀ α : MaximalUnramifiedExtension l, ‖α‖ = 1 → σ (σ α) = α →
+    ∀ ε : ℝ, 0 < ε → ∃ m n : ℤ, ¬ (l : ℤ) ∣ normInt dK m n ∧
+      ‖ι ((m : ℂ) + (n : ℂ) * omegaK dK) - (α : ℂ_[l])‖ < ε
+
+def HomotheticLatticeIntegralS2 : Prop :=
+  Formalism.L2.Th1.CM.CM4 →
+  ∀ (dK : ℕ) (L : PeriodPair), Squarefree dK → dK % 4 = 3 → Formalism.L2.Th1.CM.HasCMBy dK L →
+  ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l → ¬ l ∣ dK → (¬ ∃ a : ZMod l, a ^ 2 = -(dK : ZMod l)) →
+  ∀ ι : ℂ ≃+* ℂ_[l], ∀ g2 g3 : ℂ_[l], Formalism.L2.Th1.CM.IsGoodModel l L ι g2 g3 →
+    ∃ (c : ℂ) (hc : c ≠ 0), g2 = ι (Formalism.L2.Th1.F.scalePair L c hc).g₂ ∧
+      g3 = ι (Formalism.L2.Th1.F.scalePair L c hc).g₃ ∧
+      ι (Formalism.L2.Th1.F.s2 (Formalism.L2.Th1.F.scalePair L c hc)) ∈ MaximalUnramifiedExtension l ∧
+      ‖ι (Formalism.L2.Th1.F.s2 (Formalism.L2.Th1.F.scalePair L c hc))‖ ≤ 1
+
+def NRDense : Prop :=
+  Formalism.L2.Th1.CM.CM4 →
+  ∀ (dK : ℕ) (L : PeriodPair), Squarefree dK → dK % 4 = 3 → Formalism.L2.Th1.CM.HasCMBy dK L →
+  ∀ (l : ℕ) [Fact l.Prime], 5 ≤ l → ¬ l ∣ dK → (¬ ∃ a : ZMod l, a ^ 2 = -(dK : ZMod l)) →
+  ∀ ι : ℂ ≃+* ℂ_[l], ∀ g2 g3 ε s2 : MaximalUnramifiedExtension l, Formalism.L2.Th1.CM.IsGoodModel l L ι g2 g3 → ‖ε‖ = 1 →
+    (∀ n, ‖PowerSeries.coeff n (thetaS l g2 g3 ε)‖ ≤ 1) →
+  ∀ (c : ℂ) (hc : c ≠ 0), (g2 : ℂ_[l]) = ι (Formalism.L2.Th1.F.scalePair L c hc).g₂ →
+    (g3 : ℂ_[l]) = ι (Formalism.L2.Th1.F.scalePair L c hc).g₃ →
+    (s2 : ℂ_[l]) = ι (Formalism.L2.Th1.F.s2 (Formalism.L2.Th1.F.scalePair L c hc)) →
+  ∀ σ : MaximalUnramifiedExtension l →+* MaximalUnramifiedExtension l, UnrOK (MaximalUnramifiedExtension l) l σ →
+  ∀ (m n : ℤ), ¬ (l : ℤ) ∣ normInt dK m n → ∀ α : MaximalUnramifiedExtension l,
+    (α : ℂ_[l]) = ι ((m : ℂ) + (n : ℂ) * omegaK dK) → NormRel l σ (phFF l g2 g3 s2 ε) α
+
+end Formalism.L2.Th1.D
+end
+end

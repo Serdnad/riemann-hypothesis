@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenRegularCharacters
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemRootsBarXSubC
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CuspidalCharExistsOfGreen
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixedMemRange
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle284
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle113
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

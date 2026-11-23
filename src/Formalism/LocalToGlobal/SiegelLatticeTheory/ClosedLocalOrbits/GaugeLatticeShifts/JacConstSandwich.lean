@@ -1,12 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.JacConstBHR
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.JacConstBHDim
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SwBigCellG
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SwGaussUniq
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SwPhiDeriv
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SwPhiForm
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SwSandwichOf
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle008
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Bundle047
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle002
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle005
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

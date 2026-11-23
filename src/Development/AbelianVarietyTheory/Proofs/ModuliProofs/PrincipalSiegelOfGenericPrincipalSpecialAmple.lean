@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPolAVPullbackOfIsLocalRing
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.BiadditiveOfTrivAxes
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ImportsBis
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsMonHomLift
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.LineBundleIsoLinCombSymmBiadditiveSubstitution
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PrincipalOfFieldExtension
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle104
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle133
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PushHomBijective
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleFormBundlePowerOfPosDef
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleOfFibres
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle147
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle155
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbelianSchemeGerms
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AmplePt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.SiegelPullbackTransfer.AdelicGL2ExtOfLocalComponents
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.ExistsArBaseAway
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle002
 
 @[expose] public section
 

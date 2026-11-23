@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.SummandsBase
-public import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStable
-public import GroundTheory.AutomorphicForms.NormDetDiagUnitsPosRealToUnits
+public import GroundTheory.AutomorphicForms.Bundle016
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,13 +1,13 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.SchToPol
-public import Development.WeilBound.ThetaLifts.LatticeBasics.DenseM
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle004
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle003
 public import Development.WeilBound.ThetaLifts.LatticeBasics.ExistsRealStructure
 import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
-public import Development.WeilBound.ThetaLifts.LatticeBasics.DenseG
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle015
 import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
-import Development.WeilBound.ThetaLifts.LatticeBasics.SchwartzFunctionalEqZeroOfDense
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

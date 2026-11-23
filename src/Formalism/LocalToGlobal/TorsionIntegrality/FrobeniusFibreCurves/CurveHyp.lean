@@ -1,6 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.IsLawOfLog
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
 public import Mathlib.RingTheory.PowerSeries.Log
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

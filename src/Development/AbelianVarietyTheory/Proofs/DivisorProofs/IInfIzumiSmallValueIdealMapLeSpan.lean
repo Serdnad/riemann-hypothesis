@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLeSpanSupPow
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.ArithBase
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2699
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle003
 public import Mathlib.RingTheory.AdicCompletion.LocalRing
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSpecializesIsLocalization
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDominatingLocalDomainEqMulMaximalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNonzeroClassicalPointOfLocalHomAvoidingStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRingHomPadicAlgClNeZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModelLocalRingEssFiniteTypeIntStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ModelLocalRingResidueFieldFiniteOfClosedPointStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletionIsDomainAndIsIntegrallyClosed
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsNoetherianRingAdicCompletionOfNoetherian
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle178
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle235
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2776
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle874
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2771
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle095
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle036
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsThetaCompact
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle064
 
 @[expose] public section
 

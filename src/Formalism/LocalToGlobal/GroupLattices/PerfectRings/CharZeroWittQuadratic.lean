@@ -6,7 +6,7 @@ public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-import Formalism.LocalRingCardinality.SpanPowerMembership.GatRing
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.PerfectRings.AlgebraMapFinite
 public import Formalism.LocalToGlobal.GroupLattices.PerfectRings.IsLocalRingOfComplete
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.SmulNeZeroLat
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.FaceDSingle
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ConvexNerveComplexes.AcycSimp
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Faceexact
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Imports
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HermiteNormalForms.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

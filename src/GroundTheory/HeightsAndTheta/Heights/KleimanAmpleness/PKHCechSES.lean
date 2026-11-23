@@ -3,7 +3,7 @@ module
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PKHTheoremSAux
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.CechHcSubsingletonOfBij
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenSESStep
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PKHCechMapDeg
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsKleimanScheme
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle038
 
 @[expose] public section
 

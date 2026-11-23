@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsIsoGenResMapSmulHom
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SlopeTestRemainingChoices
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -38,10 +38,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AmpleOnAbelianBase
-import Development.AbelianVarietyTheory.Definitions.Divisors.FirstChernLeviEqConstant
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsLimDeg
-import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
-import Formalism.SharpRestriction.Divisibility.WeightThresholdDefs
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle027
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle021
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle035
+import Formalism.SharpRestriction.Divisibility.Bundle002
 
 @[expose] public section
 

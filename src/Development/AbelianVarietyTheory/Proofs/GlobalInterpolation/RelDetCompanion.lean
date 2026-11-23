@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DetIdNormOneMul
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SpanImageLeOf
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsPrimeUnder
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle135
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle086
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle133
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.JetSumTable
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TranslateMomentsAll
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
 
 @[expose] public section
 
@@ -87,7 +87,7 @@ theorem functional_frame {P : HeightOneSpectrum (𝓞 E)} {N : Submodule (𝓞 E
   choose c hc using fun i : Fin n => Ideal.Quotient.mk_surjective (φ (f (Pi.single i 1)))
   refine ⟨c, fun z hz => ?_⟩
   obtain ⟨s, hs, hsz⟩ := (mem_locP P _ _).1 hz
-  choose r hr using (mem_stdLat _).1 hsz
+  choose r hr using (_root_.Formalism.L2.Col.mem_stdLat _).1 hsz
   have h1 : s • f z = ∑ i, r i • f (Pi.single i 1) := by
     rw [← algebraMap_smul E s, ← map_smul]
 

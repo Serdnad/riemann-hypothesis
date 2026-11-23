@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StPtsBilinear
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StPtsAbsIntegrable
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StPtsSumMeasurable
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PtsIntegrable
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,9 +50,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle009
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterSheet
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.CasChainA
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.Bundle001
 
 @[expose] public section
 
@@ -194,7 +194,7 @@ theorem integrable_fibreSum (hInt : PtsIntegrableStatement) {P : Ideal (MRing ι
     (Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (n + 1 + 1) → ℂ)) (L : Fin n → HermLine ι)
     {f g : ((Σ k, ι k) → ℂ) → ℝ} (hP : IsArithVar P (n + 2)) (hΨ : IsGoodProj P Ψ)
     (hL : ∀ j, IsSmoothHerm (L j)) (hf : IsDegZeroSmooth f) (hg : IsDegZeroSmooth g) :
-    Integrable (fun y => ∑ᶠ w ∈ fibre P Ψ y, sheetDensity P Ψ (Fin.cons f (pot L)) g y w) := by
+    Integrable (fun y => ∑ᶠ w ∈ _root_.ReciprocityTheory.ChartRestriction.G.Geo.fibre P Ψ y, sheetDensity P Ψ (Fin.cons f (pot L)) g y w) := by
   have hf' : ∀ (c : K → ℂ) z, (∀ k, c k ≠ 0) → -f (fun p => c p.1 * z p) = -f z :=
     fun c z hc => by simp only [hf.2 c z hc]
   have hF := isSmoothHerm_ofWeight (w := fun z => -f z) hf' hf.1.neg
@@ -213,7 +213,7 @@ theorem integrable_fibreSum (hInt : PtsIntegrableStatement) {P : Ideal (MRing ι
     funext z
     simp [logNorm, HermLine.ofWeight, Real.log_exp]
   have h1 : (1 : MRing ι) ∉ P := fun h => hP.2.1.1.ne_top ((Ideal.eq_top_iff_one P).mpr h)
-  have hm : IsMultiHomog (1 : MRing ι) (fun _ => 0) := by
+  have hm : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsMultiHomog (1 : MRing ι) (fun _ => 0) := by
     intro m hm k
     rw [MvPolynomial.support_one] at hm
     simp only [Finset.mem_singleton] at hm

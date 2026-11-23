@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TypeOrthOfAvTied
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWildInertiaCyclotomicElement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ClassSumEqConstMulPeterssonStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgWtExistsInvFormStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDoubleCosetsDefiniteUnitaryMaximalLevelStatement
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle741
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle183
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmoothAdmissibleUnitaryMemSupIsotypicParts
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FiniteDimensionalForms
-import Formalism.LocalToGlobal.GaloisLevelStructure.Checks
-import Formalism.LocalToGlobal.IndefiniteReal.CongNatCastEqOneTmul
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle065
+import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle003
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 

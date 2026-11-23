@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IntegralClosureHeightEqOneOfLiesOver
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.FlagbAlg
 public import Mathlib.Algebra.AffineMonoid.Basic
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GrIsGenAt
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.FlagbGeo
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.FlagbLoc
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle043
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

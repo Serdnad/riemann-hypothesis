@@ -258,8 +258,8 @@ def KerTop {K : Type} [Field K] (σ : K →+* ℂ) (c : ℝ) (j : ℕ) (A B : HS
     (sB : D.what₂.Tau → Matrix (Fin B.rank) (Fin B.rank) ℂ) (om : GA D A × GA D B →* Module.End ℂ (WO A B → ℂ))
     (fA : GL (Fin A.rank) D.host.E) (fB : GL (Fin B.rank) D.host.E) (uA : GA D A) (uB : GA D B)
     (vac : WO A B → ℂ) (c0 : ℂˣ) (δ : ℂ) (r : Raw D A B) (x : GfC A) (y : GfC B) : Prop :=
-  KerIn σ A B (fun τ => wtOf A.rank (entries (Node.par D c (.top j) τ)))
-    (fun τ => wtOf B.rank (entries (Node.par D c (.top (j + 1)) τ))) id (RingHom.id ℂ) ψ θ sA sB om fA fB vac c0 δ r
+  KerIn σ A B (fun τ => wtOf A.rank (GlobalTheory.SignedHC.entries (Node.par D c (.top j) τ)))
+    (fun τ => wtOf B.rank (GlobalTheory.SignedHC.entries (Node.par D c (.top (j + 1)) τ))) id (RingHom.id ℂ) ψ θ sA sB om fA fB vac c0 δ r
     (x.1 * uA) (y.1 * uB)
 
 def KerRow {K : Type} [Field K] (σ : K →+* ℂ) (c : ℝ) (i : ℕ) (A B : HSp D)
@@ -268,8 +268,8 @@ def KerRow {K : Type} [Field K] (σ : K →+* ℂ) (c : ℝ) (i : ℕ) (A B : HS
     (om : GA D (negSp B) × GA D A →* Module.End ℂ (WO (negSp B) A → ℂ))
     (fA : GL (Fin A.rank) D.host.E) (fB : GL (Fin B.rank) D.host.E) (uA : GA D A) (uB : GA D B)
     (vac : WO (negSp B) A → ℂ) (c0 : ℂˣ) (δ : ℂ) (r : Raw D (negSp B) A) (x : GfC A) (y : GfC B) : Prop :=
-  KerIn σ (negSp B) A (fun τ => (wtOf A.rank (entries (Node.par D c (.grid i D.R.m) τ))).dual)
-    (fun τ => (wtOf B.rank (entries (Node.par D c (.grid (i + 1) D.R.m) τ))).dual) (fun k => (k.1, k.2.2, k.2.1))
+  KerIn σ (negSp B) A (fun τ => (wtOf A.rank (GlobalTheory.SignedHC.entries (Node.par D c (.grid i D.R.m) τ))).dual)
+    (fun τ => (wtOf B.rank (GlobalTheory.SignedHC.entries (Node.par D c (.grid (i + 1) D.R.m) τ))).dual) (fun k => (k.1, k.2.2, k.2.1))
     (starRingEnd ℂ) ψ θ (fun τ => -sB τ) sA om fB fA vac c0 δ r (negGA B (y.1 * uB)) (x.1 * uA)
 
 variable {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GridData L sc} {W : G.Weil} {U : Set T}

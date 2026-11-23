@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.PrimeDegreeVariant
 public import Formalism.LocalRingCardinality.FactDelDualNabla
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.GTLower
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle036
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

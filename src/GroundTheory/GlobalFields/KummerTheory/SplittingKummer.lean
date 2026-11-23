@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.GlobalFields.KummerTheory.Degree
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.GlobalFields.KummerTheory.SplittingInfinite
-import GroundTheory.GlobalFields.SemilocalAlgebras.Finite
+import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

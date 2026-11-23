@@ -6,7 +6,7 @@ public import Formalism.LocalToGlobal.GlobalTheory.GL4.PFrames
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLcInt
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PKerAtP
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocW
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

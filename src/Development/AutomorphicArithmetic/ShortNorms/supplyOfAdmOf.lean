@@ -1,15 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ThinScalesIffHostBound
-public import Development.AutomorphicArithmetic.CharacterBoxes.Imports
-public import Development.AutomorphicArithmetic.CharacterBoxes.TwistForm
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle002
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle003
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ExplicitFormulaErrorOfHostConditions
-public import Development.AutomorphicArithmetic.CharacterBoxes.BoundedTw
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle004
 public import Development.AutomorphicArithmetic.CharacterBoxes.EventuallyRankLeRpowOfLtOneDivFiftytwo
 public import Development.AutomorphicArithmetic.CharacterBoxes.FieldChi
-public import Development.AutomorphicArithmetic.CharacterBoxes.IsChiField
-public import Development.AutomorphicArithmetic.CharacterBoxes.PairHyp
-public import Development.AutomorphicArithmetic.CharacterBoxes.WinPairs
 public import Development.AutomorphicArithmetic.MeanSquareBounds.pairEx
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

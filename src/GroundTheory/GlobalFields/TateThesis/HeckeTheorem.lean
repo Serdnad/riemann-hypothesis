@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.HeckeTheoremFE
-import GroundTheory.GlobalFields.TateThesis.HeckeTheoremConj
+import GroundTheory.GlobalFields.TateThesis.Bundle010
 public import GroundTheory.GlobalFields.TateThesis.HeckeTheoremTrivial
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

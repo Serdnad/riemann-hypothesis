@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle003
 public import Formalism.LocalToGlobal.CharacterGerms.BlockMembershipSelfConjugate
 public import Formalism.LocalToGlobal.ProjectiveLattices.ConjNeSelfOfCM
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GapParts
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ProdDetMemHaO
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

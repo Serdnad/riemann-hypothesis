@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AlgebraMapNormCoeff
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle021
 public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.IntegralClosure.IntegrallyClosed

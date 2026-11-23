@@ -2,11 +2,11 @@ module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralAeConvergenceContinuity
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
-public import Formalism.PeriodIntegrals.QuotInv
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.AmpOrbOfAmpDD
+public import Formalism.PeriodIntegrals.Bundle004
+public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.Bundle002
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
 public import CompanionTheory.AutomorphicTheory.RankOneTori.RpowNegLe
-import Formalism.FormalDegreeBessel.FinalBF
+import Formalism.FormalDegreeBessel.Bundle002
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.UnitNorm.UnrealifyRealify
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
@@ -15,7 +15,7 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.
 import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.QuotMeasExists
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BigCellDensity
 import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.SigmaFiniteAmplitudes.RStabInv
-import Formalism.SharpRestriction.CuspSpanNormBounds.SLemOm
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle008
 import Formalism.SharpRestriction.CuspSpanNormBounds.SpanMemOfImage
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.DiscrNe
+public import Formalism.PeriodIntegrals.Bundle012
 public import Mathlib.NumberTheory.Bernoulli
 public import Mathlib.NumberTheory.LSeries.RiemannZeta
 public import Mathlib.NumberTheory.ModularForms.EisensteinSeries.Basic

@@ -52,7 +52,7 @@ public import Mathlib.Topology.Algebra.ClopenNhdofOne
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Separation.Connected
 import Mathlib.Topology.Sheaves.Init
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 public import Mathlib.RingTheory.Filtration
 public import Mathlib.RingTheory.PowerSeries.Inverse
 import ReciprocityTheory.GaloisValuations.GlobalA

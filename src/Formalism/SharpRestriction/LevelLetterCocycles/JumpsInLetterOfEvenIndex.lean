@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.GCoordProp
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle029
 import Formalism.SharpRestriction.LevelLetterCocycles.LemmaDN0OfAdmits
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkDcrisLSumZero
 import Formalism.SharpRestriction.LevelLetterCocycles.QuotientImageDivisibility.RkMulVBFilCris

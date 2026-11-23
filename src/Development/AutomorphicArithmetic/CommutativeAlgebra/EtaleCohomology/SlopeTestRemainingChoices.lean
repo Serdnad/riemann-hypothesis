@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchClsCocycleSecStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DegreeZeroSectionClassPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistUnitClassRootClassSpecStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle508
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle800
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle801
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,9 +41,9 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CupEqClassOfIsAWStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeHomSectionsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistResolutionPairingSpecAndCupUniqueStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle609
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle507
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle922
 
 @[expose] public section
 

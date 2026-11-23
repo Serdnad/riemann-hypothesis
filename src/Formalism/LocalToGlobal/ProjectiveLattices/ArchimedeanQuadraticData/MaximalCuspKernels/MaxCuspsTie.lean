@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.XcLat
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
 import Formalism.LocalToGlobal.ProjectiveLattices.SpanRatSmulMem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

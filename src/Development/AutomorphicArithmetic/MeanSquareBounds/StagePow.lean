@@ -4,8 +4,7 @@ public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBoun
 public import Development.AutomorphicArithmetic.MeanSquareBounds.BadShare
 public import Development.AutomorphicArithmetic.MeanSquareBounds.BoxOfS
 public import Development.AutomorphicArithmetic.MeanSquareBounds.CountBad
-public import Development.AutomorphicArithmetic.MeanSquareBounds.IndUnique
-public import Development.AutomorphicArithmetic.MeanSquareBounds.TwistPrim
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle002
 public import Development.AutomorphicArithmetic.MeanSquareBounds.meanSqK
 import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MSqCount
 import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.PNTFinal

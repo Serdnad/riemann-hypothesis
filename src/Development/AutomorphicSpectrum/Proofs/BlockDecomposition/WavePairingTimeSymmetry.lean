@@ -4,8 +4,8 @@ public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsMultOfFintype
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Aesop.Main
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandOperatorAdjointStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WaveCptBoundedTime
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle250
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle218
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

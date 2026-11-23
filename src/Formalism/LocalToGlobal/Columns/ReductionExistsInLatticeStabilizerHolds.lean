@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.Columns.ChainOneB
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.Columns.FirstUnfoldingEqZeroOfNotIntegral
 public import Formalism.LocalToGlobal.Columns.OcbPhiFIdxFPos
-public import Formalism.LocalToGlobal.Columns.OcbTIntOfStab
+public import Formalism.LocalToGlobal.Columns.Bundle022
 import Formalism.LocalToGlobal.Divisibility.DefGroupLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,9 +2,9 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.Inputs
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefExample
-public import Formalism.LocalToGlobal.Columns.ToHLat
+public import Formalism.LocalToGlobal.Columns.Bundle013
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
-public import Formalism.LocalToGlobal.Divisibility.LiftLat
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
 public import Formalism.DivisorInequality.DivisorInequalityProofs.EvenDegreeWeightBounds
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefUse
 public import Formalism.QuotientMetricDivisors.SixthReductionExplicit
@@ -363,20 +363,20 @@ def colsIn {m2 : ℕ} {G : ChGlob X Rk.m} (hL : L.Ok Ch sel mu cst G m2) (u : Pr
 
 variable {W Ch sel mu cst L}
 
-def colPerL {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (G0 X.E Pr.vGs Rk.r → X.K))
+def colPerL {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (Formalism.L2.Col.G0 X.E Pr.vGs Rk.r → X.K))
     (u : Pr.Word) {n : ℕ} (ev : (Fin n → X.K) →ₗ[X.K] V0X W Ch sel mu Xg P) :
     (evGSD W Ch sel mu P u).EqFun →ₗ[X.K] Module.Dual X.K (Fin n → X.K) :=
   (PtilFF W Ch sel mu P hP u).compl₁₂ (evGSD W Ch sel mu P u).EqFun.subtype
     ((mtildeKGSD W Ch sel mu).EqFun.subtype ∘ₗ (V0X W Ch sel mu Xg P).subtype ∘ₗ ev)
 
-def colPer {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (G0 X.E Pr.vGs Rk.r → X.K))
+def colPer {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (Formalism.L2.Col.G0 X.E Pr.vGs Rk.r → X.K))
     {u : Pr.Word} {m2 : ℕ} {b : L.β (m2 + 1)} {hY : YbHyp (R := Rk) sel mu cst L u m2 b} (A : ChKer W Ch sel mu cst L P u m2 b hY)
     (hF : ∀ j, (chF W sel mu L u j).Ok) {G : ChGlob X Rk.m} (hL : L.Ok Ch sel mu cst G m2) {n : ℕ}
     (ev : (Fin n → X.K) →ₗ[X.K] V0X W Ch sel mu Xg P) :
     (Fin (ramDim W Ch hX u) → X.K) →ₗ[X.K] Module.Dual X.K (Fin n → X.K) :=
   ((BtOf W Ch sel mu P hP Xg u (colC A hF hL)).compl₂ ev) ∘ₗ (ramBas W Ch hX u).equivFun.symm.toLinearMap
 
-theorem colPer_eq {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (G0 X.E Pr.vGs Rk.r → X.K))
+theorem colPer_eq {P : LevFam X.E X.K Rk.r Pr.vGs} (hP : (mtildeGSD W Ch sel mu P).Ok) (Xg : Finset (Formalism.L2.Col.G0 X.E Pr.vGs Rk.r → X.K))
     {u : Pr.Word} {m2 : ℕ} {b : L.β (m2 + 1)} {hY : YbHyp (R := Rk) sel mu cst L u m2 b} (A : ChKer W Ch sel mu cst L P u m2 b hY)
     (hF : ∀ j, (chF W sel mu L u j).Ok) (hE : (evGSD W Ch sel mu P u).Ok) {G : ChGlob X Rk.m} (hL : L.Ok Ch sel mu cst G m2) {n : ℕ}
     (ev : (Fin n → X.K) →ₗ[X.K] V0X W Ch sel mu Xg P) (φ : Fin (ramDim W Ch hX u) → X.K) (F : Fin n → X.K) :
@@ -392,7 +392,7 @@ open Formalism.BasicNotions Formalism.L2.Col
 variable {X : Fields} {Pr : Primes X} {Rk : Ranks} {W : Wts X Pr.Word Rk} {Ch : Chars X Pr Rk.m}
   {sel : HeightOneSpectrum (𝓞 X.F) → HeightOneSpectrum (𝓞 X.E)} {Sg : Set ℕ}
 
-def colFace (hX : X.Ok) {Bs : DefBase X.K} (Df : DefSide Bs) {P : LevFam X.E X.K Rk.r Pr.vGs} (Xg : Finset (G0 X.E Pr.vGs Rk.r → X.K))
+def colFace (hX : X.Ok) {Bs : DefBase X.K} (Df : DefSide Bs) {P : LevFam X.E X.K Rk.r Pr.vGs} (Xg : Finset (Formalism.L2.Col.G0 X.E Pr.vGs Rk.r → X.K))
     {m2 : ℕ} {G : ChGlob X Rk.m} (mu : Bs.Tup → Tup X.F X.E X.K Sg) (cst : ∀ t, LocCst X (rowSG Pr sel (mu t)))
     (L : ∀ t, ChIdx X Pr Rk (QE sel (mu t : Chr X.F X.E X.K))) (hL : ∀ t, (L t).Ok Ch sel (mu t) (cst t) G m2)
     (hP : ∀ t, (mtildeGSD W Ch sel (mu t) P).Ok) (Mem : Type) (wd : Mem → Pr.Word) (b : ∀ t, Mem → (L t).β (m2 + 1))
@@ -407,7 +407,7 @@ def colFace (hX : X.Ok) {Bs : DefBase X.K} (Df : DefSide Bs) {P : LevFam X.E X.K
 section Face
 
 variable {hX : X.Ok} {Bs : DefBase X.K} {Df : DefSide Bs} {P : LevFam X.E X.K Rk.r Pr.vGs}
-  {Xg : Finset (G0 X.E Pr.vGs Rk.r → X.K)} {m2 : ℕ} {G : ChGlob X Rk.m} {mu : Bs.Tup → Tup X.F X.E X.K Sg}
+  {Xg : Finset (Formalism.L2.Col.G0 X.E Pr.vGs Rk.r → X.K)} {m2 : ℕ} {G : ChGlob X Rk.m} {mu : Bs.Tup → Tup X.F X.E X.K Sg}
   {cst : ∀ t, LocCst X (rowSG Pr sel (mu t))} {L : ∀ t, ChIdx X Pr Rk (QE sel (mu t : Chr X.F X.E X.K))}
   {hL : ∀ t, (L t).Ok Ch sel (mu t) (cst t) G m2} {hP : ∀ t, (mtildeGSD W Ch sel (mu t) P).Ok}
   {Mem : Type} {wd : Mem → Pr.Word} {b : ∀ t, Mem → (L t).β (m2 + 1)}

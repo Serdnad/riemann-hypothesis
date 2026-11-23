@@ -6,7 +6,7 @@ public import Mathlib.CategoryTheory.Filtered.Basic
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.RingTheory.FinitePresentation
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyFiniteBaseChangeFilteredColimit
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZModTorsorIff
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle004
 import Mathlib.Algebra.Category.Ring.FilteredColimits
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

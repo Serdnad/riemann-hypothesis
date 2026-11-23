@@ -3,10 +3,10 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoefficientRingIntegersCompactAdicPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteH1H2LocalStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FixingSubgroupEquivBicontinuous
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsOpenOfFgOfSpanEqTop
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle193
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle214
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle261
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle254
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

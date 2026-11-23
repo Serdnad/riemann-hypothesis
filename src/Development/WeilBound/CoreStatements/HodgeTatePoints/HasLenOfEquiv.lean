@@ -60,7 +60,7 @@ public import Mathlib.Algebra.Module.Torsion.Basic
 public import Mathlib.RingTheory.Flat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.LocalRing.Module
-import ReciprocityTheory.DualLattices.MapTensorSpan
+import ReciprocityTheory.DualLattices.Bundle006
 
 @[expose] public section
 

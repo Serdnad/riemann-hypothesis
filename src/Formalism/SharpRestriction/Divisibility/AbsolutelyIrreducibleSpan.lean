@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalRingCardinality.DataParams
-public import Formalism.LocalRingCardinality.DataKap
-public import Formalism.LocalRingCardinality.DataAmbForm
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.LocalRingCardinality.Bundle004
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

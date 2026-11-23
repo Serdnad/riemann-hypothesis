@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianCurvature.BigCellVanishingOfCommute
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFdGramCut
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.Bundle001
 
 @[expose] public section
 

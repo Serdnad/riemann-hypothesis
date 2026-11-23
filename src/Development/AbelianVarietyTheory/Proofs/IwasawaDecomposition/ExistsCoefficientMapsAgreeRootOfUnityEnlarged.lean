@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOmPinsLev
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle458
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsBaseEnlargementFixedCoefFieldOfCoeffEnlargemen
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CrdOver
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle447
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NVNeZero
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StarMulSelfOfPair
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseWeightEqForcedLiftWeight
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle442
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsIntegralOfLine
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ReferenceTupleLiftFormsPassToCoeffEnlargement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TameCharactersTypePrimesEqOfExtension
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ClassPresBasic
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle517
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle108
 import Formalism.LocalToGlobal.Columns.RowFormsAdelic
 import Formalism.LocalToGlobal.Columns.RowFormsGood
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,7 +59,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.R3.Rw.LiftUnit
 
-open Formalism.DivisionValues Formalism.L2.Col
+open Formalism.DivisionValues _root_.Formalism.L2.Col
 
 theorem exists_cast {E K : Type} [Field E] [NumberField E] [Field K] [NumberField K] [StarRing K] {ι : Type} [Fintype ι]
     {a n : ℕ} (h : n = a) (emb : ι → E →+* K) (lam : ι → DomWeight a) (lam' : ι → DomWeight n)

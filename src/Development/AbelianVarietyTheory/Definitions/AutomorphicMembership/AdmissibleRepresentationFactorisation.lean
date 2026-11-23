@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsChartOfMaximal
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsClosedImmersionBaseChange
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LetterConjugation
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NatCastMemNonunitsOfInduces
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle630
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle650
 public import Formalism.LocalToGlobal.LatticeGeometry.CmTypeMeetsConjugatePair
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

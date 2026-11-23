@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
-public import Formalism.HermitianLattices.StatementMass
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Formalism.HermitianLattices.Bundle003
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
-public import Formalism.HermitianLattices.HermitianLatticesProofs.LocDual
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.UnimodUnramUnique
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

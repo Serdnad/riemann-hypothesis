@@ -40,9 +40,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.GaussJetBounds.Statement
-import Formalism.GaussJetBounds.StatementH
-public import Formalism.GaussJetBounds.StatementI
+public import Formalism.GaussJetBounds.Bundle002
+import Formalism.GaussJetBounds.Bundle001
+public import Formalism.GaussJetBounds.Bundle004
 
 @[expose] public section
 

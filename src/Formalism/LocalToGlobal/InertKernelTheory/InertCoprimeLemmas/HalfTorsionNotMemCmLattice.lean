@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementCurve
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle005
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.QuadraticDedekindZeta.LocOdd
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BaseEx
 import Mathlib.Algebra.Order.Floor.Extended

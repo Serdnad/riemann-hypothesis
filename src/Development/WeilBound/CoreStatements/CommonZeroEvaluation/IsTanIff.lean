@@ -5,8 +5,8 @@ public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.ExistsLe
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ConjEmbRtOfNe
 public import Development.AbelianVarietyTheory.PublishedTheorems.SemiabelianTori.GeometricallyConnectedSplitTorusAff
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartFiniteType
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompleteDvrPullbackSemiabelianStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecFracExt
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle158
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

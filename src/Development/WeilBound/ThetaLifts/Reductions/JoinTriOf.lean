@@ -3,9 +3,9 @@ module
 public import Development.WeilBound.ThetaLifts.Reductions.LocalPoly
 public import Development.WeilBound.ThetaLifts.Reductions.JoinDef
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
-public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLParity
+public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.Bundle005
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.FockSecondActionMatrixUnitEq
-import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCount
+import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle004
 import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 public import Development.WeilBound.ThetaLifts.Reductions.TensJoin
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,17 +1,17 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.JInvNormLeOne
-public import Formalism.PeriodIntegrals.GoodTwo
-public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.StatementH
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle040
+public import Formalism.PeriodIntegrals.Bundle016
+public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ModularJExpansionAndPolynomialAndIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsGoodReductionAlgebraicWeierstrassModel
-public import Formalism.EllipticTorsion.EllipticTorsionProofs.Deuring
-import Formalism.EllipticTorsion.EllipticTorsionProofs.LegendreInvariant
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle027
+public import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle001
+import Formalism.EllipticTorsion.EllipticTorsionProofs.Bundle002
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EllipticOnePole
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.MulStableIntegral
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ChainPB
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ChainPC
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.ExistsNormEqTwoPow
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DyadicStableLattices.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -59,7 +59,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsVariableChangeEqLatticeCurve
+public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.Bundle002
 
 @[expose] public section
 

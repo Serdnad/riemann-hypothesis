@@ -2,27 +2,16 @@ module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.ExistsFlagModelBaseMetric
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.GoodOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsTwistedGeneratorsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameViaTwistedGeneratorsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BasePartYvEqAlgebraMapXbStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlkFProperStepInjectiveBlockDiagStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.DetFacGMatEqOneStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsNonzeroXbOfLeftInverseStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.GMatIsGenericFlagStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptBaseChangeCompatibleStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptBasesLinearIndependentSpanStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameChangeDeterminantStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameChangeRegularStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameDegreeFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameDivisorFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameGenericRankStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameHeightFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameLeadingTermStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameMinorValuationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameOrderBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameUnitCriterionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptIsVectorBundleRankStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.YvEqSumMinorsGMatStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle059
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle136
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle126
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle135
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle142
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle186
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle137
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle150
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle189
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,7 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CoordTieCompEquiv
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle032
 
 @[expose] public section
 
@@ -68,6 +57,7 @@ open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.PB GlobalTh
 
 noncomputable section
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem GlobalTheory.CompanionTheory.Ar.PB.FMX.flagModelExists : GlobalTheory.CompanionTheory.Ar.Top.Given → PB.FlagModelExists := by
   intro _ E _ _ _ H D l Xo c Y S Ω _ _ K₀ _ J₀ _ x₀ 𝔐 nd d bW bO hv hd
   classical

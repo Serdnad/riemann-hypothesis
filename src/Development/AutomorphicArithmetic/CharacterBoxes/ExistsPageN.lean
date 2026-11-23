@@ -1,7 +1,7 @@
 module
 
 public import Formalism.GaloisCohomology.Statement
-public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.PrimePairSizeCondition
+public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

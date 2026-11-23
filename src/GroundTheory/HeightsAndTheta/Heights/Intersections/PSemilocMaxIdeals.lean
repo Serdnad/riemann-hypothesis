@@ -1,12 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsSemilocMaxIdeals
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StFibreOverFinite
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsSemilocIntegral
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsLocRingDimOne
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle029
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle030
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle010
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.OneNotMemOfIsPrime
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreIncomp
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,8 +49,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
-import GroundTheory.HeightsAndTheta.Heights.Intersections.PrimeComplMapLeNonZeroDivisorsQuot
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
+import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle007
 
 @[expose] public section
 

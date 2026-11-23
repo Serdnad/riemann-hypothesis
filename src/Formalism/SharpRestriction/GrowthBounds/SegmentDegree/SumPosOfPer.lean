@@ -2,7 +2,7 @@ module
 
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CoarseLabelFactorisation
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.RestCountOf
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.StrictMonoIntExists
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.TopDegreeComparison
 import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeMapFractionField

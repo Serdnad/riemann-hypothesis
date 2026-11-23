@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TracePowerSumModEq
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle003
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Mathlib.RingTheory.Trace.Defs
 import Mathlib.Algebra.DirectSum.LinearMap

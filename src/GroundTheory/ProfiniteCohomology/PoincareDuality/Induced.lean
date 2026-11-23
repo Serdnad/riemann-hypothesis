@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.InducedDual
-public import GroundTheory.ProfiniteCohomology.CupProducts.CohomologyMapRightUnitorCupUnitClass
-public import GroundTheory.ProfiniteCohomology.CartierDual
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
+public import GroundTheory.ProfiniteCohomology.Bundle011
 public import GroundTheory.ProfiniteCohomology.Characters
-public import GroundTheory.ProfiniteCohomology.CupProducts.Projection
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.TensorHomZmodDualIsoZmodMulPairing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweInert
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
 public import Development.WeilBound.ThetaLifts.SphericalLattices.GenOf
 public import Development.WeilBound.ThetaLifts.SphericalLattices.LocDataV
 public import Development.WeilBound.ThetaLifts.SphericalLattices.LocDataVAlt
-public import Development.WeilBound.ThetaLifts.SphericalLattices.UnrAtDiv
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

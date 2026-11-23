@@ -1,9 +1,9 @@
 module
 
-public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.LatDefs
+public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.Bundle001
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.InitPartZeroXMul
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.StatementG
-public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.HasLatBasis
+public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.Bundle001
 public import Formalism.PolynomialDimension.MultinomialDepth.MonoCount
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.DerivativeKeepsSpaceHolds
 public import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.OmegaInjectiveHolds

@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGDatumOneOneOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHarrisTaylorObjectPullbackBis
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRingActionPullbackCartesianGroupSchemes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorObjectMapsComposeCancel
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsPushEquiv
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PolPull
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelObjectPullbackExistsAndPrincipal
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1127
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1119
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle853
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle048
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle103
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle111
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.WeilIsGrpPullbackOfCommute
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,9 +51,9 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.Siegel
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.SiegelPullbackTransfer.ExistsGenTransfer
 import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
 import Development.AbelianVarietyTheory.Definitions.Degenerations.MorAlgSt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompEqOneOfTransl
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.LeOfPowLePolyMulPow
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.HenselianLocalRingOfIsAdicComplete
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle001
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle005
 
 @[expose] public section
 

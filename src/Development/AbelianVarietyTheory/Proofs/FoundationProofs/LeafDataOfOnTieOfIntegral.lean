@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TwistTrivialOnRational
-public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.OrientationExclusive
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDetOfMemSt
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WeightOnDatum
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsAlgebraMapOfSigRFixed
+public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle409
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle135
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle080
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -242,7 +242,7 @@ theorem clauses_of_onTie {T : Full D} [Algebra T.J.Q.c.F D.what₂.LL] {R : Real
     (hxi : TwistTrivialOnRational T ((ι : ℕ) + 1)) (hn : (κ ι).n = D.R.nV) (hl : (κ ι).LastPos) (hdet : DetOneOn U ℓ)
     (hfg : (O.ThK v i).FG) :
     (O.Th0 v i).FG ∧ O.Th0 v i ≤ (eig (O.ρ i) O.U O.ψ).restrictScalars (𝓞 D.what₂.LL) ∧
-      sc ((Nat.card O.U : ℕ) : D.what₂.LL) (cut (eig (O.ρ i) O.U O.ψ) (O.ThK v i)) ≤ O.Th0 v i := by
+      sc ((Nat.card O.U : ℕ) : D.what₂.LL) (_root_.Formalism.EigenvalueLevelCeiling.cut (eig (O.ρ i) O.U O.ψ) (O.ThK v i)) ≤ O.Th0 v i := by
   haveI := Fintype.ofFinite O.U
   have hU : ∀ u ∈ O.U, inc u ∈ U := fun u hu => by rwa [t.U_eq] at hu
   have h1 : O.ψ 1 = 1 := RingOfIntegers.ext ((t.ψ_eq 1 (hU 1 (one_mem _))).trans (by
@@ -282,7 +282,7 @@ theorem leafData_of_onTie_of_leafSpan (hS : LeafSpan O)
     (H : AtPair S fun v => ∀ i, TiedAt A hinj EX O inc U ψ (fun _ _ _ _ _ _ _ _ _ => True) v i) : LeafData O := by
   have key : ∀ v i, TiedAt A hinj EX O inc U ψ (fun _ _ _ _ _ _ _ _ _ => True) v i → (O.ThK v i).FG →
       (O.Th0 v i).FG ∧ O.Th0 v i ≤ (eig (O.ρ i) O.U O.ψ).restrictScalars (𝓞 D.what₂.LL) ∧
-        sc ((Nat.card O.U : ℕ) : D.what₂.LL) (cut (eig (O.ρ i) O.U O.ψ) (O.ThK v i)) ≤ O.Th0 v i := by
+        sc ((Nat.card O.U : ℕ) : D.what₂.LL) (_root_.Formalism.EigenvalueLevelCeiling.cut (eig (O.ρ i) O.U O.ψ) (O.ThK v i)) ≤ O.Th0 v i := by
     rintro v i ⟨T, _, R, κ, v₀, h, fw, p, ι, wL, wF, nT, z, act, ℓ, ph, y, t, hT, hxi, hn, hl, hdet, -⟩ hfg
     exact clauses_of_onTie t hT hxi hn hl hdet hfg
   exact fun w hw => ⟨fun i => key w i ((H w hw).1 i) ((hS w hw).1 i).2.1,

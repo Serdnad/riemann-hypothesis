@@ -1,0 +1,203 @@
+module
+
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.Bundle005
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.Bundle004
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.RepHSelfInt
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.SelfDualStd
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Data.Nat.Prime.Int
+
+@[expose] public section
+
+section
+
+noncomputable section
+open scoped ComplexConjugate
+
+namespace PI.UnitaryGroupMassFormula.UnimodLocStd
+open PI.ULS
+
+theorem keyNewton : KeyNewton := by
+  intro a b c d ha hd lam hlam m _ _ Λ l x y T i₀ h k hk w hw
+  obtain ⟨hOK, -, hθ, -, -, hl, -, -, -⟩ := h
+  obtain ⟨hwsat, hwT, p, q, hq, hww⟩ := hw
+  obtain ⟨τ, r, s, hτ1, hτ2, hs, hτsat⟩ := rep_tau a b c d hOK Λ hθ hl
+  have hlp : Prime (l : ℤ) := Nat.prime_iff_prime_int.mp hl
+  have hq0 : (q : ℂ) ≠ 0 := by
+    have : q ≠ 0 := by rintro rfl; exact hq (dvd_zero _)
+    exact_mod_cast this
+  have hs0 : (s : ℂ) ≠ 0 := by
+    have : s ≠ 0 := by rintro rfl; exact hs (dvd_zero _)
+    exact_mod_cast this
+  set ε : ℂ := ((l ^ k * p : ℤ) : ℂ) / (q : ℂ) with hε
+  have hεc : conj ε = ε := by rw [hε, map_div₀, map_intCast, map_intCast]
+  have hξ : (1 - ε * τ) * conj (1 - ε * τ) = 1 - ε + ε ^ 2 * ((r : ℂ) / s) := by
+    rw [map_sub, map_one, map_mul, hεc]
+    linear_combination (-ε) * hτ1 + ε ^ 2 * hτ2
+  refine ⟨(1 - ε * τ) • w, ?_, ?_, p ^ 2 * (r * q - s * q + l ^ k * p * r), q ^ 3 * s, ?_, ?_⟩
+  · have e : (1 - ε * τ) • w = w - ε • (τ • w) := by rw [sub_smul, one_smul, smul_smul]
+    rw [e, hε]
+    exact rep_sat_sub l Λ hl hwsat (rep_sat_rat l Λ hl (hτsat w hwsat) _ _ hq)
+  · intro j hj; simp [hwT j hj]
+  · intro h
+    rcases hlp.dvd_mul.mp h with h | h
+    · exact hq (hlp.dvd_of_dvd_pow h)
+    · exact hs h
+  · rw [rep_H_smul, hξ, hww]
+    rw [hε]
+    push_cast
+    field_simp
+    ring
+
+end PI.UnitaryGroupMassFormula.UnimodLocStd
+end
+end
+
+section
+
+noncomputable section
+open scoped ComplexConjugate
+
+namespace PI.UnitaryGroupMassFormula.UnimodLocStd
+open PI.ULS
+
+variable (a : ℕ) (b c : ℤ) (d : ℕ) (ha : 0 < a) (hd : 0 < d) (lam : ℂ) (hlam : lam ≠ 0)
+  (m : Type) [Fintype m] [DecidableEq m]
+
+lemma kappa_real : conj (repKappa a b d ha hd lam hlam) = repKappa a b d ha hd lam hlam := by
+  unfold repKappa
+  simp only [map_mul, map_inv₀, Complex.conj_ofReal, map_natCast]
+
+lemma not_dvd_mul' {l : ℕ} (hl : l.Prime) {u v : ℤ} (hu : ¬ (l : ℤ) ∣ u) (hv : ¬ (l : ℤ) ∣ v) :
+    ¬ (l : ℤ) ∣ u * v := by
+  intro h
+  rcases (Nat.prime_iff_prime_int.mp hl).dvd_or_dvd h with h1 | h1
+  · exact hu h1
+  · exact hv h1
+
+lemma H_nsmul_nsmul (L : PeriodPair) (s t : ℕ) (v w : m → ℂ) :
+    stdH L m (s • v) (t • w) = (s : ℂ) * t * stdH L m v w := by
+  simp only [stdH, matH, LinearMap.mk₂'ₛₗ_apply, Pi.smul_apply, nsmul_eq_mul, map_mul, map_natCast,
+    Finset.mul_sum]
+  exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by
+    simp only [Pi.mul_apply, Pi.natCast_apply, map_mul, map_natCast]
+    ring
+
+lemma H_self_ne (L : PeriodPair) {v : m → ℂ} (hv : v ≠ 0) : stdH L m v v ≠ 0 := by
+  rw [stdH_apply]
+  have hA : area L ≠ 0 := by rw [area_eq]; exact abs_ne_zero.mpr (detD_ne L)
+  refine mul_ne_zero ?_ (inv_ne_zero (by exact_mod_cast hA))
+  obtain ⟨i, hi⟩ : ∃ i, v i ≠ 0 := by by_contra h; push_neg at h; exact hv (funext h)
+  have hsum : (∑ j, v j * conj (v j)) = ((∑ j, Complex.normSq (v j) : ℝ) : ℂ) := by
+    push_cast; exact Finset.sum_congr rfl fun j _ => Complex.mul_conj (v j)
+  rw [hsum]
+  have : 0 < ∑ j, Complex.normSq (v j) :=
+    Finset.sum_pos' (fun j _ => Complex.normSq_nonneg _) ⟨i, Finset.mem_univ _, Complex.normSq_pos.mpr hi⟩
+  exact_mod_cast this.ne'
+
+variable {a b c d ha hd lam hlam m}
+
+lemma sat_norm (hOK : CmOK a b c d) {Λ : AddSubgroup (m → ℂ)}
+    (hΛ : IsSelfDual (stdH (cmL a b d ha hd lam hlam) m) Λ) (hθ : ∀ z ∈ Λ, cmTheta b d • z ∈ Λ)
+    {l : ℕ} (hl : l.Prime) {v : m → ℂ} (hv : SatMem l Λ v) :
+    ∃ p q : ℤ, ¬ (l : ℤ) ∣ q ∧ stdH (cmL a b d ha hd lam hlam) m v v = repKappa a b d ha hd lam hlam * p / q := by
+  obtain ⟨s, hs, hsv⟩ := hv
+  obtain ⟨n, hn⟩ := rep_H_self_int a b c d ha hd lam hlam m hOK Λ hΛ hθ hsv
+  have hs' : ¬ (l : ℤ) ∣ (s : ℤ) := fun h => hs (by exact_mod_cast h)
+  refine ⟨n, (s : ℤ) * s, not_dvd_mul' hl hs' hs', ?_⟩
+  have hs0 : (s : ℂ) ≠ 0 := by
+    intro h; apply hs; rw [show s = 0 by exact_mod_cast h]; exact dvd_zero _
+  rw [H_nsmul_nsmul] at hn
+  push_cast
+  field_simp
+  linear_combination hn
+
+lemma sat_pair (hOK : CmOK a b c d) {Λ : AddSubgroup (m → ℂ)}
+    (hΛ : IsSelfDual (stdH (cmL a b d ha hd lam hlam) m) Λ) (hθ : ∀ z ∈ Λ, cmTheta b d • z ∈ Λ)
+    {l : ℕ} (hl : l.Prime) {v w : m → ℂ} (hv : SatMem l Λ v) (hw : SatMem l Λ w) :
+    ∃ n c₂ s : ℤ, ¬ (l : ℤ) ∣ s ∧ stdH (cmL a b d ha hd lam hlam) m v w =
+      repKappa a b d ha hd lam hlam * ((n : ℂ) - c₂ * conj (cmTheta b d)) / s := by
+  obtain ⟨s, hs, hsv⟩ := hv
+  obtain ⟨t, ht, htw⟩ := hw
+  obtain ⟨n, c₂, hn, -⟩ := rep_H_int a b c d ha hd lam hlam m hOK Λ hΛ hθ hsv htw
+  have hs' : ¬ (l : ℤ) ∣ (s : ℤ) := fun h => hs (by exact_mod_cast h)
+  have ht' : ¬ (l : ℤ) ∣ (t : ℤ) := fun h => ht (by exact_mod_cast h)
+  refine ⟨n, c₂, (s : ℤ) * t, not_dvd_mul' hl hs' ht', ?_⟩
+  have hs0 : (s : ℂ) ≠ 0 := by
+    intro h; apply hs; rw [show s = 0 by exact_mod_cast h]; exact dvd_zero _
+  have ht0 : (t : ℂ) ≠ 0 := by
+    intro h; apply ht; rw [show t = 0 by exact_mod_cast h]; exact dvd_zero _
+  rw [H_nsmul_nsmul] at hn
+  push_cast
+  field_simp
+  linear_combination hn
+
+lemma im_pi_inv (n c₂ : ℤ) :
+    ((2 * cmTheta b d - b)⁻¹ * (repKappa a b d ha hd lam hlam * ((n : ℂ) - c₂ * conj (cmTheta b d)))).im =
+      -((2 * n - c₂ * b : ℤ) : ℝ) / d := by
+  rw [rep_kappa_eq]
+  have hd' : (0 : ℝ) < d := by exact_mod_cast hd
+  have hs : Real.sqrt d ≠ 0 := (Real.sqrt_pos.2 hd').ne'
+  have hsq : Real.sqrt d * Real.sqrt d = d := Real.mul_self_sqrt hd'.le
+  have hpi : 2 * cmTheta b d - b = Complex.I * ((Real.sqrt d : ℝ) : ℂ) := by
+    unfold cmTheta
+    ring
+  have hconj : conj (cmTheta b d) = ((b : ℂ) - Complex.I * ((Real.sqrt d : ℝ) : ℂ)) / 2 := by
+    unfold cmTheta
+    simp [map_div₀, Complex.conj_ofReal, map_ofNat]
+    ring
+  rw [hpi, hconj]
+  simp [Complex.mul_im, Complex.mul_re, Complex.inv_re, Complex.inv_im, Complex.normSq, Complex.div_re,
+    Complex.div_im]
+  field_simp
+  rw [show (Real.sqrt d) ^ 2 = d by rw [sq]; exact hsq] at *
+  ring
+
+end PI.UnitaryGroupMassFormula.UnimodLocStd
+end
+end

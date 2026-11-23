@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsInvDer
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueInvariantVectorFieldOfTangentStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.InvariantVectorFieldsAlongGroupHomStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.InvariantVectorFieldsBasisVerticalDerivationsStatement
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle088
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle084
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle108
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

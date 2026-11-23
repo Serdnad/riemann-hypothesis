@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsPullbackCompIsoMonHom
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsSemiAbelianOfProperGenericTorusExtensionSpecialFiber
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CharValMultiplicativeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalence
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle054
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsaRos
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ToXQFst
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle087
 
 @[expose] public section
 
@@ -231,6 +231,9 @@ theorem exists_pullback_ext {k Ω : Type} [Field k] [Field Ω] (f : Sp Ω ⟶ Sp
     · simp
     · simp
   · intro W p p₀ hp
+    letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+    letI : GrpObj ((Over.pullback f).obj T.B) :=
+      Functor.grpObjObj (F := Over.pullback f) (G := T.B)
     have hB := isGrpPullback_pullback T.B f
     have e1 : LiePull.pts hB (T := W) rfl (p ≫ (Over.pullback f).map T.q) = p₀ ≫ T.q := by
       apply Over.OverMorphism.ext

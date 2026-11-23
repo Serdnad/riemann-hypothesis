@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.SharpRestriction.Divisibility.PlaceRankTwoOne
+import Formalism.SharpRestriction.Divisibility.Bundle001
 
 @[expose] public section
 

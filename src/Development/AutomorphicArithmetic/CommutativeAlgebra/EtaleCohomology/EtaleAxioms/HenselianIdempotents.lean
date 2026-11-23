@@ -1,12 +1,11 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LIdemLiftPf
-public import Development.EtaleCohomology.EtaleSheaves.SurjectiveCharts
-import Development.AutomorphicArithmetic.CommutativeAlgebra.LiftIdempotentFactorizationHolds
+public import Development.EtaleCohomology.EtaleSheaves.Bundle057
+public import Development.EtaleCohomology.EtaleSheaves.Bundle056
+import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle030
 import Development.EtaleCohomology.EtaleSheaves.FiniteChartSurjPf
-import Development.EtaleCohomology.EtaleSheaves.LIdemPf
-public import Development.EtaleCohomology.EtaleSheaves.LJacPf
-import Development.EtaleCohomology.EtaleSheaves.LMonicPf
+import Development.EtaleCohomology.EtaleSheaves.Bundle018
+public import Development.EtaleCohomology.EtaleSheaves.Bundle015
 public import Development.EtaleCohomology.EtaleSheaves.SurjectiveCharts.EtaleSurjectiveChartOfFiniteChartSurj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.FiniteBruhat
 public import GroundTheory.AutomorphicForms.Iwasawa
 public import GroundTheory.AutomorphicForms.LocallyProfinite
 import GroundTheory.AutomorphicForms.MeasuresModulus
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.NormZpow
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

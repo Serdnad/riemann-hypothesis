@@ -1,14 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
-public import Formalism.LocalToGlobal.IndefiniteReal.ThetaFireRow
-public import Formalism.LocalToGlobal.IndefiniteReal.TensCastR
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle026
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle021
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
-public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsThetaPToLiftReal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ResInjLToLiftReal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaAdjointAtLiftEqLowestKTypeRestriction
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
+public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1267
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1374
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2532
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

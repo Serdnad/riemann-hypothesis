@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.UnitsDefs
 public import GroundTheory.GlobalFields.HerbrandQuotients.UnitsHerbrand
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 import GroundTheory.GlobalFields.HerbrandQuotients.Lattice
 public import GroundTheory.GlobalFields.HerbrandQuotients.SUnits
 import GroundTheory.GlobalFields.HerbrandQuotients.UnitsHerbrandValue

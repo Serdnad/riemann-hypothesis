@@ -3,17 +3,15 @@ module
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OmAUnipFourierInv
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle009
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTranslatesEqPrimFrameLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLatSmulBlockLat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitThetaGridIsAdmissibleFlipTensorStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle676
 public import Development.AutomorphicArithmetic.DivisorFrames.ExistsMemKOEqStdFrameMulOfIsPrimFrame
-public import Development.AutomorphicArithmetic.DivisorFrames.FourierSumBlockTransposeInvEq
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle002
 public import Development.AutomorphicArithmetic.DivisorFrames.HaarVolSelfEqOneOfOpenSubgroupLeKO
-public import Development.AutomorphicArithmetic.DivisorFrames.IntegralMemAddSubgroupOfRamifiedTwistedInvariant
-public import Development.AutomorphicArithmetic.DivisorFrames.IsIntegralUnitCharOfConductorLe
-public import Development.AutomorphicArithmetic.DivisorFrames.NuDetMulSliceBBlockAction
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -175,8 +173,10 @@ theorem invFourierSum_inv_mem {A D : Type} [Fintype A] [DecidableEq A] [Decidabl
 
 variable [MeasurableSpace k] [BorelSpace k]
 
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL
+  GlobalTheory.CompanionTheory.QL.instBorelGL GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem smallF_mem {A D : Type} [Fintype A] [DecidableEq A] {n : ℕ} [Fintype D] [DecidableEq D]
-    (μ : Measure (GL (Fin n) k)) [μ.IsHaarMeasure] {J : Subgroup (GL (Fin n) k)} (hJo : IsOpen (J : Set (GL (Fin n) k)))
+    (μ : Measure (GL (Fin n) k)) [hHaar : μ.IsHaarMeasure] {J : Subgroup (GL (Fin n) k)} (hJo : IsOpen (J : Set (GL (Fin n) k)))
     (hJK : J ≤ KO k (Fin n)) (hμ : μ (J : Set (GL (Fin n) k)) = 1)
     (σ : A ⊕ Fin n ≃ D) {ν : kˣ →* ℂˣ} {ϖ : kˣ} {e : ℕ} (hϖ : IsUnif ϖ) (hν : CondLE ϖ e ν) (hram : ¬ IsUnram ν)
     {q C a : ℕ} (hC : chiZ ν ((Fintype.card D : ℂ) / 2) ϖ⁻¹ ∈ Lo q C) (c c' : D → kˣ) (hcc : ∀ j, c j * c' j = (ϖ ^ e)⁻¹)
@@ -190,7 +190,8 @@ theorem smallF_mem {A D : Type} [Fintype A] [DecidableEq A] {n : ℕ} [Fintype D
       (g * Y0 k σ * u.val) i j * (((c' j)⁻¹ : kˣ) : k) := fun g i j => by
     rw [Units.val_mul, diagGL_val, ← Matrix.mul_assoc, ← Matrix.mul_assoc, Matrix.mul_diagonal]
   have hv0 : ∀ x : kˣ, 0 < valuation k (x : k) := fun x => zero_lt_iff.2 (by simp)
-  refine UpperTheory.integral_mem_addSubgroup_of_ramified_twisted_invariant μ J hJo hJK hμ ϖ ν e hϖ hram hν _
+  refine @UpperTheory.integral_mem_addSubgroup_of_ramified_twisted_invariant k _ _ _ _ _ _ n μ hHaar
+    J hJo hJK hμ ϖ ν e hϖ hram hν _
     (fun g => Ψ (g * (Y0 k σ * (u * diagGL fun j => (c' j)⁻¹).val))) e ?_ ?_ ?_ _ ?_
   · intro g hg
     have h1 : g * (Y0 k σ * (u * diagGL fun j => (c' j)⁻¹).val) ∈ matLat (Fin n) (diagLat c) := by
@@ -230,6 +231,8 @@ theorem smallF_mem {A D : Type} [Fintype A] [DecidableEq A] {n : ℕ} [Fintype D
       simpa using this
     simpa using Lo_mul (Lo_mul (chiZ_KO hϖ hν q _ hx) h1) (chiZ_KO hϖ hν q _ hy)
 
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL
+  GlobalTheory.CompanionTheory.QL.instBorelGL GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem phiA_mem {A D : Type} [Fintype A] [DecidableEq A] {n : ℕ} [Fintype D] [DecidableEq D]
     (μ : Measure (GL (Fin n) k)) [μ.IsHaarMeasure] {J : Subgroup (GL (Fin n) k)} (hJo : IsOpen (J : Set (GL (Fin n) k)))
     (hJK : J ≤ KO k (Fin n)) (hμ : μ (J : Set (GL (Fin n) k)) = 1)
@@ -288,6 +291,8 @@ theorem chiZ_unif {ν : kˣ →* ℂˣ} {ϖ : kˣ} (hϖ : IsUnif ϖ) (hq : resCa
       mul_inv_cancel₀ ((Complex.cpow_ne_zero_iff).2 (Or.inl hq')), mul_one]
     exact h3
 
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL
+  GlobalTheory.CompanionTheory.QL.instBorelGL GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem flip_mem {G : Grid k} {ψ : AddChar k Circle} {ϖ : kˣ} {e : ℕ} (hϖ : IsUnif ϖ) (hψc : HasConductor ψ 1)
     (hq : resCard k ≠ 0) (hψ : ∀ x : k, valuation k (((ϖ ^ e : kˣ) : k) * x) ≤ 1 → IsIntegral ℤ (ψ x : ℂ)) {i j B N a : ℕ}
     (hν : CondLE ϖ e (G.nu i j)) (hram : ¬ IsUnram (G.nu i j)) (h1 : (G.nu i j ϖ : ℂ) ∈ Lo (resCard k) B)

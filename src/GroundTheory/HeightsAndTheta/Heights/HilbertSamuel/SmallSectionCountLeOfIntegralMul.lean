@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsUnitApprox
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNonvanishingDense
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwistMetric
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle011
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
 import Mathlib.Algebra.MvPolynomial.Nilpotent
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

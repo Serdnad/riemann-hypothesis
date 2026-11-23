@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.LocalFields.LocalArtinFunctoriality
+public import GroundTheory.LocalFields.Bundle014
 public import GroundTheory.LocalFields.LocalArtinTransport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

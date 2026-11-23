@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrPt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramAtPosDef
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OmAtSmulRight
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FockVacuumAnnihilationEquationRealCoordinatesStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1116
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1651
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle076
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealSymplecticFormAlternatingInvariantDefinite
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Mathlib.Algebra.Order.Floor.Extended

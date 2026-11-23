@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsIntegralWeightProjections
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle015
 public import Mathlib.LinearAlgebra.Trace
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ExistsHighestCoordinateFunctional
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IntegralEnvelopingPreservesSubmodule
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle012
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle006
 public import Mathlib.Algebra.Lie.OfAssociative
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.ImmersedBy
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasTraitsP
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NormVal
+public import Development.AbelianVarietyTheory.Statements.SemistableTorsion.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3029
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle067
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

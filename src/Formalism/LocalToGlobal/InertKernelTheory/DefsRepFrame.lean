@@ -40,9 +40,9 @@ import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.InertKernelTheory.FirstKernelGeneratorOfOrthogonal
 import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Formalism.LocalToGlobal.TorsionIntegrality.CMGoodModels.Statement
-import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.TrDual
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle001
 import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.IsHypPair
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.IsLawOfLog
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle002
 
 @[expose] public section
 

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalCompactificationData
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MSmoothOfWeightIffIsCInf
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle040
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle007
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.HodgeGramEqRiemann
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CabsDiagEqOne
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

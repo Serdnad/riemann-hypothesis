@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.Divisibility.LiftLat
-public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
+public import Formalism.LocalRingCardinality.Bundle003
 public import Formalism.LocalRingCardinality.DataIdx
 public import Formalism.LocalToGlobal.Divisibility.DefGroup
 import Mathlib.Algebra.Order.Floor.Extended

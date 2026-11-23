@@ -1,10 +1,10 @@
 module
 
-public import Formalism.PeriodIntegrals.MinorSpanCompl
+public import Formalism.PeriodIntegrals.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinorSpanComplement.ShapeColumnDegreeColumnSizes
 public import Formalism.GradedWeylDivisibility.FinalC
 public import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.BideterminantMem
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle009
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinorSpanComplement.ExistsCoeffNeZeroOfMemSpan
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

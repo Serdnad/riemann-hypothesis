@@ -1,13 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AmpleHeightBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LineHeightBoundedUnitStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalNormOutsideFiniteSet
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.OrthogonalFlagDegreeComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WeightedFlagDegreeLowerBoundStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle165
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle069
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FieldChange
-import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.FiniteSupportHeight
+import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

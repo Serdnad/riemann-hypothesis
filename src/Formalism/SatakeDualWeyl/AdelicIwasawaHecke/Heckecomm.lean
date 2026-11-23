@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementE
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.HeckeConvolutionMemHolds
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

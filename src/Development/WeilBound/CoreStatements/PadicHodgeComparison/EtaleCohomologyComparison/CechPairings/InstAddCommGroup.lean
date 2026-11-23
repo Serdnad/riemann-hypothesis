@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OfNatTrans
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle001
 public import Mathlib.Algebra.Category.CommAlgCat.Basic
 public import Mathlib.Tactic.Continuity
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FaceFaceApply
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

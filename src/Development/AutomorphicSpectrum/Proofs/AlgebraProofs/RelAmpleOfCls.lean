@@ -1,26 +1,20 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.IsPolarisationOfRelAmple
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsPullbackSectionNonzeroLocus
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.CubeTheorem
-import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ForallGeometricallyIntegralOfSmoothOfGeometrical
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSymTranslate
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NearIsIsoOfIsProperOfFinitePresentation
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AdjointEndomorphismsCubeLBOfDenseFibres
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.GeneratorExtendsFromGenericFibreValuationRing
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsAbelianSchemeOfIsGrpPullback
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RelAmpleOfFibres
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelExtensionOverDvr
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle044
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle010
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1957
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2257
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle157
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle032
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle155
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle119
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.RigidifiedSymDescendToSubring
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GenericPointOpenImmersionStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HenselianAlgClosedResidueStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PicardGenericFibreInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PicardGenericTrivialNearSpecialStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PicardMayerVietorisExtendStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RelAmpleOfSamePolarizationStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SectionThroughClosedPointStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ValuationIntegersRankOneStatement
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle081
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -117,8 +111,10 @@ theorem transl_id {S S' : Scheme.{0}} (A : Over S) [GrpObj A] (s : S' ⟶ S) (hS
     ∃ τ : ((Over.pullback s).obj A).left ⟶ ((Over.pullback s).obj A).left,
       τ ≫ jj A s = jj A s ≫ (GlobalTheory.PolTranslate.transl d).left ∧
       l = pull τ l - pull (jj A s) (pull (lift (𝟙 A) (toUnit A ≫ d)).left c) := by
+  letI : (Over.pullback s).Monoidal := (Over.instBraidedPullback (f := s)).toMonoidal
   have hg := isGrpPullback_pullback A s
   let B := (Over.pullback s).obj A
+  letI : GrpObj B := Functor.grpObjObj (F := Over.pullback s) (G := A)
   let j : B.left ⟶ A.left := pullback.fst A.hom s
   have sq : (s ≫ d.left) ≫ A.hom = 𝟙 S' ≫ s := by
     have := Over.w d

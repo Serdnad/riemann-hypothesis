@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FormalGroupCopies
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PartialDerivativeExponent
 
 @[expose] public section

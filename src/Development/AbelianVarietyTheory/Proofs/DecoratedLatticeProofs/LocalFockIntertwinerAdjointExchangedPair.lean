@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ChosenSeries
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FockSignTransposeExchangesLocalGlActionsStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SmoothVectorsOfLieClosedFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteSeriesModelUnitaryIrreducibleOrthonormal
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle178
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle257
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1223
 public import Formalism.LocalToGlobal.IndefiniteReal.GvPairOfOrbitDerivCont
 import Formalism.LocalToGlobal.IndefiniteReal.SchurOrthogonality
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsVacFOfIsVacVec
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CartFrSgn
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle385
 
 @[expose] public section
 

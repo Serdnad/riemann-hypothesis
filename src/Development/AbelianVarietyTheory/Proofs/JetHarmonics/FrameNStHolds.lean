@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsBoxPullGen
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFramesEL
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrA
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrD
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle019
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

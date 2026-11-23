@@ -1,0 +1,330 @@
+module
+
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle006
+public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.InvariantSubspaceMobiusInverseRecEqOfFinrankLt
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle023
+public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.AbByPOfComm
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle026
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle029
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Presheaf
+import Std.Tactic.BVDecide.Normalize.Prop
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Polynomial GlobalTheory.CuspGL
+
+noncomputable section
+
+namespace GlobalTheory.CuspGL.PsiPrimitive
+
+open scoped Classical
+
+open Classical in
+theorem finsum_sub {α : Type} [Fintype α] (p : α → Prop) (f : {a // p a} → ℂ) :
+    ∑ᶠ x, f x = ∑ a, if h : p a then f ⟨a, h⟩ else 0 := by
+  rw [finsum_eq_sum_of_fintype, ← Fintype.sum_subtype_add_sum_subtype p]
+  have h1 : ∀ i : {a // p a}, (if h : p i.1 then f ⟨i.1, h⟩ else 0) = f i := fun i => by
+    rw [dite_eq_left i.2]
+  have h2 : ∀ i : {a // ¬ p a}, (if h : p i.1 then f ⟨i.1, h⟩ else 0) = 0 := fun i => by
+    rw [dite_eq_right i.2]
+  simp only [h1, h2, Finset.sum_const_zero, add_zero]
+
+
+open Classical in
+def res {F : Type} [Field F] (s : F[X] → ℂ) {V : Type} [AddCommGroup V] [Module F V]
+    [FiniteDimensional F V] (W : Submodule F V) (k : Module.End F V) : ℂ :=
+  if hk : ∀ x ∈ W, k x ∈ W then psi s W (k.restrict hk) else 0
+
+theorem psi_trivial {F : Type} [Field F] (s : F[X] → ℂ) (hs : IsAdditive s) (V : Type)
+    [AddCommGroup V] [Module F V] [FiniteDimensional F V] [Subsingleton V] (g : Module.End F V) :
+    psi s V g = 0 := by
+  apply GlobalTheory.CuspGL.PrimOrth.psi_bot <;> assumption
+
+theorem res_top {F : Type} [Field F] (s : F[X] → ℂ) {V : Type} [AddCommGroup V] [Module F V]
+    [FiniteDimensional F V] (k : Module.End F V) : res s ⊤ k = psi s V k := by
+  have htop : ∀ x ∈ (⊤ : Submodule F V), k x ∈ (⊤ : Submodule F V) := fun _ _ => Submodule.mem_top
+  unfold res
+  rw [dite_eq_left htop]
+  have hconj := GlobalTheory.T.invariantSubspaceMobiusInverseCharpoly_linearEquiv_conj F s (⊤ : Submodule F V) V Submodule.topEquiv (k.restrict htop)
+  rw [← hconj]
+  congr 1
+
+theorem step {F : Type} [Field F] [Finite F] (s : F[X] → ℂ) (hs : IsAdditive s) (V : Type)
+    [AddCommGroup V] [Module F V] [FiniteDimensional F V]
+    (ih : ∀ W : Submodule F V, W ≠ ⊤ → IsPrimitive (psi s W)) : IsPrimitive (psi s V) := by
+  classical
+  have : Finite V := Module.finite_of_finite F
+  have : Finite (Module.End F V) :=
+    Finite.of_injective (fun f : Module.End F V => (f : V → V)) fun a b h => LinearMap.ext (congrFun h)
+  have : Finite (Submodule F V) :=
+    Finite.of_injective (fun W : Submodule F V => (W : Set V)) SetLike.coe_injective
+  let _ : Fintype (Module.End F V) := Fintype.ofFinite _
+  let _ : Fintype (Submodule F V) := Fintype.ofFinite _
+  intro A hA0 hAT g hg
+  set H : Finset (Module.End F V) := Finset.univ.filter fun h => h ∈ nilRad A with hH
+  have memH : ∀ h, h ∈ H ↔ h ∈ nilRad A := fun h => by simp [hH]
+  have sum_H : ∀ f : Module.End F V → ℂ,
+      ∑ h ∈ H, f h = ∑ h, if h ∈ nilRad A then f h else 0 := fun f => by
+    rw [hH, Finset.sum_filter]
+  have card_H : ((Nat.card (nilRad A) : ℕ) : ℂ) = (H.card : ℂ) := by
+    rw [Nat.card_eq_fintype_card, Fintype.card_subtype]
+  have res_bot : ∀ k : Module.End F V, res s (⊥ : Submodule F V) k = 0 := by
+    intro k
+    unfold res
+    split_ifs
+    · exact psi_trivial s hs _ _
+    · rfl
+  have s_cp : ∀ k : Module.End F V, s (LinearMap.charpoly k) = ∑ W : Submodule F V, res s W k := by
+    intro k
+    exact (GlobalTheory.T.apply_charpoly_eq_finsum_psi_invariant_submodules F V s k).trans
+      (finsum_sub (fun W : Submodule F V => ∀ x ∈ W, k x ∈ W) fun W => psi s W.1 (k.restrict W.2))
+  have res_le : ∀ h ∈ nilRad A, ∀ W : Submodule F V, W ≤ A → res s W (g + h) = res s W g := by
+    intro h hh W hWA
+    have hh' : (∀ x, h x ∈ A) ∧ ∀ x ∈ A, h x = 0 := hh
+    have h0 : ∀ x ∈ W, h x = 0 := fun x hx => hh'.2 x (hWA hx)
+    unfold res
+    by_cases hk : ∀ x ∈ W, g x ∈ W
+    · have hk' : ∀ x ∈ W, (g + h) x ∈ W := fun x hx => by
+        simpa [h0 x hx] using hk x hx
+      rw [dite_eq_left hk', dite_eq_left hk]
+      congr 1
+      ext x
+      simp [h0 x.1 x.2]
+    · have hk' : ¬ ∀ x ∈ W, (g + h) x ∈ W := fun hk' => hk fun x hx => by
+        simpa [h0 x hx] using hk' x hx
+      rw [dite_eq_right hk', dite_eq_right hk]
+  have res_mixed : ∀ W : Submodule F V, W ≠ ⊤ → W ⊓ A ≠ ⊥ → ¬ W ≤ A →
+      ∑ h ∈ H, res s W (g + h) = 0 := by
+    intro W hWT hWA hWle
+    have key := (finsum_sub (fun h : Module.End F V => h ∈ nilRad A ∧ ∀ x ∈ W, (g + h) x ∈ W)
+      fun h => psi s W ((g + h.1).restrict h.2.2)).symm.trans
+        (GlobalTheory.T.sum_primitiveEndClassFunction_restrict_mixed_subspace F V A W g hg hWA hWle (psi s W) (ih W hWT))
+    rw [← key, sum_H]
+    refine Finset.sum_congr rfl fun h _ => ?_
+    by_cases hh : h ∈ nilRad A <;> simp [hh, res]
+  have sum_le : ∑ W : Submodule F V, (if W ≤ A then res s W g else 0) =
+      s (LinearMap.charpoly (g.restrict hg)) := by
+    have key := (finsum_sub (fun W : Submodule F V => W ≤ A ∧ ∀ x ∈ W, g x ∈ W)
+      fun W => psi s W.1 (g.restrict W.2.2)).symm.trans (GlobalTheory.T.finsum_mobiusInverseCharpoly_invariant_le F V s A g hg)
+    rw [← key]
+    refine Finset.sum_congr rfl fun W _ => ?_
+    by_cases hW : W ≤ A <;> by_cases hk : ∀ x ∈ W, g x ∈ W <;> simp [hW, hk, res]
+  have sum_disj : ∑ W : Submodule F V,
+      (if W ⊓ A = ⊥ then ∑ h ∈ H, res s W (g + h) else 0) =
+      (H.card : ℂ) * s (LinearMap.charpoly (A.mapQ A g (fun x hx => hg x hx))) := by
+    have key := (finsum_sub
+      (fun x : Module.End F V × Submodule F V =>
+        x.1 ∈ nilRad A ∧ x.2 ⊓ A = ⊥ ∧ ∀ v ∈ x.2, (g + x.1) v ∈ x.2)
+      fun x => psi s x.1.2 ((g + x.1.1).restrict x.2.2.2)).symm.trans (GlobalTheory.T.finsum_mobiusInverseCharpoly_transversal_subspaces F V s A g hg)
+    rw [← card_H, ← key, Fintype.sum_prod_type, Finset.sum_comm]
+    refine Finset.sum_congr rfl fun W _ => ?_
+    by_cases hW : W ⊓ A = ⊥
+    · rw [if_pos hW, sum_H]
+      refine Finset.sum_congr rfl fun h _ => ?_
+      by_cases hh : h ∈ nilRad A <;> simp [hh, hW, res]
+    · rw [if_neg hW]
+      symm
+      refine Finset.sum_eq_zero fun h _ => ?_
+      simp [hW]
+  have split : ∀ W : Submodule F V, W ≠ ⊤ →
+      ∑ h ∈ H, res s W (g + h) =
+        (if W ⊓ A = ⊥ then ∑ h ∈ H, res s W (g + h) else 0) +
+          (if W ≤ A then (H.card : ℂ) * res s W g else 0) := by
+    intro W hWT
+    by_cases hb : W = ⊥
+    · subst hb
+      simp [res_bot]
+    by_cases hle : W ≤ A
+    · have hmeet : W ⊓ A ≠ ⊥ := by rw [inf_eq_left.2 hle]; exact hb
+      rw [if_neg hmeet, if_pos hle, zero_add,
+        Finset.sum_congr rfl fun h hh => res_le h ((memH h).1 hh) W hle, Finset.sum_const, nsmul_eq_mul]
+    by_cases hd : W ⊓ A = ⊥
+    · rw [if_pos hd, if_neg hle, add_zero]
+    · rw [if_neg hd, if_neg hle, add_zero]
+      exact res_mixed W hWT hd hle
+  have s_split : s (LinearMap.charpoly g) = s (LinearMap.charpoly (g.restrict hg)) +
+      s (LinearMap.charpoly (A.mapQ A g (fun x hx => hg x hx))) := by
+    rw [(GlobalTheory.T.charpoly_block_and_invariant_under_stabilizerNilradical F V A g hg).1]
+    exact hs _ _ (LinearMap.charpoly_monic _) (LinearMap.charpoly_monic _)
+  have s_const : ∑ h ∈ H, s (LinearMap.charpoly (g + h)) = (H.card : ℂ) * s (LinearMap.charpoly g) := by
+    rw [Finset.sum_congr rfl fun h hh => by rw [(GlobalTheory.T.charpoly_block_and_invariant_under_stabilizerNilradical F V A g hg).2 h ((memH h).1 hh)],
+      Finset.sum_const, nsmul_eq_mul]
+  have psi_expand : ∀ k : Module.End F V, psi s V k =
+      s (LinearMap.charpoly k) - ∑ W ∈ Finset.univ.erase ⊤, res s W k := by
+    intro k
+    rw [s_cp, ← Finset.add_sum_erase _ _ (Finset.mem_univ ⊤), res_top]
+    ring
+  have proper : ∑ W ∈ Finset.univ.erase ⊤, ∑ h ∈ H, res s W (g + h) =
+      (H.card : ℂ) * s (LinearMap.charpoly (A.mapQ A g (fun x hx => hg x hx))) +
+        (H.card : ℂ) * s (LinearMap.charpoly (g.restrict hg)) := by
+    rw [Finset.sum_congr rfl fun W hW => split W (Finset.ne_of_mem_erase hW), Finset.sum_add_distrib]
+    have htop1 : ¬ (⊤ : Submodule F V) ⊓ A = ⊥ := by rw [top_inf_eq]; exact hA0
+    have htop2 : ¬ (⊤ : Submodule F V) ≤ A := fun h => hAT (top_le_iff.1 h)
+    rw [Finset.sum_erase _ (by rw [if_neg htop1]), Finset.sum_erase _ (by rw [if_neg htop2]),
+      sum_disj, ← sum_le, Finset.mul_sum]
+    congr 1
+    refine Finset.sum_congr rfl fun W _ => ?_
+    split_ifs <;> simp
+  rw [finsum_mem_def, finsum_eq_sum_of_fintype]
+  simp only [Set.indicator_apply]
+  rw [← sum_H, Finset.sum_congr rfl fun h _ => psi_expand (g + h), Finset.sum_sub_distrib,
+    Finset.sum_comm, proper, s_const, s_split]
+  ring
+
+end GlobalTheory.CuspGL.PsiPrimitive
+
+namespace GlobalTheory.CuspGL
+
+theorem isPrimitive_psi : ∀ (F : Type) [Field F] [Finite F] (V : Type) [AddCommGroup V] [Module F V]
+    [FiniteDimensional F V] (s : F[X] → ℂ), IsAdditive s → IsPrimitive (psi s V) := by
+  intro F _ _ V _ _ _ s hs
+  suffices key : ∀ n : ℕ, ∀ (V : Type) [AddCommGroup V] [Module F V] [FiniteDimensional F V],
+      Module.finrank F V < n → IsPrimitive (psi s V) from key _ V (Nat.lt_succ_self _)
+  intro n
+  induction n with
+  | zero => intro V _ _ _ h; exact absurd h (Nat.not_lt_zero _)
+  | succ n ih =>
+    intro V _ _ _ h
+    exact PsiPrimitive.step s hs V fun W hW =>
+      ih W (lt_of_lt_of_le (Submodule.finrank_lt hW) (Nat.lt_succ_iff.1 h))
+
+end GlobalTheory.CuspGL
+end
+end
+
+section
+
+open GlobalTheory.BI
+namespace GlobalTheory.BI
+
+theorem _root_.GlobalTheory.BI.isChar_induction :
+    ∀ (K L : Type) [Field K] [Field L] [Algebra K L] [CharZero K] [CharZero L] (G : Type) [Group G]
+      [Finite G] (Q : (G → L) → Prop), Q 0 →
+      (∀ φ c : G → L, _root_.GlobalTheory.BI.IsIrrChar K L φ → _root_.GlobalTheory.BI.IsChar K L c →
+        Q c → Q (φ + c)) → ∀ a : G → L, _root_.GlobalTheory.BI.IsChar K L a → Q a := by
+  intro K L _ _ _ _ _ G _ _ Q h0 hstep
+  have hchar : ∀ a : G → L, _root_.GlobalTheory.BI.IsChar K L a → ∃ n : ℕ, a 1 = n := by
+    intro a ha
+    unfold _root_.GlobalTheory.BI.IsChar at ha
+    obtain ⟨n, ρ, hρ⟩ := ha
+    exact ⟨n, by rw [hρ 1, Representation.char_one, Module.finrank_fin_fun, map_natCast]⟩
+  have hirr : ∀ φ : G → L, _root_.GlobalTheory.BI.IsIrrChar K L φ →
+      ∃ m : ℕ, 0 < m ∧ φ 1 = m := by
+    intro φ hφ
+    unfold _root_.GlobalTheory.BI.IsIrrChar at hφ
+    obtain ⟨m, ρ, hρirr, hρ⟩ := hφ
+    refine ⟨m, Nat.pos_of_ne_zero fun hm => ?_, by
+      rw [hρ 1, Representation.char_one, Module.finrank_fin_fun, map_natCast]⟩
+    subst hm
+    have hs : IsSimpleOrder (Subrepresentation ρ) := hρirr
+    obtain ⟨x, y, hxy⟩ := hs.toNontrivial.exists_pair_ne
+    apply hxy
+    ext v
+    rw [Subsingleton.elim v 0]
+    exact ⟨fun _ => y.toSubmodule.zero_mem, fun _ => x.toSubmodule.zero_mem⟩
+  have key : ∀ n : ℕ, ∀ a : G → L, _root_.GlobalTheory.BI.IsChar K L a → a 1 = n → Q a := by
+    intro n
+    induction n using Nat.strong_induction_on with
+    | _ n ih =>
+      intro a ha ha1
+      by_cases hz : a = 0
+      · rw [hz]; exact h0
+      obtain ⟨φ, c, hφ, hc, rfl⟩ := _root_.GlobalTheory.BI.exists_irrChar_add K L G a ha hz
+      obtain ⟨m, hm, hφ1⟩ := hirr φ hφ
+      obtain ⟨k, hk1⟩ := hchar c hc
+      have hn : n = m + k := by
+        have hsum : ((m + k : ℕ) : L) = n := by
+          rw [Nat.cast_add, ← hφ1, ← hk1]
+          exact ha1
+        exact_mod_cast hsum.symm
+      exact hstep φ c hφ hc (ih k (by omega) c hc hk1)
+  intro a ha
+  obtain ⟨n, hn⟩ := hchar a ha
+  exact key n a ha hn
+
+end GlobalTheory.BI
+end
+
+section
+
+open GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.exists_isIrrChar_add_isChar_of_ne_zero : ∀ (K L : Type) [Field K] [Field L] [Algebra K L] (G : Type) [Group G] (a : G → L), IsChar K L a → a ≠ 0 → ∃ φ c : G → L, IsIrrChar K L φ ∧ IsChar K L c ∧ a = φ + c := by
+  first | exact @GlobalTheory.BI.exists_irrChar_add | exact GlobalTheory.BI.exists_irrChar_add | (intros; apply GlobalTheory.BI.exists_irrChar_add <;> assumption)
+end
+
+section
+
+open GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.exists_isChar_eq_add_of_pair_ne_zero' : ∀ (K L : Type) [Field K] [Field L] [Algebra K L] [CharZero K] [CharZero L] (G : Type) [Group G] [Finite G] (φ a : G → L), IsIrrChar K L φ → IsChar K L a → pair a φ ≠ 0 → ∃ c : G → L, IsChar K L c ∧ a = φ + c := by
+  first | exact @GlobalTheory.BI.exists_isChar_eq_add_of_pair_ne_zero | exact GlobalTheory.BI.exists_isChar_eq_add_of_pair_ne_zero | (intros; apply GlobalTheory.BI.exists_isChar_eq_add_of_pair_ne_zero <;> assumption)
+end
+
+section
+
+open GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.irreducibleCharacter_linear_or_induced_abelianByPrimePower : ∀ (L : Type) [Field L] [CharZero L] [IsAlgClosed L] (G : Type) [Group G] [Finite G] (χ : G → L), AbByP G → IsIrrChar L L χ → (∃ lam : G →* Lˣ, ∀ g, χ g = (lam g : L)) ∨ ∃ T : Subgroup G, T ≠ ⊤ ∧ ∃ ψ : T → L, IsChar L L ψ ∧ χ = ind T ψ := by
+  first | exact @GlobalTheory.BI.irrChar_linear_or_induced | exact GlobalTheory.BI.irrChar_linear_or_induced | (intros; apply GlobalTheory.BI.irrChar_linear_or_induced <;> assumption)
+end
+
+section
+
+open Polynomial GlobalTheory.CuspGL
+
+theorem _root_.GlobalTheory.T.primitiveEndClassFunction_eq_zero_of_primary : ∀ (F : Type) [Field F] [Finite F] (V : Type) [AddCommGroup V] [Module F V] [FiniteDimensional F V] (φ : Module.End F V → ℂ), IsClassFn φ → IsPrimitive φ → ∀ (f : F[X]) (m : ℕ), Irreducible f → (∀ g : Module.End F V, LinearMap.charpoly g = f ^ m → aeval g f = 0 → φ g = 0) → ∀ g : Module.End F V, LinearMap.charpoly g = f ^ m → φ g = 0 := by
+  first | exact @GlobalTheory.CuspGL.primitive_eq_zero_of_primary | exact GlobalTheory.CuspGL.primitive_eq_zero_of_primary | (intros; apply GlobalTheory.CuspGL.primitive_eq_zero_of_primary <;> assumption)
+end

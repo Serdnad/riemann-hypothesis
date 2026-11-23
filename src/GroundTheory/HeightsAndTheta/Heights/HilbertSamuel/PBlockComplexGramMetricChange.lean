@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockComplexGramMetricChange
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionMetricPair
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionFormsIndependent
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockResolutionDegree
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBergman
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle061
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle053
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle059
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -88,18 +87,18 @@ theorem isMultiHomog_mapQ {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a)
 theorem isMultiHomog_mapC {b : MvPolynomial (Σ k, ι k) ℚ} {a : K → ℕ} (hb : IsMultiHomog b a) :
     IsMultiHomog (map (algebraMap ℚ ℂ) b) a := fun m hm => hb m (support_map_subset _ _ hm)
 
-theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
-  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]
-  simp [unitDeg]
+theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀ k = ‖c k₀‖ := by
+  rw [Fintype.prod_eq_single k₀ fun k hk => by simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg, hk]]
+  simp [ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg]
 
-theorem h_torus (B : HermLine ι) {k₀ : K} (hB : B.a = unitDeg k₀) (c : K → ℂ) (hc : ∀ k, c k ≠ 0)
+theorem h_torus (B : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) {k₀ : K} (hB : B.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀) (c : K → ℂ) (hc : ∀ k, c k ≠ 0)
     (z : (Σ k, ι k) → ℂ) : B.h (fun p => c p.1 * z p) = ‖c k₀‖ * B.h z := by
   rw [B.smul c z hc, hB, prod_norm_unitDeg]
 
 theorem blockPt_mem (d : HSMBlockDatum D K ι Ω) (y : d.R.X) : ∀ k, ∃ i, blockPt d y ⟨k, i⟩ ≠ 0 :=
   (d.R.mem y y (d.R.mem_U y)).1
 
-theorem pair_torus (B : HermLine ι) {k₀ : K} (hB : B.a = unitDeg k₀) {z : (Σ k, ι k) → ℂ}
+theorem pair_torus (B : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) {k₀ : K} (hB : B.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg k₀) {z : (Σ k, ι k) → ℂ}
     (hz : ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0) {c : K → ℂ} (hc : ∀ k, c k ≠ 0) {n : ℕ}
     {b b' : MvPolynomial (Σ k, ι k) ℚ} (hb : IsMultiHomog b (blockDeg k₀ n))
     (hb' : IsMultiHomog b' (blockDeg k₀ n)) :
@@ -208,7 +207,7 @@ theorem BlockComplexGramMetricChange.proof (hMC : MetricChange.Statement)
   let eB : ∀ n, Module.Basis (Fin (Module.finrank ℂ (V n))) ℂ (V n) := fun n =>
     (Module.Basis.span (hli n)).reindex (finCongr (hrank n).symm)
 
-  have hgram : ∀ (W : Weight L) (B : HermLine ι), B.a = unitDeg d.k₀ →
+  have hgram : ∀ (W : Weight L) (B : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι), B.a = ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.unitDeg d.k₀ →
       (∀ y, W.φ (chartIdx A y) y = 2 * Real.log (B.h (fun q => c y q.1 * blockPt d y q))) → ∀ n,
       chiGram W dV n (fun a => ((eB n a : V n) : Fin A.n → d.R.X → ℂ)) =
         -(1 / 2) * Real.log (Matrix.det (fun k l => ∫ y, pairValH B n ((p n).2 k) ((p n).2 l) (blockPt d y) ∂d.dV :

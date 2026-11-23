@@ -1,0 +1,353 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle005
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle003
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.Bundle003
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Algebra.Ring.IsFormallyReal
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.RealTrOfAll
+public import Mathlib.Algebra.Order.Rearrangement
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Matrix Finset
+open scoped InnerProductSpace ComplexConjugate
+open PositivityTheory.RgTw (Mat)
+open PositivityTheory.RgBcC PositivityTheory.RgBcC.Real PositivityTheory.RgBcC.RealD UpperTheory.RealTr
+open Formalism.REAL (GlRel IsWeight KHighest Cas)
+
+private theorem F_wsp {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
+    {F : Fin n → Fin n → Module.End ℂ V} (hg : GlRel F) (a b : Fin n) {μ : Wt n} {x : V}
+    (hx : x ∈ wsp F μ) : F a b x ∈ wsp F (μ + rt a b) := by
+  have hx' : IsWeight F μ x := hx
+  show IsWeight F (μ + rt a b) (F a b x)
+  intro c
+  have h := LinearMap.congr_fun (hg c c a b) x
+  simp only [LinearMap.sub_apply, Module.End.mul_apply, hx' c, map_smul] at h
+  have e : F c c (F a b x) = ((μ c : ℝ) : ℂ) • F a b x +
+      ((if c = a then F c b else 0) x - (if b = c then F a c else 0) x) := by
+    rw [← h]; abel
+  rw [e]
+  by_cases h1 : c = a <;> by_cases h2 : b = c
+  · subst h1; subst h2; simp [rt]
+  · subst h1
+    have h3 : c ≠ b := fun h => h2 h.symm
+    simp [rt, h2, h3, add_smul]
+  · subst h2
+    simp [rt, h1, sub_eq_add_neg, add_smul]
+  · have h3 : c ≠ b := fun h => h2 h.symm
+    simp [rt, h1, h2, h3]
+
+private theorem trOn_zero' {V : Type} [AddCommGroup V] [Module ℂ V] (W : Submodule ℂ V) :
+    trOn W (0 : Module.End ℂ V) = 0 := by
+  simpa using ((UpperTheory.RealTr.trAdd V 0).2.1 W 0 0 (by simp) (by simp)).2.1
+
+private theorem trOn_sum' {V : Type} [AddCommGroup V] [Module ℂ V] (W : Submodule ℂ V) {ι : Type}
+    (I : Finset ι) (f : ι → Module.End ℂ V) (hf : ∀ i ∈ I, ∀ x ∈ W, f i x ∈ W) :
+    trOn W (∑ i ∈ I, f i) = ∑ i ∈ I, trOn W (f i) := by
+  classical
+  induction I using Finset.induction_on with
+  | empty => simpa using trOn_zero' W
+  | insert i I hi ih =>
+    have hI : ∀ j ∈ I, ∀ x ∈ W, f j x ∈ W := fun j hj => hf j (mem_insert_of_mem hj)
+    have hs : ∀ x ∈ W, (∑ j ∈ I, f j) x ∈ W := fun x hx => by
+      rw [LinearMap.sum_apply]
+      exact W.sum_mem fun j hj => hI j hj x hx
+    rw [sum_insert hi, sum_insert hi, ← ih hI]
+    exact ((UpperTheory.RealTr.trAdd V (f i)).2.1 W (∑ j ∈ I, f j) 0 (hf i (mem_insert_self i I)) hs).1
+
+private theorem trOn_smul' {V : Type} [AddCommGroup V] [Module ℂ V] (W : Submodule ℂ V)
+    (Q B : Module.End ℂ V) (k : ℂ) (hQ : ∀ x ∈ W, Q x ∈ W) (hB : ∀ x ∈ W, B x ∈ W)
+    (h : ∀ x ∈ W, Q x = k • B x) : trOn W Q = k * trOn W B := by
+  have hk : ∀ x ∈ W, (k • B) x ∈ W := fun x hx => W.smul_mem k (hB x hx)
+  rw [((UpperTheory.RealTr.trAdd V Q).2.1 W (k • B) 1 hQ hk).2.2 h]
+  exact ((UpperTheory.RealTr.trAdd V B).2.1 W B k hB hB).2.1
+
+private theorem trOn_comb {V : Type} [AddCommGroup V] [Module ℂ V] (W : Submodule ℂ V)
+    (P Q B : Module.End ℂ V) (k : ℂ) (hP : ∀ x ∈ W, P x ∈ W) (hQ : ∀ x ∈ W, Q x ∈ W)
+    (hB : ∀ x ∈ W, B x ∈ W) (h : ∀ x ∈ W, Q x = P x + k • B x) :
+    trOn W Q = trOn W P + k * trOn W B := by
+  have hk : ∀ x ∈ W, (k • B) x ∈ W := fun x hx => W.smul_mem k (hB x hx)
+  have hPk : ∀ x ∈ W, (P + k • B) x ∈ W := fun x hx => W.add_mem (hP x hx) (hk x hx)
+  rw [((UpperTheory.RealTr.trAdd V Q).2.1 W (P + k • B) 1 hQ hPk).2.2 h,
+    ((UpperTheory.RealTr.trAdd V P).2.1 W (k • B) 1 hP hk).1,
+    ((UpperTheory.RealTr.trAdd V B).2.1 W B k hB hB).2.1]
+
+private theorem sum_split {n : ℕ} (g : Fin n × Fin n → ℂ) :
+    ∑ q, g q = ∑ a, g (a, a) + ∑ p ∈ posP n, (g p + g p.swap) := by
+  have h : ∀ q : Fin n × Fin n, g q = (if q.1 = q.2 then g q else 0) +
+      ((if q.1 < q.2 then g q else 0) + (if q.2 < q.1 then g q else 0)) := by
+    intro q
+    rcases lt_trichotomy q.1 q.2 with h | h | h
+    · simp [h, h.ne, h.not_gt]
+    · simp [h]
+    · simp [h, h.ne', h.not_gt]
+  have h1 : ∑ q : Fin n × Fin n, (if q.1 = q.2 then g q else 0) = ∑ a, g (a, a) := by
+    rw [Fintype.sum_prod_type]; simp
+  have h2 : ∑ q : Fin n × Fin n, (if q.1 < q.2 then g q else 0) = ∑ p ∈ posP n, g p := by
+    rw [posP, sum_filter]
+  have h3 : ∑ q : Fin n × Fin n, (if q.2 < q.1 then g q else 0) = ∑ p ∈ posP n, g p.swap := by
+    rw [posP, sum_filter]
+    exact (Equiv.sum_comp (Equiv.prodComm (Fin n) (Fin n))
+      (fun q => if q.2 < q.1 then g q else 0)).symm
+  rw [sum_congr rfl fun q _ => h q, sum_add_distrib, sum_add_distrib, h1, h2, h3, sum_add_distrib]
+
+theorem UpperTheory.RealTr.chLap :
+    ∀ (n : ℕ) (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (F : Fin n → Fin n → Module.End ℂ V), UF F → ∀ S : Submodule ℂ V, FiniteDimensional ℂ S → Stb F S → ∀ B c (s : ℂ), Cm F S B → IsCh F S B c → (∀ x ∈ S, Cas F x = s • x) → ∃ t : Fin n × Fin n → FR n,
+      (∀ p ∈ posP n, ∀ μ, cf (t p) μ - cf (t p) (μ + rt p.1 p.2) = ((μ p.1 - μ p.2 : ℝ) : ℂ) * cf c μ) ∧
+      ∀ μ, s * cf c μ = (nsq μ : ℂ) * cf c μ + ∑ p ∈ posP n, (cf (t p) μ + cf (t p) (μ + rt p.1 p.2)) := by
+  intro n V _ _ F hF S hS hSt B c s hC hc hs
+  choose t ht using fun p : Fin n × Fin n =>
+    UpperTheory.RealTr.chEx n V F hF S hS hSt (F p.1 p.2 * F p.2 p.1 * B)
+  have hg := hF.gl
+  haveI := hS
+  have hFW : ∀ a b μ x, x ∈ wsp F μ ⊓ S → F a b x ∈ wsp F (μ + rt a b) ⊓ S :=
+    fun a b μ x hx => ⟨F_wsp hg a b hx.1, hSt a b x hx.2⟩
+  have hBW : ∀ μ x, x ∈ wsp F μ ⊓ S → B x ∈ wsp F μ ⊓ S := by
+    intro μ x hx
+    refine ⟨?_, hC.2 x hx.2⟩
+    have hx' : IsWeight F μ x := hx.1
+    show IsWeight F μ (B x)
+    intro a
+    have h := LinearMap.congr_fun (hC.1 a a) x
+    simp only [Module.End.mul_apply] at h
+    rw [← h, hx' a, map_smul]
+  have hrt : ∀ (a b : Fin n) (μ : Wt n), μ + rt a b + rt b a = μ := by
+    intro a b μ; ext c; simp only [rt, Pi.add_apply, Pi.sub_apply]; ring
+  have hback : ∀ a b μ x, x ∈ wsp F (μ + rt a b) ⊓ S → F b a x ∈ wsp F μ ⊓ S := by
+    intro a b μ x hx
+    have := hFW b a _ x hx
+    rwa [hrt] at this
+  have hP : ∀ a b μ x, x ∈ wsp F μ ⊓ S → (F a b * F b a * B) x ∈ wsp F μ ⊓ S :=
+    fun a b μ x hx => hback b a μ _ (hFW b a μ _ (hBW μ x hx))
+  have hcyc : ∀ a b μ, trOn (wsp F μ ⊓ S) (F b a * F a b * B) = cf (t (a, b)) (μ + rt a b) := by
+    intro a b μ
+    have h := (UpperTheory.RealTr.trAdd V (F b a)).2.2.1 (wsp F (μ + rt a b) ⊓ S) (wsp F μ ⊓ S)
+      (F a b * B) inferInstance inferInstance (hback a b μ)
+      (fun x hx => hFW a b μ _ (hBW μ x hx))
+    have e1 : F a b * B * F b a = F a b * F b a * B := by
+      rw [mul_assoc, hC.1 b a, mul_assoc]
+    rw [e1, ← mul_assoc] at h
+    rw [← h]
+    exact (ht (a, b) _).symm
+  refine ⟨t, ?_, ?_⟩
+  · rintro ⟨a, b⟩ - μ
+    show cf (t (a, b)) μ - cf (t (a, b)) (μ + rt a b) = ((μ a - μ b : ℝ) : ℂ) * cf c μ
+    have h0 : cf (t (a, b)) μ = trOn (wsp F μ ⊓ S) (F a b * F b a * B) := ht (a, b) μ
+    rw [← hcyc a b μ, h0, hc μ]
+    rw [trOn_comb (wsp F μ ⊓ S) (F b a * F a b * B) (F a b * F b a * B) B ((μ a - μ b : ℝ) : ℂ)
+      (hP b a μ) (hP a b μ) (hBW μ)]
+    · ring
+    · intro x hx
+      have hy : IsWeight F μ (B x) := (hBW μ x hx).1
+      have h := LinearMap.congr_fun (hg a b b a) (B x)
+      simp only [LinearMap.sub_apply, Module.End.mul_apply, if_true, hy a, hy b] at h
+      simp only [Module.End.mul_apply]
+      rw [sub_eq_iff_eq_add'] at h
+      rw [h]
+      push_cast
+      rw [sub_smul]
+  · intro μ
+    have hs' : ∀ q : Fin n × Fin n, ∀ x ∈ wsp F μ ⊓ S,
+        (F q.1 q.2 * F q.2 q.1 * B) x ∈ wsp F μ ⊓ S := fun q => hP q.1 q.2 μ
+    have hall : ∀ x ∈ wsp F μ ⊓ S, (∑ q : Fin n × Fin n, F q.1 q.2 * F q.2 q.1 * B) x ∈ wsp F μ ⊓ S := by
+      intro x hx
+      rw [LinearMap.sum_apply]
+      exact Submodule.sum_mem _ fun q _ => hs' q x hx
+    have hcas : trOn (wsp F μ ⊓ S) (∑ q : Fin n × Fin n, F q.1 q.2 * F q.2 q.1 * B) =
+        s * trOn (wsp F μ ⊓ S) B := by
+      refine trOn_smul' _ _ _ _ hall (hBW μ) fun x hx => ?_
+      rw [← hs (B x) (hBW μ x hx).2, Cas, Fintype.sum_prod_type]
+      simp [LinearMap.sum_apply, Module.End.mul_apply]
+    have hsum := trOn_sum' (wsp F μ ⊓ S) univ (fun q : Fin n × Fin n => F q.1 q.2 * F q.2 q.1 * B)
+      (fun q _ => hs' q)
+    have hdiag : ∀ a, trOn (wsp F μ ⊓ S) (F a a * F a a * B) =
+        ((μ a : ℂ)) ^ 2 * trOn (wsp F μ ⊓ S) B := by
+      intro a
+      refine trOn_smul' _ _ _ _ (hP a a μ) (hBW μ) fun x hx => ?_
+      have hy : IsWeight F μ (B x) := (hBW μ x hx).1
+      simp only [Module.End.mul_apply, hy a, map_smul, smul_smul, sq]
+    rw [hc μ, ← hcas, hsum, sum_split]
+    simp only [hdiag, Prod.swap]
+    rw [← Finset.sum_mul]
+    congr 1
+    · simp [nsq]
+    · refine sum_congr rfl fun p _ => ?_
+      have h0 : cf (t p) μ = trOn (wsp F μ ⊓ S) (F p.1 p.2 * F p.2 p.1 * B) := ht p μ
+      rw [h0]
+      congr 1
+      exact hcyc p.1 p.2 μ
+end
+end
+
+section
+
+noncomputable section
+
+open Matrix Finset
+open scoped InnerProductSpace ComplexConjugate
+open PositivityTheory.RgTw (Mat)
+open PositivityTheory.RgBcC PositivityTheory.RgBcC.Real PositivityTheory.RgBcC.RealD UpperTheory.RealTr
+open Formalism.REAL (GlRel IsWeight KHighest Cas)
+
+private theorem rearr_gap (n : ℕ) (a b : Fin n) : rhoV n a - rhoV n b = ((b : ℕ) : ℝ) - ((a : ℕ) : ℝ) := by
+  simp only [rhoV]
+  ring
+
+private theorem sum_mul_perm_le_and_eq_one_of_antitone {n : ℕ} (x y : Fin n → ℝ) (hx : Antitone x) (hy : Antitone y) (w : Equiv.Perm (Fin n)) :
+    ∑ a, x a * y (w a) ≤ ∑ a, x a * y a ∧
+      (StrictAnti x → StrictAnti y → ∑ a, x a * y (w a) = ∑ a, x a * y a → w = 1) := by
+  have hm : Monovary x y := hx.monovary hy
+  refine ⟨hm.sum_mul_comp_perm_le_sum_mul, fun sx sy he => ?_⟩
+  have h2 := hm.sum_mul_comp_perm_eq_sum_mul_iff.1 he
+  have hmono : StrictMono w := by
+    intro i j hij
+    by_contra hc
+    push_neg at hc
+    rcases hc.lt_or_eq with hlt | heq
+    · exact absurd (h2 (show y (w i) < y (w j) from sy hlt)) (not_le.2 (sx hij))
+    · exact absurd (w.injective heq) (ne_of_gt hij)
+  have := hmono.eq_id
+  ext i
+  simp [this]
+
+private theorem rearr_lemma_2 {n : ℕ} (x : Fin n → ℝ) :
+    Antitone (domC x) ∧ (∃ w : Equiv.Perm (Fin n), domC x = x ∘ w) ∧ (Antitone x → domC x = x) ∧
+      (∀ w : Equiv.Perm (Fin n), domC (x ∘ w) = domC x) ∧ nsq (domC x) = nsq x := by
+  refine ⟨?_, ⟨_, rfl⟩, fun hx => ?_, fun w => ?_, ?_⟩
+  · intro a b hab
+    have := Tuple.monotone_sort (fun a => -x a) hab
+    simpa [domC] using this
+  · have : Tuple.sort (fun a => -x a) = Equiv.refl (Fin n) :=
+      Tuple.sort_eq_refl_iff_monotone.2 (fun a b hab => neg_le_neg (hx hab))
+    simp [domC, this]
+  · have h := Tuple.comp_perm_comp_sort_eq_comp_sort (f := fun a => -x a) (σ := w)
+    funext a
+    show (x ∘ w) ((Tuple.sort ((fun a => -x a) ∘ w)) a) = x ((Tuple.sort fun a => -x a) a)
+    have := congrFun h a
+    simp only [Function.comp_apply, neg_inj] at this
+    exact this
+  · unfold nsq domC
+    exact Equiv.sum_comp (Tuple.sort fun a => -x a) (fun a => x a ^ 2)
+
+private theorem strictAnti_rhoV_and_dom_rhoV (n : ℕ) : StrictAnti (rhoV n) ∧ Dom (rhoV n) := by
+  constructor
+  · intro a b hab
+    have h1 : ((a : ℕ) : ℝ) < ((b : ℕ) : ℝ) := by exact_mod_cast hab
+    linarith [rearr_gap n a b]
+  · unfold Dom
+    intro a b hab
+    refine ⟨(b : ℕ) - (a : ℕ), ?_⟩
+    rw [rearr_gap, Nat.cast_sub (Fin.lt_def.mp hab).le]
+
+private theorem antitone_and_dom_domC_sub_rhoV_of_dom (n : ℕ) (x : Wt n) (hx : Dom x) : Antitone x ∧ Dom (domC (x - rhoV n)) := by
+  unfold Dom at hx
+  have hint : ∀ a b, ∃ k : ℤ, (x - rhoV n) a - (x - rhoV n) b = k := by
+    intro a b
+    rcases lt_trichotomy a b with h | h | h
+    · obtain ⟨m, hm⟩ := hx a b h
+      refine ⟨(m : ℤ) - ((b : ℕ) : ℤ) + ((a : ℕ) : ℤ), ?_⟩
+      simp only [Pi.sub_apply]
+      push_cast
+      linarith [rearr_gap n a b]
+    · exact ⟨0, by simp [h]⟩
+    · obtain ⟨m, hm⟩ := hx b a h
+      refine ⟨-(m : ℤ) + ((a : ℕ) : ℤ) - ((b : ℕ) : ℤ), ?_⟩
+      simp only [Pi.sub_apply]
+      push_cast
+      linarith [rearr_gap n b a]
+  refine ⟨fun a b hab => ?_, ?_⟩
+  · rcases hab.lt_or_eq with h | h
+    · obtain ⟨m, hm⟩ := hx a b h
+      have : (0 : ℝ) ≤ m := Nat.cast_nonneg m
+      linarith
+    · rw [h]
+  · unfold Dom
+    intro a b hab
+    obtain ⟨w, hw⟩ := (rearr_lemma_2 (x - rhoV n)).2.1
+    have hanti := (rearr_lemma_2 (x - rhoV n)).1
+    obtain ⟨k, hk⟩ := hint (w a) (w b)
+    have hk0 : (0 : ℝ) ≤ k := by
+      have := hanti hab.le
+      rw [hw] at this
+      simp only [Function.comp_apply] at this
+      linarith
+    have hk1 : (0 : ℤ) ≤ k := by exact_mod_cast hk0
+    refine ⟨k.toNat, ?_⟩
+    rw [hw]
+    simp only [Function.comp_apply]
+    rw [hk, ← Int.cast_natCast, Int.toNat_of_nonneg hk1]
+
+private theorem nsq_le_and_eq_of_nsq_le_sum_mul {n : ℕ} (x y : Fin n → ℝ) (h : nsq x ≤ ∑ a, x a * y a) :
+    nsq x ≤ nsq y ∧ (nsq y ≤ nsq x → x = y) := by
+  have hsq : 0 ≤ ∑ a, (x a - y a) ^ 2 := Finset.sum_nonneg (fun a _ => sq_nonneg _)
+  have hexp : ∑ a, (x a - y a) ^ 2 = nsq x - 2 * ∑ a, x a * y a + nsq y := by
+    unfold nsq
+    rw [Finset.mul_sum, ← Finset.sum_sub_distrib, ← Finset.sum_add_distrib]
+    exact Finset.sum_congr rfl fun a _ => by ring
+  refine ⟨by linarith, fun h2 => ?_⟩
+  have h0 : ∑ a, (x a - y a) ^ 2 = 0 := by linarith
+  funext a
+  have := (Finset.sum_eq_zero_iff_of_nonneg (fun a _ => sq_nonneg (x a - y a))).1 h0 a (Finset.mem_univ a)
+  exact sub_eq_zero.mp (pow_eq_zero_iff (n := 2) (by norm_num) |>.mp this)
+
+theorem UpperTheory.RealTr.rearr :
+    ∀ n : ℕ, (∀ x y : Wt n, Antitone x → Antitone y → ∀ w : Equiv.Perm (Fin n), ∑ a, x a * y (w a) ≤ ∑ a, x a * y a ∧
+        (StrictAnti x → StrictAnti y → ∑ a, x a * y (w a) = ∑ a, x a * y a → w = 1)) ∧
+      (∀ x : Wt n, Antitone (domC x) ∧ (∃ w : Equiv.Perm (Fin n), domC x = x ∘ w) ∧ (Antitone x → domC x = x) ∧
+        (∀ w : Equiv.Perm (Fin n), domC (x ∘ w) = domC x) ∧ nsq (domC x) = nsq x) ∧
+      StrictAnti (rhoV n) ∧ Dom (rhoV n) ∧ (∀ x : Wt n, Dom x → Antitone x ∧ Dom (domC (x - rhoV n))) ∧
+      ∀ x y : Wt n, nsq x ≤ ∑ a, x a * y a → nsq x ≤ nsq y ∧ (nsq y ≤ nsq x → x = y) := by
+  intro n
+  exact ⟨fun x y hx hy w => sum_mul_perm_le_and_eq_one_of_antitone x y hx hy w, fun x => rearr_lemma_2 x, (strictAnti_rhoV_and_dom_rhoV n).1, (strictAnti_rhoV_and_dom_rhoV n).2,
+    fun x hx => antitone_and_dom_domC_sub_rhoV_of_dom n x hx, fun x y h => nsq_le_and_eq_of_nsq_le_sum_mul x y h⟩
+end
+end

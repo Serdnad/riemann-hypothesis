@@ -1,15 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMulIntSingle
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousCharacterTrivialOnSmallIdeles
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteAbsMatrixProductLeHeights
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearFormBoundedByLocalConstants
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MatrixEntriesBoundedAlmostEverywhere
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzBruhatInvariantUnderIntegralLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzBruhatLevelConductorCompatible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzBruhatSupportBoundedDenominators
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryLatticeDenominatorHeightBoundProof
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1337
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1435
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1434
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1451
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1450
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1430
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DHRealAdSmul
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1290
 
 @[expose] public section
 

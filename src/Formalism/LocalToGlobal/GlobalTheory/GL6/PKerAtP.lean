@@ -5,8 +5,8 @@ public import Formalism.LocalToGlobal.HermitianForms.PrkSmul
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocW
-public import Formalism.LocalToGlobal.UnitaryNorms.RamificationIdxEqOneOfNotDvd
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle003
 public import Formalism.LocalToGlobal.UnitaryNorms.UnramT
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

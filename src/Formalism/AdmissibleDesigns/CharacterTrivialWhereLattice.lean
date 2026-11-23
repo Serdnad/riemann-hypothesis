@@ -1,7 +1,7 @@
 module
 
-public import Formalism.AdmissibleDesigns.InertiaActsTrivially
-import Formalism.SharpRestriction.LevelLetterCocycles.RingDataOfIdempotents
+public import Formalism.AdmissibleDesigns.Bundle001
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle011
 public import Formalism.SharpRestriction.LevelLetterCocycles.SecondPropositionEveryLocalisation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

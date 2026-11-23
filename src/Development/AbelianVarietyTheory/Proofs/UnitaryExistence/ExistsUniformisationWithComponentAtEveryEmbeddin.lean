@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.PartitionExtendByZeroAntitone
-public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModuliConsequenceOfAbelianSchemeLaws
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniformisationDataNonemptyComponent
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.NonemptyFrPtComplex
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle025
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle187
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle107
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle071
 import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolarJacLeExpStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProjectorOfIntegrableDiscreteSeriesCoefficientStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle783
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1084
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.HighestWeightGeneratedWeightsBelow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

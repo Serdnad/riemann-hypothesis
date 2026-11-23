@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.WwInjective
-public import Formalism.PeriodIntegrals.WwCauchyBinet
+public import Formalism.PeriodIntegrals.Bundle004
+public import Formalism.PeriodIntegrals.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GramInjectivity.GramVanish
 public import Mathlib.Algebra.MvPolynomial.Funext
 import Mathlib.Algebra.Order.Floor.Extended

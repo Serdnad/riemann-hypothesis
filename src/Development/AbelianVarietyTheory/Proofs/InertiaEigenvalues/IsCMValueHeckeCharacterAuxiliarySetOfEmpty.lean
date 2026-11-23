@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsValueTiedOfIsToricElt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsHeckeLOfHasInf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartEqOneOfFibres
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartEqOneOfLevel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeLNeZeroNat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle500
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1160
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ValApplySubLtOne
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UniversalAnticyclotomicCharacterLaws
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle120
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagHeightPolynomialWeightForm
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FormPolyIsHomogeneousAndEval
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.KillNoneFormPoly
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XBirat
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle104
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle006
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle005
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle003
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XFlArith
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PFsLineLevi
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle017
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHFlProdLinear
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ADensStC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle002
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

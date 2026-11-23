@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.BlockValuationZpOfLatticeInclusion
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.DegSubSingle
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

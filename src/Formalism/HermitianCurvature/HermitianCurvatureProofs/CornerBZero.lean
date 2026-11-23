@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.GaXiSplit
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Imports
-public import Formalism.HermitianCurvature.StatementJF
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle103
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle024
+public import Formalism.HermitianCurvature.Bundle004
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.RightCosetActionMeasurePreserving

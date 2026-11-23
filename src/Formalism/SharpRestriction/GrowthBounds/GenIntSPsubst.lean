@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PowerSeriesFrobeniusCongruence
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
+public import Formalism.SharpRestriction.GrowthBounds.Bundle006
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle007
 public import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 public import Formalism.LocalToGlobal.CharacterGerms.GeOfPowEqOne
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-public import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

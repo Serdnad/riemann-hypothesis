@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudADef
+public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.Bundle001
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf

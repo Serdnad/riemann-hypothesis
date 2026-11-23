@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.AltBranchStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsConjDiagonal
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjSubMulNegMulOfNormOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeylNumeratorLaplace
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle069
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle115
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.AntitoneOfMemInterl
+public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.Bundle001
 public import ReciprocityTheory.ReductiveGroups.SymplecticTraces.WeylCharacters.SqChar
 
 @[expose] public section

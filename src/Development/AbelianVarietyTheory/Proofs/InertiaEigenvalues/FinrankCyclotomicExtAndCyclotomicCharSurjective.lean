@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormEqZpowOfMemMaxUnramifiedSubfieldStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplexStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle334
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle193
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -142,11 +142,11 @@ theorem minpoly_unramifiedSubfield_eq_cyclotomic (K : FinExt l) (j : ℕ) (hj : 
   rw [natDegree_cyclotomic]
   by_contra hlt
   push_neg at hlt
-  refine aeval_ne_zero_of_norm_eq K _ (ζ - 1) hnorm (taylor 1 (minpoly ↥(K0 K) ζ)) ?_ ?_ ?_
+  refine aeval_ne_zero_of_norm_eq K _ (ζ - 1) hnorm (Polynomial.taylor 1 (minpoly ↥(K0 K) ζ)) ?_ ?_ ?_
   · intro h
-    exact minpoly.ne_zero hint (taylor_injective 1 (by rw [h, map_zero]))
-  · rwa [natDegree_taylor]
-  · rw [taylor_apply, aeval_comp]
+    exact minpoly.ne_zero hint (Polynomial.taylor_injective 1 (by rw [h, map_zero]))
+  · rwa [Polynomial.natDegree_taylor]
+  · rw [Polynomial.taylor_apply, aeval_comp]
     simp
 
 theorem exists_primitiveRoot_Om (j : ℕ) : ∃ ζ : Om l, IsPrimitiveRoot ζ (l ^ j) := by

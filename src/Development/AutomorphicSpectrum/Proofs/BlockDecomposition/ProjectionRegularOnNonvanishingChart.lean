@@ -1,14 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatiosEqOfSameOrbit
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ComplexPointLiftsToMulticoneStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsUnderOfSameOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointIdealMultiprojectivePrime
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointsEqIffSameTorusOrbit
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PointsEqIffSameTorusOrbitStatement
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetOnlyNull
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle464
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle487
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle488
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle435
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle512
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle076
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PPtsSheetOnlyNull
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSegreChartZeroSet
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,7 +65,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.MixZ.ArchEq.PieceAt
 
-open Filter Topology
+open Filter _root_.Topology
 open ReciprocityTheory.ChartRestriction.G.Geo (scaleBlock scaleBlock_mem_zeroLocus eval_scaleBlock segre_differentiableAt)
 open GroundTheory.Heights₂.Heights.PtsSheetOnlyNull (ratio inv_smul_eq_cons segre_scaleBlock differentiableAt_ratio)
 

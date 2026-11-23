@@ -4,10 +4,9 @@ public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GermPoints
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
 public import Mathlib.RingTheory.MvPowerSeries.Expand
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.FormalModuleActionLawsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.MultiplicationByPFactorsFrobeniusStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PowOneSeriesPFormulaStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.PowerSeriesPowPFrobeniusStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle043
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,10 +53,10 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 import Mathlib.Topology.Sheaves.Presheaf
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

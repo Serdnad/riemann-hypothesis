@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.CMModuli.ThetaTowerRecognition
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsFib
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle122
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceFormTwistIsoOfPullback
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsPullCubicalOfIso
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationDataIsoOfTwoWitnesses
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFiniteCubeInduction
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle037
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AdmissibleBasePowerSeries
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle019
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.VtUniq
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.GenCalc
@@ -179,6 +179,9 @@ theorem exists_isPullDeg_of_values : Laws → ∀ (V : Type) [CommRing V] [IsDom
   have : IsMonHom Ψ.symm.hom := inferInstanceAs (IsMonHom Ψ.inv)
   have gp₀ : IsGrpPullback D'.P.A D.P.A (specOf (RingHom.id V)) Ψ.inv.left :=
     (isGrpPullback_of_iso Ψ.symm).congr hs.symm rfl
+  let f := specOf (RingHom.id V)
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  letI : GrpObj ((Over.pullback f).obj D.P.A) := Functor.grpObjObj (F := Over.pullback f)
   obtain ⟨e, e_hom, he⟩ := grpPullback_iso gp₀ (isGrpPullback_pullback D.P.A (specOf (RingHom.id V)))
   obtain ⟨Φ, hΦ⟩ : ∃ Φ, Φ = e.hom.left ≫ pullback.fst D.P.A.hom (specOf (RingHom.id V)) := ⟨_, rfl⟩
   replace he : Φ = Ψ.inv.left := hΦ.trans he

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocMulVec
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle327
 public import Formalism.SharpRestriction.LevelLetterCocycles.PairedCharacterCondition
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GoodORingOfIntegers
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PotentiallyCrystallineModuleEqCrystallineRestric
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle281
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitOfClosure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

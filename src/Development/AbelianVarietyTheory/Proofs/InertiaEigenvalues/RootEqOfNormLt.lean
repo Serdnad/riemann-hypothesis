@@ -1,17 +1,16 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicIntegersEqWittZetaSubOne
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle370
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.InstIsAdicCompleteOCSpanSingletonSetCast
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsAlgClosedTiltFieldAndValuationRing
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormEqZpowOfMemMaxUnramifiedSubfield
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ContinuousOrbitPadicComplex
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTateMaximalIdealKillsFirstCohomologyStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicTowerFixedIffMemCompletedIntegersStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfPowEqOneOfNormSubLtOne
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle478
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle152
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankCyclotomicExtAndCyclotomicCharSurjective
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplex
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle180
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -110,10 +109,10 @@ theorem mem_of_mem_Ks (K : FinExt l) (j : ℕ) (hj : 1 ≤ j) (ζ : Om l) (hζ :
   have hdeg : r.natDegree < Nat.totient (l ^ j) := by
     have := natDegree_lt_natDegree hr0 (degree_modByMonic_lt q (minpoly.monic hint))
     rwa [minpoly_unramifiedSubfield_eq_cyclotomic K j hj ζ hζ, natDegree_cyclotomic] at this
-  have he : aeval (ζ - 1) (taylor 1 r) = x := by
-    rw [← hrx, taylor_apply, aeval_comp]
+  have he : aeval (ζ - 1) (_root_.Polynomial.taylor 1 r) = x := by
+    rw [← hrx, _root_.Polynomial.taylor_apply, aeval_comp]
     simp
-  have hc := norm_coeff_le K _ (ζ - 1) hnorm (taylor 1 r) (by rwa [natDegree_taylor]) (by rwa [he])
+  have hc := norm_coeff_le K _ (ζ - 1) hnorm (_root_.Polynomial.taylor 1 r) (by rwa [_root_.Polynomial.natDegree_taylor]) (by rwa [he])
   rw [← he, aeval_eq_sum_range]
   refine sum_mem fun i _ => ?_
   exact mul_mem (h0 _ (Subtype.property _) (hc i)) (pow_mem (sub_mem hζR (one_mem _)) _)

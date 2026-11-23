@@ -3,9 +3,9 @@ module
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.ExistsMapEqOfPowMul
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.LocTied6
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.AinfMapSurjective
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle001
 import Development.WeilBound.CoreStatements.CrystallinePeriodRings.FrobAinfMapFrobenius
-public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.MaximalIdealEqSpanT
+public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.Bundle002
 public import Development.WeilBound.CoreStatements.CrystallinePeriodRings.PhiGalCris
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

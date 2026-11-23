@@ -6,7 +6,7 @@ public import Development.AutomorphicArithmetic.ThickFrames.NotGoodLe
 public import Development.AutomorphicArithmetic.ThickFrames.SharesOfCounts
 public import Development.AutomorphicArithmetic.ThickFrames.orbitSum
 public import Development.AutomorphicArithmetic.ThickFrames.orbitTerms
-public import Development.AutomorphicArithmetic.ThickFrames.select
+public import Development.AutomorphicArithmetic.ThickFrames.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

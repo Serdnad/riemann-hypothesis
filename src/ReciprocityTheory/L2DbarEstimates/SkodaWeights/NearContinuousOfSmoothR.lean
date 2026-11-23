@@ -47,11 +47,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
-public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.IsLocalHomeomorphCompFst
-public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.HlinVsqPos
+public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.Bundle001
+public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Bundle002
 public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.SmoothRLog
 public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.WeightedIntegralEqLintegral
-import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.HoloContDiffAtComplex
+import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle006
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsFrameIff
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle118
 public import Mathlib.Tactic.Monotonicity.Lemmas
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsMoveMap
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle035
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

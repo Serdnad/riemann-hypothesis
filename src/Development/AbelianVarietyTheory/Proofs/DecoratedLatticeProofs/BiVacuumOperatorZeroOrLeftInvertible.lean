@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.SmallPair
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BiCombEqLOpROp
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinsetSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeCompletionSelfAnnihilatorAtPlaces
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeCompletionSplitPlacesActsBySignsStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle251
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle148
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle385
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsolateAbstractStatement
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
 import Mathlib.Algebra.Order.Floor.Extended
@@ -120,7 +120,7 @@ theorem bet_ne_zero (x y : WO A S × WO S A') : bet ψ A S A' x y ≠ 0 :=
   mul_ne_zero (psi_ne_zero ψ _) (psi_ne_zero ψ _)
 
 theorem twoT_comm (x γ : WO A S × WO S A') (C : WO A S → WO S A' → ℂ) :
-    twoT ψ A S A' γ (twoT ψ A S A' x C) = chi ψ A S A' x γ • twoT ψ A S A' x (twoT ψ A S A' γ C) := by
+    twoT ψ A S A' γ (twoT ψ A S A' x C) = GlobalTheory.ZeroOrInv.chi ψ A S A' x γ • twoT ψ A S A' x (twoT ψ A S A' γ C) := by
   rw [twoT_mul, twoT_mul, smul_smul, add_comm x γ]
   congr 1
   simp only [bet, chi]
@@ -262,15 +262,15 @@ theorem GlobalTheory.FinPl.biInv_main : ∀ D : D7, GlobalTheory.FinPl.BiInv D :
       ring
     · exact ⟨1, fun h => absurd h hγ⟩
   choose aF haF using hex
-  have hχ : ∀ x, ∀ γ ∈ Γ, ∀ γ' ∈ Γ, chi ψ A S A' (x + γ') γ = chi ψ A S A' x γ := by
+  have hχ : ∀ x, ∀ γ ∈ Γ, ∀ γ' ∈ Γ, GlobalTheory.ZeroOrInv.chi ψ A S A' (x + γ') γ = GlobalTheory.ZeroOrInv.chi ψ A S A' x γ := by
     intro x γ hγ γ' hγ'
     obtain ⟨g1, g2⟩ := AddSubgroup.mem_prod.1 hγ
     obtain ⟨g1', g2'⟩ := AddSubgroup.mem_prod.1 hγ'
     have e1 := (GlobalTheory.SelfDualAt.latO_ann_at D ψ hψ A S LA LS hA hS P γ.1 (LatMem.latO_mxAt g1)).1 g1 γ'.1 g1'
     have e2 := (GlobalTheory.SelfDualAt.latO_ann_at D ψ hψ S A' LS LA' hS hA' P γ.2 (LatMem.latO_mxAt g2)).1 g2 γ'.2 g2'
-    simp only [chi, Prod.fst_add, Prod.snd_add, symplO_add_right, AddChar.map_add_eq_mul, e1, e2, mul_one]
+    simp only [GlobalTheory.ZeroOrInv.chi, Prod.fst_add, Prod.snd_add, symplO_add_right, AddChar.map_add_eq_mul, e1, e2, mul_one]
   have hsep : ∀ x ∈ goodG A S A' P, ∀ y ∈ goodG A S A' P, x - y ∉ Γ →
-      ∃ γ ∈ Γ, chi ψ A S A' x γ ≠ chi ψ A S A' y γ := by
+      ∃ γ ∈ Γ, GlobalTheory.ZeroOrInv.chi ψ A S A' x γ ≠ GlobalTheory.ZeroOrInv.chi ψ A S A' y γ := by
     intro x hx y hy hxy
     have hd : x - y ∈ goodG A S A' P := sub_mem hx hy
     rw [AddSubgroup.mem_prod, not_and_or] at hxy
@@ -279,7 +279,7 @@ theorem GlobalTheory.FinPl.biInv_main : ∀ D : D7, GlobalTheory.FinPl.BiInv D :
       push_neg at h
       obtain ⟨l, hl, hne⟩ := h
       refine ⟨(l, 0), AddSubgroup.mem_prod.2 ⟨hl, zero_mem _⟩, fun heq => hne ?_⟩
-      simp only [chi, symplO_zero_left, AddChar.map_zero_eq_one, mul_one] at heq
+      simp only [GlobalTheory.ZeroOrInv.chi, symplO_zero_left, AddChar.map_zero_eq_one, mul_one] at heq
       have hx1 : x.1 = (x - y).1 + y.1 := by rw [Prod.fst_sub, sub_add_cancel]
       rw [hx1, symplO_add_right, AddChar.map_add_eq_mul] at heq
       have h1 : ψ (symplO A S l (x - y).1) = 1 :=
@@ -290,7 +290,7 @@ theorem GlobalTheory.FinPl.biInv_main : ∀ D : D7, GlobalTheory.FinPl.BiInv D :
       push_neg at h
       obtain ⟨l, hl, hne⟩ := h
       refine ⟨(0, l), AddSubgroup.mem_prod.2 ⟨zero_mem _, hl⟩, fun heq => hne ?_⟩
-      simp only [chi, symplO_zero_left, AddChar.map_zero_eq_one, one_mul] at heq
+      simp only [GlobalTheory.ZeroOrInv.chi, symplO_zero_left, AddChar.map_zero_eq_one, one_mul] at heq
       have hx2 : x.2 = (x - y).2 + y.2 := by rw [Prod.snd_sub, sub_add_cancel]
       rw [hx2, symplO_add_right, AddChar.map_add_eq_mul] at heq
       have h1 : ψ (symplO S A' l (x - y).2) = 1 :=
@@ -298,7 +298,7 @@ theorem GlobalTheory.FinPl.biInv_main : ∀ D : D7, GlobalTheory.FinPl.BiInv D :
       rw [symplO_skew'] at h1
       exact psi_eq_one_of_neg ψ h1
   rcases GlobalTheory.T.eq_zero_or_exists_inverse_combination_of_separating (WO A S × WO S A') Γ (goodG A S A' P) (WO A S → WO S A' → ℂ) (twoT ψ A S A')
-      {C | BiVacAt ψ LA LS LA' P C} (bet ψ A S A') aF (chi ψ A S A') hΓG (twoT_zero ψ A S A') (twoT_mul ψ A S A')
+      {C | BiVacAt ψ LA LS LA' P C} (bet ψ A S A') aF (GlobalTheory.ZeroOrInv.chi ψ A S A') hΓG (twoT_zero ψ A S A') (twoT_mul ψ A S A')
       (bet_ne_zero ψ A S A') (fun γ hγ => haF γ hγ) (fun γ _ x v => twoT_comm ψ A S A' x γ v) hχ hsep
       (kOp A S A' op).support (kOp A S A' op) (kOp_good A S A' P op hop) with h | ⟨κ, hκ, hinv⟩
   · left

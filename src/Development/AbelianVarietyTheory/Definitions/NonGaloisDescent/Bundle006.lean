@@ -1,0 +1,147 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsOfLayers
+public import Mathlib.RingTheory.PowerSeries.Exp
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.HWL
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations TensorProduct
+
+variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field K]
+    [Algebra Qp K₀] [Algebra Qp K] [Algebra K₀ K] [IsScalarTower Qp K₀ K]
+    {B BdR : Type} [CommRing B] [CommRing BdR] [Algebra Qp B] [Algebra K₀ B] [IsScalarTower Qp K₀ B]
+    [Algebra Qp BdR] [Algebra K₀ BdR] [Algebra K BdR] [IsScalarTower Qp K BdR]
+    [IsScalarTower K₀ K BdR] [IsScalarTower Qp K₀ BdR]
+    {PD : PeriodData G Qp K₀ K B BdR} {LL O : Type} [Field LL] [Algebra Qp LL]
+    [CommRing O] [Algebra O LL] [TopologicalSpace LL] {v : AddValuation LL (WithTop ℚ)} {n s : ℕ}
+    {Γ : WGam PD LL O v n s} {R : WSer Γ}
+    {RA RW : Type} [CommRing RA] [CommRing RW] [Algebra O RA]
+    [Algebra O RW] {inclR : RA →ₐ[O] RW} {φR : RW →ₐ[O] RW} {gR : G → (RW →ₐ[O] RW)} {πA : RA}
+    {I : WIo R RA RW inclR φR gR πA} {E : WEt I} {Zl : Type} [CommRing Zl] {zl : PowerSeries Zl →+* LetA O n}
+
+def Sand (Mo : WN E zl) (T : LocLat G Qp LL O) (w : RA) : Prop :=
+  (∀ x ∈ Mo.N T, ∃ y : TW RA T, TWincl inclR T y = inclR w • E.jD T x) ∧
+    ∀ t : ↥T.L.T, inclR w • ((1 : RW) ⊗ₜ[O] t : TW RW T) ∈
+      Submodule.span O {z : TW RW T | ∃ (a : RA), ∃ y ∈ Mo.N T, z = inclR a • E.jD T y}
+
+end GlobalTheory.HWL
+end
+end
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.HWL
+
+open Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations TensorProduct
+
+variable {l : ℕ} [Fact l.Prime]
+
+def FaithH {P : LocPrime l} (AI : LocAinf l P) : Prop :=
+  ∀ (L : FinExt l) (g : GQ l), P.χQ g = 1 →
+    (∀ x : OCb l, (∀ h ∈ GK L, P.χQ h = 1 → AI.actT h x = x) → AI.actT g x = x) → g ∈ GK L
+
+variable {P : LocPrime l} {K : FinExt l} {s : ℕ} {LL : FinExt l} {Γ : GamS P K s LL}
+
+def FixH (AI : LocAinf l P) (K : FinExt l) {LL : FinExt l} (x : RW LL) : Prop :=
+  ∀ g ∈ GK K, P.χQ g = 1 → AI.gRW LL g x = x
+
+def FixBasis (AI : LocAinf l P) (T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 ↥(OL LL)) {r : ℕ}
+    (e : Module.Basis (Fin r) (RW LL) (TW (RW LL) T)) : Prop :=
+  ∀ g : ↥(GK K), P.χQ (g : GQ l) = 1 → ∀ i, TWact (AI.gRW LL (g : GQ l)) T g (e i) = e i
+
+def EtBasis {AI : LocAinf l P} {R : WSer Γ} (I : IoS AI R) (T : LocLat ↥(GK K) ℚ_[l] ↥LL.1 ↥(OL LL)) {r : ℕ}
+    (e : Module.Basis (Fin r) (RW LL) (TW (RW LL) T)) : Prop :=
+  FixBasis AI T e ∧ ∀ i j, e.repr (TWmap (φRW LL) T (e j)) i ∈ Set.range I.ioE
+
+def WachEx {P : LocPrime l} (AI : LocAinf l P) : Prop :=
+  ∀ (K : FinExt l) (s : ℕ) (LL : FinExt l), Good K s LL → ∀ (Γ : GamS P K s LL) (R : WSer Γ) (I : IoS AI R),
+    IoW I → ∀ E : WEt I, Nonempty (NS E)
+
+def Conv (a : PowerSeries ↥LL.1) : Prop :=
+  ∀ r : ℝ, 0 < r → r < 1 →
+    Filter.Tendsto (fun k : ℕ => ‖((PowerSeries.coeff k a : ↥LL.1) : Om l)‖ * r ^ k) Filter.atTop (nhds 0)
+
+def IsExp (ζ : ↥LL.1) (a e : PowerSeries ↥LL.1) : Prop :=
+  ∀ k : ℕ, Filter.Tendsto (fun m : ℕ => ((PowerSeries.coeff k
+    (Polynomial.aeval (PowerSeries.C ζ * PowerSeries.exp ↥LL.1 - 1) (PowerSeries.trunc m a)) : ↥LL.1) : Om l))
+    Filter.atTop (nhds ((PowerSeries.coeff k e : ↥LL.1) : Om l))
+
+def logS (LL : FinExt l) : PowerSeries ↥LL.1 :=
+  PowerSeries.mk fun k => (-1 : ↥LL.1) ^ (k + 1) / (k : ↥LL.1)
+
+def toLL {n : ℕ} (a : LetA ↥(OL LL) n) : LetA ↥LL.1 n :=
+  fun i => PowerSeries.map (algebraMap ↥(OL LL) ↥LL.1) (a i)
+
+def IsBeta (AI : LocAinf l P) (β : RA LL →+* ↥LL.1 ⊗[ℚ_[l]] P.R.B) : Prop :=
+  ∀ (o : ↥(OL LL)) (w : Ainf l), β (o ⊗ₜ[ℤ_[l]] w) = (o : ↥LL.1) ⊗ₜ[ℚ_[l]] AI.ιA w
+
+structure IsEval {AI : LocAinf l P} {R : WSer Γ} (I : IoS AI R) (β : RA LL →+* ↥LL.1 ⊗[ℚ_[l]] P.R.B)
+    (J : LetA ↥LL.1 (Module.finrank ℚ_[l] ↥(K0 K)) → ↥LL.1 ⊗[ℚ_[l]] P.R.B) : Prop where
+  add : ∀ a b, (∀ i, Conv (a i)) → (∀ i, Conv (b i)) → J (a + b) = J a + J b
+  mul : ∀ a b, (∀ i, Conv (a i)) → (∀ i, Conv (b i)) → J (a * b) = J a * J b
+  smul : ∀ (c : ↥LL.1) a, (∀ i, Conv (a i)) → J (c • a) = c • J a
+  ext : ∀ a, J (toLL a) = β (I.io a)
+  frob : ∀ a, (∀ i, Conv (a i)) →
+    J (fun i => PowerSeries.subst ((1 + PowerSeries.X) ^ l - 1 : PowerSeries ↥LL.1) (a (i - 1))) =
+      Algebra.TensorProduct.map (AlgHom.id ℚ_[l] ↥LL.1) P.φB (J a)
+  gal : ∀ (g : ↥(GK K)) a, (∀ i, Conv (a i)) →
+    J (fun i => PowerSeries.subst
+        (PowerSeries.map (algebraMap ↥(OL LL) ↥LL.1) (R.γ₀ (Γ.resΓ g) PowerSeries.X)) (a i)) =
+      Algebra.TensorProduct.map (AlgHom.id ℚ_[l] ↥LL.1) (P.actQ (g : GQ l)).toAlgHom (J a)
+  log : J (fun _ => logS LL) = (1 : ↥LL.1) ⊗ₜ[ℚ_[l]] ((((l : ℚ_[l]) ^ s)⁻¹) • P.tB)
+  taylor : ∀ i (ζ : ↥LL.1) (ι : ↥LL.1 →ₐ[ℚ_[l]] P.R.BdR),
+    (∀ c : ↥(K0 K), ι (Γ.emb i c) = algebraMap ↥(K0 K) P.R.BdR c) →
+    ι ζ = algebraMap (Om l) P.R.BdR (P.ζQ s) → ∀ a, (∀ j, Conv (a j)) → ∀ e, IsExp ζ (a i) e → ∀ m : ℕ,
+    Algebra.TensorProduct.productMap ι P.ιB (J a) -
+      ∑ k ∈ Finset.range m, ι (PowerSeries.coeff k e) * ((((l : ℚ_[l]) ^ s)⁻¹) • P.ιB P.tB) ^ k ∈
+        (P.PD K).Fil (m : ℤ)
+
+end GlobalTheory.HWL
+end
+end

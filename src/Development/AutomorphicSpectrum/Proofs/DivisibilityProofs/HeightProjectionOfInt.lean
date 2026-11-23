@@ -3,9 +3,9 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.ResidueDegreeOfIsClosedImmersion
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NontrivialIsomClassInt
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ToZIsArithHeightIffStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsArithVarInt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ToZPullIsometricStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.WZIsCInfStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle257
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle174
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

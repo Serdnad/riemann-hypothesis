@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.BiaddOfCube
+public import Formalism.PeriodIntegrals.Bundle008
 public import Mathlib.Analysis.Normed.Field.Instances
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

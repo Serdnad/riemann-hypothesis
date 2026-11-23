@@ -1,0 +1,300 @@
+module
+
+public import Mathlib.Analysis.Analytic.Order
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.Calculus.LogDeriv
+public import Mathlib.NumberTheory.LSeries.RiemannZeta
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Convex.Contractible
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+public import Mathlib.Analysis.Calculus.FDeriv.Pow
+public import Mathlib.Analysis.Complex.CauchyIntegral
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace PI.EF.Loc
+
+open Complex Metric Set Filter Topology ComplexConjugate
+
+def refl (s₀ : ℂ) (R : ℝ) (ρ z : ℂ) : ℂ := ((R : ℂ) ^ 2 - conj (ρ - s₀) * (z - s₀)) / R
+
+lemma norm_refl_sphere {s₀ ρ z : ℂ} {R : ℝ} (hR : 0 < R) (hz : z ∈ sphere s₀ R) :
+    ‖refl s₀ R ρ z‖ = ‖z - ρ‖ := by
+  have hw : ‖z - s₀‖ = R := by rwa [mem_sphere_iff_norm] at hz
+  have hR2 : (R : ℂ) ^ 2 = (z - s₀) * conj (z - s₀) := by
+    rw [mul_conj, normSq_eq_norm_sq, hw]
+    push_cast
+    ring
+  have hk : (z - s₀) * conj (z - s₀) - conj (ρ - s₀) * (z - s₀) = (z - s₀) * conj (z - ρ) := by
+    simp only [map_sub]
+    ring
+  unfold refl
+  rw [hR2, hk, norm_div, norm_mul, Complex.norm_conj, hw, Complex.norm_real, Real.norm_of_nonneg hR.le]
+  field_simp
+
+lemma le_norm_refl {s₀ ρ z : ℂ} {R R' : ℝ} (hR : 0 < R) (hρ : ρ ∈ closedBall s₀ R')
+    (hz : z ∈ closedBall s₀ R) : R - R' ≤ ‖refl s₀ R ρ z‖ := by
+  have ha : ‖ρ - s₀‖ ≤ R' := by rwa [mem_closedBall, dist_eq_norm] at hρ
+  have hw : ‖z - s₀‖ ≤ R := by rwa [mem_closedBall, dist_eq_norm] at hz
+  unfold refl
+  rw [norm_div, Complex.norm_real, Real.norm_of_nonneg hR.le, le_div_iff₀ hR]
+  have h1 : ‖(R : ℂ) ^ 2‖ = R ^ 2 := by
+    rw [norm_pow, Complex.norm_real, Real.norm_of_nonneg hR.le]
+  have h2 : ‖conj (ρ - s₀) * (z - s₀)‖ ≤ R' * R := by
+    rw [norm_mul, Complex.norm_conj]
+    exact mul_le_mul ha hw (norm_nonneg _) ((norm_nonneg _).trans ha)
+  have h3 := norm_sub_norm_le ((R : ℂ) ^ 2) (conj (ρ - s₀) * (z - s₀))
+  rw [h1] at h3
+  nlinarith
+
+lemma refl_center {s₀ ρ : ℂ} {R : ℝ} (hR : 0 < R) : refl s₀ R ρ s₀ = R := by
+  have h : (R : ℂ) ≠ 0 := by exact_mod_cast hR.ne'
+  unfold refl
+  rw [sub_self, mul_zero, sub_zero, pow_two, mul_div_assoc, div_self h, mul_one]
+
+lemma hasDerivAt_refl (s₀ : ℂ) (R : ℝ) (ρ z : ℂ) :
+    HasDerivAt (refl s₀ R ρ) (-(conj (ρ - s₀) * 1) / R) z :=
+  ((((hasDerivAt_id' z).sub_const s₀).const_mul (conj (ρ - s₀))).const_sub ((R : ℂ) ^ 2)).div_const (R : ℂ)
+
+lemma differentiable_refl (s₀ : ℂ) (R : ℝ) (ρ : ℂ) : Differentiable ℂ (refl s₀ R ρ) :=
+  fun z => (hasDerivAt_refl s₀ R ρ z).differentiableAt
+
+lemma norm_logDeriv_refl_le {s₀ ρ z : ℂ} {R R' : ℝ} (hR'R : R' < R) (hR : 0 < R)
+    (hρ : ρ ∈ closedBall s₀ R') (hz : z ∈ closedBall s₀ R) :
+    ‖logDeriv (refl s₀ R ρ) z‖ ≤ R' / (R * (R - R')) := by
+  have hpos : 0 < R - R' := sub_pos.mpr hR'R
+  have hl := le_norm_refl hR hρ hz
+  have hn : 0 < ‖refl s₀ R ρ z‖ := lt_of_lt_of_le hpos hl
+  have ha : ‖ρ - s₀‖ ≤ R' := by rwa [mem_closedBall, dist_eq_norm] at hρ
+  rw [logDeriv_apply, (hasDerivAt_refl s₀ R ρ z).deriv, norm_div, norm_div, norm_neg, mul_one,
+    Complex.norm_conj, Complex.norm_real, Real.norm_of_nonneg hR.le, div_div,
+    div_le_div_iff₀ (mul_pos hR hn) (mul_pos hR hpos)]
+  have h4 := mul_le_mul ha hl hpos.le ((norm_nonneg _).trans ha)
+  nlinarith
+
+lemma logDeriv_prod_pow_mul {Z : Finset ℂ} {m : ℂ → ℕ} {φ : ℂ → ℂ → ℂ} {h : ℂ → ℂ} {s : ℂ}
+    (hφ : ∀ ρ ∈ Z, φ ρ s ≠ 0) (hφd : ∀ ρ ∈ Z, DifferentiableAt ℂ (φ ρ) s) (hh : h s ≠ 0)
+    (hhd : DifferentiableAt ℂ h s) :
+    logDeriv (fun z => (∏ ρ ∈ Z, (φ ρ z) ^ (m ρ)) * h z) s =
+      (∑ ρ ∈ Z, (m ρ : ℂ) * logDeriv (φ ρ) s) + logDeriv h s := by
+  have hP : (∏ ρ ∈ Z, (φ ρ s) ^ (m ρ)) ≠ 0 :=
+    Finset.prod_ne_zero_iff.mpr fun ρ hρ => pow_ne_zero _ (hφ ρ hρ)
+  have hPd : DifferentiableAt ℂ (fun z => ∏ ρ ∈ Z, (φ ρ z) ^ (m ρ)) s :=
+    by
+      have h5 := DifferentiableAt.finsetProd (f := fun ρ z => (φ ρ z) ^ (m ρ)) (fun ρ hρ => (hφd ρ hρ).pow _)
+      rwa [Finset.prod_fn] at h5
+  rw [logDeriv_fun_mul (f := fun z => ∏ ρ ∈ Z, (φ ρ z) ^ (m ρ)) (g := h) (x := s) hP hh hPd hhd]
+  congr 1
+  have h6 := logDeriv_prod (f := fun ρ z => (φ ρ z) ^ (m ρ)) (s := Z) (x := s)
+    (fun ρ hρ => pow_ne_zero _ (hφ ρ hρ)) (fun ρ hρ => (hφd ρ hρ).pow _)
+  rw [Finset.prod_fn] at h6
+  rw [h6]
+  refine Finset.sum_congr rfl fun ρ hρ => ?_
+  exact logDeriv_fun_pow (hφd ρ hρ) (m ρ)
+
+lemma order_eq_of_factor {f h : ℂ → ℂ} {Z : Finset ℂ} {m : ℂ → ℕ} {ρ : ℂ} (hρ : ρ ∈ Z) {U : Set ℂ}
+    (hU : U ∈ 𝓝 ρ) (hf : AnalyticAt ℂ f ρ) (hh : DifferentiableOn ℂ h U) (hhρ : h ρ ≠ 0)
+    (hfac : ∀ z ∈ U, f z = (∏ ρ' ∈ Z, (z - ρ') ^ (m ρ')) * h z) :
+    analyticOrderNatAt f ρ = m ρ := by
+  have hha : AnalyticAt ℂ h ρ := hh.analyticAt hU
+  have hg : AnalyticAt ℂ (fun z => (∏ ρ' ∈ Z.erase ρ, (z - ρ') ^ (m ρ')) * h z) ρ :=
+    by
+      have h7 := Finset.analyticAt_prod (𝕜 := ℂ) (Z.erase ρ) (f := fun ρ' z => (z - ρ') ^ (m ρ')) (c := ρ)
+        (fun ρ' _ => by fun_prop)
+      rw [Finset.prod_fn] at h7
+      exact h7.mul hha
+  have hg0 : (∏ ρ' ∈ Z.erase ρ, (ρ - ρ') ^ (m ρ')) * h ρ ≠ 0 :=
+    mul_ne_zero (Finset.prod_ne_zero_iff.mpr fun ρ' hρ' =>
+      pow_ne_zero _ (sub_ne_zero.mpr (Finset.ne_of_mem_erase hρ').symm)) hhρ
+  have hord : analyticOrderAt f ρ = (m ρ : ℕ∞) := by
+    rw [hf.analyticOrderAt_eq_natCast]
+    refine ⟨_, hg, hg0, ?_⟩
+    filter_upwards [hU] with z hz
+    rw [hfac z hz, ← Finset.mul_prod_erase Z (fun ρ' => (z - ρ') ^ (m ρ')) hρ, smul_eq_mul, mul_assoc]
+  simp [analyticOrderNatAt, hord]
+
+end PI.EF.Loc
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.EF
+
+open Complex Filter Topology Set
+
+lemma logDeriv_local {f : ℂ → ℂ} {ρ : ℂ} (hf : AnalyticAt ℂ f ρ)
+    (hfin : analyticOrderAt f ρ ≠ ⊤) :
+    ∃ k : ℂ → ℂ, AnalyticAt ℂ k ρ ∧ ∀ᶠ s in 𝓝[≠] ρ, f s ≠ 0 ∧
+      logDeriv f s = (analyticOrderNatAt f ρ : ℂ) / (s - ρ) + k s := by
+  have hn : analyticOrderAt f ρ = (analyticOrderNatAt f ρ : ℕ∞) := (Nat.cast_analyticOrderNatAt hfin).symm
+  obtain ⟨g, hg, hg0, hfg⟩ := (hf.analyticOrderAt_eq_natCast).1 hn
+  refine ⟨fun s => deriv g s / g s, hg.deriv.div hg hg0, ?_⟩
+  have hU : ∀ᶠ z in 𝓝 ρ, (∀ᶠ w in 𝓝 z, f w = (w - ρ) ^ analyticOrderNatAt f ρ • g w) ∧
+      g z ≠ 0 ∧ AnalyticAt ℂ g z :=
+    hfg.eventually_nhds.and ((hg.continuousAt.eventually_ne hg0).and hg.eventually_analyticAt)
+  filter_upwards [nhdsWithin_le_nhds hU, self_mem_nhdsWithin] with s hs hsne
+  obtain ⟨hfs, hgs, hga⟩ := hs
+  have hsr : s - ρ ≠ 0 := sub_ne_zero.2 hsne
+  have hpow : (s - ρ) ^ analyticOrderNatAt f ρ ≠ 0 := pow_ne_zero _ hsr
+  have hfs' : f s = (s - ρ) ^ analyticOrderNatAt f ρ * g s := by rw [hfs.self_of_nhds, smul_eq_mul]
+  refine ⟨by rw [hfs']; exact mul_ne_zero hpow hgs, ?_⟩
+  have hd : DifferentiableAt ℂ (fun w : ℂ => w - ρ) s := differentiableAt_id.sub_const ρ
+  have hld : logDeriv f s = logDeriv (fun w => (w - ρ) ^ analyticOrderNatAt f ρ * g w) s := by
+    rw [logDeriv_apply, logDeriv_apply,
+      Filter.EventuallyEq.deriv_eq (hfs.mono fun w hw => by rw [hw, smul_eq_mul]), hfs']
+  have hl : logDeriv (fun w : ℂ => w - ρ) s = 1 / (s - ρ) := by
+    rw [logDeriv_apply, deriv_sub_const, deriv_id'']
+  rw [hld, logDeriv_fun_mul (f := fun w => (w - ρ) ^ analyticOrderNatAt f ρ) s hpow hgs (hd.pow _)
+    hga.differentiableAt, logDeriv_fun_pow hd, hl, logDeriv_apply]
+  beta_reduce
+  ring
+
+theorem exists_regular_part {f : ℂ → ℂ} {K : Set ℂ} (hf : AnalyticOnNhd ℂ f K) (Z : Finset ℂ)
+    (hZ0 : ∀ ρ ∈ Z, f ρ = 0) (hK : ∀ s ∈ K, f s = 0 → s ∈ Z)
+    (hfin : ∀ ρ ∈ K, analyticOrderAt f ρ ≠ ⊤) :
+    ∃ H : ℂ → ℂ, AnalyticOnNhd ℂ H K ∧ ∀ s ∈ K, f s ≠ 0 →
+      logDeriv f s = H s + ∑ ρ ∈ Z, (analyticOrderNatAt f ρ : ℂ) / (s - ρ) := by
+  classical
+  have hloc : ∀ ρ, ρ ∈ K → ∃ k : ℂ → ℂ, AnalyticAt ℂ k ρ ∧ ∀ᶠ s in 𝓝[≠] ρ, f s ≠ 0 ∧
+      logDeriv f s = (analyticOrderNatAt f ρ : ℂ) / (s - ρ) + k s :=
+    fun ρ hρ => logDeriv_local (hf ρ hρ) (hfin ρ hρ)
+  choose! k hk hkev using hloc
+  have hsumA : ∀ (W : Finset ℂ) (s0 : ℂ), s0 ∉ W →
+      AnalyticAt ℂ (fun s => ∑ ρ ∈ W, (analyticOrderNatAt f ρ : ℂ) / (s - ρ)) s0 := by
+    intro W s0 hW
+    have h := Finset.analyticAt_sum (𝕜 := ℂ) (c := s0) W
+      (f := fun ρ (s : ℂ) => (analyticOrderNatAt f ρ : ℂ) / (s - ρ))
+      (fun ρ hρ => analyticAt_const.div (analyticAt_id.sub analyticAt_const)
+        (sub_ne_zero.2 fun h => hW (h ▸ hρ)))
+    convert h using 1
+    ext s
+    simp [Finset.sum_apply]
+  let H : ℂ → ℂ := fun s => if s ∈ Z ∧ s ∈ K then
+      k s s - ∑ ρ ∈ Z.erase s, (analyticOrderNatAt f ρ : ℂ) / (s - ρ)
+    else logDeriv f s - ∑ ρ ∈ Z, (analyticOrderNatAt f ρ : ℂ) / (s - ρ)
+  refine ⟨H, ?_, ?_⟩
+  · intro s0 hs0
+    by_cases hz : s0 ∈ Z
+    · have hRa : AnalyticAt ℂ
+          (fun s => k s0 s - ∑ ρ ∈ Z.erase s0, (analyticOrderNatAt f ρ : ℂ) / (s - ρ)) s0 :=
+        (hk s0 hs0).sub (hsumA _ s0 (by simp))
+      have h1 := hkev s0 hs0
+      rw [eventually_nhdsWithin_iff] at h1
+      have h2 : ∀ᶠ s in 𝓝 s0, s ∉ Z.erase s0 :=
+        (Z.erase s0).finite_toSet.isClosed.isOpen_compl.mem_nhds (by simp)
+      refine hRa.congr ?_
+      filter_upwards [h1, h2] with s hs1 hs2
+      by_cases hss : s = s0
+      · subst hss
+        simp only [H, if_pos (And.intro hz hs0)]
+      · have hsZ : s ∉ Z := fun h => hs2 (Finset.mem_erase.2 ⟨hss, h⟩)
+        obtain ⟨_, hl⟩ := hs1 hss
+        simp only [H, hsZ, false_and, if_false]
+        rw [hl, ← Finset.add_sum_erase Z _ hz]
+        ring
+    · have hf0 : f s0 ≠ 0 := fun h => hz (hK s0 hs0 h)
+      have h2 : ∀ᶠ s in 𝓝 s0, s ∉ Z :=
+        Z.finite_toSet.isClosed.isOpen_compl.mem_nhds (by simpa using hz)
+      have hA : AnalyticAt ℂ (fun s => logDeriv f s - ∑ ρ ∈ Z, (analyticOrderNatAt f ρ : ℂ) / (s - ρ)) s0 := by
+        refine AnalyticAt.sub ?_ (hsumA Z s0 hz)
+        have e : logDeriv f = fun s => deriv f s / f s := funext fun s => logDeriv_apply f s
+        rw [e]
+        exact (hf s0 hs0).deriv.div (hf s0 hs0) hf0
+      refine hA.congr ?_
+      filter_upwards [h2] with s hs
+      simp only [H, hs, false_and, if_false]
+  · intro s _ hfs
+    have hsZ : s ∉ Z := fun h => hfs (hZ0 s h)
+    simp only [H, hsZ, false_and, if_false]
+    ring
+
+lemma finite_zeros_of_compact {f : ℂ → ℂ} (hf : Differentiable ℂ f) {x : ℂ} (hx : f x ≠ 0)
+    {K : Set ℂ} (hK : IsCompact K) : (K ∩ f ⁻¹' {0}).Finite := by
+  by_contra hinf
+  obtain ⟨z, _, hacc⟩ := Set.Infinite.exists_accPt_of_subset_isCompact hinf hK Set.inter_subset_left
+  have hfr : ∃ᶠ w in 𝓝[≠] z, f w = 0 := by
+    rw [accPt_iff_frequently] at hacc
+    rw [Filter.Frequently, eventually_nhdsWithin_iff]
+    intro h
+    apply hacc
+    filter_upwards [h] with w hw
+    rintro ⟨hne, hw'⟩
+    exact hw hne hw'.2
+  have h0 := AnalyticOnNhd.eqOn_zero_of_preconnected_of_frequently_eq_zero
+    (fun w _ => hf.analyticAt w) isPreconnected_univ (Set.mem_univ z) hfr
+  exact hx (h0 (Set.mem_univ x))
+
+lemma order_ne_top_of_entire {f : ℂ → ℂ} (hf : Differentiable ℂ f) {x : ℂ} (hx : f x ≠ 0)
+    (y : ℂ) : analyticOrderAt f y ≠ ⊤ := by
+  intro htop
+  rw [analyticOrderAt_eq_top] at htop
+  have h0 := AnalyticOnNhd.eqOn_zero_of_preconnected_of_eventuallyEq_zero
+    (fun w _ => hf.analyticAt w) isPreconnected_univ (Set.mem_univ y) htop
+  exact hx (h0 (Set.mem_univ x))
+
+end PI.EF
+end
+end
+
+section
+
+noncomputable section
+
+namespace PI.EF
+
+def ZetaGrowth (C : ℝ) : Prop :=
+  ∀ s : ℂ, -4 ≤ s.re → s.re ≤ 8 → ‖(s - 1) * riemannZeta s‖ ≤ C * (|s.im| + 2) ^ 7
+
+end PI.EF
+end
+end

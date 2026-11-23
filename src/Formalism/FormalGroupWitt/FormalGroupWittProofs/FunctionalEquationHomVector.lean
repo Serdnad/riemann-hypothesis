@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FormalGroupWitt.SubstInjectiveV
-public import Formalism.FormalGroupWitt.FormalGroupWittProofs.CoeffExpandEqZero
+public import Formalism.FormalGroupWitt.FormalGroupWittProofs.Bundle001
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.FunctionalEquationSubstVector
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.InvIntV
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV

@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PlacesOfRationals.Minkowski
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.PlaceBasic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.CopNormLt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtInSmul
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.Bundle016
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SpWApply
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,6 +57,8 @@ import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LocDefs
 
 @[expose] public section
+
+attribute [local instance 2000] _root_.DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.Alg UpperTheory.V.HV UpperTheory.V.GradeZeroInterpolatingElement
 
@@ -122,7 +123,9 @@ private theorem cont_of_adic {Γ R K : Type} [TopologicalSpace Γ] [CommRing R] 
 
 private theorem snd_adic {O R Γ : Type} [CommRing O] [IsLocalRing O] [IsNoetherianRing O] [IsAdicComplete (maximalIdeal O) O]
     [CommRing R] [Algebra O R] [IsCO O R] [TopologicalSpace Γ] (y : R →ₐ[O] DualNumber O) (f : Γ → R)
-    (hf : AdicCont (maximalIdeal R) f) : AdicCont (maximalIdeal O) fun g => (y (f g)).snd := by
+    (hf : letI : IsLocalRing R := IsCO.toIsLocalRing (O := O) (R := R)
+          AdicCont (maximalIdeal R) f) : AdicCont (maximalIdeal O) fun g => (y (f g)).snd := by
+  letI : IsLocalRing R := IsCO.toIsLocalRing (O := O) (R := R)
   have h0 : ∀ x ∈ maximalIdeal R, (y x).fst ∈ maximalIdeal O := fun x hx => by
     rw [← res_eq_zero_iff O] at hx ⊢
     exact (res_map ((TrivSqZeroExt.fstHom O O O).comp y) x).trans hx

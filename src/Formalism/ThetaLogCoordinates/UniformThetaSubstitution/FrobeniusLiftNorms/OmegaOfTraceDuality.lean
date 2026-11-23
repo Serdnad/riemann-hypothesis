@@ -1,7 +1,6 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.ThmSUniform
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle003
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
 import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.ConstantCoeffFirstTwoOfThree
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.NormLiftLeOne

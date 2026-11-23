@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StTubeDeepAreaCount
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StIsolatedPointsCount
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PAreaMultiplicityWeight
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PAreaMultiplicity
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle087
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle009
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle021
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetAreaCompare
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetSumMeasurable
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.AnalyticForms.AnalyticCharts.Osgood
+import ReciprocityTheory.AnalyticForms.AnalyticCharts.Bundle002
 public import Mathlib.RingTheory.Norm.Transitivity
 
 @[expose] public section

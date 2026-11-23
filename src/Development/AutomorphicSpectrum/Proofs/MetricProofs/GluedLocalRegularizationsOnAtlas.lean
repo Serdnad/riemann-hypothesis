@@ -1,8 +1,7 @@
 module
 
 public import ReciprocityTheory.AnalyticForms.LeviForms.RegGlue
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
-public import ReciprocityTheory.AnalyticForms.LeviForms.RegChart
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,7 +51,7 @@ public import ReciprocityTheory.AnalyticForms.LeviForms.TailCut
 import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PshBasic
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.AtlasIndep
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
-public import ReciprocityTheory.AnalyticForms.LeviForms.RegChartB
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle003
 
 @[expose] public section
 

@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.OneParam
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.Bundle002
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
-public import ReciprocityTheory.GroupCohomology.CardLenStatement
+public import ReciprocityTheory.GroupCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,13 +42,12 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.PowPowSuccSub
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtC
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtD
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtE
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle012
 public import ReciprocityTheory.GaloisValuations.GlobalA
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.MemOfPowQKSubOne
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtA
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle007
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
 
 @[expose] public section
 

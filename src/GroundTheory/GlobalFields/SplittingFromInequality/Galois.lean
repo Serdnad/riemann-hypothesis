@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.FirstInequalityStatement
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 public import GroundTheory.GlobalFields.SplittingFromInequality
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

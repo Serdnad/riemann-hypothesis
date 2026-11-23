@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.WhittakerVanishingImpliesZero
 public import Development.AbelianVarietyTheory.Definitions.Foundations.AbsCharNotUnitary
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousInfIdele
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdInfMulFinPart
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-public import GroundTheory.GlobalFields.Adele.WeakApproxUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle191
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+public import GroundTheory.GlobalFields.Adele.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

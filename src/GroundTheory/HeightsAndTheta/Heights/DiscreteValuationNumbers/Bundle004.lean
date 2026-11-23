@@ -1,0 +1,346 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
+public import Mathlib.RingTheory.AlgebraicIndependent.Basic
+public import Mathlib.Algebra.BigOperators.Group.Finset.Defs
+public import Mathlib.Data.Nat.Choose.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Lean.Elab.MutualDef
+public import Mathlib.Algebra.Algebra.Defs
+public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+public import Mathlib.Algebra.Field.Defs
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle003
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.NumbersDVR
+
+open MvPolynomial
+
+noncomputable section
+
+section Local
+
+variable {A : Type*} [CommRing A]
+
+theorem mem_minimalPrimes_of_mul_mem {J J' W : Ideal A} {s t : A} (hs : s ∉ W) (ht : t ∉ W)
+    (hsJ : ∀ x ∈ J, s * x ∈ J') (htJ : ∀ x ∈ J', t * x ∈ J) (hW : W ∈ J.minimalPrimes) :
+    W ∈ J'.minimalPrimes := by
+  have hWp : W.IsPrime := hW.1.1
+  refine ⟨⟨hWp, fun x hx => ?_⟩, fun Q hQ hQW => hW.2 ⟨hQ.1, fun x hx => ?_⟩ hQW⟩
+  · exact (hWp.mem_or_mem (hW.1.2 (htJ x hx))).resolve_left ht
+  · exact (hQ.1.mem_or_mem (hQ.2 (hsJ x hx))).resolve_left (fun h => hs (hQW h))
+
+theorem length_localized_eq_of_le {J J'' W : Ideal A} [W.IsPrime] (hle : J ≤ J'')
+    (h : ∀ x ∈ J'', ∃ t ∉ W, t * x ∈ J) :
+    Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J)) =
+      Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J'')) := by
+  let q : (A ⧸ J) →ₗ[A] (A ⧸ J'') := Submodule.factor hle
+  let f := LocalizedModule.mkLinearMap W.primeCompl (A ⧸ J)
+  let g := LocalizedModule.mkLinearMap W.primeCompl (A ⧸ J'')
+  let m := IsLocalizedModule.map W.primeCompl f g q
+  have hinj : Function.Injective m := by
+    apply IsLocalizedModule.injective_of_map_zero W.primeCompl f
+    intro x hx
+    rw [IsLocalizedModule.map_apply] at hx
+    obtain ⟨y, rfl⟩ := Submodule.mkQ_surjective J x
+    obtain ⟨s, hs⟩ := (IsLocalizedModule.eq_zero_iff W.primeCompl g).mp hx
+    have hsy : (s : A) * y ∈ J'' := by
+      have : (s : A) • (Submodule.mkQ J'' y) = 0 := hs
+      rwa [← LinearMap.map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero,
+        smul_eq_mul] at this
+    obtain ⟨t, ht, hty⟩ := h _ hsy
+    refine (IsLocalizedModule.eq_zero_iff W.primeCompl f).mpr ⟨⟨t * s, W.primeCompl.mul_mem ht s.2⟩, ?_⟩
+    show ((t * s : A)) • (Submodule.mkQ J y) = 0
+    rw [← LinearMap.map_smul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero, smul_eq_mul,
+      mul_assoc]
+    exact hty
+  have hsurj : Function.Surjective m :=
+    IsLocalizedModule.map_surjective W.primeCompl f g q (Submodule.factor_surjective hle)
+  exact ((LinearEquiv.ofBijective m ⟨hinj, hsurj⟩).extendScalarsOfIsLocalization W.primeCompl
+    (Localization.AtPrime W)).length_eq
+
+theorem length_localized_eq_of_mul_mem {J J' W : Ideal A} [W.IsPrime] {s t : A} (hs : s ∉ W)
+    (ht : t ∉ W) (hsJ : ∀ x ∈ J, s * x ∈ J') (htJ : ∀ x ∈ J', t * x ∈ J) :
+    Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J)) =
+      Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J')) := by
+  have key : ∀ {J J' : Ideal A} {t : A}, t ∉ W → (∀ x ∈ J', t * x ∈ J) →
+      ∀ x ∈ J ⊔ J', ∃ t ∉ W, t * x ∈ J := by
+    intro J J' t ht htJ x hx
+    obtain ⟨a, ha, a', ha', rfl⟩ := Submodule.mem_sup.mp hx
+    exact ⟨t, ht, by rw [mul_add]; exact J.add_mem (J.mul_mem_left t ha) (htJ a' ha')⟩
+  rw [length_localized_eq_of_le le_sup_left (key ht htJ),
+    length_localized_eq_of_le le_sup_left (key hs hsJ), sup_comm]
+
+end Local
+
+section Divisors
+
+variable {K : Type*} {ι : K → Type*} {R : Type*} [CommRing R]
+
+theorem divCycle_eq_of_mul_sub_mem {P : Ideal (MRing ι R)} {f g u v : MRing ι R}
+    {W : Ideal (MRing ι R)} (hu : u ∉ W) (hv : v ∉ W) (h : u * f - v * g ∈ P) :
+    divCycle P f W = divCycle P g W := by
+  have h1 : ∀ x ∈ P ⊔ Ideal.span {f}, u * x ∈ P ⊔ Ideal.span {g} := by
+    intro x hx
+    obtain ⟨p, hp, r, hr, rfl⟩ := Submodule.mem_sup.mp hx
+    obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp hr
+    have e : u * (p + c * f) = (u * p + c * (u * f - v * g)) + (c * v) * g := by ring
+    rw [e]
+    exact Submodule.add_mem_sup (P.add_mem (P.mul_mem_left _ hp) (P.mul_mem_left _ h))
+      (Ideal.mem_span_singleton'.mpr ⟨c * v, rfl⟩)
+  have h2 : ∀ x ∈ P ⊔ Ideal.span {g}, v * x ∈ P ⊔ Ideal.span {f} := by
+    intro x hx
+    obtain ⟨p, hp, r, hr, rfl⟩ := Submodule.mem_sup.mp hx
+    obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.mp hr
+    have e : v * (p + c * g) = (v * p - c * (u * f - v * g)) + (c * u) * f := by ring
+    rw [e]
+    exact Submodule.add_mem_sup (P.sub_mem (P.mul_mem_left _ hp) (P.mul_mem_left _ h))
+      (Ideal.mem_span_singleton'.mpr ⟨c * u, rfl⟩)
+  unfold divCycle
+  by_cases hf : W ∈ (P ⊔ Ideal.span {f}).minimalPrimes ∧ IsRelevant W
+  · have hg : W ∈ (P ⊔ Ideal.span {g}).minimalPrimes ∧ IsRelevant W :=
+      ⟨mem_minimalPrimes_of_mul_mem hu hv h1 h2 hf.1, hf.2⟩
+    rw [dite_eq_left hf, dite_eq_left hg]
+    have : W.IsPrime := hf.1.1.1
+    unfold multAt
+    rw [length_localized_eq_of_mul_mem hu hv h1 h2]
+  · have hg : ¬ (W ∈ (P ⊔ Ideal.span {g}).minimalPrimes ∧ IsRelevant W) := fun hg =>
+      hf ⟨mem_minimalPrimes_of_mul_mem hv hu h2 h1 hg.1, hg.2⟩
+    rw [dite_eq_right hf, dite_eq_right hg]
+
+theorem le_and_isRelevant_of_divCycle_ne_zero {P : Ideal (MRing ι R)} {f : MRing ι R}
+    {W : Ideal (MRing ι R)} (h : divCycle P f W ≠ 0) : W.IsPrime ∧ P ≤ W ∧ IsRelevant W := by
+  unfold divCycle at h
+  split_ifs at h with hW
+  · exact ⟨hW.1.1.1, le_sup_left.trans hW.1.1.2, hW.2⟩
+  · exact absurd rfl h
+
+end Divisors
+
+section Vertical
+
+variable {K : Type*} [DecidableEq K] {ι : K → Type*}
+variable {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+
+
+omit [IsDomain O] [IsDiscreteValuationRing O] in
+theorem IsVerticalDivisor.of_unit_off_special {P : Ideal (MRing ι O)} {ϖ : O} {b : K → ℤ}
+    {f g : MRing ι O}
+    (degrees : ∃ bf bg : K → ℕ, IsMultiHomog f bf ∧ IsMultiHomog g bg ∧
+      (fun k => (bf k : ℤ) - bg k) = b)
+    (hf : f ∉ P) (hg : g ∉ P)
+    (hunit : ∀ W : Ideal (MRing ι O), W.IsPrime → P ≤ W → IsRelevant W →
+      (C ϖ : MRing ι O) ∉ W → ∃ u v : MRing ι O, u ∉ W ∧ v ∉ W ∧ u * f - v * g ∈ P) :
+    IsVerticalDivisor P ϖ b f g := by
+  refine ⟨degrees, hf, hg, ?_, hunit⟩
+  intro W hW
+  by_contra hϖ
+  have hsupp : W.IsPrime ∧ P ≤ W ∧ IsRelevant W := by
+    by_cases h1 : divCycle P f W = 0
+    · have h2 : divCycle P g W ≠ 0 := by
+        intro h2; apply hW; unfold ratDiv; rw [h1, h2, sub_zero]
+      exact le_and_isRelevant_of_divCycle_ne_zero h2
+    · exact le_and_isRelevant_of_divCycle_ne_zero h1
+  obtain ⟨u, v, hu, hv, h⟩ := hunit W hsupp.1 hsupp.2.1 hsupp.2.2 hϖ
+  apply hW
+  unfold ratDiv
+  rw [divCycle_eq_of_mul_sub_mem hu hv h, sub_self]
+
+end Vertical
+
+section Graded
+
+variable {K : Type*} [DecidableEq K] {ι : K → Type*} {R : Type*} [CommRing R] {τ : Type*}
+
+end Graded
+
+section BlowUp
+
+variable {O : Type*} [CommRing O]
+
+end BlowUp
+
+section BlowUpModel
+
+variable {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+
+end BlowUpModel
+
+section Nodal
+
+variable {O : Type*} [CommRing O] [IsDomain O]
+
+end Nodal
+
+end
+
+end GroundTheory.Heights₂.Heights.NumbersDVR
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.NumbersDVR
+
+open MvPolynomial
+
+noncomputable section
+
+universe u
+
+def GenericDimGe.Statement : Prop :=
+  ∀ (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (K : Type) [Fintype K]
+    [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)] (P : Ideal (MRing ι O)),
+    P.IsPrime → P.comap (C : O →+* MRing ι O) = ⊥ →
+    ringKrullDim (MRing ι O ⧸ P) ≤ ringKrullDim (MRing ι (FractionRing O) ⧸ genFib P) + 1
+
+end
+
+end GroundTheory.Heights₂.Heights.NumbersDVR
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.NumbersDVR
+
+open MvPolynomial
+
+noncomputable section
+
+def VerticalComponentFibre.Statement : Prop :=
+  ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] (ϖ : O), Irreducible ϖ →
+    ∀ (K : Type) [Fintype K] [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)]
+      (P : Ideal (MRing ι O)) (d : ℕ), IsModelOver P d →
+    ∀ (f : MRing ι O) (b : K → ℕ), IsMultiHomog f b → f ∉ P →
+    ∀ W ∈ (P ⊔ Ideal.span {f}).minimalPrimes, IsRelevant W → (C ϖ : MRing ι O) ∈ W →
+      IsMultiProjPrime (specialIdeal W) ∧
+        ringKrullDim (MRing ι (IsLocalRing.ResidueField O) ⧸ specialIdeal W) =
+          ((d + Fintype.card K : ℕ) : WithBot ℕ∞)
+
+end
+
+end GroundTheory.Heights₂.Heights.NumbersDVR
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.NumbersDVR
+
+open MvPolynomial
+
+noncomputable section
+
+def DvrConeDimTrdeg.Statement : Prop :=
+  ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    (K : Type) [Fintype K] [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)] (P : Ideal (MRing ι O)),
+    IsMultiProjPrime P → P.comap (C : O →+* MRing ι O) = ⊥ →
+      ringKrullDim (MRing ι O ⧸ P) =
+        (((Algebra.trdeg O (MRing ι O ⧸ P)).toENat + 1 : ℕ∞) : WithBot ℕ∞)
+
+section Examples
+
+end Examples
+
+end
+
+end GroundTheory.Heights₂.Heights.NumbersDVR
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights.NumbersDVR
+
+open MvPolynomial ReciprocityTheory.ChartRestriction.G.Geo
+
+noncomputable section
+
+set_option linter.unusedSectionVars false
+
+namespace ProjectiveBundleNumbers
+
+theorem sum_choose_succ (n : ℕ) (U : ℕ → ℤ) :
+    ∑ k ∈ Finset.range (n + 2), ((n + 1).choose k : ℤ) * U k =
+      ∑ k ∈ Finset.range (n + 1), (n.choose k : ℤ) * U k +
+        ∑ k ∈ Finset.range (n + 1), (n.choose k : ℤ) * U (k + 1) := by
+  rw [Finset.sum_range_succ', Finset.sum_range_succ' (fun k => (n.choose k : ℤ) * U k)]
+  simp only [Nat.choose_succ_succ', Nat.cast_add, add_mul, Finset.sum_add_distrib,
+    Nat.choose_zero_right]
+  rw [Finset.sum_range_succ (fun k => (n.choose (k + 1) : ℤ) * U (k + 1)),
+    Nat.choose_succ_self, Nat.cast_zero, zero_mul, add_zero]
+  ring
+
+section ProjBundle
+
+variable {K : Type*} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
+variable {F : Type*} [Field F] {Ω : Type*} [Field Ω] [Algebra F Ω]
+variable {E : Type*} [AddCommGroup E] [Module Ω E] {N : ℕ}
+
+end ProjBundle
+
+section Rename
+
+variable {F : Type} [Field F] {S : Type} [Fintype S] [DecidableEq S] {κ ι' : S → Type}
+  [∀ s, Fintype (κ s)] [∀ s, Fintype (ι' s)]
+
+end Rename
+
+end ProjectiveBundleNumbers
+
+end
+
+end GroundTheory.Heights₂.Heights.NumbersDVR
+end

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.LiftFrameEmbeddingBase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvalPol
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CapelliCoeffDualWeylEqCoeffProdStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueDualWeylWeightProjectorStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolarisationOperatorFormulaGroupAndProjectorsStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle860
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1041
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle890
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

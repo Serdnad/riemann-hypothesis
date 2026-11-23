@@ -1,17 +1,17 @@
 module
 
-public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifEx2
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBoundsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FullIntersectionGenericBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WeilSt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AgreementPositiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.CuspWeightIntegrableOnFundamentalSetStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFundamentalSetStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsGroupDictionaryStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PointsIntegrableOfResolutionStatementStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ProportionalStatement
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle314
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle253
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle152
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle132
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle094
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle187
 public import Development.WeilBound.CoreStatements.VolumeEquality.PiecesOf
-public import Development.WeilBound.CoreStatements.VolumeEquality.SheetPiecesComponent
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,6 +62,7 @@ open AlgebraicGeometry CategoryTheory Limits NumberField MeasureTheory Filter To
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.Semi
 open GroundTheory.Heights₂.Heights.LowerBoundFree GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Cusp
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem degMu_eq (h1 : HolNull) (h2 : ChartMeets) (h3 : RootBranches) (h4 : CoverRoots) (h5 : LocInj) (h7 : OnePiece)
     (hG : Top.Given) : ∃ κ : ℕ → ℕ → ℕ → ℝ, ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E)
       (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l)
@@ -99,6 +100,7 @@ theorem degMu_eq (h1 : HolNull) (h2 : ChartMeets) (h3 : RootBranches) (h4 : Cove
     Finset.sum_const, nsmul_eq_mul]
   rw [← hc, mul_comm (Or.deg : ℝ)]
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem volEq_of (h1 : HolNull) (h2 : ChartMeets) (h3 : RootBranches) (h4 : CoverRoots) (h5 : LocInj) (h6 : BaseUnifEx2)
     (h7 : OnePiece) (h8 : BallVolEq) (h9 : DegPush) : Cmp.CmpSt → Top.Given →
     ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H)

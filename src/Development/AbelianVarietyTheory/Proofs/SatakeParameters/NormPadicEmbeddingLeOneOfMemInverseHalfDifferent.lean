@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TauPlBijective
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle122
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.OffSmall
-public import Formalism.LocalToGlobal.ProjectiveLattices.HostRank
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

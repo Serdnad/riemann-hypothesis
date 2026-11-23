@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import GroundTheory.GlobalFields.ComplexMultiplication.AnalyticAlgebraic
+public import GroundTheory.GlobalFields.ComplexMultiplication.Bundle009
 
 @[expose] public section
 

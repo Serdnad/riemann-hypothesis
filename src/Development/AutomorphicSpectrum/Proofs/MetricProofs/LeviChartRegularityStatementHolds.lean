@@ -1,24 +1,23 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.StNbarLeviChartReg
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.StProjChartHolo
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StProjHoloLocal
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ConeChartB
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPC
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle012
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle014
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle006
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsAnalyticLogResolution
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalOrbitChart
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCriticalFlatNotInjective
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PHolomorphicKernelFibre
-import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PInjectiveHolomorphicInverse
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PInjectiveHolomorphicJacobianNeZero
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle129
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle090
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle072
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle033
 public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PNbarLeviChartReg
-public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PRefChartDisc
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PChartVelLift
+public import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle021
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHermExtend
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PHoloInjDerivInj
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle007
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PProjHoloLocal
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PProjSmoothAlong
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle015
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle013
 import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 import GroundTheory.HeightsAndTheta.Heights.Intersections.RegularizedCurvature
 import Mathlib.Algebra.Order.Floor.Extended
@@ -73,7 +72,7 @@ import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCEqZeroOfEventuallyEq
 import ReciprocityTheory.AnalyticForms.PotentialTheory.PshShiftA
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterAlgRes
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterBridgeB
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterMinor
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

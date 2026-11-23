@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
 public import Mathlib.RingTheory.PowerSeries.NoZeroDivisors
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.CoordOfHasWeight
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsIsSemiAbelianIsGt
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsAbelianSchemeThick
@@ -55,7 +55,7 @@ import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AmplePt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Splits
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 
 @[expose] public section
@@ -67,6 +67,11 @@ attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.LN
 
 noncomputable section
+
+local instance (priority := high) grpObjArcSplitPullback {S T : Scheme.{0}} (f : T ⟶ S)
+    (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
 
 namespace GlobalTheory.ArcSplit
 
@@ -119,7 +124,7 @@ theorem exists_iso_of_coord (hG : GlobalFnsSt) (g : GtCoord I D e G) (g' : GtCoo
     exact (Category.id_comp _).symm
   · refine (vF χ _ _ z J hJ).trans (Eq.trans ?_ (vF' χ _ _ z J hJ))
     exact congrArg (fun x => val (g.t χ) x z J) (Category.id_comp _).symm
-  · have h := mul (𝟙_ _) 1 1
+  · have h := mul (𝟙_ _) (1 : 𝟙_ _ ⟶ thickObj R I e G) (1 : 𝟙_ _ ⟶ thickObj R I e G)
     rw [_root_.mul_one] at h
     have h' : (1 : 𝟙_ _ ⟶ thickObj R I e G) ≫ F = 1 := mul_eq_left.1 h.symm
     simpa only [Hom.one_def, toUnit_unit, Category.id_comp] using h'

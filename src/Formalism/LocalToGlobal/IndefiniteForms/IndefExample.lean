@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.MirabolicMackeyTheory.StatementT
+import Formalism.MirabolicMackeyTheory.Bundle001
 import Formalism.QuotientMetricDivisors.Statement
 import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Basic

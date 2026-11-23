@@ -1,15 +1,15 @@
 module
 
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqZeroOfFderivEqZero
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FibreLatticeLinearEquiv
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TangentSpaceEquivHolUnif
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle089
 public import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnif
-import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifConjA
+import Development.WeilBound.CoreStatements.VolumeEquality.Bundle009
 import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifRiem
-import Development.WeilBound.CoreStatements.VolumeEquality.BaseUnifVecA
+import Development.WeilBound.CoreStatements.VolumeEquality.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 
@@ -180,6 +180,7 @@ theorem countGen_of : GenRigid → CountGen := by
           (∀ a, 𝔐.M.ValAt z (b a.1 a.2) (v a)) ∧ FibreLatVec 𝔐.t z R x v ∧
           ∀ s k, flagStep ℂ (fun i => x ⟨s, i⟩) k = F s k} with hZ
   have himg : ((fun z : Sp ℂ ⟶ 𝔐.X => z ≫ 𝔐.f) '' Z).Countable := by
+    letI : Fintype (CMType H) := Subtype.fintype (fun τ : E →+* ℂ => τ (H.rt : E) = H.rt0)
     refine (Set.countable_iUnion fun k => (countable_ball R (B.F k)).image (B.pt k)).mono ?_
     rintro _ ⟨z, ⟨-, hin, -, x, v, -, hF, -⟩, rfl⟩
     obtain ⟨k, t, ht, e⟩ := B.onto (z ≫ 𝔐.f) ((abLocus_pullback abLocusOne Y.t.semi 𝔐.m.cart.1 _).2 hin)

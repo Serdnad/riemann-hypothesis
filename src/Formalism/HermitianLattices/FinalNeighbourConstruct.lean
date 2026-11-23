@@ -1,13 +1,12 @@
 module
 
-public import Formalism.HermitianLattices.GenusCovolBound
+public import Formalism.HermitianLattices.Bundle003
 import Formalism.HermitianLattices.HermitianLatticesProofs.AutFinite
 import Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetFinite
-import Formalism.HermitianLattices.HermitianLatticesProofs.FinIntermediate
+import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovol
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
-import Formalism.HermitianLattices.HermitianLatticesProofs.IsomOfTrace
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ShortVectors
 public import Formalism.HermitianLattices.HermitianLatticesProofs.TraceReal
 import Mathlib.Algebra.Order.Floor.Extended

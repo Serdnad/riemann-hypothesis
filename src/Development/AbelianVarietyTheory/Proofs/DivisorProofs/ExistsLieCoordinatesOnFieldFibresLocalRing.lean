@@ -1,9 +1,9 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.ChartLaw
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ReductionSurjectiveOfIsNilpotent
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsLieBasisBaseChange
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsLieBasisEigen
 public import Development.AbelianVarietyTheory.Statements.FundamentalDomains.ExistsIsAddFundamentalDomain
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,10 +47,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Spread
 import Development.AbelianVarietyTheory.Definitions.Degenerations.MorAlgSt
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.LeOfPowLePolyMulPow
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle001
 import Development.AbelianVarietyTheory.PublishedTheorems.AbelianLaws.PrincipalPolarisationOneSection
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.HenselianLocalRingOfIsAdicComplete
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ChartAway
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle005
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle012
 
 @[expose] public section
 
@@ -214,8 +214,11 @@ theorem GlobalTheory.exists_lie_coordinates_fibres : ∀ (R : Type) [CommRing R]
   refine ⟨n, lieMat hv, fun g hg => ?_, fun k _ f => ?_⟩
   · obtain ⟨w, hw⟩ := KeyPow.exists_isLieBasis G hg
     exact card_eq_of_isLieBasis hv hw
+  letI : (Over.pullback (spMap f)).Monoidal :=
+    (Over.instBraidedPullback (f := spMap f)).toMonoidal
+  letI : GrpObj ((Over.pullback (spMap f)).obj G) := Functor.grpObjObj (F := Over.pullback (spMap f))
   have hk := isGrpPullback_pullback G (spMap f)
-  obtain ⟨v', hv', e⟩ := exists_isLieBasis_baseChange R k f G _ _ hk hs n v hv
+  obtain ⟨v', hv', e⟩ := exists_isLieBasis_baseChange R k f G ((Over.pullback (spMap f)).obj G) _ hk hs n v hv
   let P := pushHom hk (epsR k)
   refine ⟨fun c => P (prodPts c v'), fun c c' h => LieEigen.prodPts_injective hv' (push_injective f h),
     fun w => ?_, fun c c' => ?_, fun t c => ?_, fun u hu c => ?_⟩

@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FlatTensorVacuum
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrdL
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle070
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsInverseUnipotentVolumeConjDiagonalEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle566
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,8 +45,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairPtsClasses
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ValuationGdetKapAt
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle287
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle324
 
 @[expose] public section
 

@@ -3,10 +3,9 @@ module
 public import Formalism.PieriBlockIdeals.BlockIdealBound5Derived
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalC
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.ClosedEqNabla
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDbasisLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle015
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.DividedPowerZeroZeroVector
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LastGradedImpliesOneBlock
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.ProdInitialMinorsMemDetSpan
@@ -58,7 +57,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.RankGapBounds.LargePrimeFactor
+import Formalism.RankGapBounds.Bundle001
 
 @[expose] public section
 

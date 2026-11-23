@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsLieDataCircle
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsNeZeroMemFractionalIdealNormSqLe
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle007
 public import Development.AbelianVarietyTheory.PublishedTheorems.AdelicLattices₂.ExistsIntMulIsIntegralOfTrace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

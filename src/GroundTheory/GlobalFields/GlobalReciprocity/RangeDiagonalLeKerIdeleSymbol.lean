@@ -2,11 +2,11 @@ module
 
 public import GroundTheory.GlobalFields.GlobalReciprocity.InfKerDegreeLeOfLeSupZhatField
 public import GroundTheory.GlobalFields.NormResidueSymbol.Cyclotomic
-import GroundTheory.GlobalFields.Adele.IdeleBasis
+import GroundTheory.GlobalFields.Adele.Bundle002
 public import GroundTheory.GlobalFields.GlobalReciprocity.FinitePlaces
 public import GroundTheory.GlobalFields.GlobalReciprocity.RealPlaces
 import GroundTheory.GlobalFields.IdeleGroups.LocalNormsEverywhere
-import GroundTheory.GlobalFields.NormResidueSymbol.AbstractUnique
+import GroundTheory.GlobalFields.NormResidueSymbol.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

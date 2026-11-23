@@ -1,0 +1,488 @@
+module
+
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle200
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle108
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaCutoffLimit
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle079
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAGCut
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle189
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle140
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle202
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutERCapAdjFrom
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.HaarUniquenessConjugation
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle086
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.SlicesFiniteRegularityBuilt
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle204
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.LinearAlgebra.Lagrange
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+
+@[expose] public section
+
+section
+
+open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt
+
+noncomputable section
+
+namespace Formalism.FourierDecayAlt.P.CutMP.JA
+
+open NumberField Formalism.FourierDecayAlt.P.CutMP
+
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+namespace LocOp
+
+def lcChi (x : ℝ) : ℝ := Real.smoothTransition (2 * x - 1)
+
+theorem lcChi_zero {x : ℝ} (hx : x < 1 / 2) : lcChi x = 0 :=
+  Real.smoothTransition.zero_of_nonpos (by linarith)
+
+theorem lcChi_one {x : ℝ} (hx : 1 ≤ x) : lcChi x = 1 :=
+  Real.smoothTransition.one_of_one_le (by linarith)
+
+theorem isCut0_lcChi : C6.IsCut0 lcChi :=
+  ⟨Real.smoothTransition.contDiff.comp ((contDiff_const.mul contDiff_id).sub contDiff_const),
+    ⟨1 / 2, by norm_num, fun _ hx => lcChi_zero hx⟩, fun _ hx => lcChi_one hx⟩
+
+section gen
+
+variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
+  [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wq]
+
+theorem wR_lie {w : List (B.Mat k r)} (hw : ∀ X ∈ w, B.inLie k r X) :
+    ∀ x ∈ Formalism.FourierDecayAlt.P.BetaSesquilinearity.wR w, B.inLie k r x.2 :=
+  fun x hx => Formalism.FourierDecayAlt.P.BetaSesquilinearity.lie_LR (u := []) (by simp) hw x (by simpa [Formalism.FourierDecayAlt.P.BetaSesquilinearity.wL] using hx)
+
+theorem rw_congr_GV {F₀ : Type} [NormedAddCommGroup F₀] [NormedSpace ℂ F₀] {O : Set (B.Mat k r)} (hO : IsOpen O)
+    {f₁ f₂ : B.Mat k r → F₀} (h : ∀ g ∈ B.GV k r, g ∈ O → f₁ g = f₂ g) {w : List (B.Mat k r)}
+    (hw : ∀ X ∈ w, B.inLie k r X) : ∀ g ∈ B.GV k r, g ∈ O → B.Rw w f₁ g = B.Rw w f₂ g := by
+  intro g hg hgO
+  rw [← Formalism.FourierDecayAlt.P.BetaSesquilinearity.Dw_wR, ← Formalism.FourierDecayAlt.P.BetaSesquilinearity.Dw_wR]
+  exact Formalism.FourierDecayAlt.P.BetaSesquilinearity.Dw_congr_loc (wR_lie hw) hO h g hg hgO
+
+theorem opApply_congr_GV (Θ : B.DiffOp k r Wp Wq) {O : Set (B.Mat k r)} (hO : IsOpen O)
+    {f₁ f₂ : B.Mat k r → (Wq →L[ℂ] Wp)} (h : ∀ g ∈ B.GV k r, g ∈ O → f₁ g = f₂ g) :
+    ∀ g ∈ B.GV k r, g ∈ O → B.opApply Θ f₁ g = B.opApply Θ f₂ g := by
+  intro g hg hgO
+  unfold B.opApply
+  congr 1
+  refine List.map_congr_left fun T _ => ?_
+  rw [rw_congr_GV hO h T.word_lie g hg hgO]
+
+theorem opAdj_congr_GV (Θ : B.DiffOp k r Wp Wq) {O : Set (B.Mat k r)} (hO : IsOpen O)
+    {f₁ f₂ : B.Mat k r → (Wq →L[ℂ] Wp)} (h : ∀ g ∈ B.GV k r, g ∈ O → f₁ g = f₂ g) :
+    ∀ g ∈ B.GV k r, g ∈ O → B.opAdj Θ f₁ g = B.opAdj Θ f₂ g := by
+  intro g hg hgO
+  unfold B.opAdj
+  congr 1
+  refine List.map_congr_left fun T _ => ?_
+  have h' : ∀ x ∈ B.GV k r, x ∈ O → T.coefAdj x (f₁ x) = T.coefAdj x (f₂ x) := fun x hx hxO => by
+    rw [h x hx hxO]
+  have hrev : ∀ X ∈ T.word.reverse, B.inLie k r X := fun X hX => T.word_lie X (List.mem_reverse.1 hX)
+  rw [rw_congr_GV hO h' hrev g hg hgO]
+
+end gen
+
+section place
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {Wp Wq : InfinitePlace E → Type}
+  [∀ x, NormedAddCommGroup (Wp x)] [∀ x, InnerProductSpace ℂ (Wp x)]
+  [∀ x, NormedAddCommGroup (Wq x)] [∀ x, InnerProductSpace ℂ (Wq x)]
+  [∀ x, FiniteDimensional ℂ (Wp x)] [∀ x, FiniteDimensional ℂ (Wq x)]
+
+theorem rep (hAg : LT.AgreeOm) {S : C.HidaSetting E Wp Wq}
+    {T : ∀ v : Fin S.f, D.LevTower S.G.k S.G.r (Wp (S.pl v)) (Wq (S.pl v))}
+    {f : ∀ v : Fin S.f, B.Mat S.G.k S.G.r → (Wq (S.pl v) →L[ℂ] Wp (S.pl v))} {χ : ℝ → ℝ}
+    {ν' : Fin S.f → Fin (2 * S.G.r + S.G.k + 1) → ℂ} {m₀ : Fin S.f → B.Mat S.G.k S.G.r}
+    {top : ∀ v : Fin S.f, (B.Mat S.G.k S.G.r → (Wq (S.pl v) →L[ℂ] Wp (S.pl v))) → List C.Letter → C.LPt → C.LPt → ℂ}
+    {Cb A₀ : ℝ} (hB : BuiltOW Cb S T f χ ν' m₀ top A₀) (v : Fin S.f) {A Bg δ : ℝ} {J : GFn S v}
+    (hBg : 2 * ((S.G.r : ℝ) + 1) ≤ Bg) (hJ : LocCC S T v A Bg J) (hδ : 0 < δ) :
+    ∃ F : GFn S v, B.CkOn ⊤ (B.GV S.G.k S.G.r) F ∧ CCg S v A Bg F ∧
+      (∀ g ∈ B.GV S.G.k S.G.r, Gf S.G.k S.G.r (T v).base.z (T v).base.z' g < 3 * δ / 8 → F g = 0) ∧
+      ∀ g ∈ JF.Om S.G.k S.G.r (T v).base.z (T v).base.z', 3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' g →
+        J g = B.JF (T v).base F g := by
+  have hPl : Q.IsPlace (D.parOf S v) (T v).base.z (T v).base.z' (T v).base.π (T v).base.π' :=
+    (hB.1.2.2.2.1.2 v).2.2.2.1
+  have hTT : (D.parOf S v).TT = Tz S.G.k S.G.r (T v).base.z * Tz S.G.k S.G.r (T v).base.z' := by
+    rw [hPl.2.2.2.1, hPl.2.2.2.2.1]; rfl
+  obtain ⟨F₀, hF₀c, hF₀g, hF₀e⟩ := hJ.2 (δ / 4) (by positivity)
+  have hε : (0 : ℝ) < 3 * δ / 4 := by positivity
+  obtain ⟨δ', -, hcut, -⟩ := Formalism.FourierDecayAlt.P.JCTx6.Lev0.isCutG_div isCut0_lcChi hε
+  obtain ⟨hFc, hFg⟩ := gcut_graded (T v).base.z (T v).base.z' (fun x => lcChi (x / (3 * δ / 4))) (δ' * (3 * δ / 4))
+    hcut hBg hF₀c hF₀g
+  refine ⟨D.cutF (T v).base lcChi F₀ (3 * δ / 4), hFc, hFg, ?_, ?_⟩
+  · intro g _ hg
+    have h1 : Gf S.G.k S.G.r (T v).base.z (T v).base.z' g / (3 * δ / 4) < 1 / 2 := by
+      rw [div_lt_iff₀ hε]; linarith
+    simp [D.cutF, lcChi_zero h1]
+  · intro g hg hG
+    refine hAg _ _ _ _ (T v).base J _ (Set.Ioi (3 * δ / 4)) hJ.1 ?_ g hg hG
+    intro q hq hGq
+    have hGq' : 3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base q) := hGq
+    have hx : q ∈ MA.Qset (D.parOf S v).r (D.parOf S v).TT := ⟨hq.1, by rw [hTT]; exact hq.2⟩
+    rw [hF₀e q hx (by unfold GfP; linarith), Formalism.FourierDecayAlt.P.JCTx2.JF_cutF]
+    have h1 : 1 ≤ Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base q) / (3 * δ / 4) := by
+      rw [le_div_iff₀ hε]; linarith
+    rw [lcChi_one h1]
+    simp
+
+theorem isOpen_omPlus_inter_lt {k r : ℕ} (z z' : Fin (2 * r + k + 1) → ℂ) (c : ℝ) :
+    IsOpen (Q.OmPlus k r z z' ∩ {g | c < Gf k r z z' g}) :=
+  (Formalism.FourierDecayAlt.P.PositiveOrbitOpen.omPlus_open z z').inter (isOpen_lt continuous_const (Formalism.FourierDecayAlt.P.BetaSesquilinearity.Gf_cont z z'))
+
+end place
+
+end LocOp
+
+namespace LocOp
+
+section place2
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {Wp Wq : InfinitePlace E → Type}
+  [∀ x, NormedAddCommGroup (Wp x)] [∀ x, InnerProductSpace ℂ (Wp x)]
+  [∀ x, NormedAddCommGroup (Wq x)] [∀ x, InnerProductSpace ℂ (Wq x)]
+  [∀ x, FiniteDimensional ℂ (Wp x)] [∀ x, FiniteDimensional ℂ (Wq x)]
+
+theorem thr_of {k r : ℕ} {o : ℕ} {A d Bg : ℝ} (hd : 0 ≤ d) (hBg : 0 ≤ Bg)
+    (hA : 12 * ((r : ℝ) + 1) * nDim k r ^ 2 + 6 * (r : ℝ) * (o : ℝ) + d + 2 * Bg * ((o : ℝ) + 1) ≤ A) :
+    Formalism.FourierDecayAlt.P.WeakThresholdClauses.WeakDominationThreshold k r (A - Bg * o) o := by
+  have ho : (0 : ℝ) ≤ (o : ℝ) := Nat.cast_nonneg o
+  have hBo : 0 ≤ Bg * (o : ℝ) := mul_nonneg hBg ho
+  exact jdc_thrW o (A - Bg * o) d hd (by nlinarith)
+
+end place2
+
+end LocOp
+
+theorem jALocOp_of_tools (hOp : LT.OpCCg) (hAg : LT.AgreeOm) (hTh : LT.ThetaJApply) : JALocOp := by
+  refine ⟨12, 2, by norm_num, ?_⟩
+  intro E _ _ _ Wp Wq _ _ _ _ _ _ S T f χ ν' m₀ top Cb A₀ hB v Θ d Bg A J hd hBg hAA hCut hA hJ hFF
+  have hBg0 : 0 ≤ Bg := le_trans (by positivity) hBg
+  have hBo : 0 ≤ Bg * (B.opOrder Θ : ℝ) := mul_nonneg hBg0 (Nat.cast_nonneg _)
+  have hPl : Q.IsPlace (D.parOf S v) (T v).base.z (T v).base.z' (T v).base.π (T v).base.π' :=
+    (hB.1.2.2.2.1.2 v).2.2.2.1
+  have hTT : (D.parOf S v).TT = Tz S.G.k S.G.r (T v).base.z * Tz S.G.k S.G.r (T v).base.z' := by
+    rw [hPl.2.2.2.1, hPl.2.2.2.2.1]; rfl
+  refine ⟨hFF, fun δ hδ => ?_⟩
+  obtain ⟨F, hFc, hFg, hFz, hFe⟩ := LocOp.rep hAg hB v hBg hJ hδ
+  obtain ⟨⟨hc, hg⟩, -⟩ := hOp _ _ _ _ (T v).base Θ d Bg A (3 * δ / 8) F (by positivity) hBg0 hAA.1 hCut hFc hFg hFz
+  refine ⟨B.opApply Θ F, hc, fun m => inCC_antiA (by linarith) (hg m), fun x hx hG => ?_⟩
+  have hq : x ∈ JF.QDom S.G.k S.G.r (T v).base.z (T v).base.z' := ⟨hx.1, hTT ▸ hx.2⟩
+  have hgO := Formalism.FourierDecayAlt.P.BigCellHermitian.gqDom (T v).base hq
+  have hGx : 3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base x) := by
+    have : δ ≤ Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base x) := hG
+    linarith
+  rw [LocOp.opApply_congr_GV Θ (LocOp.isOpen_omPlus_inter_lt (T v).base.z (T v).base.z' (3 * δ / 4)) (f₁ := J)
+    (f₂ := B.JF (T v).base F) (fun g hg hgO => hFe g ⟨hg, hgO.1⟩ hgO.2) _ hgO.1 ⟨hgO.2, hGx⟩]
+  have hIn : B.InCC (A - Bg * (B.opOrder Θ : ℝ)) (B.opOrder Θ) F := hFg (B.opOrder Θ)
+  exact hTh _ _ _ _ (T v).base Θ _ F (LocOp.thr_of hd hBg0 hA) hAA.1 hAA.2 hFc hIn _ hgO
+
+theorem jALocAdj_of_tools (hOp : LT.OpCCg) (hAg : LT.AgreeOm) (hTh : LT.ThetaJ) : JALocAdj := by
+  refine ⟨12, 2, by norm_num, ?_⟩
+  intro E _ _ _ Wp Wq _ _ _ _ _ _ S T f χ ν' m₀ top Cb A₀ hB v Θ d Bg A J hd hBg hAA hCut hA hJ hFF
+  have hBg0 : 0 ≤ Bg := le_trans (by positivity) hBg
+  have hBo : 0 ≤ Bg * (B.opOrder Θ : ℝ) := mul_nonneg hBg0 (Nat.cast_nonneg _)
+  have hPl : Q.IsPlace (D.parOf S v) (T v).base.z (T v).base.z' (T v).base.π (T v).base.π' :=
+    (hB.1.2.2.2.1.2 v).2.2.2.1
+  have hTT : (D.parOf S v).TT = Tz S.G.k S.G.r (T v).base.z * Tz S.G.k S.G.r (T v).base.z' := by
+    rw [hPl.2.2.2.1, hPl.2.2.2.2.1]; rfl
+  refine ⟨hFF, fun δ hδ => ?_⟩
+  obtain ⟨F, hFc, hFg, hFz, hFe⟩ := LocOp.rep hAg hB v hBg hJ hδ
+  obtain ⟨-, ⟨hc, hg⟩⟩ := hOp _ _ _ _ (T v).base Θ d Bg A (3 * δ / 8) F (by positivity) hBg0 hAA.1 hCut hFc hFg hFz
+  refine ⟨B.opAdj Θ F, hc, fun m => inCC_antiA (by linarith) (hg m), fun x hx hG => ?_⟩
+  have hq : x ∈ JF.QDom S.G.k S.G.r (T v).base.z (T v).base.z' := ⟨hx.1, hTT ▸ hx.2⟩
+  have hgO := Formalism.FourierDecayAlt.P.BigCellHermitian.gqDom (T v).base hq
+  have hGx : 3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base x) := by
+    have : δ ≤ Gf S.G.k S.G.r (T v).base.z (T v).base.z' (B.gq (T v).base x) := hG
+    linarith
+  rw [LocOp.opAdj_congr_GV Θ (LocOp.isOpen_omPlus_inter_lt (T v).base.z (T v).base.z' (3 * δ / 4)) (f₁ := J)
+    (f₂ := B.JF (T v).base F) (fun g hg hgO => hFe g ⟨hg, hgO.1⟩ hgO.2) _ hgO.1 ⟨hgO.2, hGx⟩]
+  have hIn : B.InCC (A - Bg * (B.opOrder Θ : ℝ)) (B.opOrder Θ) F := hFg (B.opOrder Θ)
+  set UU : Set (B.Mat S.G.k S.G.r) := {g | g ∈ JF.Om S.G.k S.G.r (T v).base.z (T v).base.z' ∧
+    3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' g} with hUU
+  have hCkJ : B.CkOn ⊤ (JF.Om S.G.k S.G.r (T v).base.z (T v).base.z') J := jdc_ckOn_om _ _ hJ.1.1
+  have hCk : B.CkOn ⊤ UU (B.JF (T v).base F) := by
+    intro g₀ hg₀
+    obtain ⟨U, f', hU, hgU, hc', he⟩ := hCkJ g₀ hg₀.1
+    refine ⟨U ∩ (Q.OmPlus S.G.k S.G.r (T v).base.z (T v).base.z' ∩
+        {g | 3 * δ / 4 < Gf S.G.k S.G.r (T v).base.z (T v).base.z' g}), f',
+      hU.inter (LocOp.isOpen_omPlus_inter_lt _ _ _), ⟨hgU, hg₀.1.2, hg₀.2⟩, hc'.mono Set.inter_subset_left, fun g hg hgG => ?_⟩
+    rw [← hFe g ⟨hgG, hg.2.1⟩ hg.2.2]
+    exact he g hg.1 hgG
+  exact (hTh _ _ _ _ (T v).base Θ _ F UU (LocOp.thr_of hd hBg0 hA) hAA.1 hAA.2 hFc hIn (fun g hg => hg.1)
+    (Formalism.FourierDecayAlt.P.BetaSesquilinearity.sCkOn_mono le_top hCk)).2 _ ⟨hgO, hGx⟩
+
+end Formalism.FourierDecayAlt.P.CutMP.JA
+
+end
+end
+
+section
+
+namespace Formalism.FourierDecayAlt.P.CutMP.ER
+
+open Formalism.FourierDecayAlt Formalism.REAL Formalism.QuantumDeterminants MeasureTheory Filter Topology
+open scoped ComplexConjugate ContDiff
+
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+noncomputable section
+
+section clm
+
+variable {k r : ℕ} {E E' : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddCommGroup E']
+  [NormedSpace ℂ E']
+
+theorem contDiff_clm_comp (Λ : E →L[ℂ] E') {ψ : B.Mat k r → E} (hψ : ContDiff ℝ ∞ ψ) :
+    ContDiff ℝ ∞ (fun g => Λ (ψ g)) :=
+  (Λ.restrictScalars ℝ).contDiff.comp hψ
+
+theorem rdV_clm (Λ : E →L[ℂ] E') {ψ : B.Mat k r → E} (hψ : ContDiff ℝ ∞ ψ) (X : B.Mat k r) :
+    RdV X (fun g => Λ (ψ g)) = fun g => Λ (RdV X ψ g) := by
+  rw [rdV_global (contDiff_clm_comp Λ hψ) X, rdV_global hψ X]
+  funext g
+  have hd : HasFDerivAt ψ (fderiv ℝ ψ g) g := ((hψ.differentiable (by simp)) g).hasFDerivAt
+  have h := (Λ.restrictScalars ℝ).hasFDerivAt.comp g hd
+  exact (DFunLike.congr_fun h.fderiv (g * X)).trans rfl
+
+theorem rw_clm' (Λ : E →L[ℂ] E') {ψ : B.Mat k r → E} (hψ : ContDiff ℝ ∞ ψ) :
+    ∀ w : List (B.Mat k r), B.Rw w (fun g => Λ (ψ g)) = fun g => Λ (B.Rw w ψ g)
+  | [] => rfl
+  | X :: w => by
+    show RdV X (B.Rw w (fun g => Λ (ψ g))) = fun g => Λ (RdV X (B.Rw w ψ) g)
+    rw [rw_clm' Λ hψ w, rdV_clm Λ (rw_contDiff hψ w) X]
+
+end clm
+
+section comps
+
+variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
+
+def lam (i : Fin (Module.finrank ℂ Wq)) (j : Fin (Module.finrank ℂ Wp)) : (Wq →L[ℂ] Wp) →L[ℂ] ℂ :=
+  (innerSL ℂ (stdOrthonormalBasis ℂ Wp j)).comp (ContinuousLinearMap.apply ℂ Wp (stdOrthonormalBasis ℂ Wq i))
+
+theorem lam_apply (i j) (A : Wq →L[ℂ] Wp) :
+    lam i j A = inner ℂ (stdOrthonormalBasis ℂ Wp j) (A (stdOrthonormalBasis ℂ Wq i)) := rfl
+
+theorem hsInner_eq_sum (A C : Wq →L[ℂ] Wp) :
+    B.hsInner A C = ∑ i, ∑ j, lam i j A * star (lam i j C) := by
+  unfold B.hsInner B.hsVec
+  rw [PiLp.inner_apply]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  simp only [PiLp.toLp_apply]
+  rw [← (stdOrthonormalBasis ℂ Wp).sum_inner_mul_inner]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [lam_apply, lam_apply, mul_comm]
+  congr 1
+  rw [← inner_conj_symm]
+  rfl
+
+end comps
+
+section terms
+
+variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [NormedAddCommGroup Wq]
+  [InnerProductSpace ℂ Wq] [FiniteDimensional ℂ Wp] [FiniteDimensional ℂ Wq]
+
+theorem lam_opAdj_tail (i j) (s : ℂ) {ψ : B.Mat k r → (Wq →L[ℂ] Wp)} (hψ : ContDiff ℝ ∞ ψ) :
+    ∀ (L : List (ℂ × List (B.Mat k r))), (∀ cw ∈ L, ∀ X ∈ cw.2, B.inLie k r X) → ∀ g,
+    lam i j (((L.map fun cw => TLB.cTerm (Wp := Wp) (Wq := Wq) (s * cw.1) cw.2).map
+        (fun T => ((-1 : ℂ) ^ T.word.length) • B.Rw T.word.reverse (fun x => T.coefAdj x (ψ x)) g)).sum) =
+      conj s * (L.map fun cw => conj cw.1 * (-1 : ℂ) ^ cw.2.length *
+        B.Rw cw.2.reverse (fun x => lam i j (ψ x)) g).sum
+  | [], _, g => by simp
+  | cw :: L, hL, g => by
+    simp only [List.map_cons, List.sum_cons, map_add (f := _), mul_add]
+    rw [lam_opAdj_tail i j s hψ L (fun cw' h => hL cw' (List.mem_cons_of_mem _ h)) g]
+    congr 1
+    rw [TLB.cTerm_word (hL cw List.mem_cons_self)]
+    have e : (fun x => (TLB.cTerm (Wp := Wp) (Wq := Wq) (s * cw.1) cw.2).coefAdj x (ψ x)) =
+        conj (s * cw.1) • ψ := by
+      funext x; simp [TLB.cTerm]
+    rw [e, Formalism.FourierDecayAlt.P.PositiveOrbitOpen.rw_smul, map_smul, Pi.smul_apply, map_smul]
+    have e2 := congrFun (rw_clm' (lam i j) hψ cw.2.reverse) g
+    rw [← e2, smul_eq_mul, smul_eq_mul, map_mul]
+    ring
+
+theorem lam_wordSum (i j) {ψ : B.Mat k r → (Wq →L[ℂ] Wp)} (hψ : ContDiff ℝ ∞ ψ) :
+    ∀ (L : List (ℂ × List (B.Mat k r))) (g : B.Mat k r),
+    lam i j ((L.map fun cw => cw.1 • B.Rw cw.2 ψ g).sum) =
+      (L.map fun cw => cw.1 • B.Rw cw.2 (fun x => lam i j (ψ x)) g).sum
+  | [], _ => by simp
+  | cw :: L, g => by
+    simp only [List.map_cons, List.sum_cons, map_add (f := _), map_smul]
+    rw [lam_wordSum i j hψ L g, congrFun (rw_clm' (lam i j) hψ cw.2) g]
+
+theorem wsAdj_contDiff (L : List (ℂ × List (B.Mat k r))) {b : B.Mat k r → ℂ} (hb : ContDiff ℝ ∞ b) :
+    ContDiff ℝ ∞ (wsAdj L b) := by
+  unfold wsAdj
+  exact contDiff_listSum (fun (cw : ℂ × List (B.Mat k r)) x => conj cw.1 * (-1 : ℂ) ^ cw.2.length * B.Rw cw.2.reverse b x) L
+    fun cw _ => contDiff_const.mul (rw_contDiff hb _)
+
+end terms
+
+theorem capacity_adjoint_integral_scalar : CapAdjIntOfScalar := by
+  intro hS k r Wp Wq _ _ _ _ _ _ s Y μ hμ φ ψ hφ hφc hψ hψc
+  haveI : IsFiniteMeasureOnCompacts μ := ⟨hμ.finite_compact⟩
+  have hLw := (Classical.choose_spec (Formalism.FourierDecayAlt.P.capelli_word_sum k r Y)).1
+  obtain ⟨L', hL', hCV'⟩ := Formalism.FourierDecayAlt.P.capelli_word_sum k r (conj Y)
+  set a : Fin (Module.finrank ℂ Wq) → Fin (Module.finrank ℂ Wp) → B.Mat k r → ℂ :=
+    fun i j g => lam i j (φ g) with ha
+  set b : Fin (Module.finrank ℂ Wq) → Fin (Module.finrank ℂ Wp) → B.Mat k r → ℂ :=
+    fun i j g => lam i j (ψ g) with hb
+  have ha_s : ∀ i j, ContDiff ℝ ∞ (a i j) := fun i j => contDiff_clm_comp (lam i j) hφ
+  have hb_s : ∀ i j, ContDiff ℝ ∞ (b i j) := fun i j => contDiff_clm_comp (lam i j) hψ
+  have ha_c : ∀ i j, HasCompactSupport (a i j) := fun i j => hφc.comp_left (map_zero (lam i j))
+  have hb_c : ∀ i j, HasCompactSupport (b i j) := fun i j => hψc.comp_left (map_zero (lam i j))
+
+  have hAdj : ∀ i j g, lam i j (B.opAdj (capTh k r Wp Wq s Y) ψ g) = conj s * wsAdj (capLw k r Y) (b i j) g := by
+    intro i j g
+    unfold B.opAdj
+    rw [capTh, TLB.capOp, List.map_cons, List.sum_cons, map_add (f := _)]
+    have h0 : (fun x => (TLB.cTerm (Wp := Wp) (Wq := Wq) 0
+        (List.replicate (2 * r + k + 1) (0 : B.Mat k r))).coefAdj x (ψ x)) = (0 : ℂ) • ψ := by
+      funext x; simp [TLB.cTerm]
+    rw [h0, Formalism.FourierDecayAlt.P.PositiveOrbitOpen.rw_smul, zero_smul]
+    rw [lam_opAdj_tail i j s hψ (capLw k r Y) (fun cw h X hX => ((hLw cw h).1 X hX).1) g]
+    simp [wsAdj, b]
+
+  have hCVc : ∀ i j, ∀ g ∈ B.GV k r, lam i j (Q.CV k r (conj Y) ψ g) = Q.CV k r (conj Y) (b i j) g := by
+    intro i j g hg
+    rw [hCV' _ (B.GV k r) ψ (ckOn_of_contDiff hψ _ _) g hg hg,
+      hCV' _ (B.GV k r) (b i j) (ckOn_of_contDiff (hb_s i j) _ _) g hg hg]
+    exact lam_wordSum i j hψ L' g
+
+  have hP1 : ∀ x : Mt k r, B.hsInner (φ (Matrix.of x)) (B.opAdj (capTh k r Wp Wq s Y) ψ (Matrix.of x)) =
+      ∑ i, ∑ j, s * (a i j (Matrix.of x) * star (wsAdj (capLw k r Y) (b i j) (Matrix.of x))) := by
+    intro x
+    rw [hsInner_eq_sum]
+    refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+    rw [hAdj, star_mul', Complex.star_def, Complex.conj_conj]
+    simp only [ha]; ring
+  have hP2 : ∀ᵐ x ∂μ, B.hsInner (φ (Matrix.of x)) (conj s • Q.CV k r (conj Y) ψ (Matrix.of x)) =
+      ∑ i, ∑ j, s * (a i j (Matrix.of x) * star (Q.CV k r (conj Y) (b i j) (Matrix.of x))) := by
+    filter_upwards [Formalism.FourierDecayAlt.P.HaarUniquenessConjugation.ae_mem hμ] with x hx
+    rw [hsInner_eq_sum]
+    refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+    rw [map_smul, hCVc i j _ hx, smul_eq_mul, star_mul', Complex.star_def, Complex.conj_conj]
+    simp only [ha]; ring
+
+  have hI1 : ∀ i j, Integrable (fun x : Mt k r => s * (a i j (Matrix.of x) *
+      star (wsAdj (capLw k r Y) (b i j) (Matrix.of x)))) μ := by
+    intro i j
+    have hc : Continuous (fun x : Mt k r => a i j (Matrix.of x) * star (wsAdj (capLw k r Y) (b i j) (Matrix.of x))) :=
+      (ha_s i j).continuous.mul (continuous_star.comp (wsAdj_contDiff _ (hb_s i j)).continuous)
+    have hcs : HasCompactSupport
+        (fun x : Mt k r => a i j (Matrix.of x) * star (wsAdj (capLw k r Y) (b i j) (Matrix.of x))) :=
+      (ha_c i j).mul_right
+    exact (hc.integrable_of_hasCompactSupport (μ := μ) hcs).const_mul s
+  have hI2 : ∀ i j, Integrable (fun x : Mt k r => s * (a i j (Matrix.of x) *
+      star (Q.CV k r (conj Y) (b i j) (Matrix.of x)))) μ := by
+    intro i j
+    have hS' : ContDiff ℝ ∞ (fun g => (L'.map fun cw => cw.1 • B.Rw cw.2 (b i j) g).sum) :=
+      contDiff_listSum (fun cw g => cw.1 • B.Rw cw.2 (b i j) g) L' fun cw _ =>
+        (rw_contDiff (hb_s i j) _).const_smul _
+    have hc : Continuous (fun x : Mt k r => a i j (Matrix.of x) *
+        star ((L'.map fun cw => cw.1 • B.Rw cw.2 (b i j) (Matrix.of x)).sum)) :=
+      (ha_s i j).continuous.mul (continuous_star.comp hS'.continuous)
+    have hcs : HasCompactSupport (fun x : Mt k r => a i j (Matrix.of x) *
+        star ((L'.map fun cw => cw.1 • B.Rw cw.2 (b i j) (Matrix.of x)).sum)) :=
+      (ha_c i j).mul_right
+    refine ((hc.integrable_of_hasCompactSupport (μ := μ) hcs).const_mul s).congr ?_
+    filter_upwards [Formalism.FourierDecayAlt.P.HaarUniquenessConjugation.ae_mem hμ] with x hx
+    rw [hCV' _ (B.GV k r) (b i j) (ckOn_of_contDiff (hb_s i j) _ _) _ hx hx]
+  rw [integral_congr_ae (Eventually.of_forall hP1), integral_congr_ae hP2,
+    integral_finsetSum _ (fun i _ => integrable_finsetSum _ fun j _ => hI1 i j),
+    integral_finsetSum _ (fun i _ => integrable_finsetSum _ fun j _ => hI2 i j)]
+  refine Finset.sum_congr rfl fun i _ => ?_
+  rw [integral_finsetSum _ (fun j _ => hI1 i j), integral_finsetSum _ (fun j _ => hI2 i j)]
+  refine Finset.sum_congr rfl fun j _ => ?_
+  rw [integral_const_mul, integral_const_mul,
+    hS k r Y μ hμ (a i j) (b i j) (ha_s i j) (ha_c i j) (hb_s i j) (hb_c i j)]
+
+theorem capAdjInt_of_scalar (hS : CapAdjScalar) : CapAdjInt := capacity_adjoint_integral_scalar hS
+
+end
+
+end Formalism.FourierDecayAlt.P.CutMP.ER
+end
+
+section
+
+open Formalism.REAL Formalism.QuantumDeterminants Formalism.FourierDecayAlt NumberField Matrix
+
+namespace Formalism.FourierDecayAlt.P.CutMP.SmoothTransferRegularity
+
+noncomputable section
+
+theorem coefficient_interpolation_holds : CoeffInterp := by
+  intro N m _hm
+  refine ⟨fun i => ((i : ℕ) : ℝ),
+    fun i => (Lagrange.basis (Finset.univ : Finset (Fin (N + 1))) (fun j => ((j : ℕ) : ℂ)) i).coeff m, ?_⟩
+  intro q hq
+  have hinj : Set.InjOn (fun j : Fin (N + 1) => ((j : ℕ) : ℂ)) ((Finset.univ : Finset (Fin (N + 1))) : Set (Fin (N + 1))) := by
+    intro a _ b _ hab
+    simp only at hab
+    exact Fin.ext (by exact_mod_cast hab)
+  have hdeg : q.degree < ((Finset.univ : Finset (Fin (N + 1))).card : WithBot ℕ) := by
+    rw [Finset.card_univ, Fintype.card_fin]
+    exact lt_of_le_of_lt (Polynomial.degree_le_of_natDegree_le hq) (by exact_mod_cast Nat.lt_succ_self N)
+  have h := Lagrange.eq_interpolate hinj hdeg
+  conv_rhs => rw [h]
+  rw [Lagrange.interpolate_apply, Polynomial.finsetSum_coeff]
+  refine Finset.sum_congr rfl (fun i _ => ?_)
+  rw [Polynomial.coeff_C_mul]
+  simp only [Complex.ofReal_natCast]
+  ring
+
+end
+
+end Formalism.FourierDecayAlt.P.CutMP.SmoothTransferRegularity
+end

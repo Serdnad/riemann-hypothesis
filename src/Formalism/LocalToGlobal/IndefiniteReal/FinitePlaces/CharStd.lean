@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 public import ReciprocityTheory.AdeleApproximation.AdeleIntA
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.StdCharExists
-public import Formalism.LocalToGlobal.IndefiniteReal.PHeisThC
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.CompactFixesLattice
-public import Formalism.LocalToGlobal.IndefiniteReal.PHeisFCA
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle009
 
 @[expose] public section
 

@@ -1,13 +1,11 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.GammaCongruentArcFromStart
-public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.ConstSectionStatement
-public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.PsCycloStatement
+public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.Bundle001
 public import Mathlib.NumberTheory.Padics.RingHoms
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.ConstantCoeffAeval
+public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.Bundle002
 public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.EmultiplicityEqValuation
-public import Formalism.SharpRestriction.LevelLetterCocycles.CyclotomicPowerSeries.PowValMemPrimitiveRoots
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

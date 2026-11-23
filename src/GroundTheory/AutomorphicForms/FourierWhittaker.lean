@@ -11,7 +11,7 @@ public import GroundTheory.AutomorphicForms.FourierWhittaker.PartialCoeffBlockGL
 public import GroundTheory.AutomorphicForms.FourierWhittaker.Single
 public import GroundTheory.AutomorphicForms.FourierWhittaker.IsAddFundamentalDomainShearSymm
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Uniform
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

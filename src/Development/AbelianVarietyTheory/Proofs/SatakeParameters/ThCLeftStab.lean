@@ -1,23 +1,22 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EmbHInjective
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TranslateMomentsAll
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle082
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaSpaceSelfDualPairAtMostLine
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTranslationIntertwinerUnitary
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AddSubgroupRepsExistenceCardSum
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DeltaNeZero
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FieldIsoSelfDualAndPeriodLatticesAgree
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HeisenbergCocycleFormIntegralSelfDual
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.InterTransport
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IsSdLatTwOExpS
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LocPAAAndPrimesNe
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MovedVacuumMemThetaFunctionsAndMoves
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsWeilOThZeroTriv
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormalisedFamilySatisfiesEquivarianceLaws
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle142
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle096
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle088
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle445
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SmulLatMatOf
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SumRepsEquiv
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle107
 public import Development.AutomorphicArithmetic.CyclotomicBounds.RamifiedDiscriminants.OffSmall
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -423,7 +422,7 @@ theorem vac_leftE (hok : s.Ok) (hE : B.EqP χ) {a b : ℕ} {N : Submodule (𝓞 
     (hA : TaylorLogMetric.admitted D a b (s.lat N) (s.lat N')) (γ : UF X.E b) (hγ : gmap γ.1 N' = N') (z : VCx X.Tau a b) :
     (ambOf s B χ cD : Amb X).e a b N N' (leftE (ambOf s B χ cD : Amb X) a γ.1 z) = (ambOf s B χ cD : Amb X).e a b N N' z := by
   letI := D.host.cmStar
-  have h := hE.1 a b ⟨s.lat N, hA.2.2.1⟩ ⟨s.lat N', hA.2.2.2⟩ hA.1 hA.2.1 1 ⟨matOf s γ.1, matOf_unitary s hok γ⟩
+  have h := hE.1 a b ⟨s.lat N, hA.2.2.1⟩ ⟨s.lat N', hA.2.2.2⟩ hA.1 hA.2.1 1 ⟨_root_.GlobalTheory.Mem.Col2.JetEx.VacEqPf.matOf s γ.1, matOf_unitary s hok γ⟩
   have h1 : SDLat.smulLat ((1 : Matrix.unitaryGroup (Fin a) D.host.E) : Matrix (Fin a) (Fin a) D.host.E) (s.lat N) = s.lat N := by
     change SDLat.smulLat (1 : Matrix (Fin a) (Fin a) D.host.E) _ = _
     unfold SDLat.smulLat

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.TateCohomology.InfRes
+public import GroundTheory.TateCohomology.Bundle003
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.UnitsInflationCochainsFHomApply
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.IsZeroGroupCohomologyQuotientToInvariantsGalAdd
 import Mathlib.Algebra.Order.Floor.Extended

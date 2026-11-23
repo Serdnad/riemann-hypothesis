@@ -1,8 +1,8 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LetterSandwichOfFrobMatrices
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemSatMOfSmul
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle178
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle152
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

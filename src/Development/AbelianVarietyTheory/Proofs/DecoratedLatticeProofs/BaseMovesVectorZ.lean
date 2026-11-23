@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.HzUnit
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChainEdge
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReduction
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsPatOne
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FunctionalValuesIntegralVectorsOfIntegerVectors
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle335
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle351
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.MiStarOfMid
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PairForm
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle019
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.UnitRatio
 import Formalism.LocalToGlobal.HilbertRowConditions.IsHilbertCF
 

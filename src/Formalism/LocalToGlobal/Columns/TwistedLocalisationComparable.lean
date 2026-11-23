@@ -1,10 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.StandardDeltaIntegralCoeffs
-public import Formalism.LocalToGlobal.Columns.SummandSlopeOfThreeLemmas
-public import Formalism.LocalToGlobal.Columns.BrpColLatOneSpan
-public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
-public import Formalism.LocalToGlobal.Columns.CoefficientsModP
+public import Formalism.LocalToGlobal.Columns.Bundle002
+public import Formalism.LocalToGlobal.Columns.Bundle030
+public import Formalism.LocalToGlobal.Columns.Bundle031
 import Formalism.LocalToGlobal.Columns.LocWLemmas
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.TruncatedLatticeHolds
 import Mathlib.Algebra.Order.Floor.Extended

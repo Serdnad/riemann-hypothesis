@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RestNonneg
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle006
 public import Formalism.LocalToGlobal.CharacterGerms.BlockMembershipSelfConjugate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

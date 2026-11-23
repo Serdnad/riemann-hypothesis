@@ -1,19 +1,19 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MovY
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DetIdlVal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemGLintOfEntries
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle688
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle321
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1814
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTupChars
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle326
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ActOChiRight
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DeterminantIdeleAtSplitPlaceMovedGridNode
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlatIntegrandFlippedTensorLocallyConstantCompact
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GridStandardVacuumScalarEqProdLocalPlaces
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LatHatStabOfHatL
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnfoldingExpansionProductFunctionLocalInvariant
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle640
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle586
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle664
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle674
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle343
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle682
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilLatticeVacuumEqProdSplitPlaceFactors
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

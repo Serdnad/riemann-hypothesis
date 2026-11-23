@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementZ
-public import Formalism.LocalToGlobal.InertKernelTheory.Adm11OfBeProp
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EnInParamKProd
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle006
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.HasSecondLogDeriv
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.WittTeichmullerRoot

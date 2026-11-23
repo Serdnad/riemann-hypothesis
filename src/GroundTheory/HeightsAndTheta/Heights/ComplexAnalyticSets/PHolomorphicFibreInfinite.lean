@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StHolomorphicFibreInfinite
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PImplicitCurve
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle073
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

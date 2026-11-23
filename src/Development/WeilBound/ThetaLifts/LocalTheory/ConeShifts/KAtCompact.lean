@@ -1,13 +1,12 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.CoefficientSpans
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FinStmt
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.IdealStmt
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Kcompact
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle003
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle003
 import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ActsEx
-import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PureCancel
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
+import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle002
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers

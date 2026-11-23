@@ -3,8 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.GJStandardLDefs
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixSchwartz
 public import GroundTheory.AutomorphicForms.GL2.GJUnramified
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionLocal
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

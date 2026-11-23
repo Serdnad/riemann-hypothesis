@@ -2,10 +2,10 @@ module
 
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GNonneg
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FixedFrameProperty
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle059
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FixedPointsGramVector
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FlagGramRestriction
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.MajorantEstimate
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle066
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,7 +60,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.LinearChangeOfVariablesBis
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle051
 
 @[expose] public section
 

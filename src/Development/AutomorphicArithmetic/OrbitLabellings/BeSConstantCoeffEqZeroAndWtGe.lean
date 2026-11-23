@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.OrbitLabellings.ColDefs
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle001
 public import Formalism.GaussJetBounds.GaussJetProofs.AsmOne
-import Formalism.GaussJetBounds.GaussJetProofs.AsmRDotAddRight
+import Formalism.GaussJetBounds.GaussJetProofs.Bundle002
 public import Formalism.GaussJetBounds.GaussJetProofs.SubstitutionWeightBound
 public import Formalism.GaussJetBounds.OneLetterRadius
 import Mathlib.Algebra.Order.Floor.Extended

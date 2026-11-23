@@ -4,7 +4,7 @@ public import GroundTheory.ArithmeticGeometry.AbelianVarieties.DualIsogeny
 public import GroundTheory.FunctionField.PlaceDefs
 public import Mathlib.RingTheory.Kaehler.Basic
 import GroundTheory.ArithmeticGeometry.AbelianVarieties.KernelCard
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.KaehlerPlace
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

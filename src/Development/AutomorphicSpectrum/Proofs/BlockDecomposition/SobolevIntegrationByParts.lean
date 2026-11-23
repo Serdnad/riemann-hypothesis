@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.FriedrichsKernels.Friedrichs
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegrableOfContinuousOn
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle217
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

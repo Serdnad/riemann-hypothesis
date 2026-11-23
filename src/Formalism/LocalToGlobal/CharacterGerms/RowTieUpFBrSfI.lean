@@ -1,13 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrSf
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrI
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrPl
-public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
-public import Formalism.LocalToGlobal.CharacterGerms.CharacterHypothesisUnramified
-import Formalism.LocalToGlobal.CharacterGerms.RowTieTop
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrEF
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrPlB
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle001
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle029
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle031
+import Formalism.LocalToGlobal.CharacterGerms.Bundle026
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle021
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrRP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieUpFBrR
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle027
 
 @[expose] public section
 

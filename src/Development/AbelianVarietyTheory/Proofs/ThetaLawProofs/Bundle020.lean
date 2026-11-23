@@ -1,0 +1,240 @@
+module
+
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.RingTheory.FiniteType
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.IsPluriharmonicSiegel
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.SymplecticCharacters.InversionStatement
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.CStarAlgebra.Classes
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+public import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.RingTheory.Ideal.GoingDown
+import Mathlib.RingTheory.Etale.Weakly
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.SymplecticCharacters.SubConjTransposeOfSymm
+import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.FirstCohomologyVanishesSpecOfIsLocalRing
+import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle002
+import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
+public import Mathlib.RingTheory.Flat.Basic
+public import Mathlib.Analysis.Calculus.FDeriv.Add
+public import Mathlib.Analysis.Calculus.FDeriv.Mul
+import Mathlib.Topology.Sheaves.Presheaf
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SymplecticGenerators.StTransl
+
+@[expose] public section
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.AbLaw
+open GlobalTheory.KeyPow GlobalTheory.KeyKa
+
+namespace GlobalTheory.KeyCx
+
+
+open TensorProduct in
+theorem exists_dominant_component :
+    ∀ (R : Type) [CommRing R] [IsDomain R] [Algebra.FiniteType ℤ R] (g : R →+* ℂ), ∃ (E : Type) (_ : CommRing E) (_ : IsDomain E) (_ : Algebra ℂ E) (ρ : R →+* E) (e : E →ₐ[ℂ] ℂ), Algebra.FiniteType ℂ E ∧ Function.Injective ρ ∧ e.toRingHom.comp ρ = g := by
+  intro R _ _ _ g
+  letI : Algebra R (ℂ ⊗[ℤ] R) := Algebra.TensorProduct.rightAlgebra
+  haveI : Module.Flat R (ℂ ⊗[ℤ] R) :=
+    Module.Flat.of_linearEquiv (Algebra.TensorProduct.commRight ℤ R ℂ).symm.toLinearEquiv
+  let e₀ : (ℂ ⊗[ℤ] R) →ₐ[ℂ] ℂ :=
+    Algebra.TensorProduct.lift (AlgHom.id ℂ ℂ) g.toIntAlgHom (fun _ _ => Commute.all _ _)
+  have he : ∀ r : R, e₀ (algebraMap R (ℂ ⊗[ℤ] R) r) = g r := by
+    intro r
+    change e₀ (1 ⊗ₜ r) = g r
+    simp [e₀]
+  let Q : Ideal (ℂ ⊗[ℤ] R) := RingHom.ker e₀.toRingHom
+  haveI : Q.IsPrime := RingHom.ker_isPrime _
+  obtain ⟨q, hqQ, hq, hlo⟩ := Ideal.exists_ideal_le_liesOver_of_le
+    (p := (⊥ : Ideal R)) (q := Q.under R) Q bot_le
+  refine ⟨(ℂ ⊗[ℤ] R) ⧸ q, inferInstance, inferInstance, inferInstance,
+    (Ideal.Quotient.mk q).comp (algebraMap R _),
+    Ideal.Quotient.liftₐ q e₀ (fun a ha => hqQ ha), inferInstance, ?_, ?_⟩
+  · rw [injective_iff_map_eq_zero]
+    intro r hr
+    have h1 : r ∈ q.under R :=
+      Ideal.mem_comap.mpr (Ideal.Quotient.eq_zero_iff_mem.mp hr)
+    rw [← hlo.over] at h1
+    exact h1
+  · ext r
+    exact he r
+
+end GlobalTheory.KeyCx
+end
+
+section
+
+open AlgebraicGeometry CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj MeasureTheory
+open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestriction.G.Geo.Tor
+attribute [local instance] Over.cartesianMonoidalCategory
+open GlobalTheory.AbLaw
+open GlobalTheory.KeyPow GlobalTheory.KeyKa
+
+namespace GlobalTheory
+
+theorem prod_comp_eq_of_finite_family {S : Type} (A : Finset (S → ℂ)) (a : S → S)
+    (h : ∀ f ∈ A, ∃ f' ∈ A, f = f' ∘ a) (w : ℂ) (x : S) :
+    ∏ f ∈ A, (w - f (a x)) = ∏ f ∈ A, (w - f x) := by
+  classical
+  choose! φ hφA hφ using h
+  have hinj : Set.InjOn φ A := fun f hf k hk hfk => by rw [hφ f hf, hφ k hk, hfk]
+  have himg : A.image φ = A := by
+    refine Finset.eq_of_subset_of_card_le (fun y hy => ?_) ?_
+    · obtain ⟨f, hf, rfl⟩ := Finset.mem_image.1 hy
+      exact hφA f hf
+    · rw [Finset.card_image_of_injOn hinj]
+  calc ∏ f ∈ A, (w - f (a x)) = ∏ f ∈ A.image φ, (w - f (a x)) := by rw [himg]
+    _ = ∏ f ∈ A, (w - φ f (a x)) := Finset.prod_image hinj
+    _ = ∏ f ∈ A, (w - f x) :=
+        Finset.prod_congr rfl (fun f hf => congrArg (w - ·) (congrFun (hφ f hf) x).symm)
+
+theorem differentiableOn_finite_prod {K E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    {s : Set E} (A : Finset K) {f : K → E → ℂ} (h : ∀ i ∈ A, DifferentiableOn ℂ (f i) s) :
+    DifferentiableOn ℂ (fun x => ∏ i ∈ A, f i x) s := by
+  classical
+  induction A using Finset.induction_on with
+  | empty => simp
+  | insert j B hj ih =>
+    simp only [Finset.prod_insert hj]
+    exact (h j (Finset.mem_insert_self j B)).mul (ih fun k hk => h k (Finset.mem_insert_of_mem hk))
+
+theorem const_of_finite_family_spAct :
+    Key.PhHoloStatement → ∀ (g : ℕ) (I : Type) [Finite I] (F : I → Matrix (Fin g) (Fin g) ℂ → ℂ), 2 ≤ g → (∀ i, Key.IsHoloSiegel g (F i)) → (∀ sp ∈ Matrix.symplecticGroup (Fin g) ℤ, ∀ i, ∃ j, ∀ τ ∈ ReciprocityTheory.PTheta.SiegelH (Fin g), F i τ = F j (Key.Chi.spAct sp τ)) → ∀ i, ∃ c, ∀ τ ∈ ReciprocityTheory.PTheta.SiegelH (Fin g), F i τ = c := by
+  intro hPh g I _ F hg hF h i
+  classical
+  have : Fintype I := Fintype.ofFinite I
+  let S := ReciprocityTheory.PTheta.SiegelH (Fin g)
+  have hmem : ∀ τ ∈ S, τ.IsSymm ∧ (τ.map Complex.im).PosDef := fun τ hτ => hτ
+  let G : I → (S → ℂ) := fun j τ => F j τ
+  let A : Finset (S → ℂ) := Finset.univ.image G
+  have hGA : ∀ j, G j ∈ A := fun j => Finset.mem_image_of_mem _ (Finset.mem_univ _)
+  have hA : ∀ f ∈ A, ∃ j, G j = f := fun f hf => by simpa [A] using hf
+  have : Nonempty I := ⟨i⟩
+  choose! rep hrep using hA
+  have heval : ∀ f ∈ A, ∀ τ (hτ : τ ∈ S), F (rep f) τ = f ⟨τ, hτ⟩ :=
+    fun f hf τ hτ => congrFun (hrep f hf) ⟨τ, hτ⟩
+  have hsym : ∀ τ ∈ S, Key.phSym τ = τ := by
+    intro τ hτ
+    have ht : Matrix.transpose τ = τ := (hmem τ hτ).1.eq
+    simp only [Key.phSym, ht]
+    ext p q
+    simp only [Matrix.smul_apply, Matrix.add_apply, smul_eq_mul]
+    ring
+  have hholo : ∀ w : ℂ, Key.IsHoloSiegel g (fun τ => ∏ f ∈ A, (w - F (rep f) τ)) := by
+    intro w
+    exact differentiableOn_finite_prod A
+      (f := fun f x => w - F (rep f) (Key.phSym (Matrix.of x)))
+      (fun f _ => (differentiableOn_const w).sub (hF (rep f)))
+  have hinv : ∀ w : ℂ, Key.IsSpInvariant g (fun τ => ∏ f ∈ A, (w - F (rep f) τ)) := by
+    intro w gm hgm τ hτ
+    choose J hJ using h gm hgm
+    let act : S → S := fun σ => ⟨Key.Chi.spAct gm σ, Key.Chi.spAct_mem hgm σ.2⟩
+    have hfam : ∀ f ∈ A, ∃ f' ∈ A, f = f' ∘ act := by
+      intro f hf
+      refine ⟨G (J (rep f)), hGA _, ?_⟩
+      funext σ
+      exact (congrFun (hrep f hf) σ).symm.trans (hJ (rep f) σ.1 σ.2)
+    have hstep := prod_comp_eq_of_finite_family A act hfam w ⟨τ, hτ⟩
+    have hact : Key.phAct gm τ = Key.Chi.spAct gm τ := rfl
+    show ∏ f ∈ A, (w - F (rep f) (Key.phAct gm τ)) = ∏ f ∈ A, (w - F (rep f) τ)
+    calc ∏ f ∈ A, (w - F (rep f) (Key.phAct gm τ)) = ∏ f ∈ A, (w - f (act ⟨τ, hτ⟩)) :=
+          Finset.prod_congr rfl (fun f hf => by rw [hact, heval f hf _ (Key.Chi.spAct_mem hgm hτ)])
+      _ = ∏ f ∈ A, (w - f ⟨τ, hτ⟩) := hstep
+      _ = ∏ f ∈ A, (w - F (rep f) τ) :=
+          Finset.prod_congr rfl (fun f hf => by rw [heval f hf τ hτ])
+  by_cases hne : S.Nonempty
+  swap
+  · exact ⟨0, fun τ hτ => (hne ⟨τ, hτ⟩).elim⟩
+  obtain ⟨τ0, hτ0⟩ := hne
+  refine ⟨F i τ0, fun τ hτ => ?_⟩
+  have hval : ∀ τ ∈ S, F i τ ∈ ((A.image (fun f => F (rep f) τ0) : Finset ℂ) : Set ℂ) := by
+    intro τ hτ
+    obtain ⟨c, hc⟩ := hPh g hg _ (hholo (F i τ)) (hinv (F i τ))
+    have h0 : ∏ f ∈ A, (F i τ - F (rep f) τ) = 0 := by
+      apply Finset.prod_eq_zero (hGA i)
+      rw [heval _ (hGA i) τ hτ]
+      exact sub_self _
+    have h1 : ∏ f ∈ A, (F i τ - F (rep f) τ0) = 0 := (hc τ0 hτ0).trans ((hc τ hτ).symm.trans h0)
+    obtain ⟨f, hf, hz⟩ := Finset.prod_eq_zero_iff.1 h1
+    exact Finset.mem_coe.2 (Finset.mem_image.2 ⟨f, hf, (sub_eq_zero.1 hz).symm⟩)
+  have hcont : ContinuousOn (F i) S := by
+    have hc0 := (hF i).continuousOn
+    refine (hc0.mono (fun σ hσ => ?_)).congr (fun σ hσ => ?_)
+    · show Key.phSym σ ∈ S
+      rw [hsym σ hσ]
+      exact hσ
+    · show F i σ = F i (Key.phSym σ)
+      rw [hsym σ hσ]
+  have hconv : Convex ℝ S := by
+    intro x hx y hy s t hs ht hst
+    obtain ⟨hx1, hx2⟩ := hmem x hx
+    obtain ⟨hy1, hy2⟩ := hmem y hy
+    change Matrix.IsSymm (s • x + t • y) ∧ ((s • x + t • y).map Complex.im).PosDef
+    refine ⟨(hx1.smul s).add (hy1.smul t), ?_⟩
+    have hm : (s • x + t • y).map Complex.im = s • x.map Complex.im + t • y.map Complex.im := by
+      ext p q
+      simp
+    rw [hm]
+    rcases hs.lt_or_eq with hs' | hs'
+    · exact (hx2.smul hs').add_posSemidef (hy2.posSemidef.smul ht)
+    · subst hs'
+      rw [zero_add] at hst
+      subst hst
+      simpa using hy2
+  exact hconv.isPreconnected.constant_of_mapsTo DiscreteTopology.isDiscrete hcont
+    (fun σ hσ => hval σ hσ) hτ hτ0
+
+end GlobalTheory
+end

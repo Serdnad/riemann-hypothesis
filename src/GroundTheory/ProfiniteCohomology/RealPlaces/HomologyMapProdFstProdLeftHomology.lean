@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.RealPlaces.NormHomotopy
 public import GroundTheory.ProfiniteCohomology.RealPlaces.ConeHomotopy
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalCohomologyIsoHomologyMapNormCochains
-import GroundTheory.ProfiniteCohomology.FilteredHomology
+import GroundTheory.ProfiniteCohomology.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

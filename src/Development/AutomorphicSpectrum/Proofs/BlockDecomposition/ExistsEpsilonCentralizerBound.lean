@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MulEqOfRangeLe
 public import GroundTheory.AutomorphicForms.ReductionHeight
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsFactor
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle008
 public import GroundTheory.AutomorphicForms.AnisotropicHeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

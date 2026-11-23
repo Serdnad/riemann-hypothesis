@@ -1,13 +1,13 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StStokesOnChart
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StChartMassCompact
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StRadialPrimitive
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StMaDensLogPow
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PChartMassCompact
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle047
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle095
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle052
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle093
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCutOffBoundaryBound
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFiniteProjectionCluster
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PMaDensChain
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle071
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle102
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetSumMeasurable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -215,7 +215,7 @@ theorem norm_chartDens_le {D : ℕ} (J : Ideal (MvPolynomial (Fin n) ℂ)) (A : 
     (hA : IsFiniteProjection J A) (f : (Fin n → ℂ) → ℝ) (φ : Fin D → (Fin n → ℂ) → ℝ) (y : Fin D → ℂ) :
     ‖chartDens J A f φ y‖ ≤ chartAbsDens J A f φ y := by
   classical
-  have hfin : (fibre J A y).Finite := FiniteProjectionCluster.fibre_finite J A hA y
+  have hfin : (ComplexSets.fibre J A y).Finite := FiniteProjectionCluster.fibre_finite J A hA y
   unfold chartDens chartAbsDens sheetSum
   rw [finsum_mem_eq_finite_toFinset_sum _ hfin, finsum_mem_eq_finite_toFinset_sum _ hfin, Real.norm_eq_abs]
   refine (Finset.abs_sum_le_sum_abs _ _).trans (Finset.sum_le_sum fun x' _ => ?_)
@@ -238,7 +238,7 @@ theorem chartDens_eq (hLP : MaDensLogPow.Statement) {e : ℕ} (J : Ideal (MvPoly
       chartDens J A (fun z => a (euclPot (z - x))) (vecCons G fun _ : Fin (e + 1) => euclPot) y -
         chartDens J A (fun _ => 1) (vecCons (fun z => Q (euclPot (z - x))) (vecCons G fun _ : Fin e => euclPot)) y := by
   classical
-  have hfin : (fibre J A y).Finite := FiniteProjectionCluster.fibre_finite J A hA y
+  have hfin : (ComplexSets.fibre J A y).Finite := FiniteProjectionCluster.fibre_finite J A hA y
   unfold chartDens sheetSum
   rw [finsum_mem_eq_finite_toFinset_sum _ hfin, finsum_mem_eq_finite_toFinset_sum _ hfin,
     finsum_mem_eq_finite_toFinset_sum _ hfin, ← Finset.sum_sub_distrib]

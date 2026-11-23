@@ -1,13 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.WachCoordinates
-public import Formalism.TruncatedSeriesCounting.AprimeArith
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.AevalApplySubEvalOneMem
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.AprimeCuts
-public import Formalism.GaussValuationBounds.GaussValueContraction.KapBoundProof
+public import Formalism.TruncatedSeriesCounting.Bundle001
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle002
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle003
+public import Formalism.GaussValuationBounds.GaussValueContraction.Bundle002
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcIffLocalOfAdmissible
-public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.RrBound
-public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.ThmEExp
+public import Formalism.TruncatedSeriesCounting.TruncatedSeriesProofs.Bundle001
 import Formalism.WindowSums.PowerSeriesRelationList
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

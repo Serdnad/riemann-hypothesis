@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsIsotropicGroupLatticeClassRepresentatives
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle018
 public import Mathlib.Algebra.Module.Projective
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.GroupTheory.Index

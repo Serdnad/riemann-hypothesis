@@ -1,20 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SigmaFiniteOfRealSmul
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointMajorantFramesGiveMajorants
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ColumnBlocksSpanFlagFlagAdaptedLatticeBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ComplementaryBlockUnitaryFormsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsRationalFlagBlockFixingLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GradedPieceSizesUnipotentLeviCompactMoveStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarComplexGLMatricesConjAndSingularNullStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.InfiniteGLHaarMeasureEqPiLocalStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsSaturatedIsotropicFlagOfAdaptedBasisStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsTotallyIsotropicFlagComplexifiedSaturatedFlagStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingRearrangePiProdMeasuresStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RealPlacesMatchIsomorphicCMInstancesStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RiemannianHaarGaugeWholeGroupStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SizeQSaturatedIsotropicFlagPosStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle121
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle189
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle272
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle230
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle190
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle184
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle161
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle196
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle194
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle140
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle204
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -67,8 +66,8 @@ noncomputable section
 namespace GlobalTheory.LeviIso
 
 theorem detNorm_pos_iff {E : Type} [Field E] [NumberField E] {j : ℕ} (x : MatInf E j) :
-    0 < detNorm E j x ↔ ∀ w, (Matrix.of (x w)).det ≠ 0 := by
-  unfold detNorm
+    0 < _root_.GlobalTheory.FlagMeas.detNorm E j x ↔ ∀ w, (Matrix.of (x w)).det ≠ 0 := by
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   constructor
   · intro h w hw
     rw [Finset.prod_eq_zero (Finset.mem_univ w) (by rw [hw]; simp)] at h
@@ -149,11 +148,11 @@ theorem size_solve {f k : ℕ} (hf : 1 ≤ f) (hk : 1 ≤ k) {s t D : ℝ} (hs :
   linarith
 
 theorem ae_detNorm_pos (E : Type) [Field E] [NumberField E] {a : ℕ} (j : Fin a → ℕ) :
-    ∀ᵐ z ∂(Measure.pi fun i => haarGL E (j i)), ∀ i, 0 < detNorm E (j i) (z i) := by
+    ∀ᵐ z ∂(Measure.pi fun i => haarGL E (j i)), ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm E (j i) (z i) := by
   have hσ : ∀ i, SigmaFinite (haarGL E (j i)) := fun i => by
     rw [GlobalTheory.T.infiniteGLHaarMeasure_eq_pi_local]
     exact inferInstanceAs (SigmaFinite (Measure.pi fun _ : InfinitePlace E => haarLoc (j i)))
-  have h1 : ∀ i, ∀ᵐ x ∂(haarGL E (j i)), 0 < detNorm E (j i) x := by
+  have h1 : ∀ i, ∀ᵐ x ∂(haarGL E (j i)), 0 < _root_.GlobalTheory.FlagMeas.detNorm E (j i) x := by
     intro i
     rw [GlobalTheory.T.infiniteGLHaarMeasure_eq_pi_local]
     have h2 : ∀ᵐ x ∂(Measure.pi fun _ : InfinitePlace E => haarLoc (j i)), ∀ w, (Matrix.of (x w)).det ≠ 0 := by
@@ -165,7 +164,7 @@ theorem ae_detNorm_pos (E : Type) [Field E] [NumberField E] {a : ℕ} (j : Fin a
     exact h2.mono fun x hx => (detNorm_pos_iff x).2 hx
   exact ae_all_iff.2 fun i => (Measure.quasiMeasurePreserving_eval (fun i => haarGL E (j i)) i).ae (h1 i)
 
-theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf) (a : ℕ) (j : Fin a → ℕ) (S : Fin (a + 1) → Submodule (𝓞 I.E) (Fin I.n → I.E)) (Λ : ∀ i, Submodule (𝓞 I.E) (Fin (j i) → I.E)) (x₀ : I₀.Gf) (T T' : ∀ i, Matrix (Fin I.n) (Fin (j i)) I.E) (T₀ : Matrix (Fin I.n) (Fin I₀.n) I.E), (∀ i, 1 ≤ j i) → IsAdapted I I₀ e xf j S Λ x₀ T T' T₀ → ∀ (μM : ∀ v, Measure (Formalism.REAL.UJ (I.ε v))) [∀ v, SigmaFinite (μM v)] (c₀ : InfinitePlace I₀.F → ℝ), (∀ v, IsGaugeSub (flagM (I.ε v) (flagAt I S v)) ((I.n - 2 * ∑ i, j i) ^ 2 + 2 * ∑ i, j i ^ 2) (μM v)) → IsGaugeAll I₀ c₀ → ∃ (Θ : (∀ i, MatInf I.E (j i)) × I₀.Ginf → I.Ginf) (κ : Fin a → ℝ), Measurable Θ ∧ (∀ i, 0 < κ i) ∧ (∀ m : I.Ginf, (∀ v, m v ∈ flagM (I.ε v) (flagAt I S v)) ↔ ∃ z : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < detNorm I.E (j i) (z.1 i)) ∧ Θ z = m) ∧ (∀ z z' : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, z.1 i ∈ autGL I.E (j i) (Λ i)) → z.2 ∈ latGroup I₀ x₀ → (∀ i, 0 < detNorm I.E (j i) (z'.1 i)) → ∃ γ ∈ leviGroup I xf S, γ * Θ z' = Θ (fun i => z.1 i * z'.1 i, z.2 * z'.2)) ∧ (∀ z : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < detNorm I.E (j i) (z.1 i)) → ∀ i, sizesAt I xf S (Θ z) i = (detNorm I.E (j i) (z.1 i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) ∧ (∀ z z' : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < detNorm I.E (j i) (z.1 i)) → (∀ i, 0 < detNorm I.E (j i) (z'.1 i)) → Θ z = Θ z' → z = z') ∧ ∀ φ : I.Ginf → ENNReal, Measurable φ → ∫⁻ m, φ m ∂(Measure.pi μM) = (∏ i, ENNReal.ofReal (2 ^ (I.f * j i ^ 2))) * ENNReal.ofReal (∏ v, c₀ v) * ∫⁻ z₁ in {z₁ | ∀ i, 0 < detNorm I.E (j i) (z₁ i)}, ∫⁻ z₂, φ (Θ (z₁, z₂)) ∂(Measure.pi fun v => Formalism.REAL.muG (I₀.ε v)) ∂(Measure.pi fun i => haarGL I.E (j i)) := by
+theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf) (a : ℕ) (j : Fin a → ℕ) (S : Fin (a + 1) → Submodule (𝓞 I.E) (Fin I.n → I.E)) (Λ : ∀ i, Submodule (𝓞 I.E) (Fin (j i) → I.E)) (x₀ : I₀.Gf) (T T' : ∀ i, Matrix (Fin I.n) (Fin (j i)) I.E) (T₀ : Matrix (Fin I.n) (Fin I₀.n) I.E), (∀ i, 1 ≤ j i) → IsAdapted I I₀ e xf j S Λ x₀ T T' T₀ → ∀ (μM : ∀ v, Measure (Formalism.REAL.UJ (I.ε v))) [∀ v, SigmaFinite (μM v)] (c₀ : InfinitePlace I₀.F → ℝ), (∀ v, IsGaugeSub (flagM (I.ε v) (flagAt I S v)) ((I.n - 2 * ∑ i, j i) ^ 2 + 2 * ∑ i, j i ^ 2) (μM v)) → IsGaugeAll I₀ c₀ → ∃ (Θ : (∀ i, MatInf I.E (j i)) × I₀.Ginf → I.Ginf) (κ : Fin a → ℝ), Measurable Θ ∧ (∀ i, 0 < κ i) ∧ (∀ m : I.Ginf, (∀ v, m v ∈ flagM (I.ε v) (flagAt I S v)) ↔ ∃ z : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i)) ∧ Θ z = m) ∧ (∀ z z' : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, z.1 i ∈ autGL I.E (j i) (Λ i)) → z.2 ∈ latGroup I₀ x₀ → (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z'.1 i)) → ∃ γ ∈ leviGroup I xf S, γ * Θ z' = Θ (fun i => z.1 i * z'.1 i, z.2 * z'.2)) ∧ (∀ z : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i)) → ∀ i, sizesAt I xf S (Θ z) i = (_root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i) / κ i) ^ (-(1 / (2 * (I.f : ℝ) * j i)))) ∧ (∀ z z' : ((∀ i, MatInf I.E (j i)) × I₀.Ginf), (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i)) → (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z'.1 i)) → Θ z = Θ z' → z = z') ∧ ∀ φ : I.Ginf → ENNReal, Measurable φ → ∫⁻ m, φ m ∂(Measure.pi μM) = (∏ i, ENNReal.ofReal (2 ^ (I.f * j i ^ 2))) * ENNReal.ofReal (∏ v, c₀ v) * ∫⁻ z₁ in {z₁ | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)}, ∫⁻ z₂, φ (Θ (z₁, z₂)) ∂(Measure.pi fun v => Formalism.REAL.muG (I₀.ε v)) ∂(Measure.pi fun i => haarGL I.E (j i)) := by
   intro I I₀ e xf a j S Λ x₀ T T' T₀ hj h μM _ c₀ hμ hc₀
   have hsat := GlobalTheory.T.isSaturatedIsotropicFlag_of_adaptedBasis I I₀ e xf a j S Λ x₀ T T' T₀ hj h
   obtain ⟨β, σ, τ, τ₀, hτ, hτ₀, hβ, hσ⟩ := GlobalTheory.T.realPlaces_match_isomorphic_CM_instances I I₀ e h.1
@@ -182,9 +181,9 @@ theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf)
   have hRm : Measurable R := hR.measurable
   have hΘ : Measurable fun (z : (∀ i, MatInf I.E (j i)) × I₀.Ginf) v => θ v (R z v) :=
     Measurable.of_eval fun v => (hθ v).1.comp ((measurable_pi_apply v).comp hRm)
-  have hdet : ∀ z : (∀ i, MatInf I.E (j i)) × I₀.Ginf, (∀ i, 0 < detNorm I.E (j i) (z.1 i)) →
+  have hdet : ∀ z : (∀ i, MatInf I.E (j i)) × I₀.Ginf, (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i)) →
       ∀ v i, (Matrix.of ((R z v).1 i)).det ≠ 0 := fun z hz v i => (detNorm_pos_iff _).1 (hz i) (β v)
-  have hM : ∀ z : (∀ i, MatInf I.E (j i)) × I₀.Ginf, (∀ i, 0 < detNorm I.E (j i) (z.1 i)) →
+  have hM : ∀ z : (∀ i, MatInf I.E (j i)) × I₀.Ginf, (∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i)) →
       ∀ v, θ v (R z v) ∈ flagM (I.ε v) (flagAt I S v) := fun z hz v =>
     ((hθ v).2.1 _).2 ⟨R z v, hdet z hz v, rfl⟩
   have hpos := fun g : I.Ginf => GlobalTheory.T.sizeQ_saturatedIsotropicFlag_pos I (g, xf) a j S hsat
@@ -202,7 +201,7 @@ theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf)
     exact hM z hz
   · choose γ hγ1 hγ2 using hz1
     obtain ⟨g, hg, Γ, γ₀, g1, g2, g3, g4⟩ := GlobalTheory.T.exists_rational_flag_block_fixing_lattice I I₀ e xf a j S Λ x₀ T T' T₀ h γ hγ1 z.2 hz2
-    have hz : ∀ i, 0 < detNorm I.E (j i) (z.1 i) := by
+    have hz : ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z.1 i) := by
       intro i
       refine (detNorm_pos_iff _).2 fun w => ?_
       have : Matrix.of (z.1 i w) = (γ i : Matrix (Fin (j i)) (Fin (j i)) I.E).map w.embedding := by
@@ -251,7 +250,7 @@ theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf)
     congr 1
     simp only [fun v => ((hθ v).2.2.2.1 (R z v) (hdet z hz v)).1 i]
     have hj' : (j i : ℝ) ≠ 0 := by have := hj i; positivity
-    rw [detNorm, ← Real.finsetProd_rpow _ _ (fun w _ => by positivity)]
+    rw [_root_.GlobalTheory.FlagMeas.detNorm, ← Real.finsetProd_rpow _ _ (fun w _ => by positivity)]
     refine Fintype.prod_equiv β _ _ fun v => ?_
     rw [← Real.rpow_natCast, ← Real.rpow_mul (norm_nonneg _)]
     congr 1
@@ -269,7 +268,7 @@ theorem levi_product : ∀ (I I₀ : AutInst) (e : I₀.E ≃+* I.E) (xf : I.Gf)
     have h1 := funext fun v => (hθ v).2.2.2.2 (μM v) (c₀ (σ v)) (hμ v) (hc₀ (σ v))
     have h2 := measurePreserving_pi _ μM (f := θ) fun v => ⟨(hθ v).1, (congrFun h1 v).symm⟩
     have h3 := (h2.comp hR).lintegral_comp hφ
-    have h4 : (Measure.pi fun i => haarGL I.E (j i)).restrict {z₁ | ∀ i, 0 < detNorm I.E (j i) (z₁ i)} =
+    have h4 : (Measure.pi fun i => haarGL I.E (j i)).restrict {z₁ | ∀ i, 0 < _root_.GlobalTheory.FlagMeas.detNorm I.E (j i) (z₁ i)} =
         Measure.pi fun i => haarGL I.E (j i) := Measure.restrict_eq_self_of_ae_mem (ae_detNorm_pos I.E j)
     rw [← h3, lintegral_smul_measure, h4, smul_eq_mul, hcard]
     simp only [GlobalTheory.T.infiniteGLHaarMeasure_eq_pi_local]

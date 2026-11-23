@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RevPosRevPos
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InnerThetaFunctionsReadingTestFunctionFrames
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle236
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1976
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LintegralNormSqEqToL2
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AdelicZakThetaExistsUnique
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DblZMemHn
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.GaussRMulFactor
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HMatMulVecPerCrd
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.OneMemRowHighestAndThPSmulOne
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RationalSchwartzBruhatAlgebraIntegralLinear
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RealPeriodMapHomeomorphRiemannFormDensity
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle049
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle027
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle007
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle042
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaFunctionFundamentalDomainInnerProductBasic
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaKernelOrthonormalFrameInDomainPeriodLinear
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaKernelTestFunctionMapLinearInjectiveEquivar
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaSeriesTestFunctionHolomorphicWeight
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionTranslatesThetaByUnitScalar
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle054
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle059
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -73,7 +73,7 @@ theorem realPt_zero (C : Ctx S T) : C.realPt 0 = 0 := by
   simp [Ctx.realPt, compAt]
 
 theorem th_zero_eq (C : Ctx S T) {x : Frame C.X.Ψ T.rank} (hx : x ∈ C.X.dom) {φ : TF S.rank C.g}
-    (hφ : SW.IsSB φ) : C.Th x φ 0 = thR C.X C.bas C.idx φ x 0 := by
+    (hφ : SW.IsSB φ) : C.Th x φ 0 = GlobalTheory.Ker.thR C.X C.bas C.idx φ x 0 := by
   have h0 : IsRealPt (0 : WO S T) := by
     ext i j
     simp
@@ -83,7 +83,7 @@ theorem th_zero_eq_thP (C : Ctx S T) {x : Frame C.X.Ψ T.rank} (hx : x ∈ C.X.d
     (hφ : SW.IsSB φ) : C.Th x φ 0 = thP C.X C.hr C.bas C.idx φ 1 x := by
   have h := (GlobalTheory.SW.one_mem_rowHighest_and_thP_smul_one D.host.E T.rank C.X C.g C.q0 C.hr C.bas C.idx S.rank).2 1 φ x
   rw [one_smul, one_mul] at h
-  rw [h, th_zero_eq C hx hφ, thR]
+  rw [h, th_zero_eq C hx hφ, GlobalTheory.Ker.thR]
   have hz : zR C.X C.idx x (0 : WR C.X S.rank) = 0 := by
     funext k i
     simp [zR, hermC]
@@ -115,11 +115,11 @@ theorem exists_th_zero_ne (C : Ctx S T) (B : C.Bas) (hB : C.IsB B) (φ : TF S.ra
   have hx : C.xB B ∈ C.X.dom := ((GlobalTheory.Ker.onBasis_frame_period D S T C).2 B hB).2.1
   have R := GlobalTheory.Ker.thR_laws D.host.E T.rank C.X C.g C.q0 C.hr C.bas C.idx S.rank C.sympl C.even _ hx φ hφ
   have hd := (GlobalTheory.Ker.zR_laws D.host.E T.rank C.X C.g C.q0 C.hr C.bas C.idx S.rank C.sympl C.even _ hx).2.2.2.1
-  obtain ⟨y, hy⟩ : ∃ y, thR C.X C.bas C.idx φ (C.xB B) (embR C.X y) ≠ 0 := by
+  obtain ⟨y, hy⟩ : ∃ y, GlobalTheory.Ker.thR C.X C.bas C.idx φ (C.xB B) (embR C.X y) ≠ 0 := by
     by_contra hn
     push_neg at hn
     have hs : SW.IsSB ((0 : ℂ) • φ) := (isSB_algebra_haar_linear _ _ _ _ _ hφ hφ).2.1 0
-    have e : thR C.X C.bas C.idx φ (C.xB B) = thR C.X C.bas C.idx ((0 : ℂ) • φ) (C.xB B) := by
+    have e : GlobalTheory.Ker.thR C.X C.bas C.idx φ (C.xB B) = GlobalTheory.Ker.thR C.X C.bas C.idx ((0 : ℂ) • φ) (C.xB B) := by
       rw [R.2.2.2.2 0, zero_smul]
       exact hd.equalizer R.1.continuous continuous_const (funext hn)
     exact h0 (((R.2.2.2.1 _ hs).1 e).trans (zero_smul ℂ φ))

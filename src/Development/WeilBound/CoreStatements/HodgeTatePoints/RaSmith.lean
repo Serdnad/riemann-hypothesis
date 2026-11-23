@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsTight
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.RaCpaf
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.BlockOneMulMulBlockOne
+public import ReciprocityTheory.DualLattices.Bundle016
 public import Mathlib.LinearAlgebra.Quotient.Pi
 
 @[expose] public section

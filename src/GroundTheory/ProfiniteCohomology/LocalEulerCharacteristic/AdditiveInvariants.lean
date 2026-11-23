@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.AdditiveDefs
+public import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle001
 public import Mathlib.Algebra.Field.ZMod
 public import Mathlib.RepresentationTheory.Invariants
 import Mathlib.Algebra.Order.Floor.Extended

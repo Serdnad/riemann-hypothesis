@@ -1,0 +1,177 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
+public import Development.AbelianVarietyTheory.Definitions.Foundations.AestronglyMeasurableQuotMeasureIffLift
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.DiscreteSeriesTopClasses.StTopClass
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Matrix Finset
+open scoped InnerProductSpace
+
+namespace PositivityTheory.RgBcC.RealD
+
+open PositivityTheory.RgBcC.Real
+open Formalism.REAL (GlRel)
+
+variable {n : ℕ}
+
+def wtB (B : Finset (Fin n × Fin n)) : Fin n → ℝ := fun c =>
+  ((B.filter fun p => p.1 = c).card : ℝ) - ((B.filter fun p => p.2 = c).card : ℝ)
+
+def IsSecondTypeWeight (lam : Fin n → ℤ) (lev : Fin n → ℕ) (ν : Fin n → ℝ) : Prop :=
+  ∃ B : Finset (Fin n × Fin n), B.Nonempty ∧ (∀ p ∈ B, lev p.1 < lev p.2) ∧ StrictAnti (ν + rhoV n) ∧
+    ∃ w : Equiv.Perm (Fin n), ν + rhoV n = (muQ lam lev + rhoV n - wtB B) ∘ w
+
+structure AdmFor {V : Type} [NormedAddCommGroup V] [InnerProductSpace ℂ V] (lam : Fin n → ℤ) (lev : Fin n → ℕ)
+    (E1 E2 : Fin n → Fin n → Module.End ℂ V) : Prop where
+  gl1 : GlRel E1
+  gl2 : GlRel E2
+  comm : ∀ a b c d, E1 a b * E2 c d = E2 c d * E1 a b
+  unitK : ∀ a b (x y : V), ⟪kF E1 E2 a b x, y⟫_ℂ = ⟪x, kF E1 E2 b a y⟫_ℂ
+  locFin : ∀ x : V, ∃ S : Submodule ℂ V, FiniteDimensional ℂ S ∧ x ∈ S ∧ ∀ a b, ∀ w ∈ S, kF E1 E2 a b w ∈ S
+  ch1 : ∀ m (x : V), gelA E1 m x = GlobalTheory.Dec.gelfVal (infOf lam true) m • x
+  ch2 : ∀ m (x : V), gelA (barF E2) m x = GlobalTheory.Dec.gelfVal (infOf lam false) m • x
+  no_second_type_weight : ∀ ν, IsSecondTypeWeight lam lev ν → hwSp E1 E2 ν = ⊥
+
+def MultFor : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ lev : Fin n → ℕ, IsLev lam lev →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V),
+      AdmFor lam lev E1 E2 → ∀ v w : V, v ∈ hwSp E1 E2 (muQ lam lev) → w ∈ hwSp E1 E2 (muQ lam lev) → v ≠ 0 →
+        (∃ x ∈ alg E1 E2, x v = w) → ∃ c : ℂ, w = c • v
+
+end PositivityTheory.RgBcC.RealD
+end
+end
+
+section
+
+noncomputable section
+
+open MeasureTheory Matrix Finset GlobalTheory.OpTrace GlobalTheory.AutomorphicL2Unitary
+open scoped InnerProductSpace ComplexConjugate
+
+namespace PositivityTheory.RgBcC.RealD
+
+open PositivityTheory.RgTw (Mat G th IsThetaOp)
+open PositivityTheory.RgBcC.Real
+
+def Bridge : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ) (U : Type) [NormedAddCommGroup U] [InnerProductSpace ℂ U] [CompleteSpace U]
+    (π : G n →* (U →L[ℂ] U)) (A : U →L[ℂ] U), IsUnitaryRep π → IsTopIrreducible π → IsThetaOp n π A → A * A = 1 →
+    HasInf π (infOf lam) → ∀ (E : KMod n) (T : E.V →L[ℂ] E.V), (∀ k, T * E.ρ k = E.ρ k * T) →
+      ∃ (V : Submodule ℂ U) (E1 E2 : Fin n → Fin n → Module.End ℂ V)
+        (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A' : V →ₗ[ℂ] V),
+        IsCoreMod (infOf lam) E1 E2 σ A' ∧ FiniteDimensional ℂ (invA σ E) ∧ (invSp π E ≠ ⊥ → invA σ E ≠ ⊥) ∧
+          trInv π E A T = trOn (invA σ E) (flipA E A' T)
+
+def Core : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), StrictAnti lam → ∀ (E : KMod n) (T : E.V →L[ℂ] E.V), IsLefK lam E T →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V)
+      (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V), IsCoreMod (infOf lam) E1 E2 σ A →
+      FiniteDimensional ℂ (invA σ E) → invA σ E ≠ ⊥ →
+        ∃ s : ℂ, (s = 1 ∨ s = -1) ∧ trOn (invA σ E) (flipA E A T) = s * 2 ^ n
+
+def SignOne : Prop :=
+  ∀ (V : Type) [AddCommGroup V] [Module ℂ V] (S : Submodule ℂ V) (A : V →ₗ[ℂ] V), A * A = 1 → (∀ x ∈ S, A x ∈ S) →
+    Module.finrank ℂ S = 1 → ∃ s : ℂ, (s = 1 ∨ s = -1) ∧ trOn S A = s
+
+def CoreG : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ (E : KMod n) (T : E.V →L[ℂ] E.V), IsLefK lam E T →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V)
+      (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V), IsCoreMod (infOf lam) E1 E2 σ A →
+      FiniteDimensional ℂ (invA σ E) → invA σ E ≠ ⊥ →
+        ∃ s : ℂ, (s = 1 ∨ s = -1) ∧ trOn (invA σ E) (flipA E A T) = s * 2 ^ n
+
+def CountG : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ (E : KMod n) (T : E.V →L[ℂ] E.V), IsLefK lam E T →
+    ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V] (E1 E2 : Fin n → Fin n → Module.End ℂ V)
+      (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V), IsCoreMod (infOf lam) E1 E2 σ A →
+      FiniteDimensional ℂ (invA σ E) →
+        (∀ μ ∈ harmSet lam, (∀ x ∈ hwSp E1 E2 μ, A x ∈ hwSp E1 E2 μ) ∧ FiniteDimensional ℂ (hwSp E1 E2 μ)) ∧
+          (invA σ E ≠ ⊥ → ∃ μ ∈ harmSet lam, hwSp E1 E2 μ ≠ ⊥) ∧
+          trOn (invA σ E) (flipA E A T) = 2 ^ n * ∑ μ ∈ harmSet lam, trOn (hwSp E1 E2 μ) A
+
+def MultG : Prop :=
+  ∀ (n : ℕ) (lam : Fin n → ℤ), Antitone lam → ∀ (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V]
+    (E1 E2 : Fin n → Fin n → Module.End ℂ V) (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V),
+    IsCoreMod (infOf lam) E1 E2 σ A → ∃ μ₀ ∈ harmSet lam, (∀ μ ∈ harmSet lam, μ ≠ μ₀ → hwSp E1 E2 μ = ⊥) ∧
+      ∀ v w : V, v ∈ hwSp E1 E2 μ₀ → w ∈ hwSp E1 E2 μ₀ → v ≠ 0 → ∃ c : ℂ, w = c • v
+
+theorem coreG_of (hK : CountG) (hM : MultG) (hS : SignOne) : CoreG := by
+  intro n lam hlam E T hT V _ _ E1 E2 σ A hA hfin hne
+  obtain ⟨h1, h2, h3⟩ := hK n lam hlam E T hT V E1 E2 σ A hA hfin
+  obtain ⟨μ₀, hμ₀, hzero, hone⟩ := hM n lam hlam V E1 E2 σ A hA
+  have hbot : hwSp E1 E2 μ₀ ≠ ⊥ := by
+    obtain ⟨μ, hμ, hμne⟩ := h2 hne
+    by_cases heq : μ = μ₀
+    · exact heq ▸ hμne
+    · exact absurd (hzero μ hμ heq) hμne
+  have htr0 : ∀ μ ∈ harmSet lam, μ ≠ μ₀ → trOn (hwSp E1 E2 μ) A = 0 := by
+    intro μ hμ hμne
+    rw [hzero μ hμ hμne]
+    unfold trOn
+    split_ifs with h
+    · have hz : A.restrict h = 0 := LinearMap.ext fun x => Subsingleton.elim _ _
+      rw [hz, map_zero]
+    · rfl
+  have hsum : ∑ μ ∈ harmSet lam, trOn (hwSp E1 E2 μ) A = trOn (hwSp E1 E2 μ₀) A :=
+    Finset.sum_eq_single_of_mem μ₀ hμ₀ htr0
+  obtain ⟨hinv, hfd⟩ := h1 μ₀ hμ₀
+  obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hbot
+  have hle : Module.finrank ℂ (hwSp E1 E2 μ₀) ≤ 1 := by
+    apply finrank_le_one (⟨v, hv⟩ : hwSp E1 E2 μ₀)
+    intro w
+    obtain ⟨c, hc⟩ := hone v w hv w.2 hv0
+    exact ⟨c, Subtype.ext (by simp [hc])⟩
+  have hpos : 0 < Module.finrank ℂ (hwSp E1 E2 μ₀) := by
+    have : Nontrivial (hwSp E1 E2 μ₀) :=
+      ⟨⟨⟨v, hv⟩, 0, fun h => hv0 (congrArg Subtype.val h)⟩⟩
+    exact Module.finrank_pos
+  obtain ⟨s, hs, hts⟩ := hS V (hwSp E1 E2 μ₀) A hA.Asq hinv (by omega)
+  refine ⟨s, hs, ?_⟩
+  rw [h3, hsum, hts, mul_comm]
+
+end PositivityTheory.RgBcC.RealD
+end
+end

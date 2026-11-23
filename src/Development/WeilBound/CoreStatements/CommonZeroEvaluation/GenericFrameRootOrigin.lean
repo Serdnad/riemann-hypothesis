@@ -1,19 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Reframe
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsFrameVec
+public import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle133
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameNormsContinuousAlongEmbeddingFamilies
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianMapLieModelLatticeStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle222
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginRootIndexBound
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TriangularSpanCoeffRatio
-public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.ConstantRegularAwayFibres
-public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.EigenLatticeDecomposition
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle144
+public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.Bundle004
+public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.Bundle001
 public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.ExistsLocalChartCentre
 public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.LieLatticeActionStable
 public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.LieLatticeLocalRing
 public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.LieModelLocalSubringAction
-public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.SubringSpecMorphismExt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
 public import Development.WeilBound.CoreStatements.CommonZeroEvaluation.ExistsCorr
 

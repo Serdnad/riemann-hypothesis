@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgebraicElementHomogRelation
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentres
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegAtIffChartLocalizationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCoordField
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle083
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle105
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,9 +51,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsVBOneOfChartGenerators
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
+import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle030
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle021
 
 @[expose] public section
 

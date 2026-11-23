@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
 public import GroundTheory.GlobalFields.TateThesis.AdelicCharLocal
-public import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+public import GroundTheory.GlobalFields.TateThesis.Bundle006
 public import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
 import Aesop.Main
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

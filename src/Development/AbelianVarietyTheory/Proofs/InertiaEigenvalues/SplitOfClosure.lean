@@ -51,9 +51,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.GaloisValuations.ContinuousConstSMulQuotient
+import ReciprocityTheory.GaloisValuations.Bundle001
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.ConjugateSelfDual.Statement
+import Formalism.ConjugateSelfDual.Bundle001
 
 @[expose] public section
 

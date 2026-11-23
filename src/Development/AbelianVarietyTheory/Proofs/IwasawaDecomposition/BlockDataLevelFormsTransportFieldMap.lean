@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BlockBaseChange
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ImportsExtra
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle122
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle002
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

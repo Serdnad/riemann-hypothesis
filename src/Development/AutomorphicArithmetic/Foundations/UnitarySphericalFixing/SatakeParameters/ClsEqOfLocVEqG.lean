@@ -4,11 +4,11 @@ public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.IsRec
 public import GroundTheory.LocalFields.PadicLogSeries
 public import CompanionTheory.AutomorphicTheory.TemperedLocalSpectra.BernsteinZelevinsky.TopAdm
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.UnitarisableOfSquareIntegrable
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.ClBasic
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContragredientPreservesSubquotient
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContragredientProductIrreducible
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassCuspidal
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassTwistNeg
+public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle313
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle655
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle343
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle344
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CoeffRingsHaveRootsOfUnity
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CuspLaws
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle022
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle016
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SmoothContragredientIrreducibleAndReflexive
 
 @[expose] public section

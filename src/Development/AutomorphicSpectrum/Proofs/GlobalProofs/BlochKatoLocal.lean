@@ -3,25 +3,23 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.RationalDualityOfAllCoefficients
 public import Development.AutomorphicSpectrum.Definitions.NonGaloisLines.TopLine
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.H2EquivOfTorsionCharacter
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankH1fDeRhamStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCycCycChar
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle696
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle165
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDualDeRhamAndFilZeroDimAll
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.CupFlip
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.TateDualityH2FiniteCoefficients
 import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.DualQOfTopInj
-public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.ExistsPerfectCharacterQuotientStatement
+public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.Bundle002
 import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GoodOAdicCompleteCompactBasisStatement
 import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.GrowthGaloisInvariantsModPrimePowerLattice
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.MemOfMkMemRange
 public import Development.AutomorphicSpectrum.Proofs.NonGaloisProofs.TmulOneMemDcris
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.BkMain
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.BkPair
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle002
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle004
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.CardH0TwistedDual
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.EquivariantB
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.ExistsCochain
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.ExistsDivClass
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTop
-public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTopEuler
+public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.Bundle003
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.LocalBoundOfAllInputs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,7 +58,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle010
 
 @[expose] public section
 

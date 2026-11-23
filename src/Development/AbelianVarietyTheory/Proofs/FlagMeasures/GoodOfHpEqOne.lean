@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GFrames
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CommonStabilizerStabilizersCommensurableVolume
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle097
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoordinateLatticeUniqueTermAlmostAllPlaces
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Equality
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsEqZpowMulUnit
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetTermBasicFacts
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFourInverseMul
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle167
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle031
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle046
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle033
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramesStabilizerActsOnTerms
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IntegralOfMulVec
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPrincipalIdealRingOfHenselian
@@ -63,7 +63,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsIntegralIff
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BasisOfIsCompl
 
 @[expose] public section

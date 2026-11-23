@@ -4,10 +4,10 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.BasePlaceNot
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsBesPosOfBesselTied
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NatCastSmulMemHatL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GridFirstColumnSpaceRankSignatureSelfDual
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitOfCocompact
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsCompactParahoricLevelAndContainsLifts
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ExistsNatSmulSingle
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1560
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle257
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SiegelMeanCc
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle013
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GaussianQuadricDensityExistsPosContinuous
 import Mathlib.Algebra.Order.Floor.Extended

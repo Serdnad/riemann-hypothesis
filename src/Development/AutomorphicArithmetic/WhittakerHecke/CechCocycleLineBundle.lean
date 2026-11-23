@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.ProjSpaceHom
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherBis
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle066
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

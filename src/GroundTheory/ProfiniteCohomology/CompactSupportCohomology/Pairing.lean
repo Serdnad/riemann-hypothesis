@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Algebra.Homology.ConcreteCategory
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.HomApplyHomApplyEqOfCompEq
-public import GroundTheory.ProfiniteCohomology.FilteredHomology
+public import GroundTheory.ProfiniteCohomology.Bundle001
 public import Mathlib.Algebra.Homology.HomologicalComplexAbelian
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

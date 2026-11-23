@@ -1,9 +1,9 @@
 module
 
-import Formalism.LocalRingCardinality.HeightBoundGeFourthPowerRank
+import Formalism.LocalRingCardinality.Bundle006
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LargeConstantLeParamCube
-public import Formalism.LocalRingCardinality.DataParamsT
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.SharpRestriction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

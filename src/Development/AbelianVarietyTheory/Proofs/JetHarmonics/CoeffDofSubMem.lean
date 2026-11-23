@@ -1,13 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.GermEvalOneStandardPointSelf
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegExp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsFormalBiextMap
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalSecondPointDerivativeSecondCoordinate
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.IsNilpotentOfMemKerJetTruncR
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.InvariantDerivAlongEndo
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MapDofIterate
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SubstMapAlgebraMap
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle051
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.DofDApply
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle002
 
 @[expose] public section
 
@@ -159,12 +159,18 @@ theorem dof_baseChange (hJ : JetAlgSt) (hRep : RepSt) (hSer : SerSt) [IsLocalRin
     rw [ChartBaseChange.germEval_oneStandardPoint_self] at H
     exact ChartBaseChange.hasSer_move hΘ π _ _ (fun m => congrArg (fun k => k.left) (e 0 m)) U _ _ H
   have hη : η[G'].left ≫ π = Spec.map (CommRingCat.ofHom (algebraMap V R)) ≫ η[G].left := by
-    have e := congrArg (fun z => z.left) (map_one (pushHom hπ (𝟙_ _)))
-    have e₁ : (1 : 𝟙_ _ ⟶ G') = η[G'] := by rw [Hom.one_def]; simp
-    rw [e₁] at e
-    refine e.trans ?_
-    show (toUnit _ ≫ η[G]).left = _
-    simp
+    let f := Spec.map (CommRingCat.ofHom (algebraMap V R))
+    have h : η[G'] = Functor.LaxMonoidal.ε (Over.pullback f) ≫ (Over.pullback f).map η[G] := rfl
+    have h₁ : ((Over.pullback f).map η[G]).left ≫ pullback.fst G.hom f =
+        pullback.fst (𝟙_ (Over (Spec (CommRingCat.of V)))).hom f ≫ η[G].left := pullback.lift_fst _ _ _
+    change η[G'].left ≫ pullback.fst G.hom f = f ≫ η[G].left
+    rw [h, Over.comp_left, Category.assoc, h₁, ← Category.assoc]
+    congr 1
+    have h₂ : pullback.fst (𝟙_ (Over (Spec (CommRingCat.of V)))).hom f =
+        pullback.snd (𝟙_ (Over (Spec (CommRingCat.of V)))).hom f ≫ f :=
+      (Category.comp_id _).symm.trans pullback.condition
+    rw [h₂, ← Category.assoc]
+    exact (congrArg (· ≫ f) (Over.w (Functor.LaxMonoidal.ε (Over.pullback f)))).trans (Category.id_comp _)
   have hU' : ⊤ ≤ η[G'].left ⁻¹ᵁ (π ⁻¹ᵁ U) := by
     show ⊤ ≤ (η[G'].left ≫ π) ⁻¹ᵁ U
     rw [hη]

@@ -6,7 +6,7 @@ public import Formalism.SharpRestriction.GrowthBounds.PathWeight.FixedSymbolFact
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.LeadingDepthOneMemClosure
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.Lemma4OfRemainingStatements
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.MdWeightMapDomain
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.LeviInductionForms
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

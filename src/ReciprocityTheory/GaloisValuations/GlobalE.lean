@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GaloisValuations.GlobalEA
+public import ReciprocityTheory.GaloisValuations.Bundle002
 public import Mathlib.RingTheory.Ideal.Norm.AbsNorm
 
 @[expose] public section

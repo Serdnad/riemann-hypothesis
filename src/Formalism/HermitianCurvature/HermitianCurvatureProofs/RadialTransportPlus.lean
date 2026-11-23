@@ -2,8 +2,8 @@ module
 
 public import Formalism.HermitianCurvature.StatementHeads
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockRelationTwistedHeight
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousZetaL
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Tower
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle103
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle036
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

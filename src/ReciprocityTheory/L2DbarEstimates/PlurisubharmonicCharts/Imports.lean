@@ -44,8 +44,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.BStep
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.LintegralBallRpowLtTop
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.SetLIntegralBiUnionLe
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle005
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle007
 
 @[expose] public section
 

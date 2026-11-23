@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.JetKapIff
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle527
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.MoveRow
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.MoveTop
 import Mathlib.Algebra.Order.Floor.Extended

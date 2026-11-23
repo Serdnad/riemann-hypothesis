@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPolyEntriesConjLeftRightMul
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle023
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.HighestWeights.ModelFun
 public import Mathlib.Algebra.MvPolynomial.Monad
 public import Mathlib.RingTheory.MvPolynomial.Basic

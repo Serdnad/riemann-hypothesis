@@ -2,28 +2,28 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.UnifOfSpaceEq
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
-public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
+public import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardLatticeQuotientHalfLevel
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle045
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsBlockProductMemIntegralHarmonic
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsOrthoFrame
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.NegLogSqrtLeOfJbound
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle033
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SumLeFinsumOfSurjectsOntoFinset
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaGeneratorPointwiseBoundOrthonormalFrame
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaRuleExistsAndEval
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.UnitaryDatumNumbersForSupBounds
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle088
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle083
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle044
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FirstMinAtHalfMax
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NormPhiHatIndPhi
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumWeightSpreadLeExponentNormAdd
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2024
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ChartIndependenceUnconditional
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsIsNabUncond
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTotallyComplexExt
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle042
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle219
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThInCuspCusp
-public import Formalism.LocalToGlobal.ProjectiveLattices.ContDiffAtOfDiff
-import Formalism.LocalToGlobal.ProjectiveLattices.FreeBridge
-import Formalism.LocalToGlobal.ProjectiveLattices.HostSize
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle008
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle035
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -188,7 +188,7 @@ theorem exists_large {ι : Type} [Fintype ι] [Nonempty ι] (u : ι → ℝ) (hu
 theorem theta_lower (hLw : Laws D j Xo c U dict) {σ : c.F →+* ℂ} (hσ : GoodEmb c σ) {a : (D.host.E →+* ℂ) × ℕ → ℕ} {n : ℕ}
     (hDom : Dom a n) [StarRing (𝓞 D.host.E)] {nab : NabV Xo c} (hnab : IsNab Xo c nab) (α : 𝓞 D.host.E)
     (hα : α * H.bar α = (l.M : 𝓞 D.host.E)) (hMb : l.Mb = Ideal.span {H.bar α})
-    {P : MvPolynomial (LtN Dw n) c.F} (hP : P ∈ harmA c a n) (hB : IsBlockProd P) (hdeg : P.totalDegree = Formalism.L2.Pj.DF Dw a)
+    {P : MvPolynomial (LtN Dw n) c.F} (hP : P ∈ harmA c a n) (hB : GlobalTheory.BlockTh.IsBlockProd P) (hdeg : P.totalDegree = Formalism.L2.Pj.DF Dw a)
     {g : (Fin n → LevQ Dw l) → Rul Xo c} (hg : ∀ q, IsThRule Xo c nab (fun b => levRep (q b)) P (g q))
     (hs : ∀ q, g q ∈ sec Xo c a n) {R0 : ℝ} {m : ℕ} (hrun : GlobalTheory.EtaAn.RunOK D.host.E D.R.r (Formalism.L2.Pj.DF Dw a) l.M R0 m)
     (hm : Dw.q ≤ m) {tableLineDegreeFive cc : ℝ} (hP14 : p14 D.host.E D.R.r n m ≤ tableLineDegreeFive)

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsUnitReprOne
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LatticeConditions
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthQuotientMaximalIdealPowSmulTop
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalCoefficientChangeCompare
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle192
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle188
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

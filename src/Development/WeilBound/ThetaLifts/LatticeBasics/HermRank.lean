@@ -91,7 +91,7 @@ def dL (p : (κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixed
     rw [dOp, dOp, LineDeriv.lineDerivOp_smul, smul_add, RingHom.id_apply]
     congr 1
     ext y
-    simp only [smul_apply, SchwartzMap.smulLeftCLM_apply_apply (linForm p.2).hasTemperateGrowth, smul_eq_mul,
+    simp only [smul_apply, SchwartzMap.smulLeftCLM_apply_apply (GlobalTheory.ThK.Dbl.Dense.linForm p.2).hasTemperateGrowth, smul_eq_mul,
       Complex.real_smul]
     ring
 

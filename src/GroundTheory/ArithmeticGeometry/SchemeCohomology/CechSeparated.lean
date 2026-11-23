@@ -4,7 +4,7 @@ public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechLeray
 public import Mathlib.Algebra.Category.ModuleCat.Sheaf.Quasicoherent
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.AffineVanishing
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

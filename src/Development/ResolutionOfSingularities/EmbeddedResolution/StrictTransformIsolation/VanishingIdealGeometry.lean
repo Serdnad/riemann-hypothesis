@@ -5,7 +5,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Derivativ
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderPullback
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCenterChart
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.CoordinateSubstitution
-import Development.ResolutionOfSingularities.Foundations.Schemes.AffineOpens
+import Development.ResolutionOfSingularities.Foundations.Schemes.Bundle001
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

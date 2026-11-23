@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SourceLatticeInvariance
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExpNegOneLtOne
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntegralPowerExpansion
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormalFormAtPrime
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.RationalFractionsRepresentPrimeNormQuotient
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntegralDivUniformizerOfRedZero
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle065
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle061
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle097
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,7 +60,7 @@ noncomputable section
 
 namespace GlobalTheory.Mem.Col2
 
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.L2.Col Formalism.L2.DIV
+open NumberField IsDedekindDomain Formalism.BasicNotions _root_.Formalism.L2.Col Formalism.L2.DIV
 open GlobalTheory.IndefiniteRowSideFullHecke.SourceLatticeInvariance (DegOneUnram)
 
 section Local

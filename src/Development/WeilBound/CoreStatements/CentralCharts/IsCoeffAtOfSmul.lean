@@ -1,22 +1,21 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.FlatLineGenerator
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CardComapMulFinsumEqFinsumFibres
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SplitComps
-public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.IsQProjOverOfIsProjOver
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmTypeExteriorLatticeComparisonStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CmTypeLatticeComparisonStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.EigenLatticeVectorBundleStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExteriorCoeffBaseChangeCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagCmTypeLatticeComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FlagWeightedDegreeSectionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrameDomainInSegreChartStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenPtSpecializesOfSpecializes
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeComponentMatchesModelComponentStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFlagDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NonemptyCptOverOfFlatPreimmersion
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValAtIffValueAtStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.WedgeLineLatticeVectorBundleStatement
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle005
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
+public import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle262
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle221
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle157
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle271
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle139
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle074
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle205
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle108
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle100
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle075
 public import Development.WeilBound.CoreStatements.CentralCharts.AnalyticAtEval
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,7 +59,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LevelSectionsExactKernelLocusOpen
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
 
 @[expose] public section
 
@@ -135,8 +134,8 @@ theorem exists_cptOver (𝔐 : HodgeCpt Y S y) :
   obtain ⟨Z⟩ := nonempty_cptOver_of_fraction hβ.1 hβ.2.2 Y (irreducibleComponent u)
     (irreducibleComponent_mem_irreducibleComponents u)
   have hz : genPt (Z.ξ₀ ≫ Y.j) ⤳ Y.j u := ((Z.closure u).1 mem_irreducibleComponent).map Y.j.continuous
-  exact ⟨_, Z, ((genPt_specializes_of_specializes _ 𝔐.gen₀ hu' hz).antisymm
-      (genPt_specializes_of_specializes _ Z.gen hz hu')).eq⟩
+  exact ⟨_, Z, ((_root_.GlobalTheory.CompanionTheory.Ar.Flat.genPt_specializes_of_specializes _ 𝔐.gen₀ hu' hz).antisymm
+      (_root_.GlobalTheory.CompanionTheory.Ar.Flat.genPt_specializes_of_specializes _ Z.gen hz hu')).eq⟩
 
 theorem isGeom_of_split (hS : SplitComps Y) {U : Set (Xo.XF c)} (Z : CptOver Y U) : Z.IsGeom := by
   rintro x ⟨f, hf, hx⟩

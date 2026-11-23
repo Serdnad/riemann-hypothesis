@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalRingCardinality.DataErr
+public import Formalism.LocalRingCardinality.Bundle007
 public import Formalism.LocalRingCardinality.DataParams
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.SharpRestriction.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockDegreeGapBound
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.OneLeLetterBlockLength
 import Formalism.LocalRingCardinality.CoeNeZeroOfNotMem

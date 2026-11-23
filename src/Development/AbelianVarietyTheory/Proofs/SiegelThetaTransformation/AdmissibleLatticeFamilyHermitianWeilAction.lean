@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsHeatZero
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle001
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianHeisenbergOperatorLawsStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionCommPositiveUnitaryGroupStatement
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianWeilActionUnitaryGroupTestFunctionsStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.UnitaryActHalfSpaceStatement
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle020
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle010
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionLevelSupNormUniformInLattice
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionLevelSupNormUniformInLatticeStatement
+
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -352,7 +351,7 @@ theorem weil_admissible : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E]
     ⟨s, hs0, hsM.of_dvd_right ⟨c * D * (2 * R₀), by ring⟩, h1, h2⟩
   obtain ⟨t, ht0, -, ht, -⟩ := hΛ'.2.2
   haveI : Fintype (Quo Λ' N s) := by
-    have := (relIndex_nsmul (cols Λ' N) ht0 (fun X hX k i => (mem_stdL _).1 (ht _ (hX i)) k) hs0).1
+    have := (relIndex_nsmul (cols Λ' N) ht0 (fun X hX k i => (GlobalTheory.SW.Base.mem_stdL _).1 (ht _ (hX i)) k) hs0).1
     haveI : Finite (Quo Λ' N s) := Nat.finite_of_card_ne_zero this
     exact Fintype.ofFinite _
   set κ : ℂ := ∑ q : Quo Λ' N s, if ColsIn Λ q.out.1.toCols₁ then 1 else 0 with hκ

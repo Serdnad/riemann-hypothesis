@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.KeyOne
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.FrobeniusPaths.LatticeCountingFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

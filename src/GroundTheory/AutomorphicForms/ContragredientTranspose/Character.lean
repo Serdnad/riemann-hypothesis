@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.WhittakerCriterion
 public import GroundTheory.AutomorphicForms.HeckeAlgebraLevel
 public import Mathlib.LinearAlgebra.Trace
 public import GroundTheory.AutomorphicForms.HeckeIrreducible
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

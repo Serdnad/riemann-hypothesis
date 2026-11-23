@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualMapCompDualMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCoboundarySndTr
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvariantFormAbelianVarietyTranslateValue
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LogChernCocycleContractionInvariantFieldTrivialiStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2312
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2315
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2296
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

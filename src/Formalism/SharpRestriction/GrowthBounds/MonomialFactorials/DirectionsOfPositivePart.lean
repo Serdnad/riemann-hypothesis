@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ThresholdsMonoNormalized
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.PlusAWICondition
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle019
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

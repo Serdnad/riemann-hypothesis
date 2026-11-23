@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.LocalFields.LocalArtinMap
-public import GroundTheory.ProfiniteCohomology.CyclicCupGaloisDefs
+public import GroundTheory.ProfiniteCohomology.Bundle009
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolDefs
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbol
 import Mathlib.Algebra.Order.Floor.Extended

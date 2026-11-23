@@ -1,12 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Admissible
-public import Formalism.HermitianCurvature.StatementTBB
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselEnergyNormalisedFrameChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUnipotentHaarMeasureRatioStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrbitalSquareEqHilbertSchmidtNormalisedVectorStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselNormSqEqBigCellNormSq
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle009
+public import Formalism.HermitianCurvature.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle338
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle410
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle317
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle145
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.TriangleInequalityAtPlace
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,7 +52,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.FramesPt
+public import Formalism.SharpRestriction.CuspSpanNormBounds.FrobeniusCoefficientMemLp.Bundle001
 
 @[expose] public section
 

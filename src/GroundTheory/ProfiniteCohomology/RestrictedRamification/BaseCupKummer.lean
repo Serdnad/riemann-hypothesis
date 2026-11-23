@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseCupLocal
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle008
 public import GroundTheory.ProfiniteCohomology.CompactSupportCohomology.CompactCupEqCompactCupRight
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
 import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer

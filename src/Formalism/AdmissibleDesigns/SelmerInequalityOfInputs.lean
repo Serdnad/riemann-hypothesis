@@ -2,10 +2,10 @@ module
 
 public import Formalism.AdmissibleDesigns.PiEquiv2
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
-public import Formalism.AdmissibleDesigns.InertiaActsTrivially
+public import Formalism.AdmissibleDesigns.Bundle001
 public import Formalism.AdmissibleDesigns.RealDisplayAllK
 public import Formalism.WachLatticeTwists.RealDisplaySplitting.RealDisplayProofs.SurjectionOfRankOneIdempotent
-public import Formalism.AdmissibleDesigns.DisplayForms
+public import Formalism.AdmissibleDesigns.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

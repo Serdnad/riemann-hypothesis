@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdditiveCharacterPsi
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AffineChangeOfVariables
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle006
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PhaseFunctionCriticalPoints
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

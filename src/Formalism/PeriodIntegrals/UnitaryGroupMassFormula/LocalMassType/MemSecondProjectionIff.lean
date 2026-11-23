@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.WProof
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.LatBasis
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -102,10 +102,10 @@ theorem latD_smul {J : Matrix (Fin n) (Fin n) E} {Λ : Set (Fin n → E)} (hSD :
   rw [hR_smulL]
   exact oevD_mul D hc ((hSD w).1 hw x hx)
 
-theorem sigR_inclR (a : E) : sigR (Fv F v) σ (inclR (F := F) (Fv F v) a) = inclR (F := F) (Fv F v) (σ a) := by
+theorem sigR_inclR (a : E) : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (inclR (F := F) (Fv F v) a) = inclR (F := F) (Fv F v) (σ a) := by
   first
     | rfl
-    | simp [sigR, inclR]
+    | simp [Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR, inclR]
 
 theorem hermitian_snd_projection (J : Matrix (Fin n) (Fin n) E) (x y : Fin n → Fv F v ⊗[F] E) :
     D.π₂ (hR (Fv F v) σ J x y) = c1 D x ⬝ᵥ (Mj D J *ᵥ c2 D y) := by
@@ -280,7 +280,7 @@ theorem latStd_SD {J : Matrix (Fin n) (Fin n) E} {Λ : Set (Fin n → E)} (hJ : 
           y = (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x) ∧
       ∀ x y : Fin n → Fv F v ⊗[F] E,
         hR (Fv F v) σ J ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
-          ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ y) = ∑ i, sigR (Fv F v) σ (x i) * y i := by
+          ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ y) = ∑ i, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Fv F v) σ (x i) * y i := by
   classical
   obtain ⟨A, hAu, hA⟩ := lat_basis v ((latLoc (E := E) v Λ).map (pr1 D)) (hLat.1.map _)
     (span_first_projection D hLat.2)

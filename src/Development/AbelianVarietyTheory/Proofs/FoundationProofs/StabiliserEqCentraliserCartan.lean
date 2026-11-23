@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Development.AbelianVarietyTheory.Definitions.Foundations.T2SpaceAdeleRing
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsArchEquivEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasisAdaptedToCartanInvolution
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle041
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIsLatticeFrameIsMajorantFrame
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -283,7 +283,7 @@ theorem IsMaj.mem_Kmax_iff (h : IsMaj V a) (hθ : IsInfFam θ) (g : GA D V) : g 
 
 theorem exists_isMaj_frameInv_eq (hθ : IsInfFam θ) {s : D.what₂.Tau → Matrix (Fin V.rank) (Fin V.rank) ℂ}
     (hs : ∀ τ, IsCartanInv (gramAt D V τ) (s τ)) :
-    ∃ a, IsMaj V a ∧ IsLatticeFrame (frameLat V) a ∧ ∀ τ, frameInv θ V a τ = s τ := by
+    ∃ a, IsMaj V a ∧ GlobalTheory.AdelicU.IsLatticeFrame (frameLat V) a ∧ ∀ τ, frameInv θ V a τ = s τ := by
   choose b ε h1 h2 using fun τ => exists_frame_of_isCartanInv (hs τ)
   let e := fun τ => RingEquiv.ofBijective _ (infEmb_bijective (isCMExt_host D) (embOverOf D τ))
   let p := Equiv.ofBijective _ (placeOf_bijective D)

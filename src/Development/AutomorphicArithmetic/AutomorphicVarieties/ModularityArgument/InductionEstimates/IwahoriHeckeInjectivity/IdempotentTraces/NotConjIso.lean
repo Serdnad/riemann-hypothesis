@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.IwahoriHeckeInjectivity.HeckeInj
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SatakeParametersOfTwist
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsUnitaryTwistAbsPow
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1124
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle544
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExSummand
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ExTwist
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.NormIff
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.PowTwist
 public import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.SliceTensors.PStringStepB
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,10 +48,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PSConjSpaceC
-public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PSGalAdEx
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SubsingletonRankZero
+public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle004
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.CycCOfCyclic
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementNorm
-public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharacterIdentityReformulated2
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle001
+public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.Bundle004
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.QuadraticSemicharactersFactTer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

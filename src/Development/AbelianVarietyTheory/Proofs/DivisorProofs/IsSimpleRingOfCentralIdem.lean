@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGDatumOneOneOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsReducedTensorIntNumberField
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle004
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

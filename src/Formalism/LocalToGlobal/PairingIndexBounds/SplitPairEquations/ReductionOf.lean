@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.NormOneUnitIdealAlt
 public import Formalism.LocalRingCardinality.SpanPowerMembership.RelDet
-public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.CharacterFactorUnitaryAction
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

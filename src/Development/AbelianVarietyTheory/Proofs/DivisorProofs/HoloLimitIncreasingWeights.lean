@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
+public import ReciprocityTheory.L2DbarEstimates.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,14 +47,14 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
 public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Closed
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.FixedA
-public import ReciprocityTheory.L2DbarEstimates.LeviForms.FixedC
-public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.CvxOfConvex
+public import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle002
+public import ReciprocityTheory.L2DbarEstimates.LeviForms.Bundle001
+public import ReciprocityTheory.L2DbarEstimates.MinimalSolutions.Bundle001
 public import ReciprocityTheory.L2DbarEstimates.NormFibrations.Hormander
 public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.MeasurableEmbeddingRotAbout
-import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatCalcA
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle003
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle003
 
 @[expose] public section
 

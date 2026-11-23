@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.LevelRecursionCondNeeded
+public import Formalism.HermitianCurvature.Bundle002
 public import Mathlib.Analysis.SpecialFunctions.Trigonometric.Chebyshev.Extremal
 public import Mathlib.LinearAlgebra.Lagrange
 import Mathlib.Algebra.Order.Floor.Extended

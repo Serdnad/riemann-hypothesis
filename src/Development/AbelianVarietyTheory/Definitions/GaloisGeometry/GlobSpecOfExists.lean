@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.CoefCol
+public import Formalism.LocalToGlobal.Columns.Bundle006
 public import Formalism.LocalToGlobal.Columns.DecoFin
 public import Formalism.LocalToGlobal.Columns.RhoEqOfSmulEq
-public import Formalism.SharpRestriction.GrowthBounds.DataG
+public import Formalism.SharpRestriction.GrowthBounds.Bundle001
 public import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

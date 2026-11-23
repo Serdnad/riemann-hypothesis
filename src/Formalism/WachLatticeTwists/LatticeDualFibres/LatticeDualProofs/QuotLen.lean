@@ -3,8 +3,7 @@ module
 public import Formalism.WachLatticeTwists.LatticeDualFibres.Statement
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthEqKerAddRange
 import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
-public import Formalism.WachLatticeTwists.TorsionLengthCounts.RowCol
-public import Formalism.WachLatticeTwists.TorsionLengthCounts.SubmoduleLengthBoundStatement
+public import Formalism.WachLatticeTwists.TorsionLengthCounts.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

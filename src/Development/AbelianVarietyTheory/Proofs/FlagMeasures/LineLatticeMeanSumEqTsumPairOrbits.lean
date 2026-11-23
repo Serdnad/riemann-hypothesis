@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsSmallEqZero
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle183
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeNonzeroVectorPairNormalForms
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableTranslatedLatticeFunctionsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingMulLeft
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle164
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -151,8 +151,8 @@ theorem det_map_ne_zero (γ : GL (Fin j) E) (w : InfinitePlace E) :
   rw [RingHom.map_det] at this
   exact this.ne_zero
 
-theorem detNorm_pos_iff (g : MatInf E j) : 0 < detNorm E j g ↔ ∀ w, (Matrix.of (g w)).det ≠ 0 := by
-  unfold detNorm
+theorem detNorm_pos_iff (g : MatInf E j) : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g ↔ ∀ w, (Matrix.of (g w)).det ≠ 0 := by
+  unfold _root_.GlobalTheory.FlagMeas.detNorm
   constructor
   · intro h w hw
     rw [Finset.prod_eq_zero (Finset.mem_univ w) (by simp [hw])] at h
@@ -160,11 +160,11 @@ theorem detNorm_pos_iff (g : MatInf E j) : 0 < detNorm E j g ↔ ∀ w, (Matrix.
   · intro h
     exact Finset.prod_pos fun w _ => pow_pos (norm_pos_iff.2 (h w)) 2
 
-theorem detNorm_emb_pos (γ : GL (Fin j) E) : 0 < detNorm E j (emb γ) :=
+theorem detNorm_emb_pos (γ : GL (Fin j) E) : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j (emb γ) :=
   (detNorm_pos_iff _).2 fun w => det_map_ne_zero γ w
 
-theorem detNorm_emb_mul_pos (γ : GL (Fin j) E) {g : MatInf E j} (hg : 0 < detNorm E j g) :
-    0 < detNorm E j (emb γ * g) := by
+theorem detNorm_emb_mul_pos (γ : GL (Fin j) E) {g : MatInf E j} (hg : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g) :
+    0 < _root_.GlobalTheory.FlagMeas.detNorm E j (emb γ * g) := by
   rw [detNorm_pos_iff] at hg ⊢
   intro w
   rw [of_emb_mul, Matrix.det_mul]
@@ -219,7 +219,7 @@ theorem mem_latAt (L : Submodule (𝓞 E) (Fin j → E)) (g : MatInf E j) (x : V
     obtain ⟨p, hp, rfl⟩ := ha
     exact ⟨n • p, zsmul_mem hp n, (vecHom g).map_zsmul n p⟩
 
-theorem vecHom_injective {g : MatInf E j} (hg : 0 < detNorm E j g) : Function.Injective (vecHom g) := by
+theorem vecHom_injective {g : MatInf E j} (hg : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g) : Function.Injective (vecHom g) := by
   set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
   intro y hy
   obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
@@ -230,7 +230,7 @@ theorem vecHom_injective {g : MatInf E j} (hg : 0 < detNorm E j g) : Function.In
   funext a
   exact (map_eq_zero w.embedding).1 (congrFun h2 a)
 
-theorem tsum_latAt (L : Submodule (𝓞 E) (Fin j → E)) {g : MatInf E j} (hg : 0 < detNorm E j g)
+theorem tsum_latAt (L : Submodule (𝓞 E) (Fin j → E)) {g : MatInf E j} (hg : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g)
     (Φ : VecInf E j → ENNReal) :
     ∑' x : {x : VecInf E j // x ∈ latAt E j L g ∧ x ≠ 0}, Φ x.1 =
       ∑' y : {y : Fin j → E // y ∈ L ∧ y ≠ 0}, Φ (vecAt y.1 g) := by
@@ -261,10 +261,10 @@ local instance countable_GL : Countable (GL (Fin j) E) := by
 
 theorem covol_eq_lintegral (S : Subgroup (GL (Fin j) E)) (Γ : Set (MatInf E j))
     (hΓ : ∀ x, x ∈ Γ ↔ ∃ γ ∈ S, emb γ = x) (D : Set (MatInf E j)) (hD : MeasurableSet D)
-    (hDU : D ⊆ {g | 0 < detNorm E j g})
-    (hs : ∀ g, 0 < detNorm E j g → ∃! γ : GL (Fin j) E, γ ∈ S ∧ emb γ * g ∈ D)
+    (hDU : D ⊆ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g})
+    (hs : ∀ g, 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g → ∃! γ : GL (Fin j) E, γ ∈ S ∧ emb γ * g ∈ D)
     (F : MatInf E j → ENNReal) (hF : ∀ γ ∈ S, ∀ g, F (emb γ * g) = F g) :
-    covol Γ ((haarGL E j).withDensity F) {g | 0 < detNorm E j g} = ∫⁻ g in D, F g ∂(haarGL E j) := by
+    covol Γ ((haarGL E j).withDensity F) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} = ∫⁻ g in D, F g ∂(haarGL E j) := by
   unfold covol
   apply le_antisymm
   · refine iInf_le_of_le D (iInf_le_of_le hD (iInf_le_of_le ?_ (withDensity_apply _ hD).le))
@@ -424,7 +424,7 @@ theorem exists_sub {k : ℕ} (γ : GL (Fin (k + 1)) E)
     simpa [h0] using hd
   exact ⟨Matrix.GeneralLinearGroup.mkOfDetNeZero _ hd', rfl⟩
 
-theorem latMean_sum_eq_tsum_orbits : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ k : ℕ, ∀ Lf : Ideal (𝓞 E) → Submodule (𝓞 E) (Fin k → E) → Submodule (𝓞 E) (Fin (k + 1) → E), (∀ 𝔞 Λ' y, y ∈ Lf 𝔞 Λ' ↔ (∀ t ∈ 𝔞, (t : E) * y 0 ∈ (algebraMap (𝓞 E) E).range) ∧ Fin.tail y ∈ Λ') → ∀ (w : ℝ → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable w → Measurable Φ → latMean E (k + 1) (fun L => w (covAt E (k + 1) L) * ∑' x : {x : VecInf E (k + 1) // x ∈ L ∧ x ≠ 0}, Φ x.1) = ∑' 𝔞 : {𝔞 : Ideal (𝓞 E) // 𝔞 ≠ ⊥}, ∑' c : Quot (fun Λ Λ' : {Λ : Submodule (𝓞 E) (Fin k → E) // Submodule.IsFullLattice E Λ} => ∃ γ : GL (Fin k) E, ∀ y, (γ : Matrix (Fin k) (Fin k) E) *ᵥ y ∈ Λ'.1 ↔ y ∈ Λ.1), covol {x | x ∈ autGL E (k + 1) (Lf 𝔞.1 (Quot.out c).1) ∧ ∀ w a, x w a 0 = if a = 0 then 1 else 0} ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf 𝔞.1 (Quot.out c).1) g)) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < detNorm E (k + 1) g} := by
+theorem latMean_sum_eq_tsum_orbits : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ k : ℕ, ∀ Lf : Ideal (𝓞 E) → Submodule (𝓞 E) (Fin k → E) → Submodule (𝓞 E) (Fin (k + 1) → E), (∀ 𝔞 Λ' y, y ∈ Lf 𝔞 Λ' ↔ (∀ t ∈ 𝔞, (t : E) * y 0 ∈ (algebraMap (𝓞 E) E).range) ∧ Fin.tail y ∈ Λ') → ∀ (w : ℝ → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable w → Measurable Φ → latMean E (k + 1) (fun L => w (covAt E (k + 1) L) * ∑' x : {x : VecInf E (k + 1) // x ∈ L ∧ x ≠ 0}, Φ x.1) = ∑' 𝔞 : {𝔞 : Ideal (𝓞 E) // 𝔞 ≠ ⊥}, ∑' c : Quot (fun Λ Λ' : {Λ : Submodule (𝓞 E) (Fin k → E) // Submodule.IsFullLattice E Λ} => ∃ γ : GL (Fin k) E, ∀ y, (γ : Matrix (Fin k) (Fin k) E) *ᵥ y ∈ Λ'.1 ↔ y ∈ Λ.1), covol {x | x ∈ autGL E (k + 1) (Lf 𝔞.1 (Quot.out c).1) ∧ ∀ w a, x w a 0 = if a = 0 then 1 else 0} ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf 𝔞.1 (Quot.out c).1) g)) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} := by
   intro E _ _ hE k Lf hLf w Φ hw hΦ
   obtain ⟨hA1, hA2, hA3⟩ := GlobalTheory.LatVecPair.classes E k Lf hLf
   choose D hD hDU hs using fun c : Cls E (k + 1) =>
@@ -458,7 +458,7 @@ theorem latMean_sum_eq_tsum_orbits : ∀ (E : Type) [Field E] [NumberField E], I
   have hR : ∀ p : {𝔞 : Ideal (𝓞 E) // 𝔞 ≠ ⊥} × Cls E k,
       covol {x | x ∈ autGL E (k + 1) (Lf p.1.1 (Quot.out p.2).1) ∧ ∀ w a, x w a 0 = if a = 0 then 1 else 0}
         ((haarGL E (k + 1)).withDensity fun g => w (covAt E (k + 1) (latAt E (k + 1) (Lf p.1.1 (Quot.out p.2).1) g)) *
-          Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < detNorm E (k + 1) g} =
+          Φ (fun u a => (Matrix.of (g u))⁻¹ a 0)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E (k + 1) g} =
       ∫⁻ g in D' p, F (latAt E (k + 1) (Lf p.1.1 (Quot.out p.2).1) g) (vecAt (Pi.single 0 1) g)
         ∂(haarGL E (k + 1)) := by
     intro p

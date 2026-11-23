@@ -1,8 +1,8 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FundamentalExactSequenceContinuityAllTheories
-public import Formalism.SharpRestriction.LevelLetterCocycles.InvariantsIsoOfGenerators
-public import Formalism.SharpRestriction.LevelLetterCocycles.NormLtOneIffToZMod
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle019
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle002
 public import Formalism.SharpRestriction.LevelLetterCocycles.ZlWCbInjective
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,15 +2,11 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
 public import Formalism.PeriodIntegrals.OrbJetBase
-public import Development.AutomorphicArithmetic.OrbitLabellings.FInertSubEatILeOrbitAverageSubErrors
-public import Development.AutomorphicArithmetic.OrbitLabellings.KvalGeThetaOfShape
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.EntAtD
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.OrbAddOne
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.OrbAddUp
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.OrbBoundF
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.OrbRestr
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.OrbRestrOne
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SumOrbC
+public import Development.AutomorphicArithmetic.OrbitLabellings.Bundle005
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle024
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle026
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle027
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

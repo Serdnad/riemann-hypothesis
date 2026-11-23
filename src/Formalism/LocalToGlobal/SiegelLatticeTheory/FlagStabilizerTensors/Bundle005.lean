@@ -1,0 +1,244 @@
+module
+
+public import Formalism.LocalToGlobal.GlobalTheory.GL5.PNamed
+public import Formalism.LocalToGlobal.GlobalTheory.GL5.DiscreteSeriesOfFormalDegree
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.UnimodInst
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.SpectralTiesReal
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.InstExists
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle016
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.DstarVolPf
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.ThmSOwn
+public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CfgTopFalseIff
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open scoped Classical
+open MeasureTheory NumberField Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions Formalism.MainNotions.S Formalism.MainNotions.BridgeLemma Formalism.MainNotions.StandardLattice
+
+namespace Formalism.L2.SG.ThmSOwn
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def InstTie (I : AutInst) : Prop :=
+  ∃ (D : D7) (V : HSp D) (fr : Formalism.IndefR.Eqv.UI.Frames D V) (P Q : ℕ),
+    I = Formalism.IndefR.Eqv.UI.instV fr ∧ fr.Λ = Formalism.IndefR.Eqv.UI.Lv D V ∧
+    (∀ v, (Finset.univ.filter fun i => fr.ε v i = true).card = P) ∧ V.SigOK ∧ (∀ τ, V.sig τ = (P, Q)) ∧
+    VolTie D ∧ Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.VolSigIndep D ∧ Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt D V.rank ∧ cdScaleTie D
+
+theorem instTie_of_inst {D : D7} {I : AutInst} (h : I = Formalism.L2.SG.InstExistsPf.instOf D) (hSig : (VS D).SigOK) (Q : ℕ)
+    (hs : ∀ τ, (VS D).sig τ =
+      ((Finset.univ.filter fun i => Formalism.L2.SG.InstExistsPf.epsV D i = true).card, Q))
+    (hV : VolTie D) (hI : Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.VolSigIndep D) (hC : Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt D (VS D).rank)
+    (hcd : cdScaleTie D) : InstTie I :=
+  ⟨D, VS D, Formalism.L2.SG.Pf.DstarVolPf.frOf D, _, Q, h, rfl, fun _ => rfl, hSig, hs, hV, hI, hC, hcd⟩
+
+def PLevT : ∀ I : AutInst, Measure I.Gf → ℕ → (I.Gf → ℂ) → Prop :=
+  fun I μf g₀ e => I.IsLevelCharIdem μf g₀ e ∧ InstTie I
+
+def qqI (I : AutInst) : ℕ := Finset.univ.sup fun v => Formalism.MainNotions.PlaceDegreeData.q0At I v
+
+def PLevT' : ∀ I : AutInst, Measure I.Gf → ℕ → (I.Gf → ℂ) → Prop :=
+  fun I μf g₀ e => PLevT I μf g₀ e ∧ 1 ≤ qqI I
+
+theorem rowsTiePT'_of {D : D7} (T : Formalism.L2.SG.SpectralTiesReal.STies D) (hI : InstTie T.X.B.I) (hq : 1 ≤ qqI T.X.B.I) :
+    CountE.RowsTieP PLevT' D T.X.B :=
+  ⟨(rowsTieP_of T).1, ⟨(rowsTieP_of T).2, hI⟩, hq⟩
+
+theorem instTie_of_record {D : D7} {I : AutInst} (h : I = Formalism.L2.SG.InstExistsPf.instOf D) (hV : VolTie D)
+    (hI : Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.VolSigIndep D) (hC : Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.ClassItemsAt D (VS D).rank) (hcd : cdScaleTie D) :
+    InstTie I :=
+  instTie_of_inst h (D.sp.Y_sig 0) (D.R.rS + 1)
+    (fun τ => by rw [Formalism.L2.SG.InstExistsPf.card_epsV D]; exact D.sp.baseSpace_signature_eq τ) hV hI hC hcd
+
+theorem one_le_qqI_instOf (D : D7) : 1 ≤ qqI (Formalism.L2.SG.InstExistsPf.instOf D) := by
+  have hk := Formalism.MainNotions.BridgeLemma.five_le_k D
+  obtain ⟨v⟩ : Nonempty (NumberField.InfinitePlace (Formalism.L2.SG.InstExistsPf.instOf D).F) := inferInstance
+  refine le_trans ?_ (Finset.le_sup (f := fun v => Formalism.MainNotions.PlaceDegreeData.q0At (Formalism.L2.SG.InstExistsPf.instOf D) v)
+    (Finset.mem_univ v))
+  have ht : (Formalism.L2.SG.InstExistsPf.instOf D).pAt v = D.R.k + D.R.rS := Formalism.L2.SG.InstExistsPf.card_epsV D
+  have hn : (Finset.univ : Finset (Fin (Formalism.L2.SG.InstExistsPf.instOf D).n)).card = D.R.k + 2 * D.R.rS + 1 := by
+    rw [Finset.card_univ, Fintype.card_fin]
+    exact (Formalism.L2.SG.InstExistsPf.rank_eq D).trans (Formalism.MainNotions.BridgeLemma.sza_r_eq D)
+  have hq : 1 ≤ (Formalism.L2.SG.InstExistsPf.instOf D).qAt v := by
+    unfold AutInst.qAt
+    apply Finset.card_pos.mpr
+    by_contra hne
+    rw [Finset.not_nonempty_iff_eq_empty, Finset.filter_eq_empty_iff] at hne
+    have hall : (Finset.univ.filter fun a => (Formalism.L2.SG.InstExistsPf.instOf D).ε v a = true) = Finset.univ :=
+      Finset.filter_true_of_mem fun a _ => by
+        cases h : (Formalism.L2.SG.InstExistsPf.instOf D).ε v a
+        · exact absurd h (hne (Finset.mem_univ a))
+        · rfl
+    have := congrArg Finset.card hall
+    unfold AutInst.pAt at ht
+    rw [ht, hn] at this
+    omega
+  show 1 ≤ min _ _
+  exact le_min (by rw [ht]; omega) hq
+
+theorem one_le_qqI_of_inst {D : D7} {I : AutInst} (h : I = Formalism.L2.SG.InstExistsPf.instOf D) : 1 ≤ qqI I := by
+  rw [h]; exact one_le_qqI_instOf D
+
+variable (C0 : ℝ)
+
+
+end Formalism.L2.SG.ThmSOwn
+end
+end
+
+section
+
+noncomputable section
+
+open scoped Classical
+open MeasureTheory NumberField Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.S Formalism.L2.SG.HidaSetting Formalism.L2.SG.PoincareInHH.PoincareSetting
+  Formalism.L2.SG.TermOp Formalism.L2.SG.PackageTie2 Formalism.L2.SG.RowsConc
+
+set_option linter.dupNamespace false
+
+namespace Formalism.L2.SG.ThmSOwn
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+def TheoremSAtData (CA C0 CG CDel cT Cb Cn : ℝ) (k0 : ℕ) (C' Cl Cg cb Cw cTf CT C0f : ℝ) : Prop :=
+  ∀ (D : D7) (L : SizeData₂ D) (T : Formalism.L2.SG.SpectralTiesReal.STies D) (u u' : D.what₂.Word), Formalism.BasicNotions.Ties D → u ≠ u' → 0 ≤ L.sc.b →
+    Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt CA C0 CG CDel cT Cb Cn k0 D L T u u' →
+    Formalism.MainNotions.S.Cnt.Hyp0 D L C' Cl Cg cb Cw cTf CT C0f → Formalism.MainNotions.S.Cnt.Stand D u u' →
+    Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoHypotheses D L C' Cl Cg cb Cw cTf CT C0f →
+    Formalism.L2.SG.ConcreteSettingExists.GapHyp D → Formalism.L2.SG.Pf.LocCP.LocTied D → TFrameAt D →
+    (T.Y.tO u u').RowBig (epsL D) (ddC T.X T.Y u u') → (T.Y.tO u u').RowNotScalar (epsL D) (ddC T.X T.Y u u') →
+    ‖(T.Y.tO u u').K0‖ ^ 2 ≤ (1 + (L.sc.b ^ 6)⁻¹) * ((D.duS u : ℝ) * (D.duS u') / D.what₂.Dstar)
+
+def TheoremSDistinctWords : Prop :=
+  ∀ Cthr : ℝ, ∃ C₄ CA C : ℝ, 1 ≤ C₄ ∧ Cthr ≤ CA ∧ 1 ≤ CA ∧ 0 ≤ C ∧ C ≤ CA ∧
+    ∀ (C0 CG CDel cT Cb : ℝ), 1 ≤ C0 → 0 ≤ CG → 4 < CDel → 0 < cT → 0 < Cb → 1 < cT * Cb →
+    ∃ k0 : ℕ, ∀ Cg cb Cw cTf CT C0f : ℝ, 0 < cb → 0 < cTf → ∃ Cn C'₀ Cl₀ : ℝ, 0 ≤ Cn ∧ ∀ C' Cl : ℝ, C'₀ ≤ C' → Cl₀ ≤ Cl →
+      TheoremSAtData CA C0 CG CDel cT Cb Cn k0 C' Cl Cg cb Cw cTf CT C0f
+
+def TheoremSClosedConclusion : Prop :=
+  ∀ Cthr : ℝ, ∃ C₄ CA C : ℝ, 1 ≤ C₄ ∧ Cthr ≤ CA ∧ 1 ≤ CA ∧ 0 ≤ C ∧ C ≤ CA ∧
+    ∀ (C0 CG CDel cT Cb : ℝ), 1 ≤ C0 → 0 ≤ CG → 4 < CDel → 0 < cT → 0 < Cb → 1 < cT * Cb →
+    ∃ k0 : ℕ, ∀ Cg cb Cw cTf CT C0f : ℝ, 0 < cb → 0 < cTf → ∃ Cn C'₀ Cl₀ : ℝ, 0 ≤ Cn ∧ ∀ C' Cl : ℝ, C'₀ ≤ C' → Cl₀ ≤ Cl →
+    ∀ (D : D7) (L : SizeData₂ D) (T : Formalism.L2.SG.SpectralTiesReal.STies D) (u u' : D.what₂.Word), Formalism.BasicNotions.Ties D → u ≠ u' → 0 ≤ L.sc.b →
+      Formalism.L2.SG.PoincareAmplitudeLowerBounds.SizesAt CA C0 CG CDel cT Cb Cn k0 D L T u u' →
+      Formalism.MainNotions.S.Cnt.Hyp0 D L C' Cl Cg cb Cw cTf CT C0f → Formalism.MainNotions.S.Cnt.Stand D u u' →
+      Formalism.MainNotions.NonGenericAndKTwoTheorems.KTwoHypotheses D L C' Cl Cg cb Cw cTf CT C0f →
+      Formalism.L2.SG.ConcreteSettingExists.GapHyp D → Formalism.L2.SG.Pf.LocCP.LocTied D → TFrameAt D →
+      (T.Y.tO u u').RowBig (epsL D) (ddC T.X T.Y u u') → (T.Y.tO u u').RowNotScalar (epsL D) (ddC T.X T.Y u u') →
+      ‖(T.Y.tO u u').K0‖ ^ 2 ≤ (1 + (L.sc.b ^ 6)⁻¹) * ((D.duS u : ℝ) * (D.duS u') / D.what₂.Dstar) ∧
+      L.hsSq u u' ≤ (1 + L.sc.b ^ (-(6 : ℝ))) * (D.duS u : ℝ) * (D.duS u' : ℝ) / D.what₂.Dstar
+
+theorem theoremS_distinct_of_closed (h : TheoremSClosedConclusion) : TheoremSDistinctWords := by
+  intro Cthr
+  obtain ⟨C₄, CA, C, a1, a2, a3, a4, a5, hrest⟩ := h Cthr
+  refine ⟨C₄, CA, C, a1, a2, a3, a4, a5, fun C0 CG CDel cT Cb b1 b2 b3 b4 b5 b6 => ?_⟩
+  obtain ⟨k0, hk⟩ := hrest C0 CG CDel cT Cb b1 b2 b3 b4 b5 b6
+  refine ⟨k0, fun Cg cb Cw cTf CT C0f hcb hcT => ?_⟩
+  obtain ⟨Cn, C'₀, Cl₀, hn, hh⟩ := hk Cg cb Cw cTf CT C0f hcb hcT
+  exact ⟨Cn, C'₀, Cl₀, hn, fun C' Cl c1 c2 D L T u u' hTs hne hb hS hH0 hSt hK hG hL hT hR1 hR2 =>
+    (hh C' Cl c1 c2 D L T u u' hTs hne hb hS hH0 hSt hK hG hL hT hR1 hR2).1⟩
+
+variable (C0 : ℝ)
+
+theorem offDiagonalK0_of_rows (hT : TheoremSDistinctWords) (h1 : 1 ≤ C0) {𝒞 : FamClass} (sel : SSel 𝒞)
+    (hOK : Closed 𝒞 fun Fm _ => ∀ hc : 𝒞 Fm, SelOK C0 Fm (sel Fm hc))
+    (hSz : SizesRowS C0 𝒞 sel) (aF : List ℝ → ℝ)
+    (hA : Closed 𝒞 fun Fm _ => 1 ≤ aF Fm.cOut ∧ OwnEv Fm fun C' Cl x i =>
+      AdmissibleBoundsFromSource.hyp (Fm.D x i) (Fm.L x i) C0 C' Cl (Fm.CYL + 1) (1 / 4) 3 (1 / 2) Fm.CTu → Formalism.MainNotions.Sizes3b (Fm.D x i) (aF Fm.cOut))
+    (hLp : LoopRowS C0 𝒞 sel) (hAbs : AbsConvTied) :
+    Closed 𝒞 fun Fm _ => ∀ hc : 𝒞 Fm, TheoremSSelected Fm C0 (sel Fm hc) := by
+  obtain ⟨-, CA, -, -, -, hCA, -, -, hrest⟩ := hT 1
+  have H : ∀ l : List ℝ, ∃ k0 : ℕ, 0 ≤ l.getD 17 0 → ∃ Cn C'₀ Cl₀ : ℝ, 0 ≤ Cn ∧ ∀ C' Cl : ℝ, C'₀ ≤ C' → Cl₀ ≤ Cl →
+      TheoremSAtData CA C0 (l.getD 17 0) 5 (1 / 2) 3 Cn k0 C' Cl (l.getD 6 0 + 1) (1 / 4) 3 (1 / 2) (l.getD 13 0) C0 := by
+    intro l
+    by_cases h : 0 ≤ l.getD 17 0
+    · obtain ⟨k0, hk⟩ := hrest C0 (l.getD 17 0) 5 (1 / 2) 3 h1 h (by norm_num) (by norm_num) (by norm_num) (by norm_num)
+      exact ⟨k0, fun _ => hk _ _ _ _ _ _ (by norm_num) (by norm_num)⟩
+    · exact ⟨0, fun h' => absurd h' h⟩
+  choose k0f hk0 using H
+  have G : ∀ l : List ℝ, ∃ Cn C'₀ Cl₀ : ℝ, 0 ≤ l.getD 17 0 → 0 ≤ Cn ∧ ∀ C' Cl : ℝ, C'₀ ≤ C' → Cl₀ ≤ Cl →
+      TheoremSAtData CA C0 (l.getD 17 0) 5 (1 / 2) 3 Cn (k0f l) C' Cl (l.getD 6 0 + 1) (1 / 4) 3 (1 / 2) (l.getD 13 0) C0 := by
+    intro l
+    by_cases h : 0 ≤ l.getD 17 0
+    · obtain ⟨Cn, a, b, hn, hh⟩ := hk0 l h
+      exact ⟨Cn, a, b, fun _ => ⟨hn, hh⟩⟩
+    · exact ⟨0, 0, 0, fun h' => absurd h' h⟩
+  choose cnf c'f clf hG using G
+  refine closed_with (hOK.and ((hSz CA hCA k0f cnf).and ((hLp aF).and hA))) (fun _ => 0)
+    (fun l => max (max (c'f l) (clf l)) 29) fun Fm CH _ hQ _ ht1 ht2 hc => ?_
+  obtain ⟨hQ1, hQ2, hQ3, hA1, hQ4⟩ := hQ
+  obtain ⟨xa, Ha⟩ := hQ1 hc
+  obtain ⟨xb, Hb⟩ := hQ2 hc
+  obtain ⟨xc, Hc⟩ := hQ3 hc
+  obtain ⟨xd, Hd⟩ := hQ4
+  refine ⟨max (max xa xb) (max xc xd), fun x hx i hH hx1 h0 u u' hne => ?_⟩
+  have hxa : xa ≤ x := le_trans (le_trans (le_max_left _ _) (le_max_left _ _)) hx
+  have hxb : xb ≤ x := le_trans (le_trans (le_max_right _ _) (le_max_left _ _)) hx
+  have hxc : xc ≤ x := le_trans (le_trans (le_max_left _ _) (le_max_right _ _)) hx
+  have hxd : xd ≤ x := le_trans (le_trans (le_max_right _ _) (le_max_right _ _)) hx
+  have e17 : (Fm.cOut ++ Fm.cMid CH).getD 17 0 = Fm.CGam := rfl
+  have hCG : 0 ≤ (Fm.cOut ++ Fm.cMid CH).getD 17 0 := by
+    rw [e17, ← Fm.CGam_eq x i]; exact (Fm.L x i).CGam_pos.le
+  obtain ⟨-, hrow⟩ := hG (Fm.cOut ++ Fm.cMid CH) hCG
+  have hC'a : c'f (Fm.cOut ++ Fm.cMid CH) ≤ sC' Fm := le_trans (le_trans (le_max_left _ _) (le_max_left _ _)) ht1
+  have hCla : clf (Fm.cOut ++ Fm.cMid CH) ≤ sCl Fm := le_trans (le_trans (le_max_right _ _) (le_max_left _ _)) ht2
+  have hC'29 : (29 : ℝ) ≤ sC' Fm := le_trans (le_max_right _ _) ht1
+  have hCl29 : (29 : ℝ) ≤ sCl Fm := le_trans (le_max_right _ _) ht2
+  have ok := Ha x hxa i hH hx1 h0
+  have tie : ConcTie ((sel Fm hc).2 x hx1 h0 i).X ((sel Fm hc).2 x hx1 h0 i).Y :=
+    (concKOf ((sel Fm hc).2 x hx1 h0 i) ok).tie
+  have hCnt := Formalism.MainNotions.count_hypotheses_of_sizes (Fm.D x i) (Fm.L x i) (sC' Fm) (sCl Fm) (Fm.CYL + 1) (1 / 4) 3 (1 / 2) Fm.CTu C0
+    (aF Fm.cOut) hH.1 hH.2.1 hH.2.2 (by linarith) (by linarith) hA1 (Hd x hxd i hH) u u'
+  have hAC := hAbs _ _ _ u u' tie
+  obtain ⟨hRB, hRNS⟩ := Hc x hxc i hx1 h0 u u' hCnt tie hAC
+  have hb0 : 0 ≤ (Fm.L x i).sc.b := le_trans zero_le_two (Formalism.MainNotions.S.two_le_scb _)
+  exact hrow (sC' Fm) (sCl Fm) hC'a hCla (Fm.D x i) (Fm.L x i) ((sel Fm hc).2 x hx1 h0 i) u u' (Fm.ties x i) hne hb0
+    (Hb x hxb i hH hx1 h0 u u' hne) ⟨hH.2.1, hH.1, hH.2.2⟩
+    (Formalism.MainNotions.Stand_of _ _ _ _ _ _ _ _ _ _ hH.1 hH.2.1 (by linarith) u u')
+    (Formalism.MainNotions.NonGenericAndKTwoTheorems.Hyp_of _ _ _ _ _ _ _ _ _ _ hH.1 hH.2.1 hH.2.2 (by linarith))
+    (gap_hypothesis_of_hypotheses hH.2.1 (by linarith) hC'29) ok.2.2.2.2.2.1 ok.2.2.2.2.2.2 hRB hRNS
+
+
+end Formalism.L2.SG.ThmSOwn
+end
+end

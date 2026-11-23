@@ -1,12 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ZeroMemUnrHom
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.ExistsO
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle003
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.ShaDecompSign
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ActConj
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ActFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.ChiFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.OddResidueBounds.PsiReal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerCharacterEval.MemZpowersIff
-import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.CoefMapSingle
+import Development.AutomorphicArithmetic.AutomorphicVarieties.StickelbergerElements.Bundle001
 
 @[expose] public section
 

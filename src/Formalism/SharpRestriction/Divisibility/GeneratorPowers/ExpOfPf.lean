@@ -1,8 +1,8 @@
 module
 
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpActPf
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle003
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PrStarFst
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle027
 public import Formalism.HermitianCurvature.RealInputsClosedAdmissibleSettings
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelsOfBuiltSetting
 import Mathlib.Algebra.Order.Floor.Extended

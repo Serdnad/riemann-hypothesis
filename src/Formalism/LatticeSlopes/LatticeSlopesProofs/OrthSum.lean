@@ -1,14 +1,12 @@
 module
 
 public import Formalism.LatticeSlopes.Statement
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolEqGram
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle001
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
 import Formalism.LatticeSlopes.LatticeSlopesProofs.DiscreteTopologyOfLe
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.GramDetLe
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopeInequality
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopeLeMuMaxOf
-public import Formalism.LatticeSlopes.LatticeSlopesProofs.SlopesBdd
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle003
+public import Formalism.LatticeSlopes.LatticeSlopesProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

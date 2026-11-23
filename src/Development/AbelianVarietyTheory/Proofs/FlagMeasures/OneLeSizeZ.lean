@@ -1,27 +1,25 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CongruenceAtSplitFrobeniusHolds
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CntPrimLatticeImageIsometryStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CountTermsGramClassOverSublatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle244
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle410
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardBiUnionLe
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardSublatticesBoundedDetLeSumStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsCommonSublatticeSmallDetStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianGenusMassEqOrbitStabilizerMass
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPairMoveByIntegralUnipotentStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeSeenInDefiniteSpaceDetRankIndexStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LiftedFlagLatticeChainSpansStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LoopCountExponentBound
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle270
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle231
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle256
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle247
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle058
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemOfPerpPerp
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthTransversalFlagsInfIsotropicEqBotStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairIsometryUniqueOnOrthModIsotropicStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairLatticeLeLiftedPairLatticeSupIsotropicStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RowLatticesMeanEqGenusMeanStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle274
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle332
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle254
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle389
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TraceFormPosOnOrthLiftedFlagStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.XLamLeSmulSupXLamAdmissibleFlagStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle310
 import Formalism.HermitianLattices.FinalMass
 import Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 import Mathlib.Algebra.Order.Floor.Extended
@@ -306,7 +304,7 @@ theorem main : ∀ Cg cb Cu cT CT C0 A Ad C₁ : ℝ, 0 ≤ C₁ → ∃ C₀ : 
   have hg : 3 ≤ gS D := by
     have := g1.two_le
     have := g2.two_le
-    unfold gS
+    unfold _root_.Formalism.MainNotions.S.Lat.gS
     nlinarith
   have hb : 1 ≤ large₂.sc.b := Real.one_le_exp (Real.rpow_nonneg (by linarith [large₂.sc.one_lt_alt]) _)
   have hT : Tr D u ≤ large₂.sc.b ^ (CT * D.R.m) := by

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableSetDetNormPos
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetMatrixSandwichLinearMapStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsLatticeTraceDualAndTraceDualTraceDualStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TraceFormDualTranslatedLatticeEqInverseTransposeStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle162
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle209
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle205
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -115,9 +115,9 @@ theorem isAddHaarMeasure_volume (ι : Type) [Fintype ι] (j : ℕ) :
 
 variable (E : Type) [Field E] [NumberField E] (j : ℕ)
 
-theorem measurePreserving_mul_left (γ : MatInf E j) (hγ : 0 < detNorm E j γ) :
-    MeasurePreserving (fun g : MatInf E j => γ * g) ((haarGL E j).restrict {g | 0 < detNorm E j g})
-      ((haarGL E j).restrict {g | 0 < detNorm E j g}) := by
+theorem measurePreserving_mul_left (γ : MatInf E j) (hγ : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j γ) :
+    MeasurePreserving (fun g : MatInf E j => γ * g) ((haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g})
+      ((haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}) := by
   let L := LinearMap.toContinuousLinearMap (sandwich (fun w => Matrix.of (γ w)) fun _ => 1)
   have hL : (fun g : MatInf E j => γ * g) = L := by
     funext g
@@ -146,14 +146,14 @@ theorem measurePreserving_mul_left (γ : MatInf E j) (hγ : 0 < detNorm E j γ) 
         intro w
         exact Matrix.mul_nonsing_inv_cancel_left _ _ (hu w)
       refine ⟨_, ?_, h⟩
-      have hy' : 0 < detNorm E j y := hy
+      have hy' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j y := hy
       rw [← h, detNorm_mul] at hy'
       exact (mul_pos_iff_of_pos_left hγ).1 hy'
   · intro x hx
-    have hx' : 0 < detNorm E j x := hx
-    have hdet : L.det = detNorm E j γ ^ j := by
+    have hx' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x := hx
+    have hdet : L.det = _root_.GlobalTheory.FlagMeas.detNorm E j γ ^ j := by
       rw [ContinuousLinearMap.det, LinearMap.coe_toContinuousLinearMap, GlobalTheory.T.det_matrix_sandwich_linear_map _ _ _ _ _ fun _ _ => rfl]
-      simp [detNorm, Finset.prod_pow]
+      simp [_root_.GlobalTheory.FlagMeas.detNorm, Finset.prod_pow]
     have hm := detNorm_mul E j γ x
     rw [hdet]
     refine (congrArg (fun t : ℝ => _ * ENNReal.ofReal (t⁻¹ ^ j)) hm).trans ?_
@@ -169,13 +169,13 @@ theorem measurable_invT : Measurable (invT E j) := by
     exact hc.matrix_det.measurable.inv.mul (hc.matrix_adjugate.matrix_elem b a).measurable
   exact h
 
-theorem detNorm_invT (g : MatInf E j) : detNorm E j (invT E j g) = (detNorm E j g)⁻¹ := by
-  simp only [detNorm, of_invT, Matrix.det_transpose, Matrix.det_nonsing_inv, Ring.inverse_eq_inv', norm_inv,
+theorem detNorm_invT (g : MatInf E j) : _root_.GlobalTheory.FlagMeas.detNorm E j (invT E j g) = (_root_.GlobalTheory.FlagMeas.detNorm E j g)⁻¹ := by
+  simp only [_root_.GlobalTheory.FlagMeas.detNorm, of_invT, Matrix.det_transpose, Matrix.det_nonsing_inv, Ring.inverse_eq_inv', norm_inv,
     inv_pow, Finset.prod_inv_distrib]
 
 theorem measurePreserving_invT :
-    MeasurePreserving (invT E j) ((haarGL E j).restrict {g | 0 < detNorm E j g})
-      ((haarGL E j).restrict {g | 0 < detNorm E j g}) := by
+    MeasurePreserving (invT E j) ((haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g})
+      ((haarGL E j).restrict {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}) := by
   let L := fun x : InfinitePlace E → Fin j → Fin j → ℂ => LinearMap.toContinuousLinearMap
     (sandwich (fun w => -(Matrix.of (x w))⁻¹) fun w => (Matrix.of (x w))⁻¹)
   let T := LinearMap.toContinuousLinearMap (transp (InfinitePlace E) j)
@@ -202,13 +202,13 @@ theorem measurePreserving_invT :
     · intro hy
       exact ⟨invT E j y, (detNorm_invT_pos_iff E j y).2 hy, invT_invT E j hy⟩
   · intro x hx
-    have hx' : 0 < detNorm E j x := hx
-    have hdet : |(T.comp (L x)).det| = ((detNorm E j x)⁻¹ * (detNorm E j x)⁻¹) ^ j := by
+    have hx' : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j x := hx
+    have hdet : |(T.comp (L x)).det| = ((_root_.GlobalTheory.FlagMeas.detNorm E j x)⁻¹ * (_root_.GlobalTheory.FlagMeas.detNorm E j x)⁻¹) ^ j := by
       change |LinearMap.det ((transp (InfinitePlace E) j).comp
         (sandwich (fun w => -(Matrix.of (x w))⁻¹) fun w => (Matrix.of (x w))⁻¹))| = _
       rw [LinearMap.det_comp, abs_mul, abs_det_transp,
         one_mul, GlobalTheory.T.det_matrix_sandwich_linear_map _ _ _ _ _ fun _ _ => rfl, abs_of_nonneg (Finset.prod_nonneg fun _ _ => by positivity)]
-      simp [detNorm, Finset.prod_pow, Matrix.det_neg, Finset.prod_mul_distrib, mul_pow]
+      simp [_root_.GlobalTheory.FlagMeas.detNorm, Finset.prod_pow, Matrix.det_neg, Finset.prod_mul_distrib, mul_pow]
     have hm := detNorm_invT E j x
     rw [hdet]
     refine (congrArg (fun t : ℝ => _ * ENNReal.ofReal (t⁻¹ ^ j)) hm).trans ?_
@@ -273,7 +273,7 @@ theorem inv_embInf (γ : GL (Fin j) E) (w : InfinitePlace E) :
     (Matrix.of (embInf E j γ w))⁻¹ = Matrix.of (embInf E j γ⁻¹ w) :=
   Matrix.inv_eq_left_inv (embInf_inv_mul E j γ w)
 
-theorem detNorm_embInf (γ : GL (Fin j) E) : 0 < detNorm E j (embInf E j γ) := by
+theorem detNorm_embInf (γ : GL (Fin j) E) : 0 < _root_.GlobalTheory.FlagMeas.detNorm E j (embInf E j γ) := by
   rw [detNorm_pos_iff]
   intro w h
   have := congrArg Matrix.det (embInf_inv_mul E j γ w)
@@ -350,15 +350,15 @@ theorem Carries.latAt {γ : GL (Fin j) E} {Λ Λ' : Submodule (𝓞 E) (Fin j �
 variable (E j)
 
 noncomputable def term (F : Submodule ℤ (VecInf E j) → ENNReal) (Λ : Submodule (𝓞 E) (Fin j → E)) : ENNReal :=
-  covol (autGL E j Λ) ((haarGL E j).withDensity fun g => F (latAt E j Λ g)) {g | 0 < detNorm E j g}
+  covol (autGL E j Λ) ((haarGL E j).withDensity fun g => F (latAt E j Λ g)) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}
 
 variable {E j}
 
 theorem term_le_of_carries {γ : GL (Fin j) E} {Λ Λ' : Submodule (𝓞 E) (Fin j → E)} (h : Carries E j γ Λ Λ')
     (F : Submodule ℤ (VecInf E j) → ENNReal)
-    (hm : Measurable ({g | 0 < detNorm E j g}.indicator fun g => F (latAt E j Λ' g))) :
+    (hm : Measurable ({g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator fun g => F (latAt E j Λ' g))) :
     term E j F Λ ≤ term E j F Λ' := by
-  have hp : ∀ (δ : GL (Fin j) E), ∀ x ∈ {g | 0 < detNorm E j g}, embInf E j δ * x ∈ {g | 0 < detNorm E j g} :=
+  have hp : ∀ (δ : GL (Fin j) E), ∀ x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}, embInf E j δ * x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} :=
     fun δ x hx => by
       rw [Set.mem_setOf_eq, detNorm_mul]; exact mul_pos (detNorm_embInf E j δ) hx
   refine covol_le_of_map _ _ _ _ (measurableSet_detNorm_pos E j) _
@@ -374,10 +374,10 @@ theorem term_le_of_carries {γ : GL (Fin j) E} {Λ Λ' : Submodule (𝓞 E) (Fin
   rw [this, Matrix.one_mul]
 
 theorem covol_invT_le {Λ Λ' : Submodule (𝓞 E) (Fin j → E)} (h : trDual E j Λ' = Λ)
-    (f f' : MatInf E j → ENNReal) (hf : ∀ x ∈ {g | 0 < detNorm E j g}, f x = f' (invT E j x))
-    (hm : Measurable ({g | 0 < detNorm E j g}.indicator f')) :
-    covol (autGL E j Λ) ((haarGL E j).withDensity f) {g | 0 < detNorm E j g} ≤
-      covol (autGL E j Λ') ((haarGL E j).withDensity f') {g | 0 < detNorm E j g} := by
+    (f f' : MatInf E j → ENNReal) (hf : ∀ x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}, f x = f' (invT E j x))
+    (hm : Measurable ({g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator f')) :
+    covol (autGL E j Λ) ((haarGL E j).withDensity f) {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} ≤
+      covol (autGL E j Λ') ((haarGL E j).withDensity f') {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} := by
   refine covol_le_of_map _ _ _ _ (measurableSet_detNorm_pos E j) _ (measurePreserving_invT E j)
     (fun x hx => (detNorm_invT_pos_iff E j x).2 hx) _ _ hf hm ?_
   intro x hx
@@ -389,7 +389,7 @@ theorem covol_invT_le {Λ Λ' : Submodule (𝓞 E) (Fin j → E)} (h : trDual E 
 
 theorem term_dual (hE : IsTotallyComplex E) {Λ : Submodule (𝓞 E) (Fin j → E)} (hΛ : Submodule.IsFullLattice E Λ)
     (F : Submodule ℤ (VecInf E j) → ENNReal)
-    (hm : Measurable ({g | 0 < detNorm E j g}.indicator fun g => F (latAt E j (trDual E j Λ) g))) :
+    (hm : Measurable ({g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator fun g => F (latAt E j (trDual E j Λ) g))) :
     term E j (fun L => F (dualAt E j L)) Λ = term E j F (trDual E j Λ) := by
   apply le_antisymm
   · exact covol_invT_le (GlobalTheory.T.isLattice_traceDual_and_traceDual_traceDual E j Λ hΛ).2 _ _ (fun x hx => congrArg F (GlobalTheory.T.traceFormDual_translatedLattice_eq_inverseTranspose E hE j Λ hΛ x hx)) hm
@@ -399,15 +399,15 @@ theorem term_dual (hE : IsTotallyComplex E) {Λ : Submodule (𝓞 E) (Fin j → 
     · have := hm.comp (measurePreserving_invT E j).measurable
       convert this using 1
       funext x
-      by_cases hx : x ∈ {g | 0 < detNorm E j g}
+      by_cases hx : x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}
       · rw [Function.comp, Set.indicator_of_mem hx,
-          Set.indicator_of_mem (show invT E j x ∈ {g | 0 < detNorm E j g} from
+          Set.indicator_of_mem (show invT E j x ∈ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} from
             (detNorm_invT_pos_iff E j x).2 hx)]
         exact congrArg F (GlobalTheory.T.traceFormDual_translatedLattice_eq_inverseTranspose E hE j Λ hΛ x hx)
       · rw [Function.comp, Set.indicator_of_notMem hx, Set.indicator_of_notMem
-          (show invT E j x ∉ {g | 0 < detNorm E j g} from fun h => hx ((detNorm_invT_pos_iff E j x).1 h))]
+          (show invT E j x ∉ {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g} from fun h => hx ((detNorm_invT_pos_iff E j x).1 h))]
 
-theorem latMean_dualAt : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ j : ℕ, ∀ F : Submodule ℤ (VecInf E j) → ENNReal, (∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsLattice E Λ → Measurable (fun g : MatInf E j => {g | 0 < detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g)) → latMean E j (fun L => F (dualAt E j L)) = latMean E j F := by
+theorem latMean_dualAt : ∀ (E : Type) [Field E] [NumberField E], IsTotallyComplex E → ∀ j : ℕ, ∀ F : Submodule ℤ (VecInf E j) → ENNReal, (∀ Λ : Submodule (𝓞 E) (Fin j → E), Submodule.IsLattice E Λ → Measurable (fun g : MatInf E j => {g | 0 < _root_.GlobalTheory.FlagMeas.detNorm E j g}.indicator (fun g => F (latAt E j Λ g)) g)) → latMean E j (fun L => F (dualAt E j L)) = latMean E j F := by
   intro E _ _ hE j F hF
   let X := {Λ : Submodule (𝓞 E) (Fin j → E) // Submodule.IsFullLattice E Λ}
   let r : X → X → Prop := fun Λ Λ' => ∃ γ : GL (Fin j) E,

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.SubsingletonOfSubsingletonFreeSheaf
+public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.Bundle001
 public import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

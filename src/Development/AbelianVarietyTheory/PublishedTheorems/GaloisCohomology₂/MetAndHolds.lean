@@ -1,8 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterCrystalline
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterDeRham
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.AlgebraicCharacterWD
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle006
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Bundle006
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DeRhamPotSemistable
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WdParameterMonodromyZeroIffPotentiallyCrystallin
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFixedIff
@@ -43,7 +42,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 
 @[expose] public section
 
@@ -73,12 +72,12 @@ theorem of_classicalTheorems (hD : HeckeLAdicCharacterDeRham) (hB : DeRhamPotSem
   intro E Ω _ _ _ _ _ l _ P AI hT ι art ha χ n μ h1 h2 h3 w A h O _ _ _ Bw hj hu
   obtain ⟨rc, ⟨a, ha', -⟩, -⟩ := hL.1 E Ω A w h
   have hξ := ParamAboveModel.isComp_loc (w := w) χ
-  have hc : Continuous fun g : ↥(Dec (F := E) A) =>
-      (((rk1 μ).comp (Dec (F := E) A).subtype g : GL (Fin 1) (Om l)) : Matrix (Fin 1) (Fin 1) (Om l)) := by
+  have hc : Continuous fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) =>
+      (((rk1 μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := E) A).subtype g : GL (Fin 1) (Om l)) : Matrix (Fin 1) (Fin 1) (Om l)) := by
     refine continuous_matrix fun i j => ?_
-    have e : (fun g : ↥(Dec (F := E) A) =>
-      (((rk1 μ).comp (Dec (F := E) A).subtype g : GL (Fin 1) (Om l)) : Matrix (Fin 1) (Fin 1) (Om l)) i j) =
-      fun g : ↥(Dec (F := E) A) => ((μ g : (Om l)ˣ) : Om l) := by
+    have e : (fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) =>
+      (((rk1 μ).comp (_root_.ReciprocityTheory.Gal.Dec (F := E) A).subtype g : GL (Fin 1) (Om l)) : Matrix (Fin 1) (Fin 1) (Om l)) i j) =
+      fun g : ↥(_root_.ReciprocityTheory.Gal.Dec (F := E) A) => ((μ g : (Om l)ˣ) : Om l) := by
       funext g
       rw [Subsingleton.elim i j]
       simp [rk1]

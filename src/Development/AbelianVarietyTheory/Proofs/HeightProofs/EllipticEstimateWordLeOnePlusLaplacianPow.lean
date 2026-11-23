@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.InvSqrtTwo
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHermitianJmBracket
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle244
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.HTSpecAllHodge
+public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

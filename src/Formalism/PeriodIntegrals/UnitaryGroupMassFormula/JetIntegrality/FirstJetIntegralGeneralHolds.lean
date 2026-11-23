@@ -1,9 +1,9 @@
 module
 
-public import Formalism.PeriodIntegrals.JetsPhW
+public import Formalism.PeriodIntegrals.Bundle002
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.CoeffSubstOfDegreeEqOne
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.ExpLow
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

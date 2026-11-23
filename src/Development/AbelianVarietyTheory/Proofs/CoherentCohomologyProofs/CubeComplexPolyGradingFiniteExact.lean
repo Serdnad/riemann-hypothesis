@@ -1,9 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.ExistsAwayFracOfMemHomLoc
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CubeComplexExactAtOfMonomialBasis
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsMonomialBasisCechCubePolynomialGradingStatement
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.TopClassSurjective
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -87,3 +86,16 @@ theorem cubeComplex_polyGrading_finite_exact : ∀ (ι : Type) [LinearOrder ι] 
     · exact h1 p hp
 
 end GlobalTheory
+
+end
+
+section
+
+@[expose] public section
+
+open CategoryTheory CategoryTheory.Limits DirectSum MvPolynomial TensorProduct GlobalTheory
+theorem _root_.GlobalTheory.T.finite_homology_and_exact_cubeComplex_polyGrading : ∀ (ι : Type) [LinearOrder ι] [Fintype ι] (R : Type) [CommRing R] (n : ℤ), (∀ p, Module.Finite R ((cubeComplex (grCube ι (polyGrading ι R) n)).homology p)) ∧ (1 ≤ n → ∀ p, (cubeComplex (grCube ι (polyGrading ι R) n)).ExactAt p) := by
+  first | exact @GlobalTheory.cubeComplex_polyGrading_finite_exact | exact GlobalTheory.cubeComplex_polyGrading_finite_exact | (intros; apply GlobalTheory.cubeComplex_polyGrading_finite_exact <;> assumption)
+
+end
+end

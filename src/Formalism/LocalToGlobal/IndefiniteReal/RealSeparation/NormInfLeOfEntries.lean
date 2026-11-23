@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedSmooth
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
-public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.BesPerSt
-public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.GrowthNorm
-public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.FrameMatEqGlobal
+public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.Bundle001
+public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.Bundle003
+public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

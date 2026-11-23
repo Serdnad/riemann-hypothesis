@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.HodgeTateDatumStatement
-public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.OrdinaryCurveStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.AbFactorProdRetract
+public import Development.AutomorphicSpectrum.Statements.AlgebraStatements.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle072
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsAddEquiv
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrdersOfZmodPExtremesStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TensorProductHopfOrdersStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TensorProductTightHopfOrdersStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TorsionPointsHopfOrderStatement
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle049
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle056
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

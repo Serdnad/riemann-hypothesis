@@ -3,10 +3,9 @@ module
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TensFun
 public import GroundTheory.AutomorphicForms.TraceFormulaConvolution
 public import GroundTheory.GlobalFields.Adele.Topology
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.AdjInt
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommInt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.Unimod
-public import GroundTheory.AutomorphicForms.CompactFormulaSums
+public import GroundTheory.AutomorphicForms.Bundle011
 public import GroundTheory.AutomorphicForms.CuspidalProjection.OrthogonalProjectionOntoCompSubtypeL
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

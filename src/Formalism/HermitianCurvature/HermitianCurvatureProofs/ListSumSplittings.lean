@@ -2,8 +2,8 @@ module
 
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DerivativeRulesA1
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExponentWordRecursion
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle077
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle079
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

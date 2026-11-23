@@ -3,8 +3,8 @@ module
 public import GroundTheory.PAdicHodge.FontaineLemmaInvariants
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.SemistableModelSemistable
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.DeRhamPotentiallySemistable.DeRhamTwists.ContinuousCyclotomicCharacter
-public import GroundTheory.PAdicHodge.BCrisEigenMaps
-public import GroundTheory.PAdicHodge.BCrisNewton
+public import GroundTheory.PAdicHodge.Bundle017
+public import GroundTheory.PAdicHodge.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

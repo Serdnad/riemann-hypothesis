@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.DedekindLFunctions.CharFamily
-public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.WindowHypOfRpow
+public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.Bundle003
 public import Development.AutomorphicArithmetic.DedekindLFunctions.LandauTheorems.lemmaL
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

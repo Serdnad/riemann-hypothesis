@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.TwistedPieces.IntegralParts.TranslInv
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.AddCharConductorIntegersContinuousNeOneStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle397
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.NilpotentOrbits.FourierTransforms.TraceEqZeroOfQZ
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.TwistedPieces.IntegralParts.HaarFourierSupport.FourierTransformTranslationInvariant
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,7 +68,8 @@ variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchim
 theorem supp_congr' {C : Set (Sp k n)} {ξ : (Sp k n → ℂ) →ₗ[ℂ] ℂ} (h : Supp ξ C) {f g : Sp k n → ℂ}
     (hf : f ∈ supportedIn (Set.univ : Set (Sp k n))) (hg : g ∈ supportedIn (Set.univ : Set (Sp k n)))
     (e : ∀ p ∈ C, f p = g p) : ξ f = ξ g := by
-  have := h (f - g) ((supportedIn Set.univ).sub_mem hf hg) fun p hp => by simp [e p hp]
+  have hsub := (_root_.GroundTheory.Automorphic.Whittaker.supportedIn (Set.univ : Set (Sp k n))).sub_mem hf hg
+  have := h (f - g) hsub fun p hp => by simp [e p hp]
   rwa [map_sub, sub_eq_zero] at this
 
 def homH (t : kˣ) : Sp k n ≃ₜ Sp k n where

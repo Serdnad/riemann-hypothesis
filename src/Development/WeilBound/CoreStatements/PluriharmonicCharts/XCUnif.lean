@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsPeriodOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseVectorPropertiesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticProjectionBijectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagPointInMultiprojectivePointsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsClosedSectionBoundaryStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.TwoPointFibreChartFirst
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle168
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle162
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.AnalyticAtDetFac
 import Development.WeilBound.CoreStatements.PluriharmonicCharts.AnalyticAtFlagPt
 import Development.WeilBound.CoreStatements.PluriharmonicCharts.ExistsHoloOnOfGerm
@@ -51,8 +51,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BasePartFlagPt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PullbackPullback
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
 
 @[expose] public section
 

@@ -1,20 +1,19 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CInfGood
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsUnconditional
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.TriangularInvOfDiagNe
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFramedPointBaseChangeAlgebraMap
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AlgIndepOfSameAdjoinStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FramePointBorelSectionScalingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericFlagTriangularChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericLuDecompositionUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompComparisonMiddle
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsCombBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalence
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LuFactorsGenerateSameFieldStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginComponentGenericPointStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginGenericFrameStatement
-import Formalism.LocalToGlobal.ProjectiveLattices.GenFrPf
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle068
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle017
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle290
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle055
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle101
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle159
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle027
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle141
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle278
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,9 +52,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FrMapComp
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle012
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.IsStrictDom
 
 @[expose] public section
@@ -353,6 +352,9 @@ theorem spc {A B C : Type} [CommRing A] [CommRing B] [CommRing C] (f : B →+* C
   rw [← Spec.map_comp]; rfl
 
 section Core
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
+
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {Dw : Datum H} {l : Level H}
   {Xo : Moduli Dw l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {SS : Finset ℕ}
   {RM : Top.RootModel (CMType H) (Dw.p + Dw.q)}
@@ -533,6 +535,8 @@ theorem exists_strictHenselian_absolutely_closed_local_ring {K Ω : Type} [Field
       {lk : Fin (Dw.mult (Small.labelC s)) × Fin (Dw.mult (Small.labelC s)) // lk.2 < lk.1}) => v q.1 q.2.1.1 q.2.1.2)
     (e.symm_apply_apply ⟨s, ⟨(l, k), h⟩⟩)
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi
+
 variable {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} {SS : Finset ℕ}
   {RM : Top.RootModel (CMType H) (Dw.p + Dw.q)}
   {Sys : PB.AnSys (Top.dimFl (CMType H) (Dw.p + Dw.q)) (Option (RootIx Dw))} {Fx : FixedData Y Sys}
@@ -608,9 +612,30 @@ end GlobalTheory.CompanionTheory.Ar.Rec.ReadEx
 
 namespace GlobalTheory.CompanionTheory.Ar.Rec
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem read_exists : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (h : GenFrEx Xo c) (e : Comp Xo c → Rul Xo c), CompLaws U h e → ∀ (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (T : Top.RootTower (CMType H) (Dw.p + Dw.q)) (o : TowerOrigin Y T) (κ : Comp Xo c ≃ T.Comp), CompOf o κ → ∀ (B : ℕ) (Z : Comp Xo c), ∃ Fr : Small.GenFrame (o.Or B (κ Z)), Nonempty (Reading Fr h Z) := by
   intro E _ _ _ H Dw l Xo c r U h e hL Y T o κ hκ B Z
   obtain ⟨Fr⟩ := GlobalTheory.T.root_origin_generic_frame E H Dw l Xo c Y (o.S B) (T.M B (κ Z)) (o.Sys (κ Z)) (o.Fx (κ Z)) (o.Or B (κ Z))
   exact ⟨Fr, ReadEx.read_core (o.Or B (κ Z)) Fr h Z hL.genT hL.evalWD (hκ Z)⟩
 
 end GlobalTheory.CompanionTheory.Ar.Rec
+
+end
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain MeasureTheory Filter Topology
+open Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD ReciprocityTheory.ChartRestriction.G.AR.Up ReciprocityTheory.ChartRestriction.G.AR.Inst Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.L2.Theta
+open GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Rec
+open scoped Matrix
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
+theorem _root_.GlobalTheory.T.tower_components_compatible_laws : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (r : ℕ) (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (h : GenFrEx Xo c) (e : Comp Xo c → Rul Xo c), CompLaws U h e → ∀ (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)) (T : Top.RootTower (CMType H) (Dw.p + Dw.q)) (o : TowerOrigin Y T) (κ : Comp Xo c ≃ T.Comp), CompOf o κ → ∀ (B : ℕ) (Z : Comp Xo c), ∃ Fr : Small.GenFrame (o.Or B (κ Z)), Nonempty (Reading Fr h Z) := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.Rec.read_exists | exact GlobalTheory.CompanionTheory.Ar.Rec.read_exists | (intros; apply GlobalTheory.CompanionTheory.Ar.Rec.read_exists <;> assumption)
+
+end
+end

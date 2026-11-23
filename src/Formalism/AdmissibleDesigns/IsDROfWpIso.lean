@@ -3,10 +3,10 @@ module
 public import Formalism.AdmissibleDesigns.CoboundaryMemFiniteClasses
 public import Formalism.AdmissibleDesigns.CohomZeroEquivContinuous
 public import Formalism.AdmissibleDesigns.TensSubsingleton
-public import Formalism.AdmissibleDesigns.YtTarget
-public import Formalism.AdmissibleDesigns.LocCont
-public import Formalism.AdmissibleDesigns.MsContW
-public import Formalism.AdmissibleDesigns.MultVZeroOfSubsingleton
+public import Formalism.AdmissibleDesigns.Bundle002
+public import Formalism.AdmissibleDesigns.Bundle005
+public import Formalism.AdmissibleDesigns.Bundle007
+public import Formalism.AdmissibleDesigns.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

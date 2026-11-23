@@ -1,17 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.IntegralGLSuccEmbeddingMemParahoricTimesPrincipa
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
+public import Formalism.LocalToGlobal.Columns.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CardStabilizerForgetFr
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LevelGroupNeTopNeBot
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HomConjEquivMemHomAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IntAtFormOfMemStdAt
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PhiTopSource
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PhiTopTargetGen
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PhiTopTargetSym
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PhiTopTargetTwist
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiTopInvariant
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle129
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle104
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle113
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle121
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle132
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle131
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle127
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -306,11 +305,11 @@ theorem xiTop_law {u : Pr.Word} {b : L.β (m2 + 1)} {Pl : LevFam X.E X.K R.r Pr.
     (ha : ∀ P, LevAt (L.levG (m2 + 1) b) (L.levQ (m2 + 1) b) P (κ P) (a P))
     (ha' : ∀ P, LevAt (topLevG Ch Pl) (topLevQ R sel mu c.pos) P (κ' P) (a' P)) (x : HomE X.E (R.N (m2 + 1)) (R.N R.m))
     (e0 : phiT X.K q.deco.1 q'.deco.1 (γ'.1.toLinearMap ∘ₗ x ∘ₗ γ.1.symm.toLinearMap) = phiT X.K p.deco.1 p'.deco.1 x) :
-    XiTop Ch sel mu cst m2 q ((fun v => γ.1 v) '' Y) q' (γ'.1.toLinearMap ∘ₗ x ∘ₗ γ.1.symm.toLinearMap) *
+    _root_.GlobalTheory.TopStep.XiTop Ch sel mu cst m2 q ((fun v => γ.1 v) '' Y) q' (γ'.1.toLinearMap ∘ₗ x ∘ₗ γ.1.symm.toLinearMap) *
         ∏ P : rowSG Pr sel mu, (rhoS Ch sel mu (m2 + 1) P ((LinearEquiv.det (κ⁻¹ P).1 : X.Eˣ) : X.E) *
           rhoT Ch sel mu (m2 + 1) P ((LinearEquiv.det (κ'⁻¹ P).1 : X.Eˣ) : X.E)) =
-      (((∏ P, a' P) * (∏ P, a P)⁻¹ : X.Kˣ) : X.K) * XiTop Ch sel mu cst m2 p Y p' x := by
-  unfold XiTop
+      (((∏ P, a' P) * (∏ P, a P)⁻¹ : X.Kˣ) : X.K) * _root_.GlobalTheory.TopStep.XiTop Ch sel mu cst m2 p Y p' x := by
+  unfold _root_.GlobalTheory.TopStep.XiTop
   rw [e0, mul_assoc, mul_left_comm _ (phiT _ _ _ _), ← Finset.prod_inv_distrib, ← Finset.prod_mul_distrib, ← Finset.prod_mul_distrib,
     Units.coe_prod, ← Finset.prod_mul_distrib]
   refine congrArg _ (Finset.prod_congr rfl fun P _ => ?_)
@@ -353,8 +352,8 @@ theorem topEquiv {u : Pr.Word} {T : ChTh W sel mu u m2} (b : L.β (m2 + 1)) (hY 
   obtain ⟨κ, a, hκ, ha, ea⟩ := exists_pass hd g p
   obtain ⟨κ', a', hκ', ha', ea'⟩ := exists_pass hd g₁ p'
   have key := GlobalTheory.kerOf_gmap_frames T.top (Sall sel mu u) _ (cAof sel mu cst) (cBof sel mu cst u) _ _ _ _ hT.top g.1 g₁.1
-    p.deco.1.N (frsF sel mu p) p'.deco.1.N (frsF sel mu p') κ⁻¹ κ'⁻¹ (XiTop Ch sel mu cst m2 p Y p')
-    (XiTop Ch sel mu cst m2 (g • p) ((fun v => g.1.1 v) '' Y) (g₁ • p')) (((∏ P, a' P) * (∏ P, a P)⁻¹ : X.Kˣ) : X.K)
+    p.deco.1.N (frsF sel mu p) p'.deco.1.N (frsF sel mu p') κ⁻¹ κ'⁻¹ (_root_.GlobalTheory.TopStep.XiTop Ch sel mu cst m2 p Y p')
+    (_root_.GlobalTheory.TopStep.XiTop Ch sel mu cst m2 (g • p) ((fun v => g.1.1 v) '' Y) (g₁ • p')) (((∏ P, a' P) * (∏ P, a P)⁻¹ : X.Kˣ) : X.K)
     ⟨p.deco.2.lat, p.deco.2.uni⟩ ⟨p'.deco.2.lat, p'.deco.2.uni⟩
     (GlobalTheory.TopXiInv.xiTop_invariant Ch sel mu cst m2 u hPr hL.hm hL.cst_ok hL.depthQ p Y p' hp1) fun x =>
       xiTop_law c hX hPr hsel hL hlev hp1 hp2 hκ hκ' ha ha' x (phiT_act _ _ _ _ _ _ _)

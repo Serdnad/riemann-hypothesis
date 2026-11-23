@@ -1,8 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.IntegralNormalization
-public import Development.EtaleCohomology.EtaleSheaves.IntegralNormalization.AlgClosedOfAic
-public import Development.EtaleCohomology.EtaleSheaves.IntegralNormalization.OpenPf
+public import Development.EtaleCohomology.EtaleSheaves.Bundle041
+public import Development.EtaleCohomology.EtaleSheaves.IntegralNormalization.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

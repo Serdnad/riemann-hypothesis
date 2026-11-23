@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmCurveBaseChangeComp
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsFibreOfIffIsPolFibre
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcDataDescendsPrincipalIdealSubringStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsDegenerationDataExtensionOverDvrStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsTauCanonicalIffOfIsPullDegTauBimultStatement
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SizeWindowBrackets.GaloisToProductIsIso
+public import Formalism.SizeWindowBrackets.Bundle002
 public import Formalism.FrobeniusOrbits.Statement
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.StronglyIrreducible
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Decomp
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.FrobMulInertia
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Inertia
 
 @[expose] public section

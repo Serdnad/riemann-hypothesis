@@ -2,7 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.CfBasic
-public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.DominantRearrangementProperties
+public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -201,10 +201,10 @@ private theorem dom_sub {n : ℕ} {x : Wt n} (hx : StrictAnti x)
   ring
 
 private theorem cf_ex {n : ℕ} (x y : Wt n) : cf (ex y) x = if y = x then 1 else 0 := by
-  simp [cf, ex, AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
+  simp [_root_.UpperTheory.RealTr.cf, ex, AddMonoidAlgebra.coeff_single, Finsupp.single_apply]
 
 private theorem cf_zero {n : ℕ} (x : Wt n) : cf (0 : FR n) x = 0 := by
-  simp [cf]
+  simp [_root_.UpperTheory.RealTr.cf]
 
 private theorem cf_sum {n : ℕ} {ι : Type} (s : Finset ι) (f : ι → FR n) (x : Wt n) :
     cf (∑ i ∈ s, f i) x = ∑ i ∈ s, cf (f i) x := by

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemCoord
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsSmulIntegral
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralOfQuad
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPrincipalIdealRingOfHenselian
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalExtend
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StrongApproximationAdditiveQuadraticExtensionStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle047
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle068
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

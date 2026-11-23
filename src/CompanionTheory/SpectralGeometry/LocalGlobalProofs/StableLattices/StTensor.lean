@@ -4,12 +4,12 @@ public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitary
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExistsFixedOfFinset
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EventuallyAlgebraMapMemIntegers
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactLevelOffFinEmpty
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NonarchimedeanGroupOfIsCompactIsOpen
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AdelicUnitaryClosureLocalComponentsOpen
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EventuallyExistsDoubleCosetAntiInvolutionUnitaryStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GelfandPairSphericalVectorUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitaryIrreducibleSmoothAdmissibleStatement
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle293
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle299
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle221
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle227
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle193
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle301
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -309,4 +309,18 @@ theorem stTensor : StTensor := by
 
 end GlobalTheory.CompanionTheory.RestT
 
+end
+
+end
+
+section
+
+@[expose] public section
+
+open CompanionTheory.Rg.Fl
+
+theorem _root_.GlobalTheory.T.stTensor' : StTensor := by
+  first | exact @GlobalTheory.CompanionTheory.RestT.stTensor | exact GlobalTheory.CompanionTheory.RestT.stTensor | (intros; apply GlobalTheory.CompanionTheory.RestT.stTensor <;> assumption)
+
+end
 end

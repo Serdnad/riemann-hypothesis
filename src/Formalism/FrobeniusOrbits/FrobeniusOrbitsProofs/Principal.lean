@@ -1,7 +1,7 @@
 module
 
-public import Formalism.FrobeniusOrbits.HostDiffSupport
-public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.FrobMulInertia
+public import Formalism.FrobeniusOrbits.Bundle001
+public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Bundle002
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Inertia
 public import Formalism.FrobeniusOrbits.RealSubfieldLeCompositum

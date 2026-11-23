@@ -1,12 +1,12 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalOrderTensorPadicFreeAlmostAll
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsScalarTowerCenAlgebra
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BijectiveIffIsUnitDet
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle359
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle277
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle007
 public import Mathlib.Algebra.Central.Defs
 public import Mathlib.CategoryTheory.Category.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CycleListPermInvariant
-public import GroundTheory.Brauer.IsBrauerEquivalentIffNonemptyAlgEquiv
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle170
+public import GroundTheory.Brauer.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

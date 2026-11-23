@@ -1,7 +1,6 @@
 module
 
-public import Formalism.YangianSpanCharacter.ExchangeGen
-public import Formalism.YangianSpanCharacter.StatementT
+public import Formalism.YangianSpanCharacter.Bundle001
 public import Mathlib.Basic.Complex.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.FirstEmbeddingOne
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle013
 
 @[expose] public section
 

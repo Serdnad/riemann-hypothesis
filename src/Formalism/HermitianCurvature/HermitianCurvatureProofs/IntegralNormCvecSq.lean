@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TendstoSmulCocompact
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle051
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.NormOfMemRootSetOne
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.LastBlockDecay
 import Mathlib.Algebra.Order.Floor.Extended

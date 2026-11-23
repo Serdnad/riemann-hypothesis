@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.OmegaFactorization
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbsNormEqProd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteTopologyFractionalIdealRealLatticeImage
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeEisensteinConstantTermPartDifferentiableOn
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle282
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle284
 public import Mathlib.Algebra.Module.ZLattice.Summable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

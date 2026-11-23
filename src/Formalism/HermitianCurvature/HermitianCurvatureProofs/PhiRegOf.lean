@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.L1QuotientIntegralBound
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbConvDDOfDecDD
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SmoothAdd
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle035
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMeasurableSet
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.UhMemMeasurableSet
 import Mathlib.Algebra.Order.Floor.Extended

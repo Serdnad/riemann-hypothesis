@@ -8,7 +8,7 @@ public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.MeanNum
 public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.LatticeChainSuccOfPartial
 public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.PrimeSumNumericFacts
 public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.ThirdEstimateOfNumericFacts
-public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.StarFam
+public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

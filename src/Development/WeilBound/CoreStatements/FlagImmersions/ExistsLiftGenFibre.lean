@@ -1,12 +1,12 @@
 module
 
-public import Development.WeilBound.CoreStatements.FlagImmersions.FibSandwich
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DvrModelOfNumberFieldPlace
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsFormNotInCoordIdeal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUniqueValuationRingLift
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteTypeOverIntegersModel
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ValAtCompLocalHom
-public import Development.WeilBound.CoreStatements.VolumeEquality.ChartMeetsPoint
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle002
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle063
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle022
+public import Development.WeilBound.CoreStatements.VolumeEquality.Bundle002
 public import Development.WeilBound.CoreStatements.VolumeEquality.PrimeIdealOfFromSpec
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 
 @[expose] public section

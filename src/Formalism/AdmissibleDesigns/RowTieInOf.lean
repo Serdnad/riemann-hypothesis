@@ -1,8 +1,8 @@
 module
 
-public import Formalism.AdmissibleDesigns.UnramifiedInputOfAdmitted
-public import Formalism.AdmissibleDesigns.IdempotentPartFiniteAndFree
-public import Formalism.AdmissibleDesigns.IdempotentPartRepresentationAt
+public import Formalism.AdmissibleDesigns.Bundle014
+public import Formalism.AdmissibleDesigns.Bundle008
+public import Formalism.AdmissibleDesigns.Bundle006
 public import Formalism.AdmissibleDesigns.RowLatticeFiniteFree
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

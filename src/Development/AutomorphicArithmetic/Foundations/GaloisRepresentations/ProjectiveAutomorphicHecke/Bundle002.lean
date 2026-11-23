@@ -1,0 +1,289 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousMapPFin
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
+public import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
+public import Development.AbelianVarietyTheory.Statements.EllipticCurveLevels.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DefiniteUnitaryClassSetFinite
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.MapWopWmap
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix GlobalTheory.CuspRep GlobalTheory.UnitaryBC GlobalTheory.DefU
+open GlobalTheory.SplitPts (conjE)
+open GroundTheory.Global.AdeleBaseChange (finiteAdeleMap finiteAdeleMap_algebraMap)
+open GlobalTheory.LFun (KGL)
+
+namespace UpperTheory.Gal.CertificateRingHomMap
+
+def Sim {A B : Type} [CommRing A] [CommRing B] (σ : A →+* A) (i : B →+* A) (n : ℕ) : Subgroup (GL (Fin n) A × Bˣ) where
+  carrier := {p | (p.1.val.map σ)ᵀ * p.1.val = i p.2 • (1 : Matrix (Fin n) (Fin n) A)}
+  one_mem' := by simp [Matrix.map_one]
+  mul_mem' := by
+    rintro ⟨g, s⟩ ⟨h, t⟩ hg hh
+    simp only [Set.mem_setOf_eq, Prod.fst_mul, Prod.snd_mul, Units.val_mul, Matrix.map_mul, transpose_mul, map_mul] at hg hh ⊢
+    rw [Matrix.mul_assoc, ← Matrix.mul_assoc _ g.val, hg, smul_mul_assoc, Matrix.one_mul, Matrix.mul_smul, hh, smul_smul]
+  inv_mem' := by
+    rintro ⟨g, s⟩ hg
+    simp only [Set.mem_setOf_eq, Prod.fst_inv, Prod.snd_inv] at hg ⊢
+    have h1 : ((g⁻¹).val.map σ)ᵀ * (g.val.map σ)ᵀ = 1 := by
+      rw [← transpose_mul, ← Matrix.map_mul, Units.mul_inv, Matrix.map_one _ (map_zero σ) (map_one σ), transpose_one]
+    have h2 : i (s⁻¹ : Bˣ) * i s = 1 := by rw [← map_mul, Units.inv_mul, map_one]
+    have h3 : g.val = i s • ((g⁻¹).val.map σ)ᵀ := by
+      rw [← Matrix.one_mul g.val, ← h1, Matrix.mul_assoc, hg, Matrix.mul_smul, Matrix.mul_one]
+    calc ((g⁻¹).val.map σ)ᵀ * (g⁻¹).val = i (s⁻¹ : Bˣ) • ((i s • ((g⁻¹).val.map σ)ᵀ) * (g⁻¹).val) := by
+          rw [smul_mul_assoc, smul_smul, h2, one_smul]
+      _ = _ := by rw [← h3, Units.mul_inv]
+
+theorem mem_Sim {A B : Type} [CommRing A] [CommRing B] {σ : A →+* A} {i : B →+* A} {n : ℕ} {p : GL (Fin n) A × Bˣ} :
+    p ∈ Sim σ i n ↔ (p.1.val.map σ)ᵀ * p.1.val = i p.2 • (1 : Matrix (Fin n) (Fin n) A) := Iff.rfl
+
+abbrev Plc (E : Type) [Field E] : Type := HeightOneSpectrum (𝓞 E)
+
+abbrev AfQ : Type := FiniteAdeleRing (𝓞 ℚ) ℚ
+
+variable (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ)
+
+abbrev GUf : Subgroup (GL (Fin n) (Af E) × AfQˣ) := Sim (conjFin (conjE E)) (finiteAdeleMap ℚ E) n
+
+def Gam0 : Subgroup (GL (Fin n) E × ℚˣ) :=
+  Sim (conjE E).toRingHom (algebraMap ℚ E) n ⊓ (Units.posSubgroup ℚ).comap (MonoidHom.snd _ _)
+
+variable {E n}
+
+abbrev cj (w : Plc E) : Plc E := conjSrc (conjE E) w
+
+def sim : GUf E n →* AfQˣ := (MonoidHom.snd _ _).comp (GUf E n).subtype
+
+def mat : GUf E n →* GL (Fin n) (Af E) := (MonoidHom.fst _ _).comp (GUf E n).subtype
+
+def comp (w : Plc E) : GUf E n →* GL (Fin n) (w.adicCompletion E) := (GeneralLinearGroup.map (pLoc E w)).comp mat
+
+def rat : Gam0 E n →* GUf E n :=
+  (((GeneralLinearGroup.map (algebraMap E (Af E))).prodMap (Units.map (algebraMap ℚ AfQ).toMonoidHom)).comp
+    (Gam0 E n).subtype).codRestrict _ fun y => by
+      have h : (y.1.1.val.map (conjE E).toRingHom)ᵀ * y.1.1.val = algebraMap ℚ E y.1.2 • (1 : Matrix (Fin n) (Fin n) E) := y.2.1
+      have h' := congrArg (fun M : Matrix (Fin n) (Fin n) E => M.map (algebraMap E (Af E))) h
+      simp only [Matrix.map_mul] at h'
+      refine mem_Sim.2 ?_
+      have e1 : ((y.1.1.val.map (algebraMap E (Af E))).map (conjFin (conjE E)))ᵀ =
+          ((y.1.1.val.map (conjE E).toRingHom)ᵀ).map (algebraMap E (Af E)) := by
+        ext i j : 1
+        exact conjFin_algebraMap _ _
+      have e2 : finiteAdeleMap ℚ E (algebraMap ℚ AfQ y.1.2) • (1 : Matrix (Fin n) (Fin n) (Af E)) =
+          (algebraMap ℚ E y.1.2 • (1 : Matrix (Fin n) (Fin n) E)).map (algebraMap E (Af E)) := by
+        rw [finiteAdeleMap_algebraMap]
+        ext i j : 1
+        by_cases hij : i = j <;> simp [hij, Matrix.one_apply]
+      exact (congrArg (· * _) e1).trans (h'.trans e2.symm)
+
+def ofU : finU (E := E) (n := n) →* GUf E n :=
+  ((((GeneralLinearGroup.map (pFin E)).comp (UA E n).subtype).comp (finU (E := E) (n := n)).subtype).prod 1).codRestrict _ fun u => by
+    refine mem_Sim.2 ?_
+    have h := GlobalTheory.DefU.ClassFin.cT_pFin u.1
+    exact h.trans (by simp)
+
+@[simp] theorem sim_ofU (u : finU (E := E) (n := n)) : sim (ofU u) = 1 := rfl
+
+@[simp] theorem comp_ofU (w : Plc E) (u : finU (E := E) (n := n)) : comp w (ofU u) = cLoc w u.1 := rfl
+
+def locE {w : Plc E} (hw : IsSplitAt w) : locU n w ≃ₜ* GL (Fin n) (w.adicCompletion E) := (GlobalTheory.locU_equiv_GL E n w hw).choose
+
+theorem locE_apply {w : Plc E} (hw : IsSplitAt w) (x : locU n w) : locE hw x = cLoc w x.1 := (GlobalTheory.locU_equiv_GL E n w hw).choose_spec x
+
+def locF {w : Plc E} (hw : IsSplitAt w) : GL (Fin n) (w.adicCompletion E) →* finU (E := E) (n := n) :=
+  (Subgroup.inclusion (inf_le_left : locU n w ≤ finU (E := E) (n := n))).comp (locE hw).symm.toMulEquiv.toMonoidHom
+
+theorem locF_mem {w : Plc E} (hw : IsSplitAt w) (x : GL (Fin n) (w.adicCompletion E)) : (locF hw x).1 ∈ locU n w :=
+  ((locE hw).symm x).2
+
+@[simp] theorem cLoc_locF {w : Plc E} (hw : IsSplitAt w) (x : GL (Fin n) (w.adicCompletion E)) : cLoc w (locF hw x).1 = x :=
+  (locE_apply hw _).symm.trans ((locE hw).apply_symm_apply x)
+
+def loc {w : Plc E} (hw : IsSplitAt w) : GL (Fin n) (w.adicCompletion E) →* GUf E n := ofU.comp (locF hw)
+
+@[simp] theorem sim_loc {w : Plc E} (hw : IsSplitAt w) (x : GL (Fin n) (w.adicCompletion E)) : sim (loc hw x) = 1 := rfl
+
+@[simp] theorem comp_loc {w : Plc E} (hw : IsSplitAt w) (x : GL (Fin n) (w.adicCompletion E)) : comp w (loc hw x) = x :=
+  cLoc_locF hw x
+
+theorem comp_loc_of_apart {w u : Plc E} (hw : IsSplitAt w) (hu : GlobalTheory.Cong.Apart u w) (x : GL (Fin n) (w.adicCompletion E)) :
+    comp u (loc hw x) = 1 :=
+  MonoidHom.mem_ker.1 (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 (Subgroup.mem_inf.1 (locF_mem hw x)).2 u) hu)
+
+def ZU : Subgroup AfQˣ where
+  carrier := {s | ∀ v : Plc ℚ, Valued.v ((s : AfQ) v) = 1}
+  one_mem' := fun v => map_one _
+  mul_mem' := fun {a b} ha hb v => by
+    show Valued.v ((a : AfQ) v * (b : AfQ) v) = 1
+    rw [map_mul, ha v, hb v, one_mul]
+  inv_mem' := fun {a} ha v => by
+    have h : Valued.v ((a : AfQ) v * (↑a⁻¹ : AfQ) v) = 1 := by
+      show Valued.v (((a : AfQ) * (↑a⁻¹ : AfQ)) v) = 1
+      rw [Units.mul_inv]; exact map_one _
+    rwa [map_mul, ha v, one_mul] at h
+
+def lev (S : Finset (Plc E)) (Kw : ∀ w : Plc E, Subgroup (GL (Fin n) (w.adicCompletion E))) : Subgroup (GUf E n) :=
+  ZU.comap sim ⊓ (⨅ w ∈ S, (Kw w).comap (comp w)) ⊓ ⨅ (w : Plc E) (_ : w ∉ S ∧ cj w ∉ S), (KGL w (n := n)).comap (comp w)
+
+theorem mem_lev {S : Finset (Plc E)} {Kw : ∀ w : Plc E, Subgroup (GL (Fin n) (w.adicCompletion E))} {k : GUf E n} :
+    k ∈ lev S Kw ↔ sim k ∈ ZU ∧ (∀ w ∈ S, comp w k ∈ Kw w) ∧ ∀ w, w ∉ S → cj w ∉ S → comp w k ∈ KGL w (n := n) := by
+  simp only [lev, Subgroup.mem_inf, Subgroup.mem_iInf, Subgroup.mem_comap, and_assoc, and_imp]
+
+def embAll (E : Type) [Field E] (n : ℕ) : GL (Fin n) E →* (InfinitePlace E → GL (Fin n) ℂ) :=
+  MonoidHom.pi fun v => GeneralLinearGroup.map v.embedding
+
+def xi (W : Wt E n) (J : ℤ) : Representation ℂ (GL (Fin n) E × ℚˣ) (Module.Dual ℂ W.Sp) where
+  toFun p := (((p.2 : ℚ) : ℂ) ^ J) •
+    Representation.dual ((Formalism.L2.DIV.rhoK (K := ℂ) (ι := InfinitePlace E) W).comp (embAll E n)) p.1
+  map_one' := by
+    rw [Prod.fst_one, map_one, Prod.snd_one, Units.val_one, Rat.cast_one, _root_.one_zpow, one_smul]
+  map_mul' p q := by
+    simp only [Prod.fst_mul, Prod.snd_mul, Units.val_mul, Rat.cast_mul, mul_zpow, map_mul, smul_mul_smul_comm]
+
+abbrev xi0 (W : Wt E n) (J : ℤ) : Representation ℂ (Gam0 E n) (Module.Dual ℂ W.Sp) := (xi W J).comp (Gam0 E n).subtype
+
+def SameK (x : E) (w w' : Plc E) : Prop :=
+  ∀ y : 𝓞 E, (y : E) ∈ IntermediateField.adjoin ℚ {x} → (y ∈ w.asIdeal ↔ y ∈ w'.asIdeal)
+
+def IsCen (x : E) (w : Plc E) (z : GUf E n) : Prop :=
+  ∀ u : Plc E, (SameK x (cj u) w → (comp u z).val = ((Ideal.absNorm w.asIdeal : ℕ) : u.adicCompletion E) • (1 : Matrix (Fin n) (Fin n) _)) ∧
+    (¬ SameK x (cj u) w → comp u z = 1)
+
+
+open Classical in
+def mOf (x : E) (W : Wt E n) (J : ℤ) (φ : E →+* ℂ) : ℤ :=
+  J - ∑ v : InfinitePlace E, if v.embedding x = -φ x then ∑ i, (W v).w i else 0
+
+end UpperTheory.Gal.CertificateRingHomMap
+
+end
+end
+
+section
+
+open Module
+universe u v
+
+theorem UpperTheory.Gal.CertificateRingHomMap.pTracePow_holds :
+    UpperTheory.Gal.CertificateRingHomMap.TracePow.{u} := by
+  intro F _ _ W _ _ _ q s hq hq0 hqs hinj j₀
+  by_contra hcon
+  push_neg at hcon
+  have hU : ∀ x ∈ LinearMap.range q, s x ∈ LinearMap.range q := by
+    rintro _ ⟨y, rfl⟩
+    refine ⟨s y, ?_⟩
+    have := LinearMap.congr_fun hqs.eq y
+    simpa [Module.End.mul_apply] using this
+  have hUp : ∀ j : ℕ, ∀ x ∈ LinearMap.range q, (s ^ j) x ∈ LinearMap.range q := by
+    intro j
+    induction j with
+    | zero => intro x hx; simpa using hx
+    | succ n ih =>
+      intro x hx
+      rw [pow_succ', Module.End.mul_apply]
+      exact hU _ (ih x hx)
+  set t : Module.End F (LinearMap.range q) := s.restrict hU with ht
+  have hres : ∀ j : ℕ, (s ^ j).restrict (hUp j) = t ^ j := by
+    intro j
+    induction j with
+    | zero => ext x; simp
+    | succ n ih =>
+      ext x
+      rw [pow_succ' t, Module.End.mul_apply, ← ih]
+      simp [LinearMap.restrict_apply, pow_succ', Module.End.mul_apply, ht]
+  have hproj : LinearMap.IsProj (LinearMap.range q) q := by
+    refine ⟨fun x => ⟨x, rfl⟩, ?_⟩
+    rintro _ ⟨y, rfl⟩
+    have := LinearMap.congr_fun hq.eq y
+    simpa [Module.End.mul_apply] using this
+  set a : ℕ → F := fun j => LinearMap.trace F (LinearMap.range q) (t ^ j) with ha
+  have htr : ∀ j, LinearMap.trace F W (q * s ^ j) = a j := by
+    intro j
+    rw [LinearMap.trace_mul_comm, pProjTrace_holds F W _ q (s ^ j) hproj (hUp j), hres j]
+  have hzero : ∀ j, j₀ ≤ j → a j = 0 := fun j hj => by rw [← htr j]; exact hcon j hj
+  have htinj : Function.Injective t := by
+    rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
+    rintro ⟨x, y, rfl⟩ hx
+    have h1 : s (q y) = 0 := by
+      have := congrArg Subtype.val hx
+      simpa [ht, LinearMap.restrict_apply] using this
+    exact Subtype.ext (by simpa using hinj y h1)
+  set P := minpoly F t with hP
+  have hc0 : P.coeff 0 ≠ 0 := LinearMap.minpoly_coeff_zero_of_injective htinj
+  have hrec : ∀ j, ∑ k ∈ Finset.range (P.natDegree + 1), P.coeff k * a (k + j) = 0 := by
+    intro j
+    have h0 : Polynomial.aeval t P = 0 := minpoly.aeval F t
+    rw [Polynomial.aeval_eq_sum_range] at h0
+    have h1 := congrArg (fun f => LinearMap.trace F (LinearMap.range q) (f * t ^ j)) h0
+
+    simp only [Finset.sum_mul, map_sum, zero_mul, map_zero, smul_mul_assoc, map_smul,
+    ← pow_add, smul_eq_mul] at h1
+    simpa [ha] using h1
+  have hall : ∀ n j, j₀ ≤ j + n → a j = 0 := by
+    intro n
+    induction n with
+    | zero => intro j hj; exact hzero j (by simpa using hj)
+    | succ n ih =>
+      intro j hj
+      have h := hrec j
+      rw [Finset.sum_range_succ'] at h
+      have hs : ∑ k ∈ Finset.range P.natDegree, P.coeff (k + 1) * a (k + 1 + j) = 0 := by
+        refine Finset.sum_eq_zero fun k _ => ?_
+        rw [ih (k + 1 + j) (by omega), mul_zero]
+      rw [hs, zero_add, zero_add] at h
+      exact (mul_eq_zero.mp h).resolve_left hc0
+  have ha0 : a 0 = 0 := hall j₀ 0 (by omega)
+  have hne : LinearMap.range q ≠ ⊥ := fun h => hq0 (LinearMap.range_eq_bot.mp h)
+  have hpos : Module.finrank F (LinearMap.range q) ≠ 0 :=
+    fun h => hne (Submodule.finrank_eq_zero.mp h)
+  simp only [ha, pow_zero, LinearMap.trace_one] at ha0
+  exact (Nat.cast_ne_zero.mpr hpos) ha0
+end

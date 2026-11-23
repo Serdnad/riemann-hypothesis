@@ -1,11 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlaceOverPInducedByAlgebraicPadicEmbedding
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AlgebraicNumbersPadicPlacesFacts
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.ProductFormulaLogNormsStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsPowPrincipal
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ProdNormEmbeddingsEqAbsNorm
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle139
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle099
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle009
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle014
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

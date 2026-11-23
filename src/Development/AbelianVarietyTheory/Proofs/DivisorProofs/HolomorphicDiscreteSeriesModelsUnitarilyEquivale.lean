@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteSeriesModelUnitaryIrreducibleOrthonormalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtremalVectorMatrixCoeffHolomorphicTypeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HolomorphicTypeEqZeroOfTorusLawAtOneStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsIsometricIntertwinerOfMatrixCoeffEq
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1307
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1737
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1404
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

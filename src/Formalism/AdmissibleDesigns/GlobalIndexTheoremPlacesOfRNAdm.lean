@@ -2,7 +2,7 @@ module
 
 public import Formalism.AdmissibleDesigns.InvariantsEqBotIff
 public import Formalism.SharpRestriction.LevelLetterCocycles.DecompositionData
-public import Formalism.SharpRestriction.LevelLetterCocycles.GoodCongruenceDataOf
+public import Formalism.SharpRestriction.LevelLetterCocycles.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

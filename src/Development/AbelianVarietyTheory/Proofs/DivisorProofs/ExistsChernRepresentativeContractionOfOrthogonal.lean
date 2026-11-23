@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDatNeZero
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.AbelianHodgeDeRham
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeDeRhamFreeHodgeSequenceBaseChange
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContrCupFormEqZero
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTangentVectorContractionTwoCochainProduct
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemHodgeFiltrationIffPointwiseCoboundary
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2629
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1170
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1134
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1135
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PointWithZeroSecondCoordLeftCompSnd
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorEqZeroOfForallDualPairing
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1153
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

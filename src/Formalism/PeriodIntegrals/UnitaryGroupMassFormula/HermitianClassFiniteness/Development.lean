@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.InHHClassFin
-public import Formalism.SatakeDualWeyl.StatementC
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEasy
+public import Formalism.PeriodIntegrals.Bundle025
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 public import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

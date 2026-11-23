@@ -5,13 +5,12 @@ public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalB
 public import Formalism.GradedWeylDivisibility.FinalC
 public import Formalism.GradedWeylDivisibility.FinalD
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.FockQRowDivAdj
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDrowLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle014
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
 import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LFocksLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LHwinLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle006
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StSemilocResidueFrac
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StChartScalingIndep
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StSemilocResidueAdjoin
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PSemilocRankAdjoin
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle034
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle032
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

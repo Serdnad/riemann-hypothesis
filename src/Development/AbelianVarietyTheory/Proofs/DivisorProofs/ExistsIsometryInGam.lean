@@ -1,27 +1,27 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CXiValIff
-public import Formalism.LocalToGlobal.IndefiniteReal.ThPinsR
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1248
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle025
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsQuotEquiv
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OscillatorModelValuesSixth
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsPsiTieOfValues
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.MarkedIsometryHalf
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OmegaDataLevelForms
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RedMUMatMove
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsAdelicElementOfMarkedComponentLattice
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle230
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle133
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCompletedIsometryInducingHalfLevelAutomorp
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsSimInducing
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FrameFreeFiniteOrderRuleConstPeriodSpace
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle174
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle166
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.LevelActionShortThetaSeriesRootOfUnityMul
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ComponentEqOfMatchedLatticesMarkings
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsComplexFrobeniusPoints
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle059
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle108
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFramedPointMoveUniversalTriple
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrMoveTransfer
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle111
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameUniformEmbeddingSecond
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LevelAutomorphismPeriodFamily
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle097
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.WeightZeroSectionValueConjPoint
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -175,7 +175,7 @@ end Ratio
 
 section Value
 
-open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.L2.Pj Formalism.IndefR.Datum
+open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor _root_.Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.L2.Pj Formalism.IndefR.Datum
 open scoped TensorProduct Matrix
 open GlobalTheory.GeoLevel GlobalTheory.DatumInverseCharacter GlobalTheory.PinnedClassSum Formalism.L2.Host
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
@@ -264,7 +264,7 @@ end Value
 
 section Move
 
-open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.L2.Pj Formalism.IndefR.Datum
+open NumberField IsDedekindDomain ReciprocityTheory.ChartRestriction.G.Geo.Tor _root_.Formalism Formalism.IndefR Formalism.IndefR.FWT Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.L2.Pj Formalism.IndefR.Datum
 open scoped TensorProduct Matrix
 open GlobalTheory.GeoLevel GlobalTheory.DatumInverseCharacter GlobalTheory.PinnedClassSum Formalism.L2.Host
 attribute [local instance] Formalism.BasicNotions.Host.cmStar

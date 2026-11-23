@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.PrismaticDieudonnePerfd
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle005
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ToBaseChangePtsBijective
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLogAExtends
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvEqOneOfForallPairing
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FontaineThetaEqZeroIffFontaineXiElementDvd
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.InjectiveOfSmulMemRange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

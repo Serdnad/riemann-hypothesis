@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalRingCardinality.DataParams₂
 public import Formalism.LocalToGlobal.Divisibility.ConstantGeTwentyEight
-public import Formalism.LocalToGlobal.Divisibility.LinkDef
-public import Formalism.LocalToGlobal.IndefiniteReal.FaceOf3
+public import Formalism.LocalToGlobal.Divisibility.Bundle004
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle004
 import Formalism.DivisorInequality.DivisorInequalityProofs.BaseLevelBoundsWithCovolumeHolds
 import Formalism.LocalToGlobal.Divisibility.LiftLatLemmas
 import Formalism.LocalToGlobal.Divisibility.RowLatLemmas

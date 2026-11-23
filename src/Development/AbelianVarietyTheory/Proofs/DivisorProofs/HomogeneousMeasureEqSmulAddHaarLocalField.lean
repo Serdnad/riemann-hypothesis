@@ -51,7 +51,7 @@ import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
-import Development.AbelianVarietyTheory.Definitions.Divisors.UnipVal
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle011
 
 @[expose] public section
 

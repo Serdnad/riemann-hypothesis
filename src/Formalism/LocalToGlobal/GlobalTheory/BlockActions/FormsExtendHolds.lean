@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FormsOfLatticeExtension
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.CTExtUnitary
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.InJSymRestrict
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.StabFunGen
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle006
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle008
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

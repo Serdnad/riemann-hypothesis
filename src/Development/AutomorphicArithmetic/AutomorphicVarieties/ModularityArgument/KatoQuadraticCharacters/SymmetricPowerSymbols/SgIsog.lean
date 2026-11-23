@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.SymmetricPowerSymbols.SymExOf
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CthFacMultipliable
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitInTowerAnEqSiegelUnitOnComplexStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothedThetaQProductDistributionRelation
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle243
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

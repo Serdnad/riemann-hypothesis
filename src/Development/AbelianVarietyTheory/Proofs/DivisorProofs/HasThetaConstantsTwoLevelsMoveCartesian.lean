@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SymTupOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle036
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.EqIdOfFixesTorsion
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.NonemptyEquivPiOfWeights
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.BasisValueAtOrigin
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsGeneratorThetaPointNormalisedThetaConstant
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsNormalisedMulPullIsoOrigin
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle147
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle064
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasThetaConstantsIffOfThetaLevelPullback
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.NuGeIffOfIsActOfOfPowEqOne
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle023
 import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverOfSubsingleton
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUnitRatio
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SvalOfIsTwistPull
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle064
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle070
 import Development.AbelianVarietyTheory.Statements.TorsionEndomorphisms.ExistsGeneratorOfIsField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +54,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsOverIff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle063
 
 @[expose] public section
 

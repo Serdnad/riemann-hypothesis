@@ -1,18 +1,17 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsExtraLast
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsExtraTail
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsFurtherBis
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTailRest
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle056
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle045
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle044
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ChartRingOverOneBlockBase
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ExistsNeZeroOfWeight
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsLast
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsSide
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.IsMultiProjPrimeSegreLift
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.OfModelNumEq
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PTwinEqSegreRealise
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RelDimMIdealOverEqTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ZpowMemSubalgebraOfInvMem
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle059
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle052
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle060
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle057
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle055
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle054
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RealPlaces.GSDefs
-public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingCriterion
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle001
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingMackeyTransfer
 public import GroundTheory.ProfiniteCohomology.RealPlaces.VanishingPrimes
 import Mathlib.Algebra.Order.Floor.Extended

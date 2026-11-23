@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.RecTTransport
-public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.FinrankK
+public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.Bundle005
 import Development.DiscreteGroups.GlobalIrreducibility.DzApprox
-import Development.DiscreteGroups.GlobalIrreducibility.DzGalRes
-import Development.DiscreteGroups.GlobalIrreducibility.DzIneEq
+import Development.DiscreteGroups.GlobalIrreducibility.Bundle022
+import Development.DiscreteGroups.GlobalIrreducibility.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

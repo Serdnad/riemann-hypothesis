@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.PAdicHodge.BCrisEigen
-public import GroundTheory.PAdicHodge.SenTateCharClosure
-import GroundTheory.LocalFields.Examples
+public import GroundTheory.PAdicHodge.Bundle005
+import GroundTheory.LocalFields.Bundle002
 import GroundTheory.LocalFields.PadicLogSeries
 public import GroundTheory.PAdicHodge.SenTateCharacters
 import Mathlib.Algebra.Order.Floor.Extended

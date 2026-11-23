@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.HeckeCSDICommTrRep
-public import Formalism.LocalToGlobal.Columns.RowFormsSym
-public import Formalism.LocalToGlobal.Columns.GoodXgE
+public import Formalism.LocalToGlobal.Columns.Bundle010
+public import Formalism.LocalToGlobal.Columns.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm

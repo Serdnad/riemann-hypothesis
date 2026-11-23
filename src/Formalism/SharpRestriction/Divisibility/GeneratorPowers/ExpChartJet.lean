@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTie
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpChartJetA
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle021
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -413,9 +413,8 @@ theorem eps_pOf (a : S) (g : Fin 1 × Fin C.d → S) :
     rw [AlgHom.comp_apply, tp_mk, tp_mk, TrivSqZeroExt.map_inr]
     rfl
   rw [pOf, ← h]
-  simp only [Over.comp_left, homAt, Over.homMk_left, ← Category.assoc, spMap, epsMul, ← Spec.map_comp,
-    ← CommRingCat.ofHom_comp]
-  rfl
+  simp only [Over.comp_left, Formalism.L2.Pj.homAt, Over.homMk_left, ← Category.assoc, spMap, epsMul,
+    ← Spec.map_comp, ← CommRingCat.ofHom_comp] <;> rfl
 
 variable (φ : Fin C.d → MvPowerSeries (Fin 1 × Fin (dL Dw)) S)
 

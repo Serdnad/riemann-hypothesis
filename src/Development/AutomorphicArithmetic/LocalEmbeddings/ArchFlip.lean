@@ -3,17 +3,17 @@ module
 public import Mathlib.Analysis.Matrix.MeasurableSpace
 public import Formalism.DoubleCosetMeasures.StatementZ
 public import Development.AutomorphicArithmetic.LocalEmbeddings.ArchSz
-public import Development.AbelianVarietyTheory.Definitions.Divisors.OmAUnipFourierInv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemGlLatCongOfSmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLatSmulBlockLat
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1855
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle404
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SumOKEx
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnderMemAndPlaceAboveEqOfMem
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GlOrbitIntegralDepthDatumMemSubfield
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegralRamifiedCharDetSingularMatrixCosetEqZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PartialFourierSumInverseOfLatticeDepth
-public import Development.AutomorphicArithmetic.DivisorFrames.ExistsMemKOEqStdFrameMulOfIsPrimFrameFin
-public import Development.AutomorphicArithmetic.DivisorFrames.HaarVolKOLeResCardPowOfCongruenceLe
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle511
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle435
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle408
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle007
+public import Development.AutomorphicArithmetic.DivisorFrames.Bundle008
 public import Development.AutomorphicArithmetic.DivisorFrames.UnramifiedCharacterInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -159,6 +159,7 @@ private theorem exists_res_approx_of_entries_integral {A : Type} {ϖ : kˣ} (hϖ
   have h2 := (Model.val_le_iff_mem hϖ e _).mp h1
   simpa [liftRes] using h2
 
+attribute [-instance] GroundTheory.Automorphic.GJMatrix.measurableSpace_matrix in
 theorem sz_zeta {A : Type} [Fintype A] [DecidableEq A] {J : Subgroup (GL A k)} (hJo : IsOpen (J : Set (GL A k)))
     (hJK : J ≤ KO k A) (ν : kˣ →* ℂˣ) {ϖ : kˣ} {e : ℕ} (hϖ : IsUnif ϖ) (hJ : glLatCong (ϖ ^ e) (SplitFlip.stdLat k A) ≤ J)
     (hν : CondLE ϖ e ν) (hram : ¬ IsUnram ν) (hνU : ∀ u, Un ι τ (ν u : ℂ)) (habs : ∀ u : kˣ, apow u (1 / 2) ∈ Set.range ι)

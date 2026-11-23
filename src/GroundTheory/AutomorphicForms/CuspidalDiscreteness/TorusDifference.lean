@@ -4,7 +4,7 @@ public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.AltSum
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.ConstantTerm
 import Aesop.Main
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces
-import GroundTheory.AutomorphicForms.ReductionMeasure
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

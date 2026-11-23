@@ -1,11 +1,11 @@
 module
 
 public import Development.AutomorphicArithmetic.BlowupCategories.SpanScale
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FirstChernClassTateTwistCocycleUniqueNaturalAddiStatement
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.IsIsoOfBijectiveOnSimplices
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.LerayHirschOfIsoSquare
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.PullCupPowEqCupPowPull
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.SimplicesPullbackExistsUniqueOfMapEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle689
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle013
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle028
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle037
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -171,7 +171,7 @@ end UpperTheory.PullPf
 
 open UpperTheory.PullPf in
 theorem UpperTheory.projBundleFormula_iff_pglForm :
-    ∀ (q : ℕ) [NeZero q] (S : Spc) (M : ℕ), Inv q S → (PBF q S M ↔ Pbf q S M) := by
+    ∀ (q : ℕ) [NeZero q] (S : Spc) (M : ℕ), Inv q S → (UpperTheory.Pbf.PBF q S M ↔ Pbf q S M) := by
   intro q _ S M hS
   have hP : Inv q (pullback (triv S M) (PGL.pr M)) :=
     fun U ⟨x⟩ => hS U ⟨Sx.map (pullback.fst (triv S M) (PGL.pr M)) x⟩
@@ -194,7 +194,7 @@ theorem UpperTheory.projBundleFormula_iff_pglForm :
         (cpow q (c1 q (Sp.line S (chiX M))) j) =
         cpow q (c1 q (pullback.snd (triv S M) (PGL.pr M) ≫ PGL.line M)) j := fun j => by
       rw [UpperTheory.pull_cupPow_eq_cupPow_pull q _ _ j hX, (GlobalTheory.T.firstChernClassTateTwist_cocycle_unique_natural_additive q).2.1 _ _ hX, ← u_line, IsIso.inv_hom_id_assoc]
-    unfold PBF
+    unfold UpperTheory.Pbf.PBF
     simpa only [e] using h1
 
 end

@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TrivFlagMod
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ChartBundleExtensionComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ChartBundleIntersectionSymmetryStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrBundleStatementAStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle091
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrBundleStatementA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

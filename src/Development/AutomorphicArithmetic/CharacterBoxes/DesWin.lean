@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.SmoothDesignExistence.DesignExistsDes
-public import Development.AutomorphicArithmetic.CharacterBoxes.DivinNOfHypV
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle006
 public import Formalism.SharpRestriction.MuTuOfTuSize
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

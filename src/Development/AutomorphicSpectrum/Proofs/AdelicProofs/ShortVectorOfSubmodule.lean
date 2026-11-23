@@ -1,16 +1,15 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsThetaMeanSquareNorm
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle013
 public import GroundTheory.HeightsAndTheta.Heights.KernelsLattice
 public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.StatementsBundles
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.GramMatrixPosDefConjugateStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.HermitianLatticeDegreeEqBundleDegreeStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.IdealLineLatticeIndexStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.IdealNormPrincipalInExtensionStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.LinearIndependentCoordinatesDenominatorStatement
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.SpanBaseChangeCoordinatesStatement
-public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.BaseChangeIndex
-public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PLineDegreeBundle
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle012
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle007
+
+public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.GramMat
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle002
 
 @[expose] public section
 

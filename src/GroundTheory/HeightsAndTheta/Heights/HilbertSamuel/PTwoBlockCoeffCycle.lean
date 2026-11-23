@@ -1,11 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwoBlockCoeffCycle
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwoBlockHorizDiv
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsCoordArithOfFnField
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsTwoBlockFnField
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle041
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle026
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PChangeOfLattice
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMetricTransportSmooth
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle067
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PRFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,7 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.StepTStA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle008
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -217,8 +216,8 @@ theorem logNorm_eq {x : Ix κ → Ω} {B : Matrix (Ix κ) (Ix κ) ℚ} {m m' : C
 
 open Classical in
 theorem cycR_split {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
-    (I : Ideal (MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ) (P : Ideal (MRing ι)) {n : ℕ}
-    (L : Fin n → HermLine ι) (s : MRing ι) :
+    (I : Ideal (MRing ι) → (n : ℕ) → (Fin n → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ) (P : Ideal (MRing ι)) {n : ℕ}
+    (L : Fin n → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (s : MRing ι) :
     ReciprocityTheory.ChartRestriction.G.AI.I2.cycR I P L s =
       (∑ᶠ W ∈ divSupp P s, (multAt (P ⊔ Ideal.span {s}) W : ℝ) * (if IsHorizontal W then I W n L else 0)) +
         ReciprocityTheory.ChartRestriction.G.AI.I2.vertR P L s := by
@@ -277,7 +276,7 @@ theorem TwoBlockCoeffCycle.proof (hA : CoordArithOfFnField.Statement) (hF : TwoB
   have hxc : x ⟨(), c⟩ ≠ 0 := hxi.ne_zero _
 
   set ii : Fin (D + 1) := ⟨i, Nat.lt_succ_of_le hi⟩ with hii
-  set L' : Fin D → HermLine (FinTwoTypeFamily κ) := fun j => twoBlockList m m' D i (ii.succAbove j) with hL'
+  set L' : Fin D → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine (FinTwoTypeFamily κ) := fun j => twoBlockList m m' D i (ii.succAbove j) with hL'
   set τ : Equiv.Perm (Fin (D + 1)) := (finSuccEquiv' (Fin.last D)).trans (finSuccEquiv' ii).symm with hτ
   have hτ_last : τ (Fin.last D) = ii := by
     simp [hτ, finSuccEquiv'_at]

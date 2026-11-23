@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle011
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComparisonIsFiltered
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDataComparison
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedIsCrysAndJumpEqZero
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NonemptyThetaDeRhamFilZeroConcretePeriod
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.IsCrysOfInertia
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle150
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle020
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.MatrixExtendByZeroApply
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.MemIK
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.OpenField
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.Bundle009
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.WtMatFix
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -408,12 +407,12 @@ private theorem rat_case [TopologicalSpace G] [IsTopologicalGroup G] (hφ : IsOp
   have key := crExt φ hφ ρ (extRep ρ c hc.2) hρ hρ' 1 (LinearMap.inl ℚ_[l] V ℚ_[l]) (LinearMap.snd ℚ_[l] V ℚ_[l])
     (0, 1) c LinearMap.inl_injective Function.Exact.inl_snd rfl (fun g x => by simp [extRep_apply])
     (fun g => by simp [extRep_apply]) ⊤ isOpen_univ
-    ((crOn_top φ _).2 (crUnr φ hφ ρ hρ 0 fun g hg x => by simp [hI g hg]))
-    ((crOn_top φ _).2 (crUnr φ hφ _ (by
+    ((_root_.crOn_top φ _).2 (crUnr φ hφ ρ hρ 0 fun g hg x => by simp [hI g hg]))
+    ((_root_.crOn_top φ _).2 (crUnr φ hφ _ (by
       unfold ReciprocityTheory.Gal.ContAction
       simp only [hch]
       exact continuous_snd) 0 fun g hg x => by simp [hch]))
-  rw [ht, crOn_top] at key
+  rw [ht, _root_.crOn_top] at key
   rw [← key]
   constructor
   · intro h g hg

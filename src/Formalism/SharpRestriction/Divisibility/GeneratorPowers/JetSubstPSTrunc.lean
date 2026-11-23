@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ScaleGenIsGen
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdLB
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBSer
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Mathlib.Algebra.Order.Floor.Extended

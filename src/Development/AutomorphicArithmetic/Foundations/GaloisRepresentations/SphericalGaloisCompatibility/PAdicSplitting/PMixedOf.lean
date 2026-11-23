@@ -1,15 +1,15 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.PAdicSplitting.InfLifts
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsSegmentPolynomialOfHasSupport
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GenericUnlinkedGLOutright
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle846
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle954
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HasSupportOfIsSubquotientProdIrr
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsGenericOfIsLocComp
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LanglandsClassificationSupercuspidalSupportMulti
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle785
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle474
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NontrivialTwJacquetOfSurjective
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NoMonodromyOfMemWeilDeligneListSum
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NotMono0LpCharLpSp
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PlainTorOfMono0
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle130
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle152
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle295
 public import Development.AutomorphicArithmetic.Foundations.LocalLanglands.Multi
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,9 @@ import Mathlib.Tactic.TypeStar
 
 @[expose] public section
 
-open NumberField IsDedekindDomain Neutral.B1 Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N Polynomial
+open NumberField IsDedekindDomain
+open Neutral.B1 hiding G
+open Formalism.L2.Host Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.MainNotions.N Polynomial
 open GlobalTheory.CuspRep GlobalTheory.WeilDeligne GlobalTheory.Pst GlobalTheory.LocLanglands GlobalTheory.HeckeGal GlobalTheory.LocGL GlobalTheory.GalOfCusp GlobalTheory.GLq
 open GlobalTheory.PRep GlobalTheory.SmGL GlobalTheory.SplitWeil GlobalTheory.GalCut GlobalTheory.RoadU GlobalTheory.AboveL GlobalTheory.DeRhamOfPlainTorus ValuativeRel
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField

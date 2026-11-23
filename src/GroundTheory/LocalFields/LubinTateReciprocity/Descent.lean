@@ -4,10 +4,10 @@ public import GroundTheory.LocalFields.CompletedUnramified
 public import GroundTheory.LocalFields.LubinTateTorsion
 public import Mathlib.RingTheory.Polynomial.Eisenstein.Distinguished
 public import GroundTheory.LocalFields.Eisenstein
-import GroundTheory.LocalFields.ExamplesLaurent
+import GroundTheory.LocalFields.Bundle002
 public import GroundTheory.LocalFields.LubinTateReciprocity.TwistedPoint
 import GroundTheory.LocalFields.UnitsPowers
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.DescentPowerSubgroups
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,8 +4,8 @@ public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Dimension.Finrank
 public import Mathlib.RingTheory.Finiteness.Defs
 public import Mathlib.RingTheory.MvPowerSeries.LexOrder
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankLeCardValuesStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinearIndependentOfDistinctValuationLikeStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle217
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle218
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

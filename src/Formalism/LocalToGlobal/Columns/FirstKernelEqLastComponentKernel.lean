@@ -39,8 +39,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
-public import Formalism.LocalToGlobal.Columns.RecChainUnfOne
-public import Formalism.LocalToGlobal.Columns.RefXi1Above
+public import Formalism.LocalToGlobal.Columns.Bundle035
+public import Formalism.LocalToGlobal.Columns.Bundle037
 import Formalism.LocalToGlobal.KernelLattices.XiIndCClass
 
 @[expose] public section

@@ -36,8 +36,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.FgStatus
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.IsIntegralOfRoot
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.TorStatus
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle015
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle026
 
 @[expose] public section
 

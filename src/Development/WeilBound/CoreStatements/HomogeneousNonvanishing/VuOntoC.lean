@@ -2,13 +2,13 @@ module
 
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoA
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SerreHolomorphicSectionsHolds
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1541
 import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FrameBorelGroupoidProperties
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexSectionFiniteCombinationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HolomorphicExtensionSectionReadingStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ToroidalFlagSmoothProjectiveStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle207
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle272
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle312
 public import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.VuOntoB
-import Development.WeilBound.CoreStatements.ProjectiveValuations.FrequentlyNeZero
+import Development.WeilBound.CoreStatements.ProjectiveValuations.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

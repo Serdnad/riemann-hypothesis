@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SubstitutionAdjoint
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetMinor
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowstLemmas
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle011
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

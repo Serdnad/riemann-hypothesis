@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StNbarSmooth
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsProjSmoothAlong
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsVertFactorSmooth
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle011
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PMuRegSmooth
-import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PTopNPoly
+import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle024
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.PVertFactorPos
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

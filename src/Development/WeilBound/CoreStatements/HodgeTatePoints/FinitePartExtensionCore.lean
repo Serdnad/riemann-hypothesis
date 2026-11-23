@@ -1,21 +1,18 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUnitFormLocalizationEtaleNbhd
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle003
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.LocallyOfFinitePresentationDiagMap
-import Development.AbelianVarietyTheory.Definitions.Uniformization.IsCPPullback
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.IsAbelianSchemeAndExtendOfGenericHoms
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FiniteMapEqOfThickeningsEqStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointsOfClosedSubgroupStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointsOfTorsionKernelStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PowerMapFlatSemiabelianStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PowerMapLocallyQuasiFiniteStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SplitTorusExtensionTorsionStatement
+import Development.AbelianVarietyTheory.Definitions.Uniformization.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle023
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle081
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle241
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle240
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle230
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle242
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SurjectiveLeftOfFibre
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ThickeningGroupHomExtendsStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle071
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionEmbeddingGeometricPoints
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionGroupOpenImmersionLiftStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.UniformizationThickeningCompatStatement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -232,6 +229,8 @@ theorem finitePart_extension_core : ∀ (R : Type) [CommRing R] [IsDomain R] [Is
   have hb0 := hb 0
   have ha0 := ha 0
   rw [Functor.map_comp] at hb0 ha0
+  letI : ∀ e : ℕ, (Over.pullback (thick R (IsLocalRing.maximalIdeal R) e)).Monoidal :=
+    fun e => (Over.instBraidedPullback (f := thick R (IsLocalRing.maximalIdeal R) e)).toMonoidal
   have hk1 := kernel_iso (GlobalTheory.Diag.baseChangeIso (thick R (IsLocalRing.maximalIdeal R) 0) X) (kernel_pull (thick R (IsLocalRing.maximalIdeal R) 0) hpT)
   have hk2 := kernel_pull (thick R (IsLocalRing.maximalIdeal R) 0) hpB
   have hk3 := hker 0

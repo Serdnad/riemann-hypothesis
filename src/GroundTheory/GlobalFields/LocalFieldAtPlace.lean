@@ -2,7 +2,7 @@ module
 
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

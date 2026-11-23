@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MulHomInjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfTraceMulOfSeparableGeneratedStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAevalEqOfCharpolySeparableInvolutionStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SesqAsym
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1357
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle141
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle166
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

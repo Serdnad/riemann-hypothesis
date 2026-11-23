@@ -1,20 +1,20 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.NotBadPrimeBase
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExtMCastSuccLast
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftsInvOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle463
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.TopLevExists
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.StpTopIdxEq
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NarrowJetMoments
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicMatrixCongruenceBadPrimeIffCompletion
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BcPrVEqOneOfAdAt
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsPtOfOfRat
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevelElt
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryAdelicSupportedAtBadPrimePlace
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle366
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle087
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle476
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle362
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle474
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle484
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle477
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExtMMulVecFix
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemCutQGrp
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle421
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StepLevelContainsDeepCongruenceAtBadPrime
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,7 +61,7 @@ noncomputable section
 namespace GlobalTheory.AdForm.LevChiTop
 
 section Mat
-open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.Mem.Col2.AdT Matrix
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV Formalism.L2.Ker Formalism.UG Formalism.L2.Forms GlobalTheory.Mem GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2 GlobalTheory.Mem.Col2.TC GlobalTheory.Mem.Col2.AdT Matrix
 open GlobalTheory.Mem.Col2.TilX
 attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 open scoped TensorProduct

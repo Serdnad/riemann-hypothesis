@@ -1,7 +1,7 @@
 module
 
 public import Formalism.ThetaLogCoordinates.SandwichModelDomains.SpreadSquare
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LRowdivLemmas
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle005
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeBij
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FreezeInto
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.FischerAdjointnessHolds

@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.PlaneRemovalConfiguration
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PolDense
-public import Development.WeilBound.ThetaLifts.TowerModels.ExistsRefl
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle001
 public import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

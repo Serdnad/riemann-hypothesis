@@ -47,8 +47,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IsScaleStable
-import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsDoubleComplexVanish
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle001
 public import Mathlib.MeasureTheory.Constructions.Polish.Basic
 public import Mathlib.MeasureTheory.Integral.Lebesgue.Add
 

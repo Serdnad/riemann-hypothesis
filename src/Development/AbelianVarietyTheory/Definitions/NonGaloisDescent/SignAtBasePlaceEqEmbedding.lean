@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle034
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistDataAgreeAcrossCoefficients
-public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.CoreBC
+public import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.LevelCuspCharacters
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

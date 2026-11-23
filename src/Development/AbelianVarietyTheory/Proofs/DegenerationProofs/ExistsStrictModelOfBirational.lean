@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.OfDerivationFnOn
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle001
 public import Mathlib.AlgebraicGeometry.Geometrically.Irreducible
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EqOnPoints
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ModelMapGenericallyOpenImmersionCalculusStatement
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ProdIrrAndWeakNeronStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.GeometricallyIntegralOfIsIntegralOfIsAlgClosed
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle031
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

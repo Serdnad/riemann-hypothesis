@@ -44,8 +44,8 @@ public import Mathlib.Topology.Algebra.Valued.LocallyCompact
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalRingCardinality.SpanPowerMembership.HasStrictFDerivAtExpZero
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapFacts
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle002
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle002
 
 @[expose] public section
 

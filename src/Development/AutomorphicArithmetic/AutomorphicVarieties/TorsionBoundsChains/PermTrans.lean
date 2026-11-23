@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.FaceDSingle
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.FinGroup
-import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.Shapiro
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.Transport
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.Bundle006
+import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TorsionBoundsChains.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,9 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsThetaFam
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittHyperbolicAnisotropicCommuteLevi
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsRationalWittFlagCoordinatesOfMemUnipotentStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.QuasiMeasurePreservingAdelicUnitriangularLeftMulStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.QuasiMeasurePreservingSkewHermitianCongruenceUniStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle152
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittFlagUnipotentFixerFundamentalDomainLayers
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsMulRightInvariantOfFundamentalDomain
@@ -255,7 +253,8 @@ theorem fundDomain_coords : ∀ (D : D7) (V V₀ : HSp D) (ρ : ℕ) (d : HypDec
   haveI := vU.unit.1
   haveI := vb.covol.1
   haveI : SigmaFinite vb.μ := inferInstance
-  haveI : SigmaFinite vU.ν := inferInstance
+  haveI hSigmaU : SigmaFinite vU.ν := Measure.IsHaarMeasure.sigmaFinite vU.ν
+  haveI : SFinite vU.ν := @MeasureTheory.instSFiniteOfSigmaFinite _ _ vU.ν hSigmaU
   have hκ : ∀ b' : Mx D ρ V₀.rank, Measurable (cComm V₀ b') := by
     intro b'
     have : ContinuousSub (Mx D ρ ρ) := IsTopologicalAddGroup.to_continuousSub

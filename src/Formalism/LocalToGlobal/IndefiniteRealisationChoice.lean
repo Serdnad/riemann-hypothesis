@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.ClassOfRecordOfChoice
+public import Formalism.LocalToGlobal.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.TrISepWith
 public import Formalism.LocalToGlobal.Divisibility.RecBridgeSel
 public import Formalism.LocalToGlobal.Divisibility.NumericScaleExponentEqExtended
-public import Formalism.LocalToGlobal.GroupLattices.JointServices.Cut
+public import Formalism.LocalToGlobal.GroupLattices.JointServices.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,7 +40,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.GlobalSchurBounds.QuadraticLogDerivCongr
-import Formalism.SharpRestriction.GlobalSchurBounds.TheoremThreeUnderScaleOfGeneral
+import Formalism.SharpRestriction.GlobalSchurBounds.Bundle004
 
 @[expose] public section
 

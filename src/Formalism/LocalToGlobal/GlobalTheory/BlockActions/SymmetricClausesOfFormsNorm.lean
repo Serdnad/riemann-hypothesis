@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassMapPropertiesOfSymmetricForms
-import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassInjectiveOfSelfDual
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClsCrdEqGlob
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle014
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle010
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.SelfDualPHolds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

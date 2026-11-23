@@ -4,12 +4,12 @@ public import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.Unitar
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdInfMulFinPart
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPlaceOverMoveValConjPl
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedPowSubOneLtOne
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle130
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -78,32 +78,32 @@ omit [NumberField E] in
 theorem liftOpen_toAb {B : Type} [CommGroup B] (r : Formalism.ConjugateSelfDual.G E Ω →* B) (hr : IsOpen (r.ker : Set (Formalism.ConjugateSelfDual.G E Ω)))
     (σ : Formalism.ConjugateSelfDual.G E Ω) : liftOpen r hr (toAb E Ω σ) = r σ := rfl
 
-def Corr (art : Ideles E →* Gab E Ω) (r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ) (χ : HChar E) : Prop :=
-  ∀ (x : Ideles E) (σ : Formalism.ConjugateSelfDual.G E Ω), art x = toAb E Ω σ → χ.1 x = r σ
+def Corr (art : _root_.Neutral.B1.Ideles E →* Gab E Ω) (r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ) (χ : _root_.Formalism.L2.Host.HChar E) : Prop :=
+  ∀ (x : _root_.Neutral.B1.Ideles E) (σ : Formalism.ConjugateSelfDual.G E Ω), art x = toAb E Ω σ → χ.1 x = r σ
 
-variable {art : Ideles E →* Gab E Ω} {r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : HChar E}
+variable {art : _root_.Neutral.B1.Ideles E →* Gab E Ω} {r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : _root_.Formalism.L2.Host.HChar E}
 
 theorem exists_corr (ha : IsGlobalArtin art) (hr : IsOpen (r.ker : Set (Formalism.ConjugateSelfDual.G E Ω))) : ∃ χ, Corr art r χ := by
   have hc := continuous_of_isOpen_ker' r hr
   refine ⟨⟨(liftAb r hc).comp art, (continuous_liftAb r hc).comp ha.quot.continuous, fun k => ?_⟩, fun x σ h => ?_⟩
-  · have hk : diagUnits E k ∈ art.ker := by
+  · have hk : _root_.Neutral.B1.diagUnits E k ∈ art.ker := by
       rw [ha.ker]
       exact Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_left ⟨k, rfl⟩)
     rw [MonoidHom.comp_apply, MonoidHom.mem_ker.mp hk, map_one]
   · show liftAb r hc (art x) = _
     rw [h, liftAb_toAb]
 
-theorem Corr.pow (h : Corr art r χ) {m : ℕ} (hm : ∀ σ, r σ ^ m = 1) (x : Ideles E) : χ.1 x ^ m = 1 := by
+theorem Corr.pow (h : Corr art r χ) {m : ℕ} (hm : ∀ σ, r σ ^ m = 1) (x : _root_.Neutral.B1.Ideles E) : χ.1 x ^ m = 1 := by
   obtain ⟨σ, hσ⟩ := toAb_surjective (art x)
   rw [h x σ hσ.symm, hm]
 
 theorem Corr.unr (ha : IsGlobalArtin art) (h : Corr art r χ) {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A v) (hu : ∀ σ ∈ Ine (F := E) A, r σ = 1) : χ.UnrAt v := fun x hx => by
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (hu : ∀ σ ∈ Ine (F := E) A, r σ = 1) : χ.UnrAt v := fun x hx => by
   obtain ⟨σ, hσ, e⟩ := (ha.ine v A hA _).mp ⟨x, hx, rfl⟩
   exact (h _ σ e.symm).trans (hu σ hσ)
 
 theorem Corr.val (ha : IsGlobalArtin art) (h : Corr art r χ) {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A v) (hu : χ.UnrAt v) {σ : Formalism.ConjugateSelfDual.G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) :
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (hu : χ.UnrAt v) {σ : Formalism.ConjugateSelfDual.G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) :
     χ.val v = (r σ)⁻¹ := by
   obtain ⟨x, hx, e⟩ := (ha.frob v A hA _).mpr ⟨σ, hσ, rfl⟩
   rw [← χ.val_eq hu x hx, ← map_inv]
@@ -113,7 +113,7 @@ end Galois
 
 section FiniteOrder
 
-variable {E : Type} [Field E] [NumberField E] {χ : HChar E} {m : ℕ}
+variable {E : Type} [Field E] [NumberField E] {χ : _root_.Formalism.L2.Host.HChar E} {m : ℕ}
 
 theorem isUnitary_of_pow (hm : m ≠ 0) (h : ∀ x, χ.1 x ^ m = 1) : χ.IsUnitary := fun x =>
   Complex.norm_eq_one_of_pow_eq_one (by rw [← Units.val_pow_eq_pow_val, h, Units.val_one]) hm
@@ -132,8 +132,8 @@ theorem locInf_of_pow [_root_.NumberField.IsTotallyComplex E] (hm : m ≠ 0) (h 
   exact h _
 
 theorem inf_of_pow [_root_.NumberField.IsTotallyComplex E] (hm : m ≠ 0) (h : ∀ x, χ.1 x ^ m = 1) (k : Eˣ) : χ.inf k = 1 := by
-  show χ.1 (infDiag k) = 1
-  rw [infDiag, MonoidHom.finsetProd_apply, map_prod]
+  show χ.1 (_root_.Formalism.L2.Host.infDiag k) = 1
+  rw [_root_.Formalism.L2.Host.infDiag, MonoidHom.finsetProd_apply, map_prod]
   exact Finset.prod_eq_one fun w _ => locInf_of_pow hm h w _
 
 theorem normV_eq (P : HeightOneSpectrum (𝓞 E)) : normV P = Ideal.absNorm P.asIdeal := by
@@ -170,12 +170,12 @@ section Norms
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 theorem mem_aboveF {v : HeightOneSpectrum (𝓞 F)} {P : HeightOneSpectrum (𝓞 E)} :
-    P ∈ aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
-  simp [aboveF]
+    P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
+  simp [_root_.Formalism.L2.Host.aboveF]
 
 theorem prod_absNorm (hu : ∀ P : HeightOneSpectrum (𝓞 E), Algebra.IsUnramifiedAt (𝓞 F) P.asIdeal)
     (v : HeightOneSpectrum (𝓞 F)) :
-    ∏ P ∈ aboveF (L := E) F v, Ideal.absNorm P.asIdeal = Ideal.absNorm v.asIdeal ^ Module.finrank F E := by
+    ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v, Ideal.absNorm P.asIdeal = Ideal.absNorm v.asIdeal ^ Module.finrank F E := by
   classical
   have hmax : v.asIdeal.IsMaximal := v.isMaximal
   have hprod := Ideal.map_algebraMap_eq_finsetProd_pow (R := 𝓞 E) (p := v.asIdeal) v.ne_bot
@@ -195,20 +195,20 @@ theorem prod_absNorm (hu : ∀ P : HeightOneSpectrum (𝓞 E), Algebra.IsUnramif
     rw [Ideal.ramificationIdx_eq_one_iff.2 (hu P), pow_one]
 
 theorem ordF_up (hu : ∀ P : HeightOneSpectrum (𝓞 E), Algebra.IsUnramifiedAt (𝓞 F) P.asIdeal)
-    (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ) : ordF P (upF F k) = ordF (P.under (𝓞 F)) k := by
+    (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ) : _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k := by
   have := P.isPrime
   have : P.asIdeal.LiesOver (P.under (𝓞 F)).asIdeal := ⟨rfl⟩
   have : (P.asIdeal.under (𝓞 F)).IsMaximal := (P.under (𝓞 F)).isMaximal
   have h : P.valuation E (algebraMap F E k) = (P.under (𝓞 F)).valuation F k := by
     rw [← HeightOneSpectrum.valuation_liesOver E (P.under (𝓞 F)) P (k : F),
       Ideal.ramificationIdx_eq_one_iff.2 (hu P), pow_one]
-  unfold ordF
+  unfold _root_.Formalism.L2.Host.ordF
   rw [← h]
   rfl
 
 open Classical in
 theorem aboveF_under (c : E ≃ₐ[F] E) (h2 : Module.finrank F E = 2) (hne : c ≠ 1) {v v' : HeightOneSpectrum (𝓞 E)}
-    (h : ConjPl c.toRingEquiv v v') : aboveF (L := E) F (v.under (𝓞 F)) = {v, v'} := by
+    (h : ConjPl c.toRingEquiv v v') : _root_.Formalism.L2.Host.aboveF (L := E) F (v.under (𝓞 F)) = {v, v'} := by
   ext P
   rw [mem_aboveF, under_eq_iff_conjPl c h2 hne v P, Finset.mem_insert, Finset.mem_singleton]
   refine or_congr Iff.rfl ⟨fun h' => (existsUnique_conjPl _ v).unique h' h, ?_⟩
@@ -217,16 +217,16 @@ theorem aboveF_under (c : E ≃ₐ[F] E) (h2 : Module.finrank F E = 2) (hne : c 
 
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele GlobalTheory.Mem.LocTriv in
 theorem ideleMap_local (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
-    ideleMap F E (Neutral.B1.localIdele F v (atFin v k)) = locF (L := E) F v k := by
+    ideleMap F E (Neutral.B1.localIdele F v (_root_.Formalism.L2.Host.atFin v k)) = _root_.GlobalTheory.Mem.Chr.locF (L := E) F v k := by
   refine Units.ext (Prod.ext ?_ (FiniteAdeleRing.ext _ fun w => ?_))
-  · have h : finPartI E (locF (L := E) F v k) = locF (L := E) F v k := by
-      rw [locF, map_prod]
+  · have h : finPartI E (_root_.GlobalTheory.Mem.Chr.locF (L := E) F v k) = _root_.GlobalTheory.Mem.Chr.locF (L := E) F v k := by
+      rw [_root_.GlobalTheory.Mem.Chr.locF, map_prod]
       exact Finset.prod_congr rfl fun v _ => Units.ext rfl
     rw [← h]
     exact map_one (infiniteAdeleMap F E)
   · show finiteCompletionMap F E w (ev (w.under (𝓞 F))
-      (Neutral.B1.localIdele F v (atFin v k) : AdeleRing (𝓞 F) F)) = ev w _
-    rw [locF, Units.coe_prod, map_prod]
+      (Neutral.B1.localIdele F v (_root_.Formalism.L2.Host.atFin v k) : AdeleRing (𝓞 F) F)) = ev w _
+    rw [_root_.GlobalTheory.Mem.Chr.locF, Units.coe_prod, map_prod]
     by_cases hw : w.under (𝓞 F) = v
     · rw [Finset.prod_eq_single_of_mem w (mem_aboveF.2 hw) (fun P _ hP => ev_local_ne hP.symm _), ev_local_self]
       subst hw
@@ -237,11 +237,11 @@ theorem ideleMap_local (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
 
 
 open GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele in
-theorem resFin_eq_one_of_away (χ : HChar E) (S : Finset (HeightOneSpectrum (𝓞 F)))
+theorem resFin_eq_one_of_away (χ : _root_.Formalism.L2.Host.HChar E) (S : Finset (HeightOneSpectrum (𝓞 F)))
     (h : ∀ v ∉ S, ∀ k, χ.resFin v k = 1) (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) : χ.resFin v k = 1 := by
   have e : ∀ (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ),
-      χ.1 (ideleMap F E (Neutral.B1.localIdele F v (atFin v k))) = χ.resFin v k := fun v k => by
-    rw [ideleMap_local, locF, map_prod, HChar.resFin, MonoidHom.finsetProd_apply]
+      χ.1 (ideleMap F E (Neutral.B1.localIdele F v (_root_.Formalism.L2.Host.atFin v k))) = χ.resFin v k := fun v k => by
+    rw [ideleMap_local, _root_.GlobalTheory.Mem.Chr.locF, map_prod, _root_.Formalism.L2.Host.HChar.resFin, MonoidHom.finsetProd_apply]
     rfl
   have hc := χ.2.1.comp (continuous_ideleMap F E)
   have key := GlobalTheory.FrobDense.eq_one_of_away (χ.1.comp (ideleMap F E)) hc
@@ -282,7 +282,7 @@ variable {cc : Ω ≃+* Ω} (hcc : ∀ x : E, cc (algebraMap E Ω x) = algebraMa
 include hcc hinv
 
 theorem exists_frob_inert {P : HeightOneSpectrum (𝓞 E)} (h : ConjPl c.toRingEquiv P P) {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A P) : ∃ g g' : Formalism.ConjugateSelfDual.G E Ω, (∀ x, g' x = cc (g (cc.symm x))) ∧
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A P) : ∃ g g' : Formalism.ConjugateSelfDual.G E Ω, (∀ x, g' x = cc (g (cc.symm x))) ∧
       IsFrob (F := E) A (normV P) (g * g') := by
   letI : Algebra F Ω := ((algebraMap E Ω).comp (algebraMap F E)).toAlgebra
   have : IsScalarTower F E Ω := IsScalarTower.of_algebraMap_eq fun _ => rfl
@@ -331,9 +331,9 @@ theorem exists_frob_inert {P : HeightOneSpectrum (𝓞 E)} (h : ConjPl c.toRingE
   have hg : ∀ x, (g * GlobalTheory.AntiLAdic.conjHom cc hc g) x = φ (φ x) := fun x => by
     show φ (cc (cc (φ (cc (cc.symm x))))) = _
     rw [hinv, RingEquiv.apply_symm_apply]
-  have hd : φ ∈ Dec (F := F) A := hφA
+  have hd : φ ∈ _root_.ReciprocityTheory.Gal.Dec (F := F) A := hφA
   refine ⟨g, GlobalTheory.AntiLAdic.conjHom cc hc g, fun _ => rfl, ?_, fun x hx => ?_⟩
-  · show _ ∈ Dec (F := E) A
+  · show _ ∈ _root_.ReciprocityTheory.Gal.Dec (F := E) A
     rw [mem_Dec]
     ext x
     rw [ValuationSubring.mem_pointwise_smul_iff_inv_smul_mem, AlgEquiv.smul_def]
@@ -350,19 +350,19 @@ theorem exists_frob_inert {P : HeightOneSpectrum (𝓞 E)} (h : ConjPl c.toRingE
     exact Valuation.map_add_lt _ (hφ _ hx')
       ((GlobalTheory.Mem.WildChar.val_pow_sub_pow_le _ hx' hxq q).trans_lt (hφ x hx))
 
-theorem resFin_of_anti {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : HChar E}
+theorem resFin_of_anti {art : _root_.Neutral.B1.Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {r : Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : _root_.Formalism.L2.Host.HChar E}
     (h : Corr art r χ) (hr : AntiHom cc r) (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) : χ.resFin v k = 1 := by
   classical
   have hs : ∀ x, cc.symm x = cc x := fun x => by rw [RingEquiv.symm_apply_eq, hinv]
   have hc : ∀ x : E, ∃ y : E, cc.symm (algebraMap E Ω x) = algebraMap E Ω y := fun x => ⟨c x, by rw [hs, hcc]⟩
   refine resFin_eq_one_of_away χ ((GlobalTheory.Mem.UnrAe.finite_ramified χ).toFinset.image (·.under (𝓞 F)))
     (fun v hv k => ?_) v k
-  have hun : ∀ P ∈ aboveF (L := E) F v, χ.UnrAt P := fun P hP => by
+  have hun : ∀ P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v, χ.UnrAt P := fun P hP => by
     by_contra hn
     exact hv (Finset.mem_image.2 ⟨P, by simpa using hn, mem_aboveF.1 hP⟩)
-  rw [HChar.resFin_apply, Finset.prod_congr rfl fun P hP => by
+  rw [_root_.Formalism.L2.Host.HChar.resFin_apply, Finset.prod_congr rfl fun P hP => by
     rw [GlobalTheory.HeckeProduct.locK_unr χ (hun P hP), ordF_up hu, mem_aboveF.1 hP], Finset.prod_zpow]
-  rcases (aboveF (L := E) F v).eq_empty_or_nonempty with he | ⟨P, hP⟩
+  rcases (_root_.Formalism.L2.Host.aboveF (L := E) F v).eq_empty_or_nonempty with he | ⟨P, hP⟩
   · rw [he, Finset.prod_empty, one_zpow]
   obtain rfl := mem_aboveF.1 hP
   obtain ⟨P', hP'⟩ := (existsUnique_conjPl c.toRingEquiv P).exists

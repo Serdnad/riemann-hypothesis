@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAdmissibleIntegralBasisChangeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsManyBoundedByPowStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FunctionFieldFiniteSupportSumOrderEqZeroStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FunctionFieldPlaceIsDVRAndResidueEqGroundStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FunctionFieldZerosFiniteSumOrderEqFinrankStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle333
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle637
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle443
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle541
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

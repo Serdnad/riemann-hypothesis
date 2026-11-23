@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.DivisorCycles.CycleCount
+public import Development.EtaleCohomology.DivisorCycles.Bundle002
 public import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ThetaOpenMirabolic
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle132
 public import Mathlib.Analysis.Complex.Circle
 public import Mathlib.NumberTheory.LocalField.Basic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SatakeComb
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle001
 public import Formalism.SatakeDualWeyl.Statement
 public import Mathlib.Data.Matrix.PEquiv
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ExistsSplitIdem
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.NormNatCastLtOne
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SecondCharacterFact
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle001
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalRingCardinality.DataTheta
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
-import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GapAtLeast
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.Bundle001
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LinIndepOneDelta
 
 @[expose] public section

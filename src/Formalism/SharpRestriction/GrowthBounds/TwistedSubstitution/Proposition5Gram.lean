@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.PlaneCoeff
-public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.RestXiPOfNS
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

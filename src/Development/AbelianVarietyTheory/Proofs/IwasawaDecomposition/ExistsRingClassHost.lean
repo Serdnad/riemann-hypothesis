@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdInfMulFinPart
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteIndexUnitIdlSup
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.GlintPrincRelIndexNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -132,7 +132,7 @@ theorem tame {l : ℕ} (hl : l.Prime) (hB : ∀ x : B, ∃ n : ℕ, x ^ (l ^ n) 
   have := pow_gcd_eq_one.2 ⟨hn, hk'⟩
   rwa [(hc.pow n k).gcd_eq_one, pow_one] at this
 
-theorem map_finPartI [_root_.NumberField.IsTotallyComplex E] [Finite B] (ψ : Ideles E →* B) (a : Ideles E) :
+theorem map_finPartI [_root_.NumberField.IsTotallyComplex E] [Finite B] (ψ : _root_.Neutral.B1.Ideles E →* B) (a : _root_.Neutral.B1.Ideles E) :
     ψ (finPartI E a) = ψ a := by
   have hm : 0 < Nat.card B := Nat.card_pos
   have h2 : ∀ w : InfinitePlace E, ∃ y : w.Completion, y ^ Nat.card B = (a : AdeleRing (𝓞 E) E).1 w := fun w => by
@@ -150,9 +150,9 @@ theorem map_finPartI [_root_.NumberField.IsTotallyComplex E] [Finite B] (ψ : Id
   conv_rhs => rw [← e, map_mul, map_pow, pow_card_eq_one', one_mul]
 
 theorem map_congr_unit [_root_.NumberField.IsTotallyComplex E] [Finite B] {l : ℕ} (hl : l.Prime) (hB : ∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1)
-    (Q : Finset (HeightOneSpectrum (𝓞 E))) (ψ : Ideles E →* B) (hψ : IsOpen (ψ.ker : Set (Ideles E)))
-    (hu : ∀ v, v ∉ Q ∨ v ∈ placesOver E l → ∀ x, IsUnitAt v x → ψ (localIdele E v x) = 1)
-    {a : Ideles E} (ha : a ∈ unitIdl E) (hQ : ∀ v ∈ Q, Valued.v ((a : AdeleRing (𝓞 E) E).2 v - 1) < 1) :
+    (Q : Finset (HeightOneSpectrum (𝓞 E))) (ψ : _root_.Neutral.B1.Ideles E →* B) (hψ : IsOpen (ψ.ker : Set (_root_.Neutral.B1.Ideles E)))
+    (hu : ∀ v, v ∉ Q ∨ v ∈ placesOver E l → ∀ x, _root_.Formalism.L2.Host.IsUnitAt v x → ψ (_root_.Neutral.B1.localIdele E v x) = 1)
+    {a : _root_.Neutral.B1.Ideles E} (ha : a ∈ unitIdl E) (hQ : ∀ v ∈ Q, Valued.v ((a : AdeleRing (𝓞 E) E).2 v - 1) < 1) :
     ψ a = 1 := by
   rw [← map_finPartI]
   refine (ψ.ker.isClosed_of_isOpen hψ).mem_of_tendsto
@@ -161,25 +161,25 @@ theorem map_congr_unit [_root_.NumberField.IsTotallyComplex E] [Finite B] {l : �
   by_cases h : v ∉ Q ∨ v ∈ placesOver E l
   · exact hu v h _ (ha v)
   · rw [not_or, not_not] at h
-    exact tame hl hB h.2 (ψ.comp (localIdele E v)) (hψ.preimage (Determ.continuous_localIdele v)) _ (hQ v h.1)
+    exact tame hl hB h.2 (ψ.comp (_root_.Neutral.B1.localIdele E v)) (hψ.preimage (Determ.continuous_localIdele v)) _ (hQ v h.1)
 
 def red (v : HeightOneSpectrum (𝓞 E)) : unitIdl E →* IsLocalRing.ResidueField (v.adicCompletionIntegers E) where
-  toFun a := IsLocalRing.residue _ ⟨((a : Ideles E) : AdeleRing (𝓞 E) E).2 v, (a.2 v).le⟩
+  toFun a := IsLocalRing.residue _ ⟨((a : _root_.Neutral.B1.Ideles E) : AdeleRing (𝓞 E) E).2 v, (a.2 v).le⟩
   map_one' := map_one (IsLocalRing.residue _)
   map_mul' a b := by
     rw [← map_mul]
     exact congrArg _ (Subtype.ext rfl)
 
 theorem red_eq_one {v : HeightOneSpectrum (𝓞 E)} {a : unitIdl E} (h : red v a = 1) :
-    Valued.v (((a : Ideles E) : AdeleRing (𝓞 E) E).2 v - 1) < 1 := by
+    Valued.v (((a : _root_.Neutral.B1.Ideles E) : AdeleRing (𝓞 E) E).2 v - 1) < 1 := by
   have h1 : IsLocalRing.residue (v.adicCompletionIntegers E)
-      (⟨((a : Ideles E) : AdeleRing (𝓞 E) E).2 v, (a.2 v).le⟩ - 1) = 0 := by
+      (⟨((a : _root_.Neutral.B1.Ideles E) : AdeleRing (𝓞 E) E).2 v, (a.2 v).le⟩ - 1) = 0 := by
     rw [map_sub, map_one, sub_eq_zero]; exact h
   rw [IsLocalRing.residue_eq_zero_iff] at h1
   exact (Valuation.mem_maximalIdeal_iff _ _).1 h1
 
-theorem finiteIndex_of_congr (Q : Finset (HeightOneSpectrum (𝓞 E))) (K : Subgroup (Ideles E))
-    (hD : ∀ k, diagUnits E k ∈ K)
+theorem finiteIndex_of_congr (Q : Finset (HeightOneSpectrum (𝓞 E))) (K : Subgroup (_root_.Neutral.B1.Ideles E))
+    (hD : ∀ k, _root_.Neutral.B1.diagUnits E k ∈ K)
     (hU : ∀ a ∈ unitIdl E, (∀ v ∈ Q, Valued.v ((a : AdeleRing (𝓞 E) E).2 v - 1) < 1) → a ∈ K) :
     K.FiniteIndex := by
   have := fun v : Q => Formalism.UG.P.glint_finite_residueField (F := E) v.1
@@ -190,7 +190,7 @@ theorem finiteIndex_of_congr (Q : Finset (HeightOneSpectrum (𝓞 E))) (K : Subg
     exact congrFun (congrArg Units.val (MonoidHom.mem_ker.1 ha)) ⟨v, hv⟩
   have := GlobalTheory.Mem.UnitIndex.finiteIndex_unitIdl_sup E
   have h3 : (unitIdl E ⊔ K).FiniteIndex :=
-    Subgroup.finiteIndex_of_le (H := unitIdl E ⊔ (diagUnits E).range)
+    Subgroup.finiteIndex_of_le (H := unitIdl E ⊔ (_root_.Neutral.B1.diagUnits E).range)
       (sup_le_sup_left (by rintro _ ⟨k, rfl⟩; exact hD k) _)
   refine ⟨?_⟩
   rw [← Subgroup.relIndex_mul_index (le_sup_right : K ≤ unitIdl E ⊔ K), Subgroup.relIndex_sup_right]
@@ -202,18 +202,18 @@ section Galois
 
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω]
 
-def IsRingKer (c : Ω ≃+* Ω) (l : ℕ) (Q : Finset (HeightOneSpectrum (𝓞 E))) (K : Subgroup (G E Ω)) : Prop :=
-  ∃ (B : Type) (_ : CommGroup B) (_ : Finite B) (φ : G E Ω →* B), (∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) ∧
-    IsOpen (φ.ker : Set (G E Ω)) ∧ AntiHom c φ ∧
-    (∀ v, v ∉ Q ∨ v ∈ placesOver E l → ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) ∧
+def IsRingKer (c : Ω ≃+* Ω) (l : ℕ) (Q : Finset (HeightOneSpectrum (𝓞 E))) (K : Subgroup (_root_.Formalism.ConjugateSelfDual.G E Ω)) : Prop :=
+  ∃ (B : Type) (_ : CommGroup B) (_ : Finite B) (φ : _root_.Formalism.ConjugateSelfDual.G E Ω →* B), (∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) ∧
+    IsOpen (φ.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) ∧ AntiHom c φ ∧
+    (∀ v, v ∉ Q ∨ v ∈ placesOver E l → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) ∧
     φ.ker = K
 
-def ringKer (c : Ω ≃+* Ω) (l : ℕ) (Q : Finset (HeightOneSpectrum (𝓞 E))) : Subgroup (G E Ω) :=
+def ringKer (c : Ω ≃+* Ω) (l : ℕ) (Q : Finset (HeightOneSpectrum (𝓞 E))) : Subgroup (_root_.Formalism.ConjugateSelfDual.G E Ω) :=
   sInf {K | IsRingKer c l Q K}
 
 variable (c : Ω ≃+* Ω) (l : ℕ) (Q : Finset (HeightOneSpectrum (𝓞 E)))
 
-theorem mem_ringKer {g : G E Ω} : g ∈ ringKer c l Q ↔ ∀ K, IsRingKer c l Q K → g ∈ K := Subgroup.mem_sInf
+theorem mem_ringKer {g : _root_.Formalism.ConjugateSelfDual.G E Ω} : g ∈ ringKer c l Q ↔ ∀ K, IsRingKer c l Q K → g ∈ K := Subgroup.mem_sInf
 
 instance ringKer_normal : (ringKer c l Q).Normal :=
   ⟨fun g hg h => (mem_ringKer c l Q).2 fun K hK => by
@@ -221,10 +221,10 @@ instance ringKer_normal : (ringKer c l Q).Normal :=
     obtain ⟨B, _, _, φ, -, -, -, -, rfl⟩ := hK
     exact φ.normal_ker.conj_mem g this h⟩
 
-def RingClass : Type := G E Ω ⧸ ringKer c l Q
+def RingClass : Type := _root_.Formalism.ConjugateSelfDual.G E Ω ⧸ ringKer c l Q
 
 instance : CommGroup (RingClass c l Q) :=
-  { (inferInstance : Group (G E Ω ⧸ ringKer c l Q)) with
+  { (inferInstance : Group (_root_.Formalism.ConjugateSelfDual.G E Ω ⧸ ringKer c l Q)) with
     mul_comm := fun x y => by
       obtain ⟨g, rfl⟩ := QuotientGroup.mk_surjective (s := ringKer c l Q) x
       obtain ⟨h, rfl⟩ := QuotientGroup.mk_surjective (s := ringKer c l Q) y
@@ -232,11 +232,11 @@ instance : CommGroup (RingClass c l Q) :=
       rintro _ ⟨B, _, _, φ, -, -, -, -, rfl⟩
       rw [MonoidHom.mem_ker, map_mul, map_inv, map_mul, map_mul, mul_comm (φ h), inv_mul_cancel] }
 
-def art : G E Ω →* RingClass c l Q := QuotientGroup.mk' (ringKer c l Q)
+def art : _root_.Formalism.ConjugateSelfDual.G E Ω →* RingClass c l Q := QuotientGroup.mk' (ringKer c l Q)
 
 theorem ker_art : (art c l Q).ker = ringKer c l Q := QuotientGroup.ker_mk' _
 
-theorem art_eq_one {g : G E Ω} : art c l Q g = 1 ↔ g ∈ ringKer c l Q := QuotientGroup.eq_one_iff g
+theorem art_eq_one {g : _root_.Formalism.ConjugateSelfDual.G E Ω} : art c l Q g = 1 ↔ g ∈ ringKer c l Q := QuotientGroup.eq_one_iff g
 
 theorem art_surjective : Function.Surjective (art c l Q) := QuotientGroup.mk'_surjective _
 
@@ -246,14 +246,14 @@ theorem art_anti : AntiHom c (art c l Q) := fun g g' h => by
   rw [MonoidHom.mem_ker, map_mul, ha g g' h, inv_mul_cancel]
 
 theorem art_unram {v : HeightOneSpectrum (𝓞 E)} (hv : v ∉ Q ∨ v ∈ placesOver E l) (A : ValuationSubring Ω)
-    (hA : IsPlaceOver A v) (σ : G E Ω) (hσ : σ ∈ Ine (F := E) A) : art c l Q σ = 1 := by
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω) (hσ : σ ∈ Ine (F := E) A) : art c l Q σ = 1 := by
   rw [art_eq_one, mem_ringKer]
   rintro _ ⟨B, _, _, φ, -, -, -, hu, rfl⟩
   exact hu v hv A hA σ hσ
 
 theorem art_universal (hQ : ∀ v ∈ Q, v ∉ placesOver E l) (B : Type) [CommGroup B] [Finite B]
-    (hB : ∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) (φ : G E Ω →* B) (ho : IsOpen (φ.ker : Set (G E Ω))) (ha : AntiHom c φ)
-    (hu : ∀ v, v ∉ Q → ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) :
+    (hB : ∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) (φ : _root_.Formalism.ConjugateSelfDual.G E Ω →* B) (ho : IsOpen (φ.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω))) (ha : AntiHom c φ)
+    (hu : ∀ v, v ∉ Q → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) :
     ∃ f : RingClass c l Q →* B, f.comp (art c l Q) = φ :=
   ⟨QuotientGroup.lift (ringKer c l Q) φ (sInf_le ⟨B, inferInstance, inferInstance, φ, hB, ho, ha,
     fun v hv => hu v (hv.elim id fun h h' => hQ v h' h), rfl⟩), MonoidHom.ext fun _ => rfl⟩
@@ -273,7 +273,7 @@ theorem isRingKer_top : IsRingKer c l Q ⊤ :=
     fun _ _ _ _ _ _ => rfl, MonoidHom.ker_one⟩
 
 variable {c l Q} in
-theorem IsRingKer.inf {K K' : Subgroup (G E Ω)} (h : IsRingKer c l Q K) (h' : IsRingKer c l Q K') :
+theorem IsRingKer.inf {K K' : Subgroup (_root_.Formalism.ConjugateSelfDual.G E Ω)} (h : IsRingKer c l Q K) (h' : IsRingKer c l Q K') :
     IsRingKer c l Q (K ⊓ K') := by
   obtain ⟨B, _, _, φ, hB, ho, ha, hu, rfl⟩ := h
   obtain ⟨B', _, _, φ', hB', ho', ha', hu', rfl⟩ := h'
@@ -304,9 +304,9 @@ theorem isRingKer_ringKer [(ringKer c l Q).FiniteIndex] : IsRingKer c l Q (ringK
     le_antisymm (sInf_le hK) (le_sInf fun K' hK' => (hmin (hK.inf hK') inf_le_left).trans inf_le_right)
   rwa [e]
 
-theorem finiteIndex_ringKer [_root_.NumberField.IsTotallyComplex E] {a : Ideles E →* Gab E Ω} (ha : IsGlobalArtin a) (hl : l.Prime) :
+theorem finiteIndex_ringKer [_root_.NumberField.IsTotallyComplex E] {a : _root_.Neutral.B1.Ideles E →* Gab E Ω} (ha : IsGlobalArtin a) (hl : l.Prime) :
     (ringKer c l Q).FiniteIndex := by
-  have hc : (commutator (G E Ω)).topologicalClosure ≤ (art c l Q).ker := by
+  have hc : (commutator (_root_.Formalism.ConjugateSelfDual.G E Ω)).topologicalClosure ≤ (art c l Q).ker := by
     rw [ker_art]
     refine le_sInf ?_
     rintro _ ⟨B, _, _, φ, -, ho, -, -, rfl⟩
@@ -319,7 +319,7 @@ theorem finiteIndex_ringKer [_root_.NumberField.IsTotallyComplex E] {a : Ideles 
     exact ⟨y, by rw [MonoidHom.comp_apply, hy, hπ]⟩
   have hi : (π.comp a).ker.FiniteIndex := by
     refine finiteIndex_of_congr Q _ (fun k => ?_) fun x hx hQ => ?_
-    · have hk : diagUnits E k ∈ a.ker := by
+    · have hk : _root_.Neutral.B1.diagUnits E k ∈ a.ker := by
         rw [ha.ker]
         exact Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_left ⟨k, rfl⟩)
       rw [MonoidHom.mem_ker, MonoidHom.comp_apply, MonoidHom.mem_ker.1 hk, map_one]
@@ -339,14 +339,14 @@ theorem finiteIndex_ringKer [_root_.NumberField.IsTotallyComplex E] {a : Ideles 
   have : Finite (π.comp a).range := by
     have := Subgroup.finite_quotient_of_finiteIndex (H := (π.comp a).ker)
     exact Finite.of_equiv _ (QuotientGroup.quotientKerEquivRange (π.comp a)).toEquiv
-  have : Finite (G E Ω ⧸ ringKer c l Q) :=
+  have : Finite (_root_.Formalism.ConjugateSelfDual.G E Ω ⧸ ringKer c l Q) :=
     Finite.of_surjective (fun x : (π.comp a).range => (x.1 : RingClass c l Q)) fun x => ⟨⟨x, hs x⟩, rfl⟩
   exact Subgroup.finiteIndex_of_finite_quotient
 
 theorem finite_ringClass [(ringKer c l Q).FiniteIndex] : Finite (RingClass c l Q) :=
   Subgroup.finite_quotient_of_finiteIndex
 
-theorem isOpen_ker_art [(ringKer c l Q).FiniteIndex] : IsOpen ((art c l Q).ker : Set (G E Ω)) := by
+theorem isOpen_ker_art [(ringKer c l Q).FiniteIndex] : IsOpen ((art c l Q).ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) := by
   obtain ⟨B, _, _, φ, -, ho, -, -, e⟩ := isRingKer_ringKer c l Q
   rwa [ker_art, ← e]
 
@@ -363,13 +363,13 @@ theorem ringClass_laws (hA : GlobalTheory.Published.GlobalArtinReciprocity) (E �
     (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), Finite (RingClass c l Q)) ∧
     (∀ (Q : Finset (HeightOneSpectrum (𝓞 E))) (x : RingClass c l Q), ∃ n : ℕ, x ^ (l ^ n) = 1) ∧
     (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), Function.Surjective (art c l Q)) ∧
-    (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), IsOpen ((art c l Q).ker : Set (G E Ω))) ∧
+    (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), IsOpen ((art c l Q).ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω))) ∧
     (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), AntiHom c (art c l Q)) ∧
-    (∀ (Q : Finset (HeightOneSpectrum (𝓞 E))) v, v ∉ Q → ∀ A : ValuationSubring Ω, IsPlaceOver A v →
+    (∀ (Q : Finset (HeightOneSpectrum (𝓞 E))) v, v ∉ Q → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v →
       ∀ σ ∈ Ine (F := E) A, art c l Q σ = 1) ∧
     (∀ Q : Finset (HeightOneSpectrum (𝓞 E)), (∀ v ∈ Q, v ∉ placesOver E l) → ∀ (B : Type) [CommGroup B] [Finite B],
-      (∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) → ∀ φ : G E Ω →* B, IsOpen (φ.ker : Set (G E Ω)) → AntiHom c φ →
-      (∀ v, v ∉ Q → ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) →
+      (∀ x : B, ∃ n : ℕ, x ^ (l ^ n) = 1) → ∀ φ : _root_.Formalism.ConjugateSelfDual.G E Ω →* B, IsOpen (φ.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) → AntiHom c φ →
+      (∀ v, v ∉ Q → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := E) A, φ σ = 1) →
       ∃ f : RingClass c l Q →* B, f.comp (art c l Q) = φ) ∧
     ∀ (Q Q' : Finset (HeightOneSpectrum (𝓞 E))) (h : Q' ⊆ Q), (res c l Q Q' h).comp (art c l Q) = art c l Q' := by
   obtain ⟨a, ha⟩ := hA E Ω
@@ -381,17 +381,17 @@ theorem ringClass_laws (hA : GlobalTheory.Published.GlobalArtinReciprocity) (E �
 theorem exists_ringClass_host (hA : GlobalTheory.Published.GlobalArtinReciprocity) (R : Ranks) (H : Host R) (what₂ : Rows.Data R)
     (N : NData R H what₂) (cc : N.Om ≃+* N.Om) (Tw : Type) (l : Tw → ℕ) [lPrime : ∀ i, Fact (l i).Prime] :
     ∃ (C : Tw → Finset (HeightOneSpectrum (𝓞 H.E)) → Type) (_ : ∀ i Q, CommGroup (C i Q))
-      (_ : ∀ i Q, Fintype (C i Q)) (art : ∀ i Q, G H.E N.Om →* C i Q)
+      (_ : ∀ i Q, Fintype (C i Q)) (art : ∀ i Q, _root_.Formalism.ConjugateSelfDual.G H.E N.Om →* C i Q)
       (res : ∀ i (Q Q' : Finset (HeightOneSpectrum (𝓞 H.E))), Q' ⊆ Q → (C i Q →* C i Q')),
       (∀ i Q (x : C i Q), ∃ n : ℕ, x ^ (l i ^ n) = 1) ∧
       (∀ i Q, Function.Surjective (art i Q)) ∧
-      (∀ i Q, IsOpen ((art i Q).ker : Set (G H.E N.Om))) ∧
+      (∀ i Q, IsOpen ((art i Q).ker : Set (_root_.Formalism.ConjugateSelfDual.G H.E N.Om))) ∧
       (∀ i Q, AntiHom cc (art i Q)) ∧
-      (∀ i Q v, v ∉ Q → ∀ A : ValuationSubring N.Om, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, art i Q σ = 1) ∧
+      (∀ i Q v, v ∉ Q → ∀ A : ValuationSubring N.Om, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, art i Q σ = 1) ∧
       (∀ i Q, (∀ v ∈ Q, v ∉ placesOver H.E (l i)) → ∀ (A' : Type) [CommGroup A'] [Finite A'],
-        (∀ x : A', ∃ n : ℕ, x ^ (l i ^ n) = 1) → ∀ φ : G H.E N.Om →* A',
-        IsOpen (φ.ker : Set (G H.E N.Om)) → AntiHom cc φ →
-        (∀ v, v ∉ Q → ∀ A : ValuationSubring N.Om, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, φ σ = 1) →
+        (∀ x : A', ∃ n : ℕ, x ^ (l i ^ n) = 1) → ∀ φ : _root_.Formalism.ConjugateSelfDual.G H.E N.Om →* A',
+        IsOpen (φ.ker : Set (_root_.Formalism.ConjugateSelfDual.G H.E N.Om)) → AntiHom cc φ →
+        (∀ v, v ∉ Q → ∀ A : ValuationSubring N.Om, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, φ σ = 1) →
         ∃ f : C i Q →* A', f.comp (art i Q) = φ) ∧
       ∀ i Q Q' (h : Q' ⊆ Q), (res i Q Q' h).comp (art i Q) = art i Q' := by
   have : IsCMField H.E := H.isCMField_hostE

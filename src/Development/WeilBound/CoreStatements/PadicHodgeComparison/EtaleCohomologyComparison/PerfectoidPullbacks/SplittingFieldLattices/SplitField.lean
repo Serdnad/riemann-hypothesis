@@ -4,12 +4,12 @@ public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCoh
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.GlobalSerreRelations.GlobSerreSt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BasisBOfBcOn
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapOAffine
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsFgPullSqC
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GradedSplittingOverField
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle192
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle174
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LiftPOfBounds
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PdPBotPos
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ScalarMultiplicationShiftsFiltration
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TensTransportSymm
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle360
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

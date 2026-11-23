@@ -4,7 +4,7 @@ public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalC
 import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwist
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Wlocal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

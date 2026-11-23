@@ -1,9 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.OneLeHtE
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle126
 public import Mathlib.NumberTheory.Height.NumberField
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.InfinitePlaceMinpolyCoeffLePowMaxEmbeddingsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NnnormMinpolyCoeffFinitePlaceLePowStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle129
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -122,3 +121,18 @@ theorem exists_mulHeight_coeff_minpoly_le : ∀ (F E : Type) [Field F] [NumberFi
     (mul_nonneg (by positivity) (pow_nonneg (Finset.prod_nonneg fun w _ => le_trans zero_le_one (hA w)) _))
 
 end GlobalTheory.RatCount.CoefHt
+
+end
+
+section
+
+@[expose] public section
+
+open NumberField
+
+
+theorem _root_.GlobalTheory.T.exists_mulHeight_minpoly_coeff_le_relativeHeight : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E], ∃ (c : ℝ) (a : ℕ), ∀ (x : E) (j : ℕ), Height.mulHeight₁ ((minpoly F x).coeff j) ≤ c * (GlobalTheory.RatCount.htE F x : ℝ) ^ a := by
+  first | exact @GlobalTheory.RatCount.CoefHt.exists_mulHeight_coeff_minpoly_le | exact GlobalTheory.RatCount.CoefHt.exists_mulHeight_coeff_minpoly_le | (intros; apply GlobalTheory.RatCount.CoefHt.exists_mulHeight_coeff_minpoly_le <;> assumption)
+
+end
+end

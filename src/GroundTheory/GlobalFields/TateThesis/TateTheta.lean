@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.TateThesis.HeckeChar
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureQuotient
 public import GroundTheory.GlobalFields.TateThesis.SchwartzBruhat
 public import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-public import GroundTheory.GlobalFields.TateThesis.AdelePoissonUniform
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 public import GroundTheory.GlobalFields.TateThesis.GlobalZeta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsNormOneOfPair
+public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.Bundle001
 public import Formalism.HermitianLattices.StatementLat
 public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsIsomFix
 import Mathlib.Algebra.Order.Floor.Extended

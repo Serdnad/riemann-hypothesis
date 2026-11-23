@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.StableBlock
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KappaConstantMulOfCoprimeEllipticPolynomials
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.RealProdS
-public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.TermId
+public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.WeightRankUnits.TsupportUnit2
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

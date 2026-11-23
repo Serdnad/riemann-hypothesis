@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivMultiProdOne
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContragredientSegmentProductEquivStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosocleOfContragredientSocle
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SocleOfMultiplicityOne
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ParabolicInductionFiniteLengthStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle675
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle329
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle655
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle044
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.SegmentSubquotients.ExistsSocleSegmentProductStatement
 import GroundTheory.LocalFields.PadicLogSeries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -74,4 +74,17 @@ theorem exists_isLSeg : ∀ {k : Type} [Field k] [ValuativeRel k] [TopologicalSp
 
 end GlobalTheory.CompanionTheory.LkSegExists
 
+end
+
+end
+
+section
+
+@[expose] public section
+
+open GlobalTheory.PRep GlobalTheory.SplitWeil GlobalTheory.SmGL GlobalTheory.LocGL GlobalTheory.JHMult Zc Zc.Seg
+theorem _root_.GlobalTheory.TL.exists_segment_representation : ∀ {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (hA : GlobalTheory.Published.IrreducibleAdmissibleGL) (Δ : Segment k), ∃ π : IrrRep (GL (Fin Δ.deg) k), IsLSeg Δ π.ρ := by
+  first | exact @GlobalTheory.CompanionTheory.LkSegExists.exists_isLSeg | exact GlobalTheory.CompanionTheory.LkSegExists.exists_isLSeg
+
+end
 end

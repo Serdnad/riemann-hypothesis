@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.AutomorphicForms.GLnLocal
 public import Mathlib.GroupTheory.DoubleCoset
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MulLeftCancelOfDetNeZero
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle048
 public import GroundTheory.AutomorphicForms.GLnLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

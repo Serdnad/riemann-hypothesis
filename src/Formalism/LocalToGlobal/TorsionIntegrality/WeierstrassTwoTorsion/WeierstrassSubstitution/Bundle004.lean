@@ -1,0 +1,200 @@
+module
+
+public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.Bundle001
+public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.Bundle002
+public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.FglInvariant
+import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.Laurent
+import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.ToLTDenMulInv
+import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.FlowTwoTorsionWp
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open PowerSeries
+
+universe u v
+
+noncomputable section
+
+namespace Formalism.L2.Th1.A
+
+namespace Nn
+
+section Unique
+
+variable {R : Type u} [CommRing R]
+
+theorem X_pow_succ_dvd_of_derivative
+    (hR : ∀ (n : ℕ) (r : R), n ≠ 0 → (n : R) * r = 0 → r = 0) {f : R⟦X⟧} {n : ℕ}
+    (h0 : constantCoeff f = 0) (h : X ^ n ∣ derivative f) : X ^ (n + 1) ∣ f := by
+  rw [PowerSeries.X_pow_dvd_iff] at h ⊢
+  intro m hm
+  rcases m with _ | k
+  · simpa using h0
+  · have hk := h k (by omega)
+    rw [PowerSeries.coeff_derivative] at hk
+    apply hR (k + 1) _ (Nat.succ_ne_zero k)
+    rw [mul_comm]
+    exact_mod_cast hk
+
+theorem eq_zero_of_forall_X_pow_dvd {f : R⟦X⟧} (h : ∀ n : ℕ, X ^ n ∣ f) : f = 0 := by
+  ext n
+  have h1 := (PowerSeries.X_pow_dvd_iff).mp (h (n + 1)) n (Nat.lt_succ_self n)
+  simpa using h1
+
+end Unique
+
+end Nn
+
+open Nn
+
+theorem plusZCleared_of (hZ : PlusZ.{u}) (hT : TInZ.{u}) : PlusZCleared.{u} := by
+  intro K _ _ W xP yP hP
+  obtain ⟨-, -, hlog⟩ := hZ K W xP yP hP
+  have hT' := hT K W xP
+  have hsh := (wpShape K W).1
+  set P := wpReg W with hPdef
+  set c : K := xP + W.b₂ / 12 with hc
+  set T := (tS W xP).subst (expSer W) with hTdef
+  set xp := (xPlus W xP yP).subst (expSer W) with hxp
+  set xm := (xPlus W xP (W.toAffine.negY xP yP)).subst (expSer W) with hxm
+  set f : K⟦X⟧ := 1 + X ^ 2 * (P - C c) with hf
+  have hf0 : constantCoeff f = 1 := by simp [hf]
+  set g : K⟦X⟧ := invOfUnit f 1 with hg
+  have hfg : f * g = 1 := mul_invOfUnit _ _ (by rw [hf0, Units.val_one])
+  have hTf : T * f = X ^ 2 := by rw [← hT', hf]; ring
+  have hTg : T = X ^ 2 * g := by linear_combination g * hTf - T * hfg
+  have hdf : X * derivative f = 2 * (f - 1) + X ^ 3 * derivative P := by
+    rw [hf]
+    simp only [map_add (f := _), map_sub, Derivation.leibniz, Derivation.leibniz_pow, derivative_X,
+      derivative_C, Derivation.map_one_eq_zero, smul_eq_mul, nsmul_eq_mul]
+    push_cast
+    ring
+  have hdg : derivative g = -g ^ 2 * derivative f := by
+    have h := congrArg (derivative) hfg
+    rw [Derivation.leibniz, Derivation.map_one_eq_zero, smul_eq_mul, smul_eq_mul] at h
+    linear_combination g * h - derivative g * hfg
+  have hz : (toL X : LaurentSeries K) * uPow (-1) = 1 := Plus.toL_X_mul
+  have hxZ : xZ W = uPow (-2) + toL P - HahnSeries.C (W.b₂ / 12) := by
+    rw [← hsh, wpL]; ring
+
+  have hdwp : dL (wpL W) = uPow (-1) ^ 3 * (toL X * toL (derivative f) - 2 * toL f) := by
+    have h1 : toL X * toL (derivative f) = 2 * (toL f - 1) + toL X ^ 3 * toL (derivative P) := by
+      rw [← map_mul, hdf]
+      simp only [map_add (f := _), map_sub, map_mul, map_pow, map_one, map_ofNat]
+    rw [hsh, map_add (f := _), dL_uPow, dL_toL, h1]
+    have e3 : (uPow (-2 - 1) : LaurentSeries K) = uPow (-1) ^ 3 := by
+      rw [← Plus.uPow_neg_three]; norm_num
+    rw [e3]
+    have e2 : (HahnSeries.C (((-2 : ℤ) : K)) : LaurentSeries K) = -2 := by
+      push_cast
+      rw [map_neg, map_ofNat]
+    rw [e2]
+    linear_combination (-toL (derivative P)
+      * ((toL X * uPow (-1)) ^ 2 + toL X * uPow (-1) + 1)) * hz
+  have hprod : toL T * dL (wpL W) = toL (g * derivative f) - 2 * uPow (-1) := by
+    have hfg' : toL f * toL g = 1 := by rw [← map_mul, hfg, map_one]
+    rw [hdwp, hTg, map_mul, map_mul, map_pow]
+    linear_combination (toL g * toL (derivative f) * ((toL X * uPow (-1)) ^ 2
+        + toL X * uPow (-1) + 1) - 2 * toL g * toL f * uPow (-1) * (toL X * uPow (-1) + 1)) * hz
+      - 2 * uPow (-1) * hfg'
+  rw [hprod, map_sub, dL_toL, dL_mul, dL_uPow, hxZ] at hlog
+  have e2' : (uPow (-1 - 1) : LaurentSeries K) = uPow (-2) := by norm_num
+  have e1 : (HahnSeries.C (((-1 : ℤ) : K)) : LaurentSeries K) = -1 := by
+    push_cast
+    rw [map_neg, map_one]
+  have d2 : dL (2 : LaurentSeries K) = 0 := by
+    rw [← map_ofNat (HahnSeries.C : K →+* LaurentSeries K) 2, dL_C]
+  rw [e2', e1, d2] at hlog
+  have hmain : derivative (g * derivative f) = 2 * P - (xp + C (W.b₂ / 12))
+      - (xm + C (W.b₂ / 12)) := by
+    apply toL_injective
+    simp only [map_add (f := _), map_sub, map_mul, map_ofNat, toL_C]
+    linear_combination hlog
+  rw [Derivation.leibniz, smul_eq_mul, smul_eq_mul, hdg] at hmain
+  rw [← hmain]
+  linear_combination (-(derivative (derivative f)) * f
+    + derivative f ^ 2 * (f * g + 1)) * hfg
+
+end Formalism.L2.Th1.A
+end
+end
+
+section
+
+open PowerSeries
+
+universe u v
+
+noncomputable section
+
+namespace Formalism.L2.Th1.A
+
+theorem division_spec : DivSpec.{u, v} := by
+  intro R _ W n hn
+  obtain ⟨hcc, hc1⟩ := (zSerSpec R W).1 n
+  have hu : IsUnit (coeff 1 (zSer W n)) := by rw [hc1]; exact hn
+  obtain ⟨h0, hr, hl, h1, -, -⟩ := compInvSpec R (zSer W n) hcc hu
+  refine ⟨h0, ?_, hr, hl, ?_, ?_⟩
+  · rw [hc1] at h1
+    rw [mul_comm]; exact h1
+  · intro S _ φ
+    have key := compInvMap R S φ (zSer W n) hcc hu
+    rw [zSerMap R S φ W n] at key
+    exact key
+  · intro h2
+    subst h2
+    rfl
+
+section Double
+
+variable {A : Type u} [CommRing A]
+
+end Double
+
+end Formalism.L2.Th1.A
+end
+end

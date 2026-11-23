@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ZuckTensor
+public import Formalism.PeriodIntegrals.Bundle016
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.ExceptionalGroupG2.TensorProductsG2.Transported
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -5,13 +5,9 @@ public import Mathlib.GroupTheory.GroupAction.Ring
 public import Mathlib.LinearAlgebra.Basis.Defs
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
 public import Mathlib.RingTheory.Localization.FractionRing
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TensorEvalFixedOfFixedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingBasisEvalStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingFrobeniusCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingGaloisEquivariantStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingLTensorNaturalityStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingSmulDualStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TracePairingSmulLeftStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle086
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle071
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle069
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

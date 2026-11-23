@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataMink
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ThinScalesIffHostBound
+public import Formalism.LocalRingCardinality.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.TameGeneratorWindow
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

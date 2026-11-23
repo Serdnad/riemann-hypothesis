@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GeometricAbelianConnected
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle002
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.LengthCokerEqKerAddDimOneOrderSum
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PDiagPull
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

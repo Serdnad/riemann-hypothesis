@@ -1,19 +1,19 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExponentialFamilyPeriods
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.NonemptyFamilyUnifIffUnifAt
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsEigAtIffOfIsDerivAt0
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle035
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsValueBasis
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspCorrespondenceBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle149
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLinearLiftOfAdditiveFamily
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FamilyExpDerivativeLie
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptAwayFromPrimesStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle173
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsExcisionNbhdAway
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelExistsUniqueSemilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelFiniteBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPushAlongMap
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle064
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle163
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ExpRowsPf
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle010
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
 
@@ -294,10 +294,10 @@ theorem eig_of_value (hξ : IsCptGen ξ) (M : LieModel G ξ Li) (z : Sp ℂ ⟶ 
   congr 2
   refine RingHom.ext fun x => ?_
   apply TrivSqZeroExt.ext
-  · simp [GlobalTheory.CompanionTheory.Ar.dualMap, epsMul]
+  · simp [_root_.GlobalTheory.CompanionTheory.Ar.dualMap, epsMul]
     change (Scheme.stalkClosedPointTo z).hom (TrivSqZeroExt.fst (TrivSqZeroExt.map (s • (LinearMap.id : X.presheaf.stalk (centre z) →ₗ[X.presheaf.stalk (centre z)] X.presheaf.stalk (centre z))) x)) = _
     exact congrArg (Scheme.stalkClosedPointTo z).hom (TrivSqZeroExt.fst_map (s • LinearMap.id) x)
-  · simp [GlobalTheory.CompanionTheory.Ar.dualMap, epsMul]
+  · simp [_root_.GlobalTheory.CompanionTheory.Ar.dualMap, epsMul]
     change (Scheme.stalkClosedPointTo z).hom (TrivSqZeroExt.snd (TrivSqZeroExt.map (s • (LinearMap.id : X.presheaf.stalk (centre z) →ₗ[X.presheaf.stalk (centre z)] X.presheaf.stalk (centre z))) x)) = _
     have eq := congrArg (Scheme.stalkClosedPointTo z).hom (TrivSqZeroExt.snd_map (s • (LinearMap.id : X.presheaf.stalk (centre z) →ₗ[X.presheaf.stalk (centre z)] X.presheaf.stalk (centre z))) x)
     exact eq.trans (by simp [mul_comm])

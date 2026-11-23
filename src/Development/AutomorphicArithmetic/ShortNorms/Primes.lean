@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.ShortNorms.ShortNorm
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormPrimesImagQuadShortIntervalLowerBoundStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PrimesInProgressionsRelativeErrorStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle133
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle112
 public import Development.AutomorphicArithmetic.ShortNorms.SmallOneOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

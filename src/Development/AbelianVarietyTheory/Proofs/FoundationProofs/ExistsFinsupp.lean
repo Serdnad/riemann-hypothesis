@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DifferentiableAtGP
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothedSiegelUnitQExpansionCoeffsIntegral
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ExpUpper
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
 public import Mathlib.Analysis.Complex.UpperHalfPlane.Topology
 import Development.AbelianVarietyTheory.Definitions.Foundations.MultipliableAndSgNeZero
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasQExpansionOfLevelCoeffAndFunctionUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasQExpansionOfLevelLinearOperations
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle152
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitQExpansionCoefficients
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

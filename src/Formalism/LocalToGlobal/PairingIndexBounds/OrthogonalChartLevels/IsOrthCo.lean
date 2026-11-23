@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.ClsSEqIffExistsGMapPrPSRatAS
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ClsMain
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

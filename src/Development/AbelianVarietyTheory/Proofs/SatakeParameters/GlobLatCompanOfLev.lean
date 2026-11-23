@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSDLatLatK
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClsCrdEqGlob
-import Formalism.LocalToGlobal.GlobalTheory.ExistsUnitaryOneDetEq
-public import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.PNeatB
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle176
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle014
+import Formalism.LocalToGlobal.GlobalTheory.Bundle002
+public import Formalism.LocalToGlobal.LatticeGeometry.GeometryDefinitions.Bundle001
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LocSpBot
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 
 @[expose] public section
 

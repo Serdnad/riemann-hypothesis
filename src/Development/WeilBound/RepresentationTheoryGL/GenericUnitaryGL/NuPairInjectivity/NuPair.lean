@@ -1,9 +1,8 @@
 module
 
-public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.CuspPairSubGeneric
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeJacquetHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.JmThetaHoldsStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NuPairOfDerivativesJacquetStatement
+public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle676
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle729
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.BernsteinZelevinskyGL.TopAdm
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.NuPairInjectivity.DerivSub
 import Mathlib.Algebra.Order.Floor.Extended

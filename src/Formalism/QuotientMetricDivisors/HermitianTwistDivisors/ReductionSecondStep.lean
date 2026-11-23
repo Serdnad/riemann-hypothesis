@@ -1,7 +1,7 @@
 module
 
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ImageLcv
-public import Formalism.QuotientMetricDivisors.ProdFormula
+public import Formalism.QuotientMetricDivisors.Bundle004
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtGram
 public import Formalism.HermitianLattices.HermitianLatticesProofs.IndexBasic

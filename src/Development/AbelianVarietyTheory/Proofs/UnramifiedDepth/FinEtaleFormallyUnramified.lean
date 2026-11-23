@@ -60,9 +60,9 @@ import Mathlib.Topology.Sheaves.Init
 public import Mathlib.LinearAlgebra.Dual.Lemmas
 public import Mathlib.RingTheory.Flat.Basic
 import Mathlib.Topology.Sheaves.Presheaf
-import ReciprocityTheory.DualLattices.CotangentSurjective
+import ReciprocityTheory.DualLattices.Bundle007
 import ReciprocityTheory.DualLattices.FormalChartAtZero
-import ReciprocityTheory.DualLattices.SqZeroOfSpan
+import ReciprocityTheory.DualLattices.Bundle002
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.LePreimageOfNil
 
 @[expose] public section

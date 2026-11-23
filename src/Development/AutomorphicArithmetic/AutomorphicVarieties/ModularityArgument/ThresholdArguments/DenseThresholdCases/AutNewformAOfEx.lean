@@ -1,27 +1,27 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.CrystallineBaseChange.RnStmt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.LocalConditionCharacters.NewDefs
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ForallFieldIffForallSubgroup
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.LocalConditionCharacters.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle149
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalAdjoinRange
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.JumpsOpen
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SolvablePolarizedRestriction
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle063
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.FlagLaws
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PolarizedLinkage.PlainRec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.CyclicLiftRankTwoOfCyclicBaseChange
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.ExistsQuad
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.WindowMul
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.ExistsPrimeIndex
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAIsoTwOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.BaseChangeUnits.Bundle001
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.Bundle004
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle034
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle046
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAUpDownOf
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgOfCyc
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TLocCompC
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TSelfDualR
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle017
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle029
 import Development.AutomorphicArithmetic.Foundations.LocalLanglands.LocalCentralUnits.RecTExists
 import GroundTheory.GlobalFields.ExistenceTheorem.ExistsIsAbelianGaloisRangeIdeleClassNormEqOfFini
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,7 +59,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.AAcrossOf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.Bundle001
 
 @[expose] public section
 
@@ -74,7 +74,7 @@ open scoped Matrix Pointwise
 attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
 namespace UpperTheory.V.Z.Win.RR
 variable {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {l : ℕ} [hl : Fact l.Prime]
-private theorem alg0 (P : _root_.UpperTheory.V.Af.HypothesesH') (ι : Qbar l ≃+* ℂ) (W : G ℚ Ω →* GL (Fin 2) (Qbar l)) (hW : Continuous W)
+private theorem alg0 (P : _root_.UpperTheory.V.Af.HypothesesH') (ι : Qbar l ≃+* ℂ) (W : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) (hW : Continuous W)
     (hdet : IsCycWt l 0 (Matrix.GeneralLinearGroup.det.comp W)) (m : ℤ) :
     IsAlgChar ι (Matrix.GeneralLinearGroup.det.comp W * cycBar ℚ Ω l ^ m) := by
   obtain ⟨M, χ, hM, hχ, hθ⟩ := hdet
@@ -98,25 +98,25 @@ private theorem alg0 (P : _root_.UpperTheory.V.Af.HypothesesH') (ι : Qbar l ≃
     have h1 : Continuous fun s => Matrix.GeneralLinearGroup.det (W s) * cycBar ℚ Ω l s ^ m :=
       (Matrix.GeneralLinearGroup.continuous_det.comp hW).mul ((continuous_zpow _).comp hcyc)
     exact h1
-  · obtain ⟨A, hA⟩ : ∃ A : ValuationSubring Ω, IsPlaceOver A w := exists_isPlaceOver Ω w
+  · obtain ⟨A, hA⟩ : ∃ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w := exists_isPlaceOver Ω w
     refine ⟨A, hA, m, k, hk, fun s _ => ?_⟩
     rw [MonoidHom.mul_apply, MonoidHom.zpow_apply, mul_assoc, ← zpow_add, add_neg_cancel, zpow_zero, mul_one, hθ, hpow]
-private theorem alg_det (P : _root_.UpperTheory.V.Af.HypothesesH') (ι : Qbar l ≃+* ℂ) (W : G ℚ Ω →* GL (Fin 2) (Qbar l)) (hW : Continuous W)
+private theorem alg_det (P : _root_.UpperTheory.V.Af.HypothesesH') (ι : Qbar l ≃+* ℂ) (W : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) (hW : Continuous W)
     (hdet : IsCycWt l 0 (Matrix.GeneralLinearGroup.det.comp W)) :
     IsAlgChar ι (Matrix.GeneralLinearGroup.det.comp W * cycBar ℚ Ω l ^ (((2 : ℕ) : ℤ) - 1)) := alg0 P ι W hW hdet _
-private theorem flag_all {e : ℕ} (he : 1 ≤ e) (W : G ℚ Ω →* GL (Fin 2) (Qbar l)) {B : ValuationSubring Ω}
-    (hB : B.valuation (l : Ω) < 1) (H : Subgroup (G ℚ Ω)) (hH : IsOpen (H : Set (G ℚ Ω)))
+private theorem flag_all {e : ℕ} (he : 1 ≤ e) (W : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l)) {B : ValuationSubring Ω}
+    (hB : B.valuation (l : Ω) < 1) (H : Subgroup (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) (hH : IsOpen (H : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)))
     (hfl : IsFlagOn W (H ⊓ Ine (F := ℚ) B)
       (fun i => ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)).comp (H ⊓ Ine (F := ℚ) B).subtype)) :
-    ∃ N : Subgroup (G ℚ Ω), IsOpen (N : Set (G ℚ Ω)) ∧ ∀ w : HeightOneSpectrum (𝓞 ℚ), ((l : ℕ) : 𝓞 ℚ) ∈ w.asIdeal →
-      ∀ A : ValuationSubring Ω, IsPlaceOver A w → (∃ s ∈ N ⊓ Ine (F := ℚ) A, ∀ k : ℕ, k ≠ 0 → cycBar ℚ Ω l s ^ k ≠ 1) ∧
-        ∃ κ, IsFlagOn W (Dec (F := ℚ) A) κ ∧ ∀ i (s : ↥(Dec (F := ℚ) A)), (s : G ℚ Ω) ∈ N ⊓ Ine (F := ℚ) A →
+    ∃ N : Subgroup (_root_.Formalism.ConjugateSelfDual.G ℚ Ω), IsOpen (N : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) ∧ ∀ w : HeightOneSpectrum (𝓞 ℚ), ((l : ℕ) : 𝓞 ℚ) ∈ w.asIdeal →
+      ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → (∃ s ∈ N ⊓ Ine (F := ℚ) A, ∀ k : ℕ, k ≠ 0 → cycBar ℚ Ω l s ^ k ≠ 1) ∧
+        ∃ κ, IsFlagOn W (_root_.ReciprocityTheory.Gal.Dec (F := ℚ) A) κ ∧ ∀ i (s : ↥(_root_.ReciprocityTheory.Gal.Dec (F := ℚ) A)), (s : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) ∈ N ⊓ Ine (F := ℚ) A →
           κ i s = cycBar ℚ Ω l s ^ (![(e : ℤ), -(e : ℤ)] i) := by
   have : IsGalois ℚ Ω := {}
   have := Subgroup.quotient_finite_of_isOpen H hH
   have : H.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   have hn : H.normalCore.Normal := H.normalCore_normal
-  have hH' : IsOpen (H.normalCore : Set (G ℚ Ω)) :=
+  have hH' : IsOpen (H.normalCore : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) :=
     Subgroup.isOpen_of_isClosed_of_finiteIndex _ (H.normalCore_isClosed (H.isClosed_of_isOpen hH))
   have hk : H.normalCore.index ≠ 0 := Subgroup.FiniteIndex.index_ne_zero
   refine ⟨H.normalCore, hH', fun w hw A hA => ?_⟩
@@ -141,7 +141,7 @@ private theorem flag_all {e : ℕ} (he : 1 ≤ e) (W : G ℚ Ω →* GL (Fin 2) 
     rw [map_pow, ← pow_mul] at h
     exact hs' _ (mul_ne_zero hk hk0) h
   refine ⟨⟨_, hs0, hinf⟩, ?_⟩
-  have hBw : IsPlaceOver B w := by
+  have hBw : _root_.Formalism.ConjugateSelfDual.IsPlaceOver B w := by
     obtain ⟨p1, p2, p3, -⟩ := UpperTheory.V.Base.places ℚ Ω l B
     obtain ⟨v, hv⟩ := p1 fun h => (p2 h).2 hB
     have hpr : Prime (l : 𝓞 ℚ) := by
@@ -159,19 +159,19 @@ private theorem flag_all {e : ℕ} (he : 1 ≤ e) (W : G ℚ Ω →* GL (Fin 2) 
       (fun i => ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)).comp (H.normalCore ⊓ Ine (F := ℚ) (g • B)).subtype) := by
     obtain ⟨p, hp⟩ := hfl
     refine ⟨p * (W g)⁻¹, fun t => ?_⟩
-    have hm : g⁻¹ * (t : G ℚ Ω) * g ∈ H ⊓ Ine (F := ℚ) B :=
+    have hm : g⁻¹ * (t : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) * g ∈ H ⊓ Ine (F := ℚ) B :=
       ⟨H.normalCore_le (hn.conj_mem' _ t.2.1 g), GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul t.2.2⟩
-    have e1 : p * (W g)⁻¹ * W t * (p * (W g)⁻¹)⁻¹ = p * W (g⁻¹ * (t : G ℚ Ω) * g) * p⁻¹ := by
+    have e1 : p * (W g)⁻¹ * W t * (p * (W g)⁻¹)⁻¹ = p * W (g⁻¹ * (t : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) * g) * p⁻¹ := by
       rw [map_mul, map_mul, map_inv]; group
     obtain ⟨h1, h2⟩ := hp ⟨_, hm⟩
     rw [e1]
     refine ⟨h1, fun i => (h2 i).trans ?_⟩
     congr 1
-    change ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)) (g⁻¹ * (t : G ℚ Ω) * g) = ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)) t
+    change ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)) (g⁻¹ * (t : _root_.Formalism.ConjugateSelfDual.G ℚ Ω) * g) = ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)) t
     rw [map_mul, map_mul, map_inv, mul_right_comm, inv_mul_cancel, one_mul]
-  let D := Dec (F := ℚ) (g • B)
+  let D := _root_.ReciprocityTheory.Gal.Dec (F := ℚ) (g • B)
   let N := H.normalCore ⊓ Ine (F := ℚ) (g • B)
-  let χ : Fin 2 → G ℚ Ω →* (Qbar l)ˣ := fun i => (cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)
+  let χ : Fin 2 → _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* (Qbar l)ˣ := fun i => (cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)
   have hc : ∀ d ∈ D, ∀ t ∈ N, d⁻¹ * t * d ∈ N := fun d hd t ht =>
     ⟨hn.conj_mem' t ht.1 d, by simpa using conj_mem_Ine (D.inv_mem hd) ht.2⟩
   have hne : ∃ t ∈ N, χ 0 t ≠ χ 1 t := by
@@ -184,7 +184,7 @@ private theorem flag_all {e : ℕ} (he : 1 ≤ e) (W : G ℚ Ω →* GL (Fin 2) 
     exact mul_eq_one_iff_eq_inv.2 h1
   obtain ⟨p, hp⟩ := hfl'
   obtain ⟨s0, hs0, hne⟩ := hne
-  let M : G ℚ Ω →* GL (Fin 2) (Qbar l) := (MulAut.conj p).toMonoidHom.comp W
+  let M : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l) := (MulAut.conj p).toMonoidHom.comp W
   have h1 : ∀ s ∈ N, M s 1 0 = 0 := fun s hs => (hp ⟨s, hs⟩).1 1 0 (by decide)
   have h2 : ∀ s ∈ N, ∀ i, M s i i = χ i s := fun s hs i => (hp ⟨s, hs⟩).2 i
   have hmul : ∀ s t i j, M (s * t) i j = M s i 0 * M t 0 j + M s i 1 * M t 1 j := fun s t i j => by
@@ -217,9 +217,9 @@ private theorem zpow_ne {C : Type} [Group C] {x : C} (h : ∀ k : ℕ, k ≠ 0 �
   rcases Int.natAbs_eq (a - b) with h2 | h2
   · rw [← zpow_natCast, ← h2, h1]
   · rw [← zpow_natCast, ← inv_inj, ← zpow_neg, ← h2, h1, inv_one]
-private theorem inf_char (P : _root_.UpperTheory.V.Af.HypothesesH') (hC : CompatT) (ι : Qbar l ≃+* ℂ) {e : ℕ} (he : 1 ≤ e) (W : G ℚ Ω →* GL (Fin 2) (Qbar l))
+private theorem inf_char (P : _root_.UpperTheory.V.Af.HypothesesH') (hC : CompatT) (ι : Qbar l ≃+* ℂ) {e : ℕ} (he : 1 ≤ e) (W : _root_.Formalism.ConjugateSelfDual.G ℚ Ω →* GL (Fin 2) (Qbar l))
     (hW : Continuous W) (π : TR.CuspSub ℚ 2) (hreg : π.IsRegAlg) (hatt : AttR ι W π) (hU : WitUp ι W)
-    {B : ValuationSubring Ω} (hB : B.valuation (l : Ω) < 1) (H : Subgroup (G ℚ Ω)) (hH : IsOpen (H : Set (G ℚ Ω)))
+    {B : ValuationSubring Ω} (hB : B.valuation (l : Ω) < 1) (H : Subgroup (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)) (hH : IsOpen (H : Set (_root_.Formalism.ConjugateSelfDual.G ℚ Ω)))
     (hfl : IsFlagOn W (H ⊓ Ine (F := ℚ) B)
       (fun i => ((cycBar ℚ Ω l) ^ (![(e : ℤ), -(e : ℤ)] i)).comp (H ⊓ Ine (F := ℚ) B).subtype)) :
     ∀ v, π.HasInfChar v (infOf ![(e : ℤ), -(e : ℤ)]) := by
@@ -245,7 +245,7 @@ private theorem inf_char (P : _root_.UpperTheory.V.Af.HypothesesH') (hC : Compat
     rw [zpow_zero, mul_one] at halg
     obtain ⟨M, χ, hM, hχ, hθ⟩ := hdet
     rw [zpow_zero, one_mul] at hθ
-    have hconj : ∃ c : G ℚ Ω, IsConjEl c := by
+    have hconj : ∃ c : _root_.Formalism.ConjugateSelfDual.G ℚ Ω, IsConjEl c := by
       have : Algebra.IsAlgebraic ℚ Ω := IsAlgClosure.isAlgebraic
       have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed ℚ
       let j : Ω →ₐ[ℚ] ℂ := (by
@@ -276,7 +276,7 @@ private theorem inf_char (P : _root_.UpperTheory.V.Af.HypothesesH') (hC : Compat
       ?_, hc, hJ⟩
     intro c c' h h'
     rw [hθ]
-    have hroot {d : G ℚ Ω} (hd : IsConjEl d) {ζ : Ω} (hz : ζ ^ M = 1) : d ζ = ζ⁻¹ := by
+    have hroot {d : _root_.Formalism.ConjugateSelfDual.G ℚ Ω} (hd : IsConjEl d) {ζ : Ω} (hz : ζ ^ M = 1) : d ζ = ζ⁻¹ := by
       obtain ⟨j, hj⟩ := hd
       apply j.injective
       have h1 : (j ζ) ^ M = 1 := by rw [← map_pow, hz, map_one]
@@ -320,12 +320,12 @@ private theorem inf_char (P : _root_.UpperTheory.V.Af.HypothesesH') (hC : Compat
   obtain ⟨Bw, hBj, -⟩ := hBw L0 le_rfl
   have hInd : Induces Bw := fun x => by rw [hBj]; exact hj x
   have hJ := ((hloc w σ hσ).2 hpl B h _ Bw hInd).2 (Bw.j.comp (algebraMap L Ω)) Bw.Kw (AlgHom.id _ _) fun _ => rfl
-  have hB0 : IsPlaceOver B (w.under (𝓞 ℚ)) := fun x => by
+  have hB0 : _root_.Formalism.ConjugateSelfDual.IsPlaceOver B (w.under (𝓞 ℚ)) := fun x => by
     rw [IsScalarTower.algebraMap_apply ℚ L Ω]
     exact h (algebraMap (𝓞 ℚ) (𝓞 L) x)
   obtain ⟨-, κ, ⟨g, hg⟩, hI⟩ := hall _ hw0 B hB0
-  let ρ : ↥(Dec (F := L) B) →* ↥(Dec (F := ℚ) B) :=
-    ((galEmb ℚ L Ω).comp (Dec (F := L) B).subtype).codRestrict _ fun s => s.2
+  let ρ : ↥(_root_.ReciprocityTheory.Gal.Dec (F := L) B) →* ↥(_root_.ReciprocityTheory.Gal.Dec (F := ℚ) B) :=
+    ((galEmb ℚ L Ω).comp (_root_.ReciprocityTheory.Gal.Dec (F := L) B).subtype).codRestrict _ fun s => s.2
   have hH2 := jumpsOpen ![(e : ℤ), -(e : ℤ)] _ hWL B Bw hInd (fun i => (κ i).comp ρ) (N.comap (galEmb ℚ L Ω))
     (hN.preimage (continuous_restrictScalarsHom ℚ L Ω)) ⟨g, fun s => hg (ρ s)⟩ (fun i s hs => hI i (ρ s) ⟨hs.1, hs.2⟩) _ _ hJ
   obtain ⟨μ, hμ, -⟩ := hreg v

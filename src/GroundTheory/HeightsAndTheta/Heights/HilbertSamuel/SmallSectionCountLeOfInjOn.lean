@@ -1,10 +1,9 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLocalRep
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsConstantShift
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsAntisym
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PThmAExpand
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

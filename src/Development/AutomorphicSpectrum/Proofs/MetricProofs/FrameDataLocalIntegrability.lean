@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UpVApply
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle113
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentChartFourth
 import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalDegreeEstimateStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalResolutionOpenStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorIJLowerUniSwapStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PMatStepColsEntryStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle135
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle136
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

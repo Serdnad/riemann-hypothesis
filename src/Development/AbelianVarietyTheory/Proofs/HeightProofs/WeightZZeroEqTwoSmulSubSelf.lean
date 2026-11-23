@@ -1,11 +1,11 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.HtXfer
-public import Formalism.LocalToGlobal.ProjectiveLattices.SupNDataOfNonneg
-public import Formalism.LocalToGlobal.ProjectiveLattices.AxHSup
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle038
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LawBddDataOf
-public import Formalism.LocalToGlobal.ProjectiveLattices.AxHInst
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompTieA
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle047
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

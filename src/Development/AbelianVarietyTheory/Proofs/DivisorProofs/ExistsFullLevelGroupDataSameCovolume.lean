@@ -1,24 +1,24 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FirstIndexEqOfUnfolded
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSelfDualTr
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle439
 import Development.AbelianVarietyTheory.Counterexamples.UpperHalfSurvey.ExistsFundSetOrth
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasseNormTheoremQuadraticExtensionStatement
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ImNegOfFramePeriodVector
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsInvariantNatLengthLattice
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.BlockTriangularOfMulEqOne
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFlagDomainModelsOfFamilyUniformisation
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle074
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle093
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsHermCoordOfDatum
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsUnf
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUnfFamily
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExponentialDerivativeAtZeroIsTangent
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle118
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle127
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle035
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FinrankEqOfInjectiveOfSpan
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeByMatricesReflAndCompStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PerFrLact
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PrincipalGroupActsFreelyOnFlagsStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PrincipalLevelGroupFiniteIndexUnitaryStabiliserStatement
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.TransvectionMemPrincipalCongruenceGroupStatement
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle048
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle026
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle077
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle082
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.UniformizationPeriodLatticeChange
 import Formalism.LocalToGlobal.ProjectiveLattices.UnifDom
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,7 +57,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfC
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.Bundle017
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.NormConst
 
 @[expose] public section
@@ -122,8 +122,8 @@ variable {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {Dw : Datum H
   {σ : c.F →+* ℂ}
 
 theorem fib_single {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ))
-    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => relab c σ (e j).1))
-    (hσ : GoodEmb c σ) (hr : r = Dw.p + Dw.q) (k : Fin F.n) (Y : Data E r) (φ : (F.Di k).La ≃ₗ[𝓞 E] Y.Λ)
+    (F : FamilyUnif Xo (σ.comp (IntermediateField.inclusion c.le).toRingHom) (fun j => _root_.Formalism.L2.PjFree.relab c σ (e j).1))
+    (hσ : _root_.Formalism.L2.PjFree.GoodEmb c σ) (hr : r = Dw.p + Dw.q) (k : Fin F.n) (Y : Data E r) (φ : (F.Di k).La ≃ₗ[𝓞 E] Y.Λ)
     (hty : Y.p0 = Dw.q ∧ ∀ τ : E →+* ℂ, τ ∈ Y.Ψ ↔ τ (H.rt : E) = H.rt0)
     (hchi : ∀ la γ, Y.χ la γ = 1)
     (hef : ∀ a b, (((F.Di k).EF a b : ℤ) : ℚ) =
@@ -137,8 +137,8 @@ theorem fib_single {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ
     (hneg : ∀ τ ∈ Y.Ψ, (τ Y.ξ0).im < 0) :
     ∀ (x x' : Y.dom) (Pm Pm' : (F.Di k).La →+ (Fin g → ℂ))
       (v v' : ∀ τ, Fin (Dw.mult τ) → (Sp (DualNumber (CAt σ)) ⟶ Xo.univ.t.G.left)),
-      (∀ a j, Pm a j = perFr Y x.1 (φ a : Fin r → E) (relab c σ (e j).1) (e j).2) →
-      (∀ a j, Pm' a j = perFr Y x'.1 (φ a : Fin r → E) (relab c σ (e j).1) (e j).2) →
+      (∀ a j, Pm a j = _root_.Formalism.L2.PjFree.perFr Y x.1 (φ a : Fin r → E) (_root_.Formalism.L2.PjFree.relab c σ (e j).1) (e j).2) →
+      (∀ a j, Pm' a j = _root_.Formalism.L2.PjFree.perFr Y x'.1 (φ a : Fin r → E) (_root_.Formalism.L2.PjFree.relab c σ (e j).1) (e j).2) →
       F.u k Pm = F.u k Pm' →
       (∀ τ (i : Fin (Dw.mult τ)), IsDerivAt0 (fun z => (F.ex k Pm z).left) (Pi.single (e.symm ⟨τ, i⟩) 1) (v τ i)) →
       (∀ τ (i : Fin (Dw.mult τ)), IsDerivAt0 (fun z => (F.ex k Pm' z).left) (Pi.single (e.symm ⟨τ, i⟩) 1)
@@ -168,9 +168,14 @@ theorem fib_single {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ
   obtain ⟨f, hf, hk⟩ : ∃ f : ∀ i : Fin F.n, (Σ X : Data E r, (F.Di i).La ≃ₗ[𝓞 E] X.Λ),
       (∀ i, Good i (f i)) ∧ f k = ⟨Y, φ⟩ := by
     refine ⟨Function.update (fun i => ⟨M0.X i, M0.φ i⟩) k ⟨Y, φ⟩, ?_, Function.update_self ..⟩
-    rw [Function.forall_update_iff _ Good]
-    exact ⟨⟨hty, hchi, hef, hgam, hneg⟩, fun i _ => ⟨hM0.type i, hM0.chi i, hM0.ef i, hM0.gam i, hN0 i⟩⟩
-  let M : ModelsOf F r := ⟨fun i => (f i).1, fun i => (f i).2⟩
+    intro i
+    by_cases hi : i = k
+    · subst i
+      rw [Function.update_self]
+      exact ⟨hty, hchi, hef, hgam, hneg⟩
+    · rw [Function.update_of_ne hi]
+      exact ⟨hM0.type i, hM0.chi i, hM0.ef i, hM0.gam i, hN0 i⟩
+  let M : _root_.GlobalTheory.FrameUnif.ModelsOf F r := ⟨fun i => (f i).1, fun i => (f i).2⟩
   have hM : ModelBase M :=
     { rank := hr
       type := fun i => (hf i).1
@@ -182,8 +187,8 @@ theorem fib_single {g : ℕ} (e : Fin g ≃ Σ τ : E →+* ℂ, Fin (Dw.mult τ
   have hT := GlobalTheory.FibreFlag.fibTri E H Dw l Xo c σ g e F r M hσ hM fun i => (hf i).2.2.2.2
   have key : ∀ (x x' : (f k).1.dom) (Pm Pm' : (F.Di k).La →+ (Fin g → ℂ))
       (v v' : ∀ τ, Fin (Dw.mult τ) → (Sp (DualNumber (CAt σ)) ⟶ Xo.univ.t.G.left)),
-      (∀ a j, Pm a j = perFr (f k).1 x.1 ((f k).2 a : Fin r → E) (relab c σ (e j).1) (e j).2) →
-      (∀ a j, Pm' a j = perFr (f k).1 x'.1 ((f k).2 a : Fin r → E) (relab c σ (e j).1) (e j).2) →
+      (∀ a j, Pm a j = _root_.Formalism.L2.PjFree.perFr (f k).1 x.1 ((f k).2 a : Fin r → E) (_root_.Formalism.L2.PjFree.relab c σ (e j).1) (e j).2) →
+      (∀ a j, Pm' a j = _root_.Formalism.L2.PjFree.perFr (f k).1 x'.1 ((f k).2 a : Fin r → E) (_root_.Formalism.L2.PjFree.relab c σ (e j).1) (e j).2) →
       F.u k Pm = F.u k Pm' →
       (∀ τ (i : Fin (Dw.mult τ)), IsDerivAt0 (fun z => (F.ex k Pm z).left) (Pi.single (e.symm ⟨τ, i⟩) 1) (v τ i)) →
       (∀ τ (i : Fin (Dw.mult τ)), IsDerivAt0 (fun z => (F.ex k Pm' z).left) (Pi.single (e.symm ⟨τ, i⟩) 1)

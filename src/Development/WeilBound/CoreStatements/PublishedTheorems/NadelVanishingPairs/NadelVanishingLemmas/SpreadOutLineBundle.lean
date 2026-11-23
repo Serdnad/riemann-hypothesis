@@ -1,9 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsEtCoord
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SameDiv
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle007
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.IsRegularFnIffOfIsAffineOpen
-public import Development.WeilBound.CoreStatements.PublishedTheorems.NadelVanishingPairs.NadelVanishingLemmas.FlatBaseChangeSections
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle935
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle936
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle947
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

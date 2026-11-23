@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.PeriodRingComparison.AinfAlgebraMaps.CAAlgebraMapGOC
-public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.BcrisPlusHomAlgebraMap
-public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Action
+public import Development.WeilBound.CoreStatements.PeriodRingComparison.CrystallinePeriodRings.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CrystallinePeriods.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

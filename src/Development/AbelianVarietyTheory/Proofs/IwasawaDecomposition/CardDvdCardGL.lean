@@ -2,8 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
 public import Formalism.LocalToGlobal.Columns.DecorationStabilizerTrivialUnipotent
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletelySplitPrimeHostPlaceProperties
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitsCOfModEqOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle260
 import Formalism.HermitianLattices.FinalMass
 import Formalism.HermitianLattices.HermitianLatticesProofs.AutFinite
 import Mathlib.Algebra.Order.Floor.Extended

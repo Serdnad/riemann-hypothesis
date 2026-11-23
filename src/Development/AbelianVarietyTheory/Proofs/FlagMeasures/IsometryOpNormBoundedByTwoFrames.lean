@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RegularPosCompl
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle223
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SiegelRegionNormBound
 import Formalism.FormalDegreeBessel.FinalG
 import Mathlib.Algebra.Order.Floor.Extended

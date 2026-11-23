@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.RigGen
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle004
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ValuationMultiplicationInvariance
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRootStalk
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaPtEqUnitMulTh
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsMulOfValLe
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowFrameOne
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RelationsAreFunctions
-public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsValuationClosure
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsPrimGenerator
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UniformisationTorsionIdentificationWithPairing
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle935
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2065
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle015
+public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle040
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle120
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ValueAtOrigin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +57,7 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMul
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.TXFrame
-import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle012
 
 @[expose] public section
 

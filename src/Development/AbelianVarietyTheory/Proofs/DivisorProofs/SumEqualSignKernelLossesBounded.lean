@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VwNatCastNonneg
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ParameterSizeConditionsNumericBounds
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.ExpLoss
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.KerLe
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2050
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2010
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle003
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle006
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.LogSum
 import Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended

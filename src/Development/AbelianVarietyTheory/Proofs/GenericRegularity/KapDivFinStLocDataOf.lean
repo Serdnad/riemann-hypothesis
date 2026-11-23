@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.NrmContPf
-public import Formalism.LocalToGlobal.ProjectiveLattices.DivFinOfLawA3
-public import Formalism.LocalToGlobal.ProjectiveLattices.FnTrdegOf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle023
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle021
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle020
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.DivFinOfTrdeg
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsContinuousOnEmbeddings
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.KapFgTrdeg
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsLinearIndependentDIffTrdegAdjoinEq
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle014
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.ValuationResidueLemmas
 import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
-import Development.AbelianVarietyTheory.Definitions.RegularCharts.Reframe
+import Development.AbelianVarietyTheory.Definitions.RegularCharts.Bundle001
 
 @[expose] public section
 

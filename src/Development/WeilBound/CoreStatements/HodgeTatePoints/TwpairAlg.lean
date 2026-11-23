@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.PairingExtends
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
 public import Mathlib.RingTheory.Henselian
 public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.HopfOrderContainsCharacters
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.MirabIndex
+public import Formalism.PeriodIntegrals.Bundle007
 public import Mathlib.LinearAlgebra.Matrix.Block
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.ElevenLe
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.LocalRingCardinality.DataParams
 public import Development.AbelianVarietyTheory.Definitions.Foundations.StandardFiveNontrivial
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BadRowsShareBoundTwoPrimesStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LogDivSqrtLeFourExp
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle262
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle101
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

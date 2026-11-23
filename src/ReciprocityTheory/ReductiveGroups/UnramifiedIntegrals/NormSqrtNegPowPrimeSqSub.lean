@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.KurDefs
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle002
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ExistsTeichmullerRepModPrime
-public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.KurNewton
-import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.NormNatCastClOfNotDvd
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle012
+public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle003
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.Bundle008
 public import Mathlib.NumberTheory.LegendreSymbol.Basic
 
 @[expose] public section

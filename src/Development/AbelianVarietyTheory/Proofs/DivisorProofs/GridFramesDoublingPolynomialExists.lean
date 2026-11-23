@@ -3,11 +3,11 @@ module
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.UnitCharTriangle
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BlkGLMem
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FstIsFinFFrames
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFinFSndFrames
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.APlusComm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorMaximalCompactBasisSubstitut
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockPolynomialVectorMaximalCompactMovedBases
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2233
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2345
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle294
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle352
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle318
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,8 +51,8 @@ import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.FinitePrimesUnder
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsMatchOver
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NegIdxOfIsStd
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIsGridFr
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2003
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle337
 import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.NormSmall
 
 @[expose] public section

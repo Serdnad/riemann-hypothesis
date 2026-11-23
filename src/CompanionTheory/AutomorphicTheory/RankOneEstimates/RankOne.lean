@@ -3,11 +3,10 @@ module
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
 public import CompanionTheory.AutomorphicTheory.RankOneEstimates.DecSender
 import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.AdmissibleOfIwasawa
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselCharacterUnipotentRadicalPropertiesStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselSubgroupParameterMeasurePreservingStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasicStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.EqSmulOfTwoSided
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsHaarOnIffGroupsUnitaryUnipotentStatement
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle097
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle094
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousMulMt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,8 +48,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.FrameBlockWMem
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.InHolds
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JBeConv
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.JDiagExists
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.Bundle012
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.Bundle008
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.ThmMOfXi
 
 @[expose] public section

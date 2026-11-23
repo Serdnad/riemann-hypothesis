@@ -3,13 +3,13 @@ module
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.UniversalOrdinaryDeterminantRing
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.DiagonalCharactersRegularAlgebraicOfInertiaWeigh
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.ExistsFrameFactorizationOfTrivialOnInertia
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.Bundle013
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.UniversalMapsPointOfPolarizedFlaggedRep
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.FrobeniusSmoothVectors.ScNorm
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ShapeFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ExistsDeterminantPairOverAlgebraicIntegers
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EqOneOfNear
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle060
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -54,7 +54,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Separation.CompletelyRegular
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 
 @[expose] public section
 
@@ -158,7 +158,7 @@ private theorem pt_ex {c : Coef l} [Fr.IsCoef l c.O] {F : Fr.Frame l (ResidueFie
         algebraMap c.O (Qbar l) (T.G.eps c.O c.O g ^ (1 - (n : ℤ)) : c.Oˣ) :=
       congrArg Units.val (map_zpow (Units.map (algebraMap c.O (Qbar l) : c.O →* Qbar l)) (T.G.eps c.O c.O g) _).symm
     rw [e, ← h, hρ]
-    change (tw _ _ g).valᵀ * _ * (tw _ _ _).val = _
+    change (UpperTheory.V.Af.tw _ _ g).valᵀ * _ * (UpperTheory.V.Af.tw _ _ _).val = _
     rw [tw_val, tw_val, MonoidHom.comp_apply, MonoidHom.comp_apply, T.K.π_conj, Matrix.transpose_smul, Matrix.smul_mul,
       Matrix.smul_mul, Matrix.mul_smul, hP, smul_smul, Units.val_mul, map_mul]
     rfl
@@ -228,7 +228,7 @@ private theorem beta_ex (R : CReal k c₁ f n ka) : ∃ β : Fin n → G L Ω �
     rw [Units.val_mul, Units.val_zpow_eq_zpow_val]
     rfl
 
-private theorem main (H : GlobalTheory.Published.GlobalArtinReciprocity) (ι : Qbar l ≃+* ℂ) (hM : l ∣ M) (R : CReal k c₁ f n ka)
+private theorem idealSpecializationPoint_of_seed (H : GlobalTheory.Published.GlobalArtinReciprocity) (ι : Qbar l ≃+* ℂ) (hM : l ∣ M) (R : CReal k c₁ f n ka)
     (hka : IsKa σ M ι n ka) (χ' : G ℚ Ω →* (Qbar l)ˣ) (j : ℕ) (hχ : ¬ l ∣ orderOf χ')
     (hc : ∀ s, ‖((cycBar ℚ Ω l ^ j * χ') s).val - (Ψ s).val.1‖ < 1) (m : ℕ) (hm : 2 ≤ m) (r : G L Ω →* GL (Fin n) (Qbar l))
     (hr : Sd.IsSeed ι σ (fun i => ((cycBar ℚ Ω l ^ j * χ') ^ Fr.w n i).comp (galEmb ℚ L Ω))

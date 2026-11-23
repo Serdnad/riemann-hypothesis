@@ -1,0 +1,309 @@
+module
+
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerDefs
+public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
+public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
+import GroundTheory.ProfiniteCohomology.Bundle007
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle005
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ExistsCoprimeSmulCohomologyTwoGsKernel
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.BrauerSplit
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.EqZeroOfCohomologyInflThreeEqZero
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.CategoryTheory.EffectiveEpi.Comp
+import Mathlib.CategoryTheory.ExtremalEpi
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.TypeStar
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory NumberField IsDedekindDomain GroundTheory.Global
+
+noncomputable section
+
+theorem nsmul_rootsOfUnity_eq_zero {E : Type*} [CommMonoid E] (ℓ : ℕ)
+    (a : Additive (rootsOfUnity ℓ E)) : ℓ • a = 0 := by
+  apply Additive.toMul.injective
+  rw [toMul_nsmul, toMul_zero]
+  exact Subtype.ext ((mem_rootsOfUnity ℓ _).1 (Additive.toMul a).2)
+
+section Abstract
+
+variable {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [CompactSpace G]
+  [TotallyDisconnectedSpace G] {E : ShortComplex (Rep.{0} (ULift.{0} ℤ) G)} [IsDiscreteRep E.X₁]
+  [IsDiscreteRep E.X₂] [IsDiscreteRep E.X₃]
+
+theorem eq_zero_h3_of_shortExact (hE : E.ShortExact) {ℓ : ℕ} (hℓ : ℓ.Prime)
+    (hX : ∀ a : E.X₁, ℓ • a = 0) (h3 : ∀ z : cohomology E.X₂ 3, ℓ • z = 0 → z = 0)
+    (hdiv : ∀ y : cohomology E.X₃ 2, (∃ j : ℕ, ℓ ^ j • y = 0) →
+      ∃ z : cohomology E.X₂ 2, (cohomologyMap E.g 2).hom z = y)
+    (x : cohomology E.X₁ 3) : x = 0 := by
+  have hfx : (cohomologyMap E.f 3).hom x = 0 := by
+    refine h3 _ ?_
+    rw [← map_nsmul, nsmul_cohomology_eq_zero _ hX 3 x, map_zero]
+  obtain ⟨y, rfl⟩ := exists_δ_eq_of_cohomologyMap_f_eq_zero hE 2 3 rfl x hfx
+  have hyt : IsOfFinAddOrder y := isTorsion_cohomology _ (by norm_num) y
+  have hδℓ : ℓ ^ 1 • (δ hE 2 3 rfl).hom.toAddMonoidHom y = 0 := by
+    rw [pow_one]
+    exact nsmul_cohomology_eq_zero _ hX 3 _
+  obtain ⟨y', hj, hy'⟩ := exists_primary_map_eq (δ hE 2 3 rfl).hom.toAddMonoidHom hℓ hyt hδℓ
+  change (δ hE 2 3 rfl).hom y = 0
+  rw [← show (δ hE 2 3 rfl).hom y' = (δ hE 2 3 rfl).hom y from hy']
+  obtain ⟨z, rfl⟩ := hdiv y' hj
+  rw [← ModuleCat.comp_apply, comp_δ]
+  rfl
+
+end Abstract
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+variable (K : FiniteSubfield) (S : Set (HeightOneSpectrum (𝓞 K.1))) (ℓ : ℕ) (hℓ : ℓ.Prime)
+  (hS : ∀ v : HeightOneSpectrum (𝓞 K.1), ((ℓ : ℕ) : 𝓞 K.1) ∈ v.asIdeal → v ∈ S)
+
+
+
+include hℓ hS in
+theorem eq_zero_h3_rootsOfUnity_of_h3_sUnits (hK : ℓ ≠ 2 ∨ IsTotallyComplex K.1)
+    (h3 : ∀ z : cohomology (galSUnitsMax K.1 ℚ̄ S) 3, ℓ • z = 0 → z = 0)
+    (x : cohomology (galRootsOfUnity.{0} K.1 (maxUnramifiedOutside K.1 ℚ̄ S) ℓ) 3) : x = 0 := by
+  have : NeZero ℓ := ⟨hℓ.ne_zero⟩
+  have hE := sUnitsKummerSequence_shortExact (Ω := ℚ̄) S ℓ (fun v hv h => hv (hS v h))
+  refine eq_zero_h3_of_shortExact (E := sUnitsKummerSequence S (maxUnramifiedOutside K.1 ℚ̄ S) ℓ) hE hℓ (nsmul_rootsOfUnity_eq_zero ℓ) h3 (fun y hy => ?_) x
+  obtain ⟨z, hz⟩ := exists_nsmul_eq_h2SUnits K S ℓ hℓ hS hK ⟨y, hy⟩
+  refine ⟨z.1, ?_⟩
+  rw [sUnitsKummerSequence_g]
+  exact (cohomologyMap_nsmul_id_apply _ ℓ 2 z.1).trans (congrArg Subtype.val hz)
+
+end
+
+end GroundTheory.ProfCoh
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.ProfCoh
+
+open CategoryTheory Limits NumberField IsDedekindDomain IntermediateField GroundTheory.Global
+
+noncomputable section
+
+local notation "ℚ̄" => AlgebraicClosure ℚ
+
+variable (K : FiniteSubfield) (S : Set (HeightOneSpectrum (𝓞 K.1)))
+
+theorem gsRestrict_surjective : Function.Surjective (gsRestrict K S) :=
+  (gsRestrict_gsLift K S).surjective
+
+def gsQuotientEquiv : galUnramifiedOutside K.1 ℚ̄ S ≃* K.1.fixingSubgroup ⧸ gsKernel K S :=
+  (QuotientGroup.quotientKerEquivOfSurjective (gsRestrict K S) (gsRestrict_surjective K S)).symm
+
+theorem gsQuotientEquiv_gsRestrict (σ : K.1.fixingSubgroup) :
+    gsQuotientEquiv K S (gsRestrict K S σ) = QuotientGroup.mk σ := by
+  rw [gsQuotientEquiv, MulEquiv.symm_apply_eq]
+  rfl
+
+theorem gsQuotientEquiv_symm_mk (σ : K.1.fixingSubgroup) :
+    (gsQuotientEquiv K S).symm (QuotientGroup.mk σ) = gsRestrict K S σ := by
+  rw [MulEquiv.symm_apply_eq, gsQuotientEquiv_gsRestrict]
+
+theorem isQuotientMap_gsRestrict : Topology.IsQuotientMap (gsRestrict K S) := by
+  have : T2Space (galUnramifiedOutside K.1 ℚ̄ S) := galois_t2Space K.1 (maxUnramifiedOutside K.1 ℚ̄ S)
+  exact ((continuous_gsRestrict K S).isClosedMap).isQuotientMap (continuous_gsRestrict K S)
+    (gsRestrict_surjective K S)
+
+theorem continuous_gsQuotientEquiv : Continuous (gsQuotientEquiv K S).toMonoidHom := by
+  rw [(isQuotientMap_gsRestrict K S).continuous_iff]
+  have e : (gsQuotientEquiv K S).toMonoidHom ∘ gsRestrict K S = QuotientGroup.mk' (gsKernel K S) :=
+    funext fun σ => gsQuotientEquiv_gsRestrict K S σ
+  rw [e]
+  exact continuous_quotientGroup_mk' _
+
+theorem continuous_gsQuotientEquiv_symm : Continuous (gsQuotientEquiv K S).symm.toMonoidHom := by
+  rw [(QuotientGroup.isQuotientMap_mk (gsKernel K S)).continuous_iff]
+  have e : (gsQuotientEquiv K S).symm.toMonoidHom ∘ (QuotientGroup.mk : K.1.fixingSubgroup → _) =
+      gsRestrict K S := funext fun σ => gsQuotientEquiv_symm_mk K S σ
+  rw [e]
+  exact continuous_gsRestrict K S
+
+abbrev unitsInvariantsGsKernel :=
+  Representation.invariants ((unitsLimitRep K).ρ.comp (gsKernel K S).subtype)
+
+theorem mem_maxUnramifiedOutside_of_mem_invariantsGsKernel (a : unitsInvariantsGsKernel K S) :
+    (((Additive.toMul (a : Additive ℚ̄ˣ)) : ℚ̄ˣ) : ℚ̄) ∈ maxUnramifiedOutside K.1 ℚ̄ S := by
+  have : IsGalois ℚ ℚ̄ := IsAlgClosure.isGalois ℚ ℚ̄
+  let KS' : IntermediateField ℚ ℚ̄ := (maxUnramifiedOutside K.1 ℚ̄ S).restrictScalars ℚ
+  have h : (((Additive.toMul (a : Additive ℚ̄ˣ)) : ℚ̄ˣ) : ℚ̄) ∈
+      IntermediateField.fixedField KS'.fixingSubgroup := by
+    rw [IntermediateField.mem_fixedField_iff]
+    intro g hg
+    have hK : g ∈ K.1.fixingSubgroup := by
+      rw [IntermediateField.mem_fixingSubgroup_iff]
+      intro y hy
+      exact (IntermediateField.mem_fixingSubgroup_iff _ _).1 hg _
+        ((maxUnramifiedOutside K.1 ℚ̄ S).algebraMap_mem (⟨y, hy⟩ : K.1))
+    have hN : (⟨g, hK⟩ : K.1.fixingSubgroup) ∈ gsKernel K S := by
+      rw [MonoidHom.mem_ker]
+      refine AlgEquiv.ext fun y => Subtype.ext ?_
+      rw [gsRestrict_apply]
+      exact (IntermediateField.mem_fixingSubgroup_iff _ _).1 hg y y.2
+    have := a.2 ⟨⟨g, hK⟩, hN⟩
+    exact congrArg (fun z : Additive ℚ̄ˣ => ((Additive.toMul z : ℚ̄ˣ) : ℚ̄)) this
+  rw [InfiniteGalois.fixedField_fixingSubgroup KS'] at h
+  exact h
+
+def invariantsGsKernelFun : unitsInvariantsGsKernel K S →+ Additive (maxUnramifiedOutside K.1 ℚ̄ S)ˣ where
+  toFun a := Additive.ofMul (Units.mk0
+      (⟨(((Additive.toMul (a : Additive ℚ̄ˣ)) : ℚ̄ˣ) : ℚ̄),
+        mem_maxUnramifiedOutside_of_mem_invariantsGsKernel K S a⟩ : maxUnramifiedOutside K.1 ℚ̄ S)
+      (fun h => (Additive.toMul (a : Additive ℚ̄ˣ)).ne_zero (congrArg Subtype.val h)))
+  map_zero' := Additive.toMul.injective (Units.ext (Subtype.ext rfl))
+  map_add' _ _ := Additive.toMul.injective (Units.ext (Subtype.ext rfl))
+
+theorem coe_invariantsGsKernelFun (a : unitsInvariantsGsKernel K S) :
+    ((((Additive.toMul (invariantsGsKernelFun K S a)) : (maxUnramifiedOutside K.1 ℚ̄ S)ˣ) :
+      maxUnramifiedOutside K.1 ℚ̄ S) : ℚ̄) = (((Additive.toMul (a : Additive ℚ̄ˣ)) : ℚ̄ˣ) : ℚ̄) :=
+  rfl
+
+theorem invariantsGsKernelFun_bijective : Function.Bijective (invariantsGsKernelFun K S) := by
+  refine ⟨fun a b h => ?_, fun y => ?_⟩
+  · apply Subtype.ext
+    apply Additive.toMul.injective
+    apply Units.ext
+    exact congrArg (fun z : Additive (maxUnramifiedOutside K.1 ℚ̄ S)ˣ =>
+      (((Additive.toMul z : (maxUnramifiedOutside K.1 ℚ̄ S)ˣ) : maxUnramifiedOutside K.1 ℚ̄ S) : ℚ̄)) h
+  · refine ⟨⟨Additive.ofMul (Units.map (maxUnramifiedOutside K.1 ℚ̄ S).val.toRingHom.toMonoidHom
+      (Additive.toMul y)), fun σ => ?_⟩, ?_⟩
+    · apply Additive.toMul.injective
+      apply Units.ext
+      have hσ : gsRestrict K S σ.1 = 1 := MonoidHom.mem_ker.mp σ.2
+      have hy := congrArg (fun τ : galUnramifiedOutside K.1 ℚ̄ S =>
+        (τ (Additive.toMul y).val : ℚ̄)) hσ
+      rw [gsRestrict_apply] at hy
+      exact hy
+    · apply Additive.toMul.injective
+      apply Units.ext
+      apply Subtype.ext
+      rfl
+
+theorem invariantsGsKernelFun_smul (τ : galUnramifiedOutside K.1 ℚ̄ S) (a : unitsInvariantsGsKernel K S) :
+    invariantsGsKernelFun K S
+        ((((unitsLimitRep K).quotientToInvariants (gsKernel K S)).ρ (gsQuotientEquiv K S τ)) a) =
+      (uliftIntToIntRep (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S))).ρ τ (invariantsGsKernelFun K S a) := by
+  have hτ := gsRestrict_gsLift K S τ
+  have h1 : gsQuotientEquiv K S τ = QuotientGroup.mk (gsLift K S τ) := by
+    rw [← gsQuotientEquiv_gsRestrict, hτ]
+  refine (congrArg (fun q => invariantsGsKernelFun K S
+    ((((unitsLimitRep K).quotientToInvariants (gsKernel K S)).ρ q) a)) h1).trans ?_
+  apply Additive.toMul.injective
+  apply Units.ext
+  apply Subtype.ext
+  have h2 := gsRestrict_apply K S (gsLift K S τ) ⟨_, mem_maxUnramifiedOutside_of_mem_invariantsGsKernel K S a⟩
+  rw [hτ] at h2
+  exact h2.symm
+
+def invariantsGsKernelMor :
+    Rep.res (gsQuotientEquiv K S).toMonoidHom ((unitsLimitRep K).quotientToInvariants (gsKernel K S)) ⟶
+      uliftIntToIntRep (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S)) :=
+  Rep.ofHom ⟨(invariantsGsKernelFun K S).toIntLinearMap, fun τ =>
+    LinearMap.ext fun a => invariantsGsKernelFun_smul K S τ a⟩
+
+instance isDiscreteRep_quotientToInvariants_gsKernel :
+    IsDiscreteRep ((unitsLimitRep K).quotientToInvariants (gsKernel K S)) :=
+  isDiscreteRep_quotientToInvariants_of_normal _ _
+
+instance isIso_cohomologyMapAlong_invariantsGsKernelMor (n : ℕ) :
+    IsIso (cohomologyMapAlong (gsQuotientEquiv K S).toMonoidHom (continuous_gsQuotientEquiv K S)
+      (invariantsGsKernelMor K S) n) :=
+  isIso_cohomologyMapAlong_of_mulEquiv (gsQuotientEquiv K S) (continuous_gsQuotientEquiv K S)
+    (continuous_gsQuotientEquiv_symm K S) _ (invariantsGsKernelFun_bijective K S) n
+
+theorem cohomologyMapAlong_invariantsGsKernelMor_comp_gsBrauerInfl (n : ℕ) :
+    cohomologyMapAlong (gsQuotientEquiv K S).toMonoidHom (continuous_gsQuotientEquiv K S)
+      (invariantsGsKernelMor K S) n ≫ gsBrauerInfl K S n =
+      cohomologyInfl (unitsLimitRep K) (gsKernel K S) n := by
+  rw [gsBrauerInfl, ← cohomologyMapAlong_comp, cohomologyInfl]
+  refine cohomologyMapAlong_congr _ _ _ _ (MonoidHom.ext fun σ => gsQuotientEquiv_gsRestrict K S σ)
+    (fun a => ?_) n
+  apply Additive.toMul.injective
+  apply Units.ext
+  exact coe_invariantsGsKernelFun K S a
+
+
+
+theorem eq_zero_of_h3_gsUnits (ℓ : ℕ) (hℓ : ℓ.Prime)
+    (hS : ∀ v : HeightOneSpectrum (𝓞 K.1), ((ℓ : ℕ) : 𝓞 K.1) ∈ v.asIdeal → v ∈ S)
+    (x : cohomology (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S)) 3) (k : ℕ) (hx : ℓ ^ k • x = 0) :
+    x = 0 := by
+  have hsurj : Function.Surjective (cohomologyMapAlong (gsQuotientEquiv K S).toMonoidHom
+      (continuous_gsQuotientEquiv K S) (invariantsGsKernelMor K S) 3).hom :=
+    (ModuleCat.epi_iff_surjective _).1 inferInstance
+  have hinj : Function.Injective (cohomologyMapAlong (gsQuotientEquiv K S).toMonoidHom
+      (continuous_gsQuotientEquiv K S) (invariantsGsKernelMor K S) 3).hom :=
+    (ModuleCat.mono_iff_injective _).1 inferInstance
+  obtain ⟨x0, hx0⟩ := hsurj (cohomologyULiftIntAddEquiv (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S)) 3 x)
+  have hk0 : ℓ ^ k • x0 = 0 := by
+    apply hinj
+    refine (map_nsmul _ (ℓ ^ k) x0).trans ?_
+    refine (congrArg (fun z => ℓ ^ k • z) hx0).trans ?_
+    refine (map_nsmul (cohomologyULiftIntAddEquiv (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S)) 3)
+      (ℓ ^ k) x).symm.trans ?_
+    refine (congrArg _ hx).trans ?_
+    exact (map_zero _).trans (map_zero _).symm
+  have hinf : (cohomologyInfl (unitsLimitRep K) (gsKernel K S) 3).hom x0 = 0 := by
+    have : Subsingleton (cohomology (unitsLimitRep K) 3) := subsingleton_cohomology_three_unitsLimitRep K
+    exact Subsingleton.elim _ _
+  have h0 := eq_zero_of_cohomologyInfl_three_eq_zero (unitsLimitRep K) (gsKernel K S)
+    (isClosed_gsKernel K S) (isZero_cohomology_one_gsKernel K S) ℓ
+    (exists_coprime_smul_cohomology_two_gsKernel K S hℓ hS) x0 hinf k hk0
+  apply (cohomologyULiftIntAddEquiv (galUnits K.1 (maxUnramifiedOutside K.1 ℚ̄ S)) 3).injective
+  rw [← hx0, h0, map_zero, map_zero]
+
+end
+
+end GroundTheory.ProfCoh
+end

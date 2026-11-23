@@ -4,7 +4,7 @@ public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitMkOfFo
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ChartMeasApplyOfSubset
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemRangeCompIffOfIsClosedImmersion
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsIsClosedEmbeddingOfAffine
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolomorphicSections
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InhabitAlt
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InhabitBis
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle031
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle034
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ScaledRankOneLeStandardRankOne
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle023
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

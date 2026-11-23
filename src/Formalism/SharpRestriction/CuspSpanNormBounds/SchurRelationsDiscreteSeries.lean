@@ -52,8 +52,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.FamilyProjectorSectionLocal
-import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.Bundle005
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle015
 import Formalism.SharpRestriction.CuspSpanNormBounds.LocalGroupInFamilyNontrivial
 
 @[expose] public section

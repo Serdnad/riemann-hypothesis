@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.CharacterColumnKernels.Statement
+import Formalism.CharacterColumnKernels.Bundle001
 import Formalism.TruncatedSeriesCounting.LemmaDetPoly
 
 @[expose] public section

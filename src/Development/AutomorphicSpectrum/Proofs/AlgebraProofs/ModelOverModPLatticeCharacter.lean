@@ -1,12 +1,11 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsLatticeFamily
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ChartBundleProductStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DualLatticeCoordinateGeneratorStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LatticeGoodBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.LineBundleChartGenericComparisonStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SameGenericBundleFramesStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SameGenericLinearEquivStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle039
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle088
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle086
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -5,23 +5,21 @@ public import Development.AbelianVarietyTheory.Definitions.CommutativeAlgebra.In
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Mathlib.RingTheory.TotallySplit
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsIntCoeffPrimitiveGLCharacter
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.ExistsTeichmullerMapAlgebraicClosureFiniteField
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FiniteGroupFunctionPairingEqZeroOfDistinctIrredu
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FiniteGroupFunctionPairingSelfIrreducibleAlgClos
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FrobeniusTorusCharacterOrthogonality
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.FrobeniusTorusMinpolyDegreeRootPowerSum
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.GeneralLinearFunctionExtendZeroEndProperties
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InnerProductRootPowerSumEqOfFrobeniusModEq
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvariantSubspaceMobiusInverseCharpolyOfIrreduci
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.InvertibleEndomorphismInnerProductPrimitiveMobiu
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.IsCharacterOverSubfieldRestrictClassFunctionOne
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.OrthogonalIntVectorsNotAgreeOnRegular
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle005
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle013
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle008
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle010
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle006
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle025
 import Development.AbelianVarietyTheory.Proofs.CharacterTheory.PrimitiveClassFunctionExpansionRootSums
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.RegularIffNatDegreeAndExistsEllipticGL
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.RootPowerSumCharacterAdditiveAndXSubOnePow
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle015
 import Development.AbelianVarietyTheory.Proofs.CharacterTheory.StarVirtualCharacterEqApplyInv
-import Development.AbelianVarietyTheory.Proofs.CharacterTheory.VirtualCharactersMulComapConjIndLinear
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -361,3 +359,17 @@ theorem _root_.GlobalTheory.CuspGL.eq_of_isPrimitive_of_eq_on_elliptic (F : Type
     ← character_elliptic_eq_coeff_sum_lemma F θ hθ d hd χ' hc' hp' b hb hω j x hx hdeg, he x hirr]
 
 end GlobalTheory.CuspGL
+
+end
+
+section
+
+@[expose] public section
+
+open Polynomial GlobalTheory.CuspGL GlobalTheory.BI
+
+theorem _root_.GlobalTheory.T.eq_of_isPrimitive_of_eq_on_elliptic_finiteGL : ∀ (F : Type) [Field F] [Finite F] (d : ℕ) (χ χ' : GL (Fin d) F → ℂ), 0 < d → IsIrrChar ℂ ℂ χ → IsIrrChar ℂ ℂ χ' → IsPrimitive (extZero χ) → IsPrimitive (extZero χ') → (∀ x : GL (Fin d) F, Irreducible (Matrix.charpoly (x : Matrix (Fin d) (Fin d) F)) → χ x = χ' x) → χ = χ' := by
+  first | exact @GlobalTheory.CuspGL.eq_of_isPrimitive_of_eq_on_elliptic | exact GlobalTheory.CuspGL.eq_of_isPrimitive_of_eq_on_elliptic | (intros; apply GlobalTheory.CuspGL.eq_of_isPrimitive_of_eq_on_elliptic <;> assumption)
+
+end
+end

@@ -1,14 +1,12 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Proposition5Gram
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.OperatorWeightBoundHolds
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.MemRed
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Lemma5aMonomial
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.JointEIntList
 public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.TwistedMonomialFiltration.TwistSubXMemSupported
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Lemma5aGeneratorProducts
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.SymGSupport
-public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.WordLossNonneg
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.TwistedSubstitution.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

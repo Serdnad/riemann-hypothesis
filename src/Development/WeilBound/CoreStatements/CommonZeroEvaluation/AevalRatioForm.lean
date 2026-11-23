@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
-public import Formalism.LocalToGlobal.ProjectiveLattices.OneLtAbsNormReal
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FormOffSpecializationRing
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginGenericFrameBound
-import Development.AutomorphicSpectrum.Statements.GeometryStatements.ExistsAlgPtOff
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle209
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle177
+import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.DefiniteFormStabilizerFiniteAwayFromP
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
 
 @[expose] public section
 

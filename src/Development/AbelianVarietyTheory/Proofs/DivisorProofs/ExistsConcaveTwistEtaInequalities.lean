@@ -51,15 +51,15 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.EtaleEmpty
-import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.L2ExtensionLogCanonical
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle006
+import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle003
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
 public import Mathlib.Analysis.Calculus.Deriv.Add
 public import Mathlib.Analysis.Calculus.Deriv.Inv
 public import Mathlib.Analysis.Calculus.Deriv.Mul
-import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FlatCalcA
-import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Matrix
+import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle003
+import ReciprocityTheory.L2DbarEstimates.SkodaWeights.Bundle001
 
 @[expose] public section
 

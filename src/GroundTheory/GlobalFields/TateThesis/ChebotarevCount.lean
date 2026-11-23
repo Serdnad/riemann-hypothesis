@@ -4,7 +4,7 @@ public import GroundTheory.GlobalFields.SemilocalAlgebras.Galois
 public import Mathlib.FieldTheory.Galois.IsGaloisGroup
 public import Mathlib.RingTheory.Frobenius
 public import GroundTheory.GlobalFields.SplittingFromInequality.Decomposition
-public import GroundTheory.GlobalFields.TateThesis.ChebotarevFrobenius
+public import GroundTheory.GlobalFields.TateThesis.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,7 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 public import GroundTheory.GlobalFields.Adele.BaseChange.FiniteMap
-public import GroundTheory.GlobalFields.KummerTheory.Splitting
+public import GroundTheory.GlobalFields.KummerTheory.Bundle001
 
 @[expose] public section
 

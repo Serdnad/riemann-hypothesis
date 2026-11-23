@@ -1,7 +1,7 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.Statement
-public import Formalism.EisensteinCokernelLengths.RationalTailBound
+public import Formalism.EisensteinCokernelLengths.Bundle001
 public import Formalism.EisensteinCokernelLengths.FactorialValuationBounds.LemmaCRam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

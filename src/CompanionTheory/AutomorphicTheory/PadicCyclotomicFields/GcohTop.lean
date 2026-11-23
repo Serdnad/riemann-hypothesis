@@ -2,8 +2,8 @@ module
 
 public import Formalism.GaloisCohomology.LocalTateDualityK
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohCmp
-public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohField
-public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohFin
+public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.Bundle001
+public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.Bundle002
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohMu
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTate
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,11 +1,10 @@
 module
 
-public import Formalism.PolynomialDimension.DigitClassSize
-public import Formalism.PolynomialDimension.WeylDim
+public import Formalism.PolynomialDimension.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundLargeConductor
-public import Formalism.PolynomialDimension.MultinomialDepth.WeylDimPosOfAntitone
+public import Formalism.PolynomialDimension.MultinomialDepth.Bundle001
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FinrankLetter
-import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.FinrankTensor
+import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle004
 public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatticeCountPrimeMonoLevel
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.RhoLowerBoundOfEdgeCount
 import Mathlib.Algebra.Order.Floor.Extended

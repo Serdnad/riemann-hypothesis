@@ -1,11 +1,11 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.EigenvalueSeparation.StableEigenspaces.InterpolationL2Bound
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConjugatePlacesFacts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LogAbsBasicFacts
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormCVPosIdele
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle525
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle426
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle428
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SizeBasicOfConjPlaces
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SizeFinitePlaces
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle424
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

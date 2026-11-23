@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle014
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TranslateMemCoefLatFn
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FisSelfReNonneg
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsJointHarmonicOfLoweringStableSubmodule
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FockPolynomialSubstitutionCommuteTargetGlAction
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle114
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle526
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle528
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,9 +45,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.DualLattices.FischerSmulRight
+import ReciprocityTheory.DualLattices.Bundle005
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ParamsEx
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle022
 
 @[expose] public section
 

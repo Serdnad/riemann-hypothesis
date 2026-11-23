@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedNonzeroSection
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle037
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenOnFibres
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenTwistGenerated
 import Mathlib.Algebra.Order.Floor.Extended

@@ -3,8 +3,8 @@ module
 public import GroundTheory.GlobalFields.LocalFieldAtPlace
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasure
 public import GroundTheory.LocalFields.LocalFourier
-public import GroundTheory.GlobalFields.IdeleGroups.Restricted
-import GroundTheory.GlobalFields.LocalAtPlace
+public import GroundTheory.GlobalFields.IdeleGroups.Bundle001
+import GroundTheory.GlobalFields.Bundle001
 import GroundTheory.LocalFields.ExistsUnitFiltrationUnitsLeRangeNormUnits
 import GroundTheory.LocalFields.LocalFourierMult
 import Mathlib.Algebra.Order.Floor.Extended

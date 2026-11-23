@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementLoc
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EnInParamKProd
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.FacEmbDomain
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle013
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle006
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle013
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.ExpansionAllPlacesOfPlace
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.KernelProductForm
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.NatCastInvMemRp
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle015
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

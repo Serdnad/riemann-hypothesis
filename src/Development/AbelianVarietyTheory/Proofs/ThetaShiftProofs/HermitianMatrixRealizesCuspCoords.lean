@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntegrableOnIntegrand
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceEqSumRingHom
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle004
 public import Formalism.LocalToGlobal.ProjectiveLattices.ArchimedeanQuadraticData.MaximalCuspKernels.MaxCuspsPfA
-import Formalism.LocalToGlobal.ProjectiveLattices.RdOrbIntOfLatZ
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

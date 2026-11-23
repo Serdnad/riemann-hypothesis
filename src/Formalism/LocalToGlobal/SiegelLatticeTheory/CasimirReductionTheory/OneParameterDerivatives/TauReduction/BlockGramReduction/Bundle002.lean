@@ -1,0 +1,487 @@
+module
+
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.TauReduction.BlockGramReduction.Bundle001
+import Mathlib.Algebra.Module.StablyFree.Basic
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.TauReduction.LatticeVectorsBoundedBelow
+import Aesop.Frontend.Tactic
+import Aesop.Main
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.Matrix.PosDef
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+public import Mathlib.RingTheory.Complex
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.TotallySplit
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.TauReduction.Imports
+
+@[expose] public section
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open NumberField Matrix Module MeasureTheory
+open scoped ComplexOrder Classical
+
+namespace Formalism.L2.SG.Pf.Tau
+
+open Size Formalism.MainNotions.S
+
+theorem blockDiagonal_mulVec_apply {j : ℕ} {κ : Type} [Fintype κ] [DecidableEq κ]
+    (R : κ → Matrix (Fin j) (Fin j) ℂ) (z : Fin j × κ → ℂ) (k : Fin j) (v : κ) :
+    (blockDiagonal R *ᵥ z) (k, v) = (R v *ᵥ fun k' => z (k', v)) k := by
+  simp [Matrix.mulVec, dotProduct, Fintype.sum_prod_type, blockDiagonal_apply, ite_mul]
+
+theorem det_blockDiagonal_real {j : ℕ} {κ : Type} [Fintype κ] [DecidableEq κ] (R : κ → Matrix (Fin j) (Fin j) ℂ) :
+    LinearMap.det ((Matrix.toLin' (blockDiagonal R)).restrictScalars ℝ) = ∏ v, Complex.normSq (R v).det := by
+  rw [LinearMap.det_restrictScalars, LinearMap.det_toLin', Matrix.det_blockDiagonal, map_prod]
+  simp [Algebra.norm_complex_apply]
+
+variable (I : AutInst) (j : ℕ)
+
+def t8Eq : Fin 2 × (Fin j × InfinitePlace I.F) ≃ Fin (2 * I.f * j) :=
+  Fintype.equivFinOfCardEq (by simp [card_infinite_places]; ring)
+
+def t8J : (Fin j × InfinitePlace I.F → ℂ) ≃ₗ[ℝ] EuclideanSpace ℝ (Fin (2 * I.f * j)) :=
+  complexToEuclidean (t8Eq I j)
+
+theorem placeEmbedding_norm_sq (z : Fin j × InfinitePlace I.F → ℂ) : ‖t8J I j z‖ ^ 2 = ∑ q, ‖z q‖ ^ 2 := by
+  rw [EuclideanSpace.norm_eq, Real.sq_sqrt (Finset.sum_nonneg fun _ _ => sq_nonneg _)]
+  simp only [Real.norm_eq_abs, sq_abs]
+  rw [← (t8Eq I j).sum_comp]
+  simp [t8J, complexToEuclidean, Fintype.sum_prod_type, Fin.sum_univ_two, Module.Basis.smulTower_repr,
+    Complex.coe_basisOneI_repr, Complex.sq_norm, Complex.normSq_apply, ← sq]
+  simp only [Finset.sum_add_distrib]
+
+def placeCoordsBasis : Basis (Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) ℝ (Fin j × InfinitePlace I.F → ℂ) :=
+  (Pi.basis fun _ : Fin j => embeddingBasis I).map (LinearEquiv.curry ℝ ℂ (Fin j) (InfinitePlace I.F)).symm
+
+theorem placeCoordsBasis_apply (p : Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) (q : Fin j × InfinitePlace I.F) :
+    placeCoordsBasis I j p q = if q.1 = p.1 then I.φ q.2 (integralBasis I.E p.2) else 0 := by
+  simp [placeCoordsBasis, embeddingBasis, Pi.basis_apply]
+  by_cases h : q.1 = p.1
+  · rw [if_pos h]
+    simp [Function.uncurry_def, h]
+  · rw [if_neg h]
+    simp [Function.uncurry_def, Pi.single_eq_of_ne h]
+
+def t8B0 : Basis (Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) ℝ (EuclideanSpace ℝ (Fin (2 * I.f * j))) :=
+  (placeCoordsBasis I j).map (t8J I j)
+
+def t8K : ℝ := volume.real (ZSpan.fundamentalDomain (t8B0 I j))
+
+theorem integral_covolume_pos : 0 < t8K I j := by
+  unfold t8K
+  haveI : VAddInvariantMeasure (Submodule.span ℤ (Set.range (t8B0 I j)))
+      (EuclideanSpace ℝ (Fin (2 * I.f * j))) volume :=
+    ⟨fun c s _ => measure_preimage_add volume (c : EuclideanSpace ℝ (Fin (2 * I.f * j))) s⟩
+  refine ENNReal.toReal_pos ?_ ?_
+  · exact (ZSpan.isAddFundamentalDomain (t8B0 I j) volume).measure_ne_zero (NeZero.ne volume)
+  · exact (ZSpan.fundamentalDomain_isBounded (t8B0 I j)).measure_lt_top.ne
+
+def placeCoords : (Fin j → I.E) →+ (Fin j × InfinitePlace I.F → ℂ) where
+  toFun a := fun q => I.φ q.2 (a q.1)
+  map_zero' := by
+    funext q
+    simp
+  map_add' a b := by
+    funext q
+    simp
+
+theorem placeCoords_apply (a : Fin j → I.E) (q : Fin j × InfinitePlace I.F) : placeCoords I j a q = I.φ q.2 (a q.1) := rfl
+
+theorem placeCoords_single (p : Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) :
+    placeCoords I j (Pi.single p.1 (integralBasis I.E p.2)) = placeCoordsBasis I j p := by
+  funext q
+  rw [placeCoords_apply, placeCoordsBasis_apply]
+  by_cases h : q.1 = p.1
+  · simp [h]
+  · simp [h, Pi.single_apply]
+
+def t8O : Submodule ℤ (Fin j → I.E) :=
+  Submodule.span ℤ (Set.range fun p : Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E) =>
+    Pi.single p.1 (integralBasis I.E p.2))
+
+theorem mem_integral_vectors (a : Fin j → I.E) (ha : ∀ k, ∃ c : 𝓞 I.E, (c : I.E) = a k) : a ∈ t8O I j := by
+  have key : ∀ (k : Fin j) (x : 𝓞 I.E), Pi.single k (x : I.E) ∈ t8O I j := by
+    intro k x
+    have hx : (x : I.E) = ∑ i, ((RingOfIntegers.basis I.E).repr x i) • integralBasis I.E i := by
+      conv_lhs => rw [← (RingOfIntegers.basis I.E).sum_repr x]
+      simp [integralBasis_apply]
+    have hs : Pi.single k (∑ i, ((RingOfIntegers.basis I.E).repr x i) • integralBasis I.E i) =
+        ∑ i, ((RingOfIntegers.basis I.E).repr x i) • (Pi.single k (integralBasis I.E i) : Fin j → I.E) := by
+      funext k'
+      by_cases h : k' = k
+      · subst h
+        simp [Finset.sum_apply]
+      · simp [Finset.sum_apply, Pi.single_apply, h]
+    rw [hx, hs]
+    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨⟨k, i⟩, rfl⟩)
+  rw [← Finset.univ_sum_single a]
+  refine Submodule.sum_mem _ fun k _ => ?_
+  obtain ⟨c, hc⟩ := ha k
+  rw [← hc]
+  exact key k c
+
+variable {I j}
+
+def t8Rl (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) :
+    (Fin j × InfinitePlace I.F → ℂ) →ₗ[ℂ] (Fin j × InfinitePlace I.F → ℂ) :=
+  Matrix.toLin' (blockDiagonal R)
+
+def t8T (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) :
+    EuclideanSpace ℝ (Fin (2 * I.f * j)) →ₗ[ℝ] EuclideanSpace ℝ (Fin (2 * I.f * j)) :=
+  (t8J I j).toLinearMap ∘ₗ (t8Rl R).restrictScalars ℝ ∘ₗ (t8J I j).symm.toLinearMap
+
+theorem blockLinear_det (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) :
+    LinearMap.det (t8T R) = ∏ v, Complex.normSq (R v).det := by
+  unfold t8T
+  rw [LinearMap.det_conj]
+  exact det_blockDiagonal_real R
+
+theorem blockLinear_det_ne_zero (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0) :
+    LinearMap.det (t8T R) ≠ 0 := by
+  rw [blockLinear_det]
+  exact Finset.prod_ne_zero_iff.2 fun v _ => (Complex.normSq_pos.2 (hR v)).ne'
+
+def t8Th (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) :
+    (Fin j → I.E) →+ EuclideanSpace ℝ (Fin (2 * I.f * j)) :=
+  ((t8J I j).toLinearMap.toAddMonoidHom.comp ((t8Rl R).toAddMonoidHom)).comp (placeCoords I j)
+
+theorem blockTransform_apply (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (a : Fin j → I.E) :
+    t8Th R a = t8J I j (t8Rl R (placeCoords I j a)) := rfl
+
+theorem blockTransform_single (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ)
+    (p : Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) :
+    t8Th R (Pi.single p.1 (integralBasis I.E p.2)) = t8T R (t8B0 I j p) := by
+  rw [blockTransform_apply, placeCoords_single]
+  simp [t8T, t8B0]
+
+theorem blockTransform_norm_sq (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (a : Fin j → I.E) :
+    ‖t8Th R a‖ ^ 2 = ∑ v, ∑ k, ‖(R v *ᵥ fun k' => I.φ v (a k')) k‖ ^ 2 := by
+  rw [blockTransform_apply, placeEmbedding_norm_sq, Fintype.sum_prod_type, Finset.sum_comm]
+  simp only [t8Rl, Matrix.toLin'_apply, blockDiagonal_mulVec_apply, placeCoords_apply]
+
+theorem blockTransform_injective (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0) :
+    Function.Injective (t8Th R) := by
+  intro a b h
+  have h1 : t8Rl R (placeCoords I j a) = t8Rl R (placeCoords I j b) := (t8J I j).injective h
+  have hdet : (blockDiagonal R).det ≠ 0 := by
+    rw [det_blockDiagonal]
+    exact Finset.prod_ne_zero_iff.2 fun v _ => hR v
+  have hinj : Function.Injective (blockDiagonal R).mulVec :=
+    Matrix.mulVec_injective_iff_isUnit.2 ((Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 hdet))
+  have h2 : placeCoords I j a = placeCoords I j b := hinj h1
+  funext k
+  obtain ⟨v⟩ := (inferInstance : Nonempty (InfinitePlace I.F))
+  exact (I.φ v).injective (congrFun h2 (k, v))
+
+def blockBasis (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0) :
+    Basis (Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) ℝ (EuclideanSpace ℝ (Fin (2 * I.f * j))) :=
+  (t8B0 I j).map ((t8T R).equivOfDetNeZero (blockLinear_det_ne_zero R hR))
+
+theorem blockBasis_apply (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0)
+    (p : Σ _ : Fin j, Free.ChooseBasisIndex ℤ (𝓞 I.E)) : blockBasis R hR p = t8T R (t8B0 I j p) := by
+  simp [blockBasis]
+
+
+set_option maxRecDepth 20000 in
+theorem covolume_blockBasis (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0) :
+    ZLattice.covolume (Submodule.span ℤ (Set.range (blockBasis R hR))) =
+      (∏ v, Complex.normSq (R v).det) * t8K I j := by
+  rw [ZLattice.covolume_eq_measure_fundamentalDomain _ volume (ZSpan.isAddFundamentalDomain (blockBasis R hR) volume)]
+  rw [Measure.real, ZSpan.measure_fundamentalDomain (blockBasis R hR) volume (t8B0 I j)]
+  have hb : (t8B0 I j).det ⇑(blockBasis R hR) = LinearMap.det (t8T R) := by
+    have : ⇑(blockBasis R hR) = t8T R ∘ ⇑(t8B0 I j) := funext fun p => blockBasis_apply R hR p
+    rw [this, Module.Basis.det_comp, Module.Basis.det_self, mul_one]
+  rw [hb, blockLinear_det, ENNReal.toReal_mul, ENNReal.toReal_ofReal (abs_nonneg _),
+    abs_of_nonneg (Finset.prod_nonneg fun v _ => Complex.normSq_nonneg _)]
+  rfl
+
+theorem map_integral_vectors_span (R : InfinitePlace I.F → Matrix (Fin j) (Fin j) ℂ) (hR : ∀ v, (R v).det ≠ 0) :
+    (t8O I j).map (t8Th R).toIntLinearMap = Submodule.span ℤ (Set.range (blockBasis R hR)) := by
+  rw [t8O, Submodule.map_span, ← Set.range_comp]
+  refine congrArg (Submodule.span ℤ) (congrArg Set.range (funext fun p => ?_))
+  show t8Th R (Pi.single p.1 (integralBasis I.E p.2)) = blockBasis R hR p
+  rw [blockTransform_single, blockBasis_apply]
+
+end Formalism.L2.SG.Pf.Tau
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open NumberField Matrix
+open scoped ComplexOrder
+
+namespace Formalism.L2.SG.Pf.Tau
+
+open Size Formalism.MainNotions.S
+
+theorem mulVec_injective_map {E : Type*} [Field E] {n j : ℕ} (f : E →+* ℂ)
+    (Bm : Matrix (Fin n) (Fin j) E) (hB : Function.Injective Bm.mulVec) :
+    Function.Injective (Bm.map f).mulVec := by
+  classical
+  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.toLin' Bm)
+    (by
+      rw [LinearMap.ker_eq_bot]
+      intro x y hxy
+      apply hB
+      simpa [Matrix.toLin'_apply] using hxy)
+  have hC : LinearMap.toMatrix' g * Bm = 1 := by
+    have h1 := congrArg LinearMap.toMatrix' hg
+    rwa [LinearMap.toMatrix'_comp, LinearMap.toMatrix'_id, LinearMap.toMatrix'_toLin'] at h1
+  have h2 : (LinearMap.toMatrix' g).map f * Bm.map f = 1 := by
+    rw [← Matrix.map_mul, hC]
+    exact Matrix.map_one f (map_zero f) (map_one f)
+  intro x y hxy
+  have h3 := congrArg ((LinearMap.toMatrix' g).map f).mulVec hxy
+  simp only [Matrix.mulVec_mulVec, h2, Matrix.one_mulVec] at h3
+  exact h3
+
+theorem gram_det_re_pos (I : AutInst) (x : I.GA) (v : InfinitePlace I.F) {j : ℕ}
+    (b : Fin j → Fin I.n → I.E) (hb : LinearIndependent I.E b) : 0 < (gramV I x v b).det.re := by
+  classical
+  set A : Matrix (Fin I.n) (Fin I.n) ℂ := uMat (x.1 v)⁻¹ * (I.P v)⁻¹ with hA
+  set Bm : Matrix (Fin I.n) (Fin j) I.E := Matrix.of fun i a => b a i with hBm
+  have hgram : gramV I x v b = (A * Bm.map (I.φ v))ᴴ * (A * Bm.map (I.φ v)) := by
+    ext a c
+    have e : ∀ a i, coordV I x v (b a) i = (A * Bm.map (I.φ v)) i a := by
+      intro a i
+      simp [coordV, A, Bm, Matrix.mulVec, dotProduct, Matrix.mul_apply]
+    simp only [gramV, e, Matrix.mul_apply, Matrix.conjTranspose_apply]
+  have hB : Function.Injective Bm.mulVec := by
+    intro c c' h
+    have hs : ∑ a, (c a - c' a) • b a = 0 := by
+      ext i
+      have := congrFun h i
+      simp only [Bm, Matrix.mulVec, dotProduct, Matrix.of_apply] at this
+      simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, sub_mul, Finset.sum_sub_distrib,
+        Pi.zero_apply]
+      rw [sub_eq_zero]
+      simpa only [mul_comm] using this
+    funext a
+    exact sub_eq_zero.1 (Fintype.linearIndependent_iff.1 hb _ hs a)
+  have hAu : IsUnit A := (Units.isUnit _).mul (Matrix.isUnit_nonsing_inv_iff.2 (I.P_unit v))
+  have hC : Function.Injective (A * Bm.map (I.φ v)).mulVec := by
+    intro w w' h
+    simp only [← Matrix.mulVec_mulVec] at h
+    exact mulVec_injective_map (I.φ v) Bm hB (Matrix.mulVec_injective_iff_isUnit.2 hAu h)
+  have hpos := (Matrix.PosDef.conjTranspose_mul_self _ hC).det_pos
+  rw [hgram]
+  exact (Complex.pos_iff.1 hpos).1
+
+theorem packet_conditions_closed (h1 : LatticeFinitelyGenerated) (h2 : ExistsBoundedBasis) : HeightsPositive := by
+  unfold HeightsPositive
+  intro I x s
+  unfold ht
+  obtain ⟨M, hMfg, hM⟩ := h1 I x
+  cases s
+  apply div_pos
+  · apply Finset.prod_pos
+    intro v _
+    apply gram_det_re_pos
+    assumption
+  · rw [Nat.cast_pos]
+    refine @Nat.card_pos _ _ (h2 _ _ _ M _ _ hMfg ?_ ?_ ?_ ?_)
+    all_goals first
+      | assumption
+      | (intro y hy; rw [← SetLike.mem_coe, hM]; aesop)
+      | aesop
+
+end Formalism.L2.SG.Pf.Tau
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open Filter Topology
+
+namespace Formalism.L2.SG.Pf.Tau
+
+theorem t7 : InfimumContinuousFamily := by
+  intro X _ S g hne hpos hloc
+  have hbdd : ∀ x, BddBelow (Set.range (g x)) := fun x => ⟨0, by rintro _ ⟨s, rfl⟩; exact hpos x s⟩
+  have hinf_nonneg : ∀ x, 0 ≤ ⨅ s, g x s := fun x => by
+    haveI := hne x
+    exact le_ciInf fun s => hpos x s
+  have key : ∀ x y (r : ℝ), 0 ≤ r → (∀ s, ∃ s', g y s' ≤ r * g x s) → (⨅ s, g y s) ≤ r * ⨅ s, g x s := by
+    intro x y r hr h
+    haveI := hne x
+    rw [Real.mul_iInf_of_nonneg hr]
+    exact le_ciInf fun s => by
+      obtain ⟨s', hs'⟩ := h s
+      exact (ciInf_le (hbdd y) s').trans hs'
+  have hmin : ∀ a b r : ℝ, 1 ≤ r → 0 ≤ b → a ≤ r * b → min (1 / 2) a ≤ r * min (1 / 2) b := by
+    intro a b r hr hb hab
+    rcases le_total b (1 / 2) with h | h
+    · rw [min_eq_right h]
+      exact (min_le_right _ _).trans hab
+    · rw [min_eq_left h]
+      nlinarith [min_le_left (1 / 2 : ℝ) a]
+  refine continuous_iff_continuousAt.2 fun x => Metric.tendsto_nhds.2 fun ε hε => ?_
+  have hr : (1 : ℝ) < 1 + ε := by linarith
+  filter_upwards [hloc x (1 + ε) hr] with x' hx'
+  have h1 := hmin _ _ _ hr.le (hinf_nonneg x) (key x x' _ (by linarith) hx'.1)
+  have h2 := hmin _ _ _ hr.le (hinf_nonneg x') (key x' x _ (by linarith) hx'.2)
+  have hm1 : min (1 / 2 : ℝ) (⨅ s, g x s) ≤ 1 / 2 := min_le_left _ _
+  have hm2 : min (1 / 2 : ℝ) (⨅ s, g x' s) ≤ 1 / 2 := min_le_left _ _
+  have hp1 : 0 ≤ min (1 / 2 : ℝ) (⨅ s, g x s) := le_min (by norm_num) (hinf_nonneg x)
+  have hp2 : 0 ≤ min (1 / 2 : ℝ) (⨅ s, g x' s) := le_min (by norm_num) (hinf_nonneg x')
+  rw [Real.dist_eq, abs_lt]
+  constructor <;> nlinarith
+
+end Formalism.L2.SG.Pf.Tau
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open NumberField Matrix
+
+namespace Formalism.L2.SG.Pf.Tau
+
+open Size Formalism.MainNotions.S
+
+variable (I : AutInst)
+
+def cmat (x : I.GA) (v : InfinitePlace I.F) {j : ℕ} (b : Fin j → Fin I.n → I.E) :
+    Matrix (Fin I.n) (Fin j) ℂ :=
+  Matrix.of fun i a => coordV I x v (b a) i
+
+theorem gramV_eq (x : I.GA) (v : InfinitePlace I.F) {j : ℕ} (b : Fin j → Fin I.n → I.E) :
+    gramV I x v b = (cmat I x v b)ᴴ * cmat I x v b := by
+  ext a c
+  simp [gramV, cmat, Matrix.mul_apply, Matrix.conjTranspose_apply]
+
+def subOfEq {x x' : I.GA} (h : latSet I x' = latSet I x) (s : Sub I x) : Sub I x' where
+  j := s.j
+  j_pos := s.j_pos
+  b := s.b
+  b_ind := s.b_ind
+  B := s.B
+  B_lat := by rw [h]; exact s.B_lat
+  b_mem := s.b_mem
+  B_span := s.B_span
+
+theorem det_gram_nonneg (h5 : GramDistortionBound) (x : I.GA) (v : InfinitePlace I.F) {j : ℕ} (hj : 1 ≤ j)
+    (b : Fin j → Fin I.n → I.E) : 0 ≤ (gramV I x v b).det.re := by
+  rw [gramV_eq]
+  open scoped ComplexOrder in
+  exact (Complex.nonneg_iff.mp (Matrix.posSemidef_conjTranspose_mul_self _).det_nonneg).1
+
+theorem ht_nonneg (h5 : GramDistortionBound) {x : I.GA} (s : Sub I x) : 0 ≤ ht I s := by
+  unfold ht
+  exact div_nonneg (Finset.prod_nonneg fun v _ => det_gram_nonneg I h5 x v s.j_pos s.b) (Nat.cast_nonneg _)
+
+theorem size_nonneg (h5 : GramDistortionBound) {x : I.GA} (s : Sub I x) : 0 ≤ size I s := by
+  unfold Size.size
+  exact Real.rpow_nonneg (ht_nonneg I h5 s) _
+
+theorem size_subOfEq_le (h5 : GramDistortionBound) {x x' : I.GA} (hlat : latSet I x' = latSet I x)
+    (Y : InfinitePlace I.F → Matrix (Fin I.n) (Fin I.n) ℂ)
+    (hY : ∀ v u, coordV I x' v u = Y v *ᵥ coordV I x v u) {c : ℝ} (hc : 1 ≤ c)
+    (hb : ∀ v (w : Fin I.n → ℂ), ∑ i, ‖(Y v *ᵥ w) i‖ ^ 2 ≤ c * ∑ i, ‖w i‖ ^ 2) (s : Sub I x) :
+    size I (subOfEq I hlat s) ≤ c ^ Fintype.card (InfinitePlace I.F) * size I s := by
+  have hc0 : 0 ≤ c := le_trans zero_le_one hc
+  have hcm : ∀ v, cmat I x' v s.b = Y v * cmat I x v s.b := by
+    intro v
+    ext i a
+    simp [cmat, hY, Matrix.mulVec, Matrix.mul_apply, dotProduct]
+  have hdet : ∀ v, (gramV I x' v s.b).det.re ≤ c ^ s.j * (gramV I x v s.b).det.re := by
+    intro v
+    rw [gramV_eq, gramV_eq, hcm]
+    refine (h5 I.n s.j (Y v) (cmat I x v s.b) 0 c le_rfl (fun w => ⟨?_, hb v w⟩)).2
+    rw [zero_mul]
+    exact Finset.sum_nonneg fun _ _ => sq_nonneg _
+  have hht : ht I (subOfEq I hlat s) ≤ (c ^ s.j) ^ Fintype.card (InfinitePlace I.F) * ht I s := by
+    unfold ht
+    rw [mul_div_assoc']
+    refine div_le_div_of_nonneg_right ?_ (Nat.cast_nonneg _)
+    calc ∏ v, (gramV I x' v (subOfEq I hlat s).b).det.re
+        ≤ ∏ v : InfinitePlace I.F, c ^ s.j * (gramV I x v s.b).det.re :=
+          Finset.prod_le_prod₀ (fun v _ => det_gram_nonneg I h5 x' v s.j_pos s.b) (fun v _ => hdet v)
+      _ = (c ^ s.j) ^ Fintype.card (InfinitePlace I.F) * ∏ v, (gramV I x v s.b).det.re := by
+          rw [Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ]
+  have he : 0 ≤ 1 / (2 * (I.f : ℝ) * (s.j : ℝ)) := by positivity
+  have hexp : ((s.j * Fintype.card (InfinitePlace I.F) : ℕ) : ℝ) * (1 / (2 * (I.f : ℝ) * (s.j : ℝ)))
+      ≤ (Fintype.card (InfinitePlace I.F) : ℝ) := by
+    have hj : (1 : ℝ) ≤ s.j := by exact_mod_cast s.j_pos
+    rcases Nat.eq_zero_or_pos I.f with hf | hf
+    · simp [hf]
+    · have hf' : (1 : ℝ) ≤ I.f := by exact_mod_cast hf
+      rw [Nat.cast_mul, mul_one_div, div_le_iff₀ (by positivity)]
+      have hP : (0 : ℝ) ≤ Fintype.card (InfinitePlace I.F) := Nat.cast_nonneg _
+      nlinarith [mul_nonneg (mul_nonneg hP (by linarith : (0 : ℝ) ≤ s.j)) (by linarith : (0 : ℝ) ≤ 2 * (I.f : ℝ) - 1)]
+  unfold Size.size
+  show ht I (subOfEq I hlat s) ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ))) ≤ _
+  calc ht I (subOfEq I hlat s) ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ)))
+      ≤ ((c ^ s.j) ^ Fintype.card (InfinitePlace I.F) * ht I s) ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ))) :=
+        Real.rpow_le_rpow (ht_nonneg I h5 _) hht he
+    _ = ((c ^ s.j) ^ Fintype.card (InfinitePlace I.F)) ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ))) *
+          ht I s ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ))) :=
+        Real.mul_rpow (by positivity) (ht_nonneg I h5 s)
+    _ ≤ c ^ Fintype.card (InfinitePlace I.F) * ht I s ^ (1 / (2 * (I.f : ℝ) * (s.j : ℝ))) := by
+        refine mul_le_mul_of_nonneg_right ?_ (Real.rpow_nonneg (ht_nonneg I h5 s) _)
+        rw [← pow_mul, ← Real.rpow_natCast, ← Real.rpow_mul hc0, ← Real.rpow_natCast c]
+        exact Real.rpow_le_rpow_of_exponent_le hc hexp
+
+end Formalism.L2.SG.Pf.Tau
+end
+end

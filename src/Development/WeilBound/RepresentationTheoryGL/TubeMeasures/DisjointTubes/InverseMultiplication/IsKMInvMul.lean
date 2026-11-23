@@ -1,9 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.TubeMeasures.DisjointTubes.TubeSt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGensModNsmulOfFgNumberFieldStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle222
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRepsModKM
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeModRepsCardLeStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle441
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

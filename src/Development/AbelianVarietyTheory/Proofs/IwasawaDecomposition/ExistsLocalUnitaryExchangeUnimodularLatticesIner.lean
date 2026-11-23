@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.HeckeInert
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CartanExchangeUnimodularInertPrimeStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPrimePowSmulLeOfLocalizationsEqAwayStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalizationHermitianDualEqStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SameAtOfLocalizationEqStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SubmodulePatchAtPrimeIsLatticeLocPStatement
+public import Formalism.LocalToGlobal.Columns.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle293
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle283
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle279
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 public import Formalism.LocalToGlobal.Columns.HeckeInertComm
@@ -56,7 +55,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PatchAtSelf
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 
 @[expose] public section
 

@@ -1,8 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqDiagonalOfUpperTriangularOfUnitary
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsAdaptedMajorant
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle013
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsUnitaryCommuting
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.HeckeLAdicCharacterAboveIff
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasBlockOfOccurs
-public import Development.AbelianVarietyTheory.Definitions.Divisors.SumExpSt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasString
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOddPrimeGtTwoBounds
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RepERankOne
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle059
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1181
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1762
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle556
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSystemOf
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2429
 
 @[expose] public section
 
@@ -55,7 +55,7 @@ namespace GlobalTheory.FrameGal
 
 section Poly
 
-open Polynomial Formalism.L2.Col
+open Polynomial _root_.Formalism.L2.Col
 
 variable {K : Type} [Field K]
 
@@ -400,7 +400,7 @@ end Galois
 section Side
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal Formalism.BasicNotions GlobalTheory.ExpFrame GlobalTheory.TripleGal GlobalTheory.UnitaryBC GlobalTheory.SmGL GlobalTheory.CuspRep GlobalTheory.GalDef
-open Formalism.CohomologicalDescent.LogSmallConstantBounds Formalism.CohomologicalDescent.ShortWeightBounds Formalism.CohomologicalDescent.LD Formalism.L2.Col Polynomial
+open Formalism.CohomologicalDescent.LogSmallConstantBounds Formalism.CohomologicalDescent.ShortWeightBounds Formalism.CohomologicalDescent.LD _root_.Formalism.L2.Col Polynomial
 
 variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] {l : ℕ} [Fact l.Prime] [IsCMField E]
 
@@ -460,7 +460,7 @@ end Side
 section Point
 
 open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.L2.DIV Formalism.L2.Pj GlobalTheory.BigTop GlobalTheory.BigOn GlobalTheory.ExpTie GlobalTheory.ExpFrame GlobalTheory.FrameAut
-open Formalism.CohomologicalDescent.LogSmallConstantBounds Formalism.CohomologicalDescent.ShortWeightBounds Formalism.L2.Col
+open Formalism.CohomologicalDescent.LogSmallConstantBounds Formalism.CohomologicalDescent.ShortWeightBounds _root_.Formalism.L2.Col
 
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 

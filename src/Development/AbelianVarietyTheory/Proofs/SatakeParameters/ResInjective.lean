@@ -4,12 +4,12 @@ public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsWeig
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsSpanFormsNeBot
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BcDefs
 public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.FinrankAdjoinSqrtNegOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSatFamOfIsDiscrete
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AttachedRepConjugateInvariant
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SemisimpleIsoOfTraceEq
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2260
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle145
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle133
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FrobeniusPowerCompatibility
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SemisimpleRestrictionToNormalSubgroup
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle060
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,11 +49,10 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Connected.Separation
 public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.EqOneOrEqOfKer
 public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.ExistsNormVEqPow
-import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.Imports
-public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.MemRangeResIff
+import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.Bundle001
+public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.Bundle010
 import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.NormVUnderPow
-public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.RangeRes
-public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.RestrictGaloisConjugate
+public import PositivityTheory.AutomorphicForms.PublishedInputs.RealGaloisRepresentations.IwahoriSphericalTransfer.Bundle005
 
 @[expose] public section
 
@@ -73,12 +72,12 @@ theorem res_injective (F Ω K : Type) [Field F] [Field Ω] [Algebra F Ω] [Field
     [IsScalarTower F K Ω] : Function.Injective (res F Ω K) := by
   intro a b h
   ext x
-  have := congrArg (fun σ : G F Ω => σ x) h
+  have := congrArg (fun σ : _root_.Formalism.ConjugateSelfDual.G F Ω => σ x) h
   simpa using this
 
 def AttSys {F Ω : Type} [Field F] [NumberField F] [Field Ω] {l : ℕ} [Fact l.Prime] {a : ℕ}
     (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (ι : Qbar l ≃+* ℂ)
-    (L : Type) [Field L] [NumberField L] [Algebra F L] [Algebra L Ω] (r : G L Ω →* GL (Fin a) (Qbar l)) : Prop :=
+    (L : Type) [Field L] [NumberField L] [Algebra F L] [Algebra L Ω] (r : _root_.Formalism.ConjugateSelfDual.G L Ω →* GL (Fin a) (Qbar l)) : Prop :=
   ∀ᶠ w : HeightOneSpectrum (𝓞 L) in Filter.cofinite, ∀ f : ℕ, normV w = normV (w.under (𝓞 F)) ^ f →
     ∃ B, sat (w.under (𝓞 F)) B ∧ FrobEig ι r w ((algSat a (normV (w.under (𝓞 F))) B).map (· ^ f))
 
@@ -90,7 +89,7 @@ theorem algSat_pow (a q f : ℕ) (B : Multiset ℂˣ) :
   simp only [algSat, hq]
   simp [Multiset.map_map, Function.comp_def, mul_pow, Multiset.bind_map, Multiset.map_bind]
 
-theorem tower (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (M : Type) [Field M] [NumberField M] [Algebra F M] [Algebra M Ω] [IsScalarTower F M Ω] [IsAlgClosure M Ω] [Algebra K M] [IsScalarTower F K M] [IsScalarTower K M Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (r : G K Ω →* GL (Fin a) (Qbar l)) (hatt : AttSys sat ι K r) : AttSys sat ι M (r.comp (res K Ω M)) := by
+theorem tower (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (M : Type) [Field M] [NumberField M] [Algebra F M] [Algebra M Ω] [IsScalarTower F M Ω] [IsAlgClosure M Ω] [Algebra K M] [IsScalarTower F K M] [IsScalarTower K M Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin a) (Qbar l)) (hatt : AttSys sat ι K r) : AttSys sat ι M (r.comp (res K Ω M)) := by
   unfold AttSys at hatt ⊢
   filter_upwards [(GlobalTheory.IndefiniteRowSideFullHecke.UnitaryHeckeCharacterIdele.tendsto_under K M).eventually hatt] with w h f hf
   have huv := GlobalTheory.AttResTower.under_under (F := F) (K := K) w
@@ -109,7 +108,7 @@ theorem tower (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] 
   convert h3 using 2
   simp [Function.comp_def, pow_mul]
 
-theorem uniq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r r' : G K Ω →* GL (Fin a) (Qbar l)) (hc : Continuous r) (hc' : Continuous r') (hs : IsSSRep r) (hs' : IsSSRep r') (h : AttSys sat ι K r) (h' : AttSys sat ι K r') : RepIso r r' := by
+theorem uniq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r r' : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin a) (Qbar l)) (hc : Continuous r) (hc' : Continuous r') (hs : IsSSRep r) (hs' : IsSSRep r') (h : AttSys sat ι K r) (h' : AttSys sat ι K r') : RepIso r r' := by
   refine GlobalTheory.IsoOfFrobFree.main K Ω l ι a r r' hc hc' hs hs' ?_
   filter_upwards [h, h'] with w hw hw'
   obtain ⟨f, hf⟩ := GlobalTheory.AttUniq.exists_normV_eq_pow F K w
@@ -120,7 +119,7 @@ theorem uniq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [
 
 
 open GlobalTheory.RealGal.AttConj in
-theorem comp_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (r : G K Ω →* GL (Fin a) (Qbar l)) (g : G F Ω) (c : G K Ω →* G K Ω) (hc : ∀ s, res F Ω K (c s) = g * res F Ω K s * g⁻¹) (hsurj : Function.Surjective c) (h : AttSys sat ι K r) : AttSys sat ι K (r.comp c) := by
+theorem comp_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin a) (Qbar l)) (g : _root_.Formalism.ConjugateSelfDual.G F Ω) (c : _root_.Formalism.ConjugateSelfDual.G K Ω →* _root_.Formalism.ConjugateSelfDual.G K Ω) (hc : ∀ s, res F Ω K (c s) = g * res F Ω K s * g⁻¹) (hsurj : Function.Surjective c) (h : AttSys sat ι K r) : AttSys sat ι K (r.comp c) := by
   have hcs : ∀ s y, c s y = g (s ((g⁻¹ : Formalism.ConjugateSelfDual.G F Ω) y)) := fun s y => DFunLike.congr_fun (hc s) y
   have hfwd : ∀ x : K, ∃ y : K, algebraMap K Ω y = g (algebraMap K Ω x) := fun x => by
     apply exists_of_fixed
@@ -167,7 +166,7 @@ theorem comp_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F 
     unfold normV
     refine Nat.card_congr (Ideal.quotientEquiv (P w).asIdeal w.asIdeal e.symm ?_).toEquiv
     exact (Ideal.map_comap_of_surjective _ e.symm.surjective w.asIdeal).symm
-  have hPplace : ∀ w (A : ValuationSubring Ω), IsPlaceOver A w → IsPlaceOver (g • A) (P w) := by
+  have hPplace : ∀ w (A : ValuationSubring Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → _root_.Formalism.ConjugateSelfDual.IsPlaceOver (g • A) (P w) := by
     intro w A hA y
     rw [val_lt_one_smul, hPmem, ← hA (e.symm y), heγ, hγinv]
   unfold AttSys at h ⊢
@@ -186,7 +185,7 @@ theorem comp_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F 
 
 
 open GlobalTheory.RealGal.TrInv in
-theorem trace_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (h2 : Module.finrank F K = 2) (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r : G K Ω →* GL (Fin a) (Qbar l)) (hr : Continuous r) (hss : IsSSRep r) (hatt : AttSys sat ι K r) (g : G F Ω) (s s' : G K Ω) (hs : res F Ω K s' = g * res F Ω K s * g⁻¹) : ((r s' : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace = ((r s : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace := by
+theorem trace_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (K : Type) [Field K] [NumberField K] [Algebra F K] [Algebra K Ω] [IsScalarTower F K Ω] [IsAlgClosure K Ω] (h2 : Module.finrank F K = 2) (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r : _root_.Formalism.ConjugateSelfDual.G K Ω →* GL (Fin a) (Qbar l)) (hr : Continuous r) (hss : IsSSRep r) (hatt : AttSys sat ι K r) (g : _root_.Formalism.ConjugateSelfDual.G F Ω) (s s' : _root_.Formalism.ConjugateSelfDual.G K Ω) (hs : res F Ω K s' = g * res F Ω K s * g⁻¹) : ((r s' : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace = ((r s : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace := by
   haveI : Algebra.IsQuadraticExtension F K := ⟨h2⟩
   haveI : Normal F K := Algebra.IsQuadraticExtension.normal F K
   have hsur := conj_surjective (F := F) (Ω := Ω) K g
@@ -203,7 +202,7 @@ theorem trace_conj (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F
 
 
 open GlobalTheory.RealGalCompat in
-theorem trace_eq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (Q Q' : QCM F Ω) (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r : G ↥Q.K Ω →* GL (Fin a) (Qbar l)) (r' : G ↥Q'.K Ω →* GL (Fin a) (Qbar l)) (hr : Continuous r) (hr' : Continuous r') (hs : IsSSRep r) (hs' : IsSSRep r') (ha : AttSys sat ι ↥Q.K r) (ha' : AttSys sat ι ↥Q'.K r') (s : G ↥Q.K Ω) (s' : G ↥Q'.K Ω) (hss : res F Ω ↥Q.K s = res F Ω ↥Q'.K s') : ((r s : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace = ((r' s' : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace := by
+theorem trace_eq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (Q Q' : QCM F Ω) (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (r : _root_.Formalism.ConjugateSelfDual.G ↥Q.K Ω →* GL (Fin a) (Qbar l)) (r' : _root_.Formalism.ConjugateSelfDual.G ↥Q'.K Ω →* GL (Fin a) (Qbar l)) (hr : Continuous r) (hr' : Continuous r') (hs : IsSSRep r) (hs' : IsSSRep r') (ha : AttSys sat ι ↥Q.K r) (ha' : AttSys sat ι ↥Q'.K r') (s : _root_.Formalism.ConjugateSelfDual.G ↥Q.K Ω) (s' : _root_.Formalism.ConjugateSelfDual.G ↥Q'.K Ω) (hss : res F Ω ↥Q.K s = res F Ω ↥Q'.K s') : ((r s : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace = ((r' s' : GL (Fin a) (Qbar l)) : Matrix (Fin a) (Fin a) (Qbar l)).trace := by
   let M : IntermediateField F Ω := Q.K ⊔ Q'.K
   haveI : FiniteDimensional F Q.K := Module.finite_of_finrank_pos (by rw [Q.two]; norm_num)
   haveI : FiniteDimensional F Q'.K := Module.finite_of_finrank_pos (by rw [Q'.two]; norm_num)
@@ -226,37 +225,37 @@ theorem trace_eq (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F �
   have hC := hr.comp (UpperTheory.V.Af.continuous_restrictScalarsHom Q.K M Ω)
   have hC' := hr'.comp (UpperTheory.V.Af.continuous_restrictScalarsHom Q'.K M Ω)
   obtain ⟨g, hg⟩ := uniq F Ω M l ι a sat hu _ _ hC hC' hS hS' hA hA'
-  set σ : G F Ω := res F Ω Q.K s with hσ
+  set σ : _root_.Formalism.ConjugateSelfDual.G F Ω := res F Ω Q.K s with hσ
   have hfix : σ ∈ M.fixingSubgroup := by
     rw [IntermediateField.fixingSubgroup_sup, Subgroup.mem_inf]
     refine ⟨fun x => ?_, fun x => ?_⟩
     · exact s.commutes x
     · rw [hss]; exact s'.commutes x
-  let t : G M Ω := IntermediateField.fixingSubgroupEquiv M ⟨σ, hfix⟩
+  let t : _root_.Formalism.ConjugateSelfDual.G M Ω := IntermediateField.fixingSubgroupEquiv M ⟨σ, hfix⟩
   have ht : res Q.K Ω M t = s := by ext z; rfl
   have ht' : res Q'.K Ω M t = s' := by
     ext z
-    exact congrArg (fun u : G F Ω => u z) hss
+    exact congrArg (fun u : _root_.Formalism.ConjugateSelfDual.G F Ω => u z) hss
   have e := hg t
   simp only [MonoidHom.comp_apply, ht, ht'] at e
   rw [e, Units.val_mul, Units.val_mul, Matrix.trace_mul_cycle, ← Units.val_mul, inv_mul_cancel, Units.val_one,
     Matrix.one_mul]
 
-theorem patch (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (S : Set (QCM F Ω)) (hS : S.Infinite) (r : ∀ Q : ↥S, G ↥Q.1.K Ω →* GL (Fin a) (Qbar l)) (hr : ∀ Q, Continuous (r Q) ∧ IsSSRep (r Q) ∧ AttSys sat ι ↥Q.1.K (r Q)) : ∃ ρ : G F Ω →* GL (Fin a) (Qbar l), Continuous ρ ∧ IsSSRep ρ ∧ ∀ᶠ Q : ↥S in Filter.cofinite, RepIso (r Q) (ρ.comp (res F Ω ↥Q.1.K)) := by
+theorem patch (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (sat : HeightOneSpectrum (𝓞 F) → Multiset ℂˣ → Prop) (hu : ∀ v B B', sat v B → sat v B' → B = B') (S : Set (QCM F Ω)) (hS : S.Infinite) (r : ∀ Q : ↥S, _root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω →* GL (Fin a) (Qbar l)) (hr : ∀ Q, Continuous (r Q) ∧ IsSSRep (r Q) ∧ AttSys sat ι ↥Q.1.K (r Q)) : ∃ ρ : _root_.Formalism.ConjugateSelfDual.G F Ω →* GL (Fin a) (Qbar l), Continuous ρ ∧ IsSSRep ρ ∧ ∀ᶠ Q : ↥S in Filter.cofinite, RepIso (r Q) (ρ.comp (res F Ω ↥Q.1.K)) := by
   classical
   haveI : Infinite ↥S := hS.to_subtype
   haveI : Algebra.IsIntegral F Ω := (IsAlgClosure.isAlgebraic (R := F) (K := Ω)).isIntegral
   obtain ⟨η, hηinj, hη⟩ := GlobalTheory.RealGal.SignChar.main F Ω
-  let e : ∀ Q : ↥S, G ↥Q.1.K Ω ≃* (η Q.1).ker := fun Q =>
+  let e : ∀ Q : ↥S, _root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω ≃* (η Q.1).ker := fun Q =>
     (MonoidHom.ofInjective (res_injective F Ω ↥Q.1.K)).trans (MulEquiv.subgroupCongr (hη Q.1).1.symm)
-  have he : ∀ Q : ↥S, ∀ (s : G ↥Q.1.K Ω), ((e Q s : (η Q.1).ker) : G F Ω) = res F Ω ↥Q.1.K s := fun Q s => rfl
+  have he : ∀ Q : ↥S, ∀ (s : _root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω), ((e Q s : (η Q.1).ker) : _root_.Formalism.ConjugateSelfDual.G F Ω) = res F Ω ↥Q.1.K s := fun Q s => rfl
   have hes : ∀ Q : ↥S, ∀ (h : (η Q.1).ker), res F Ω ↥Q.1.K ((e Q).symm h) = h := by
     intro Q h; rw [← he, MulEquiv.apply_symm_apply]
   let r' : ∀ Q : ↥S, (η Q.1).ker →* GL (Fin a) (Qbar l) := fun Q => (r Q).comp (e Q).symm.toMonoidHom
   have hr' : ∀ Q : ↥S, ∀ (h : (η Q.1).ker), r' Q h = r Q ((e Q).symm h) := fun Q h => rfl
   have hcont : ∀ Q : ↥S, Continuous (r' Q) := by
     intro Q
-    haveI : CompactSpace (G ↥Q.1.K Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[↥Q.1.K] Ω))
+    haveI : CompactSpace (_root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω) := inferInstanceAs (CompactSpace (Ω ≃ₐ[↥Q.1.K] Ω))
     have hc : Continuous (e Q) := (UpperTheory.V.Af.continuous_restrictScalarsHom F ↥Q.1.K Ω).subtype_mk _
     let hm := hc.homeoOfEquivCompactToT2 (f := (e Q).toEquiv)
     exact (hr Q).1.comp hm.symm.continuous
@@ -265,7 +264,7 @@ theorem patch (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] 
     refine UpperTheory.semisimple_restriction_to_normal_subgroup _ _ _ a (r Q) (e Q).symm.toMonoidHom ?_ (hr Q).2.1
     rw [MonoidHom.range_eq_top.mpr (e Q).symm.surjective]
     infer_instance
-  obtain ⟨ρ, hρc, hρs, hev⟩ := GlobalTheory.IndexTwoPatch.main (G F Ω) (Qbar l) a ↥S (fun Q => η Q.1)
+  obtain ⟨ρ, hρc, hρs, hev⟩ := GlobalTheory.IndexTwoPatch.main (_root_.Formalism.ConjugateSelfDual.G F Ω) (Qbar l) a ↥S (fun Q => η Q.1)
     (hηinj.comp Subtype.val_injective) (fun Q => (hη Q.1).2) r' (fun Q => ⟨hcont Q, hss Q⟩)
     (by
       intro Q g h h' hh
@@ -282,7 +281,7 @@ theorem patch (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] 
     refine UpperTheory.semisimple_restriction_to_normal_subgroup _ _ _ a ρ (res F Ω ↥Q.1.K) ?_ hρs
     rw [← (hη Q.1).1]
     infer_instance
-  refine GlobalTheory.TraceConj.main (G ↥Q.1.K Ω) (Qbar l) a (r Q) (ρ.comp (res F Ω ↥Q.1.K)) (hr Q).2.1 hres fun s => ?_
+  refine GlobalTheory.TraceConj.main (_root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω) (Qbar l) a (r Q) (ρ.comp (res F Ω ↥Q.1.K)) (hr Q).2.1 hres fun s => ?_
   have h1 := hQ (e Q s)
   rw [hr', MulEquiv.symm_apply_apply, he] at h1
   exact h1.symm
@@ -290,7 +289,7 @@ theorem patch (F Ω : Type) [Field F] [NumberField F] [Field Ω] [Algebra F Ω] 
 theorem att_of_lift {E Ω : Type} [Field E] [NumberField E] [IsCMField E] [Field Ω] [Algebra E Ω] {l : ℕ} [Fact l.Prime]
     (ι : Qbar l ≃+* ℂ) {a : ℕ} (π : CuspSub E a)
     (hsat : ∀ᶠ v : HeightOneSpectrum (𝓞 E) in Filter.cofinite, ∃ B, (CG.mk π).HasSat v B)
-    (Q : QCM E Ω) (P : CuspSub ↥Q.K a) (r : G ↥Q.K Ω →* GL (Fin a) (Qbar l))
+    (Q : QCM E Ω) (P : CuspSub ↥Q.K a) (r : _root_.Formalism.ConjugateSelfDual.G ↥Q.K Ω →* GL (Fin a) (Qbar l))
     (hL : GlobalTheory.GalCut.IsLift π P) (hA : AttC ι r P) : AttSys (CG.mk π).HasSat ι ↥Q.K r := by
   obtain ⟨-, hev⟩ := hA
   unfold AttSys
@@ -307,7 +306,7 @@ end GlobalTheory.SatSysPatch
 
 end
 
-theorem GlobalTheory.CMBasePatch.main : AutomorphicFormsFiniteGL → ∀ (E Ω : Type) [Field E] [NumberField E] [IsCMField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (π : CuspSub E a) (S : Set (GlobalTheory.RealGal.QCM E Ω)), S.Infinite → ∀ (P : ∀ Q : ↥S, CuspSub ↥Q.1.K a) (r : ∀ Q : ↥S, G ↥Q.1.K Ω →* GL (Fin a) (Qbar l)), (∀ Q, IsLift π (P Q) ∧ Weak (P Q) ι (r Q)) → ∃ ρ : G E Ω →* GL (Fin a) (Qbar l), Continuous ρ ∧ IsSSRep ρ ∧ ∀ᶠ Q : ↥S in Filter.cofinite, UpperTheory.V.Af.RepIso (r Q) (ρ.comp (UpperTheory.V.Af.Bc.res E Ω ↥Q.1.K)) := by
+theorem GlobalTheory.CMBasePatch.main : AutomorphicFormsFiniteGL → ∀ (E Ω : Type) [Field E] [NumberField E] [IsCMField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (a : ℕ) (π : CuspSub E a) (S : Set (GlobalTheory.RealGal.QCM E Ω)), S.Infinite → ∀ (P : ∀ Q : ↥S, CuspSub ↥Q.1.K a) (r : ∀ Q : ↥S, _root_.Formalism.ConjugateSelfDual.G ↥Q.1.K Ω →* GL (Fin a) (Qbar l)), (∀ Q, IsLift π (P Q) ∧ Weak (P Q) ι (r Q)) → ∃ ρ : _root_.Formalism.ConjugateSelfDual.G E Ω →* GL (Fin a) (Qbar l), Continuous ρ ∧ IsSSRep ρ ∧ ∀ᶠ Q : ↥S in Filter.cofinite, UpperTheory.V.Af.RepIso (r Q) (ρ.comp (UpperTheory.V.Af.Bc.res E Ω ↥Q.1.K)) := by
   intro _ E Ω _ _ _ _ _ _ l _ ι a π S hS P r hPr
   have hsatE := (GlobalTheory.ResW.exists_satFam_of_isDiscrete E a).1 π
   obtain ⟨ρ, hc, hs, hev⟩ := GlobalTheory.SatSysPatch.patch E Ω l ι a (CG.mk π).HasSat (fun v B B' h h' => h.unique h') S hS r

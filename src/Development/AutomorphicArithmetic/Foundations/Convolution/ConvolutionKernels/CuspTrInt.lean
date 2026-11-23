@@ -1,15 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalTwistEx
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle004
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.HsOfKer
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KvCont
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle005
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.NormLeOfSq
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.QmapPres
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.RopAdj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.RopAe
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.RopPc
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.TraceKer
-public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.TwAdj
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle006
+public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

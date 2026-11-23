@@ -1,6 +1,6 @@
 module
 
-import ReciprocityTheory.SemistableReduction.SemiContractC
+import ReciprocityTheory.SemistableReduction.Bundle018
 public import GroundTheory.HeightsAndTheta.Heights.KernelsLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

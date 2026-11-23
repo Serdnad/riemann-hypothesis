@@ -1,7 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.EtaleDegreeZeroCohomologyEquivLocallyConstantFun
-public import Development.EtaleCohomology.EtaleSheaves.CoverIntegralClosure
+public import Development.EtaleCohomology.EtaleSheaves.Bundle005
+public import Development.EtaleCohomology.EtaleSheaves.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

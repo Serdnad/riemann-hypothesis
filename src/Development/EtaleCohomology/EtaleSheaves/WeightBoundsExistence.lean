@@ -1,9 +1,9 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafHAWBounds
-public import Development.EtaleCohomology.EtaleSheaves.LeafTwPairUniquePf
+public import Development.EtaleCohomology.EtaleSheaves.Bundle004
+public import Development.EtaleCohomology.EtaleSheaves.Bundle007
 public import Development.EtaleCohomology.KummerTheory.CupAWCutEv
-public import Development.EtaleCohomology.TateTwists.EtaleAlexanderWhitneyCupLeibnizOfPairing
+public import Development.EtaleCohomology.TateTwists.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

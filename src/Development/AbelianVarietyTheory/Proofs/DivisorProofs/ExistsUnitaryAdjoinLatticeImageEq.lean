@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMatLat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle100
 public import Mathlib.Algebra.Polynomial.Derivative
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Basic
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitaryMulIntegralOfNormMaximalOrderUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralAevalEqAevalMapOfCoprimeCharpolyStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIntegralMatrixOfMapsToFullRankLatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle533
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle299
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle276
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

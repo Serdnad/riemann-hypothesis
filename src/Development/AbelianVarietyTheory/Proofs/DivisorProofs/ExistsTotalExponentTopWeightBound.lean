@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PieriBlockIdeals.StatementLA
+public import Formalism.PieriBlockIdeals.Bundle003
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.FormulaAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeylLatticeExactExponentBlockCut
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle957
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.RecursionInclusionExceptional
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

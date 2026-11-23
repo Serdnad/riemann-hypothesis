@@ -1,30 +1,27 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.IsChainFirst
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle030
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FieldIntersectionLinearDegreeOneStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagChainArithVarietyStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagChainUnitLogIntegralStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagDegreeWeightFormula
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle037
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle035
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle003
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GenericFibreLinearEquationsStatement
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.IsBlockMapDrop
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.LogIntegralMultilinearStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RhoCoeffGapDeltaOneStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RhoFactorialProductEqStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.SymmetricFormPolynomialCoeffStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.WeightGapDeltaEqAntisymmetricStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.WeightMapInjectiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticDataUniformisedStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverDegreeOneRealisationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagHeightPolynomialWeightFormStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyArithmeticStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyBoundaryDimensionDropStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyModelBaseMetricStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.RealisationPotentialDegreeCompatibilityStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SamePotBlock
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UniformisedDegreePolynomialAntisymmetricStatement
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle034
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle032
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle033
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle111
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle138
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle137
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle096
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.XCFlAn
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.ExistsUnique
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle026
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PLiftGraphFactor
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -88,7 +85,7 @@ open GroundTheory.Heights₂.Heights.LowerBoundFree
 variable {Ψ : Type} [Fintype Ψ] [DecidableEq Ψ] {N : ℕ} {K : Type}
 
 theorem arith [Fintype K] [Nonempty K] (j : K → FlBlock Ψ N) (hj : IsChain j) :
-    IsArithVar (PPart j) (cellDim j + 1) := GlobalTheory.T.flag_chain_arith_variety Ψ N K j hj
+    ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PPart j) (cellDim j + 1) := GlobalTheory.T.flag_chain_arith_variety Ψ N K j hj
 
 theorem fibreLin [Fintype K] [DecidableEq K] (j : K → FlBlock Ψ N) (hj : IsChain j) (k₀ : K)
     (hmax : ∀ k, ((j k).2 : ℕ) ≤ (j k₀).2) (hne : ∃ k, k ≠ k₀) :
@@ -160,7 +157,7 @@ theorem ptsIntegral_neg_one {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fin
   · simp
 
 theorem tie (II : IntersectionSystem) (hII : IsIntersectionSystem II) {K : Type} [Fintype K] {ι : K → Type}
-    [∀ k, Fintype (ι k)] (P : Ideal (MRing ι)) (e : ℕ) (L : Fin e → HermLine ι) (hP : IsArithVar P (e + 1))
+    [∀ k, Fintype (ι k)] (P : Ideal (MRing ι)) (e : ℕ) (L : Fin e → HermLine ι) (hP : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar P (e + 1))
     (hL : ∀ j, IsSmoothHerm (L j)) :
     II K ι P (e + 1) (Fin.cons (constLine ι) L) = ptsIntegral P (pot L) (fun _ => 1) := by
   obtain ⟨hs, -, hR⟩ := hII K ι
@@ -294,11 +291,11 @@ theorem step (hIn : PB.Inputs) (II : IntersectionSystem) (hII : IsFullIntersecti
   obtain ⟨k₁, hk₁⟩ := hne
   haveI : Nonempty {k // k ≠ k₀} := ⟨⟨k₁, hk₁⟩⟩
   haveI : Nonempty K := ⟨k₀⟩
-  have hA₀ : IsArithVar (PPart (dropJ j k₀)) (e₀ + 1) := he ▸ arith _ hc₀
-  have hAe : IsArithVar (PPart j) (e₀ + r + 1) := by
+  have hA₀ : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PPart (dropJ j k₀)) (e₀ + 1) := he ▸ arith _ hc₀
+  have hAe : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PPart j) (e₀ + r + 1) := by
     have := arith j hj
     rwa [cellDim_drop j k₀, ← he, ← hr] at this
-  have hA : IsArithVar (PPart j) (e₀ + 1 + r) := by
+  have hA : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (PPart j) (e₀ + 1 + r) := by
     rw [show e₀ + 1 + r = e₀ + r + 1 by omega]; exact hAe
   have hImg := imageZ_drop j k₀
   have hB := isBlockMap_drop j k₀
@@ -448,7 +445,7 @@ theorem degFl_vand (hIn : PB.Inputs) (II : IntersectionSystem) (hII : IsFullInte
   obtain ⟨M, BM, hhom, hfs, hbd⟩ := GlobalTheory.T.flag_variety_model_base_metric Ψ N hN
   have hpos : 1 ≤ antisymDegree Ψ N := Nat.mul_pos Fintype.card_pos (Nat.choose_pos hN)
   obtain ⟨d, hd⟩ : ∃ d, d + 1 = antisymDegree Ψ N := ⟨antisymDegree Ψ N - 1, by omega⟩
-  have harith : IsArithVar (mCoordIdeal (yFl Ψ N)) (d + 2) := by
+  have harith : ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal (yFl Ψ N)) (d + 2) := by
     have := GlobalTheory.T.flag_variety_arithmetic Ψ N hN
     rw [← hd] at this
     exact this

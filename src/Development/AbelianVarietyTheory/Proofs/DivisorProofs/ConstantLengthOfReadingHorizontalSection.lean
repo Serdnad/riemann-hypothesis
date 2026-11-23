@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.HtValOnSubset
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadsZero
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1123
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEigenBasisSameVec
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FramesOnEqModel
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsBijectiveKappa
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1176
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2321
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle049
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.MemIffConjugateNotMem
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ModelBaseTrivModels
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle026
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

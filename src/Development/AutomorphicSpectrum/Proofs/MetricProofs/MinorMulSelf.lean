@@ -1,16 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.UpVApply
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle113
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishing
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockMapFrameRestriction
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockMapFrameRestrictionRegularStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsLowerUniBlockDiagFactorizationStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle125
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle135
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle133
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentArithmeticHeight
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAdjacentChartSeventh
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FrameDataLocalResolutionOpen
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsValueAtOfTorus
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MinorIJLowerUniSwap
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PMatStepColsEntry
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle124
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle075
 import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCoordConeArithVar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

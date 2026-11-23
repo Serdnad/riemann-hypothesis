@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsZCombLimit
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsHilbert
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PThmAExpand
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PGenericFibreDim
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.IsMultiHomogIdealIff
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle020
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRat
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle012
 import Std.Tactic.BVDecide.Normalize.Prop
 import GroundTheory.HeightsAndTheta.Heights.Intersections.Statements
 
@@ -70,19 +70,19 @@ namespace ZCombLimit
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
-theorem zcomb_eq_tensor_zpow (A B : HermLine ι) (m p : ℤ) :
+theorem zcomb_eq_tensor_zpow (A B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (m p : ℤ) :
     HermLine.zcomb A B m p = (hermZpow A m).tensor (hermZpow B p) :=
   hermLine_eq_of (by funext k; simp [HermLine.zcomb, HermLine.tensor, hermZpow])
     (by funext z; simp [HermLine.zcomb, HermLine.tensor, hermZpow])
 
-theorem isSmoothHerm_zcomb_int {A B : HermLine ι} (hA : IsSmoothHerm A) (hB : IsSmoothHerm B) (m p : ℤ) :
+theorem isSmoothHerm_zcomb_int {A B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hA : IsSmoothHerm A) (hB : IsSmoothHerm B) (m p : ℤ) :
     IsSmoothHerm (HermLine.zcomb A B m p) := by
   rw [zcomb_eq_tensor_zpow]
   exact isSmoothHerm_tensor (isSmoothHerm_hermZpow hA m) (isSmoothHerm_hermZpow hB p)
 
-theorem fam_update_zcomb_int {I : Ideal (MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ} {P : Ideal (MRing ι)}
+theorem fam_update_zcomb_int {I : Ideal (MRing ι) → (n : ℕ) → (Fin n → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ} {P : Ideal (MRing ι)}
     {n : ℕ} (hI : IsIntersectionFamily I) (hP : IsArithVar P (n + 1))
-    (L : Fin (n + 1) → HermLine ι) (hL : ∀ j, IsSmoothHerm (L j)) (a : Fin (n + 1)) {A B : HermLine ι}
+    (L : Fin (n + 1) → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (hL : ∀ j, IsSmoothHerm (L j)) (a : Fin (n + 1)) {A B : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι}
     (hA : IsSmoothHerm A) (hB : IsSmoothHerm B) (m p : ℤ) :
     I P (n + 1) (Function.update L a (HermLine.zcomb A B m p)) =
       m * I P (n + 1) (Function.update L a A) + p * I P (n + 1) (Function.update L a B) := by
@@ -95,11 +95,11 @@ theorem fam_update_zcomb_int {I : Ideal (MRing ι) → (n : ℕ) → (Fin n → 
     fam_update_eq_snoc hI hP L hL a hB, hI.2.1 P n _ _ _ hP hR hAm hBp, fam_snoc_zpow hI hP _ hR hA m,
     fam_snoc_zpow hI hP _ hR hB p]
 
-variable {J : Ideal (MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ} {P : Ideal (MRing ι)} {n : ℕ}
+variable {J : Ideal (MRing ι) → (n : ℕ) → (Fin n → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ} {P : Ideal (MRing ι)} {n : ℕ}
 
-theorem eq_famExt_of_position (Q : HermLine ι → Prop) (e : Fin 2 → HermLine ι) (Z : HermLine ι) (w : Fin 2 → ℝ)
+theorem eq_famExt_of_position (Q : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι → Prop) (e : Fin 2 → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (Z : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (w : Fin 2 → ℝ)
     (he : ∀ i, Q (e i)) (hZ : Q Z)
-    (hposition : ∀ (L : Fin n → HermLine ι) (a : Fin n), (∀ j, Q (L j)) →
+    (hposition : ∀ (L : Fin n → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (a : Fin n), (∀ j, Q (L j)) →
       J P n (Function.update L a Z) =
         w 0 * J P n (Function.update L a (e 0)) + w 1 * J P n (Function.update L a (e 1)))
     (T : Finset (Fin n)) (t : Fin n → Fin 2) :
@@ -159,13 +159,13 @@ theorem eq_famExt_of_position (Q : HermLine ι → Prop) (e : Fin 2 → HermLine
       smul_eq_mul, smul_eq_mul]
     rfl
 
-theorem famExt_const_smul (e : Fin 2 → HermLine ι) (c : ℝ) (w : Fin 2 → ℝ) :
+theorem famExt_const_smul (e : Fin 2 → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (c : ℝ) (w : Fin 2 → ℝ) :
     famExt J P n e (fun _ => c • w) = c ^ n * famExt J P n e (fun _ => w) := by
   rw [show (fun _ : Fin n => c • w) = fun i => (fun _ : Fin n => c) i • (fun _ : Fin n => w) i from rfl,
     MultilinearMap.map_smul_univ, smul_eq_mul, Finset.prod_const, Finset.card_univ, Fintype.card_fin]
   rfl
 
-theorem exists_delta (e : Fin 2 → HermLine ι) (k : ℕ) (ε : ℝ) (hε : 0 < ε) :
+theorem exists_delta (e : Fin 2 → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (k : ℕ) (ε : ℝ) (hε : 0 < ε) :
     ∃ δ : ℝ, 0 < δ ∧ ∀ t : ℝ, |t| < δ →
       |famExt J P n e (fun _ => ![1 - k * t, t]) - J P n (fun _ => e 0)| < ε := by
   have hv : ∀ i : Fin 2, Continuous fun t : ℝ => (![1 - k * t, t] : Fin 2 → ℝ) i := by
@@ -191,7 +191,7 @@ theorem exists_delta (e : Fin 2 → HermLine ι) (k : ℕ) (ε : ℝ) (hε : 0 <
   have := hδ' t (by simpa [Real.dist_eq] using ht)
   rwa [Real.dist_eq, h0] at this
 
-theorem famExt_div (e : Fin 2 → HermLine ι) (k p q : ℕ) (hq : 0 < q) :
+theorem famExt_div (e : Fin 2 → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (k p q : ℕ) (hq : 0 < q) :
     famExt J P n e (fun _ => ![(((q : ℤ) - k * p : ℤ) : ℝ), ((p : ℤ) : ℝ)]) / (q : ℝ) ^ n =
       famExt J P n e (fun _ => ![1 - k * ((p : ℝ) / q), (p : ℝ) / q]) := by
   have hq' : (q : ℝ) ≠ 0 := by positivity
@@ -261,7 +261,7 @@ theorem ZCombLimit.proof (hM : MixedNumberPolynomial.Statement.{0}) : ZCombLimit
 
   obtain ⟨-, hadd⟩ := hM ℚ K ι (P.map (MvPolynomial.map (Int.castRingHom ℚ))) D
     (ZCombLimit.genericFibre hY).1 (ZCombLimit.genericFibre hY).2
-  let Jg : Ideal (ReciprocityTheory.ChartRestriction.G.Geo.MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ := fun P' n L =>
+  let Jg : Ideal (ReciprocityTheory.ChartRestriction.G.Geo.MRing ι) → (n : ℕ) → (Fin n → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ := fun P' n L =>
     (GroundTheory.Heights₂.Heights.NumbersDVR.intNum ℚ (P'.map (MvPolynomial.map (Int.castRingHom ℚ)))
       (fun j => (L j).a) : ℝ)
   have hzs : ∀ (bs : Fin D → K → ℤ) (j : Fin D) (c : ℤ) (x : K → ℤ),
@@ -276,12 +276,12 @@ theorem ZCombLimit.proof (hM : MixedNumberPolynomial.Statement.{0}) : ZCombLimit
   have hfullG : ∀ m p : ℤ, (genDeg P D (HermLine.zcomb A B m p).a : ℝ) =
       famExt Jg P D ![A, B] (fun _ => ![(m : ℝ), (p : ℝ)]) := by
     intro m p
-    have hposition : ∀ (L : Fin D → HermLine ι) (a : Fin D), (∀ _ : Fin D, True) →
+    have hposition : ∀ (L : Fin D → ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (a : Fin D), (∀ _ : Fin D, True) →
         Jg P D (Function.update L a (HermLine.zcomb A B m p)) =
           (![(m : ℝ), (p : ℝ)] : Fin 2 → ℝ) 0 * Jg P D (Function.update L a (![A, B] 0)) +
             (![(m : ℝ), (p : ℝ)] : Fin 2 → ℝ) 1 * Jg P D (Function.update L a (![A, B] 1)) := by
       intro L a _
-      have hcomp : ∀ Z : HermLine ι, (fun j => (Function.update L a Z j).a) =
+      have hcomp : ∀ Z : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, (fun j => (Function.update L a Z j).a) =
           Function.update (fun j => (L j).a) a Z.a := by
         intro Z
         funext j

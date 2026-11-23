@@ -2,10 +2,10 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.UnitBracket
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
-public import Formalism.LocalToGlobal.IndefiniteReal.DatumLemmas
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle020
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharLem
-import Formalism.LocalToGlobal.IndefiniteReal.PHeisThA
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle008
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle015
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

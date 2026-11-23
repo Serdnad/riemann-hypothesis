@@ -1,6 +1,6 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.ArchimedeanUnitarySurjective
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle055
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntEmbInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

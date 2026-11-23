@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SatakeDualWeyl.StatementC
-public import Formalism.SatakeDualWeyl.StatementB
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.SatakeDualWeyl.Bundle001
+public import Formalism.SatakeDualWeyl.Bundle002
+public import Formalism.HermitianLattices.Bundle002
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

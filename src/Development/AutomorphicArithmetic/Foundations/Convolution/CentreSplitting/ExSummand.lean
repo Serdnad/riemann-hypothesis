@@ -1,9 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.LocalRepresentationL2
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ClosureSummand
-import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.FormsClosure
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.FormsIrr
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle004
+import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

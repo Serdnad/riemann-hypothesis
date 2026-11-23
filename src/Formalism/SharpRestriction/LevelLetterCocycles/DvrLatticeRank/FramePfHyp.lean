@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.FramePfDict
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.DvdCondition
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.GradNPfB
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle012
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle004
 import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.GradNPfC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

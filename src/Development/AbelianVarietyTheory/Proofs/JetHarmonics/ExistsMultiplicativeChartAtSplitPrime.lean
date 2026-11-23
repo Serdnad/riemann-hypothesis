@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.CmLatticeCommutatorPairingPowEqOneOfGoodLift
-public import Formalism.UnipotentAdelicQuotients.JetMomFound
+public import Formalism.UnipotentAdelicQuotients.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpBinomialPowerSubOneSeriesIntegralityCompositio
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFormalGroupAdd
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HeightOneOfSplit
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsIsoGmOfMap
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle089
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

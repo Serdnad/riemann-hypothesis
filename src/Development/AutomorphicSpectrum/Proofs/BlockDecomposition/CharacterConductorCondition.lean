@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.BasisSet
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtraMore
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.UnramifiedWhittaker.Bundle001
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle024
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.CompactCovering.NCovAd
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.IntAdCpctOpen
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ noncomputable section
 
 namespace GlobalTheory.CompanionTheory.PsiCondLoc
 
-open HeckeCharacterZeroLocus.SiegelWeilU NumberField IsDedekindDomain Filter Topology Metric
+open HeckeCharacterZeroLocus.SiegelWeilU NumberField IsDedekindDomain Filter _root_.Topology Metric
 open Formalism.L2.SG.Pf.RescaleCore.NCov.AdCocptW
 
 theorem eq_one_of_pow_near {z : ℂ} (h : ∀ k : ℕ, ‖z ^ (2 ^ k) - 1‖ ≤ 1 / 2) : z = 1 :=

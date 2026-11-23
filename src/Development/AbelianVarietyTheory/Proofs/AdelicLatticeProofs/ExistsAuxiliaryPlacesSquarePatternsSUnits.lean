@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.SqSubLeNormSub
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle001
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.Basic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsPlaceIsSquareAndNotIsSquare
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSquareMulOfNonsquareUnits
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RelIndexSquaresSUnitsNumberField
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle064
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle041
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle055
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

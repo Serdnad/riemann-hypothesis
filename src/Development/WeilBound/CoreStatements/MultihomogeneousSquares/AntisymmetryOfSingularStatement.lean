@@ -5,9 +5,8 @@ public import Development.WeilBound.CoreStatements.JacobiBlockDeterminants.HtCan
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryTranspositionFactor
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.EmbImmersion
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.ExistsBase
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.IsMultiHomogRenameBaseInc
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.PolySmulOfSameSing
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.SmoothComb
+public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.Bundle002
+public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.Bundle003
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.StFormB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

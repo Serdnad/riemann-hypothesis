@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagGenDiag
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CmHostImaginaryGeneratorNeZero
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.BesPerHaarScale
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle318
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle313
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle406
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagUnipotentBesselCharacterLaws
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowBesZeroE
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle574
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -328,7 +328,7 @@ theorem top_gen {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData 
   rw [per_conj W d o ζ hN hE hψ vA.μ vA.𝓕 vN.ν vN.𝓝 (φ D.R.m) (f D.R.m)]
   exact (congrArg (starRingEnd ℂ) hrr').trans (map_zero _)
 
-theorem ends : All fun {_} _ _ _ {G} W M => ∀ (v : CoreVol G) (F : Frames G), Std F → F.Ends v W M := by
+theorem ends : All fun {_} _ _ _ {G} W M => ∀ (v : CoreVol G) (F : GlobalTheory.Asc.Frames G), Std F → F.Ends v W M := by
   intro D _ T L μ0 _ sc G W M hM v F hF
   refine ⟨fun h => (embRel_iff _ h _).1 (F.oz.embRel_left _ hF.zA.symm h), fun ρ h he φ f hφ hf hne => ?_⟩
   refine top_gen W M hM (2 * ρ + 2) ρ he rfl (by omega) h (F.dB ρ h) (F.oB ρ h) (F.ζ (ρ + 1))

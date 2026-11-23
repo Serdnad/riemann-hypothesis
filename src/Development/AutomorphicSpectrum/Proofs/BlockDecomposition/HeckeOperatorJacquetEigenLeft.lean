@@ -1,10 +1,10 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCompactKm
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle361
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.CentredSegments.IrreducibleUnif
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantOrbit
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeOperatorsCommuteOnFixed
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle363
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

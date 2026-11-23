@@ -1,12 +1,12 @@
 module
 
 public import Development.AutomorphicSpectrum.Statements.MetricStatements.AgreementIffGuarded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticDataFubiniStudyStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticDataUniformisedStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverDegreeOneRealisationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverRealisationPullbackStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyArithmeticStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagVarietyModelBaseMetricStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle182
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle184
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle138
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle108
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -70,7 +70,7 @@ theorem flagVarieties_flagSys : Inputs → ∀ (Ψ : Type) [Fintype Ψ] [Decidab
     have h2 : 0 < N.choose 2 := Nat.choose_pos hN
     exact Nat.mul_pos h1 h2
   obtain ⟨d, hd1⟩ : ∃ d, d + 1 = antisymDegree Ψ N := ⟨antisymDegree Ψ N - 1, Nat.sub_add_cancel hpos⟩
-  have hAr : IsArithVar (mCoordIdeal (yFl Ψ N)) (d + 2) := by
+  have hAr : _root_.ReciprocityTheory.ChartRestriction.G.Geo.IsArithVar (mCoordIdeal (yFl Ψ N)) (d + 2) := by
     have hd2 : d + 2 = antisymDegree Ψ N + 1 := by omega
     rw [hd2]
     exact hA

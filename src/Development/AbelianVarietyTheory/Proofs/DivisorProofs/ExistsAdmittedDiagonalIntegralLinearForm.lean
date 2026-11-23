@@ -199,7 +199,7 @@ theorem pureA_ind_add (v : Pl (F := F)) (f : (ι → mixedEmbedding.mixedSpace F
     rwa [Pi.smul_apply, smul_eq_mul, sub_mul, one_mul, Pi.zero_apply, sub_eq_zero] at this
   have h2 : ∀ i, (z i).1 = 0 := fun i => (congrArg Prod.fst (h1 i)).trans (zero_mul _)
   have h3 : ∀ i, (z i).2 = singleFin v (evalV F v (z i).2) := fun i => by
-    refine (congrArg Prod.snd (h1 i)).trans (af_ext fun u => ?_)
+    refine (congrArg Prod.snd (h1 i)).trans (GlobalTheory.AdelicU.af_ext fun u => ?_)
     show evalV F u (singleFin v 1 * (z i).2) = _
     rw [map_mul]
     by_cases hu : u = v

@@ -1,9 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveIndexLinear
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveRingFinite
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsCurveClosedPointChart
-public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsInvertibleIndexMul
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle027
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

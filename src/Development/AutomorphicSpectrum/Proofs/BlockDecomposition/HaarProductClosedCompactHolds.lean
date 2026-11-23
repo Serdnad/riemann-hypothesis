@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.HaarProductClosedCompact
+public import Formalism.UnipotentAdelicQuotients.Bundle001
 public import Mathlib.MeasureTheory.Measure.Regular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

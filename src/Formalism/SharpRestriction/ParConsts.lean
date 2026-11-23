@@ -1,11 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.FamCore
-public import Formalism.SharpRestriction.ElevenLe
-public import Formalism.LocalRingCardinality.DataTies
-public import Formalism.LocalRingCardinality.DataParamsT
-public import Formalism.LocalRingCardinality.KernelPlaceMeanBound
-public import Formalism.LocalRingCardinality.DataExtra
+public import Formalism.SharpRestriction.Bundle001
+public import Formalism.LocalRingCardinality.Bundle004
+public import Formalism.LocalRingCardinality.Bundle005
+public import Formalism.LocalRingCardinality.Bundle007
+public import Formalism.LocalRingCardinality.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

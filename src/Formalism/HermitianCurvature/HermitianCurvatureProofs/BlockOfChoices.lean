@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementKB
+public import Formalism.HermitianCurvature.Bundle007
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BlockOfCauchySchwarz
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PBGWave
 import Mathlib.Algebra.Order.Floor.Extended

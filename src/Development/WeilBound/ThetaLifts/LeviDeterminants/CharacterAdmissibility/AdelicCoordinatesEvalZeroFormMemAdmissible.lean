@@ -2,12 +2,12 @@ module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.ResAdm
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.LagrangianUniqueness.RealTest
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.RealSt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicSchwartzNeZeroAtOrigin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtendByZeroMemSchA
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductFunctionOnSumCoordsMemAdelicSchwartzSpace
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ThetaDistributionNonzeroAdmissibleStatement
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ExistsNeOfSurjOn
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1228
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1330
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1191
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle007
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.EqZeroOfTheta
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle004
 
 @[expose] public section
 

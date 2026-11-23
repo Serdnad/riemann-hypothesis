@@ -2,8 +2,8 @@ module
 
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Formalism.PeriodIntegrals.UpqRep
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DsigWSubAvg
-import Formalism.SharpRestriction.CuspSpanNormBounds.FamilyDoubleCosetBesselBoundOfGap
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle302
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

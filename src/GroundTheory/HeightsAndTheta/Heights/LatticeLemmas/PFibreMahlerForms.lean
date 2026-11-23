@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HermitianTensor
-public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.PDiagonalChange
+public import GroundTheory.HeightsAndTheta.Heights.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

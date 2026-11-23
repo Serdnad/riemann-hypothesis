@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SlopeBoundSt
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsPushDown
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsDimX
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsZhangLowerX
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle016
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle003
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -4,7 +4,7 @@ public import Mathlib.AlgebraicGeometry.Morphisms.Finite
 public import Mathlib.AlgebraicGeometry.Morphisms.Flat
 public import Mathlib.NumberTheory.Padics.Complex
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemPadicAlgClValuationSubringIffNormLeOne
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle038
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.BijectiveAlgebraMapIntegralClosureOfBirational
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 public import Mathlib.FieldTheory.Galois.Infinite
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 
@@ -222,7 +222,7 @@ theorem exists_factor_of_isLocalRing_of_mem_affineOpen {R : CommRingCat.{0}} [Is
 
 theorem isIso_of_isFinite_of_unique_lift_of_classical_points :
     ∀ (X : Scheme.{0}) [IsIntegral X] (π : X ⟶ Sp ℤ) [Flat π] [LocallyOfFiniteType π],
-      IsNormalScheme X → ∀ (W : Scheme.{0}) [IsReduced W] [Nonempty W] (f : W ⟶ X) [IsFinite f],
+      ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme X → ∀ (W : Scheme.{0}) [IsReduced W] [Nonempty W] (f : W ⟶ X) [IsFinite f],
         (∀ w ∈ genericPoints W, f w = genericPoint X) → ∀ (x : X) (U : X.Opens),
           IsClosed ({x} : Set X) → (U : Set X).Nonempty →
             (∀ (p : ℕ) [Fact p.Prime] (a a' : Sp (OO p) ⟶ W), a ≫ f = a' ≫ f →

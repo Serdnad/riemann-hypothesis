@@ -1,14 +1,13 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
-public import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldC
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinHeckeFunctional
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle534
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesConvergent
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeightContinuousPos
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle535
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCompactStandardMaximal
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeftInvertibleExistsNonzeroMinorStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PluckerMinorsDetermineColumnSpaceStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SummableHeightPowOfPolynomialCountStatement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle420
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle428
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

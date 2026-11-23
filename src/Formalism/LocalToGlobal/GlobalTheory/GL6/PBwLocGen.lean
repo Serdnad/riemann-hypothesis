@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StandardLattice
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle056
 public import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

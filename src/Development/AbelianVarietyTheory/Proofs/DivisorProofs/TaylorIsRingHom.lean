@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntDerApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsDerivationEqIteratePrimeCharP
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle228
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

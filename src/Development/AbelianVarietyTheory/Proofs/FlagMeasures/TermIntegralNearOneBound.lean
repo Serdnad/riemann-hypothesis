@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.NoLeak
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsPowSmulMemOfIsLat
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDoubleCosetTermBasicFactsStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IndexMeasureIntegralEqMeanOverRepresentativesStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle031
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPrincipalIdealRingOfHenselian
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.QuadricCharacterLeakSharesFiniteStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle206
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

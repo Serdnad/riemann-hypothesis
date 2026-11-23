@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.RealGroupsIwasawaHaar
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StrictlyUpperRank
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle027
 import Mathlib.Algebra.Algebra.Field
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

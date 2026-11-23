@@ -1,7 +1,7 @@
 module
 
-public import Formalism.PeriodIntegrals.FinOrdAd
-public import Formalism.PeriodIntegrals.AdCpctDen
+public import Formalism.PeriodIntegrals.Bundle005
+public import Formalism.PeriodIntegrals.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

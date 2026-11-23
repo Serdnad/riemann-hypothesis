@@ -2,12 +2,10 @@ module
 
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealCompactPartitionUnityStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzCompactSupportDenseStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzMapBarrelledSpace
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchwartzPairingContinuousFunctionalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TranslationInvariantSchwartzUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TranslationIsometrySchwartzOperatorStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle198
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle375
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1964
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1637
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

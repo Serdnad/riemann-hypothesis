@@ -1,8 +1,8 @@
 module
 
 public import ReciprocityTheory.Hypotheses.GalCoh
-public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteH1UnramifiedOutside
-public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalFiniteness.FiniteH2TorsionModule
+public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle015
+public import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalFiniteness.Bundle001
 import Development.WeilBound.CoreStatements.PublishedTheorems.GlobalFiniteness.Transport
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,12 +1,12 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.ClassNumberFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FormGroupToPadicPointsDegreeOneEqUnitaryPoints
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TC
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsClosedZeroLocusGL
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousRestrStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsContinuousFiniteAdeleEquivRatIntStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RatFiniteAdelesSplitAwayFromPrimePadicStatement
+public import Formalism.UnipotentAdelicQuotients.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1571
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle156
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle264
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle382
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle265
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

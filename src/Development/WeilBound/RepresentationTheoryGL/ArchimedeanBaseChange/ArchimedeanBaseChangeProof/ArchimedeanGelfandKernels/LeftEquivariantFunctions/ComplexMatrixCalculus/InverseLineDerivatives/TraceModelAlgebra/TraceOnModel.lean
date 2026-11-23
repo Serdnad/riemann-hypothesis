@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.LeftEquivariantFunctions.ComplexMatrixCalculus.InverseLineDerivatives.AtTraceT
 public import Development.AbelianVarietyTheory.Definitions.Foundations.TracePowApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BranchingAdmissibleFacts
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualWeylLeOfHighestVectorRowOperatorStable
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle946
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

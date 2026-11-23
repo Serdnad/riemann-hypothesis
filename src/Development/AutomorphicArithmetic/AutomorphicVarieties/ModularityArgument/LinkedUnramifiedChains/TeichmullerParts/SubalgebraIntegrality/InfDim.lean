@@ -1,14 +1,13 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SpanRangeEqTopOfIsIrreducible
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNeZeroWeightTensorIntertwiningAutRep
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SpanInfinitePlacesWeightRepresentationEqTop
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsIrreducibleSmallRepUnitary
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1884
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle296
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ArchimedeanUnitaryPointsEquivUnitaryGroup
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WeightEqOfFinitePartNeBot
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ExistsTensorDualEmbeddingOfHasWeightAt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.PlaceEmbeddingsBijectiveInfinitePlaces
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle289
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle054
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle092
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.PlaceBetween
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ContinuousMapPFin
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqSplitFinMulSplitInf
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1865
 public import Lean.Meta.ExprDefEq
 
 @[expose] public section
@@ -71,6 +70,7 @@ private def eqv (R : Representation ℂ G X) (Gi : Subgroup G) (τ : G → Modul
   zero_mem' x _ v := by simp
   smul_mem' c Φ h x hx v := by simp only [LinearMap.smul_apply, map_smul, h x hx]
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem sum_zero {R : Representation ℂ G X} {Gi : Subgroup G} {τ : G → Module.End ℂ D}
     (hτ : Submodule.span ℂ (Set.range fun x : Gi => τ x) = ⊤) {I : Type} [Fintype I] (b : Module.Basis I ℂ D)
     (Φ : I → D →ₗ[ℂ] X) (hΦ : ∀ i, Φ i ∈ eqv R Gi τ) (h : ∑ i, Φ i (b i) = 0) (j : I) : Φ j = 0 := by
@@ -93,6 +93,7 @@ private theorem sum_zero {R : Representation ℂ G X} {Gi : Subgroup G} {τ : G 
   rw [Finset.sum_eq_single j (fun i _ hi => by simp [hi]) (by simp)] at h1
   simpa using h1
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem sum_ex {R : Representation ℂ G X} {Gi Gf : Subgroup G} {τ : G → Module.End ℂ D}
     (hsp : ∀ g, ∃ k ∈ Gf, ∃ x ∈ Gi, g = k * x) (hcm : ∀ k ∈ Gf, ∀ x ∈ Gi, k * x = x * k)
     {σ : Submodule ℂ X} (hst : ∀ g, ∀ φ ∈ σ, R g φ ∈ σ)
@@ -133,6 +134,7 @@ private theorem sum_ex {R : Representation ℂ G X} {Gi Gf : Subgroup G} {τ : G
   · exact (h0 (LinearMap.ext fun v => (Submodule.mem_bot ℂ).1 (h ▸ hval Φ₀ h2 h1 v))).elim
   · exact (h.ge hφ :)
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem rank_eq {R : Representation ℂ G X} {Gi Gf : Subgroup G} {τ : G → Module.End ℂ D}
     (hτ : Submodule.span ℂ (Set.range fun x : Gi => τ x) = ⊤)
     (hsp : ∀ g, ∃ k ∈ Gf, ∃ x ∈ Gi, g = k * x) (hcm : ∀ k ∈ Gf, ∀ x ∈ Gi, k * x = x * k)
@@ -215,6 +217,7 @@ private theorem finrank_eq {R : Representation ℂ G X} {τ : G → Module.End �
       exact (h1.ge Submodule.mem_top :)
   rw [← LinearMap.finrank_range_of_inj (inj_of hτ h0 h), hr, LinearMap.finrank_range_of_inj (inj_of hτ' h0' h')]
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem span_dual [FiniteDimensional ℂ D] {Gi : Subgroup G} {ρ : G → Module.End ℂ D}
     (h : Submodule.span ℂ (Set.range fun x : Gi => ρ x) = ⊤) :
     Submodule.span ℂ (Set.range fun x : Gi => (ρ (x : G)⁻¹).dualMap) = ⊤ := by
@@ -233,6 +236,7 @@ private theorem span_dual [FiniteDimensional ℂ D] {Gi : Subgroup G} {ρ : G �
   simp only [Subgroup.coe_inv, inv_inv]
   rfl
 
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem span_pi {I : Type} [Finite I] {M : I → Type} [∀ i, AddCommGroup (M i)] [∀ i, Module ℂ (M i)]
     [∀ i, FiniteDimensional ℂ (M i)] {Gi : Subgroup G} (ρ : ∀ i, G →* Module.End ℂ (M i)) (H : I → Subgroup G)
     (hH : ∀ i, H i ≤ Gi) (h1 : ∀ i j, j ≠ i → ∀ x ∈ H i, ρ j x = 1)

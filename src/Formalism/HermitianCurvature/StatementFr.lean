@@ -1,8 +1,7 @@
 module
 
 public import Formalism.YangianSpanCharacter.StatementY
-public import Formalism.HermitianCurvature.StatementR
-public import Formalism.HermitianCurvature.StatementI
+public import Formalism.HermitianCurvature.Bundle001
 public import Formalism.HermitianCurvature.StatementWd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,0 +1,150 @@
+module
+
+public import Mathlib.Algebra.Algebra.Basic
+public import Mathlib.Algebra.Module.LinearMap.Star
+public import Mathlib.Analysis.Complex.Norm
+public import Mathlib.GroupTheory.Index
+public import Mathlib.LinearAlgebra.BilinearMap
+public import Mathlib.LinearAlgebra.Span.Defs
+public import Mathlib.Algebra.Algebra.Rat
+public import Mathlib.Algebra.Group.Subgroup.Map
+public import Mathlib.Basic.Real.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Data.Fintype.Defs
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace GlobalTheory.CompanionTheory.FinHeis
+
+structure Sys (X M : Type) [AddCommGroup X] [AddCommGroup M] [Module ℂ M] where
+
+  c : X → X → ℂ
+
+  rho : X → M →ₗ[ℂ] M
+
+  B : M →ₗ⋆[ℂ] M →ₗ[ℂ] ℂ
+  c_add_left : ∀ x x' y, c (x + x') y = c x y * c x' y
+  c_add_right : ∀ x y y', c x (y + y') = c x y * c x y'
+  c_self : ∀ x, c x x = 1
+  c_norm : ∀ x y, ‖c x y‖ = 1
+  rho_zero : ∀ v, rho 0 v = v
+  rho_rho : ∀ x y v, rho x (rho y v) = c x y • rho (x + y) v
+  B_conj : ∀ u v, (starRingEnd ℂ) (B u v) = B v u
+  B_pos : ∀ v, v ≠ 0 → 0 < (B v v).re
+  B_rho : ∀ x u v, B (rho x u) (rho x v) = B u v
+
+variable {X M : Type} [AddCommGroup X] [AddCommGroup M] [Module ℂ M] (S : Sys X M)
+
+def SelfDual (Γ : AddSubgroup X) : Prop := ∀ x, x ∈ Γ ↔ ∀ γ ∈ Γ, S.c γ x ^ 2 = 1
+
+def IsSemi (al : X → ℂ) (Γ : AddSubgroup X) : Prop :=
+  (∀ x ∈ Γ, al x = 1 ∨ al x = -1) ∧ ∀ x ∈ Γ, ∀ y ∈ Γ, al (x + y) = al x * al y * S.c x y
+
+def Law (al : X → ℂ) (Γ : AddSubgroup X) (φ : M) : Prop := ∀ γ ∈ Γ, S.rho γ φ = (al γ)⁻¹ • φ
+
+def Cyclic (φ : M) : Prop := Submodule.span ℂ (Set.range fun x => S.rho x φ) = ⊤
+
+def UnitVac (al : X → ℂ) (Γ : AddSubgroup X) (φ : M) : Prop := Law S al Γ φ ∧ S.B φ φ = 1
+
+def la (al : X → ℂ) (Γ' Γ : AddSubgroup X) (φ : M) : M :=
+  ∑ᶠ q : Γ' ⧸ Γ.addSubgroupOf Γ', al ((Quotient.out q : Γ') : X) • S.rho ((Quotient.out q : Γ') : X) φ
+
+def abelian₂ (al : X → ℂ) (Γ' Γ : AddSubgroup X) (φ : M) : M :=
+  ((Real.sqrt (Γ.relIndex Γ' : ℝ) : ℝ) : ℂ)⁻¹ • la S al Γ' Γ φ
+
+def ip : M →ₗ[ℂ] M →ₗ⋆[ℂ] ℂ := S.B.flip
+
+@[simp] theorem ip_apply (u v : M) : ip S u v = S.B v u := rfl
+
+theorem ip_smul_left (a : ℂ) (u v : M) : ip S (a • u) v = a * ip S u v := by simp
+
+theorem ip_smul_right (a : ℂ) (u v : M) : ip S u (a • v) = (starRingEnd ℂ) a * ip S u v := by simp
+
+namespace Sys
+
+theorem c_mul_c_swap (x y : X) : S.c x y * S.c y x = 1 := by
+  have h := S.c_self (x + y)
+  rw [S.c_add_left, S.c_add_right, S.c_add_right, S.c_self, S.c_self] at h
+  simpa using h
+
+end Sys
+
+variable {S}
+
+namespace Inh
+
+end Inh
+
+end GlobalTheory.CompanionTheory.FinHeis
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain MeasureTheory Matrix Complex
+open scoped Classical
+
+namespace GlobalTheory.CompanionTheory.OM
+
+abbrev W (κ R : Type) : Type := (κ → R) × (κ → R)
+
+variable {κ : Type} [Fintype κ]
+
+def ofQ (κ R : Type) [CommRing R] [Algebra ℚ R] : W κ ℚ →+ W κ R where
+  toFun w := (fun i => algebraMap ℚ R (w.1 i), fun i => algebraMap ℚ R (w.2 i))
+  map_zero' := by ext <;> simp
+  map_add' a b := by ext <;> simp
+
+def re (Γ : AddSubgroup (W κ ℚ)) : AddSubgroup (W κ ℝ) := Γ.map (ofQ κ ℝ)
+
+end GlobalTheory.CompanionTheory.OM
+
+end
+end

@@ -1,7 +1,7 @@
 module
 
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHilbDegBound
-public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsDegreeBound
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

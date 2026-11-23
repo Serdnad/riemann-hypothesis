@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbBound
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AbelianPartBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductConjugateStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeInnerProductPullbackUniqueStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieModelPullbackEquivalence
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle086
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle156
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle087
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle220
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle027
 public import Development.WeilBound.CoreStatements.AmpleLineBundles.IsPrincipalIffOfBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

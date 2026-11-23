@@ -1,23 +1,21 @@
 module
 
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.AgreementPos
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle003
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.HodgeLatticeFlagBound
-public import Development.AutomorphicSpectrum.Statements.GeometryStatements.TrivFlagOnHodge
+public import Development.AutomorphicSpectrum.Statements.GeometryStatements.Bundle005
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.CmpSt
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.ProjLineRankTwoPushforwardHypotheses
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ArMonoEqRelinedIsometricVertStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagHeightBoundOfArithVarStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ImageCptReflOfGenPt
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RealTowerConvI2Statement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootModelBlockPullbackStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginComparisonSubsetStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginHeightComparisonThreeStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginHeightComparisonTwoStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsIsometricHermLineStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrobeniusLabelsShapeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompRootModelPrimesStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptBirationalArithVarStatement
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle040
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle029
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle026
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle038
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle024
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RootOriginComparisonSubset
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle053
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle073
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle175
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle172
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsSmoothHermTrivLine
 import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockRatioAlg
 import Mathlib.Algebra.Order.Floor.Extended
@@ -97,7 +95,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Da
   {Xo : Moduli D l} {c : Coeff l} {Y : Model Xo c (algebraMap (𝓞 c.F) c.F)} [DecidableEq (CMType H)]
 
 
-open Classical in
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
+open _root_.Classical in
 theorem link_step (hSeg : GroundTheory.Heights₂.Heights.NumbersDVR.NumericalSegre.Statement) (hM3 : HodgeLatticeFlagBound) (hTv : TrivFlagOnHodge)
     (S₀ S : Finset ℕ) (M₀ M₁ Rf : RootModel (CMType H) (D.p + D.q))
     (Sys : PB.AnSys (dimFl (CMType H) (D.p + D.q)) (Option (RootIx D))) (Fx : FixedData Y Sys)
@@ -226,6 +225,7 @@ end GlobalTheory.CompanionTheory.Ar.Top.Link
 
 namespace GlobalTheory.CompanionTheory.Ar.Top.Link
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem goodOrigin_linked {P : Prop} : GlobalTheory.CompanionTheory.Ar.Cmp.CmpSt → PB.AgreementPos → HodgeLatticeFlagBound → TrivFlagOnHodge →
     ((PartI ∧ N1ab ∧ N1c ∧ ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H),
       ToroidalLevelCompatibility (D := D) ∧ ToroidalHeckeCompatibility (D := D)) ∧ KeyFormula ∧ GlobalTheory.Published.SemiAbelianHomExtension ∧

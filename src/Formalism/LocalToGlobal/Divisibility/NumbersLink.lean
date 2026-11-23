@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.Divisibility.Inputs
 public import Formalism.LocalToGlobal.Divisibility.Numbers
-public import Formalism.QuotientMetricDivisors.TheoremDivIneqRows
+public import Formalism.QuotientMetricDivisors.Bundle002
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 public import Formalism.QuotientMetricDivisors.FinalW
 import Mathlib.Algebra.Order.Floor.Extended
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleRanksRankComplement
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle004
 
 @[expose] public section
 

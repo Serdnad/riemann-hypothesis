@@ -1,0 +1,239 @@
+module
+
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Bundle001
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.CasValK
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.Permute
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.LayerBasic
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Finset
+
+namespace ReciprocityTheory.ChartRestriction.DS
+
+variable {n : ℕ}
+
+section LayerOrth
+
+variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
+  {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M}
+
+theorem isKHWVec_starProjection (hU : IsKUnitary ε E) {S : Submodule ℂ M}
+    [S.HasOrthogonalProjection] (hS : IsKStableSub ε E S) {μ : Fin n → ℝ} {w : M}
+    (hw : IsKHWVec ε E μ w) : IsKHWVec ε E μ (S.starProjection w) := by
+  have hcomm : ∀ a b, ε a = ε b → ∀ v, S.starProjection (E a b v) = E a b (S.starProjection v) := by
+    intro a b hab v
+    apply Submodule.eq_starProjection_of_mem_of_inner_eq_zero (hS a b hab _ (S.starProjection_apply_mem v))
+    intro u hu
+    rw [← map_sub, hU a b hab]
+    exact Submodule.inner_left_of_mem_orthogonal (hS b a hab.symm u hu)
+      (Submodule.sub_starProjection_mem_orthogonal v)
+  refine ⟨fun a => ?_, fun a b hab he => ?_⟩
+  · rw [← hcomm a a rfl, hw.1 a, map_smul]
+  · rw [← hcomm a b he, hw.2 a b hab he, map_zero]
+
+theorem isKHWVec_sub {μ : Fin n → ℝ} {v w : M} (hv : IsKHWVec ε E μ v)
+    (hw : IsKHWVec ε E μ w) : IsKHWVec ε E μ (v - w) := by
+  refine ⟨fun a => ?_, fun a b h he => ?_⟩
+  · rw [map_sub, hv.1 a, hw.1 a, smul_sub]
+  · rw [map_sub, hv.2 a b h he, hw.2 a b h he, sub_zero]
+
+theorem layer_khw_decomp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hVfd : FiniteDimensional ℂ V)
+    (hVk : IsKStableSub ε E V) {k : ℕ} {w : M} (hw : w ∈ layer ε E V k) {μ : Fin n → ℝ}
+    (hμ : IsKHWVec ε E μ w) :
+    ∃ w₀ ∈ V, IsKHWVec ε E μ w₀ ∧ ∃ ws : Fin k → M, w = w₀ + ∑ j, ws j ∧
+      ∀ j : Fin k, ws j ∈ layer ε E V ((j : ℕ) + 1) ∧
+        (∀ u ∈ layer ε E V (j : ℕ), inner ℂ u (ws j) = 0) ∧ IsKHWVec ε E μ (ws j) := by
+  have hKU : IsKUnitary ε E := by
+    intro a b hab x y
+    rw [hU a b x y]
+    simp [adjSign, hab]
+  have key : ∀ j : ℕ, ∃ p ∈ layer ε E V j, (∀ u ∈ layer ε E V j, inner ℂ u p = inner ℂ u w) ∧
+      IsKHWVec ε E μ p ∧ (w ∈ layer ε E V j → p = w) := by
+    intro j
+    haveI := finiteDimensional_layer (ε := ε) (E := E) hVfd j
+    refine ⟨(layer ε E V j).starProjection w, Submodule.starProjection_apply_mem _ _, ?_,
+      isKHWVec_starProjection hKU (layer_kStable hE hVk j) hμ, ?_⟩
+    · intro u hu
+      rw [← Submodule.inner_starProjection_left_eq_right, Submodule.starProjection_eq_self_iff.mpr hu]
+    · intro hw'
+      exact Submodule.starProjection_eq_self_iff.mpr hw'
+  choose P hP1 hP2 hP3 hP4 using key
+  refine ⟨P 0, hP1 0, hP3 0, fun j => P ((j : ℕ) + 1) - P j, ?_, fun j => ⟨?_, ?_, ?_⟩⟩
+  · rw [Fin.sum_univ_eq_sum_range (fun j => P (j + 1) - P j) k, Finset.sum_range_sub, hP4 k hw]
+    abel
+  · exact sub_mem (hP1 _) (layer_le_succ _ (hP1 _))
+  · intro u hu
+    rw [inner_sub_right, hP2 _ u (layer_le_succ _ hu), hP2 _ u hu, sub_self]
+  · exact isKHWVec_sub (hP3 _) (hP3 _)
+
+end LayerOrth
+
+end ReciprocityTheory.ChartRestriction.DS
+end
+end
+
+section
+
+noncomputable section
+
+open Finset
+
+namespace ReciprocityTheory.ChartRestriction.DS
+
+variable {n : ℕ}
+
+section PhiPerm
+
+variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
+  {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M}
+
+theorem mem_ncV_iff_apply {k : ℕ} {F : Big n k M} :
+    F ∈ ncV ε V k ↔ ∀ κ : Fin k → Fin n × Fin n,
+      F κ ∈ (if ∀ i, ε (κ i).1 ≠ ε (κ i).2 then V else ⊥) := by
+  simp only [ncV, Submodule.mem_iInf, Submodule.mem_comap]
+  rfl
+
+theorem permute_apply {k : ℕ} (σ : Equiv.Perm (Fin k)) (F : Big n k M)
+    (κ : Fin k → Fin n × Fin n) : permute σ F κ = F (κ ∘ σ) := rfl
+
+theorem phi_apply_eq (k : ℕ) (F : Big n k M) : phi E k F = ∑ κ, word E κ (F κ) := by
+  simp only [phi, LinearMap.sum_apply, LinearMap.comp_apply]
+  rfl
+
+theorem listProd_mem_layer (hE : IsGlRep E) (hV : IsKStableSub ε E V)
+    (l : List (Fin n × Fin n)) {j : ℕ} {v : M} (hv : v ∈ layer ε E V j) :
+    (l.map fun p => E p.1 p.2).prod v ∈ layer ε E V (j + l.length) := by
+  induction l with
+  | nil => simpa using hv
+  | cons p l ih =>
+    rw [List.map_cons, List.prod_cons, Module.End.mul_apply, List.length_cons, ← add_assoc]
+    exact apply_mem_layer_succ hE hV p.1 p.2 ih
+
+theorem listProd_perm_sub_mem (hE : IsGlRep E) (hV : IsKStableSub ε E V)
+    {l₁ l₂ : List (Fin n × Fin n)} (hp : l₁.Perm l₂) (hnc : ∀ p ∈ l₁, ε p.1 ≠ ε p.2)
+    {j : ℕ} {v : M} (hv : v ∈ layer ε E V j) (m : ℕ) (hm : l₁.length ≤ m + 1) :
+    (l₁.map fun p => E p.1 p.2).prod v - (l₂.map fun p => E p.1 p.2).prod v ∈
+      layer ε E V (j + m) := by
+  induction hp generalizing m with
+  | nil => simp
+  | @cons x l₁ l₂ h ih =>
+    rcases m with _ | m
+    · have hl1 : l₁ = [] := by simpa using hm
+      subst hl1
+      have hl2 := List.Perm.nil_eq h
+      subst hl2
+      simp
+    · have hD := ih (fun p hp' => hnc p (List.mem_cons_of_mem _ hp')) m (by simpa using hm)
+      have := apply_mem_layer_succ hE hV x.1 x.2 hD
+      rw [map_sub] at this
+      simpa [List.map_cons, List.prod_cons, Module.End.mul_apply, add_assoc] using this
+  | swap x y l =>
+    have hw := listProd_mem_layer hE hV l hv
+    have hlen : j + l.length + 1 ≤ j + m := by simp at hm; omega
+    have h1 : ∀ a b, (E a b) ((l.map fun p => E p.1 p.2).prod v) ∈ layer ε E V (j + m) :=
+      fun a b => layer_mono hlen (apply_mem_layer_succ hE hV a b hw)
+    have key : ((y :: x :: l).map fun p => E p.1 p.2).prod v - ((x :: y :: l).map fun p => E p.1 p.2).prod v =
+        (E y.1 y.2 * E x.1 x.2 - E x.1 x.2 * E y.1 y.2) ((l.map fun p => E p.1 p.2).prod v) := by
+      simp only [List.map_cons, List.prod_cons, LinearMap.sub_apply, Module.End.mul_apply]
+    rw [key, hE, LinearMap.sub_apply]
+    refine Submodule.sub_mem _ ?_ ?_
+    · split_ifs
+      · exact h1 _ _
+      · simp
+    · split_ifs
+      · exact h1 _ _
+      · simp
+  | trans h₁ h₂ ih₁ ih₂ =>
+    have hA := ih₁ hnc m hm
+    have hB := ih₂ (fun p hp' => hnc p (h₁.symm.subset hp')) m (by rw [← h₁.length_eq]; exact hm)
+    have := Submodule.add_mem _ hA hB
+    rwa [sub_add_sub_cancel] at this
+
+theorem word_eq_listProd {k : ℕ} (κ : Fin k → Fin n × Fin n) :
+    word E κ = ((List.ofFn κ).map fun p => E p.1 p.2).prod := by
+  rw [word, List.map_ofFn]
+  rfl
+
+theorem phi_permute_sub_mem (hE : IsGlRep E) (hV : IsKStableSub ε E V) {k : ℕ}
+    (σ : Equiv.Perm (Fin (k + 1))) {F : Big n (k + 1) M} (hF : F ∈ ncV ε V (k + 1)) :
+    phi E (k + 1) F - phi E (k + 1) (permute σ F) ∈ layer ε E V k := by
+  rw [phi_apply_eq, phi_apply_eq]
+  have hre : ∑ κ, word E κ ((permute σ F) κ) = ∑ κ, word E (κ ∘ σ.symm) (F κ) := by
+    let e : (Fin (k + 1) → Fin n × Fin n) ≃ (Fin (k + 1) → Fin n × Fin n) :=
+      ⟨fun κ => κ ∘ σ, fun κ => κ ∘ σ.symm, fun κ => by funext i; simp, fun κ => by funext i; simp⟩
+    refine Fintype.sum_equiv e _ _ (fun κ => ?_)
+    show word E κ (permute σ F κ) = word E ((κ ∘ σ) ∘ σ.symm) (F (κ ∘ σ))
+    have hκ : (κ ∘ σ) ∘ σ.symm = κ := by funext i; simp
+    rw [hκ, permute_apply]
+  rw [hre, ← Finset.sum_sub_distrib]
+  refine Submodule.sum_mem _ (fun κ _ => ?_)
+  have hFκ := (mem_ncV_iff_apply.1 hF) κ
+  by_cases hc : ∀ i, ε (κ i).1 ≠ ε (κ i).2
+  · rw [if_pos hc] at hFκ
+    rw [word_eq_listProd, word_eq_listProd]
+    have hp : (List.ofFn κ).Perm (List.ofFn (κ ∘ σ.symm)) := (Equiv.Perm.ofFn_comp_perm σ.symm κ).symm
+    have hnc : ∀ p ∈ List.ofFn κ, ε p.1 ≠ ε p.2 := fun p hp' => by
+      rw [List.mem_ofFn] at hp'
+      obtain ⟨i, rfl⟩ := hp'
+      exact hc i
+    have := listProd_perm_sub_mem hE hV hp hnc (show F κ ∈ layer ε E V 0 from hFκ) k (by simp)
+    rw [zero_add] at this
+    exact this
+  · rw [if_neg hc] at hFκ
+    rw [(Submodule.mem_bot ℂ).1 hFκ]
+    simp
+
+end PhiPerm
+
+end ReciprocityTheory.ChartRestriction.DS
+end
+end

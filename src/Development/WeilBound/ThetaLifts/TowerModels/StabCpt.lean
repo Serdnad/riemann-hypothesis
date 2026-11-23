@@ -1,8 +1,8 @@
 module
 
 import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactOfUnits
-public import Development.WeilBound.ThetaLifts.TowerModels.ExistsHaarOfIsCompact
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 public import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

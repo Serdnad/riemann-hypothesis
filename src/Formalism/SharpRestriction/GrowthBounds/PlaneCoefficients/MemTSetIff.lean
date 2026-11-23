@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.RestPlOf
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.AevalValuation.ValGen
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PosULeIff
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.ProdRangeZmod
-import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.FrRevInj
+import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.Bundle001
 import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.LowestWeightNonposOffSet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

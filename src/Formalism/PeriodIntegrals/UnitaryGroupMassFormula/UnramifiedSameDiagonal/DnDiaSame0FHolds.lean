@@ -3,7 +3,7 @@ module
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.DiaSame
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.DualSigmaApply
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.LocalUnitaryOfMatchingZero
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.PDnDil
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.DiaConj
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.DiaFun
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CrossDiagonalMatching.Common

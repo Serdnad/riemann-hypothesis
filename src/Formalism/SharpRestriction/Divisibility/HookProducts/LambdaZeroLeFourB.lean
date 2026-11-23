@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.ElevenLe
-public import Formalism.LocalRingCardinality.PrincipalHermitianLattice
+public import Formalism.SharpRestriction.Bundle001
+public import Formalism.LocalRingCardinality.Bundle003
 public import Formalism.SharpRestriction.Divisibility.SlopeExcess.FamilyStatementOfScaledLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

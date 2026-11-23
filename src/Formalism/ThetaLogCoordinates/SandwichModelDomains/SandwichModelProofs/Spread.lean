@@ -2,8 +2,8 @@ module
 
 public import Formalism.ThetaLogCoordinates.SandwichModelDomains.SpreadSquare
 public import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDbasisLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDrowLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

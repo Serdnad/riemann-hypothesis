@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedExcChart
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle036
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualLatticeIndex
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcGeoFirst
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualStackedExcResidueExists

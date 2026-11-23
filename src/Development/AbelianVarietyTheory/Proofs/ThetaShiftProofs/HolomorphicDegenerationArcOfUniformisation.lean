@@ -1,22 +1,22 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HasArcDataIff
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CardQkOfTateIsoQ
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ChainLevelPtOfSection
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CmpCongrOfExEq
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle052
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle033
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfRationalPoints
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsIsFactor
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsLatticeVectorRepAndShift
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsRingHomLift
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.GermsSpecStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle021
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsHolToCompClm
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsHolToHalfPlaneMono
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle007
 import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.MemThetaShiftZero
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyChainArcWitnessUniversalFamilyStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PointsFramesEq
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.SpecPtsIsFibAt
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.SpecPtsNonempty
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle056
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle040
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle031
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ArcDictExpZeroSection
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IdealPart
 
 @[expose] public section
@@ -110,3 +110,17 @@ theorem main : ReciprocityTheory.ChartRestriction.G.Out.Laws → ReciprocityTheo
   exact GlobalTheory.ArcPts.nonempty_holArc L₁ L₂ E H D l Xo c O β Y bF a χ W Λ C Γ Ψ g ty Fu laA laM K hrat hA hM lin cst T₁ hfib
 
 end GlobalTheory.HolomorphicArc
+
+end
+end
+
+section
+
+@[expose] public section
+
+
+theorem _root_.GlobalTheory.T.holomorphic_degenerationArc_of_uniformisation : ReciprocityTheory.ChartRestriction.G.Out.Laws → ReciprocityTheory.ChartRestriction.G.Out.Laws2 → ReciprocityTheory.ChartRestriction.G.Geo.Tor.ThetaUnifAV → ReciprocityTheory.ChartRestriction.G.Geo.Tor.ToroidalArchimedeanCondition := by
+  first | exact @GlobalTheory.HolomorphicArc.main | exact GlobalTheory.HolomorphicArc.main | (intros; apply GlobalTheory.HolomorphicArc.main <;> assumption)
+
+end
+end

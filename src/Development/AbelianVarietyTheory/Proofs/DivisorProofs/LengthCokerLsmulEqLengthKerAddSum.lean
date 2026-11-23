@@ -3,7 +3,7 @@ module
 public import Mathlib.RingTheory.KrullDimension.Basic
 public import Mathlib.RingTheory.Length
 public import Mathlib.RingTheory.Support
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthEqKerAddRange
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle019
 public import Mathlib.Algebra.Module.LocalizedModule.Exact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

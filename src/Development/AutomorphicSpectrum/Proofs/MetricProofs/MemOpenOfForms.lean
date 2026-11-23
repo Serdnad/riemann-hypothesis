@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.TowerOrigin
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsIffCentres
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RootOriginCoordField
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle011
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle083
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle105
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

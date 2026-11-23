@@ -1,10 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.SvalTwistOne
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CompOneLeft
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.CubNDescentTelescope
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsLimitUnit
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpansionTranslateTorus
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle090
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -58,6 +57,12 @@ attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.UU
 
 namespace GlobalTheory.UU.ProdTransl
+
+noncomputable local instance (priority := high) grpObjProdTranslThick {R : Type} [CommRing R] (I : Ideal R) (e : ℕ)
+    (G : Over (Spec (CommRingCat.of R))) [GrpObj G] : GrpObj (thickObj R I e G) :=
+  letI : (Over.pullback (thick R I e)).Monoidal :=
+    (Over.instBraidedPullback (f := thick R I e)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback (thick R I e))
 
 theorem comp_inv_pow {S : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj G] {T T' : Over S} (ρ : T' ⟶ T) (x : T ⟶ G)
     (k : ℕ) : ρ ≫ (x ^ k)⁻¹ = ((ρ ≫ x) ^ k)⁻¹ :=

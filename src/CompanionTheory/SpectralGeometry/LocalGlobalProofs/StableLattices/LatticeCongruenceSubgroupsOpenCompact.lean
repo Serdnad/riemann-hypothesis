@@ -2,7 +2,7 @@ module
 
 public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.StSandwich
 public import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.InhabitedFinite
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsTerLast
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

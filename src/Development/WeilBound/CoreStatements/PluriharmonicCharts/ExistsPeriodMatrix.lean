@@ -3,7 +3,7 @@ module
 public import Development.WeilBound.CoreStatements.PluriharmonicCharts.IsOpenDet
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.FiniteEtaleSurjectiveOfPullback
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
-public import Development.WeilBound.CoreStatements.PluriharmonicCharts.PeriodGramConj
+public import Development.WeilBound.CoreStatements.PluriharmonicCharts.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

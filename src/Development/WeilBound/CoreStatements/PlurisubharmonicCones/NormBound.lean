@@ -1,11 +1,11 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.RecordEigenInputs
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle001
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.Analysis.SpecialFunctions.Pow.Real
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
-public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.PRootsOfUnityValuation
-public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.PDifferentExtNorm
+public import GroundTheory.HeightsAndTheta.Heights.LatticeLemmas.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.StabilizerCovolume.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

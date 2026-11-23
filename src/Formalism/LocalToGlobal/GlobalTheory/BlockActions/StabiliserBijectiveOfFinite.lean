@@ -1,11 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.StabiliserBijectiveOfFixed
-import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassInjectiveOfDegree
-public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.ClassInjectiveOfSelfDual
-import Formalism.LocalToGlobal.GlobalTheory.BlockActions.DefNOfFact
-import Formalism.LocalToGlobal.GlobalTheory.BlockActions.FixOrthogonalVector
-import Formalism.LocalToGlobal.GlobalTheory.BlockActions.LengthInverseBound
+public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle010
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle009
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle008
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle002
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

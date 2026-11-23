@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.EigenRingInvariants
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
-public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.BlockProductRing
+public import Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

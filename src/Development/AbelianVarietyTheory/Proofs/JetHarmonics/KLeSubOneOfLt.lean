@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.CmQuadraticFormEqAlternatingForm
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle005
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.DepthCond
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CloudSizesBetweenZeroAndTwiceB
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DegreeWeightKappaLePageBound
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.MulRowsScaledWeightLeKappaRows
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RunDepthDataLawsAndFiniteLocalDepth
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.WeightExponentsEmbeddingsDegree
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle119
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle136
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle179
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle130
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.DepthTieSat
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.Jets.TwoPlaces
+import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
 
 @[expose] public section
 

@@ -2,7 +2,7 @@ module
 
 public import Formalism.HermitianCurvature.StatementU
 public import Mathlib.LinearAlgebra.Matrix.Permutation
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DetNormLe
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle024
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

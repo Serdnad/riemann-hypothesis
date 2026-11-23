@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.GaloisValuations.ContinuousConstSMulQuotient
+public import ReciprocityTheory.GaloisValuations.Bundle001
 public import Mathlib.FieldTheory.KrullTopology
 public import Mathlib.NumberTheory.Padics.Complex
 import Mathlib.Algebra.Order.Floor.Extended

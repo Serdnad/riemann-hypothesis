@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.BaseCoefCrys
+public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CoefficientBaseChange.InvBaseChange
 public import Mathlib.LinearAlgebra.TensorProduct.Pi
 import Mathlib.Algebra.Order.Floor.Extended

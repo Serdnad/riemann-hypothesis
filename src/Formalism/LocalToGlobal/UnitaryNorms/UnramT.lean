@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationDetBasisChange
-public import Formalism.LocalToGlobal.UnitaryNorms.MemFIffReal
-public import Formalism.LocalToGlobal.UnitaryNorms.RamificationIdxEqOneOfNotDvd
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle005
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

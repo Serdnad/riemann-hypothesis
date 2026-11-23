@@ -1,8 +1,8 @@
 module
 
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HNormA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.Bundle003
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.TheoremA
-public import ReciprocityTheory.SemistableReduction.ComapInclusionIsLocalHom
+public import ReciprocityTheory.SemistableReduction.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

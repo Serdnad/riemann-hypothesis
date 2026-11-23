@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HarderNarasimhan.QuotRealize
+public import Formalism.HarderNarasimhan.Bundle002
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.PlaceSplit
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Mathlib.CategoryTheory.Category.Basic

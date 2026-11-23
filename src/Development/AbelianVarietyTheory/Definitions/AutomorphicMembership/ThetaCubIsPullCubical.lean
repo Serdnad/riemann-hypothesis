@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PullRigIsSymmetric
 public import Development.AbelianVarietyTheory.Definitions.Foundations.MemUnitaryGroupIffIsIsometry
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PowObjGeometricallyConnected
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHeckeQuotientTriple
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsLbHermitian
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsSemiAbelianOfRetract
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.NonemptyTorusExtensionOfIsPowGrp
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle104
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

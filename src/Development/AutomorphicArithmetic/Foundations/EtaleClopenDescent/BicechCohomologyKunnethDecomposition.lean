@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.BicechC
-public import Development.AbelianVarietyTheory.Definitions.Divisors.ProdFam
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechAndTotalDifferentialAdditiveSquareZero
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle008
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle254
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

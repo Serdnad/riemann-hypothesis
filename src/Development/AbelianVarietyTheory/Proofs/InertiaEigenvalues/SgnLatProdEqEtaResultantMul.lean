@@ -1,11 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SignedInvolutionStableLatticeSumMulFixedUnit
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LinearDescent
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle172
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle003
 public import Mathlib.Algebra.Module.Lattice.Full
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyDvdPowOfAevalEqZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyLeftMulBasis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SgnLatSpanBasis
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle121
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle099
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -55,7 +55,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DltEqZero
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle103
 
 @[expose] public section
 

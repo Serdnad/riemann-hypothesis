@@ -1,7 +1,7 @@
 module
 
 import Formalism.MahlerMeasure.MahlerMeasureProofs.FockBlocks
-public import Formalism.MahlerMeasure.LevelLattice
+public import Formalism.MahlerMeasure.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

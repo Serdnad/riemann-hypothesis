@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.PAdicHodge.KerFontaineThetaCompFrobeniusEquivSymmPow
+public import GroundTheory.PAdicHodge.Bundle003
 public import GroundTheory.PAdicHodge.KerTheta
 public import GroundTheory.PAdicHodge.TiltValuation
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots

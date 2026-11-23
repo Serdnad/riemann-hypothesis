@@ -1,10 +1,10 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.SiegelPar
+public import Development.WeilBound.ThetaLifts.Reductions.Bundle002
 import Aesop.Frontend.Tactic
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle324
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 import Development.WeilBound.ThetaLifts.Reductions.SiegelGood

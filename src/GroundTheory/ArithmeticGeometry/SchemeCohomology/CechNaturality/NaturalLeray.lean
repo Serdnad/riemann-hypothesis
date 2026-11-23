@@ -1,9 +1,9 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechNaturality.CechFunctor
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechToDerived
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle001
 public import Mathlib.CategoryTheory.Abelian.GrothendieckCategory.EnoughInjectives
-import GroundTheory.ArithmeticGeometry.SchemeCohomology.InjectiveCech
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

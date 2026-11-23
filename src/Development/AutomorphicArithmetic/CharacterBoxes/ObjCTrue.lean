@@ -2,14 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ValidForConstructedPointClassesEventuallyWorking
 public import Development.AutomorphicArithmetic.CharacterBoxes.Supply
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsObjectsOfAdmissibleTwistDatumStatement
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.NormPrimesAndLevelPrimeUnconditional
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.PrimesInProgressionsRelativeError
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SmallPrimeOneOfPrimesRel
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.WindowShareRequirementClosedFormProofStatement
-public import Development.AutomorphicArithmetic.CharacterBoxes.DesignS
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle140
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle110
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle165
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle008
 public import Development.AutomorphicArithmetic.CharacterBoxes.HostWW
-public import Development.AutomorphicArithmetic.CharacterBoxes.KitS
 public import Development.AutomorphicArithmetic.CharacterBoxes.SmallestPrimePolynomialBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -43,7 +42,7 @@ import Mathlib.Tactic.NormNum.NatSqrt
 import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.LogCondLeThree
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle007
 
 @[expose] public section
 

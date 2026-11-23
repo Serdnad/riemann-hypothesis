@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.ComposeLinearAction
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AppLESpMapJetPt
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CmFrameJetPointsAreExponentialJets
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CorrOfJetsOfAnalyticFrameProducts
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle029
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle037
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CubicalReadingOneAnalyticFrame
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsHolFamPullbackLiftOfCommonBase
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle028
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.JetRdMulInvPow
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.JetReadingLinearSubstitutionPoints
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.HolJetC
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.TaylorMul
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.Bundle008
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle004
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section
@@ -102,16 +102,16 @@ theorem subst_X {κ κ' : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (sb : κ
   simp
 
 theorem psIn_add {g n' : ℕ} (m : ℕ) (r : Fin 2 → Fin n') (j : Fin g) :
-    (Ideal.Quotient.mk _ (psIn g m r (addF ℂ g j) - MvPolynomial.C (MvPolynomial.constantCoeff (psIn g m r (addF ℂ g j)))) :
+    (Ideal.Quotient.mk _ (psIn g m r (_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF ℂ g j) - MvPolynomial.C (MvPolynomial.constantCoeff (psIn g m r (_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF ℂ g j)))) :
       Jet ℂ (Fin n' × Fin g) m) =
       Ideal.Quotient.mk _ (MvPolynomial.X (r 0, j) + MvPolynomial.X (r 1, j)) := by
-  have hc : MvPolynomial.constantCoeff (psTrunc m (addF ℂ g j)) = 0 := by
+  have hc : MvPolynomial.constantCoeff (psTrunc m (_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF ℂ g j)) = 0 := by
     rw [FBIdJet.psTrunc_eq, MvPolynomial.constantCoeff_eq, MvPowerSeries.coeff_truncTotal _ (by simp),
       MvPowerSeries.coeff_zero_eq_constantCoeff_apply]
-    simp [addF]
-  have ha : (addF ℂ g j : MvPowerSeries (Fin 2 × Fin g) ℂ) =
+    simp [_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF]
+  have ha : (_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF ℂ g j : MvPowerSeries (Fin 2 × Fin g) ℂ) =
       ((MvPolynomial.X ((0 : Fin 2), j) + MvPolynomial.X ((1 : Fin 2), j) : MvPolynomial (Fin 2 × Fin g) ℂ) :
-        MvPowerSeries (Fin 2 × Fin g) ℂ) := by simp [addF]
+        MvPowerSeries (Fin 2 × Fin g) ℂ) := by simp [_root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF]
   rw [psIn, MvPolynomial.constantCoeff_rename, hc, map_zero, sub_zero]
   have key : ∀ P : MvPolynomial (Fin 2 × Fin g) ℂ,
       (Ideal.Quotient.mk _ (MvPolynomial.rename (fun p : Fin 2 × Fin g => (r p.1, p.2)) P) : Jet ℂ (Fin n' × Fin g) m) =
@@ -189,8 +189,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : D
 theorem jetRd_scale_one {n m : ℕ} {K : Type} [Fintype K]
     {φ : K → (Sp (Jet ℂ (Fin n × Fin g) m) ⟶ Xo.univ.t.G.left)} {ε : K → ℤ}
     (τ : LB.Gen (LB.LinComb Xo.univ.t.PP.L φ ε)) :
-    scaleGen φ ε (unitΓ (1 : (Jet ℂ (Fin n × Fin g) m)ˣ)) τ = τ := by
-  simp only [scaleGen, unitΓ, map_one, _root_.one_mul]
+    _root_.Formalism.L2.Pj.scaleGen φ ε (unitΓ (1 : (Jet ℂ (Fin n × Fin g) m)ˣ)) τ = τ := by
+  simp only [_root_.Formalism.L2.Pj.scaleGen, unitΓ, map_one, _root_.one_mul]
 
 theorem jetRd_pe (e : ∀ m, FrTy y g Φ.jx m) (he : Φ.IsAnE e) (m : ℕ) {n' : ℕ}
     (φ : Fin 2 → Fin g → MvPolynomial (Fin n' × Fin g) ℂ)
@@ -241,7 +241,7 @@ theorem jetRd_cube {n : ℕ} (m : ℕ) (a b d : jO y g m n ⟶ Xo.univ.t.G)
 
 end Main
 
-theorem second_law : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [Algebra c.F ℂ] [StarRing (𝓞 E)] (y : FrPt Xo c ℂ) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (el : Fin g ≃ Lt1 Dw) (Φ : AnPt y g ty el), Φ.toAnFr.Imm → ∀ e : ∀ m, FrTy y g Φ.jx m, Φ.IsAnE e → ∀ m, ∃ u : (Jet ℂ (Fin 3 × Fin g) m)ˣ, (u : Jet ℂ (Fin 3 × Fin g) m) = psJet m (anFB ty).ph2 ∧ LB.Gen.Corr Xo.univ.t.PP.L _ _ _ _ (LB.pullGen Xo.univ.t.PP.L (thφ Xo.univ.t.G (x3 Xo.univ.t.G)) thε Xo.univ.t.cub.t (lift (jpt y g Φ.jx m (1 : Fin 3)) (lift (jpt y g Φ.jx m (2 : Fin 3)) (jpt y g Φ.jx m (0 : Fin 3)))).left) (scaleGen _ _ (unitΓ u) (LB.mulGen Xo.univ.t.PP.L _ _ _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => psIn g m ![1, 2] ((anFB ty).G.F j)]) (LB.mulGen Xo.univ.t.PP.L _ _ _ _ (LB.invGen Xo.univ.t.PP.L _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => MvPolynomial.X ((1 : Fin 3), j)])) (LB.invGen Xo.univ.t.PP.L _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => MvPolynomial.X ((2 : Fin 3), j)]))))) := by
+theorem second_law : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [Algebra c.F ℂ] [StarRing (𝓞 E)] (y : FrPt Xo c ℂ) (g : ℕ) (ty : Fin g → (E →+* ℂ)) (el : Fin g ≃ Lt1 Dw) (Φ : AnPt y g ty el), Φ.toAnFr.Imm → ∀ e : ∀ m, FrTy y g Φ.jx m, Φ.IsAnE e → ∀ m, ∃ u : (Jet ℂ (Fin 3 × Fin g) m)ˣ, (u : Jet ℂ (Fin 3 × Fin g) m) = psJet m (anFB ty).ph2 ∧ LB.Gen.Corr Xo.univ.t.PP.L _ _ _ _ (LB.pullGen Xo.univ.t.PP.L (thφ Xo.univ.t.G (x3 Xo.univ.t.G)) thε Xo.univ.t.cub.t (lift (jpt y g Φ.jx m (1 : Fin 3)) (lift (jpt y g Φ.jx m (2 : Fin 3)) (jpt y g Φ.jx m (0 : Fin 3)))).left) (_root_.Formalism.L2.Pj.scaleGen _ _ (unitΓ u) (LB.mulGen Xo.univ.t.PP.L _ _ _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => psIn g m ![1, 2] ((anFB ty).G.F j)]) (LB.mulGen Xo.univ.t.PP.L _ _ _ _ (LB.invGen Xo.univ.t.PP.L _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => MvPolynomial.X ((1 : Fin 3), j)])) (LB.invGen Xo.univ.t.PP.L _ _ (pe y g Φ.jx e m ![fun j => MvPolynomial.X ((0 : Fin 3), j), fun j => MvPolynomial.X ((2 : Fin 3), j)]))))) := by
   intro E _ _ _ H Dw l Xo c _ _ y g ty el Φ himm e he m
   refine ⟨1, by rw [show (anFB ty).ph2 = 1 from rfl, FBIdJet.psJet_one, Units.val_one], ?_⟩
   rw [jetRd_scale_one]
@@ -261,7 +261,7 @@ theorem second_law : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H :
         (LinearMap.proj 2 : (Fin 3 → Fin g → ℂ) →ₗ[ℂ] (Fin g → ℂ))) w j) := by
     intro j
     simp only [LinearMap.proj_apply, LinearMap.add_apply, Pi.add_apply]
-    rw [show (anFB ty).G.F j = addF ℂ g j from rfl, psIn_add, jetN_coord_add]
+    rw [show (anFB ty).G.F j = _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.addF ℂ g j from rfl, psIn_add, jetN_coord_add]
     rfl
   have h1 := jetRd_pe_two Φ e he m (fun j => MvPolynomial.X ((0 : Fin 3), j))
     (fun j => psIn g m ![1, 2] ((anFB ty).G.F j)) (LinearMap.proj 0) (LinearMap.proj 1 + LinearMap.proj 2) (hX 0) hF

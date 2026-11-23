@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.TwQBridge
+public import Formalism.LocalToGlobal.Columns.Bundle028
 public import Formalism.LocalToGlobal.Columns.TwQLev
-import Formalism.LocalToGlobal.Columns.TiedGlLoc
-import Formalism.LocalToGlobal.Columns.TwQSplit
+import Formalism.LocalToGlobal.Columns.Bundle009
+import Formalism.LocalToGlobal.Columns.Bundle021
 import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

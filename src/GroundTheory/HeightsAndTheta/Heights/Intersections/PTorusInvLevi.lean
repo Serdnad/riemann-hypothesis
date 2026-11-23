@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.StTorusInvLevi
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.FubiniLevi
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
 import Mathlib.Algebra.Order.Floor.Extended

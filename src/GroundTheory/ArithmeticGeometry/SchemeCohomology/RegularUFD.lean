@@ -6,7 +6,7 @@ public import Mathlib.LinearAlgebra.Alternating.Uncurry.Fin
 public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.LinearAlgebra.ExteriorPower.Basic
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularLocalDomain
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularUFDLocalization
 import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularUFDSerre
 import Mathlib.Algebra.Category.ModuleCat.Projective

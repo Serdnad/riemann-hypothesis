@@ -5,7 +5,7 @@ public import GroundTheory.GlobalFields.IdeleClassGroup.IdeleClassEquivIdeleClas
 public import Mathlib.FieldTheory.Galois.Profinite
 public import GroundTheory.GlobalFields.IdeleClassGroup.InvariantsGalois
 public import GroundTheory.GlobalFields.SecondInequality.Cyclic
-import GroundTheory.LocalFields.HerbrandCyclic
+import GroundTheory.LocalFields.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

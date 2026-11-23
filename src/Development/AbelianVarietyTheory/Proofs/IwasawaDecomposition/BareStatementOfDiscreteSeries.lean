@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalizationFreeStageTrueGroupColumnChoiceStep
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCentralIdempotentOfGoodSeriesIdempotent
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle511
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1770
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTameGenAtOfValuationSubring
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCharpoly
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsExponentThetaData
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalGaloisDataShaLengthEqStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle276
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle067
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsTypesIdempotentCoefficients
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -277,7 +277,7 @@ end GlobalTheory.Mem.R3.Rw.Bare
 
 namespace GlobalTheory.HeightCounting.Up
 
-open Formalism.MainNotions.N Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up GlobalTheory.TwistChoice GlobalTheory.Mem.R3.Rw.Bare
+open Formalism.MainNotions.N _root_.Formalism.L2 Formalism.L2.Host Formalism.L2.NT Formalism.IndefR.NX GlobalTheory.HeightCounting GlobalTheory.HeightCounting.Up GlobalTheory.TwistChoice GlobalTheory.Mem.R3.Rw.Bare
 
 
 end GlobalTheory.HeightCounting.Up

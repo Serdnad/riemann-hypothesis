@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 public import Formalism.FlagUnipotentLattices.CardSubmodulesAndLinearEquivBounds
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImportsExtra
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLatticeStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle025
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle310
 public import Formalism.FlagUnipotentLattices.CardSubgroupsOfIndexLe
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LinearFormsBoundedRepresentatives
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle316
 
 @[expose] public section
 

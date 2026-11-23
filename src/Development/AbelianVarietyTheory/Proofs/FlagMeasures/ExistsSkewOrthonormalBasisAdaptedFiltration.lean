@@ -43,8 +43,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LowersMulZero
+import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle165
 
 @[expose] public section
 

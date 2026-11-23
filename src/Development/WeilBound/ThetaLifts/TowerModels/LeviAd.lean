@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.TowerModels.LeviAlg
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EqPlaceIdemOfIsPrimeIdem
 import Mathlib.Algebra.Order.Floor.Extended

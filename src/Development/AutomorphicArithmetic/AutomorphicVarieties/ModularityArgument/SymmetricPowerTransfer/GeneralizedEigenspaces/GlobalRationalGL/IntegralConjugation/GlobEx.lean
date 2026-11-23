@@ -3,7 +3,7 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.Wcount
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ContinuousResP
 public import Mathlib.Algebra.QuadraticAlgebra.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsAnti
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

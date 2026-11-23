@@ -1,9 +1,9 @@
 module
 
-public import Formalism.HarderNarasimhan.DegSupermodZ
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.ExistsSmulMemOfFinrankEq
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.RatioMax
-import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+public import Formalism.HarderNarasimhan.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle001
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle003
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

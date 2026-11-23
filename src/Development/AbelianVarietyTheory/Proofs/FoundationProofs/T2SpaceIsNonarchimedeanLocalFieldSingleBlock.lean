@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.LocalIntegralGL
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FromBlocksMulInv
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle010
 import Aesop.Main
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasCompactSupportPhiU
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.IsClosedLowUni

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.FamCore
+public import Formalism.SharpRestriction.Bundle001
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ExplicitFormulaErrorOfHostConditions
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

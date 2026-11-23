@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.LeCovCoeff
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.MemOfForallLocP
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ActPMemLocPNabStdOfIsBasisAt
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TensorMapDescent
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle021
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle211
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle064
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FFVMap
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Bundle004
 
 @[expose] public section
 
@@ -170,7 +170,7 @@ theorem polyAction_map {ι : Type} [Fintype ι] {n : ℕ} (lam : ι → DomWeigh
       simp only [map_mul, hp, map_X]
       congr 1
       simp [trAct, Formalism.GradedWeylDivisibility.blockAct, h]
-  simp only [actP, LinearMap.smul_apply, AlgHom.toLinearMap_apply, map_smul', h1, h2]
+  simp only [_root_.Formalism.L2.DIV.actP, LinearMap.smul_apply, AlgHom.toLinearMap_apply, map_smul', h1, h2]
 
 end Coef
 

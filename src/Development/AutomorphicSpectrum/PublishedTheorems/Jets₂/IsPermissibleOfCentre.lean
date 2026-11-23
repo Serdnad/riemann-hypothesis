@@ -42,9 +42,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAdmOnOfFiniteDimensional
-import Formalism.RealPlaceAnalysis.StatementA
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.Bundle001
+import Formalism.RealPlaceAnalysis.Bundle001
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 public import Mathlib.Analysis.InnerProductSpace.Defs
 
 @[expose] public section

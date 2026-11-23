@@ -1,15 +1,15 @@
 module
 
-public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
+public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.Bundle025
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsIntegrallyClosedOfDenomBis
 public import Development.AutomorphicSpectrum.PublishedTheorems.Algebra₂.FarguesHodgeTate
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeTateFreeIntegralModelsStatement
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle188
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NatCastSmulMemHtLat
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PointHTOfFarguesHodgeTateStatement
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TorsionPointsDefinedGenericStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLat
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle202
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle027
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatTest
-import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfFin
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.ChartMatrices
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

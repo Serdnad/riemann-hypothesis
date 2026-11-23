@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.GL4.PTenFrames
+public import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle003
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
 import Formalism.LocalRingCardinality.Lemmas

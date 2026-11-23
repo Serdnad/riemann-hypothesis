@@ -1,7 +1,7 @@
 module
 
-public import ReciprocityTheory.DualLattices.EmbeddingSeparatingGroupStatement
-public import ReciprocityTheory.DualLattices.LiftMonomialDeterminantStatement
+public import ReciprocityTheory.DualLattices.Bundle023
+public import ReciprocityTheory.DualLattices.Bundle025
 public import ReciprocityTheory.DualLattices.UnramifiedCokernelLowerBoundOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,18 +42,17 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.EigenLengthProductStatementHolds
-public import ReciprocityTheory.DualLattices.EigenLiftsFrobenius
+public import ReciprocityTheory.DualLattices.Bundle021
+public import ReciprocityTheory.DualLattices.Bundle027
 public import ReciprocityTheory.DualLattices.ElementaryDivisorStatement
-public import ReciprocityTheory.DualLattices.EmbeddingSeparatingGroup
-public import ReciprocityTheory.DualLattices.EqZeroOfIsoZero
+public import ReciprocityTheory.DualLattices.Bundle024
 public import ReciprocityTheory.DualLattices.FrobeniusBlock
-public import ReciprocityTheory.DualLattices.LenEx
+public import ReciprocityTheory.DualLattices.Bundle022
 import ReciprocityTheory.DualLattices.LiftMonomialDeterminantStatementHolds
 public import ReciprocityTheory.DualLattices.MatEquivApply
-public import ReciprocityTheory.DualLattices.MonomialsSpanOfProdEq
+public import ReciprocityTheory.DualLattices.Bundle026
 public import ReciprocityTheory.DualLattices.RankEqRankOfPermAndZero
-public import ReciprocityTheory.DualLattices.SumX
+public import ReciprocityTheory.DualLattices.Bundle029
 import ReciprocityTheory.DualLattices.UnramifiedCokernelLengthOfLengthEigenLengthProduct
 
 @[expose] public section

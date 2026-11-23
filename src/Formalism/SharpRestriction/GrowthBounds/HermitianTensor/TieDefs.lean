@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.DeltaPsiH
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.SingleWeightOfModelIdentification
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle002
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.ShapeCovering.StatementY
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

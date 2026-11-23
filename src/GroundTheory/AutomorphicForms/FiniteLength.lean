@@ -1,13 +1,13 @@
 module
 
 public import GroundTheory.AutomorphicForms.FiniteLengthSubquotient
-public import GroundTheory.AutomorphicForms.LeviStagesExact
+public import GroundTheory.AutomorphicForms.Bundle018
 public import GroundTheory.AutomorphicForms.LeviStagesInduction
-public import GroundTheory.AutomorphicForms.FiniteLengthCuspidal
+public import GroundTheory.AutomorphicForms.Bundle019
 import GroundTheory.AutomorphicForms.FiniteLengthJacquet
 public import GroundTheory.AutomorphicForms.FiniteLengthLeviJacquet
 public import GroundTheory.AutomorphicForms.FiniteLengthSeries
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle009
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

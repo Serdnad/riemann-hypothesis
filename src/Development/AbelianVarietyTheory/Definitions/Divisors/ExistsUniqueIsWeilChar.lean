@@ -2,14 +2,14 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StAvDefs
 public import Development.AbelianVarietyTheory.Definitions.Divisors.MapSmulOfIsHausdorff
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsUniqueIsAl
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUniqueLim
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFiniteAndFlatTorsion
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionCharacterExtAndExistsOfIntegralPoints
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFiniteFlatTorsionOfIsGt
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.PowEqScaleAndExistsUniqueTorsion
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.UnitOfBijectiveMulNatural
-public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsGenericPointHom
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle674
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1481
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle818
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle046
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle033
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.Bundle030
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

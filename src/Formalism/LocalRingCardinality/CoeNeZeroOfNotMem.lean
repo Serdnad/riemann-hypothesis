@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalRingCardinality.DataKerI
-public import Formalism.LocalRingCardinality.DataParamsT
+public import Formalism.LocalRingCardinality.Bundle008
+public import Formalism.LocalRingCardinality.Bundle005
 public import Formalism.LocalRingCardinality.DataIdx
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension

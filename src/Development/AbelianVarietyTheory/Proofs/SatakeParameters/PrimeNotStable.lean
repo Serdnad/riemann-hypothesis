@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SameOffRefl
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtOne
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.LocSpBot
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle017
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.EqOneOfPh
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
 import Mathlib.Algebra.Order.Floor.Extended

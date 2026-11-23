@@ -1,14 +1,14 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.OneAddPow
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwoMulInvOf
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle651
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRationalDarbouxHermitianTensorAdeles
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.DCdE
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSymplecticTraceFormAlternatingSwapStatement
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1376
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHalfAbstract
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilTransportAdelicSchwartzCmExtension
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchurLemmaHeisenbergCommutingThetaOperator
-import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.IntegralMul
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2062
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

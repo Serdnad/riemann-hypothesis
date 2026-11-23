@@ -4,18 +4,18 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NVNeZ
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemIdSZpowIff
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LevelHyperspecialTrivialCharacterSplitsOffPlaces
 public import Formalism.LocalToGlobal.IndefiniteReal.ZeroPartEigenvalueConvention
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsHeckeOpFullDualLab
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardKilledByInType
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DecoRawMulIdem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InvMulIntAway
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1084
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle238
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle491
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle236
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsUnitaryElementaryDivisorsInertPrime
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertPlaceHeckeDoubleCosetsInverseRepsLabel
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSphericalDoubleCosetLabelIffDecreasing
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle212
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperators
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalLabelOperatorsOnHyperspecialFixedVector
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CorrectionOfTransport
-import Formalism.LocalToGlobal.Columns.HeckeInertLemmas
-public import Formalism.LocalToGlobal.Columns.InputsGenus
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle274
+import Formalism.LocalToGlobal.Columns.Bundle007
+public import Formalism.LocalToGlobal.Columns.Bundle019
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -200,7 +200,7 @@ end Std
 
 section Host
 
-open Formalism.L2.Col GlobalTheory.LevSplit GlobalTheory.IdemSupport
+open _root_.Formalism.L2.Col GlobalTheory.LevSplit GlobalTheory.IdemSupport
 
 variable {D : D7} {V : HSp D} {Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)} {Q : Pl D.host.E} {e : AE D}
 
@@ -322,7 +322,7 @@ end Host
 
 section Sum
 
-open Formalism.L2.Col GlobalTheory.LevSplit GlobalTheory.IdemSupport GlobalTheory.SplitHeckeAdj
+open _root_.Formalism.L2.Col GlobalTheory.LevSplit GlobalTheory.IdemSupport GlobalTheory.SplitHeckeAdj
 
 variable {D : D7} {V : HSp D} {Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)} {Q : Pl D.host.E} {e : AE D}
   {c : GL (Fin V.rank) (Lev.EAf D)}

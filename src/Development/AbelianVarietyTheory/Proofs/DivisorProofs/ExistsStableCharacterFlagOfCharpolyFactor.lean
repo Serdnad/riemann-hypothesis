@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SubRepApply
-public import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle113
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 public import Mathlib.LinearAlgebra.FreeModule.PID
 public import Mathlib.RingTheory.Coalgebra.IsFrobenius
 public import Mathlib.RingTheory.Flat.TorsionFree
 public import Mathlib.RingTheory.HopfAlgebra.Basic
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.RingTheory.TotallySplit
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.CharpolyBlockAndInvariantUnderStabilizerNilradic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharpolyEqOfSemisimplification
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle237
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsSemisimplificationOf
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsIrreducibleConstituentRanksUniqueOfCharpoly
 import Mathlib.Algebra.AffineMonoid.UniqueSums

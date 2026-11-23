@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.DecayZero
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsPosNatMemOpenAdeleSubgroup
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalComponentsNontrivialAdelicCharacter
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle280
 public import Formalism.LocalToGlobal.Columns.RecLevelTop
-public import GroundTheory.GlobalFields.TateThesis.NoSmallSubgroups
+public import GroundTheory.GlobalFields.TateThesis.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

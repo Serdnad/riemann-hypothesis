@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.CokernelKilling
+public import Development.EtaleCohomology.EtaleSheaves.Bundle065
 public import Development.EtaleCohomology.EtaleSheaves.CokernelKilling.FiniteSubcover
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

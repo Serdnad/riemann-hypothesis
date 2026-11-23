@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.PullbackLogCoordsEvalZero
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle014
 import Formalism.LocalToGlobal.CharacterGerms.LemmaMLin
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
-import Formalism.LocalToGlobal.CharacterGerms.SubstSubst
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle007
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle008
+import Formalism.LocalToGlobal.CharacterGerms.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle001
 
 @[expose] public section
 

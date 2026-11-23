@@ -1,8 +1,8 @@
 module
 
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntWeak
-public import Formalism.PeriodIntegrals.UnitaryApprox
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnitaryApproxFin
+public import Formalism.PeriodIntegrals.Bundle009
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

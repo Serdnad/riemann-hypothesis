@@ -1,10 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PickDefs
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.BinomCombFOnFinset
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.DecompositionOfThreeParts
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.PickCore
-public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SizeStep
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle008
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.Bundle009
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.VBBMonomialOne
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.ValuationOneEqZero
 import Formalism.SharpRestriction.GrowthBounds.FlipOneThree

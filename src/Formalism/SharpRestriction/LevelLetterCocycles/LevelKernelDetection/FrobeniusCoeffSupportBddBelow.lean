@@ -1,10 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PrimitiveRootPowPrime
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfLvExp
+public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.Bundle006
+public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.Bundle005
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesOfMembership
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.CrystallineToDeRhamInjective
-public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfKapUnit
+public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.Bundle004
 public import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfLvLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -46,12 +46,12 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.EigenvectorUnitaryMulStar
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle008
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KSchur
-import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.KinstSecondCountable
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PBridge
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.PolarBasic
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.SumInnerBasisSqEqAdjoint
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle004
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle009
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle007
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.Bundle011
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.AdKMeasurePreserving
 
 @[expose] public section

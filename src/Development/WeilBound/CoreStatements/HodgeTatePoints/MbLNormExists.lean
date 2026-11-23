@@ -1,23 +1,18 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GlueApplyOfNotInFibre
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 public import Mathlib.AlgebraicGeometry.Morphisms.Finite
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DominatingModelChartCompatStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntegralClosureChartSpanStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntegralOverLocalizationScaledStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalSubringIntegralClosureMaxStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MaximalIdealMembershipOfLocalStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimeMemIffNotUnitLocalizationStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ProjectiveModelNonemptyStatement
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GenfibMap
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MaBase
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLCentre
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLCentreUnique
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLFiniteExt
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLFracExt
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLMorph
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.MbLNormChart
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle058
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle019
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle012
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle017
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle031
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle034
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle037
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle024
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

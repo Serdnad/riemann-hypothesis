@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FlagUnipotentLattices.MemOfOrthogonalAnisotropic
-public import Formalism.HyperbolicPlaceProducts.Statement
+public import Formalism.HyperbolicPlaceProducts.Bundle001
 public import Formalism.FlagUnipotentLattices.MinkowskiFactorialBounds.ExistsHasLeadingCoeffOfMemSpanBelow
 public import Formalism.GelfandTransference.HadamardGelfand.Hadamard
 public import Formalism.HyperbolicPlaceProducts.SecondLevelArithmeticNorm

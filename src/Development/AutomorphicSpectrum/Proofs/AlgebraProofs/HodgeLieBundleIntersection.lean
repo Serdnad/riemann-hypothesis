@@ -1,10 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.TrivFlagMod
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ChartBundleExtensionIntersectionStatement
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrBundleStatementAStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrBundleStatementDStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SameGenericLinearEquivStatement
+public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.Bundle004
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle092
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.DvrBundleStatementA
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle086
 import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsBundles
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

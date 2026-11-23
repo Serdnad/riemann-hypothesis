@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ZeroMemBoxF
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdelicBoxCompactStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdelicTensorRationalApproximationStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactAdelicNormBoundedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactHeightLowerBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle669
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle081
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle678
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle682
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle686
 import Development.WeilBound.ThetaLifts.FrameEstimates.LeHeightOfIsTorusElt
 import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
 import Mathlib.Algebra.Order.Floor.Extended

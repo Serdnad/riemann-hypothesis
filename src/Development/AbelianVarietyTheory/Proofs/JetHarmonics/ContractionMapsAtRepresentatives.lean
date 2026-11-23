@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.WigMap
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
 public import Mathlib.Analysis.InnerProductSpace.Adjoint
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.FormSubRight
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HpkConjTranspose
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsPolyDegStar
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle106
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle070
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle117
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.OmgEquivariant
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.OmgMulLeft
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle069
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableUnipotentNormRpowNeg

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.SzEatI
+public import Formalism.PeriodIntegrals.Bundle028
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SizeAbsorption.Development
 public import Development.AutomorphicArithmetic.OrbitLabellings.SumLogDivCubeLeOfTwoPowDvd
 public import Development.AutomorphicArithmetic.OrbitLabellings.TwoPowDvdSubOrAddOneOfOddAddOrderOfHP

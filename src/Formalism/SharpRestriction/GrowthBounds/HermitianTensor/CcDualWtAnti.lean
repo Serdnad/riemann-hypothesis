@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor.CloudDefs
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.ResidueClassCountOfTensorBasisInclusion
-import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.EdgeLatRS
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle009
+import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle008
 import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.LatticeCountPrimeMonoLevel
-public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.TensorBoundOfOrderBound
+public import Formalism.SharpRestriction.GrowthBounds.ColumnSpanDensity.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

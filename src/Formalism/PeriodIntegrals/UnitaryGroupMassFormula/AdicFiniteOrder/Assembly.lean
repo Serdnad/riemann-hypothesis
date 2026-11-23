@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.FinOrdAd
-public import Formalism.PeriodIntegrals.PowBddInt
-public import Formalism.PeriodIntegrals.UnitKron
+public import Formalism.PeriodIntegrals.Bundle005
+public import Formalism.PeriodIntegrals.Bundle009
+public import Formalism.PeriodIntegrals.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

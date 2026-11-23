@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Places
-public import Formalism.LocalToGlobal.Columns.HeckeInert
+public import Formalism.LocalToGlobal.Columns.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SameAtOfLocalizationEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle268
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InvMemDoubleCosetAndComm
 public import Formalism.LocalToGlobal.Columns.ReferenceActionRationalLevels
 public import Formalism.LocalToGlobal.Columns.TwQCmp
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PatchAtSelf
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 
 @[expose] public section
 

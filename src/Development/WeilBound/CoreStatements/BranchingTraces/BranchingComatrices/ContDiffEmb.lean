@@ -2,7 +2,7 @@ module
 
 public import Development.WeilBound.CoreStatements.BranchingTraces.HeBranching
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.PhMeas
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExpFromBlocks
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

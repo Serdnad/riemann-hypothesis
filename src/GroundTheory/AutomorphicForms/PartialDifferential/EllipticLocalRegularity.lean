@@ -2,8 +2,8 @@ module
 
 public import GroundTheory.AutomorphicForms.PartialDifferential.EllipticLocal
 import Aesop.Main
-import GroundTheory.AutomorphicForms.HilbertSchmidtKernel
-import GroundTheory.AutomorphicForms.PartialDifferential.SobolevMollifier
+import GroundTheory.AutomorphicForms.Bundle003
+import GroundTheory.AutomorphicForms.PartialDifferential.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

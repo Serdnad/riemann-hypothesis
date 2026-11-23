@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.KunnethLefschetz.BasisOne
-public import Development.EtaleCohomology.EtaleTrace.LProperPf
-public import Development.EtaleCohomology.EtaleTrace.LSmoothPf
-public import Development.EtaleCohomology.EtaleTrace.PNIntegralPf
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveSpaceChart
+public import Development.EtaleCohomology.EtaleTrace.Bundle005
+public import Development.EtaleCohomology.EtaleTrace.Bundle007
+public import Development.EtaleCohomology.EtaleTrace.Bundle008
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,8 +50,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import Development.EtaleCohomology.EtaleTrace.LPdCut
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjSpace
+public import Development.EtaleCohomology.EtaleTrace.Bundle003
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle003
 
 @[expose] public section
 

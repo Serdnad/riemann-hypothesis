@@ -46,10 +46,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FourBasic
+public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.Bundle006
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FourIndep
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.FourSum
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.TubeSummability
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle016
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

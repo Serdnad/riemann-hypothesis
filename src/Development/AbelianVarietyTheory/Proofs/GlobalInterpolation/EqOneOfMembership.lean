@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.TrivialColumnStabiliser
-public import Formalism.LogVandermondeBounds.LogVandermondeProofs.PrimePowerSubgroupTrivial
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle008
+public import Formalism.LogVandermondeBounds.LogVandermondeProofs.Bundle001
 public import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTranslate
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -2,8 +2,8 @@ module
 
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsDenominatorPrimesPrescribed
-public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.IdealNormPrincipalInExtension
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.AdelicProofs.Bundle007
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

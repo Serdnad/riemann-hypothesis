@@ -1,8 +1,8 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ShortLatticeUnitarize.CmpResplit
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChebotarevDegreeOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenIdeleSubgroupContainsCongruenceUnits
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle594
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle056
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -86,7 +86,7 @@ def oneU (l : ℕ) [Fact l.Prime] : Subgroup (Qbar l)ˣ where
 variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω]
 
 omit [NumberField F] in
-theorem cyc_mem (s : G F Ω) : cycBar F Ω l s ^ (l - 1) ∈ oneU l := by
+theorem cyc_mem (s : Formalism.ConjugateSelfDual.G F Ω) : cycBar F Ω l s ^ (l - 1) ∈ oneU l := by
   have e : ((cycBar F Ω l s ^ (l - 1) : (Qbar l)ˣ) : Qbar l) - 1 =
       algebraMap ℚ_[l] (Qbar l) ((((cycZ F Ω l s : ℤ_[l]) ^ (l - 1) - 1 : ℤ_[l])) : ℚ_[l]) := by
     rw [Units.val_pow_eq_pow_val]
@@ -105,7 +105,7 @@ theorem cont_cyc : Continuous (cycBar F Ω l) :=
   (Continuous.units_map ((algebraMap ℚ_[l] (Qbar l)).comp PadicInt.Coe.ringHom).toMonoidHom h).comp (continuous_cycZ F Ω l)
 
 theorem cyc_frob [IsAlgClosure F Ω] {A : ValuationSubring Ω} {v : Pl F} (hl : ((l : ℕ) : 𝓞 F) ∉ v.asIdeal)
-    (h : IsPlaceOver A v) {σ : G F Ω} (hσ : IsFrob A (normV v) σ) :
+    (h : Formalism.ConjugateSelfDual.IsPlaceOver A v) {σ : Formalism.ConjugateSelfDual.G F Ω} (hσ : IsFrob A (normV v) σ) :
     ((cycBar F Ω l σ : (Qbar l)ˣ) : Qbar l) = (normV v : Qbar l) := by
   change algebraMap ℚ_[l] (Qbar l) ((cycZ F Ω l σ : ℤ_[l]) : ℚ_[l]) = _
   rw [cycZ_of_isFrob hl h hσ]
@@ -149,9 +149,9 @@ theorem closed_oneU : IsClosed (oneU l : Set (Qbar l)ˣ) := by
   exact this.preimage Units.continuous_val
 
 theorem dec_cong {art : Ideles F →* Gab F Ω} (ha : IsGlobalArtin art) {ι : Qbar l ≃+* ℂ} {ω : HChar F}
-    {ξ : G F Ω →* (Qbar l)ˣ} (hc : Continuous ξ) (hL : IsLAdicOf art ι ω 0 ξ) {w : Pl F} (hu : ω.UnrAt w)
-    (hv : ‖ι.symm (ω.val w : ℂˣ) - 1‖ < 1) {A : ValuationSubring Ω} (hA : IsPlaceOver A w) {σ : G F Ω}
-    (hσ : σ ∈ Dec (F := F) A) : Cong (ξ σ) 1 := by
+    {ξ : Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ} (hc : Continuous ξ) (hL : IsLAdicOf art ι ω 0 ξ) {w : Pl F} (hu : ω.UnrAt w)
+    (hv : ‖ι.symm (ω.val w : ℂˣ) - 1‖ < 1) {A : ValuationSubring Ω} (hA : Formalism.ConjugateSelfDual.IsPlaceOver A w) {σ : Formalism.ConjugateSelfDual.G F Ω}
+    (hσ : σ ∈ ReciprocityTheory.Gal.Dec (F := F) A) : Cong (ξ σ) 1 := by
   have hm : toAb F Ω σ ∈ (art.comp (localIdele F w)).range.topologicalClosure := by
     rw [ha.dec w A hA]
     exact ⟨σ, hσ, rfl⟩
@@ -178,25 +178,25 @@ theorem tr_det (ι : Qbar l ≃+* ℂ) (M : Matrix (Fin 2) (Fin 2) (Qbar l)) (a 
   rw [← h2, ← h3]
   simp
 
-theorem det_res [IsAlgClosure F Ω] (ξ : G F Ω →* (Qbar l)ˣ) (hξ : Continuous ξ) (r : G F Ω →* GL (Fin 2) (Qbar l))
+theorem det_res [IsAlgClosure F Ω] (ξ : Formalism.ConjugateSelfDual.G F Ω →* (Qbar l)ˣ) (hξ : Continuous ξ) (r : Formalism.ConjugateSelfDual.G F Ω →* GL (Fin 2) (Qbar l))
     (hr : Continuous r) (k : ℕ) (hk : l - 1 ∣ k) (hn : ∀ s, ‖(ξ s : Qbar l)‖ = 1) {S : Set (Pl F)} (hS : S.Finite)
-    (h : ∀ w, w ∉ S → ∀ A : ValuationSubring Ω, IsPlaceOver A w → ∀ σ : G F Ω, IsFrob A (normV w) σ →
+    (h : ∀ w, w ∉ S → ∀ A : ValuationSubring Ω, Formalism.ConjugateSelfDual.IsPlaceOver A w → ∀ σ : Formalism.ConjugateSelfDual.G F Ω, IsFrob A (normV w) σ →
       ‖(r σ⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).trace - (1 + ξ σ⁻¹)‖ < 1 ∧
       (r σ⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).det = ξ σ⁻¹ * (cycBar F Ω l σ : Qbar l) ^ k) :
     Matrix.GeneralLinearGroup.det.comp r = cycBar F Ω l ^ (-(k : ℤ)) * ξ ∧ ResSum r ![1, ξ] := by
   have hD := GlobalTheory.Published.ChebotarevDegreeOne.dense (F := F) (Ω := Ω) GlobalTheory.Published.chebotarevDegreeOne' hS
-  have c1 : Continuous fun g : G F Ω => (r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)) :=
+  have c1 : Continuous fun g : Formalism.ConjugateSelfDual.G F Ω => (r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)) :=
     Units.continuous_val.comp (hr.comp continuous_inv)
-  have c2 : Continuous fun g : G F Ω => (ξ g⁻¹ : Qbar l) := Units.continuous_val.comp (hξ.comp continuous_inv)
-  have c3 : Continuous fun g : G F Ω => (cycBar F Ω l g : Qbar l) := Units.continuous_val.comp cont_cyc
-  have hdet : ∀ g : G F Ω, (r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).det = ξ g⁻¹ * (cycBar F Ω l g : Qbar l) ^ k := fun g => by
+  have c2 : Continuous fun g : Formalism.ConjugateSelfDual.G F Ω => (ξ g⁻¹ : Qbar l) := Units.continuous_val.comp (hξ.comp continuous_inv)
+  have c3 : Continuous fun g : Formalism.ConjugateSelfDual.G F Ω => (cycBar F Ω l g : Qbar l) := Units.continuous_val.comp cont_cyc
+  have hdet : ∀ g : Formalism.ConjugateSelfDual.G F Ω, (r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).det = ξ g⁻¹ * (cycBar F Ω l g : Qbar l) ^ k := fun g => by
     refine congrFun (Continuous.ext_on hD c1.matrix_det (c2.mul (c3.pow k)) ?_) g
     rintro σ ⟨v, hv, -, A, hA, hσ⟩
     exact (h v hv A hA σ hσ).2
-  have htr : ∀ g : G F Ω, ‖(r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).trace - (1 + ξ g⁻¹)‖ < 1 := fun g => by
+  have htr : ∀ g : Formalism.ConjugateSelfDual.G F Ω, ‖(r g⁻¹ : Matrix (Fin 2) (Fin 2) (Qbar l)).trace - (1 + ξ g⁻¹)‖ < 1 := fun g => by
     have h0 : IsClosed {x : Qbar l | ‖x‖ < 1} := by
       simpa only [Metric.ball, dist_zero_right] using IsUltrametricDist.isClosed_ball (0 : Qbar l) 1
-    have h1 := h0.preimage (c1.matrix_trace.sub (continuous_const.add c2 : Continuous fun g : G F Ω => 1 + (ξ g⁻¹ : Qbar l)))
+    have h1 := h0.preimage (c1.matrix_trace.sub (continuous_const.add c2 : Continuous fun g : Formalism.ConjugateSelfDual.G F Ω => 1 + (ξ g⁻¹ : Qbar l)))
     refine h1.closure_subset_iff.2 ?_ (hD g)
     rintro σ ⟨v, hv, -, A, hA, hσ⟩
     exact (h v hv A hA σ hσ).1

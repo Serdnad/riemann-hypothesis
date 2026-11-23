@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.SPtrueHom
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
 import Formalism.SharpRestriction.GrowthBounds.PathWeight.DvDegOtherMono
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.EvensBeforePairwise
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

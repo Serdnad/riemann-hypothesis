@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.IntUnit
-public import Formalism.LocalToGlobal.ProjectiveLattices.FullXi
-public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.NormComparisonConstants
+public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.Bundle001
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle020
 public import Development.AbelianVarietyTheory.Definitions.Jets.EmbShortThLeThetaPlain
-public import Formalism.LocalToGlobal.ProjectiveLattices.FullExists
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsFullDataExtension
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsShortSeriesTwistCharOfTwistingIdeleCharStatement
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementBe
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
 public import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.ExistsCoprimePowEqOne
 import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSq
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSt
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSu
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSv
-public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.StmtEndIntWHolds
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

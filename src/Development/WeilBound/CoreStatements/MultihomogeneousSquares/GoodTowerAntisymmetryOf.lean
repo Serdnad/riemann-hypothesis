@@ -2,10 +2,10 @@ module
 
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBounds
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AgreementPositiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AntisymmetryStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Antisymmetry
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.ChooseTwoAdd
-public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.SqOf
+public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,6 +51,7 @@ namespace SquareStatements
 open AlgebraicGeometry CategoryTheory NumberField
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 def GoodTowerAntisymmetry : Prop :=
   Cmp.CmpSt → Given → Out.WeilSt →
   ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l)
@@ -58,6 +59,7 @@ def GoodTowerAntisymmetry : Prop :=
     (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem),
     o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → T.I8 II (hhFl (CMType H) (D.p + D.q) II)
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem good_tower_antisymmetry_of (hX : StX) (hAlg : StAlg) (hHt : StHt) (hSing : StSing) (hBase : StBase) (hCmp : StCmp)
     (hI8 : AntisymmetryFibreSquares) : GoodTowerAntisymmetry := by
   intro hC hG hW E _ _ _ H D Xo l c Y _ T o II hE hII hp hq

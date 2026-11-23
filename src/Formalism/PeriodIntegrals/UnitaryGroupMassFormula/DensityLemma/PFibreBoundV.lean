@@ -1,7 +1,7 @@
 module
 
 import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.LocalWeightCharts.DDMulApply
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFibreBoundVDefs
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.Bundle001
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

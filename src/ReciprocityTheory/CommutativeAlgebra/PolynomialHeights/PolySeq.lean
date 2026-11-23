@@ -46,8 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyMax
-public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyStep
+public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.Bundle001
 
 @[expose] public section
 

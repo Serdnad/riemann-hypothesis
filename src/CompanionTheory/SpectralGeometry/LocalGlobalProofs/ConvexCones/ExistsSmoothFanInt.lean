@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsEqAddOfRedVEq
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.CmOrdIntId
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsIsPosDefOfBasis
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.Bundle001
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.Bundle014
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsSmoothPolyhedralFanRefinementStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.IntegerLatticeDominatesStatement
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.VoronoiFanIsPolyhedralStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.Bundle007
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.Bundle025
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.VoronoiMeans.VorFunEvalEqFineMean
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle532
 
 @[expose] public section
 
@@ -60,7 +60,7 @@ theorem hasRedCover_int_proj (Y : Type) [AddCommGroup Y] [m : Module ℤ Y] [Mod
   exact hasRedCover_int Y
 
 theorem dominates_int_proj (Y : Type) [AddCommGroup Y] [m : Module ℤ Y] [Module.Finite ℤ Y] [Module.Projective ℤ Y] :
-    Dominates (id : ℤ → ℤ) Y := by
+    _root_.GlobalTheory.PolFan.Dominates (id : ℤ → ℤ) Y := by
   obtain rfl : m = AddCommGroup.toIntModule Y := Subsingleton.elim _ _
   have : Module.Free ℤ Y := inferInstance
   exact GlobalTheory.T.integer_lattice_dominates Y

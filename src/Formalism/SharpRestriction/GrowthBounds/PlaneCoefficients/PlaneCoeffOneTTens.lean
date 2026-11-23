@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.PlanePairsOnBlocksAt
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle002
 import Formalism.SharpRestriction.GrowthBounds.FlipOneThree
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ValuationNonnegIffIntegral
 import Mathlib.Algebra.Order.Floor.Extended

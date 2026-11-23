@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsSummandTw
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle346
 public import Formalism.SharpRestriction.LevelLetterCocycles.PairedCharacterCondition
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankEqOfNondegenerate
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PotentiallyCrystallineModuleEqCrystallineRestric
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TwistedDualFamiliesContinuous
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle030
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle251
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle243
 public import Formalism.SharpRestriction.LevelLetterCocycles.JointConditionsZpowers.BaseFont
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

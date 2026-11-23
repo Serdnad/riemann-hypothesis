@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.KummerBasic
 public import Mathlib.FieldTheory.IsSepClosed
-public import GroundTheory.ProfiniteCohomology.KummerFinite
+public import GroundTheory.ProfiniteCohomology.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

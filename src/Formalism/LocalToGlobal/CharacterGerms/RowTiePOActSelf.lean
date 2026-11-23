@@ -1,14 +1,14 @@
 module
 
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTSelf
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActLog
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle012
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
-import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
+import Formalism.LocalToGlobal.CharacterGerms.Bundle009
+import Formalism.LocalToGlobal.CharacterGerms.Bundle008
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePAddCvSelf
-import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogSt
-public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOAct
+import Formalism.LocalToGlobal.CharacterGerms.Bundle010
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle016
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePOActSg
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

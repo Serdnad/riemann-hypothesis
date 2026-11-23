@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeCountingBound.SepDefs
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeCountingBound.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.Rank
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeSizeContinuity.LatticeIsometry
 import Mathlib.Algebra.Order.Floor.Extended

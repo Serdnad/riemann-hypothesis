@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.ArithDegreeIdeal
-public import GroundTheory.HeightsAndTheta.Heights.HermitianDual
+public import GroundTheory.HeightsAndTheta.Heights.Bundle003
 public import Mathlib.LinearAlgebra.TensorProduct.Projective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

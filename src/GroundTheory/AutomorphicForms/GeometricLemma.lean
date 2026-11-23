@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.GeometricLemmaNormal
-public import GroundTheory.AutomorphicForms.GeometricLemmaUnnormalized
+public import GroundTheory.AutomorphicForms.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

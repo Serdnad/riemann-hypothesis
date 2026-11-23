@@ -3,9 +3,9 @@ module
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.VerticalNumberZeroOfHorizontalStatement
 public import Development.WeilBound.CoreStatements.IdealCycleValues.IntNumLCons
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyCN
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.OfSteps
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.WithBotLtOfAddOneLe
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle023
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

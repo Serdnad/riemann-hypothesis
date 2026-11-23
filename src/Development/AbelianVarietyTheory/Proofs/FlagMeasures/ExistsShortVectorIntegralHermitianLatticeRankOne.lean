@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
-public import Formalism.HermitianLattices.StatementMass
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Formalism.HermitianLattices.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeDiscriminantOrderNeZeroUnimodula
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RegulatorLeSumSmallIdealsInClass
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle024
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

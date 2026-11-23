@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.DualLattices.LinPairStatement
+public import ReciprocityTheory.DualLattices.Bundle012
 public import ReciprocityTheory.DualLattices.FormalChartAtZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

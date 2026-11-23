@@ -1,13 +1,11 @@
 module
 
 public import Formalism.MeanHeightDescent.MuMaxMinkowski
-public import Formalism.MeanHeightDescent.CombinedAverageDegreeBound
-public import Formalism.MeanHeightDescent.AverageDegreeBounds.CovolumeAssemblyHolds
+public import Formalism.MeanHeightDescent.Bundle001
+public import Formalism.MeanHeightDescent.AverageDegreeBounds.Bundle002
 import Formalism.MeanHeightDescent.AverageDegreeBounds.CovolumeFullAssemblyHolds
-import Formalism.MeanHeightDescent.AverageDegreeBounds.DescentSlope
+import Formalism.MeanHeightDescent.AverageDegreeBounds.Bundle003
 import Formalism.MeanHeightDescent.AverageDegreeBounds.GoodBadCut
-import Formalism.MeanHeightDescent.AverageDegreeBounds.MuMaxMinkowski
-public import Formalism.MeanHeightDescent.AverageDegreeBounds.SpanMuMin
 import Formalism.MeanHeightDescent.AverageDegreeBounds.TwistLower
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,19 +1,18 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.TopAmpExists
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AbelianLocusOpenFamilyOverLevelStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle189
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CoprimeLevel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqOnTorsion
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHomBirationalModelsAmpleFramesStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullLevelChangeActsOnUnitaryFamilyStatement
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FullObjOfObj
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoStalkMapOfFlatOfSurjectiveOnStalks
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsReducedIsNormalSchemeIsLocallyNoetherianOfSmoo
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ModuliFiniteSurjectiveOverGenericFamilyStatement
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle142
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle176
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle152
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle141
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle008
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -56,7 +55,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.CubePullbacks.CubePull
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
@@ -239,7 +238,7 @@ theorem exists_iso (hH : GlobalTheory.LN.HomExtSt) (hR : IsDedekindDomain R) [Ch
       e₁ ≫ C.W.ι ≫ ρ.hom = e₂ ≫ C.W.ι ∧ (e₁ ≫ C.j) ≫ τ.hom = e₂ ≫ C.j := by
   have := isLocallyNoetherian C
   have := isSeparated C
-  have := isReduced_of_normal C.normal
+  have := isReduced_of_normal ((_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal)
   have := C.j_open
   have := C.j_dom
   have : IsDominant C.W.ι := ⟨by rw [DenseRange, Scheme.Opens.range_ι]; exact C.dense⟩
@@ -320,10 +319,10 @@ theorem exists_iso (hH : GlobalTheory.LN.HomExtSt) (hR : IsDedekindDomain R) [Ch
       exact Spec.map_id _
     rw [← Category.assoc _ C.s, h₂, Category.assoc (e₁ ≫ C.j), Category.assoc C.s, this, Category.comp_id]
   obtain ⟨τ, hτ⟩ := GlobalTheory.T.exists_hom_birational_models_ampleFrames hH E H R C.Z C.Z _ C.s _ C.t C.t t' _ _ p₁ p₂ _ C.amp C.amp hR inferInstance hft
-    C.normal C.proj (isProjOver_comp_iso C.proj σ.symm) C.flat inferInstance inferInstance inferInstance inferInstance
+    ((_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal) C.proj (isProjOver_comp_iso C.proj σ.symm) C.flat inferInstance inferInstance inferInstance inferInstance
     inferInstance inferInstance inferInstance inferInstance hp h₁ rfl rfl
   obtain ⟨τ', hτ'⟩ := GlobalTheory.T.exists_hom_birational_models_ampleFrames hH E H R C.Z C.Z _ C.s _ C.t C.t t' _ _ p₂ p₁ _ C.amp C.amp hR inferInstance hft
-    C.normal C.proj (isProjOver_comp_iso C.proj σ) C.flat inferInstance inferInstance inferInstance inferInstance
+    ((_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal) C.proj (isProjOver_comp_iso C.proj σ) C.flat inferInstance inferInstance inferInstance inferInstance
     inferInstance inferInstance inferInstance inferInstance hp h₂ rfl rfl
   refine ⟨_, e₁, e₂, ⟨τ, τ', ?_, ?_⟩, inferInstance, he, hτ⟩
   · refine ext_of_isDominant (e₁ ≫ C.j) ?_
@@ -409,7 +408,7 @@ theorem exists_top : GlobalTheory.LN.HomExtSt → Out.Laws → Out.Laws2 → ∀
     exact ⟨β, b, ν, ν', ν'', ha, hβ, hinj, hfl, hν', hν'', h₁, h₂, h₃⟩
   choose β b ν ν' ν'' hb hβ hinj hfl hν hν' hlev hfin hsurj using key
   refine ⟨{
-    Z := C.Z, s := C.s, normal := C.normal, proj := C.proj, flat := C.flat, t := C.t, qproj := C.qproj
+    Z := C.Z, s := C.s, normal := (_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal, proj := C.proj, flat := C.flat, t := C.t, qproj := C.qproj
     good := C.good, ga := genericPoints_subset C, a := fun l h => b l h ≫ i ≫ U.ι, m := ν''
     fin := ?_, compat := ?_, sym := ?_, U := U, U_eq := hU, MM := MM, sM := sM, tM := tM, lev := lev
     MM_red := F.red, MM_flat := F.flat, MM_ab := hab, u := u, u_over := hu, u_fin := ufin, u_surj := usurj
@@ -443,7 +442,7 @@ theorem exists_top : GlobalTheory.LN.HomExtSt → Out.Laws → Out.Laws2 → ∀
       ⟨_, IsOpenImmersion.lift_fac U.ι C.j (by rw [Scheme.Opens.range_ι, hU]; exact range_j_subset C)⟩
     have hju := hj j' hj'
     have := isSeparated C
-    have := isReduced_of_normal C.normal
+    have := isReduced_of_normal ((_root_.GlobalTheory.isNormalScheme_iff_pred C.Z).mp C.normal)
     rw [← hj'] at hd hτ
     refine ⟨τ, ?_⟩
     rw [← Category.assoc r.hom]

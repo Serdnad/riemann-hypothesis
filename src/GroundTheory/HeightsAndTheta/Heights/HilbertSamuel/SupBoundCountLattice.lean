@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SupBoundCountIntegrals
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLattice
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle012
 public import Mathlib.Analysis.InnerProductSpace.GramMatrix
-public import GroundTheory.HeightsAndTheta.Heights.CovolumeGram
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMinkowskiCount
+public import GroundTheory.HeightsAndTheta.Heights.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ABridgeStB
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Bundle004
 public import Mathlib.Algebra.Star.UnitaryStarAlgAut
 
 @[expose] public section
@@ -135,7 +135,7 @@ theorem coeff_eq_zero {y : (Σ k, ι k) → Ω} {r : ℕ} {f : Fin r → MRing �
 
 variable {D : ℕ}
 
-theorem pairRe_comm (A : HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) :
+theorem pairRe_comm (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (n : ℕ) (f f' : MRing ι) (z : (Σ k, ι k) → ℂ) :
     pairRe A n f f' z = pairRe A n f' f z := by
   simp only [pairRe]
   ring

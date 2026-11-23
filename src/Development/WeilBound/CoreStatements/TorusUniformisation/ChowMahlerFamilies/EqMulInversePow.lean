@@ -1,17 +1,17 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.GermSys
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle015
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.ActGeneratorZero
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdChart
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdUniv
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle052
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle040
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GermCompOneAssocOfConstantCoeffZero
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdFrame
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.Comp1IdentityLeft
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.CompListProd
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrA
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBMapPf
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -52,8 +52,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
-import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
+import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle004
 
 @[expose] public section
 

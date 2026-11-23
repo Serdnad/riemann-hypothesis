@@ -1,6 +1,6 @@
 module
 
-import Formalism.SharpRestriction.LevelLetterCocycles.CompleteOfPow
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle021
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Algebra.Order.Floor.Extended
@@ -269,6 +269,7 @@ theorem complete (hC : IsAdicComplete (maximalIdeal A) A) :
     IsAdicComplete (maximalIdeal (integralClosure A L)) (integralClosure A L) := by
   have := isDVR A K L hC
   have := dedekind A K L
+  letI : IsLocalRing (integralClosure A L) := isLocalRing A K L hC
   have hcm := complete_map A K L hC
   have h6 : ∀ J : Ideal (integralClosure A L), J ≠ ⊥ →
       ∃ n : ℕ, J = maximalIdeal (integralClosure A L) ^ n :=

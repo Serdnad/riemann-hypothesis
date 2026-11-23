@@ -1,7 +1,7 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementC
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.GeneratorPowUpperVanishHolds
+public import Formalism.RealPlaceAnalysis.Bundle003
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

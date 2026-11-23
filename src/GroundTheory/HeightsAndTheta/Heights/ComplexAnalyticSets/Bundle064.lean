@@ -1,0 +1,498 @@
+module
+
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle046
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LogIntPoly
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle028
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Statements
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle030
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ComplexSets
+open scoped ContDiff
+
+noncomputable section
+
+def RegFormCompare.Statement : Prop :=
+  ∀ (n d : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (A : Matrix (Fin (d + 1)) (Fin n) ℂ)
+    (φ : Fin d → (Fin n → ℂ) → ℝ) (f : (Fin n → ℂ) → ℝ),
+    J.IsPrime → ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = (d + 1 : ℕ) → IsFiniteProjection J A →
+    (∀ i, SmoothNear (zeroSet J) (φ i)) → Continuous f → HasCompactSupport f →
+      ∃ C : ℝ, 0 ≤ C ∧ ∀ (u : Fin n → ℂ) (ε : ℝ), 0 < ε →
+        ∀ v w : (Fin n → ℂ) → ℝ, (∀ x, 0 ≤ w x) → (∀ x ∈ tsupport f, |v x| ≤ w x) →
+          ∀ y, chartAbsDens J A (fun x => v x * f x) (vecCons (logReg u ε) φ) y ≤
+            C * chartDens J A w (vecCons (logReg u ε) fun _ => euclPot) y
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ComplexSets
+open scoped ContDiff
+
+noncomputable section
+
+def logDistSq {n : ℕ} (x : Fin n → ℂ) (z : Fin n → ℂ) : ℝ :=
+  Real.log (euclPot (z - x))
+
+def RegLogDensNonneg.Statement : Prop :=
+  ∀ (n d : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (A : Matrix (Fin (d + 1)) (Fin n) ℂ)
+    (u : Fin n → ℂ) (ε : ℝ) (x z : Fin n → ℂ) (s : (Fin (d + 1) → ℂ) → Fin n → ℂ),
+    0 < ε → z ≠ x → IsSheetAt J A z s →
+      0 ≤ ReciprocityTheory.AnForm.maDens
+        (fun k => (vecCons (logReg u ε) fun _ => logDistSq x : Fin (d + 1) → (Fin n → ℂ) → ℝ) k ∘ s)
+        (A *ᵥ z)
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ComplexSets
+open scoped ContDiff
+
+noncomputable section
+
+def RegMassNearSmall.Statement : Prop :=
+  ∀ (n d : ℕ) (J I : Ideal (MvPolynomial (Fin n) ℂ)) (u : Fin n → ℂ) (φ : Fin d → (Fin n → ℂ) → ℝ)
+    (f : (Fin n → ℂ) → ℝ),
+    J.IsPrime → ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = (d + 1 : ℕ) → linForm u ∉ J →
+    (∀ i, SmoothNear (zeroSet J) (φ i)) → ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ I) < (d : ℕ) →
+    Continuous f → HasCompactSupport f →
+      ∀ δ > 0, ∃ U : Set (Fin n → ℂ), IsOpen U ∧ zeroSet I ⊆ U ∧
+        ∀ χ : (Fin n → ℂ) → ℝ, Continuous χ → (∀ x, |χ x| ≤ 1) → tsupport χ ⊆ U →
+          ∀ ε ∈ Set.Ioc (0 : ℝ) 1,
+            |varInt J (d + 1) (fun x => χ x * f x) (vecCons (logReg u ε) φ)| ≤ δ
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial Matrix ComplexSets IsLocalRing
+
+def SliceCMUnmixed.Statement : Prop :=
+  ∀ (n d : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (L : Matrix (Fin d) (Fin n) ℂ) (q : Fin n → ℂ),
+    IsCohenMacaulayAt J q → ringKrullDim (localRingAt J q) = (d + 1 : ℕ) →
+    ringKrullDim (localRingAt (sliceIdeal J L q) q) = (1 : ℕ) →
+      ∀ P ∈ associatedPrimes (MvPolynomial (Fin n) ℂ) (MvPolynomial (Fin n) ℂ ⧸ sliceIdeal J L q),
+        P ≤ RingHom.ker (eval q) →
+          P ∈ (sliceIdeal J L q).minimalPrimes ∧ P ≠ RingHom.ker (eval q)
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial Matrix ComplexSets
+
+def SliceLocalDimGeneral.Statement : Prop :=
+  ∀ (n d : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ), J.IsPrime →
+    ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = (d + 1 : ℕ) → q ∈ zeroSet J →
+      ∃ O : Set (Matrix (Fin d) (Fin n) ℂ), IsOpen O ∧ Dense O ∧
+        ∀ L ∈ O, ringKrullDim (localRingAt (sliceIdeal J L q) q) = (1 : ℕ)
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial Matrix ComplexSets
+
+noncomputable section
+
+def SliceLocalDimUpperZariski.Statement : Prop :=
+  ∀ (n d : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ), J.IsPrime →
+    ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = (d + 1 : ℕ) → q ∈ zeroSet J →
+      ∃ F : MvPolynomial (Fin d × Fin n) ℂ, F ≠ 0 ∧
+        ∀ L : Matrix (Fin d) (Fin n) ℂ, eval (fun ij : Fin d × Fin n => L ij.1 ij.2) F ≠ 0 →
+          ringKrullDim (localRingAt (sliceIdeal J L q) q) ≤ (1 : ℕ)
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial Matrix ComplexSets
+
+def TransverseSliceGeneral.Statement : Prop :=
+  ∀ (n d : ℕ) (W : Ideal (MvPolynomial (Fin n) ℂ)), W.IsPrime →
+    ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ W) = (d : ℕ) →
+      ∃ f : MvPolynomial (Fin n) ℂ, f ∉ W ∧ ∀ q ∈ zeroSet W, eval q f ≠ 0 →
+        IsOpen {L : Matrix (Fin d) (Fin n) ℂ | IsTransverseSliceAt W L q} ∧
+          Dense {L : Matrix (Fin d) (Fin n) ℂ | IsTransverseSliceAt W L q}
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial ComplexSets Filter Topology
+
+noncomputable section
+
+def ZeroDimIsolated.Statement : Prop :=
+  ∀ (n : ℕ) (I : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ),
+    ringKrullDim (curveLocalRing I q) ≤ 0 → ∃ N ∈ 𝓝 q, zeroSet I ∩ N ⊆ {q}
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ComplexSets
+open scoped ContDiff
+
+noncomputable section
+
+namespace LelongRegularise
+
+theorem mdisc_eq_zero_of_eq_zero {D : ℕ} (B : Fin (D + 1) → Matrix (Fin (D + 1)) (Fin (D + 1)) ℂ)
+    (h : B 0 = 0) : ReciprocityTheory.AnForm.mdisc B = 0 := by
+  classical
+  unfold ReciprocityTheory.AnForm.mdisc
+  refine mul_eq_zero_of_right _ ?_
+  have hu : (Finset.univ : Finset (Fin (D + 1))) = insert 0 (Finset.univ.erase 0) :=
+    (Finset.insert_erase (Finset.mem_univ 0)).symm
+  rw [← Finset.powerset_univ, hu, Finset.sum_powerset_insert (Finset.notMem_erase 0 _),
+    ← Finset.sum_add_distrib]
+  refine Finset.sum_eq_zero fun t ht => ?_
+  have h0t : (0 : Fin (D + 1)) ∉ t := fun h0 => Finset.notMem_erase 0 _ (Finset.mem_powerset.1 ht h0)
+  have hc : t.card ≤ D := by
+    have := Finset.card_le_card (Finset.mem_powerset.1 ht)
+    rw [Finset.card_erase_of_mem (Finset.mem_univ _), Finset.card_univ, Fintype.card_fin] at this
+    omega
+  rw [Finset.sum_insert h0t, h, zero_add, Finset.card_insert_of_notMem h0t]
+  have he : D + 1 - t.card = (D + 1 - (t.card + 1)) + 1 := by omega
+  rw [he, pow_succ]
+  ring
+
+theorem maDens_eq_zero_of_eventually {D : ℕ} (F : Fin (D + 1) → (Fin (D + 1) → ℂ) → ℝ)
+    {y : Fin (D + 1) → ℂ} (h : F 0 =ᶠ[𝓝 y] fun _ => 0) : ReciprocityTheory.AnForm.maDens F y = 0 := by
+  have h2 : fderiv ℝ (fderiv ℝ (F 0)) y = 0 := by
+    rw [(h.fderiv (𝕜 := ℝ)).fderiv_eq (𝕜 := ℝ)]
+    simp
+  have hH : ReciprocityTheory.AnForm.hessC (F 0) y = 0 := by
+    ext i j
+    simp [ReciprocityTheory.AnForm.hessC, h2]
+  unfold ReciprocityTheory.AnForm.maDens
+  rw [mdisc_eq_zero_of_eq_zero (fun k => ReciprocityTheory.AnForm.hessC (F k) y) hH]
+  simp
+
+theorem abs_half_log_le {t ε : ℝ} (ht : 0 < t) (hε : 0 < ε) (hε1 : ε ≤ 1) :
+    |Real.log (t ^ 2 + ε) / 2| ≤ |Real.log t| + |Real.log (2 * t)| := by
+  have ht2 : 0 < t ^ 2 := by positivity
+  have hlo : Real.log t ≤ Real.log (t ^ 2 + ε) / 2 := by
+    have : Real.log (t ^ 2) ≤ Real.log (t ^ 2 + ε) := Real.log_le_log ht2 (by linarith)
+    rw [Real.log_pow] at this
+    push_cast at this
+    linarith
+  have hup : Real.log (t ^ 2 + ε) ≤ 2 * (|Real.log t| + |Real.log (2 * t)|) := by
+    have h1 : Real.log (t ^ 2 + ε) ≤ Real.log (t ^ 2 + 1) := Real.log_le_log (by positivity) (by linarith)
+    have h2t : Real.log (2 * t) = Real.log 2 + Real.log t := Real.log_mul (by norm_num) ht.ne'
+    rcases le_total t 1 with h | h
+    · have : Real.log (t ^ 2 + 1) ≤ Real.log (2 ^ 2) := Real.log_le_log (by positivity) (by nlinarith)
+      rw [Real.log_pow] at this
+      push_cast at this
+      have a1 := le_abs_self (Real.log (2 * t))
+      have a2 := neg_abs_le (Real.log t)
+      linarith
+    · have : Real.log (t ^ 2 + 1) ≤ Real.log ((2 * t) ^ 2) := Real.log_le_log (by positivity) (by nlinarith)
+      rw [Real.log_pow] at this
+      push_cast at this
+      have a1 := le_abs_self (Real.log (2 * t))
+      have a2 := abs_nonneg (Real.log t)
+      linarith
+  rw [abs_le]
+  constructor
+  · have a1 := neg_abs_le (Real.log t)
+    have a2 := abs_nonneg (Real.log (2 * t))
+    linarith
+  · linarith
+
+theorem exists_poly_of_linEval_eq_zero {n d : ℕ} {J : Ideal (MvPolynomial (Fin n) ℂ)}
+    {A : Matrix (Fin d) (Fin n) ℂ} {u : Fin n → ℂ} (hJ : J.IsPrime) (hA : IsFiniteProjection J A)
+    (hu : linForm u ∉ J) :
+    ∃ P : MvPolynomial (Fin d) ℂ, P ≠ 0 ∧
+      ∀ y x, x ∈ fibre J A y → linEval u x = 0 → MvPolynomial.eval y P = 0 := by
+  classical
+  have := hJ
+  set a := Ideal.Quotient.mk J (linForm u) with ha_def
+  have ha : a ≠ 0 := fun h => hu (Ideal.Quotient.eq_zero_iff_mem.1 h)
+  have hint : (projHom J A).toRingHom.IsIntegralElem a := hA.finite.to_isIntegral _
+  have hex : ∃ k, ∃ p : Polynomial (MvPolynomial (Fin d) ℂ), p.Monic ∧ p.natDegree = k ∧
+      p.eval₂ (projHom J A).toRingHom a = 0 := by
+    obtain ⟨p, hpm, hp⟩ := hint
+    exact ⟨_, p, hpm, rfl, hp⟩
+  obtain ⟨p, hpm, hpk, hp⟩ := Nat.find_spec hex
+  refine ⟨p.coeff 0, fun h0 => ?_, ?_⟩
+  · obtain ⟨q, rfl⟩ := Polynomial.X_dvd_iff.2 h0
+    have hqm : q.Monic := Polynomial.monic_X.of_mul_monic_left hpm
+    have hq : q.eval₂ (projHom J A).toRingHom a = 0 := by
+      rw [Polynomial.eval₂_mul, Polynomial.eval₂_X] at hp
+      exact (mul_eq_zero.1 hp).resolve_left ha
+    have hlt : q.natDegree < Nat.find hex := by
+      rw [← hpk, Polynomial.natDegree_X_mul hqm.ne_zero]
+      omega
+    exact Nat.find_min hex hlt ⟨q, hqm, rfl, hq⟩
+  · rintro y x ⟨hx, hxy⟩ hux
+    have h := congrArg (Ideal.Quotient.lift J (MvPolynomial.eval x) fun q hq => hx q hq) hp
+    rw [Polynomial.hom_eval₂, IndefiniteRowSideFullHecke.ComplexSets.lift_eval_comp_projHom J A hx, map_zero] at h
+    have hax : (Ideal.Quotient.lift J (MvPolynomial.eval x) fun q hq => hx q hq) a = 0 := by
+      rw [ha_def, Ideal.Quotient.lift_mk, ← hux]
+      simp [linForm, linEval]
+    rw [hax, Polynomial.eval₂_at_zero, hxy] at h
+    exact h
+
+theorem ae_eval_ne_zero {ι : Type*} [Fintype ι] (g : MvPolynomial ι ℂ) (hg : g ≠ 0) :
+    ∀ᵐ w : ι → ℂ, MvPolynomial.eval w g ≠ 0 := by
+  have hU : (⋃ r : ℕ, LogInt.polydisc ι r) = Set.univ := by
+    refine Set.eq_univ_of_forall fun w => ?_
+    obtain ⟨r, hr⟩ := exists_nat_ge ‖w‖
+    refine Set.mem_iUnion.mpr ⟨r, Set.mem_univ_pi.mpr fun i => ?_⟩
+    rw [Metric.mem_closedBall, dist_zero_right]
+    exact (norm_le_pi_norm w i).trans hr
+  have h := (ae_restrict_iUnion_iff (fun r : ℕ => LogInt.polydisc ι r)
+    (fun w => MvPolynomial.eval w g ≠ 0)).mpr fun r => LogInt.ae_eval_ne_zero g hg r
+  rwa [hU, Measure.restrict_univ] at h
+
+theorem norm_chartDens_le {n d : ℕ} {J : Ideal (MvPolynomial (Fin n) ℂ)}
+    {A : Matrix (Fin (d + 1)) (Fin n) ℂ} (hA : IsFiniteProjection J A) {u : Fin n → ℂ}
+    {f : (Fin n → ℂ) → ℝ} (φ : Fin d → (Fin n → ℂ) → ℝ) {R : ℝ}
+    (hR : tsupport f ⊆ Metric.closedBall 0 R) {ε : ℝ} (hε : 0 < ε) (hε1 : ε ≤ 1) {y : Fin (d + 1) → ℂ}
+    (hy : ∀ x ∈ fibre J A y, linEval u x ≠ 0) :
+    ‖chartDens J A (logReg u ε) (vecCons f φ) y‖ ≤
+      chartAbsDens J A ((Metric.closedBall 0 R).indicator fun x => Real.log ‖linEval u x‖)
+          (vecCons f φ) y +
+        chartAbsDens J A ((Metric.closedBall 0 R).indicator fun x => Real.log ‖linEval ((2 : ℂ) • u) x‖)
+          (vecCons f φ) y := by
+  have hfin := IndefiniteRowSideFullHecke.ComplexSets.fibre_finite hA y
+  unfold chartDens chartAbsDens sheetSum
+  rw [finsum_mem_eq_finite_toFinset_sum _ hfin, finsum_mem_eq_finite_toFinset_sum _ hfin,
+    finsum_mem_eq_finite_toFinset_sum _ hfin, ← Finset.sum_add_distrib]
+  refine (norm_sum_le _ _).trans (Finset.sum_le_sum fun x hx => ?_)
+  rw [Set.Finite.mem_toFinset] at hx
+  by_cases hs : ∃ s, IsSheetAt J A x s
+  · simp only [dif_pos hs]
+    by_cases hxB : x ∈ Metric.closedBall 0 R
+    · rw [Set.indicator_of_mem hxB, Set.indicator_of_mem hxB, Real.norm_eq_abs, abs_mul, abs_mul,
+        abs_mul, ← add_mul]
+      refine mul_le_mul_of_nonneg_right ?_ (abs_nonneg _)
+      have h2 : ‖linEval ((2 : ℂ) • u) x‖ = 2 * ‖linEval u x‖ := by
+        have : linEval ((2 : ℂ) • u) x = 2 * linEval u x := by
+          simp [linEval, Finset.mul_sum, mul_assoc]
+        rw [this, norm_mul]
+        norm_num
+      rw [h2]
+      exact abs_half_log_le (norm_pos_iff.2 (hy x hx)) hε hε1
+    · have hM : ReciprocityTheory.AnForm.maDens (fun k => vecCons f φ k ∘ hs.choose) y = 0 := by
+        obtain ⟨U, hU, hxU, hsd, hsx, -⟩ := hs.choose_spec
+        refine maDens_eq_zero_of_eventually _ ?_
+        have hc : ContinuousAt hs.choose y := by
+          rw [← hx.2]
+          exact hsd.continuousOn.continuousAt (hU.mem_nhds hxU)
+        have hx' : x ∉ tsupport f := fun h => hxB (hR h)
+        have hn : (tsupport f)ᶜ ∈ 𝓝 (hs.choose y) := by
+          rw [← hx.2, hsx]
+          exact (isClosed_tsupport f).isOpen_compl.mem_nhds hx'
+        filter_upwards [hc.preimage_mem_nhds hn] with w hw
+        simp only [Matrix.cons_val_zero, Function.comp_apply]
+        exact image_eq_zero_of_notMem_tsupport hw
+      rw [hM]
+      simp
+  · simp only [dif_neg hs]
+    simp
+
+end LelongRegularise
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial Matrix ComplexSets
+
+noncomputable section
+
+def LengthTransverseSlice.Statement : Prop :=
+  ∀ (n d : ℕ) (I W : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ) (L : Matrix (Fin d) (Fin n) ℂ),
+    W ∈ I.minimalPrimes → ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ W) = (d : ℕ) → q ∈ zeroSet W →
+    (∀ W' ∈ I.minimalPrimes, q ∈ zeroSet W' → W' = W) → IsCohenMacaulayAt I q →
+    IsTransverseSliceAt W L q →
+      localMult I W = localMult (sliceIdeal I L q) (RingHom.ker (eval q))
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial
+
+noncomputable section
+
+variable {σ : Type*}
+
+instance isPrime_ker_eval_point (w : σ → ℂ) : (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ)).IsPrime :=
+  RingHom.ker_isPrime _
+
+def pointLocalRing (I : Ideal (MvPolynomial σ ℂ)) (w : σ → ℂ) : Type _ :=
+  Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ)) ⧸
+    I.map (algebraMap (MvPolynomial σ ℂ) (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ))))
+
+instance (I : Ideal (MvPolynomial σ ℂ)) (w : σ → ℂ) : CommRing (pointLocalRing I w) :=
+  inferInstanceAs (CommRing (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ)) ⧸
+    I.map (algebraMap (MvPolynomial σ ℂ) (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ))))))
+
+instance (I : Ideal (MvPolynomial σ ℂ)) (w : σ → ℂ) : Algebra (MvPolynomial σ ℂ) (pointLocalRing I w) :=
+  inferInstanceAs (Algebra (MvPolynomial σ ℂ) (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ)) ⧸
+    I.map (algebraMap (MvPolynomial σ ℂ) (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ))))))
+
+theorem isUnit_algebraMap_pointLocalRing (I : Ideal (MvPolynomial σ ℂ)) (w : σ → ℂ) (f : MvPolynomial σ ℂ)
+    (hf : eval w f ≠ 0) : IsUnit (algebraMap (MvPolynomial σ ℂ) (pointLocalRing I w) f) := by
+  have hu : IsUnit (algebraMap (MvPolynomial σ ℂ)
+      (Localization.AtPrime (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ))) f) :=
+    IsLocalization.map_units _
+      (⟨f, fun h ↦ hf (RingHom.mem_ker.1 h)⟩ : (RingHom.ker (eval w : MvPolynomial σ ℂ →+* ℂ)).primeCompl)
+  exact hu.map (Ideal.Quotient.mk _)
+
+def NormalModelPlace.Statement : Prop :=
+  ∀ (n : ℕ) (J : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ) (M : IndefiniteRowSideFullHecke.ComplexSets.NormalModel J)
+    (w : Fin n ⊕ Fin M.m → ℂ),
+    J.IsPrime → w ∈ IndefiniteRowSideFullHecke.ComplexSets.zeroSetIn M.ideal → IndefiniteRowSideFullHecke.ComplexSets.firstCoords w = q →
+      ∃ P : MaximalSpectrum (curveNormalisation J q), ∀ f : MvPolynomial (Fin n) ℂ,
+        Ring.ord (Localization.AtPrime P.asIdeal)
+            (algebraMap (curveNormalisation J q) (Localization.AtPrime P.asIdeal)
+              (algebraMap (curveLocalRing J q) (curveNormalisation J q)
+                (algebraMap (MvPolynomial (Fin n) ℂ) (curveLocalRing J q) f))) =
+          Ring.ord (pointLocalRing M.ideal w)
+            (algebraMap (MvPolynomial (Fin n ⊕ Fin M.m) ℂ) (pointLocalRing M.ideal w) (rename Sum.inl f))
+
+end
+
+end GroundTheory.Heights₂.Heights
+end
+
+section
+
+set_option maxSynthPendingDepth 1
+
+namespace GroundTheory.Heights₂.Heights
+
+open MvPolynomial ComplexSets Filter Topology
+
+noncomputable section
+
+def BranchGermDimOne.Statement : Prop :=
+  ∀ (n : ℕ) (I : Ideal (MvPolynomial (Fin n) ℂ)) (q : Fin n → ℂ) (m : ℕ) (c : Fin m → VarBranch I 1 q),
+    0 < m → (∃ N ∈ 𝓝 q, zeroSet I ∩ N ⊆ ⋃ b, (c b).image) →
+      ringKrullDim (curveLocalRing I q) = 1
+
+end
+
+end GroundTheory.Heights₂.Heights
+end

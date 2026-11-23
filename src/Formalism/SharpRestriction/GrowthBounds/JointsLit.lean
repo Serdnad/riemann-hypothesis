@@ -4,10 +4,10 @@ public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeRenam
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.LocalRingCardinality.Lemmas
 public import Formalism.SharpRestriction.GrowthBounds.CornerGLContinuity
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementP
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.PeriodIntegrals.AdmissibleModel.WeylDim
 public import Formalism.SharpRestriction.GrowthBounds.AdmissibleIntegers.FirstTermSizeBound
-public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.IndexOffRange
+public import Formalism.SharpRestriction.GrowthBounds.BinomialPolynomialIdentities.Bundle002
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.FinalP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.AutomorphicForms.GL2.GJMatrixLocal
-public import GroundTheory.AutomorphicForms.SmoothRepContragredient
+public import GroundTheory.AutomorphicForms.Bundle008
 public import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.IsAddHaarMeasureMatrixMeasureFinSq
 import Mathlib.Algebra.Order.Floor.Extended
@@ -313,20 +313,20 @@ theorem localMatrixFourier_mul_right_of_invariant {ψ : AddChar F Circle}
     exact h2
   have h := integral_comp_mul_left_matrix (LocalField.selfDualMeasure ψ) k
     (fun X => Φ (((k⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) * X) *
-      (ψ (trace (X * y)) : ℂ))
+      (ψ (Matrix.trace (X * y)) : ℂ))
   rw [hmod, one_pow, inv_one, one_smul] at h
   unfold GJMatrix.localMatrixFourier
   have hR : ∫ X, Φ (((k⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) * X) *
-      (ψ (trace (X * y)) : ℂ) ∂GJMatrix.matrixMeasure (LocalField.selfDualMeasure ψ) =
-      ∫ X, Φ X * (ψ (trace (X * y)) : ℂ) ∂GJMatrix.matrixMeasure (LocalField.selfDualMeasure ψ) :=
+      (ψ (Matrix.trace (X * y)) : ℂ) ∂GJMatrix.matrixMeasure (LocalField.selfDualMeasure ψ) =
+      ∫ X, Φ X * (ψ (Matrix.trace (X * y)) : ℂ) ∂GJMatrix.matrixMeasure (LocalField.selfDualMeasure ψ) :=
     integral_congr_ae (Filter.Eventually.of_forall fun X => by simp only [hΦ])
   rw [← hR, ← h]
   refine integral_congr_ae (Filter.Eventually.of_forall fun X => ?_)
   have e1 : ((k⁻¹ : GL (Fin m) F) : Matrix (Fin m) (Fin m) F) *
       ((k : Matrix (Fin m) (Fin m) F) * X) = X := by
     rw [← Matrix.mul_assoc, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mul]
-  have e2 : trace (X * (y * (k : Matrix (Fin m) (Fin m) F))) =
-      trace ((k : Matrix (Fin m) (Fin m) F) * X * y) := by
+  have e2 : Matrix.trace (X * (y * (k : Matrix (Fin m) (Fin m) F))) =
+      Matrix.trace ((k : Matrix (Fin m) (Fin m) F) * X * y) := by
     rw [← Matrix.mul_assoc, Matrix.trace_mul_cycle]
   simp only [e1, e2]
 

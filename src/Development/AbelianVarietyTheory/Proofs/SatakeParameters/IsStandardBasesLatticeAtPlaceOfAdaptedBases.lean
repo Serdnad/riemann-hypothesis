@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.StdBases
-public import Formalism.LocalToGlobal.KernelLattices.AdaptedEnt
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
+public import Formalism.LocalToGlobal.KernelLattices.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsRBasisOfLocBasis
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormTauEmbPosPlConjEq
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartnerPlaceInvolutiveNormConjEqStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle062
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle154
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.EqOfLeOfAbsNormEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

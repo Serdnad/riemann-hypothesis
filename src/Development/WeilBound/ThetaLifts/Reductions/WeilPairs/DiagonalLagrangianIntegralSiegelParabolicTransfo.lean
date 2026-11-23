@@ -1,13 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReindexDblIncM
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LagrInt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1460
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle369
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Mfac
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InfPartFPlaceIdem
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.InvHerm
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LeviGLInvVal
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.MfacInvMul
-import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.OneAddPow
+import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle004
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Periodic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

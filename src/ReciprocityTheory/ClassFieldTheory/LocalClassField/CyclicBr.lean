@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,13 +42,13 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 public import Mathlib.Topology.Connected.Separation
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Herbrand
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RestrictedMultiplicativeH1Subsingleton
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle004
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle011
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrand
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle015
 
 @[expose] public section
 

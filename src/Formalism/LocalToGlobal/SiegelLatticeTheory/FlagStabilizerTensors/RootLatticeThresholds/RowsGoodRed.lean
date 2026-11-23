@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.AllRowsOf
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.LevelSubgroupProperties
-public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.AllRowsRMul
+public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.Bundle028
 import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.BunExists
 public import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.SphericalFunctionConvolutionIdentity
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,15 +98,15 @@ theorem rowsGood_of (G : GoodOp X) (ι : D.s.HH ≃ₗᵢ[ℂ] Formalism.L2.SG.P
   have hli : LinearIndependent ℂ (bRow X ι) := by
     rw [linearIndependent_iff']
     intro s g hs i hi
-    have h0 : conjL (muX X) (∑ i ∈ s, (starRingEnd ℂ (g i)) • ((j (D.what₂.onb i) : EEC X G) : L2X X)) = 0 := by
+    have h0 : _root_.Formalism.L2.SG.RowDict.conjL (muX X) (∑ i ∈ s, (starRingEnd ℂ (g i)) • ((j (D.what₂.onb i) : EEC X G) : L2X X)) = 0 := by
 
       rw [map_sum]
       rw [← hs]
       refine Finset.sum_congr rfl fun σ _ => ?_
-      rw [LinearIsometryEquiv.map_smulₛₗ, conjL_apply, hb σ]
+      rw [LinearIsometryEquiv.map_smulₛₗ, _root_.Formalism.L2.SG.RowDict.conjL_apply, hb σ]
       simp
     have h1 : (∑ i ∈ s, (starRingEnd ℂ (g i)) • ((j (D.what₂.onb i) : EEC X G) : L2X X)) = 0 :=
-      (conjL (muX X)).map_eq_zero_iff.1 h0
+      (_root_.Formalism.L2.SG.RowDict.conjL (muX X)).map_eq_zero_iff.1 h0
     have := (linearIndependent_iff'.1 hf) s (fun i => starRingEnd ℂ (g i)) h1 i hi
     simpa using this
 

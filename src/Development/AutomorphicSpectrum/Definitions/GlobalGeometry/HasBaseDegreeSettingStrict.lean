@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
-public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FlagIndices
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

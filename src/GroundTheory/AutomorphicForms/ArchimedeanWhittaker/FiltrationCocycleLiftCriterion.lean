@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.RealGroupsLie
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import GroundTheory.AutomorphicForms.HarishChandraRegularity.CartanBasis
-public import GroundTheory.AutomorphicForms.RealGroupsKAK
+public import GroundTheory.AutomorphicForms.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

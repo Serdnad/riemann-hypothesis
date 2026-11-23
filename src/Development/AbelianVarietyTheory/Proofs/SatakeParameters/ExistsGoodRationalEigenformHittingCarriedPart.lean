@@ -1,20 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.GoodGeneric
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle018
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RangeComplexPointsLevelFormsEqGoodForms
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1266
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsLevelVectorGoodTypeStableSubspace
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GoodFormsBaseLevelIffGoodProjection
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GoodProjectorUnitaryFormsModelLaws
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeCharacterisationPlacesPartsOfWeakStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PartsEqOfSameEigensystemThetaAdjointStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperatorsStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle205
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle159
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle348
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanImageMaxGenEigenspace
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalOperatorsFormsOnRankSpaceNormalStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaIntertwinesMatchedOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RationalZeroIffRationalSubspace
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle246
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle276
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle169
 import Formalism.LocalToGlobal.Divisibility.InertPartitionLePartF
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -145,7 +144,7 @@ end Lin
 
 section Form
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {K V W I : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V] [AddCommGroup W] [Module ℂ W]
   [FiniteDimensional ℂ W] {σ : K →+* ℂ}
@@ -272,7 +271,7 @@ theorem adj_phase {s : Bool} {E F : Type} [NormedAddCommGroup E] [InnerProductSp
 
 section Core
 
-open Formalism.L2.Col
+open _root_.Formalism.L2.Col
 
 variable {K V Hv Hw I ι : Type} [Field K] [AddCommGroup V] [Module K V] [FiniteDimensional K V]
   [NormedAddCommGroup Hv] [InnerProductSpace ℂ Hv] [FiniteDimensional ℂ Hv]
@@ -379,7 +378,7 @@ variable {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL
 
 
 
-open Formalism.L2.Col in
+open _root_.Formalism.L2.Col in
 theorem witness_real {I : Type} (R : RealDat D A Ks) (F : Face D A) (hCore : Core R F) (hSch : SchurAll R)
     (hirr : ∀ χ ∈ A.X, IsAbsIrrChar χ) (hG : GoodGeneric A.X F.P0 F.ψ0⁻¹)
     (SF : Finset (HeightOneSpectrum (𝓞 D.host.F))) (hSF : IsSF R SF) (j : Fin D.R.m)

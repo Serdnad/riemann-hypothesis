@@ -1,9 +1,9 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpanRangeMulVec
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ClassPresBasic
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle200
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle108
 import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,10 +39,10 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenUsedOfCenReal
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StrictHenselianAcyclic
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ConjTupRefl
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChoiceSideWithE
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FockOfApply
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle036
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle023
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle902
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle920
 
 @[expose] public section
 

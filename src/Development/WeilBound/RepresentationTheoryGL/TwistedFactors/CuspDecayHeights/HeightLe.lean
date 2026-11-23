@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.CuspidalProjection.OrthogonalProjectionOntoCompSubtypeL
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.ExistsLintegralConstantTermL2SqLe
 public import GroundTheory.AutomorphicForms.TraceClass
-import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspCompact
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

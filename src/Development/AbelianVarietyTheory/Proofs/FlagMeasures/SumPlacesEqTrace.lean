@@ -3,15 +3,15 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MemConfTOfDetNeZero
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StdCharFinitePartRationalEqExpTrace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsCharOfTrace
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsUnitaryAdelicVolumeMeasure
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUniqueIsStdChar
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ImportsRest
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryGroupRealPointsEquivPiIndefiniteUnitary
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UpqLocallyCompactGroup
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle251
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle254
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle159
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle180
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
 public import Formalism.FormalDegreeBessel.FinalG
 import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
@@ -230,7 +230,8 @@ theorem exists_isStdChar (F : Type) [Field F] [NumberField F] [IsTotallyReal F] 
   obtain ⟨ψ, h1, h2⟩ := GlobalTheory.StdAdelicChar.exists_char_of_trace F L hL hT
   have h3 : ∀ x, psiInf F ψ⁻¹ x = Complex.exp (2 * Real.pi * Complex.I * L x) := fun x => by
     have e : psiInf F ψ⁻¹ x = psiInf F ψ (-x) := by
-      rw [psiInf, psiInf, AddChar.inv_apply]
+      change ψ⁻¹ (pairA F x 0) = ψ (pairA F (-x) 0)
+      rw [AddChar.inv_apply]
       exact congrArg ψ (Prod.ext rfl neg_zero)
     rw [e, h2, map_neg]
     congr 1

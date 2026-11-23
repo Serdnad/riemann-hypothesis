@@ -1,11 +1,11 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ChartEqsOfParts
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle193
 import Formalism.FormalDegreeBessel.FinalG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJfSSymExp
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermSelfNeZero
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermSumRight
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.HermZeroOfTrace
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle055
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle054
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.StabilizerFixesTailCoords
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

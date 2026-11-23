@@ -1,7 +1,7 @@
 module
 
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairDefs
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

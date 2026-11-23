@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspCompact
+public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Bundle001
 import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Translation
 public import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsSiegel
 import Mathlib.Algebra.Order.Floor.Extended

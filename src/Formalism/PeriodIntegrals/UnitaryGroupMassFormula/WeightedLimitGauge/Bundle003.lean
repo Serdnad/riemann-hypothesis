@@ -1,0 +1,372 @@
+module
+
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.HaarUniq
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeightedLimitGauge.TBallMeas
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
+import Mathlib.Algebra.Ring.IsFormallyReal
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+public import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Separation.CompletelyRegular
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Analysis.Calculus.ContDiff.Comp
+public import Mathlib.Analysis.Calculus.ContDiff.RCLike
+public import Mathlib.MeasureTheory.Function.Jacobian
+import Std.Tactic.BVDecide.Normalize.Prop
+public import Mathlib.Analysis.SpecialFunctions.Exponential
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open MeasureTheory Filter Topology Set Metric
+open scoped ENNReal
+
+namespace PI.RhsWLim.W
+
+theorem chartJac : ChartJac := by
+  intro E _ _ _ _ _ _ Φ ν δ hΦ hdet hδ hδtop hU
+  obtain ⟨U, hU, hνU⟩ := hU
+  have hstrict : HasStrictFDerivAt Φ
+      ((ContinuousLinearMap.toContinuousLinearEquivOfDetNeZero (fderiv ℝ Φ 0) hdet : E ≃L[ℝ] E) :
+        E →L[ℝ] E) 0 := by
+    rw [ContinuousLinearMap.coe_toContinuousLinearEquivOfDetNeZero]
+    exact hΦ.hasStrictFDerivAt_fderiv (by norm_num)
+  have hsrc : (hstrict.toOpenPartialHomeomorph Φ).source ∈ 𝓝 (0 : E) :=
+    (hstrict.toOpenPartialHomeomorph Φ).open_source.mem_nhds hstrict.mem_toOpenPartialHomeomorph_source
+  have hev : ∀ᶠ y in 𝓝 (0 : E), ContDiffAt ℝ 1 Φ y := hΦ.eventually (by simp)
+  have hUpre : Φ ⁻¹' U ∈ 𝓝 (0 : E) := hΦ.continuousAt.preimage_mem_nhds hU
+  obtain ⟨ε, hε, hball⟩ := Metric.mem_nhds_iff.mp (Filter.inter_mem (Filter.inter_mem hsrc hev) hUpre)
+  have hcont : ContinuousAt (fun x => ENNReal.ofReal |(fderiv ℝ Φ x).det| * δ (Φ x)) 0 := by
+    have hA : ContinuousAt (fun x => ENNReal.ofReal |(fderiv ℝ Φ x).det|) 0 :=
+      ENNReal.continuous_ofReal.continuousAt.comp (continuous_abs.continuousAt.comp
+        (ContinuousLinearMap.continuous_det.continuousAt.comp (hΦ.continuousAt_fderiv (by norm_num))))
+    have hB : ContinuousAt (fun x => δ (Φ x)) 0 := hδ.comp hΦ.continuousAt
+    exact ENNReal.Tendsto.mul hA (Or.inr hδtop) hB (Or.inr ENNReal.ofReal_ne_top)
+  have hntop : ENNReal.ofReal |(fderiv ℝ Φ 0).det| * δ (Φ 0) ≠ ⊤ :=
+    ENNReal.mul_ne_top ENNReal.ofReal_ne_top hδtop
+  have heq : ∀ ρ : ℝ, 0 < ρ → ρ < ε → ν (Φ '' Metric.ball 0 ρ) =
+      ∫⁻ x in Metric.ball 0 ρ, ENNReal.ofReal |(fderiv ℝ Φ x).det| * δ (Φ x) := by
+    intro ρ _ hρε
+    have hsub : Metric.ball (0 : E) ρ ⊆ Metric.ball 0 ε := Metric.ball_subset_ball hρε.le
+    have hinj : Set.InjOn Φ (Metric.ball 0 ρ) := by
+      rw [← hstrict.toOpenPartialHomeomorph_coe]
+      exact (hstrict.toOpenPartialHomeomorph Φ).injOn.mono fun x hx => (hball (hsub hx)).1.1
+    have hcd : ∀ x ∈ Metric.ball (0 : E) ρ, ContDiffAt ℝ 1 Φ x := fun x hx => (hball (hsub hx)).1.2
+    have hdiff : ∀ x ∈ Metric.ball (0 : E) ρ,
+        HasFDerivWithinAt Φ (fderiv ℝ Φ x) (Metric.ball 0 ρ) x := fun x hx =>
+      ((hcd x hx).differentiableAt one_ne_zero).hasFDerivAt.hasFDerivWithinAt
+    have hcon : ContinuousOn Φ (Metric.ball 0 ρ) := fun x hx =>
+      (hcd x hx).continuousAt.continuousWithinAt
+    have hmeas : MeasurableSet (Φ '' Metric.ball 0 ρ) :=
+      Metric.isOpen_ball.measurableSet.image_of_continuousOn_injOn hcon hinj
+    have himg : Φ '' Metric.ball 0 ρ ⊆ U := by
+      rintro _ ⟨x, hx, rfl⟩
+      exact (hball (hsub hx)).2
+    rw [hνU _ himg hmeas]
+    exact MeasureTheory.lintegral_image_eq_lintegral_abs_det_fderiv_mul volume
+      Metric.isOpen_ball.measurableSet hdiff hinj δ
+  have hlim := chartLim E E Φ ν (fun x => ENNReal.ofReal |(fderiv ℝ Φ x).det| * δ (Φ x)) hcont hntop
+    ⟨ε, hε, heq⟩
+  have h0 : (ENNReal.ofReal |(fderiv ℝ Φ 0).det| * δ (Φ 0)).toReal =
+      (δ (Φ 0)).toReal * |(fderiv ℝ Φ 0).det| := by
+    rw [ENNReal.toReal_mul, ENNReal.toReal_ofReal (abs_nonneg _), mul_comm]
+  rw [← h0]
+  exact hlim
+
+end PI.RhsWLim.W
+end
+end
+
+section
+
+noncomputable section
+
+open MeasureTheory Filter Topology Matrix
+open scoped ENNReal NNReal
+
+namespace PI.RhsWLim.W
+
+open PI.RhsWLim
+
+def expC (k r : ℕ) : lieE (UWb k r) → Mt k r :=
+  fun x i j => NormedSpace.exp (unrealify (x : EuclideanSpace ℝ (Fin (2 * r + k + 1) × Fin (2 * r + k + 1) × Bool))) i j
+
+theorem bBall_eq (k r : ℕ) (ρ : ℝ) : bBall k r ρ = expC k r '' Metric.ball 0 ρ := rfl
+
+def HaarDens : Prop :=
+  ∀ k r : ℕ, 1 ≤ k → ∃ νh : Measure (Mt k r), IsHaarOn (UWb k r) νh ∧
+    ∃ δ : lieE (UWb k r) → ℝ≥0∞, ContinuousAt δ 0 ∧ δ 0 ≠ 0 ∧ δ 0 ≠ ⊤ ∧
+      ∃ ε > 0, ∀ ρ : ℝ, 0 < ρ → ρ < ε → νh (bBall k r ρ) = ∫⁻ x in Metric.ball 0 ρ, δ x
+
+namespace GE
+
+variable {k r : ℕ}
+
+def p0 (k r : ℕ) : Fin (2 * r + k + 1) := wI k r 0
+
+theorem firstMiddle_val : (p0 k r).val = r := by
+  show r + (0 : Fin (k + 1)).val = r
+  simp
+
+theorem splitHermForm_firstMiddle_apply (j : Fin (2 * r + k + 1)) (hj : j ≠ p0 k r) : Hpk k r (p0 k r) j = 0 := by
+  have hv := firstMiddle_val (k := k) (r := r)
+  simp only [Hpk]
+  split_ifs with h1 h2 h3 h4 <;> first | rfl | (exfalso; omega)
+
+theorem splitHermForm_apply_firstMiddle (i : Fin (2 * r + k + 1)) (hi : i ≠ p0 k r) : Hpk k r i (p0 k r) = 0 := by
+  have hv := firstMiddle_val (k := k) (r := r)
+  simp only [Hpk]
+  split_ifs with h1 h2 h3 h4 <;> first | rfl | (exfalso; omega)
+
+def dg (k r : ℕ) (u : ℂ) : Mat k r := diagonal fun i => if i = p0 k r then u else 1
+
+theorem dg_uh (u : ℂ) (hu : star u * u = 1) : dg k r u ∈ UH (Hpk k r) := by
+  show (dg k r u)ᴴ * Hpk k r * dg k r u = Hpk k r
+  unfold dg
+  ext i j
+  rw [Matrix.mul_diagonal, Matrix.diagonal_conjTranspose, Matrix.diagonal_mul]
+  by_cases hi : i = p0 k r <;> by_cases hj : j = p0 k r
+  · subst hi
+    subst hj
+    simp only [Pi.star_apply, if_true]
+    linear_combination (Hpk k r (p0 k r) (p0 k r)) * hu
+  · subst hi
+    simp only [Pi.star_apply, if_true, if_neg hj, splitHermForm_firstMiddle_apply j hj, mul_zero, zero_mul]
+  · subst hj
+    simp only [Pi.star_apply, if_true, if_neg hi, splitHermForm_apply_firstMiddle i hi, mul_zero, zero_mul]
+  · simp only [Pi.star_apply, if_neg hi, if_neg hj, star_one, one_mul, mul_one]
+
+theorem dg_fix (u : ℂ) (e : Fin (2 * r + k + 1)) (he : e ≠ p0 k r) : dg k r u *ᵥ bvec e = bvec e := by
+  funext x
+  unfold dg
+  rw [Matrix.mulVec_diagonal]
+  by_cases hx : x = e
+  · subst hx
+    simp [he]
+  · simp [bvec, hx]
+
+theorem dg_mem (u : ℂ) (hu : star u * u = 1) : dg k r u ∈ UWb k r := by
+  show dg k r u ∈ UH (Hpk k r) ∧ ∀ a : Fin r, dg k r u *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧
+    dg k r u *ᵥ bvec (esI k r a) = bvec (esI k r a)
+  have hv := firstMiddle_val (k := k) (r := r)
+  refine ⟨dg_uh u hu, fun a => ⟨dg_fix u _ ?_, dg_fix u _ ?_⟩⟩
+  · intro h
+    have h1 : (eI k r a).val = (p0 k r).val := congrArg Fin.val h
+    have h2 : (eI k r a).val = a.val := rfl
+    have h3 := a.isLt
+    omega
+  · intro h
+    have h1 : (esI k r a).val = (p0 k r).val := congrArg Fin.val h
+    have h2 : (esI k r a).val = 2 * r + k - a.val := rfl
+    have h3 := a.isLt
+    omega
+
+def dV (k r : ℕ) : Fin (2 * r + k + 1) → ℂ := fun i => if i = p0 k r then Complex.I else 0
+
+theorem exp_dV (t : ℝ) : NormedSpace.exp ((t : ℂ) • diagonal (dV k r)) = dg k r (Complex.exp (t * Complex.I)) := by
+  unfold dg
+  rw [← Matrix.diagonal_smul, Matrix.exp_diagonal, Pi.exp_def]
+  congr 1
+  funext i
+  simp only [Pi.smul_apply, dV]
+  split_ifs
+  · rw [Complex.exp_eq_exp_ℂ, smul_eq_mul]
+  · simp
+
+theorem unit_exp (t : ℝ) : star (Complex.exp (t * Complex.I)) * Complex.exp (t * Complex.I) = 1 := by
+  rw [Complex.star_def, ← Complex.exp_conj, ← Complex.exp_add]
+  simp
+
+theorem lie_nontrivial : Nontrivial (lieE (UWb k r)) := by
+  rw [Submodule.nontrivial_iff_ne_bot, Submodule.ne_bot_iff]
+  refine ⟨(WithLp.equiv 2 _).symm (realifyFun (diagonal (dV k r))), Submodule.subset_span
+    ⟨diagonal (dV k r), (show diagonal (dV k r) ∈ lieOf (UWb k r) from fun t => by
+      rw [exp_dV]
+      exact dg_mem _ (unit_exp t)), rfl⟩, ?_⟩
+  intro h
+  have h1 := congrArg (fun x : EuclideanSpace ℝ (Fin (2 * r + k + 1) × Fin (2 * r + k + 1) × Bool) =>
+    x (p0 k r, p0 k r, true)) h
+  simp [realifyFun, dV] at h1
+
+theorem haarOn_smul (S : Set (Mat k r)) (ν : Measure (Mt k r)) (c : ℝ≥0) (hc : c ≠ 0) (h : IsHaarOn S ν) :
+    IsHaarOn S (c • ν) := by
+  refine ⟨?_, ?_, ?_, fun s hs => ?_⟩
+  · have := h.1
+    infer_instance
+  · intro h0
+    apply h.2.1
+    rw [← Measure.measure_univ_eq_zero]
+    have h1 := congrArg (fun μ : Measure (Mt k r) => μ Set.univ) h0
+    simpa [hc] using h1
+  · rw [Measure.smul_apply, h.2.2.1, smul_zero]
+  · rw [Measure.map_smul, h.2.2.2 s hs]
+    exact (HU.lmulM_cont s).measurable.aemeasurable
+
+theorem tBall_mass (ν : Measure (Mt k r)) (h : IsHaarOn (UWb k r) ν) (m : Mat k r) (hm : m ∈ UWb k r) (ρ : ℝ) :
+    ν (tBall k r m ρ) = ν (bBall k r ρ) := by
+  have hinv := HU.uwb_inv hm
+  have hB : MeasurableSet (bBall k r ρ) := measurableSet_expBall k r (UWb k r) ρ
+  calc ν (tBall k r m ρ) = ν (lmulM m⁻¹ ⁻¹' bBall k r ρ) := rfl
+    _ = (ν.map (lmulM m⁻¹)) (bBall k r ρ) := (Measure.map_apply (HU.lmulM_cont _).measurable hB).symm
+    _ = ν (bBall k r ρ) := by rw [h.2.2.2 _ hinv]
+
+end GE
+
+
+open GE in
+theorem gaugeExists_of (hH : HaarDens) (hL : ChartLim) : GaugeExists := by
+  intro k r hk
+  obtain ⟨νh, hνh, δ, hδc, hδ0, hδt, ε, hε, hball⟩ := hH k r hk
+  set c : ℝ≥0 := ((δ 0).toNNReal)⁻¹ with hcdef
+  have hc : c ≠ 0 := inv_ne_zero (ENNReal.toNNReal_pos hδ0 hδt).ne'
+  have hg : IsHaarOn (UWb k r) (c • νh) := haarOn_smul _ _ c hc hνh
+  have hup : ∀ᶠ x in 𝓝 (0 : lieE (UWb k r)), δ x < δ 0 + 1 :=
+    hδc.eventually (gt_mem_nhds (ENNReal.lt_add_right hδt one_ne_zero))
+  have hlo : ∀ᶠ x in 𝓝 (0 : lieE (UWb k r)), δ 0 / 2 < δ x :=
+    hδc.eventually (lt_mem_nhds (ENNReal.half_lt_self hδ0 hδt))
+  obtain ⟨ε', hε', hε'b⟩ := Metric.eventually_nhds_iff.mp (hup.and hlo)
+  refine ⟨c • νh, hg, ⟨min ε ε', lt_min hε hε', fun ρ hρ hρε => ?_⟩, fun m hm => ?_⟩
+  · have hρ1 : ρ < ε := hρε.trans_le (min_le_left _ _)
+    have hρ2 : ρ < ε' := hρε.trans_le (min_le_right _ _)
+    have hbd : ∀ x ∈ Metric.ball (0 : lieE (UWb k r)) ρ, δ x < δ 0 + 1 ∧ δ 0 / 2 < δ x :=
+      fun x hx => hε'b ((Metric.mem_ball.mp hx).trans hρ2)
+    have hmeas : MeasurableSet (Metric.ball (0 : lieE (UWb k r)) ρ) := measurableSet_ball
+    have hvpos : 0 < volume (Metric.ball (0 : lieE (UWb k r)) ρ) := Metric.measure_ball_pos _ _ hρ
+    have hvfin : volume (Metric.ball (0 : lieE (UWb k r)) ρ) < ⊤ := measure_ball_lt_top
+    have hI : νh (bBall k r ρ) = ∫⁻ x in Metric.ball 0 ρ, δ x := hball ρ hρ hρ1
+    have hlow : δ 0 / 2 * volume (Metric.ball (0 : lieE (UWb k r)) ρ) ≤ νh (bBall k r ρ) := by
+      rw [hI, ← setLIntegral_const]
+      exact setLIntegral_mono' hmeas fun x hx => (hbd x hx).2.le
+    have hhigh : νh (bBall k r ρ) ≤ (δ 0 + 1) * volume (Metric.ball (0 : lieE (UWb k r)) ρ) := by
+      rw [hI, ← setLIntegral_const]
+      exact setLIntegral_mono' hmeas fun x hx => (hbd x hx).1.le
+    rw [Measure.smul_apply, ENNReal.smul_def, smul_eq_mul]
+    constructor
+    · exact ENNReal.mul_pos (by exact_mod_cast hc)
+        (lt_of_lt_of_le (ENNReal.mul_pos (ENNReal.half_pos hδ0).ne' hvpos.ne') hlow).ne'
+    · exact ENNReal.mul_lt_top ENNReal.coe_lt_top
+        (lt_of_le_of_lt hhigh (ENNReal.mul_lt_top (ENNReal.add_lt_top.mpr ⟨hδt.lt_top, ENNReal.one_lt_top⟩) hvfin))
+  · have := lie_nontrivial (k := k) (r := r)
+    have hlim := hL (lieE (UWb k r)) (Mt k r) (expC k r) νh δ hδc hδt
+      ⟨ε, hε, fun ρ h1 h2 => by rw [← bBall_eq]; exact hball ρ h1 h2⟩
+    have key : (fun ρ : ℝ => ((c • νh) (tBall k r m ρ)).toReal / bVol k r ρ) = fun ρ => (c : ℝ) *
+        ((νh (expC k r '' Metric.ball 0 ρ)).toReal / (volume (Metric.ball (0 : lieE (UWb k r)) ρ)).toReal) := by
+      funext ρ
+      rw [tBall_mass _ hg m hm ρ, Measure.smul_apply, ENNReal.toReal_smul, NNReal.smul_def, smul_eq_mul, bBall_eq,
+        bVol, mul_div_assoc]
+    have h1 : (c : ℝ) * (δ 0).toReal = 1 := by
+      rw [hcdef, NNReal.coe_inv, ENNReal.coe_toNNReal_eq_toReal]
+      exact inv_mul_cancel₀ (ENNReal.toReal_pos hδ0 hδt).ne'
+    rw [key]
+    have h2 := hlim.const_mul (c : ℝ)
+    rwa [h1] at h2
+
+theorem gaugeExists_of_dens (hH : HaarDens) : GaugeExists := gaugeExists_of hH chartLim
+
+end PI.RhsWLim.W
+end
+end
+
+section
+
+@[expose] public section
+
+noncomputable section
+
+open MeasureTheory Filter Topology Matrix
+open scoped ENNReal
+
+namespace PI.RhsWLim.W
+
+open PI.RhsWLim
+
+def psiE (k r : ℕ) (T' : ℝ) (q : TrE k) : (Fin k → ℂ) × ℂ :=
+  opCo k r (NormedSpace.exp (opGen k r q) *ᵥ opBase k r T')
+
+def kapT (k : ℕ) (v : (Fin k → ℂ) × ℂ) : TrE k :=
+  (WithLp.equiv 2 (Option (Fin k × Bool) → ℝ)).symm (fun o => match o with
+    | none => Complex.arg v.2
+    | some (a, b) => if b then (v.1 a).im else (v.1 a).re)
+
+def phiT (k r : ℕ) (T' : ℝ) (q : TrE k) : TrE k := kapT k (psiE k r T' q)
+
+def HypChart : Prop :=
+  ∀ (k r : ℕ) (T' : ℝ), 1 ≤ k → 0 < T' → ∃ ε > 0, ∀ ρ : ℝ, 0 < ρ → ρ < ε →
+    hypM k T' (opE k r T' ρ) = (1 / 2) * volume (phiT k r T' '' Metric.ball 0 ρ)
+
+def PhiDiff : Prop :=
+  ∀ (k r : ℕ) (T' : ℝ), 1 ≤ k → 0 < T' →
+    ContDiffAt ℝ 1 (phiT k r T') 0 ∧ (fderiv ℝ (phiT k r T') 0).det = (T' / 2) ^ k
+
+theorem hypLocal_of (hJ : ChartJac) (hC : HypChart) (hD : PhiDiff) : HypLocal := by
+  intro k r T' hk hT
+  obtain ⟨hcd, hdet⟩ := hD k r T' hk hT
+  obtain ⟨ε, hε, hV⟩ := hC k r T' hk hT
+  have hdet0 : (fderiv ℝ (phiT k r T') 0).det ≠ 0 := by
+    rw [hdet]; exact pow_ne_zero _ (by positivity)
+  have hlim := hJ (TrE k) (phiT k r T') volume (fun _ => 1) hcd hdet0
+    continuousAt_const ENNReal.one_ne_top ⟨Set.univ, Filter.univ_mem, fun A _ _ => by simp⟩
+  have key := hlim.const_mul (1 / 2 : ℝ)
+  have hval : (1 / 2 : ℝ) * ((1 : ℝ≥0∞).toReal * |(fderiv ℝ (phiT k r T') 0).det|) =
+      T' ^ k / 2 ^ (k + 1) := by
+    rw [hdet, ENNReal.toReal_one, one_mul, abs_of_pos (by positivity), div_pow, pow_succ]
+    field_simp
+    try ring
+  rw [hval] at key
+  refine key.congr' ?_
+  filter_upwards [self_mem_nhdsWithin, nhdsWithin_le_nhds (Iio_mem_nhds hε)] with ρ hρ0 hρε
+  rw [hV ρ hρ0 hρε, tVol, ENNReal.toReal_mul, mul_div_assoc]
+  congr 1
+  simp
+
+end PI.RhsWLim.W
+end
+end

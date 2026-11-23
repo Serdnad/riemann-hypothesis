@@ -49,7 +49,7 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtC
-import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtD
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle012
 
 @[expose] public section
 

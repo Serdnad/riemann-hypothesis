@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalVanish
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalCompare
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle011
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalBounds
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

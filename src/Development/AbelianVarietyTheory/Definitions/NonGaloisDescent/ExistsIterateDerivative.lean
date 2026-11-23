@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExistsSumMonomialAdd
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsUltrametricDistFinExt
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.RealisesUnitPow
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobSubMulSurjective
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobeniusSubOneWittTensorLatticeSurjectiveFixed
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle307
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle415
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -252,10 +252,10 @@ theorem toBcris_apply (m : P.MMl) (i : ι) :
     toBcris t ϖ P m i = ϖ.iB t K (coordL P (invL l (S O K e)) m i) := rfl
 
 theorem toW_toCris_of_mem_L {v : Vec K a ι} (hv : v ∈ P.L) (hv' : v ∈ P.MM) :
-    toW t ϖ P ⟨v, mem_ME_of_mem_L hv⟩ = inclL t ϖ P (fun i => ϖ.iTot t K (coordL P _ ⟨v, hv⟩ i)) ∧
-      toCris t ϖ P ⟨v, hv'⟩ = fun i => toOCr l O (ϖ.iTot t K (coordL P _ ⟨v, hv⟩ i)) :=
-  ⟨toW_of_mx t ϖ P _ _ fun τ => (mx_mulVec_coordL P _ ⟨v, hv⟩ τ).symm,
-    funext fun i => ϖ.iC_of_mem t K (coordL P _ ⟨v, hv⟩ i)⟩
+    toW t ϖ P ⟨v, mem_ME_of_mem_L hv⟩ = inclL t ϖ P (fun i => ϖ.iTot t K (coordL P (A O K) ⟨v, hv⟩ i)) ∧
+      toCris t ϖ P ⟨v, hv'⟩ = fun i => toOCr l O (ϖ.iTot t K (coordL P (A O K) ⟨v, hv⟩ i)) :=
+  ⟨toW_of_mx t ϖ P _ _ fun τ => (mx_mulVec_coordL P (A O K) ⟨v, hv⟩ τ).symm,
+    funext fun i => ϖ.iC_of_mem t K (coordL P (A O K) ⟨v, hv⟩ i)⟩
 
 end Real
 

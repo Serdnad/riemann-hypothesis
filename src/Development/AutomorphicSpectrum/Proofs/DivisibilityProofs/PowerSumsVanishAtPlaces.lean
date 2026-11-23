@@ -1,10 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.LocalAtPlaces
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.LocalizationModelOverPlaceStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PointIdealComapPrimeLiftStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.ResidueModelAtPrimeStatement
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PMinimalPrimeMultiHomog
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle028
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle019
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle022
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

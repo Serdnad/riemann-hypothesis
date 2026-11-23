@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.GenSmooth
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle002
 public import ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.HeightAddRingKrullDimQuotientMvPolynomialField
 public import Mathlib.RingTheory.Algebraic.Basic
 public import Mathlib.RingTheory.AlgebraicIndependent.Defs

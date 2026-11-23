@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.SplitRow
+public import Formalism.PeriodIntegrals.Bundle032
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SesquilinearRowSplitting.Assemble
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SesquilinearRowSplitting.MeasureIsomorphismAtInfinity
 import Mathlib.Algebra.Order.Floor.Extended

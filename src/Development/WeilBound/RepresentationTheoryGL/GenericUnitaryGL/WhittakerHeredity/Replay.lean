@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.LeibnizDerivatives.GenericProdIff
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhittakerHeredity
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle697
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

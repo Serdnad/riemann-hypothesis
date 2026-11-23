@@ -1,18 +1,18 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
-public import Formalism.LocalToGlobal.ProjectiveLattices.AllTest
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle012
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.MemRangeOfIsAlgebraicRatFun
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LiftIdempotentEqOfSameComplexComponent
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHold
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle017
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle126
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIdempotentSectionFamily
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FramedPointReducedFromTestRing
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenConnectedComponentOfNoetherianSpace
-import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle050
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
 import Formalism.LocalToGlobal.ProjectiveLattices.RulInst
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

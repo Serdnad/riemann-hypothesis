@@ -1,6 +1,6 @@
 module
 
-public import Formalism.MahlerMeasure.HasOrder
+public import Formalism.MahlerMeasure.Bundle004
 public import Mathlib.Algebra.Group.ForwardDiff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

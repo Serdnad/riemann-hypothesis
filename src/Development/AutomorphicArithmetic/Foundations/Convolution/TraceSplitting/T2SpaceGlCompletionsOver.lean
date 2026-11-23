@@ -5,9 +5,9 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedL
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.MatchProd
 import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SplitLoc
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.MatchOne
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.Places
-public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.PlaceUp
+public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bundle006
 import GroundTheory.AutomorphicForms.LocallyProfinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

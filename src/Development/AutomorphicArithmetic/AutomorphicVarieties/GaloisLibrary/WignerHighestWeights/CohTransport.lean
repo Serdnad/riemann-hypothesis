@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.WignerHighestWeights.IsAlgIsoRefl
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HasCohomologyTransport
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle193
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

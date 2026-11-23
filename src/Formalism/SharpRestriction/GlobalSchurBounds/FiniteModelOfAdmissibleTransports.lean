@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Formalism.LogVandermondeBounds.FinrankFiberSumZero
-public import Formalism.LogVandermondeBounds.GaussOperatorProductFormula
+public import Formalism.LogVandermondeBounds.Bundle001
+public import Formalism.LogVandermondeBounds.Bundle002
 
 @[expose] public section
 

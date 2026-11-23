@@ -1,7 +1,7 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.StdAdditiveCharExists
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.StdCharTR
+public import Formalism.UnipotentAdelicQuotients.Bundle001
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

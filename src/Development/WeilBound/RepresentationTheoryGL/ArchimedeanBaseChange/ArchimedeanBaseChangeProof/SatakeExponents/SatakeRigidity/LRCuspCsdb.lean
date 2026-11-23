@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.IsNormalisedOfIsDiscrete
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspRapidDecaySiegelGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsInvariantHermitianForm
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsRightHaarMeasure
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InfinitesimalCharacterConjugate
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle452
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle632
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle605
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle498
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

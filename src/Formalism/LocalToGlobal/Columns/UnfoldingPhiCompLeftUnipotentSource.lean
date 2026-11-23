@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.ChainLawXiQ
+public import Formalism.LocalToGlobal.Columns.Bundle034
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerHypAll
-import Formalism.LocalToGlobal.Columns.ChainLawXi
+import Formalism.LocalToGlobal.Columns.Bundle020
 public import Formalism.LocalToGlobal.Columns.ChainTwAn
-public import Formalism.LocalToGlobal.Columns.XiFirstLawAllLevels
+public import Formalism.LocalToGlobal.Columns.Bundle015
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThDistC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

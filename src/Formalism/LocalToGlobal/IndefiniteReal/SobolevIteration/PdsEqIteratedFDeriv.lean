@@ -1,10 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.IsUnitDetOfCartan
+public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle001
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.DifferentiableUpdate
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.HasFDerivAtIntegralPIter
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfA
-public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfAs
+public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.Bundle002
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfK
 import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.MemSpanSmoothVec
 import Mathlib.Algebra.Order.Floor.Extended

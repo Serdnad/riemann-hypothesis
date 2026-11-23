@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsAbsIrrCharCompIff
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PositionOfIntro
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle024
 public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSData
 import Formalism.LocalToGlobal.Columns.Adelic
-public import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSCoef
-public import Formalism.LocalToGlobal.IndefiniteReal.ConjSubConjSub
+public import Formalism.LocalToGlobal.Columns.ColumnsProofs.Bundle001
+public import Formalism.LocalToGlobal.IndefiniteReal.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

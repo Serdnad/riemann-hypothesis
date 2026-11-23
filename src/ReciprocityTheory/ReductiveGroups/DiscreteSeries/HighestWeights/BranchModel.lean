@@ -3,15 +3,13 @@ module
 public import Formalism.LocalRingCardinality.DataCoeff
 public import Formalism.PeriodIntegrals.UpqRep
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.HwIrred
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.PolyCoef
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnitaryDense
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.Assembly
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle033
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle014
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle002
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.Bundle001
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.DetSplit
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.LowerInv
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.ModelMap
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.PolyExt
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PolynomialModelIsometry.TorusEigenvalueFormula
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,7 +55,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalRingCardinality.Params
-public import Formalism.PeriodIntegrals.HwIrred
+public import Formalism.PeriodIntegrals.Bundle021
 
 @[expose] public section
 

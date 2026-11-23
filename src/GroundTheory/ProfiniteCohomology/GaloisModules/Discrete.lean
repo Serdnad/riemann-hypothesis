@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.DiscreteModules
+public import GroundTheory.ProfiniteCohomology.Bundle001
 public import GroundTheory.ProfiniteCohomology.GaloisModules.CoeGalRootsOfUnityHomApply
 public import Mathlib.FieldTheory.KrullTopology
 import Mathlib.Algebra.Order.Floor.Extended

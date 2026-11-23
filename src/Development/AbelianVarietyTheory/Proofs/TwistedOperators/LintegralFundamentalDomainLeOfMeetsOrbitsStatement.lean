@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LintegralFundamentalDomainLeOfMeetsOrbits
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -3,9 +3,9 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.WeilBound.CoreStatements.ThetaDilations.ParAlg
 public import Development.WeilBound.ThetaLifts.SmallCones.UnfAbs
-public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelesLocallyCompactSecondCountableStatement
+public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.Bundle042
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.TensorLocallyCompactRingStatement
-public import Development.WeilBound.CoreStatements.ThetaDilations.ContinuousPm
+public import Development.WeilBound.CoreStatements.ThetaDilations.Bundle001
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 public import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
 public import Development.WeilBound.ThetaLifts.SmallCones.UnfParH

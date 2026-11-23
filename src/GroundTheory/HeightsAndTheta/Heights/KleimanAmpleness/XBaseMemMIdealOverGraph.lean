@@ -1,9 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsExtraTail
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerRest
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerSide
-public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.ImportsTerLast
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

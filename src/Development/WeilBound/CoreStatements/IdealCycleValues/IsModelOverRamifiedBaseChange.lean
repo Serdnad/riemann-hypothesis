@@ -4,9 +4,9 @@ public import Development.WeilBound.CoreStatements.IdealCycleValues.OfIdealCycle
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.BundleChernComparison
 public import Mathlib.RingTheory.Flat.Basic
 public import Development.WeilBound.CoreStatements.IdealCycleValues.FlatColon
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.AssemblyCN
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSpecialDimBound
-import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSupSpanMultiHomog
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle023
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle009
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle005
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PIntNumBaseChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,7 +51,7 @@ import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.CompactGap
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InstFintypeSumElim
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 

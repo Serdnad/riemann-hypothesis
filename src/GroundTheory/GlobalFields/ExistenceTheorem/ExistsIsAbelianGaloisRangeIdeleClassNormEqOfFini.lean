@@ -3,7 +3,7 @@ module
 public import GroundTheory.GlobalFields.GlobalReciprocity.General
 public import Mathlib.FieldTheory.Galois.Abelian
 public import GroundTheory.GlobalFields.ExistenceTheorem.Kummer
-public import GroundTheory.GlobalFields.ExistenceTheorem.NormLimitation
+public import GroundTheory.GlobalFields.ExistenceTheorem.Bundle001
 import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms.InfiniteAdeleRingMapInfiniteAdeleRingMap
 import GroundTheory.LocalFields.LubinTateUnramified
 import Mathlib.Algebra.Order.Floor.Extended

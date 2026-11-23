@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.LocalTransition
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits.Bundle002
 public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleCohomology.Infinite
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

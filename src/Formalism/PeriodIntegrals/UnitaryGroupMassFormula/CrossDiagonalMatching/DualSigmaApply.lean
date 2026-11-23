@@ -38,8 +38,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.GlobalTheory.GL4.BranchingNormalisedOfAdjoint
-import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.AdelicFunctionRightTranslateDiamond
+import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle001
+import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.Bundle001
 import Formalism.LocalToGlobal.GlobalTheory.GL6.Statement
 import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
 

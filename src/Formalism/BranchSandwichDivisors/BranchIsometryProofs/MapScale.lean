@@ -1,11 +1,10 @@
 module
 
-public import Formalism.BranchSandwichDivisors.StatementL
+public import Formalism.BranchSandwichDivisors.Bundle001
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.HtImage
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeIneq
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle004
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 public import Formalism.HarderNarasimhan.ShiftInvariance
 import Mathlib.Algebra.Order.Floor.Extended

@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.EtaleCohomology.EtaleSheaves.LineHigh
-import Development.EtaleCohomology.EtaleSheaves.LineZeroCut
+import Development.EtaleCohomology.EtaleSheaves.Bundle026
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksExistW
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IoPOfIsIoWAt
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle912
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLowestKTypeFockMapThetaVectors
 import Lean.Exception
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,7 +1,7 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.StepOrderRes
-public import ReciprocityTheory.DualLattices.PrimeHopfOrderOfAddEquiv
+public import ReciprocityTheory.DualLattices.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.DualLattices.ImportsBis
+public import ReciprocityTheory.DualLattices.Bundle021
 public import ReciprocityTheory.DualLattices.MemDualLat
 public import ReciprocityTheory.DualLattices.PowMemCarrier
 

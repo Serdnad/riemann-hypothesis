@@ -1,7 +1,7 @@
 module
 
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.StatementT
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementP
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.VandermondeRankEstimates.AtypicalWeightBoundOf
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.VandermondeRankEstimates.Branch
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.VandermondeRankEstimates.LogBinomialProperties

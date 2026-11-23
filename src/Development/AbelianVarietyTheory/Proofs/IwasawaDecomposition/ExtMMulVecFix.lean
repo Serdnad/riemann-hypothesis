@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianFormLastCoordinateUniformizerVectorSelf
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StdLvPr
-public import Formalism.LocalToGlobal.HermitianForms.TiedTwSymP
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoordsStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnsPeriodMapDatumOkAndOverLevelPrime
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle015
+public import Formalism.LocalToGlobal.HermitianForms.Bundle011
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle360
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle341
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -244,7 +244,7 @@ theorem til_fv_eq_tw (hI : I.Ok) (l : I.Laws) (Z : TC.Later B (I.cols l))
   have h1 := hL v _ ((show 𝓞 (I.rec7 l Z).host.E from s) • x) (h0 ▸ hsN)
   have h2 := L.pr_smul v _ (show 𝓞 (I.rec7 l Z).host.E from s) x
   have hne := ((l.fmL u a).lev B.R.m).fv_ne v ((I.perIn u a).tilC c)
-  have h3 := TDat.fv_mk ((I.atIn u a).A B.R.m) v ((I.perIn u a).tilC c) hne ⟨s • xv, hsN⟩
+  have h3 := _root_.GlobalTheory.Mem.Col2.TilX.TDat.fv_mk ((I.atIn u a).A B.R.m) v ((I.perIn u a).tilC c) hne ⟨s • xv, hsN⟩
   have hlev := (l.lev u a).lev B.R.m
   have h4 := hlev.f_act (I.perIn u a).b0 m ((I.stp u a B.R.m).rep ((I.perIn u a).tilC c)) v (s • xv)
   have h5 := (hlev.N_act (I.perIn u a).b0 m ((I.stp u a B.R.m).rep ((I.perIn u a).tilC c)) (s • xv)).2 hsN

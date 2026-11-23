@@ -1,10 +1,9 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.BinaryMassMeans.MeanVal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ArchimedeanBinaryGramDensityStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ArchimedeanBinaryGramIntegralStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalBinaryGramDensityStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalBinaryGramIntegralStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle166
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle656
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle259
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

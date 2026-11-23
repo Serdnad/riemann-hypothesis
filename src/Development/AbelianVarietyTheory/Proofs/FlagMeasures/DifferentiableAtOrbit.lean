@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.OrbitStepSpace
-public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.OrthonormalPlaceBasis
+public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.Bundle002
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsContinuousMultilinearMapOfInnerProd
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsNormSqTensUpdate
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle078
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle079
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsOrthonormalBasis
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HasDerivAtOrbitTens
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StepSpaceProps
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StepSpacePropsOfDiff
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.VPSubOfLocalBound
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle112
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle139
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

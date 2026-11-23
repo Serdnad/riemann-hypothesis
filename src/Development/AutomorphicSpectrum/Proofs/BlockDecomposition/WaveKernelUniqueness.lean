@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.WaveSt
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegralConjInnerMulInnerOfIsEmptyEquiv
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HaarRightInvariantCompact
-public import Development.AutomorphicSpectrum.Proofs.JetProofs.ContinuousIteratedFDerivPartial
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle242
+public import Development.AutomorphicSpectrum.Proofs.JetProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

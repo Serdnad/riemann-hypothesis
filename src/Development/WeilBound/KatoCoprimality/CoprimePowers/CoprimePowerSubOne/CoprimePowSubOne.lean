@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.PAdicHodge.GaloisOnCp
+public import GroundTheory.PAdicHodge.Bundle001
 public import Mathlib.NumberTheory.Cyclotomic.CyclotomicCharacter
 public import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import GroundTheory.LocalFields.FilteredSurj
+import GroundTheory.LocalFields.Bundle001
 
 @[expose] public section
 

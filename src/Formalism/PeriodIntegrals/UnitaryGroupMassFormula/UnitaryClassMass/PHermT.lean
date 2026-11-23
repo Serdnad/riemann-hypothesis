@@ -41,8 +41,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.HermitianLattices.StatementLat
-import Formalism.PeriodIntegrals.UJClassFin
-import Formalism.PeriodIntegrals.UJClassMass
+import Formalism.PeriodIntegrals.Bundle009
+import Formalism.PeriodIntegrals.Bundle014
 
 @[expose] public section
 

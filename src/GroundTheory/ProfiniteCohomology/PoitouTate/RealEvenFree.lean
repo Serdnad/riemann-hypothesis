@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoitouTate.RealOdd
 public import GroundTheory.ProfiniteCohomology.RealPlaces.Induced
-public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityPlace
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseFixed
+public import GroundTheory.ProfiniteCohomology.RealPlaces.Bundle002
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle006
 import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseInv
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.BijectiveGsLocalInvRootsOfPlaces
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

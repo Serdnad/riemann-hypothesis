@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.InjPrimeTo
-public import Formalism.LocalRingCardinality.SpanPowerMembership.NZTypeE
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle009
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle006
 public import Formalism.SharpRestriction.LevelLetterCocycles.PairedCharacterCondition
 public import Formalism.SharpRestriction.LevelLetterCocycles.EndomorphismIndexBound
 import Mathlib.Algebra.Order.Floor.Extended
@@ -42,8 +42,8 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
-import Formalism.SharpRestriction.LevelLetterCocycles.LocalCongruenceBound
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle008
+import Formalism.SharpRestriction.LevelLetterCocycles.Bundle012
 
 @[expose] public section
 

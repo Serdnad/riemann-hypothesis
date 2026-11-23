@@ -4,9 +4,9 @@ public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIde
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqGenericPoint
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.DifferentiableOnSheet
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.MemMinimalPrimesOfMemSupport
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeFsLogIntegrable
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PFsLogSmul
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsConeTangentAverage
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle003
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -2,10 +2,10 @@ module
 
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseClass
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ClassFieldGSDefs
-import GroundTheory.ProfiniteCohomology.CupProducts.ExistsCocycleMapFEqD
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle001
 import GroundTheory.ProfiniteCohomology.InflationRestriction.DegreeOne
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.ClassFieldGSPresentation
-import GroundTheory.ProfiniteCohomology.RestrictedRamification.SPicFinite
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

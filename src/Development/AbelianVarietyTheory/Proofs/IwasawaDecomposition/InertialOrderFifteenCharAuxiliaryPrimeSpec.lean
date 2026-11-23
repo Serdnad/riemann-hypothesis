@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UniversalAnticyclotomicCharacterLaws
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BijectiveCmType
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletelySplitPrimeHostPlaceProperties
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle120
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle176
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle099
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DenseRangeUnits
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EmbeddingClosedIntegral
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsGeneratorSqEqOfSqMemZpowers
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNatCongrOfAbsNormPrime
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPadicAlgClRingEquivComplexCompEqOfCountabl
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle050
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle030
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenKerOfInfConn
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPlaceOverMoveValConjPl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemZpowersOfTameGen
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuedPowSubOneLtOne
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle259
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle130
 import Formalism.LocalToGlobal.UnitaryNorms.CharUniq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -83,15 +83,15 @@ theorem toQ_injective (κ : FractionRing O →+* Qbar l) : Function.Injective (t
   κ.injective.comp (IsFractionRing.injective O (FractionRing O))
 
 omit [NumberField E] in
-theorem inQ_val (κ : FractionRing O →+* Qbar l) (r : G E Ω →* Oˣ) (g : G E Ω) :
+theorem inQ_val (κ : FractionRing O →+* Qbar l) (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ) (g : _root_.Formalism.ConjugateSelfDual.G E Ω) :
     ((inQ κ r g : (Qbar l)ˣ) : Qbar l) = toQ κ (r g : Oˣ) := rfl
 
 omit [NumberField E] in
-theorem inQ_inj (κ : FractionRing O →+* Qbar l) {r r' : G E Ω →* Oˣ} {g g' : G E Ω} (h : inQ κ r g = inQ κ r' g') :
+theorem inQ_inj (κ : FractionRing O →+* Qbar l) {r r' : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ} {g g' : _root_.Formalism.ConjugateSelfDual.G E Ω} (h : inQ κ r g = inQ κ r' g') :
     r g = r' g' := Units.ext (toQ_injective κ (congrArg Units.val h))
 
 omit [NumberField E] in
-theorem inQ_eq_one (κ : FractionRing O →+* Qbar l) {r : G E Ω →* Oˣ} {g : G E Ω} : inQ κ r g = 1 ↔ r g = 1 :=
+theorem inQ_eq_one (κ : FractionRing O →+* Qbar l) {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ} {g : _root_.Formalism.ConjugateSelfDual.G E Ω} : inQ κ r g = 1 ↔ r g = 1 :=
   ⟨fun h => inQ_inj κ (r' := 1) (g' := 1) (h.trans (map_one _).symm), fun h => by
     rw [inQ, MonoidHom.comp_apply, h, map_one]⟩
 
@@ -179,8 +179,8 @@ theorem isAlgPos_inv {χ : HChar E} {n : (E →+* ℂ) → ℤ} (h : IsAlgPos χ
   exact Finset.prod_congr rfl fun φ _ => (zpow_neg _ _).symm
 
 theorem eq_of_frob [IsAlgClosure E Ω] {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {B : Type} [CommGroup B]
-    [TopologicalSpace B] [IsTopologicalGroup B] [T2Space B] {r r' : G E Ω →* B} (hr : Continuous r) (hr' : Continuous r')
-    (h : ∀ᶠ v : HeightOneSpectrum (𝓞 E) in Filter.cofinite, ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ : G E Ω,
+    [TopologicalSpace B] [IsTopologicalGroup B] [T2Space B] {r r' : _root_.Formalism.ConjugateSelfDual.G E Ω →* B} (hr : Continuous r) (hr' : Continuous r')
+    (h : ∀ᶠ v : HeightOneSpectrum (𝓞 E) in Filter.cofinite, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ : _root_.Formalism.ConjugateSelfDual.G E Ω,
       IsFrob (F := E) A (normV v) σ → r σ = r' σ) : r = r' := by
   have := GlobalTheory.FrobDense.eq_one_of_frob E Ω art ha B (r * r'⁻¹) (hr.mul hr'.inv) (Filter.eventually_cofinite.1 h).toFinset
     fun v hv A hA σ hσ => by
@@ -189,21 +189,21 @@ theorem eq_of_frob [IsAlgClosure E Ω] {art : Ideles E →* Gab E Ω} (ha : IsGl
   exact mul_inv_eq_one.1 this
 
 variable [TopologicalSpace O] {art : Ideles E →* Gab E Ω} {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ}
-  {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : G E Ω →* Oˣ} {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
+  {χ : HChar E} {n : (E →+* ℂ) → ℤ} {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ} {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
 
 theorem IsGal.frob (ha : IsGlobalArtin art) (h : IsGal art κ ι χ n r) (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0)
-    (hu : χ.UnrAt v) (hA : IsPlaceOver A v) {σ : G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) :
+    (hu : χ.UnrAt v) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) :
     ι (toQ κ (r σ : Oˣ)) = ((χ.val v : ℂˣ) : ℂ)⁻¹ := by
   rw [← inQ_val, h.2.2.frob_unr ha hv hu hA hσ, map_inv₀, ι.apply_symm_apply]
 
 theorem IsGal.loc (h : IsGal art κ ι χ n r) (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0) {x : (v.adicCompletion E)ˣ}
-    {σ : G E Ω} (hx : art (localIdele E v x) = toAb E Ω σ) : ι (toQ κ (r σ : Oˣ)) = ((χ.loc v x : ℂˣ) : ℂ) := by
+    {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hx : art (localIdele E v x) = toAb E Ω σ) : ι (toQ κ (r σ : Oˣ)) = ((χ.loc v x : ℂˣ) : ℂ) := by
   rw [← inQ_val, h.2.2.loc_away hv x σ hx, ι.apply_symm_apply]
 
-theorem exists_unit (ha : IsGlobalArtin art) (hA : IsPlaceOver A v) {σ : G E Ω} (hσ : σ ∈ Ine (F := E) A) :
+theorem exists_unit (ha : IsGlobalArtin art) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hσ : σ ∈ Ine (F := E) A) :
     ∃ x, IsUnitAt v x ∧ art (localIdele E v x) = toAb E Ω σ := (ha.ine v A hA _).2 ⟨σ, hσ, rfl⟩
 
-theorem exists_ine (ha : IsGlobalArtin art) (hA : IsPlaceOver A v) {x : (v.adicCompletion E)ˣ} (hx : IsUnitAt v x) :
+theorem exists_ine (ha : IsGlobalArtin art) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {x : (v.adicCompletion E)ˣ} (hx : IsUnitAt v x) :
     ∃ σ ∈ Ine (F := E) A, art (localIdele E v x) = toAb E Ω σ := by
   obtain ⟨σ, hσ, e⟩ := (ha.ine v A hA _).1 ⟨x, hx, rfl⟩
   exact ⟨σ, hσ, e.symm⟩
@@ -214,7 +214,7 @@ theorem pow_eq_one_iff_of_val {u : Oˣ} {z : ℂˣ} (h : ι (toQ κ (u : O)) = (
     ← map_pow, map_eq_one_iff _ ι.injective, map_eq_one_iff _ (toQ_injective κ)]
 
 theorem IsGal.ine_pow_iff (ha : IsGlobalArtin art) (h : IsGal art κ ι χ n r)
-    (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0) (hA : IsPlaceOver A v) (m : ℕ) :
+    (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (m : ℕ) :
     (∀ σ ∈ Ine (F := E) A, r σ ^ m = 1) ↔ ∀ x, IsUnitAt v x → χ.loc v x ^ m = 1 := by
   constructor
   · intro H x hx
@@ -225,7 +225,7 @@ theorem IsGal.ine_pow_iff (ha : IsGlobalArtin art) (h : IsGal art κ ι χ n r)
     exact (pow_eq_one_iff_of_val (h.loc hv e) m).2 (H x hx)
 
 theorem IsGal.unr_iff (ha : IsGlobalArtin art) (h : IsGal art κ ι χ n r)
-    (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0) (hA : IsPlaceOver A v) :
+    (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ∨ n = 0) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) :
     (∀ σ ∈ Ine (F := E) A, r σ = 1) ↔ χ.UnrAt v := by
   simpa only [pow_one, HChar.UnrAt] using h.ine_pow_iff ha hv hA 1
 
@@ -235,7 +235,7 @@ theorem IsGal.ramExactly (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) {
   push Not
   rfl
 
-theorem IsGal.pow_eq_one (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) {m : ℕ} (hm : χ.OrderDvd m) (g : G E Ω) :
+theorem IsGal.pow_eq_one (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) {m : ℕ} (hm : χ.OrderDvd m) (g : _root_.Formalism.ConjugateSelfDual.G E Ω) :
     r g ^ m = 1 := by
   have := DFunLike.congr_fun (h.2.2.pow_eq_one ha.quot.surjective hm) g
   rw [MonoidHom.pow_apply, ← map_pow, MonoidHom.one_apply, inQ_eq_one, map_pow] at this
@@ -246,7 +246,7 @@ omit [TopologicalSpace O] in
 theorem sideIso_false (ι : Qbar l ≃+* ℂ) (x : Qbar l) : sideIso ι false x = starRingEnd ℂ (ι x) := rfl
 
 theorem IsGal.side (h : IsGal art κ ι χ 0 r) {m : ℕ} (hm0 : 0 < m) (hm : χ.OrderDvd m) (b : Bool)
-    {x : (v.adicCompletion E)ˣ} {σ : G E Ω} (hx : art (localIdele E v x) = toAb E Ω σ) :
+    {x : (v.adicCompletion E)ˣ} {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hx : art (localIdele E v x) = toAb E Ω σ) :
     sideIso ι b (toQ κ ((if b then r σ else (r σ)⁻¹ : Oˣ) : O)) = ((χ.loc v x : ℂˣ) : ℂ) := by
   have e := h.loc (Or.inr rfl) hx
   cases b
@@ -270,21 +270,21 @@ theorem IsGal.cont (h : IsGal art κ ι χ n r) : Continuous (inQ κ r) :=
   continuous_units _ ((isEmbedding_toQ hO hκ).continuous.comp h.2.1)
 
 theorem IsGal.isOpen_ker (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) {m : ℕ} (hm0 : 0 < m) (hm : χ.OrderDvd m) :
-    IsOpen (r.ker : Set (G E Ω)) := by
+    IsOpen (r.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω)) := by
   have := isOpen_ker_of_pow (inQ κ r) (h.cont hO hκ) hm0 fun g => by
     rw [← map_pow, inQ_eq_one, map_pow, h.pow_eq_one ha hm]
   convert this using 1
   ext g
   exact (inQ_eq_one κ).symm
 
-theorem IsGal.dec_triv (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) (hA : IsPlaceOver A v)
-    (hv : ∀ x, χ.loc v x = 1) {σ : G E Ω} (hσ : σ ∈ Dec (F := E) A) : r σ = 1 :=
+theorem IsGal.dec_triv (ha : IsGlobalArtin art) (h : IsGal art κ ι χ 0 r) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v)
+    (hv : ∀ x, χ.loc v x = 1) {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hσ : σ ∈ _root_.ReciprocityTheory.Gal.Dec (F := E) A) : r σ = 1 :=
   (inQ_eq_one κ).1 ((h.2.2.dec_triv ha (h.cont hO hκ) (Or.inr rfl) hA).2 (MonoidHom.ext hv) σ hσ)
 
-theorem continuous_cyc : Continuous fun g : G E Ω =>
+theorem continuous_cyc : Continuous fun g : _root_.Formalism.ConjugateSelfDual.G E Ω =>
     ((((Units.map (algebraMap ℤ_[l] O).toMonoidHom).comp (cycZ (F := E) (Ω := Ω) l)) g : Oˣ) : O) := by
   rw [(isEmbedding_toQ hO hκ).continuous_iff]
-  have e : (toQ κ ∘ fun g : G E Ω =>
+  have e : (toQ κ ∘ fun g : _root_.Formalism.ConjugateSelfDual.G E Ω =>
       ((((Units.map (algebraMap ℤ_[l] O).toMonoidHom).comp (cycZ (F := E) (Ω := Ω) l)) g : Oˣ) : O)) =
       fun g => algebraMap ℚ_[l] (Qbar l) (((cycZ E Ω l g : ℤ_[l]ˣ) : ℤ_[l]) : ℚ_[l]) := funext fun g => hκ _
   rw [e]
@@ -292,7 +292,7 @@ theorem continuous_cyc : Continuous fun g : G E Ω =>
     ((Units.continuous_val (M := ℤ_[l])).comp (continuous_cycZ E Ω l)))
 
 theorem exists_isGal [IsAlgClosure E Ω] (ha : IsGlobalArtin art) (hn : IsAlgPos χ n) {K : Type} [Field K] {ε : K →+* ℂ}
-    {f : K →+* FractionRing O} (hf : ∀ x, ι (κ (f x)) = ε x) (hχ : AlmostIn ε χ) : ∃ r : G E Ω →* Oˣ, IsGal art κ ι χ n r := by
+    {f : K →+* FractionRing O} (hf : ∀ x, ι (κ (f x)) = ε x) (hχ : AlmostIn ε χ) : ∃ r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Oˣ, IsGal art κ ι χ n r := by
   obtain ⟨r, hr, hL⟩ := ha.exists_isLAdicOf ι hn
   obtain ⟨hemb, hcl, hint, -⟩ := GlobalTheory.CoefEmbed.embedding_closed_integral l O hO κ hκ
   let K0 : Subgroup (Qbar l)ˣ := (Units.map κ.toMonoidHom).range
@@ -314,7 +314,7 @@ theorem exists_isGal [IsAlgClosure E Ω] (ha : IsGlobalArtin art) (hn : IsAlgPos
     obtain ⟨y, rfl⟩ := hint x (hx ▸ norm_le_one_of_compact r hr g)
     exact ⟨y, hx⟩
   choose s hs using h2
-  let s' : G E Ω →* O :=
+  let s' : _root_.Formalism.ConjugateSelfDual.G E Ω →* O :=
     { toFun := s
       map_one' := toQ_injective κ (by rw [hs, map_one, map_one, Units.val_one])
       map_mul' := fun a b => toQ_injective κ (by rw [map_mul, hs, hs, hs, map_mul, Units.val_mul]) }
@@ -357,20 +357,20 @@ def HeckeTwistCharactersDeltaChi : Prop :=
     (∀ x, ι (κ (f' x)) = starRingEnd ℂ (ε x)) →
     (∀ j, (C.mu0 j).ValuesIn 0 ε) → C.eta.ValuesIn (1 / 2) ε → (delAt H C l).ValuesIn 0 ε →
     ∀ pD : Finset (PlE H), (pD : Set (PlE H)) = placesOver H.E (if l = H.pde then H.pde' else H.pde) →
-    ∃ (delta : G H.E Ω →* Oˣ) (chi1 : ℕ → Bool → (G H.E Ω →* Oˣ)),
+    ∃ (delta : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ) (chi1 : ℕ → Bool → (_root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ)),
       IsGal art κ ι (delAt H C l) 0 delta ∧
       (∀ (j : Fin R.m) (b : Bool), ∃ n,
         IsGal art κ (sideIso ι b) (block (C.mu0 j * delAt H C l) C.eta R.r) n (chi1 (j.1 + 1) b)) ∧
-      IsOpen (delta.ker : Set (G H.E Ω)) ∧ AntiHom cc delta ∧ RamExactly delta ↑pD ∧
-      (∀ v ∈ pD, ∀ A : ValuationSubring Ω, IsPlaceOver A v → Nat.card ((Ine (F := H.E) A).map delta) = 15) ∧
+      IsOpen (delta.ker : Set (_root_.Formalism.ConjugateSelfDual.G H.E Ω)) ∧ AntiHom cc delta ∧ RamExactly delta ↑pD ∧
+      (∀ v ∈ pD, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → Nat.card ((Ine (F := H.E) A).map delta) = 15) ∧
       (∀ v ∈ pD, Ideal.absNorm v.asIdeal % 15 = 1) ∧
       (∀ j b, Continuous (fun g => ((chi1 j b g : Oˣ) : O))) ∧
       (∀ j b v, v ∉ placesOver H.E l → (∀ k, v ∉ placesOver H.E (H.g k)) → v ∉ pD →
-        ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, chi1 j b σ = 1) ∧
-      (∀ j b, ∀ v ∈ pD, ∀ A : ValuationSubring Ω, IsPlaceOver A v →
+        ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, chi1 j b σ = 1) ∧
+      (∀ j b, ∀ v ∈ pD, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v →
         ∀ σ ∈ Ine (F := H.E) A, chi1 j b σ = if b then delta σ else (delta σ)⁻¹) ∧
       (∀ j b k v, v ∈ placesOver H.E (H.g k) → v ∉ placesOver H.E l →
-        ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, chi1 j b σ ^ (H.g k - 1) = 1)
+        ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, chi1 j b σ ^ (H.g k - 1) = 1)
 
 def ToricHeckeQuotientCharacter : Prop :=
   ∀ (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra ℤ_[l] O]
@@ -381,7 +381,7 @@ def ToricHeckeQuotientCharacter : Prop :=
     ∀ (K : Type) [Field K] (ε : K →+* ℂ) (f f' : K →+* FractionRing O), (∀ x, ι (κ (f x)) = ε x) →
     (∀ x, ι (κ (f' x)) = starRingEnd ℂ (ε x)) →
     ∀ pD : Finset (PlE H), (pD : Set (PlE H)) = placesOver H.E (if l = H.pde then H.pde' else H.pde) →
-    ∀ (delta : G H.E Ω →* Oˣ), IsGal art κ ι (delAt H C l) 0 delta →
+    ∀ (delta : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ), IsGal art κ ι (delAt H C l) 0 delta →
     ∀ (O' : Type) [CommRing O'] [IsLocalRing O'] [Algebra O O'] [TopologicalSpace O'] [IsTopologicalRing O'],
     IsAdic (IsLocalRing.maximalIdeal O') → ((l : ℕ) : O') ∈ IsLocalRing.maximalIdeal O' →
     ∀ (j : Fin R.m) (b : Bool) (χ : HChar H.E) (c : R.Psi → ℤ), χ.TrivOn H.F → χ.HasInf (embPsi H) (fun τ => 2 * c τ) →
@@ -389,16 +389,16 @@ def ToricHeckeQuotientCharacter : Prop :=
     (C.mu0 j).ValuesIn 0 ε → (delAt H C l).ValuesIn 0 ε → χ.ValuesIn 0 ε →
     ∀ S0 : Finset (PlE H), placesOver H.E l ⊆ ↑S0 → (∀ k, placesOver H.E (H.g k) ⊆ ↑S0) → pD ⊆ S0 →
     (∀ v, v ∉ S0 → χ.UnrAt v) →
-    ∃ (lam0 : G H.E Ω →* Oˣ) (lamG : G H.E Ω →* O'ˣ) (Xv : PlE H → O'),
+    ∃ (lam0 : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ) (lamG : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* O'ˣ) (Xv : PlE H → O'),
       (∃ n, IsGal art κ (sideIso ι b) (C.mu0 j * delAt H C l * χ⁻¹) n lam0) ∧
       lamG = (Units.map (algebraMap O O').toMonoidHom).comp lam0 ∧
       Continuous (fun g => ((lamG g : O'ˣ) : O')) ∧
-      (∀ v, v ∉ S0 → ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, lamG σ = 1) ∧
-      (∀ v ∈ pD, ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, ∃ n : ℕ,
+      (∀ v, v ∉ S0 → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, lamG σ = 1) ∧
+      (∀ v ∈ pD, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ Ine (F := H.E) A, ∃ n : ℕ,
         (lamG σ * (Units.map (algebraMap O O').toMonoidHom (if b then delta σ else (delta σ)⁻¹))⁻¹) ^
           (Ideal.absNorm v.asIdeal ^ n) = 1) ∧
       AntiHom cc lamG ∧
-      ∀ P, P ∉ S0 → ∀ A : ValuationSubring Ω, IsPlaceOver A P → ∀ σ : G H.E Ω, IsFrob (F := H.E) A (normV P) σ →
+      ∀ P, P ∉ S0 → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A P → ∀ σ : _root_.Formalism.ConjugateSelfDual.G H.E Ω, IsFrob (F := H.E) A (normV P) σ →
         Xv P = ((lamG σ : O'ˣ) : O')
 
 def LocalisationCharacterSpec : Prop :=
@@ -411,19 +411,19 @@ def LocalisationCharacterSpec : Prop :=
     ∀ (j : Fin R.m) (Q : Finset (PlE H)) (ψ : HChar H.E), IsPsi (H := H) l Q ψ →
     (∀ v ∈ Q, (∀ k, v ∉ placesOver H.E (H.g k)) ∧ v ∉ placesOver H.E (if l = H.pde then H.pde' else H.pde)) →
     (C.mu0 j).ValuesIn 0 ε → C.eta.ValuesIn (1 / 2) ε → (delAt H C l).ValuesIn 0 ε → ψ.ValuesIn 0 ε →
-    ∃ (chi : ℕ → (G H.E Ω →* Oˣ)) (psiL : G H.E Ω →* Oˣ),
+    ∃ (chi : ℕ → (_root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ)) (psiL : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ),
       (∃ n, IsGal art κ ι (block (C.mu0 j * (delAt H C l * ψ)) C.eta R.r) n (chi 1)) ∧ IsGal art κ ι ψ 0 psiL ∧
       (∀ c, Continuous (fun g => ((chi c g : Oˣ) : O))) ∧
       (∀ c : ℕ, chi c = chi 1 * ((Units.map (algebraMap ℤ_[l] O).toMonoidHom).comp
         (cycZ (F := H.E) (Ω := Ω) l)) ^ (-((c : ℤ) - 1))) ∧
-      (∀ v ∈ Q, ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∃ g ∈ Ine (F := H.E) A, chi 1 g ≠ 1) ∧
-      (∀ g, ∃ n : ℕ, psiL g ^ (l ^ n) = 1) ∧ IsOpen (psiL.ker : Set (G H.E Ω)) ∧ AntiHom cc psiL ∧
+      (∀ v ∈ Q, ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∃ g ∈ Ine (F := H.E) A, chi 1 g ≠ 1) ∧
+      (∀ g, ∃ n : ℕ, psiL g ^ (l ^ n) = 1) ∧ IsOpen (psiL.ker : Set (_root_.Formalism.ConjugateSelfDual.G H.E Ω)) ∧ AntiHom cc psiL ∧
       RamExactly psiL ↑Q ∧
-      (∀ v, v ∈ placesOver H.E l → ∀ A : ValuationSubring Ω, IsPlaceOver A v → ∀ σ ∈ Dec (F := H.E) A, psiL σ = 1) ∧
+      (∀ v, v ∈ placesOver H.E l → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v → ∀ σ ∈ _root_.ReciprocityTheory.Gal.Dec (F := H.E) A, psiL σ = 1) ∧
       ∀ w, w ∉ placesOver H.E l → (∀ k, w ∉ placesOver H.E (H.g k)) →
         w ∉ placesOver H.E (if l = H.pde then H.pde' else H.pde) → w ∉ Q →
         (C.mu0 j * (delAt H C l * ψ) * C.eta⁻¹).UnrAt w ∧
-        ∀ (B : ValuationSubring Ω) (σ : G H.E Ω), IsPlaceOver (F := H.E) B w → IsFrob (F := H.E) B (normV w) σ →
+        ∀ (B : ValuationSubring Ω) (σ : _root_.Formalism.ConjugateSelfDual.G H.E Ω), _root_.Formalism.ConjugateSelfDual.IsPlaceOver (F := H.E) B w → IsFrob (F := H.E) B (normV w) σ →
           (((C.mu0 j * (delAt H C l * ψ) * C.eta⁻¹).val w)⁻¹ : ℂˣ).1 *
               ((normV w : ℕ) : ℂ) ^ (((((R.t : ℝ) - 1) / 2 + (1 - (R.nV : ℝ)) / 2 : ℝ)) : ℂ) =
             ι (κ (algebraMap O (FractionRing O) ((chi 1 σ : Oˣ) : O)))
@@ -443,19 +443,19 @@ def LocalisationTwistCharacterCompat : Prop :=
     (∀ x, ι₀ (κ₀ (f₀ x)) = ε x) → (∀ x, ι (κ (f x)) = ε x) → ∀ t : O₀ →+* O,
     (∀ (x : K) (y : O₀), algebraMap O₀ (FractionRing O₀) y = f₀ x → f x = algebraMap O (FractionRing O) (t y)) →
     ∀ (j : Fin R.m) (ψ : HChar H.E), (C.mu0 j).ValuesIn 0 ε → C.eta.ValuesIn (1 / 2) ε → (delAt H C l₀).ValuesIn 0 ε →
-    ∀ (n₀ n n' : (H.E →+* ℂ) → ℤ) (chi1 : G H.E Ω →* O₀ˣ) (chi psiL : G H.E Ω →* Oˣ),
+    ∀ (n₀ n n' : (H.E →+* ℂ) → ℤ) (chi1 : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* O₀ˣ) (chi psiL : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ),
     IsGal art κ₀ ι₀ (block (C.mu0 j * delAt H C l₀) C.eta R.r) n₀ chi1 →
     IsGal art κ ι (block (C.mu0 j * (delAt H C l * ψ)) C.eta R.r) n chi → IsGal art κ ι ψ n' psiL →
     chi = (Units.map t.toMonoidHom).comp chi1 * psiL
 
 def TameInertiaGeneratorCharacterSpec : Prop :=
-  ∀ (k : Fin 2) (w : PlE H), C.P.Div k w → ∀ A : ValuationSubring Ω, IsPlaceOver A w → ∀ tg : G H.E Ω, TameGenAt A tg →
+  ∀ (k : Fin 2) (w : PlE H), C.P.Div k w → ∀ A : ValuationSubring Ω, _root_.Formalism.ConjugateSelfDual.IsPlaceOver A w → ∀ tg : _root_.Formalism.ConjugateSelfDual.G H.E Ω, TameGenAt A tg →
     ∀ teich : Fb (H.g k) (H.g_prime k) →* ℂ, (∀ x y, x ≠ 0 → y ≠ 0 → teich x = teich y → x = y) →
     haveI : Fact (H.g k).Prime := ⟨H.g_prime k⟩
     ∃ γ : (ZMod (H.g k))ˣ, Subgroup.zpowers γ = ⊤ ∧
       ∀ (l : ℕ) [Fact l.Prime], l ≠ H.g k → ∀ (O : Type) [CommRing O] [IsDomain O] [TopologicalSpace O]
         (κ : FractionRing O →+* Qbar l) (ι : Qbar l ≃+* ℂ) (j : Fin R.m) (ξ : HChar H.E), ξ.UnrAt w →
-        ∀ (n : (H.E →+* ℂ) → ℤ) (chi : G H.E Ω →* Oˣ), IsGal art κ ι (block (C.mu0 j * ξ) C.eta R.r) n chi →
+        ∀ (n : (H.E →+* ℂ) → ℤ) (chi : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ), IsGal art κ ι (block (C.mu0 j * ξ) C.eta R.r) n chi →
         ι (κ (algebraMap O (FractionRing O) ((chi tg : Oˣ) : O))) =
           teich (algebraMap (ZMod (H.g k)) (Formalism.CyclotomicNorms.Fbar (H.g k))
             (((γ ^ (2 * (j.1 + 1)))⁻¹ : (ZMod (H.g k))ˣ) : ZMod (H.g k)))
@@ -537,7 +537,7 @@ variable [IsAlgClosure H.E Ω]
 
 theorem IsGal.anti (hcc : IsCMConjOm H.E Ω cc) (ha : IsGlobalArtin art) {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O]
     [IsDomain O] [TopologicalSpace O] {κ : FractionRing O →+* Qbar l} {ι : Qbar l ≃+* ℂ} {χ : HChar H.E}
-    {n : (H.E →+* ℂ) → ℤ} {r : G H.E Ω →* Oˣ} (h : IsGal art κ ι χ n r) (hc : Continuous (inQ κ r))
+    {n : (H.E →+* ℂ) → ℤ} {r : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ} (h : IsGal art κ ι χ n r) (hc : Continuous (inQ κ r))
     (ht : χ.TrivOn H.F) : AntiHom cc r := by
   obtain ⟨c, hc1, hcm, hr, -⟩ := GlobalTheory.Mem.HostCM.host_cm R H
   have h1 : ∀ x : H.E, cc (algebraMap H.E Ω x) = algebraMap H.E Ω (c x) := fun x => by
@@ -562,7 +562,7 @@ theorem hostHeckeFrame_twist_galois_characters (hcc : IsCMConjOm H.E Ω cc) (ha 
   have hmem : ∀ v, v ∈ pD ↔ OverP H p v := fun v => by rw [← Finset.mem_coe, hpD]; rfl
   obtain ⟨m, hm0, hm⟩ := hD.fin
   obtain ⟨delta, hd⟩ := exists_isGal hO hκ ha (del_alg C l) hf (almostIn_of_valuesIn hδ)
-  have hex : ∀ (j : Fin R.m) (b : Bool), ∃ r : G H.E Ω →* Oˣ, ∃ n,
+  have hex : ∀ (j : Fin R.m) (b : Bool), ∃ r : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ, ∃ n,
       IsGal art κ (sideIso ι b) (block (C.mu0 j * delAt H C l) C.eta R.r) n r := fun j b => by
     obtain ⟨n0, h0⟩ := exists_isAlgPos_mu0 C he j
     obtain ⟨n, hn⟩ := block_alg C ⟨_, isAlgPos_mul h0 (del_alg C l)⟩
@@ -664,7 +664,7 @@ theorem hostHeckeFrame_localisation_character_spec (hcc : IsCMConjOm H.E Ω cc) 
   obtain ⟨n, hn⟩ := block_alg C ⟨_, isAlgPos_mul h0 (isAlgPos_mul (del_alg C l) hψa)⟩
   obtain ⟨r, hr⟩ := exists_isGal hO hκ ha hn hf
     (((almostIn_of_valuesIn hμ).mul ((almostIn_of_valuesIn hδ).mul (almostIn_of_valuesIn hψv))).block hη (odd_r R))
-  let cy : G H.E Ω →* Oˣ := (Units.map (algebraMap ℤ_[l] O).toMonoidHom).comp (cycZ (F := H.E) (Ω := Ω) l)
+  let cy : _root_.Formalism.ConjugateSelfDual.G H.E Ω →* Oˣ := (Units.map (algebraMap ℤ_[l] O).toMonoidHom).comp (cycZ (F := H.E) (Ω := Ω) l)
   have hcy : Continuous cy := continuous_units cy (continuous_cyc hO hκ)
   have h1 : r * cy ^ (-(((1 : ℕ) : ℤ) - 1)) = r := by simp
   refine ⟨fun c => r * cy ^ (-((c : ℤ) - 1)), ps, ⟨n, by beta_reduce; rw [h1]; exact hr⟩, hps, fun c => ?_, fun c => by beta_reduce; rw [h1],

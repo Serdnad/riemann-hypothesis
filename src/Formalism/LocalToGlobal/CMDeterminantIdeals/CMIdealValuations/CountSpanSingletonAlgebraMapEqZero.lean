@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementP
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle001
 public import Mathlib.RingTheory.FractionalIdeal.Extended
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
 import Mathlib.Algebra.Module.StablyFree.Basic

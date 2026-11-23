@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionRing
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle056
 public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.PSectionBoundedCountable
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -323,7 +323,7 @@ theorem exists_upper (y : (Σ k, ι k) → Ω) (a : K → ℤ) (n : ℕ) {s : Ω
       _ = _ := by rw [hδ]; ring
   exact le_of_mul_le_mul_right key hPN
 
-theorem exists_lower (y : (Σ k, ι k) → Ω) (A : HermLine ι) (q : ℕ) (w : Fin q → Ω)
+theorem exists_lower (y : (Σ k, ι k) → Ω) (A : ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) (q : ℕ) (w : Fin q → Ω)
     (hw : ∀ j, w j ∈ chartLat y A.a 1) (hgen : KH.GeneratesOn y A.a w)
     (hsm : ∀ j, IsSmallH (mCoordIdeal y) y A 1 (w j)) (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) :
     ∃ M : ℝ, 0 ≤ M ∧ ∀ z ∈ mcPts (mCoordIdeal y), (∀ k i, ‖z ⟨k, i⟩‖ ≤ ‖z ⟨k, c k⟩‖) →

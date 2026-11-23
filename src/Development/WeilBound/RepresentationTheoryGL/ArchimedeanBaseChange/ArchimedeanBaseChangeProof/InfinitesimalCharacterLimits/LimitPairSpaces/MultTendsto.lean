@@ -1,11 +1,10 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.InfinitesimalCharacterLimits.LimitPairSpaces.TensorSpanEqPairSpace
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqOfIsLocCompGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FlatAbsoluteCharacterStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FlatNodeFunctionStatement
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NodeFunctionLeviDecompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TendstoAbsoluteCharacterOneStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle528
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle570
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle616
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle599
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

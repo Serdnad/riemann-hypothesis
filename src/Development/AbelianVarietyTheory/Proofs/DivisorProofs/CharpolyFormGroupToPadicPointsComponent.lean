@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBasisIntKQ
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowSmulNormLeOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.T2SpaceKq
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1555
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1408
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1499
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsMulCommutativeCentRealUJ
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import GroundTheory.Brauer.BaseChangeCSA

@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.L2DefiniteCuspForms
-public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.NonvanishingNearMaximum
-public import Development.AbelianVarietyTheory.Definitions.CMLattices.ExistsIsThetaDegOfIsLocalModel
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementC
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle032
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle028
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle011
+public import Development.AbelianVarietyTheory.Definitions.CMLattices.Bundle001
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle001
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.MeanLogSupNormLowerBoundCmFrameNonvanishing
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

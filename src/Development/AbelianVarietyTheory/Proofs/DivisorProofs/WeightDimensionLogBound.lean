@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.EigLatLe
-public import Development.AbelianVarietyTheory.Definitions.Divisors.QuoIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EntRCloudSub
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeightBoundHolds
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle056
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle060
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2447
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2460
 public import Formalism.SharpRestriction.Divisibility.HookProducts.Compl3Record
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

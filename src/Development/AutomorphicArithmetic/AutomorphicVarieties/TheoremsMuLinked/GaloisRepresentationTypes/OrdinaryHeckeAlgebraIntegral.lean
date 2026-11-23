@@ -1,15 +1,14 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.OrdinaryHeckeAlgebraIntegral
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.dvrFinite
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.Bundle002
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.ArPl
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.ArPres
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.UnrLoc
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.Bundle007
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.CyclicReductionCohomology.DOSmall
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.CyclicReductionCohomology.PresCnts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.CyclicReductionCohomology.Bundle003
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.CyclicReductionCohomology.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.CyclicReductionCohomology.ResidualRepOne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.EigenbasisLifts.PsiInj
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.EigenbasisLifts.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,6 +56,8 @@ private theorem coef_isCoef (l : ℕ) [hl : Fact l.Prime] (c : Coef l) : IsCoef 
   rw [CharP.charP_iff_prime_eq_zero hl.out, ← map_natCast (residue c.O), residue_eq_zero_iff]
   exact h3
 
+attribute [local instance 10000] DivisionSemiring.to_moduleIsTorsionFree
+
 private theorem eps_ne {l : ℕ} [Fact l.Prime] {L Ω : Type} [Field L] [NumberField L] [Field Ω] [Algebra L Ω] [IsAlgClosure L Ω]
     (A : ValuationSubring Ω) (w : HeightOneSpectrum (𝓞 L)) (h : IsPlaceOver A w) (hw : ((l : ℕ) : 𝓞 L) ∈ w.asIdeal) :
     ∃ g : Dec (F := L) A, cycZ L Ω l g ≠ 1 := by
@@ -86,7 +87,12 @@ theorem UpperTheory.V.Th.b1O : ordinaryHeckeAlgebraIntegral := by
   refine b1absO l _ _ T c.O n y al _ _ S s.odd hΦ (fun v => ?_) hPL h4 heig (detO l _ _ c n y _ s.odd hdet)
   have hw : ((l : ℕ) : 𝓞 L) ∈ (s.w v.1).asIdeal := by
     have h1 := (s.hA v.1 ((l : ℕ) : 𝓞 (Lp L))).2 v.2
-    exact (s.hw v.1 _).1 (by simpa using h1)
+    apply (s.hw v.1 ((l : ℕ) : 𝓞 L)).1
+    change (s.A v.1).valuation
+      (((algebraMap L Ω).comp (algebraMap (𝓞 L) L)) (l : 𝓞 L)) < 1
+    change (s.A v.1).valuation
+      (((algebraMap (Lp L) Ω).comp (algebraMap (𝓞 (Lp L)) (Lp L))) (l : 𝓞 (Lp L))) < 1 at h1
+    simpa only [map_natCast] using h1
   obtain ⟨g, hg⟩ := eps_ne (s.A v.1) (s.w v.1) (s.hw v.1) hw
   refine ⟨g, fun e => hg (Units.ext ?_)⟩
   have e1 : V0.ε (toGS Ω V0.S' (resP L Ω g)) = cycZ (Lp L) Ω l (resP L Ω g) := DFunLike.congr_fun V0.hε _

@@ -2,7 +2,7 @@ module
 
 public import Mathlib.Analysis.Normed.Module.Basic
 public import Mathlib.Topology.Algebra.Module.Multilinear.Basic
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.SummablePiProd
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

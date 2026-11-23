@@ -1,9 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.BoundaryLocalData
-public import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.NonemptyCoefficientFieldPrime
+public import Formalism.SharpRestriction.Divisibility.Bundle001
+public import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.Bundle001
 public import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.SubsingletonRankIndicatorIff
-public import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.NonemptyBoundaryLocalIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

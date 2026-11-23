@@ -1,11 +1,11 @@
 module
 
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
-public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LPosExtD
+public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.Bundle003
 import Mathlib.Analysis.SpecialFunctions.Bernstein
 public import Mathlib.MeasureTheory.Integral.Bochner.ContinuousLinearMap
 public import Mathlib.MeasureTheory.Integral.RieszMarkovKakutani.Real
-public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LPosExtC
+public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.Bundle001
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
 
 @[expose] public section

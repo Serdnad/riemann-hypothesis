@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.RingTheory.DedekindDomain.Factorization
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.WithZeroEqOfLeExpIff
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

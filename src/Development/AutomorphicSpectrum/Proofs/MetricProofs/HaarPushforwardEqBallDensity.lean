@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GroupDict
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle003
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BallAutomorphismInverseExists
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereDensityChangeOfVariablesStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereDensityOfBallPotentialStatement
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PMajorantStabCompact
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle049
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle027
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle012
 import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.SecondCountableTopologyArchUnitary
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

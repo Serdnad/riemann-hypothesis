@@ -1,9 +1,9 @@
 module
 
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.IsMaximalOfNeBot
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle007
 public import GroundTheory.FunctionField.PlaceBridge
 public import Mathlib.RingTheory.RamificationInertia.Inertia
-public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PFiniteBirationalLength
+public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Bundle048
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

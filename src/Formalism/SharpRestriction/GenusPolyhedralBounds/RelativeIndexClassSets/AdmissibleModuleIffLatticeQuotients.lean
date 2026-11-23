@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightedPrimeSumBound
+public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.Bundle007
 public import Formalism.SharpRestriction.Divisibility.AbelianOpenPart.OEOsInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -39,7 +39,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.LatticeGeometry.CmTypeMeetsConjugatePair
 public import Formalism.LocalToGlobal.LatticeGeometry.DegFlLApply
-public import Formalism.LocalToGlobal.LatticeGeometry.LevPrPrime
+public import Formalism.LocalToGlobal.LatticeGeometry.Bundle002
 
 @[expose] public section
 

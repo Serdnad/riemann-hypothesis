@@ -4,8 +4,8 @@ public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.LSeries.RiemannZeta
 public import Formalism.ZeroFreeRegion.FinalZFR
 public import Formalism.ZeroFreeRegion.LogDerivRegion
-import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.ZetaGrowth
-import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.ZetaInvBound
+import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.Bundle005
+import Formalism.ZeroFreeRegion.ZetaLogDerivativeBounds.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

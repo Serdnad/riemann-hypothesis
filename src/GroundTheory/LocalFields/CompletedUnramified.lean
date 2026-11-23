@@ -5,7 +5,7 @@ public import GroundTheory.LocalFields.SeparableClosure
 public import GroundTheory.LocalFields.UnramifiedGalois
 public import Mathlib.RingTheory.AdicCompletion.LocalRing
 import GroundTheory.LocalFields.UnitsPowers
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.UnitMulPowAdic
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

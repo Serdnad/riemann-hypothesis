@@ -4,14 +4,14 @@ public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Tor
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsVanBdOfMemExtVanZ
 import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.EventuallyExistsFiniteSubsetNonzeroLocus
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverIffIsProperAndExistsIsAmpleLB
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BorelWeilFlagModelDetInverseIsAmpleLocalStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CommonRestrIsoTens
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCommonModification
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasFibrewiseNonvanishingThetaSectionOfSmoothMode
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsAmplePullbackPowerDivOfLocallyAmpleStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LbIsoOfCoboundary
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyIntegralFlagModelOfSmoothCoefficientFielStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PushInvertibleOfHasTheta
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2820
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2328
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2660
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2658
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1043
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2669
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3253
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2332
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,7 +48,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
 import Development.AbelianVarietyTheory.Definitions.Divisors.CuspIso
 
 @[expose] public section

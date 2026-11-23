@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IsIntegralDiscrMulOfTraceInt
+public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle029
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.HermitianTraceFormVanishing
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle003
 
 @[expose] public section
 
@@ -62,7 +62,7 @@ lemma trace_cc (z : E) : Algebra.trace ℚ E (cc z) = Algebra.trace ℚ E z :=
   Algebra.trace_eq_of_algEquiv ((IsCMField.complexConj E).restrictScalars ℚ) z
 
 lemma eq_zero_of_trace_mul (z : E) (h : ∀ β : 𝓞 E, Algebra.trace ℚ E ((β : E) * z) = 0) : z = 0 := by
-  have := eq_zero_of_trace (cc z) fun β => by rw [← cc_mul, trace_cc, h]
+  have := eq_zero_of_trace (cc z) fun β => by rw [← ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, trace_cc, h]
   simpa using this
 
 lemma map_cc (τ : E →+* ℂ) (z : E) : τ (cc z) = starRingEnd ℂ (τ z) :=
@@ -200,7 +200,7 @@ lemma pairE_eq (t : La) (η : Module.Dual ℤ Y) (ht : ∀ v, -EF t v = η (y v)
   obtain ⟨h1, -, h3, -⟩ := pairE_properties E Y η
   rw [← sub_eq_zero]
   refine eq_zero_of_trace_mul _ fun β => ?_
-  rw [mul_sub, map_sub, ← h1, h3, ← map_smul, ← ht, Int.cast_neg, iso, ← trace_cc, cc_mul, cc_neg, X.ξ0_im,
+  rw [mul_sub, map_sub, ← h1, h3, ← map_smul, ← ht, Int.cast_neg, iso, ← trace_cc, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, cc_neg, X.ξ0_im,
     herm_conj _ X.Gm_herm, map_smul, show ((β • φ v : X.Λ) : Fin r → E) = (β : E) • (φ v : Fin r → E) from rfl,
     herm_smul_left, ← map_neg, ← map_sub, ← map_zero (Algebra.trace ℚ E)]
   congr 1; ring
@@ -245,7 +245,7 @@ theorem rank_one [Module.Finite ℤ Y] (hY : Module.finrank (𝓞 E) Y = 1) (hκ
       have e1 : ((EF (nn (β • v)) v' : ℤ) : ℚ) = EF (nn v') (β • v) := by
         have := (hnn (β • v) v').trans ((hsym _ _).trans (hnn v' (β • v)).symm)
         exact_mod_cast neg_injective this
-      rw [iso, iso, ← trace_cc (-X.ξ0 * herm X.Gm (φ (nn v') : Fin r → E) _), cc_mul, cc_neg, hc0, hcj,
+      rw [iso, iso, ← trace_cc (-X.ξ0 * herm X.Gm (φ (nn v') : Fin r → E) _), ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, cc_neg, hc0, hcj,
         map_smul nn, hsm, hsm, herm_smul_left, herm_smul_left, ← sub_eq_zero, ← map_sub] at e1
       rw [← neg_eq_zero, ← map_neg, ← e1]
       congr 1; ring
@@ -259,7 +259,7 @@ theorem rank_one [Module.Finite ℤ Y] (hY : Module.finrank (𝓞 E) Y = 1) (hκ
     have e := cross_eq (E := E) hY (be (y v)) ξ (y v') (y v₀)
     rw [hpn, hpn, hp, hp] at e
     have e' := congrArg cc e
-    simp only [cc_mul, cc_neg, hc0, hcj, neg_neg] at e'
+    simp only [ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, cc_neg, hc0, hcj, neg_neg] at e'
     rw [herm_sub_left, herm_smul_left]
     field_simp
     apply mul_left_cancel₀ (mul_ne_zero hξ0 hξ0)
@@ -272,18 +272,18 @@ theorem rank_one [Module.Finite ℤ Y] (hY : Module.finrank (𝓞 E) Y = 1) (hκ
     congr 1; ring
   have hαc : cc α = -α := by
     have e := hskew v₀ v₀
-    rw [hα, herm_smul_left, herm_smul_right, cc_mul, hcj] at e
+    rw [hα, herm_smul_left, herm_smul_right, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, hcj] at e
     apply mul_left_cancel₀ (mul_ne_zero hh₀ hh₀')
     linear_combination e
   have hκ0 : X.κ0 ≠ 0 := by rw [hκ]; exact mul_ne_zero two_ne_zero hξ0
   have hcc2 : cc (2 : E) = 2 := by exact_mod_cast cc_natCast (E := E) 2
   have hsc : cc (-α / X.κ0) = -α / X.κ0 := by
-    rw [div_eq_mul_inv, cc_mul, cc_neg, hαc, cc_inv, hκ, cc_mul, hcc2, hc0]
+    rw [div_eq_mul_inv, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, cc_neg, hαc, cc_inv, hκ, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, hcc2, hc0]
     field_simp
   have htr : ∀ (s : E) v v', Algebra.trace ℚ E (2 * s * pairE ξ (y v) * cc (pairE ξ (y v'))) =
       Algebra.trace ℚ E (-X.ξ0 * herm X.Gm ((s * X.κ0 * herm X.Gm (φ v : Fin r → E) ξ') • ξ') (φ v')) := by
     intro s v v'
-    rw [hp, hp, cc_mul, cc_neg, hc0, hcj, herm_smul_left, hκ]
+    rw [hp, hp, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul, cc_neg, hc0, hcj, herm_smul_left, hκ]
     congr 1; ring
   have hbe : IsBePar ξ be (-α / X.κ0) := by
     refine ⟨hsc, fun x x' => ?_⟩
@@ -307,7 +307,7 @@ theorem rank_one [Module.Finite ℤ Y] (hY : Module.finrank (𝓞 E) Y = 1) (hκ
       omega
     have h1 := re_nonneg_of_trace (2 * sE * pairE ξ (y v₀) * cc (pairE ξ (y v₀))) (fun a => by
       have e := hbe.2 (a • y v₀) (a • y v₀)
-      rw [p1, cc_mul] at e
+      rw [p1, ReciprocityTheory.ChartRestriction.G.FD.HermitianTraceFormVanishing.cc_mul] at e
       have h2 : (0 : ℤ) ≤ be (a • y v₀) (a • y v₀) := by
         by_cases h : a • y v₀ = 0
         · simp [h]

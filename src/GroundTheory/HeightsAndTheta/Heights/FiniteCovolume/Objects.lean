@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.AutomorphicForms.HermitianSpaces
+public import GroundTheory.AutomorphicForms.Bundle004
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
-public import GroundTheory.AutomorphicForms.UnitaryGroupScheme
+public import GroundTheory.AutomorphicForms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

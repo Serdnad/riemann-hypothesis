@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscPowerTimesMonomial
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.MemColRangeOfLeEntry
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.CardFinRange
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DplusLeBeS
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.OldestLetterInSegment
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.PsiCutSupported
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle012
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.ColumnConditionsOfNumericBounds
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle010
 
 @[expose] public section
 

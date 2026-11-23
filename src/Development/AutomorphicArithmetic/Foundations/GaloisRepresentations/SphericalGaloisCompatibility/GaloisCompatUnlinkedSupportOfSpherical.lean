@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Statements.EllipticCurveLevels.IsQg
+public import Development.AbelianVarietyTheory.Statements.EllipticCurveLevels.Bundle002
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalGaloisCompatibility.Chl
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CrystallineInputs.InputsOf
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.MixedUnlinkedExponents.CharLiftPrimeHolds

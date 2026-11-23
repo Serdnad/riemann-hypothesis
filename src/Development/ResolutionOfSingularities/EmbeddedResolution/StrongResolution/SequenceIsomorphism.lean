@@ -1,6 +1,6 @@
 module
 
-public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceRelations
+public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.Bundle001
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.StrongResolution
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceBasic
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsChartCutoffEnergy
-public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PChartDensityIntegrable
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.Bundle017
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PChartHessCompare
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PHermFormCompare
 import Mathlib.Algebra.Lie.OfAssociative

@@ -4,7 +4,7 @@ public import Formalism.HermitianCurvature.StatementG
 public import Mathlib.Data.Nat.Choose.Multinomial
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.AdditiveCharacterPsi
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CuspidalIrreducibleSubrep
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.FourierUniquenessMirabolic
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle017
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OrbitalIntegralConvergesAbs
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.PhaseFunctionCriticalPoints
 import Mathlib.Algebra.Order.Floor.Extended

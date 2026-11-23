@@ -1,6 +1,6 @@
 module
 
-public import Formalism.UnipotentAdelicQuotients.EllRegCut
+public import Formalism.UnipotentAdelicQuotients.Bundle003
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

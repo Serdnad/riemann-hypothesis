@@ -1,0 +1,211 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.IsSingTest
+public import Mathlib.Analysis.Calculus.FDeriv.Defs
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+public import Mathlib.Analysis.Matrix.Normed
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Tactic.TypeStar
+import Mathlib.Topology.Sheaves.Init
+public import Mathlib.Analysis.Calculus.Deriv.Add
+public import Mathlib.Analysis.Calculus.Deriv.Comp
+public import Mathlib.Analysis.Calculus.Deriv.Linear
+public import Mathlib.Analysis.Calculus.Deriv.Mul
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open MeasureTheory Matrix Filter Topology
+open scoped ContDiff
+
+namespace PositivityTheory.Rg.Sw.LVs
+
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+open PositivityTheory.Rg.Sw
+
+namespace STD
+
+variable {n : ℕ}
+
+abbrev Vr (n : ℕ) := Fin n → Fin n → ℝ
+
+def hermLin (n : ℕ) : Vr n →ₗ[ℝ] Matrix (Fin n) (Fin n) ℂ where
+  toFun := herm
+  map_add' x y := by
+    ext i j
+    simp only [herm, Pi.add_apply, Matrix.add_apply]
+    push_cast
+    ring
+  map_smul' c x := by
+    ext i j
+    simp only [herm, Pi.smul_apply, smul_eq_mul, RingHom.id_apply, Matrix.smul_apply, Complex.real_smul]
+    push_cast
+    ring
+
+def hermL (n : ℕ) : Vr n →L[ℝ] Matrix (Fin n) (Fin n) ℂ := LinearMap.toContinuousLinearMap (hermLin n)
+
+theorem hermL_apply (x : Vr n) : hermL n x = herm x := rfl
+
+theorem herm_zero : herm (0 : Vr n) = 0 := by
+  ext i j; simp [herm]
+
+def v1 (r c : Fin n) : Vr n := fun i j =>
+  ((if i = r ∧ j = c then 1 else 0) + (if i = c ∧ j = r then 1 else 0)) / 2
+
+def v2 (r c : Fin n) : Vr n := fun i j =>
+  ((if i = c ∧ j = r then 1 else 0) - (if i = r ∧ j = c then 1 else 0)) / 2
+
+theorem herm_v (r c : Fin n) : herm (v1 r c) + Complex.I • herm (v2 r c) = Matrix.single r c 1 := by
+  ext i j
+  have e1 : (if j = r ∧ i = c then (1:ℝ) else 0) = if i = c ∧ j = r then 1 else 0 := by
+    simp only [and_comm]
+  have e2 : (if j = c ∧ i = r then (1:ℝ) else 0) = if i = r ∧ j = c then 1 else 0 := by
+    simp only [and_comm]
+  have e3 : (Matrix.single r c (1:ℂ)) i j = (((if i = r ∧ j = c then (1:ℝ) else 0 : ℝ)) : ℂ) := by
+    rw [Matrix.single_apply]
+    by_cases h : i = r ∧ j = c
+    · obtain ⟨rfl, rfl⟩ := h; simp
+    · rw [if_neg h, if_neg (fun h' => h ⟨h'.1.symm, h'.2.symm⟩)]; simp
+  rw [e3]
+  simp only [herm, v1, v2, Matrix.add_apply, Matrix.smul_apply, smul_eq_mul, e1, e2]
+  generalize (if i = r ∧ j = c then (1:ℝ) else 0) = a
+  generalize (if i = c ∧ j = r then (1:ℝ) else 0) = b
+  push_cast
+  linear_combination ((b:ℂ) - a) / 2 * Complex.I_sq
+
+def dc (a : Fin n × Fin n) (f : Vr n → ℂ) : Vr n → ℂ :=
+  fun x => fderiv ℝ f x (v1 a.1 a.2) + Complex.I * fderiv ℝ f x (v2 a.1 a.2)
+
+def dList : List (Fin n × Fin n) → (Vr n → ℂ) → Vr n → ℂ
+  | [], f => f
+  | a :: l, f => dc a (dList l f)
+
+end STD
+
+end PositivityTheory.Rg.Sw.LVs
+end
+end
+
+section
+
+noncomputable section
+
+open Filter Topology Set Metric Matrix
+open scoped ContDiff
+
+namespace PositivityTheory.Rg.Sw.LVs.HolB
+
+attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
+
+open PositivityTheory.Rg.Sw PositivityTheory.Rg.Sw.LVs
+
+variable {n : ℕ}
+
+theorem JJ_sq : JJ n * JJ n = -1 := by
+  simp [JJ, fromBlocks_multiply, ← fromBlocks_one, fromBlocks_neg]
+
+theorem inG_mul {a b : M2 n} (ha : InG a) (hb : InG b) : InG (a * b) := by
+  unfold InG at *
+  rw [conjTranspose_mul]
+  calc bᴴ * aᴴ * JJ n * (a * b) = bᴴ * (aᴴ * JJ n * a) * b := by simp only [Matrix.mul_assoc]
+    _ = JJ n := by rw [ha, hb]
+
+theorem inG_upper {b : Matrix (Fin n) (Fin n) ℂ} (hb : bᴴ = b) : InG (fromBlocks 1 b 0 1 : M2 n) := by
+  unfold InG JJ
+  simp [fromBlocks_conjTranspose, fromBlocks_multiply, hb]
+
+theorem inG_lower {c : Matrix (Fin n) (Fin n) ℂ} (hc : cᴴ = c) : InG (fromBlocks 1 0 c 1 : M2 n) := by
+  unfold InG JJ
+  simp [fromBlocks_conjTranspose, fromBlocks_multiply, hc]
+
+theorem inG_scalar {c : ℂ} (hc : star c * c = 1) : InG (c • (1 : M2 n)) := by
+  show (c • (1 : M2 n))ᴴ * JJ n * (c • (1 : M2 n)) = JJ n
+  rw [Matrix.conjTranspose_smul, Matrix.conjTranspose_one, Matrix.smul_mul, Matrix.one_mul,
+    Matrix.mul_smul, Matrix.mul_one, smul_smul, mul_comm, hc, one_smul]
+
+theorem upper_line (y : M2 n) (b : Matrix (Fin n) (Fin n) ℂ) (t : ℂ) :
+    y + t • (y * fromBlocks 0 b 0 0) = y * fromBlocks 1 (t • b) 0 1 := by
+  have e : (fromBlocks 1 (t • b) 0 1 : M2 n) = 1 + t • fromBlocks 0 b 0 0 := by
+    rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_smul, Matrix.fromBlocks_add]
+    simp
+  rw [e, mul_add, mul_one, mul_smul_comm]
+
+theorem lower_line (y : M2 n) (c : Matrix (Fin n) (Fin n) ℂ) (t : ℂ) :
+    y + t • (y * fromBlocks 0 0 c 0) = y * fromBlocks 1 0 (t • c) 1 := by
+  have e : (fromBlocks 1 0 (t • c) 1 : M2 n) = 1 + t • fromBlocks 0 0 c 0 := by
+    rw [← Matrix.fromBlocks_one, Matrix.fromBlocks_smul, Matrix.fromBlocks_add]
+    simp
+  rw [e, mul_add, mul_one, mul_smul_comm]
+
+theorem herm_real_smul {b : Matrix (Fin n) (Fin n) ℂ} (hb : bᴴ = b) (t : ℝ) : ((t : ℂ) • b)ᴴ = (t : ℂ) • b := by
+  rw [conjTranspose_smul, hb]
+  simp
+
+private theorem fderiv_apply_eq_zero_of_const_on_real_line {E W : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
+    [NormedAddCommGroup W] [NormedSpace ℂ W] {f : E → W} {y v : E}
+    (hf : DifferentiableAt ℂ f y) (h : ∀ t : ℝ, f (y + (t : ℂ) • v) = f y) : fderiv ℂ f y v = 0 := by
+  have hl : HasDerivAt (fun t : ℝ => y + (t : ℂ) • v) v 0 := by
+    have h0 := ((Complex.ofRealCLM.hasDerivAt (x := (0 : ℝ))).smul_const v).const_add y
+    convert h0 using 1
+    · rfl
+    · rw [Complex.ofRealCLM_apply, Complex.ofReal_one, one_smul]
+  have h1 : HasFDerivAt f ((fderiv ℂ f y).restrictScalars ℝ) (y + ((0 : ℝ) : ℂ) • v) := by
+    simpa using hf.hasFDerivAt.restrictScalars ℝ
+  have hc := h1.comp_hasDerivAt (0 : ℝ) hl
+  have hk : (f ∘ fun t : ℝ => y + (t : ℂ) • v) = fun _ => f y := funext h
+  rw [hk] at hc
+  exact ((hasDerivAt_const (0 : ℝ) (f y)).unique hc).symm
+
+theorem fderiv_line {W : Type*} [NormedAddCommGroup W] [NormedSpace ℂ W] {f : M2 n → W} {y v : M2 n}
+    (hf : DifferentiableAt ℂ f y) (h : ∀ t : ℝ, f (y + (t : ℂ) • v) = f y) : fderiv ℂ f y v = 0 := by
+  exact fderiv_apply_eq_zero_of_const_on_real_line hf h
+
+end PositivityTheory.Rg.Sw.LVs.HolB
+end
+end

@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertiaThroughOfPoly
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle258
 public import Formalism.DistinguishedUnitIdeals.ExistsConstOfInvariantMod
 public import Mathlib.RingTheory.TensorProduct.Free
 import Mathlib.Algebra.Order.Floor.Extended

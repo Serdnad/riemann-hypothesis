@@ -1,10 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.MemPowSub
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRingHomAdicCompletionUnder
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsNormFromBaseChangeBaseChangeProperties
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsNormFromBaseChangeOfPowFinrankCyclic
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.OfIntermediateFieldTower
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle019
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle024
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle038
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

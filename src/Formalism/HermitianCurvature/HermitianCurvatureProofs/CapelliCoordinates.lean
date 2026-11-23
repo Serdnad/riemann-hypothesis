@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.FrameMinor
+public import Formalism.HermitianCurvature.Bundle009
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OperatorRepresentations
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

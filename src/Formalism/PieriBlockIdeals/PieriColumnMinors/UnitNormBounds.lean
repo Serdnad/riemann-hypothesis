@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.FactorialValuationSum
+public import Formalism.PieriBlockIdeals.Bundle004
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.DividedPowerZeroZeroVector
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.LabelSumNeedsLeFalse
 import Mathlib.Algebra.Order.Floor.Extended

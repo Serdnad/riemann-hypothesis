@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.GlobalFields.Adele.Approximation
+public import GroundTheory.GlobalFields.Adele.Bundle002
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.Analysis.Complex.Circle
 public import Mathlib.RingTheory.DedekindDomain.Different
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InfiniteTraceAlgebraMap
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle059
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

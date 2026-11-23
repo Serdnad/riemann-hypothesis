@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PieriBlockIdeals.CapelliCentralEnveloping
+public import Formalism.PieriBlockIdeals.Bundle001
 public import Mathlib.GroupTheory.Nilpotent
 public import Mathlib.RingTheory.Polynomial.Cyclotomic.Basic
 public import Mathlib.RingTheory.Polynomial.Eisenstein.Distinguished

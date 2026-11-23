@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLocalGraphProjectionMass
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle057
 public import Mathlib.CategoryTheory.Countable
 public import Mathlib.Topology.Separation.CompletelyRegular
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLocalGraphMass

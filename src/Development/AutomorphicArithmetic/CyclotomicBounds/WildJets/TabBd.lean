@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicValuationThetaKernelJetBound
 public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.CmbIop
-public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.CmbJet
+public import Development.AutomorphicArithmetic.CyclotomicBounds.WildJets.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.UnitarySchrodingerLemmas.SchrodingerMatching.PsiPlaces
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CmTypeFromConjugateComplement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.VacOfMemSchwartzA
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RealAdelesCmFieldEquivComplexCmType
+public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.UnitarySchrodingerLemmas.SchrodingerMatching.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2613
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2191
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle079
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FrameIntegralEqThetaPartNondegenerate
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeftInvSubtypeSum
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle665
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasSign
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhitKA
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle467
 
 @[expose] public section
 

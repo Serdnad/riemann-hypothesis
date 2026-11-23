@@ -1,9 +1,9 @@
 module
 
 import Development.WeilBound.CoreStatements.PlurisubharmonicCones.EmbEquivSymmApply
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsFundSet
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ContinuousHermitianMatrixFamily
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsometryPreservesHermitianAndAction
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle037
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle069
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

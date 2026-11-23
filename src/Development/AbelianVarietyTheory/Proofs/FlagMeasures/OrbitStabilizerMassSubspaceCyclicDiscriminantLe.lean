@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
-public import Formalism.HermitianLattices.StatementMass
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CardHermitianLatticesGluedSubspaceComplementStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DefiniteUnitaryStabilizerSubspaceProdStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianGenusMassEqOrbitStabilizerMassStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeDiscriminantOrderNeZeroUnimodulaStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeQuotientGensAndIntermediateCountStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrbitStabilizerMassEqWeightedSumFibresStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrbitStabilizerMassProdEqMulStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrbitWeightedStabilizerSumMonoSubadditiveStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PrimitiveHermitianSublatticeDiscriminantGeneratoStatement
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle003
+public import Formalism.HermitianLattices.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle090
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle053
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle114
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle095
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualLattice
 import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
 import Mathlib.Algebra.Order.Floor.Extended
@@ -140,7 +139,7 @@ theorem gens_rank [FiniteDimensional K V] (hK : IsCMUnram K) (h : V →ₗ⋆[K]
   have h0 := (GlobalTheory.T.hermitianLatticeDiscriminantOrder_ne_zero_unimodular K V h hK hs hnd L hL).1
   have hle : L ≤ dual h L := fun x hx => (isomAct_mem_dual h L x).2 fun y hy => hL.2 y hy x hx
   exact (GlobalTheory.T.lattice_quotient_gens_and_intermediate_count K V L (dual h L) hle h0).1
-    (dualLattice (𝓞 K) K V h hs hnd star_int L hL.1).1.fg
+    (Formalism.HermitianLatticesTheory.dualLattice (𝓞 K) K V h hs hnd star_int L hL.1).1.fg
 
 end
 

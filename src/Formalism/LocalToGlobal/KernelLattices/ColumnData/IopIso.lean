@@ -263,29 +263,29 @@ theorem Phi_smul_eq {N N' : ℕ} (δ : ℂ) (M : ℤ) (hM : M ≠ 0) (n : ℕ)
     (A : Fin N' → Fin N → 𝓞 D.host.E) :
     ((n : ℤ) * M) • FL.Phi D (N := N) (N' := N') (δ / M) A =
       ∑ i0 : Fin N', ∑ j0 : Fin N,
-        FL.ins D i0 j0 (fun τ => δ * n * embT D τ ((A i0 j0 : 𝓞 D.host.E) : D.host.E)) := by
+        FL.ins D i0 j0 (fun τ => δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i0 j0 : 𝓞 D.host.E) : D.host.E)) := by
   funext τ i j
   have hM' : (M : ℂ) ≠ 0 := by exact_mod_cast hM
   simp only [Finset.sum_apply]
   have h1 : ∀ i0 : Fin N', i0 ≠ i → (∑ j0 : Fin N, FL.ins D i0 j0
-      (fun τ => δ * n * embT D τ ((A i0 j0 : 𝓞 D.host.E) : D.host.E)) τ i j) = 0 := by
+      (fun τ => δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i0 j0 : 𝓞 D.host.E) : D.host.E)) τ i j) = 0 := by
     intro i0 hi0
     apply Finset.sum_eq_zero
     intro j0 _
     simp [FL.ins, Ne.symm hi0]
   have h2 : ∀ j0 : Fin N, j0 ≠ j → FL.ins D i j0
-      (fun τ => δ * n * embT D τ ((A i j0 : 𝓞 D.host.E) : D.host.E)) τ i j = 0 := by
+      (fun τ => δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j0 : 𝓞 D.host.E) : D.host.E)) τ i j = 0 := by
     intro j0 hj0
     simp [FL.ins, Ne.symm hj0]
-  have h3 : FL.ins D i j (fun τ => δ * n * embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) τ i j =
-      δ * n * embT D τ ((A i j : 𝓞 D.host.E) : D.host.E) := if_pos ⟨rfl, rfl⟩
+  have h3 : FL.ins D i j (fun τ => δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) τ i j =
+      δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j : 𝓞 D.host.E) : D.host.E) := if_pos ⟨rfl, rfl⟩
   rw [Fintype.sum_eq_single i h1, Fintype.sum_eq_single j h2, h3]
-  show ((n : ℤ) * M) • (δ / M * embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) = _
+  show ((n : ℤ) * M) • (δ / M * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) = _
   rw [zsmul_eq_mul]
   push_cast
   first
-  | (rw [show ((n : ℂ) * (M : ℂ)) * (δ / (M : ℂ) * embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) =
-        δ * n * embT D τ ((A i j : 𝓞 D.host.E) : D.host.E) * ((M : ℂ) / (M : ℂ)) by ring,
+  | (rw [show ((n : ℂ) * (M : ℂ)) * (δ / (M : ℂ) * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j : 𝓞 D.host.E) : D.host.E)) =
+        δ * n * _root_.Formalism.L2.Ker.Cd.TaylorLogMetric.embT D τ ((A i j : 𝓞 D.host.E) : D.host.E) * ((M : ℂ) / (M : ℂ)) by ring,
       div_self hM', mul_one])
   | (field_simp; ring)
   | field_simp

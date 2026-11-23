@@ -3,8 +3,8 @@ module
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.BernsteinExponentBounds.IsInvForm
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsEquivProdIrrTw
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NontrivialTwJacquetOfSurjective
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CentralExponentBoundOver
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WhittakerHeredityStatement
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle052
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle702
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

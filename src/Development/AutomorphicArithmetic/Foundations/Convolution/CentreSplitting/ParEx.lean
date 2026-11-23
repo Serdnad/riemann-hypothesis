@@ -1,9 +1,9 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ASmooth
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SInfEx
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SSatEx
-public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.SSatUnit
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle008
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle007
+public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

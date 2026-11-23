@@ -2,11 +2,11 @@ module
 
 public import Mathlib.Data.Nat.Notation
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDecompositionGroupCyclotomicCharacterZpowN
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharInertiaSurjective
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.BlochKatoSelmerVanishes
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle143
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle182
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Bundle004
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
-import Formalism.PadicSubsetSums.StableGradedCounts.ZBrauerNesbittAlg
+import Formalism.PadicSubsetSums.StableGradedCounts.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -149,7 +149,7 @@ private theorem charpoly_tri {K : Type} [Field K] (g r : GL (Fin 2) K)
 variable {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] [IsAlgClosure F Ω] {l : ℕ} [Fact l.Prime]
 
 private theorem cyc_ine {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring Ω} (hl : ((l : ℕ) : 𝓞 F) ∈ v.asIdeal)
-    (hA : IsPlaceOver A v) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ Ine (F := F) A, cycBar F Ω l g ^ n ≠ 1 := by
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {n : ℤ} (hn : n ≠ 0) : ∃ g ∈ Ine (F := F) A, cycBar F Ω l g ^ n ≠ 1 := by
   have : CharZero Ω := charZero_of_injective_algebraMap (algebraMap F Ω).injective
   have : IsAlgClosed Ω := IsAlgClosure.isAlgClosed F
   have : Algebra.IsAlgebraic ℚ Ω := Algebra.IsAlgebraic.trans ℚ F Ω
@@ -167,7 +167,7 @@ private theorem cyc_ine {v : HeightOneSpectrum (𝓞 F)} {A : ValuationSubring �
   have : K.fixingSubgroup.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
   obtain ⟨N, hN, -, hmem⟩ := Subgroup.exists_pow_mem_of_index_ne_zero
     (Subgroup.FiniteIndex.index_ne_zero (H := K.fixingSubgroup)) σ
-  let g : G F Ω := { (σ ^ N).toRingEquiv with
+  let g : _root_.Formalism.ConjugateSelfDual.G F Ω := { (σ ^ N).toRingEquiv with
     commutes' := fun x => (IntermediateField.mem_fixingSubgroup_iff _ _).1 hmem _ ⟨x, rfl⟩ }
   have hD : σ ^ N ∈ Ine (F := ℚ) A := (Ine (F := ℚ) A).pow_mem hσ N
   have hc : cycZ F Ω l g = cycZ ℚ Ω l (σ ^ N) := rfl

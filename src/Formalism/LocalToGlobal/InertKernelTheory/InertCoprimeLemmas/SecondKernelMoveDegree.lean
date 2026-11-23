@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.InertKernelTheory.DelPolOfTies
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.QuadraticBaseChangeGL3
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -40,8 +40,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.LocalToGlobal.InertKernelTheory.SecondKernelEntrywiseLastLevel
-import Formalism.LocalToGlobal.InertKernelTheory.TieSerPin
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle009
+import Formalism.LocalToGlobal.InertKernelTheory.Bundle010
 import Formalism.LocalToGlobal.InertKernelTheory.SubBSplit
 
 @[expose] public section

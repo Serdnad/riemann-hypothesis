@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.HeckeSectionsIsotropicCommutatorPairingPower
-public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.IsFlagIntegralOne
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.FlagDegreePowerSumMulZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.RemainderTermSummableStatement
+public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle022
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.TestPolynomialShiftTotalStatement
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.Imports
 public import GroundTheory.HeightsAndTheta.Heights.RemainderTerms.RestAt

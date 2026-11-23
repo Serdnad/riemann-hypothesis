@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IteratedDerivOneP
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMulRightInvariantHaarAdelicUnitaryGroupHermiti
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.DerivativeSkewAdjointCuspFormsStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.LieAlgebraSpannedByCompactAndFrameStatement
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.SkewOperatorBoundedByPolynomialRootsStatement
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle075
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle070
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle003
 import Development.WeilBound.CoreStatements.MeasureExistence.ExistsMeas
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,9 +43,9 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OfIsSmoothModerate
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1916
 import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsConstAlongSingleton
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.FiniteDimensionalOfSlices
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle069
 import Development.AutomorphicSpectrum.Proofs.GlobalProofs.MemFormsOnOfMemSpan
 
 @[expose] public section
@@ -221,14 +221,14 @@ theorem finite_of_polyGelf : ∀ (D : D7) (θ : D.what₂.Tau → (Ainf D.host.F
         intro f g hf hg
         refine ⟨fun u hu hu' x => ?_, fun τ x => ?_, fun τ => ?_⟩
         · simp only [Submodule.coe_add, Pi.add_apply, hf.1 u hu hu' x, hg.1 u hu hu' x]
-        · exact (coeffSpan (ρ τ)).add_mem (hf.2.1 τ x) (hg.2.1 τ x)
+        · exact (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).add_mem (hf.2.1 τ x) (hg.2.1 τ x)
         · rw [map_add (f := _), hf.2.2, hg.2.2, add_zero]
-      zero_mem' := ⟨fun _ _ _ _ => rfl, fun τ x => (coeffSpan (ρ τ)).zero_mem, fun τ => map_zero _⟩
+      zero_mem' := ⟨fun _ _ _ _ => rfl, fun τ x => (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).zero_mem, fun τ => map_zero _⟩
       smul_mem' := by
         intro a f hf
         refine ⟨fun u hu hu' x => ?_, fun τ x => ?_, fun τ => ?_⟩
         · simp only [Submodule.coe_smul, Pi.smul_apply, hf.1 u hu hu' x]
-        · exact (coeffSpan (ρ τ)).smul_mem a (hf.2.1 τ x)
+        · exact (_root_.GlobalTheory.Published.AutFin.coeffSpan (ρ τ)).smul_mem a (hf.2.1 τ x)
         · rw [map_smul, hf.2.2, smul_zero] }
   have hgr : ∀ (τ : D.what₂.Tau) (Z : Matrix (Fin V.rank) (Fin V.rank) ℂ) (hZ : Z ∈ lieAt V τ),
       Bd μ hθ (E : Set (Mc θ V)) (der hθ τ hZ) := by

@@ -2,10 +2,8 @@ module
 
 public import Formalism.PadicSubsetSums.CentralIdempotents.EigenbasisOfDistinctRoots
 public import Mathlib.RingTheory.SimpleRing.Principal
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRFrobOrbitIrred
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRIrredCountUpper
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRPrimeToPartSpec
-public import Formalism.PadicSubsetSums.StableGradedCounts.IRRSamePartCount
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle005
+public import Formalism.PadicSubsetSums.StableGradedCounts.Bundle001
 public import Formalism.PadicSubsetSums.StableGradedCounts.LocalEstimateIVOfTypeSetWeight
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

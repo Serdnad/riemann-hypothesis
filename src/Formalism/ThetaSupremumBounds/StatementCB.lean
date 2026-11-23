@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.HeightBoundExactNorms
+public import Formalism.QuotientMetricDivisors.Bundle005
 public import Formalism.ThetaSupremumBounds.StatementE
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.SharpRestriction.Divisibility.AbsolutelyIrreducibleSpan
-public import Formalism.LocalToGlobal.UnitaryNorms.RealCyclotomicTwoPower
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle001
 public import Formalism.LocalRingCardinality.SpanPowerMembership.PlacesOverNcardOfSplitInj
-public import Formalism.LocalToGlobal.UnitaryNorms.ArtGCut
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

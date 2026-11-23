@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CurveDivisors
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.WeilDivisorInvertible
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle006
 public import GroundTheory.FunctionField.WeilDifferential
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

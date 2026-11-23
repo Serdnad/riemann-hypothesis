@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.SphereMeanVol
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle001
 public import Mathlib.NumberTheory.Harmonic.Defs
-public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.SphereMeanDisc
+public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

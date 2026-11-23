@@ -1,13 +1,12 @@
 module
 
-public import Formalism.AdmissibleDesigns.UnramifiedInputOfAdmitted
+public import Formalism.AdmissibleDesigns.Bundle014
 public import Formalism.AdmissibleDesigns.GlobalIndexTheoremPlacesOfRNAdm
-public import Formalism.AdmissibleDesigns.TheoremFromNormalizedOpenThree
-public import Formalism.AdmissibleDesigns.ColLx
-import Formalism.AdmissibleDesigns.ColumnUnramifiedCharacter
+public import Formalism.AdmissibleDesigns.Bundle012
+import Formalism.AdmissibleDesigns.Bundle010
 public import Formalism.AdmissibleDesigns.DesignNormalizedOfAdmitted
-public import Formalism.AdmissibleDesigns.NormalizedRingData
-import Formalism.AdmissibleDesigns.TheoremN5OfNormalizedItems
+public import Formalism.AdmissibleDesigns.Bundle006
+import Formalism.AdmissibleDesigns.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

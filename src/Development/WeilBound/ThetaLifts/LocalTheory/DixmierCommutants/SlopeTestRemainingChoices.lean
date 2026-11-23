@@ -1,8 +1,8 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.FullOfSoLoc
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OmegaEquivInducedFibreStatement
-import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.ExistsExtZ
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
+import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle002
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.TopOfMap
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsUniqueVec
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemISupIsLinAtBilin
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle256
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.RealPlaceImaginaryGeneratorReEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

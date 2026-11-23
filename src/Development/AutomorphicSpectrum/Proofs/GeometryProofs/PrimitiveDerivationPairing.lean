@@ -2,11 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.MemPrimitiveTensorsIffIsPrimitiveElem
 public import Mathlib.RingTheory.HopfAlgebra.Quotient
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.FrobeniusStableSubspaceElementStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MultiplicativeDerivationRankStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NilpotentDerivationRankStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.PrimitiveElementPowersIndepStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SubspaceContainsUnitStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle017
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle018
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

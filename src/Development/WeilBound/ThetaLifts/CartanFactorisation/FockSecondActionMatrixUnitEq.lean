@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsGreatestProperInvariantSubmoduleOfSide
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.UnitDef
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Mathlib.RingTheory.PiTensorProduct
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLActs
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLLines
-public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLParity
-public import Development.WeilBound.ThetaLifts.CartanFactorisation.PolCount
+public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.Bundle005
+public import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle004
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.TensMax
 public import Development.WeilBound.ThetaLifts.ConeHypotheses.PureEqPureA
 import Mathlib.Algebra.Order.Floor.Extended

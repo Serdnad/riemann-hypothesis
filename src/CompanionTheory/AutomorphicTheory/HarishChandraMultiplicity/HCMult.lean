@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.HCMult
+public import Formalism.PeriodIntegrals.Bundle013
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.AdmissibleOfFiniteRank
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.AdmissibleSmoothVectors.FinalAll
 import Mathlib.Algebra.Order.Floor.Extended

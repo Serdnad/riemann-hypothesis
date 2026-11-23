@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.TwistApply
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ShortExactFirstTermBundle
-import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.SubAndQuotientBundles
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle013
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle040
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle017
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

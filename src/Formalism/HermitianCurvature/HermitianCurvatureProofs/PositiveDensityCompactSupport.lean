@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianCurvature.StatementJCCpt
+public import Formalism.HermitianCurvature.Bundle007
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevelFormSesquilinearFiniteClass
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BigCellVanishingOfCommute
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle036
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactSupportFiniteClass
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositiveDensityModerateGrowth
 import Mathlib.Algebra.Order.Floor.Extended

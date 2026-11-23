@@ -1,10 +1,10 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.GermEqZeroOfThickenings
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsBasisB
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFiniteValues
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TestFieldFiniteOverPadicStatement
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExpandsAtOfSucc
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle096
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle078
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

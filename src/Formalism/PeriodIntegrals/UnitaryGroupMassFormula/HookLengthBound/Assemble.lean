@@ -1,12 +1,10 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.DetShiftNormOf
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.DetShift
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.DeterminantAdjugate
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.HighestWeightLastZero
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.HookBoundOfSteps
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.HookNorm
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.ProdFactorialLe
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.Bundle001
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HookLengthBound.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnitaryOnTheta
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AdelicUnitaryActionAtRealPlace
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle042
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.EqNegOfCommute
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

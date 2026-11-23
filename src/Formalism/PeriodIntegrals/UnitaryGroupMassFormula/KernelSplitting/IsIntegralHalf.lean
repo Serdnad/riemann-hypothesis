@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.KerIso
+public import Formalism.PeriodIntegrals.Bundle009
 public import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

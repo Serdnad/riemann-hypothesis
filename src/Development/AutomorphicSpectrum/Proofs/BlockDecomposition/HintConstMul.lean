@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutOfLe
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelFamInf
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle047
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle482
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle537
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,12 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsThetaConstantsLocallyOnBaseStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HasThetaConstantsRingBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaConstantsUniqueUpToUnitStatement
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaCosetNonvanishingOfHasThStatement
+public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle109
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle124
 import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverMove
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -182,7 +181,7 @@ theorem isThetaPtOver_of_iso {S : Scheme.{0}} (P : PolAV S) {k : ℕ} {T T₀ : 
     (H : IsThetaPtOver P k x₀ v₀) : IsThetaPtOver P k (fun i => β ≫ x₀ i) (fun i => β.left.appTop.hom (v₀ i)) := by
   have : IsMonHom (Iso.refl P.A).hom := inferInstanceAs (IsMonHom (𝟙 _))
   refine ThetaPtMove.isThetaPtOver_move β.left (isGrpPullback_of_iso (Iso.refl P.A))
-    (LBIso.symm (LBIso.chartPull (chartPullPull P.L _ (𝟙 _) rfl) (chartPullId _) (PolBaseChange.lbIso_refl P.isLB)))
+    (LBIso.symm (LBIso.chartPull (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.chartPullPull P.L _ (𝟙 _) rfl) (chartPullId _) (PolBaseChange.lbIso_refl P.isLB)))
     β.left (𝟙 T₀) (Category.comp_id _) ((Over.w β).trans (Category.comp_id _).symm) (fun th h s => ?_)
     (fun i => (Category.comp_id _).symm) (fun i => by rw [← MonObj.comp_pow, hk, MonObj.comp_one]) H
   obtain ⟨r, hr⟩ := h s

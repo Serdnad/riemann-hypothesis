@@ -1,0 +1,310 @@
+module
+
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.Bundle001
+public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
+public import Formalism.LocalRingCardinality.SpanPowerMembership.RelDet
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.NormOneUnitIdealAlt
+public import Formalism.LocalToGlobal.PairingIndexBounds.SplitPairEquations.SemiCharImg
+public import Formalism.LocalToGlobal.GlobalTheory.GL3.DeterminantNormOneOfUnitDisc
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Coalgebra.IsFrobenius
+import Mathlib.RingTheory.HopfAlgebra.Basic
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.HaveILetI
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+open NumberField Formalism.BasicNotions Classical Matrix
+
+namespace Formalism.L2.PairingIndexBounds.Eq
+
+open Formalism.MainNotions Formalism.L2.Th1.H
+
+variable {D : D7}
+
+theorem mem_smulLat {n : ℕ} (γ : Matrix (Fin n) (Fin n) D.host.E) (L : Submodule (𝓞 D.host.E) (Fin n → D.host.E))
+    (x : Fin n → D.host.E) : x ∈ SDLat.smulLat γ L ↔ ∃ w ∈ L, γ *ᵥ w = x := by
+  simp [SDLat.smulLat, Submodule.mem_map, Matrix.toLin'_apply]
+
+theorem homL_conj {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 : (letI := D.host.cmStar; star γ * γ) = 1) {L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)}
+    {L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)} {A : Matrix (Fin N') (Fin N) D.host.E}
+    (hA : A ∈ TaylorLogMetric.homL D L L') :
+    (letI := D.host.cmStar; γ' * A * star γ) ∈ TaylorLogMetric.homL D (SDLat.smulLat γ L) (SDLat.smulLat γ' L') := by
+  letI := D.host.cmStar
+  induction hA using Submodule.span_induction with
+  | mem A hA =>
+    refine Submodule.subset_span fun y hy => ?_
+    obtain ⟨x, hx, rfl⟩ := (mem_smulLat γ L y).1 hy
+    rw [mulVec_mulVec, Matrix.mul_assoc, Matrix.mul_assoc, h1, Matrix.mul_one, ← mulVec_mulVec]
+    exact (mem_smulLat γ' L' _).2 ⟨_, hA x hx, rfl⟩
+  | zero => simp
+  | add x y _ _ hx hy => rw [Matrix.mul_add, Matrix.add_mul]; exact Submodule.add_mem _ hx hy
+  | smul r x _ hx => rw [Matrix.mul_smul, Matrix.smul_mul]; exact Submodule.smul_mem _ r hx
+
+theorem yy_conj {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 : (letI := D.host.cmStar; star γ * γ) = 1) {L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)}
+    {L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)} {A : Matrix (Fin N') (Fin N) D.host.E}
+    (hA : A ∈ TaylorLogMetric.YYl D L L') :
+    (letI := D.host.cmStar; γ' * A * star γ) ∈ TaylorLogMetric.YYl D (SDLat.smulLat γ L) (SDLat.smulLat γ' L') := by
+  letI := D.host.cmStar
+  induction hA using Submodule.span_induction with
+  | mem B hB =>
+    obtain ⟨a, ha, A₀, hA₀, rfl⟩ := hB
+    refine Submodule.subset_span ⟨a, ha, _, homL_conj γ γ' h1 hA₀, ?_⟩
+    rw [Matrix.mul_smul, Matrix.smul_mul]
+  | zero => simp
+  | add x y _ _ hx hy => rw [Matrix.mul_add, Matrix.add_mul]; exact Submodule.add_mem _ hx hy
+  | smul r x _ hx => rw [Matrix.mul_smul, Matrix.smul_mul]; exact Submodule.smul_mem _ r hx
+
+variable {cc : Ideal (𝓞 D.host.K)} {δ : ℂ}
+
+theorem embV_conj {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 h2 h1' h2') (A : Matrix (Fin N') (Fin N) D.host.E) :
+    TaylorLogMetric.embV D (TaylorLogMetric.tor0 D cc δ) (letI := D.host.cmStar; γ' * A * star γ) =
+      phiL γ γ' h1 h2 h1' h2' (TaylorLogMetric.embV D (TaylorLogMetric.tor0 D cc δ) A) := by
+  letI := D.host.cmStar
+  funext τ
+  have e : ((γ' * A * star γ).map (TaylorLogMetric.embT D τ)) = gM γ' τ * A.map (TaylorLogMetric.embT D τ) * (gM γ τ)ᴴ := by
+    rw [gM_conjTranspose]
+    unfold gM
+    rw [Matrix.map_mul, Matrix.map_mul]
+  exact e
+
+theorem la_img {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 h2 h1' h2') (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)) (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)) :
+    imgLat ((phiL γ γ' h1 h2 h1' h2' : TaylorLogMetric.VC D N N' ≃ₗ[ℂ] TaylorLogMetric.VC D N N') : TaylorLogMetric.VC D N N' →ₗ[ℂ] TaylorLogMetric.VC D N N')
+        (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') =
+      TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) (SDLat.smulLat γ L) (SDLat.smulLat γ' L') := by
+  letI := D.host.cmStar
+  unfold imgLat TaylorLogMetric.La
+  rw [AddMonoidHom.map_closure]
+  congr 1
+  ext z
+  constructor
+  · rintro ⟨x, ⟨w, hw, A, hA, rfl⟩, rfl⟩
+    refine ⟨w, hw, _, yy_conj γ γ' h1 hA, ?_⟩
+    show phiL γ γ' h1 h2 h1' h2' (w • TaylorLogMetric.embV D (TaylorLogMetric.tor0 D cc δ) A) = _
+    rw [map_smul, embV_conj γ γ' h1 h2 h1' h2']
+  · rintro ⟨w, hw, B, hB, rfl⟩
+    have hs : star (star γ) * star γ = 1 := by rw [star_star]; exact h2
+    have hA := yy_conj (star γ) (star γ') hs hB
+    rw [← Formalism.BasicNotions.Examples₂.smulLat_mul, ← Formalism.BasicNotions.Examples₂.smulLat_mul, h1, h1', Formalism.BasicNotions.Examples₂.smulLat_one,
+      Formalism.BasicNotions.Examples₂.smulLat_one, star_star] at hA
+    refine ⟨_, ⟨w, hw, _, hA, rfl⟩, ?_⟩
+    show phiL γ γ' h1 h2 h1' h2' (w • TaylorLogMetric.embV D (TaylorLogMetric.tor0 D cc δ) _) = _
+    rw [map_smul, ← embV_conj γ γ' h1 h2 h1' h2']
+    congr 2
+    rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h2', Matrix.one_mul, Matrix.mul_assoc, h2, Matrix.mul_one]
+
+theorem Hf_eq' (T : TaylorLogMetric.Tor D) {N N' : ℕ} (z w : TaylorLogMetric.VC D N N') :
+    TaylorLogMetric.Hf D T z w = Ker.formV (TaylorLogMetric.area T.abelian₂) D.what₂.Tau N N' z w := rfl
+
+theorem pull_eq {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 h2 h1' h2') (F : TaylorLogMetric.VC D N N' → ℂ) :
+    TaylorLogMetric.pull D (TaylorLogMetric.tor0 D cc δ) γ γ' F = pullInv (phiL γ γ' h1 h2 h1' h2') F := rfl
+
+theorem al_phi {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (h1 h2 h1' h2') (x : TaylorLogMetric.VC D N N') :
+    TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ) (phiL γ γ' h1 h2 h1' h2' x) = TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ) x := by
+  unfold TaylorLogMetric.al
+  rw [Hf_eq', Hf_eq']
+  have e := phiL_isom γ γ' h1 h2 h1' h2' (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) x x
+  simp only [LinearEquiv.coe_coe] at e
+  rw [e]
+
+theorem pull_core {B : Ker.Base D cc δ} (hL : B.LatAll) {N N' : ℕ} (φ : TaylorLogMetric.VC D N N' ≃ₗ[ℂ] TaylorLogMetric.VC D N N')
+    (hI : IsIsom (Ker.formV (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N N')
+      (Ker.formV (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N N') (φ : TaylorLogMetric.VC D N N' →ₗ[ℂ] TaylorLogMetric.VC D N N'))
+    (hα : ∀ x, TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ) (φ x) = TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ) x)
+    {L L₁ M M₁ : Submodule (𝓞 D.host.E) (Fin N → D.host.E)} {L' L₁' M' M₁' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)}
+    (a1 : TaylorLogMetric.admitted D N N' L L') (a2 : TaylorLogMetric.admitted D N N' L₁ L₁')
+    (i1 : imgLat (φ : TaylorLogMetric.VC D N N' →ₗ[ℂ] TaylorLogMetric.VC D N N') (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') = TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) M M')
+    (i2 : imgLat (φ : TaylorLogMetric.VC D N N' →ₗ[ℂ] TaylorLogMetric.VC D N N') (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L₁ L₁') =
+      TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) M₁ M₁')
+    (G : TaylorLogMetric.VC D N N' → ℂ) (hG : G ∈ TaylorLogMetric.Th D (TaylorLogMetric.tor0 D cc δ) L L') :
+    pullInv φ G ∈ TaylorLogMetric.Th D (TaylorLogMetric.tor0 D cc δ) M M' ∧
+      pullInv φ (TaylorLogMetric.Iop D (TaylorLogMetric.tor0 D cc δ) (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L₁ L₁') G) =
+        TaylorLogMetric.Iop D (TaylorLogMetric.tor0 D cc δ) (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) M M') (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) M₁ M₁') (pullInv φ G) := by
+  have hH := formV_herm' (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N N'
+  have hF : G ∈ fixedBy (Ker.formV (TaylorLogMetric.area (TaylorLogMetric.tor0 D cc δ).abelian₂) D.what₂.Tau N N') (TaylorLogMetric.al D (TaylorLogMetric.tor0 D cc δ))
+      (TaylorLogMetric.La D (TaylorLogMetric.tor0 D cc δ) L L') := fun x hx z => hG.2 x hx z
+  refine ⟨⟨?_, ?_⟩, ?_⟩
+  · exact hG.1.comp (φ.symm.toContinuousLinearEquiv.differentiable)
+  · have hf := fixed_img _ _ φ hI hα hF
+    rw [i1] at hf
+    exact fun x hx z => hf x hx z
+  · have := inter_pull _ _ φ hH hI hα _ _ (hL.1 N N' L₁ L₁' a2).2 (hL.2 N N' L L' L₁ L₁' a1 a2).1 hF
+    rw [i1, i2] at this
+    exact this
+
+theorem pullIop_of {B : Ker.Base D cc δ} (hL : B.LatAll) : PullIop D B.tor := by
+  letI := D.host.cmStar
+  intro N N' L L₁ L' L₁' γ γ' hN hN' s1 s2 s3 s4 G hG
+  have h1 : star (γ : Matrix (Fin N) (Fin N) D.host.E) * γ = 1 := Matrix.mem_unitaryGroup_iff'.mp γ.2
+  have h2 : (γ : Matrix (Fin N) (Fin N) D.host.E) * star (γ : Matrix (Fin N) (Fin N) D.host.E) = 1 :=
+    Matrix.mem_unitaryGroup_iff.mp γ.2
+  have h1' : star (γ' : Matrix (Fin N') (Fin N') D.host.E) * γ' = 1 := Matrix.mem_unitaryGroup_iff'.mp γ'.2
+  have h2' : (γ' : Matrix (Fin N') (Fin N') D.host.E) * star (γ' : Matrix (Fin N') (Fin N') D.host.E) = 1 :=
+    Matrix.mem_unitaryGroup_iff.mp γ'.2
+  have hc := pull_core hL (phiL _ _ h1 h2 h1' h2') (phiL_isom _ _ h1 h2 h1' h2' _) (al_phi _ _ h1 h2 h1' h2')
+    (⟨hN, hN', s1, s3⟩ : TaylorLogMetric.admitted D N N' L L') (⟨hN, hN', s2, s4⟩ : TaylorLogMetric.admitted D N N' L₁ L₁')
+    (la_img _ _ h1 h2 h1' h2' L L') (la_img _ _ h1 h2 h1' h2' L₁ L₁') G hG
+  rw [pull_eq _ _ h1 h2 h1' h2']
+  exact hc
+
+end Formalism.L2.PairingIndexBounds.Eq
+end
+end
+
+section
+
+noncomputable section
+open NumberField Formalism.BasicNotions Classical
+
+namespace Formalism.L2.PairingIndexBounds.Eq
+
+open Formalism.MainNotions Formalism.L2.Th1.H
+
+theorem iopSelf (D : D7) : IopSelf D := by
+  intro T N N' La' G hG
+  funext z
+  unfold TaylorLogMetric.Iop
+  have hidx : (La'.addSubgroupOf La').index = 1 := by
+    rw [AddSubgroup.addSubgroupOf_self, AddSubgroup.index_top]
+  have hq : ∀ q : La' ⧸ La'.addSubgroupOf La',
+      TaylorLogMetric.al D T ((Quotient.out q : La') : TaylorLogMetric.VC D N N') * TaylorLogMetric.U D T ((Quotient.out q : La') : TaylorLogMetric.VC D N N') G z
+        = G z := fun q => hG.2 _ (Quotient.out q).2 z
+  simp_rw [hq]
+  have h0 : ∀ q : La' ⧸ La'.addSubgroupOf La', q = 0 := by
+    intro q
+    induction q using QuotientAddGroup.induction_on with
+    | H x => exact (QuotientAddGroup.eq_zero_iff _).mpr (by simp)
+  rw [finsum_eq_single (fun _ => G z) (0 : La' ⧸ La'.addSubgroupOf La') (fun q hq => absurd (h0 q) hq), hidx]
+  simp
+
+section Chi
+
+variable {D : D7}
+
+theorem character_factor_change_right (χ : TaylorLogMetric.IdE D → ℂ) (hχ : TaylorLogMetric.IsChi D χ) (hM : DetMul D) {N N' : ℕ} (hN' : Even N')
+    (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)) {L' L'' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E)}
+    (h1 : SD D L') (h2 : SD D L'') :
+    Ker.Base.chiFac χ N N' L L'' = χ (TaylorLogMetric.detId D L' L'') ^ (-((N / 2 : ℕ) : ℤ)) * Ker.Base.chiFac χ N N' L L' := by
+  unfold Ker.Base.chiFac
+  rw [hM N' (StandardLatticesGL3.stdL D N') L' L'' hN' (sd0 N') h1 h2,
+    hχ.1 _ _ (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N' _ _ hN' (sd0 N') h1)
+      (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N' _ _ hN' h1 h2), mul_zpow]
+  ring
+
+theorem character_factor_change_left (χ : TaylorLogMetric.IdE D → ℂ) (hχ : TaylorLogMetric.IsChi D χ) (hM : DetMul D) {N N' : ℕ} (hN : Even N)
+    {L L₁ : Submodule (𝓞 D.host.E) (Fin N → D.host.E)} (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
+    (h1 : SD D L) (h2 : SD D L₁) :
+    Ker.Base.chiFac χ N N' L₁ L' = χ (TaylorLogMetric.detId D L L₁) ^ (((N' / 2 : ℕ) : ℤ)) * Ker.Base.chiFac χ N N' L L' := by
+  unfold Ker.Base.chiFac
+  rw [hM N (StandardLatticesGL3.stdL D N) L L₁ hN (sd0 N) h1 h2,
+    hχ.1 _ _ (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N _ _ hN (sd0 N) h1)
+      (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N _ _ hN h1 h2), mul_zpow]
+  ring
+
+theorem emb_star_unit (τ : D.what₂.Tau) (x : D.host.E) (hx : letI := D.host.cmStar; x * star x = 1) :
+    (letI := D.host.cmStar; TaylorLogMetric.embT D τ (star x)) = (TaylorLogMetric.embT D τ x)⁻¹ := by
+  letI := D.host.cmStar
+  refine eq_inv_of_mul_eq_one_right ?_
+  rw [← map_mul, hx, map_one]
+
+theorem character_factor_unitary_action (χ : TaylorLogMetric.IdE D → ℂ) (hχ : TaylorLogMetric.IsChi D χ) (hS : DetSmul D) (hU : NormOneUnitIdeal D) {N N' : ℕ}
+    (hN : Even N) (hN' : Even N') :
+    letI := D.host.cmStar
+    ∀ (L : Submodule (𝓞 D.host.E) (Fin N → D.host.E)) (L' : Submodule (𝓞 D.host.E) (Fin N' → D.host.E))
+      (γ : Matrix.unitaryGroup (Fin N) D.host.E) (γ' : Matrix.unitaryGroup (Fin N') D.host.E), SD D L → SD D L' →
+    Ker.Base.chiFac χ N N' (SDLat.smulLat (γ : Matrix (Fin N) (Fin N) D.host.E) L)
+        (SDLat.smulLat (γ' : Matrix (Fin N') (Fin N') D.host.E) L') =
+      Ker.Base.chiFac χ N N' L L' *
+        ((∏ τ : D.what₂.Tau, TaylorLogMetric.embT D τ (star (γ : Matrix (Fin N) (Fin N) D.host.E).det)) ^ (N' / 2) *
+          (∏ τ : D.what₂.Tau, TaylorLogMetric.embT D τ (γ' : Matrix (Fin N') (Fin N') D.host.E).det) ^ (N / 2)) := by
+  letI := D.host.cmStar
+  intro L L' γ γ' h1 h2
+  have u1 := Matrix.det_of_mem_unitary γ.2
+  have u2 := Matrix.det_of_mem_unitary γ'.2
+  have c1 : χ (Submodule.span (𝓞 D.host.E) {(γ : Matrix (Fin N) (Fin N) D.host.E).det}) =
+      ∏ τ : D.what₂.Tau, (TaylorLogMetric.embT D τ (γ : Matrix (Fin N) (Fin N) D.host.E).det)⁻¹ := hχ.2 ⟨_, u1⟩
+  have c2 : χ (Submodule.span (𝓞 D.host.E) {(γ' : Matrix (Fin N') (Fin N') D.host.E).det}) =
+      ∏ τ : D.what₂.Tau, (TaylorLogMetric.embT D τ (γ' : Matrix (Fin N') (Fin N') D.host.E).det)⁻¹ := hχ.2 ⟨_, u2⟩
+  have s1 : ∏ τ : D.what₂.Tau, TaylorLogMetric.embT D τ (star (γ : Matrix (Fin N) (Fin N) D.host.E).det) =
+      ∏ τ : D.what₂.Tau, (TaylorLogMetric.embT D τ (γ : Matrix (Fin N) (Fin N) D.host.E).det)⁻¹ :=
+    Finset.prod_congr rfl fun τ _ => emb_star_unit τ _ (Unitary.mul_star_self_of_mem u1)
+  unfold Ker.Base.chiFac
+  rw [hS N (StandardLatticesGL3.stdL D N) L γ hN (sd0 N) h1, hS N' (StandardLatticesGL3.stdL D N') L' γ' hN' (sd0 N') h2,
+    hχ.1 _ _ (hU ⟨_, u1⟩) (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N _ _ hN (sd0 N) h1),
+    hχ.1 _ _ (hU ⟨_, u2⟩) (Formalism.L2.GlobalTheoryTheory.IntegralLatticeDensity.relative_determinant_norm_one D N' _ _ hN' (sd0 N') h2), c1, c2, s1]
+  simp only [Finset.prod_inv_distrib, mul_zpow, zpow_neg, zpow_natCast, inv_pow]
+  ring_nf
+  simp only [inv_inv]
+
+end Chi
+
+section Pull
+
+variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ}
+
+theorem pull_smul (T : TaylorLogMetric.Tor D) {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E)
+    (γ' : Matrix (Fin N') (Fin N') D.host.E) (c : ℂ) (G : TaylorLogMetric.VC D N N' → ℂ) :
+    TaylorLogMetric.pull D T γ γ' (c • G) = c • TaylorLogMetric.pull D T γ γ' G := rfl
+
+theorem pull_comp {N N' : ℕ} (γ : Matrix (Fin N) (Fin N) D.host.E) (γ' : Matrix (Fin N') (Fin N') D.host.E)
+    (G : TaylorLogMetric.VC D N N' → ℂ) :
+    TaylorLogMetric.pull D (TaylorLogMetric.tor0 D cc δ) γ γ' G =
+      TaylorLogMetric.pull D (TaylorLogMetric.tor0 D cc δ) γ 1 (TaylorLogMetric.pull D (TaylorLogMetric.tor0 D cc δ) 1 γ' G) := by
+  funext z
+  simp only [TaylorLogMetric.pull, TaylorLogMetric.tor0]
+  congr 1
+  funext τ
+  simp [Matrix.map_one, Matrix.mul_assoc]
+  rfl
+
+end Pull
+
+end Formalism.L2.PairingIndexBounds.Eq
+end
+end

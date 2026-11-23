@@ -1,7 +1,7 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.Statement
-public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.GroundTheory
+public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.Bundle003
 public import Formalism.GaussValuationBounds.GaussValueContraction.PhiIterXProof
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

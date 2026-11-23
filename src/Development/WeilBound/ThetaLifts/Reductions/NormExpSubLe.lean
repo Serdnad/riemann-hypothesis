@@ -1,8 +1,7 @@
 module
 
 import CompanionTheory.ThickeningEstimates.LieGroupReduction.NormExpSubLe
-public import Development.WeilBound.ThetaLifts.Reductions.IsoOfIntegral
-public import Development.WeilBound.ThetaLifts.Reductions.HasDerivAtSchwartzToL2
+public import Development.WeilBound.ThetaLifts.Reductions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

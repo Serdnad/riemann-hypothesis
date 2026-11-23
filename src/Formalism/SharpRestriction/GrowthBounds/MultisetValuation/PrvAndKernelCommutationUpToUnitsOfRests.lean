@@ -1,20 +1,20 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.AofUpdate
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.CommonEigenvectorThird
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.EbBrJet
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle020
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle019
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.FirstTheoremPlaceBound
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.FormValuationGeNegDegree
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle022
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HeckeConditionOfAdm
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.LiftBoundOfIntegrality
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.PrimeCastNeZero
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.RelativePresentationOfD7
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.RestEntOf
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle014
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle009
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle004
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle017
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.RestrictedHeckeIntegralOfEdges
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulPsiGUp
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.SmulUpdate
 import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.TheoremOfAlternateForm
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.TsumRatTail
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.AuxUOfFirstTheoremPlaceBound
 
 @[expose] public section
 

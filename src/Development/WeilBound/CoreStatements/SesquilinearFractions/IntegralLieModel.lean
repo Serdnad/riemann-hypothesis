@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.Models
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.GLieInt
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle012
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

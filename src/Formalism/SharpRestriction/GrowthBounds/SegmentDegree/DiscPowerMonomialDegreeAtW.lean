@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.AllowedLettersOfLateRows
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscPowerTimesMonomial
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle008
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscPowerMonomialMemSupported
 import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DplusLeBeS
-import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.PsiCutSupported
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.SegmentProductDegreeDetermined
+import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle013
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

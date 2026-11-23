@@ -2,10 +2,8 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsOpenKerFinIdele
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsContinuousExtensionAdicCompletion
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsOpenConnectedComponentOfOneInf
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormEmbeddingIntegerLeOne
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PlaceEqOfContEmbCompEq
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle048
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle203
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -200,7 +198,7 @@ theorem lPow_of_mem_infConn (ι : Qbar l ≃+* ℂ) (n : (E →+* ℂ) → ℤ) 
 
 theorem IsGlobalArtin.exists_isLAdicOf {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) (ι : Qbar l ≃+* ℂ)
     {χ : HChar E} {n : (E →+* ℂ) → ℤ} (h : IsAlgPos χ n) :
-    ∃ r : G E Ω →* (Qbar l)ˣ, Continuous r ∧ IsLAdicOf art ι χ n r := by
+    ∃ r : _root_.Formalism.ConjugateSelfDual.G E Ω →* (Qbar l)ˣ, Continuous r ∧ IsLAdicOf art ι χ n r := by
   obtain ⟨f, hf, hfe⟩ := exists_infPow_hom E n
   obtain ⟨g, hg, hge⟩ := exists_lPow_hom E l ι n
   let θ : Ideles E →* ℂˣ := χ.1 * f⁻¹

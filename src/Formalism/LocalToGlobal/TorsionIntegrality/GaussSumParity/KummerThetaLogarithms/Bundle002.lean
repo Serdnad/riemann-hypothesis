@@ -1,0 +1,336 @@
+module
+
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle003
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.BiextensionHypothesesOfLevelOne
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.FirstMomentIdempotentLaw
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SubstFirstCoboundaryThree
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FinalS
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.CoeffSubstLgFOfDegreeOne
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EChain
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.LogarithmEquivalence
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.KernelFromKOneK
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle004
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.Bundle004
+public import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EisensteinRecursion
+public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.Bundle004
+import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.MulStableIntegral
+public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.ExistsUnitFactorizationBounded
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Lemma
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+open scoped BigOperators
+
+namespace Formalism.L2.Th1.D
+
+open Formalism.DworkPowerSeriesWeights (Integral mvExp torus BHyp Unram entLog oneLog thetaZ thetaOne frameJet frameJetOne
+  nablaO)
+open Formalism.InvariantFactorPaths.G7 (lgF at1 Simeq DivAB d1 swap2 UnrOK IsLawOfLog BetaHyp OmOK lamF thetaLog sSub zLin)
+
+namespace CohomologyFunctoriality₂
+
+theorem norm_iter {K0 : Type} [NormedField K0] [IsUltrametricDist K0] [CharZero K0] {l : ℕ}
+    {σ : K0 →+* K0} (hU : UnrOK K0 l σ) {c : K0} (hc : ‖c‖ ≤ 1) (n : ℕ) : ‖σ^[n] c‖ ≤ 1 := by
+  induction n with
+  | zero => simpa using hc
+  | succ n ih =>
+    rw [Function.iterate_succ_apply']
+    exact (frobSq K0 l σ hU).2 _ ih
+
+theorem frob_step {K0 K : Type} [NormedField K0] [IsUltrametricDist K0] [CharZero K0]
+    [NormedField K] {l d : ℕ} [NeZero d] {σ : K0 →+* K0} (j : K0 →+* K) (hU : UnrOK K0 l σ)
+    (hj : ∀ a, ‖j a‖ = ‖a‖) {c : K0} (hc : ‖c‖ ≤ 1) (hfix : σ^[d] c = c) (s : ZMod d) :
+    ‖j (σ^[(s + 1).val] c) - j (σ^[s.val] c) ^ l‖ ≤ (l : ℝ)⁻¹ := by
+  have h := TranslateJetMomentLawAnyIdempotentLevel.iter_sub_one σ hfix (s + 1)
+  rw [add_sub_cancel_right] at h
+  rw [← h, ← map_pow, ← map_sub, hj]
+  exact hU.2.2.2.2 _ (norm_iter hU hc _)
+
+end CohomologyFunctoriality₂
+
+theorem omega_integral_criterion : OmOKOf := by
+  intro K0 K _ _ _ _ l ν _ σ j hU hj om oms hO hT
+  refine ⟨fun r s => ?_, fun r s => ?_, fun a b hab => ?_⟩
+  · unfold conjJ
+    rw [hj, hj]
+    exact ⟨CohomologyFunctoriality₂.norm_iter hU (hO.1 r).1 _, CohomologyFunctoriality₂.norm_iter hU (hO.1 r).2 _⟩
+  · unfold conjJ
+    exact ⟨CohomologyFunctoriality₂.frob_step j hU hj (hO.1 r).1 (hO.2 r).1 s,
+      CohomologyFunctoriality₂.frob_step j hU hj (hO.1 r).2 (hO.2 r).2 s⟩
+  · unfold conjJ
+    have hE : Even (2 * ν) := even_two_mul ν
+    have key : ∑ r, σ^[a.val] (oms r) * σ^[b.val] (om r) = if a = b then 1 else 0 := by
+      by_cases ha : a.val % 2 = 0
+      · have hb : b.val % 2 = 0 := by omega
+        have h := TranslateJetMomentLawAnyIdempotentLevel.dual2 hE σ hO.2 hT b a
+        rw [Fintype.sum_prod_type, Fintype.sum_bool] at h
+        simp only [mXY, TranslateJetMomentLawAnyIdempotentLevel.pXY, ha, hb, if_true] at h
+        simp only [Bool.true_eq_false, if_false, mul_zero, Finset.sum_const_zero, zero_add] at h
+        have e : (if a = b then (1 : K0) else 0) = if b = a then 1 else 0 := by
+          by_cases hab' : a = b
+          · rw [if_pos hab', if_pos hab'.symm]
+          · rw [if_neg hab', if_neg (fun h => hab' h.symm)]
+        rw [e, ← h]
+        exact Finset.sum_congr rfl fun r _ => mul_comm _ _
+      · have hb : ¬ b.val % 2 = 0 := by omega
+        have h := TranslateJetMomentLawAnyIdempotentLevel.dual2 hE σ hO.2 hT a b
+        rw [Fintype.sum_prod_type, Fintype.sum_bool] at h
+        simp only [mXY, TranslateJetMomentLawAnyIdempotentLevel.pXY, ha, hb, if_false] at h
+        simp only [Bool.false_eq_true, if_false, mul_zero, Finset.sum_const_zero, add_zero,
+          if_true] at h
+        exact h
+    have h2 := congrArg j key
+
+    rw [map_sum] at h2
+    simp only [map_mul] at h2
+    rw [h2]
+    split_ifs <;> simp
+
+theorem theta_integer_is_s_substitution : ThetaInZIsSSub := by
+  intro K0 K _ _ l ν r0 r1 _ σ j om oms Tht
+  unfold thetaInZ
+  congr 1
+  funext x
+  unfold xOfZ Formalism.InvariantFactorPaths.G7.sSub Formalism.InvariantFactorPaths.G7.zLin conjJ
+  congr 1
+  by_cases h : x.1 = false
+  · simp only [h, if_true]
+  · simp only [h]
+    refine Finset.sum_congr rfl fun s _ => ?_
+    rcases Nat.mod_two_eq_zero_or_one s.val with h2 | h2 <;> simp [h2]
+
+namespace CohomologyFunctoriality₂
+
+open Formalism.InvariantFactorPaths.G7 Formalism.InvariantFactorPaths.G7.ScaledSeriesSubstitution
+
+theorem log_scale {K : Type} [Field K] (p : ℕ) (ϖ : K) (μ : PowerSeries K)
+    (h0 : PowerSeries.constantCoeff μ = 0)
+    (h1 : (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X) :
+    (PowerSeries.subst (PowerSeries.C ϖ * μ) (lgF K p) : PowerSeries K) =
+      PowerSeries.C ϖ * PowerSeries.X := by
+  have e1 := LogarithmEquivalence.subst_lgF_scale p ϖ
+  have hμ : PowerSeries.HasSubst μ := PowerSeries.HasSubst.of_constantCoeff_zero' h0
+  have hX : PowerSeries.HasSubst (PowerSeries.C ϖ * PowerSeries.X : PowerSeries K) :=
+    PowerSeries.HasSubst.of_constantCoeff_zero' (by simp)
+  have e2 := congrArg (fun f => (PowerSeries.subst μ f : PowerSeries K)) e1
+  rw [PowerSeries.subst_comp_subst_apply hX hμ] at e2
+  rw [← PowerSeries.coe_substAlgHom hμ, map_mul, map_mul, PowerSeries.coe_substAlgHom hμ, h1,
+    PowerSeries.subst_X hμ] at e2
+  have e3 : (PowerSeries.substAlgHom hμ) (PowerSeries.C ϖ : PowerSeries K) = PowerSeries.C ϖ := by
+    have : (PowerSeries.C ϖ : PowerSeries K) = algebraMap K _ ϖ := rfl
+    rw [this, AlgHom.commutes]
+  rw [PowerSeries.coe_substAlgHom hμ] at e3
+  rw [e3] at e2
+  exact e2
+
+theorem log_coord {K : Type} [Field K] (p ν r0 r1 : ℕ) [NeZero ν]
+    (om oms : Fin ν → ZMod (2 * ν) → K) (ϖ : K) (μ : PowerSeries K) (x : Bool × EV ν r0 r1)
+    (hϖ : ϖ ≠ 0) (hμ0 : PowerSeries.constantCoeff μ = 0)
+    (hμ : (PowerSeries.subst μ (lamF p ϖ) : PowerSeries K) = PowerSeries.X) :
+    PowerSeries.subst (MvPowerSeries.subst
+        (fun y => MvPowerSeries.C ϖ⁻¹ * (MvPowerSeries.X y : MvPowerSeries (ZV ν r0 r1) K))
+        (MvPowerSeries.C ϖ * sSub om oms μ x)) (lgF K p) = zLin om oms x := by
+  have hb := hasSubst_scale (K := K) (ι := ZV ν r0 r1) ϖ⁻¹
+  have hz : PowerSeries.HasSubst (zLin om oms x : MvPowerSeries (ZV ν r0 r1) K) :=
+    PowerSeries.HasSubst.of_constantCoeff_zero (constantCoeff_zLin om oms x)
+  have hw : PowerSeries.HasSubst
+      (MvPowerSeries.C ϖ⁻¹ * zLin om oms x : MvPowerSeries (ZV ν r0 r1) K) :=
+    PowerSeries.HasSubst.of_constantCoeff_zero (by rw [map_mul, constantCoeff_zLin, mul_zero])
+  have hm : PowerSeries.HasSubst (PowerSeries.C ϖ * μ : PowerSeries K) :=
+    PowerSeries.HasSubst.of_constantCoeff_zero' (by rw [map_mul, hμ0, mul_zero])
+  have e1 : MvPowerSeries.subst
+      (fun y => MvPowerSeries.C ϖ⁻¹ * (MvPowerSeries.X y : MvPowerSeries (ZV ν r0 r1) K))
+      (MvPowerSeries.C ϖ * sSub om oms μ x) =
+      PowerSeries.subst (MvPowerSeries.C ϖ⁻¹ * zLin om oms x) (PowerSeries.C ϖ * μ) := by
+    rw [subst_C_mul hb, ps_subst_C_mul hw]
+    unfold sSub
+    rw [FormalGroupLaws.subst_subst hb hz, subst_scale_zLin]
+  have e2 := congrArg (fun f => (PowerSeries.subst (MvPowerSeries.C ϖ⁻¹ * zLin om oms x) f :
+    MvPowerSeries (ZV ν r0 r1) K)) (log_scale p ϖ μ hμ0 hμ)
+  rw [PowerSeries.subst_comp_subst_apply hm hw, ps_subst_C_mul hw ϖ PowerSeries.X,
+    PowerSeries.subst_X hw,
+    ← mul_assoc, ← map_mul, mul_inv_cancel₀ hϖ, map_one, one_mul] at e2
+  rw [e1]
+  exact e2
+
+end CohomologyFunctoriality₂
+
+theorem theta_integer_is_theta_log : ThetaInZIsThetaLog := by
+  intro K0 K _ _ l ν r0 r1 _ σ j om oms ϖ μ hl hϖ hμ0 hμ Tht
+  rw [theta_integer_is_s_substitution, Formalism.InvariantFactorPaths.G7.Top.thetaLogIsSubst K ν r0 r1 _ _ ϖ μ Tht hμ0]
+  congr 1
+  funext x
+  have hb := Formalism.InvariantFactorPaths.G7.ScaledSeriesSubstitution.hasSubst_scale (K := K) (ι := Formalism.InvariantFactorPaths.G7.ZV ν r0 r1) ϖ⁻¹
+  have hcc : MvPowerSeries.constantCoeff (MvPowerSeries.subst
+      (fun y => MvPowerSeries.C ϖ⁻¹ *
+        (MvPowerSeries.X y : MvPowerSeries (Formalism.InvariantFactorPaths.G7.ZV ν r0 r1) K))
+      (MvPowerSeries.C ϖ * sSub (conjJ j σ om) (conjJ j σ oms) μ x)) = 0 := by
+    refine MvPowerSeries.constantCoeff_subst_eq_zero hb (fun i => by simp) ?_
+    have h : MvPowerSeries.constantCoeff (sSub (conjJ j σ om) (conjJ j σ oms) μ x) = 0 :=
+      PowerSeries.constantCoeff_subst_eq_zero
+        (Formalism.InvariantFactorPaths.G7.ScaledSeriesSubstitution.constantCoeff_zLin _ _ x) μ hμ0
+    rw [map_mul, h, mul_zero]
+  have h := Pair.exp_log expSpec hl hcc
+  rw [CohomologyFunctoriality₂.log_coord l ν r0 r1 _ _ ϖ μ x hϖ hμ0 hμ] at h
+  exact h
+
+namespace CohomologyFunctoriality₂
+
+end CohomologyFunctoriality₂
+
+theorem kernel_of_f : KernelOfF := by
+  intro p _ K0 _ _ _ _ σ hU hζ F hF be hF1 hF2 K _ _ _ j ν r0 r1 _ hj hϖ om oms hO hT U0 Φ hU0 hΦ0
+    hΦ TT colN hts hp I n
+  obtain ⟨ϖ, hϖ⟩ := hϖ
+  have hnp : ‖(p : K)‖ = (p : ℝ)⁻¹ := by
+    rw [← map_natCast j, hj]
+    exact hU.2.2.1
+  have hpK : (p : K) ≠ 0 := by exact_mod_cast hU.1.ne_zero
+  have hϖ0 : ϖ ≠ 0 := by
+    rintro rfl
+    apply hpK
+    rw [← hϖ, zero_pow]
+    have : 2 ^ 2 ≤ p ^ 2 := Nat.pow_le_pow_left hU.2.1.le 2
+    omega
+  obtain ⟨-, -, μ, hμ0, -, hμ, -, -⟩ := Formalism.InvariantFactorPaths.G7.Top.logRescale K p ϖ hU.1 hnp hϖ
+  rw [theta_integer_is_theta_log K0 K p ν r0 r1 σ j om oms ϖ μ hU.1.two_le hϖ0 hμ0 hμ]
+  exact Formalism.InvariantFactorPaths.G7.Top.kernel_from_k_one_k p K0 σ hU hζ F hF be (betaHypOfF K0 p σ hU F be hF1 hF2) K j
+    ν r0 r1 hj _ _ ϖ μ U0 Φ hϖ (omega_integral_criterion K0 K p ν σ j hU hj om oms hO hT) hμ0 hμ hU0 hΦ0 hΦ
+    TT colN hts hp I n
+
+end Formalism.L2.Th1.D
+end
+end
+
+section
+
+noncomputable section
+open scoped BigOperators
+
+namespace Formalism.L2.Th1.D
+
+open Formalism.L2.Th1.CM (MaximalUnramifiedExtension omegaK)
+
+namespace HomotheticLatticeIntegrality
+
+lemma alpha_sq (dK : ℕ) :
+    (((-1 : ℤ) : ℂ) + ((2 : ℤ) : ℂ) * omegaK dK) ^ 2 = -(dK : ℂ) := by
+  have h : (((Real.sqrt dK : ℝ) : ℂ)) ^ 2 = (dK : ℂ) := by
+    rw [← Complex.ofReal_pow, Real.sq_sqrt (Nat.cast_nonneg _)]; simp
+  have e : (((-1 : ℤ) : ℂ) + ((2 : ℤ) : ℂ) * omegaK dK) = Complex.I * ((Real.sqrt dK : ℝ) : ℂ) := by
+    unfold omegaK; push_cast; ring
+  rw [e, mul_pow, h, Complex.I_sq]; ring
+
+end HomotheticLatticeIntegrality
+
+theorem homothetic_lattice_integral_of : HomotheticLatticeIntegralS2 := by
+  intro cm4 dK L hsq h4 hcm l _ hl5 hld hin ι g2 g3 hgm
+  obtain ⟨k2, k3, n2, n3, nd, lam, hlam, e2, e3⟩ := hgm
+  have hlp : l.Prime := Fact.out
+
+  have hc0 : ι.symm lam ≠ 0 := by
+    intro h; apply hlam
+    have := congrArg ι h
+    simpa using this
+  have hc : (ι.symm lam)⁻¹ ≠ 0 := inv_ne_zero hc0
+  obtain ⟨-, -, -, -, -, -, hs2, -, -, hg2, hg3⟩ := Formalism.L2.Th1.F.homogeneity L _ hc
+  have es : ι (Formalism.L2.Th1.F.s2 (Formalism.L2.Th1.F.scalePair L _ hc)) = lam ^ 2 * ι (Formalism.L2.Th1.F.s2 L) := by
+    rw [hs2]; simp
+  refine ⟨(ι.symm lam)⁻¹, hc, ?_, ?_, ?_⟩
+  · rw [hg2, e2]; simp
+  · rw [hg3, e3]; simp
+  rw [es]
+
+  have hd0 : 0 < dK := by omega
+  obtain ⟨S, hS, -, -, hsum⟩ := Formalism.L2.Th1.F.hasCMByIsogeny dK L hcm (-1) 2 (by simp) hd0
+  obtain ⟨hst, hns⟩ := Formalism.L2.Th1.F.hasCMByStable dK L hcm (-1) 2
+  rw [HomotheticLatticeIntegrality.alpha_sq, hns] at hsum
+  have hsum' : -(2 * (dK : ℂ)) * Formalism.L2.Th1.F.s2 L = ∑ P ∈ S, L.weierstrassP P := by
+    rw [← hsum]; push_cast; ring
+
+  have hP : ∀ P ∈ S, lam ^ 2 * ι (L.weierstrassP P) ∈ MaximalUnramifiedExtension l ∧ ‖lam ^ 2 * ι (L.weierstrassP P)‖ ≤ 1 := by
+    intro P hPS
+    obtain ⟨h1, h2⟩ := hS.1 P hPS
+    have h3 : (dK : ℂ) * P ∈ L.lattice := by
+      have h4 := hst _ h1
+      have h5 : (dK : ℂ) * P
+          = -((((-1 : ℤ) : ℂ) + ((2 : ℤ) : ℂ) * omegaK dK)
+              * ((((-1 : ℤ) : ℂ) + ((2 : ℤ) : ℂ) * omegaK dK) * P)) := by
+        rw [← mul_assoc, ← sq, HomotheticLatticeIntegrality.alpha_sq]; ring
+      rw [h5]; exact neg_mem h4
+    obtain ⟨a, -, b, -⟩ := cm4 dK L hsq h4 hcm l hl5 hld ι lam hlam (e2 ▸ k2) (e3 ▸ k3) (e2 ▸ n2)
+      (e3 ▸ n3) (by rw [← e2, ← e3]; exact nd) P dK hd0 hld h3 h2
+    exact ⟨a, b⟩
+  have hn : ¬ l ∣ 2 * dK := by
+    intro h
+    rcases (Nat.Prime.dvd_mul hlp).1 h with h | h
+    · have := Nat.le_of_dvd (by norm_num) h; omega
+    · exact hld h
+  have hN : ‖((2 * dK : ℕ) : ℂ_[l])‖ = 1 :=
+    Formalism.DworkPowerSeriesWeights.norm_natCast_eq_one_of_not_dvd hlp (UnramifiedCompletion.normL_lt_one l) hn
+  have hN0 : ((2 * dK : ℕ) : ℂ_[l]) ≠ 0 := by
+    intro h; rw [h, norm_zero] at hN; exact zero_ne_one hN
+  have key : lam ^ 2 * ι (Formalism.L2.Th1.F.s2 L)
+      = -(((2 * dK : ℕ) : ℂ_[l])⁻¹ * ∑ P ∈ S, lam ^ 2 * ι (L.weierstrassP P)) := by
+    have h := congrArg ι hsum'
+
+    rw [map_mul, map_neg, map_mul, map_sum, map_ofNat, map_natCast] at h
+    rw [← Finset.mul_sum, ← h]
+    push_cast
+    push_cast at hN0
+    have hd : (dK : ℂ_[l]) ≠ 0 := right_ne_zero_of_mul hN0
+    field_simp
+  rw [key]
+  constructor
+  · exact neg_mem (mul_mem (inv_mem (natCast_mem _ _)) (sum_mem fun P hPS => (hP P hPS).1))
+  · rw [norm_neg, norm_mul, norm_inv, hN, inv_one, one_mul]
+    exact IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one fun P hPS => (hP P hPS).2
+
+end Formalism.L2.Th1.D
+end
+end

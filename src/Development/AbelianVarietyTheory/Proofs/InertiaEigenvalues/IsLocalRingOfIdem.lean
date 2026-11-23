@@ -1,9 +1,9 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsUnitBasePointAdjoinTwistedSigma
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnitLemmaGroup
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle002
 public import Mathlib.RingTheory.Idempotents
-public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.EqZeroOfNotPrimary
+public import Development.AbelianVarietyTheory.Proofs.CharacterTheory.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

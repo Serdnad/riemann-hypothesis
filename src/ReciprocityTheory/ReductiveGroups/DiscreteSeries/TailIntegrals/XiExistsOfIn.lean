@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.InductiveHeisenbergInputs
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,11 +48,10 @@ public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.OsO
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.OscillatoryBound
 import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.PolynomialGrowthIntegrals
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.ProdIicCastLE
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.TLeftH
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.TailFinOf
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.XiExists2
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.XiIntH
-public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.XiIntStepOf
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle010
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle004
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle006
+public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.Bundle011
 
 @[expose] public section
 

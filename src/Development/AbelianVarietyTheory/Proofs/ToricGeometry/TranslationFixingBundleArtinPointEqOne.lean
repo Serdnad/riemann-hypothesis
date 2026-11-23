@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.DifferentiableOnFamPtAffine
 import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsConstOfCover
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsLinearOfLogDeriv
-import Development.AbelianVarietyTheory.Proofs.ToricGeometry.ExistsLinearOfMulPeriod
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle004
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.TopLePreimageOfValAtNeZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

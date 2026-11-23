@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.HeckeFinAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.Bundle001
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.AvgTens
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsLCProd
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle003
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.LocalFields.LocalFourierHaar
 import Mathlib.Algebra.Order.Floor.Extended

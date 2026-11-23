@@ -1,13 +1,12 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.TopPin
-public import Formalism.LocalToGlobal.KernelLattices.KerMtPin
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
 public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.StepIn
 public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.ToLEInvApply
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NatCastMemOfPlace
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MemMoveLevUloc
-public import Formalism.LocalToGlobal.KernelLattices.KerChTie
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +52,7 @@ noncomputable section
 
 namespace GlobalTheory.TwU
 
-open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.UG Formalism.L2.Col Formalism.L2.PairingIndexBounds.F Formalism.MainNotions.G.KAat
+open NumberField IsDedekindDomain Matrix Formalism.BasicNotions Formalism.UG _root_.Formalism.L2.Col Formalism.L2.PairingIndexBounds.F Formalism.MainNotions.G.KAat
 open scoped TensorProduct
 
 section Cong

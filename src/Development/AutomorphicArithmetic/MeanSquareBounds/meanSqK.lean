@@ -2,12 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.MeanSquareBounds.PrimeSetTwoBounds
 public import Development.AutomorphicArithmetic.MeanSquareBounds.MeanSqAbs
-public import Development.AutomorphicArithmetic.MeanSquareBounds.RRLe
-public import Development.AutomorphicArithmetic.MeanSquareBounds.SPsqLe
-public import Development.AutomorphicArithmetic.MeanSquareBounds.SumCNLe
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle004
+public import Development.AutomorphicArithmetic.MeanSquareBounds.Bundle001
 import Development.AutomorphicArithmetic.MeanSquareBounds.SumMinLeDiv
 public import Development.AutomorphicArithmetic.MeanSquareBounds.twistK
-import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.MSqMain
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.JacobiCharacterSums.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

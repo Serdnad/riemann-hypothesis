@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.HermitianLattices.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 import Formalism.HermitianLattices.HermitianLatticesProofs.IsomAct
 import Mathlib.Algebra.Order.Floor.Extended

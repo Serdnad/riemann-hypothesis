@@ -47,7 +47,7 @@ public import Mathlib.Topology.Algebra.ClopenNhdofOne
 import Mathlib.Topology.Compactness.Paracompact
 import Mathlib.Topology.Separation.Connected
 import Mathlib.Topology.Sheaves.Init
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.ProfDefs
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle004
 
 @[expose] public section
 

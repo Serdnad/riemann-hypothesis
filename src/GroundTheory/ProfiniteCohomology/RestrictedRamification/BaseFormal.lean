@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.Natural
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.Induced
 import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
-public import GroundTheory.ProfiniteCohomology.CupProducts.Graded
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 import GroundTheory.ProfiniteCohomology.PoincareDuality.Torsion
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

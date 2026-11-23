@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.Columns.AtTRank
-public import Formalism.LocalToGlobal.GlobalTheory.HLatOps
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle001
 public import Formalism.HarderNarasimhan.ShiftInvariance
 public import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 import Formalism.SizeWindowBrackets.ChainSlopeWindows.TruncatedLatticeHolds

@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.EigenfunctionFiniteCoefficients
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemUJsetOfKset
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormPosOfIsUnit
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ProdLeadMinorDecay
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CompactHaarRightInvariantInst

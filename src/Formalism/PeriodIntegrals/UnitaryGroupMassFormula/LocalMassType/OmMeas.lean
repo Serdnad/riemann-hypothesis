@@ -1,10 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.RightKDef
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Development
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.StepW
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle002
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassOrder.IsTopRingTens
-public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.ColumnAdditionFixesTranspose
+public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalMassType.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

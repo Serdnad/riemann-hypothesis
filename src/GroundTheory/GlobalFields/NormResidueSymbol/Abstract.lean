@@ -1,7 +1,7 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.InfiniteProjInfiniteEmbeddingOfNe
-public import GroundTheory.GlobalFields.Adele.IdeleBasis
+public import GroundTheory.GlobalFields.Adele.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

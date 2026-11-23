@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.BesselNonvanishingReduction
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.MatrixOfBesselTwoSidedAction
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OpnFrobCompare
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle262
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
 import Mathlib.Algebra.Order.Floor.Extended

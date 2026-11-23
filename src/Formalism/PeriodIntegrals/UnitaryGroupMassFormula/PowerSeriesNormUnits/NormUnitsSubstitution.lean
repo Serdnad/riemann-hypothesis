@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PowerSeriesNormUnits.Development
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsTerBis
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle060
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Mathlib.RingTheory.PowerSeries.Exp
 import Mathlib.Algebra.Order.Floor.Extended

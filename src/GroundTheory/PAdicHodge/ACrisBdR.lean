@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.PAdicHodge.FactorizationFactorialLe
-public import GroundTheory.PAdicHodge.BdRLattice
-public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.PrecompleteOfSurjective
+public import GroundTheory.PAdicHodge.Bundle006
+public import GroundTheory.PowerSubgroups.CountableNeighbourhoods.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

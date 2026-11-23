@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalRingCardinality.DataNChTie
-public import Formalism.LocalToGlobal.NormalizedHeckeFactors.RingSpecSidedEmbeddingFixedField
-public import Formalism.LocalToGlobal.UnitaryNorms.CharGal
+public import Formalism.LocalRingCardinality.Bundle004
+public import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle003
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntValuationEqOfMem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnramifiedHeckeCharIdeleValueUniformiser
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle131
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

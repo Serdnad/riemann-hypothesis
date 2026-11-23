@@ -44,10 +44,10 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AutomorphicSpectrum.Proofs.GlobalProofs.ContinuousIdeleCircle
+import Development.AutomorphicSpectrum.Proofs.GlobalProofs.Bundle041
 import GroundTheory.AutomorphicForms.GL2.FiniteIdeleDecomp
-public import GroundTheory.AutomorphicForms.GL2.GodementSectionFactor
-import GroundTheory.LocalFields.FilteredSurj
+public import GroundTheory.AutomorphicForms.GL2.Bundle003
+import GroundTheory.LocalFields.Bundle001
 
 @[expose] public section
 

@@ -3,7 +3,7 @@ module
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupCartier
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupChartPreimages
 public import Development.ResolutionOfSingularities.Foundations.Blowup.AffineBlowupUniversalLift
-import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupBasic
+import Development.ResolutionOfSingularities.Foundations.Blowup.Bundle001
 public import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupOpenCover
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

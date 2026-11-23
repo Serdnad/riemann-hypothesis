@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatFrame
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FormalGroupLawLogarithm
-public import Development.AbelianVarietyTheory.Definitions.Jets.TwoPlaces
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ProdDetMemHaO
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle016
 public import Formalism.LocalToGlobal.ProjectiveLattices.PlaceBelow
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompSplitPfB
-public import Formalism.LocalToGlobal.ProjectiveLattices.TowerOfAt
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle024
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle021
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsFormalBiextMap
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.PderivSecondEvFirstPointEqZero
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ChartLocalDepthLeOfValuedExtensionBound
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyClosedValuedExtensionOfCDVR
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle099
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle096
 public import Formalism.LocalToGlobal.ProjectiveLattices.SatLeaves
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

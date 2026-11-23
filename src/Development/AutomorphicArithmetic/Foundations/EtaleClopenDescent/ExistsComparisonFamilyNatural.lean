@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GermCompatId
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle045
 public import Development.AutomorphicArithmetic.GenericGermInjectivity.CoverGeneric
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SortSign
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OmegaPullOmegaTraceOfSecTraceOne
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CechHomologyEquivFamStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.GenericGermDifferentialFormRestrictAffineOpenStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RiemannFormHermitianLattice
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle051
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle279
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle053
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.FlatHermRootLineDegree
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle052
 
 @[expose] public section
 

@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.FourierWhittaker.Series
-public import GroundTheory.AutomorphicForms.CompactAbelianCharacters
-import GroundTheory.AutomorphicForms.ReductionMeasure
+public import GroundTheory.AutomorphicForms.Bundle005
+import GroundTheory.AutomorphicForms.Bundle012
 import GroundTheory.GlobalFields.Adele.Topology
 import GroundTheory.GlobalFields.TateThesis.AdelicCharDual
 import Mathlib.Algebra.Order.Floor.Extended

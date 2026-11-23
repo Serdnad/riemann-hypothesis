@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsLevelIffAut
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle022
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.AutSimilitudeAndMul
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DifferentiableOnCoordOfLinearIndependent
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SndFDerivAddSndFDerivIEqZeroOfHarmonicAtLine
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ThetaCharLevelOneAndHolomorphicParameter
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle026
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

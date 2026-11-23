@@ -1,0 +1,269 @@
+module
+
+public import GroundTheory.AutomorphicForms.MultiplicityOne.OpenSubgroupRep
+public import GroundTheory.AutomorphicForms.DiscreteSpectrumAbstract
+public import GroundTheory.AutomorphicForms.Bundle011
+public import Mathlib.Analysis.CStarAlgebra.Classes
+public import Mathlib.Analysis.InnerProductSpace.Basic
+public import Mathlib.RingTheory.TensorProduct.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PiTensorProduct
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Archimedean
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
+import GroundTheory.AutomorphicForms.QuotientMeasure
+import GroundTheory.AutomorphicForms.Bundle003
+public import Mathlib.MeasureTheory.Integral.Prod
+import GroundTheory.AutomorphicForms.WhittakerRelevance
+
+@[expose] public section
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+theorem UpperTheory.ConvolutionTheory.Tf.adjInt :
+    ∀ (G H : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] (π : UnitaryRep G H) (μ : Measure G) [μ.IsHaarMeasure] [μ.IsInvInvariant]
+      (f g : CompactlySupportedContinuousMap G ℂ), (∀ x, g x = conj (f x⁻¹)) →
+      ContinuousLinearMap.adjoint (π.integrated μ (UnitaryRep.ccToL1 μ f)) = π.integrated μ (UnitaryRep.ccToL1 μ g) ∧
+      ‖π.integrated μ (UnitaryRep.ccToL1 μ f)‖ ≤ ∫ x, ‖f x‖ ∂μ ∧ ∫ x, ‖g x‖ ∂μ = ∫ x, ‖f x‖ ∂μ := by
+  intro G H _ _ _ _ _ _ _ _ _ _ _ π μ _ _ f g hg
+  have hf1 : ((UnitaryRep.ccToL1 μ f : G →₁[μ] ℂ) : G → ℂ) =ᵐ[μ] f := by
+    unfold UnitaryRep.ccToL1
+    exact MemLp.coeFn_toLp _
+  have hg1 : ((UnitaryRep.ccToL1 μ g : G →₁[μ] ℂ) : G → ℂ) =ᵐ[μ] g := by
+    unfold UnitaryRep.ccToL1
+    exact MemLp.coeFn_toLp _
+  refine ⟨?_, ?_, ?_⟩
+  · rw [UnitaryRep.adjoint_integrated]
+    congr 1
+    apply Lp.ext
+    have h2 : (fun x => (UnitaryRep.ccToL1 μ f : G →₁[μ] ℂ) x⁻¹) =ᵐ[μ] fun x => f x⁻¹ :=
+      (Measure.measurePreserving_inv μ).quasiMeasurePreserving.ae_eq_comp hf1
+    filter_upwards [UnitaryRep.coeFn_involution μ (UnitaryRep.ccToL1 μ f), h2, hg1] with x h1 h2 h3
+    rw [h1, h2, h3, hg]
+  · refine (π.norm_integrated_le μ _).trans (le_of_eq ?_)
+    rw [L1.norm_eq_integral_norm]
+    exact integral_congr_ae (hf1.mono fun x hx => by simp only [hx])
+  · rw [← integral_inv_eq_self (fun x => ‖f x‖) μ]
+    congr 1
+    ext x
+    rw [hg, RCLike.norm_conj]
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+theorem UpperTheory.ConvolutionTheory.Tf.homConv :
+    ∀ (G G₂ : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G] [T2Space G] [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] [Group G₂] [TopologicalSpace G₂] [IsTopologicalGroup G₂] [LocallyCompactSpace G₂] [T2Space G₂] [SecondCountableTopology G₂] [MeasurableSpace G₂] [BorelSpace G₂] (p : G₂ →* G) (hp : Continuous p)
+      (μ : Measure G) [μ.IsHaarMeasure] (μ₂ : Measure G₂) [μ₂.IsHaarMeasure]
+      (f : CompactlySupportedContinuousMap G₂ ℂ) (e : CompactlySupportedContinuousMap G ℂ),
+      ∃ g : CompactlySupportedContinuousMap G ℂ, (∀ x, g x = ∫ y, f y * e ((p y)⁻¹ * x) ∂μ₂) ∧
+        tsupport g ⊆ p '' tsupport f * tsupport e ∧
+        ∀ (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H] (π : UnitaryRep G H),
+          π.integrated μ (UnitaryRep.ccToL1 μ g) =
+            (π.compHom p hp).integrated μ₂ (UnitaryRep.ccToL1 μ₂ f) ∘L π.integrated μ (UnitaryRep.ccToL1 μ e) := by
+  intro G G₂ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ p hp μ _ μ₂ _ f e
+  have hf : IsCompact (tsupport f) := f.hasCompactSupport.isCompact
+  have hS : IsCompact (p '' tsupport f * tsupport e) :=
+    (hf.image hp).mul e.hasCompactSupport.isCompact
+
+  have hker : Continuous fun q : G × G₂ => f q.2 * e ((p q.2)⁻¹ * q.1) :=
+    (f.continuous.comp continuous_snd).mul
+      (e.continuous.comp ((hp.comp continuous_snd).inv.mul continuous_fst))
+  have hz₂ : ∀ (x : G) (y : G₂), y ∉ tsupport f → f y * e ((p y)⁻¹ * x) = 0 := fun x y hy => by
+    rw [image_eq_zero_of_notMem_tsupport hy, zero_mul]
+  have hz₁ : ∀ (x : G) (y : G₂), x ∉ p '' tsupport f * tsupport e →
+      f y * e ((p y)⁻¹ * x) = 0 := fun x y hx => by
+    by_contra hne
+    obtain ⟨h1, h2⟩ := mul_ne_zero_iff.1 hne
+    exact hx ⟨p y, ⟨y, subset_tsupport _ h1, rfl⟩, (p y)⁻¹ * x, subset_tsupport _ h2,
+      mul_inv_cancel_left _ _⟩
+  have hcont : Continuous fun x : G => ∫ y, f y * e ((p y)⁻¹ * x) ∂μ₂ := by
+    rw [← continuousOn_univ]
+    exact continuousOn_integral_of_compact_support (μ := μ₂)
+      (f := fun (x : G) (y : G₂) => f y * e ((p y)⁻¹ * x)) hf hker.continuousOn
+      fun x y _ hy => hz₂ x y hy
+  have hzero : ∀ x : G, x ∉ p '' tsupport f * tsupport e →
+      ∫ y, f y * e ((p y)⁻¹ * x) ∂μ₂ = 0 := fun x hx => by
+    simp only [hz₁ x _ hx, integral_zero]
+  refine ⟨⟨⟨fun x => ∫ y, f y * e ((p y)⁻¹ * x) ∂μ₂, hcont⟩, HasCompactSupport.intro hS hzero⟩,
+    fun _ => rfl, ?_, ?_⟩
+  · refine closure_minimal (fun x hx => ?_) hS.isClosed
+    by_contra hx'
+    exact hx (hzero x hx')
+  · intro H _ _ _ π
+    ext v
+    rw [ContinuousLinearMap.comp_apply]
+    simp only [UnitaryRep.integrated_ccToL1_apply, UnitaryRep.compHom_apply]
+    change ∫ x, (∫ y, f y * e ((p y)⁻¹ * x) ∂μ₂) • π x v ∂μ = _
+    have hint : Integrable
+        (Function.uncurry fun (x : G) (y : G₂) => (f y * e ((p y)⁻¹ * x)) • π x v) (μ.prod μ₂) := by
+      refine Continuous.integrable_of_hasCompactSupport
+        (hker.smul ((π.continuous_orbit v).comp continuous_fst)) ?_
+      refine HasCompactSupport.intro (hS.prod hf) fun q hq => ?_
+      have h0 : f q.2 * e ((p q.2)⁻¹ * q.1) = 0 := by
+        rcases not_and_or.1 (mt Set.mem_prod.2 hq) with h | h
+        · exact hz₁ _ _ h
+        · exact hz₂ _ _ h
+      change (f q.2 * e ((p q.2)⁻¹ * q.1)) • π q.1 v = 0
+      rw [h0, zero_smul]
+    have he : Integrable (fun z => e z • π z v) μ :=
+      (e.continuous.smul (π.continuous_orbit v)).integrable_of_hasCompactSupport
+        e.hasCompactSupport.smul_right
+    simp only [← integral_smul_const]
+    rw [integral_integral_swap hint]
+    congr 1
+    funext y
+    rw [← ContinuousLinearMap.integral_comp_comm _ he, ← integral_smul,
+      ← integral_mul_left_eq_self _ (p y)]
+    simp only [inv_mul_cancel_left, UnitaryRep.map_mul_apply, map_smul, smul_smul]
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+theorem UpperTheory.ConvolutionTheory.Tf.commInt :
+    ∀ (G G₁ G₂ H : Type) [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [Group G₁] [TopologicalSpace G₁] [IsTopologicalGroup G₁] [LocallyCompactSpace G₁] [T2Space G₁] [SecondCountableTopology G₁] [MeasurableSpace G₁] [BorelSpace G₁] [Group G₂] [TopologicalSpace G₂] [IsTopologicalGroup G₂] [LocallyCompactSpace G₂] [T2Space G₂] [SecondCountableTopology G₂] [MeasurableSpace G₂] [BorelSpace G₂] [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
+      (π : UnitaryRep G H) (p₁ : G₁ →* G) (h₁ : Continuous p₁) (p₂ : G₂ →* G) (h₂ : Continuous p₂)
+      (μ₁ : Measure G₁) [μ₁.IsHaarMeasure] (μ₂ : Measure G₂) [μ₂.IsHaarMeasure]
+      (f₁ : CompactlySupportedContinuousMap G₁ ℂ) (f₂ : CompactlySupportedContinuousMap G₂ ℂ),
+      (∀ w v : H, ⟪w, (π.compHom p₁ h₁).integrated μ₁ (UnitaryRep.ccToL1 μ₁ f₁)
+          ((π.compHom p₂ h₂).integrated μ₂ (UnitaryRep.ccToL1 μ₂ f₂) v)⟫_ℂ =
+        ∫ a, ∫ b, f₁ a * f₂ b * ⟪w, π (p₁ a * p₂ b) v⟫_ℂ ∂μ₂ ∂μ₁) ∧
+      ((∀ a b, p₁ a * p₂ b = p₂ b * p₁ a) →
+        (π.compHom p₁ h₁).integrated μ₁ (UnitaryRep.ccToL1 μ₁ f₁) ∘L (π.compHom p₂ h₂).integrated μ₂ (UnitaryRep.ccToL1 μ₂ f₂) =
+        (π.compHom p₂ h₂).integrated μ₂ (UnitaryRep.ccToL1 μ₂ f₂) ∘L (π.compHom p₁ h₁).integrated μ₁ (UnitaryRep.ccToL1 μ₁ f₁)) := by
+  intro G G₁ G₂ H _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ π p₁ h₁ p₂ h₂ μ₁ _ μ₂ _ f₁ f₂
+  have key : ∀ {L : Type} [Group L] [TopologicalSpace L] [MeasurableSpace L] [BorelSpace L] (σ : UnitaryRep L H) (μ : Measure L)
+      [IsFiniteMeasureOnCompacts μ] (f : CompactlySupportedContinuousMap L ℂ) (w u : H),
+      ⟪w, σ.integrated μ (UnitaryRep.ccToL1 μ f) u⟫_ℂ = ∫ g, f g * ⟪w, σ g u⟫_ℂ ∂μ := by
+    intro L _ _ _ _ σ μ _ f w u
+    rw [UnitaryRep.inner_integrated]
+    refine integral_congr_ae ((RightCosetSpace.coeFn_compactSupportToL1 μ f).mono fun g hg => ?_)
+    exact congrArg (· * ⟪w, σ g u⟫_ℂ) hg
+  refine ⟨fun w v => ?_, fun hc => ?_⟩
+  · rw [key]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun a => ?_)
+    dsimp only
+    rw [UnitaryRep.compHom_apply, UnitaryRep.inner_map_right, key, ← integral_const_mul]
+    refine integral_congr_ae (Filter.Eventually.of_forall fun b => ?_)
+    dsimp only
+    rw [UnitaryRep.compHom_apply, UnitaryRep.inner_map_left, inv_inv, ← UnitaryRep.map_mul_apply, mul_assoc]
+  · have step : ∀ b, π (p₂ b) ∘L (π.compHom p₁ h₁).integrated μ₁ (UnitaryRep.ccToL1 μ₁ f₁) =
+        (π.compHom p₁ h₁).integrated μ₁ (UnitaryRep.ccToL1 μ₁ f₁) ∘L π (p₂ b) := fun b => by
+      refine UnitaryRep.comp_integrated_of_mem_intertwiners _ _ ?_ _
+      intro a v
+      simp only [UnitaryRep.compHom_apply]
+      rw [← UnitaryRep.map_mul_apply, ← UnitaryRep.map_mul_apply, hc]
+    refine UnitaryRep.comp_integrated_of_mem_intertwiners _ _ ?_ _
+    intro b v
+    exact (DFunLike.congr_fun (step b) v).symm
+end
+
+section
+
+open MeasureTheory NumberField IsDedekindDomain
+open GroundTheory.Automorphic GroundTheory.Automorphic.Reduction GroundTheory.Automorphic.RightCosetSpace
+open GroundTheory.Automorphic.AutomorphicForm GroundTheory.Automorphic.CuspidalSpectrum
+open scoped TensorProduct InnerProductSpace ComplexConjugate Pointwise
+
+private theorem centerC_ex (A : Type) [Ring A] [Algebra ℝ A] (z : ℂ ⊗[ℝ] A) :
+    ∃ a b : A, z = (1 : ℂ) ⊗ₜ[ℝ] a + Complex.I ⊗ₜ[ℝ] b := by
+  induction z using TensorProduct.induction_on with
+  | zero => exact ⟨0, 0, by simp⟩
+  | tmul c x =>
+    refine ⟨c.re • x, c.im • x, ?_⟩
+    rw [← TensorProduct.smul_tmul, ← TensorProduct.smul_tmul, ← TensorProduct.add_tmul]
+    congr 1
+    apply Complex.ext <;> simp
+  | add x y hx hy =>
+    obtain ⟨a, b, rfl⟩ := hx
+    obtain ⟨c, d, rfl⟩ := hy
+    refine ⟨a + c, b + d, ?_⟩
+    rw [TensorProduct.tmul_add, TensorProduct.tmul_add]
+    abel
+
+private theorem centerC_uniq (A : Type) [Ring A] [Algebra ℝ A] (a b c d : A)
+    (h : (1 : ℂ) ⊗ₜ[ℝ] a + Complex.I ⊗ₜ[ℝ] b = (1 : ℂ) ⊗ₜ[ℝ] c + Complex.I ⊗ₜ[ℝ] d) :
+    a = c ∧ b = d := by
+  have h1 := congrArg (fun w => TensorProduct.lid ℝ A (LinearMap.rTensor A Complex.reLm w)) h
+  have h2 := congrArg (fun w => TensorProduct.lid ℝ A (LinearMap.rTensor A Complex.imLm w)) h
+  simp at h1 h2
+  exact ⟨h1, h2⟩
+
+theorem UpperTheory.ConvolutionTheory.Tf.centerC :
+    ∀ (A : Type) [Ring A] [Algebra ℝ A] (z : ℂ ⊗[ℝ] A), (∃ a b : A, z = (1 : ℂ) ⊗ₜ[ℝ] a + Complex.I ⊗ₜ[ℝ] b) ∧
+      ∀ a b : A, z = (1 : ℂ) ⊗ₜ[ℝ] a + Complex.I ⊗ₜ[ℝ] b →
+        (z ∈ Subalgebra.center ℂ (ℂ ⊗[ℝ] A) ↔ a ∈ Subalgebra.center ℝ A ∧ b ∈ Subalgebra.center ℝ A) := by
+  intro A _ _ z
+  refine ⟨centerC_ex A z, ?_⟩
+  rintro a b rfl
+  simp only [Subalgebra.mem_center_iff]
+  constructor
+  · intro h
+    have key : ∀ x : A, x * a = a * x ∧ x * b = b * x := by
+      intro x
+      have hx := h ((1 : ℂ) ⊗ₜ[ℝ] x)
+      simp only [mul_add, add_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul] at hx
+      exact centerC_uniq A _ _ _ _ hx
+    exact ⟨fun x => (key x).1, fun x => (key x).2⟩
+  · rintro ⟨ha, hb⟩ w
+    induction w using TensorProduct.induction_on with
+    | zero => simp
+    | tmul c x =>
+      simp only [mul_add, add_mul, Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul, ha x, hb x,
+        mul_comm c Complex.I]
+    | add x y hx hy => rw [add_mul, mul_add (_ + _) x y, hx, hy]
+end

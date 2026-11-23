@@ -1,18 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.ColInst
-public import Formalism.LocalToGlobal.KernelLattices.MuProd
-public import Formalism.LocalToGlobal.KernelLattices.RatKDeg
-public import Formalism.LocalToGlobal.KernelLattices.ThEquiv
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.BlockShape
+public import Formalism.LocalToGlobal.KernelLattices.Bundle002
+public import Formalism.LocalToGlobal.KernelLattices.Bundle004
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.JetsRationalOfKernelRationality
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.KerEquivGen
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.LocalProductMeasures
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.RatKDeg
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ChiLawAmbOf
+public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.Bundle001
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPAmbOf
-public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThEquivPStepCIff
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ThetaLocalEquivalence.ThIndEqAmbOfOf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

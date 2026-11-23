@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+public import ReciprocityTheory.GroupCohomology.Bundle002
 public import Mathlib.FieldTheory.Galois.Infinite
 
 @[expose] public section

@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsLatMeasurableConst
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolEqOfAedisjoint
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LintegralPiProdTwo
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle010
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle180
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurePreservingCons
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -238,7 +238,7 @@ theorem ae_ne_zero (ι : Type) [Fintype ι] (k : ℕ) : ∀ᵐ x : ι → Fin (k
     rw [ae_iff]; simp
   exact (Measure.quasiMeasurePreserving_eval (fun _ : ι => (volume : Measure (Fin (k + 1) → ℂ))) w).ae h
 
-theorem coordinates : ∀ (E : Type) [Field E] [NumberField E] (k : ℕ), 1 ≤ k → ∃ (hh : MatInf E (k + 1) → MatInf E k) (TT : MatInf E (k + 1) → VecInf E k), Measurable hh ∧ Measurable TT ∧ (∀ g, 0 < detNorm E (k + 1) g → detNorm E k (hh g) = detNorm E (k + 1) g) ∧ (∀ g γ : MatInf E (k + 1), 0 < detNorm E (k + 1) g → 0 < detNorm E (k + 1) γ → (∀ w a, γ w a 0 = if a = 0 then 1 else 0) → ∀ β : MatInf E k, (∀ w a b, β w a b = γ w a.succ b.succ) → hh (γ * g) = β * hh g ∧ ∀ w, TT (γ * g) w ᵥ* Matrix.of (β w) = TT g w + fun b => γ w 0 b.succ) ∧ ∀ (F : MatInf E k → ENNReal) (Q : VecInf E k → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable F → Measurable Q → Measurable Φ → ∫⁻ g, F (hh g) * Q (TT g) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0) ∂(haarGL E (k + 1)) = (∫⁻ x, Φ x) * (∫⁻ T, Q T) * ∫⁻ h, F h * ENNReal.ofReal (detNorm E k h) ∂(haarGL E k) := by
+theorem coordinates : ∀ (E : Type) [Field E] [NumberField E] (k : ℕ), 1 ≤ k → ∃ (hh : MatInf E (k + 1) → MatInf E k) (TT : MatInf E (k + 1) → VecInf E k), Measurable hh ∧ Measurable TT ∧ (∀ g, 0 < GlobalTheory.FlagMeas.detNorm E (k + 1) g → GlobalTheory.FlagMeas.detNorm E k (hh g) = GlobalTheory.FlagMeas.detNorm E (k + 1) g) ∧ (∀ g γ : MatInf E (k + 1), 0 < GlobalTheory.FlagMeas.detNorm E (k + 1) g → 0 < GlobalTheory.FlagMeas.detNorm E (k + 1) γ → (∀ w a, γ w a 0 = if a = 0 then 1 else 0) → ∀ β : MatInf E k, (∀ w a b, β w a b = γ w a.succ b.succ) → hh (γ * g) = β * hh g ∧ ∀ w, TT (γ * g) w ᵥ* Matrix.of (β w) = TT g w + fun b => γ w 0 b.succ) ∧ ∀ (F : MatInf E k → ENNReal) (Q : VecInf E k → ENNReal) (Φ : VecInf E (k + 1) → ENNReal), Measurable F → Measurable Q → Measurable Φ → ∫⁻ g, F (hh g) * Q (TT g) * Φ (fun u a => (Matrix.of (g u))⁻¹ a 0) ∂(haarGL E (k + 1)) = (∫⁻ x, Φ x) * (∫⁻ T, Q T) * ∫⁻ h, F h * ENNReal.ofReal (GlobalTheory.FlagMeas.detNorm E k h) ∂(haarGL E k) := by
   intro E _ _ k hk
   obtain ⟨s, hm, hs, hint⟩ := GlobalTheory.GLFirstColumn.haar_first_column k hk
   let hh : MatInf E (k + 1) → MatInf E k := fun g w a b => hL s (Matrix.of (g w)) a b
@@ -273,20 +273,20 @@ theorem coordinates : ∀ (E : Type) [Field E] [NumberField E] (k : ℕ), 1 ≤ 
     (meas_det.inv.pow_const _) (meas_det.mul (meas_det.inv.pow_const _))
     (fun g => by positivity) (fun g => by positivity) hint _ mφ
   have dens : ∀ (j : ℕ) (f : MatInf E j → ENNReal), Measurable f → ∫⁻ g, f g ∂(haarGL E j) =
-      ∫⁻ g : InfinitePlace E → Fin j → Fin j → ℂ, f g * ENNReal.ofReal ((detNorm E j g)⁻¹ ^ j) := by
+      ∫⁻ g : InfinitePlace E → Fin j → Fin j → ℂ, f g * ENNReal.ofReal ((GlobalTheory.FlagMeas.detNorm E j g)⁻¹ ^ j) := by
     intro j f hf
-    have h1 : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((detNorm E j x)⁻¹ ^ j) :=
+    have h1 : Measurable fun x : InfinitePlace E → Fin j → Fin j → ℂ => ENNReal.ofReal ((GlobalTheory.FlagMeas.detNorm E j x)⁻¹ ^ j) :=
       (measurable_detNorm.inv.pow_const j).ennreal_ofReal
     refine (lintegral_withDensity_eq_lintegral_mul (volume : Measure (InfinitePlace E → Fin j → Fin j → ℂ))
       h1 hf).trans ?_
     exact lintegral_congr fun g => mul_comm _ _
-  have mF : Measurable fun h : MatInf E k => F h * ENNReal.ofReal (detNorm E k h) :=
+  have mF : Measurable fun h : MatInf E k => F h * ENNReal.ofReal (GlobalTheory.FlagMeas.detNorm E k h) :=
     hF.mul measurable_detNorm.ennreal_ofReal
   have mF' : Measurable fun h : InfinitePlace E → Fin k → Fin k → ℂ =>
-      F h * ENNReal.ofReal (detNorm E k h) * ENNReal.ofReal ((detNorm E k h)⁻¹ ^ k) :=
+      F h * ENNReal.ofReal (GlobalTheory.FlagMeas.detNorm E k h) * ENNReal.ofReal ((GlobalTheory.FlagMeas.detNorm E k h)⁻¹ ^ k) :=
     mF.mul (measurable_detNorm.inv.pow_const k).ennreal_ofReal
   rw [dens _ _ mφ, dens _ _ mF]
-  have e1 : ∀ g : InfinitePlace E → Fin (k + 1) → Fin (k + 1) → ℂ, (detNorm E (k + 1) g)⁻¹ ^ (k + 1) =
+  have e1 : ∀ g : InfinitePlace E → Fin (k + 1) → Fin (k + 1) → ℂ, (GlobalTheory.FlagMeas.detNorm E (k + 1) g)⁻¹ ^ (k + 1) =
       ∏ w, (‖(Matrix.of (g w)).det‖ ^ 2)⁻¹ ^ (k + 1) := by
     intro g; rw [Finset.prod_pow, Finset.prod_inv_distrib]; rfl
   simp only [e1]
@@ -297,7 +297,7 @@ theorem coordinates : ∀ (E : Type) [Field E] [NumberField E] (k : ℕ), 1 ≤ 
   rw [← mul_assoc, ← lintegral_const_mul _ mF']
   refine lintegral_congr fun h => ?_
   have e2 : ∏ w, ‖(Matrix.of (h w)).det‖ ^ 2 * (‖(Matrix.of (h w)).det‖ ^ 2)⁻¹ ^ k =
-      detNorm E k h * (detNorm E k h)⁻¹ ^ k := by
+      GlobalTheory.FlagMeas.detNorm E k h * (GlobalTheory.FlagMeas.detNorm E k h)⁻¹ ^ k := by
     rw [Finset.prod_mul_distrib, Finset.prod_pow _ k, Finset.prod_inv_distrib]; rfl
   rw [e2, ENNReal.ofReal_mul (detNorm_nonneg (E := E) h)]
   rcases (detNorm_nonneg (E := E) (j := k) h).eq_or_lt with h0 | h0

@@ -2,9 +2,9 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.NineGeoU
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompactDatumIntersectionStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCompCoverCmSignsStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IntersectionDatumDegreeSumStatement
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle298
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle310
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle304
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -66,6 +66,7 @@ theorem span_eq_of_card_nef {Ω V : Type} [Field Ω] [AddCommGroup V] [Module Ω
 end GlobalTheory.CompanionTheory.Ar.Cusp
 
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem _root_.GlobalTheory.CompanionTheory.Relay.intersection_degree_upper : Top.Given → Out.WeilSt → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Tor.Level H, Moduli D l) (l : Tor.Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) (II : IntersectionSystem) (K : Type) [Fintype K] (J : K → Type) [∀ k, Fintype (J k)] (Ω : Type) [Field Ω] [Algebra ℚ Ω] (W : CMType H → Type) [∀ τ, AddCommGroup (W τ)] [∀ τ, Module Ω (W τ)] (Dc : ComponentData II (CMType H) K J Ω W) (Hd : HodgeData Dc) (S₀ : Finset ℕ) (Or : CptOrigin Y S₀ Dc Hd) (B₁ B : ℕ), admitted Xo l c Y Or B₁ → 4 * Dc.f + 2 ≤ B → NefOnFibres (mCoordIdeal Dc.y) (muTwDeg Hd B) := by
   intro hG hW E _ _ _ _ H D Xo l c Y II K _ J _ Ω _ _ W _ _ Dc Hd S₀ Or B₁ B hA hB
   haveI : CharZero Ω := algebraRat.charZero Ω
@@ -101,6 +102,13 @@ theorem _root_.GlobalTheory.CompanionTheory.Relay.intersection_degree_upper : To
     rcases Or.side with ⟨-, h, -⟩ | ⟨-, h, -⟩
     · exact .inr h
     · exact .inl h
+  have hfin : (Subtype.fintype _ : Fintype (CMType H)) = GlobalTheory.CompHt.fintypePsi :=
+    Subsingleton.elim _ _
+  let Λ : CMType H → Lat Or.𝔐.ξ Ω :=
+    fun τ => detLat (Or.𝔐.VS (S₀ ∪ Dc.SB B) (Or.sm τ)) (s τ)
+  have hLat := congrArg (fun inst : Fintype (CMType H) =>
+    @Lat.tens Or.𝔐.X Ω _ Or.𝔐.ξ (CMType H) inst Λ (fun _ => -1)) hfin
+  rw [hLat] at w2
   refine GlobalTheory.T.hodge_comp_cover_cm_signs hG hW E H D Xo l c Y (S₀ ∪ Dc.SB B) Ω K J Dc.y (Or.𝔐.withS _ v1 v2 v3 v4) Or.deg Or.sm _ s _ _
     hY hpq.1 hpq.2 Or.cover (fun p hp => ?_) (fun p hp hpS => ?_) hside hspan w2
   · rcases Finset.mem_union.1 hp with h | h
@@ -111,6 +119,9 @@ theorem _root_.GlobalTheory.CompanionTheory.Relay.intersection_degree_upper : To
     have h2 : 4 * Dc.f + 2 ≤ p := by
       by_contra h
       exact hpS.2 (Finset.mem_filter.2 ⟨(hS p).2 ⟨hp, by omega, hpS.1⟩, by omega⟩)
-    refine ⟨fun h => h1 ((h.mul_left 2).mul_right _), h2, lt_of_le_of_ne hp.two_le ?_⟩
+    have h2' : 4 * (@Fintype.card (CMType H) GlobalTheory.CompHt.fintypePsi) + 2 ≤ p := by
+      rw [← congrArg (fun inst : Fintype (CMType H) => @Fintype.card (CMType H) inst) hfin]
+      exact h2
+    refine ⟨fun h => h1 ((h.mul_left 2).mul_right _), h2', lt_of_le_of_ne hp.two_le ?_⟩
     rintro rfl
     exact h1 ((Dvd.intro _ rfl : ((2 : ℕ) : ℤ) ∣ ((2 : ℕ) : ℤ) * discr E).mul_right _)

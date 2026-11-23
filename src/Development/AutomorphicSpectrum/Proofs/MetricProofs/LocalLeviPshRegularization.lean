@@ -1,10 +1,8 @@
 module
 
-public import ReciprocityTheory.AnalyticForms.LeviForms.IsRegFamilyInhabitStatement
-public import ReciprocityTheory.AnalyticForms.LeviForms.RegChart
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalPshRegularizationLogBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.LocalRegularizationGradientBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MollifyConvergesC2Rate
+public import ReciprocityTheory.AnalyticForms.LeviForms.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle065
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

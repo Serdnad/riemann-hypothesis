@@ -1,14 +1,13 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsSncModel
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IsOpenAlt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPC
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionBoundaryNormalCrossingStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCompactEmbedded
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionCoverAndCone
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionLocalChartPolynomial
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionRegularLocalRingStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.SncResolutionTransitionPolynomial
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle009
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle007
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle145
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle091
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle109
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle098
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,14 +49,14 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Immersion
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle010
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.SNCstep
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterAlgRes
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterMinor
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle013
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterPCProof
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FiniteMinimalPrimes
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.ExistsAtlas
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle085
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle009
 
 @[expose] public section
 

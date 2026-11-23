@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAStarOp2
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle063
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.SquareIntegrableGammaZetabarInv
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutJAIsAdj
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle064
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

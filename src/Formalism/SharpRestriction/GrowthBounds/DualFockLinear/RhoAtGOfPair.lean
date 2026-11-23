@@ -1,14 +1,13 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.VFlatSupported
-import Formalism.LocalToGlobal.GroupLattices.FockModels.DualInclusionLattices
+import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 import Formalism.LocalToGlobal.GroupLattices.FockModels.MulMemRiemannRochSpaceAdd
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideEdge
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.GoodRankOfPrim
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.RankMulConductorDivLeOne
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleNegMono
-import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ScaleZpowMono
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle002
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle005
+import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle004
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

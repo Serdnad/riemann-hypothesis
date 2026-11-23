@@ -2,7 +2,7 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
-public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle013
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ExistsMemRowHighestTotalDegreeEqTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -129,8 +129,8 @@ structure SameSp (X X' : Data E r) : Prop where
   xi : X.ξ0 = X'.ξ0
   ka : X.κ0 = X'.κ0
 
-def holSub0 {Comp : Type} (X : Comp → Data E r) (la : ∀ k, Wt (X k).Ψ r) : Submodule ℂ (FDSec X) :=
-  holSub X la ⊓
+def holSub0 {Comp : Type} (X : Comp → Data E r) (la : ∀ k, Wt (X k).Ψ r) : Submodule ℂ (_root_.Formalism.L2.PjFree.FDSec X) :=
+  _root_.Formalism.L2.PjFree.holSub X la ⊓
     { carrier := {P | ∀ k, ∀ x ∉ (X k).dom, P k x = 0}
       add_mem' := fun hP hQ k x hx => by simp [hP k x hx, hQ k x hx]
       zero_mem' := fun _ _ _ => rfl
@@ -164,8 +164,8 @@ variable {l : Geo.Tor.Level H}
 
 def wtX (c : Coeff l) (σ : c.F →+* ℂ) (X : Data E r) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ) : Wt X.Ψ r :=
   fun τ j => if X.p0 ≤ (j : ℕ) then
-      (a (Function.invFun (relab c σ) τ.1, (j : ℕ) - X.p0) : ℤ) + ((n / 2 : ℕ) : ℤ)
-    else -(a (Function.invFun (relab c σ) (conjEmb τ.1), X.p0 - 1 - (j : ℕ)) : ℤ) - ((n / 2 : ℕ) : ℤ)
+      (a (Function.invFun (_root_.Formalism.L2.PjFree.relab c σ) τ.1, (j : ℕ) - X.p0) : ℤ) + ((n / 2 : ℕ) : ℤ)
+    else -(a (Function.invFun (_root_.Formalism.L2.PjFree.relab c σ) (conjEmb τ.1), X.p0 - 1 - (j : ℕ)) : ℤ) - ((n / 2 : ℕ) : ℤ)
 
 structure Dic (Dw : Datum H) (c : Coeff l) (σ : c.F →+* ℂ) (X : Data E r) (g q0 n : ℕ)
     (a : (E →+* ℂ) × ℕ → ℕ) where
@@ -177,8 +177,8 @@ structure Dic (Dw : Datum H) (c : Coeff l) (σ : c.F →+* ℂ) (X : Data E r) (
   eL : LtN Dw n ≃ Harm.Var X.Ψ q0 X.p0 (Fin n)
   k : X.Ψ → Fin q0 → ℕ
   k' : X.Ψ → Fin X.p0 → ℕ
-  per_eq : ∀ x v j, pv X idx x v j = perFr X x v (relab c σ (e j).1) (e j).2
-  ty_eq : ∀ j, rowType X (idx j) = relab c σ (e j).1
+  per_eq : ∀ x v j, pv X idx x v j = _root_.Formalism.L2.PjFree.perFr X x v (_root_.Formalism.L2.PjFree.relab c σ (e j).1) (e j).2
+  ty_eq : ∀ j, rowType X (idx j) = _root_.Formalism.L2.PjFree.relab c σ (e j).1
   dir_eq : ∀ ℓ, letterDir X hr idx (eL ℓ) = Pi.single ℓ.2.2 (Pi.single (e.symm ⟨ℓ.1, ℓ.2.1⟩) 1)
   wt_eq : wtOf X hr k k' n = wtX c σ X a n
   mem : ∀ P ∈ HHa Dw.mult n c.F ComplexEmbedding.conjugate (InPsi H) (fun τ i => a (τ, i)),
@@ -217,7 +217,7 @@ variable {X : Data E r} {bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ} {idx 
 
 def AnFib.Reads (A : AnFib X bas idx e x L y) (k : ℤ)
     (F : LB.Sec (LPow Xo.univ.t.G Xo.univ.t.PP.L k (ptO Xo y.x))) (θ : (Fin g → ℂ) → ℂ) : Prop :=
-  ∀ j z (pt : Sp ℂ ⟶ Gx y.x), pt ≫ gxFst y.x = (A.ex z).left → pt ≫ gxSnd y.x = 𝟙 (Sp ℂ) →
+  ∀ j z (pt : Sp ℂ ⟶ Gx y.x), pt ≫ _root_.Formalism.L2.PjFree.gxFst y.x = (A.ex z).left → pt ≫ _root_.Formalism.L2.PjFree.gxSnd y.x = 𝟙 (Sp ℂ) →
     ⊤ ≤ (A.ex z).left ⁻¹ᵁ Xo.univ.t.PP.L.U j →
     valAt' pt ((LPow Xo.univ.t.G Xo.univ.t.PP.L k (ptO Xo y.x)).U (fun _ => j)) (F.f (fun _ => j)) =
       θ z * A.fr j z ^ k

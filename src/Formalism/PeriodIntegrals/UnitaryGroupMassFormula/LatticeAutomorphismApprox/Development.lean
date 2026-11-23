@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.ScXuExists
+public import Formalism.PeriodIntegrals.Bundle025
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicIndexEquality.Commensurated
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

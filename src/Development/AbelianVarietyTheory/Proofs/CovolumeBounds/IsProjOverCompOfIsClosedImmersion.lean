@@ -5,7 +5,7 @@ public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsClosedImm
 public import Mathlib.RingTheory.PicardGroup
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsSecNonzeroLocusEqOfLbIso
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsIsGenOfUniqueFactorizationMonoid
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsClosedImmersionSigmaDesc
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverMorphismRestrictOfRelAmple
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IsProjOverOfIsPullback
 import Mathlib.Algebra.Order.Floor.Extended

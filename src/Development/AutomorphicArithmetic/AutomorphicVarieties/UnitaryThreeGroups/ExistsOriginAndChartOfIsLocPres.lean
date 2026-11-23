@@ -1,8 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ConjStable
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.IsLocPres
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.MopBase
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle005
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -123,7 +122,7 @@ private theorem lc_emb {E τ : Type} [CommRing E] (w : τ → ℤ) (x : GG (m :=
       (Units.mul_inv x.left) (Units.inv_mul x.left) hx b.rev a.rev
     have e : ∀ a b : Fin 3, wt1 b.rev - wt1 a.rev = wt1 a - wt1 b := by decide
     rwa [e] at this
-  rw [emb_apply]
+  rw [_root_.UpperTheory.V.U3.Mop.emb_apply]
   split_ifs <;> rcases a with a | a <;> rcases b with b | b <;>
     first
     | exact hx a b

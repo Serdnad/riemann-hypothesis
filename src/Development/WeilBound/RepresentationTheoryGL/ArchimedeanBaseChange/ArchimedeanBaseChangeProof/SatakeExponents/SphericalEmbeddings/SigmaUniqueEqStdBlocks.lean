@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocallyConstantOrbit
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeviEmbMulSingle
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle070
 
 @[expose] public section
 

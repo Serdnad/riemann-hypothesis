@@ -1,6 +1,6 @@
 module
 
-public import Formalism.QuotientMetricDivisors.ScalarLiftLowerBoundRows
+public import Formalism.QuotientMetricDivisors.Bundle001
 public import Formalism.LogFactorialBounds.LogFactorialProofs.PrimeSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

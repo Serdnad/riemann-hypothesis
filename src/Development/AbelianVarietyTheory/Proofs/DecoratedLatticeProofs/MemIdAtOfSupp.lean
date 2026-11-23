@@ -1,15 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCombAt
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CompIncAAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsAddChar
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFiniteAdeleProjectionIntegralReductionStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSelfDualLatticeWithPrescribedSplitComponen
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LatticeCompletionAtPlacesMemCompletedHermitianLaStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemLatticeCompletionAtPlacesOfFinPartMemHatLattiStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemLevelIffSymmetricPositionEntryPatternStatement
-import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlaceIdempotentActsOnSupportedAndOffStatement
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle353
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle287
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle165
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle188
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle027
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle164
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FrameTransport.InstIsModTopTens
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -65,7 +64,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.LocMod.PinEx
 open GlobalTheory.FinPl (SplitPt latV idAt intAt grpAt MxAt)
 open Formalism.L2.NTheta (IsIdemAt)
-open Formalism.L2.Col (IntAt)
+open _root_.Formalism.L2.Col (IntAt)
 
 section Place
 variable {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (q : SplitPt D k)

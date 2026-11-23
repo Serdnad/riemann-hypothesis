@@ -3,10 +3,10 @@ module
 public import GroundTheory.LocalFields.ExamplesCharZero
 public import GroundTheory.LocalFields.PadicLogHom
 public import GroundTheory.LocalFields.PrincipalUnitsModule
-import GroundTheory.LocalFields.Examples
+import GroundTheory.LocalFields.Bundle002
 public import GroundTheory.LocalFields.Integers
 import GroundTheory.LocalFields.PadicExp
-public import GroundTheory.LocalFields.PadicLogLinear
+public import GroundTheory.LocalFields.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

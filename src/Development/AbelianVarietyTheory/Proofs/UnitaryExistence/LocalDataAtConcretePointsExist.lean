@@ -1,15 +1,15 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.HasDataCondition
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
 public import Formalism.LocalToGlobal.ProjectiveLattices.LatPAddRight
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DegenerationDataCoordsNeZeroLatticesIsomorphicStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsDegenerationDataAlgebraicPointModelStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFlagModelBaseChangeIntegralFramedPointStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLocalDataPrescribedPointsFlagStatement
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle123
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle100
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsTower
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LevelGoodAndHalfEqPrimeProductStatement
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PeriodFormAdditiveBalancedPosDefBoundedRankStatement
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle085
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle126
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -140,3 +140,19 @@ theorem localData_exists :
       (hTw j _ (resCh_prime la)) T io e ho y hy).1
 
 end GlobalTheory.LocalData
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory Limits NumberField IsDedekindDomain IsLocalRing ReciprocityTheory.ChartRestriction.G.Geo.Tor ReciprocityTheory.ChartRestriction.G.FD Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.L2.Theta Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Pj Formalism.MainNotions.DIV.Cons
+open scoped TensorProduct
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+theorem _root_.GlobalTheory.T.localDataAtConcretePoints_exist : ∀ (D : D7) (Q : Par D), Q.Pins → (∀ j, 1 ≤ (Q.Dw j).p + (Q.Dw j).q) → Packet66Rest Q := by
+  first | exact @GlobalTheory.LocalData.localData_exists | exact GlobalTheory.LocalData.localData_exists | (intros; apply GlobalTheory.LocalData.localData_exists <;> assumption)
+
+end
+end

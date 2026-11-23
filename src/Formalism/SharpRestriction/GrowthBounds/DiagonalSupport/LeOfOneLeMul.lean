@@ -1,7 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.TwiceValuationFactorialProduct
-import Formalism.PolynomialDimension.FinalNum
+import Formalism.PolynomialDimension.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundJoint
 import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.SlackBoundReal
 import Mathlib.Algebra.Order.Floor.Extended

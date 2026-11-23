@@ -1,14 +1,14 @@
 module
 
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.GiResAlg
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.NonemptyLinearEquivOfPiFinPowFinite
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.GiResGeo
-import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfFin
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle025
+import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle018
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfInd
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfMain
 import Development.WeilBound.CoreStatements.HodgeTatePoints.TwhopfSec
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.Twpdiv
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

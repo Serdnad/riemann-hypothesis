@@ -1,8 +1,7 @@
 module
 
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalAlgebra
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalCechLemmas
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.FormalCechSmul
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle001
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

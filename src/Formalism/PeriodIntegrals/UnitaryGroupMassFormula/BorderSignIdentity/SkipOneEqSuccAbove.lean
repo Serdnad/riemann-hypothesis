@@ -1,9 +1,7 @@
 module
 
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BorderMinorRotation.SkipTwoSuccAboveComp
-public import Formalism.PeriodIntegrals.QmBorderES
-public import Formalism.PeriodIntegrals.QmColExp
-public import Formalism.PeriodIntegrals.QmRowExp
+public import Formalism.PeriodIntegrals.Bundle019
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

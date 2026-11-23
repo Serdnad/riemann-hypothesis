@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.IdeleLimits
+public import GroundTheory.ProfiniteCohomology.GlobalClassFormation.Bundle001
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
-public import GroundTheory.ProfiniteCohomology.LocalClassFormation.CupSymbolBridge
+public import GroundTheory.ProfiniteCohomology.LocalClassFormation.Bundle001
 public import GroundTheory.ProfiniteCohomology.LocalClassFormation.FiniteVanishing.Vanishing
 public import GroundTheory.ProfiniteCohomology.PoincareDuality
 import Mathlib.Algebra.Order.Floor.Extended

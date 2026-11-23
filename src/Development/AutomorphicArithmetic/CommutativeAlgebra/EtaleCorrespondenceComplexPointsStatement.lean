@@ -2,9 +2,9 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.EFam
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Edge1
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsUnitAnalyticFunction
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle496
 public import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsIntegralRBIff
-import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.IsSeparatedOfProj
+import Development.AutomorphicArithmetic.Foundations.EtaleClopenDescent.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

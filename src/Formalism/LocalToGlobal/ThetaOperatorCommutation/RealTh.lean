@@ -1,7 +1,7 @@
 module
 
 public import Formalism.PeriodIntegrals.JointBlockShapes.JointShape
-public import ReciprocityTheory.ThetaSummability.RealCoinvariants.CoinvSubLeComap
+public import ReciprocityTheory.ThetaSummability.RealCoinvariants.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

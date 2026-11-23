@@ -1,7 +1,7 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalFactorisationHolomorphic
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle008
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle004
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.EisHalfPlaneW
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AdelicEisensteinSeries.SiegelMultW
 import Mathlib.Algebra.Order.Floor.Extended

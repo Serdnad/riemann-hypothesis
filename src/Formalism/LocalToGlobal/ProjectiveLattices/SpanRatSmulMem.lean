@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.ProjectiveLattices.IntegrableOnIntegrand
 public import Mathlib.Algebra.Module.Lattice.Full
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocalSituation
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

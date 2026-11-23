@@ -1,11 +1,10 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsFibreChartIff
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockDiagonalMinorVanishingStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BlockTriangularOfProportionalMinorsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ElementaryTwistMinorOtherStepsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ElementaryTwistMinorScalarStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverTwoFramesComparison
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle101
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle082
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle121
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle120
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle134
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelBaseProjectionPoints
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,8 +52,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsBlkCover
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsLocSec
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle088
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle102
 
 @[expose] public section
 

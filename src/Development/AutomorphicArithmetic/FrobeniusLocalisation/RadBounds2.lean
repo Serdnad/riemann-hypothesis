@@ -2,11 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.DiffDefs
 public import Development.AutomorphicArithmetic.PrimeDiscriminants.SlopeTestRemainingChoices
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.LogRdSum
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.MemRam
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.NormDiffEK
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.RadBounds
-public import Development.AutomorphicArithmetic.FrobeniusLocalisation.RdLower
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle002
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle006
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle003
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle008
+public import Development.AutomorphicArithmetic.FrobeniusLocalisation.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

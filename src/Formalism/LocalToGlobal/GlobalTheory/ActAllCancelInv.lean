@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.CoefficientMapSurjective
-import Formalism.LocalToGlobal.GlobalTheory.GL4.PColFin
+import Formalism.LocalToGlobal.GlobalTheory.GL4.Bundle004
 import Formalism.LocalToGlobal.GlobalTheory.GL4.PColStd
 public import Formalism.LocalToGlobal.GlobalTheory.MemIffOfLocBasisG
 import Mathlib.Algebra.Order.Floor.Extended

@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicArithmetic.RepresentationRank.RepOfRank
 public import Mathlib.AlgebraicGeometry.Morphisms.Etale
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ClopProjFiniteEtaleOfIsClosed
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.ClopProjFinrankPullback
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle005
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

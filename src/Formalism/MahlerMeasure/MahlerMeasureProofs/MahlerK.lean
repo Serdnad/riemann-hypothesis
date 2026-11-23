@@ -1,7 +1,7 @@
 module
 
-public import Formalism.MahlerMeasure.StatementD
-public import Formalism.MahlerMeasure.MahlerMeasureProofs.Mahler
+public import Formalism.MahlerMeasure.Bundle002
+public import Formalism.MahlerMeasure.MahlerMeasureProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.ProvisionExtensionLink
-import Formalism.LocalToGlobal.GlobalTheory.GL3.PThIndep
+import Formalism.LocalToGlobal.GlobalTheory.GL3.Bundle003
 public import Formalism.LocalToGlobal.PairingIndexBounds.HalvesRecursion.RecursiveLatticeMembership.MemLamOfIff
 import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EllipticOnePole
 import Mathlib.Algebra.Order.Floor.Extended

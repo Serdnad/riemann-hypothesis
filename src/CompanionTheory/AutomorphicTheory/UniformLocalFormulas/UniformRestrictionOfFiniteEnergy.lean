@@ -1,7 +1,6 @@
 module
 
-public import CompanionTheory.AutomorphicTheory.UniformLocalFormulas.UniformRestrictionOfEnergy
-public import CompanionTheory.AutomorphicTheory.UniformLocalFormulas.CovarianceFormula
+public import CompanionTheory.AutomorphicTheory.UniformLocalFormulas.Bundle001
 public import CompanionTheory.AutomorphicTheory.UniformLocalFormulas.RankOneTermInvariant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

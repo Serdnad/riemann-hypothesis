@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightPtsIntegralPoints
-public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.PNefOnFibresRelabel
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.PPtsIntegralPoints
+public import GroundTheory.HeightsAndTheta.Heights.Antisymmetric.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

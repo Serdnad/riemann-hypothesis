@@ -1,19 +1,19 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RapidDecayLift
+public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.Bundle019
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ThetaKernelGrowth
 import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.ConjAtFixedIff
 import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.CocompactTensor
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryUnimodularExistsFundamentalDomain
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsOpenLevelFixingThetaFunction
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteVolumeAdelicUnitaryQuotient
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntegrationByPartsRightDerivativeAdelicQuotient
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle322
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle350
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle419
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle346
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle391
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemSmoothFunctionsOfClosedRightDerivatives
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GrowthSizeRWordNeTopOfLe
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IntegrableOnOfRapidDec
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle303
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle339
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameOfHeisDer
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -87,7 +87,7 @@ theorem sobO_smul_measure (c : ℝ≥0) (μ : Measure (WO V W)) (𝓓 : Set (WO 
 theorem kernel_le (H : KernelBound V W A d) (hθ : IsInfFam θ) (hω : IsWeilDatumO ψ V W χS χT ω)
     {μ : Measure (WO V W)} {𝓓 : Set (WO V W)} (hμ : μ.IsAddHaarMeasure) (h𝓓 : IsAddFundamentalDomain (ratL W V) 𝓓 μ)
     {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W))) :
-    ∃ C : ℝ≥0, ∀ f ∈ thetaLevel ψ V W U, ∀ g h,
+    ∃ C : ℝ≥0, ∀ f ∈ GlobalTheory.Size.thetaLevel ψ V W U, ∀ g h,
       ‖thetaKO ω g h f‖ ≤ C * (sobO ψ θ μ 𝓓 d f).toReal * height V g ^ A * quotHeight W h ^ A := by
   obtain ⟨i1, i2, i3, i4, i5, -⟩ := GlobalTheory.AdelicMatrixLattice.lattice D W V
   have : BorelSpace (WO V W) := ⟨rfl⟩
@@ -110,7 +110,7 @@ theorem kernel_le (H : KernelBound V W A d) (hθ : IsInfFam θ) (hω : IsWeilDat
 theorem growthSize_lift_le (H : KernelBound V W A d) (hθ : IsInfFam θ) (hω : IsWeilDatumO ψ V W χS χT ω)
     {μ : Measure (WO V W)} {𝓓 : Set (WO V W)} (hμ : μ.IsAddHaarMeasure) (h𝓓 : IsAddFundamentalDomain (ratL W V) 𝓓 μ)
     {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W))) :
-    ∃ C : ℝ≥0, ∀ f ∈ thetaLevel ψ V W U, ∀ (ν : Measure (GA D W)) (𝓕 : Set (GA D W)) (F : GA D W → ℂ),
+    ∃ C : ℝ≥0, ∀ f ∈ GlobalTheory.Size.thetaLevel ψ V W U, ∀ (ν : Measure (GA D W)) (𝓕 : Set (GA D W)) (F : GA D W → ℂ),
       growthSize V A (lift ω ν 𝓕 f F) ≤ C * sobO ψ θ μ 𝓓 d f * decayInt ν 𝓕 A F := by
   obtain ⟨C, hC⟩ := kernel_le H hθ hω hμ h𝓓 hU
   refine ⟨C, fun f hf ν 𝓕 F => iSup_le fun g => ?_⟩
@@ -261,7 +261,7 @@ theorem growthSob_lift_le (hG : ThetaGrowth D) (H : KernelBound V W A d) (hθ : 
     (hω : IsWeilDatumO ψ V W χS χT ω) (hν : ν.IsHaarMeasure) (h𝓕 : IsFundamentalDomain (GQ W) 𝓕 ν) (k : ℕ)
     {μ : Measure (WO V W)} {𝓓 : Set (WO V W)} (hμ : μ.IsAddHaarMeasure) (h𝓓 : IsAddFundamentalDomain (ratL W V) 𝓓 μ)
     {U : AddSubgroup (WO V W)} (hU : IsOpen (U : Set (WO V W))) :
-    ∃ C : ℝ≥0, ∀ f ∈ thetaLevel ψ V W U, ∀ F, RapidDec W F →
+    ∃ C : ℝ≥0, ∀ f ∈ GlobalTheory.Size.thetaLevel ψ V W U, ∀ F, RapidDec W F →
       growthSob θ V k A (lift ω ν 𝓕 f F) ≤ C * sobO ψ θ μ 𝓓 (d + k * 2) f * decayInt ν 𝓕 A F := by
   have hp := fun a : D.what₂.Tau × Fin V.rank × Fin V.rank =>
     GlobalTheory.SmoothAutCheck.parts_mem V a.1 (Matrix.single a.2.1 a.2.2 1)

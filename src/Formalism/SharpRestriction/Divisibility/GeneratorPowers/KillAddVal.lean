@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndExp
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndEnc
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle006
 public import Mathlib.RingTheory.MvPowerSeries.Rename
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ConstantCoeffPolyAdd
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.KillAddFin
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.Bundle009
 import Std.Tactic.BVDecide.Normalize.Prop
 
 @[expose] public section

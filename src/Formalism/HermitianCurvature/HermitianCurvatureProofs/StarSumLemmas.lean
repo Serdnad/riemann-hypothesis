@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.CapelliDeterminantAndBranching
+public import Formalism.HermitianCurvature.Bundle009
 public import Mathlib.LinearAlgebra.Lagrange
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QuantumMinorCommutation
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QuantumMinorExpansion

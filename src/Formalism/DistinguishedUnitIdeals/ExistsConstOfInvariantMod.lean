@@ -1,7 +1,7 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.ArcLiftOfLocalizationData
-public import Formalism.DistinguishedUnitIdeals.UnivPart
+public import Formalism.DistinguishedUnitIdeals.Bundle001
 public import Mathlib.LinearAlgebra.TensorProduct.Tower
 public import Mathlib.RingTheory.HahnSeries.PowerSeries
 import Mathlib.Algebra.Order.Floor.Extended

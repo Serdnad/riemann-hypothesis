@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PieriBlockIdeals.LemmaWAssembled
+public import Formalism.PieriBlockIdeals.Bundle002
 public import Formalism.PieriBlockIdeals.PieriColumnMinors.MinorValuationBoundHolds
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.WeightExchangeChainHolds
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

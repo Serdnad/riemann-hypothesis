@@ -5,10 +5,9 @@ public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjDiagReNo
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjTransposeSignFormDiagEqSignedSumCol
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousDen
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IteratedDerivScale
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PBConjTranspose
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StConstHolds
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StExpDeriv
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StR
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1747
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1750
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1749
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

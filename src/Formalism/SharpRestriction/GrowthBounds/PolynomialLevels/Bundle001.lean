@@ -1,0 +1,228 @@
+module
+
+public import Formalism.SharpRestriction.GrowthBounds.AevalValuation.RestSpec
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.MembDd
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.PlaneCoeffOneTTens
+public import Formalism.SharpRestriction.GrowthBounds.DiagonalSupport.ValuationOneEqZero
+public import Formalism.SharpRestriction.GrowthBounds.PolynomialLevels.LowestWeightNonposOffSet
+public import Formalism.SharpRestriction.GrowthBounds.PlaneCoefficients.Bundle005
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open MvPolynomial Finset Classical
+
+namespace Formalism.MainNotions.NormalSetCounting
+
+open Formalism.MainNotions.G Formalism.GradedWeylDivisibility Formalism.MainNotions.SourceCleaning Formalism.MainNotions.Pf14 Formalism.MainNotions.PlaneGramData Formalism.MainNotions.TestSideCounting Formalism.MainNotions.TestSideWords Formalism.MainNotions.Proposition5Numerics Formalism.MainNotions.PairMembershipBlocks
+open Formalism.MainNotions.TraceSpectra
+
+section Spec
+
+variable {n' r : ℕ} [NeZero n'] [NeZero r] {Fr : Frames n' r} {L₁ N₁ : ℕ} {J : ℕ} [NeZero J] {nL : ZMod J → ℕ}
+
+theorem fr_rev_inj (hV : Fr.Valid L₁ N₁) (a : ℤ) {m m' : Fin r}
+    (h : Fr.fr a (r - 1 - m.val) = Fr.fr a (r - 1 - m'.val)) : m = m' := by
+  have hm := m.isLt
+  have hm' := m'.isLt
+  apply Fin.ext
+  rcases lt_trichotomy (r - 1 - m.val) (r - 1 - m'.val) with h1 | h1 | h1
+  · have := dg_fr_lt hV a _ _ h1 (by omega); omega
+  · omega
+  · have := dg_fr_lt hV a _ _ h1 (by omega); omega
+
+theorem ll_between (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (j : ZMod J) (l : Fin (nL j)) :
+    Fr.fr (segZ j - 1) (r - 1) < llPos Fr (segZ j) l.val ∧ llPos Fr (segZ j) l.val < Fr.fr (segZ j) 0 :=
+  (dg_mem_LL.1 (dg_llPos_mem (Fr := Fr) (segZ j) l.val (by rw [← hnL j]; exact l.isLt))).1
+
+theorem mlOf_ll (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (j : ZMod J) (l : Fin (nL j)) :
+    mlOf Fr nL j (llPos Fr (segZ j) l.val) = ML.ll j l := by
+  have h : ∃ l' : Fin (nL j), llPos Fr (segZ j) l.val = llPos Fr (segZ j) l'.val := ⟨l, rfl⟩
+  unfold mlOf
+  rw [dite_eq_left h]
+  congr 1
+  apply Fin.ext
+  exact (DdG.llPos_inj Fr (segZ j) (by rw [← hnL j]; exact l.isLt) (by rw [← hnL j]; exact h.choose.isLt)
+    h.choose_spec).symm
+
+theorem mlOf_lab (hV : Fr.Valid L₁ N₁) (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (j : ZMod J) (m : Fin r) :
+    mlOf Fr nL j (Fr.fr (segZ j) (r - 1 - m.val)) = ML.lab j m := by
+  have hm := m.isLt
+  have h1 : ¬ ∃ l : Fin (nL j), Fr.fr (segZ j) (r - 1 - m.val) = llPos Fr (segZ j) l.val := by
+    rintro ⟨l, hl⟩
+    have h2 := (ll_between hnL j l).2
+    have h3 := dg_fr_le hV (segZ j) (Nat.zero_le (r - 1 - m.val)) (by omega)
+    omega
+  have h : ∃ m' : Fin r, Fr.fr (segZ j) (r - 1 - m.val) = Fr.fr (segZ j) (r - 1 - m'.val) := ⟨m, rfl⟩
+  unfold mlOf
+  rw [dite_eq_right h1, dite_eq_left h]
+  congr 1
+  exact (fr_rev_inj hV _ h.choose_spec).symm
+
+theorem mlOf_wc (hV : Fr.Valid L₁ N₁) (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (j : ZMod J) (m : Fin r) :
+    mlOf Fr nL j (Fr.fr (segZ j - 1) (r - 1 - m.val)) = ML.wc (j - 1) m := by
+  have hm := m.isLt
+  have h0 : Fr.fr (segZ j - 1) (r - 1 - m.val) ≤ Fr.fr (segZ j - 1) (r - 1) :=
+    dg_fr_le hV (segZ j - 1) (by omega) (by omega)
+  have h1 : ¬ ∃ l : Fin (nL j), Fr.fr (segZ j - 1) (r - 1 - m.val) = llPos Fr (segZ j) l.val := by
+    rintro ⟨l, hl⟩
+    have h2 := (ll_between hnL j l).1
+    omega
+  have h2 : ¬ ∃ m' : Fin r, Fr.fr (segZ j - 1) (r - 1 - m.val) = Fr.fr (segZ j) (r - 1 - m'.val) := by
+    rintro ⟨m', hm'⟩
+    have h3 := frame_end_lt_next_start hV (segZ j)
+    have h4 := dg_fr_le hV (segZ j) (Nat.zero_le (r - 1 - m'.val)) (by have := m'.isLt; omega)
+    omega
+  have h : ∃ m' : Fin r, Fr.fr (segZ j - 1) (r - 1 - m.val) = Fr.fr (segZ j - 1) (r - 1 - m'.val) := ⟨m, rfl⟩
+  unfold mlOf
+  rw [dite_eq_right h1, dite_eq_right h2, dite_eq_left h]
+  congr 1
+  exact (fr_rev_inj hV _ h.choose_spec).symm
+
+end Spec
+
+theorem restSpec : RestSpec := by
+  intro n' r _ _ Fr L₁ N₁ hV J _ nL hnL j y hy
+  have hr : 1 ≤ r := NeZero.one_le
+  by_cases hW : Fr.IsW (segZ j) y
+  · have hy' := hy
+    unfold Frames.letters at hy'
+    rw [Finset.mem_filter, Finset.mem_Icc] at hy'
+    obtain ⟨i', hi', hti⟩ := dg_frame hV (segZ j - 1) y hy'.2 hy'.1.1 (r - 1) (by omega) hW
+    have e : r - 1 - (r - 1 - i') = i' := by omega
+    have hy2 : y = Fr.fr (segZ j - 1) (r - 1 - (⟨r - 1 - i', by omega⟩ : Fin r).val) := by
+      show y = Fr.fr (segZ j - 1) (r - 1 - (r - 1 - i'))
+      rw [e, hti]
+    refine Or.inr (Or.inr ⟨⟨r - 1 - i', by omega⟩, hy2, ?_⟩)
+    rw [hy2]
+    exact mlOf_wc hV hnL j _
+  · obtain ⟨s, hs⟩ := tl_surj (nL := nL) hV hnL j y hy hW
+    rcases s with l | m
+    · have hs' : llPos Fr (segZ j) l.val = y := hs
+      refine Or.inl ⟨l, hs'.symm, ?_⟩
+      rw [← hs']
+      exact mlOf_ll hnL j l
+    · have hs' : Fr.fr (segZ j) (r - 1 - m.val) = y := hs
+      refine Or.inr (Or.inl ⟨m, hs'.symm, ?_⟩)
+      rw [← hs']
+      exact mlOf_lab hV hnL j m
+
+end Formalism.MainNotions.NormalSetCounting
+end
+end
+
+section
+
+noncomputable section
+
+open MvPolynomial Finset Classical
+
+namespace Formalism.MainNotions.NormalSetCounting
+
+open Formalism.MainNotions.G Formalism.GradedWeylDivisibility Formalism.MainNotions.SourceCleaning Formalism.MainNotions.Pf14 Formalism.MainNotions.PlaneGramData Formalism.MainNotions.TestSideCounting Formalism.MainNotions.TestSideWords Formalism.MainNotions.Proposition5Numerics Formalism.MainNotions.PairMembershipBlocks
+
+section LevP
+
+variable {n' r K m : ℕ} [NeZero n'] (Fr : Frames n' r) (p : ℕ) {O : Type} [CommRing O] [IsDomain O]
+  (hk : m + 1 = r + K) {J : ℕ} [NeZero J] (nL : ZMod J → ℕ)
+
+def psiExpP (a : TL J nL r × Fin r →₀ ℕ) : TV n' (m + 1) →₀ ℕ :=
+  a.sum fun v e => Finsupp.single (plVar Fr hk nL v.1 v.2) (lowP Fr p v.1 * e)
+
+def PsiP : MvPolynomial (TL J nL r × Fin r) (KK O) →ₐ[KK O] MvPolynomial (TV n' (m + 1)) (KK O) :=
+  aeval fun v => X (plVar Fr hk nL v.1 v.2) ^ lowP Fr p v.1
+
+theorem PsiP_monomial (a : TL J nL r × Fin r →₀ ℕ) (c : KK O) :
+    PsiP (O := O) Fr p hk nL (monomial a c) = monomial (psiExpP Fr p hk nL a) c := by
+  unfold PsiP psiExpP
+  rw [aeval_monomial, monomial_finsupp_sum_index, MvPolynomial.algebraMap_eq]
+  congr 1
+  refine Finsupp.prod_congr fun v _ => ?_
+  rw [← pow_mul, X_pow_eq_monomial]
+
+variable {Fr nL}
+
+theorem plVar_inj {L₁ N₁ : ℕ} (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (hJ : J = Fr.J)
+    (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) {x x' : TL J nL r} {a a' : Fin r}
+    (h : plVar Fr hk nL x a = plVar Fr hk nL x' a') : x = x' ∧ a = a' := by
+  have h1 := congrArg Prod.fst h
+  have h2 := congrArg Prod.snd h
+  simp only [Formalism.MainNotions.TestSideWords.plVar] at h1 h2
+  exact ⟨dg_inj hV hr hJ hnL h1, Fin.castAdd_injective r K (Fin.cast_injective _ h2)⟩
+
+theorem psiExpP_apply {L₁ N₁ : ℕ} (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (hJ : J = Fr.J)
+    (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (a : TL J nL r × Fin r →₀ ℕ) (x : TL J nL r) (a' : Fin r) :
+    psiExpP Fr p hk nL a (plVar Fr hk nL x a') = lowP Fr p x * a (x, a') := by
+  unfold psiExpP
+  rw [Finsupp.sum_apply, Finsupp.sum_eq_single (x, a')]
+  · rw [Finsupp.single_eq_same]
+  · intro v _ hv
+    rw [Finsupp.single_apply, if_neg]
+    intro h
+    obtain ⟨e1, e2⟩ := plVar_inj hk hV hr hJ hnL h
+    exact hv (Prod.ext e1 e2)
+  · intro _
+    rw [mul_zero, Finsupp.single_zero, Finsupp.zero_apply]
+
+theorem plMon_psiExpP_add {L₁ N₁ : ℕ} (hp : 0 < p) (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (hJ : J = Fr.J)
+    (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (a : TL J nL r × Fin r →₀ ℕ) (c : TV n' (m + 1) →₀ ℕ) :
+    plMon Fr p hk nL (psiExpP Fr p hk nL a + c) = plMon Fr p hk nL c + a := by
+  ext ⟨x, a'⟩
+  have hP : 0 < lowP Fr p x := pow_pos hp _
+  simp only [plMon, Finsupp.coe_equivFunOnFinite_symm, Finsupp.add_apply]
+  rw [psiExpP_apply p hk hV hr hJ hnL, Nat.mul_add_div hP, add_comm]
+
+theorem levelAtPrime_character_mul {L₁ N₁ : ℕ} (hp : 0 < p) (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (hJ : J = Fr.J)
+    (hnL : ∀ j, nL j = (Fr.LLset (segZ j)).card) (H : MvPolynomial (TL J nL r × Fin r) (KK O))
+    (c : TV n' (m + 1) →₀ ℕ) :
+    levP Fr p hk nL (PsiP (O := O) Fr p hk nL H * monomial c 1) = monomial (plMon Fr p hk nL c) 1 * H := by
+  induction H using MvPolynomial.induction_on' with
+  | monomial a k =>
+    rw [PsiP_monomial, monomial_mul, T5.monomialSubstitution_monomial, plMon_psiExpP_add p hk hp hV hr hJ hnL, monomial_mul, mul_one,
+      one_mul]
+  | add F G hF hG => rw [map_add (f := _), add_mul, T5.monomialSubstitution_add, hF, hG, mul_add]
+
+end LevP
+
+end Formalism.MainNotions.NormalSetCounting
+end
+end

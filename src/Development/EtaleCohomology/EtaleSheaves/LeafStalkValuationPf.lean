@@ -1,9 +1,9 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafExtendCut
+public import Development.EtaleCohomology.EtaleSheaves.Bundle047
 import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AffineSpaceSmoothNormal
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KrullDimSmoothSurjectiveTotal
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle196
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2756
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsDomainAndIsIntegrallyClosedAtPrimeOfSmoothOfCo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

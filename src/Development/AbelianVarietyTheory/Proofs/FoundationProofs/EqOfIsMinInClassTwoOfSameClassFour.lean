@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.ReducedBases.LatDefs
+public import ReciprocityTheory.ReducedBases.Bundle001
 public import Mathlib.LinearAlgebra.Matrix.PosDef
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsEventuallyNormRiemannThetaTermLe
 import Mathlib.Algebra.Order.Floor.Extended

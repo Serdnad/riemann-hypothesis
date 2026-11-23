@@ -1,9 +1,9 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsEuclideanSections
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLattice
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLatticeCount
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSmallBallVolume
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle057
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle012
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle021
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -290,3 +290,18 @@ theorem decomp : AdaptExists → IwaQ → LeviQ → CartanQ → Decomp := by
     simp only [Matrix.mul_assoc, c1, c2, c3]
 
 end GlobalTheory.CompanionTheory.BmuDecomp
+
+end
+end
+
+section
+
+@[expose] public section
+
+open CompanionTheory.Bmu
+
+theorem _root_.GlobalTheory.T.decomposition_of_iwasawa_levi_cartan : AdaptExists → IwaQ → LeviQ → CartanQ → Decomp := by
+  first | exact @GlobalTheory.CompanionTheory.BmuDecomp.decomp | exact GlobalTheory.CompanionTheory.BmuDecomp.decomp | (intros; apply GlobalTheory.CompanionTheory.BmuDecomp.decomp <;> assumption)
+
+end
+end

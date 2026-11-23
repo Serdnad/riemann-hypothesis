@@ -1,6 +1,6 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.HcToIdele
+public import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.Bundle010
 import Aesop.Main
 public import GroundTheory.GlobalFields.TateThesis.RootNumberLocalFinite
 import Mathlib.Algebra.Order.Floor.Extended
@@ -43,7 +43,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.Bundle001
 
 @[expose] public section
 
@@ -241,7 +241,7 @@ theorem finite_split_holds : FinSplit := by
       have hω : ωF ω b = ∏ v ∈ S, ((ω.loc v (finUnitAt v b) : ℂˣ) : ℂ) :=
         character_product_holds F ω c H b S fun w hw => ⟨(hS w hw).1, hb w hw⟩
       rw [hω, ← Finset.prod_coe_sort S, ← Finset.prod_inv_distrib]
-      simp only [locF]
+      simp only [_root_.UpperTheory.HilbertEisensteinWeightOne.FourierExpansionEisenstein.L4.locF]
       rw [Finset.prod_mul_distrib]
       congr 1
       unfold finK

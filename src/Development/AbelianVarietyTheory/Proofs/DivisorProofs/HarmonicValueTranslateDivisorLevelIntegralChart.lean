@@ -1,33 +1,33 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.Jets.JetsOnCopiesCompatibleFrames
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFramedPointBaseChangeAlgHom
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsUniqueIsTwistPull
-import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RawChartBaseChangeRigGerm
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.RawChartFormalBiextensionBaseChange
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.HarmonicValueCopiesGaugeIndependent
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.JetFramesDifferByUnitEachOrder
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.AlphaFormHarmonicValueAtFramedPoint
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ConstantCoeffDmonNCongr
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFramesEL
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsLevelPointEqOfKilledByHalfLevelStatement
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsTranslatedNormalisedPullbackSection
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.GermBoxProductEqProdGerms
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle048
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle023
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle036
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle021
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle174
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle072
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle073
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle122
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle166
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle085
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HarmonicValueConnectionIntegralChart
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HarmonicValueNormalisedPullbackChainRuleStatement
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle118
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.HarmonicValueTranslateAny
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.JetDUnique
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle157
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NormalizedPullbackConjugateTranslateEqTranslateL
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.OneColumnTranslateSectionRootOfUnityMul
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThetaRuleValueIntegralFramedPointExtensionField
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TranslateThetaFrameGermEqUnitMulBoxProduct
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ValCongr
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.HasGenPull
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllUniformizationLawsHold
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle171
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle170
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle173
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle074
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle022
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle127
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.HarmInvA
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle020
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -115,7 +115,7 @@ theorem isVtOver_of_isNormPull_dvd {S : Scheme.{0}} {A : Over S} [GrpObj A] [IsC
   obtain ⟨s₁, tκ, -⟩ := existsUnique_isTwistPull S A L.L hL T (mulT A T M) (snd T A ^ M) (lift_snd _ _)
     ((M : ℤ) ^ 2) 1 κ gκ s
   refine ⟨t, κ₀, κ, s₁, ⟨t, u', g⟩, rfl, ho, gκ₀, corr_of_val hL fun y J hJ => ?_,
-    corr_of_val hL fun y J hJ => vκ _ _ y J hJ, tκ, by rw [pow_two M, hm]; exact sl, twist_of_val hL g fun z J hJ => ?_⟩
+    corr_of_val hL fun y J hJ => vκ _ _ y J hJ, tκ, by rw [pow_two M, hm]; exact sl, _root_.GlobalTheory.ConjPull.twist_of_val hL g fun z J hJ => ?_⟩
   · have a₁ := val_corr hJ nα (𝟙 _)
     have a₂ := val_corr hJ nβ (𝟙 _)
     have vr : ∀ k : ℤ, val (rigPow A L.L L.rig k) (𝟙 _) y J = val (L := L.L) L.rig (𝟙 _) y J ^ k :=

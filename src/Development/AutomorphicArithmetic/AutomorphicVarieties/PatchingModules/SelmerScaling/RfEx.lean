@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IsCplAtSelf
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle004
 public import Mathlib.RingTheory.PowerSeries.Basic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplLift
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.CaCplMap
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle015
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.Bundle010
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

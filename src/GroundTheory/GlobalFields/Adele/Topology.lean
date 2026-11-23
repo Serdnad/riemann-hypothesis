@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.GlobalFields.IdeleGroups.InfiniteProjInfiniteEmbeddingOfNe
-import GroundTheory.GlobalFields.Adele.Approximation
-public import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Adele.Bundle002
+public import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

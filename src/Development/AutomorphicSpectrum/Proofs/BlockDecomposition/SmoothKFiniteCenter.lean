@@ -1,15 +1,14 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.T2SpaceAdelicGeneralLinearGroupNumberField
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactAdelicIntegralDenominatorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactConjugateCentrePowerBoundedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactConjugateRationalEntriesBoundedStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsOpenLevel
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteAdelicRestrictionMeasureStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteZSpanIntegralRepresentationStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FundamentalDomainIntegralCountBoundStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegersBoundedArchimedeanCountStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle133
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle106
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle420
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle453
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle240
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle418
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle058
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle086
 import GroundTheory.AutomorphicForms.QuotientMeasure
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
@@ -100,7 +99,7 @@ theorem count_lattice (E : Type) [Field E] [NumberField E] [_root_.NumberField.I
         C * height y ^ N := by
   classical
   rcases Nat.eq_zero_or_pos a with rfl | ha
-  · have : Subsingleton (GA E 0) := inferInstance
+  · have : Subsingleton (GA E 0) := ⟨fun u v => Units.ext (Subsingleton.elim _ _)⟩
     refine ⟨1, 0, fun y => ⟨Set.toFinite _, ?_⟩⟩
     have := Set.ncard_le_ncard (Set.subset_univ {γ : GA E 0 | γ ∈ latticeGL E 0 ∧ (g₀ * infGL E 0 y)⁻¹ * γ * (g₀ * infGL E 0 y) ∈ Q}) (Set.toFinite _)
     have h2 : (Set.univ : Set (GA E 0)).ncard = 1 := by

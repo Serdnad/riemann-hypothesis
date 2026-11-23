@@ -4,9 +4,9 @@ public import Mathlib.Algebra.Central.Defs
 public import Mathlib.FieldTheory.Separable
 public import Mathlib.LinearAlgebra.Trace
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MinpolyEqOfAevalOfLinearIndependent
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorRatAlgebraDecompFactorwise
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ThetaDistributionHeisenbergInvariant
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle580
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle004
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,7 +60,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsCyclotomicExtensionQI
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InvMemIntV
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle156
 
 @[expose] public section
 

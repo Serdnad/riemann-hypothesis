@@ -2,9 +2,9 @@ module
 
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EqZeroOfForallLeExp
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemPowHeightOneIdealIffDvdEmbeddingStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SurjectiveAlgebraMapAdicCompletionCompleteDvrStatement
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,11 +49,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemHomLat
-import Formalism.LocalRingCardinality.SpanPowerMembership.GatRing
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle044
+import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
-import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.DescentCore
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
+import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle001
 import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 
 @[expose] public section

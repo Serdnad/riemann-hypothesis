@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NotForallNonemptyLocP
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsRtensOp
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TensorIrreducibleOfCountableDimensionIrreducibleStatement
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle103
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle361
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle397
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

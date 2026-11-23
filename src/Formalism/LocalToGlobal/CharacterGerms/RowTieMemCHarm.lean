@@ -1,10 +1,10 @@
 module
 
-public import Formalism.LocalToGlobal.CharacterGerms.GramMatrixMulRight
-public import Formalism.LocalToGlobal.CharacterGerms.FinTwoNeOneSub
-public import Formalism.LocalToGlobal.CharacterGerms.PderivSubGOff
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle031
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle025
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 import Formalism.LocalToGlobal.CharacterGerms.RowTieAdm
-public import Formalism.LocalToGlobal.CharacterGerms.RowTieMemCDeg
+public import Formalism.LocalToGlobal.CharacterGerms.Bundle034
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

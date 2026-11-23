@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormMemCyclotomicLayerPrimeRpowStatement
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormPrimitiveRootPrimePowSubOnePadicComplexStatement
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle398
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle193
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -226,7 +226,7 @@ def intRing (F : IntermediateField ℚ_[l] (Om l)) : Subring (Om l) where
   neg_mem' := fun {a} ha => ⟨neg_mem ha.1, by simpa using ha.2⟩
 
 theorem aeval_taylor' {R : Type} [CommRing R] [Algebra R (Om l)] (p : R[X]) (r : R) (w : Om l) :
-    aeval w (taylor r p) = aeval (w + algebraMap R _ r) p := by
+    aeval w (Polynomial.taylor r p) = aeval (w + algebraMap R _ r) p := by
   rw [Polynomial.taylor_apply, Polynomial.aeval_comp]
   simp
 
@@ -234,8 +234,8 @@ end GlobalTheory.Cyc.IntBasis
 
 private lemma norm_coeff_taylor_le_one {l : ℕ} [Fact l.Prime] {F : IntermediateField ℚ_[l] (Om l)}
     (g : (↥F)[X]) (r : F) (hr : ‖(r : Om l)‖ ≤ 1) (hg : ∀ b, ‖(g.coeff b : Om l)‖ ≤ 1) (n : ℕ) :
-    ‖((taylor r g).coeff n : Om l)‖ ≤ 1 := by
-  rw [taylor_coeff, eval_eq_sum_range]
+    ‖((Polynomial.taylor r g).coeff n : Om l)‖ ≤ 1 := by
+  rw [Polynomial.taylor_coeff, eval_eq_sum_range]
   push_cast
   apply IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one
   intro m _
@@ -261,8 +261,8 @@ theorem GlobalTheory.Cyc.integers_eq_sum_zeta_pow : ∀ (l : ℕ) [Fact l.Prime]
   constructor
   · intro x hx hx1
     obtain ⟨p, hpdeg, hpx⟩ := exists_poly K i hi ζ hζ x hx
-    set Q := taylor (1 : ↥(Ks K (i - 1))) p with hQ
-    have hQdeg : Q.natDegree < l := by rw [hQ, natDegree_taylor]; exact hpdeg
+    set Q := Polynomial.taylor (1 : ↥(Ks K (i - 1))) p with hQ
+    have hQdeg : Q.natDegree < l := by rw [hQ, Polynomial.natDegree_taylor]; exact hpdeg
     have hQx : x = ∑ b ∈ Finset.range l, (Q.coeff b : Om l) * (ζ - 1) ^ b := by
       rw [← aeval_eq_sum_range_of_natDegree_lt Q hQdeg, hQ, aeval_taylor', ← hpx]
       simp
@@ -276,8 +276,8 @@ theorem GlobalTheory.Cyc.integers_eq_sum_zeta_pow : ∀ (l : ℕ) [Fact l.Prime]
           _ ≤ 1 := hx1
       · rw [coeff_eq_zero_of_natDegree_lt (by omega)]
         simp
-    have hpQ : p = taylor (-1 : ↥(Ks K (i - 1))) Q := by
-      rw [hQ, taylor_taylor]
+    have hpQ : p = Polynomial.taylor (-1 : ↥(Ks K (i - 1))) Q := by
+      rw [hQ, Polynomial.taylor_taylor]
       simp
     refine ⟨fun a => (p.coeff a : Om l), fun a => ⟨(p.coeff a).2, ?_⟩, ?_⟩
     · rw [hpQ]
@@ -300,8 +300,8 @@ theorem GlobalTheory.Cyc.integers_eq_sum_zeta_pow : ∀ (l : ℕ) [Fact l.Prime]
       rw [aeval_eq_sum_range_of_natDegree_lt P hPdeg,
         ← Fin.sum_univ_eq_sum_range (fun a => (P.coeff a : Om l) * ζ ^ a), ← hsum]
       exact Finset.sum_congr rfl (fun a _ => by rw [hPcoeff a, mul_comm])
-    set Q := taylor (1 : ↥(Ks K (i - 1))) P with hQ
-    have hQdeg : Q.natDegree < l := by rw [hQ, natDegree_taylor]; exact hPdeg
+    set Q := Polynomial.taylor (1 : ↥(Ks K (i - 1))) P with hQ
+    have hQdeg : Q.natDegree < l := by rw [hQ, Polynomial.natDegree_taylor]; exact hPdeg
     have hQ0 : ∑ b ∈ Finset.range l, (Q.coeff b : Om l) * (ζ - 1) ^ b = 0 := by
       rw [← aeval_eq_sum_range_of_natDegree_lt Q hQdeg, hQ, aeval_taylor']
       simpa using hPζ
@@ -316,7 +316,7 @@ theorem GlobalTheory.Cyc.integers_eq_sum_zeta_pow : ∀ (l : ℕ) [Fact l.Prime]
         have h4 : (Q.coeff b : Om l) = 0 := (mul_eq_zero.1 h2).resolve_right h3
         exact_mod_cast h4
       · exact coeff_eq_zero_of_natDegree_lt (by omega)
-    have hP0 : P = 0 := taylor_injective (1 : ↥(Ks K (i - 1))) (by rw [← hQ, hQz, map_zero])
+    have hP0 : P = 0 := Polynomial.taylor_injective (1 : ↥(Ks K (i - 1))) (by rw [← hQ, hQz, map_zero])
     intro a
     rw [← hPcoeff a, hP0, coeff_zero]
     rfl

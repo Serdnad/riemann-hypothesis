@@ -1,22 +1,16 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChart
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChartPointTrdeg
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsFibreCompDim
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsFibreCut
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsGenSecKer
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsOrd
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsSecPointSeparable
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle009
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle001
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.Assembly
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.PAffineChartTrdeg
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PConeDimOfChowForm
-import GroundTheory.HeightsAndTheta.Heights.ChowForms.PIncIdealDim
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.Bundle007
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Assembly
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PFibreClosedComponent
-import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PFibreCompDim
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PFiniteOrd
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle004
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PGenSecKer
-public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PGenSecSeparable
+public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

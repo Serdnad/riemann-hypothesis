@@ -1,14 +1,14 @@
 module
 
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.NefRR
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ChartLatticeDimensionUpperStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ChartLatticeLeSpanNormStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ChartLatticeSpanTwistShiftStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimensionalChartLatticeStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle276
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle185
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle234
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle253
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinrankLeAddOfMem
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TendstoOfAsymptoticBoundsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle151
 public import Development.AutomorphicSpectrum.PublishedTheorems.Geometry₂.ProjLineLimit
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefSectionsAsymptotic
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle058
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

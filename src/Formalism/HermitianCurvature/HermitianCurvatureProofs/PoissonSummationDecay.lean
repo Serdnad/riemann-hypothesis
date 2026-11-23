@@ -1,8 +1,8 @@
 module
 
-public import Formalism.HermitianCurvature.LevelRecursionCondNeeded
+public import Formalism.HermitianCurvature.Bundle002
 public import Formalism.LatticeTheta.LatticeThetaProofs.LatticeFourierSeries
-public import Formalism.LatticeTheta.LatticeThetaProofs.UnfoldCoeff
+public import Formalism.LatticeTheta.LatticeThetaProofs.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

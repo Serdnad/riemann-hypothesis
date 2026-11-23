@@ -1,23 +1,21 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.EtaDef
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.GoodLat
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRealChartAdeleTensorAdmissibleCMBaseStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeisenbergCMRealLineAddNoPhase
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianFormRealCoordinateMatrixHermitianDetNeZStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealCoordinateActionUnitaryPreservesHermitianForStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardTraceAddCharIsStandardCharOfAdmissibleCMStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1643
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1201
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1642
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1648
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaDistributionInvariantRationalTarget
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaFunctionHeisenbergInvariantStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicPointEqRealMulFiniteBothOrdersStatement
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1557
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1681
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutEta
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutGen
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutLat
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutProd
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle007
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutReal
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutSubst
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutTrace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

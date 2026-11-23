@@ -3,15 +3,13 @@ module
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IsCharZeroPt
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GrInternal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Adjoin
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.ExistsUniqueIsPtHom
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.Bundle007
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.UnivGr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.WPresEx
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.DefCoc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.NormCob
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ZetaReducibleRepEqSubInvAndIsUnit
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -201,17 +199,17 @@ variable {O A B D : Type} [CommRing O] [IsLocalRing O] [CommRing A] [CommRing B]
 
 omit [IsLocalRing O] in
 private theorem conj_push (f : A →ₐ[O] B) (r : D →* GG (m := 3) (R := A)) (h : GL (Fin 3) A) (g : D) (a b : Fin 3) :
-    (conjBy (GeneralLinearGroup.map (f : A →+* B) h)⁻¹ (push f r) g).mat a b = f ((conjBy h⁻¹ r g).mat a b) := by
+    (conjBy (GeneralLinearGroup.map (f : A →+* B) h)⁻¹ (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) g).mat a b = f ((conjBy h⁻¹ r g).mat a b) := by
   have e : ∀ k : GL (Fin 3) A, GG.map (f : A →+* B) (GG.ofGL k) = GG.ofGL (GeneralLinearGroup.map (f : A →+* B) k) :=
     fun k => rfl
-  have : conjBy (GeneralLinearGroup.map (f : A →+* B) h)⁻¹ (push f r) g = GG.map (f : A →+* B) (conjBy h⁻¹ r g) := by
+  have : conjBy (GeneralLinearGroup.map (f : A →+* B) h)⁻¹ (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) g = GG.map (f : A →+* B) (conjBy h⁻¹ r g) := by
     show GG.ofGL _ * GG.map (f : A →+* B) (r g) * (GG.ofGL _)⁻¹ = GG.map (f : A →+* B) (GG.ofGL h⁻¹ * r g * (GG.ofGL h⁻¹)⁻¹)
     rw [map_mul, map_mul, map_inv (GG.map (f : A →+* B)), e, map_inv (GeneralLinearGroup.map (f : A →+* B))]
   rw [this]
   rfl
 
 private theorem triIn_push {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D} (f : A →ₐ[O] B) {r : D →* GG (m := 3) (R := A)}
-    {h : GL (Fin 3) A} (H : TriIn η Ψ I r h) : TriIn η Ψ I (push f r) (GeneralLinearGroup.map (f : A →+* B) h) := by
+    {h : GL (Fin 3) A} (H : TriIn η Ψ I r h) : TriIn η Ψ I (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) (GeneralLinearGroup.map (f : A →+* B) h) := by
   refine ⟨?_, ?_⟩
   · intro g hg a b hab
     rw [conj_push, H.tri g hg a b hab, map_zero]
@@ -219,13 +217,13 @@ private theorem triIn_push {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D
     rw [conj_push, H.ine s hs h1 a, AlgHom.commutes]
 
 private theorem diagIn_push {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D} (f : A →ₐ[O] B) {r : D →* GG (m := 3) (R := A)}
-    {h : GL (Fin 3) A} (H : DiagIn η Ψ I r h) : DiagIn η Ψ I (push f r) (GeneralLinearGroup.map (f : A →+* B) h) := by
+    {h : GL (Fin 3) A} (H : DiagIn η Ψ I r h) : DiagIn η Ψ I (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) (GeneralLinearGroup.map (f : A →+* B) h) := by
   refine ⟨triIn_push f H.toTriIn, ?_⟩
   intro g hg a b hab
   rw [conj_push, H.low g hg a b hab, map_zero]
 
 private theorem triIn_pull {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D} (f : A →ₐ[O] B) (hf : Function.Injective f)
-    {r : D →* GG (m := 3) (R := A)} {h : GL (Fin 3) A} (H : TriIn η Ψ I (push f r) (GeneralLinearGroup.map (f : A →+* B) h)) :
+    {r : D →* GG (m := 3) (R := A)} {h : GL (Fin 3) A} (H : TriIn η Ψ I (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) (GeneralLinearGroup.map (f : A →+* B) h)) :
     TriIn η Ψ I r h := by
   refine ⟨?_, ?_⟩
   · intro g hg a b hab
@@ -234,7 +232,7 @@ private theorem triIn_pull {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D
     exact hf (by rw [← conj_push, H.ine s hs h1 a, AlgHom.commutes])
 
 private theorem diagIn_pull {η : D →* ℤˣ} {Ψ : D →* Oˣ} {I : Subgroup D} (f : A →ₐ[O] B) (hf : Function.Injective f)
-    {r : D →* GG (m := 3) (R := A)} {h : GL (Fin 3) A} (H : DiagIn η Ψ I (push f r) (GeneralLinearGroup.map (f : A →+* B) h)) :
+    {r : D →* GG (m := 3) (R := A)} {h : GL (Fin 3) A} (H : DiagIn η Ψ I (_root_.UpperTheory.V.UnitaryThreeInertia.push f r) (GeneralLinearGroup.map (f : A →+* B) h)) :
     DiagIn η Ψ I r h := by
   refine ⟨triIn_pull f hf H.toTriIn, ?_⟩
   intro g hg a b hab
@@ -338,12 +336,12 @@ theorem UpperTheory.V.UnitaryThreeInertia.tangent_eq_orbit :
   obtain ⟨uS, huS, -⟩ := existsUnique_isPtHom u (AlgHom.id O (Sring (O := O) u))
   have hent : ∀ g a b, (uS g).mat a b = ⟨_, mem_Sring u (entry_mem u g a b)⟩ := fun g a b => by
     rw [(huS g).2]; rfl
-  have hval : push (Sring (O := O) u).val uS = u :=
+  have hval : _root_.UpperTheory.V.UnitaryThreeInertia.push (Sring (O := O) u).val uS = u :=
     MonoidHom.ext fun g => gg_ext (huS g).1 (Matrix.ext fun a b => congrArg Subtype.val (hent g a b))
   have hrm : ∀ g a b, (r g).mat a b = ξ ((uS g).mat a b) := fun g a b => by
     rw [(hr g).2, hent]; rfl
   have hrr : ∀ g, (r g).right = F.η g := fun g => (hr g).1.trans (hu.pt.mult g)
-  obtain ⟨y, hy, hdef, hyD⟩ := exists_coc r (push (dualPt ξ D hD) uS) (fun g => (huS g).1.trans (hr g).1.symm)
+  obtain ⟨y, hy, hdef, hyD⟩ := exists_coc r (_root_.UpperTheory.V.UnitaryThreeInertia.push (dualPt ξ D hD) uS) (fun g => (huS g).1.trans (hr g).1.symm)
     (fun g a b => by
       rw [hrm]
       show (dualPt ξ D hD ((uS g).mat a b)).fst = _
@@ -393,7 +391,7 @@ theorem UpperTheory.V.UnitaryThreeInertia.tangent_eq_orbit :
       (v ∈ F.Sb → DiagIn (F.ηv v) (F.Ψv v) (F.Iv v) (uS.comp (F.loc v)) h) := fun v hv => by
     obtain ⟨h, -, h1, h2, h3, h4⟩ := exists_graded_basis F hF g₁ hg u hu v hv
     obtain ⟨k, rfl⟩ := exists_gl (Sring (O := O) u) h (fun a b => mem_Sring u (h1 a b)) fun a b => mem_Sring u (h2 a b)
-    have e : u.comp (F.loc v) = push (Sring (O := O) u).val (uS.comp (F.loc v)) := by
+    have e : u.comp (F.loc v) = _root_.UpperTheory.V.UnitaryThreeInertia.push (Sring (O := O) u).val (uS.comp (F.loc v)) := by
       conv_lhs => rw [← hval]
       rfl
     rw [e] at h3 h4

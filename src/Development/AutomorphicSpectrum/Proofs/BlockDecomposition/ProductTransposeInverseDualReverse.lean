@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.ZelevinskyCosocles.GKLocal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DualClassInvolutive
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.NormalisedParabolicInductionReindexEquiv
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GelfandKazhdanContragredient
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TransposeInverseInvolutionApply
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle345
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle283
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle347
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle346
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -281,15 +281,15 @@ theorem parInd_thetaW {h N : ℕ} (d : Fin h → ℕ) (hd : ∑ a, d a = N) (hd'
         Subtype.ext (GlobalTheory.CompanionTheory.ThetaInv.thetaW_thetaW N (q : GL (Fin N) k))
       rw [← hpq, leviProj_thetaW d hd hd' p]
     refine ⟨p, rfl, ?_⟩
-    show twist (ρ'.comp (thetaL d)) (deltaHalf k _) (leviProj k _ p) =
-      twist ρ' (deltaHalf k _) (leviProj k _ q)
+    show _root_.GlobalTheory.SmGL.twist (ρ'.comp (thetaL d)) (deltaHalf k _) (leviProj k _ p) =
+      _root_.GlobalTheory.SmGL.twist ρ' (deltaHalf k _) (leviProj k _ q)
     rw [hq]
     ext v
     simp only [twist_apply, MonoidHom.comp_apply, deltaHalf_thetaL]
   · refine ⟨⟨thetaW k N p, (thetaW_mem_parab_iff d hd hd' _).2 p.2⟩, rfl, ?_⟩
     have hl := leviProj_thetaW d hd hd' p
-    show twist ρ' (deltaHalf k _) (leviProj k _ _) =
-      twist (ρ'.comp (thetaL d)) (deltaHalf k _) (leviProj k _ p)
+    show _root_.GlobalTheory.SmGL.twist ρ' (deltaHalf k _) (leviProj k _ _) =
+      _root_.GlobalTheory.SmGL.twist (ρ'.comp (thetaL d)) (deltaHalf k _) (leviProj k _ p)
     rw [hl]
     ext v
     simp only [twist_apply, MonoidHom.comp_apply, deltaHalf_thetaL]

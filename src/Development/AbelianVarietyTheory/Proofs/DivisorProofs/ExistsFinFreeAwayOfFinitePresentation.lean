@@ -3,7 +3,7 @@ module
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelAmpleDiagonalDescendedBundleGaloisCover
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsSecOfFinite
 public import Mathlib.AlgebraicGeometry.Morphisms.FlatRank
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AffineFiniteProjectiveRankAtStalk
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle634
 import Mathlib.Algebra.Homology.QuasiIso
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

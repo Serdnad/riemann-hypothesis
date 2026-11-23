@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThetaCharacteristicsIffTestFunctionThetaSeries
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CanonicalThetaExponentSymplecticInvariant
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.EqOfSiegelThetaSeriesRationalEq
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsWeilOfSymplectic
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HMatMulVecPerCrd
-import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HeisenbergOperatorRationalPointLaws
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle006
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle028
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle013
 import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SymplecticSiegelActionMemUpperHalfSpaceAndCocycl
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.WeilActionPreservesThetaAndInnerProduct
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -540,7 +540,7 @@ theorem thA_vacuum : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (r :
     rintro rfl
     have hψ0 : ω v = 0 := by rw [hC, zero_smul]
     have h00 : thA X bas idx v x₀ = thA X bas idx 0 x₀ := by
-      rw [← e1₀, hψ0]; funext z; simp [thA, can, thS]
+      rw [← e1₀, hψ0]; funext z; simp [thA, can, _root_.GlobalTheory.SW.thS]
     have hv0 := UnAct.eq_of_thA_eq idx hs hx₀ hv.1 isSB_zero h00
     have h1 := hv.2.1
     rw [hv0] at h1

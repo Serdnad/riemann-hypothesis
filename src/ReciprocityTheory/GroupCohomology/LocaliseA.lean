@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.Algebra.Module.LocalizedModule.Basic
-public import ReciprocityTheory.GroupCohomology.IsTowerLim
+public import ReciprocityTheory.GroupCohomology.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+public import ReciprocityTheory.GroupCohomology.Bundle002
 
 @[expose] public section
 

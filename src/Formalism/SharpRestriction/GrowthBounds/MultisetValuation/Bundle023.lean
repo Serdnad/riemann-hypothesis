@@ -1,0 +1,313 @@
+module
+
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.IntegralSpanCoordinates
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.KernelSumOfClassData
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle022
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.HeckeValueEstimateOfRecordValue
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.GaussElementarySymmetric
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.FormalGroupSystem.Pf
+
+open Formalism.MainNotions.G Formalism.BasicNotions Finset
+
+attribute [local instance] Formalism.MainNotions.G.GAtP.ringO Formalism.MainNotions.G.GAtP.domO Formalism.MainNotions.G.GAtP.dvrO Formalism.MainNotions.G.GAtP.fieldK
+  Formalism.MainNotions.G.GAtP.algOK
+
+theorem hk_scal {K : Type} [Field K] (P a a' e : K) (hP : P ≠ 0) (ha : a ≠ 0) (h vm N g i l : ℤ) :
+    P ^ (-(h * i * ((N + g) - i))) * (P ^ (vm * i) * (a' ^ (-i) * P ^ (h * N * i))) *
+        (P ^ (2 * h * ((i - l) * (g - l))) * (P ^ (h * (l * (g - l))) * e)) *
+        (P ^ (vm * (i - l)) * (a ^ (i - l) * P ^ (h * (N + g) * (i - l))))⁻¹ =
+      ((a * a')⁻¹) ^ i * ((a * P ^ vm) ^ l * e) * P ^ (-(h * (i - l) * (N - (i - l)))) := by
+  have e1 : P ^ (-(h * i * ((N + g) - i))) * P ^ (vm * i) * P ^ (h * N * i) * P ^ (2 * h * ((i - l) * (g - l))) *
+      P ^ (h * (l * (g - l))) * (P ^ (vm * (i - l)))⁻¹ * (P ^ (h * (N + g) * (i - l)))⁻¹ =
+      P ^ (vm * l) * P ^ (-(h * (i - l) * (N - (i - l)))) := by
+    rw [← zpow_neg, ← zpow_neg]
+    simp only [← zpow_add₀ hP]
+    congr 1
+    ring
+  have e2 : (a ^ (i - l))⁻¹ = (a ^ i)⁻¹ * a ^ l := by
+    rw [zpow_sub₀ ha, inv_div, div_eq_mul_inv, mul_comm]
+  calc _ = (P ^ (-(h * i * ((N + g) - i))) * P ^ (vm * i) * P ^ (h * N * i) * P ^ (2 * h * ((i - l) * (g - l))) *
+      P ^ (h * (l * (g - l))) * (P ^ (vm * (i - l)))⁻¹ * (P ^ (h * (N + g) * (i - l)))⁻¹) *
+        (a ^ (i - l))⁻¹ * a' ^ (-i) * e := by ring
+    _ = (P ^ (vm * l) * P ^ (-(h * (i - l) * (N - (i - l))))) * ((a ^ i)⁻¹ * a ^ l) * a' ^ (-i) * e := by
+      rw [e1, e2]
+    _ = _ := by
+      rw [inv_zpow, mul_zpow, mul_zpow, ← zpow_mul, mul_inv, zpow_neg a' i]
+      ring
+
+theorem hk_esymm_smul {K σ : Type} [Field K] [Fintype σ] (c : K) (f : σ → K) (l : ℕ) :
+    MvPolynomial.eval (fun x => c * f x) (MvPolynomial.esymm σ K l) =
+      c ^ l * MvPolynomial.eval f (MvPolynomial.esymm σ K l) := by
+
+  simp only [MvPolynomial.esymm, map_sum, map_prod, MvPolynomial.eval_X, Finset.mul_sum]
+  refine Finset.sum_congr rfl (fun t ht => ?_)
+  rw [Finset.prod_mul_distrib, Finset.prod_const, (Finset.mem_powersetCard.1 ht).2]
+
+theorem hk_esymm_zero {K σ : Type} [Field K] [Fintype σ] (l : ℕ) (h : Fintype.card σ < l) :
+    MvPolynomial.esymm σ K l = 0 := by
+  rw [MvPolynomial.esymm, Finset.powersetCard_eq_empty.2 (by rwa [Finset.card_univ]), Finset.sum_empty]
+
+variable {p : ℕ} [Fact p.Prime] (X : Sys p)
+
+def eBe (v : X.Pl) (l : ℕ) : X.G.Kf :=
+  MvPolynomial.eval (fun x : Fin (X.t + 1) => X.qh v x.val) (MvPolynomial.esymm (Fin (X.t + 1)) X.G.Kf l)
+
+theorem nC_cast (hp : (p : X.G.Kf) ≠ 0) (v : X.Pl) (i l : ℕ) :
+    (nC X v i l : X.G.Kf) = (p : X.G.Kf) ^ (2 * hv X v * (((i - l : ℕ) : ℤ) * ((X.t + 1 - l : ℕ) : ℤ))) *
+      ((p : X.G.Kf) ^ (hv X v * ((l : ℤ) * ((X.t + 1 - l : ℕ) : ℤ))) * eBe X v l) := by
+  obtain ⟨k, hk⟩ := (X.std v).even
+  have h1 : X.G.P.n' v / 2 = k := by omega
+  have h2 : p ^ X.G.P.n' v = (p ^ k) ^ 2 := by rw [← pow_mul]; congr 1; omega
+  have hQ : (((p ^ k : ℕ) : ℕ) : X.G.Kf) ≠ 0 := by push_cast; exact pow_ne_zero _ hp
+  have hG := Formalism.InvariantFactorPaths.G7.gauss_elementary_symmetric X.G.Kf (p ^ k) (X.t + 1) l hQ
+  have hf : Formalism.InvariantFactorPaths.G7.beFam ((p : X.G.Kf) ^ k) (X.t + 1) = fun x => X.qh v x.val := funext fun x => by
+    have := beFam_eq X v x
+    rwa [h1] at this
+  have hb : Formalism.InvariantFactorPaths.G7.eF (Formalism.InvariantFactorPaths.G7.beFam ((p : X.G.Kf) ^ k) (X.t + 1)) l = eBe X v l := by
+    unfold Formalism.InvariantFactorPaths.G7.eF eBe
+    rw [hf]
+  unfold nC
+  rw [h2]
+  push_cast at hG ⊢
+  rw [hG, hb]
+  unfold hv
+  rw [h1]
+  congr 1
+  · rw [← pow_mul, ← pow_mul, ← zpow_natCast]
+    congr 1
+    push_cast
+    ring
+  · congr 1
+    rw [← pow_mul, ← zpow_natCast]
+    congr 1
+
+theorem NN_succ (k1 t j : ℕ) : (NN k1 t (j + 1) : ℤ) = (NN k1 t j : ℤ) + ((t + 1 : ℕ) : ℤ) := by
+  unfold NN
+  push_cast
+  ring
+
+theorem hk_coef (hp : (p : X.G.Kf) ≠ 0) (a a' : X.G.Kf) (ha : a ≠ 0) (v : X.Pl) (j i l : ℕ) (hl : l ≤ i) :
+    (p : X.G.Kf) ^ (-(hv X v * i * ((NN X.G.P.m X.t (j + 1) : ℤ) - i))) * cA X a' v j i * (nC X v i l : X.G.Kf) *
+        (cC X a v j (i - l))⁻¹ =
+      ((a * a')⁻¹) ^ i * (MvPolynomial.eval (fun x : Fin (X.t + 1) => (a * (p : X.G.Kf) ^ (X.vm v (j + 1))) * X.qh v x.val)
+          (MvPolynomial.esymm (Fin (X.t + 1)) X.G.Kf l)) *
+        (p : X.G.Kf) ^ (-(hv X v * ((i - l : ℕ) : ℤ) * ((NN X.G.P.m X.t j : ℤ) - ((i - l : ℕ) : ℤ)))) := by
+  rw [hk_esymm_smul, nC_cast X hp]
+  show _ = ((a * a')⁻¹) ^ i * ((a * (p : X.G.Kf) ^ (X.vm v (j + 1))) ^ l * eBe X v l) * _
+  by_cases hg : l ≤ X.t + 1
+  · have := hk_scal (p : X.G.Kf) a a' (eBe X v l) hp ha (hv X v) (X.vm v (j + 1)) (NN X.G.P.m X.t j : ℤ)
+      ((X.t + 1 : ℕ) : ℤ) i l
+    unfold cA cC
+    rw [NN_succ, Nat.cast_sub hl, Nat.cast_sub hg, ← zpow_natCast ((a * a')⁻¹) i,
+      ← zpow_natCast (a * (p : X.G.Kf) ^ (X.vm v (j + 1))) l]
+    exact this
+  · have h0 : eBe X v l = 0 := by
+      unfold eBe
+      rw [hk_esymm_zero l (by simpa using not_le.1 hg), map_zero]
+    rw [h0]
+    simp
+
+end Formalism.MainNotions.FormalGroupSystem.Pf
+end
+end
+
+section
+
+noncomputable section
+
+namespace Formalism.MainNotions.FormalGroupSystem.Pf
+
+open Formalism.MainNotions.G Formalism.BasicNotions Finset Formalism.MainNotions.G.LatticeSystems
+
+attribute [local instance] Formalism.MainNotions.G.GAtP.ringO Formalism.MainNotions.G.GAtP.domO Formalism.MainNotions.G.GAtP.dvrO Formalism.MainNotions.G.GAtP.fieldK
+  Formalism.MainNotions.G.GAtP.algOK
+
+variable {p : ℕ} [Fact p.Prime] {X : Sys p} (Y : Pend X)
+
+def ThEq (a a' : X.G.Kf) (v : X.Pl) (j : ℕ) : Prop :=
+  ∀ (La : X.Lt j) (La' : X.Lt (j + 1)), (X.Pj j).IsLatTup La.2 → (X.Pj (j + 1)).IsLatTup La'.2 →
+    Y.ThF j La La' = (a ^ (Y.len v j La.2) * a' ^ (Y.len v (j + 1) La'.2) *
+      (p : X.G.Kf) ^ (-(((X.G.P.n' v / 2 : ℕ) : ℤ) * Y.volE v j La.2 La'.2))) •
+      Y.Xi v j (Y.aw v j La La') (X.ind v j La.2 La'.2)
+
+variable {Y}
+
+theorem kernel_eq_theta {a a' : X.G.Kf} {v : X.Pl} {j : ℕ} (hTh : ThEq Y a a' v j) (La : X.Lt j) (La' : X.Lt (j + 1))
+    (h1 : (X.Pj j).IsLatTup La.2) (h2 : (X.Pj (j + 1)).IsLatTup La'.2) (G : (X.Pj j).Xsp) :
+    Y.ker j La La' G = T0 Y a a' v j La La' (X.ind v j La.2 La'.2) G := by
+  unfold Pend.ker Pend.kerF T0 Traw
+  rw [hTh La La' h1 h2]
+  rfl
+
+theorem ker_sum (j : ℕ) (La : X.Lt j) (La' : X.Lt (j + 1)) {ι : Type} (s : Finset ι) (G : ι → (X.Pj j).Xsp) :
+    Y.ker j La La' (∑ x ∈ s, G x) = ∑ x ∈ s, Y.ker j La La' (G x) := by
+  unfold Pend.ker Pend.kerF
+
+  rw [map_sum, LinearMap.sum_apply, Finset.smul_sum]
+
+theorem cC_ne (hp : (p : X.G.Kf) ≠ 0) {a : X.G.Kf} (ha : a ≠ 0) (v : X.Pl) (j k : ℕ) : cC X a v j k ≠ 0 :=
+  mul_ne_zero (zpow_ne_zero _ hp) (mul_ne_zero (zpow_ne_zero _ ha) (zpow_ne_zero _ hp))
+
+theorem ker_dn_sum (hC : CountLoc) (hp : (p : X.G.Kf) ≠ 0) {a a' : X.G.Kf} (ha : a ≠ 0) (ha' : a' ≠ 0) {v : X.Pl}
+    {j : ℕ} (hTh : ThEq Y a a' v j) (La : X.Lt j) (hLa : (X.Pj j).IsLatTup La.2) (c' : X.Lv.comp (j + 1))
+    (L' : (X.Pj (j + 1)).Tup) (hL' : (X.Pj (j + 1)).IsLatTup L') (i : ℕ) (G : (X.Pj j).Xsp) :
+    ∑ L1 ∈ EE (X.Pj (j + 1)) (X.vJ (j + 1) v) i (L' (X.vJ (j + 1) v)),
+        Y.ker j La (c', Function.update L' (X.vJ (j + 1) v) L1) G =
+      cA X a' v j i • ∑ l ∈ range (i + 1), (nC X v i l : X.G.Kf) •
+        ∑ A1 ∈ UP (X.Pj j) (X.vJ j v) (i - l) (La.2 (X.vJ j v)),
+          (cC X a v j (i - l))⁻¹ • Y.ker j (La.1, Function.update La.2 (X.vJ j v) A1) (c', L') G := by
+  have e1 : ∀ L1 ∈ EE (X.Pj (j + 1)) (X.vJ (j + 1) v) i (L' (X.vJ (j + 1) v)),
+      Y.ker j La (c', Function.update L' (X.vJ (j + 1) v) L1) G =
+        cA X a' v j i • T0 Y a a' v j La (c', L') (X.ind v j La.2 (Function.update L' (X.vJ (j + 1) v) L1)) G := by
+    intro L1 hL1
+    have hE := (mem_EE _).1 hL1
+    rw [kernel_eq_theta hTh La _ hLa (hk_latTup_update _ hL' _ L1 hE.1)]
+    exact kernel_target_identity Y hp a a' ha' v j La c' L' i L1 hE _ G
+  rw [Finset.sum_congr rfl e1, ← Finset.smul_sum, ← integral_span_coordinates, countG X hC v j i La.2 L' hLa hL', integral_span_coordinates]
+  congr 1
+  refine Finset.sum_congr rfl fun l _ => ?_
+  rw [kernel_nsmul, integral_span_coordinates]
+  congr 1
+  refine Finset.sum_congr rfl fun A1 hA1 => ?_
+  have hE := (mem_UP _).1 hA1
+  rw [kernel_eq_theta hTh (La.1, Function.update La.2 (X.vJ j v) A1) (c', L') (hk_latTup_update _ hLa _ A1 hE.2.1) hL']
+  have := kernel_source_identity Y hp a a' ha v j La (c', L') (i - l) A1 hE
+    (X.ind v j (Function.update La.2 (X.vJ j v) A1) L') G
+  rw [this, smul_smul, inv_mul_cancel₀ (cC_ne hp ha v j (i - l)), one_smul]
+
+theorem hk_adj (D : Formalism.BasicNotions.D7) (h5b : MinkowskiCounting D X Y) (h6 : adm6 D X Y) (v : X.Pl) (j : ℕ) (hj : j < X.mm) (k : ℕ)
+    (F : X.Fm j) (hF : F ∈ X.FQ j) (La' : X.Lt (j + 1)) (hLa' : (X.Pj (j + 1)).IsLatTup La'.2) :
+    ∑ La ∈ Y.Rep j, ((X.stab j La : X.G.Kf))⁻¹ •
+        ∑ A1 ∈ UP (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)),
+          Y.ker j (La.1, Function.update La.2 (X.vJ j v) A1) La' (F La.1 La.2) =
+      ∑ La ∈ Y.Rep j, ((X.stab j La : X.G.Kf))⁻¹ • Y.ker j La La' (X.Tm v k j F La.1 La.2) := by
+  classical
+  apply MvPolynomial.ext
+  intro n
+  let φ : X.Lv.comp j → (X.Pj j).Tup → (X.Pj j).Tup → Y.Kc := fun c L L1 =>
+    if (X.Pj j).IsLatTup L1 then AddMonoidAlgebra.coeff (Y.ker j (c, L1) La' (F c L)) n else 0
+  have hφ : ∀ c (γ : (X.Lv.lev j c).Γ) L L1,
+      φ c ((X.Lv.lev j c).smul γ L) ((X.Lv.lev j c).smul γ L1) = φ c L L1 := by
+    intro c γ L L1
+    simp only [φ]
+    by_cases h : (X.Pj j).IsLatTup L1
+    · rw [if_pos h, if_pos ((latTup_smul _ _ γ L1).2 h), (Eqv_of_FQ X hF).2 c γ L,
+        h5b j hj c L1 La' γ (F c L) (vt_FQ X hF c L) h hLa']
+    · rw [if_neg h, if_neg (fun h' => h ((latTup_smul _ _ γ L1).1 h'))]
+  have key := h6 j hj.le (X.vJ j v) k φ hφ
+  have hs : ∀ (La : X.Lt j) (z : Y.Kc), ((X.stab j La : X.G.Kf))⁻¹ • z = ((X.stab j La : Y.Kc))⁻¹ * z := by
+    intro La z
+    rw [Algebra.smul_def, map_inv₀, map_natCast]
+  rw [MvPolynomial.coeff_sum, MvPolynomial.coeff_sum]
+  refine Eq.trans ?_ (key.trans ?_)
+  · refine Finset.sum_congr rfl fun La hLa => ?_
+    have hlat := Y.Rep_lat j La hLa
+    rw [MvPolynomial.coeff_smul, hs, MvPolynomial.coeff_sum]
+    congr 1
+    refine Eq.trans ?_ (finsum_mem_eq_finite_toFinset_sum _ (up_fin (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)))).symm
+    refine Finset.sum_congr rfl fun A1 hA1 => ?_
+    have hE := (mem_UP _).1 hA1
+    simp only [φ]
+    rw [if_pos (hk_latTup_update _ hlat _ A1 hE.2.1)]
+  · refine Finset.sum_congr rfl fun La hLa => ?_
+    have hlat := Y.Rep_lat j La hLa
+    rw [MvPolynomial.coeff_smul, hs]
+    congr 1
+    refine Eq.trans (finsum_mem_eq_finite_toFinset_sum _ (edges_fin (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)))) ?_
+    have e : X.Tm v k j F La.1 La.2 = ∑ L0 ∈ EE (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)),
+        F La.1 (Function.update La.2 (X.vJ j v) L0) := Tminus_eq (X.Pj j) (X.vJ j v) k (F La.1) La.2
+    rw [e, ker_sum, MvPolynomial.coeff_sum]
+    refine Finset.sum_congr rfl fun L0 _ => ?_
+    simp only [φ]
+    rw [if_pos hlat]
+
+def KAdj (Y : Pend X) (j : ℕ) (Cl Yb : Type) [Fintype Cl] [Fintype Yb] (wt : Cl → ℕ) (La : Cl → Yb → X.Lt j) : Prop :=
+  ∀ (v : X.Pl) (k : ℕ), ∀ F ∈ X.FQ j, ∀ La' : X.Lt (j + 1), (X.Pj (j + 1)).IsLatTup La'.2 →
+    ∑ x : Cl, ((wt x : Y.Kc))⁻¹ • ∑ y : Yb, ∑ A1 ∈ UP (X.Pj j) (X.vJ j v) k ((La x y).2 (X.vJ j v)),
+        Y.ker j ((La x y).1, Function.update (La x y).2 (X.vJ j v) A1) La' (F (La x y).1 (La x y).2) =
+      ∑ x : Cl, ((wt x : Y.Kc))⁻¹ • ∑ y : Yb, Y.ker j (La x y) La' (X.Tm v k j F (La x y).1 (La x y).2)
+
+theorem up_finsum (j : ℕ) (v : X.Pl) (k : ℕ) (La : X.Lt j) (La' : X.Lt (j + 1)) (G : (X.Pj j).Xsp) :
+    ∑ᶠ (L1 : Submodule ((X.Pj j).W (X.vJ j v)) (Fin ((X.Pj j).m + 1) → (X.Pj j).Qq (X.vJ j v)))
+        (_ : IsEdge p ((X.Pj j).n' (X.vJ j v)) k ⟨La.2 (X.vJ j v), L1⟩),
+        Y.ker j (La.1, Function.update La.2 (X.vJ j v) L1) La' G =
+      ∑ A1 ∈ UP (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)),
+        Y.ker j (La.1, Function.update La.2 (X.vJ j v) A1) La' G :=
+  finsum_mem_eq_finite_toFinset_sum _ (up_fin (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)))
+
+theorem kadj_entry (D : Formalism.BasicNotions.D7) (h5b : MinkowskiCounting D X Y) (h6 : adm6 D X Y) (j : ℕ) (hj : j < X.mm) :
+    KAdj Y j {La // La ∈ Y.Rep j} Unit (fun x => X.stab j x.1) (fun x _ => x.1) := by
+  intro v k F hF La' hLa'
+  have h := hk_adj D h5b h6 v j hj k F hF La' hLa'
+  have hs : ∀ (n : ℕ) (z : XspC (X.Pj (j + 1)) Y.Kc), ((n : X.G.Kf))⁻¹ • z = ((n : Y.Kc))⁻¹ • z := by
+    intro n z
+    rw [← algebraMap_smul Y.Kc ((n : X.G.Kf))⁻¹ z, map_inv₀, map_natCast]
+  simp only [hs] at h
+  simp only [Finset.univ_unique, Finset.sum_singleton]
+  exact ((Finset.sum_coe_sort (Y.Rep j) (fun La => ((X.stab j La : Y.Kc))⁻¹ •
+      ∑ A1 ∈ UP (X.Pj j) (X.vJ j v) k (La.2 (X.vJ j v)),
+        Y.ker j (La.1, Function.update La.2 (X.vJ j v) A1) La' (F La.1 La.2))).trans h).trans
+    (Finset.sum_coe_sort (Y.Rep j) (fun La => ((X.stab j La : Y.Kc))⁻¹ •
+      Y.ker j La La' (X.Tm v k j F La.1 La.2))).symm
+
+theorem ksa_of_adm (D : Formalism.BasicNotions.D7) (h4 : ArchimedeanSignatureMatching D X Y) (h5b : MinkowskiCounting D X Y) (h6 : adm6 D X Y) {j : ℕ} (hj : j < X.mm) :
+    ∃ (cK : Y.Kc) (Cl Yb : Type) (_ : Fintype Cl) (_ : Fintype Yb) (wt : Cl → ℕ) (La : Cl → Yb → X.Lt j),
+      KSum Y j cK Cl Yb wt La ∧ KAdj Y j Cl Yb wt La := by
+  rcases Nat.lt_or_ge (j + 1) X.mm with h | h
+  · obtain ⟨cK, _, _, h4'⟩ := h4.1 j h
+    exact ⟨cK, _, _, inferInstance, inferInstance, _, _, ksum_entry Y hj.le h4', kadj_entry D h5b h6 j hj⟩
+  · obtain ⟨cK, _, _, Cl, Yb, iC, iY, wt, La, h1, h2, h3, h5⟩ := h4.2 j (by omega)
+    refine ⟨cK, Cl, Yb, iC, iY, wt, La, ⟨h1, h2, h3⟩, fun v k F hF La' hLa' => ?_⟩
+    have := h5 v k F hF La' hLa'
+    simp only [up_finsum] at this
+    exact this
+
+end Formalism.MainNotions.FormalGroupSystem.Pf
+end
+end

@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaBound.lift_levelP_alt₂
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormSatakeLeOfUnitarySphericalGL
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SymmetricFunctionAbsoluteValues
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle212
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle280
 import GroundTheory.AutomorphicForms.MacdonaldRecursion
-public import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundAdic
+public import GroundTheory.IdeleRoots.TorusPowers.Bundle001
 public import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundReps
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

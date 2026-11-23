@@ -3,7 +3,7 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCountTheoremWithConstants
 public import Formalism.SharpRestriction.GrowthBounds.Joints
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.Cartan
-public import Formalism.LocalToGlobal.GroupLattices.FockModels.DualInclusionLattices
+public import Formalism.LocalToGlobal.GroupLattices.FockModels.Bundle001
 import Formalism.LocalToGlobal.GroupLattices.FockModels.ElementaryDivisorBasis
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.FlatModels.LetterWtAnti
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.LPBase
@@ -15,18 +15,17 @@ public import Formalism.LocalToGlobal.GroupLattices.FockModels.TestSideFinal
 public import Formalism.PeriodIntegrals.AdmissibleModel.WeylDim
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.CMFieldLemmas
 public import Formalism.SharpRestriction.GrowthBounds.AevalValuation
-public import Formalism.SharpRestriction.GrowthBounds.FockGramWindow
-public import Formalism.SharpRestriction.GrowthBounds.HermitianTensor
+public import Formalism.SharpRestriction.GrowthBounds.Bundle013
+public import Formalism.SharpRestriction.GrowthBounds.Bundle012
 public import Formalism.SharpRestriction.GrowthBounds.InitialMinorTransposeMemHighestWeight
 public import Formalism.SharpRestriction.GrowthBounds.JointsLit
 public import Formalism.SharpRestriction.GrowthBounds.LogarithmicSums
 public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.StabilizerCount
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree
+public import Formalism.SharpRestriction.GrowthBounds.Bundle011
 public import Formalism.SharpRestriction.GrowthBounds.SizesAtRecord
-public import Formalism.SharpRestriction.GrowthBounds.StandardPolynomials
 import Formalism.SharpRestriction.GrowthBounds.TopChoiceBounds
 public import Formalism.SharpRestriction.GrowthBounds.TruncatedChains
-public import Formalism.SharpRestriction.GrowthBounds.WittIdentPI
+public import Formalism.SharpRestriction.GrowthBounds.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

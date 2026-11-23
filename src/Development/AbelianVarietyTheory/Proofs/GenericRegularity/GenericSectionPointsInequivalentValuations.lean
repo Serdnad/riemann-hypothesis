@@ -1,17 +1,16 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.LocRingPf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.AlgebraMapOLInjective
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.AlgebraMapMemMax
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveLoc
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CountQAtStGenericSectionPrimes
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.FinrankHostDivTwo
-public import Formalism.LocalToGlobal.ProjectiveLattices.CompFin
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveInj
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle022
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle014
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle049
 public import Formalism.LocalToGlobal.ProjectiveLattices.PtOfSPf
-import Formalism.LocalToGlobal.ProjectiveLattices.SecPtRed
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle031
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.WeakApprox
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.RangeMulStep
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle063
 
 @[expose] public section
 
@@ -511,3 +510,18 @@ theorem valSep_of_curveHyp : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (h
     (GlobalTheory.FlagDim.fnFG_fnTrdeg_record D T.Q h.pins.2.2.2 j hj).2 y hw
 
 end GlobalTheory.GenSep
+
+end
+end
+
+section
+
+@[expose] public section
+
+open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions Formalism.MainNotions.WeightAlgebra Formalism.MainNotions.Gaps.EtaleWeightGaps Formalism.L2.Pj ReciprocityTheory.ChartRestriction.G.Geo.Tor
+
+theorem _root_.GlobalTheory.T.generic_section_points_inequivalent_valuations : ∀ (D : D7) (T : Top D) (h : LawsP T) (j : ℕ) (hj : InR D j) (hG : GenFrEx (T.Q.Xo j) T.Q.c) (hT : GenFromTest (T.Q.Xo j) T.Q.c hG) (ka wL wF : WeightFamilies.Wt D j) (G : GlobalFamilyData (recPlus h j hj) ka wL wF) (S : Scal (recB h.toLawsCore)) (g0 : (recB h.toLawsCore).Cusp j wF) (la : HeightOneSpectrum (𝓞 (recB h.toLawsCore).KO)), CurveHyp h j hj hG ka wL wF G S g0 → GenValInjSt h j hG → CompSplitSt h j hG → BIRSt h j hj hG G → ValSepSt h j hj hG G la := by
+  first | exact @GlobalTheory.GenSep.valSep_of_curveHyp | exact GlobalTheory.GenSep.valSep_of_curveHyp | (intros; apply GlobalTheory.GenSep.valSep_of_curveHyp <;> assumption)
+
+end
+end

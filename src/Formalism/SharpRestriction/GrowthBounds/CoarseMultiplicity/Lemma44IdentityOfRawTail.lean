@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.CoarseMultiplicityAtIdentity
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle001
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SymmetricFamilySpan
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SymInt
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EllipticTorsion.IsoExpand
+public import Formalism.EllipticTorsion.Bundle001
 public import Mathlib.GroupTheory.QuotientGroup.Defs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

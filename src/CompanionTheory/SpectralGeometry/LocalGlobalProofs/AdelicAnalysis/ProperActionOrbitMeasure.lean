@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QuotMeasUniq
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.LintegralMulRightOfMem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

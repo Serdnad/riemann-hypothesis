@@ -42,10 +42,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 public import Formalism.FormalGroupLog.Statement
-public import Formalism.GaussJetBounds.StatementH
-public import Formalism.GaussJetBounds.StatementI
-public import Formalism.GaussJetBounds.StatementN
-public import Formalism.GaussJetBounds.StatementP
+public import Formalism.GaussJetBounds.Bundle001
+public import Formalism.GaussJetBounds.Bundle004
+public import Formalism.GaussJetBounds.Bundle003
 import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.HasSecondLogDeriv
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.CompInv
 import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementF

@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.AutomorphicForms.HarishChandraCentre.MemCenterOfCommuteE
+public import GroundTheory.AutomorphicForms.HarishChandraCentre.Bundle001
 public import Mathlib.Data.Finsupp.Multiset
 public import Mathlib.Data.Finsupp.Weight
 import Mathlib.Algebra.Order.Floor.Extended

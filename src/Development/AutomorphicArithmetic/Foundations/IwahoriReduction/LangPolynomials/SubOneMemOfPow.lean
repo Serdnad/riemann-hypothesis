@@ -1,11 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvNormOpEqNrmStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormOpFrobStatement
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle138
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OneAddXPowSubOneMem
 import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsAdicCompleteComapConstantCoeff
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PowSubOneMem
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

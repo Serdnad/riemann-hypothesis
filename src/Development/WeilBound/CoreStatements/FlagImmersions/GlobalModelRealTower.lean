@@ -2,20 +2,17 @@ module
 
 public import Development.AutomorphicSpectrum.Statements.TowerExistence.GoodTowerExistsX
 public import Development.WeilBound.CoreStatements.FlagImmersions.AnalyticAtAeval
-public import Development.WeilBound.CoreStatements.FlagImmersions.ContAtOfHoloOn
-public import Development.WeilBound.CoreStatements.FlagImmersions.CoordsOrbit
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle013
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle014
 public import Development.WeilBound.CoreStatements.FlagImmersions.CountableBall
-public import Development.WeilBound.CoreStatements.FlagImmersions.EqZeroOfTri
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle016
 public import Development.WeilBound.CoreStatements.FlagImmersions.ExistsModelOfEq
 public import Development.WeilBound.CoreStatements.FlagImmersions.ExistsRightInv
-public import Development.WeilBound.CoreStatements.FlagImmersions.FlagImmersion
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle017
 public import Development.WeilBound.CoreStatements.FlagImmersions.GenRigidOf
 public import Development.WeilBound.CoreStatements.FlagImmersions.HasPerConj
 public import Development.WeilBound.CoreStatements.FlagImmersions.Imports
-public import Development.WeilBound.CoreStatements.FlagImmersions.IsHolToOfLocal
 public import Development.WeilBound.CoreStatements.FlagImmersions.NormDetEq
-public import Development.WeilBound.CoreStatements.FlagImmersions.PerCoord
-public import Development.WeilBound.CoreStatements.FlagImmersions.RankLem
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,6 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
 open GroundTheory.Heights₂.Heights.LowerBoundFree (ComponentData ComponentSetting degMu ArLimExists slX)
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem RootFieldNumerics.global_model_real_tower : Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (l : Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) [DecidableEq (CMType H)] (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem), IsGlobal Xo l c Y → o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → (realOf o.toTowerOrigin).Unif := by
   intro hG E _ _ _ _ H D Xo l c Y _ T o II _ _ _ hp _ a
   rw [o.j_eq]
@@ -64,3 +62,19 @@ theorem RootFieldNumerics.global_model_real_tower : Given → ∀ (E : Type) [Fi
     (RootFieldNumerics.perMat_of RootFieldNumerics.perCoord RootFieldNumerics.matStep) (RootFieldNumerics.flagImm_of RootFieldNumerics.rankLem)
     (RootFieldNumerics.countGen_of (RootFieldNumerics.genRigid_of RootFieldNumerics.frameVals)) RootFieldNumerics.potLoc RootFieldNumerics.ptsFam hG (le_add_right hp) (o.refOr a)
     (o.ref_top a) (o.ref_deg a) (o.ample a)
+
+end
+
+section
+
+@[expose] public section
+
+open AlgebraicGeometry CategoryTheory NumberField ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.CompanionTheory.Ar GlobalTheory.CompanionTheory.Ar.Top
+open GroundTheory.Heights₂.Heights.LowerBoundFree (ComponentData ComponentSetting degMu ArLimExists slX)
+
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
+theorem _root_.GlobalTheory.CompanionTheory.Relay.good_tower_real_agreement : Given → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] [IsAbelianGalois ℚ E] (H : Host E) (D : Datum H) (Xo : ∀ l : Level H, Moduli D l) (l : Level H) (c : Coeff l) (Y : Model (Xo l) c (algebraMap (𝓞 c.F) c.F)) [DecidableEq (CMType H)] (T : RootTower (CMType H) (D.p + D.q)) (o : GoodOrigin Y T) (II : IntersectionSystem), IsGlobal Xo l c Y → o.Extra → IsFullIntersectionSystem II → 1 ≤ D.p → 1 ≤ D.q → (realOf o.toTowerOrigin).Unif := by
+  first | exact @RootFieldNumerics.global_model_real_tower | exact RootFieldNumerics.global_model_real_tower
+
+end
+end

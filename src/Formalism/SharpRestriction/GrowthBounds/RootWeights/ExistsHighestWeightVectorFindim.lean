@@ -1,9 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CovariantDegrees
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.ContravariantIsotypicOrthogonal
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.MemWeightSpaceIffDiagonalRep
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.WeightComponentsMemInvariant
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

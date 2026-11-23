@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.VecZero
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.TorsionOfVec
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle006
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.EtaleCohomology.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

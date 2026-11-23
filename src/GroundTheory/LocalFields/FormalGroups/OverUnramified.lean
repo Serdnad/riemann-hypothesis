@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.LocalFields.FormalGroups.TwistedLift
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import GroundTheory.LocalFields.FormalGroups.FrobeniusTwist
+public import GroundTheory.LocalFields.FormalGroups.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

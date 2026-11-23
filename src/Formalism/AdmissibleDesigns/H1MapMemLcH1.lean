@@ -1,6 +1,6 @@
 module
 
-public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
+public import Formalism.AdmissibleDesigns.Bundle002
 public import Formalism.AdmissibleDesigns.SmulEval
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RankGapBounds.CloudMinFalse
+public import Formalism.RankGapBounds.Bundle001
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.GradedWeylDivisibility.StatementA
-import Formalism.PieriBlockIdeals.StatementLA
+import Formalism.PieriBlockIdeals.Bundle003
 
 @[expose] public section
 

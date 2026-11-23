@@ -2,7 +2,7 @@ module
 
 public import Formalism.SharpRestriction.GrowthBounds.TableLineDegreeFive
 public import Formalism.SharpRestriction.GrowthBounds.ProjectionLemmaBaseLevel
-public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementP
+public import Formalism.ThetaLogCoordinates.JacobiPathWeights.Bundle004
 public import Formalism.GradedWeylDivisibility.FinalD
 public import Formalism.ThetaLogCoordinates.ResidueClassEstimates.FinalT
 import Mathlib.Algebra.Order.Floor.Extended

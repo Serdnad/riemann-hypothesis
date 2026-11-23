@@ -2,12 +2,11 @@ module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsEigFrames
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
-public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.LinearIndependentRealOfIntOfDiscrete
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsotropicEigencomponentConjugateFormStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsotropicSublatticeCovolumePositiveStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsotropicSublatticeGramDeterminantStatement
-public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.PCuspWeightBound
-public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.PMinkowskiCovolumeBound
+public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.Bundle001
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle061
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle068
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle095
+public import GroundTheory.HeightsAndTheta.Heights.CountingLowerBound.Bundle002
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

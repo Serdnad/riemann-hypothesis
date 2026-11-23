@@ -5,15 +5,15 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmData
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdUnifMulUnitIdl
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle253
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle090
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.H90RangeEqNormOneOfIsQuad
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HostCmEmbeddingProperties
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OrdFNonnegOfIsInteger
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ProdAbsNormDivsDvd
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryDeterminantKernelOpenAndFactor
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle163
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle091
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle278
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle168
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -148,10 +148,10 @@ theorem extTo_self (hd : Disjoint SG Q) (p : DecoF E n ST SG Q) : extTo Q p = p 
 
 open Classical in
 def detIdl (SB : Finset (HeightOneSpectrum (𝓞 E))) (N : Submodule (𝓞 E) (Sp E n))
-    (fr : HeightOneSpectrum (𝓞 E) → Sp E n ≃ₗ[E] Sp E n) : Ideles E :=
-  (∏ P ∈ SB, localIdele E P (atFin P (LinearEquiv.det (fr P)))) *
+    (fr : HeightOneSpectrum (𝓞 E) → Sp E n ≃ₗ[E] Sp E n) : _root_.Neutral.B1.Ideles E :=
+  (∏ P ∈ SB, _root_.Neutral.B1.localIdele E P (_root_.Formalism.L2.Host.atFin P (LinearEquiv.det (fr P)))) *
     ∏ᶠ w : HeightOneSpectrum (𝓞 E),
-      if w ∈ SB ∨ conjPrime₂ w ∈ SB then 1 else localIdele E w (atFin w (unif w)) ^ (ordSub w (detSub N)).toNat
+      if w ∈ SB ∨ conjPrime₂ w ∈ SB then 1 else _root_.Neutral.B1.localIdele E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ (ordSub w (detSub N)).toNat
 
 
 omit [StarRing E] in
@@ -171,7 +171,7 @@ theorem finite_ordSub {N : Submodule (𝓞 E) (Sp E n)} (hN : Submodule.IsLattic
 open Classical in
 theorem finite_detIdl (SB : Finset (HeightOneSpectrum (𝓞 E))) {N : Submodule (𝓞 E) (Sp E n)} (hN : Submodule.IsLattice E N) :
     Function.HasFiniteMulSupport fun w : HeightOneSpectrum (𝓞 E) =>
-      if w ∈ SB ∨ conjPrime₂ w ∈ SB then 1 else localIdele E w (atFin w (unif w)) ^ (ordSub w (detSub N)).toNat := by
+      if w ∈ SB ∨ conjPrime₂ w ∈ SB then 1 else _root_.Neutral.B1.localIdele E w (_root_.Formalism.L2.Host.atFin w (_root_.Formalism.L2.Host.unif w)) ^ (ordSub w (detSub N)).toNat := by
   refine (finite_ordSub hN).subset fun w hw h0 => hw ?_
   simp [h0]
 
@@ -181,7 +181,7 @@ theorem compAt_detIdl (SB : Finset (HeightOneSpectrum (𝓞 E))) {N : Submodule 
     (fr : HeightOneSpectrum (𝓞 E) → Sp E n ≃ₗ[E] Sp E n) (w : HeightOneSpectrum (𝓞 E)) :
     compAt w (detIdl SB N fr) =
       if w ∈ SB then algebraMap E _ ((LinearEquiv.det (fr w) : Eˣ) : E)
-      else if conjPrime₂ w ∈ SB then 1 else algebraMap E _ ((unif w : Eˣ) : E) ^ (ordSub w (detSub N)).toNat := by
+      else if conjPrime₂ w ∈ SB then 1 else algebraMap E _ ((_root_.Formalism.L2.Host.unif w : Eˣ) : E) ^ (ordSub w (detSub N)).toNat := by
   unfold detIdl
   rw [map_mul, map_prod, MonoidHom.map_finprod _ (finite_detIdl SB hN), finprod_eq_single _ w]
   · by_cases h : w ∈ SB
@@ -210,7 +210,7 @@ theorem finPartI_detIdl (SB : Finset (HeightOneSpectrum (𝓞 E))) {N : Submodul
   · rw [map_pow, KerDet.finPartI_localIdele]
 
 theorem ordSub_detSub_eq {P : HeightOneSpectrum (𝓞 E)} {N : Submodule (𝓞 E) (Sp E n)} {f : Sp E n ≃ₗ[E] Sp E n}
-    (hN : Submodule.IsFullLattice E N) (hf : IsFr P N f) : ordSub P (detSub N) = ordF P (LinearEquiv.det f) := by
+    (hN : Submodule.IsFullLattice E N) (hf : IsFr P N f) : ordSub P (detSub N) = _root_.Formalism.L2.Host.ordF P (LinearEquiv.det f) := by
   classical
   have e : detSub N = CharValCompare.detI N := by
     unfold detSub CharValCompare.detI
@@ -241,11 +241,11 @@ theorem ordSub_detSub_eq {P : HeightOneSpectrum (𝓞 E)} {N : Submodule (𝓞 E
       rintro rfl
       exact hs (zero_mem _)
     refine hl.2 ⟨Units.mk0 _ (smul_ne_zero hs0 hg.1), hx, ?_⟩
-    unfold ordF
+    unfold _root_.Formalism.L2.Host.ordF
     rw [Units.val_mk0, Algebra.smul_def, map_mul, CharValCompare.val_of_notMem hs, one_mul]
   · obtain ⟨k, hk, e'⟩ := hl.1
     rw [← e']
-    unfold ordF
+    unfold _root_.Formalism.L2.Host.ordF
     exact neg_le_neg ((WithZero.log_le_log (by simp) h0).2 ((hg.2 _).1 (le_locP P _ hk)))
 
 end Frames
@@ -287,7 +287,7 @@ theorem adAt_inclE (P : HeightOneSpectrum (𝓞 E)) (x : E) :
     adAt F P (Formalism.UG.inclE (F := F) (FiniteAdeleRing (𝓞 F) F) x) = algebraMap E _ x :=
   congrArg (fun a : FiniteAdeleRing (𝓞 E) E => a P) (afIso_tmul_one F E x)
 
-theorem adAt_finAf (P : HeightOneSpectrum (𝓞 E)) (a : Ideles E) : adAt F P (finAf F E a : AfE F E) = compAt P a :=
+theorem adAt_finAf (P : HeightOneSpectrum (𝓞 E)) (a : _root_.Neutral.B1.Ideles E) : adAt F P (finAf F E a : AfE F E) = compAt P a :=
   congrArg (fun a : FiniteAdeleRing (𝓞 E) E => a P) (afIso_finAf F E a)
 
 variable {F}
@@ -326,7 +326,7 @@ structure IsPtOf (g : GL (Fin n) (AfE F E)) (p : DecoF E n ST SG Q) : Prop where
   fr : ∀ (P : Q) (i j : Fin n), adAt F P.1 ((g : Matrix (Fin n) (Fin n) (AfE F E)) i j) =
     algebraMap E _ (p.fr P (Pi.single j 1) i)
 
-def IsDetLift (g : GL (Fin n) (AfE F E)) (a : Ideles E) : Prop :=
+def IsDetLift (g : GL (Fin n) (AfE F E)) (a : _root_.Neutral.B1.Ideles E) : Prop :=
   h90 hc.sig (finAf F E a) = Matrix.GeneralLinearGroup.det g
 
 variable {hc}
@@ -457,7 +457,7 @@ theorem exists_real_approx {P : HeightOneSpectrum (𝓞 E)} (hP : conjPrime₂ P
   obtain ⟨M, hM, hM'⟩ := DetClass.exists_nat_valued_lt (conjPrime₂ P) hγ
   have hM0 : (M : E) ≠ 0 := Nat.cast_ne_zero.2 hM.ne'
   obtain ⟨y, N, r, hr, hN, e⟩ := exists_approx_small
-    (finAf F E (localIdele E P u * localIdele E (conjPrime₂ P) (atFin _ (Units.mk0 _ hM0))) : AfE F E) {P, conjPrime₂ P} hγ
+    (finAf F E (_root_.Neutral.B1.localIdele E P u * _root_.Neutral.B1.localIdele E (conjPrime₂ P) (_root_.Formalism.L2.Host.atFin _ (Units.mk0 _ hM0))) : AfE F E) {P, conjPrime₂ P} hγ
   have e1 := congrArg (adAt F P) e
   rw [adAt_finAf, map_mul, compAt_localIdele_self, compAt_localIdele_ne hP.symm, mul_one, map_add (f := _), adAt_inclE] at e1
   have e2 := congrArg (adAt F (conjPrime₂ P)) e
@@ -500,27 +500,27 @@ theorem under_eq_iff (w w' : HeightOneSpectrum (𝓞 H.E)) :
   rw [e]
 
 structure LevOk : Prop where
-  cover : ∀ k v, OverP H (H.g k) v → v ∈ SG ∨ conjPrime₂ v ∈ SG
+  cover : ∀ k v, _root_.Formalism.L2.Host.OverP H (H.g k) v → v ∈ SG ∨ conjPrime₂ v ∈ SG
   split : ∀ P ∈ uSG SG SQ, conjPrime₂ P ∉ uSG SG SQ
 
-theorem mem_KDq_of_local (a : Ideles H.E) (h : ∀ v : HeightOneSpectrum (𝓞 H.F), ∃ k : (H.F)ˣ, ∀ w : HeightOneSpectrum (𝓞 H.E),
+theorem mem_KDq_of_local (a : _root_.Neutral.B1.Ideles H.E) (h : ∀ v : HeightOneSpectrum (𝓞 H.F), ∃ k : (H.F)ˣ, ∀ w : HeightOneSpectrum (𝓞 H.E),
     w.under (𝓞 H.F) = v → Valued.v (compAt w a / algebraMap H.E _ (algebraMap H.F H.E k)) = 1 ∧
-      ((∃ i, OverP H (H.g i) w) ∨ AtQ H SQ w → Valued.v (compAt w a / algebraMap H.E _ (algebraMap H.F H.E k) - 1) < 1)) :
+      ((∃ i, _root_.Formalism.L2.Host.OverP H (H.g i) w) ∨ AtQ H SQ w → Valued.v (compAt w a / algebraMap H.E _ (algebraMap H.F H.E k) - 1) < 1)) :
     a ∈ KDq H SQ := by
   classical
   choose κ hκ using h
   have hfin := (finite_level H SQ).union (IdlFact.finite_valAt_ne_one a)
   set S := hfin.toFinset.image fun w => w.under (𝓞 H.F) with hS
-  set b := a / ∏ v ∈ S, locF (L := H.E) H.F v (κ v) with hb
+  set b := a / ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF (L := H.E) H.F v (κ v) with hb
   have hc : ∀ w, compAt w b = if w.under (𝓞 H.F) ∈ S then
       compAt w a / algebraMap H.E _ (algebraMap H.F H.E (κ (w.under (𝓞 H.F)))) else compAt w a := fun w => by
     rw [hb, map_div, map_prod, Finset.prod_congr rfl fun v _ => compAt_locF H.F w v (κ v), Finset.prod_ite_eq]
     split_ifs
     · rfl
     · exact div_one _
-  have hmem : ∀ w, ((∃ i, OverP H (H.g i) w) ∨ AtQ H SQ w) ∨ IdlFact.valAt w a ≠ 1 → w.under (𝓞 H.F) ∈ S := fun w hw =>
+  have hmem : ∀ w, ((∃ i, _root_.Formalism.L2.Host.OverP H (H.g i) w) ∨ AtQ H SQ w) ∨ IdlFact.valAt w a ≠ 1 → w.under (𝓞 H.F) ∈ S := fun w hw =>
     Finset.mem_image_of_mem _ (hfin.mem_toFinset.2 hw)
-  have hl : ∀ w, (∃ i, OverP H (H.g i) w) ∨ AtQ H SQ w → Valued.v (compAt w b - 1) < 1 := fun w hw => by
+  have hl : ∀ w, (∃ i, _root_.Formalism.L2.Host.OverP H (H.g i) w) ∨ AtQ H SQ w → Valued.v (compAt w b - 1) < 1 := fun w hw => by
     rw [hc, if_pos (hmem w (Or.inl hw))]
     exact (hκ _ w rfl).2 hw
   have hbK : b ∈ KDq H SQ := by
@@ -531,12 +531,12 @@ theorem mem_KDq_of_local (a : Ideles H.E) (h : ∀ v : HeightOneSpectrum (𝓞 H
     · exact (hκ _ w rfl).1
     · by_contra hne
       exact h1 (hmem w (Or.inr hne))
-  rw [← div_mul_cancel a (∏ v ∈ S, locF (L := H.E) H.F v (κ v))]
+  rw [← div_mul_cancel a (∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF (L := H.E) H.F v (κ v))]
   exact mul_mem hbK (prod_mem fun v _ => locF_mem_KDq H SQ v _)
 
 variable {H SG SQ}
 
-theorem LevOk.level (h : LevOk H SG SQ) {w : HeightOneSpectrum (𝓞 H.E)} (hw : (∃ i, OverP H (H.g i) w) ∨ AtQ H SQ w) :
+theorem LevOk.level (h : LevOk H SG SQ) {w : HeightOneSpectrum (𝓞 H.E)} (hw : (∃ i, _root_.Formalism.L2.Host.OverP H (H.g i) w) ∨ AtQ H SQ w) :
     w ∈ uSG SG SQ ∨ conjPrime₂ w ∈ uSG SG SQ := by
   classical
   simp only [Finset.mem_union]
@@ -554,7 +554,7 @@ theorem LevOk.mono (h : LevOk H SG SQ) {Q : Finset (HeightOneSpectrum (𝓞 H.E)
     exact Or.imp_right fun h => hQ h
   exact ⟨h.cover, fun P hP h' => h.split P (hs hP) (hs h')⟩
 
-theorem mem_KDq_of_conj (h : LevOk H SG SQ) (b : Ideles H.E)
+theorem mem_KDq_of_conj (h : LevOk H SG SQ) (b : _root_.Neutral.B1.Ideles H.E)
     (h1 : ∀ w, Valued.v (compAt w b) = Valued.v (compAt (conjPrime₂ w) b))
     (h2 : ∀ P ∈ uSG SG SQ, Valued.v (compAt P b /
       adAt H.F P (Formalism.UG.sigR (host_cmData R H).sig _ (finAf H.F H.E b : AfE H.F H.E)) - 1) < 1) : b ∈ KDq H SQ := by
@@ -589,16 +589,16 @@ theorem mem_KDq_of_conj (h : LevOk H SG SQ) (b : Ideles H.E)
   · by_cases hv' : ∃ P : HeightOneSpectrum (𝓞 H.E), P.under (𝓞 H.F) = v
     · obtain ⟨P, rfl⟩ := hv'
       obtain ⟨-, -, -, hun, -⟩ := HostCM.host_cm R H
-      refine ⟨unif (P.under (𝓞 H.F)) ^ (-WithZero.log (Valued.v (compAt P b))), fun w hw => ⟨?_, fun hl => ?_⟩⟩
+      refine ⟨_root_.Formalism.L2.Host.unif (P.under (𝓞 H.F)) ^ (-WithZero.log (Valued.v (compAt P b))), fun w hw => ⟨?_, fun hl => ?_⟩⟩
       · have e1 : Valued.v (compAt w b) = Valued.v (compAt P b) := by
           rcases (under_eq_iff H P w).1 hw with rfl | rfl
           · rfl
           · exact (h1 P).symm
-        have e2 := hun w (unif (P.under (𝓞 H.F)))
+        have e2 := hun w (_root_.Formalism.L2.Host.unif (P.under (𝓞 H.F)))
         rw [hw, ordF_unif_self] at e2
-        have e3 : w.valuation H.E (algebraMap H.F H.E (unif (P.under (𝓞 H.F)) : (H.F)ˣ)) = WithZero.exp (-1 : ℤ) := by
+        have e3 : w.valuation H.E (algebraMap H.F H.E (_root_.Formalism.L2.Host.unif (P.under (𝓞 H.F)) : (H.F)ˣ)) = WithZero.exp (-1 : ℤ) := by
           rw [← e2]
-          unfold ordF
+          unfold _root_.Formalism.L2.Host.ordF
           rw [neg_neg, WithZero.exp_log (by simp)]
           rfl
         rw [map_div₀, valued_algebraMap, Units.val_zpow_eq_zpow_val, map_zpow₀, map_zpow₀, e3, e1, ← WithZero.exp_zsmul]
@@ -619,19 +619,19 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {R : Ranks} (H : Formalism.BasicNotions.Host R) (SQ : Finset (HeightOneSpectrum (𝓞 H.E))) {n : ℕ}
   {ST SG Q : Finset (HeightOneSpectrum (𝓞 H.E))}
 
-def ptIdl (p : DecoF H.E n ST SG Q) : Ideles H.E := detIdl (uSG SG SQ) p.deco.1.N (ptFr p)
+def ptIdl (p : DecoF H.E n ST SG Q) : _root_.Neutral.B1.Ideles H.E := detIdl (uSG SG SQ) p.deco.1.N (ptFr p)
 
 def detPt (p : DecoF H.E n ST SG Q) : DtQ H SQ := QuotientGroup.mk (ptIdl H SQ p)
 
-def xiDet (ξ : HChar H.E) (p : DecoF H.E n ST SG Q) : ℂˣ := tildeQ H SQ ξ (detPt H SQ p)
+def xiDet (ξ : _root_.Formalism.L2.Host.HChar H.E) (p : DecoF H.E n ST SG Q) : ℂˣ := tildeQ H SQ ξ (detPt H SQ p)
 
 variable {H} {e : Fin R.m → R.Psi → ℚ} (C : HFrame H e)
 
-def rhoAt (ξ : HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : ℂˣ :=
+def rhoAt (ξ : _root_.Formalism.L2.Host.HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : ℂˣ :=
   (muTilQ H SQ C.mu0 (i + 1) (detPt H SQ p))⁻¹ * (xiDet H SQ ξ p)⁻¹ *
     tildeQ H SQ C.chiPsi (detPt H SQ p) ^ (-((R.N (i + 1) / 2 : ℕ) : ℤ))
 
-def rhoAt' (ξ : HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : ℂˣ :=
+def rhoAt' (ξ : _root_.Formalism.L2.Host.HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : ℂˣ :=
   muTilQ H SQ C.mu0 (i + 1) (detPt H SQ p) * xiDet H SQ ξ p *
     tildeQ H SQ C.chiPsi (detPt H SQ p) ^ ((R.N i / 2 : ℕ) : ℤ)
 
@@ -648,12 +648,12 @@ theorem rhoAt'_one (i : ℕ) (p : DecoF H.E n ST SG Q) : rhoAt' SQ C 1 i p =
     muTilQ H SQ C.mu0 (i + 1) (detPt H SQ p) * tildeQ H SQ C.chiPsi (detPt H SQ p) ^ ((R.N i / 2 : ℕ) : ℤ) := by
   rw [rhoAt', xiDet_one, mul_one]
 
-theorem rhoAt_eq (ξ : HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : rhoAt SQ C ξ i p =
+theorem rhoAt_eq (ξ : _root_.Formalism.L2.Host.HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : rhoAt SQ C ξ i p =
     ((muTilQ H SQ C.mu0 (i + 1) * tildeQ H SQ ξ)⁻¹ * tildeQ H SQ C.chiPsi ^ (-((R.N (i + 1) / 2 : ℕ) : ℤ))) (detPt H SQ p) := by
   rw [rhoAt, xiDet, ← mul_inv]
   simp only [MonoidHom.mul_apply, MonoidHom.inv_apply, MonoidHom.zpow_apply]
 
-theorem rhoAt'_eq (ξ : HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : rhoAt' SQ C ξ i p =
+theorem rhoAt'_eq (ξ : _root_.Formalism.L2.Host.HChar H.E) (i : ℕ) (p : DecoF H.E n ST SG Q) : rhoAt' SQ C ξ i p =
     (muTilQ H SQ C.mu0 (i + 1) * tildeQ H SQ ξ * tildeQ H SQ C.chiPsi ^ ((R.N i / 2 : ℕ) : ℤ)) (detPt H SQ p) := by
   simp [rhoAt', xiDet]
 
@@ -663,23 +663,23 @@ theorem norm_tilde_character_eq_one (j : ℕ) (x : DtQ H SQ) : ‖((muTilQ H SQ 
   · exact norm_tildeQ H SQ (C.isMu0 _).unitary x
   · simp
 
-theorem norm_xiDet {ξ : HChar H.E} (hu : ξ.IsUnitary) (p : DecoF H.E n ST SG Q) : ‖((xiDet H SQ ξ p : ℂˣ) : ℂ)‖ = 1 :=
+theorem norm_xiDet {ξ : _root_.Formalism.L2.Host.HChar H.E} (hu : ξ.IsUnitary) (p : DecoF H.E n ST SG Q) : ‖((xiDet H SQ ξ p : ℂˣ) : ℂ)‖ = 1 :=
   norm_tildeQ H SQ hu _
 
-theorem norm_rhoAt {ξ : HChar H.E} (hu : ξ.IsUnitary) (i : ℕ) (p : DecoF H.E n ST SG Q) :
+theorem norm_rhoAt {ξ : _root_.Formalism.L2.Host.HChar H.E} (hu : ξ.IsUnitary) (i : ℕ) (p : DecoF H.E n ST SG Q) :
     ‖((rhoAt SQ C ξ i p : ℂˣ) : ℂ)‖ = 1 := by
   rw [rhoAt, Units.val_mul, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val,
     norm_mul, norm_mul, norm_inv, norm_inv, norm_zpow, norm_tilde_character_eq_one, norm_xiDet SQ hu, norm_tildeQ H SQ C.isChi.unitary]
   simp
 
-theorem norm_rhoAt' {ξ : HChar H.E} (hu : ξ.IsUnitary) (i : ℕ) (p : DecoF H.E n ST SG Q) :
+theorem norm_rhoAt' {ξ : _root_.Formalism.L2.Host.HChar H.E} (hu : ξ.IsUnitary) (i : ℕ) (p : DecoF H.E n ST SG Q) :
     ‖((rhoAt' SQ C ξ i p : ℂˣ) : ℂ)‖ = 1 := by
   rw [rhoAt', Units.val_mul, Units.val_mul, Units.val_zpow_eq_zpow_val,
     norm_mul, norm_mul, norm_zpow, norm_tilde_character_eq_one, norm_xiDet SQ hu, norm_tildeQ H SQ C.isChi.unitary]
   simp
 
-theorem KDq_le_ker_of_tame {χ : HChar H.E} (hT : χ.TrivOn H.F) (hta : ∀ v, χ.TameAt v)
-    (hu : ∀ v, ¬ ((∃ k, OverP H (H.g k) v) ∨ AtQ H SQ v) → χ.UnrAt v) : KDq H SQ ≤ (χ.1.comp (finPartI H.E)).ker := by
+theorem KDq_le_ker_of_tame {χ : _root_.Formalism.L2.Host.HChar H.E} (hT : χ.TrivOn H.F) (hta : ∀ v, χ.TameAt v)
+    (hu : ∀ v, ¬ ((∃ k, _root_.Formalism.L2.Host.OverP H (H.g k) v) ∨ AtQ H SQ v) → χ.UnrAt v) : KDq H SQ ≤ (χ.1.comp (finPartI H.E)).ker := by
   refine (KDq_le_iff H SQ).2 ⟨fun a ha => ?_, fun v k => KerDet.map_finPartI_locF hT v k⟩
   refine LocTriv.eq_one_of_local H.E χ.1 χ.2.1 (finPartI H.E a) (finPartI_mem_unitIdl.2 ha.1) (fun _ => rfl) fun v x hx => ?_
   have hx' : (x : v.adicCompletion H.E) = (a : AdeleRing (𝓞 H.E) H.E).2 v := hx
@@ -687,7 +687,7 @@ theorem KDq_le_ker_of_tame {χ : HChar H.E} (hT : χ.TrivOn H.F) (hta : ∀ v, �
     unfold Formalism.L2.Host.IsUnitAt
     rw [hx']
     exact ha.1 v
-  by_cases hv : (∃ k, OverP H (H.g k) v) ∨ AtQ H SQ v
+  by_cases hv : (∃ k, _root_.Formalism.L2.Host.OverP H (H.g k) v) ∨ AtQ H SQ v
   · refine hta v x hxu (KerDet.le_exp_neg_one ?_)
     rw [hx']
     rcases hv with ⟨k, hk⟩ | hv
@@ -700,17 +700,17 @@ theorem reference_characters_factor_tame (j : Fin R.m) : KDq H SQ ≤ ((C.mu0 j)
 theorem chiPsi_factors : KDq H SQ ≤ (C.chiPsi.1.comp (finPartI H.E)).ker :=
   KDq_le_ker_of_tame SQ C.isChi.triv (fun v x hx _ => C.isChi.unr v x hx) fun v _ => C.isChi.unr v
 
-theorem xiDet_eq {ξ : HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (p : DecoF H.E n ST SG Q) :
+theorem xiDet_eq {ξ : _root_.Formalism.L2.Host.HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (p : DecoF H.E n ST SG Q) :
     xiDet H SQ ξ p = ξ.1 (ptIdl H SQ p) := by
   rw [xiDet, detPt, tildeQ_mk H SQ h, ptIdl, finPartI_detIdl _ p.deco.2.lat]
 
-theorem rhoAt_eq_hecke {ξ : HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (j : Fin R.m) (p : DecoF H.E n ST SG Q) :
+theorem rhoAt_eq_hecke {ξ : _root_.Formalism.L2.Host.HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (j : Fin R.m) (p : DecoF H.E n ST SG Q) :
     rhoAt SQ C ξ j.1 p = ((C.mu0 j * ξ).1 (ptIdl H SQ p))⁻¹ * C.chiPsi.1 (ptIdl H SQ p) ^ (-((R.N (j.1 + 1) / 2 : ℕ) : ℤ)) := by
   rw [rhoAt, muTilQ_succ, xiDet_eq SQ h, ← xiDet_eq SQ (chiPsi_factors SQ C), ← mul_inv, ← xiDet,
     xiDet_eq SQ (reference_characters_factor_tame SQ C j)]
   rfl
 
-theorem rhoAt'_eq_hecke {ξ : HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (j : Fin R.m) (p : DecoF H.E n ST SG Q) :
+theorem rhoAt'_eq_hecke {ξ : _root_.Formalism.L2.Host.HChar H.E} (h : KDq H SQ ≤ (ξ.1.comp (finPartI H.E)).ker) (j : Fin R.m) (p : DecoF H.E n ST SG Q) :
     rhoAt' SQ C ξ j.1 p = (C.mu0 j * ξ).1 (ptIdl H SQ p) * C.chiPsi.1 (ptIdl H SQ p) ^ ((R.N j.1 / 2 : ℕ) : ℤ) := by
   rw [rhoAt', muTilQ_succ, xiDet_eq SQ h, ← xiDet_eq SQ (chiPsi_factors SQ C), ← xiDet,
     xiDet_eq SQ (reference_characters_factor_tame SQ C j)]
@@ -721,10 +721,10 @@ variable (H) in
 def toDtQ {SQ : Finset (HeightOneSpectrum (𝓞 H.E))} (h : Q ⊆ SQ) : DtQ H SQ →* DtQ H Q :=
   QuotientGroup.map (KDq H SQ) (KDq H Q) (MonoidHom.id _) (KDq_anti H h)
 
-theorem toDtQ_mk {SQ : Finset (HeightOneSpectrum (𝓞 H.E))} (h : Q ⊆ SQ) (a : Ideles H.E) :
+theorem toDtQ_mk {SQ : Finset (HeightOneSpectrum (𝓞 H.E))} (h : Q ⊆ SQ) (a : _root_.Neutral.B1.Ideles H.E) :
     toDtQ H h (QuotientGroup.mk a) = QuotientGroup.mk a := rfl
 
-theorem tildeQ_toDtQ {SQ : Finset (HeightOneSpectrum (𝓞 H.E))} (h : Q ⊆ SQ) {χ : HChar H.E}
+theorem tildeQ_toDtQ {SQ : Finset (HeightOneSpectrum (𝓞 H.E))} (h : Q ⊆ SQ) {χ : _root_.Formalism.L2.Host.HChar H.E}
     (hχ : KDq H Q ≤ (χ.1.comp (finPartI H.E)).ker) (x : DtQ H SQ) : tildeQ H Q χ (toDtQ H h x) = tildeQ H SQ χ x := by
   obtain ⟨a, rfl⟩ := QuotientGroup.mk_surjective x
   rw [toDtQ_mk, tildeQ_mk H Q hχ, tildeQ_mk H SQ ((KDq_anti H h).trans hχ)]

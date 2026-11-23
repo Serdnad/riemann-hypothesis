@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
 public import Formalism.SharpRestriction.Divisibility.SchurIrreducible
-public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.BlattnerShiftsSignedParameters
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FiniteDimKStableSubspaceKFiniteLie
+public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle025
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.NotTrivialAndTwist
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

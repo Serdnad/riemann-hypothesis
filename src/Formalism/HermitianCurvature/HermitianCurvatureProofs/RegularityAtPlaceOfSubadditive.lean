@@ -1,6 +1,6 @@
 module
 
-public import Formalism.HermitianCurvature.StatementTBB
+public import Formalism.HermitianCurvature.Bundle008
 public import Mathlib.Analysis.InnerProductSpace.Adjoint
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TriangleInequalityAtPlace
 import Mathlib.Algebra.Order.Floor.Extended

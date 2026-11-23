@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SignSwap
+public import Development.AbelianVarietyTheory.Definitions.KeyFormula.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

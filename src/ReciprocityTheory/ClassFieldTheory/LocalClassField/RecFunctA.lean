@@ -43,11 +43,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.NormOpenA
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RecPairA
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
 import ReciprocityTheory.GroupCohomology.ComapZeroCoboundariesEqBot
 public import ReciprocityTheory.GroupCohomology.ContractNthCastAddCastSucc
-public import ReciprocityTheory.GroupCohomology.CupCor
-import ReciprocityTheory.GroupCohomology.DEqZeroOfMemB
+public import ReciprocityTheory.GroupCohomology.Bundle007
+import ReciprocityTheory.GroupCohomology.Bundle002
 
 @[expose] public section
 

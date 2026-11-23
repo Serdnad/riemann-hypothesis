@@ -1,8 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.RegularityR1ValuedPoints
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ETExSt
-public import Formalism.LocalToGlobal.ProjectiveLattices.Adm3OfExtension
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle033
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle024
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle042
 public import Development.AbelianVarietyTheory.Counterexamples.JetSurvey.FormAtOfClause
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsNullVal
+import Development.AbelianVarietyTheory.Definitions.ThetaValues.Bundle001
 import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 
 @[expose] public section

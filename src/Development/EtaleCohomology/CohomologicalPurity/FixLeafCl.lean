@@ -1,32 +1,22 @@
 module
 
-public import Development.EtaleCohomology.CohomologicalPurity.LeafIndExc
-public import Development.EtaleCohomology.CohomologicalPurity.FinLeafChart
-public import Development.EtaleCohomology.CohomologicalPurity.FinLeafExc
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle004
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle018
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle037
 public import Development.EtaleCohomology.CohomologicalPurity.FinLeafThom
-public import Development.EtaleCohomology.CohomologicalPurity.LeafBZPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafBdAddPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafCmpPfAll
-public import Development.EtaleCohomology.CohomologicalPurity.LeafDescOGluePfP
-public import Development.EtaleCohomology.CohomologicalPurity.LeafDescOSepPf
-import Development.EtaleCohomology.CohomologicalPurity.LeafDescPfGlue
-public import Development.EtaleCohomology.CohomologicalPurity.LeafDictPfDbl
-public import Development.EtaleCohomology.CohomologicalPurity.LeafDiscNrmPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafEvPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafGenKerPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafGenRingPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafMatPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafNbPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafOffPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafPairPf
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle019
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle022
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle029
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle028
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle023
+import Development.EtaleCohomology.CohomologicalPurity.Bundle024
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle027
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle036
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle014
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle015
 public import Development.EtaleCohomology.CohomologicalPurity.LeafStepPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafTopPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafVanFPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafVanPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafVanRingPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafZeroPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafZlocPf
-public import Development.EtaleCohomology.CohomologicalPurity.LeafZornPf
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle012
+public import Development.EtaleCohomology.CohomologicalPurity.Bundle021
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

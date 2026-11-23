@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ExistsDensity
+public import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.Bundle001
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
-public import GroundTheory.GlobalFields.TateThesis.GaussianComplexFourier
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-public import GroundTheory.GlobalFields.TateThesis.GaussianComplex
+public import GroundTheory.GlobalFields.TateThesis.Bundle004
 
 @[expose] public section
 

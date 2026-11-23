@@ -5,12 +5,12 @@ public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DeRhamJumpDescent
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComponentsCrystallineLettersFinrank
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsBasisOfSubmodule
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsDeRhamOfIsCrystallineSpan
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle546
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle306
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle501
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDataComparison
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RestrictCrystallineDeRhamFiniteExt
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedCharIsCrystallineHodgeTateZero
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle511
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle568
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedIsCrysAndJumpEqZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -51,11 +51,11 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TripleAtt
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NormSubLtOneOfFix
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
-import ReciprocityTheory.NeutralLocalFields.Reciprocity
+import ReciprocityTheory.NeutralLocalFields.Bundle001
 
 @[expose] public section
 
@@ -245,25 +245,25 @@ open GlobalTheory.HeckeGal GlobalTheory.Pst GlobalTheory.TripleGal
 open scoped Classical in
 theorem isdRJ_zero_of_trivial_on_open_inertia :
     ∀ {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω] {l : ℕ} [Fact l.Prime] (P : LocPrime l) (AI : LocAinf l P), Nonempty (LocTied l P AI) →
-    ∀ (w : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), IsPlaceOver A w →
-    ∀ (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l E Ω (Dec (F := E) A) O),
+    ∀ (w : HeightOneSpectrum (𝓞 E)) (A : ValuationSubring Ω), Formalism.ConjugateSelfDual.IsPlaceOver A w →
+    ∀ (O : Type) [CommRing O] [Algebra ℤ_[l] O] [TopologicalSpace O] (Bw : LocBridge l E Ω (ReciprocityTheory.Gal.Dec (F := E) A) O),
       GlobalTheory.Pst.Induces Bw →
-    ∀ (LL' : FinExt l), Bw.LL.1 ≤ LL'.1 → ∀ (ψ : ↥(Dec (F := E) A) →* (↥LL'.1)ˣ),
+    ∀ (LL' : FinExt l), Bw.LL.1 ≤ LL'.1 → ∀ (ψ : ↥(ReciprocityTheory.Gal.Dec (F := E) A) →* (↥LL'.1)ˣ),
       Continuous (fun g => ((ψ g : ↥LL'.1) : Qbar l)) → (∀ g, ‖((ψ g : ↥LL'.1) : Qbar l)‖ = 1) →
-      ∀ V : Subgroup (G E Ω), IsOpen (V : Set (G E Ω)) →
-      (∀ σ : ↥(Dec (F := E) A), (σ : G E Ω) ∈ V → (σ : G E Ω) ∈ Ine (F := E) A → ψ σ = 1) →
+      ∀ V : Subgroup (Formalism.ConjugateSelfDual.G E Ω), IsOpen (V : Set (Formalism.ConjugateSelfDual.G E Ω)) →
+      (∀ σ : ↥(ReciprocityTheory.Gal.Dec (F := E) A), (σ : Formalism.ConjugateSelfDual.G E Ω) ∈ V → (σ : Formalism.ConjugateSelfDual.G E Ω) ∈ Ine (F := E) A → ψ σ = 1) →
       PositivityTheory.HodgeLocalCharacter.HLC.IsdRJ Bw P LL' ψ 0 := by
   intro E Ω _ _ _ _ _ l _ P AI hT w A hA O _ _ _ Bw hInd LL' hle ψ hcont hnorm V hV hVI
   obtain ⟨Ti⟩ := hT
   have hK : ∃ (K' : FinExt l) (h : Bw.Kw.1 ≤ K'.1), ∀ g : ↥(GK K'),
-      ((Bw.e.symm (Subgroup.inclusion (GK_le h) g) : ↥(Dec (F := E) A)) : G E Ω) ∈ V := by
-    have hU : IsOpen {g : ↥(GK Bw.Kw) | ((Bw.e.symm g : ↥(Dec (F := E) A)) : G E Ω) ∈ V} :=
+      ((Bw.e.symm (Subgroup.inclusion (GK_le h) g) : ↥(ReciprocityTheory.Gal.Dec (F := E) A)) : Formalism.ConjugateSelfDual.G E Ω) ∈ V := by
+    have hU : IsOpen {g : ↥(GK Bw.Kw) | ((Bw.e.symm g : ↥(ReciprocityTheory.Gal.Dec (F := E) A)) : Formalism.ConjugateSelfDual.G E Ω) ∈ V} :=
       hV.preimage (continuous_subtype_val.comp Bw.e_symm_cont)
     obtain ⟨U', hU', hUU'⟩ := isOpen_induced_iff.1 hU
     have h1 : (1 : GQ l) ∈ U' := by
       have : (1 : ↥(GK Bw.Kw)) ∈ Subtype.val ⁻¹' U' := by
         rw [hUU']
-        change ((Bw.e.symm 1 : ↥(Dec (F := E) A)) : G E Ω) ∈ V
+        change ((Bw.e.symm 1 : ↥(ReciprocityTheory.Gal.Dec (F := E) A)) : Formalism.ConjugateSelfDual.G E Ω) ∈ V
         rw [map_one]
         exact V.one_mem
       exact this

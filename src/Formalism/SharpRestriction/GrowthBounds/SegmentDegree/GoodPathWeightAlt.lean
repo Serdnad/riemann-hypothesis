@@ -1,8 +1,8 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.GoodPathWeight
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle005
 public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.DiscriminantNonzeroModUniformiser
-public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.GoodPathWeightOfTopCount
+public import Formalism.SharpRestriction.GrowthBounds.SegmentDegree.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

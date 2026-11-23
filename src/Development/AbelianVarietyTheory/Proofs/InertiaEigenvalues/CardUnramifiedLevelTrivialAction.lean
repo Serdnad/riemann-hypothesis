@@ -1,9 +1,9 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.TraceFormulas.LatDefs
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevRepZApply
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle009
 public import ReciprocityTheory.NeutralLocalFields.Duality
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteCardTorsionLevelFractionRingQuot
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle072
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnramA
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle010
 
 @[expose] public section
 

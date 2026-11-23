@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.SectionOfLineBundleOne
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.IrreducibleDetOfIsRelPrime
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle018
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle001
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

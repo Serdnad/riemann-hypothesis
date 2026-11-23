@@ -1,12 +1,12 @@
 module
 
-public import Formalism.LocalToGlobal.GlobalTheory.SuppSat
+public import Formalism.LocalToGlobal.GlobalTheory.Bundle004
 public import Formalism.SharpRestriction.InertJacobiLevels.TiesView
 public import Formalism.SharpRestriction.GlobalSchurBounds.TopDensityNGeSixteen
 public import Development.AutomorphicArithmetic.OrbitLabellings.EvenAddOrderOfHPOfPowLe
-import Formalism.LocalRingCardinality.HostCls
+import Formalism.LocalRingCardinality.Bundle002
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSk
+public import Formalism.SharpRestriction.AdmissibleParameterJoins.Bundle005
 public import Formalism.SharpRestriction.GlobalSchurBounds.FrameCodeOfAdditive
 public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.GenericFramesLetters
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.SecondPropositionEveryLocalisation

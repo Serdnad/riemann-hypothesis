@@ -1,6 +1,6 @@
 module
 
-public import Formalism.GradedWeylDivisibility.StatementB
+public import Formalism.GradedWeylDivisibility.Bundle001
 public import Formalism.SatakeDualWeyl.StatementW
 public import Mathlib.LinearAlgebra.Matrix.Block
 public import Mathlib.LinearAlgebra.UnitaryGroup

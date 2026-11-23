@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFlatLift
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CechAndTotalDifferentialAdditiveSquareZero
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle254
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,0 +1,193 @@
+module
+
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ScalarCommutation.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.Bundle003
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle013
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle008
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle010
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle005
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle007
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle006
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle009
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle014
+public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.Bundle011
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix GlobalTheory.UPel.HT GlobalTheory.LKTrip GlobalTheory.LKGeo GlobalTheory.LKMid GlobalTheory.LKDef GlobalTheory.CuspRep GlobalTheory.UnitaryBC Formalism.UG
+open GlobalTheory.LFun (KGL satEig)
+open GlobalTheory.CongL (SatU)
+open GlobalTheory.Cong (Apart)
+open UpperTheory.Gal.CertificateRingHomMap (GUf Plc comp lev GLw IsCen mat sim)
+open UpperTheory.Gal.Int.Geo UpperTheory.Gal.Int.Geo.Pl UpperTheory.Gal.Spc
+open scoped TensorProduct Classical
+attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+namespace UpperTheory.Gal.W2.Seed
+
+def TyLev.kerK {X M : Type} [Group X] [Group M] (T : TyLev X M) : Subgroup X :=
+  ((T.ψ.comp ((T.L.pr.comp T.K.subtype).codRestrict T.J fun k => T.fact.2 k k.2)).ker).map T.K.subtype
+
+theorem TyLev.mem_kerK {X M : Type} [Group X] [Group M] (T : TyLev X M) (k : X) :
+    k ∈ T.kerK ↔ ∃ hk : k ∈ T.K, T.ψ ⟨T.L.pr k, T.fact.2 k hk⟩ = 1 :=
+  ⟨fun ⟨y, hy, e⟩ => e ▸ ⟨y.2, hy⟩, fun ⟨hk, h⟩ => ⟨⟨k, hk⟩, h, rfl⟩⟩
+
+theorem TyLev.triv_of_le {X M : Type} [Group X] [Group M] (T : TyLev X M) {K : Subgroup X} (h : K ≤ T.kerK) : T.Triv K :=
+  ⟨fun k hk => ((T.mem_kerK k).1 (h hk)).1, fun k hk _ => ((T.mem_kerK k).1 (h hk)).2⟩
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {A : Arith E} {n p : ℕ} [Fact p.Prime] {S : Setup A n p}
+
+theorem th_eq (F : Frame S) : F.th = CertificateRingHomMap.th :=
+  MonoidHom.ext fun g => Subtype.ext (Prod.ext (Units.ext (F.th_mat g)) (F.th_sim g))
+
+def FacEq : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (A : Arith E) (n p : ℕ) [Fact p.Prime] (S : Setup A n p)
+  (F : Frame S) (hc : LocComm) (w : Spl E p), IsFac F w (fac F.tr hc w) ∧ ∀ L, IsFac F w L → L = fac F.tr hc w
+
+def LevSec : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (A : Arith E) (n p : ℕ) [Fact p.Prime] (S : Setup A n p)
+  (T : Tr S) (S₀ : Finset (Plc E)) (Kw : ∀ w : Plc E, Subgroup (GLw n w)), (∀ u ∈ S₀, (p : 𝓞 E) ∉ u.asIdeal) →
+  (∀ k ∈ lev S₀ Kw, T.sec (T.j k) ∈ lev S₀ Kw) ∧
+  ∀ k : GUf E n, (∀ w : Plc E, (p : 𝓞 E) ∉ w.asIdeal → comp w k = 1) → (∀ w : Plc E, (p : 𝓞 E) ∈ w.asIdeal → comp w k ∈ KGL w (n := n)) →
+    (∀ u ∈ S₀, (1 : GLw n u) ∈ Kw u) → k ∈ lev S₀ Kw
+
+def IsCongGrp (N : ℕ) (w : Plc E) (K : Subgroup (GLw n w)) : Prop := ∀ y, y ∈ K ↔ Cong1 N w y ∧ Cong1 N w y⁻¹
+
+def CongGrpEx : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n N : ℕ), 0 < N → ∀ w : Plc E, ∃ K : Subgroup (GLw n w),
+  IsCongGrp N w K ∧ IsOpen (K : Set (GLw n w)) ∧ IsCompact (K : Set (GLw n w)) ∧ K ≤ KGL w (n := n) ∧
+    (∀ a ∈ KGL w (n := n), ∀ y, a * y * a⁻¹ ∈ K ↔ y ∈ K) ∧ ((N : 𝓞 E) ∈ w.asIdeal → K ≤ Iw n w) ∧ Iw n w ≤ KGL w (n := n)
+
+def CongConj : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n N : ℕ) (w : Plc E) (g : GUf E n), sim g = 1 →
+  Cong1 N w (comp w g)⁻¹ → Cong1 N (CertificateRingHomMap.cj w) (comp (CertificateRingHomMap.cj w) g)
+
+def KNFact : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (A : Arith E) (n p : ℕ) [Fact p.Prime] (S : Setup A n p)
+  (F : Frame S) (w : Spl E p) (L : Loc S.G.GAf (GLw n w.1)), IsFac F w L → ∀ q : ℕ, q.Prime → A.Good q → (q : 𝓞 E) ∈ w.1.asIdeal →
+  ∀ N : ℕ, 0 < N → ∀ K : Subgroup (GLw n w.1), IsCongGrp N w.1 K → L.Fact (S.L.KN N) K
+
+def SiteFact : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (A : Arith E) (n p : ℕ) [Fact p.Prime] (S : Setup A n p)
+  (F : Frame S) (x : E), Gen A x → ∀ (N : Lv p) (w : Spl E p) (σ : Site S N w.1) (L : Loc S.G.GAf (GLw n w.1)), IsFac F w L →
+  L.Fact σ.K₀ (KGL w.1 (n := n))
+
+def CuspTh : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (w : Plc E) (σ : SmIrr (GLw n w)),
+  ∃ σ' : SmIrr (GLw n w), ∃ e : σ.V ≃ₗ[ℂ] σ'.V, (∀ (g g' : GLw n w) v, g'.val = (g⁻¹).valᵀ → σ'.ρ g' (e v) = e (σ.ρ g v)) ∧
+    (GlobalTheory.SmGL.IsCuspidal σ'.ρ → GlobalTheory.SmGL.IsCuspidal σ.ρ)
+
+def Denom : Prop := ∀ (p : ℕ) [Fact p.Prime] (D : Datum p) (G : HTGroup p) (L : Link D G) (h : G.GAf),
+  ∃ c : ℕ, 0 < c ∧ c.Coprime p ∧ ∀ v ∈ LaHat D, c • L.actG h v ∈ LaHat D
+
+def CenFacts : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (A : Arith E) (n : ℕ), 0 < n → ∀ x : E, Gen A x →
+  ∀ q : ℕ, q.Prime → A.SplitK q → ∀ w : Plc E, (q : 𝓞 E) ∈ w.asIdeal → ∀ z : GUf E n, IsCen x w z →
+  (∀ g, z * g = g * z) ∧ ∀ u : Plc E, (q : 𝓞 E) ∉ u.asIdeal → comp u z = 1
+
+def StabKer : Prop := ForData fun _ _ _ _ _ _ _ _ S F _ _ _ _ V r _ _ _ Ty => ∀ k, Stab F V k → k ∈ S.L.KN r → k ∈ Ty.kerK
+
+def SeenShape : Prop := ForData fun E _ _ _ _ n p _ S F x U _ _ V r W N L Ty => ∀ (g : Mem S.L N) (θ : ℂ), Seen F V r g θ →
+  g.K ≤ Ty.kerK ∧ ((IsDeckM g ∧ g.h ∈ Ty.kerK ∧ θ = 1) ∨
+  ∃ (w : Spl E p) (t : GLw n w.1) (z : GUf E n) (i : ℕ) (B : Multiset ℂˣ), Free V w.1 ∧ (∀ u ∈ W, Apart w.1 u.1) ∧ i ≤ n ∧ IsT w.1 i t ∧
+    IsCen x w.1 z ∧ SatU U w.1 B ∧ (∀ u : Plc E, (p : 𝓞 E) ∈ u.asIdeal → comp u z = 1) ∧
+    g.h⁻¹ = (L w).loc t⁻¹ * F.j (z ^ i)⁻¹ ∧ Ty.Cen (F.j (z ^ i)⁻¹) ∧ (∀ u ∈ W, (L u).pr g.h = 1) ∧ (L w).Fact g.K (KGL w.1 (n := n)) ∧
+    θ = (idx g : ℂ) * (satEig (Ideal.absNorm w.1.asIdeal) n B i * (((V.κ.val w.1 : ℂˣ) : ℂ)⁻¹) ^ i))
+
+def SeenActs : Prop := ForData fun _ _ _ _ _ _ _ _ S F _ _ _ _ V r _ N _ Ty => ∀ (g : Mem S.L N) (θ : ℂ), Seen F V r g θ →
+  (∀ a, g.fn a ≠ 0 → ∃ k ∈ Ty.K, g.h * k * a ∈ Ty.K) ∧
+  (IsDeckM g → g.h ∈ Ty.kerK → Ty.Acts g.fn 1 1) ∧
+  ∀ (M' : Type) [Group M'] (L' : Loc S.G.GAf M') (Kw : Subgroup M') (t : M') (z : S.G.GAf), L'.Fact Ty.K Kw → L'.Fact g.K Kw → Ty.L.Apart L' →
+    Ty.Cen z → g.h⁻¹ = L'.loc t * z → Ty.Acts g.fn (idx g) g.h⁻¹
+
+def ActsConv : Prop := ∀ (X M : Type) [Group X] [Group M] (T : TyLev X M) (ψ : X → ℂ) (c : ℂ) (h : X), T.Acts ψ c h →
+  conv T.K₀ ψ (T.tf 1) = c • T.tf h ∧ ∀ (c' : ℂ) (h' : X), T.L.pr h' = 1 →
+    conv T.K₀ ψ (c' • T.tf h') = (c * c') • conv T.K₀ (T.tf h) (T.tf h')
+
+def TEig : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ), 0 < n → ∀ (x : E) (U : Submodule ℂ (UA E n → ℂ)) (w₀ : Plc E)
+  (Up : Plc E → Prop) (V : Vec x U w₀ Up) (w : Plc E) (hw : IsSplitAt w), Free V w → ∀ (i : ℕ), i ≤ n → ∀ t, IsT w i t → ∀ z, IsCen x w z →
+  ∀ B, SatU U w B → ∀ g : GUf E n,
+    ∑ᶠ y : GLw n w ⧸ KGL w (n := n), dosetInd ℂ (KGL w (n := n)) t⁻¹ y.out • V.Φ (CertificateRingHomMap.th (g * (z ^ i)⁻¹ * CertificateRingHomMap.loc hw y.out)) =
+      (satEig (Ideal.absNorm w.asIdeal) n B i * (((V.κ.val w : ℂˣ) : ℂ)⁻¹) ^ i) • V.Φ (CertificateRingHomMap.th g)
+
+def PhiTy : Prop := ForData fun E _ _ _ _ n p _ _ F _ _ _ _ V _ _ _ _ Ty =>
+  (fun h => V.Φ (CertificateRingHomMap.th (F.tr.sec h))) ≠ 0 ∧ Ty.IsTy (fun h => V.Φ (CertificateRingHomMap.th (F.tr.sec h))) ∧
+  (∀ g : GUf E n, (∀ w : Plc E, (p : 𝓞 E) ∈ w.asIdeal → comp w g ∈ KGL w (n := n)) → V.Φ (CertificateRingHomMap.th (F.tr.sec (F.j g))) = V.Φ (CertificateRingHomMap.th g)) ∧
+  ∀ k : GUf E n, (∀ w : Plc E, (p : 𝓞 E) ∉ w.asIdeal → comp w k = 1) → (∀ w : Plc E, (p : 𝓞 E) ∈ w.asIdeal → comp w k ∈ KGL w (n := n)) →
+    ∀ g, V.Φ (CertificateRingHomMap.th (g * k)) = V.Φ (CertificateRingHomMap.th g)
+
+end UpperTheory.Gal.W2.Seed
+end
+end
+
+section
+
+namespace UpperTheory.Gal.W2.Seed
+
+theorem BarEx_holds : BarEx := pBarEx
+theorem CEx_holds : CEx := pCEx
+theorem CodiffGen_holds : CodiffGen := pCodiffGen
+theorem DeltaEx_holds : DeltaEx := pDeltaEx
+theorem DiagTrace_holds : DiagTrace := pDiagTrace
+theorem FormOKSt_holds : FormOKSt := pFormOKSt
+theorem FormPerfSt_holds : FormPerfSt := pFormPerfSt
+theorem HdSign_holds : HdSign := pHdSign
+theorem IdemEx_holds : IdemEx := pIdemEx
+theorem LiftEx_holds : LiftEx := pLiftEx
+theorem OrbEx_holds : OrbEx := pOrbEx
+theorem PerfCof_holds : PerfCof := pPerfCof
+theorem PerfOf_holds : PerfOf := pPerfOf
+theorem QuadEx_holds : QuadEx := pQuadEx
+theorem RepAdj_holds : RepAdj := pRepAdj
+theorem RepEx_holds : RepEx := pRepEx
+theorem RepLaws_holds : RepLaws := pRepLaws
+theorem SetupBasic_holds : SetupBasic := pSetupBasic
+theorem TraceType_holds : TraceType := pTraceType
+theorem UEx_holds : UEx := pUEx
+theorem UnitMod_holds : UnitMod := pUnitMod
+theorem CodiffUnit_holds : CodiffUnit := pCodiffUnit UnitMod_holds
+theorem FormCoord_holds : FormCoord := pFormCoord TraceType_holds
+theorem KqEx_holds : KqEx := pKqEx TraceType_holds
+theorem Orient_holds : Orient := pOrient TraceType_holds HdSign_holds
+theorem RealIso_holds : RealIso := pRealIso TraceType_holds
+theorem SigSt_holds : SigSt := pSigSt HdSign_holds
+theorem AtPEx_holds : AtPEx := pAtPEx KqEx_holds UEx_holds OrbEx_holds LiftEx_holds
+theorem DomSt_holds : DomSt := pDomSt TraceType_holds RealIso_holds FormCoord_holds HdSign_holds DiagTrace_holds
+theorem PosGen_holds : PosGen := pPosGen CodiffUnit_holds
+theorem RealGen_holds : RealGen := pRealGen CodiffGen_holds CodiffUnit_holds
+theorem SetupEx_holds : SetupEx := pSetupEx FormOKSt_holds FormPerfSt_holds SigSt_holds DomSt_holds AtPEx_holds RepEx_holds RepLaws_holds RepAdj_holds Orient_holds
+
+end UpperTheory.Gal.W2.Seed
+end

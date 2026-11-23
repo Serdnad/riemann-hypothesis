@@ -2,12 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesParameterUnique
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DiscreteSeriesUnitarySmoothBasicStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepDualStandardUnitaryRepStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsFRepExteriorPowerStandardRepStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NumericalFamilyShapeGapsStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.SmoothMapsClosureStatement
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.TensorDecompositionParameters
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle063
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle081
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle080
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle084
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

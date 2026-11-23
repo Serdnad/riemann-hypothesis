@@ -1,0 +1,170 @@
+module
+
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.Bundle011
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.Bundle009
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.Bundle005
+public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameBoundSpaces.InstIPSFB
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix MeasureTheory Filter
+open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT GlobalTheory.LFun
+open PositivityTheory.Rg.BcB.E PositivityTheory.Rg.BcB.CG PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.SpectralAccumulation PositivityTheory.Rg.BcB.F.Tail PositivityTheory.Rg.BcB.F.RS PositivityTheory.Rg.BcB.F.Eig
+open scoped Classical
+
+
+
+namespace PositivityTheory.Rg.BcB.F.FG
+
+attribute [local instance] borelG borelF borelA GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+def LevRead : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (S : Set (Pl E)) (d : LocData E n) (a : ℕ),
+  a ≤ n → IsSection S → d.Ok → (↑d.P : Set (Pl E)) ⊆ S → IsLev (d.lev a) ∧ IsLev (d.lev₂ a) ∧
+  ∀ (W₁ : Submodule ℂ (Kinf E a → ℂ)) (W₂ : Submodule ℂ (Kinf E (n - a) → ℂ)) (G : H E a (n - a) → ℂ),
+    TypeH (lev₁ S d a) (lev₂ S d a) W₁ W₂ G → OfLev S (d.lev a) (d.lev₂ a) G
+
+
+
+def FRGood : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ (n : ℕ)
+  (π : Submodule ℂ (UA E n → ℂ)), IsAutRepU π → ∀ (S T : Finset (Pl E)) (F₀ : Frame0 hR π S) (F : RunFrame F₀ T) (i : F₀.C.ι)
+  (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i)) (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n),
+  Ctx F₀.μ s₁ s₂ Pa Pb D → ∀ (A : Type) (G : A × F.κ → H E (F₀.C.a i) (n - F₀.C.a i) → ℂ), G ≠ 0 →
+  (∀ j, G j ∈ pairSpace s₁.space s₂.space) → (∀ j, OfLev F₀.Sec (F.d.lev _) (F.d.lev₂ _) (G j)) →
+  (∀ x : {w : Pl E // w ∈ F₀.Sec ∧ F.d.Good w} × ℕ × Bool,
+    convF (F.B i).ν (F.ψ i (F.d.hL _ (F₀.C.le i) x.1.1 x.2.1 x.2.2)) G = (F.ug (.inr (.inr x))).p F.fam F.i₀ • G) →
+  ∀ᶠ w : Pl E in cofinite, IsSplitAt w → D.SplitAt π w
+
+
+
+def FRWeight : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E → ∀ n : ℕ, 1 ≤ n →
+  ∀ π : Submodule ℂ (UA E n → ℂ), IsAutRepU π → ∀ (S : Finset (Pl E)) (F₀ : Frame0 hR π S) (d : LocData E n) (i : F₀.C.ι)
+  (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i)) (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n),
+  F₀.Cand d i s₁ s₂ Pa Pb D → ∀ τ lam, HasWeightAt π τ lam → ∑ j, D.m j τ = infOfWeight lam
+
+def LevReadOf : Prop := LevIdem → LevRead
+
+def FRGoodOf : Prop := GoodL → LevRead → FRGood
+
+def FRWeightOf : Prop := WeightL → FRWeight
+
+end PositivityTheory.Rg.BcB.F.FG
+
+end
+end
+
+section
+
+noncomputable section
+
+open NumberField IsDedekindDomain Matrix MeasureTheory Filter
+open GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT
+open PositivityTheory.Rg.BcB.E PositivityTheory.RgBcC PositivityTheory.Rg.BcB.CG PositivityTheory.Rg.BcB.G8
+open PositivityTheory.Rg.BcB.SpectralAccumulation (Hf)
+open PositivityTheory.Rg.BcB.SpectralAccumulation (Tr pairSpace)
+open PositivityTheory.Rg.BcB.One PositivityTheory.Rg.BcB.F.F5 PositivityTheory.Rg.BcB.F.Tail PositivityTheory.Rg.BcB.F.RS
+open scoped Classical
+
+
+
+namespace PositivityTheory.Rg.BcB.F
+
+attribute [local instance] borelG borelF borelA GlobalTheory.LocalData.complRel GlobalTheory.LocalData.isLocalField
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
+
+theorem allLeaves_imp {P Q : ∀ M : ℕ, Submodule ℂ (Sm E M) → Prop} (h : ∀ M V, P M V → Q M V) :
+    ∀ {N : ℕ} (t : Tr E N), t.AllLeaves P → t.AllLeaves Q
+  | _, .leaf V _, hp => h _ V hp
+  | _, .node t₁ t₂, hp => ⟨allLeaves_imp h t₁ hp.1, allLeaves_imp h t₂ hp.2⟩
+
+
+
+def CandTOut : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E →
+  ∀ n : ℕ, 1 ≤ n → ∀ (π : Submodule ℂ (UA E n → ℂ)), IsAutRepU π → ∀ (S T : Finset (Pl E)) (F₀ : Frame0 hR π S)
+    (F : RunFrame F₀ T), F.Struct → ∀ (i : F₀.C.ι) (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i))
+    (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n) (A : Type) (G : A × F.κ → H E (F₀.C.a i) (n - F₀.C.a i) → ℂ),
+    F₀.Cand F.d i s₁ s₂ Pa Pb D → (∀ j, G j ∈ pairSpace s₁.space s₂.space) →
+    (∀ j, OfLev F₀.Sec (F.d.lev (F₀.C.a i)) (F.d.lev₂ (F₀.C.a i)) (G j)) →
+    (convF (F.B i).ν (F.ψ i (F.d.betaL _ (F₀.C.le i))))^[F.m] G ≠ 0 →
+    (∀ τ lam, HasWeightAt π τ lam → ∑ k, D.m k τ = infOfWeight lam) →
+    (∀ᶠ w : Pl E in cofinite, IsSplitAt w → D.SplitAt π w) →
+    TOut π S T F₀.K F₀.W D
+
+def CandS : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E →
+  ∀ n : ℕ, 1 ≤ n → ∀ (π : Submodule ℂ (UA E n → ℂ)), IsAutRepU π → ∀ (S T : Finset (Pl E)) (F₀ : Frame0 hR π S)
+    (F : RunFrame F₀ T), F.Struct → ∀ (i : F₀.C.ι) (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i))
+    (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n) (A : Type) (G : A × F.κ → H E (F₀.C.a i) (n - F₀.C.a i) → ℂ),
+    F₀.Cand F.d i s₁ s₂ Pa Pb D → (∀ j, G j ∈ pairSpace s₁.space s₂.space) →
+    (∀ j, OfLev F₀.Sec (F.d.lev (F₀.C.a i)) (F.d.lev₂ (F₀.C.a i)) (G j)) →
+    (convF (F.B i).ν (F.ψ i (F.d.betaL _ (F₀.C.le i))))^[F.m] G ≠ 0 →
+    ∀ w ∈ S, IsSplitAt w → ∃ P : SmIrr (GLw n w), GlobalTheory.SmGL.IsSubquotient P.ρ (prodAt D w) ∧
+      IsCompAlong π (locU n w) ((cLoc w).comp (locU n w).subtype) P.ρ
+
+def CandT : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E →
+  ∀ n : ℕ, 1 ≤ n → ∀ (π : Submodule ℂ (UA E n → ℂ)), IsAutRepU π → ∀ (S T : Finset (Pl E)) (F₀ : Frame0 hR π S)
+    (F : RunFrame F₀ T), F.Struct → ∀ (i : F₀.C.ι) (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i))
+    (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n) (A : Type) (G : A × F.κ → H E (F₀.C.a i) (n - F₀.C.a i) → ℂ),
+    F₀.Cand F.d i s₁ s₂ Pa Pb D → (∀ j, G j ∈ pairSpace s₁.space s₂.space) →
+    (∀ j, OfLev F₀.Sec (F.d.lev (F₀.C.a i)) (F.d.lev₂ (F₀.C.a i)) (G j)) →
+    (convF (F.B i).ν (F.ψ i (F.d.betaL _ (F₀.C.le i))))^[F.m] G ≠ 0 →
+    ∀ w ∈ T, IsUnramU π w → ¬ IsSplitAt w → InertAt π D w
+
+def CandLev : Prop := ∀ (hR : Rd.ReadLimit) (E : Type) [Field E] [NumberField E] [IsCMField E], GlobalTheory.BCT.Unr E →
+  ∀ n : ℕ, 1 ≤ n → ∀ (π : Submodule ℂ (UA E n → ℂ)), IsAutRepU π → ∀ (S T : Finset (Pl E)) (F₀ : Frame0 hR π S)
+    (F : RunFrame F₀ T), F.Struct → ∀ (i : F₀.C.ι) (s₁ : Tr E (F₀.C.a i)) (s₂ : Tr E (n - F₀.C.a i)) (Pa : Pre E (F₀.C.a i))
+    (Pb : Pre E (n - F₀.C.a i)) (D : Pre E n) (A : Type) (G : A × F.κ → H E (F₀.C.a i) (n - F₀.C.a i) → ℂ),
+    F₀.Cand F.d i s₁ s₂ Pa Pb D → (∀ j, G j ∈ pairSpace s₁.space s₂.space) →
+    (∀ j, OfLev F₀.Sec (F.d.lev (F₀.C.a i)) (F.d.lev₂ (F₀.C.a i)) (G j)) →
+    (convF (F.B i).ν (F.ψ i (F.d.betaL _ (F₀.C.le i))))^[F.m] G ≠ 0 →
+    ∀ w, GlobalTheory.LGrp.IsSpherical (prodAt D w) (F₀.K w)
+
+theorem candTOut_of (hS : CandS) (hT : CandT) (hL : CandLev) : CandTOut := by
+  intro hR E _ _ _ hE n hn π hπ S T F₀ F hF i s₁ s₂ Pa Pb D A G hc hG hl hne hwt hgood
+  refine tout_of hwt hgood (hS hR E hE n hn π hπ S T F₀ F hF i s₁ s₂ Pa Pb D A G hc hG hl hne)
+    (hT hR E hE n hn π hπ S T F₀ F hF i s₁ s₂ Pa Pb D A G hc hG hl hne) (hL hR E hE n hn π hπ S T F₀ F hF i s₁ s₂ Pa Pb D A G hc hG hl hne)
+    (F₀.W_join i s₁ s₂ Pa Pb D hc.ctx ?_ ?_)
+  · exact allLeaves_imp (fun _ _ h => h.imp_right fun ⟨K', _, W', hW', h'⟩ => ⟨K', W', hW', h'⟩) _ hc.leaves₁
+  · exact allLeaves_imp (fun _ _ h => h.imp_right fun ⟨K', _, W', hW', h'⟩ => ⟨K', W', hW', h'⟩) _ hc.leaves₂
+
+end PositivityTheory.Rg.BcB.F
+
+end
+end

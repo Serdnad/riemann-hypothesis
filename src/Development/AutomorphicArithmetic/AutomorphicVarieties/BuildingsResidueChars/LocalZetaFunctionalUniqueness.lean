@@ -5,8 +5,8 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinea
 import Formalism.DoubleCosetMeasures.Statement
 import GroundTheory.AutomorphicForms.AdmissibleInduction
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
-import GroundTheory.AutomorphicForms.SmoothRepContragredient
-import GroundTheory.AutomorphicForms.SmoothRepSchur
+import GroundTheory.AutomorphicForms.Bundle008
+import GroundTheory.AutomorphicForms.Bundle009
 public import GroundTheory.LocalFields.PadicExp
 import GroundTheory.LocalFields.UnramifiedHensel
 import Mathlib.Algebra.Module.StablyFree.Basic

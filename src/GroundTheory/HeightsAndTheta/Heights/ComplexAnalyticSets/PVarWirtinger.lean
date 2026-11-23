@@ -1,14 +1,14 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StVarWirtinger
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StDiscriminantSheetCover
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StSheetComass
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.GraphChartEventuallyEqSheet
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PBadSetSmaller
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PNullSmaller
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle036
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle050
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle049
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle051
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle029
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle034
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetAreaCompare
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetComass
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetImageAreaSet
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle095
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle097
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetSumMeasurable
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeFormCompare
 import Mathlib.Algebra.Order.Floor.Extended
@@ -122,7 +122,7 @@ theorem VarWirtinger.proof (hDSC : DiscriminantSheetCover.Statement) (hMF : Mass
   have hfm : Measurable f := (SheetSumMeasurable.proof n (d + 1) J A g _ hJ hdim hA hgm
     (fun _ => smoothNear_of_contDiff (contDiff_euclPot n))).1
 
-  have hterm : ∀ x y, x ∈ fibre J A y → ∀ h : ∃ s, IsSheetAt J A x s,
+  have hterm : ∀ x y, x ∈ ComplexSets.fibre J A y → ∀ h : ∃ s, IsSheetAt J A x s,
       maDens (fun _ : Fin (d + 1) => (euclPot : (Fin n → ℂ) → ℝ) ∘ h.choose) y = κ * sheetJac h.choose y := by
     intro x y hx h
     obtain ⟨V, hV, hyV, hsd, -, -, -⟩ := h.choose_spec
@@ -140,7 +140,7 @@ theorem VarWirtinger.proof (hDSC : DiscriminantSheetCover.Statement) (hMF : Mass
 
   have hsec : ∀ k j, ∀ y ∈ U k, A *ᵥ s k j y = y ∧ s k j y ∈ zeroSet J := by
     intro k j y hy
-    have hx : s k j y ∈ fibre J A y := (hfib k y hy).1 ▸ ⟨j, rfl⟩
+    have hx : s k j y ∈ ComplexSets.fibre J A y := (hfib k y hy).1 ▸ ⟨j, rfl⟩
     exact ⟨hx.2, hx.1⟩
 
   have hDk : ∀ k, ∀ y ∈ Dk k, f y = ∑ j : Fin (N k), g (s k j y) * (κ * sheetJac (s k j) y) := by
@@ -151,7 +151,7 @@ theorem VarWirtinger.proof (hDSC : DiscriminantSheetCover.Statement) (hMF : Mass
     refine Finset.sum_congr rfl fun j _ => ?_
     have h : ∃ s', IsSheetAt J A (s k j y) s' := ⟨_, hsh j⟩
     rw [dite_eq_left h]
-    have hxf : s k j y ∈ fibre J A y := hfibeq ▸ ⟨j, rfl⟩
+    have hxf : s k j y ∈ ComplexSets.fibre J A y := hfibeq ▸ ⟨j, rfl⟩
     rw [hterm _ _ hxf h]
     have heq := SheetSumMeasurable.sheet_eventuallyEq (hsh j) h.choose_spec
     rw [hxf.2] at heq
@@ -253,7 +253,7 @@ theorem VarWirtinger.proof (hDSC : DiscriminantSheetCover.Statement) (hMF : Mass
     constructor
     · rintro ⟨⟨hzJ, hzB⟩, k, hk⟩
       obtain ⟨hfibeq, -, -⟩ := hfib k _ ((hUD k).2.2.1 hk)
-      have hzf : WithLp.ofLp z ∈ fibre J A (A *ᵥ WithLp.ofLp z) := ⟨hzJ, rfl⟩
+      have hzf : WithLp.ofLp z ∈ ComplexSets.fibre J A (A *ᵥ WithLp.ofLp z) := ⟨hzJ, rfl⟩
       rw [hfibeq] at hzf
       obtain ⟨j, hj⟩ := hzf
       replace hj : s k j (A *ᵥ WithLp.ofLp z) = WithLp.ofLp z := hj

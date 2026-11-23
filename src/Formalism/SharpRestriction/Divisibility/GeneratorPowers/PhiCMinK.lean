@@ -1,11 +1,10 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinR
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinC
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinE
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle015
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle003
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinF
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCMinI
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PhiCTie
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

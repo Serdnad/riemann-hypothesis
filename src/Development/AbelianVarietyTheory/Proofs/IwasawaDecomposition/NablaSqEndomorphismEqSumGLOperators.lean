@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualWeylHighestWeightSpaceLineField
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle098
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.WeightTensorDualRepDualHighestWeightAtEmbedding
-public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.FiniteDimensionalNablaSq
+public import Development.AbelianVarietyTheory.PublishedTheorems.GlobalTheta.Bundle001
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.GelfandTsetlinBranching.ExtremalFactsProofA
 import Mathlib.Algebra.Order.Floor.Extended
@@ -49,9 +49,9 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExponentAndTwistData
-import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 
 @[expose] public section
@@ -110,14 +110,14 @@ theorem prod_rowDeg {k : Type} [Field k] {r c : ℕ} (x : Fin r → k) (m : Fin 
 
 theorem coeff_sqAct_diag {k : Type} [Field k] {r : ℕ} (lam : DomWeight r) (t : Fin r → kˣ)
     (f : MvPolynomial (Fin r × Fin r) k) (m : Fin r × Fin r →₀ ℕ) :
-    AddMonoidAlgebra.coeff (sqAct k r lam (diagGL k r t) f) m =
+    AddMonoidAlgebra.coeff (sqAct k r lam (_root_.Formalism.BasicNotions.diagGL k r t) f) m =
       (∏ a, (t a : k)) ^ lam.detShift * ((∏ a, (t a : k) ^ Formalism.GradedWeylDivisibility.rowDeg m a) * AddMonoidAlgebra.coeff f m) := by
-  have e1 : ((diagGL k r t : GL (Fin r) k) : Matrix (Fin r) (Fin r) k).transpose =
+  have e1 : ((_root_.Formalism.BasicNotions.diagGL k r t : GL (Fin r) k) : Matrix (Fin r) (Fin r) k).transpose =
       Matrix.diagonal fun a => (t a : k) := by
-    simp [diagGL]
-  have e2 : ((Matrix.GeneralLinearGroup.det (diagGL k r t) : kˣ) : k) = ∏ a, (t a : k) := by
+    simp [_root_.Formalism.BasicNotions.diagGL]
+  have e2 : ((Matrix.GeneralLinearGroup.det (_root_.Formalism.BasicNotions.diagGL k r t) : kˣ) : k) = ∏ a, (t a : k) := by
     rw [Matrix.GeneralLinearGroup.val_det_apply]
-    simp [diagGL, Matrix.det_diagonal]
+    simp [_root_.Formalism.BasicNotions.diagGL, Matrix.det_diagonal]
   unfold sqAct detPow
   rw [MvPolynomial.coeff_smul, e1, rowAct_diagonal, coeff_aeval_scale, prod_rowDeg (fun a => (t a : k)), smul_eq_mul,
     Units.val_zpow_eq_zpow_val, e2]
@@ -131,7 +131,7 @@ theorem weight_rowW_apply {r c : ℕ} (m : Fin r × Fin c →₀ ℕ) (a : Fin r
 
 theorem weightLine : ∀ (k : Type) [Field k] [CharZero k] (N : ℕ) (lam : DomWeight N)
     (f : MvPolynomial (Fin N × Fin N) k), f ∈ nablaSq k N lam →
-    (∀ t : Fin N → kˣ, sqAct k N lam (diagGL k N t) f = ((∏ a, t a ^ lam.w a : kˣ) : k) • f) →
+    (∀ t : Fin N → kˣ, sqAct k N lam (_root_.Formalism.BasicNotions.diagGL k N t) f = ((∏ a, t a ^ lam.w a : kˣ) : k) • f) →
     ∃ c : k, f = c • extremal k N lam := by
   intro k _ _ N lam f hf hwt
   classical
@@ -271,12 +271,12 @@ theorem schur [CharZero k] (hS : ∀ M : Submodule k (MvPolynomial (Fin N × Fin
   have hcomm : ∀ g v, ψ (rho k N lam g v) = rho k N lam g (ψ v) := fun g v =>
     ψ.map_smul (⟨rho k N lam g, rho_mem k N lam g⟩ : spanAlg k N lam) v
   let h0 : nablaSq k N lam := ⟨extremal k N lam, extremal_mem k N lam⟩
-  have hwt : ∀ t : Fin N → kˣ, sqAct k N lam (diagGL k N t) (ψ h0 : MvPolynomial (Fin N × Fin N) k) =
+  have hwt : ∀ t : Fin N → kˣ, sqAct k N lam (_root_.Formalism.BasicNotions.diagGL k N t) (ψ h0 : MvPolynomial (Fin N × Fin N) k) =
       ((∏ a, t a ^ lam.w a : kˣ) : k) • (ψ h0 : MvPolynomial (Fin N × Fin N) k) := by
     intro t
-    have e1 : rho k N lam (diagGL k N t) h0 = ((∏ a, t a ^ lam.w a : kˣ) : k) • h0 :=
+    have e1 : rho k N lam (_root_.Formalism.BasicNotions.diagGL k N t) h0 = ((∏ a, t a ^ lam.w a : kˣ) : k) • h0 :=
       Subtype.ext (GlobalTheory.AlgWtF.DDHw.sqAct_diag k N lam t)
-    have e2 := hcomm (diagGL k N t) h0
+    have e2 := hcomm (_root_.Formalism.BasicNotions.diagGL k N t) h0
     rw [e1, LinearMap.map_smul_of_tower] at e2
     have e3 := congrArg Subtype.val e2
     exact e3.symm

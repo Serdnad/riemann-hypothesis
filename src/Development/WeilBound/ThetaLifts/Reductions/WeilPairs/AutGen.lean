@@ -1,11 +1,11 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutDef
-public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.Bundle002
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealSymplecticFormAlternatingInvariantDefinite
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryMatrixEqProdQuasiReflections
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryQuasiReflectionLaws
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.InfiniteNormOne
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle038
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle025
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle086
 public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.AutGenA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

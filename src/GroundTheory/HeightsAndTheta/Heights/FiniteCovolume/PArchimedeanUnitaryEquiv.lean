@@ -1,8 +1,8 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.StatementsAdelicSplit
+public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.Bundle010
 public import GroundTheory.HeightsAndTheta.Theta.RealPlace
-import GroundTheory.AutomorphicForms.HermitianOrthogonal
+import GroundTheory.AutomorphicForms.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

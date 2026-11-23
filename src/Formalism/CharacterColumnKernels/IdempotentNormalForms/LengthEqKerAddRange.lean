@@ -1,8 +1,8 @@
 module
 
-public import Formalism.CharacterColumnKernels.StatementRho
+public import Formalism.CharacterColumnKernels.Bundle002
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.LengthKerOfDetEqZero
-public import Formalism.CharacterColumnKernels.IdempotentNormalForms.RightMulEpsAlgebraMap
+public import Formalism.CharacterColumnKernels.IdempotentNormalForms.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

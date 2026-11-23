@@ -1,28 +1,28 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.LevChiEqOne
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.MemMoveLevUloc
+public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle018
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle018
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResidueEqZeroIff
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotTopPtOne
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle020
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ChartNonempty
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MoveCompactLevelInvariant
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdmissibleBasePointUnitaryNormalisesLevelStatement
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDefiniteLaws
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsPrimesOk
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartLevelTwistTrivialLocalMove
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsDetRoot
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryAdelicTwistDiagonalAtPrimes
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle365
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle417
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle277
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle290
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle406
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle517
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle364
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryDiagonalBasePointLevelPrime
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InclMulInvMul
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevOkTwists
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle329
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PointOverXHasAdelicPointBlockExtendMul
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RepresentativeImagePointOfLift
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TrueColumnSpacesStandardInFrameCoords
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TwistPrimesAwayLevelAndTypePrimes
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle339
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle361
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartsReadingStepMoveBasePointsOneOffLevelPrime
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.UnitaryGroupAdelicClassesViaFiniteAdelicPart
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle205
 import Formalism.LocalToGlobal.Columns.RecLevelLocP
-import Formalism.LocalToGlobal.Columns.RecLevelStep
+import Formalism.LocalToGlobal.Columns.Bundle023
 import Formalism.LocalToGlobal.Columns.RowFormsAdelic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,7 +61,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.LatticeFrames.FiniteDimensionalMram
+import Development.AbelianVarietyTheory.Definitions.LatticeFrames.Bundle004
 
 @[expose] public section
 
@@ -76,7 +76,7 @@ noncomputable section
 
 namespace GlobalTheory.AdForm.TopMove
 
-open Formalism.MainNotions Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC GlobalTheory.TwU
+open Formalism.MainNotions _root_.Formalism.L2.Col Formalism.L2.DIV GlobalTheory.Mem.Chr GlobalTheory.Mem.Col2.TC GlobalTheory.TwU
 
 variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre}
 

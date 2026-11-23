@@ -1,10 +1,8 @@
 module
 
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceS
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.TwoSplitIdem
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.GlobalDual
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatMod
-public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatOAnnIffOf
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle005
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle017
+public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle010
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatSDa
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.PlaceDual
 import Mathlib.Algebra.Order.Floor.Extended

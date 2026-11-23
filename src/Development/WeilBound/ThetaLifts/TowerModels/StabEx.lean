@@ -38,7 +38,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-public import Development.WeilBound.ThetaLifts.TowerModels.ExistsHaarOfIsCompact
+public import Development.WeilBound.ThetaLifts.TowerModels.Bundle003
 
 @[expose] public section
 

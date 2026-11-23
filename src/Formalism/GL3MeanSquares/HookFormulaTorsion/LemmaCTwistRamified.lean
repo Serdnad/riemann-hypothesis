@@ -1,7 +1,7 @@
 module
 
-public import Formalism.GL3MeanSquares.RationalMatrixPrimeOrderBound
-public import Formalism.GL3MeanSquares.HookFormulaTorsion.LengthQuotientBoundGeneral
+public import Formalism.GL3MeanSquares.Bundle002
+public import Formalism.GL3MeanSquares.HookFormulaTorsion.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

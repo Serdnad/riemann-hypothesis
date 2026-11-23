@@ -1,6 +1,6 @@
 module
 
-public import Formalism.IncomingBounds.IncomingBound
+public import Formalism.IncomingBounds.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

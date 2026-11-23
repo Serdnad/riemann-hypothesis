@@ -2,8 +2,8 @@ module
 
 public import Formalism.LocalToGlobal.GroupLattices.LevelCharts.SplitStab
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
-public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IntSplitOf
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
+public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle001
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsDual
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

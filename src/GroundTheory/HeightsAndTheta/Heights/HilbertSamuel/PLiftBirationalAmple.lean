@@ -1,8 +1,8 @@
 module
 
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ReferenceGeometryMultihomogForm
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLiftBirationalAmple
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedNonzeroSection
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle038
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle037
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenOnFibres
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.PsiCover
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle008
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -43,7 +43,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-public import GroundTheory.LocalFields.LocalAxiom
+public import GroundTheory.LocalFields.Bundle008
 
 @[expose] public section
 

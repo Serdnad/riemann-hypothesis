@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RatInOfUnit
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DownRight
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IndexBoundAll
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareThetaTripleExistsSignatureRankSumLt
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2039
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle781
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1378
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1904
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

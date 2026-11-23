@@ -2,12 +2,12 @@ module
 
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.DepthCond
 public import Formalism.LocalToGlobal.ProjectiveLattices.ConjNeSelfOfCM
-public import Formalism.LocalToGlobal.ProjectiveLattices.DepLaws
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.DepthCondPf
 public import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ONLeaves
 import Formalism.LocalToGlobal.ProjectiveLattices.CrudeVal
-public import Formalism.LocalToGlobal.ProjectiveLattices.DepRun
-import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.RamBasic
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle040
+import Formalism.MirabolicMackeyTheory.MirabolicMackeyProofs.Bundle002
 import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.ValBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

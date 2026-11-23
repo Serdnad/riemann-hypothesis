@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
-public import Formalism.PeriodIntegrals.QuotInv
+public import Formalism.PeriodIntegrals.Bundle004
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ClosedSubgroupBesselUnitaryHaarUniqueStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DensityInChartStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle164
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle309
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagUnipotentLebesgueMeasureIsHaarOn
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FlagUnipotentLebesgueMeasureIsHaarOnStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HaarLieIsHaarOnUnipotentRadicalStatement
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle209
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle404
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PowApplyEqZeroOfStrictUpper
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle008
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 import Formalism.FormalDegreeBessel.FinalG
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
@@ -371,8 +371,8 @@ theorem smooth_Phi (i j : Fin (2 * r + k + 1)) : ContDiff ℝ 1 fun q : EE k r =
       · fun_prop
       · exact (smooth_star (by fun_prop)).neg
       · exact (Complex.ofRealCLM.contDiff.comp (by fun_prop)).mul contDiff_const
-    unfold pOf pEl herm Matrix.mulVec dotProduct
-    simp only [Pi.star_apply]
+    unfold pOf pEl herm
+    simp only [_root_.Matrix.mulVec, _root_.dotProduct, Pi.star_apply]
     split_ifs
     · exact contDiff_const
     · exact (ContDiff.sum fun _ _ => (smooth_star (hB _ _)).mul contDiff_const).neg

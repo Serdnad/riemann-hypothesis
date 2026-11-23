@@ -1,6 +1,6 @@
 module
 
-public import Formalism.FrobeniusOrbits.DiscrMaximalRealCyclotomic
+public import Formalism.FrobeniusOrbits.Bundle001
 public import Mathlib.RingTheory.DedekindDomain.Different
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended

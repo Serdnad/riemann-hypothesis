@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.DSInfCharCap
+public import Formalism.PeriodIntegrals.Bundle020
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsNormEmbId
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

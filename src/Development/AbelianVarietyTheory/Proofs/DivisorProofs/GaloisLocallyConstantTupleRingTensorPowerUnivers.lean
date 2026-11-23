@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProdSubConjEqZero
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle364
 public import Mathlib.FieldTheory.IsSepClosed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

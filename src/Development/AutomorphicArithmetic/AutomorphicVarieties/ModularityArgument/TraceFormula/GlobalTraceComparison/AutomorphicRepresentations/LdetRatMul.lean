@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.AutomorphicRepresentations.EvalBasis
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.AutomorphicRepresentations.Bundle001
 public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.LogAbsEqLogIdeleNorm
-public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.PiSeenA
+public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.Bundle006
 import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.SplitCentreMulTor
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

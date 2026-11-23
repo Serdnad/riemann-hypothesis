@@ -1,13 +1,12 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.UnramifiedCocycleIsCoboundaryOfBernoulliUnit
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.FiniteResidue
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.IsHostFrame
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.CongrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDirData
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcDirVal
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.HcOmDir
-import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Th1Facts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.Bundle007
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle011
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle007
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LevelCohomology.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,6 +46,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 
 @[expose] public section
+
+local instance (priority := 2000) ratAlgebraIsTorsionFreeForDirGPowOne (Ω : Type)
+    [Field Ω] [Algebra ℚ Ω] : Module.IsTorsionFree ℚ Ω :=
+  DivisionSemiring.to_moduleIsTorsionFree
 
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing UpperTheory.V UpperTheory.V.Base UpperTheory.V.HV UpperTheory.V.X
 

@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.Divisibility.CoefModLemmas
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LatticeHasBasisAtEveryFinitePlace
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NabIndepAndDelIndepLocalConditionsStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StdWeylLatticesFgAndSpanCoeffSpace
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle204
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle243
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle220
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

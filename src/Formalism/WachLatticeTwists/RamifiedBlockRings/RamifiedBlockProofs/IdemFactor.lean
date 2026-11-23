@@ -1,6 +1,6 @@
 module
 
-public import Formalism.WachLatticeTwists.RamifiedBlockRings.RightIdealImageOfSurjective
+public import Formalism.WachLatticeTwists.RamifiedBlockRings.Bundle001
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.CharpolyRevMap
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.Normal
 import Mathlib.Algebra.AffineMonoid.UniqueSums

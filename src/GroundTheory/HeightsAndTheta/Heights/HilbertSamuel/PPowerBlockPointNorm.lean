@@ -1,9 +1,9 @@
 module
 
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageInverse
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlockPointNorm
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSectionPointValue
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLocalRep
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle079
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle072
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

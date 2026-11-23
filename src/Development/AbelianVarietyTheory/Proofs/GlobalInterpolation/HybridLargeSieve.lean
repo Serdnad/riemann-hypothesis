@@ -2,8 +2,8 @@ module
 
 public import Mathlib.MeasureTheory.Integral.IntervalIntegral.Basic
 public import Mathlib.NumberTheory.DirichletCharacter.Basic
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.IntegralNormSqLp
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MultiplicativeLargeSieveStatement
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle044
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

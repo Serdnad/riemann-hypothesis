@@ -2,16 +2,16 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.IsAdmissiblePrimeListNil
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.ClsFacts
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.CharacterLevelBounds.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.Primeq
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.Primmem
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.DvrFacts
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Places
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.BernoulliNumbers.Bundle006
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle008
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.Bundle006
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.FrobFix
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.GalBasic
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.PrimRam
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.RatPlace
-import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.ShaToShT
+import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.Bundle004
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PrimitiveFrobeniusFixed.ZeNorm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -162,6 +162,11 @@ private theorem prim_case (hR : Rec) (Ω : Type) [Field Ω] [Algebra ℚ Ω] [Is
     obtain ⟨δ, hδ⟩ := (galBasic Ω (f / l ^ f.factorization l * l ^ m₁) (NeZero.ne _)).2.2.2.1 (-1)
     have hodd := hD₁.odd δ hδ
     have hδu : IsUnit ((((Chr.Psi l e (Chr.dirG ℚ Ω ψ))⁻¹ δ : c.Oˣ) : c.O) - 1) := by
+      classical
+      letI : PreValuationRing c.O := (_root_.of_isDiscreteValuationRing c.O).toPreValuationRing
+      letI : IsLocalRing c.O := ValuationRing.isLocalRing c.O
+      letI : @Std.Total (Ideal c.O) (· ≤ ·) := ValuationRing.le_total_ideal c.O
+      letI : LinearOrder (Ideal c.O) := Lattice.toLinearOrder (Ideal c.O)
       have hmax : ((((Chr.Psi l e (Chr.dirG ℚ Ω ψ))⁻¹ δ : c.Oˣ) : c.O) + 1) ∈ IsLocalRing.maximalIdeal c.O := by
         obtain ⟨k, hk⟩ := hodd
         rw [hk, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]

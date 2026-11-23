@@ -1,6 +1,6 @@
 module
 
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselScaling
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle078
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

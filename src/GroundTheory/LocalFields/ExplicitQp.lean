@@ -4,7 +4,7 @@ public import GroundTheory.LocalFields.KroneckerWeber
 public import GroundTheory.LocalFields.LocalReciprocityUniversal
 public import GroundTheory.LocalFields.LubinTateReciprocity
 public import GroundTheory.LocalFields.PrincipalUnitsRank
-import GroundTheory.LocalFields.Existence
+import GroundTheory.LocalFields.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

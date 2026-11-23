@@ -1,0 +1,151 @@
+module
+
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.Bundle003
+public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.EqOfLeOfAbsNormEq
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.Bundle001
+public import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.LemmaTwoThreeOfSiegelBound
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle004
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle009
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle012
+public import Mathlib.Basic.Complex.Basic
+public import Mathlib.NumberTheory.NumberField.Basic
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Algebra.Order.Star.Real
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
+import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
+
+@[expose] public section
+
+section
+
+open Formalism.MainNotions.GL3Theta Formalism.MainNotions.TaylorLogMetric Formalism.BasicNotions NumberField
+
+namespace Formalism.MainNotions.Ext
+
+def InertPrime : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K], Module.finrank ℚ K = 2 → ∀ (b : K) (d p : ℕ), b ^ 2 = -(d : K) → p.Prime →
+    jacobiSym (-(d : ℤ)) p = -1 → (Ideal.span {(p : 𝓞 K)}).IsPrime
+
+theorem okpInert_of (HO : OkpInertG) (HI : InertPrime) (D : D7) : okpInert D := by
+  intro p _ lam h2 hin
+  have := Formalism.MainNotions.UnusedSlot33.HK.isGalK D.host
+  obtain ⟨b, hb, -⟩ := exists_gen_K D.host
+  have hb' : b ^ 2 = -(D.host.d : D.host.K) := by rw [hb]; push_cast; rfl
+  have hpr := HI D.host.K (finrank_K D.host) b D.host.d p hb' (Fact.out) hin
+
+  let φK : D.host.K →+* Qbar :=
+    (D.host.φ₀.comp (algebraMap D.host.K D.host.E)).codRestrict Qbar.toSubring (fun x => test_vector_mem_schwartz_bruhat D _)
+  let c : D.host.K →+* D.host.K := (AlgEquiv.restrictNormal D.host.conj D.host.K : D.host.K →+* D.host.K)
+  have hc : ∀ x : D.host.K, ((c x : D.host.K) : D.host.E) = D.host.conj (x : D.host.E) := fun x =>
+    AlgEquiv.restrictNormal_commutes D.host.conj D.host.K x
+  have hne : ∃ x, c x ≠ x := by
+    refine ⟨b, fun h => ?_⟩
+    have hbE : ((b : D.host.K) : D.host.E) ^ 2 = -(D.host.d : D.host.E) := by
+      have := congrArg (fun z : D.host.K => (z : D.host.E)) hb'
+      simpa using this
+    have h1 := hc b
+    rw [h] at h1
+
+    have h3 := Formalism.BasicNotions.Examples₂.emb_conj D.host D.host.φ₀ (b : D.host.E)
+    rw [← h1] at h3
+    have h4 : (D.host.φ₀ (b : D.host.E)) ^ 2 = -(D.host.d : ℂ) := by
+      rw [← map_pow, hbE]; simp
+    obtain ⟨r, hr⟩ := Complex.conj_eq_iff_real.1 h3.symm
+    rw [hr] at h4
+    have h5 : ((r ^ 2 : ℝ) : ℂ) = ((-(D.host.d : ℝ) : ℝ) : ℂ) := by push_cast; exact h4
+    have h6 : r ^ 2 = -(D.host.d : ℝ) := by exact_mod_cast h5
+    have h7 : (0 : ℝ) < D.host.d := by exact_mod_cast D.host.hyp.2.1.pos
+    nlinarith [sq_nonneg r]
+  have key := HO D.host.K c p (lam.comp φK) (finrank_K D.host) hne h2 hpr
+  rw [← key]
+  unfold OKp
+  congr 1
+  ext x
+  constructor
+  · rintro ⟨a, rfl⟩
+    refine ⟨a, ?_⟩
+    simp only [tauK, tauKc, RingHom.comp_apply]
+    rw [lamC_mem' lam (test_vector_mem_schwartz_bruhat D _), lamC_mem' lam (test_vector_mem_schwartz_bruhat D _)]
+    congr 2
+    exact Subtype.ext (congrArg D.host.φ₀ (hc _))
+  · rintro ⟨a, rfl⟩
+    refine ⟨a, ?_⟩
+    simp only [tauK, tauKc, RingHom.comp_apply]
+    rw [lamC_mem' lam (test_vector_mem_schwartz_bruhat D _), lamC_mem' lam (test_vector_mem_schwartz_bruhat D _)]
+    congr 2
+    exact Subtype.ext (congrArg D.host.φ₀ (hc _)).symm
+
+end Formalism.MainNotions.Ext
+end
+
+section
+
+namespace Formalism.MainNotions.Ext
+
+theorem substWf_holds : SubstWf :=
+  fun p _ σ f a hf ha h0 => witt_substitution p σ f a hf (fun n => ⟨0, by rw [pow_zero, one_mul]; exact ha n⟩) h0
+
+theorem coefWfRing_holds : CoefWfRing := witt_ring_structure
+
+theorem endIntWG_holds : EndIntWG :=
+  fun p _ g hOk hW α hα hI =>
+    witt_frobenius_end p g.W g.wq g.ex hW.1 hW.2.1 hW.2.2.1 hW.2.2.2.1 hW.2.2.2.2 hOk.2.1 hOk.2.2.1 hOk.2.2.2 α.1
+      ⟨0, by simpa using witt_pairing p α hα⟩ hI
+
+end Formalism.MainNotions.Ext
+end
+
+section
+
+open Formalism.MainNotions.TaylorLogMetric Formalism.MainNotions.StandardLatticesGL3 NumberField
+
+namespace Formalism.MainNotions.Ext
+
+def TraceSum : Prop :=
+  ∀ (E : Type) [Field E] [NumberField E] (K : IntermediateField ℚ E) (φ₀ : E →+* ℂ) (S : Type) [Fintype S]
+    (emb : S → E →+* ℂ), Function.Injective emb → (∀ (s : S) (a : K), emb s (a : E) = φ₀ (a : E)) →
+    Fintype.card S = Module.finrank K E →
+    ∀ y : E, ∑ s, emb s y = φ₀ ((Algebra.trace K E y : K) : E)
+
+end Formalism.MainNotions.Ext
+end

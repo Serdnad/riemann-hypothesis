@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ContinuousRmulPair
-public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.CmTypeLetterFrameColumnDictionary
+public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle032
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HermFormConjDiag
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.RelabelEmbeddingsGoodBijectiveConjCompat
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -235,7 +235,7 @@ end GlobalTheory.Dict.UWLat
 
 
 open GlobalTheory.Dict.UWLat in
-theorem GlobalTheory.Dict.uw_lattice : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r), GoodEmb c σ → IsUnf U → 1 ≤ r → ∀ (W : UW U) (k : U.Comp), (U.X k).κ0 = 2 * (U.X k).ξ0 ∧ SelfD (U.X k) (U.X k).Λ ∧ IsMark l (U.X k).Λ (W.mark k) ∧ r = (W.F.Di (W.ik k)).p + (W.F.Di (W.ik k)).q ∧ Function.Injective (W.emb k) ∧ Submodule.span E (Set.range (W.emb k)) = ⊤ ∧ ∀ a b, (((W.F.Di (W.ik k)).EF a b : ℤ) : ℚ) = EF (U.X k) (W.emb k a) (W.emb k b) := by
+theorem GlobalTheory.Dict.uw_lattice : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : _root_.Formalism.L2.PjFree.Unf Xo c σ r), _root_.Formalism.L2.PjFree.GoodEmb c σ → _root_.Formalism.L2.PjFree.IsUnf U → 1 ≤ r → ∀ (W : UW U) (k : U.Comp), (U.X k).κ0 = 2 * (U.X k).ξ0 ∧ SelfD (U.X k) (U.X k).Λ ∧ IsMark l (U.X k).Λ (W.mark k) ∧ r = (W.F.Di (W.ik k)).p + (W.F.Di (W.ik k)).q ∧ Function.Injective (W.emb k) ∧ Submodule.span E (Set.range (W.emb k)) = ⊤ ∧ ∀ a b, (((W.F.Di (W.ik k)).EF a b : ℤ) : ℚ) = EF (U.X k) (W.emb k a) (W.emb k b) := by
   intro E _ _ _ H Dw l Xo c σ r U hσ hU hr W k
   obtain ⟨hrank, htype, -⟩ := hU
   obtain ⟨hp0, hty⟩ := htype k
@@ -250,7 +250,7 @@ theorem GlobalTheory.Dict.uw_lattice : ∀ (E : Type) [Field E] [NumberField E] 
     refine (U.X k).κ0_xi.resolve_right fun hκ => ?_
     obtain ⟨x, hx⟩ := (GlobalTheory.frames_isConnected E r (U.X k)).nonempty
     obtain ⟨P, hP, ⟨-, -, -, hspan, A, -, hA, hAE⟩, -⟩ := W.pt k ⟨x, hx⟩
-    obtain ⟨f, hf⟩ := FrameUnif.exists_letter_equiv (U.X k).Ψ (U.X k).cmType Dw.p Dw.q r hrank (relab c σ) hbij
+    obtain ⟨f, hf⟩ := FrameUnif.exists_letter_equiv (U.X k).Ψ (U.X k).cmType Dw.p Dw.q r hrank (_root_.Formalism.L2.PjFree.relab c σ) hbij
       Dw.mult
       (fun τ h => by unfold Datum.mult; rw [if_pos ((hrt τ).1 ((hty _).1 h))])
       (fun τ h => by unfold Datum.mult; rw [if_neg (fun h' => h ((hty _).2 ((hrt τ).2 h')))])
@@ -269,11 +269,11 @@ theorem GlobalTheory.Dict.uw_lattice : ∀ (E : Type) [Field E] [NumberField E] 
       dsimp only
       rcases h with ⟨a, rfl, rfl⟩ | ⟨a, rfl, rfl, d⟩
       · rw [if_neg (by omega)]
-        unfold perFr
+        unfold _root_.Formalism.L2.PjFree.perFr
         rw [dite_eq_left a, dite_eq_left hn]
       · rw [if_pos (by omega)]
-        unfold perFr
-        rw [dite_eq_right a, dite_eq_left (show conjEmb (relab c σ (W.e j).1) ∈ (U.X k).Ψ from hτ), dite_eq_left hn]
+        unfold _root_.Formalism.L2.PjFree.perFr
+        rw [dite_eq_right a, dite_eq_left (show conjEmb (_root_.Formalism.L2.PjFree.relab c σ (W.e j).1) ∈ (U.X k).Ψ from hτ), dite_eq_left hn]
         rfl
     obtain ⟨B, hB, hBE⟩ := exists_pos_form (U.X k) idx hx
     haveI : Nonempty (Fin W.g) := by

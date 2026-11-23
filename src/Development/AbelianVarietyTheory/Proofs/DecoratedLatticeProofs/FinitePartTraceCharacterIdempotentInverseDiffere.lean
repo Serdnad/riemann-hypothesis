@@ -1,14 +1,13 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.StandardCharacterConductorAlmostAll
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HomLatticeCompletionSelfAnnihilatorAtPlaces
-import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddCharTrivialIntegralFiniteAdeleMul
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle148
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle067
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SelfDualLatticePairingDual
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FractionalIdealGeneratedByOneAlmostEverywhereStatement
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FractionalIdealLocalGeneratorAtBasePrimeStatement
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle031
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalRingCardinality.SpanPowerMembership.LocAtA
-import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FactPrincipalDatum
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.Bundle002
 import Formalism.LocalToGlobal.ProjectiveLattices.HostInt
 public import Formalism.SharpRestriction.GlobalSchurBounds.Joints
 import Mathlib.Algebra.Order.Floor.Extended
@@ -311,8 +310,8 @@ theorem mul_mem_dual {d : D.host.E} (hd : d ∈ Dual D) (o : 𝓞 D.host.E) : d 
   rwa [Algebra.smul_def, mul_comm] at h
 
 theorem chi_tmul_dual {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) {γ : Af D.host.F}
-    (hγ : γ ∈ intAf D.host.F) {d : D.host.E} (hd : d ∈ Dual D) : chi ψ (γ ⊗ₜ[D.host.F] d) = 1 := by
-  rw [chi, GlobalTheory.LatVac.trace_tmul]
+    (hγ : γ ∈ intAf D.host.F) {d : D.host.E} (hd : d ∈ Dual D) : _root_.GlobalTheory.FinPl.Conductor.chi ψ (γ ⊗ₜ[D.host.F] d) = 1 := by
+  rw [_root_.GlobalTheory.FinPl.Conductor.chi, GlobalTheory.LatVac.trace_tmul]
   refine GlobalTheory.IntDense.addChar_eq_one_of_integral D.host.F ψ hψ.1.1 _ (fun a => ?_) _ hγ
   rw [← smul_eq_mul, ← map_smul, GlobalTheory.LatVac.char_rat hψ]
   have hi : IsIntegral ℤ (algebraMap D.host.F D.host.E (a : D.host.F)) :=
@@ -324,7 +323,7 @@ theorem chi_tmul_dual {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1
 
 theorem chi_dual {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) {γ : Af D.host.F}
     (hγ : γ ∈ intAf D.host.F) {d : D.host.E} (hd : d ∈ Dual D) {w : Af D.host.F ⊗[D.host.F] D.host.E}
-    (hw : w ∈ intAE D) : chi ψ ((γ ⊗ₜ[D.host.F] d) * w) = 1 := by
+    (hw : w ∈ intAE D) : _root_.GlobalTheory.FinPl.Conductor.chi ψ ((γ ⊗ₜ[D.host.F] d) * w) = 1 := by
   induction hw using AddSubgroup.closure_induction with
   | mem w hw =>
     obtain ⟨α, hα, o, rfl⟩ := hw
@@ -483,7 +482,7 @@ theorem finPart_ex (x : Pl D) (c : 𝓞 D.host.F) (hc0 : ((c : D.host.F) : D.hos
 
 theorem finitePartTraceCharacter_idempotent_inverseDifferent {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) (x : Pl D) (c : 𝓞 D.host.F)
     (hc : c ∉ x.asIdeal) (t : D.host.E) (ht : ((c : D.host.F) : D.host.E) * t ∈ Dual D) (w : AE D)
-    (hw : finPart D w ∈ intAE D) : chi ψ (finPart D (ex x * incA D t * w)) = 1 := by
+    (hw : finPart D w ∈ intAE D) : _root_.GlobalTheory.FinPl.Conductor.chi ψ (finPart D (ex x * incA D t * w)) = 1 := by
   rw [(finPart D).map_mul, finPart_ex x c (coe_ne_zero x c hc)]
   exact chi_dual hψ (gam_int x _ hc) ht hw
 

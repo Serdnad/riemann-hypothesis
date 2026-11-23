@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ChartWiden
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AfsplitC
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle353
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsConstMul
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.GModel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle010
 public import Development.WeilBound.CoreStatements.SesquilinearFractions.SpMapMonoOfFraction
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedSmooth
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.QuotIntegrableIffCutoff
+public import Formalism.LocalToGlobal.BesselHermitianTheta.Bundle002
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle004
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFinLeOne
 import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
 import Mathlib.Algebra.Order.Floor.Extended

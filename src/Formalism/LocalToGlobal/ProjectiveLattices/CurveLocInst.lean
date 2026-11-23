@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveAsm
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle048
 public import Formalism.LocalToGlobal.ProjectiveLattices.CurveLoc
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveOpen
-public import Formalism.LocalToGlobal.ProjectiveLattices.CurveCountB
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle045
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.LatH
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReindexDblIncM
-public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsDualFamilySelfDualHermitianSpace
+public import Development.WeilBound.ThetaLifts.Reductions.WeilPairs.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1460
+public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Bundle066
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

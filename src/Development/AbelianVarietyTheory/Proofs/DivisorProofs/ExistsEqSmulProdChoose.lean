@@ -1,6 +1,6 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LazardOneVariableExistsWittLift
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle765
 public import Mathlib.Data.Finsupp.Order
 public import Mathlib.Data.Nat.ModEq
 public import Mathlib.Data.Nat.Prime.Defs
@@ -48,11 +48,11 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.EpsilonPairingZeta
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.Bundle005
 import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
 import Development.AbelianVarietyTheory.Definitions.Divisors.FormalCoboundarySmul
-import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsCounitDerivationCounitComp
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle005
 import Mathlib.RingTheory.MvPowerSeries.Basic
 
 @[expose] public section

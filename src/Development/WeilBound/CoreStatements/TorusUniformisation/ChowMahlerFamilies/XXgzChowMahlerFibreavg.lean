@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.IsScaleStable
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GaussianProjectionBallIndicatorStatement
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.GaussianProjectionConeCoareaStatement
-import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PConeFibreAverage
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle031
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle064
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle063
+import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.Bundle029
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

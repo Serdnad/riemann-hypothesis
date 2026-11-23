@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
-public import Formalism.LocalToGlobal.ProjectiveLattices.XcLat
-public import Formalism.LocalToGlobal.CMDeterminantIdeals.StatementC
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle037
+public import Formalism.LocalToGlobal.CMDeterminantIdeals.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

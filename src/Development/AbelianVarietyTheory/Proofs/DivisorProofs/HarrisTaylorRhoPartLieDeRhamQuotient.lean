@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CrysActApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.QActMSubAlgebraMap
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TensorModOfTmul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeFirstDeRhamStructure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorLieConditionModHodgeFiltration
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ConnectedSpaceSpecOfIsLocalRing
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle851
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle101
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle854
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3385
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3390
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle041
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Definitions.Divisors.InfUniv
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle004
 
 @[expose] public section
 

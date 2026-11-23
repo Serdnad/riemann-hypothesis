@@ -2,12 +2,12 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorusProjPeriodZeroEqReal
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.TwoMulEqOfIsTypeFn
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsSplitOfCoisotropicKer
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle014
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExpPiIInt
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Imports
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle008
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyFiniteRootsOfBimul
-public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TraceEqFinrankMulSum
+public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle007
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HostGeneratorPowFourTraceNormModEight
 import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic

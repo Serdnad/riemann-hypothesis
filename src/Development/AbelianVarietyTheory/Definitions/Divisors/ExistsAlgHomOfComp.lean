@@ -1,12 +1,12 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsChartOfIsLocalRing
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.AppLEInjective
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsChartLieBasisMatrices
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.IsCombAtIffCoordinateCombination
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieBasisCoordinatesBijectiveTangent
-import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ModelChartLiftCoordsGeneratorIndep
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NonemptyLift
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle024
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle014
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle013
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle010
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

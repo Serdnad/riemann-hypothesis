@@ -1,9 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.SigmaStarEx
-public import Formalism.PeriodIntegrals.AreaLat
+public import Formalism.PeriodIntegrals.Bundle012
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ThetaSeriesExistence.ThetaDerivNe
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AreaLat
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GhostFrobenius
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIntegers
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FontaineAinfLocalDomainXiAdicOrderStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HodgeTateLatticeEqRowSpaceOfSandwichDatumStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmulMemRange
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle731
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle443
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle884
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle444
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

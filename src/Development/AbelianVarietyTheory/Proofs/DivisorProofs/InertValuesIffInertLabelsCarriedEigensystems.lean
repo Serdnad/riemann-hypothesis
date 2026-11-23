@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
 public import Formalism.LocalToGlobal.IndefiniteReal.ZeroPartEigenvalueConvention
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoreClausesOfWeakCharacterisation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLabelThetaLiftSpaceIffDualStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorsRowsRationalSelfAdjointLabelsStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsSphericalDoubleCosetLabelIffDecreasingStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MatchedSphericalPairsCommuteCompositeLiftStatement
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RealizationFamilyNormalOperatorsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SelfDualAntitoneListIffInertPrimeHeckeExponents
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1242
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1845
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle232
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle218
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle252
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle219
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle159
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -124,7 +124,7 @@ theorem hkF_eq_sum {D : D7} (V : HSp D) {W : Type} [AddCommGroup W] [Module ℂ 
 theorem labIn_pw {n : ℕ} {y : List ℕ} (hy : Formalism.L2.Col.InertTypeOk n y) : (labIn n y).Pairwise (fun a b => b ≤ a) :=
   ((GlobalTheory.Hk3.labIn_selfDual_iff n (labIn n y)).2 ⟨y, hy.2.2, hy.1, hy.2.1, rfl⟩).2.1
 
-theorem labs {D : D7} (V : HSp D) (P : Pl D.host.E) (d : List ℤ) (hd : IsLab V P d) (hc : conjPl P = P) :
+theorem labs {D : D7} (V : HSp D) (P : Pl D.host.E) (d : List ℤ) (hd : IsLab V P d) (hc : _root_.Formalism.DivisionValues.conjPl P = P) :
     ∃ y, Formalism.L2.Col.InertTypeOk V.rank y ∧ d = labIn V.rank y := by
   obtain ⟨hl, hpw, hdu⟩ := (GlobalTheory.T.isSphericalDoubleCosetLabel_iff_decreasing V P d).1 hd
   obtain ⟨y, h1, h2, h3, h4⟩ := (GlobalTheory.Hk3.labIn_selfDual_iff _ d).1 ⟨hl, hpw, hdu hc⟩
@@ -140,10 +140,10 @@ theorem key_generic {H : Type} [AddCommGroup H] [Module ℂ H] (hXP : (List ℤ 
   exact (smul_left_injective ℂ hv0 h1).symm
 
 theorem conjIdeal_eq_conjPl {D : D7} (P : Pl D.host.E) :
-    Formalism.HermitianLatticesTheory.conjIdeal (K := D.host.E) P.asIdeal = (conjPl P).asIdeal := by
+    Formalism.HermitianLatticesTheory.conjIdeal (K := D.host.E) P.asIdeal = (_root_.Formalism.DivisionValues.conjPl P).asIdeal := by
   unfold Formalism.HermitianLatticesTheory.conjIdeal
   have hs : {r : 𝓞 D.host.E | ∃ s ∈ P.asIdeal, algebraMap (𝓞 D.host.E) D.host.E r =
-      star (algebraMap (𝓞 D.host.E) D.host.E s)} = ((conjPl P).asIdeal : Set (𝓞 D.host.E)) := by
+      star (algebraMap (𝓞 D.host.E) D.host.E s)} = ((_root_.Formalism.DivisionValues.conjPl P).asIdeal : Set (𝓞 D.host.E)) := by
     ext r
     rw [SetLike.mem_coe]
     show _ ↔ r ∈ P.asIdeal.map (Formalism.DivisionValues.cO D.host.E)
@@ -156,11 +156,11 @@ theorem conjIdeal_eq_conjPl {D : D7} (P : Pl D.host.E) :
       exact ⟨s, hs, rfl⟩
   rw [hs, Ideal.span_eq]
 
-theorem eq_of_isConj {D : D7} {P PP : Pl D.host.E} (hc : conjPl P = P) (h : Formalism.IndefR.Lev.IsConjPl PP P) : PP = P := by
+theorem eq_of_isConj {D : D7} {P PP : Pl D.host.E} (hc : _root_.Formalism.DivisionValues.conjPl P = P) (h : Formalism.IndefR.Lev.IsConjPl PP P) : PP = P := by
   have hle : PP.asIdeal ≤ P.asIdeal := by
     intro a ha
     obtain ⟨c', hc', he⟩ := h a ha
-    have h2 : a ∈ (conjPl P).asIdeal := by
+    have h2 : a ∈ (_root_.Formalism.DivisionValues.conjPl P).asIdeal := by
       show a ∈ P.asIdeal.map (Formalism.DivisionValues.cO D.host.E)
       rw [Ideal.mem_map_of_equiv]
       refine ⟨c', hc', RingOfIntegers.ext ?_⟩
@@ -175,7 +175,7 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
 
 theorem tie1 (R : RealDat3 D A3 Ks) (hIn : R.IsInert) (hAll : R.AllPlaces) (P : Pl D.host.E)
-    (hP : Good R.toRealDat A3.A.μ0 P) (hc : conjPl P = P) : ∃ Q : A3.okI A3.A.μ0, R.plI Q.1 = P := by
+    (hP : Good R.toRealDat A3.A.μ0 P) (hc : _root_.Formalism.DivisionValues.conjPl P = P) : ∃ Q : A3.okI A3.A.μ0, R.plI Q.1 = P := by
   have hPg : P ∉ R.Pg := fun h => (hP P (Or.inl h)).1 rfl
   have hPQ : P ∉ R.Q A3.A.μ0 := fun h => (hP P (Or.inr h)).1 rfl
   have hcj : Formalism.HermitianLatticesTheory.conjIdeal (K := D.host.E) P.asIdeal = P.asIdeal := by rw [conjIdeal_eq_conjPl, hc]
@@ -190,9 +190,9 @@ theorem tie1 (R : RealDat3 D A3 Ks) (hIn : R.IsInert) (hAll : R.AllPlaces) (P : 
   · exact hPQ h
 
 theorem tie2 (R : RealDat3 D A3 Ks) (hIn : R.IsInert) (hAll : R.AllPlaces) (Q : A3.okI A3.A.μ0) :
-    Good R.toRealDat A3.A.μ0 (R.plI Q.1) ∧ conjPl (R.plI Q.1) = R.plI Q.1 := by
+    Good R.toRealDat A3.A.μ0 (R.plI Q.1) ∧ _root_.Formalism.DivisionValues.conjPl (R.plI Q.1) = R.plI Q.1 := by
   obtain ⟨hcj, hn⟩ := (hIn.tie.okI A3.A.μ0 Q.1).1 Q.2
-  have hc : conjPl (R.plI Q.1) = R.plI Q.1 :=
+  have hc : _root_.Formalism.DivisionValues.conjPl (R.plI Q.1) = R.plI Q.1 :=
     HeightOneSpectrum.ext (by rw [← conjIdeal_eq_conjPl, hcj])
   refine ⟨fun PP hPP => ?_, hc⟩
   have hmem : PP ∈ ((R.Sb : Set (Pl D.host.E)) ∪ (R.Q A3.A.μ0 : Set (Pl D.host.E))) := by
@@ -306,10 +306,10 @@ theorem dir1 (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ} (hCore : Core R.t
     (hInj : ∀ p, ∀ w ∈ R.EEp3 p, LinearMap.adjoint (R.Th A3.A.μ0) w = 0 → w = 0) (hIn : R.IsInert) (hAll : R.AllPlaces)
     (hX : Pl D.host.E → (List ℤ →₀ ℂ) → Module.End ℂ (R.HX A3.A.μ0).H)
     (hXops : GlobalTheory.Hk3.IsOpsX R.toRealDat A3.A.μ0 hX) (heInj : Function.Injective (R.HX A3.A.μ0).e)
-    (hTS : ∀ P, Good R.toRealDat A3.A.μ0 P → conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P)
+    (hTS : ∀ P, Good R.toRealDat A3.A.μ0 P → _root_.Formalism.DivisionValues.conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P)
     (i : Fin D.R.m) (p p' : A3.fam3.base3.Ix) (c c' : Pl D.host.E → List ℤ → ℂ) (hc : R.Carries p c) (hc' : R.Carries p' c')
     (hp : ∀ k : A3.okI A3.A.μ0 × List ℕ, p.1.2 (k.1.1, k.2) = p'.1.2 (k.1.1, k.2))
-    (P : Pl D.host.E) (d : List ℤ) (hP : Good R.toRealDat A3.A.μ0 P) (hconj : conjPl P = P) (hd : IsLab (Wc D i) P d) :
+    (P : Pl D.host.E) (d : List ℤ) (hP : Good R.toRealDat A3.A.μ0 P) (hconj : _root_.Formalism.DivisionValues.conjPl P = P) (hd : IsLab (Wc D i) P d) :
     c P d = c' P d := by
   obtain ⟨Q, hQ⟩ := tie1 R hIn hAll P hP hconj
   subst hQ
@@ -342,11 +342,11 @@ theorem dir2 (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ} (hCore : Core R.t
     (hInj : ∀ p, ∀ w ∈ R.EEp3 p, LinearMap.adjoint (R.Th A3.A.μ0) w = 0 → w = 0) (hIn : R.IsInert) (hAll : R.AllPlaces)
     (hX : Pl D.host.E → (List ℤ →₀ ℂ) → Module.End ℂ (R.HX A3.A.μ0).H)
     (hXops : GlobalTheory.Hk3.IsOpsX R.toRealDat A3.A.μ0 hX)
-    (hTS : ∀ P, Good R.toRealDat A3.A.μ0 P → conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P)
+    (hTS : ∀ P, Good R.toRealDat A3.A.μ0 P → _root_.Formalism.DivisionValues.conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P)
     (hJunk : ∀ t (k : A3.okI t × List ℕ), A3.heckeRI t k = 0 ∨ ∃ y, Formalism.L2.Col.InertTypeOk (A3.A.fam.R t).n y ∧
       A3.heckeRI t k = A3.heckeRI t (k.1, y))
     (i : Fin D.R.m) (p p' : A3.fam3.base3.Ix) (c c' : Pl D.host.E → List ℤ → ℂ) (hc : R.Carries p c) (hc' : R.Carries p' c')
-    (hcc : ∀ P d, Good R.toRealDat A3.A.μ0 P → conjPl P = P → IsLab (Wc D i) P d → c P d = c' P d)
+    (hcc : ∀ P d, Good R.toRealDat A3.A.μ0 P → _root_.Formalism.DivisionValues.conjPl P = P → IsLab (Wc D i) P d → c P d = c' P d)
     (k : A3.okI A3.A.μ0 × List ℕ) : p.1.2 (k.1.1, k.2) = p'.1.2 (k.1.1, k.2) := by
   obtain ⟨Q, y⟩ := k
   obtain ⟨hPg, hPc⟩ := tie2 R hIn hAll Q
@@ -403,7 +403,7 @@ end Ctx3
 
 
 
-theorem inert_vals_iff_labels : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ}, GlobalTheory.Chain.LiftInteg D → A3.fam3.Ok3 s → R.WeakCharacterisation F → R.toRealDat.ExAt → SchurAll R.toRealDat → (∀ P, Good R.toRealDat A3.A.μ0 P → conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P) → ((∀ t (k : A3.okI t × List ℕ), A3.heckeRI t k = 0 ∨ ∃ y, Formalism.L2.Col.InertTypeOk (A3.A.fam.R t).n y ∧ A3.heckeRI t k = A3.heckeRI t (k.1, y)) ∧ ∀ j t (k : A3.okI t × List ℕ), A3.heckeLI j t k = 0 ∨ ∃ y, Formalism.L2.Col.InertTypeOk (A3.A.fam.L j t).n y ∧ A3.heckeLI j t k = A3.heckeLI j t (k.1, y)) → (∀ p, ∀ w ∈ R.EEp3 p, LinearMap.adjoint (R.Th A3.A.μ0) w = 0 → w = 0) → ∀ (i : Fin D.R.m) (p p' : A3.fam3.base3.Ix) c c', R.Carries p c → R.Carries p' c' → ((∀ k : A3.okI A3.A.μ0 × List ℕ, p.1.2 (k.1.1, k.2) = p'.1.2 (k.1.1, k.2)) ↔ (∀ P d, Good R.toRealDat A3.A.μ0 P → conjPl P = P → IsLab (Wc D i) P d → c P d = c' P d)) := by
+theorem inert_vals_iff_labels : ∀ {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Type} {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat3 D A3 Ks) (F : Face3 D A3) {s : ℕ}, GlobalTheory.Chain.LiftInteg D → A3.fam3.Ok3 s → R.WeakCharacterisation F → R.toRealDat.ExAt → SchurAll R.toRealDat → (∀ P, Good R.toRealDat A3.A.μ0 P → _root_.Formalism.DivisionValues.conjPl P = P → TwoSided R.toRealDat A3.A.μ0 P) → ((∀ t (k : A3.okI t × List ℕ), A3.heckeRI t k = 0 ∨ ∃ y, Formalism.L2.Col.InertTypeOk (A3.A.fam.R t).n y ∧ A3.heckeRI t k = A3.heckeRI t (k.1, y)) ∧ ∀ j t (k : A3.okI t × List ℕ), A3.heckeLI j t k = 0 ∨ ∃ y, Formalism.L2.Col.InertTypeOk (A3.A.fam.L j t).n y ∧ A3.heckeLI j t k = A3.heckeLI j t (k.1, y)) → (∀ p, ∀ w ∈ R.EEp3 p, LinearMap.adjoint (R.Th A3.A.μ0) w = 0 → w = 0) → ∀ (i : Fin D.R.m) (p p' : A3.fam3.base3.Ix) c c', R.Carries p c → R.Carries p' c' → ((∀ k : A3.okI A3.A.μ0 × List ℕ, p.1.2 (k.1.1, k.2) = p'.1.2 (k.1.1, k.2)) ↔ (∀ P d, Good R.toRealDat A3.A.μ0 P → _root_.Formalism.DivisionValues.conjPl P = P → IsLab (Wc D i) P d → c P d = c' P d)) := by
   intro D G _ _ Pl0 I0 T A3 Ks _ _ _ R F s hLI hOk hCW hEx hSchur hTS hJunk hInj i p p' c c' hc hc'
   obtain ⟨hCore, hSF, hEEc, -⟩ := GlobalTheory.CoreOfWeak.core_of_weak R F hCW hEx
   obtain ⟨hX, hXops, -⟩ := (GlobalTheory.T.realization_family_normal_operators R.toRealDat F.lv2 hCore.lev hCore.fam hCore.models).1 A3.A.μ0

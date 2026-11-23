@@ -48,7 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.FlatTensorVacuum
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrdL
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle070
 
 @[expose] public section
 

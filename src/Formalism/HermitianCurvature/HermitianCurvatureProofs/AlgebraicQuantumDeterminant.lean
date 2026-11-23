@@ -1,8 +1,8 @@
 module
 
 public import Formalism.HermitianCurvature.StatementQr
-public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LemmaDDeterminantIdentity
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QmMove
+public import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle065
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

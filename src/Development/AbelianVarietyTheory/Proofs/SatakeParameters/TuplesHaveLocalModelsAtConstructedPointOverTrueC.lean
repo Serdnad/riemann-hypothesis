@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HasPartAnd
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaSeriesDataHypothesesBelowMaximalLevel
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TuplesHaveLocalModelsOfStandardColumnObjectsStatement
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TuplesLocalModelsOfOtherDivisionLatticesHeightsStatement
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle026
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle020
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle392
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle359
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

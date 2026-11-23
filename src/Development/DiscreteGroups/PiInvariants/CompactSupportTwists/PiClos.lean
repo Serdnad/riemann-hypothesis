@@ -1,10 +1,10 @@
 module
 
 public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.PiClosT
-public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.PiClosSt
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InvariantOfLieOneLEqZero
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleSmoothModuleUnique
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormalisedCuspFormL2Bounded
+public import Development.DiscreteGroups.PiInvariants.CompactSupportTwists.Bundle003
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle685
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle605
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle614
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

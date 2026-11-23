@@ -3,7 +3,7 @@ module
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.DilationUnipotentWeylMeasure
 public import Formalism.HermitianCurvature.StatementU
 public import Mathlib.Analysis.Normed.Lp.lpSpace
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.CayleyForm
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle032
 public import Formalism.FormalDegreeBessel.FinalG
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity

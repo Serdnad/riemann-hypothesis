@@ -2,13 +2,13 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GFrames
 public import Mathlib.Algebra.Module.Lattice.Full
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianEichlerProductContinuousOnLatticeStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianEichlerProductParamsIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFlagUnipotentNormalFormRescaledStatement
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianSymplecticBasisLocalExtensionStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsIntegralOfQuad
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NumberFieldLatticeDeterminedByLocalLatticesStatement
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalExtend
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle076
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle066
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle083
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle049
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle068
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle047
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

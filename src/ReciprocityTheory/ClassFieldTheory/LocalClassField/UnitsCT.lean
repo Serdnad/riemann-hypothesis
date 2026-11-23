@@ -43,19 +43,19 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.EqZeroOfResEqZeroOfCoprime
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle010
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsDvdQKPowSubOne
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.FinCoh
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.GalBasic
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.RestrictedMultiplicativeH1Subsingleton
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle011
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnitsHerbrand
 import ReciprocityTheory.ClassFieldTheory.LocalClassField.UnrExtC
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsB
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsE
-public import ReciprocityTheory.GroupCohomology.FiniteLevel
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle015
+public import ReciprocityTheory.GroupCohomology.Bundle007
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandA
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.HerbrandB
-public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ValUnitsC
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle002
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle013
 
 @[expose] public section
 

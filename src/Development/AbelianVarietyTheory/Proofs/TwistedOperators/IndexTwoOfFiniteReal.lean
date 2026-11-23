@@ -1,8 +1,8 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsSquareMulInfinite
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.QuadraticExtNormFormOverAlgebra
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsSubgroupIndexTwo
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle071
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

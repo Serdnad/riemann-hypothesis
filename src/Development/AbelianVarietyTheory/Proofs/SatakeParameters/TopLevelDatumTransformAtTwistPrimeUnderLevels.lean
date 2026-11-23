@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.Columns.XtPhiTopGCongr
+public import Formalism.LocalToGlobal.Columns.Bundle024
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.TopLawQ
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
 import Formalism.LocalToGlobal.Columns.ChainInst
@@ -43,8 +43,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
-import Development.AbelianVarietyTheory.Proofs.SatakeParameters.XiTopEqProd
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle025
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle112
 
 @[expose] public section
 

@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.MaxWeightGL1EqOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MassFormulaConjugationActionStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.OrbitSumLocalParts
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StabilizerEquivLocPart
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle037
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle483
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1495
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1310
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

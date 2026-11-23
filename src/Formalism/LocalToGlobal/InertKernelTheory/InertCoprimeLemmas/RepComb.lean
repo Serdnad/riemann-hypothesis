@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepComb
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle008
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.SelfDualLatticeNorms.EmbCInjective
 import Formalism.LocalToGlobal.GlobalTheory.GL3.PLinkThU
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.ExistsIntegralMulOrderElement

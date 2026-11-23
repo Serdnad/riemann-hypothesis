@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.SigmaSplitSymmInl
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRootSelectionUnitaryRankOne
-public import Development.AbelianVarietyTheory.Definitions.Divisors.MapInclKMemTwCentResOne
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SigIterateApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SigResIterateEqSelf
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedNormProductIterateTwistedConj
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1495
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1568
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1511
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

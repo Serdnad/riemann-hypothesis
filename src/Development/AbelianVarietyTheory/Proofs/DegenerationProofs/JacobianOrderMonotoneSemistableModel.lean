@@ -2,9 +2,9 @@ module
 
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueModelHasJacobianOrder
 public import Mathlib.AlgebraicGeometry.Morphisms.Etale
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ChainRuleAndJacobianCriterion
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsOpenImmersionOfExtendsIdOfEtale
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ModelSmoothOfRelativeDimension
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle028
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle042
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

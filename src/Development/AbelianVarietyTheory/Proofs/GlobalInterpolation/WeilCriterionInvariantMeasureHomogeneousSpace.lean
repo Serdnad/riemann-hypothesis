@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InvariantRadonFibre
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsBruhatFunctionClosedSubgroup
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsUniqueHaarOfInvariantRadonOnCosets
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle013
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle010
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

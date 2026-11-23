@@ -1,8 +1,7 @@
 module
 
 public import Formalism.DistinguishedUnitIdeals.FrobeniusDiffBijective
-public import Formalism.DistinguishedUnitIdeals.WordConsts
-public import Formalism.DistinguishedUnitIdeals.LemmaCFull
+public import Formalism.DistinguishedUnitIdeals.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

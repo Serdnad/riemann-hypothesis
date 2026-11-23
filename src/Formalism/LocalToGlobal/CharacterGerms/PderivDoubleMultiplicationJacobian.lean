@@ -110,7 +110,7 @@ theorem jacobian_mul_log_jacobian {V : VF C} {O : Type} [CommRing O] [StarRing O
   rw [Matrix.mul_apply, Matrix.one_apply] at h
   have h2 := congrArg (ev ![(P0 : Pt C 2 dd)]) h
   rw [ev_sum (z0_1 _ z0P0)] at h2
-  simp only [ev_mul (z0_1 _ z0P0)] at h2
+  simp only [PartialDerivEval.ev_mul (z0_1 _ z0P0)] at h2
   unfold J2 logJacobianTwoPoints
   rw [h2]
   split_ifs
@@ -307,7 +307,7 @@ theorem pderiv_double_multiplication (Y : FBChart C V O dd) (n : ℕ) (k i : Fin
     ← ev_eq_alg (z0_1 _ z0P0), ev_sum (z0_1 _ z0P0), nsmul_eq_mul]
   congr 1
   refine Finset.sum_congr rfl fun m _ => ?_
-  rw [ev_mul (z0_1 _ z0P0), eval_multiplication_jacobian]
+  rw [PartialDerivEval.ev_mul (z0_1 _ z0P0), eval_multiplication_jacobian]
   unfold MulLFrob.cmp logJacobianTwoPoints
   rw [lift_eval_multiplication]
 

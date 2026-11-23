@@ -1,8 +1,8 @@
 module
 
-public import Development.WeilBound.ThetaLifts.LatticeBasics.OffOpenAlt
-public import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
-import Development.WeilBound.ThetaLifts.LatticeBasics.LeviEx
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle005
+public import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle011
+import Development.WeilBound.ThetaLifts.LatticeBasics.Bundle006
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

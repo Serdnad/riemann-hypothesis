@@ -1,8 +1,7 @@
 module
 
-public import Formalism.LogVandermondeBounds.LogRatioUpperBound
-public import Formalism.HermitianLattices.StatementMass
-public import Formalism.LogVandermondeBounds.LogRatioLowerBound
+public import Formalism.LogVandermondeBounds.Bundle001
+public import Formalism.HermitianLattices.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

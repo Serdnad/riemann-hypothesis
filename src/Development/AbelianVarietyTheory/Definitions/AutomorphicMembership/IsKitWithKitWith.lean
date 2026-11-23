@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LargeFor
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle040
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PadTrueNormDetConst
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExistsIsHodgeFrameIff
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemSupportBDIff
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NotIsBettiZero
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocStOfLoc
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle042
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle043
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

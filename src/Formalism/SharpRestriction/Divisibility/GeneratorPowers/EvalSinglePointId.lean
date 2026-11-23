@@ -1,12 +1,12 @@
 module
 
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndFrFix
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.CPfSym
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTieGerm
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle014
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle003
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle007
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ExpTiePf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdJet
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdLB
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle009
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDPf
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetSubstPSTrunc
@@ -52,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBCorr
-public import Formalism.LocalToGlobal.ProjectiveLattices.IsChartIff
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle018
 
 @[expose] public section
 

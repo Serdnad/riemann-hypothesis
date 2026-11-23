@@ -2,13 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FixedCoefficientFieldInComplex
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsFieldIdealsPrincipal
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle065
 import Development.AbelianVarietyTheory.Proofs.HeightProofs.FieldSizeAdjoinKthRoot
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FieldSizeMonotone
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle013
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FieldSizeSupAdd
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.SzAdjoinRootOfUnity
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.SzFieldRangeEmbedding
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardFilterLeLogClassNumber
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle260
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

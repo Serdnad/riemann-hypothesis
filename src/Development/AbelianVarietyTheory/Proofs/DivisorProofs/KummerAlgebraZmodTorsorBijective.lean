@@ -1,6 +1,6 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgebraMapEqMk
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle076
 public import Mathlib.RingTheory.PicardGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

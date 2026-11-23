@@ -1,17 +1,14 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.H1MapSubgroup
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNineTermTransgressionZeroApply
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.CohDimTwoLocalOfLocalFiniteness
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqZeroOfComm
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GlobalEulerChar
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.H0TwDualEqZero
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalConditionAboveLCoeffMapFunctorial
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle320
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle338
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle331
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle323
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalConditionAboveLSaturatedOfSelmerSetup
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalDegreeSum
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NonemptySubquotEquiv
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RepOnEqOfEqOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelAllLeInf
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle321
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelmerFunctorLeftExactTorsionCoefficients
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SelmerCrystallineCocycles
+public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.Bundle004
 public import Mathlib.RingTheory.DedekindDomain.Factorization
 
 @[expose] public section

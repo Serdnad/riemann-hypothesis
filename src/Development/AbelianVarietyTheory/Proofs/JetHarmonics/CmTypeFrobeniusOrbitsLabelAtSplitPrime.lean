@@ -1,11 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RealPlaceLabellingInertFrobeniusNotConj
-public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle079
+public import Development.AbelianVarietyTheory.Definitions.Jets.Bundle003
 public import Development.AbelianVarietyTheory.Definitions.Jets.DepthNumbersThresholdEq
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmEmbeddingsIntegralAndDistinctModMaximal
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsFrobAllEmbeddings
-import Formalism.LocalToGlobal.CharacterGerms.RowTieLab
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle095
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle083
+import Formalism.LocalToGlobal.CharacterGerms.Bundle033
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.HostFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

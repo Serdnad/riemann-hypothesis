@@ -1,13 +1,13 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsUSplittingTrRep
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjLinApply
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle266
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1290
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdaptedPlanePairRestrictionFirst
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzConjMem
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjLocalOperator
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsDblCoordDblD
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PartialFourierPreservesSchwartzL2Statement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PartialRightPreservesL2NormStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1429
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1445
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1244
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2216
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2028
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

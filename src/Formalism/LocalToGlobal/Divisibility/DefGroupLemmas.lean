@@ -5,15 +5,15 @@ public import Formalism.LocalToGlobal.Divisibility.DefGroup
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 public import Formalism.FlagUnipotentLattices.MemOfOrthogonalAnisotropic
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.AdelstabL
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bridge
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsApprox
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsEasy
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle012
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle008
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle011
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle013
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlob
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsGlobApprox
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.LevelSubgroupFiniteAdelicStandard
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stabstd
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle007
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle002
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Stdform
 public import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended

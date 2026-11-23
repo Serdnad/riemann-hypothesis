@@ -1,8 +1,8 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsAdapted
+public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.Bundle001
 public import GroundTheory.HeightsAndTheta.Heights.ArithDegreeDetIdeal
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsFurtherFurther
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle057
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

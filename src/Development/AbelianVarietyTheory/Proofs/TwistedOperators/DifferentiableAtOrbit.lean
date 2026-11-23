@@ -1,8 +1,8 @@
 module
 
-public import Formalism.PeriodIntegrals.DSInfCharCap
-public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasDRepIffHasDerivAt
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DRepAddAndBracket
+public import Formalism.PeriodIntegrals.Bundle020
+public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.Bundle007
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

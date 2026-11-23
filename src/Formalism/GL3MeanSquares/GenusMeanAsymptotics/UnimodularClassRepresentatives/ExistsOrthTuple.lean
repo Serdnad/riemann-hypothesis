@@ -3,7 +3,7 @@ module
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsNormRepresentation
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Mathlib.Tactic.Continuity
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.SpanSInduction
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle007
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

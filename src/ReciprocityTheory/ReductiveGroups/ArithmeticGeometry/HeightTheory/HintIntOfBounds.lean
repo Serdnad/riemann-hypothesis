@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.SemistableReduction.SphereLogIntegrableStatement
+public import ReciprocityTheory.SemistableReduction.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -51,7 +51,7 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 public import ReciprocityTheory.SemistableReduction.AeBlockSphereEvalNeZero
 public import ReciprocityTheory.SemistableReduction.RestBlockSubstIsMultiHomogeneous
-public import ReciprocityTheory.SemistableReduction.TorusL2CauchyInequality
+public import ReciprocityTheory.SemistableReduction.Bundle027
 
 @[expose] public section
 

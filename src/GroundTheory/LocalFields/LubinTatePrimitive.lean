@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.LocalFields.LubinTateTower
 import GroundTheory.LocalFields.Eisenstein
-import GroundTheory.LocalFields.ExamplesLaurent
+import GroundTheory.LocalFields.Bundle002
 import GroundTheory.LocalFields.SeparableClosure
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.Algebra.Order.Floor.Extended

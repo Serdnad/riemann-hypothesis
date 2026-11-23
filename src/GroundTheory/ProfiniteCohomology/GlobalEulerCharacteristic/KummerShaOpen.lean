@@ -3,8 +3,8 @@ module
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.KummerSeq
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseTransportGS
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseKummerDefs
-import GroundTheory.ProfiniteCohomology.CupProducts.Projection
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle006
+import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 public import GroundTheory.ProfiniteCohomology.GlobalEulerCharacteristic.KummerSha
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.FiniteOpen
 import Mathlib.Algebra.Order.Floor.Extended

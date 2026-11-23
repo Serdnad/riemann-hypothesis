@@ -86,7 +86,7 @@ theorem norm_pi_lt {K : FinExt l} (bk : BK K) : ‖((Per.θ l (bk.ev X) : OC l) 
       have : bk.ev bk.E ∈ RingHom.ker (Per.θ l) := bk.span_ev ▸ Ideal.mem_span_singleton_self _
       exact this
     have h2 := congrArg (PadicComplexInt l).toSubring.subtype h1
-    rw [BK.E, ← Polynomial.eval₂_C_X_eq_coe, Polynomial.hom_eval₂, Polynomial.hom_eval₂,
+    rw [_root_.GlobalTheory.BSP.BK.E, ← Polynomial.eval₂_C_X_eq_coe, Polynomial.hom_eval₂, Polynomial.hom_eval₂,
       Polynomial.hom_eval₂, map_zero] at h2
     have hc : (PadicComplexInt l).toSubring.subtype.comp ((Per.θ l).comp (bk.ev.comp C)) = φ :=
       RingHom.ext fun w => by simp [hφ, bk.ev_C]

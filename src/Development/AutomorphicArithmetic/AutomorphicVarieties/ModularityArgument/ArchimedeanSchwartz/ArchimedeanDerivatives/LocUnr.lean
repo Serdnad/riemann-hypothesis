@@ -49,6 +49,7 @@ import Mathlib.Topology.Sheaves.Init
 @[expose] public section
 
 attribute [-instance] Formalism.DoubleCosetMeasures.instMeasGL
+attribute [-instance] GlobalTheory.CompanionTheory.QL.instMeasGL GlobalTheory.CompanionTheory.QL.instBorelGL
 open scoped Classical
 
 noncomputable section

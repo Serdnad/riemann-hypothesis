@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.FactPrimes
+public import Development.AutomorphicSpectrum.Definitions.AdelicLattices.Bundle001
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.RingTheory.DedekindDomain.Different
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Development.WeilBound.CoreStatements.SesquilinearFractions.ExistsUnitValueSkewHermitian
-public import Development.WeilBound.CoreStatements.SesquilinearFractions.NIdeal
+public import Development.WeilBound.CoreStatements.SesquilinearFractions.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

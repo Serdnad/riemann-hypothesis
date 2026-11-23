@@ -1,15 +1,15 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
-public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsHeatZero
+public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.MemAnalyticAtZeroOfEventuallyDifferentiableAt
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CardToMultisetEqDegree
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiablePolyDeriv
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DblZMemHn
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.InvariantPolynomialEqAevalPairingsStatement
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PolyDerivEqSumList
-public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.PolyDerivPairingEqZeroOfIsHeatStatement
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle027
+public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -53,7 +53,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.PolyDerivMonomialOne
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.Bundle004
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 
@@ -61,7 +61,6 @@ import Std.Tactic.BVDecide.Normalize.Prop
 
 open Matrix Complex NumberField MeasureTheory GlobalTheory GlobalTheory.SW GlobalTheory.ThFr ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.FD
 open scoped ComplexConjugate ComplexOrder Real Classical
-open ReciprocityTheory.ChartRestriction.G.I2 (polyDeriv)
 
 namespace GlobalTheory.SW.InvKill
 
@@ -93,7 +92,7 @@ omit [DecidableEq σ] in
 theorem smooth {F : (σ → ℂ) → ℂ} (hF : Differentiable ℂ F) : ContDiff ℂ (⊤ : ℕ∞) F :=
   (SCV.analyticOnNhd_of_differentiable hF Set.univ).contDiff
 
-theorem polyDeriv_C (a : ℂ) (u : ι → W) (F : W → ℂ) (x : W) : polyDeriv (C a) u F x = a * F x := by
+theorem polyDeriv_C (a : ℂ) (u : ι → W) (F : W → ℂ) (x : W) : _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (C a) u F x = a * F x := by
   have h : (C a : MvPolynomial ι ℂ) = a • monomial 0 1 := by simp [smul_eq_C_mul]
   rw [h]
   simp [I2.polyDeriv_smul, I2.polyDeriv_monomial_one, I2.pdTerm_eq_itD, -smul_monomial,
@@ -101,7 +100,7 @@ theorem polyDeriv_C (a : ℂ) (u : ι → W) (F : W → ℂ) (x : W) : polyDeriv
 
 theorem polyDeriv_aeval_lin {F : (σ → ℂ) → ℂ} (hF : Differentiable ℂ F) (d : ι → σ → ℂ)
     (P : MvPolynomial ι ℂ) (x : σ → ℂ) :
-    polyDeriv (aeval (fun l => lin (d l)) P) (crdDir σ) F x = polyDeriv P d F x := by
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (aeval (fun l => lin (d l)) P) (crdDir σ) F x = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P d F x := by
   induction P using MvPolynomial.induction_on generalizing x with
   | C a => rw [algHom_C, algebraMap_eq, polyDeriv_C, polyDeriv_C]
   | add P Q hP hQ => simp only [map_add (f := _), I2.polyDeriv_add, hP, hQ]
@@ -116,7 +115,7 @@ theorem polyDeriv_aeval_lin {F : (σ → ℂ) → ℂ} (hF : Differentiable ℂ 
 
 theorem polyDeriv_mul {F : (σ → ℂ) → ℂ} (hF : Differentiable ℂ F) (u : ι → σ → ℂ)
     (P Q : MvPolynomial ι ℂ) (x : σ → ℂ) :
-    polyDeriv (P * Q) u F x = polyDeriv P u (fun y => polyDeriv Q u F y) x := by
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (P * Q) u F x = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u (fun y => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u F y) x := by
   induction P using MvPolynomial.induction_on generalizing x with
   | C a => rw [C_mul', I2.polyDeriv_smul, polyDeriv_C]
   | add P P' hP hP' => simp only [add_mul, I2.polyDeriv_add, hP, hP']
@@ -126,14 +125,14 @@ theorem polyDeriv_mul {F : (σ → ℂ) → ℂ} (hF : Differentiable ℂ F) (u 
 
 theorem polyDeriv_bi {G : (σ → ℂ) → ℂ} (hG : Differentiable ℂ G) (A B : W →L[ℂ] (σ → ℂ))
     (u : ι → W) (P Q : MvPolynomial ι ℂ) :
-    polyDeriv P u (fun z => polyDeriv Q u (fun w => G (A z + B w)) 0) 0 =
-      polyDeriv (aeval (fun l => lin (A (u l))) P * aeval (fun l => lin (B (u l))) Q)
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P u (fun z => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u (fun w => G (A z + B w)) 0) 0 =
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (aeval (fun l => lin (A (u l))) P * aeval (fun l => lin (B (u l))) Q)
         (crdDir σ) G 0 := by
-  have h1 (z : W) : polyDeriv Q u (fun w => G (A z + B w)) 0 =
-      ((fun y => polyDeriv Q (B ∘ u) G y) ∘ A) z := by
+  have h1 (z : W) : _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q u (fun w => G (A z + B w)) 0 =
+      ((fun y => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q (B ∘ u) G y) ∘ A) z := by
     have h := Jet.polyDeriv_comp_clm Q u (F := fun v => G (A z + v)) (by fun_prop) B 0
     refine h.trans ?_
-    simp only [polyDeriv, iteratedFDeriv_comp_add_left, map_zero, add_zero, Function.comp_apply]
+    simp only [_root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv, iteratedFDeriv_comp_add_left, map_zero, add_zero, Function.comp_apply]
   have hd := differentiable_polyDeriv (smooth hG) Q (B ∘ u)
   rw [funext h1, Jet.polyDeriv_comp_clm P u hd, map_zero, polyDeriv_mul hG,
     funext (polyDeriv_aeval_lin hG _ Q)]
@@ -141,7 +140,7 @@ theorem polyDeriv_bi {G : (σ → ℂ) → ℂ} (hG : Differentiable ℂ G) (A B
 
 theorem exists_absorb {K : (σ → ℂ) → ℂ} (hK : Differentiable ℂ K) (Q : MvPolynomial σ ℂ) :
     ∃ p : MvPolynomial σ ℂ, ∀ F : (σ → ℂ) → ℂ, Differentiable ℂ F →
-      polyDeriv Q (crdDir σ) (fun x => K x * F x) 0 = polyDeriv p (crdDir σ) F 0 := by
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q (crdDir σ) (fun x => K x * F x) 0 = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv p (crdDir σ) F 0 := by
   refine ⟨∑ m ∈ Q.support, ∑ c ∈ Finset.HasAntidiagonal.antidiagonal m,
     (Q.coeff m * ((∏ i, (m i).factorial : ℕ) : ℂ) * MvPowerSeries.coeff c.1 (taylor K) *
       ((∏ i, (c.2 i).factorial : ℕ) : ℂ)⁻¹) • monomial c.2 1, fun F hF => ?_⟩
@@ -157,13 +156,13 @@ theorem exists_absorb {K : (σ → ℂ) → ℂ} (hK : Differentiable ℂ K) (Q 
 
 theorem absorb_invariant {K : (σ → ℂ) → ℂ} (hK : Differentiable ℂ K) {Q p : MvPolynomial σ ℂ}
     (hp : ∀ F : (σ → ℂ) → ℂ, Differentiable ℂ F →
-      polyDeriv Q (crdDir σ) (fun x => K x * F x) 0 = polyDeriv p (crdDir σ) F 0)
+      _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q (crdDir σ) (fun x => K x * F x) 0 = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv p (crdDir σ) F 0)
     (S : (σ → ℂ) → σ → ℂ) (S' : (σ → ℂ) →L[ℂ] (σ → ℂ)) (hS : ∀ x y, x ⬝ᵥ S y = S' x ⬝ᵥ y)
     (hQ : ∀ y, eval (S y) Q = eval y Q) (hK' : ∀ x, K (S' x) = K x) (y : σ → ℂ) :
     eval (S y) p = eval y p := by
   have hd (y : σ → ℂ) : Differentiable ℂ fun x : σ → ℂ => cexp (x ⬝ᵥ y) := by
     unfold dotProduct; fun_prop
-  have h1 (y : σ → ℂ) : eval y p = polyDeriv Q (crdDir σ) (fun x => K x * cexp (x ⬝ᵥ y)) 0 := by
+  have h1 (y : σ → ℂ) : eval y p = _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv Q (crdDir σ) (fun x => K x * cexp (x ⬝ᵥ y)) 0 := by
     rw [hp _ (hd y)]
     have h := KernSym.polyDeriv_exp p (crdDir σ)
       (LinearMap.toContinuousLinearMap ((dotProductBilin ℂ ℂ).flip y)) 1
@@ -177,7 +176,7 @@ theorem absorb_invariant {K : (σ → ℂ) → ℂ} (hK : Differentiable ℂ K) 
     simp [hS, hK']
   rw [h1, h1, h3, Jet.polyDeriv_comp_clm _ _ (hK.fun_mul (hd y)), map_zero,
     ← polyDeriv_aeval_lin (hK.fun_mul (hd y))]
-  exact congrArg (fun R => polyDeriv R _ _ _) h2
+  exact congrArg (fun R => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv R _ _ _) h2
 
 end General
 
@@ -218,7 +217,8 @@ def gauss (c : T → ℂ) (M : T → Matrix (Fin r) (Fin r) ℂ) (x : Ell T n r 
 
 theorem differentiable_gauss (c : T → ℂ) (M : T → Matrix (Fin r) (Fin r) ℂ) :
     Differentiable ℂ (gauss (n := n) c M) := by
-  unfold gauss mulVec dotProduct
+  unfold gauss
+  simp only [dotProduct, _root_.Matrix.mulVec]
   fun_prop
 
 theorem gauss_act (c : T → ℂ) (M : T → Matrix (Fin r) (Fin r) ℂ)
@@ -320,9 +320,9 @@ theorem exists_invariant (idx : Fin g ≃ T × Fin r) (ρ : Fin q ⊕ Fin p → 
       (∀ u : T → Matrix (Fin n) (Fin n) ℂ, (∀ t, u t ∈ Matrix.unitaryGroup (Fin n) ℂ) →
         ∀ y, eval (act (uc u) y) R = eval y R) ∧
       ∀ F : (Ell T n r → ℂ) → ℂ, Differentiable ℂ F →
-        ∑ j, polyDeriv (P j) d (fun z => polyDeriv (barP (P j)) d (fun w =>
+        ∑ j, _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (P j) d (fun z => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (barP (P j)) d (fun w =>
           gauss c M (lift idx NA z + lift idx NB w) * F (lift idx NA z + lift idx NB w)) 0) 0 =
-        polyDeriv R (crdDir _) F 0 := by
+        _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv R (crdDir _) F 0 := by
   obtain ⟨R, hR⟩ := exists_absorb (differentiable_gauss (n := n) c M)
     (∑ j, aeval (fun l => lin (lift idx NA (d l))) (P j) *
       aeval (fun l => lin (lift idx NB (d l))) (barP (P j)))

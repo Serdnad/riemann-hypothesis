@@ -1,6 +1,6 @@
 module
 
-public import Formalism.TameInertiaTowers.StatementGroup
+public import Formalism.TameInertiaTowers.Bundle001
 public import Mathlib.NumberTheory.LegendreSymbol.JacobiSymbol
 public import Mathlib.NumberTheory.NumberField.CMField
 public import Mathlib.NumberTheory.RamificationInertia.Galois

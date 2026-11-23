@@ -2,9 +2,9 @@ module
 
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasFrame
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsDualFamilyOfIsLattice
-public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.UnitaryLatticeOrthogonal
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsSubConjNotMem
+public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle022
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle025
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

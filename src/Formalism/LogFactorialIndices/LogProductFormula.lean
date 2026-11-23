@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LogFactorialIndices.StatementIdx
-public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxBase
+public import Formalism.LogFactorialIndices.Bundle001
+public import Formalism.LogFactorialIndices.SignedSubspaceIndex.Bundle001
 public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxDet
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

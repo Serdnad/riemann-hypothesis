@@ -1,10 +1,10 @@
 module
 
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.SubOfNonNil
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsSmulEqOnFinset
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutTranslate
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HkMemFixed
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IrreducibleHomFixedVectorsStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle016
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle118
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle117
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle131
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.IrreducibleSmoothAdmissibleGL
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended

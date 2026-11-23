@@ -40,7 +40,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Bool
 import Development.AbelianVarietyTheory.Definitions.Divisors.CmHostImaginaryGeneratorNeZero
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NodeAgree
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle223
 
 @[expose] public section
 

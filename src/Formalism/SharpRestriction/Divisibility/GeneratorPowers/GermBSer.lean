@@ -1,10 +1,10 @@
 module
 
-import Development.AutomorphicSpectrum.Proofs.GeometryProofs.JetLeftMem
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle152
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBGen
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle005
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

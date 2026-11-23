@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.AddIntG
+public import Formalism.PeriodIntegrals.Bundle002
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.FormalGroupLawExists
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdditiveIntegralGroups.GlueHoldsVar
 import Mathlib.Algebra.Order.Floor.Extended

@@ -1,0 +1,332 @@
+module
+
+public import Formalism.LocalRingCardinality.Bundle001
+import Mathlib.Algebra.Module.StablyFree.Basic
+public import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
+public import Formalism.BranchSandwichDivisors.Bundle001
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Henselian
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RegularLocalRing.Defs
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+open Module NumberField ComplexOrder
+
+noncomputable section
+
+namespace Formalism.L2.GlobalTheoryTheory.HLatOps
+
+open Formalism.BasicNotions
+
+section Defs
+
+variable {K : Type} [Field K] [NumberField K] [StarRing K]
+
+def FrameOK (A : HLat K) : Prop := ∀ v, IsUnit (A.X v).det
+
+structure Iso (A B : HLat K) where
+
+  e : A.V ≃ₗ[K] B.V
+
+  map_L : A.L.map (e.toLinearMap.restrictScalars (𝓞 K)) = B.L
+
+  norm : ∀ v x, Formalism.HermitianLatticesTheory.normAt B.b B.X v (e x) = Formalism.HermitianLatticesTheory.normAt A.b A.X v x
+
+@[reducible] def withL (A : HLat K) (L' : Submodule (𝓞 K) A.V) : HLat K := { A with L := L' }
+
+@[reducible] def dual (A : HLat K) : HLat K where
+  V := Module.Dual K A.V
+  ι := A.ι
+  b := A.dualB
+  X := A.dualX
+  L := A.dualL
+
+def IsSesq {V : Type} [AddCommGroup V] [Module K V] (H : InfinitePlace K → V → V → ℂ) : Prop :=
+  ∀ v, (∀ x x' y, H v (x + x') y = H v x y + H v x' y) ∧
+    (∀ x y y', H v x (y + y') = H v x y + H v x y') ∧
+    (∀ (a : K) x y, H v (a • x) y = starRingEnd ℂ (v.embedding a) * H v x y) ∧
+    (∀ (a : K) x y, H v x (a • y) = v.embedding a * H v x y)
+
+def gramOf {V ι : Type} [AddCommGroup V] [Module K V] (b : Basis ι K V) (H : V → V → ℂ) :
+    Matrix ι ι ℂ :=
+  Matrix.of fun i j => H (b i) (b j)
+
+def PosAt {V ι : Type} [AddCommGroup V] [Module K V] [Fintype ι] (b : Basis ι K V)
+    (H : InfinitePlace K → V → V → ℂ) : Prop :=
+  ∀ v, (gramOf b (H v)).PosDef
+
+
+open Classical in
+def frameOf {ι : Type} [Fintype ι] [DecidableEq ι] (G : Matrix ι ι ℂ) : Matrix ι ι ℂ :=
+  if h : ∃ B : Matrix ι ι ℂ, IsUnit B.det ∧ B.conjTranspose * B = G then (Classical.choose h)⁻¹
+  else 1
+
+@[reducible] def ofFormB {V ι : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+    [Fintype ι] [DecidableEq ι] (b : Basis ι K V) (L : Submodule (𝓞 K) V)
+    (H : InfinitePlace K → V → V → ℂ) : HLat K where
+  V := V
+  ι := ι
+  b := b
+  X := fun v => frameOf (gramOf b (H v))
+  L := L
+
+@[reducible] def ofForm {V : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V]
+    [Module.Finite K V] (L : Submodule (𝓞 K) V) (H : InfinitePlace K → V → V → ℂ) : HLat K :=
+  ofFormB (Module.finBasis K V) L H
+
+@[reducible] def pull (B : HLat K) {W κ : Type} [AddCommGroup W] [Module K W] [Module (𝓞 K) W]
+    [IsScalarTower (𝓞 K) K W] [Fintype κ] [DecidableEq κ] (c : Basis κ K W) (f : W →ₗ[K] B.V) :
+    HLat K :=
+  ofFormB c (B.L.comap (f.restrictScalars (𝓞 K)))
+    (fun v x y => Formalism.HermitianLatticesTheory.majAt B.b B.X v (f x) (f y))
+
+@[reducible] def sub (B : HLat K) (U : Submodule K B.V) : HLat K :=
+  haveI : Module.Finite K B.V := Module.Finite.of_basis B.b
+  pull B (Module.finBasis K U) U.subtype
+
+end Defs
+
+def IsoWithL : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (A B : HLat K) (I : Iso A B)
+    (L' : Submodule (𝓞 K) A.V),
+    ∃ J : Iso (withL A L') (withL B (L'.map (I.e.toLinearMap.restrictScalars (𝓞 K)))),
+      ∀ x : A.V, (J.e x : B.V) = I.e x
+
+def FrameFree : Prop :=
+  ∀ (K V ι κ : Type) [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
+    [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι] [Fintype κ]
+    [DecidableEq κ] (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (b' : Basis κ K V)
+    (X' : InfinitePlace K → Matrix κ κ ℂ), (∀ v, IsUnit (X v).det) → (∀ v, IsUnit (X' v).det) →
+    (∀ v x, Formalism.HermitianLatticesTheory.normAt b X v x = Formalism.HermitianLatticesTheory.normAt b' X' v x) →
+    ∀ L : Submodule (𝓞 K) V, L.FG →
+      Formalism.HN.ht b X L = Formalism.HN.ht b' X' L ∧ Formalism.HN.muDef b X L = Formalism.HN.muDef b' X' L ∧
+      Formalism.HN.muMaxDef b X L = Formalism.HN.muMaxDef b' X' L ∧
+      Formalism.HN.muMinDef b X L = Formalism.HN.muMinDef b' X' L
+
+def DualNumbers : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] (A : HLat K),
+    A.Good → 0 < A.rank →
+    A.muDual = -A.mu ∧ A.muMaxDual = -A.muMin ∧ A.muMinDual = -A.muMax
+
+def OfFormSpec : Prop :=
+  ∀ (K V ι : Type) [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
+    [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [Fintype ι] [DecidableEq ι] (b : Basis ι K V)
+    (L : Submodule (𝓞 K) V) (H : InfinitePlace K → V → V → ℂ), IsSesq H → PosAt b H →
+    FrameOK (ofFormB b L H) ∧
+    (∀ v (x y : V), Formalism.HermitianLatticesTheory.majAt (ofFormB b L H).b (ofFormB b L H).X v x y = H v x y) ∧
+    (∀ v (x : V), Formalism.HermitianLatticesTheory.normAt (ofFormB b L H).b (ofFormB b L H).X v x =
+      Real.sqrt (H v x x).re)
+
+def PullSpec : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (B : HLat K) (W κ : Type) [AddCommGroup W]
+    [Module K W] [Module (𝓞 K) W] [IsScalarTower (𝓞 K) K W] [Fintype κ] [DecidableEq κ]
+    (c : Basis κ K W) (f : W →ₗ[K] B.V), FrameOK B → Function.Injective f →
+    FrameOK (pull B c f) ∧
+    (∀ v (x y : W), Formalism.HermitianLatticesTheory.majAt (pull B c f).b (pull B c f).X v x y =
+      Formalism.HermitianLatticesTheory.majAt B.b B.X v (f x) (f y)) ∧
+    (∀ v (x : W), Formalism.HermitianLatticesTheory.normAt (pull B c f).b (pull B c f).X v x =
+      Formalism.HermitianLatticesTheory.normAt B.b B.X v (f x)) ∧
+    (B.L.FG → (pull B c f).L.FG ∧
+      (pull B c f).rank = (withL B (B.L ⊓ (LinearMap.range f).restrictScalars (𝓞 K))).rank ∧
+      (pull B c f).mu = (withL B (B.L ⊓ (LinearMap.range f).restrictScalars (𝓞 K))).mu ∧
+      (pull B c f).muMax = (withL B (B.L ⊓ (LinearMap.range f).restrictScalars (𝓞 K))).muMax ∧
+      (pull B c f).muMin = (withL B (B.L ⊓ (LinearMap.range f).restrictScalars (𝓞 K))).muMin) ∧
+    (B.Good → (pull B c f).Good)
+
+def EmbNumbers : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K] (A B : HLat K) (ψ : A.V →ₗ[K] B.V),
+    FrameOK B → Function.Injective ψ →
+    (∀ v x, Formalism.HermitianLatticesTheory.normAt A.b A.X v x = Formalism.HermitianLatticesTheory.normAt B.b B.X v (ψ x)) →
+    FrameOK A ∧ ∀ N : Submodule (𝓞 K) A.V,
+      (withL A N).rank = (withL B (N.map (ψ.restrictScalars (𝓞 K)))).rank ∧
+      (N.FG →
+        (withL A N).mu = (withL B (N.map (ψ.restrictScalars (𝓞 K)))).mu ∧
+        (withL A N).muMax = (withL B (N.map (ψ.restrictScalars (𝓞 K)))).muMax ∧
+        (withL A N).muMin = (withL B (N.map (ψ.restrictScalars (𝓞 K)))).muMin ∧
+        (withL A N).lcv = (withL B (N.map (ψ.restrictScalars (𝓞 K)))).lcv)
+
+section Ext
+
+open TensorProduct
+
+variable (K' : Type) {K : Type} [Field K] [NumberField K] [StarRing K] [Field K'] [NumberField K']
+  [StarRing K'] [Algebra K K']
+
+
+open Classical in
+def extFrame {ι : Type} (X : InfinitePlace K → Matrix ι ι ℂ) (v' : InfinitePlace K') :
+    Matrix ι ι ℂ :=
+  if v'.embedding.comp (algebraMap K K') = (v'.comap (algebraMap K K')).embedding then
+    X (v'.comap (algebraMap K K'))
+  else (X (v'.comap (algebraMap K K'))).map (starRingEnd ℂ)
+
+@[reducible] def baseChange (A : HLat K) : HLat K' :=
+  letI mO : Module (𝓞 K') (K' ⊗[K] A.V) := Module.compHom _ (algebraMap (𝓞 K') K')
+  { V := K' ⊗[K] A.V
+    modOV := mO
+    towV := IsScalarTower.of_algebraMap_smul fun _ _ => rfl
+    ι := A.ι
+    b := A.b.baseChange K'
+    X := extFrame K' A.X
+    L := Submodule.span (𝓞 K') ((fun x => (1 : K') ⊗ₜ[K] x) '' (A.L : Set A.V)) }
+
+end Ext
+
+end Formalism.L2.GlobalTheoryTheory.HLatOps
+end
+end
+
+section
+
+open Module NumberField IsDedekindDomain
+open scoped Matrix ComplexOrder
+
+noncomputable section
+
+namespace Formalism.L2.GlobalTheoryTheory.DivPassage
+
+open Formalism.L2.Indef
+
+structure LevelAmb (K : Type) [Field K] [NumberField K] [StarRing K] (D0 D1 : ℕ) where
+
+  Dg : ℕ
+
+  Xg : InfinitePlace K → Matrix (Fin Dg) (Fin Dg) ℂ
+
+  Rg : Submodule (𝓞 K) (Fin Dg → K)
+
+  ep0 : Matrix (Fin Dg) (Fin Dg) K
+
+  ep1 : Matrix (Fin Dg) (Fin Dg) K
+
+  S : Type
+
+  fS : Fintype S
+
+  es : S → Matrix (Fin Dg) (Fin Dg) K
+
+  nS : S → ℕ
+
+  nbar : ℝ
+
+  G : ℕ
+
+  h0 : ℕ
+
+  h1 : ℕ
+
+  ι0 : Matrix (Fin Dg) (Fin D0) K
+
+  ι1 : Matrix (Fin Dg) (Fin D1) K
+
+attribute [instance] LevelAmb.fS
+
+namespace LevelAmb
+
+variable {K : Type} [Field K] [NumberField K] [StarRing K] {D0 D1 : ℕ} (A : LevelAmb K D0 D1)
+
+def partLat (e : Matrix (Fin A.Dg) (Fin A.Dg) K) : Submodule (𝓞 K) (Fin A.Dg → K) :=
+  A.Rg ⊓ (LinearMap.range e.mulVecLin).restrictScalars (𝓞 K)
+
+def latticeAtBaseLevel : Submodule (𝓞 K) (Fin A.Dg → K) := A.partLat A.ep0
+
+def latticeAtSharpLevel : Submodule (𝓞 K) (Fin A.Dg → K) := A.partLat A.ep1
+
+def Rs (s : A.S) : Submodule (𝓞 K) (Fin A.Dg → K) := A.partLat (A.ep0 * A.es s)
+
+def img {D : ℕ} (ι : Matrix (Fin A.Dg) (Fin D) K) (L : Submodule (𝓞 K) (Fin D → K)) : Submodule (𝓞 K) (Fin A.Dg → K) :=
+  L.map (ι.mulVecLin.restrictScalars (𝓞 K))
+
+def FramesG : Prop := ∀ v, IsUnit (A.Xg v).det
+
+def LatG : Prop := Submodule.IsFullLattice K A.Rg
+
+def EmbAt {D : ℕ} (ι : Matrix (Fin A.Dg) (Fin D) K) (ep : Matrix (Fin A.Dg) (Fin A.Dg) K) (h : ℕ)
+    (XE : InfinitePlace K → Matrix (Fin D) (Fin D) ℂ) : Prop :=
+  Function.Injective ι.mulVec ∧ LinearMap.range ι.mulVecLin = LinearMap.range ep.mulVecLin ∧
+    ∀ v (x y : Fin D → K), Formalism.HermitianLatticesTheory.majAt (Pi.basisFun K (Fin D)) XE v x y =
+      Formalism.HermitianLatticesTheory.majAt (Pi.basisFun K (Fin A.Dg)) (Formalism.BranchingDeterminantCap.scaleFrame (Real.sqrt h) A.Xg) v (ι *ᵥ x) (ι *ᵥ y)
+
+def SandAt {D : ℕ} (ι : Matrix (Fin A.Dg) (Fin D) K) (ep : Matrix (Fin A.Dg) (Fin A.Dg) K) (h : ℕ)
+    (RR : Submodule (𝓞 K) (Fin D → K)) : Prop :=
+  A.img ι RR ≤ A.partLat ep ∧ ∀ y ∈ A.partLat ep, (h : 𝓞 K) • y ∈ A.img ι RR
+
+def Sizes (la : ℝ) : Prop :=
+  0 < A.h0 ∧ A.h0 ≤ A.G ∧ 0 < A.h1 ∧ A.h1 ≤ A.G ∧ Real.log A.G ≤ la
+
+def Ranks : Prop :=
+  Formalism.HN.rkK A.latticeAtBaseLevel = ∑ s, Formalism.HN.rkK (A.Rs s) ∧ Formalism.HN.rkK A.latticeAtSharpLevel = ∑ s, A.nS s * Formalism.HN.rkK (A.Rs s)
+
+def Deg0 : Prop :=
+  Formalism.BranchingDeterminantCap.degD (Pi.basisFun K (Fin A.Dg)) A.Xg A.latticeAtBaseLevel ≤
+    (∑ s, Formalism.BranchingDeterminantCap.degD (Pi.basisFun K (Fin A.Dg)) A.Xg (A.Rs s)) +
+      2 * Real.log A.G * (Formalism.HN.rkK A.latticeAtBaseLevel : ℝ)
+
+def Deg1 : Prop :=
+  (∑ s, (A.nS s : ℝ) * Formalism.BranchingDeterminantCap.degD (Pi.basisFun K (Fin A.Dg)) A.Xg (A.Rs s)) -
+      17 / 2 * Real.log A.G * (Formalism.HN.rkK A.latticeAtSharpLevel : ℝ) ≤
+    Formalism.BranchingDeterminantCap.degD (Pi.basisFun K (Fin A.Dg)) A.Xg A.latticeAtSharpLevel
+
+def MaxT : Prop :=
+  Formalism.HN.muMaxDef (Pi.basisFun K (Fin A.Dg)) A.Xg A.latticeAtSharpLevel ≤
+    Formalism.HN.muMaxDef (Pi.basisFun K (Fin A.Dg)) A.Xg A.latticeAtBaseLevel + 17 / 2 * Real.log A.G
+
+def Mult (de : ℝ) : Prop :=
+  0 < A.nbar ∧ ∀ s, (1 - de) * A.nbar ≤ (A.nS s : ℝ) ∧ (A.nS s : ℝ) ≤ (1 + de) * A.nbar
+
+def RowsG : Prop := A.latticeAtBaseLevel ≠ ⊥ ∧ A.latticeAtSharpLevel ≠ ⊥
+
+end LevelAmb
+
+def PassageFromLevels : Prop :=
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K] (Bs : DefBase K) (Df0 Df1 : DefSide Bs)
+    (N : IndefNum Bs) (S0 : IndefData Df0) (S1 : IndefData Df1) (A : LevelAmb K S0.D S1.D),
+    A.FramesG → A.LatG → A.EmbAt A.ι0 A.ep0 A.h0 S0.XE → A.EmbAt A.ι1 A.ep1 A.h1 S1.XE →
+    A.SandAt A.ι0 A.ep0 A.h0 S0.RR → A.SandAt A.ι1 A.ep1 A.h1 S1.RR → A.Sizes N.la →
+    A.Ranks → A.Deg0 → A.Deg1 → A.MaxT → A.Mult N.de → A.RowsG →
+      Passage N S0 S1
+
+end Formalism.L2.GlobalTheoryTheory.DivPassage
+end
+end

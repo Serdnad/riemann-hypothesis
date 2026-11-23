@@ -1,7 +1,7 @@
 module
 
-import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaModuloX.ModLatticeAbsoluteValue
-public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.RowMinor
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaModuloX.Bundle001
+public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Bundle012
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

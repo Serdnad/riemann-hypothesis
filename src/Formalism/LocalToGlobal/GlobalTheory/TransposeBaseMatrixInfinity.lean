@@ -4,13 +4,13 @@ public import Formalism.LocalToGlobal.GlobalTheory.ColValOfTiedSOfFin
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
 import Formalism.LocalToGlobal.Columns.PolyFn
 public import Formalism.LocalToGlobal.GlobalTheory.ColMemOfIsLocBasis
-import Formalism.LocalToGlobal.GlobalTheory.GL6.LatticeInclusionFamilyOf
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle003
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocGen
 import Formalism.LocalToGlobal.GlobalTheory.MemIffOfLocBasisG
 public import Formalism.LocalToGlobal.GlobalTheory.NatInvMemIntW
-import Formalism.LocalToGlobal.GlobalTheory.NfAllSmulSelfRe
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.ExistsPrimeToLe
+import Formalism.LocalToGlobal.GlobalTheory.Bundle005
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle011
 import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.RankConditionsOfLayerTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

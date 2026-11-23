@@ -3,7 +3,7 @@ module
 public import GroundTheory.ProfiniteCohomology.PoitouTate.PtCompactDualMapEqZeroOfPtCompactToGlobalEqZero
 public import GroundTheory.ProfiniteCohomology.RealPlaces.LocalDualityDefs
 public import GroundTheory.ProfiniteCohomology.RealPlaces.DevissageDefs
-import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.H0IsoHomCohomologyClassZero
+import GroundTheory.ProfiniteCohomology.LocalEulerCharacteristic.Bundle004
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

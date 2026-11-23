@@ -1,7 +1,7 @@
 module
 
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
-public import Formalism.WachLatticeTwists.RamifiedBlockRings.LocalToDisplayFree
+public import Formalism.WachLatticeTwists.RamifiedBlockRings.Bundle001
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.CupKillAdm
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.LemmaFiveThreeExtensionOfModule
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.TopLengthBoundViaSplitting

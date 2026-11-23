@@ -1,9 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeries₂.DSExist
-public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeries₂.Zuckerman
-public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeries₂.Poulsen
-public import Formalism.PeriodIntegrals.DSInfCharCap
+public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeries₂.Bundle001
+public import Formalism.PeriodIntegrals.Bundle020
 public import Development.AbelianVarietyTheory.PublishedTheorems.DiscreteSeriesUnitary₂.SubmatrixMemUJsetIff
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

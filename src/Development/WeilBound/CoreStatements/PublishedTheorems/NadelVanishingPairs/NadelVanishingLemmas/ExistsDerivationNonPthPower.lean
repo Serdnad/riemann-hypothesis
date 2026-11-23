@@ -51,8 +51,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.IsEulerContraction
-import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsAddEquivOfSurjectiveOfKerIff
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle028
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle001
 public import Mathlib.Algebra.CharP.Frobenius
 public import Mathlib.Algebra.CharP.Reduced
 public import Mathlib.Algebra.Field.Subfield.Basic

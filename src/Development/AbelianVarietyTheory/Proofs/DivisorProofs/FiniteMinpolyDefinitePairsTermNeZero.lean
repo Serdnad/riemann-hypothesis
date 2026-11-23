@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiagHermitianTrivialOfSumFourSquares
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompactConjCharpolyBoundedDenominatorsAwayPStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenBoundCombinePadicPrimeToPStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DpairEigenRootNormSq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteClassesFixedGammaIrr
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteMonicRootsBddMulIsIntegralStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinitePolynomialsBoundedDenom
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsIntegralSmulOfCharpolyCoeffMulIntStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PadicCoeffDenominatorBoundOfBoundedRootsStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedHeckeTestFunctionSupportCompactStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TwistedOrbitNormBoundsStatement
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle046
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1670
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1604
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1620
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1575
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle205
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1550
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1606
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1607
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1576
 import GroundTheory.Brauer.BaseChangeCSA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,7 +52,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.Divisors.PointsNonemptyUnitaryRankOne
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle045
 
 @[expose] public section
 

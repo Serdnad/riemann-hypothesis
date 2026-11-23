@@ -4,8 +4,8 @@ public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SaturatedPf
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.GenericRatioOfBoundHolds
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.ConcreteLevelAdelicSubset
-public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.AutLzFinite
-public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.DifferentIdealMapNeBot
+public import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.Bundle023
+public import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -65,22 +65,22 @@ section Reps
 
 variable {D : D7} {X : HidaSetting D} {Y : Full X} {u u' : D.what₂.Word}
 
-theorem lin_isom (s : TT Y u u') : s.lin ∈ Formalism.HermitianLatticesTheory.isom (VS D).hT := s.rep.2.2.1
+theorem lin_isom (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : s.lin ∈ Formalism.HermitianLatticesTheory.isom (VS D).hT := s.rep.2.2.1
 
-theorem lin_lam (s : TT Y u u') : Formalism.HermitianLatticesTheory.gmap s.lin s.lam' = s.lam := s.rep.2.2.2.1
+theorem lin_lam (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : Formalism.HermitianLatticesTheory.gmap s.lin s.lam' = s.lam := s.rep.2.2.2.1
 
-theorem frame_eq (s : TT Y u u') :
+theorem frame_eq (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') :
     s.frame = Formalism.L2.SG.Saturated.mapL s.lin (lin_isom s) (lf D (X.Fu u')) := by
   unfold GTerm.frame mapLF
   rw [dite_eq_left (lin_isom s)]
   rfl
 
-theorem frame_apply (s : TT Y u u') (a : Fin (D.R.rS + 1)) :
+theorem frame_apply (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') (a : Fin (D.R.rS + 1)) :
     frame s.frame a = s.lin (frame (lf D (X.Fu u')) a) := by
   rw [frame_eq]
   exact congrFun (Formalism.L2.SG.Pf.frame_mapL' s.lin (lin_isom s) (lf D (X.Fu u'))) a
 
-theorem dc_of_toTerm {s s' : TT Y u u'} (h : s.toTerm = s'.toTerm) :
+theorem dc_of_toTerm {s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h : s.toTerm = s'.toTerm) :
     s.lam = s'.lam ∧ TermDef.DCRel s.lam (lf D (X.Fu u)) s.frame s'.frame := by
   have hl : s.lam = s'.lam := congrArg TermDef.Term.lam h
   refine ⟨hl, ?_⟩
@@ -130,7 +130,7 @@ variable {D : D7} {X : HidaSetting D} {Y : Full X} {u u' : D.what₂.Word}
 theorem one_stabF {T : D.host.E} (F0 : FlagG (VS D) D.R.rS T) : (1 : (VS D).V ≃ₗ[D.host.E] (VS D).V) ∈ stabF D F0 :=
   stabF_of_fix F0 1 (Formalism.HermitianLatticesTheory.isom (VS D).hT).one_mem (fun _ => rfl) rfl
 
-theorem fib_decomp {s s' : TT Y u u'} (h : s.toTerm = s'.toTerm) :
+theorem fib_decomp {s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h : s.toTerm = s'.toTerm) :
     s.lam = s'.lam ∧ s.lam' = s'.lam' ∧
     ∃ n ∈ NLam s.lam (lf D (X.Fu u)), ∃ m ∈ NLam s.lam s.frame, s.lin⁻¹ * m * s.lin ∈ NLam s.lam' (lf D (X.Fu u')) ∧
       ∃ c : (VS D).V ≃ₗ[D.host.E] (VS D).V,
@@ -179,7 +179,7 @@ theorem fib_decomp {s s' : TT Y u u'} (h : s.toTerm = s'.toTerm) :
   rw [hcdef, hμ]
   group
 
-theorem gterm_eq {s s' : TT Y u u'} (h1 : s.lam = s'.lam) (h2 : s.lam' = s'.lam')
+theorem gterm_eq {s s' : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h1 : s.lam = s'.lam) (h2 : s.lam' = s'.lam')
     (h3 : ∃ n ∈ NLam s.lam (lf D (X.Fu u)), ∃ n' ∈ NLam s.lam' (lf D (X.Fu u')), s'.lin = n * s.lin * n') :
     s = s' := by
   obtain ⟨l, hl, l', hl', c⟩ := s
@@ -622,7 +622,7 @@ theorem scal_move {Λ : Submodule (𝓞 E) S.V} {F : LFlag S r T} {G₁ G₂ K�
 end Move
 
 def IotaKer : Prop :=
-  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (s₁ s₂ t₁ t₂ : TT Y u u')
+  ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word) (s₁ s₂ t₁ t₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u')
     (n₁ n₂ m₁ m₂ c₁ c₂ : (VS D).V ≃ₗ[D.host.E] (VS D).V),
     s₂.lam = s₁.lam → t₁.lam = s₁.lam → t₂.lam = s₁.lam →
     s₂.lam' = s₁.lam' → t₁.lam' = s₁.lam' → t₂.lam' = s₁.lam' →
@@ -649,11 +649,11 @@ theorem X_le_spanE_XLam {T : D.host.E} (F0 : FlagG (VS D) D.R.rS T) (Λ : Submod
   rintro _ ⟨a, rfl⟩
   exact Submodule.subset_span (Formalism.MainNotions.BridgeLemma₂.basis_vector_mem_span D F0 a)
 
-theorem Xsp_frame (s : TT Y u u') : Xsp s.frame = (Xsp (lf D (X.Fu u'))).map (s.lin : (VS D).V →ₗ[D.host.E] (VS D).V) := by
+theorem Xsp_frame (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : Xsp s.frame = (Xsp (lf D (X.Fu u'))).map (s.lin : (VS D).V →ₗ[D.host.E] (VS D).V) := by
   rw [frame_eq]
   exact Xsp_mapL s.lin (lin_isom s) (lf D (X.Fu u'))
 
-theorem hs_frame (s : TT Y u u') : Xsp s.frame ≤ spanE (VS D) (XLam s.lam s.frame) := by
+theorem hs_frame (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : Xsp s.frame ≤ spanE (VS D) (XLam s.lam s.frame) := by
   have hrow : IsRowLat D (X.Fu u') s.lam' := (Y.rowsOK u').1 _ s.mem'
   have h0 := X_le_spanE_XLam (X.Fu u') s.lam' hrow
   have e1 : XLam s.lam s.frame = Formalism.HermitianLatticesTheory.gmap s.lin (XLam s.lam' (lf D (X.Fu u'))) := by
@@ -663,9 +663,9 @@ theorem hs_frame (s : TT Y u u') : Xsp s.frame ≤ spanE (VS D) (XLam s.lam s.fr
   rw [e1, spanE_gmap, Xsp_frame]
   exact Submodule.map_mono h0
 
-theorem lift_F (s : TT Y u u') : IsLift s.lam (lf D (X.Fu u)) := ((Y.rowsOK u).1 _ s.mem).2.1.2.2.1
+theorem lift_F (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : IsLift s.lam (lf D (X.Fu u)) := ((Y.rowsOK u).1 _ s.mem).2.1.2.2.1
 
-theorem lift_frame (s : TT Y u u') : IsLift s.lam s.frame := s.rep.2.2.2.2.1
+theorem lift_frame (s : _root_.Formalism.L2.SG.PackageTie2.TT Y u u') : IsLift s.lam s.frame := s.rep.2.2.2.2.1
 
 def TrivW (U : Submodule D.host.E (VS D).V) (φ : (VS D).V ≃ₗ[D.host.E] (VS D).V) : Prop :=
   (∀ x ∈ U, φ x ∈ U) ∧ ∀ x ∈ orth (VS D) U, φ x - x ∈ U
@@ -686,7 +686,7 @@ theorem conj_triv {U : Submodule D.host.E (VS D).V} {l φ : (VS D).V ≃ₗ[D.ho
 
 
 
-theorem pair_step (hK : IotaKer) {s₁ s₂ t₁ t₂ : TT Y u u'} (h1 : s₁.toTerm = t₁.toTerm) (h2 : s₂.toTerm = t₂.toTerm)
+theorem pair_step (hK : IotaKer) {s₁ s₂ t₁ t₂ : _root_.Formalism.L2.SG.PackageTie2.TT Y u u'} (h1 : s₁.toTerm = t₁.toTerm) (h2 : s₂.toTerm = t₂.toTerm)
     (hr : rowOf Y.TR (Y.cs u) (Y.cs u') s₁ = rowOf Y.TR (Y.cs u) (Y.cs u') s₂)
     (hr' : rowOf Y.TR (Y.cs u) (Y.cs u') t₁ = rowOf Y.TR (Y.cs u) (Y.cs u') t₂) :
     s0T s₁ s₂ = s0T t₁ t₂ ∧ (liftScalar s₁ s₂ → liftScalar t₁ t₂) := by

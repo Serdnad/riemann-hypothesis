@@ -2,8 +2,8 @@ module
 
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AlgebraMapConeRing
 public import Mathlib.Tactic.ENatToNat
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExceptionalIdealLeSpanPosDegree
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MonLNegMul
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle154
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle155
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -45,7 +45,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 open Matrix Complex NumberField MeasureTheory
 open scoped ComplexConjugate ComplexOrder
 open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.FD GlobalTheory.ThFr
-open ReciprocityTheory.ChartRestriction.G.I2 (polyDeriv)
 
 namespace GlobalTheory.SW
 
@@ -66,7 +65,7 @@ def thA (φ : TF n g) (x : Frame X.Ψ r) (z : Fin n → Fin g → ℂ) : ℂ :=
       (hMat X bas idx x *ᵥ z k)) * thS φ (tauMat X bas idx x) fun k => hMat X bas idx x *ᵥ z k
 
 def thP (φ : TF n g) (P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n)) (x : Frame X.Ψ r) : ℂ :=
-  polyDeriv P (letterDir X hr idx) (thA X bas idx φ x) 0
+  _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (letterDir X hr idx) (thA X bas idx φ x) 0
 
 
 open Classical in
@@ -128,8 +127,8 @@ def barP {σ : Type} (P : MvPolynomial σ ℂ) : MvPolynomial σ ℂ := MvPolyno
 
 def biDeriv {J : Type} [Fintype J] (P : J → Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n))
     (F : (Fin n → Fin g → ℂ) → (Fin n → Fin g → ℂ) → ℂ) : ℂ :=
-  ∑ j, polyDeriv (P j) (letterDir X hr idx)
-    (fun z₁ => polyDeriv (barP (P j)) (letterDir X hr idx) (F z₁) 0) 0
+  ∑ j, _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (P j) (letterDir X hr idx)
+    (fun z₁ => _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv (barP (P j)) (letterDir X hr idx) (F z₁) 0) 0
 
 def kern {J : Type} [Fintype J] (P : J → Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n))
     (x₁ x₂ : Frame X.Ψ r) : ℂ := biDeriv X hr idx P (kZero X idx x₁ x₂)

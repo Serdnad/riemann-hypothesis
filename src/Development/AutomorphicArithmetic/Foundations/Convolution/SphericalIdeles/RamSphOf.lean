@@ -2,12 +2,11 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.RamDefs
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.JacobianTraceQuotients.ElemPairJ
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.NormRam
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.SatDict
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle002
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle003
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.UnlSph
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Unlinked
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.UnrNorm
-public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.WeakStableAlt
+public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.Bundle004
 import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrData
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,7 +44,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PBasic
+public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle003
 
 @[expose] public section
 

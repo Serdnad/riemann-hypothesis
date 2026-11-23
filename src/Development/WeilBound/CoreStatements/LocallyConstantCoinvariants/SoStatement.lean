@@ -1,13 +1,13 @@
 module
 
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.CompFinLiftE
-public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.RightOnto
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianSelfDualLatticeSpaceFormHermitianNondeg
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsStdCharNegOneOfStandardTraceAdelicAddChar
+public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1259
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1891
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
-public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.PureEqPureA
+public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.Bundle049
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.IndicatorMem
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

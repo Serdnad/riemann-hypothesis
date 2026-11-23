@@ -1,17 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.SlopeBoundSt
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle010
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
-public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.UniformisationTriplesCompleteDVRTorsion
-import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ProperRelAmpleKTrivOfFieldExtension
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.PpicLamdiff
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle204
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle059
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle049
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.PpicPic
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.PpicQuot
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle048
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.PpicTransl
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.PpicWeight
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle050
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.PquoFibre
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.PquoSplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +49,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AdmissibleBasePowerSeries
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 
 @[expose] public section

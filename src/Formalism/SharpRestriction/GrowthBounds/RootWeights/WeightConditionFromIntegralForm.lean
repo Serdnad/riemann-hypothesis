@@ -1,11 +1,11 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.CovariantDegrees
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.StableSubspaceCompleteReducibility
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.RootWeights.CrAevalStable
-public import Formalism.SharpRestriction.GrowthBounds.RootWeights.CrLift
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.IsotypicComponentLeLowerWeights
-import Formalism.SharpRestriction.GrowthBounds.RootWeights.V2repResIsGLRep
+public import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle023
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle021
+import Formalism.SharpRestriction.GrowthBounds.RootWeights.Bundle016
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

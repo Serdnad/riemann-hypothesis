@@ -1,7 +1,7 @@
 module
 
 public import Formalism.FlagUnipotentLattices.UnipotentStabiliserCharacterisation
-public import Formalism.FormalDegreeBessel.FinalDS
+public import Formalism.FormalDegreeBessel.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

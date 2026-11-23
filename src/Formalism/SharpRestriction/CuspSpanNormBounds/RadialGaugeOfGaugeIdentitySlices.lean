@@ -1,6 +1,6 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.PSDKOnOfPSDK
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle005
 public import Formalism.HermitianCurvature.WeylElementCommutesLevelOne
 public import Formalism.FormalDegreeBessel.FinalG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
@@ -44,12 +44,10 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
-import Formalism.HermitianCurvature.StatementI
-import Formalism.HermitianCurvature.StatementR
-import Formalism.HermitianCurvature.StatementTA
+import Formalism.HermitianCurvature.Bundle001
 import Formalism.HermitianCurvature.StatementWd
 import Formalism.SharpRestriction.CuspSpanNormBounds.AuxiliarySlotStates
-import Formalism.SharpRestriction.CuspSpanNormBounds.DiagonalEntryIdentity
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle006
 import Formalism.SharpRestriction.CuspSpanNormBounds.FamilyBlockLiftEstimate
 import Formalism.SharpRestriction.CuspSpanNormBounds.OscillatoryIntegralBounds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.WeightedMirrorLevelOperator

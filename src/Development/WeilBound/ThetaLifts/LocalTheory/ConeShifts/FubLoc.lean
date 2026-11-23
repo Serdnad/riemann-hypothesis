@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ContinuousFc
 import Aesop.Main
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.NormCmExtensionSplitPlaceEqZpow
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OrdLEqNegLog
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle089
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle098
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsUniqueIsConjAt
 import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.FubTate
 import Mathlib.Algebra.Order.Floor.Extended

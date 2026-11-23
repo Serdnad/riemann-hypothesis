@@ -1,10 +1,10 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Imports
-public import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularCurve
-import GroundTheory.ArithmeticGeometry.SchemeCohomology.RegularLocalDomain
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMRegularElement
-public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PFlatNormalFibres
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle043
+public import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle005
+import GroundTheory.ArithmeticGeometry.SchemeCohomology.Bundle002
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle080
+public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Bundle061
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

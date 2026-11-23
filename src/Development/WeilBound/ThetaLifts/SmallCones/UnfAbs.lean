@@ -1,7 +1,7 @@
 module
 
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFundamentalDomain
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle194
 public import Development.WeilBound.CoreStatements.ThetaDilations.Nuabs
 public import Development.WeilBound.ThetaLifts.SmallCones.RightOfCompact
 import Mathlib.Algebra.Order.Floor.Extended

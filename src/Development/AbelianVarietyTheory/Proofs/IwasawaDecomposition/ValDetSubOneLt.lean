@@ -186,7 +186,7 @@ section Glob
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] [StarRing E] {n : ℕ}
   {hc : Formalism.BasicNotions.CMData F E}
 
-theorem compAt_eq {g : GL (Fin n) (AfE F E)} {a : Ideles E} (h : IsDetLift hc g a) (P : HeightOneSpectrum (𝓞 E)) :
+theorem compAt_eq {g : GL (Fin n) (AfE F E)} {a : _root_.Neutral.B1.Ideles E} (h : IsDetLift hc g a) (P : HeightOneSpectrum (𝓞 E)) :
     compAt P a = adAt F P (g : Matrix (Fin n) (Fin n) (AfE F E)).det *
       adAt F P (Formalism.UG.sigR hc.sig _ (finAf F E a : AfE F E)) := by
   have e : finAf F E a = Matrix.GeneralLinearGroup.det g * conjId hc.sig (finAf F E a) := by
@@ -197,10 +197,10 @@ theorem compAt_eq {g : GL (Fin n) (AfE F E)} {a : Ideles E} (h : IsDetLift hc g 
 
 
 omit [StarRing E] in
-theorem val_compAt_ne (P : HeightOneSpectrum (𝓞 E)) (a : Ideles E) : Valued.v (compAt P a) ≠ 0 :=
+theorem val_compAt_ne (P : HeightOneSpectrum (𝓞 E)) (a : _root_.Neutral.B1.Ideles E) : Valued.v (compAt P a) ≠ 0 :=
   (Valuation.ne_zero_iff _).2 ((Group.isUnit a).map (compAt P)).ne_zero
 
-theorem val_compAt_eq {g : GL (Fin n) (AfE F E)} {a : Ideles E} (h : IsDetLift hc g a) {N : Submodule (𝓞 E) (Sp E n)}
+theorem val_compAt_eq {g : GL (Fin n) (AfE F E)} {a : _root_.Neutral.B1.Ideles E} (h : IsDetLift hc g a) {N : Submodule (𝓞 E) (Sp E n)}
     (hN : IsSdLat N) (hg : Formalism.L2.Herm.Carries g (stdLat E n) N) {fr : HeightOneSpectrum (𝓞 E) → Sp E n ≃ₗ[E] Sp E n}
     (hf : ∀ P, IsFr P N (fr P)) (P : HeightOneSpectrum (𝓞 E)) :
     Valued.v (compAt P a) = P.valuation E (dt (fr P)) * Valued.v (compAt (conjPrime₂ P) a) := by
@@ -248,8 +248,8 @@ theorem val_compAt_detIdl {SB : Finset (HeightOneSpectrum (𝓞 E))} (hSB : ∀ 
       simpa only [Module.Basis.map_apply, Pi.basisFun_apply, SetLike.mem_coe] using hm
   rw [if_neg h1, if_neg h2, if_neg h2, if_neg h1, map_pow, map_pow, valued_algebraMap, valued_algebraMap,
     ordSub_detSub_eq hfull (hf P), ordSub_detSub_eq hfull (hf (conjPrime₂ P))]
-  have ex : ∀ (w : HeightOneSpectrum (𝓞 E)) (u : Eˣ), w.valuation E (u : E) = WithZero.exp (-ordF w u) := fun w u => by
-    unfold ordF
+  have ex : ∀ (w : HeightOneSpectrum (𝓞 E)) (u : Eˣ), w.valuation E (u : E) = WithZero.exp (-_root_.Formalism.L2.Host.ordF w u) := fun w u => by
+    unfold _root_.Formalism.L2.Host.ordF
     rw [neg_neg, WithZero.exp_log (by simp)]
   rw [ex, ex, ← WithZero.exp_add, ← WithZero.exp_zero, WithZero.exp_inj] at k3
   rw [ex, ex, ex, ordF_unif_self, ordF_unif_self, ← WithZero.exp_nsmul, ← WithZero.exp_nsmul, ← WithZero.exp_add,
@@ -262,7 +262,7 @@ end Glob
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem mk_eq_detPt (R : Ranks) (H : Formalism.BasicNotions.Host R) (n : ℕ) (ST SG Q SQ : Finset (HeightOneSpectrum (𝓞 H.E)))
-    (p : DecoF H.E n ST SG Q) (g : GL (Fin n) (AfE H.F H.E)) (a : Ideles H.E) (hl : LevOk H SG SQ)
+    (p : DecoF H.E n ST SG Q) (g : GL (Fin n) (AfE H.F H.E)) (a : _root_.Neutral.B1.Ideles H.E) (hl : LevOk H SG SQ)
     (hp : IsPtOf (host_cmData R H) g (extTo SQ p)) (ha : IsDetLift (host_cmData R H) g a) :
     (QuotientGroup.mk a : DtQ H SQ) = detPt H SQ p := by
   classical

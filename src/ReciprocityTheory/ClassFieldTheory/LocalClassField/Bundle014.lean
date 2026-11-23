@@ -1,0 +1,339 @@
+module
+
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle003
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.PicardGroup
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.Linter.Style
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle012
+import Mathlib.Tactic.ReduceModChar
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle009
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle008
+public import ReciprocityTheory.ClassFieldTheory.LocalClassField.Bundle013
+public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.LocalFieldAutomorphisms.Inertia
+public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.LocalFieldAutomorphisms.Bundle001
+
+@[expose] public section
+
+section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField
+
+open _root_.Neutral.B1 ReciprocityTheory.Coh Function
+
+variable {p : ℕ} [Fact p.Prime] {K L : IntermediateField ℚ_[p] (PadicAlgCl p)}
+
+theorem nsmul_mk_one_div (n : ℕ) [NeZero n] (m : ℤ) :
+    m • (QuotientAddGroup.mk (1 / (n : ℚ)) : QZ) = QuotientAddGroup.mk ((m : ℚ) / n) := by
+  rw [← QuotientAddGroup.mk_zsmul]
+  congr 1
+  rw [zsmul_eq_mul, mul_one_div]
+
+theorem mk_eq_zero_QZ (q : ℚ) : (QuotientAddGroup.mk q : QZ) = 0 ↔ ∃ k : ℤ, (k : ℚ) = q := by
+  rw [QuotientAddGroup.eq_zero_iff]
+  exact Iff.rfl
+
+noncomputable def zmodToQZ (n : ℕ) [NeZero n] : ZMod n →+ QZ :=
+  ZMod.lift n ⟨zmultiplesHom QZ (QuotientAddGroup.mk (1 / (n : ℚ))), by
+    have hn : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.2 (NeZero.ne n)
+    rw [zmultiplesHom_apply, nsmul_mk_one_div, mk_eq_zero_QZ]
+    exact ⟨1, by rw [Int.cast_natCast, div_self hn, Int.cast_one]⟩⟩
+
+theorem zmodToQZ_intCast (n : ℕ) [NeZero n] (m : ℤ) :
+    zmodToQZ n (m : ZMod n) = QuotientAddGroup.mk ((m : ℚ) / n) := by
+  rw [zmodToQZ, ZMod.lift_coe]
+  show zmultiplesHom QZ (QuotientAddGroup.mk (1 / (n : ℚ))) m = _
+  rw [zmultiplesHom_apply, nsmul_mk_one_div]
+
+theorem zmodToQZ_injective (n : ℕ) [NeZero n] : Injective (zmodToQZ n) := by
+  have hn : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.2 (NeZero.ne n)
+  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
+  intro a ha
+  obtain ⟨m, rfl⟩ := ZMod.intCast_surjective a
+  rw [zmodToQZ_intCast, mk_eq_zero_QZ] at ha
+  obtain ⟨k, hk⟩ := ha
+  rw [ZMod.intCast_zmod_eq_zero_iff_dvd]
+  refine ⟨k, ?_⟩
+  rw [eq_div_iff hn] at hk
+  have : ((k * n : ℤ) : ℚ) = (m : ℚ) := by push_cast; exact hk
+  rw [mul_comm]
+  exact_mod_cast this.symm
+
+theorem exists_zmodToQZ_eq (n : ℕ) [NeZero n] (x : QZ) (hx : n • x = 0) : ∃ a, zmodToQZ n a = x := by
+  have hn : (n : ℚ) ≠ 0 := Nat.cast_ne_zero.2 (NeZero.ne n)
+  obtain ⟨q, rfl⟩ := QuotientAddGroup.mk_surjective x
+  rw [← QuotientAddGroup.mk_nsmul, mk_eq_zero_QZ] at hx
+  obtain ⟨k, hk⟩ := hx
+  refine ⟨(k : ZMod n), ?_⟩
+  rw [zmodToQZ_intCast, hk, nsmul_eq_mul, mul_div_cancel_left₀ _ hn]
+
+theorem cycK_eq_one {n : ℕ} [NeZero n] (hμ : ∀ ζ : PadicAlgCl p, ζ ^ n = 1 → ζ ∈ K) (g : GK p K) :
+    cycK p K n g = 1 := by
+  obtain ⟨ζ, hζ⟩ := HasEnoughRootsOfUnity.exists_primitiveRoot (PadicAlgCl p) n
+  have h1 : g ζ = ζ := g.commutes ⟨ζ, hμ ζ hζ.pow_eq_one⟩
+  rw [cycN_spec (K := K) (L := PadicAlgCl p) (n := n) g ζ hζ.pow_eq_one] at h1
+  have h2 : ζ ^ ((cycK p K n g : (ZMod n)ˣ) : ZMod n).val = ζ ^ (1 % n) := by
+    rw [← pow_eq_pow_mod 1 hζ.pow_eq_one, pow_one]
+    exact h1
+  have h3 := hζ.pow_inj (ZMod.val_lt _) (Nat.mod_lt 1 (Nat.pos_of_ne_zero (NeZero.ne n))) h2
+  rw [← ZMod.val_one_eq_one_mod] at h3
+  exact Units.ext (ZMod.val_injective n h3)
+
+theorem card_character_n_torsion {n : ℕ} (hn : 0 < n) (hμ : ∀ ζ : PadicAlgCl p, ζ ^ n = 1 → ζ ∈ K) :
+    Nat.card {χ : charGrp (GK p K) // n • χ = 0} = (powMonoidHom n : Kˣ →* Kˣ).range.index := by
+  have : NeZero n := ⟨hn.ne'⟩
+  have hrho : ∀ g x, charRep (cycK p K n) g x = x := fun g x => by
+    rw [charRep_apply, cycK_eq_one hμ, Units.val_one, one_mul]
+  obtain ⟨e⟩ := h1_roots_of_unity_equiv_units_quot_pow p K n
+  have hbot : (Bd1 (charRep (cycK p K n))).comap (Z1 (charRep (cycK p K n))).subtype = ⊥ := by
+    rw [eq_bot_iff]
+    intro f hf
+    obtain ⟨m, hm⟩ := (mem_contCoboundaries1 _ _).1 (Submodule.mem_comap.1 hf)
+    rw [Submodule.mem_bot]
+    refine Subtype.ext (funext fun g => ?_)
+    have := hm g
+    rw [hrho, sub_self] at this
+    exact this
+  let Φ : Z1 (charRep (cycK p K n)) → {χ : charGrp (GK p K) // n • χ = 0} := fun f =>
+    ⟨⟨AddMonoidHom.mk' (fun a : Additive (GK p K) => zmodToQZ n (f.1 a.toMul)) fun a b => by
+        show zmodToQZ n (f.1 (a.toMul * b.toMul)) = _
+        rw [f.2.2, hrho, map_add (f := _)],
+      ((IsLocallyConstant.iff_continuous _).2 f.2.1).comp (zmodToQZ n)⟩,
+     Subtype.ext (AddMonoidHom.ext fun a => by
+        show n • zmodToQZ n (f.1 a.toMul) = 0
+        rw [← map_nsmul, nsmul_eq_mul, ZMod.natCast_self, zero_mul, map_zero])⟩
+  have hΦ : Bijective Φ := by
+    constructor
+    · intro f f' h
+      refine Subtype.ext (funext fun g => zmodToQZ_injective n ?_)
+      exact congrArg (fun χ : {χ : charGrp (GK p K) // n • χ = 0} => χ.1.1 (Additive.ofMul g)) h
+    · rintro ⟨χ, hχ⟩
+      have hex : ∀ g : GK p K, ∃ a, zmodToQZ n a = χ.1 (Additive.ofMul g) := fun g =>
+        exists_zmodToQZ_eq n _ (congrArg (fun ψ : charGrp (GK p K) => ψ.1 (Additive.ofMul g)) hχ)
+      choose f hf using hex
+      have hlc : IsLocallyConstant f := by
+        refine IsLocallyConstant.desc f (zmodToQZ n) ?_ (zmodToQZ_injective n)
+        have : zmodToQZ n ∘ f = fun g : GK p K => χ.1 (Additive.ofMul g) := funext hf
+        rw [this]
+        exact χ.2
+      refine ⟨⟨f, hlc.continuous, fun g h => zmodToQZ_injective n ?_⟩, ?_⟩
+      · rw [hrho, map_add (f := _), hf, hf, hf]
+        exact map_add χ.1 (Additive.ofMul g) (Additive.ofMul h)
+      · exact Subtype.ext (Subtype.ext (AddMonoidHom.ext fun a => hf a.toMul))
+  rw [← Nat.card_congr (Equiv.ofBijective Φ hΦ), ← Nat.card_congr (Submodule.quotEquivOfEqBot _ hbot).toEquiv,
+    Nat.card_congr e.toEquiv]
+  rfl
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField
+end
+
+section
+
+namespace ReciprocityTheory.DiscreteGroups.LocalClassField
+
+open _root_.Neutral.B1 ReciprocityTheory.Coh ReciprocityTheory.Neutral.Cmp
+
+noncomputable section
+
+variable (p : ℕ) [Fact p.Prime] (K L : IntermediateField ℚ_[p] (PadicAlgCl p))
+
+def OK : Subring K := (Obar p).toSubring.comap (algebraMap K (PadicAlgCl p))
+
+theorem mem_OK_iff (x : K) : x ∈ OK p K ↔ ‖(x : PadicAlgCl p)‖ ≤ 1 := mem_Obar_iff
+
+theorem norm_algebraMap_padicInt (x : ℤ_[p]) : ‖((algebraMap ℤ_[p] K x : K) : PadicAlgCl p)‖ ≤ 1 := by
+  show ‖algebraMap ℚ_[p] (PadicAlgCl p) (x : ℚ_[p])‖ ≤ 1
+  exact (PadicAlgCl.norm_extends p (x : ℚ_[p])).le.trans x.2
+
+def zpToOK : ℤ_[p] →+* OK p K :=
+  (algebraMap ℤ_[p] K).codRestrict _ fun x => (mem_OK_iff p K _).2 (norm_algebraMap_padicInt p K x)
+
+@[instance_reducible]
+def zpAlgOK : Algebra ℤ_[p] (OK p K) := (zpToOK p K).toAlgebra
+
+attribute [local instance] zpAlgOK
+
+theorem isScalarTower_zp_OK : IsScalarTower ℤ_[p] (OK p K) K := IsScalarTower.of_algebraMap_eq fun _ => rfl
+
+theorem isScalarTower_zp_K_alg : IsScalarTower ℤ_[p] K (PadicAlgCl p) := IsScalarTower.of_algebraMap_eq fun _ => rfl
+
+theorem isTorsionFree_zp_K : Module.IsTorsionFree ℤ_[p] K := by
+  refine Module.IsTorsionFree.of_smul_eq_zero fun r m h => ?_
+  rw [Algebra.smul_def, mul_eq_zero] at h
+  refine h.imp (fun h => ?_) id
+  have h2 : algebraMap ℚ_[p] K (r : ℚ_[p]) = 0 := h
+  rw [map_eq_zero] at h2
+  exact PadicInt.ext (by simpa using h2)
+
+theorem isIntegral_zp_K_iff (x : K) :
+    IsIntegral ℤ_[p] x ↔ IsIntegral (PadicInt.subring p) (x : PadicAlgCl p) := by
+  have := isScalarTower_zp_K_alg p K
+  rw [← isIntegral_algebraMap_iff (A := K) (B := PadicAlgCl p) ]
+  exact Iff.rfl
+
+theorem isIntegralClosure_OK : IsIntegralClosure (OK p K) ℤ_[p] K := by
+  refine ⟨Subtype.val_injective, ?_⟩
+  intro x
+  rw [isIntegral_zp_K_iff, ← norm_le_one_iff_isIntegral, ← mem_OK_iff]
+  exact ⟨fun h => ⟨⟨x, h⟩, rfl⟩, by rintro ⟨y, rfl⟩; exact y.2⟩
+
+theorem card_OK_quot_p (hK : FiniteDimensional ℚ_[p] K) :
+    Nat.card (OK p K ⧸ Ideal.span {(p : OK p K)}) = p ^ Module.finrank ℚ_[p] K := by
+  have := isScalarTower_zp_OK p K
+  have := isIntegralClosure_OK p K
+  have := isTorsionFree_zp_K p K
+  have : Module.Free ℤ_[p] (OK p K) := IsIntegralClosure.module_free ℤ_[p] ℚ_[p] K _
+  have : Module.Finite ℤ_[p] (OK p K) := IsIntegralClosure.finite ℤ_[p] ℚ_[p] K _
+  have hr := IsIntegralClosure.rank ℤ_[p] ℚ_[p] K (OK p K)
+  have hn' : (p : OK p K) = algebraMap ℤ_[p] (OK p K) (p : ℕ) := (map_natCast _ _).symm
+  rw [hn', card_quot_span_algebraMap (Module.finBasis ℤ_[p] (OK p K)),
+    card_quot_natCast_padicInt p (Fact.out : p.Prime).ne_zero, Fintype.card_fin, hr,
+    Nat.padicValNat_def, Nat.Prime.multiplicity_self, pow_one]
+
+theorem isDedekindDomain_OK (hK : FiniteDimensional ℚ_[p] K) : IsDedekindDomain (OK p K) := by
+  have := isScalarTower_zp_OK p K
+  have := isIntegralClosure_OK p K
+  exact IsIntegralClosure.isDedekindDomain ℤ_[p] ℚ_[p] K (OK p K)
+
+theorem mem_span_singleton_OK (a b : OK p K) :
+    a ∈ Ideal.span {b} ↔ ‖((a : K) : PadicAlgCl p)‖ ≤ ‖((b : K) : PadicAlgCl p)‖ := by
+  rw [Ideal.mem_span_singleton']
+  constructor
+  · rintro ⟨c, rfl⟩
+    have hc : ‖((c : K) : PadicAlgCl p)‖ ≤ 1 := (mem_OK_iff p K _).1 c.2
+    show ‖((c : K) : PadicAlgCl p) * ((b : K) : PadicAlgCl p)‖ ≤ _
+    rw [norm_mul]
+    exact mul_le_of_le_one_left (norm_nonneg _) hc
+  · intro h
+    by_cases hb : ((b : K) : PadicAlgCl p) = 0
+    · rw [hb, norm_zero] at h
+      have ha : ((a : K) : PadicAlgCl p) = 0 := norm_le_zero_iff.1 h
+      exact ⟨0, Subtype.ext (Subtype.ext (by rw [ha]; simp))⟩
+    · have hb' : 0 < ‖((b : K) : PadicAlgCl p)‖ := norm_pos_iff.2 hb
+      refine ⟨⟨(a : K) / (b : K), ?_⟩, Subtype.ext (Subtype.ext ?_)⟩
+      · rw [mem_OK_iff]
+        show ‖((a : K) : PadicAlgCl p) / ((b : K) : PadicAlgCl p)‖ ≤ 1
+        rw [norm_div, div_le_one hb']
+        exact h
+      · show ((a : K) : PadicAlgCl p) / ((b : K) : PadicAlgCl p) * ((b : K) : PadicAlgCl p) = _
+        rw [div_mul_cancel₀ _ hb]
+
+theorem span_singleton_OK_eq {a b : OK p K} (h : ‖((a : K) : PadicAlgCl p)‖ = ‖((b : K) : PadicAlgCl p)‖) :
+    Ideal.span {a} = Ideal.span {b} :=
+  le_antisymm ((Ideal.span_singleton_le_iff_mem _).2 ((mem_span_singleton_OK p K a b).2 h.le))
+    ((Ideal.span_singleton_le_iff_mem _).2 ((mem_span_singleton_OK p K b a).2 h.ge))
+
+def toObar : OK p K →+* Obar p :=
+  ((algebraMap K (PadicAlgCl p)).comp (OK p K).subtype).codRestrict (Obar p) fun x => x.2
+
+def resMap : OK p K →+* kbar p := (IsLocalRing.residue (Obar p)).comp (toObar p K)
+
+theorem mem_ker_resMap (x : OK p K) : x ∈ RingHom.ker (resMap p K) ↔ ‖((x : K) : PadicAlgCl p)‖ < 1 := by
+  rw [RingHom.mem_ker]
+  show IsLocalRing.residue (Obar p) (toObar p K x) = 0 ↔ _
+  rw [← map_zero (IsLocalRing.residue (Obar p)), residue_eq_iff]
+  show ‖((x : K) : PadicAlgCl p) - 0‖ < 1 ↔ _
+  rw [sub_zero]
+
+theorem card_OK_quot_ker : Nat.card (OK p K ⧸ RingHom.ker (resMap p K)) = qK p K := by
+  rw [Nat.card_congr (RingHom.quotientKerEquivRange (resMap p K)).toEquiv, qK]
+  refine Nat.card_congr (Equiv.subtypeEquivRight fun c => ?_)
+  rw [mem_resK_iff]
+  constructor
+  · rintro ⟨x, rfl⟩
+    exact ⟨toObar p K x, (x : K).2, rfl⟩
+  · rintro ⟨x, hx, rfl⟩
+    exact ⟨⟨⟨x, hx⟩, x.2⟩, rfl⟩
+
+theorem ker_resMap_eq_span (hK : FiniteDimensional ℚ_[p] K) {π : Kˣ} (hπ : vK p K π = 1)
+    (hπ1 : (π : K) ∈ OK p K) : RingHom.ker (resMap p K) = Ideal.span {(⟨π, hπ1⟩ : OK p K)} := by
+  ext x
+  rw [mem_ker_resMap, mem_span_singleton_OK]
+  by_cases hx : (x : K) = 0
+  · rw [hx]; simp
+  · have h1 := norm_lt_one_iff_vK p K hK (Units.mk0 (x : K) hx)
+    have h2 := norm_le_norm_iff_vK p K hK (Units.mk0 (x : K) hx) π
+    rw [hπ] at h2
+    exact h1.trans h2.symm
+
+theorem qK_pow_eK (hK : FiniteDimensional ℚ_[p] K) : qK p K ^ eK p K = p ^ Module.finrank ℚ_[p] K := by
+  obtain ⟨π, hπ⟩ := exists_vK_eq_one p K hK
+  have hπ1 : (π : K) ∈ OK p K := (mem_OK_iff p K _).2 ((norm_le_one_iff_vK p K hK π).2 (by omega))
+  have := isDedekindDomain_OK p K hK
+  have hP := ker_resMap_eq_span p K hK hπ hπ1
+  have hprime : (RingHom.ker (resMap p K)).IsPrime := RingHom.ker_isPrime _
+  have hbot : RingHom.ker (resMap p K) ≠ ⊥ := by
+    rw [hP, Ne, Ideal.span_singleton_eq_bot]
+    exact fun h => π.ne_zero (congrArg Subtype.val h)
+  have h1 := cardQuot_pow_of_prime (P := RingHom.ker (resMap p K)) hbot (i := eK p K)
+  rw [Submodule.cardQuot_apply, Submodule.cardQuot_apply, card_OK_quot_ker] at h1
+  rw [← h1, ← card_OK_quot_p p K hK, hP, Ideal.span_singleton_pow]
+  congr 2
+  apply span_singleton_OK_eq
+  have hp0 : (p : K) ≠ 0 := by exact_mod_cast (Fact.out : p.Prime).ne_zero
+  have h2 : vK p K (Units.mk0 (p : K) hp0) = eK p K := vK_p p K _ (by simp)
+  have h3 : vK p K (π ^ eK p K) = eK p K := by rw [vK_pow, hπ, mul_one]
+  have h4 := (norm_le_norm_iff_vK p K hK (π ^ eK p K) (Units.mk0 (p : K) hp0)).2 (by omega)
+  have h5 := (norm_le_norm_iff_vK p K hK (Units.mk0 (p : K) hp0) (π ^ eK p K)).2 (by omega)
+  exact le_antisymm (by simpa using h4) (by simpa using h5)
+
+theorem qK_eq_pow_fK (hK : FiniteDimensional ℚ_[p] K) : qK p K = p ^ fK p K := by
+  obtain ⟨f, -, hf⟩ := qK_eq_pow p K hK
+  rw [fK, hf, Nat.log_pow (Fact.out : p.Prime).one_lt]
+
+theorem fK_pos (hK : FiniteDimensional ℚ_[p] K) : 0 < fK p K := by
+  obtain ⟨f, hf0, hf⟩ := qK_eq_pow p K hK
+  rwa [fK, hf, Nat.log_pow (Fact.out : p.Prime).one_lt]
+
+theorem eK_mul_fK (hK : FiniteDimensional ℚ_[p] K) : eK p K * fK p K = Module.finrank ℚ_[p] K := by
+  have h := qK_pow_eK p K hK
+  rw [qK_eq_pow_fK p K hK, ← pow_mul] at h
+  rw [mul_comm]
+  exact Nat.pow_right_injective (Fact.out : p.Prime).two_le h
+
+end
+
+end ReciprocityTheory.DiscreteGroups.LocalClassField
+end

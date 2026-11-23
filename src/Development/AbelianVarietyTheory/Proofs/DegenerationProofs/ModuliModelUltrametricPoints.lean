@@ -1,16 +1,16 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissibleBaseOfCompleteDvr
-public import Development.AbelianVarietyTheory.Definitions.Degenerations.HomExtSt
+public import Development.AbelianVarietyTheory.Definitions.Degenerations.Bundle002
 public import Development.AbelianVarietyTheory.Statements.TorsionEndomorphisms.EndDeterminedOnTorsion
 public import Mathlib.RingTheory.RegularLocalRing.Defs
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.UnifUniqSt
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.Bundle007
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsSplitExtIsGtOfTorusExtension
-public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.RangeSubsetAbLocusOfIsProper
+public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle019
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFiniteTorusExtensionOfModel
-public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFinsetFactor
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsCompleteDvrFiniteSubalgebra
+public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle012
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -65,6 +65,11 @@ attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory GlobalTheory.Ex
 
 namespace GlobalTheory.Ex.UnifModel
+
+noncomputable local instance (priority := high) grpObjModelPullback {S T : Scheme.{0}} (f : T ⟶ S)
+    (G : Over S) [GrpObj G] : GrpObj ((Over.pullback f).obj G) :=
+  letI : (Over.pullback f).Monoidal := (Over.instBraidedPullback (f := f)).toMonoidal
+  Functor.grpObjObj (F := Over.pullback f)
 
 theorem spMap_comp {R R₁ R₂ : Type} [CommRing R] [CommRing R₁] [CommRing R₂] {a : R →+* R₁} {b : R₁ →+* R₂}
     {d : R →+* R₂} (h : ∀ x, b (a x) = d x) : spMap b ≫ spMap a = spMap d := by
@@ -242,7 +247,9 @@ theorem isAlgClosed_of_surjective {V F Ω : Type} [CommRing V] [Field F] [IsAlgC
 theorem exists_split (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuationRing V]
     [IsAdicComplete (IsLocalRing.maximalIdeal V) V] [CharZero V] (F : Type) [Field F] [IsAlgClosed F]
     [Algebra V F] [FaithfulSMul V F] [Algebra.IsAlgebraic V F] (G : Over (Sp V)) [GrpObj G] (hG : IsSemiAbelian G) :
-    ∃ (W : Subalgebra V F) (_ : IsDiscreteValuationRing W), IsAdicComplete (IsLocalRing.maximalIdeal W) W ∧
+    ∃ (W : Subalgebra V F) (hDVR : IsDiscreteValuationRing W),
+      letI : IsLocalRing W := hDVR.toIsLocalRing
+      IsAdicComplete (IsLocalRing.maximalIdeal W) W ∧
       Module.Finite V W ∧
       GlobalTheory.LN.SplitOver ((Over.pullback (spMap (algebraMap V W))).obj G) (IsLocalRing.maximalIdeal W) := by
   classical
@@ -262,6 +269,7 @@ theorem exists_split (V : Type) [CommRing V] [IsDomain V] [IsDiscreteValuationRi
   choose r hr using Ideal.Quotient.mk_surjective (I := m)
   obtain ⟨W, hd, hc, -, hf, -, hl, -, hW⟩ := exists_complete_dvr_finite_subalgebra V F
     (hs.toFinset.image fun x => (r x : F))
+  letI : IsLocalRing W := hd.toIsLocalRing
   have le : W ≤ integralClosure V F := fun x hx =>
     (Algebra.IsIntegral.isIntegral (R := V) (⟨x, hx⟩ : W)).map W.val
   let g := ρ.comp (Subalgebra.inclusion le).toRingHom

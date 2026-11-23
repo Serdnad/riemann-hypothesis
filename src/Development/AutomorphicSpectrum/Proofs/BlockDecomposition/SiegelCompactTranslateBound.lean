@@ -1,16 +1,16 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GoodConstOfAniso
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SumFrameIdem
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdeleSplitSndDiagonal
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CompactFiniteAdelicDenominatorStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConeFrameWeightRatioBoundStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle631
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle658
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle623
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle670
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle673
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfIsIntegralMulOfSmall
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FrameBlockZeroStabilizesFlagStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MinimalParabolicFrameBlockZeroStatement
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TorusArchimedeanFrameActionStatement
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle674
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle676
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle675
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelAbs
-public import Development.WeilBound.ThetaLifts.Reductions.SiegelPar
+public import Development.WeilBound.ThetaLifts.Reductions.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

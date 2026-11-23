@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.StabilizerOf
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle034
 public import Mathlib.RepresentationTheory.Coinvariants
 public import Mathlib.Topology.Algebra.Group.Defs
 public import Mathlib.Topology.Connected.TotallyDisconnected

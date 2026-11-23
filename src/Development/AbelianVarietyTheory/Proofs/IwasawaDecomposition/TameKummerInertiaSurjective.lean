@@ -2,10 +2,10 @@ module
 
 public import Mathlib.RingTheory.RamificationInertia.Ramification
 public import ReciprocityTheory.GaloisValuations.Global
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompositumIntermediateFieldExistsPlaceValuationE
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsInertiaLift
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteGaloisInertiaLiftsAbsoluteInertiaRat
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValSubOneLtOfRed
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle180
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle030
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle138
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle116
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,11 +49,11 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
 import Formalism.LocalRingCardinality.SpanPowerMembership.Primes
-import Formalism.LocalToGlobal.NormalizedHeckeFactors.ChiDefs
+import Formalism.LocalToGlobal.NormalizedHeckeFactors.Bundle002
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TwDefs
-import Formalism.SharpRestriction.CuspSpanNormBounds.Point
+import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle001
 import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 
 @[expose] public section

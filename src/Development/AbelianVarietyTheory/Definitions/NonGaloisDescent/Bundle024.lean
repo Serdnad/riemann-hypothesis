@@ -1,0 +1,330 @@
+module
+
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
+public import Mathlib.RingTheory.RingHom.FaithfullyFlat
+public import Mathlib.Topology.Instances.Matrix
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Topology.Sheaves.Init
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc PowerSeries GlobalTheory.Prism GlobalTheory.BKReal
+open scoped NNReal
+
+namespace GlobalTheory.BSP.Height
+
+variable {l : ℕ} [hl : Fact l.Prime] {K : FinExt l} {bk : BK K} {d : ℕ}
+  {ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]} {τ : Ainf l} {s : Seed bk d ρ τ} (ht : Height s)
+
+def bas : Matrix (Fin d) (Fin d) (bk.DS bk.ρ₀) := s.X.map (toDisc l (X : bk.S) bk.ρ₀) * ht.Z
+
+def Rel {B : Obj l ↥(OL K)} (u : B.A) (f g : Hom bk.prism B)
+    (ε : Matrix (Fin d) (Fin d) (Disc l u bk.ρ₀)) : Prop :=
+  ∀ Ff Fg : bk.DS bk.ρ₀ →+* Disc l u bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) (BK.hf f) Ff → IsDiscMap (l := _) (u := _) (ρ := _) (BK.hf g) Fg →
+    toDisc l u bk.ρ₀ (BK.hf g bk.E) ^ s.N • (ht.bas.map Ff * ε) =
+      toDisc l u bk.ρ₀ (BK.hf f bk.E) ^ s.N • ht.bas.map Fg
+
+theorem rel_one {B : Obj l ↥(OL K)} (u : B.A) (f : Hom bk.prism B) : ht.Rel u f f 1 := fun Ff Fg hf hg => by
+  rw [hf.unique hg, mul_one]
+
+end GlobalTheory.BSP.Height
+end
+end
+
+section
+
+noncomputable section
+
+open Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc TensorProduct PowerSeries GlobalTheory.Prism GlobalTheory.BKReal
+
+namespace GlobalTheory.BSP
+
+section Cover
+
+variable {l : ℕ} {R : Type} [CommRing R]
+
+abbrev adI (B : Obj l R) : Ideal B.A := Ideal.span {(l : B.A)} ⊔ B.I
+
+theorem adI_pow_le {B B' : Obj l R} (f : Hom B B') (m : ℕ) : adI B ^ m ≤ (adI B' ^ m).comap f.f := by
+  refine le_trans (Ideal.pow_right_mono ?_ m) (Ideal.le_comap_pow f.f m)
+  refine sup_le ?_ fun a ha => Ideal.mem_sup_right (f.f_I a ha)
+  rw [Ideal.span_singleton_le_iff_mem, Ideal.mem_comap, map_natCast]
+  exact Ideal.mem_sup_left (Ideal.mem_span_singleton_self _)
+
+def qmap {B B' : Obj l R} (f : Hom B B') (m : ℕ) : (B.A ⧸ adI B ^ m) →+* (B'.A ⧸ adI B' ^ m) :=
+  Ideal.quotientMap _ f.f (adI_pow_le f m)
+
+theorem qmap_mk {B B' : Obj l R} (f : Hom B B') (m : ℕ) (a : B.A) :
+    qmap f m (Ideal.Quotient.mk _ a) = Ideal.Quotient.mk _ (f.f a) := rfl
+
+structure IsPO {B C B' C' : Obj l R} (h : Hom B C) (k : Hom B B') (k' : Hom C C') (h' : Hom B' C') : Prop where
+  comm : k'.comp h = h'.comp k
+  po : ∀ m : ℕ, CategoryTheory.IsPushout (CommRingCat.ofHom (qmap h m)) (CommRingCat.ofHom (qmap k m))
+    (CommRingCat.ofHom (qmap k' m)) (CommRingCat.ofHom (qmap h' m))
+
+structure Stable {B C : Obj l R} (h : Hom B C) : Prop where
+  flat : ∀ m : ℕ, (qmap h m).Flat
+  po : ∀ (B' : Obj l R) (k : Hom B B'), ∃ (C' : Obj l R) (k' : Hom C C') (h' : Hom B' C'), IsPO h k k' h'
+
+structure Cover {B C : Obj l R} (h : Hom B C) : Prop where
+  stable : Stable h
+  ff : ∀ m : ℕ, (qmap h m).FaithfullyFlat
+
+structure IsLoc {B C : Obj l R} (s : B.A) (h : Hom B C) : Prop where
+  away : ∀ m : ℕ, letI := (qmap h m).toAlgebra
+    IsLocalization.Away (Ideal.Quotient.mk (adI B ^ m) s) (C.A ⧸ adI C ^ m)
+  univ : ∀ (Q : Obj l R) (a : Hom B Q), IsUnit (a.f s) → ∃ c : Hom C Q, c.comp h = a
+
+end Cover
+
+variable {l : ℕ} [hl : Fact l.Prime] {K : FinExt l} {bk : BK K} {d : ℕ}
+
+structure Eval (S : Strat bk d) (B : Obj l ↥(OL K)) (N : Type) [AddCommGroup N] [Module B.A N] where
+  fin : Module.Finite B.A N
+  proj : Module.Projective B.A N
+
+  v : ∀ {Q : Obj l ↥(OL K)} (a : Hom B Q), Hom bk.prism Q → N →ₛₗ[a.f] (Fin d → Q.A)
+  bc : ∀ {Q} (a : Hom B Q) (g : Hom bk.prism Q), SemiBC (v a g)
+  v_ε : ∀ {Q} (a : Hom B Q) (g g' : Hom bk.prism Q) (x : N), v a g x = (S.ε g g').mulVec (v a g' x)
+  v_nat : ∀ {Q Q'} (c : Hom Q Q') (a : Hom B Q) (g : Hom bk.prism Q) (x : N) (i : Fin d),
+    v (c.comp a) (c.comp g) x i = c.f (v a g x i)
+
+def IsPsi {S : Strat bk d} {B : Obj l ↥(OL K)} {N : Type} [AddCommGroup N] [Module B.A N] (V : Eval S B N)
+    (t : B.A) (Ψ : N →ₛₗ[B.D.φ] N) : Prop :=
+  ∀ {Q : Obj l ↥(OL K)} (a : Hom B Q) (g : Hom bk.prism Q) (x : N),
+    BK.hf g bk.E ^ S.a • V.v a g (Ψ x) =
+      a.f t ^ S.a • (S.A.map (BK.hf g)).mulVec fun i => Q.D.φ (V.v a g x i)
+
+def IsCoord {S : Strat bk d} {M : FCrys l ↥(OL K)} (e : Module.Basis (Fin d) bk.prism.A (M.M bk.prism))
+    {B : Obj l ↥(OL K)} (V : Eval S B (M.M B)) : Prop :=
+  ∀ {Q : Obj l ↥(OL K)} (a : Hom B Q) (g : Hom bk.prism Q) (x : M.M B),
+    M.tr a x = ∑ i, V.v a g x i • M.tr g (e i)
+
+end GlobalTheory.BSP
+end
+end
+
+section
+
+noncomputable section
+
+open Formalism Formalism.BasicNotions Formalism.BasicNotions.Loc Formalism.WeaklyAdmissibleFiltrations TensorProduct PowerSeries GlobalTheory.Prism GlobalTheory.BKReal GlobalTheory.Per GlobalTheory.BSP GlobalTheory.MemLoc Matrix
+open scoped Formalism.Per NNReal
+
+namespace GlobalTheory.BKLim
+
+variable {l : ℕ} [hl : Fact l.Prime] {K : FinExt l}
+
+structure WSeed (bk : BK K) (d : ℕ) (ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]) (τ : Ainf l) where
+
+  N : ℕ
+
+  c₁ : ℕ
+
+  c₂ : ℕ
+
+  c₃ : ℕ
+
+  F : Matrix (Fin d) (Fin d) (Wq l bk.a)
+
+  F' : Matrix (Fin d) (Fin d) (Wq l bk.a)
+  F_mul : F * F' = (l : Wq l bk.a) ^ c₃ • (1 : Matrix (Fin d) (Fin d) (Wq l bk.a))
+
+  X : Matrix (Fin d) (Fin d) bk.S
+
+  X' : Matrix (Fin d) (Fin d) bk.S
+  X_mul : X * X' = ((l : bk.S) ^ c₂ * bk.E ^ (2 * N)) • (1 : Matrix (Fin d) (Fin d) bk.S)
+
+  W : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)
+
+  W' : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)
+  W_mul : W * W' = bk.iA τ ^ (2 * N) • (1 : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀))
+  φ : ∀ Φ : bk.DA bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) WittVector.frobenius Φ →
+    ((l : bk.DA bk.ρ₀) ^ c₁) • (W * X'.map bk.iS).map Φ =
+      bk.iS (frobS l bk.a bk.E) ^ N • (W * X'.map bk.iS * F.map (bk.iS.comp C))
+
+  κ : ↥(GK K) → Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)
+  gal : ∀ (g : ↥(GK K)) (G : bk.DA bk.ρ₀ →+* bk.DA bk.ρ₀), IsDiscMap (l := _) (u := _) (ρ := _) (Per.σA (g : GQ l)) G →
+    bk.iA (bk.ev bk.E * τ) ^ N • ((ρ g).map (bk.iA.comp (algebraMap ℤ_[l] (Ainf l))) * (W * X'.map bk.iS).map G) =
+      bk.iA (Per.σA (g : GQ l) (bk.ev bk.E * τ)) ^ N • (W * X'.map bk.iS * κ g)
+  fix : ∀ g : ↥(GK K), bk.FixFlat g → κ g = 1
+  nopole : ∀ (g : ↥(GK K)) (G : bk.DA bk.ρ₀ →+* bk.DA bk.ρ₀), IsDiscMap (l := _) (u := _) (ρ := _) (Per.σA (g : GQ l)) G → ∀ i j,
+    bk.iS bk.E ^ (2 * N) ∣ (X'.map bk.iS * κ g * (X.map bk.iS).map G) i j
+  log : ∀ m : ℕ, ∃ (k : ℕ) (Λ : Matrix (Fin d) (Fin d) bk.S), (∀ i j, bk.E ∣ (Λ - (l : bk.S) ^ k • (1 : Matrix (Fin d) (Fin d) bk.S)) i j) ∧
+    ∀ (g : ↥(GK K)) (G : bk.DA bk.ρ₀ →+* bk.DA bk.ρ₀), IsDiscMap (l := _) (u := _) (ρ := _) (Per.σA (g : GQ l)) G → ∀ i j,
+      bk.iS bk.E ^ m ∣ (κ g * (Λ.map bk.iS).map G - Λ.map bk.iS) i j
+
+structure Pre (bk : BK K) (N d : ℕ) (ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]) where
+
+  T : Matrix (Fin d) (Fin d) (WCb l)
+  unit : IsUnit T
+
+  A : Matrix (Fin d) (Fin d) bk.S
+
+  A' : Matrix (Fin d) (Fin d) bk.S
+  A_mul : A * A' = bk.E ^ (2 * N) • (1 : Matrix (Fin d) (Fin d) bk.S)
+  φ : bk.evW bk.E ^ N • T.map (frobW l) = T * A.map bk.evW
+  fix : ∀ g : ↥(GK K), bk.FixFlat g → zW (ρ g) * T.map (galW l (g : GQ l)) = T
+
+structure Frame (bk : BK K) (N d : ℕ) (ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]) extends Pre bk N d ρ where
+
+  ε : ↥(GK K) → Matrix (Fin d) (Fin d) (Ainf l)
+  gal : ∀ g : ↥(GK K), zW (ρ g) * T.map (galW l (g : GQ l)) = T * (ε g).map (inclW l)
+
+variable {bk : BK K} {N d : ℕ} {ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]}
+
+def Frame.IsBeta (F : Frame bk N d ρ) (m k : ℕ) (β : Matrix (Fin d) (Fin d) bk.S) : Prop :=
+  (∀ i j, bk.E ∣ (β - (l : bk.S) ^ k • (1 : Matrix (Fin d) (Fin d) bk.S)) i j) ∧ ∀ (g : ↥(GK K)) i j,
+    bk.ev bk.E ^ m ∣ ((F.ε g).map WittVector.frobenius * (β.map bk.ev).map (Per.σA (g : GQ l)) - β.map bk.ev) i j
+
+def Frame.IsDR (F : Frame bk N d ρ) : Prop := ∀ m : ℕ, ∃ k β, F.IsBeta m k β
+
+def Frame.IsCr (F : Frame bk N d ρ) : Prop :=
+  ∀ (g : ↥(GK K)) i j, bk.ev X ∣ (F.ε g - (1 : Matrix (Fin d) (Fin d) (Ainf l))) i j
+
+def Link (bk : BK K) {d' : ℕ} (T : Matrix (Fin d) (Fin d) (WCb l)) (T' : Matrix (Fin d') (Fin d') (WCb l))
+    (Pi : Matrix (Fin d) (Fin d') ℤ_[l]) (n r : ℕ) : Prop :=
+  ∃ (R : Matrix (Fin d) (Fin d') bk.S) (G : Matrix (Fin d') (Fin d) bk.S),
+    (∀ i j, (l : WCb l) ^ n ∣ (zW Pi * T' - T * R.map bk.evW) i j) ∧
+    ∀ i j, (l : bk.S) ^ n ∣ (R * G - (l : bk.S) ^ r • (1 : Matrix (Fin d) (Fin d) bk.S)) i j
+
+structure Onto {Γ : Type} {d d' : ℕ} (ρ : Γ → Matrix (Fin d) (Fin d) ℤ_[l]) (ρ' : Γ → Matrix (Fin d') (Fin d') ℤ_[l])
+    (Pi : Matrix (Fin d) (Fin d') ℤ_[l]) (n : ℕ) : Prop where
+  equi : ∀ g i j, (l : ℤ_[l]) ^ n ∣ (Pi * ρ' g - ρ g * Pi) i j
+  surj : ∃ S : Matrix (Fin d') (Fin d) ℤ_[l], ∀ i j, (l : ℤ_[l]) ^ n ∣ (Pi * S - (1 : Matrix (Fin d) (Fin d) ℤ_[l])) i j
+
+structure Tower {Γ : Type} [Group Γ] {d : ℕ} (ρ : Γ →* GL (Fin d) ℤ_[l]) where
+
+  d' : ℕ → ℕ
+
+  ρ' : ∀ n, Γ →* GL (Fin (d' n)) ℤ_[l]
+
+  Pi : ∀ n, Matrix (Fin d) (Fin (d' n)) ℤ_[l]
+  onto : ∀ n, Onto (fun g => (ρ g).val) (fun g => (ρ' n g).val) (Pi n) n
+
+  f : ∀ n, Matrix (Fin (d' n)) (Fin (d' (n + 1))) ℤ_[l]
+  f_equi : ∀ n g, f n * (ρ' (n + 1) g).val = (ρ' n g).val * f n
+  f_Pi : ∀ n i j, (l : ℤ_[l]) ^ n ∣ (Pi n * f n - Pi (n + 1)) i j
+
+def zOm (l : ℕ) [Fact l.Prime] : ℤ_[l] →+* Om l := (algebraMap ℚ_[l] (Om l)).comp (algebraMap ℤ_[l] ℚ_[l])
+
+def qRep {Γ : Type} [Group Γ] {d : ℕ} (ρ : Γ →* GL (Fin d) ℤ_[l]) : Representation ℚ_[l] Γ (Fin d → ℚ_[l]) :=
+  ((Matrix.toLinAlgEquiv' : Matrix (Fin d) (Fin d) ℚ_[l] ≃ₐ[ℚ_[l]] _) : _ →* _).comp
+    (((algebraMap ℤ_[l] ℚ_[l]).mapMatrix : Matrix (Fin d) (Fin d) ℤ_[l] →+* _).toMonoidHom.comp ((Units.coeHom _).comp ρ))
+
+structure Reads {Γ : Type} [Group Γ] {a d : ℕ} (ρ : Γ →* GL (Fin d) ℤ_[l]) (r : Γ →* GL (Fin a) (Om l))
+    (b : Fin d → Matrix (Fin a) (Fin a) (Om l)) (e : Fin d → ℤ_[l]) : Prop where
+  equi : ∀ g j, (r g).val * b j = ∑ i, zOm l ((ρ g).val i j) • b i
+  one : ∑ i, zOm l (e i) • b i = 1
+
+structure Layer {Γ : Type} [Group Γ] {a d' : ℕ} (L₀ : FinExt l) (Cl : Set (Γ →* GL (Fin a) (Om l))) (ρ' : Γ →* GL (Fin d') ℤ_[l]) where
+
+  m : ℕ
+
+  rep : Fin m → (Γ →* GL (Fin a) (Om l))
+  mem : ∀ k, rep k ∈ Cl
+
+  L : Fin m → FinExt l
+  le : ∀ k, L₀.1 ≤ (L k).1
+  rep_mem : ∀ k g i j, (rep k g).val i j ∈ (L k).1
+
+  b : Fin d' → Fin m → Matrix (Fin a) (Fin a) (Om l)
+  b_mem : ∀ s k i j, b s k i j ∈ (L k).1
+  indep : LinearIndependent ℚ_[l] b
+  span : ∀ x : Fin m → Matrix (Fin a) (Fin a) (Om l), (∀ k i j, x k i j ∈ (L k).1) → x ∈ Submodule.span ℚ_[l] (Set.range b)
+
+  e : Fin d' → ℤ_[l]
+  reads : ∀ k, Reads ρ' (rep k) (fun s => b s k) e
+
+  c : Fin m → Om l
+
+structure Cover {Γ : Type} [Group Γ] [TopologicalSpace Γ] {a : ℕ} (L₀ : FinExt l) (r : Γ →* GL (Fin a) (Om l))
+    (Cl : Set (Γ →* GL (Fin a) (Om l))) where
+
+  d : ℕ
+
+  ρ : Γ →* GL (Fin d) ℤ_[l]
+  cont : Continuous ρ
+
+  b : Fin d → Matrix (Fin a) (Fin a) (Om l)
+
+  e : Fin d → ℤ_[l]
+  reads : Reads ρ r b e
+
+  tw : Tower ρ
+  cont' : ∀ n, Continuous (tw.ρ' n)
+
+  lay : ∀ n, Layer L₀ Cl (tw.ρ' n)
+  unit : ∀ n i, (l : ℤ_[l]) ^ n ∣ (tw.Pi n *ᵥ (lay n).e - e) i
+  trace : ∀ n s, ‖(∑ i, zOm l (tw.Pi n i s) • b i).trace - ∑ k, (lay n).c k * ((lay n).b s k).trace‖ ≤ ((l : ℝ) ^ n)⁻¹
+
+def IsHT (C : Core l) (ξ : Ainf l) {a : ℕ} (ρ : ↥(GK K) → Matrix (Fin a) (Fin a) (Om l)) (z : ℂ_[l])
+    (u : Matrix (Fin a) (Fin a) ℂ_[l]) : Prop :=
+  ∀ (K' : FinExt l) (p q : ℕ) (x : Fin a → Per.BdR l) (y : Fin a → Per.BdRp l),
+    (∀ g : ↥(GK K), (g : GQ l) ∈ GK K' →
+      (ρ g).map ((algebraMap (Per.BdRp l) (Per.BdR l)).comp C.o) *ᵥ (fun i => Per.σD (g : GQ l) (x i)) = x) →
+    (∀ i, algebraMap (Per.BdRp l) (Per.BdR l) (aDp l ξ) ^ q * x i = algebraMap (Per.BdRp l) (Per.BdR l) (aDp l ξ ^ p * y i)) →
+    u *ᵥ (fun i => Per.θD l (y i)) = z ^ ((p : ℤ) - q) • fun i => Per.θD l (y i)
+
+structure Hodge (C : Core l) (ξ : Ainf l) {a : ℕ} (ρ : ↥(GK K) → Matrix (Fin a) (Fin a) (Om l)) (K' : FinExt l) where
+
+  V : Matrix (Fin a) (Fin a) (Per.BdRp l)
+  unit : IsUnit V
+
+  p : Fin a → ℕ
+
+  q : ℕ
+
+  Q : Matrix (Fin a) (Fin a) (Per.BdR l)
+  Q_eq : ∀ i j, algebraMap (Per.BdRp l) (Per.BdR l) (aDp l ξ) ^ q * Q i j =
+    algebraMap (Per.BdRp l) (Per.BdR l) (aDp l ξ ^ p j * V i j)
+  inv : ∀ g : ↥(GK K), (g : GQ l) ∈ GK K' →
+    (ρ g).map ((algebraMap (Per.BdRp l) (Per.BdR l)).comp C.o) * Q.map (Per.σD (g : GQ l)) = Q
+
+def IsZ (bk : BK K) (g : ↥(GK K)) (z : ℂ_[l]) : Prop :=
+  ∃ w : Ainf l, Per.σA (g : GQ l) (bk.ev bk.E) = bk.ev bk.E * w ∧ z * Per.θD l (aDp l w) = 1
+
+end GlobalTheory.BKLim
+
+end
+end

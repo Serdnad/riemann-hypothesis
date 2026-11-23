@@ -1,8 +1,8 @@
 module
 
 public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups
-public import GroundTheory.AutomorphicForms.AnisotropicOrbit
-public import GroundTheory.AutomorphicForms.AnisotropicUnitaryCompact
+public import GroundTheory.AutomorphicForms.Bundle017
+public import GroundTheory.AutomorphicForms.Bundle015
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Foundations.EventuallyNormFinLeOne
 import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle669
 import Development.WeilBound.ThetaLifts.Reductions.SiegelHaar
 public import Formalism.SatakeDualWeyl.Statement
 import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes

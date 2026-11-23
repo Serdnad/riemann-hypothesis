@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleClassGroupCardPos
-public import Formalism.LocalRingCardinality.SpanPowerMembership.SizeData₂
+public import Formalism.LocalRingCardinality.SpanPowerMembership.Bundle001
 public import Formalism.LocalRingCardinality.SpanPowerMembership.DivXExample
 import Formalism.LocalRingCardinality.SpanPowerMembership.Primes
 import Mathlib.Algebra.Order.Floor.Extended

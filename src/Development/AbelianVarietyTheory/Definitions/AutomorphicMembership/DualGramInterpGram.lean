@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToroidalBoundaryMetricData
-public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.DegFrame
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsBaseChange
+public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle039
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle631
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsStalkFactor
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GradedLineBundleExists
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsLocalHomOfAlgebraic
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle634
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -298,7 +298,7 @@ omit [NumberField F] in
 theorem genSq_pos {p : Y.Y.pts σ} (g : Y.FrameAt p) : 0 < Y.genSq G n g :=
   Finset.prod_pos fun _ _ => zpow_pos (grSq_pos (G.pos _ _ _) _) _
 
-def met : Met Y.Y σ (divOf Y n) where
+def met : _root_.GlobalTheory.ProjVar.Var.Met Y.Y σ (divOf Y n) where
   h g p := ‖Var.tv g (prodPow (Y.exists_adapted p).choose.1 n) p‖ ^ 2 * Y.genSq G n (Y.exists_adapted p).choose.2
   nonneg _ _ := mul_nonneg (sq_nonneg _) (Y.genSq_pos G n _).le
   trans g g' p hg hg' := by rw [← _root_.mul_assoc, ← mul_pow, ← norm_mul, tv_mul hg hg']

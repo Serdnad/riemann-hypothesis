@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EvalPol
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle860
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LevelPrimePowSmulMemValueLatticeErase
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RowDivRowWeight
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle133
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.RowDivStable
-public import Formalism.PieriBlockIdeals.PieriColumnMinors.RealLocalDeltaNabla
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
+public import Formalism.PieriBlockIdeals.PieriColumnMinors.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

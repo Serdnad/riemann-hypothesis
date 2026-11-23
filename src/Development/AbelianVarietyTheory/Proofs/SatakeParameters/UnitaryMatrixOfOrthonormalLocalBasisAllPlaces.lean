@@ -1,12 +1,12 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.StdBases
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsConstantCoeffOne
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle010
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle011
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntBasis
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepFrame
 public import Formalism.SharpRestriction.Divisibility.OrbitPlaces
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormLeOneOfValuationLeOne
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsKurFrobTauEmbPosPl
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle221
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle142
 import Formalism.GaussJetBounds.GaussJetProofs.NormNatCastEqPowPadicValNat
 public import Formalism.LocalRingCardinality.FactDelDualNabla
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.RepFrame

@@ -5,10 +5,10 @@ public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Continuo
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisMeas
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermScaleMain
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LintegralLeOfMinor
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MapEqOne
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle555
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MeasurableRight
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OrbEx
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TopX
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle604
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle618
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

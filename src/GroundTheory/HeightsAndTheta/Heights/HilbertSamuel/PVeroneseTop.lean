@@ -1,13 +1,13 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsVeroneseGraph
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGraphChangeOfModel
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle066
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle027
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ArithModel
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageTop
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSecondVeronese
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.AvoidRing
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsSmoothHermFubiniStudyO1
-public import GroundTheory.HeightsAndTheta.Heights.Intersections.PThmIMultilin
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle082
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle063
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle005
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle006
+public import GroundTheory.HeightsAndTheta.Heights.Intersections.Bundle011
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -166,17 +166,17 @@ theorem isBasePtFree_forms (D : ℕ) : IsBasePtFree (⊥ : Ideal (MRing (GlobalT
   simp [Veronese.forms, pow_two]
 
 theorem tensor_self {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
-    {F : Ideal (MRing ι) → (n : ℕ) → (Fin n → HermLine ι) → ℝ} (hF : IsIntersectionFamily F)
-    {P : Ideal (MRing ι)} {n : ℕ} (hP : IsArithVar P n) {T : HermLine ι} (hT : IsSmoothHerm T) :
+    {F : Ideal (MRing ι) → (n : ℕ) → (Fin n → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι) → ℝ} (hF : IsIntersectionFamily F)
+    {P : Ideal (MRing ι)} {n : ℕ} (hP : IsArithVar P n) {T : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι} (hT : IsSmoothHerm T) :
     F P n (fun _ => T.tensor T) = 2 ^ n * F P n (fun _ => T) := by
   have hTT : IsSmoothHerm (T.tensor T) := hT.mul hT
-  have intersection_update_fsHerm_neg_one : ∀ L : Fin n → HermLine ι, (∀ i, IsSmoothHerm (L i)) → ∀ j : Fin n,
+  have intersection_update_fsHerm_neg_one : ∀ L : Fin n → _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, (∀ i, IsSmoothHerm (L i)) → ∀ j : Fin n,
       F P n (Function.update L j (T.tensor T)) = 2 * F P n (Function.update L j T) := by
     intro L hL j
     cases n with
     | zero => exact j.elim0
     | succ m =>
-      have e : ∀ X : HermLine ι, IsSmoothHerm X →
+      have e : ∀ X : _root_.ReciprocityTheory.ChartRestriction.G.Geo.HermLine ι, IsSmoothHerm X →
           F P (m + 1) (Function.update L j X) =
             F P (m + 1) (Fin.snoc (fun i : Fin m => L (Equiv.swap j (Fin.last m) i.castSucc)) X) := by
         intro X hX

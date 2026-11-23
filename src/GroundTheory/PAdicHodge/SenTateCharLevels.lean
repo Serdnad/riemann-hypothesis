@@ -57,6 +57,7 @@ namespace GroundTheory.PAdicHodge
 namespace SenTateChar
 
 open CyclNorms GroundTheory.LocalField ValuativeRel
+open scoped GroundTheory.PAdicHodge.SenTateChar
 
 variable {p : ℕ} [hp : Fact p.Prime] {K : IntermediateField ℚ_[p] (PadicAlgCl p)}
   [FiniteDimensional ℚ_[p] K] {η : Gal(PadicAlgCl p/K) →* ℤ_[p]ˣ}

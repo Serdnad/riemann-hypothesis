@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.ThinScalesIffHostBound
-public import Development.AutomorphicArithmetic.CharacterBoxes.Imports
-public import Development.AutomorphicArithmetic.CharacterBoxes.TwistForm
+public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.Bundle008
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle002
+public import Development.AutomorphicArithmetic.CharacterBoxes.Bundle003
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ExplicitFormulaErrorOfHostConditions
 public import Development.AutomorphicArithmetic.ShortNorms.Primes
 public import Development.AutomorphicArithmetic.ShortNorms.hostOfFieldOf

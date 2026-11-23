@@ -1,9 +1,9 @@
 module
 
 public import Formalism.GaussJetBounds.OneLetterGaussJets.OddLevelGainSum
-public import Formalism.GaussJetBounds.StatementP
+public import Formalism.GaussJetBounds.Bundle003
 public import Formalism.GaussJetBounds.StatementW
-public import Formalism.MirabolicMackeyTheory.StatementT
+public import Formalism.MirabolicMackeyTheory.Bundle001
 public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

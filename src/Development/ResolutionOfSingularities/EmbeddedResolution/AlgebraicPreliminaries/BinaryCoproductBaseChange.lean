@@ -2,7 +2,7 @@ module
 
 public import Mathlib.AlgebraicGeometry.Limits
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
-public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.CoproductBaseChange
+public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

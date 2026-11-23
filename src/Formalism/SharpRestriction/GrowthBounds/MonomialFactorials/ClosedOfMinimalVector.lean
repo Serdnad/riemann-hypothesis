@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.OrthSplitOfMin
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.GoodLeSmallMat
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle019
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle018
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.IntegralityFromMetricOfOrthBasisLat
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ClosedOfSplittingMatrix
 import Mathlib.Algebra.Order.Floor.Extended

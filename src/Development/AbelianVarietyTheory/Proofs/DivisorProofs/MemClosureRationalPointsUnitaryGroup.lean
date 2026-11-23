@@ -2,11 +2,11 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NotIsCompactUnivFv
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.UnitaryGroupWeakApproximationAtPrimes
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ClosureDivMem
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousLocAdele
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1468
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1470
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryTranspose
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemClosureUnitary
-import GroundTheory.GlobalFields.Adele.WeakApprox
+import GroundTheory.GlobalFields.Adele.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

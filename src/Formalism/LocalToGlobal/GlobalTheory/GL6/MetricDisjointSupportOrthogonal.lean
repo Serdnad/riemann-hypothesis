@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.SlopeRamifiedInducedPrimeField
 import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
-import Formalism.LocalToGlobal.HermitianForms.FramesLemmas
+import Formalism.LocalToGlobal.HermitianForms.Bundle001
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

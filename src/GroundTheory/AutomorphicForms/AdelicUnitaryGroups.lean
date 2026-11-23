@@ -1,10 +1,9 @@
 module
 
-public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Restricted
-public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.LatticeCompact
-public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Anisotropic
+public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Bundle001
+public import GroundTheory.AutomorphicForms.AdelicUnitaryGroups.Bundle002
 public import Mathlib.NumberTheory.NumberField.AdeleRing
-import GroundTheory.GlobalFields.Adele.Approximation
+import GroundTheory.GlobalFields.Adele.Bundle002
 import GroundTheory.GlobalFields.Adele.Topology
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

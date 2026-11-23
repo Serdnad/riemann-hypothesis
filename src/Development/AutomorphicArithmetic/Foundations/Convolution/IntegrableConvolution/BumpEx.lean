@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensSmooth
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle003
 import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsDiff
 public import GroundTheory.AutomorphicForms.CuspidalProjection.OrthogonalProjectionOntoCompSubtypeL
 public import GroundTheory.AutomorphicForms.L2LocalComponents.ArchBump

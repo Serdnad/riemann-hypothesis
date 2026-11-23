@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsFCocIff
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle355
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.PoitouTateNineTermTransgressionZeroApply
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardDualZmodModuleEqCard
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteFieldExistsTraceFormDualBasesPowOne
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GreenbergWilesTotallyComplex
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle041
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle354
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SelAllEquivSel
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.CohDimTwoLocalOfLocalFiniteness
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -47,9 +47,9 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Init
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.H1MapSubgroup
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsDualDualRep
-import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTameInertiaElementAtTwistPrime
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle014
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle015
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle012
 
 @[expose] public section
 

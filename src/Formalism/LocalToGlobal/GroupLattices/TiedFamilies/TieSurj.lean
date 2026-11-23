@@ -1,9 +1,9 @@
 module
 
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TieLat
-import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.RecAct
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.RecThm
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IsUnitDetBlockPreimage
+import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle010
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle003
 public import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TieDim
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

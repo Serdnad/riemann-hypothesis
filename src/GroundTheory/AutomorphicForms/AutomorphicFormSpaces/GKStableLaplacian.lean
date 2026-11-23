@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GKModules.Casimir
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.SmoothKZ
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.Translation
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DcAevalIntertwineAlt
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle016
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStructure
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

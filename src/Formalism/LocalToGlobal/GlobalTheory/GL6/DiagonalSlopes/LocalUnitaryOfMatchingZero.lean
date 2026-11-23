@@ -4,7 +4,7 @@ public import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 public import Formalism.LocalToGlobal.GroupLattices.DownNaturalLevelZero
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.StabiliserOfLocalTransport
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PKerAtP
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocW
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

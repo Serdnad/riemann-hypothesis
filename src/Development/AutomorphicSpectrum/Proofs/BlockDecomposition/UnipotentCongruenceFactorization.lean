@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AvgVanish
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MulMemBall
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCIndValue
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MirabolicCellStructureData
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle317
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle089
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle302
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle338
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

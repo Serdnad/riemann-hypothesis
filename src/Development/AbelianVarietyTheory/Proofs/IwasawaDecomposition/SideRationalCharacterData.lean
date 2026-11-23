@@ -2,10 +2,10 @@ module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.RingHomOfBaseOrderToFraction
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FixedOfPowFixed
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIneOfUnit
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle124
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle188
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertiaPowResidueCardSubOneApplyOfPowMem
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemZpowersOfTameGen
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle259
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -48,8 +48,8 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NStageTrivialCharacterCoeffEqAlt
-import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Objects
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Bundle003
+import Formalism.LocalToGlobal.IndefiniteReal.DoubleCosetOperators.Bundle001
 import Formalism.LocalToGlobal.NormalizedHeckeFactors.TypesDefs
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -79,7 +79,7 @@ theorem val_pow_sub_pow_lt (A : ValuationSubring Ω) {x y : Ω} (hx : A.valuatio
       exact lt_of_le_of_lt (mul_le_of_le_one_right' (pow_le_one' hy k)) h
 
 theorem ine_fix_root {A : ValuationSubring Ω} {m : ℕ} (hm : A.valuation (m : Ω) = 1) (hm0 : m ≠ 0) {ζ : Ω}
-    (hζ : ζ ^ m = 1) {ρ : G E Ω} (hρ : ρ ∈ Ine (F := E) A) : ρ ζ = ζ := by
+    (hζ : ζ ^ m = 1) {ρ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hρ : ρ ∈ Ine (F := E) A) : ρ ζ = ζ := by
   have hζ1 : A.valuation ζ = 1 := GlobalTheory.val_eq_one_of_pow_eq_one A hm0 hζ
   have hζ0 : ζ ≠ 0 := by intro h; rw [h, zero_pow hm0] at hζ; exact zero_ne_one hζ
   have hclose : A.valuation (ρ ζ - ζ) < 1 := hρ.2 ζ hζ1.le
@@ -91,9 +91,9 @@ theorem ine_fix_root {A : ValuationSubring Ω} {m : ℕ} (hm : A.valuation (m : 
   exact (mul_inv_eq_one₀ hζ0).1 hξ
 
 theorem eq_one_of_wild [IsAlgClosure E Ω] {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A v) {K : Type} [Field K] [TopologicalSpace K] [T2Space K] (r : G E Ω →* Kˣ)
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {K : Type} [Field K] [TopologicalSpace K] [T2Space K] (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Kˣ)
     (hr : Continuous r) {m : ℕ} (hm : ((m : ℕ) : 𝓞 E) ∉ v.asIdeal) (hI : ∀ σ ∈ Ine (F := E) A, r σ ^ m = 1)
-    (τ : G E Ω) (hτ : ∀ y : Ω, y ≠ 0 → A.valuation (τ y / y - 1) < 1) : r τ = 1 := by
+    (τ : _root_.Formalism.ConjugateSelfDual.G E Ω) (hτ : ∀ y : Ω, y ≠ 0 → A.valuation (τ y / y - 1) < 1) : r τ = 1 := by
   have hm0 : m ≠ 0 := by
     rintro rfl
     exact hm (by simp)
@@ -125,10 +125,10 @@ theorem eq_one_of_wild [IsAlgClosure E Ω] {v : HeightOneSpectrum (𝓞 E)} {A :
   nlinarith
 
 theorem exists_pow_pair [IsAlgClosure E Ω] {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A v) {γ : G E Ω} (hγ : TameGenAt A γ) {K : Type} [Field K] [TopologicalSpace K] [T2Space K]
-    (r : G E Ω →* Kˣ) (hr : Continuous r) {m : ℕ} (hm : ((m : ℕ) : 𝓞 E) ∉ v.asIdeal)
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {γ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hγ : TameGenAt A γ) {K : Type} [Field K] [TopologicalSpace K] [T2Space K]
+    (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Kˣ) (hr : Continuous r) {m : ℕ} (hm : ((m : ℕ) : 𝓞 E) ∉ v.asIdeal)
     (hI : ∀ σ ∈ Ine (F := E) A, r σ ^ m = 1) {π : Ω} (hπ0 : π ≠ 0) {c : E} (hπ : π ^ m = algebraMap E Ω c)
-    {ρ : G E Ω} (hρ : ρ ∈ Ine (F := E) A) : ∃ n : ℕ, ρ π = (γ π / π) ^ n * π ∧ r ρ = r γ ^ n := by
+    {ρ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hρ : ρ ∈ Ine (F := E) A) : ∃ n : ℕ, ρ π = (γ π / π) ^ n * π ∧ r ρ = r γ ^ n := by
   have hm0 : m ≠ 0 := by
     rintro rfl
     exact hm (by simp)
@@ -136,12 +136,12 @@ theorem exists_pow_pair [IsAlgClosure E Ω] {v : HeightOneSpectrum (𝓞 E)} {A 
     refine le_antisymm ((A.valuation_le_one_iff _).mpr (natCast_mem A m)) (not_lt.mp fun h => hm ?_)
     rw [← hA]
     simpa using h
-  have hroot : ∀ σ : G E Ω, (σ π / π) ^ m = 1 := fun σ => by
+  have hroot : ∀ σ : _root_.Formalism.ConjugateSelfDual.G E Ω, (σ π / π) ^ m = 1 := fun σ => by
     rw [div_pow, ← map_pow, hπ, σ.commutes, ← hπ, div_self (pow_ne_zero _ hπ0)]
   set ζ := γ π / π with hζ
   have hζm : ζ ^ m = 1 := hroot γ
   obtain ⟨m', rfl⟩ := Nat.exists_eq_succ_of_ne_zero hm0
-  have hK : ∀ σ ∈ Subgroup.closure (insert γ {σ : G E Ω | ∀ y : Ω, y ≠ 0 → A.valuation (σ y / y - 1) < 1}),
+  have hK : ∀ σ ∈ Subgroup.closure (insert γ {σ : _root_.Formalism.ConjugateSelfDual.G E Ω | ∀ y : Ω, y ≠ 0 → A.valuation (σ y / y - 1) < 1}),
       σ ∈ Ine (F := E) A ∧ ∃ n : ℕ, σ π = ζ ^ n * π ∧ r σ = r γ ^ n := by
     intro σ hσ
     induction hσ using Subgroup.closure_induction with
@@ -184,13 +184,13 @@ theorem exists_pow_pair [IsAlgClosure E Ω] {v : HeightOneSpectrum (𝓞 E)} {A 
 
 theorem exists_tameRep (hP : GlobalTheory.Published.GlobalArtinReciprocity) [_root_.NumberField.IsTotallyComplex E] [IsAlgClosure E Ω]
     {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
-    (hA : IsPlaceOver A v) {g : ℕ} (hg : g.Prime) (hN : normV v = g) (hgv : ((g : ℕ) : 𝓞 E) ∈ v.asIdeal)
+    (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) {g : ℕ} (hg : g.Prime) (hN : normV v = g) (hgv : ((g : ℕ) : 𝓞 E) ∈ v.asIdeal)
     (hgv2 : ((g : ℕ) : 𝓞 E) ∉ v.asIdeal ^ 2)
     (hunit : ∀ a : ℕ, a.Coprime g → ∀ x : Eˣ, (x : E) = a → IsUnitAt v (atFin v x))
-    {γ : G E Ω} (hγ : TameGenAt A γ) {K : Type} [Field K] [TopologicalSpace K] [T2Space K]
-    (r : G E Ω →* Kˣ) (hr : Continuous r) (hI : ∀ σ ∈ Ine (F := E) A, r σ ^ (g - 1) = 1) :
+    {γ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hγ : TameGenAt A γ) {K : Type} [Field K] [TopologicalSpace K] [T2Space K]
+    (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* Kˣ) (hr : Continuous r) (hI : ∀ σ ∈ Ine (F := E) A, r σ ^ (g - 1) = 1) :
     ∃ (u : 𝓞 E) (hu : (u : E) ≠ 0), NX.TameRep v 1 γ u ∧ IsUnitAt v (atFin v (Units.mk0 (u : E) hu)) ∧
-      ∃ σ : G E Ω, art (localIdele E v (atFin v (Units.mk0 (u : E) hu))) = toAb E Ω σ ∧ r σ = r γ := by
+      ∃ σ : _root_.Formalism.ConjugateSelfDual.G E Ω, art (localIdele E v (atFin v (Units.mk0 (u : E) hu))) = toAb E Ω σ ∧ r σ = r γ := by
   haveI : Fact g.Prime := ⟨hg⟩
   haveI : IsAlgClosed Ω := IsAlgClosure.isAlgClosed E
   have hg2 := hg.two_le

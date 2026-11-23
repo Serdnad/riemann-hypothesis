@@ -1,15 +1,14 @@
 module
 
-public import Formalism.LocalToGlobal.UnitaryNorms.CharTied
+public import Formalism.LocalToGlobal.UnitaryNorms.Bundle006
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitary
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFiniteAdeleBaseChangeEquiv
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.H90RangeEqNormOneOfIsQuad
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdeleCharacterTrivialOnLocalUnits
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.MemKDSupUnitIdlIff
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RelativeLatticeDeterminantClassLawsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TildeCharacterOnUnitary
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IntegralFiniteAdeleCompleteSeparated
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle093
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle174
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle198
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle009
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle010
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Levelaf
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,17 +65,17 @@ section Factor
 
 variable {R : Ranks} (H : Formalism.BasicNotions.Host R) (SQ : Finset (HeightOneSpectrum (𝓞 H.E)))
 
-theorem KDq_le_ker {χ : HChar H.E} (hF : χ.TrivOn H.F) (ht : ∀ v, χ.TameAt v)
-    (hu : ∀ v, (∀ k, ¬ OverP H (H.g k) v) → ¬ AtQ H SQ v → χ.UnrAt v) :
+theorem KDq_le_ker {χ : _root_.Formalism.L2.Host.HChar H.E} (hF : χ.TrivOn H.F) (ht : ∀ v, χ.TameAt v)
+    (hu : ∀ v, (∀ k, ¬ _root_.Formalism.L2.Host.OverP H (H.g k) v) → ¬ AtQ H SQ v → χ.UnrAt v) :
     KDq H SQ ≤ (χ.1.comp (finPartI H.E)).ker := by
   refine (KDq_le_iff H SQ).2 ⟨fun a ha => ?_, fun v k => ?_⟩
   · refine GlobalTheory.Mem.LocTriv.eq_one_of_local H.E χ.1 χ.2.1 (finPartI H.E a) ha.1 (fun _ => rfl) fun v x hx => ?_
     have hx' : (x : v.adicCompletion H.E) = (a : AdeleRing (𝓞 H.E) H.E).2 v := hx
-    have hunit : IsUnitAt v x := by
-      unfold IsUnitAt
+    have hunit : _root_.Formalism.L2.Host.IsUnitAt v x := by
+      unfold _root_.Formalism.L2.Host.IsUnitAt
       rw [hx']
       exact ha.1 v
-    by_cases h : (∃ k, OverP H (H.g k) v) ∨ AtQ H SQ v
+    by_cases h : (∃ k, _root_.Formalism.L2.Host.OverP H (H.g k) v) ∨ AtQ H SQ v
     · have hlt : Valued.v ((x : v.adicCompletion H.E) - 1) < 1 := by
         rw [hx']
         rcases h with ⟨k, hk⟩ | h
@@ -90,28 +89,28 @@ theorem KDq_le_ker {χ : HChar H.E} (hF : χ.TrivOn H.F) (ht : ∀ v, χ.TameAt 
         omega
     · rw [not_or, not_exists] at h
       exact hu v h.1 h.2 x hunit
-  · have e : finPartI H.E (locF H.F v k) = locF H.F v k := by
-      unfold locF
+  · have e : finPartI H.E (_root_.GlobalTheory.Mem.Chr.locF H.F v k) = _root_.GlobalTheory.Mem.Chr.locF H.F v k := by
+      unfold _root_.GlobalTheory.Mem.Chr.locF
       rw [map_prod]
       exact Finset.prod_congr rfl fun Q _ => finPartI_eq_self fun _ => rfl
-    show χ.1 (finPartI H.E (locF H.F v k)) = 1
+    show χ.1 (finPartI H.E (_root_.GlobalTheory.Mem.Chr.locF H.F v k)) = 1
     rw [e, ← hF.1 v k]
-    unfold locF HChar.resFin
+    unfold _root_.GlobalTheory.Mem.Chr.locF _root_.Formalism.L2.Host.HChar.resFin
     rw [map_prod, MonoidHom.finsetProd_apply]
     rfl
 
-theorem KD_le_ker {χ : HChar H.E} (hF : χ.TrivOn H.F) (ht : ∀ v, χ.TameAt v)
-    (hu : ∀ v, (∀ k, ¬ OverP H (H.g k) v) → χ.UnrAt v) : KD H ≤ (χ.1.comp (finPartI H.E)).ker :=
+theorem KD_le_ker {χ : _root_.Formalism.L2.Host.HChar H.E} (hF : χ.TrivOn H.F) (ht : ∀ v, χ.TameAt v)
+    (hu : ∀ v, (∀ k, ¬ _root_.Formalism.L2.Host.OverP H (H.g k) v) → χ.UnrAt v) : KD H ≤ (χ.1.comp (finPartI H.E)).ker :=
   KDq_empty H ▸ KDq_le_ker H ∅ hF ht fun v h _ => hu v h
 
 
 variable {H} in
-theorem KD_le_ker_of_isChiPsi {χ : HChar H.E} (h : IsChiPsi H χ) : KD H ≤ (χ.1.comp (finPartI H.E)).ker :=
+theorem KD_le_ker_of_isChiPsi {χ : _root_.Formalism.L2.Host.HChar H.E} (h : _root_.Formalism.L2.Host.IsChiPsi H χ) : KD H ≤ (χ.1.comp (finPartI H.E)).ker :=
   KD_le_ker H h.triv (fun v x hx _ => h.unr v x hx) fun v _ => h.unr v
 
 
 variable {H} in
-theorem KD_le_ker_of_isMu0 {P : PiBar H} {W : Omg H} {e : R.Psi → ℚ} {j : ℕ} {χ : HChar H.E} (h : IsMu0 P W e j χ) :
+theorem KD_le_ker_of_isMu0 {P : _root_.Formalism.L2.Host.PiBar H} {W : _root_.Formalism.L2.Host.Omg H} {e : R.Psi → ℚ} {j : ℕ} {χ : _root_.Formalism.L2.Host.HChar H.E} (h : _root_.Formalism.L2.Host.IsMu0 P W e j χ) :
     KD H ≤ (χ.1.comp (finPartI H.E)).ker :=
   KD_le_ker H h.triv h.tame h.unr
 
@@ -151,7 +150,7 @@ theorem trueDtPackQ_relDet (C : HFrame H e) : letI := H.cmStar
 
 end Pack
 
-def dtIsoRational (D : D7) (C : CharFrame D) (SQ : Finset (HeightOneSpectrum (𝓞 D.host.E))) (ε : DtQ D.host SQ ≃* D.Dt)
+def dtIsoRational (D : D7) (C : _root_.Formalism.L2.Host.CharFrame D) (SQ : Finset (HeightOneSpectrum (𝓞 D.host.E))) (ε : DtQ D.host SQ ≃* D.Dt)
     (hmu : ∀ j, (D.muTil j).comp ε.toMonoidHom = muTilQ D.host SQ C.mu0 j)
     (hchi : D.chiD.comp ε.toMonoidHom = tildeQ D.host SQ C.chiPsi)
     (hUO : D.UO = (UOQ D.host SQ).map ε.toMonoidHom) (he : ∀ z, D.e1Dt z = ε (e1Q D.host SQ z)) : DtTied D C :=
@@ -236,11 +235,11 @@ theorem exists_mul_congr_one (v : HeightOneSpectrum (𝓞 F)) {b : v.adicComplet
     omega
   exact ⟨Units.mk0 k h0, hk⟩
 
-theorem exists_locF_mul {a : Ideles E} {b : FiniteAdeleRing (𝓞 F) F} (hab : (a : AdeleRing (𝓞 E) E).2 = adMap F E b)
+theorem exists_locF_mul {a : _root_.Neutral.B1.Ideles E} {b : FiniteAdeleRing (𝓞 F) F} (hab : (a : AdeleRing (𝓞 E) E).2 = adMap F E b)
     {T : Set (HeightOneSpectrum (𝓞 E))} (hT : T.Finite) :
     ∃ (S : Finset (HeightOneSpectrum (𝓞 F))) (k : HeightOneSpectrum (𝓞 F) → Fˣ),
-      (∏ v ∈ S, locF F v (k v)) * a ∈ unitIdl E ∧
-        ∀ w ∈ T, Valued.v (compAt w ((∏ v ∈ S, locF F v (k v)) * a) - 1) < 1 := by
+      (∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v (k v)) * a ∈ unitIdl E ∧
+        ∀ w ∈ T, Valued.v (compAt w ((∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF F v (k v)) * a) - 1) < 1 := by
   classical
   have hk : ∀ v : HeightOneSpectrum (𝓞 F), ∃ k : Fˣ, b v ≠ 0 →
       Valued.v (algebraMap F (v.adicCompletion F) k * b v - 1) ≤ WithZero.exp (-((1 : ℕ) : ℤ)) := fun v => by
@@ -251,9 +250,9 @@ theorem exists_locF_mul {a : Ideles E} {b : FiniteAdeleRing (𝓞 F) F} (hab : (
   choose k hk using hk
   have hfin := hT.union (IdlFact.finite_valAt_ne_one a)
   set S := hfin.toFinset.image fun w => w.under (𝓞 F) with hS
-  set P := ∏ v ∈ S, locF (L := E) F v (k v) with hP
+  set P := ∏ v ∈ S, _root_.GlobalTheory.Mem.Chr.locF (L := E) F v (k v) with hP
   have hc : ∀ w, compAt w P =
-      if w.under (𝓞 F) ∈ S then compAt w (diagUnits E (upF F (k (w.under (𝓞 F))))) else 1 := fun w => by
+      if w.under (𝓞 F) ∈ S then compAt w (_root_.Neutral.B1.diagUnits E (_root_.Formalism.L2.Host.upF F (k (w.under (𝓞 F))))) else 1 := fun w => by
     rw [hP, map_prod, Finset.prod_congr rfl fun v _ => compAt_locF F w v (k v), Finset.prod_ite_eq]
   have ha : ∀ w, compAt w a = locMap F w (b (w.under (𝓞 F))) := fun w => by
     rw [← adMap_apply, ← hab]
@@ -265,7 +264,7 @@ theorem exists_locF_mul {a : Ideles E} {b : FiniteAdeleRing (𝓞 F) F} (hab : (
       have hu : IsUnit (compAt w a) := (Group.isUnit a).map (compAt w)
       rw [ha, h0, map_zero] at hu
       exact not_isUnit_zero hu
-    have e : compAt w (diagUnits E (upF F (k (w.under (𝓞 F))))) =
+    have e : compAt w (_root_.Neutral.B1.diagUnits E (_root_.Formalism.L2.Host.upF F (k (w.under (𝓞 F))))) =
         locMap F w (algebraMap F _ (k (w.under (𝓞 F)) : F)) := by
       rw [locMap_algebraMap]
       rfl
@@ -283,7 +282,7 @@ theorem exists_locF_mul {a : Ideles E} {b : FiniteAdeleRing (𝓞 F) F} (hab : (
     by_contra hne
     exact hw (hmem w (Or.inr hne))
 
-def finIdele (ι : AfE F E ≃+* FiniteAdeleRing (𝓞 E) E) : (AfE F E)ˣ →* Ideles E :=
+def finIdele (ι : AfE F E ≃+* FiniteAdeleRing (𝓞 E) E) : (AfE F E)ˣ →* _root_.Neutral.B1.Ideles E :=
   Units.map ((MonoidHom.inr (InfiniteAdeleRing E) (FiniteAdeleRing (𝓞 E) E)).comp ι.toRingHom.toMonoidHom)
 
 end Fixed
@@ -294,7 +293,7 @@ open Formalism.L2.DIV Formalism.UG
 
 variable {R : Ranks} (H : Formalism.BasicNotions.Host R) (SQ : Finset (HeightOneSpectrum (𝓞 H.E)))
 
-theorem mk_eq_of_snd_eq {a a' : Ideles H.E} (h : (a : AdeleRing (𝓞 H.E) H.E).2 = (a' : AdeleRing (𝓞 H.E) H.E).2) :
+theorem mk_eq_of_snd_eq {a a' : _root_.Neutral.B1.Ideles H.E} (h : (a : AdeleRing (𝓞 H.E) H.E).2 = (a' : AdeleRing (𝓞 H.E) H.E).2) :
     (QuotientGroup.mk a : DtQ H SQ) = QuotientGroup.mk a' := by
   have e : ∀ w, compAt w (a⁻¹ * a') = 1 := fun w => by
     have e' : compAt w a' = compAt w a := congrArg (fun z : FiniteAdeleRing (𝓞 H.E) H.E => z w) h.symm
@@ -303,7 +302,7 @@ theorem mk_eq_of_snd_eq {a a' : Ideles H.E} (h : (a : AdeleRing (𝓞 H.E) H.E).
   show Valued.v (compAt w (a⁻¹ * a')) = 1
   rw [e, map_one]
 
-theorem mem_KDq_of_adMap {a : Ideles H.E} {b : FiniteAdeleRing (𝓞 H.F) H.F}
+theorem mem_KDq_of_adMap {a : _root_.Neutral.B1.Ideles H.E} {b : FiniteAdeleRing (𝓞 H.F) H.F}
     (hab : (a : AdeleRing (𝓞 H.E) H.E).2 = GlobalTheory.AdeleBaseChange.adMap H.F H.E b) : a ∈ KDq H SQ := by
   obtain ⟨S, k, hu, h1⟩ := exists_locF_mul hab (finite_level H SQ)
   exact (Subgroup.mul_mem_cancel_left _ (prod_mem fun v _ => locF_mem_KDq H SQ v (k v))).1
@@ -340,7 +339,7 @@ def normOneIdeleToFinerDeterminantClass : U1 σ →* DtQ H SQ :=
     ⟨(QuotientGroup.mk' (KDq H SQ)).comp (finIdele ι), fun _ hx =>
       (QuotientGroup.eq_one_iff _).2 (finIdele_mem_KDq H SQ σ hσ ι h1 h2 (congrArg Subtype.val hx))⟩
 
-theorem normOneIdeleToFinerDeterminantClass_eq_mk (x : (AfE H.F H.E)ˣ) (h : h90 σ x ∈ U1 σ) (a : Ideles H.E)
+theorem normOneIdeleToFinerDeterminantClass_eq_mk (x : (AfE H.F H.E)ˣ) (h : h90 σ x ∈ U1 σ) (a : _root_.Neutral.B1.Ideles H.E)
     (ha : (a : AdeleRing (𝓞 H.E) H.E).2 = ι (x : AfE H.F H.E)) :
     normOneIdeleToFinerDeterminantClass H SQ σ hσ ι h1 h2 ⟨_, h⟩ = QuotientGroup.mk a :=
   (MonoidHom.liftOfRightInverse_comp_apply (h90U H σ hσ ι h1 h2) _ _ _ x).trans (mk_eq_of_snd_eq H SQ ha.symm)

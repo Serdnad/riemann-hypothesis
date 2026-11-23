@@ -2,11 +2,11 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL5.FamilyMassVolumeIdentityOfClassDecomp
 public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.CompactFixesLattice
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.EmbeddingTypeJumps
-public import Formalism.LocalRingCardinality.PosOfIsomEmb
-public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.ExistsDenOfIsCompact
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle078
+public import Formalism.LocalRingCardinality.Bundle009
+public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.Bundle002
 import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.ExistsDenOfIsCompactAdele
-public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.Imports
+public import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.Bundle001
 import Formalism.LocalToGlobal.GlobalTheory.GL1.CompactFixesLattice.MemClosureOfMemSS
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

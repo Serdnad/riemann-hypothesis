@@ -1,14 +1,14 @@
 module
 
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ThickFrames
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle006
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.FinSplit
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.GlueBasic
-public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.MatchFin
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle004
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle001
+public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.Bundle009
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SplitLoc
 import GroundTheory.AutomorphicForms.WhittakerGroups
-import GroundTheory.GlobalFields.LocalAtPlace
+import GroundTheory.GlobalFields.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

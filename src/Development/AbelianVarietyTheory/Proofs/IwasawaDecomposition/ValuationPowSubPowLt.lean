@@ -2,12 +2,12 @@ module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataN
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsProdInfMulFinPart
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle197
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsRingClassHost
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle118
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsPlaceOverMoveValConjPl
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalIdeleSndSelf
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle081
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle092
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -73,7 +73,7 @@ variable {L : Type} [Field L] [NumberField L]
 theorem exp_neg_one_lt_one : (WithZero.exp (-1 : ℤ) : WithZero (Multiplicative ℤ)) < 1 := by
   rw [← WithZero.exp_zero, WithZero.exp_lt_exp]; norm_num
 
-theorem locK_eq_of_tame (χ : HChar L) {v : HeightOneSpectrum (𝓞 L)} (h : χ.TameAt v) (x y : Lˣ)
+theorem locK_eq_of_tame (χ : _root_.Formalism.L2.Host.HChar L) {v : HeightOneSpectrum (𝓞 L)} (h : χ.TameAt v) (x y : Lˣ)
     (hxy : v.valuation L ((y : L) - x) ≤ WithZero.exp (-1 : ℤ) * v.valuation L (x : L)) :
     χ.locK v y = χ.locK v x := by
   have hx0 : v.valuation L (x : L) ≠ 0 := by simp
@@ -88,9 +88,9 @@ theorem locK_eq_of_tame (χ : HChar L) {v : HeightOneSpectrum (𝓞 L)} (h : χ.
     have := Valuation.map_one_add_of_lt (v.valuation L) (h1.trans_lt exp_neg_one_lt_one)
     rwa [add_sub_cancel] at this
   have h3 : χ.locK v (y * x⁻¹) = 1 := by
-    refine h (atFin v (y * x⁻¹)) ?_ ?_
+    refine h (_root_.Formalism.L2.Host.atFin v (y * x⁻¹)) ?_ ?_
     · exact (hval _).trans h2
-    · have : ((atFin v (y * x⁻¹) : (v.adicCompletion L)ˣ) : v.adicCompletion L) - 1 =
+    · have : ((_root_.Formalism.L2.Host.atFin v (y * x⁻¹) : (v.adicCompletion L)ˣ) : v.adicCompletion L) - 1 =
           algebraMap L (v.adicCompletion L) (((y * x⁻¹ : Lˣ) : L) - 1) := by
         rw [map_sub, map_one]; rfl
       rw [this, hval]
@@ -118,27 +118,27 @@ end Tame
 
 section Basic
 
-variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {art : Ideles E →* Gab E Ω}
+variable {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω] {art : _root_.Neutral.B1.Ideles E →* Gab E Ω}
 
-def IsHeckeOf (art : Ideles E →* Gab E Ω) (r : G E Ω →* ℂˣ) (χ : HChar E) : Prop :=
-  ∀ (x : Ideles E) (σ : G E Ω), art x = toAb E Ω σ → χ.1 x = r σ
+def IsHeckeOf (art : _root_.Neutral.B1.Ideles E →* Gab E Ω) (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* ℂˣ) (χ : _root_.Formalism.L2.Host.HChar E) : Prop :=
+  ∀ (x : _root_.Neutral.B1.Ideles E) (σ : _root_.Formalism.ConjugateSelfDual.G E Ω), art x = toAb E Ω σ → χ.1 x = r σ
 
-def heckeOf (ha : IsGlobalArtin art) (r : G E Ω →* ℂˣ) (hr : IsOpen (r.ker : Set (G E Ω))) : HChar E :=
+def heckeOf (ha : IsGlobalArtin art) (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* ℂˣ) (hr : IsOpen (r.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω))) : _root_.Formalism.L2.Host.HChar E :=
   ⟨(liftAb r (continuous_of_isOpen_ker' r hr)).comp art,
     (continuous_liftAb r (continuous_of_isOpen_ker' r hr)).comp ha.quot.continuous, fun k => by
-      have hk : diagUnits E k ∈ art.ker := by
+      have hk : _root_.Neutral.B1.diagUnits E k ∈ art.ker := by
         rw [ha.ker]
         exact Subgroup.le_topologicalClosure _ (Subgroup.mem_sup_left ⟨k, rfl⟩)
       rw [MonoidHom.comp_apply, MonoidHom.mem_ker.mp hk, map_one]⟩
 
-theorem isHeckeOf_heckeOf (ha : IsGlobalArtin art) (r : G E Ω →* ℂˣ) (hr : IsOpen (r.ker : Set (G E Ω))) :
+theorem isHeckeOf_heckeOf (ha : IsGlobalArtin art) (r : _root_.Formalism.ConjugateSelfDual.G E Ω →* ℂˣ) (hr : IsOpen (r.ker : Set (_root_.Formalism.ConjugateSelfDual.G E Ω))) :
     IsHeckeOf art r (heckeOf ha r hr) := fun x σ h => by
   show liftAb r (continuous_of_isOpen_ker' r hr) (art x) = r σ
   rw [h, liftAb_toAb]
 
-variable {r : G E Ω →* ℂˣ} {χ : HChar E} {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
+variable {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : _root_.Formalism.L2.Host.HChar E} {v : HeightOneSpectrum (𝓞 E)} {A : ValuationSubring Ω}
 
-theorem IsHeckeOf.unique (h : IsHeckeOf art r χ) {χ' : HChar E} (h' : IsHeckeOf art r χ') : χ = χ' :=
+theorem IsHeckeOf.unique (h : IsHeckeOf art r χ) {χ' : _root_.Formalism.L2.Host.HChar E} (h' : IsHeckeOf art r χ') : χ = χ' :=
   Subtype.ext (MonoidHom.ext fun x => by
     obtain ⟨σ, hσ⟩ := toAb_surjective (art x)
     rw [h x σ hσ.symm, h' x σ hσ.symm])
@@ -149,7 +149,7 @@ theorem IsHeckeOf.orderDvd (h : IsHeckeOf art r χ) {m : ℕ} (hm : ∀ σ, r σ
     show χ.1 x ^ m = 1
     rw [h x σ hσ.symm, hm])
 
-theorem IsHeckeOf.unr_iff (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hA : IsPlaceOver A v) :
+theorem IsHeckeOf.unr_iff (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) :
     χ.UnrAt v ↔ ∀ σ ∈ Ine (F := E) A, r σ = 1 := by
   constructor
   · intro H σ hσ
@@ -160,15 +160,15 @@ theorem IsHeckeOf.unr_iff (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hA 
     obtain ⟨σ, hσ, e⟩ := (ha.ine v A hA _).1 ⟨x, hx, rfl⟩
     exact (h _ σ e.symm).trans (H σ hσ)
 
-theorem IsHeckeOf.val_eq (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hu : χ.UnrAt v) (hA : IsPlaceOver A v)
-    {σ : G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) : χ.val v = (r σ)⁻¹ := by
+theorem IsHeckeOf.val_eq (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hu : χ.UnrAt v) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v)
+    {σ : _root_.Formalism.ConjugateSelfDual.G E Ω} (hσ : IsFrob (F := E) A (normV v) σ) : χ.val v = (r σ)⁻¹ := by
   obtain ⟨x, hx, e⟩ := (ha.frob v A hA _).2 ⟨σ, hσ, rfl⟩
   rw [← χ.val_eq hu x hx, ← map_inv]
   exact h _ _ e
 
-theorem IsHeckeOf.loc_eq_one (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hA : IsPlaceOver A v)
-    (H : ∀ σ ∈ Dec (F := E) A, r σ = 1) (x : (v.adicCompletion E)ˣ) : χ.loc v x = 1 := by
-  have hm : art (localIdele E v x) ∈ (Dec (F := E) A).map (toAb E Ω) := by
+theorem IsHeckeOf.loc_eq_one (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v)
+    (H : ∀ σ ∈ _root_.ReciprocityTheory.Gal.Dec (F := E) A, r σ = 1) (x : (v.adicCompletion E)ˣ) : χ.loc v x = 1 := by
+  have hm : art (_root_.Neutral.B1.localIdele E v x) ∈ (_root_.ReciprocityTheory.Gal.Dec (F := E) A).map (toAb E Ω) := by
     rw [← ha.dec v A hA]
     exact Subgroup.le_topologicalClosure _ ⟨x, rfl⟩
   obtain ⟨σ, hσ, e⟩ := hm
@@ -177,7 +177,7 @@ theorem IsHeckeOf.loc_eq_one (ha : IsGlobalArtin art) (h : IsHeckeOf art r χ) (
 theorem tameAt_of_orderDvd {l k : ℕ} (hl : l.Prime) (h : χ.OrderDvd (l ^ k)) (hv : ((l : ℕ) : 𝓞 E) ∉ v.asIdeal) :
     χ.TameAt v := by
   intro x _ hx
-  have h1 : ∀ y, χ.1 y ^ (l ^ k) = 1 := fun y => congrArg (fun ξ : HChar E => ξ.1 y) h
+  have h1 : ∀ y, χ.1 y ^ (l ^ k) = 1 := fun y => congrArg (fun ξ : _root_.Formalism.L2.Host.HChar E => ξ.1 y) h
   have ho := isOpen_ker_of_pow χ.1 χ.2.1 (pow_pos hl.pos k) h1
   let θ : (v.adicCompletion E)ˣ →* rootsOfUnity (l ^ k) ℂ := (χ.loc v).codRestrict _ fun y => h1 _
   have := GlobalTheory.RingCls.tame hl (B := rootsOfUnity (l ^ k) ℂ) (fun z => ⟨k, Subtype.ext z.2⟩) hv θ (by
@@ -188,7 +188,7 @@ theorem tameAt_of_orderDvd {l k : ℕ} (hl : l.Prime) (h : χ.OrderDvd (l ^ k)) 
 
 theorem locInf_eq_one [_root_.NumberField.IsTotallyComplex E] {m : ℕ} (hm : 0 < m) (h : χ.OrderDvd m) (w : InfinitePlace E)
     (y : (w.Completion)ˣ) : χ.locInf w y = 1 := by
-  have h1 : ∀ y, χ.1 y ^ m = 1 := fun y => congrArg (fun ξ : HChar E => ξ.1 y) h
+  have h1 : ∀ y, χ.1 y ^ m = 1 := fun y => congrArg (fun ξ : _root_.Formalism.L2.Host.HChar E => ξ.1 y) h
   let e := InfinitePlace.Completion.ringEquivComplexOfIsComplex (IsTotallyComplex.isComplex w)
   obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq (e y) hm
   have hy : e.symm z ^ m = y := e.injective (by rw [map_pow, e.apply_symm_apply, hz])
@@ -207,52 +207,52 @@ section Adelic
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 theorem mem_aboveF {v : HeightOneSpectrum (𝓞 F)} {P : HeightOneSpectrum (𝓞 E)} :
-    P ∈ aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
-  simp [aboveF]
+    P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v ↔ P.under (𝓞 F) = v := by
+  simp [_root_.Formalism.L2.Host.aboveF]
 
-theorem valuation_up (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
+theorem valuation_up (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
     (P : HeightOneSpectrum (𝓞 E)) (x : F) :
     P.valuation E (algebraMap F E x) = (P.under (𝓞 F)).valuation F x := by
   by_cases hx : x = 0
   · simp [hx]
   have h := hr P (Units.mk0 x hx)
-  unfold ordF at h
+  unfold _root_.Formalism.L2.Host.ordF at h
   have h1 : P.valuation E (algebraMap F E x) ≠ 0 := by simpa using hx
   have h2 : (P.under (𝓞 F)).valuation F x ≠ 0 := by simpa using hx
   rw [← WithZero.exp_log h1, ← WithZero.exp_log h2]
   exact congrArg WithZero.exp (neg_injective h)
 
-theorem resFin_eq (χ : HChar E) (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
-    χ.resFin v k = ∏ P ∈ aboveF (L := E) F v, χ.locK P (upF F k) := by
-  rw [HChar.resFin, MonoidHom.finsetProd_apply]
+theorem resFin_eq (χ : _root_.Formalism.L2.Host.HChar E) (v : HeightOneSpectrum (𝓞 F)) (k : Fˣ) :
+    χ.resFin v k = ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v, χ.locK P (_root_.Formalism.L2.Host.upF F k) := by
+  rw [_root_.Formalism.L2.Host.HChar.resFin, MonoidHom.finsetProd_apply]
   rfl
 
-theorem trivOn_of_cofinite (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
-    (χ : HChar E) (htame : ∀ P, χ.TameAt P) (hinf : ∀ w y, χ.locInf w y = 1) (T : Finset (HeightOneSpectrum (𝓞 F)))
+theorem trivOn_of_cofinite (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
+    (χ : _root_.Formalism.L2.Host.HChar E) (htame : ∀ P, χ.TameAt P) (hinf : ∀ w y, χ.locInf w y = 1) (T : Finset (HeightOneSpectrum (𝓞 F)))
     (hu : ∀ P : HeightOneSpectrum (𝓞 E), P.under (𝓞 F) ∉ T → χ.UnrAt P)
-    (hv : ∀ v, v ∉ T → ∏ P ∈ aboveF (L := E) F v, χ.val P = 1) : χ.TrivOn F := by
+    (hv : ∀ v, v ∉ T → ∏ P ∈ _root_.Formalism.L2.Host.aboveF (L := E) F v, χ.val P = 1) : χ.TrivOn F := by
   classical
   have h0 : ∀ v, v ∉ T → ∀ k, χ.resFin v k = 1 := fun v hvT k => by
-    rw [resFin_eq, Finset.prod_congr rfl (g := fun P => χ.val P ^ ordF v k) fun P hP => by
+    rw [resFin_eq, Finset.prod_congr rfl (g := fun P => χ.val P ^ _root_.Formalism.L2.Host.ordF v k) fun P hP => by
       have e := mem_aboveF.1 hP
       rw [GlobalTheory.HeckeProduct.locK_unr χ (hu P (e ▸ hvT)), hr, e], Finset.prod_zpow, hv v hvT, one_zpow]
   have h1 : ∀ k : Fˣ, ∏ v ∈ T, χ.resFin v k = 1 := fun k => by
     let T' := T ∪ (GlobalTheory.HeckeProduct.finite_ordF k).toFinset
-    have hS : ∀ P : HeightOneSpectrum (𝓞 E), P ∈ T'.biUnion (aboveF (L := E) F) ↔ P.under (𝓞 F) ∈ T' := fun P => by
+    have hS : ∀ P : HeightOneSpectrum (𝓞 E), P ∈ T'.biUnion (_root_.Formalism.L2.Host.aboveF (L := E) F) ↔ P.under (𝓞 F) ∈ T' := fun P => by
       simp [Finset.mem_biUnion, mem_aboveF, -Finset.mem_union]
-    have h := GlobalTheory.HeckeProduct.productRule χ (T'.biUnion (aboveF (L := E) F))
-      (fun P hP => hu P fun hm => hP ((hS P).2 (Finset.mem_union_left _ hm))) (upF F k)
-    have hi : χ.inf (upF F k) = 1 := by
-      show χ.1 (infDiag _) = 1
-      rw [infDiag, MonoidHom.finsetProd_apply, map_prod]
+    have h := GlobalTheory.HeckeProduct.productRule χ (T'.biUnion (_root_.Formalism.L2.Host.aboveF (L := E) F))
+      (fun P hP => hu P fun hm => hP ((hS P).2 (Finset.mem_union_left _ hm))) (_root_.Formalism.L2.Host.upF F k)
+    have hi : χ.inf (_root_.Formalism.L2.Host.upF F k) = 1 := by
+      show χ.1 (_root_.Formalism.L2.Host.infDiag _) = 1
+      rw [_root_.Formalism.L2.Host.infDiag, MonoidHom.finsetProd_apply, map_prod]
       exact Finset.prod_eq_one fun w _ => hinf w _
-    have hf : (∏ᶠ (P : HeightOneSpectrum (𝓞 E)) (_ : P ∉ T'.biUnion (aboveF (L := E) F)),
-        χ.val P ^ ordF P (upF F k)) = 1 := by
+    have hf : (∏ᶠ (P : HeightOneSpectrum (𝓞 E)) (_ : P ∉ T'.biUnion (_root_.Formalism.L2.Host.aboveF (L := E) F)),
+        χ.val P ^ _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k)) = 1 := by
       refine finprod_eq_one_of_forall_eq_one fun P => ?_
-      by_cases hP : P ∈ T'.biUnion (aboveF (L := E) F)
+      by_cases hP : P ∈ T'.biUnion (_root_.Formalism.L2.Host.aboveF (L := E) F)
       · exact finprod_eq_if.trans (if_neg (not_not.2 hP))
       rw [finprod_eq_if, if_pos hP]
-      have : ordF (P.under (𝓞 F)) k = 0 := by
+      have : _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k = 0 := by
         by_contra hne
         exact hP ((hS P).2 (Finset.mem_union_right _ ((Set.Finite.mem_toFinset _).2 hne)))
       rw [hr, this, zpow_zero]
@@ -304,7 +304,7 @@ theorem trivOn_of_cofinite (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ),
       apply Units.ext
       rw [← hab, Units.val_mul, Units.val_inv_eq_inv_val, div_eq_mul_inv]; rfl
     rw [hx, map_mul, map_inv, key, key, inv_one, mul_one]
-  · rw [HChar.resInf, MonoidHom.finsetProd_apply]
+  · rw [_root_.Formalism.L2.Host.HChar.resInf, MonoidHom.finsetProd_apply]
     exact Finset.prod_eq_one fun w' _ => hinf w' _
 
 end Adelic
@@ -317,7 +317,7 @@ theorem normV_eq (v : HeightOneSpectrum (𝓞 E)) : normV v = Ideal.absNorm v.as
   rw [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply]
 
 theorem normV_inert (h2 : Module.finrank F E = 2)
-    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
+    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
     {P : HeightOneSpectrum (𝓞 E)} (hP : ∀ P' : HeightOneSpectrum (𝓞 E), P'.under (𝓞 F) = P.under (𝓞 F) → P' = P) :
     normV P = normV (P.under (𝓞 F)) ^ 2 := by
   set v := P.under (𝓞 F) with hv
@@ -374,11 +374,11 @@ theorem valuation_pow_sub_pow_lt (A : ValuationSubring Ω) {a b : Ω} (ha : A.va
 
 theorem exists_frob_inert [IsAlgClosure E Ω] (c : E ≃ₐ[F] E) (h2 : Module.finrank F E = 2) (hne : c ≠ 1)
     (hinv : ∀ x, c (c x) = x)
-    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
+    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
     (cc : Ω ≃+* Ω) (hcc : ∀ x : E, cc (algebraMap E Ω x) = algebraMap E Ω (c x)) (hcc2 : ∀ x, cc (cc x) = x)
     {P : HeightOneSpectrum (𝓞 E)} (hP : ∀ P' : HeightOneSpectrum (𝓞 E), P'.under (𝓞 F) = P.under (𝓞 F) → P' = P)
-    {A : ValuationSubring Ω} (hA : IsPlaceOver A P) :
-    ∃ g g' : G E Ω, (∀ x, g' x = cc (g (cc.symm x))) ∧ IsFrob (F := E) A (normV P) (g * g') := by
+    {A : ValuationSubring Ω} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A P) :
+    ∃ g g' : _root_.Formalism.ConjugateSelfDual.G E Ω, (∀ x, g' x = cc (g (cc.symm x))) ∧ IsFrob (F := E) A (normV P) (g * g') := by
   letI : Algebra F Ω := ((algebraMap E Ω).comp (algebraMap F E)).toAlgebra
   haveI : IsScalarTower F E Ω := IsScalarTower.of_algebraMap_eq fun _ => rfl
   haveI : IsAlgClosure F Ω := ⟨IsAlgClosure.isAlgClosed E, Algebra.IsAlgebraic.trans F E Ω⟩
@@ -391,11 +391,11 @@ theorem exists_frob_inert [IsAlgClosure E Ω] (c : E ≃ₐ[F] E) (h2 : Module.f
     by_cases h : σ = 1
     · exact Or.inl h
     · exact Or.inr ((hy σ h).trans (hy c hne).symm)
-  have hAv : IsPlaceOver A (P.under (𝓞 F)) := fun x => hA (algebraMap (𝓞 F) (𝓞 E) x)
+  have hAv : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A (P.under (𝓞 F)) := fun x => hA (algebraMap (𝓞 F) (𝓞 E) x)
   obtain ⟨τ, hτ⟩ := exists_isFrob hAv
   have hq := normV_inert h2 hr hP
   set q := normV (P.under (𝓞 F))
-  have hτd : τ ∈ Dec (F := F) A := hτ.1
+  have hτd : τ ∈ _root_.ReciprocityTheory.Gal.Dec (F := F) A := hτ.1
   have hres : ∀ x : E, τ (algebraMap E Ω x) = algebraMap E Ω (AlgEquiv.restrictNormal τ E x) := fun x =>
     (AlgEquiv.restrictNormal_commutes τ E x).symm
   rcases hall (AlgEquiv.restrictNormal τ E) with h | h
@@ -408,11 +408,11 @@ theorem exists_frob_inert [IsAlgClosure E Ω] (c : E ≃ₐ[F] E) (h2 : Module.f
     rw [hres, h, ← Valuation.map_neg, neg_sub] at h1
     simpa using h1
   · have hs : ∀ x, cc.symm x = cc x := fun x => by rw [RingEquiv.symm_apply_eq, hcc2]
-    let g : G E Ω := { cc.trans (τ : Ω ≃+* Ω) with
+    let g : _root_.Formalism.ConjugateSelfDual.G E Ω := { cc.trans (τ : Ω ≃+* Ω) with
       commutes' := fun x => by
         show τ (cc (algebraMap E Ω x)) = _
         rw [hcc, hres, h, hinv] }
-    let g' : G E Ω := { (τ : Ω ≃+* Ω).trans cc with
+    let g' : _root_.Formalism.ConjugateSelfDual.G E Ω := { (τ : Ω ≃+* Ω).trans cc with
       commutes' := fun x => by
         show cc (τ (algebraMap E Ω x)) = _
         rw [hres, h, hcc, hinv] }
@@ -422,12 +422,12 @@ theorem exists_frob_inert [IsAlgClosure E Ω] (c : E ≃ₐ[F] E) (h2 : Module.f
     refine ⟨g, g', fun x => ?_, ?_, fun x hx => ?_⟩
     · show cc (τ x) = cc (τ (cc (cc.symm x)))
       rw [cc.apply_symm_apply]
-    · show g * g' ∈ Dec (F := E) A
+    · show g * g' ∈ _root_.ReciprocityTheory.Gal.Dec (F := E) A
       rw [mem_Dec]
       ext x
       rw [ValuationSubring.mem_pointwise_smul_iff_inv_smul_mem, AlgEquiv.smul_def]
       obtain ⟨z, rfl⟩ := (g * g').surjective x
-      have h1 : ((g * g')⁻¹ : G E Ω) ((g * g') z) = z := (g * g').symm_apply_apply z
+      have h1 : ((g * g')⁻¹ : _root_.Formalism.ConjugateSelfDual.G E Ω) ((g * g') z) = z := (g * g').symm_apply_apply z
       rw [h1, e, apply_mem_iff_of_mem_Dec hτd, apply_mem_iff_of_mem_Dec hτd]
     · have hx' : A.valuation (τ x) ≤ 1 := by
         rw [A.valuation_le_one_iff] at hx ⊢
@@ -440,9 +440,9 @@ theorem exists_frob_inert [IsAlgClosure E Ω] (c : E ≃ₐ[F] E) (h2 : Module.f
 
 theorem IsHeckeOf.trivOn [IsAlgClosure E Ω] [_root_.NumberField.IsTotallyComplex E] (c : E ≃ₐ[F] E) (h2 : Module.finrank F E = 2) (hne : c ≠ 1)
     (hinv : ∀ x, c (c x) = x)
-    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), ordF P (upF F k) = ordF (P.under (𝓞 F)) k)
+    (hr : ∀ (P : HeightOneSpectrum (𝓞 E)) (k : Fˣ), _root_.Formalism.L2.Host.ordF P (_root_.Formalism.L2.Host.upF F k) = _root_.Formalism.L2.Host.ordF (P.under (𝓞 F)) k)
     (cc : Ω ≃+* Ω) (hcc : ∀ x : E, cc (algebraMap E Ω x) = algebraMap E Ω (c x)) (hcc2 : ∀ x, cc (cc x) = x)
-    {art : Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {r : G E Ω →* ℂˣ} {χ : HChar E} (h : IsHeckeOf art r χ)
+    {art : _root_.Neutral.B1.Ideles E →* Gab E Ω} (ha : IsGlobalArtin art) {r : _root_.Formalism.ConjugateSelfDual.G E Ω →* ℂˣ} {χ : _root_.Formalism.L2.Host.HChar E} (h : IsHeckeOf art r χ)
     (hanti : AntiHom cc r) {m : ℕ} (hm : 0 < m) (ho : χ.OrderDvd m) (htame : ∀ P, χ.TameAt P) : χ.TrivOn F := by
   classical
   have hc : ∀ x : E, ∃ y : E, cc.symm (algebraMap E Ω x) = algebraMap E Ω y := fun x =>
@@ -453,11 +453,11 @@ theorem IsHeckeOf.trivOn [IsAlgClosure E Ω] [_root_.NumberField.IsTotallyComple
     by_contra hn
     exact hP (Finset.mem_image.2 ⟨P, by simpa using hn, rfl⟩)
   refine trivOn_of_cofinite hr χ htame (locInf_eq_one hm ho) _ hu fun v hv => ?_
-  rcases (aboveF (L := E) F v).eq_empty_or_nonempty with h0 | ⟨P, hP⟩
+  rcases (_root_.Formalism.L2.Host.aboveF (L := E) F v).eq_empty_or_nonempty with h0 | ⟨P, hP⟩
   · rw [h0, Finset.prod_empty]
   obtain rfl := mem_aboveF.1 hP
   obtain ⟨P', hP'⟩ := (existsUnique_conjPl c.toRingEquiv P).exists
-  have hs : aboveF (L := E) F (P.under (𝓞 F)) = {P, P'} := by
+  have hs : _root_.Formalism.L2.Host.aboveF (L := E) F (P.under (𝓞 F)) = {P, P'} := by
     ext Q
     rw [mem_aboveF, under_eq_iff_conjPl c h2 hne P Q, Finset.mem_insert, Finset.mem_singleton]
     refine or_congr Iff.rfl ⟨fun h' => (existsUnique_conjPl _ P).unique h' hP', ?_⟩
@@ -475,7 +475,7 @@ theorem IsHeckeOf.trivOn [IsAlgClosure E Ω] [_root_.NumberField.IsTotallyComple
     have hσ' := isFrob_conjHom cc hc hσ
     rw [← normV_conjPl hP'] at hσ'
     have hu' : χ.UnrAt P' := hu P' (by
-      rwa [mem_aboveF.1 (hs ▸ Finset.mem_insert_of_mem (Finset.mem_singleton_self P') : P' ∈ aboveF F (P.under (𝓞 F)))])
+      rwa [mem_aboveF.1 (hs ▸ Finset.mem_insert_of_mem (Finset.mem_singleton_self P') : P' ∈ _root_.Formalism.L2.Host.aboveF F (P.under (𝓞 F)))])
     rw [hs, Finset.prod_pair e, h.val_eq ha (hu P hv) hA hσ, h.val_eq ha hu' hA' hσ',
       hanti σ _ (conjHom_apply cc hc σ), inv_inv, inv_mul_cancel]
 

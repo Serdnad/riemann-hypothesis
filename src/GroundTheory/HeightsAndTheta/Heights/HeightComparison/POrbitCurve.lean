@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitCurve
-public import ReciprocityTheory.AnalyticForms.RegularLocalRings.IntToRat
+public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.Bundle004
+public import ReciprocityTheory.AnalyticForms.RegularLocalRings.Bundle012
 public import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

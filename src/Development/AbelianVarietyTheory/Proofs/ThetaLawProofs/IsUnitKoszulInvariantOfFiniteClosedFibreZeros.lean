@@ -1,26 +1,26 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.PwIsoIsGen
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RangeAlgebraMapEqIInfDiscreteValuationSubring
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.BijectiveRestrictPointsOfEtaleOfHenselian
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsValuationSubringDominatingSubring
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.BasisPowerSectionsLocalBaseChange
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.BasisPowerSectionsLocalBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.CmpValBaseChangeSimilitudeStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.DiscriminantEqJacobianCompleteIntersectionDvrStatement
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle035
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle057
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyInvariantAfterDvrExtension
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyPBRing
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsL2ValFieldOrDvrSplitKernelStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KaFormHomogeneous
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyInvariantBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyInvariantFromIntersectionUniqueStatement
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle045
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle044
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle029
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KosBlockMulKosD
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.MemNonzeroLocusVia
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SignInsert
-public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.StalkOfAppLEEq
+public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle037
 import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.SubmatrixMulOfVanish
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.TorsSqMap
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle004
 import Development.AbelianVarietyTheory.Statements.FundamentalDomains.ExistsIsAddFundamentalDomain
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,7 +70,7 @@ import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.OneArc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
-import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.KeyViaIsPullback
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.Bundle038
 
 @[expose] public section
 
@@ -260,7 +260,7 @@ theorem exists_unit_val_jac {R R' : Type} [CommRing R] [CommRing R'] {x : KeyIn 
     ∃ u : R'ˣ, (∀ (l : ℕ) (sg : RR x l) (sg' : RR x' l), SecVia x' x φ w sg' sg →
       valT (T := R') z'.left (x'.P.L.U c') (sg'.f c') * (u : R') ^ l = f (valT (T := R) z.left (x.P.L.U c) (sg.f c))) ∧
       ((∀ i, valT (T := R') z'.left (x'.P.L.U c') ((s' i).f c') = 0) →
-        jac x' s' z' c' * (u : R') ^ (x.P.g * n) = f (jac x s z c)) := by
+        GlobalTheory.KeyKa.jac x' s' z' c' * (u : R') ^ (x.P.g * n) = f (GlobalTheory.KeyKa.jac x s z c)) := by
   obtain ⟨_, _, F, hp, _, _, _, hF₁, hF₂, hv⟩ := H
   have hφ : ⊤ ≤ (z'.left ≫ φ) ⁻¹ᵁ x.P.L.U c := fun p _ => by
     rw [hz]
@@ -289,7 +289,7 @@ theorem exists_unit_val_jac {R R' : Type} [CommRing R] [CommRing R'] {x : KeyIn 
       refine (snd_map f F hF₁ hF₂ _).symm.trans ((congrArg TrivSqZeroExt.snd (e₂.symm.trans e)).trans ?_)
       refine (snd_pow_mul _ _ _ ((fst_valT_translate z' (x'.v k) (x'.basis.1 _) h' _).trans (hzero i))).trans ?_
       exact congrArg (· ^ n * _) ((fst_valT_translate z' (x'.v k) (x'.basis.1 _) hW _).trans hu)
-    unfold jac
+    unfold GlobalTheory.KeyKa.jac
     rw [RingHom.map_det, ← Matrix.det_submatrix_equiv_self (finCongr hg), _root_.mul_comm, _root_.mul_comm x.P.g n,
       pow_mul]
     have hc : x.P.g = Fintype.card (Fin x'.P.g) := hg.symm.trans (Fintype.card_fin _).symm
@@ -400,7 +400,7 @@ theorem exists_unit_kaVal (laws : Out.Laws) {O : Type} [CommRing O] [IsDomain O]
   replace hjac := fun a => hjac a (E.2.1 a)
   have hzero : ∀ a i, valT (T := O) (z a).left (x.P.L.U (ch a)) ((s i).f (ch a)) = 0 := fun a i =>
     hf ((hval a n _ _ (hs i)).symm.trans ((congrArg (· * _) (E.2.1 a i)).trans ((zero_mul _).trans (map_zero f).symm)))
-  have hne : ∀ a, f (jac x s (z a) (ch a)) ≠ 0 := fun a =>
+  have hne : ∀ a, f (GlobalTheory.KeyKa.jac x s (z a) (ch a)) ≠ 0 := fun a =>
     hjac a ▸ ((E.2.2.1 a).mul ((u a).isUnit.pow _)).ne_zero
   have hinj : Function.Injective z := fun a a' e => by
     by_contra h
@@ -422,7 +422,7 @@ theorem exists_unit_kaVal (laws : Out.Laws) {O : Type} [CommRing O] [IsDomain O]
     obtain ⟨a, p, rfl⟩ := E.2.2.2.2 y' fun i h => hy i (KaLift.mem_nonzeroLocus_of_via (hs i) y' h)
     exact ⟨a, spMap f p, (congrArg (fun q => q p) (hz a)).symm⟩
   have hex := ((KeyVia.main O F x x' f).2 φ w hx).1
-  let J : Fˣ := Units.mk0 (f (∏ a, jac x s (z a) (ch a))) (by
+  let J : Fˣ := Units.mk0 (f (∏ a, GlobalTheory.KeyKa.jac x s (z a) (ch a))) (by
     rw [map_prod]; exact Finset.prod_ne_zero_iff.2 fun a _ => hne a)
   have key : ∀ k, k = l ∨ k = l' → x.P.g * n < k →
       ∃ (b' : ∀ j, Fin ((k - j * n) ^ x.P.g) → RR x' (k - j * n)) (lam : ℕ → Oˣ) (t e : Oˣ) (dl : Fˣ),

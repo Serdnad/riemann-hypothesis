@@ -1,9 +1,9 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DvdPowZeroIff
-public import Development.AbelianVarietyTheory.Definitions.Foundations.InFrameStabilizer
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.WittFreeTuplesFin
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MulSelfEqOneIffOfLinearOrderedCommGroupWithZero
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle020
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle032
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle024
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

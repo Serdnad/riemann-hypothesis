@@ -3,13 +3,13 @@ module
 public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.SmallFSing
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
 public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.AdelicInclusionMapPlaceSection
-import Development.AbelianVarietyTheory.Definitions.Foundations.SecondCountableAndT2LocalField
-public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ResCardAndUniformizer
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SplitCharacterFacts
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle006
+public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.Bundle003
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle006
 import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictSec
 public import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.ConeVal
 import Development.WeilBound.ThetaLifts.LocalTheory.StandardValuations.ValIffNorm
-public import Development.WeilBound.ThetaLifts.LocalTheory.UatClosure
+public import Development.WeilBound.ThetaLifts.LocalTheory.Bundle002
 import GroundTheory.GlobalFields.CompletionAtPlace.Integers
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

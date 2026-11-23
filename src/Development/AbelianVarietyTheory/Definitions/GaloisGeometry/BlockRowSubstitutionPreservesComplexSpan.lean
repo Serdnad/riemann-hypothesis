@@ -8,24 +8,24 @@ public import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocTiesOf
 public import Formalism.LocalToGlobal.GlobalTheory.GL6.FrobeniusNoKernelOfFrobeniusSimilitude
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.RowActWeylMemDescentLattice
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LBidetLemmas
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle004
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PBwLocBases
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PSplitT
-public import Formalism.LocalToGlobal.GlobalTheory.GL6.ValuationClassTranslateMem
-import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.MRatSpanOfRatInv
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle001
+import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle011
 import Formalism.LocalToGlobal.GroupLattices.FockModels.SwRowGenMonomial
 import Formalism.LocalToGlobal.GroupLattices.LevelCharts.FiniteClassSetOfFiniteIndex
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.IsUnitDetBlockPreimage
-import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.TiePtRec
-import Formalism.SharpRestriction.GrowthBounds.ChartComparison.LocMore
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle003
+import Formalism.LocalToGlobal.GroupLattices.TiedFamilies.Bundle004
+import Formalism.SharpRestriction.GrowthBounds.ChartComparison.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypChi
 public import Formalism.SharpRestriction.GrowthBounds.ChartRank.HypLat
 public import Formalism.SharpRestriction.GrowthBounds.ChartedClasses.CompInjLocJ
 public import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan
 import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylEqSpanInt
 import Formalism.SharpRestriction.GrowthBounds.IntegralWeylLatticeSpan.WeylLatticeDescentOfIntegralModels
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.LiMap
-public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.LowestInvariantLeDelta
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.MultisetValuation.Bundle021
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

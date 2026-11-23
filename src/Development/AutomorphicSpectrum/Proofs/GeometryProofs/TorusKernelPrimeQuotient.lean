@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCocharLie
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.CompactCentralizerTranslate
-public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.ExistsSurjectiveZmodOfNeZero
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CharValMultiplicativeStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.Bundle002
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle146
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

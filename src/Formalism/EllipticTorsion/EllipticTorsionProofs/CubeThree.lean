@@ -1,6 +1,6 @@
 module
 
-public import Formalism.EllipticTorsion.CoeffRing
+public import Formalism.EllipticTorsion.Bundle002
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WChord
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.ExistsUnitFactor
 public import Formalism.EllipticTorsion.EllipticTorsionProofs.WSeries
@@ -328,7 +328,7 @@ lemma pair [Finite σ] (hw : WFixed W w) (a b : MvPowerSeries σ K) (ha : cc a =
     ∃ l n z A B : MvPowerSeries σ K,
       (b - a) * l = w.subst b - w.subst a ∧ n = w.subst a - l * a ∧
       chordCoeffCubicAt W l * A = 1 ∧ z = -a - b - chordCoeffQuadraticAt W l n * A ∧
-      DDs W l n z * B = 1 ∧ MvPowerSeries.subst ![a, b] (F2 W w) = z * B ∧
+      DDs W l n z * B = 1 ∧ MvPowerSeries.subst ![a, b] (Formalism.ELL.WeierstrassChordSeries.F2 W w) = z * B ∧
       cc l = 0 ∧ l ∈ TT W σ ∧ A ∈ TT W σ ∧ B ∈ TT W σ := by
   have hab0 : ∀ i, cc (![a, b] i) = 0 := by
     intro i
@@ -378,9 +378,9 @@ lemma pair [Finite σ] (hw : WFixed W w) (a b : MvPowerSeries σ K) (ha : cc a =
 
 lemma lit_facts (hw : WFixed W w) :
     MvPowerSeries.subst ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 3) K), MvPowerSeries.X 1]
-      (F2 W w) ≠ 0 ∧
+      (Formalism.ELL.WeierstrassChordSeries.F2 W w) ≠ 0 ∧
     MvPowerSeries.subst ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 3) K), MvPowerSeries.X 1]
-      (F2 W w) ≠ MvPowerSeries.X 2 ∧
+      (Formalism.ELL.WeierstrassChordSeries.F2 W w) ≠ MvPowerSeries.X 2 ∧
     (MvPowerSeries.X 0 : MvPowerSeries (Fin 3) K) ≠ MvPowerSeries.X 1 := by
   classical
   have hX01 : (MvPowerSeries.X 0 : MvPowerSeries (Fin 3) K) ≠ MvPowerSeries.X 1 := by
@@ -435,7 +435,7 @@ theorem chordDeterminantFactor_holds : CubeThree.{u} := by
   have hU := wSeriesSubstUnique_holds.{u}
   have hwu := w_eq hw
   have hu1 := wU_cc hw
-  have hFF : F = F2 W w := WeierstrassCoordinateSubstitution.eq_of_xy hwu hu1 F (F2 W w) hF0 (constantCoeff_formalSum hw)
+  have hFF : F = Formalism.ELL.WeierstrassChordSeries.F2 W w := WeierstrassCoordinateSubstitution.eq_of_xy hwu hu1 F (Formalism.ELL.WeierstrassChordSeries.F2 W w) hF0 (constantCoeff_formalSum hw)
     (hch.1.trans (chord hU hw).1.symm) (hch.2.trans (chord hU hw).2.symm)
   subst hFF
   dsimp only
@@ -516,7 +516,7 @@ theorem chordDeterminantFactor_holds : CubeThree.{u} := by
 
   obtain ⟨l1, n1, u, A1, B1, hl1, hn1, hA1, hz1, hB1, hs1, hl1c, hl1m, hA1m, hB1m⟩ :=
     pair hw X0 X1 k0 k1 m0 m1
-  set s := MvPowerSeries.subst ![X0, X1] (F2 W w) with hsdef
+  set s := MvPowerSeries.subst ![X0, X1] (Formalism.ELL.WeierstrassChordSeries.F2 W w) with hsdef
   have hn1c : MvPowerSeries.constantCoeff n1 = 0 := by rw [hn1]; simp [hwcc X0 k0, hl1c, k0]
   have hn1m : n1 ∈ TT W (Fin 3) := by
     rw [hn1]; exact (TT W _).sub_mem (hwm X0 m0 k0) ((TT W _).mul_mem hl1m m0)
@@ -561,7 +561,7 @@ theorem chordDeterminantFactor_holds : CubeThree.{u} := by
 
   obtain ⟨l2, n2, r, A2, B2, hl2, hn2, hA2, hz2, hB2, hs2, hl2c, hl2m, hA2m, hB2m⟩ :=
     pair hw s X2 hsc k2 hsm m2
-  set F3 := MvPowerSeries.subst ![s, X2] (F2 W w) with hF3
+  set F3 := MvPowerSeries.subst ![s, X2] (Formalism.ELL.WeierstrassChordSeries.F2 W w) with hF3
   have hwsc : MvPowerSeries.constantCoeff (w.subst s) = 0 := hwcc s hsc
   have hn2c : MvPowerSeries.constantCoeff n2 = 0 := by rw [hn2]; simp [hwsc, hl2c, hsc]
   have hn2m : n2 ∈ TT W (Fin 3) := by

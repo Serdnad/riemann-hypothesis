@@ -1,9 +1,9 @@
 module
 
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.TiedRec
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.PlaneCountTheoremWithConstants
 public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.YvRatOfValRat
-public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.NpDescOfValRat
+public import Formalism.LocalToGlobal.GroupLattices.ComparisonMaps.Bundle008
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivChar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlacesApart
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLevelLiftBaseOfRealisationLiftStatement
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TrivialTwistBaseLevelEqTupleParahoricStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaProjectionIntertwinesLevelLiftsStatement
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TranslateUnitaryLifts
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle034
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1603
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle914
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle923
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle630
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle170
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -45,7 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle016
 
 @[expose] public section
 

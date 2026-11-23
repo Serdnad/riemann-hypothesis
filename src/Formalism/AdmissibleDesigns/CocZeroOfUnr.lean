@@ -1,6 +1,6 @@
 module
 
-public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
+public import Formalism.AdmissibleDesigns.Bundle002
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.GaloisValuations.ArithOfA
+public import ReciprocityTheory.GaloisValuations.Bundle002
 
 @[expose] public section
 

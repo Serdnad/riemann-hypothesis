@@ -1,8 +1,8 @@
 module
 
 public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.FramesOf
-public import Formalism.PolynomialDimension.StatementNum
-public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.ManyEdges
+public import Formalism.PolynomialDimension.Bundle001
+public import Formalism.SharpRestriction.GrowthBounds.ScaleEdges.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

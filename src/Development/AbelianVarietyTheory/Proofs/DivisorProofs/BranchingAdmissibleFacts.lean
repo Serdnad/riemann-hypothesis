@@ -3,12 +3,12 @@ module
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CapelliDeterminantFirstRowsMemBmW
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.SplitLastBlockActX
 import Development.AbelianVarietyTheory.Definitions.Foundations.TracePowApply
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DualWeylLeOfHighestVectorRowOperatorStableStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockPairingLastRowMonomialReadsCoefficientStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LastRowTopComponentDualWeylEqMonomialMulStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DualWeylEqEvalAtOneSmulExtremalOfRowWeight
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle970
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle976
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle977
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle233
 public import Formalism.BranchSandwichDivisors.DivFromPassageAndNorm
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.HWRaise
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.FkPderivBlockEmbNe
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Algebra.Order.Floor.Extended
@@ -497,7 +497,7 @@ section Compare
 open GlobalTheory.IndefiniteRowSideFullHecke Formalism.L2.Col Formalism.L2.Col.Br GlobalTheory.BranchFormula NumberField IsDedekindDomain
 
 theorem interlace_iff {n : ℕ} (lam : DomWeight (n + 1)) (sg : DomWeight n) :
-    Br.Interlace rfl lam sg ↔ InterlacingNumerators.Interlace lam sg := by
+    _root_.Formalism.L2.Col.Br.Interlace rfl lam sg ↔ InterlacingNumerators.Interlace lam sg := by
   refine forall_congr' fun i => ?_
   change 0 ≤ sg.w i - lam.w i.succ ∧ 0 ≤ lam.w i.castSucc - sg.w i ↔ _
   omega

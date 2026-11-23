@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SameSetup
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RatCopyIff
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle922
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle934
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StarMulSelfOfPair
 import Formalism.LocalToGlobal.Columns.CoefficientsModP.BaseCh
 import Mathlib.Algebra.Order.Floor.Extended

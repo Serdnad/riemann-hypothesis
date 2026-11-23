@@ -5,12 +5,12 @@ public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Dou
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsWeilDatumHermitianPair
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FlatThetaMapsConvergeThetaFunctionsStatement
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FlatThetaMapsPreserveThetaFunctions
-public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OverAllExists
+public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.Bundle484
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicUnitaryTopology
-public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DblHandEqBiLift
+public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle686
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlagUnipotentBesselCharacterLaws
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FlatBFSource
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaGridLastRowColumnCharactersDifferStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle590
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -47,7 +47,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RealLineOfPeriodsOnLine
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle469
 
 @[expose] public section
 

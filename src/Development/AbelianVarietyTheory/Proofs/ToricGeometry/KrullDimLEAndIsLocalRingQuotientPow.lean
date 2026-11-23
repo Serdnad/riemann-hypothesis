@@ -1,11 +1,11 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KrullDimLEIsLocalRingQuotPow
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle722
 public import Mathlib.Basic.Complex.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.NonzeroLocus
-public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.SplitTorusHomProperTrivialLocal
-public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.EqZeroOfMemPowMaximal
+public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.Bundle008
+public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

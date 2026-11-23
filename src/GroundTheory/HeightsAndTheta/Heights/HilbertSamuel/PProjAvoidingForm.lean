@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsProjAvoidingForm
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSegreArith
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle017
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle014
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsHomogeneousComponentNeZero
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PRatNoetherFrame
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,7 +51,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.LemCone
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.Bundle005
 
 @[expose] public section
 

@@ -1,7 +1,7 @@
 module
 
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsAvoidFormFinite
-public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreRepresentatives
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle008
+public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.Bundle039
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

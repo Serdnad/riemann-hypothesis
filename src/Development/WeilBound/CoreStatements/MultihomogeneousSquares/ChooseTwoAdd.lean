@@ -2,15 +2,15 @@ module
 
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.CmHostRankBounds
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptBirationalArithVarStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.HodgeCptFlagXdegStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseMetricExistsOfGivenStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagAnalyticDataUniformisedStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverDegreeOneRealisationStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverRealisationPullbackStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelArithDimensionBoundaryStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagModelExistsOfGivenStatement
-public import Development.WeilBound.CoreStatements.FlagImmersions.SumFundOnRoot
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle271
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseMetricExistsOfGiven
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle178
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle171
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle184
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle182
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle190
+public import Development.WeilBound.CoreStatements.FlagImmersions.Bundle009
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -93,6 +93,7 @@ theorem PB_eq_of_lines {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype 
   refine congrArg (PB.formPoly (e + 1)) (funext fun w => ?_)
   simp only [PB.Realis.limNum, this]
 
+attribute [-instance] GlobalTheory.CompHt.fintypePsi in
 theorem tie_of (hX : StX) (hAlg : StAlg) (hHt : StHt) (hSing : StSing) (hBase : StBase) : StTie := by
   intro hG hW E _ _ _ H D l Xo c Y _ S Ω₀ _ ξ₀ hξ₀ hSp hSd hp hq
   have hIn : PB.Inputs := hG.2.2.2.2.2.2.2.2.2.1

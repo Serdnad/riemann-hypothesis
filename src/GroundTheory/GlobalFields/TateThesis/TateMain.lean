@@ -1,10 +1,10 @@
 module
 
 public import GroundTheory.GlobalFields.TateThesis.TateThetaDecay
-public import GroundTheory.GlobalFields.TateThesis.GlobalZetaSplit
+public import GroundTheory.GlobalFields.TateThesis.Bundle009
 public import Mathlib.NumberTheory.LSeries.AbstractFuncEq
 import GroundTheory.GlobalFields.TateThesis.AdelePoisson
-public import GroundTheory.GlobalFields.TateThesis.ArchCharsUnitary
+public import GroundTheory.GlobalFields.TateThesis.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

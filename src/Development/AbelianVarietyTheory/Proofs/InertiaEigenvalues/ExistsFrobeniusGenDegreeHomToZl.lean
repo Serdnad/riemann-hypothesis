@@ -1,10 +1,10 @@
 module
 
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDegree
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsForallEqPowOfPowEqSelf
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFrobeniusAndExponentModEq
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsTopologicalClosureZpowersSupInertia
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle356
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle179
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle253
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle357
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

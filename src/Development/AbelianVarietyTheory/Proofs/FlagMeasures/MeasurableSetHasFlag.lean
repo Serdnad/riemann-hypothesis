@@ -1,10 +1,10 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NearTrivialPointwise
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle126
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
-public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AutPointLatticeIntersectionSelfDualProperties
+public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle111
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteAdelicUnitaryCongruenceTopology
-public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SatBasic
+public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.Bundle002
 public import Formalism.HarderNarasimhan.ShiftInvariance
 import Formalism.LatticeSlopes.ExistsSaturatedSlopeEqMuMax
 import Mathlib.Algebra.Order.Floor.Extended

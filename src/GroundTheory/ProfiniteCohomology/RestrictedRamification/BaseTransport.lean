@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.RestrictedRamification.BaseChangeModules
+public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Bundle004
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.IsDiscreteRepResHomCoindRes
 public import GroundTheory.ProfiniteCohomology.PoincarePairs.ConeProduct
 import Mathlib.Algebra.Order.Floor.Extended

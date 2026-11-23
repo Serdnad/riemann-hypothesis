@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsQuadOfPlane
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle024
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOscillatorActionOfGaussianPairings
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FderivCompress
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FderivEqQuadComm
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasDerivAtLineDH
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeisenbergSmoothVectorDerivativeCalculus
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle043
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle034
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle035
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

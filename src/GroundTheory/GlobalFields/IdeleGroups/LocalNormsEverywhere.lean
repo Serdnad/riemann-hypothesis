@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNorms
 public import GroundTheory.GlobalFields.IdeleGroups.LocalNormGroups
-import GroundTheory.GlobalFields.KummerTheory.Splitting
+import GroundTheory.GlobalFields.KummerTheory.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

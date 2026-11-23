@@ -1,12 +1,11 @@
 module
 
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianLatticeFiniteness.HformTracePos
-public import Formalism.HermitianLattices.DefsCS
+public import Formalism.HermitianLattices.Bundle002
 public import Mathlib.NumberTheory.NumberField.Discriminant.Defs
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetAssembly
-public import Formalism.HermitianLattices.HermitianLatticesProofs.FinIntermediate
+public import Formalism.HermitianLattices.HermitianLatticesProofs.Bundle002
 public import Formalism.HermitianLattices.HermitianLatticesProofs.GenusCovolBound
-public import Formalism.HermitianLattices.HermitianLatticesProofs.IsomOfTrace
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ShortVectors
 public import Formalism.HermitianLattices.HermitianLatticesProofs.TraceReal
 import Mathlib.Algebra.Order.Floor.Extended

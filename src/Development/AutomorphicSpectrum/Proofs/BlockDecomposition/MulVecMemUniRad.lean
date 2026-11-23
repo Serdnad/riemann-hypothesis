@@ -1,12 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SecondCountableNilrad
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle410
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.QuotientVanishing.QuotVanish
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EqZeroOfCommuteOfSeparable
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsIsometryFlagOfEquiv
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle413
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralEqSmulIntegralAvg
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsMulRightInvariantOfCenter
-import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TwCentPreservesFlag
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle397
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

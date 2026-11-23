@@ -1,12 +1,12 @@
 module
 
-public import Formalism.RealPlaceAnalysis.StatementU
+public import Formalism.RealPlaceAnalysis.Bundle004
 public import Development.AbelianVarietyTheory.BlockTheory.SiegelWeilLocal.OrbitStepSpace
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PosPartUnitaryMul
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SmoothVecUnitaryModule
-import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.HalfSumRootsStandard
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle004
+public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.Bundle001
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.VectorComplexifiedDerivativeCommutator
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

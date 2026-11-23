@@ -1,13 +1,11 @@
 module
 
-public import GroundTheory.ProfiniteCohomology.ColimitUnion
+public import GroundTheory.ProfiniteCohomology.Bundle008
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.DivisorModule
-public import GroundTheory.ProfiniteCohomology.ClassFormationDefs
-public import GroundTheory.ProfiniteCohomology.ShapiroDefs
 public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.Closed
 import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
 public import GroundTheory.ProfiniteCohomology.CohomologyFunctoriality.Naturality
-import GroundTheory.ProfiniteCohomology.Colimit
+import GroundTheory.ProfiniteCohomology.Bundle007
 import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.Brauer
 public import GroundTheory.ProfiniteCohomology.RestrictedRamification.HighInfl

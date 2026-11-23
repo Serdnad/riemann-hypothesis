@@ -78,7 +78,8 @@ def IsPlIdem (w : Pl D.host.E) (e : EAf D) : Prop :=
 def InCmp {n : ℕ} (e : EAf D) (Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)) (y : Fin n → EAf D) : Prop :=
   y ∈ hat Λ ∧ e • y = y
 
-def IsSplitSet (S : Finset (Pl D.host.E)) : Prop := ∀ w ∈ S, ∀ w' ∈ S, ¬ IsConjPl w w'
+def IsSplitSet (S : Finset (Pl D.host.E)) : Prop :=
+  ∀ w ∈ S, ∀ w' ∈ S, ¬ Formalism.IndefR.Lev.IsConjPl w w'
 
 def IsBasisAt (V : HSp D) (w : Pl D.host.E) (Λ : Lat V) {n : ℕ} (B : Matrix (Fin V.rank) (Fin n) (EAf D)) : Prop :=
   n = V.rank ∧ ∃ e, IsPlIdem w e ∧ e • B = B ∧

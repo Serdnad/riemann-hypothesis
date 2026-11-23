@@ -1,11 +1,11 @@
 module
 
-public import Formalism.LocalToGlobal.InertKernelTheory.DefsFrONB
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle006
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.IntWeak
-public import Formalism.LocalToGlobal.InertKernelTheory.OneCopyTh1S
-public import Formalism.LocalToGlobal.InertKernelTheory.StatementInt
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle007
+public import Formalism.LocalToGlobal.InertKernelTheory.Bundle003
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.BlockFourfoldHOneEqHOne
-public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.ConjugationFixedClosure
+public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.Bundle002
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.GlobalOrthonormalBasisFour
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.MMConj
 public import Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.MMIsom

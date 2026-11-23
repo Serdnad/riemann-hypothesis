@@ -1,8 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.BlockKernelPropertiesOfSteps
-public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.IsIntOfLatOfLe
-public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.IsOpenIsIntSet
+public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.Bundle001
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.LowUniMulVecELast
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CharacterOrthogonalityDual
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ColumnOperationTripleForm

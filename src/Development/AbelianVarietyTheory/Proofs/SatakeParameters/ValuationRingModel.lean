@@ -1,8 +1,8 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.HeckeCharEqOfLAdicRealisation
-public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ClosedBallValuationSubringToSubring
-public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsAlgClosedResidueField
+public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.Bundle009
+public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.Bundle002
+public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

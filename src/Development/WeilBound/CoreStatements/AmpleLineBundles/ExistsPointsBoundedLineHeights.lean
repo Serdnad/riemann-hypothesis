@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ArchBetween
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle008
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightObjects
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.HeightsSetAll
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.PCurveIsOrbit

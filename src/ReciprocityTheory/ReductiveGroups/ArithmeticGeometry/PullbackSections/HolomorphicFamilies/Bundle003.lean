@@ -1,0 +1,266 @@
+module
+
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle007
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Bundle001
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Bernstein
+import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.Order.CompletePartialOrder
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Basify
+import Mathlib.Tactic.ENatToNat
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Formalism.LocalToGlobal.ProjectiveLattices.Bundle003
+import Mathlib.Tactic.Polynomial.Basic
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Bundle002
+
+@[expose] public section
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+namespace ReciprocityTheory.ChartRestriction.G.PullbackSections.UH
+
+open ReciprocityTheory.ChartRestriction.G.Geo.Tor
+
+variable {g : ℕ}
+
+theorem hermForm_add_left (Hm : Matrix (Fin g) (Fin g) ℂ) (z z' w : Fin g → ℂ) :
+    hermForm Hm (z + z') w = hermForm Hm z w + hermForm Hm z' w := by
+  simp [hermForm, add_dotProduct]
+
+theorem hermForm_smul_left (Hm : Matrix (Fin g) (Fin g) ℂ) (c : ℂ) (z w : Fin g → ℂ) :
+    hermForm Hm (c • z) w = c * hermForm Hm z w := by
+  simp [hermForm, smul_dotProduct]
+
+theorem hermForm_add_right (Hm : Matrix (Fin g) (Fin g) ℂ) (z w w' : Fin g → ℂ) :
+    hermForm Hm z (w + w') = hermForm Hm z w + hermForm Hm z w' := by
+  simp [hermForm, star_add, Matrix.mulVec_add, dotProduct_add]
+
+theorem hermForm_rsmul_right (Hm : Matrix (Fin g) (Fin g) ℂ) (c : ℝ) (z w : Fin g → ℂ) :
+    hermForm Hm z (c • w) = c * hermForm Hm z w := by
+  simp [hermForm, star_smul, Matrix.mulVec_smul, dotProduct_smul, Complex.real_smul]
+
+theorem hermForm_sub_mat (H₁ H₂ : Matrix (Fin g) (Fin g) ℂ) (z w : Fin g → ℂ) :
+    hermForm (H₁ - H₂) z w = hermForm H₁ z w - hermForm H₂ z w := by
+  simp [hermForm, Matrix.sub_mulVec, dotProduct_sub]
+
+def imForm (Hm : Matrix (Fin g) (Fin g) ℂ) : (Fin g → ℂ) →ₗ[ℝ] (Fin g → ℂ) →ₗ[ℝ] ℝ :=
+  LinearMap.mk₂ ℝ (fun z w => (hermForm Hm z w).im)
+    (fun z z' w => by rw [hermForm_add_left, Complex.add_im])
+    (fun c z w => by
+      rw [show (c • z : Fin g → ℂ) = (c : ℂ) • z from by funext i; simp [Complex.real_smul],
+        hermForm_smul_left, smul_eq_mul, Complex.im_ofReal_mul])
+    (fun z w w' => by rw [hermForm_add_right, Complex.add_im])
+    (fun c z w => by rw [hermForm_rsmul_right, smul_eq_mul]; simp)
+
+theorem herm_eq_of_im {L : Type} [AddCommGroup L] (P : L →+ (Fin g → ℂ))
+    (hP : Submodule.span ℝ (Set.range P) = ⊤) (H₁ H₂ : Matrix (Fin g) (Fin g) ℂ)
+    (h : ∀ x y, (hermForm H₁ (P x) (P y)).im = (hermForm H₂ (P x) (P y)).im) : H₁ = H₂ := by
+  have hD : ∀ x y, (hermForm (H₁ - H₂) (P x) (P y)).im = 0 := fun x y => by
+    rw [hermForm_sub_mat, Complex.sub_im, h, sub_self]
+  have h0 : imForm (H₁ - H₂) = 0 := by
+    apply LinearMap.ext_on_range hP
+    intro x
+    apply LinearMap.ext_on_range hP
+    intro y
+    simpa [imForm] using hD x y
+  have hall : ∀ z w, hermForm (H₁ - H₂) z w = 0 := by
+    intro z w
+    have him : ∀ z' : Fin g → ℂ, (hermForm (H₁ - H₂) z' w).im = 0 := fun z' => by
+      simpa [imForm] using LinearMap.congr_fun₂ h0 z' w
+    have hre := him (Complex.I • z)
+    rw [hermForm_smul_left] at hre
+    apply Complex.ext
+    · simpa using hre
+    · simpa using him z
+  have hs : ∀ j : Fin g, star (Pi.single j 1 : Fin g → ℂ) = (Pi.single j 1 : Fin g → ℂ) := fun j => by
+    ext k
+    by_cases hk : k = j
+    · subst hk; simp
+    · simp [Pi.single_apply, hk]
+  refine sub_eq_zero.1 ?_
+  ext i j
+  have := hall (Pi.single i 1) (Pi.single j 1)
+  simpa [hermForm, hs, Matrix.mulVec_single, single_dotProduct] using this
+
+end ReciprocityTheory.ChartRestriction.G.PullbackSections.UH
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+namespace ReciprocityTheory.ChartRestriction.G.PullbackSections.UH
+
+open NumberField ReciprocityTheory.ChartRestriction.G.FD Formalism.L2.Pj Complex ReciprocityTheory.ChartRestriction.G.Geo.Tor
+open scoped ComplexConjugate
+
+variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ}
+
+theorem conjEmb_conjEmb (τ : E →+* ℂ) : conjEmb (conjEmb τ) = τ := by
+  unfold conjEmb
+  ext z
+  simp
+
+theorem conjEmb_eq_conjugate (τ : E →+* ℂ) : conjEmb τ = ComplexEmbedding.conjugate τ := by
+  unfold conjEmb
+  ext z
+  simp [NumberField.ComplexEmbedding.conjugate]
+
+variable (X : Data E r) (x : Frame X.Ψ r)
+
+theorem conjEmb_not_mem (τ : X.Ψ) : conjEmb τ.1 ∉ X.Ψ := by
+  rw [conjEmb_eq_conjugate]; exact (X.cmType τ.1).1 τ.2
+
+end ReciprocityTheory.ChartRestriction.G.PullbackSections.UH
+end
+end
+
+section
+
+set_option autoImplicit false
+
+noncomputable section
+
+open MvPowerSeries ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ ReciprocityTheory.ChartRestriction.G.TB
+
+namespace ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.EigA
+
+section Lin
+
+variable {R : Type} [CommRing R] {d : ℕ}
+
+
+open Formalism.FG.SolveVAux in
+theorem coeff_lin_ev {m n : ℕ} (a : Fin m → Pt R n d) (ha : ∀ j i, constantCoeff (a j i) = 0) (f : PS R m d)
+    (q : Fin n × Fin d) :
+    coeff (Finsupp.single q 1) (ev a f) =
+      ∑ p : Fin m × Fin d, coeff (Finsupp.single p 1) f * coeff (Finsupp.single q 1) (a p.1 p.2) := by
+  classical
+  unfold ev
+  have hs : HasSubst (fun p : Fin m × Fin d => a p.1 p.2) :=
+    hasSubst_of_constantCoeff_zero fun p => ha p.1 p.2
+  rw [coeff_subst hs, finsum_eq_sum_of_support_subset _
+    (s := Finset.univ.image (fun p : Fin m × Fin d => Finsupp.single p 1))]
+  · rw [Finset.sum_image (fun p _ q _ h => Finsupp.single_left_injective one_ne_zero h)]
+    refine Finset.sum_congr rfl fun p _ => ?_
+    dsimp only
+    rw [Finsupp.prod_single_index (h := fun (s : Fin m × Fin d) (e : ℕ) => a s.1 s.2 ^ e) (pow_zero _), pow_one,
+      smul_eq_mul]
+  · intro e he
+    rw [Function.mem_support] at he
+    by_contra hne
+    apply he
+    have hz : coeff (Finsupp.single q 1) (e.prod fun s n => (fun p : Fin m × Fin d => a p.1 p.2) s ^ n) = 0 := by
+      rcases Nat.lt_or_ge e.degree 2 with hd | hd
+      · rcases Nat.lt_or_ge e.degree 1 with hd1 | hd1
+        · have he0 : e = 0 := by
+            have : e.degree = 0 := by omega
+            exact (Finsupp.degree_eq_zero_iff e).1 this
+          rw [he0, Finsupp.prod_zero_index, coeff_one, if_neg]
+          exact Finsupp.single_ne_zero.2 one_ne_zero
+        · have hdegree : e.degree = 1 := by omega
+          obtain ⟨p, rfl⟩ := (Finsupp.sum_eq_one_iff e).mp hdegree
+          exact absurd (Finset.mem_coe.2 (Finset.mem_image_of_mem _ (Finset.mem_univ p))) hne
+      · rw [Finsupp.prod]
+        have hlt : (Finsupp.single q 1).degree < e.degree := by
+          rw [Finsupp.degree_single]
+          omega
+        refine coeff_of_lt_order (lt_of_lt_of_le (Nat.cast_lt.mpr hlt)
+          (le_trans ?_ (le_order_prod _ e.support)))
+        exact mod_cast Finset.sum_le_sum fun p _ =>
+          le_order_pow_of_constantCoeff_eq_zero (e p) (ha p.1 p.2)
+    rw [hz, smul_zero]
+
+theorem coeff_X_single {n : ℕ} (q p : Fin n × Fin d) :
+    coeff (Finsupp.single q 1) (X p : PS R n d) = if q = p then 1 else 0 := by
+  classical
+  rw [coeff_X]
+  by_cases h : q = p
+  · simp [h]
+  · rw [if_neg, if_neg h]
+    intro h'
+    exact h (Finsupp.single_left_injective one_ne_zero h')
+
+theorem formal_group_coeff_second_linear (G : FGLaw R d) (i l : Fin d) :
+    coeff (Finsupp.single ((1 : Fin 2), l) 1) (G.F i) = if l = i then 1 else 0 := by
+  classical
+  have e := congrArg (coeff (Finsupp.single ((0 : Fin 1), l) 1)) (G.unit i)
+  rw [coeff_lin_ev _ (by
+      intro j i'
+      fin_cases j
+      · simp
+      · simp [pt]), coeff_X_single] at e
+  rw [Fintype.sum_prod_type, Fin.sum_univ_two] at e
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, Pi.zero_apply, map_zero, mul_zero,
+    Finset.sum_const_zero, zero_add, pt, coeff_X_single] at e
+  simp only [Prod.mk.injEq, true_and, mul_ite, mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ,
+    if_true] at e
+  rw [e]
+
+theorem formal_group_coeff_first_linear (G : FGLaw R d) (i l : Fin d) :
+    coeff (Finsupp.single ((0 : Fin 2), l) 1) (G.F i) = if l = i then 1 else 0 := by
+  classical
+  have e := congrArg (coeff (Finsupp.single ((0 : Fin 2), l) 1)) (G.comm i)
+  rw [coeff_lin_ev _ (by
+      intro j i'
+      fin_cases j <;> simp [pt])] at e
+  rw [Fintype.sum_prod_type, Fin.sum_univ_two] at e
+  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, pt, coeff_X_single] at e
+  simp only [Prod.mk.injEq, Fin.zero_eq_one_iff, Fin.one_eq_zero_iff, false_and, if_false, mul_zero,
+    Finset.sum_const_zero, zero_add, true_and, mul_ite, mul_one, Finset.sum_ite_eq, Finset.mem_univ, if_true,
+    OfNat.ofNat_ne_one, one_ne_zero, zero_ne_one] at e
+  rw [← e, formal_group_coeff_second_linear]
+
+end Lin
+
+end ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.EigA
+end
+end

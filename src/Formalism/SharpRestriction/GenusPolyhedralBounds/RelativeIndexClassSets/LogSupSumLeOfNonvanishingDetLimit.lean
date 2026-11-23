@@ -1,13 +1,13 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormDetInnerLeOfDetEqOne
-public import Formalism.PeriodIntegrals.Transference
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.Bundle020
+public import Formalism.PeriodIntegrals.Bundle001
 public import Formalism.SharpRestriction.Divisibility.WeightAlgebra
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.Algebra.Module.StablyFree.Basic
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PairedCharacterCondition
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle056
 public import Formalism.FilteredPoleLength.LocalDescentLevels.InvFromBlocksApplyZero
-public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxBase
+public import Formalism.LogFactorialIndices.SignedSubspaceIndex.Bundle001
 public import Formalism.LogFactorialIndices.SignedSubspaceIndex.IdxDet
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended

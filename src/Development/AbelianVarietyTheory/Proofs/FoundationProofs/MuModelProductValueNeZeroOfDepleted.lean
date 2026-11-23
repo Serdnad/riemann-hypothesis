@@ -1,20 +1,18 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.RepL
-public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.ChapterMu
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AtkinLehnerEisStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffEisensteinSeriesTwistedHeckeUHeckeV
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoeffHeckeUVCauchyProductIdentities
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DirichletCharFiniteFourierTransformProperties
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EisensteinPeriodicWeightsIsModularFormStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EisensteinProductSeriesEqDepletedEisensteinProduStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsModularFormCoeffSeqHeckeUAndDepletionStatement
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqEqOfPosCoeffEq
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqLinearStructure
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqMulAndQExpansion
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.QExpansionFunctionInjectiveOfPolynomialGrowth
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SlashIntMatrixPosDetProperties
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ZsEqMulDepEis
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle002
+public import Development.AbelianVarietyTheory.Statements.CuspidalUnitaryTwists.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle241
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle156
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle155
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle160
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle252
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle185
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle231
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle167
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle154
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle181
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle158
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -293,7 +291,7 @@ theorem _root_.GlobalTheory.zm_val_ne_zero : ∀ (e N l : ℕ) (χ θ : Dirichle
   set K0 : ℂ := (N : ℂ) ^ e / (N : ℂ) ^ 2 * (ch ψ d * ch θ d) with hK0
   have hF1W : slz e W (qs F1) = (κ1⁻¹ * K0) • qs E1 := by
     have h : qs F1 = κ1⁻¹ • slz e W (qs E1) := by rw [hW1, smul_smul, inv_mul_cancel₀ hκ1, one_smul]
-    rw [h, slz_smul', hWW, smul_smul]
+    rw [h, GlobalTheory.ZMVal.slz_smul', hWW, smul_smul]
 
   have hmul := (GlobalTheory.EisM.mul_main).1
   have hmf := GlobalTheory.EisM.mul_main.2

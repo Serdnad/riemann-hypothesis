@@ -1,8 +1,8 @@
 module
 
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsUniqueSecOfCompatible
-public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsLieCoordinates
-public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsToJetEq
+public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.Bundle054
+public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

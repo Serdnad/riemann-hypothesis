@@ -1,6 +1,6 @@
 module
 
-public import Formalism.RealPlaceAnalysis.SmoothOnG
+public import Formalism.RealPlaceAnalysis.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

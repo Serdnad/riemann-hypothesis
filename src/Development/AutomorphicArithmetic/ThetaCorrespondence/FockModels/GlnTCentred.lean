@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.CasselmanSuffTemp
-public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
-public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.EssSquareIntegrableSegments
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.TSchur
-public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.TUnitcent
+public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.Bundle002
+public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.Bundle003
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.Bundle001
+public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.Bundle002
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

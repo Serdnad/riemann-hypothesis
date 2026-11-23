@@ -3,10 +3,10 @@ module
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsKSValueOneOfRetraction
 public import Mathlib.Analysis.SpecialFunctions.Log.ERealExp
-import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.FrameChangeComposeInvertBaseChangeTriangular
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueFrameChangeByMatrices
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LowerTriIsUnitDet
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.Bundle026
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle044
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle040
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle052
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -240,8 +240,8 @@ theorem IsHalf.sum_univ {Φ : Finset (E →+* ℂ)} (h : IsHalf Φ) (g : (E →+
   rw [Finset.sum_add_distrib, ← Finset.sum_add_sum_compl Φ]
   congr 1
   refine Finset.sum_bij' (fun σ _ => conjEmb σ) (fun σ _ => conjEmb σ) (fun σ hσ => ?_) (fun σ hσ => ?_)
-    (fun σ _ => conjEmb_conjEmb σ) (fun σ _ => conjEmb_conjEmb σ) fun σ _ => by rw [conjEmb_conjEmb]
-  · rw [h, conjEmb_conjEmb]; exact Finset.mem_compl.1 hσ
+    (fun σ _ => _root_.GlobalTheory.AllWt.conjEmb_conjEmb σ) (fun σ _ => _root_.GlobalTheory.AllWt.conjEmb_conjEmb σ) fun σ _ => by rw [_root_.GlobalTheory.AllWt.conjEmb_conjEmb]
+  · rw [h, _root_.GlobalTheory.AllWt.conjEmb_conjEmb]; exact Finset.mem_compl.1 hσ
   · exact Finset.mem_compl.2 ((h σ).1 hσ)
 
 theorem IsHalf.card {Φ : Finset (E →+* ℂ)} (h : IsHalf Φ) : Φ.card = Module.finrank ℚ E / 2 := by
@@ -307,7 +307,7 @@ theorem exOf_kap : exOf Dw (kap Dw) 0 = detTanEx Dw := by
   · have a : Dw.mult σ = Dw.q := if_neg h
     have b : Dw.mult (conjEmb σ) = Dw.p := if_pos (conj_mem h)
     have e := wtOf_small (kap Dw) 0 ⟨conjEmb σ, conj_mem h⟩ i (a ▸ hi)
-    simp only [conjEmb_conjEmb] at e
+    simp only [_root_.GlobalTheory.AllWt.conjEmb_conjEmb] at e
     rw [e]
     simp only [kap, add_lt_iff_neg_left, Nat.not_lt_zero, if_false]
     omega
@@ -319,7 +319,7 @@ section KS
 open DeRham Cris
 
 def IsKSRow {R : Type} [CommRing R] {A : Over (Sp R)} [GrpObj A] {A' : Over (Sp (DualNumber R))} [GrpObj A']
-    {i : A.left ⟶ A'.left} (h : IsGrpPullback A A' (epsRed R) i) (ψ : LinearMap.BilinForm R (HdR A)) {J : Type}
+    {i : A.left ⟶ A'.left} (h : IsGrpPullback A A' (_root_.GlobalTheory.DeRham.epsRed R) i) (ψ : LinearMap.BilinForm R (HdR A)) {J : Type}
     (hb : J → HdR A) (a : J) (w : epsR R ⟶ A) : Prop :=
   ∃ f ∈ Fil A, (∀ k, ψ f (hb k) = if k = a then 1 else 0) ∧ IsKSValue h f w
 
@@ -334,7 +334,7 @@ theorem IsDef.isTanX {y : FrPt Xo c K} {v : FrPt Xo c (DualNumber K)} (h : IsDef
 def IsKS (Φ : Finset (E →+* ℂ)) (y : FrPt Xo c K) (x' : Sp (DualNumber K) ⟶ Xo.X) (M : HIx Dw Φ → K) : Prop :=
   ∃ (A : Over (Sp K)) (_ : GrpObj A) (A' : Over (Sp (DualNumber K))) (_ : GrpObj A')
     (π : A.left ⟶ Xo.univ.t.G.left) (π' : A'.left ⟶ Xo.univ.t.G.left) (i : A.left ⟶ A'.left)
-    (h : IsGrpPullback A A' (epsRed K) i) (ψ : LinearMap.BilinForm K (HdR A))
+    (h : IsGrpPullback A A' (_root_.GlobalTheory.DeRham.epsRed K) i) (ψ : LinearMap.BilinForm K (HdR A))
     (ub : ∀ σ : E →+* ℂ, Fin (Dw.mult σ) → (epsR K ⟶ A)) (hb : (Σ σ : E →+* ℂ, Fin (Dw.mult σ)) → HdR A),
     IsGrpPullback A Xo.univ.t.G y.x π ∧ IsGrpPullback A' Xo.univ.t.G x' π' ∧ i ≫ π' = π ∧
     IsPolForm (dp0 K) (𝟙 _) A (Xo.univ.t.PP.L.pull π) ψ ∧

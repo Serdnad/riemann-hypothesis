@@ -1,9 +1,9 @@
 module
 
-public import Formalism.SharpRestriction.CuspSpanNormBounds.DiagonalEntryIdentity
-public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalDataRealPlace
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle006
+public import Formalism.SharpRestriction.CuspSpanNormBounds.Bundle004
 public import Formalism.HermitianCurvature.StatementG
-public import Formalism.FormalDegreeBessel.FinalBF
+public import Formalism.FormalDegreeBessel.Bundle002
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,10 +45,10 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Formalism.FormalDegreeBessel.FormalDegreeRatio.WRWeyl
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.ContinuousInvUpper
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.Herglotz
-import Formalism.HermitianCurvature.StatementTA
-import Formalism.YangianSpanCharacter.StatementT
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle005
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.Bundle003
+import Formalism.HermitianCurvature.Bundle001
+import Formalism.YangianSpanCharacter.Bundle001
 
 @[expose] public section
 

@@ -1,10 +1,10 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.SConjSpaceC
+public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.Bundle002
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ContinuousMapGL
 import GroundTheory.GlobalFields.Adele.Topology
-import GroundTheory.GlobalFields.TateThesis.AdeleMeasure
+import GroundTheory.GlobalFields.TateThesis.Bundle006
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,8 +49,8 @@ import Mathlib.Topology.Algebra.Group.OpenMapping
 import Mathlib.Topology.Baire.LocallyCompactRegular
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
-public import GroundTheory.GlobalFields.Adele.Approximation
-public import GroundTheory.GlobalFields.Adele.Compact
+public import GroundTheory.GlobalFields.Adele.Bundle002
+public import GroundTheory.GlobalFields.Adele.Bundle003
 
 @[expose] public section
 

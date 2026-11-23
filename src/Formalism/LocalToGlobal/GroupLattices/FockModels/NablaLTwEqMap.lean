@@ -3,8 +3,8 @@ module
 public import Formalism.SharpRestriction.GrowthBounds.UnramifiedQuadraticSetting
 public import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 public import Formalism.GradedWeylDivisibility.FinalD
-import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDlatLemmas
-public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.NablaLTwist
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle011
+public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.Bundle003
 public import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -4,7 +4,7 @@ public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Potenti
 public import Development.WeilBound.CoreStatements.PlurisubharmonicCones.ContinuousAtOfHolo
 public import Mathlib.Logic.Equiv.Bool
 public import Mathlib.Order.CompletePartialOrder
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ChartLocalAnalyticTrivializationStatement
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle146
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -46,7 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.Bundle001
 
 @[expose] public section
 
@@ -240,7 +240,7 @@ theorem LevelTowerAlt.exists_potential_charts : ∀ (K : Type) [Fintype K] (J : 
     rw [hκ]
     rcases ix j with ⟨p, _ | _⟩
     · rfl
-    · exact (cj_cj _).symm
+    · exact (_root_.LevelTowerAlt.Charts.cj_cj (g p)).symm
   have hκκ : ∀ j, κ (κ j) = j := fun j => by
     have : ∀ x, fl (fl x) = x := fun x => by simp [fl, Equiv.boolNot, Prod.map]
     simp only [κ, Equiv.trans_apply, Equiv.apply_symm_apply, this, Equiv.symm_apply_apply]

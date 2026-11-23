@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.GalRigidOfSurjective
-import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveModel
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCompleteDVROfFiniteEtaleBaseChangeStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsRigidifiedCubicalRootPolarisationEtaleStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSharpGen
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle074
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.Bundle107
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3136
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3421
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2683
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTauLattice
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsGrpPullbackPasteFactorisation
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RegularOfFiniteOfFormallyUnramified
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ConeConditionsCoverModels
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StalkSpecializesCompatRingMap
-import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsSquareUnique
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2878
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2720
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle539
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle678
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.Bundle065
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -49,8 +49,8 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
-import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBLocal
-import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsMinAt
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.Bundle001
+import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle067
 
 @[expose] public section
 

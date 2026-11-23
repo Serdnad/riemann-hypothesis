@@ -1,9 +1,9 @@
 module
 
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFullLevelAt
-public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TateIsoBaseChangeStatement
-public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.TateIsoPullbackEquivStatement
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle006
+public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Bundle005
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle139
+public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.Bundle171
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

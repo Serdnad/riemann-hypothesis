@@ -1,9 +1,7 @@
 module
 
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.OnePointBasisFundamentalDomainVolume
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.FreeFamily
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.GridSum
-public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.LagSum
+public import CompanionTheory.AutomorphicTheory.BesselWaveGrids.InterlacingGrids.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

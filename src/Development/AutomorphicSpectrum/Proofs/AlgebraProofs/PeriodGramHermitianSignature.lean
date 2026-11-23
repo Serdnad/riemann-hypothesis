@@ -1,7 +1,7 @@
 module
 
-import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.VolumeFundamentalDomainStdRealBasis
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsTransition
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.Bundle011
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PeriodHermitianTypeCompatibility
 import Mathlib.Algebra.Order.Floor.Extended

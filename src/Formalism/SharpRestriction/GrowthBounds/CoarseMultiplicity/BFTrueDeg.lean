@@ -1,11 +1,11 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.CoarseMultAt
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle010
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.WeightWLet
 import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.SegmentStatementHolds
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.IoBlockMonomial
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.SymbolVariableLowerLetter
-import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.TopOddNeEnd
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle006
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle003
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

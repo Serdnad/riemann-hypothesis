@@ -2,12 +2,12 @@ module
 
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdAd
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.CdUniv
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle014
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle040
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FrRatio
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermBPf
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
-import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThetaSwapFirstTwo
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle022
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,15 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SuppAtMul
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
-public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.SqEqOneOfFixDat
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2480
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle2458
+public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.Bundle033
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacewiseToAdelicDecompositionForall
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartConjMem
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrameMatrixReductionEqOfHalfIdempotentSubset
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsPlaceModelCompRestrictToHalfLatticeIndicator
-import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.VacuumVectorDropAuxiliaryPlaces
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1728
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle839
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle500
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle854
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
-import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GramMapMulInv
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle305
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -312,7 +312,7 @@ theorem locFn_eq_prod {S T : HSp D} {B : Base S T} {ψ : Twist D Circle} (hQ : B
 
 end Real
 
-theorem vecFlat_three_steps : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T0 : Type) (A : FamIn D.what₂.LL G Pl0 T0 D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks) (F : Face D A), GlobalTheory.Hk3.Core R F → QGuard R → ∀ (i : Fin D.R.m) (t : T0), VStd D i → ∀ (B : Base (Vc D i) (Wc D i)) (ψ : Twist D Circle), B.Good → BaseOf R i B → ψ.Good → B.admitted ψ.Q → R.xi t = B.de.chi * ψ.chi → idem (R.Q t) + cA D (idem (R.Q t)) = idem (B.de.Q ∪ ψ.Q) + cA D (idem (B.de.Q ∪ ψ.Q)) → ∃ (eg ea et : AE D) (fg hA : WO (Vc D i) (Wc D i) → ℂ), IsIdemSum eg R.Pg ∧ IsIdemSum ea (keepPart (R := R) t (B.de.Q ∪ ψ.Q)) ∧ IsIdemSum et (flipPart (R := R) t (B.de.Q ∪ ψ.Q)) ∧ GlobalTheory.BaseCmp.IsTypeVec R i eg fg ∧ ThAt R i ea fg (GlobalTheory.BaseCmp.flatDat R i (keepPart (R := R) t (B.de.Q ∪ ψ.Q)) (R.xiR t) ea) hA ∧ ThAt R i (cA D et) hA (GlobalTheory.BaseCmp.flatDat R i ((flipPart (R := R) t (B.de.Q ∪ ψ.Q)).image conjPl) (fun PP => B.de.locC PP * ψ.locC PP) (cA D et)) ((princ B).vecFlat ψ) := by
+theorem vecFlat_three_steps : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T0 : Type) (A : FamIn D.what₂.LL G Pl0 T0 D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks) (F : Face D A), GlobalTheory.Hk3.Core R F → QGuard R → ∀ (i : Fin D.R.m) (t : T0), VStd D i → ∀ (B : Base (Vc D i) (Wc D i)) (ψ : Twist D Circle), B.Good → BaseOf R i B → ψ.Good → B.admitted ψ.Q → R.xi t = B.de.chi * ψ.chi → idem (R.Q t) + cA D (idem (R.Q t)) = idem (B.de.Q ∪ ψ.Q) + cA D (idem (B.de.Q ∪ ψ.Q)) → ∃ (eg ea et : AE D) (fg hA : WO (Vc D i) (Wc D i) → ℂ), IsIdemSum eg R.Pg ∧ IsIdemSum ea (keepPart (R := R) t (B.de.Q ∪ ψ.Q)) ∧ IsIdemSum et (flipPart (R := R) t (B.de.Q ∪ ψ.Q)) ∧ GlobalTheory.BaseCmp.IsTypeVec R i eg fg ∧ _root_.GlobalTheory.BigOn.Exp.TupLe.Swap.ThAt R i ea fg (GlobalTheory.BaseCmp.flatDat R i (keepPart (R := R) t (B.de.Q ∪ ψ.Q)) (R.xiR t) ea) hA ∧ _root_.GlobalTheory.BigOn.Exp.TupLe.Swap.ThAt R i (cA D et) hA (GlobalTheory.BaseCmp.flatDat R i ((flipPart (R := R) t (B.de.Q ∪ ψ.Q)).image conjPl) (fun PP => B.de.locC PP * ψ.locC PP) (cA D et)) ((princ B).vecFlat ψ) := by
   intro D G _ _ Pl0 T0 A Ks _ _ _ R F hC _ i t _ B ψ hB h hψ hQ hxi hid
   have hs : SplitSet (R.Q t) := (GlobalTheory.ConjTwist.Test.splitSet_Pg hC i t).mono (by convert Finset.subset_union_right)
   obtain ⟨P, s1, s2, hP⟩ := hQ.1.split
@@ -360,10 +360,10 @@ theorem vecFlat_three_steps : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0
   · unfold GlobalTheory.BaseCmp.IsTypeVec GlobalTheory.BaseCmp.lattice₂
     rw [← h.ψ, ← h.ΛS, ← h.ΛT, ← h.βS, ← h.βT, ← h.vac, ← h.Pg]
     exact t1
-  · unfold ThAt GlobalTheory.BaseCmp.flatDat
+  · unfold _root_.GlobalTheory.BigOn.Exp.TupLe.Swap.ThAt GlobalTheory.BaseCmp.flatDat
     rw [← h.ψ, ← h.ΛS, ← h.ΛT, ← h.βS, ← h.βT]
     exact t2
-  · unfold ThAt GlobalTheory.BaseCmp.flatDat
+  · unfold _root_.GlobalTheory.BigOn.Exp.TupLe.Swap.ThAt GlobalTheory.BaseCmp.flatDat
     rw [← h.ψ, ← h.ΛS, ← h.ΛT, ← h.βS, ← h.βT]
     exact t3
 

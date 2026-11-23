@@ -1,6 +1,6 @@
 module
 
-public import GroundTheory.GlobalFields.NormResidueSymbol.RationalCyclotomic
+public import GroundTheory.GlobalFields.NormResidueSymbol.Bundle001
 public import GroundTheory.GlobalFields.TateThesis.HeckeChar
 public import Mathlib.NumberTheory.DirichletCharacter.Bounds
 public import GroundTheory.GlobalFields.NormResidueSymbol.RationalContinuous

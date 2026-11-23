@@ -1,14 +1,14 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.CoarseCLower
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle007
 public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ExponentMatrixFirstDepthEq
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.DigitsOKOfCompat
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.ExistsHigh
-import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.KappaZeroNonneg
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.LowerBoundInitialMultiplicity
-public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.RestTMExists
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle010
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle013
+import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle005
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle017
+public import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle015
 import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.UTopVal
-import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.WindowEntryLeTwoMulA
+import Formalism.SharpRestriction.GrowthBounds.MonomialFactorials.Bundle014
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

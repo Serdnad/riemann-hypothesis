@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.GlobalTheory.GL4.PacketOfFrameDegree
-import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
+import Formalism.LocalToGlobal.Columns.Bundle030
 import Formalism.SharpRestriction.GlobalSchurBounds.TotallyPositiveTraceGeOfNormDiscr
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

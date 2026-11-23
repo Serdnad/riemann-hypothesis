@@ -1,8 +1,8 @@
 module
 
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ImportsBis
-public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ImportsBisFurther
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle005
+public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Bundle027
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

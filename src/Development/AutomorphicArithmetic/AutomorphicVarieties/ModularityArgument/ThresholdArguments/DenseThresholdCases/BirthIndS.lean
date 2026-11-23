@@ -1,22 +1,21 @@
 module
 
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AfDesc
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.RankFourAutomorphyOfTensor
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle021
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.Bundle005
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.SplitUnramifiedInduction.SplitOfDecAlt
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.GaloisRepIrreducibilityCriterion
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle055
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.InducedIrreducible
-import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.ResidualCharactersPsiNe
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SolvablePolarizedRestriction
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.SymmetricSquareMixedCharpoly
-import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.ResFacts
+import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle070
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle063
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.Bundle071
+import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.Bundle008
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.AutomorphyLifting.PrimeIndexConstruction.ValAbsPowNegOne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.SplitUnramifiedInduction.SplitOfDec
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.SplitUnramifiedInduction.UnrOfIne
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.BirthAwChain
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.BirthSphOfUnrW
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.EGPolMix
-import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TAlgCyc
-import GroundTheory.Brauer.BaseChangeRestriction
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.InductionEstimates.SplitUnramifiedInduction.Bundle002
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle050
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle065
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle038
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.Bundle020
+import GroundTheory.Brauer.Bundle001
 import GroundTheory.GlobalFields.ExistenceTheorem.ExistsIsAbelianGaloisRangeIdeleClassNormEqOfFini
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -91,6 +90,7 @@ private theorem two_places {k : Type} [Field k] [NumberField k] [IsTotallyReal k
   have h3 : ({w, v, v'} : Finset (InfinitePlace k)).card = 3 := Finset.card_eq_three.2 ⟨w, v, v', hw.1, hw.2, hv, rfl⟩
   have h4 := Finset.card_le_univ ({w, v, v'} : Finset (InfinitePlace k))
   omega
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem two_emb {L M : Type} [Field L] [Field M] [CharZero L] [Algebra L M] (h : Module.finrank L M = 2) (φ : L →+* ℂ) :
     ∃ τ τ' : M →+* ℂ, τ ≠ τ' ∧ τ.comp (algebraMap L M) = φ ∧ τ'.comp (algebraMap L M) = φ := by
   letI : Algebra L ℂ := φ.toAlgebra
@@ -116,15 +116,16 @@ private theorem inf_reg (m : Fin 2 → ℤ) (h : m 0 ≠ m 1) :
     fin_cases i <;> fin_cases j <;> simp_all
   · obtain ⟨i, -, rfl⟩ := Multiset.mem_map.1 hz
     exact ⟨m i, add_comm _ _⟩
+attribute [-instance] UpperTheory.V.Pr.IsCD.toIsDomain UpperTheory.V.Pr.IsCD.toIsDiscreteValuationRing UpperTheory.V.Pr.IsCD.complete in
 private theorem val_of_mem {F Ω : Type} [Field F] [NumberField F] [Field Ω] [Algebra F Ω] {A : ValuationSubring Ω}
-    {v : HeightOneSpectrum (𝓞 F)} (hA : IsPlaceOver A v) (p : ℕ) : A.valuation (p : Ω) < 1 ↔ ((p : ℕ) : 𝓞 F) ∈ v.asIdeal := by
+    {v : HeightOneSpectrum (𝓞 F)} (hA : _root_.Formalism.ConjugateSelfDual.IsPlaceOver A v) (p : ℕ) : A.valuation (p : Ω) < 1 ↔ ((p : ℕ) : 𝓞 F) ∈ v.asIdeal := by
   rw [← hA]
   simp
 
 theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indAutLP_of_upQuad_upSol_indAutCs (H : _root_.UpperTheory.V.Af.HypothesesH') : UpQuadI → UpSolI → IndAutCs → IndAutLP := by
   intro hQ hS hI Ω _ _ _ l _ c D T k₀ _ _ φ ι k t r α β R δ h hrw
   have hKL : T.K ≤ T.L := T.hL ▸ le_sup_right
-  have hfix : ∀ g : G T.F Ω, g ∈ T.GalL → resQ T.F g ∈ T.L.fixingSubgroup := fun g hg => by
+  have hfix : ∀ g : _root_.Formalism.ConjugateSelfDual.G T.F Ω, g ∈ T.GalL → resQ T.F g ∈ T.L.fixingSubgroup := fun g hg => by
     rw [T.hL, IntermediateField.fixingSubgroup_sup]
     exact ⟨(IntermediateField.mem_fixingSubgroup_iff _ _).2 fun y hy => g.commutes ⟨y, hy⟩, hg⟩
   have hirr : IsIrr ((R.comp (resQ T.F)).comp T.G'.subtype) := UpperTheory.induced_irreducible Ω l c D T k₀ φ ι k t r α β R δ h
@@ -199,7 +200,7 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indAutLP_of_upQuad_u
     (RM.2.2.2.1.1 (RE.2.2.2.2.1 h.dat.irr _ RM.2.1))
   haveI : IsCMField M := IsCMField.of_isAbelianGalois M
   haveI : IsAbelianGalois T.L M := IsAbelianGalois.tower_top ℚ _ _
-  have hMfix : ∀ s : G T.L Ω, resQ T.L s ∈ k₀.fixingSubgroup → ∀ x : M, s (algebraMap M Ω x) = algebraMap M Ω x := fun s hs x => by
+  have hMfix : ∀ s : _root_.Formalism.ConjugateSelfDual.G T.L Ω, resQ T.L s ∈ k₀.fixingSubgroup → ∀ x : M, s (algebraMap M Ω x) = algebraMap M Ω x := fun s hs x => by
     have : resQ T.L s ∈ M.fixingSubgroup := by
       rw [hM, IntermediateField.fixingSubgroup_sup]
       exact ⟨hs, (IntermediateField.mem_fixingSubgroup_iff _ _).2 fun y hy => s.commutes ⟨y, hy⟩⟩
@@ -216,13 +217,13 @@ theorem UpperTheory.V.Z.InvariantSubmoduleMonicPolynomial.E.indAutLP_of_upQuad_u
   haveI : IsCMField E := IsCMField.of_isAbelianGalois E
   have hW : AllW ι ((r.comp (galEmb k₀ E Ω)).comp (galEmb E M Ω)) := by
     haveI : IsAlgClosure k₀ Ω := ⟨IsAlgClosure.isAlgClosed ℚ, Algebra.IsAlgebraic.tower_top (K := ℚ) _⟩
-    have h1 : Sd.IsAlgChar ι (1 : G E Ω →* (Qbar l)ˣ) := by simpa using (_root_.UpperTheory.V.Sd.alg_cyclotomic_of_printed_results H.toClassicalTheorems E Ω l ι).1 0 1 (by rw [MonoidHom.ker_one]; exact isOpen_univ)
+    have h1 : Sd.IsAlgChar ι (1 : _root_.Formalism.ConjugateSelfDual.G E Ω →* (Qbar l)ˣ) := by simpa using (_root_.UpperTheory.V.Sd.alg_cyclotomic_of_printed_results H.toClassicalTheorems E Ω l ι).1 0 1 (by rw [MonoidHom.ker_one]; exact isOpen_univ)
     have h2 := _root_.UpperTheory.V.Z.Win.Birth.awChain_of_printsH H k₀ E M Ω dE l ι r 1 h.dat.cont hrw h1 (RM.2.2.2.1.1 (RE.2.2.2.2.1 h.dat.irr _ RM.2.1))
     have e : tw (r.comp (galEmb k₀ E Ω)) 1 = r.comp (galEmb k₀ E Ω) := MonoidHom.ext fun g => Units.ext (by rw [tw_val]; simp)
     rwa [e] at h2
   have hbad : SplitBad T.L P := fun v hv => by
     refine ⟨unrOfIne T.L M Ω v fun A _ s hs => hMfix s ?_, fun w hw => ?_⟩
-    · let g : G T.F Ω := AlgEquiv.ofRingEquiv (f := s.toRingEquiv) fun x => s.commutes ⟨x, T.F_le x.2⟩
+    · let g : _root_.Formalism.ConjugateSelfDual.G T.F Ω := AlgEquiv.ofRingEquiv (f := s.toRingEquiv) fun x => s.commutes ⟨x, T.F_le x.2⟩
       exact (h.hyp.ps g).1 (h.hyp.two.unr A g ⟨hs.1, hs.2⟩)
     · have hn : ∀ p : ℕ, S2.SplitIn p k₀ → ((p : ℕ) : 𝓞 M) ∉ w.asIdeal := fun p hp hm => hv (hsp p v hp (by
         rw [← hw]

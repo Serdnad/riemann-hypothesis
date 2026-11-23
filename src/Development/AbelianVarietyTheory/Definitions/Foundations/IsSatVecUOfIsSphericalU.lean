@@ -1,11 +1,11 @@
 module
 
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-public import Formalism.SatakeDualWeyl.StatementE
+public import Formalism.SatakeDualWeyl.Bundle001
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.FinsumDosetIndSmul
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeA
-public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FiniteCosetsInDoset
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle120
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle010
+public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle003
 public import Formalism.SatakeDualWeyl.KpqSubgroupCompact
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

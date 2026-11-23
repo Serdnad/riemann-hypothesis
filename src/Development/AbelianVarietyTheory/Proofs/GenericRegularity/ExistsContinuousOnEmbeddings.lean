@@ -1,14 +1,14 @@
 module
 
-public import Formalism.LocalToGlobal.ProjectiveLattices.NrmContPf
+public import Formalism.LocalToGlobal.ProjectiveLattices.Bundle023
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.Topology.Separation.CompletelyRegular
 public import Development.AbelianVarietyTheory.Proofs.AlgebraicCurves.AlgebraicIndependentFreeVar
-public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.ContDiffEvalFun
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AeEvalCircleMapNeZero
+public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.Bundle001
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle011
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.AemeasurableFinsumSection
-public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsLinearIndependentDIffTrdegAdjoinEq
+public import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle015
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IntegralAndRationalOfPolynomialGrowth
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

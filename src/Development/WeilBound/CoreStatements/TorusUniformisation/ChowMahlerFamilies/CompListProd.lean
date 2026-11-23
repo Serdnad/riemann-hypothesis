@@ -1,15 +1,15 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
-public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.LieModel
+public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.Bundle001
 public import Formalism.LocalToGlobal.ProjectiveLattices.ChartDirectionsIntegral
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermCut
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle010
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
-public import Development.WeilBound.CoreStatements.HodgeTatePoints.HtatLieBc
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrA
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrC
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ChartJetTrD
-public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
+public import Development.WeilBound.CoreStatements.HodgeTatePoints.Bundle042
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle012
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle017
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle019
+public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.Bundle013
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

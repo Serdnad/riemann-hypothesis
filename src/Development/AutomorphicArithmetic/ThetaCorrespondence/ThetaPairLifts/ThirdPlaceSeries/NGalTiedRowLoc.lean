@@ -1,6 +1,6 @@
 module
 
-public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedRowLoc
+public import Formalism.LocalToGlobal.GaloisLevelStructure.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

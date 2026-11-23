@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LocalToGlobal.KernelLattices.KerStd
-public import Formalism.LocalToGlobal.AlgebraicTheory.StatementNorm
+public import Formalism.LocalToGlobal.KernelLattices.Bundle003
+public import Formalism.LocalToGlobal.AlgebraicTheory.Bundle001
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.LinkThetaStatementFamily
 import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.StdOK

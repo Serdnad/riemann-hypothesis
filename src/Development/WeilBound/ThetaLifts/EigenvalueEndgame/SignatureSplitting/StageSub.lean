@@ -1,7 +1,7 @@
 module
 
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.SignatureSplitting.RightOfFd
-public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ConjugateSubgroup
+public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Bundle085
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AntiJMulApply
-import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeB
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Bundle006
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -316,4 +316,18 @@ theorem indexThree : IntIndex → TraceZeroIndex → IndexThree := by
 
 end GlobalTheory.SatakeWeyl.Heis
 
+end
+
+end
+
+section
+
+@[expose] public section
+
+open Formalism.UG GlobalTheory.SatakeWeyl
+
+theorem _root_.GlobalTheory.T.unitaryRankThreeRootIndex_of_cards : GlobalTheory.SatakeWeyl.IntIndex → GlobalTheory.SatakeWeyl.TraceZeroIndex → GlobalTheory.SatakeWeyl.IndexThree := by
+  first | exact @GlobalTheory.SatakeWeyl.Heis.indexThree | exact GlobalTheory.SatakeWeyl.Heis.indexThree | (intros; apply GlobalTheory.SatakeWeyl.Heis.indexThree <;> assumption)
+
+end
 end

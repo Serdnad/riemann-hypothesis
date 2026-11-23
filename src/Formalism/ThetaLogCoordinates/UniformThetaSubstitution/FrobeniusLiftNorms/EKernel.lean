@@ -1,7 +1,7 @@
 module
 
-public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.StatementG
-public import Formalism.GaussJetBounds.StatementP
+public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.Bundle001
+public import Formalism.GaussJetBounds.Bundle003
 public import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.EJoint
 import Mathlib.Algebra.Order.Floor.Extended

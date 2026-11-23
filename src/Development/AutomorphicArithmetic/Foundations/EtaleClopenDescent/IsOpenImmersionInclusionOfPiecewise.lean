@@ -1,8 +1,7 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafInclPiecePf
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.LimitCompactOfCofilteredCartesianAffineTransitio
-public import Development.AutomorphicArithmetic.CommutativeAlgebra.LimitOfCofilteredAffineBaseChangeSquares
+public import Development.EtaleCohomology.EtaleSheaves.Bundle090
+public import Development.AutomorphicArithmetic.CommutativeAlgebra.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

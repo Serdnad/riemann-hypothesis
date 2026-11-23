@@ -4,11 +4,11 @@ public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.LSeries.DirichletContinuation
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AnalyticAtDslope
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CompletedLFunctionNeZeroOfReNonpos
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle002
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsBoundRight
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ImportsMore
-public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivLFunctionNearZero
-import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.LogDerivLFunctionStrip
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle017
+public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle024
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.Bundle018
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

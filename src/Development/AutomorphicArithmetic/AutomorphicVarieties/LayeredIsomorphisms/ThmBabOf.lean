@@ -1,10 +1,10 @@
 module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.SecondBound
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Kmono
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Bundle001
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.PartA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.PartB
-public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Window
+public import Development.AutomorphicArithmetic.AutomorphicVarieties.LayeredIsomorphisms.Bundle003
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

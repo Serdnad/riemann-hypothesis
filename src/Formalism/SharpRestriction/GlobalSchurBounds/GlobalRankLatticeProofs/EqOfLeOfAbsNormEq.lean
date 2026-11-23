@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalRingCardinality.DataHost
 public import Mathlib.Algebra.AffineMonoid.Basic
-public import Formalism.DirichletDensity.DirichletDensityProofs.QuadDiscr
+public import Formalism.DirichletDensity.DirichletDensityProofs.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

@@ -1,11 +1,11 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.IsAmbOfIsArithVar
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoheightAddPointClosureDimEqDimStatement
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoheightOneIffPointClosureDimProjArithStatement
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasPointClosureDimBasicProjArithAmbient
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LengthSumHeightOneDisjointDivisorsStatement
-public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StalkGenerizationGermCompat
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle042
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1504
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1619
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1417
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle438
+public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Bundle005
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

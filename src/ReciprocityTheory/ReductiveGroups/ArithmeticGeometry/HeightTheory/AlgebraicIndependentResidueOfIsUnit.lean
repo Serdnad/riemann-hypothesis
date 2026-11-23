@@ -44,8 +44,8 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.SemistableReduction.GaussIndepOfLeTrdeg
-public import ReciprocityTheory.SemistableReduction.IntegralClosureRankAndResidueTrdegLe
+public import ReciprocityTheory.SemistableReduction.Bundle004
+public import ReciprocityTheory.SemistableReduction.Bundle010
 
 @[expose] public section
 

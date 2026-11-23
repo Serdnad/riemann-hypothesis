@@ -1,6 +1,6 @@
 module
 
-public import Development.EtaleCohomology.EtaleSheaves.LeafRepCut
+public import Development.EtaleCohomology.EtaleSheaves.Bundle048
 public import Mathlib.Algebra.Homology.HomotopyCategory.KInjective
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

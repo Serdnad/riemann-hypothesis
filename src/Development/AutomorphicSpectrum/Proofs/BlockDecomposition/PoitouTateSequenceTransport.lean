@@ -1,6 +1,6 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NineTermExactIff
+public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Bundle153
 public import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.TransportA
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

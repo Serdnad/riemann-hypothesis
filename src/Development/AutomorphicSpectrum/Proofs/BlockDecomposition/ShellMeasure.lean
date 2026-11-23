@@ -1,16 +1,15 @@
 module
 
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConvUAbsU
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1180
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsCellUAbsorbUnip
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocCompactSecondCountable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemWeylCellUnitaryGroupLongSimpleReflectionIff
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalWeylCellTranslate
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SwapLtSwapIffOfAddTwo
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorusConjugationWeylCell
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1248
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle995
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1252
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1263
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1254
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeylCellStabilizerMeasure
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeylCellStabilizerMeasureTwo
-import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsOpenIsCompactUnitaryIntegralPoints
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1185
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle306
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -62,8 +61,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Topology.UniformSpace.Uniformizable
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemShellUIffDepth
-import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasBoundedSumsOne
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1181
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.Bundle038
 
 @[expose] public section
 

@@ -44,9 +44,9 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.ExtNull
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle006
 public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.MeasurableEmbeddingRotAbout
-public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.MvDivIntegrand
+public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.Bundle002
 public import Mathlib.MeasureTheory.Integral.IntegrableOn
 
 @[expose] public section

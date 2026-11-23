@@ -1,9 +1,8 @@
 module
 
-public import Formalism.GaussJetBounds.StatementU
-public import Formalism.GaussJetBounds.StatementI
+public import Formalism.GaussJetBounds.Bundle004
 public import Formalism.GaussJetBounds.GaussJetProofs.ConstantCoeffAevalLinP
-public import Formalism.GaussJetBounds.GaussJetProofs.FJEval
+public import Formalism.GaussJetBounds.GaussJetProofs.Bundle004
 public import Formalism.GaussJetBounds.GaussJetProofs.GField
 public import Formalism.GaussJetBounds.GaussJetProofs.Labels
 import Formalism.GaussJetBounds.GaussJetProofs.ThmAOp

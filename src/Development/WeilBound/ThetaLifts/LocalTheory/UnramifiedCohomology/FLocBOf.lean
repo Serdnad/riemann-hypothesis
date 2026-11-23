@@ -1,19 +1,19 @@
 module
 
-public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.CoefficientSpans
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.IdealStmt
+public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle001
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle003
+public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle001
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedDeterminedBySpherical
-public import Development.WeilBound.ThetaLifts.SmallCones.SoDefs
-import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Kcompact
+public import Development.WeilBound.ThetaLifts.SmallCones.Bundle003
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Bundle003
 public import Development.WeilBound.CoreStatements.LocalThetaKernels.Locrep
-import Development.WeilBound.ThetaLifts.CartanFactorisation.TensOfEval
-public import Development.WeilBound.ThetaLifts.LeviDeterminants.ActsEx
+import Development.WeilBound.ThetaLifts.CartanFactorisation.Bundle005
+public import Development.WeilBound.ThetaLifts.LeviDeterminants.Bundle006
 public import Development.WeilBound.ThetaLifts.LocalTheory.AdmissiblePureTensorSchwartz
 public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.KAtCompact
-import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.PureCancel
+import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.Bundle002
 public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.KAtCompact
-public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.SpanSoLoc
+public import Development.WeilBound.ThetaLifts.LocalTheory.UnramifiedCohomology.Bundle001
 import Development.WeilBound.ThetaLifts.SmallCones.MatCancel
 import Development.WeilBound.ThetaLifts.TowerModels.LeviAd
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,7 +56,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-public import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.EvFinIdemSelf
 
 @[expose] public section
 
@@ -178,7 +177,7 @@ theorem fLocB_of (hI : IdeleFub) (hJ : IdealId0) (hS : StabEx) (hIw : IwaEx) (hM
   have op : ∀ (k : kAt K (evFin F v)) (l : (AE F E)ˣ), ∀ φ ∈ SB _,
       opF v (fun Φ => G.M'.co.rho B.ψ (idem F v • shiftB σ H H' l) (om' (k.1, 1) Φ)) φ =
         rv B G.M' v (idem F v • shiftB σ H H' l) (ω (k.1, 1) φ) :=
-    fun k l φ hφ => opF_eq hφ (rv_sb hc.base G.M' v _ (sb _ (kAt_mem k) φ hφ)) (acts_comp ((IsUWeilPair.isUSplitting hP.weil).pres _)
+    fun k l φ hφ => Cone.Fin.opF_eq hφ (rv_sb hc.base G.M' v _ (sb _ (kAt_mem k) φ hφ)) (Cone.Fin.acts_comp ((IsUWeilPair.isUSplitting hP.weil).pres _)
       ((L.acts _ (kAt_mem k) _ o1 φ hφ _).2 rfl) (rv_acts B _ (Fin.at_idem v _) _))
   let A : Fl F v _ _ → Fl F v _ _ := fun φ y => ∫ l : idAt E (evFin F v),
     ev v (rv B G.M' v (idem F v • shiftB σ H H' l.1) φ) y * wt X.ν z l.1 ∂(m.xf v)

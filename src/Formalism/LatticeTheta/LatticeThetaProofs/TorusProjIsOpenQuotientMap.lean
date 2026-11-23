@@ -1,7 +1,7 @@
 module
 
-public import Formalism.LatticeTheta.LatticeThetaProofs.InnerDualVecBasis
-public import Formalism.LatticeTheta.LatticeThetaProofs.FundamentalDomainEqPreimage
+public import Formalism.LatticeTheta.LatticeThetaProofs.Bundle002
+public import Formalism.LatticeTheta.LatticeThetaProofs.Bundle001
 public import Mathlib.Analysis.Fourier.AddCircleMulti
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,7 +1,7 @@
 module
 
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.FockBlocks
-public import Formalism.MahlerMeasure.StatementTM
+public import Formalism.MahlerMeasure.Bundle005
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
 import Mathlib.Algebra.Order.Floor.Extended

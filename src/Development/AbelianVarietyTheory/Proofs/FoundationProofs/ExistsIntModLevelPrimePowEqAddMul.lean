@@ -1,7 +1,7 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.Integral
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimeMulBernoulliMem
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle046
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

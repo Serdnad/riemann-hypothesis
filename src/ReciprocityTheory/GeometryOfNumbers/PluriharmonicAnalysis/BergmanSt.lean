@@ -1,6 +1,6 @@
 module
 
-public import ReciprocityTheory.GeometryOfNumbers.PluriharmonicAnalysis.BergmanDefs
+public import ReciprocityTheory.GeometryOfNumbers.PluriharmonicAnalysis.Bundle001
 public import Mathlib.Analysis.CStarAlgebra.Classes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

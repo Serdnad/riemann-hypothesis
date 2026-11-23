@@ -2,7 +2,7 @@ module
 
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.ProjectionKernelEqFunctional
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedDiagonal.HeckeRamifiedZeroOfMatchingsAndDu
-import Formalism.LocalToGlobal.GlobalTheory.GL6.PDnDil
+import Formalism.LocalToGlobal.GlobalTheory.GL6.Bundle004
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.DUPt0FOfVals
 public import Formalism.LocalToGlobal.GlobalTheory.UnramifiedTrace.TNotinSq

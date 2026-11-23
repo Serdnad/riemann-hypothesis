@@ -1,10 +1,10 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Foundations.ShCocOn
-public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AlgebraMapPadicIntQbarContinuous
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormIntCastLeOfDvd
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SpecCauchy
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle003
+public import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle016
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle362
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle360
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle354
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -44,7 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Foundations.IsLocallyConstantCycMod
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle018
 
 @[expose] public section
 

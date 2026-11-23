@@ -1,6 +1,6 @@
 module
 
-public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweDefs
+public import Development.WeilBound.ThetaLifts.SphericalLattices.Bundle006
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RhoMemOfMkEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

@@ -1,8 +1,8 @@
 module
 
-public import Formalism.FlagUnipotentLattices.IdealCountLeW
+public import Formalism.FlagUnipotentLattices.Bundle001
 public import Formalism.LocalToGlobal.Columns.HeckeSp
-public import Formalism.FlagUnipotentLattices.IdealCountLeWAsm
+public import Formalism.FlagUnipotentLattices.Bundle003
 import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.LocalToGlobal.Columns.HeckeSpCount
 public import Lemmata.GeneralBFactRightMore.Imports

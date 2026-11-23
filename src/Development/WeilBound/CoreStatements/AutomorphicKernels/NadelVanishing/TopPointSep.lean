@@ -1,7 +1,7 @@
 module
 
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.PointSeparationPair
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PointSeparationPairOfPrincipalisation
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle3456
 public import Development.WeilBound.CoreStatements.ResolutionCharZero.PrincipalisationClosed
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

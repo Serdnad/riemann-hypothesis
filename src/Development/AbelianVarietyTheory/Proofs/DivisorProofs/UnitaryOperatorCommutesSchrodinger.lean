@@ -1,16 +1,16 @@
 module
 
-public import Development.AbelianVarietyTheory.Definitions.Divisors.DiscreteSeriesHermitianUnique
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzMemL2
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MeasurableThetaSumOfSchrodinger
-public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAdelicAddCharNontrivialFinitePlace
+public import Development.AbelianVarietyTheory.Definitions.Divisors.Bundle055
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1794
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1874
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1511
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1294
+public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.Bundle1946
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqZeroOfFourierEqZero
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasDerivAtThetaSumHeisenbergLine
-import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.Bundle018
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
-public import GroundTheory.GlobalFields.SemilocalAlgebras.NormTrace
+public import GroundTheory.GlobalFields.SemilocalAlgebras.Bundle001
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,7 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
-import Development.AbelianVarietyTheory.Definitions.Foundations.IsFockIPOfFockData
+import Development.AbelianVarietyTheory.Definitions.Foundations.Bundle011
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 
 @[expose] public section
@@ -91,11 +91,11 @@ theorem fin_exists_ne_one (ψ : AddChar (AF F) ℂ) (hψ : ∀ w : Pl (F := F), 
   obtain ⟨v, hv⟩ : ∃ v, evalV F v a ≠ 0 := by
     by_contra h
     push_neg at h
-    exact ha (af_ext fun u => by rw [h u, map_zero])
+    exact ha (_root_.GlobalTheory.AdelicU.af_ext fun u => by rw [h u, map_zero])
   obtain ⟨t, ht⟩ := hψ v
   refine ⟨singleFin v (t / evalV F v a), ?_⟩
   have e : a * singleFin v (t / evalV F v a) = singleFin v t := by
-    apply af_ext
+    apply _root_.GlobalTheory.AdelicU.af_ext
     intro u
     rw [map_mul]
     by_cases hu : u = v

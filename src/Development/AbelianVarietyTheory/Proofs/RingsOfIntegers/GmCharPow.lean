@@ -1,15 +1,13 @@
 module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdExpPf
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsIsPowGrpSplitTorus
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle006
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsBoxMaps
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IsMonHomOfComm
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.IsPowGrpBaseChange
-public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.PowExt
-import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.RatioTrans
+public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle004
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.Bundle016
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsGrpPullbackThick
-public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.GtCoordCompatOfPow
+public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.Bundle038
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

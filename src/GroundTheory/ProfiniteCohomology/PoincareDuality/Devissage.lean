@@ -2,7 +2,7 @@ module
 
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.TensorHomZmodDualIsoZmodMulPairing
 public import GroundTheory.ProfiniteCohomology.CohomologicalDimension.SubsingletonCohomologyOfPrimaryOfFinite
-public import GroundTheory.ProfiniteCohomology.CupProducts.Graded
+public import GroundTheory.ProfiniteCohomology.CupProducts.Bundle003
 public import GroundTheory.ProfiniteCohomology.GaloisCohomology.Kummer
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.CupPairingEvalPairingCohomologyMap
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.DeltaPairing

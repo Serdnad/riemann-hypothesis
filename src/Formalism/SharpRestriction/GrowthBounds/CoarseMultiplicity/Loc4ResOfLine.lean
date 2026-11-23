@@ -1,7 +1,7 @@
 module
 
-public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Loc4DivOf
-public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.OtherStart
+public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.Bundle007
+public import Formalism.SharpRestriction.GrowthBounds.BinomialRatio.Bundle002
 public import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.KeyMinorDvd
 import Formalism.SharpRestriction.GrowthBounds.FrobeniusPaths.LatticeCountingFormula
 import Mathlib.Algebra.Order.Floor.Extended

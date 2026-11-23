@@ -1,0 +1,364 @@
+module
+
+public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
+public import Formalism.LocalToGlobal.Divisibility.Bundle002
+public import Formalism.LocalToGlobal.IndefiniteReal.RealSeparation.NotRootUnity
+public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
+public import Mathlib.Analysis.Calculus.Deriv.Basic
+public import Mathlib.Analysis.InnerProductSpace.Orthogonal
+public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
+public import Mathlib.LinearAlgebra.PiTensorProduct.Basic
+public import Mathlib.RingTheory.MvPolynomial.IrreducibleQuadratic
+public import Formalism.LocalRingCardinality.DataHost
+import Mathlib.Algebra.Order.Floor.Extended
+import Mathlib.Algebra.Order.Floor.Semifield
+import Mathlib.Algebra.Order.Interval.Basic
+import Mathlib.AlgebraicTopology.FundamentalGroupoid.SimplyConnected
+public import Mathlib.Analysis.Calculus.Deriv.Star
+import Mathlib.Analysis.Complex.UpperHalfPlane.Basic
+public import Mathlib.Analysis.InnerProductSpace.Dual
+import Mathlib.Analysis.Normed.Algebra.GelfandRadius
+import Mathlib.Analysis.SpecialFunctions.Trigonometric.DerivHyp
+import Mathlib.Combinatorics.Enumerative.DyckWord
+import Mathlib.Combinatorics.SimpleGraph.Triangle.Removal
+import Mathlib.Data.NNRat.Floor
+import Mathlib.Data.Nat.Choose.Multinomial
+import Mathlib.Geometry.Euclidean.Volume.Basic
+import Mathlib.NumberTheory.Chebyshev
+import Mathlib.NumberTheory.Height.NumberField
+import Mathlib.NumberTheory.Height.Projectivization
+import Mathlib.NumberTheory.LucasLehmer
+import Mathlib.NumberTheory.SelbergSieve
+import Mathlib.RingTheory.Radical.NatInt
+import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.WittVector.IsPoly
+import Mathlib.Tactic.Echelon.Zsqrtd
+import Mathlib.Tactic.Inclusion.Extension.Core.Core
+import Mathlib.Tactic.Inclusion.Extension.Interval.BinarySplit
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Exp
+import Mathlib.Tactic.Inclusion.Extension.IntervalDyadicReal.Hypotheses
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Basic
+import Mathlib.Tactic.Inclusion.Extension.IntervalInt.Hypotheses
+import Mathlib.Tactic.NormNum.Irrational
+import Mathlib.Tactic.NormNum.IsCoprime
+import Mathlib.Tactic.NormNum.IsSquare
+import Mathlib.Tactic.NormNum.LegendreSymbol
+import Mathlib.Tactic.NormNum.ModEq
+import Mathlib.Tactic.NormNum.NatFib
+import Mathlib.Tactic.NormNum.NatLog
+import Mathlib.Tactic.NormNum.NatSqrt
+import Mathlib.Tactic.NormNum.Ordinal
+import Mathlib.Tactic.NormNum.Parity
+import Mathlib.Tactic.NormNum.Prime
+import Mathlib.Tactic.NormNum.RealSqrt
+import Mathlib.Tactic.ReduceModChar
+import Mathlib.Topology.Sheaves.Init
+import Formalism.LocalRingCardinality.DataTheta
+import Formalism.LocalToGlobal.IndefiniteReal.Bundle001
+import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
+
+@[expose] public section
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions Formalism.L2.DIV Formalism.IndefR.Links NumberField
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.UnitaryAtAllPlaces
+
+def IsUnitaryRep {G H : Type} [Group G] [NormedAddCommGroup H] [InnerProductSpace ℂ H] (ρ : Representation ℂ G H) : Prop :=
+  ∀ (g : G) (x y : H), inner ℂ (ρ g x) (ρ g y) = inner ℂ x y
+
+section ClassSum
+
+variable {K : Type} [Field K] [NumberField K] [StarRing K] (S : CSD K) (σ : K →+* ℂ)
+
+def pairAt (x y : S.V) : ℂ :=
+  ∑ i, ∑ j, starRingEnd ℂ (σ (S.bV.repr x i)) * σ (S.gramV i j) * σ (S.bV.repr y j)
+
+def csumAt (f f' : S.Cl → S.V) : ℂ := ∑ c, ((S.wt c : ℂ))⁻¹ * pairAt S σ (f c) (f' c)
+
+def IsUnitaryAtAll {G : Type} [Group G] (r : Representation K G S.Forms) : Prop :=
+  ∀ (σ : K →+* ℂ) (g : G) (f f' : S.Forms),
+    csumAt S σ (r g f : S.Cl → S.V) (r g f' : S.Cl → S.V) = csumAt S σ (f : S.Cl → S.V) (f' : S.Cl → S.V)
+
+theorem pairAt_smul (a b : K) (x y : S.V) :
+    pairAt S σ (a • x) (b • y) = starRingEnd ℂ (σ a) * σ b * pairAt S σ x y := by
+  simp only [pairAt, map_smul, Finsupp.smul_apply, smul_eq_mul, map_mul, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
+
+theorem csumAt_smul (a b : K) (f f' : S.Cl → S.V) :
+    csumAt S σ (a • f) (b • f') = starRingEnd ℂ (σ a) * σ b * csumAt S σ f f' := by
+  simp only [csumAt, Pi.smul_apply, pairAt_smul, Finset.mul_sum]
+  refine Finset.sum_congr rfl fun c _ => by ring
+
+theorem pairAt_eq (h : ∀ a, σ (star a) = starRingEnd ℂ (σ a)) (x y : S.V) : pairAt S σ x y = σ (S.pair x y) := by
+  conv_rhs => rw [← S.bV.sum_repr x, ← S.bV.sum_repr y]
+
+  simp only [pairAt, map_sum, LinearMap.sum_apply, LinearMap.map_smulₛₗ, LinearMap.smul_apply, smul_eq_mul, map_mul,
+  CSD.gramV, Matrix.of_apply, RingHom.id_apply, starRingEnd_apply, Finset.mul_sum]
+  rw [Finset.sum_comm]
+  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
+  rw [h, starRingEnd_apply]
+  ring
+
+end ClassSum
+
+section Statement
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL G Pl0 T D.R.m}
+  {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
+
+
+variable (A) in
+def DefiniteUnitary : Prop :=
+  (∀ t : T, IsUnitaryAtAll (A.MtildeCSD t) (A.leftGroupActionRight t)) ∧
+    ∀ (i : Fin D.R.m) (t : T), IsUnitaryAtAll (A.MtCSD i t) (A.leftGroupActionLift i t)
+
+end Statement
+
+end GlobalTheory.IndefiniteRowSideFullHecke.UnitaryAtAllPlaces
+end
+end
+
+section
+
+noncomputable section
+
+open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.L2.Theta Formalism.IndefR Formalism.IndefR.Mult IsDedekindDomain NumberField
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.PartialLFunctionCharacter
+
+variable {D : D7}
+
+def TrivialOnF (χ : (AE D)ˣ →* Circle) : Prop := ∀ a : (AF D.host.F)ˣ, χ (idF D a) = 1
+
+def lPartial (S : Finset (HeightOneSpectrum (𝓞 D.host.F))) (χ : (AE D)ˣ →* Circle) (s : ℂ) : ℂ :=
+  ∏' P : {P : HeightOneSpectrum (𝓞 D.host.E) // OffS D S P}, Mi.lfac χ P.1 s
+
+def IsPartialL (S : Finset (HeightOneSpectrum (𝓞 D.host.F))) (χ : (AE D)ˣ →* Circle) (Λ : ℂ → ℂ) : Prop :=
+  Differentiable ℂ Λ ∧ ∀ s : ℂ, 1 < s.re →
+    HasProd (fun P : {P : HeightOneSpectrum (𝓞 D.host.E) // OffS D S P} => Mi.lfac χ P.1 s) (Λ s)
+
+def IsFiniteL (χ : (AE D)ˣ →* Circle) (Λ : ℂ → ℂ) : Prop :=
+  Differentiable ℂ Λ ∧ ∀ s : ℂ, 1 < s.re →
+    HasProd (fun P : HeightOneSpectrum (𝓞 D.host.E) => Mi.lfac χ P s) (Λ s)
+
+def PosUpTo (t : ℕ) (Λ : ℂ → ℂ) : Prop := ∀ n : ℕ, 1 ≤ n → n ≤ t → (Λ n).im = 0 ∧ 0 < (Λ n).re
+
+def HeckeRatioPos (D : D7) : Prop :=
+  ∀ μ μ' : (AE D)ˣ →* Circle, IsHeckeChar D μ → IsHeckeChar D μ' → TrivialOnF μ → TrivialOnF μ' →
+    (∃ (τ : D.what₂.Tau) (e e' : ℚ), HasInfExp D μ τ (-e) ∧ HasInfExp D μ' τ (-e') ∧ e ≠ e') →
+    ∀ t : ℕ,
+      (∃ Λ : ℂ → ℂ, IsFiniteL (μ * μ'⁻¹) Λ ∧ PosUpTo t Λ) ∧
+      ∀ S : Finset (HeightOneSpectrum (𝓞 D.host.F)), ∃ Λ : ℂ → ℂ, IsPartialL S (μ * μ'⁻¹) Λ ∧ PosUpTo t Λ
+
+theorem IsPartialL.eq_lPartial {S : Finset (HeightOneSpectrum (𝓞 D.host.F))} {χ : (AE D)ˣ →* Circle} {Λ : ℂ → ℂ}
+    (h : IsPartialL S χ Λ) {s : ℂ} (hs : 1 < s.re) : Λ s = lPartial S χ s := (h.2 s hs).tprod_eq.symm
+
+theorem eq_of_eqOn_re {f g : ℂ → ℂ} (hf : Differentiable ℂ f) (hg : Differentiable ℂ g)
+    (h : ∀ s : ℂ, 1 < s.re → f s = g s) : f = g := by
+  refine AnalyticOnNhd.eq_of_eventuallyEq (𝕜 := ℂ) (z₀ := 2) (fun z _ => hf.analyticAt z) (fun z _ => hg.analyticAt z) ?_
+  have : {s : ℂ | 1 < s.re} ∈ nhds (2 : ℂ) :=
+    (isOpen_lt continuous_const Complex.continuous_re).mem_nhds (by simp)
+  exact Filter.mem_of_superset this h
+
+theorem IsPartialL.unique {S : Finset (HeightOneSpectrum (𝓞 D.host.F))} {χ : (AE D)ˣ →* Circle} {Λ Λ' : ℂ → ℂ}
+    (h : IsPartialL S χ Λ) (h' : IsPartialL S χ Λ') : Λ = Λ' :=
+  eq_of_eqOn_re h.1 h'.1 fun _ hs => (h.eq_lPartial hs).trans (h'.eq_lPartial hs).symm
+
+end GlobalTheory.IndefiniteRowSideFullHecke.PartialLFunctionCharacter
+
+end
+end
+
+section
+
+noncomputable section
+
+open scoped InnerProductSpace TensorProduct
+
+namespace GlobalTheory.IndefiniteRowSideFullHecke.ContractionTensorModels
+
+section Hilbert
+
+variable {H₁ H₂ FF : Type}
+  [NormedAddCommGroup H₁] [InnerProductSpace ℂ H₁]
+  [NormedAddCommGroup H₂] [InnerProductSpace ℂ H₂]
+  [NormedAddCommGroup FF] [InnerProductSpace ℂ FF]
+
+def IsIsoBilin (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF) : Prop :=
+  ∀ x x' y y', ⟪Tm x y, Tm x' y'⟫_ℂ = ⟪x, x'⟫_ℂ * ⟪y, y'⟫_ℂ
+
+def IsEquivBilin {G₁ G₂ : Type} [Group G₁] [Group G₂] (π₁ : G₁ →* (H₁ ≃ₗᵢ[ℂ] H₁)) (π₂ : G₂ →* (H₂ ≃ₗᵢ[ℂ] H₂))
+    (ρ : G₁ × G₂ →* (FF ≃ₗᵢ[ℂ] FF)) (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF) : Prop :=
+  ∀ g h x y, Tm (π₁ g x) (π₂ h y) = ρ (g, h) (Tm x y)
+
+def IsContr (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF) (It : FF →ₗ[ℂ] H₂ →ₛₗ[starRingEnd ℂ] H₁) : Prop :=
+  ∀ φ y x, ⟪x, It φ y⟫_ℂ = ⟪Tm x y, φ⟫_ℂ
+
+def HasWeakDer {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] (c : ℝ → H) (v' : H) : Prop :=
+  ∀ w : H, HasDerivAt (fun t : ℝ => ⟪w, c t⟫_ℂ) ⟪w, v'⟫_ℂ 0
+
+def IsFiniteVec {G H : Type} [Group G] [AddCommGroup H] [Module ℂ H] (K : Subgroup G) (π : G → H → H) (v : H) : Prop :=
+  FiniteDimensional ℂ (Submodule.span ℂ (Set.range fun k : K => π k v))
+
+def imSpan (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF) : Submodule ℂ FF :=
+  Submodule.span ℂ (Set.range fun p : H₁ × H₂ => Tm p.1 p.2)
+
+structure ContrProps {G₁ G₂ : Type} [Group G₁] [Group G₂] (π₁ : G₁ →* (H₁ ≃ₗᵢ[ℂ] H₁))
+    (π₂ : G₂ →* (H₂ ≃ₗᵢ[ℂ] H₂)) (ρ : G₁ × G₂ →* (FF ≃ₗᵢ[ℂ] FF)) (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF)
+    (It : FF →ₗ[ℂ] H₂ →ₛₗ[starRingEnd ℂ] H₁) : Prop where
+
+  norm_le : ∀ φ y, ‖It φ y‖ ≤ ‖φ‖ * ‖y‖
+
+  equiv : ∀ g φ y, It (ρ (g, 1) φ) y = π₁ g (It φ y)
+
+  inv : ∀ h φ y, It (ρ (1, h) φ) (π₂ h y) = It φ y
+
+  der₁ : ∀ (c : Multiplicative ℝ →* G₁) φ φ' y,
+    HasDerivAt (fun t : ℝ => ρ (c (Multiplicative.ofAdd t), 1) φ) φ' 0 →
+      HasDerivAt (fun t : ℝ => π₁ (c (Multiplicative.ofAdd t)) (It φ y)) (It φ' y) 0
+
+  weakDer₁ : ∀ (c : Multiplicative ℝ →* G₁) φ φ' y,
+    HasWeakDer (fun t : ℝ => ρ (c (Multiplicative.ofAdd t), 1) φ) φ' →
+      HasWeakDer (fun t : ℝ => π₁ (c (Multiplicative.ofAdd t)) (It φ y)) (It φ' y)
+
+  der₂ : ∀ (c : Multiplicative ℝ →* G₂) φ φ' y y',
+    HasWeakDer (fun t : ℝ => ρ (1, c (Multiplicative.ofAdd t)) φ) φ' →
+      HasWeakDer (fun t : ℝ => π₂ (c (Multiplicative.ofAdd t)) y) y' → It φ' y + It φ y' = 0
+
+  ne : ∀ φ, φ ∉ (imSpan Tm)ᗮ → ∀ Y : Set H₂, Dense Y → ∃ y ∈ Y, It φ y ≠ 0
+
+  fin : ∀ (K : Subgroup G₁) φ y, IsFiniteVec K (fun g => ρ (g, 1)) φ → IsFiniteVec K (fun g => π₁ g) (It φ y)
+
+end Hilbert
+
+def ContrHilbert : Prop :=
+  ∀ (H₁ H₂ FF : Type)
+    [NormedAddCommGroup H₁] [InnerProductSpace ℂ H₁] [CompleteSpace H₁]
+    [NormedAddCommGroup H₂] [InnerProductSpace ℂ H₂] [CompleteSpace H₂]
+    [NormedAddCommGroup FF] [InnerProductSpace ℂ FF] [CompleteSpace FF]
+    (G₁ G₂ : Type) [Group G₁] [Group G₂] (π₁ : G₁ →* (H₁ ≃ₗᵢ[ℂ] H₁)) (π₂ : G₂ →* (H₂ ≃ₗᵢ[ℂ] H₂))
+    (ρ : G₁ × G₂ →* (FF ≃ₗᵢ[ℂ] FF)) (Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF),
+    IsIsoBilin Tm → IsEquivBilin π₁ π₂ ρ Tm →
+      (∃! It : FF →ₗ[ℂ] H₂ →ₛₗ[starRingEnd ℂ] H₁, IsContr Tm It) ∧
+      ∀ It : FF →ₗ[ℂ] H₂ →ₛₗ[starRingEnd ℂ] H₁, IsContr Tm It → ContrProps π₁ π₂ ρ Tm It
+
+def IsTensorIt {ι : Type} [Fintype ι] {σ : ι → Type} {Var : Type} (e : (Σ τ, σ τ) ≃ Var) {A B : ι → Type}
+    [∀ τ, AddCommGroup (A τ)] [∀ τ, Module ℂ (A τ)] [∀ τ, AddCommGroup (B τ)] [∀ τ, Module ℂ (B τ)]
+    (Itl : ∀ τ, MvPolynomial (σ τ) ℂ →ₗ[ℂ] A τ →ₗ[ℂ] B τ)
+    (It : MvPolynomial Var ℂ →ₗ[ℂ] (⨂[ℂ] τ, A τ) →ₗ[ℂ] ⨂[ℂ] τ, B τ) : Prop :=
+  ∀ (P : ∀ τ, MvPolynomial (σ τ) ℂ) (v : ∀ τ, A τ),
+    It (∏ τ, MvPolynomial.rename (fun s => e ⟨τ, s⟩) (P τ)) (PiTensorProduct.tprod ℂ v) =
+      PiTensorProduct.tprod ℂ fun τ => Itl τ (P τ) (v τ)
+
+def ContrTensor : Prop :=
+  ∀ (ι : Type) [Fintype ι] (σ : ι → Type) (Var : Type) (e : (Σ τ, σ τ) ≃ Var) (A B : ι → Type)
+    [∀ τ, AddCommGroup (A τ)] [∀ τ, Module ℂ (A τ)] [∀ τ, AddCommGroup (B τ)] [∀ τ, Module ℂ (B τ)]
+    (Itl : ∀ τ, MvPolynomial (σ τ) ℂ →ₗ[ℂ] A τ →ₗ[ℂ] B τ),
+    ∃ It : MvPolynomial Var ℂ →ₗ[ℂ] (⨂[ℂ] τ, A τ) →ₗ[ℂ] ⨂[ℂ] τ, B τ,
+      IsTensorIt e Itl It ∧ ((∀ τ, Itl τ ≠ 0) → It ≠ 0)
+
+def Contraction : Prop := ContrHilbert ∧ ContrTensor
+
+section Models
+
+open Formalism.BasicNotions Formalism.BasicNotions.TH Formalism.IndefR Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Datum
+
+attribute [local instance] Formalism.BasicNotions.Host.cmStar
+
+end Models
+
+theorem contrProps_of {H₁ H₂ FF : Type}
+    [NormedAddCommGroup H₁] [InnerProductSpace ℂ H₁] [CompleteSpace H₁]
+    [NormedAddCommGroup H₂] [InnerProductSpace ℂ H₂] [CompleteSpace H₂]
+    [NormedAddCommGroup FF] [InnerProductSpace ℂ FF]
+    {G₁ G₂ : Type} [Group G₁] [Group G₂] {π₁ : G₁ →* (H₁ ≃ₗᵢ[ℂ] H₁)} {π₂ : G₂ →* (H₂ ≃ₗᵢ[ℂ] H₂)}
+    {ρ : G₁ × G₂ →* (FF ≃ₗᵢ[ℂ] FF)} {Tm : H₁ →ₗ[ℂ] H₂ →ₗ[ℂ] FF} (hI : IsIsoBilin Tm)
+    (hE : IsEquivBilin π₁ π₂ ρ Tm) {It : FF →ₗ[ℂ] H₂ →ₛₗ[starRingEnd ℂ] H₁} (hC : IsContr Tm It) :
+    ContrProps π₁ π₂ ρ Tm It := by
+  have hn : ∀ x y, ‖Tm x y‖ = ‖x‖ * ‖y‖ := by
+    intro x y
+    have h := hI x x y y
+    rw [inner_self_eq_norm_sq_to_K, inner_self_eq_norm_sq_to_K, inner_self_eq_norm_sq_to_K, ← mul_pow] at h
+    have h2 : ‖Tm x y‖ ^ 2 = (‖x‖ * ‖y‖) ^ 2 := by exact_mod_cast h
+    exact (pow_left_inj₀ (norm_nonneg _) (by positivity) two_ne_zero).1 h2
+  have hb : ∀ φ y, ‖It φ y‖ ≤ ‖φ‖ * ‖y‖ := by
+    intro φ y
+    have h := hC φ y (It φ y)
+    have h1 : ‖It φ y‖ * ‖It φ y‖ ≤ ‖It φ y‖ * (‖φ‖ * ‖y‖) := by
+      have := norm_inner_le_norm (𝕜 := ℂ) (Tm (It φ y) y) φ
+      rw [← h, hn, inner_self_eq_norm_sq_to_K] at this
+      simp at this
+      nlinarith
+    rcases (norm_nonneg (It φ y)).eq_or_lt with h0 | h0
+    · rw [← h0]; positivity
+    · exact le_of_mul_le_mul_left h1 h0
+  have hall : ∀ g h φ y, It (ρ (g, h) φ) (π₂ h y) = π₁ g (It φ y) := by
+    intro g h φ y
+    apply ext_inner_left ℂ
+    intro x
+    obtain ⟨x, rfl⟩ := (π₁ g).surjective x
+    rw [hC, hE, LinearIsometryEquiv.inner_map_map, LinearIsometryEquiv.inner_map_map, hC]
+  have he : ∀ g φ y, It (ρ (g, 1) φ) y = π₁ g (It φ y) := fun g φ y => by simpa using hall g 1 φ y
+  have hi : ∀ h φ y, It (ρ (1, h) φ) (π₂ h y) = It φ y := fun h φ y => by simpa using hall 1 h φ y
+  refine ⟨hb, he, hi, ?_, ?_, ?_, ?_, ?_⟩
+  · intro c φ φ' y hd
+    let L : FF →L[ℂ] H₁ := (It.flip y).mkContinuous ‖y‖ fun φ => by simpa [mul_comm] using hb φ y
+    have := ((L.restrictScalars ℝ).hasFDerivAt).comp_hasDerivAt (0 : ℝ) hd
+    simpa [L, Function.comp_def, he] using this
+  · intro c φ φ' y hd w
+    simpa only [← he, hC _ _ _] using hd (Tm w y)
+  · intro c φ φ' y y' hd hd'
+    apply ext_inner_left ℂ
+    intro x
+    let ℓ : H₂ →L[ℂ] ℂ := ((innerₛₗ ℂ φ) ∘ₗ Tm x).mkContinuous (‖φ‖ * ‖x‖) fun y => by
+      simpa [hn, mul_assoc] using norm_inner_le_norm (𝕜 := ℂ) φ (Tm x y)
+    obtain ⟨w, hw⟩ := (InnerProductSpace.toDual ℂ H₂).surjective ℓ
+    have hw' : ∀ z, ⟪w, z⟫_ℂ = ⟪φ, Tm x z⟫_ℂ := fun z => by
+      have := congrArg (fun f : H₂ →L[ℂ] ℂ => f z) hw
+      simpa [ℓ] using this
+    have h1 := hd (Tm x y)
+    have h2 := ((hd' w).scomp_of_eq (0 : ℝ) (hasDerivAt_neg (0 : ℝ)) (by simp)).star
+    have h3 : (fun t : ℝ => ⟪Tm x y, ρ (1, c (Multiplicative.ofAdd t)) φ⟫_ℂ) =
+        fun t : ℝ => star (((fun t : ℝ => ⟪w, π₂ (c (Multiplicative.ofAdd t)) y⟫_ℂ) ∘ Neg.neg) t) := by
+      funext t
+      have hy : y = π₂ (c (Multiplicative.ofAdd t)) (π₂ (c (Multiplicative.ofAdd (-t))) y) := by
+        change y = (π₂ _ * π₂ _) y
+        rw [← map_mul, ← map_mul, ← ofAdd_add]; simp
+      simp only [Function.comp, hw']
+      rw [← hC, Complex.star_def, inner_conj_symm, ← hC]
+      conv_lhs => rw [hy, hi]
+    rw [h3] at h1
+    have h4 := h1.unique h2
+    rw [inner_add_right, hC, hC, h4, hw']
+    simp
+  · intro φ hφ Y hY
+    by_contra hcon
+    push_neg at hcon
+    apply hφ
+    let L : H₂ →SL[starRingEnd ℂ] H₁ := (It φ).mkContinuous ‖φ‖ (hb φ)
+    have h0 : ∀ y, It φ y = 0 := fun y =>
+      congrFun (Continuous.ext_on hY L.continuous (continuous_const (y := (0 : H₁))) hcon) y
+    rw [Submodule.mem_orthogonal]
+    intro u hu
+    induction hu using Submodule.span_induction with
+    | mem u hu => obtain ⟨p, rfl⟩ := hu; simp [← hC φ, h0]
+    | zero => simp
+    | add a b _ _ ha hb => simp [inner_add_left, ha, hb]
+    | smul a b _ hb => simp [inner_smul_left, hb]
+  · intro K φ y hf
+    unfold IsFiniteVec at *
+    have : (Set.range fun k : K => π₁ k (It φ y)) = It.flip y '' Set.range fun k : K => ρ (k, 1) φ := by
+      rw [← Set.range_comp]; congr 1; funext k; simp [he]
+    rw [this, ← Submodule.map_span]
+    infer_instance
+
+end GlobalTheory.IndefiniteRowSideFullHecke.ContractionTensorModels
+
+end
+end

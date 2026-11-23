@@ -1,6 +1,6 @@
 module
 
-public import Formalism.DistinguishedUnitIdeals.StatementE
+public import Formalism.DistinguishedUnitIdeals.Bundle002
 public import Formalism.DistinguishedUnitIdeals.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

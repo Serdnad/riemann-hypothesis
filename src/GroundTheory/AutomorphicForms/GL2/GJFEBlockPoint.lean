@@ -3,7 +3,7 @@ module
 public import GroundTheory.AutomorphicForms.GL2.GJFEBlockConv
 import GroundTheory.AutomorphicForms.GL2.ExistsEqPowMulOfValuationLe
 public import GroundTheory.AutomorphicForms.GL2.GJFEBlockKernel
-public import GroundTheory.AutomorphicForms.GL2.GJFEHeightsilinear
+public import GroundTheory.AutomorphicForms.GL2.Bundle002
 import GroundTheory.AutomorphicForms.GL2.GJZetaCore
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield

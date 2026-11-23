@@ -1,6 +1,6 @@
 module
 
-public import Formalism.PeriodIntegrals.PrimeSums
+public import Formalism.PeriodIntegrals.Bundle006
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MertensLogSum.PrimeLogOverPWork
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MertensLogSum.SLeOfBlock
 import Mathlib.Algebra.Order.Floor.Extended

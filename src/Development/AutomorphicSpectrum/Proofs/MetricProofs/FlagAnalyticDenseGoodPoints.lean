@@ -1,14 +1,12 @@
 module
 
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BasePartFlagPt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseChartHolomorphicCompositionStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseMetricVectorLogResolutionStatement
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseVectorProperties
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsFlagPointInOrbitStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagPointInMultiprojectivePointsStatement
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PlkFlagPt
-public import Development.AutomorphicSpectrum.Proofs.MetricProofs.PluckerNonvanishingOrbitInvariant
-import Development.AutomorphicSpectrum.Proofs.MetricProofs.PullbackPullback
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle097
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle172
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle121
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle166
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle123
+public import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle112
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.Bundle090
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -145,3 +143,20 @@ theorem dens_r : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (�
     exact (hmin p.1 p.2 hprop).1
 
 end GlobalTheory.CompanionTheory.Ar.PB.WSq.FC
+
+end
+end
+
+section
+
+@[expose] public section
+
+open MvPolynomial MeasureTheory Filter Topology Matrix ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M ReciprocityTheory.AnForm.P ReciprocityTheory.ChartRestriction.G.Geo ReciprocityTheory.ChartRestriction.G.AI.I1 ReciprocityTheory.ChartRestriction.G.AI.I2 ReciprocityTheory.ChartRestriction.G.AI.I4 GlobalTheory.CompanionTheory.Ar.PB GroundTheory.Heights₂.Heights GroundTheory.Heights₂.Heights.LowerBoundFree
+open scoped ComplexOrder Classical
+open GlobalTheory.CompanionTheory.Ar.PB.WSq
+
+theorem _root_.GlobalTheory.T.flag_analytic_dense_good_points : ∀ (K : Type) [Fintype K] (ι : K → Type) [∀ k, Fintype (ι k)] (Φ : Type) [Field Φ] (y : (Σ k, ι k) → Φ) (Ψ : Type) [Fintype Ψ] [DecidableEq Ψ] (N j : ℕ) (M : FlagModel y Ψ N j) (n d : ℕ) (BM : BaseMetric M n) (FA : FlagAn BM d) (l : Fin BM.q) (x : FA.Re.R.X), FA.pr (FA.Re.π x) ∈ BM.O l → ∀ V, IsOpen V → x ∈ V → ∃ x' ∈ V, FA.pr (FA.Re.π x') ∈ BM.O l \ bdry BM.s ∧ ∀ p, FC.plk M (BM.F l) (FC.bvec BM l (FA.pr (FA.Re.π x'))) (FA.Re.R.lift x' x') p ≠ 0 := by
+  first | exact @GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.dens_r | exact GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.dens_r | (intros; apply GlobalTheory.CompanionTheory.Ar.PB.WSq.FC.dens_r <;> assumption)
+
+end
+end

@@ -1,9 +1,8 @@
 module
 
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsNormEmbId
-public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.HsTrace
+public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.Bundle001
 public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.IsFdAbs
-public import Development.WeilBound.CoreStatements.BranchingTraces.HilbertSchmidtTraces.ReflEx
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

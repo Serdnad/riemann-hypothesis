@@ -2,8 +2,8 @@ module
 
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowDef
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ExistsHeightLeTwoMulQuotHeight
-public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
-import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryLatticeDenominatorHeightBoundProof
+public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Bundle324
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.Bundle045
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic

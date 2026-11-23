@@ -1,7 +1,7 @@
 module
 
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
-public import Formalism.LocalRingCardinality.DataKerI
+public import Formalism.LocalRingCardinality.Bundle008
 public import Mathlib.Tactic.Monotonicity.Lemmas
 public import Mathlib.Topology.Sheaves.Presheaf
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf

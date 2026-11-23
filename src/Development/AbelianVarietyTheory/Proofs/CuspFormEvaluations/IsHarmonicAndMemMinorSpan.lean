@@ -6,7 +6,7 @@ public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.PolyDe
 import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DifferentiableOnOfTendstoLocallyUniformlyOn
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.DualRestrictSurjectiveOfIsTorsionFreeQuotient
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiableOnDetHMat
-public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsSymplecticCoordinatesAdapted
+public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.Bundle012
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -527,7 +527,8 @@ def splitTerm {n : ℕ} (a b : Fin n → Fin g → ℝ) (y : Frame X.Ψ r) (m : 
 
 def flowCoeff (n : ℕ) (a b : Fin n → Fin g → ℝ) (P : Harm.Poly ℂ X.Ψ q0 X.p0 (Fin n))
     (y : Frame X.Ψ r) (m : Fin n → Fin g → ℤ) : ℂ :=
-  (hMat X bas idx y).det ^ (n / 2) * polyDeriv P (letterDir X hr idx) (splitTerm X bas idx a b y m) 0
+  (hMat X bas idx y).det ^ (n / 2) *
+    _root_.ReciprocityTheory.ChartRestriction.G.I2.polyDeriv P (letterDir X hr idx) (splitTerm X bas idx a b y m) 0
 
 theorem differentiable_prod_gauss {n : ℕ} (M : Matrix (Fin g) (Fin g) ℂ) : Differentiable ℂ
     fun z : Fin n → Fin g → ℂ => ∏ k, cexp (Real.pi / 2 * (z k ⬝ᵥ M *ᵥ z k)) :=
