@@ -57,7 +57,7 @@ theorem bochner_ineq (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε
     (hposition : ∀ i κ, slice i κ P ∈ Wp ε E V) :
     (casValK ε (lowK ε lam) + 2 * (k : ℝ) * (h - n + 1)) * ‖P‖ ^ 2 ≤
       RCLike.re (inner ℂ (casimirK ε (bAct E k) P) P) :=
-  ReciprocityTheory.ChartRestriction.DS.bochner_ineq_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hP hposition
+  ReciprocityTheory.ChartRestriction.DS.bochner_ineq_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) hP hposition
 
 end Boch
 

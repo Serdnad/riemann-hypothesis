@@ -27,13 +27,13 @@ theorem position_perp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW �
     (hbig : 2 * (n : ℝ) < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : P ∈ ncV ε V k)
     (hperp : ∀ F ∈ ncV ε V k, (∀ κ, slice i κ F ∈ Wm ε E V) → inner ℂ F P = 0) :
     ∀ κ, slice i κ P ∈ Wp ε E V :=
-  ReciprocityTheory.ChartRestriction.DS.position_perp_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) i hP hperp
+  ReciprocityTheory.ChartRestriction.DS.position_perp_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) i hP hperp
 
 theorem crossOp_position_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
     (hbig : 2 * (n : ℝ) < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : ∀ κ, slice i κ P ∈ Wp ε E V) :
     2 * (h - n + 1) * ‖P‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E k i P) P) :=
-  ReciprocityTheory.ChartRestriction.DS.crossOp_position_bound_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) i hP
+  ReciprocityTheory.ChartRestriction.DS.crossOp_position_bound_of_lt hE hU hV hmono hh (fun _ => (gap_gt (n := n) hbig).2) i hP
 
 end Slot
 
