@@ -477,8 +477,6 @@ theorem hasDerivAt_lin_exp {F : Type} [NormedAddCommGroup F] [NormedSpace ℝ F]
 theorem exp_mul_exp_neg (X : Matrix (l ⊕ l) (l ⊕ l) ℝ) : NormedSpace.exp X * NormedSpace.exp (-X) = 1 := by
   rw [← Matrix.exp_add_of_commute _ _ (Commute.refl X).neg_right, add_neg_cancel, NormedSpace.exp_zero]
 
-set_option backward.isDefEq.respectTransparency false in
-attribute [local instance] Matrix.linftyOpNormedRing Matrix.linftyOpNormedAlgebra in
 theorem sympl_exp {X : Matrix (l ⊕ l) (l ⊕ l) ℝ} (hX : X ∈ LieAlgebra.Symplectic.sp l ℝ) (w w' : l ⊕ l → ℝ) :
     sympl (NormedSpace.exp X *ᵥ w) (NormedSpace.exp X *ᵥ w') = sympl w w' := by
   have h : Xᵀ * Matrix.J l ℝ = Matrix.J l ℝ * -X :=
@@ -488,7 +486,10 @@ theorem sympl_exp {X : Matrix (l ⊕ l) (l ⊕ l) ℝ} (hX : X ∈ LieAlgebra.Sy
     rw [neg_mul, h, Matrix.mul_neg, neg_neg]
   have h2 : (NormedSpace.exp X)ᵀ * (Matrix.J l ℝ * NormedSpace.exp X) = Matrix.J l ℝ := by
     rw [← Matrix.exp_transpose, ← Matrix.mul_assoc]
-    simpa only [neg_neg] using hJ.exp_neg_mul_mul_exp_eq_self
+    have hExp := @SemiconjBy.exp_neg_mul_mul_exp_eq_self _ Matrix.linftyOpNormedRing
+      Matrix.linftyOpNormedAlgebra (by change CompleteSpace (l ⊕ l → l ⊕ l → ℝ); infer_instance) _ _ _ hJ
+    change NormedSpace.exp (-(-Xᵀ)) * Matrix.J l ℝ * NormedSpace.exp X = Matrix.J l ℝ at hExp
+    simpa only [neg_neg] using hExp
   rw [sympl_eq, sympl_eq, mulVec_mulVec, ← Matrix.vecMul_transpose, ← dotProduct_mulVec, mulVec_mulVec, h2]
 
 theorem intw_of_sympl {g : Matrix (l ⊕ l) (l ⊕ l) ℝ} (hg : ∀ w w', sympl (g *ᵥ w) (g *ᵥ w') = sympl w w')
