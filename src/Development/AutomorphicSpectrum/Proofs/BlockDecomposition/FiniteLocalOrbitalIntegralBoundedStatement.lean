@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsNatMulMemRingOfIntegers
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ThetaFunctionAutomorphy
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.FinTensMemLatO
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermOf
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ModerateGrowthSchwartz
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HermInf
@@ -608,27 +611,9 @@ theorem latN_isOpen_isCompact : ∀ (F E : Type) [Field F] [NumberField F] [Fiel
     have h1 : IsUnit (algebraMap F (Af F) (N : F)) := (IsUnit.mk0 _ hNF).map _
     rwa [map_natCast] at h1
   have hSo : IsOpen {y : Af F | ∃ z ∈ Oh F, y = (N : Af F) * z} := by
-    have hpre : {y : Af F | ∃ z ∈ Oh F, y = (N : Af F) * z} = (fun y => (↑u⁻¹ : Af F) * y) ⁻¹' Oh F := by
-      ext y
-      constructor
-      · rintro ⟨z, hz, rfl⟩
-        show (↑u⁻¹ : Af F) * ((N : Af F) * z) ∈ Oh F
-        rw [← hu, ← mul_assoc, Units.inv_mul, one_mul]
-        exact hz
-      · intro hy
-        exact ⟨(↑u⁻¹ : Af F) * y, hy, by rw [← hu, ← mul_assoc, Units.mul_inv, one_mul]⟩
-    rw [hpre]
-    exact (AfTop.isOpen_Oh F).preimage (continuous_const_mul _)
+    apply _root_.GlobalTheory.CompanionTheory.SW.Core.AfTop.isOpen_mul_Oh <;> assumption
   have hSc : IsCompact {y : Af F | ∃ z ∈ Oh F, y = (N : Af F) * z} := by
-    have himg : {y : Af F | ∃ z ∈ Oh F, y = (N : Af F) * z} = (fun z => (N : Af F) * z) '' Oh F := by
-      ext y
-      constructor
-      · rintro ⟨z, hz, rfl⟩
-        exact ⟨z, hz, rfl⟩
-      · rintro ⟨z, hz, rfl⟩
-        exact ⟨z, hz, rfl⟩
-    rw [himg]
-    exact (AfTop.isCompact_Oh F).image (continuous_const_mul _)
+    apply _root_.GlobalTheory.CompanionTheory.SW.ThW.Lco.isCompact_mul_oh <;> assumption
   haveI : IsModuleTopology (Af F) (Af F ⊗[F] E) := ⟨rfl⟩
   let Bs := Algebra.TensorProduct.basis (Af F) b
   let e : (Af F ⊗[F] E) ≃ₜ (Fin d → Af F) :=
@@ -1028,11 +1013,7 @@ end Fin
 
 theorem psiFin_add {F : Type} [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ) (u v : Af F) :
     psiFin F ψ (u + v) = psiFin F ψ u * psiFin F ψ v := by
-  have h : pairA F 0 (u + v) = pairA F 0 u + pairA F 0 v := by
-    have h0 : (0 : Ainf F) = 0 + 0 := (add_zero 0).symm
-    exact congrArg (fun t => pairA F t (u + v)) h0
-  simp only [psiFin]
-  rw [h, AddChar.map_add_eq_mul]
+  apply _root_.GlobalTheory.CompanionTheory.SiegelND.Integ.Weyl.PairAdd.psiFin_add' <;> assumption
 
 theorem phaseB_add : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J →
@@ -1181,17 +1162,7 @@ namespace GlobalTheory.CompanionTheory.SiegelND.Integ.Weyl.RatTest
 theorem trace_tmul_eq {F E : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E]
     (R : Type) [CommRing R] [Algebra F R] (r : R) (e : E) :
     Algebra.trace R (R ⊗[F] E) (r ⊗ₜ[F] e) = r * algebraMap F R (Algebra.trace F E e) := by
-  have h1 : (r ⊗ₜ[F] e : R ⊗[F] E) = r • ((1 : R) ⊗ₜ[F] e) := by
-    simp [TensorProduct.smul_tmul']
-  have h2 : Algebra.lmul R (R ⊗[F] E) ((1 : R) ⊗ₜ[F] e)
-      = LinearMap.baseChange R (Algebra.lmul F E e) := by
-    refine LinearMap.ext fun x => ?_
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul s y => simp [LinearMap.baseChange_tmul, Algebra.TensorProduct.tmul_mul_tmul]
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-  rw [h1, map_smul, Algebra.trace_apply, h2, LinearMap.trace_baseChange, Algebra.trace_apply]
-  simp
+  apply _root_.GlobalTheory.LatVac.trace_tmul <;> assumption
 
 theorem inNOh_tmul {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {d : ℕ}
     (b : Module.Basis (Fin d) F E) (N : ℕ) {α : Af F} (hα : α ∈ Oh F) (k : Fin d) :
@@ -1312,28 +1283,7 @@ section -- clump:auto
 
 theorem UpperTheory.Reformulated.B.ExistsNatMulMem.exists_nat_mul_mem :
     ∀ (F : Type) [inst : Field F] [NumberField F] (x : F),
-    ∃ (m : ℕ), (0 : ℕ) < m ∧ ∃ (r : NumberField.RingOfIntegers F), (↑r : F) = (↑m : F) * x := by
-  intro F _ _ x
-  have hx : IsAlgebraic ℤ x :=
-    (IsFractionRing.isAlgebraic_iff ℤ ℚ F).mpr (Algebra.IsAlgebraic.isAlgebraic x)
-  obtain ⟨y, hy, hint⟩ := hx.exists_integral_multiple
-  have h2 : IsIntegral ℤ (((y.natAbs : ℕ) : F) * x) := by
-    rcases Int.natAbs_eq y with h | h
-    · have e : ((y.natAbs : ℕ) : F) * x = y • x := by
-        rw [zsmul_eq_mul]
-        congr 1
-        have := congrArg (Int.cast : ℤ → F) h
-        rw [Int.cast_natCast] at this
-        exact this.symm
-      rw [e]; exact hint
-    · have e : ((y.natAbs : ℕ) : F) * x = -(y • x) := by
-        rw [zsmul_eq_mul, ← neg_mul]
-        congr 1
-        have := congrArg (Int.cast : ℤ → F) h
-        rw [Int.cast_neg, Int.cast_natCast] at this
-        rw [this, neg_neg]
-      rw [e]; exact hint.neg
-  exact ⟨y.natAbs, Int.natAbs_pos.mpr hy, ⟨_, h2⟩, rfl⟩
+    ∃ (m : ℕ), (0 : ℕ) < m ∧ ∃ (r : NumberField.RingOfIntegers F), (↑r : F) = (↑m : F) * x := @_root_.GlobalTheory.NatMulMemRingOfIntegers.exists_nat_mul_mem_ringOfIntegers
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsNatMulMem =====

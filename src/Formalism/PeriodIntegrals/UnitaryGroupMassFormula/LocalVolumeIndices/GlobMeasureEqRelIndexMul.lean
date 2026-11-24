@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IwasawaMeasureExistence.T2SpaceFiniteAdelesExt
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.InvariantTopologyComparison.EntriesLat
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.MassDataKppVolOf
@@ -108,35 +109,9 @@ open NumberField Matrix
 open scoped TensorProduct
 open Formalism.MainNotions.S (AutInst)
 
-private theorem exists_nat_mul_lemma {E : Type} [Field E] [NumberField E] (x : E) :
-    ∃ d : ℕ, 1 ≤ d ∧ (d : E) * x ∈ Formalism.UG.intOE E := by
-  have H : ∃ y : ℤ, y ≠ 0 ∧ IsIntegral ℤ ((y : E) * x) := by
-    have hq : IsIntegral ℚ x := Algebra.IsIntegral.isIntegral x
-    first
-    | (obtain ⟨m, hm⟩ := IsIntegral.exists_multiple_integral_of_isLocalization (nonZeroDivisors ℤ) x hq
-       exact ⟨m, nonZeroDivisors.coe_ne_zero m, by rw [← zsmul_eq_mul]; exact hm⟩)
-  obtain ⟨y, hy0, hint⟩ := H
-  have hmem : (y : E) * x ∈ Formalism.UG.intOE E :=
-    RingHom.mem_range.2 ((IsIntegralClosure.isIntegral_iff (A := 𝓞 E)).1 hint)
-  obtain ⟨n, rfl | rfl⟩ := Int.eq_nat_or_neg y
-  · refine ⟨n, Nat.one_le_iff_ne_zero.2 (by rintro rfl; simp at hy0), ?_⟩
-    simpa using hmem
-  · refine ⟨n, Nat.one_le_iff_ne_zero.2 (by rintro rfl; simp at hy0), ?_⟩
-    simpa using hmem
-
 theorem exists_nat_den {E : Type} [Field E] [NumberField E] (s : Finset E) :
     ∃ d : ℕ, 1 ≤ d ∧ ∀ x ∈ s, (d : E) * x ∈ Formalism.UG.intOE E := by
-  classical
-  refine Finset.induction_on s ⟨1, le_rfl, by simp⟩ ?_
-  intro a s _ ih
-  obtain ⟨d, hd, hds⟩ := ih
-  obtain ⟨e, he, hea⟩ := exists_nat_mul_lemma a
-  refine ⟨d * e, Nat.mul_pos hd he, fun x hx => ?_⟩
-  rcases Finset.mem_insert.1 hx with rfl | hx
-  · rw [Nat.cast_mul, mul_assoc]
-    exact mul_mem (natCast_mem _ d) hea
-  · rw [Nat.cast_mul, mul_comm (d : E), mul_assoc]
-    exact mul_mem (natCast_mem _ e) (hds x hx)
+  apply _root_.PI.IwaMeasEx.AfT.exists_nat_den <;> assumption
 
 theorem algebraMap_mem_intOE {E : Type} [Field E] [NumberField E] (a : 𝓞 E) :
     algebraMap (𝓞 E) E a ∈ Formalism.UG.intOE E := by

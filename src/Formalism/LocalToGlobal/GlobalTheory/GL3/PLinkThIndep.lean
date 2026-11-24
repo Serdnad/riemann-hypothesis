@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeOfAdelicPoint
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 import Mathlib.NumberTheory.NumberField.ClassNumber
 public import Mathlib.RingTheory.ClassGroup.Basic
@@ -41,11 +42,7 @@ open NumberField Formalism.BasicNotions Formalism.MainNotions.TaylorLogMetric Fo
 variable (D : D7)
 
 theorem star_conj (x : D.host.E) : (letI := D.host.cmStar; star x) = D.host.conj x := by
-  have := D.host.isCMField_hostE
-  apply D.host.φ₀.injective
-  change D.host.φ₀ (NumberField.IsCMField.complexConj D.host.E x) = D.host.φ₀ (D.host.conj x)
-  rw [NumberField.IsCMField.complexEmbedding_complexConj]
-  exact (D.host.conjE_apply D.host.φ₀ x).symm
+  apply _root_.GlobalTheory.NormSum.AdLattice.star_eq_conj <;> assumption
 
 theorem emb_conj (φ : D.host.E →+* ℂ) (x : D.host.E) :
     φ (D.host.conj x) = starRingEnd ℂ (φ x) :=

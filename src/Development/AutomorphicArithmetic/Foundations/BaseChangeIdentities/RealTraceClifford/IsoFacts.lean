@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WordReachingIrreducibleKModuleReachesHighestWeig
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.RealTraceClifford.ClifMod
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.ConeWeightsNotSecondType
 public import Formalism.RealPlaceAnalysis.StatementKT
@@ -69,21 +70,7 @@ private theorem dot_add {n : ℕ} (x u v : Wt n) :
 private theorem wt_shift {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
     {F : Fin n → Fin n → Module.End ℂ V} (hg : GlRel F) {μ : Wt n} {y : V}
     (hy : IsWeight F μ y) (a b : Fin n) : IsWeight F (μ + rt a b) (F a b y) := by
-  intro c
-  have h := LinearMap.congr_fun (hg c c a b) y
-  simp only [LinearMap.sub_apply, Module.End.mul_apply] at h
-  rw [hy c, map_smul, sub_eq_iff_eq_add] at h
-  rw [h]
-  by_cases hca : c = a <;> by_cases hcb : c = b
-  · subst hca; subst hcb
-    simp [rt]
-  · subst hca
-    simp [rt, hcb, Ne.symm hcb, add_smul]
-    abel
-  · subst hcb
-    simp [rt, hca, add_smul]
-    abel
-  · simp [rt, hca, hcb, Ne.symm hcb]
+  apply _root_.GlobalTheory.WordWeight.step <;> assumption
 
 private theorem wt_word {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
     {F : Fin n → Fin n → Module.End ℂ V} (hg : GlRel F) {μ : Wt n} {x : V}

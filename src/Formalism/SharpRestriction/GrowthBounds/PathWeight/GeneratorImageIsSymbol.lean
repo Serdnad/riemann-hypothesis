@@ -169,29 +169,35 @@ def RestModel : Prop :=
     xi ∈ restrictSupport O {mm | ∀ x ∈ F.letters j, ∑ c : Fin (r + K), mm (x, c) = dd x} →
     xi ∈ Submodule.span O (MGen F j O K m th dd)
 
-def RestGeom : Prop :=
+def RestGeomWith (degreeBound : ℝ → ℝ → Prop) : Prop :=
   ∀ (p n' r : ℕ) [NeZero n'] (F : Frames n' r) (L₁ N₁ : ℕ), 13 ≤ p → 2 ≤ r → Even n' → F.Valid L₁ N₁ →
   ∀ (deg : Fin n' → ℕ) (a : ℕ), (∀ s ∈ F.TT, (a : ℝ) ≤ deg s ∧ (deg s : ℝ) ≤ 2 * a) →
   ∀ (j : ℤ) (dd : ℤ → ℕ),
     (∀ x ∈ F.letters j, (F.IsW j x ∨ x ∈ F.LLset j) →
-      |(dd x : ℝ) - levDeg p F deg j x| ≤ levDeg p F deg j x / 100) →
+      degreeBound (dd x : ℝ) (levDeg p F deg j x)) →
   ∀ x ∈ nonW F j,
     ((∑ y ∈ (F.letters j).filter (fun y => Even y ∧ y < x ∧ ∀ l < r, y ≠ Arow F x l), dd y : ℕ) : ℝ) ≤
       Bo p F deg j x / 80
 
-def RestDivM (CLa CD Csz : ℝ) : Prop :=
+def RestGeom : Prop :=
+  RestGeomWith (fun d l => |d - l| ≤ l / 100)
+
+def RestDivMWith (degreeBound : ℝ → ℝ → Prop) (CLa CD Csz : ℝ) : Prop :=
   ∀ (p n' r K : ℕ) [Fact p.Prime] [NeZero n'] [NeZero r] [NeZero K] (O : Type) [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [Algebra (WF p n') O] (X : Ctx p n' r K O)
     (deg : Fin n' → ℕ) (a : ℕ) (Y : ℝ) (c0 c'' cStar : ℕ) (Dd : ℝ),
     HypII CLa CD Csz p X.Fr (r + K) X.L₁ X.N₁ X.G' deg a Y c0 c'' cStar Dd →
   ∀ (j : ℤ) (dd : ℤ → ℕ),
     (∀ x ∈ X.Fr.letters j, (X.Fr.IsW j x ∨ x ∈ X.Fr.LLset j) →
-      |(dd x : ℝ) - levDeg p X.Fr deg j x| ≤ levDeg p X.Fr deg j x / 100) →
+      degreeBound (dd x : ℝ) (levDeg p X.Fr deg j x)) →
   ∀ P ∈ MGen X.Fr j O K (mStar p X.Fr (r + K) X.N₁ (p ^ X.G') (cPrime n' r X.Fr.TT.card c0 c'' cStar) : ℤ)
       (fun x => Bo p X.Fr deg j x / 2 - sl p X.Fr deg Y (r + K) j x) dd,
     ∃ P' ∈ MGen0 X.Fr j O K,
       P = Dv X.Fr j O K (X.m1 (cPrime n' r X.Fr.TT.card c0 c'' cStar))
         (X.m2 (cPrime n' r X.Fr.TT.card c0 c'' cStar)) * P'
+
+def RestDivM (CLa CD Csz : ℝ) : Prop :=
+  RestDivMWith (fun d l => |d - l| ≤ l / 100) CLa CD Csz
 
 def GeneratorSpanInclusion : Prop :=
   ∀ (p n' r K : ℕ) [Fact p.Prime] [NeZero n'] [NeZero r] [NeZero K] (O : Type) [CommRing O] [IsDomain O]

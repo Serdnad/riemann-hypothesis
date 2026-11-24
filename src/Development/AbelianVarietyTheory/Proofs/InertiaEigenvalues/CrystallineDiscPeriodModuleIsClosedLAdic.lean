@@ -78,8 +78,8 @@ theorem BK.ρ₀_mem_Ioo_zero_one {l : ℕ} [hl : Fact l.Prime] {K : FinExt l} (
   · have : (0 : ℝ) < bk.Ep.natDegree := by exact_mod_cast bk.deg_pos
     rw [neg_lt_zero]; positivity
 
-theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K) (τ : Ainf l) (hτ : bk.IsPer τ) (d : ℕ) (ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]) (hρ : ∀ g, IsUnit (ρ g)) (s : Seed bk d ρ τ), ∀ y : ℕ → Fin d → Ainf l, (∀ n, (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → s.W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) (y n)) → (∀ n a, (l : Ainf l) ^ n ∣ y (n + 1) a - y n a) → ∀ z : Fin d → Ainf l, (∀ n a, (l : Ainf l) ^ n ∣ z a - y n a) → (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → s.W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) z := by
-  intro l _ K bk τ hτ d ρ hρ s y hy _hcau z hz
+theorem period_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K) (τ : Ainf l) (hτ : bk.IsPer τ) (d : ℕ) (N : ℕ) (W W' : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)) (hW : W * W' = bk.iA τ ^ (2 * N) • 1), ∀ y : ℕ → Fin d → Ainf l, (∀ n, (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) (y n)) → (∀ n a, (l : Ainf l) ^ n ∣ y (n + 1) a - y n a) → ∀ z : Fin d → Ainf l, (∀ n a, (l : Ainf l) ^ n ∣ z a - y n a) → (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) z := by
+  intro l _ K bk τ hτ d N W W' hW y hy _hcau z hz
   beta_reduce at hy ⊢
   obtain ⟨hρ0, hρ1⟩ := bk.ρ₀_mem_Ioo_zero_one
   have hX : ‖toDisc l (bk.ev X) bk.ρ₀ (bk.ev X)‖ ≤ bk.ρ₀ := by
@@ -88,25 +88,25 @@ theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (
   have hj₀d : IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j₀ := isDiscMap_map bk.ev hX
   obtain ⟨ι, ⟨TB⟩⟩ := _root_.GlobalTheory.BSP.AinfTopBasis.main l K bk
   obtain ⟨cD, hc_to, hc_mul, hc_norm, -⟩ := _root_.GlobalTheory.BSP.disc_coefficients l K bk (Ainf l) bk.ev ι TB bk.ρ₀ hρ0 hρ1 j₀ hj₀d
-  obtain ⟨r, hr⟩ := _root_.GlobalTheory.BSP.pow_l_mem_span_coeff l K bk τ hτ ι TB (2 * s.N * d)
+  obtain ⟨r, hr⟩ := _root_.GlobalTheory.BSP.pow_l_mem_span_coeff l K bk τ hτ ι TB (2 * N * d)
   obtain ⟨f, hf⟩ := Finsupp.mem_span_range_iff_exists_finsupp.1 hr
 
-  set V : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀) := s.W'.det • adjugate s.W with hV
-  have hVW : V * s.W = bk.iA (τ ^ (2 * s.N * d)) • (1 : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)) := by
-    have hd : s.W.det * s.W'.det = bk.iA (τ ^ (2 * s.N * d)) := by
-      rw [← det_mul, s.W_mul, det_smul, det_one, mul_one, Fintype.card_fin, map_pow]
+  set V : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀) := W'.det • adjugate W with hV
+  have hVW : V * W = bk.iA (τ ^ (2 * N * d)) • (1 : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀)) := by
+    have hd : W.det * W'.det = bk.iA (τ ^ (2 * N * d)) := by
+      rw [← det_mul, hW, det_smul, det_one, mul_one, Fintype.card_fin, map_pow]
       ring
     rw [hV, smul_mul, adjugate_mul, smul_smul, mul_comm, hd]
 
   let Φ : bk.DA bk.ρ₀ → bk.DS bk.ρ₀ := fun w => ∑ i ∈ f.support, toDisc l (X : bk.S) bk.ρ₀ (f i) * cD i w
   have key : ∀ (x : Fin d → bk.DS bk.ρ₀) (a : Fin d),
-      (l : bk.DS bk.ρ₀) ^ r * x a = Φ ((V *ᵥ (s.W *ᵥ fun b => j₀ (x b))) a) := by
+      (l : bk.DS bk.ρ₀) ^ r * x a = Φ ((V *ᵥ (W *ᵥ fun b => j₀ (x b))) a) := by
     intro x a
     have hsm : ∀ (c : bk.DA bk.ρ₀) (v : Fin d → bk.DA bk.ρ₀), (c • (1 : Matrix (Fin d) (Fin d) (bk.DA bk.ρ₀))) *ᵥ v = c • v := by
       intro c v; ext b; simp [mulVec, dotProduct, Matrix.one_apply]
     rw [mulVec_mulVec, hVW, hsm]
-    have h1 : ∀ i, cD i ((bk.iA (τ ^ (2 * s.N * d)) • fun b => j₀ (x b)) a) =
-        x a * toDisc l (X : bk.S) bk.ρ₀ (TB.c i (τ ^ (2 * s.N * d))) := by
+    have h1 : ∀ i, cD i ((bk.iA (τ ^ (2 * N * d)) • fun b => j₀ (x b)) a) =
+        x a * toDisc l (X : bk.S) bk.ρ₀ (TB.c i (τ ^ (2 * N * d))) := by
       intro i
       rw [Pi.smul_apply, smul_eq_mul, mul_comm, hc_mul, hc_to]
     simp only [Φ, h1]
@@ -118,7 +118,7 @@ theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (
     rw [smul_eq_mul, map_mul]; ring
   obtain ⟨u, hu⟩ : IsUnit ((l : bk.DS bk.ρ₀) ^ r) := (isUnit_l_disc l (X : bk.S) bk.ρ₀).pow r
   have hsol : ∀ (x : Fin d → bk.DS bk.ρ₀) (a : Fin d),
-      x a = ↑u⁻¹ * Φ ((V *ᵥ (s.W *ᵥ fun b => j₀ (x b))) a) := by
+      x a = ↑u⁻¹ * Φ ((V *ᵥ (W *ᵥ fun b => j₀ (x b))) a) := by
     intro x a
     rw [← key, ← hu, Units.inv_mul_cancel_left]
 
@@ -127,7 +127,7 @@ theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (
   have hcDc : ∀ i, Continuous (cD i) := fun i =>
     AddMonoidHomClass.continuous_of_bound _ 1 fun x => (hc_norm i x).trans (one_mul _).ge
   let G : (Fin d → bk.DA bk.ρ₀) → (Fin d → bk.DA bk.ρ₀) := fun v =>
-    s.W *ᵥ fun a => j₀ (↑u⁻¹ * Φ ((V *ᵥ v) a))
+    W *ᵥ fun a => j₀ (↑u⁻¹ * Φ ((V *ᵥ v) a))
   have hGc : Continuous G := by
     refine continuous_const.matrix_mulVec (continuous_pi fun a => (hcont hj₀d).comp (continuous_const.mul ?_))
     exact continuous_finsetSum _ fun i _ => continuous_const.mul
@@ -136,7 +136,7 @@ theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (
     intro n
     obtain ⟨x, hx⟩ := hy n
     have hxe := hx j₀ hj₀d
-    have h3 : G (s.W *ᵥ fun b => j₀ (x b)) = s.W *ᵥ fun b => j₀ (x b) := by
+    have h3 : G (W *ᵥ fun b => j₀ (x b)) = W *ᵥ fun b => j₀ (x b) := by
       dsimp only [G]; congr 1; funext a; rw [← hsol x a]
     rwa [hxe] at h3
 
@@ -155,5 +155,9 @@ theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (
   refine ⟨fun a => ↑u⁻¹ * Φ ((V *ᵥ fun b => bk.iA (z b)) a), fun j hj => ?_⟩
   rw [hj.unique hj₀d]
   exact hfix
+
+theorem seed_module_lAdic_closed : ∀ (l : ℕ) [Fact l.Prime] (K : FinExt l) (bk : BK K) (τ : Ainf l) (hτ : bk.IsPer τ) (d : ℕ) (ρ : ↥(GK K) → Matrix (Fin d) (Fin d) ℤ_[l]) (hρ : ∀ g, IsUnit (ρ g)) (s : Seed bk d ρ τ), ∀ y : ℕ → Fin d → Ainf l, (∀ n, (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → s.W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) (y n)) → (∀ n a, (l : Ainf l) ^ n ∣ y (n + 1) a - y n a) → ∀ z : Fin d → Ainf l, (∀ n a, (l : Ainf l) ^ n ∣ z a - y n a) → (fun y : Fin d → Ainf l => ∃ x : Fin d → bk.DS bk.ρ₀, ∀ j : bk.DS bk.ρ₀ →+* bk.DA bk.ρ₀, IsDiscMap (l := _) (u := _) (ρ := _) bk.ev j → s.W *ᵥ (fun a => j (x a)) = fun a => bk.iA (y a)) z := by
+  intro l _ K bk τ hτ d ρ hρ s
+  exact period_module_lAdic_closed l K bk τ hτ d s.N s.W s.W' s.W_mul
 
 end GlobalTheory.BSP

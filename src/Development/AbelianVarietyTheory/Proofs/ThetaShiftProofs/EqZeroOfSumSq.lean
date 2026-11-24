@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.ConjugateConjugate
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.TraceFormIndependence
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolArcNilpotent
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RiemannFormFramePeriodsEqMajorant
@@ -176,32 +178,11 @@ theorem maj_smul (X : Data E r) (x : Frame X.Ψ r) (τ : X.Ψ) (c : ℂ) (v : Fi
 
 theorem sum_cm (X : Data E r) (f : (E →+* ℂ) → ℂ) :
     ∑ τ, f τ = ∑ τ : X.Ψ, (f τ.1 + f (ComplexEmbedding.conjugate τ.1)) := by
-  classical
-  have hinv : ∀ τ : E →+* ℂ, ComplexEmbedding.conjugate (ComplexEmbedding.conjugate τ) = τ := fun τ => by
-    ext; simp
-  rw [Finset.sum_coe_sort X.Ψ (fun τ => f τ + f (ComplexEmbedding.conjugate τ)), Finset.sum_add_distrib,
-    ← Finset.sum_add_sum_compl X.Ψ]
-  congr 1
-  refine Finset.sum_nbij' ComplexEmbedding.conjugate ComplexEmbedding.conjugate ?_ ?_ ?_ ?_ ?_
-  · intro τ hτ
-    rw [X.cmType, hinv]; simpa using hτ
-  · intro τ hτ
-    simpa using (X.cmType τ).1 hτ
-  · intro τ _; exact hinv τ
-  · intro τ _; exact hinv τ
-  · intro τ _; rw [hinv]
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.FD.Data.sum_emb_split | exact @_root_.ReciprocityTheory.ChartRestriction.G.FD.Data.sum_emb_split | apply _root_.ReciprocityTheory.ChartRestriction.G.FD.Data.sum_emb_split <;> assumption
 
 theorem trace_cm (X : Data E r) (z : E) :
     ((Algebra.trace ℚ E z : ℚ) : ℝ) = ∑ τ : X.Ψ, 2 * (τ.1 z).re := by
-  have h := trace_eq_sum_embeddings ℂ (K := ℚ) (L := E) (x := z)
-  have h2 : ∑ σ : E →ₐ[ℚ] ℂ, σ z = ∑ τ : E →+* ℂ, τ z :=
-    (Fintype.sum_equiv (RingHom.equivRatAlgHom E ℂ) _ _ fun _ => rfl).symm
-  rw [h2, sum_cm X] at h
-  have := congrArg Complex.re h
-  simp only [eq_ratCast, Complex.ratCast_re, Complex.re_sum, Complex.add_re,
-    ComplexEmbedding.conjugate_coe_eq, Complex.conj_re] at this
-  rw [this]
-  exact Finset.sum_congr rfl fun _ _ => by ring
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.FD.TraceFormIndependence.trace_re | exact @_root_.ReciprocityTheory.ChartRestriction.G.FD.TraceFormIndependence.trace_re | apply _root_.ReciprocityTheory.ChartRestriction.G.FD.TraceFormIndependence.trace_re <;> assumption
 
 omit [IsCMField E] in
 theorem exists_den (z : E) : ∃ m : ℤ, m ≠ 0 ∧ IsIntegral ℤ (m • z) :=

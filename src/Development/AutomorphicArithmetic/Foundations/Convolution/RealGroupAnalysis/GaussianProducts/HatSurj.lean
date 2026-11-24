@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.QuaternaryFourierEqAdelic
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaLiftTrivialOrbitTermsVanish
 public import GroundTheory.HeightsAndTheta.Theta.AdelicFourierCoord
 public import GroundTheory.HeightsAndTheta.Theta.Weil.PartialFourierCoordinates
@@ -70,16 +71,7 @@ private theorem one_int (h : (Fin 1 → A F) → ℂ) :
 private theorem reindex_mem {ι κ : Type} [Fintype ι] [Fintype κ] (e : κ ≃ ι)
     {f : (κ → A F) → ℂ} (hf : f ∈ schwartzBruhatPi (K := F) (ι := κ)) :
     (fun x : ι → A F => f (x ∘ e)) ∈ schwartzBruhatPi (K := F) (ι := ι) := by
-  have h := GroundTheory.Heights₂.Theta.comp_mulVec_mem_schwartzBruhatPi
-    ((1 : Matrix ι ι F).submatrix e id) ((1 : Matrix ι ι F).submatrix id e)
-    (by rw [Matrix.submatrix_mul_equiv]; simp) (by
-      ext i j
-      simp [Matrix.mul_apply, Matrix.one_apply]) hf
-  convert h using 2
-  rename_i x
-  congr 1
-  ext k
-  simp [Matrix.mulVec, dotProduct, Matrix.one_apply]
+  apply _root_.UpperTheory.ConvolutionTheory.R2.D.FourierTransformSplitting.reindex_mem <;> assumption
 
 private def eS : Fin 4 ≃ Fin 3 ⊕ Fin 1 where
   toFun := ![.inl 0, .inr 0, .inl 1, .inl 2]

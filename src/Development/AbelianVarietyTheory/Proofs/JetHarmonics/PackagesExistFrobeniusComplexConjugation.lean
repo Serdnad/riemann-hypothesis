@@ -92,6 +92,8 @@ import Formalism.LocalToGlobal.Divisibility.Numbers
 import Formalism.LocalToGlobal.CharacterGerms.RowTieLab
 import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.JetAt0ProdRename
 import Formalism.LocalToGlobal.CharacterGerms.RowTieAdm
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.RowDataSuppliedAtPairsOfPlaces
+import Development.AutomorphicArithmetic.OrbitLabellings.RowLab
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.JetHarmonics.BlockProdMemAtSelfConjPlaces, Development.AbelianVarietyTheory.Proofs.JetHarmonics.CharacterBoundSelfConjugateDegreeTwoIntegralChar, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsMatrixStandardToHyperbolicInertPlace, Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsSelfConjugatePlaceDataIntChart, Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonDegenerateFormalBiextensionSquare, Development.AbelianVarietyTheory.Proofs.JetHarmonics.RowConditionTwoSelfConjugateOfNonDegenerate, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.RowLawFormalStatementsSelfConjugate, Development.AbelianVarietyTheory.Proofs.JetHarmonics.RowDataSuppliedAtSelfConjugatePlaces, Development.AbelianVarietyTheory.Proofs.JetHarmonics.PackagesExistFrobeniusComplexConjugation
@@ -139,19 +141,7 @@ variable {C : Type} [Field C] {V : VF C} {d : ℕ} [NeZero d] {I J : Fin 2 → T
   [∀ g, Fintype (I g)] [∀ g, Fintype (J g)] (X : RowData C V d I J) (F : RF.Flag X)
 
 theorem le_rows_of_wt (b : RF.GlobalTheory d) (g : Fin 2) (a : ZMod d) (k : ℕ) (h : b.wt X g a k ≠ 0) : k ≤ b.what₂ X.n := by
-  cases b with
-  | bi g0 a0 i y =>
-    by_contra hk
-    have : k ≠ X.n := fun e => hk (le_of_eq e)
-    exact h (by simp [RF.GlobalTheory.wt, this])
-  | ch g0 a0 u =>
-    by_contra hk
-    have : k ≠ X.n := fun e => hk (le_of_eq e)
-    exact h (by simp [RF.GlobalTheory.wt, this])
-  | mon g0 e N =>
-    by_contra hk
-    have : ¬ k ≤ N := hk
-    exact h (by simp [RF.GlobalTheory.wt, this])
+  apply _root_.GlobalTheory.MemPair.le_rows <;> assumption
 
 theorem poly_eq_prod (b : RF.GlobalTheory d) (h : ∀ g a k, b.wt X g a k ≠ 0 → 1 ≤ k ∧ k ≤ X.rkF g a) :
     b.poly X F = ∏ g, ∏ a, ∏ k ∈ Finset.range (X.rkF g a),
@@ -980,17 +970,7 @@ theorem ge_half (h2 : V.l ≠ 2) : V.Ge 0 (2 : C)⁻¹ := by
     ((VF.Ge.mul_int (VF.ge_natCast m) h).mono (min_le_left _ _))⟩
 
 theorem exists_half [CharZero C] (h2 : V.l ≠ 2) (N : ℕ) : ∃ m : ℕ, V.Ge N ((2 : C)⁻¹ - m) := by
-  obtain ⟨m, hm⟩ := (V.l_prime.odd_of_ne_two h2).pow (n := N)
-  refine ⟨m + 1, ?_⟩
-  have hp : V.Ge N ((V.l : C) ^ N) := by
-    clear hm
-    induction N with
-    | zero => simpa using VF.Ge.one
-    | succ n ih => rw [pow_succ]; push_cast; exact ih.mul VF.ge_l
-  have : (2 : C)⁻¹ - (m + 1 : ℕ) = -(2⁻¹ * (V.l : C) ^ N) := by
-    rw [← Nat.cast_pow, hm]; push_cast; ring
-  rw [this]
-  exact (VF.Ge.mul_int (ge_half h2) hp).neg
+  apply _root_.UpperTheory.G2.RowLab.Hyp.exists_half <;> assumption
 
 theorem exists_pair [IsAlgClosed C] (h2 : V.l ≠ 2) (O : Type) [CommRing O] [StarRing O]
     (em : ZMod 2 → (O →+* C)) (hint : ∀ a x, V.Ge 0 (em a x))

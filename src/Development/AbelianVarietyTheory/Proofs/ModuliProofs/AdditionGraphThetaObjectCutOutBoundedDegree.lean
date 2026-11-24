@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PullInvClsOfFibres
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.SectionsHaveFiniteDimension
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSegreCoordinates
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ProjectiveRepresentationPullbackCoordinates
@@ -55,7 +57,6 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SectionsHaveFiniteDimensionInvarianceIsomorphism
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SqIsPowGrp
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ModuliProofs.VampIsoOfSegreCoordinates, Development.AbelianVarietyTheory.Proofs.ModuliProofs.AdditionGraphThetaObjectCutOutBoundedDegree
 
@@ -328,16 +329,7 @@ open GlobalTheory.CechPic
 
 theorem pull_inv_cls {K : Type} [Field K] (A : Over (Sp K)) [GrpObj A] (L : LB A.left) (hL : L.IsLB)
     (hs : Out.Sym A L) : pull (GrpObj.inv : A ⟶ A).left (cls L hL) = cls L hL := by
-  have : Subsingleton (Sp K) := inferInstanceAs (Subsingleton (PrimeSpectrum K))
-  obtain ⟨U, hU, ht⟩ := hs (default : PrimeSpectrum K)
-  obtain rfl : U = ⊤ := eq_top_iff.2 fun q _ => by rw [Subsingleton.elim q (default : PrimeSpectrum K)]; exact hU
-  have e := (cls_eq_zero_iff (LB.isLB_linComb hL _ _)).2 ht
-  rw [cls_linComb hL, Fin.sum_univ_two] at e
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one, one_smul, neg_smul, pull_comp] at e
-  obtain ⟨ψ, k⟩ : ∃ ψ : A.left ⟶ (A.hom ⁻¹ᵁ ⊤).toScheme, ψ ≫ (A.hom ⁻¹ᵁ ⊤).ι = 𝟙 _ :=
-    ⟨A.left.topIso.inv, A.left.topIso.inv_hom_id⟩
-  have e' := congrArg (pull ψ) (add_neg_eq_zero.1 e)
-  rwa [← pull_comp ψ, ← pull_comp ψ, k, pull_id, pull_id] at e'
+  first | exact _root_.GlobalTheory.OddDescent.pull_inv_cls_of_sym | exact @_root_.GlobalTheory.OddDescent.pull_inv_cls_of_sym | apply _root_.GlobalTheory.OddDescent.pull_inv_cls_of_sym <;> assumption
 
 theorem pull_inv_hom {S : Scheme.{0}} {A B : Over S} [GrpObj A] [GrpObj B] (f : B ⟶ A)
     (hf : (GrpObj.inv : B ⟶ B) ≫ f = f ≫ (GrpObj.inv : A ⟶ A)) (c : Pic A.left)

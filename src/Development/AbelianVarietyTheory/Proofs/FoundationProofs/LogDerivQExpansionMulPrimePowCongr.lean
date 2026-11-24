@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimitiveHahnSeriesInvertibleModPrimePow
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -132,15 +133,7 @@ private lemma hahnSeries_coeff_mul_mem_valuationSubring {Ω : Type} [Field Ω] (
 open scoped MatrixGroups in
 private lemma hahnSeries_coeff_pow_mem_valuationSubring {Ω : Type} [Field Ω] (A : ValuationSubring Ω)
     {x : HahnSeries ℚ Ω} (hx : ∀ r, x.coeff r ∈ A) (k : ℕ) (r : ℚ) : (x ^ k).coeff r ∈ A := by
-  induction k generalizing r with
-  | zero =>
-    rw [pow_zero, HahnSeries.coeff_one]
-    split_ifs
-    · exact one_mem A
-    · exact zero_mem A
-  | succ k ih =>
-    rw [pow_succ]
-    exact hahnSeries_coeff_mul_mem_valuationSubring A ih hx r
+  apply _root_.GlobalTheory.PrimInv.intS_pow <;> assumption
 
 
 open scoped MatrixGroups in

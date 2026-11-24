@@ -92,6 +92,7 @@ import Formalism.LocalRingCardinality.HeightBoundGeFourthPowerRank
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KronHolPsiStatementHolds
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.BoundedSectionAlgebra
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsMulNe
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ReadingsCuspAndIndependent, Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.CurvatureMarginsDefiniteCase, Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.RunWeightDominantAndGapsDefiniteCase, Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ThetaArchimedeanDataDefiniteModelsNonempty, Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.CuspFormBasisSharesDefiniteLiftIndex
@@ -254,17 +255,6 @@ theorem exists_pos_le_firstMinimum_definiteForm (X : Data E r) (hr : 0 < r) (hp 
     have hle : X.la1 y ≤ X.la1 (lact γ (rmul x b)) := isMinOn_iff.mp hmin _ hmem
     rwa [ReciprocityTheory.ChartRestriction.G.AR.Inst.firstMinimum_biinvariant X hγ hx hb] at hle
 
-private theorem pnorm_pos_of_ne_zero' (X : Data E r) (la : Wt X.Ψ r) (P : Frame X.Ψ r → ℂ) {x : Frame X.Ψ r}
-    (hx : x ∈ X.dom) (h : P x ≠ 0) : 0 < X.pnorm la P x := by
-  have hd : ∀ (τ : X.Ψ) (i : Fin (r + 1)), dmin X.Gm x τ i ≠ 0 := by
-    intro τ i h0
-    have := (hx τ).2 i
-    rw [h0] at this
-    simp at this
-  unfold Data.pnorm
-  refine mul_pos (norm_pos_iff.mpr h) (Finset.prod_pos fun τ _ => Finset.prod_pos fun i _ => ?_)
-  exact Real.rpow_pos_of_pos (norm_pos_iff.mpr (div_ne_zero (hd τ _) (hd τ _))) _
-
 theorem exists_le_sum_sq (X : Data E r) (hp : X.p0 = 0) (la : Wt X.Ψ r) {N : ℕ}
     (P : Fin N → Frame X.Ψ r → ℂ) (hP : ∀ i, X.IsSec la (P i)) (hz : ∀ x ∈ X.dom, ∃ i, P i x ≠ 0) :
     ∃ c : ℝ, 0 < c ∧ ∀ x ∈ X.dom, c ≤ ∑ i, X.pnorm la (P i) x ^ 2 := by
@@ -277,7 +267,7 @@ theorem exists_le_sum_sq (X : Data E r) (hp : X.p0 = 0) (la : Wt X.Ψ r) {N : �
   have hpos : ∀ x ∈ X.dom, 0 < ∑ i, X.pnorm la (P i) x ^ 2 := by
     intro x hx
     obtain ⟨i, hi⟩ := hz x hx
-    have h0 : 0 < X.pnorm la (P i) x := pnorm_pos_of_ne_zero' X la (P i) hx hi
+    have h0 : 0 < X.pnorm la (P i) x := _root_.GlobalTheory.UpperModel.pnorm_pos X la hx hi
     calc (0 : ℝ) < X.pnorm la (P i) x ^ 2 := pow_pos h0 2
       _ ≤ ∑ j, X.pnorm la (P j) x ^ 2 :=
         Finset.single_le_sum (f := fun j => X.pnorm la (P j) x ^ 2) (fun j _ => sq_nonneg _)

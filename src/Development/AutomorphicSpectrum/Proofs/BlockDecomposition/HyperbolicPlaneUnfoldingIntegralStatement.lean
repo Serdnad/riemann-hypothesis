@@ -530,15 +530,7 @@ open GlobalTheory.CompanionTheory.SW.ThetaStage
 theorem linearIndependent_mulVec_GL {E : Type} [Field E] {M n : ℕ} (A : GL (Fin M) E)
     {X : Fin n → Fin M → E} (hX : LinearIndependent E X) :
     LinearIndependent E (fun a => (A : Matrix (Fin M) (Fin M) E) *ᵥ X a) := by
-  have hinj : Function.Injective (Matrix.mulVecLin (A : Matrix (Fin M) (Fin M) E)) := by
-    intro x y hxy
-    have h : ∀ v : Fin M → E, ((A⁻¹ : GL (Fin M) E) : Matrix (Fin M) (Fin M) E) *ᵥ
-        ((A : Matrix (Fin M) (Fin M) E) *ᵥ v) = v := by
-      intro v
-      rw [Matrix.mulVec_mulVec, ← Units.val_mul, inv_mul_cancel, Units.val_one, Matrix.one_mulVec]
-    have hxy' : (A : Matrix (Fin M) (Fin M) E) *ᵥ x = (A : Matrix (Fin M) (Fin M) E) *ᵥ y := hxy
-    rw [← h x, ← h y, hxy']
-  exact hX.map' (Matrix.mulVecLin (A : Matrix (Fin M) (Fin M) E)) (LinearMap.ker_eq_bot.2 hinj)
+  apply _root_.GlobalTheory.CompanionTheory.WeilSiegel.HypStep.Unf.linearIndependent_mulVec_unit <;> assumption
 
 theorem gact_mem_framesE {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E) {M n : ℕ}
     {J : Matrix (Fin M) (Fin M) E} (g : UJ (σ : E →+* E) J) {T : Matrix (Fin n) (Fin n) E}
@@ -576,20 +568,7 @@ open GlobalTheory.CompanionTheory.SW.ThetaStage
 theorem linearIndependent_gact {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E)
     {M n : ℕ} {J : Matrix (Fin M) (Fin M) E} (g : UJ (σ : E →+* E) J) {X : Fin n → Fin M → E}
     (hX : LinearIndependent E X) : LinearIndependent E (gact σ g X) := by
-  have hker : LinearMap.ker
-      (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) = ⊥ := by
-    refine LinearMap.ker_eq_bot.2 fun x y h => ?_
-    have h1 : gact σ g (fun _ : Fin 1 => x) = gact σ g (fun _ : Fin 1 => y) :=
-      funext fun _ => h
-    have h2 := congrArg (gact σ g⁻¹) h1
-    rw [gact_inv_gact, gact_inv_gact] at h2
-    exact congrFun h2 0
-  have h3 : gact σ g X =
-      (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) ∘ X := by
-    funext a
-    rfl
-  rw [h3]
-  exact hX.map' (Matrix.mulVecLin ((g : GL (Fin M) E) : Matrix (Fin M) (Fin M) E)) hker
+  apply _root_.GlobalTheory.CompanionTheory.WeilSiegel.HypStep.Unf.linearIndependent_gact_unitary <;> assumption
 
 theorem gact_mem_framesE {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E)
     {M n : ℕ} {J : Matrix (Fin M) (Fin M) E} (g : UJ (σ : E →+* E) J)

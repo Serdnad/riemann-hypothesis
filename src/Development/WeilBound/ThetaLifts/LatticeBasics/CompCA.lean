@@ -64,11 +64,11 @@ variable (σ v) in
 def cInt : intLoc F E v →+* intLoc F E v :=
   ((sigR (Fv F v) σ).comp (intLoc F E v).subtype).codRestrict _ fun z => sigR_mem_intLoc σ z.2
 
-theorem exists_res {B : Base F E} (hB : B.IsGood σ) (v : Pl F) : ∃ (K : Type) (_ : Field K) (r : intLoc F E v →+* K),
+theorem exists_res_of_split_or_inert (hσ : IsCMExt F E σ) (v : Pl F)
+    (hplace : Nonempty (E →ₐ[F] Fv F v) ∨ ∃ w : HeightOneSpectrum (𝓞 E), Formalism.UG.IsInertAt F E v w) : ∃ (K : Type) (_ : Field K) (r : intLoc F E v →+* K),
     Function.Surjective r ∧ (((∀ z, r z = 0 → r (cInt σ v z) = 0) ∧ ∃ κ, r (κ - cInt σ v κ) ≠ 0) ∨
       ∃ η, r η = 1 ∧ r (cInt σ v η) = 0) ∧ ∀ z, r z ≠ 0 → r (cInt σ v z) ≠ 0 → IsUnit z := by
-  have hσ := hB.cm
-  rcases GlobalTheory.KFinLoc.split_or_inert F E σ B hB v with ⟨⟨τ⟩⟩ | ⟨w, hw⟩
+  rcases hplace with ⟨⟨τ⟩⟩ | ⟨w, hw⟩
   · let ρ : intLoc F E v →+* v.adicCompletionIntegers F := ((splitProj τ : Fv F v ⊗[F] E →+* Fv F v).comp
       (intLoc F E v).subtype).codRestrict (v.adicCompletionIntegers F).toSubring fun z => splitProj_mem τ z.2
     have mk : ∀ a b : v.adicCompletionIntegers F, (splitAlgEquiv hσ τ).symm (a.1, b.1) ∈ intLoc F E v := fun a b =>
@@ -106,6 +106,11 @@ theorem exists_res {B : Base F E} (hB : B.IsGood σ) (v : Pl F) : ∃ (K : Type)
       obtain ⟨z', rfl⟩ := sj a
       refine IsUnit.of_mul_eq_one z' (Subtype.ext ((toCompl_bijective hw hu).1 ?_))
       rw [Subring.coe_mul, map_mul, Subring.coe_one, map_one]; exact congrArg Subtype.val ha
+
+theorem exists_res {B : Base F E} (hB : B.IsGood σ) (v : Pl F) : ∃ (K : Type) (_ : Field K) (r : intLoc F E v →+* K),
+    Function.Surjective r ∧ (((∀ z, r z = 0 → r (cInt σ v z) = 0) ∧ ∃ κ, r (κ - cInt σ v κ) ≠ 0) ∨
+      ∃ η, r η = 1 ∧ r (cInt σ v η) = 0) ∧ ∀ z, r z ≠ 0 → r (cInt σ v z) ≠ 0 → IsUnit z := by
+  exact exists_res_of_split_or_inert hB.cm v (GlobalTheory.KFinLoc.split_or_inert F E σ B hB v)
 
 theorem fr_iff {X : Spc F E n} {a : GL (Fin n) (Fv F v ⊗[F] E)}
     (ha : ∀ y : Fin n → Fv F v ⊗[F] E, (∀ i, y i ∈ intLoc F E v) ↔ a.1 *ᵥ y ∈ latLoc F X.L v) (M) :
@@ -157,15 +162,19 @@ theorem gram_fr (a : GL (Fin n) (Fv F v ⊗[F] E)) (J M m : Matrix (Fin n) (Fin 
   simp only [Matrix.mul_assoc]
   rw [← Matrix.mul_assoc (a⁻¹).1ᵀ, e1, Matrix.one_mul, ← Matrix.mul_assoc (a.1.map _), e2, Matrix.one_mul]
 
-theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {r s : ℕ} (hX : X.IsHerm σ B r s)
+theorem exists_beta_of_residue {B : Base F E} (hcm : IsCMExt F E σ)
+    (hres : ∃ (K : Type) (_ : Field K) (r : intLoc F E v →+* K),
+    Function.Surjective r ∧ (((∀ z, r z = 0 → r (cInt σ v z) = 0) ∧ ∃ κ, r (κ - cInt σ v κ) ≠ 0) ∨
+      ∃ η, r η = 1 ∧ r (cInt σ v η) = 0) ∧ ∀ z, r z ≠ 0 → r (cInt σ v z) ≠ 0 → IsUnit z)
+    (htrace : ∃ θ : 𝓞 E, (θ : E) + σ (θ : E) = 1) {X : Spc F E n} {r s : ℕ} (hX : X.IsHerm σ B r s)
     (g : UG (cA σ) (dbl (incM F X.J))) {x y a₁ a₂ : Matrix (Fin n) (Fin n) (AE F E)}
     (hg : g.1.1 * (diagCols (Fin n) : Matrix _ _ (AE F E)) = Matrix.fromRows x y) (hx : x ∈ Pres v X) (hy : y ∈ Pres v X)
     (h1 : a₁ ∈ Pres v X) (h2 : a₂ ∈ Pres v X) (h : a₁ * x + a₂ * y = 1) (ax : At (evFin F v) (x - 1)) (ay : At (evFin F v) (y - 1)) :
     ∃ b b' t', Adj (cA σ) (incM F X.J) b b' ∧ b + b' = -1 ∧ b ∈ Pres v X ∧ t' ∈ Pres v X ∧ (y + b * (y - x)) * t' = 1 := by
-  have hσ := cm_conj_conj hB.cm
+  have hσ := cm_conj_conj hcm
   have cc := cA_cA (F := F) hσ
   have hL := hX.lat
-  obtain ⟨K, _, ρ, r1, r2, r3⟩ := exists_res hB v
+  obtain ⟨K, _, ρ, r1, r2, r3⟩ := hres
   obtain ⟨P, p1, p2⟩ := Frames.exists_rational_frame X.L v
   obtain ⟨G', hG', g1, g2⟩ := Hgt.gram_loc (v := v) (herm_det hX).ne_zero hL.fg (I := IsIntegral ℤ) (fun z hz b => hz.mul b.2) hX.dual
     isIntegral_one (fun z hz => ⟨1, (Ideal.ne_top_iff_one _).1 v.isPrime.ne_top, ⟨z, hz⟩, by simp; rfl⟩) P p1 p2
@@ -185,7 +194,7 @@ theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {r s : ℕ
     rfl
   have jj : ∀ N N' : Matrix (Fin n) (Fin n) (intLoc F E v), j (Nᵀ * G * N'.map (cInt σ v)) = (j N)ᵀ * j G * (j N').map (sigR _ σ) :=
     fun N N' => by rw [map_mul, map_mul]; rfl
-  obtain ⟨θ₀, hθ⟩ := Tw.exists_int_add_conj_eq_one_of_base_good B hB
+  obtain ⟨θ₀, hθ⟩ := htrace
   let θ : AE F E := inclR (F := F) (AF F) (θ₀ : E)
   have iθ : compFin F E v (-θ) ∈ intLoc F E v := by
     rw [map_neg]; exact neg_mem (tmul_mem_intLoc (show evFin F v 1 ∈ _ by rw [map_one]; exact one_mem _) θ₀)
@@ -252,6 +261,14 @@ theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {r s : ℕ
     (by rw [map_add (f := _), map_mul, hNm, hNM, ← fS, ← map_mul, ← map_add (f := _), add_mul, add_assoc]) s2
   exact ⟨b₀ + SA, _ + -SA, t', b0.add (by rw [Adj, mapc_neg, Matrix.mul_neg]; exact eq_neg_of_add_eq_zero_left sk),
     by rw [add_add_add_comm, add_neg_cancel, add_zero, hb0], add_mem pb0 ((ha _).2 ⟨S, fS.symm⟩), pt, ht⟩
+
+theorem exists_beta {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {r s : ℕ} (hX : X.IsHerm σ B r s)
+    (g : UG (cA σ) (dbl (incM F X.J))) {x y a₁ a₂ : Matrix (Fin n) (Fin n) (AE F E)}
+    (hg : g.1.1 * (diagCols (Fin n) : Matrix _ _ (AE F E)) = Matrix.fromRows x y) (hx : x ∈ Pres v X) (hy : y ∈ Pres v X)
+    (h1 : a₁ ∈ Pres v X) (h2 : a₂ ∈ Pres v X) (h : a₁ * x + a₂ * y = 1) (ax : At (evFin F v) (x - 1)) (ay : At (evFin F v) (y - 1)) :
+    ∃ b b' t', Adj (cA σ) (incM F X.J) b b' ∧ b + b' = -1 ∧ b ∈ Pres v X ∧ t' ∈ Pres v X ∧ (y + b * (y - x)) * t' = 1 := by
+  exact exists_beta_of_residue hB.cm (exists_res hB v) (Tw.exists_int_add_conj_eq_one_of_base_good B hB)
+    hX g hg hx hy h1 h2 h ax ay
 
 end GlobalTheory.ThK.Dbl.Vf2
 

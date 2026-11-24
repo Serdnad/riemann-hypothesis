@@ -88,6 +88,8 @@ import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationLeOneOfMem
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
 import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SmulMemLatOIdem
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BiCombEqLOpROp
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SbHalfHalfInd
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColumnAtReadsPlacePartLargeDepth, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColumnAtReadsPlacePartLargeDepthStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColumnCombinationsComposeLargeDepth, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ColumnCombinationsComposeLargeDepthStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCombinationOperatorColumnProduct, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsCombinationOperatorColumnProductStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockVectorsPassPlaceModelsLargeDepth, Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockVectorsPassPlaceModelsLargeDepthStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsIdemSumEqSumSinglePlaces, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsIdemSumEqSumSinglePlacesStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsIdemSumPlacesUnique, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsIdemSumPlacesUniqueStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProductFiniteDatumLargeDepth, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ProductFiniteDatumLargeDepthStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsetPlaceVectorsAndSteps, Development.AbelianVarietyTheory.Proofs.TwistedOperators.SubsetPlaceVectorsAndStepsStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.VacuumDatumTrivialCombinationLargeDepth, Development.AbelianVarietyTheory.Proofs.TwistedOperators.VacuumDatumTrivialCombinationLargeDepthStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowTestColumnInductionLocalToGlobalExpansion, Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowTestColumnInductionLocalToGlobalExpansionStatement
@@ -182,14 +184,7 @@ theorem biComb_biComb (ψ : AddChar (AF D.host.F) ℂ) (A S A' : HSp D) (c₁ c�
     (h₁ : ∀ f, comb ψ A S c₁'' f = comb ψ A S c₁ (comb ψ A S c₁' f))
     (h₂ : ∀ f, comb ψ S A' c₂'' f = comb ψ S A' c₂ (comb ψ S A' c₂' f)) (F : WO A S → WO S A' → ℂ) :
     biComb ψ A S A' c₁ c₂ (biComb ψ A S A' c₁' c₂' F) = biComb ψ A S A' c₁'' c₂'' F := by
-  funext u v
-  show comb ψ A S c₁ (fun u' => comb ψ S A' c₂ (fun v' => comb ψ A S c₁' (fun u'' => comb ψ S A' c₂' (F u'') v') u') v) u =
-    comb ψ A S c₁'' (fun u' => comb ψ S A' c₂'' (F u') v) u
-  rw [h₁]
-  congr 1
-  funext u'
-  rw [comb_comm]
-  simp only [h₂]
+  apply _root_.GlobalTheory.ProdLocInv.biComb_comp <;> assumption
 
 end GlobalTheory.ColComb
 
@@ -492,14 +487,7 @@ theorem eq_zero_of_fixed (hψ : IsStdChar D ψ (-1)) (hθ : IsInfFam θ)
   linear_combination (1 / 2 : ℂ) * this
 
 theorem isSBHalf_halfInd (e : AE D) (Λ : AddSubgroup (WO S T)) : IsSBHalf e Λ (halfInd e Λ) := by
-  have h : ∀ t, halfInd e Λ t ≠ 0 → t ∈ Λ ∧ IsHalf e t := fun t ht => by
-    by_contra hn
-    exact ht (if_neg hn)
-  refine ⟨fun t ht => (h t ht).2, 1, one_pos, fun u hu hu' t => ?_, fun t ht => by rw [one_smul]; exact (h t ht).1⟩
-  rw [one_smul]
-  unfold halfInd
-  refine if_congr (and_congr (Λ.add_mem_cancel_right hu) (forall₂_congr fun i j => ?_)) rfl rfl
-  rw [Matrix.add_apply, mul_add, hu' i j, add_left_inj]
+  apply _root_.Formalism.IndefR.Fin.LevelGroupLemmas.sbHalf_halfInd <;> assumption
 
 theorem placeModel_eq_zero (hψ : IsStdChar D ψ (-1)) (hθ : IsInfFam θ)
     {sS : D.what₂.Tau → Matrix (Fin S.rank) (Fin S.rank) ℂ} {sT : D.what₂.Tau → Matrix (Fin T.rank) (Fin T.rank) ℂ}

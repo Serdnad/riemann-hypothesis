@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.ThetaLifts.SphericalLattices.LocDataVAlt
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemSBOfIsNatDatum
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsLocIsoRefl
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlipAtEq
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareStanding
@@ -191,56 +193,13 @@ theorem exists_mixed {k R C : Type} [Field k] [ValuativeRel k] [TopologicalSpace
         χ (pairM (a x) (b u) - pairM (b x) (a u))) :
     ∃ ι, IsLagrModel M ψ v A A' co ι ∧ ∀ φ ∈ GlobalTheory.WeilM.SB _, ∀ m, IsNatDatum ϖ m (ι φ) →
       ι₀ φ = fun Z => fourierSum ψ₀⁻¹ ϖ m P (ι φ) (chart j eA eC g h Z) := by
-  obtain ⟨𝓕, f1, f2, f3, f4⟩ := GlobalTheory.T.exists_partialFourier_columnBlock_schwartzBruhat k R C ψ₀ ϖ P hϖ hψ
-  obtain ⟨Θ, hΘ⟩ := exists_homeo j eA eC g h hj.1 hj.2.1
-  let ι₁ := LinearMap.funLeft ℂ ℂ Θ.symm ∘ₗ ι₀
-  have b1 : Set.BijOn ι₁ (GlobalTheory.WeilM.SB (Fin n × Fin d → Fv F v) : Set _) (GlobalTheory.WeilM.SB (Matrix R C k) : Set _) := (bijOn_funLeft Θ).comp hb
-  have e1 : ∀ φ Z, ι₁ φ (chart j eA eC g h Z) = ι₀ φ Z := fun φ Z => by
-    rw [← hΘ]; exact congrArg (ι₀ φ) (Θ.symm_apply_apply Z)
-  have pc : ∀ Z Z', pairM (chart j eA eC g h Z) (κ • chart j eA eC (invT g) (invT h) Z') = κ * j (pairM Z Z') := fun Z Z' => by
-    rw [pairM_smul_right, pairM_chart]
-  have act : ∀ u, At (evFin F v) u → pairM (chart j eA eC g h (a u)) (κ • chart j eA eC (invT g) (invT h) (b u)) = 0 →
-      ∀ φ ∈ GlobalTheory.WeilM.SB _, ∀ φ₁ ∈ GlobalTheory.WeilM.SB _, Acts (evFin F v) (M.co.rho ψ u) φ φ₁ →
-      ι₁ φ₁ = fun S => (ψ₀ (pairM S (κ • chart j eA eC (invT g) (invT h) (b u))) : ℂ) * ι₁ φ (S + chart j eA eC g h (a u)) := by
-    intro u hu h0 φ hφ φ₁ h₁ hact
-    funext S
-    obtain ⟨Z, rfl⟩ := Θ.surjective S
-    rw [pc, mul_eq_zero, map_eq_zero] at h0
-    rw [hΘ, ← chart_add, e1, e1, pc, ← hχ]
-    exact ha u hu (h0.resolve_left hκ) φ hφ φ₁ h₁ hact Z
-  refine ⟨𝓕 ∘ₗ ι₁, ⟨f1.comp b1, fun u hu φ hφ φ₁ h₁ hact z => ?_, fun u hu φ hφ φ₁ h₁ hact x hx => ?_⟩, fun φ hφ m hm => ?_⟩
-  · obtain ⟨c1, c2, c3, c4⟩ := hc.1 u hu
-    rw [LinearMap.comp_apply, act u c1 (pairM_eq_zero c2 c3) φ hφ φ₁ h₁ hact, f2 _ (b1.1 hφ) _ _ c2 c3, c4]
-    rfl
-  · obtain ⟨c1, c2, c3⟩ := hc.2 u hu
-    obtain ⟨d1, d2, d3, d4⟩ := hc.1 x hx
-    rw [LinearMap.comp_apply, act u c1 ((pairM_comm _ _).trans (pairM_eq_zero c3 c2)) φ hφ φ₁ h₁ hact, f3 _ (b1.1 hφ) _ _ c2 c3,
-      hs x u d1 c1, hχ, map_sub, mul_sub, ← pc, pairM_comm (b x), ← pc, d4]
-    beta_reduce
-    rw [pairM_add_left, pairM_add_left, pairM_eq_zero d2 c2, pairM_comm (κ • _) (κ • _), pairM_eq_zero c3 d3, add_zero, zero_add,
-      pairM_comm _ (κ • chart j eA eC (invT g) (invT h) (b x))]
-    rfl
-  · funext Z
-    rw [LinearMap.comp_apply, f4 _ (b1.1 hφ) m hm, e1]
+  apply _root_.GlobalTheory.FlipMatch.exists_mixed <;> assumption
 
 end Mix
 
 theorem mem_SB_of_isNatDatum {k A C : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     [Fintype A] [Fintype C] {ϖ : kˣ} {n : ℕ} {Φ : Matrix A C k → ℂ} (h : IsNatDatum ϖ n Φ) : Φ ∈ GlobalTheory.WeilM.SB (Matrix A C k) := by
-  have h0 : 0 < ValuativeRel.valuation k ((ϖ ^ n : kˣ) : k) := zero_lt_iff.2 (by simp)
-  refine ⟨(IsLocallyConstant.iff_exists_open Φ).2 fun x =>
-      ⟨{x' | ∀ r s, (x' - x) r s / ((ϖ ^ n : kˣ) : k) ∈ (ValuativeRel.valuation k).integer}, ?_, fun r s => by simp,
-      fun x' hx' => ?_⟩,
-    HasCompactSupport.intro (GlobalTheory.SplitFlip.isCompact_intMatrix (k := k) (m := A) (n := C))
-      fun x hx => h.1 x fun hm => hx (mem_matLat_stdLat.1 hm)⟩
-  · simp only [Set.ofPred_forall]
-    refine isOpen_iInter_of_finite fun r => isOpen_iInter_of_finite fun s => ?_
-    exact IsOpen.preimage (f := fun x' : Matrix A C k => (x' - x) r s / ((ϖ ^ n : kˣ) : k)) (by fun_prop) Valuation.isOpen_integer
-  · rw [← h.2 x (x' - x), add_sub_cancel]
-    classical
-    refine GlobalTheory.SplitFlip.FourierDepth.mem_matLat_smul_stdLat.2 fun r s => ?_
-    have := hx' r s
-    rwa [Valuation.mem_integer_iff, map_div₀, div_le_one₀ h0] at this
+  apply _root_.GlobalTheory.FlipMatch.mem_SB_of_isNatDatum <;> assumption
 
 section Grid
 
@@ -264,15 +223,8 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem eq_of_tens_eq {κ : Type} (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F)) (R : (κ → AF F) → ℂ)
     (hR0 : R 0 ≠ 0) (hinv : ∀ x z, At (evFin F v) z → R (x + z) = R x) (φ₁ φ₂ : (κ → Fv F v) → ℂ)
     (h : tens (evFin F v) φ₁ R = tens (evFin F v) φ₂ R) : φ₁ = φ₂ := by
-  funext y
-  have hz : At (evFin F v) (fun i => GlobalTheory.LatVac.liftV v (y i)) := by
-    intro u hu
-    funext i
-    exact GlobalTheory.LatVac.at_liftV v _ u hu
-  have e := congrFun h (fun i => GlobalTheory.LatVac.liftV v (y i))
-  have hR : R (fun i => GlobalTheory.LatVac.liftV v (y i)) = R 0 := by simpa using hinv 0 _ hz
-  simp only [tens, GlobalTheory.LatVac.evFin_liftV, hR] at e
-  exact mul_right_cancel₀ hR0 e
+  intros
+  apply _root_.GlobalTheory.InertAvg.tens_inj <;> assumption
 
 theorem tens_add_smul {κ : Type} (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F)) (R : (κ → AF F) → ℂ) (x y : (κ → Fv F v) → ℂ) (c : ℂ) :
     tens (evFin F v) (c • x + y) R = c • tens (evFin F v) x R + tens (evFin F v) y R := by

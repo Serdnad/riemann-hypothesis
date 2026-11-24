@@ -77,11 +77,6 @@ theorem preimageSupportEqComponentsInOrderLocus_of_isAdmissible (T : MarkedIdeal
   have hnsU : TopologicalSpace.NoetherianSpace
       ↥((boundaryComponentsInOrderLocusOpens T j hj h).toScheme) :=
     inferInstanceAs (TopologicalSpace.NoetherianSpace ↥(boundaryComponentsInOrderLocus T j hj))
-  have hqc : AlgebraicGeometry.QuasiCompact
-      ((boundaryComponentsInOrderLocusOpens T j hj h).ι ≫ (T.boundary.get ⟨j, hj⟩).subschemeι) := by
-    constructor
-    intro V _ _
-    exact TopologicalSpace.NoetherianSpace.isCompact _
   have hclosed : IsClosed (boundaryComponentsInOrderLocus T j hj) :=
     isClosed_setOf_connectedComponent_subset
       (fun x => Blowup.isOpen_connectedComponent_of_noetherianSpace _ x) _

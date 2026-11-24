@@ -724,15 +724,7 @@ namespace GlobalTheory.CompanionTheory.DegreeSubmod
 
 theorem exists_leftInv {K ι κ : Type} [Field K] [Fintype ι] [DecidableEq ι] [Fintype κ] [DecidableEq κ]
     (M : Matrix ι κ K) (h : LinearIndependent K Mᵀ) : ∃ Y : Matrix κ ι K, Y * M = 1 := by
-  have hinj : Function.Injective M.mulVecLin := by
-    have : Function.Injective M.mulVec := Matrix.mulVec_injective_iff.2 h
-    exact this
-  obtain ⟨g, hg⟩ := M.mulVecLin.exists_leftInverse_of_injective (LinearMap.ker_eq_bot.2 hinj)
-  refine ⟨LinearMap.toMatrix' g, ?_⟩
-  have h2 : LinearMap.toMatrix' (g ∘ₗ M.mulVecLin) = LinearMap.toMatrix' g * M := by
-    rw [LinearMap.toMatrix'_comp, ← Matrix.toLin'_apply', LinearMap.toMatrix'_toLin']
-  rw [← h2, hg]
-  simp
+  apply _root_.GlobalTheory.CompanionTheory.DegBasisGen.exists_left_inv <;> assumption
 
 theorem map_fromCols {R S ι κ κ' : Type} (f : R → S) (P : Matrix ι κ R) (Q : Matrix ι κ' R) :
     (fromCols P Q).map f = fromCols (P.map f) (Q.map f) := by

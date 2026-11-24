@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.TateTwists.EtaleSheafRestrictScalarsResolutionHomExistsOfEx
 public import Development.EtaleCohomology.TateTwists.EtaleTwistResolutionUniversalExtension
 public import Mathlib.Algebra.Homology.HomotopyCategory.KInjective
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,16 +99,7 @@ theorem qh_iso {S T : CochainComplex C ℤ} (ε : S ⟶ T) [QuasiIso ε] :
 attribute [local instance] HasDerivedCategory.standard in
 theorem kinj_lift {S T I : CochainComplex C ℤ} [I.IsKInjective] (ε : S ⟶ T) [QuasiIso ε] (a : S ⟶ I) :
     ∃ m : T ⟶ I, Nonempty (Homotopy (ε ≫ m) a) := by
-  have := qh_iso ε
-  set qt := HomotopyCategory.quotient C (ComplexShape.up ℤ)
-  obtain ⟨g, hg⟩ := (CochainComplex.IsKInjective.Qh_map_bijective (qt.obj T) I).2
-    (inv (DerivedCategory.Qh.map (qt.map ε)) ≫ DerivedCategory.Qh.map (qt.map a))
-  obtain ⟨m, rfl⟩ := qt.map_surjective g
-  refine ⟨m, ⟨HomotopyCategory.homotopyOfEq _ _ ?_⟩⟩
-  apply (CochainComplex.IsKInjective.Qh_map_bijective (qt.obj S) I).1
-  rw [Functor.map_comp, Functor.map_comp]
-  erw [hg]
-  exact IsIso.hom_inv_id_assoc _ _
+  apply @LateralTheory.EtaleFoundations.restr_ex_hom_ext_of_qis <;> assumption
 
 attribute [local instance] HasDerivedCategory.standard in
 theorem kinj_uniq {S T I : CochainComplex C ℤ} [I.IsKInjective] (ε : S ⟶ T) [QuasiIso ε] (m m' : T ⟶ I)

@@ -1636,22 +1636,7 @@ theorem len_quot_pow {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRi
 theorem ker_eq_coker {O M : Type} [CommRing O] [AddCommGroup M] [Module O M]
     (hM : Module.length O M ≠ ⊤) (f : Module.End O M) :
     Module.length O (LinearMap.ker f) = Module.length O (M ⧸ LinearMap.range f) := by
-  have h1 : Module.length O M =
-      Module.length O (LinearMap.ker f) + Module.length O (LinearMap.range f) :=
-    Module.length_eq_add_of_exact (LinearMap.ker f).subtype f.rangeRestrict
-      (Submodule.subtype_injective _) f.surjective_rangeRestrict
-      (LinearMap.exact_iff.mpr (by rw [LinearMap.ker_rangeRestrict, Submodule.range_subtype]))
-  have h2 : Module.length O M =
-      Module.length O (LinearMap.range f) + Module.length O (M ⧸ LinearMap.range f) :=
-    Module.length_eq_add_of_exact (LinearMap.range f).subtype (LinearMap.range f).mkQ
-      (Submodule.subtype_injective _) (Submodule.mkQ_surjective _) (LinearMap.exact_subtype_mkQ _)
-  have hR : Module.length O (LinearMap.range f) ≠ ⊤ :=
-    ne_top_of_le_ne_top hM
-      (Module.length_le_of_injective _ (Submodule.subtype_injective (LinearMap.range f)))
-  have h5 : Module.length O (LinearMap.ker f) + Module.length O (LinearMap.range f) =
-      Module.length O (M ⧸ LinearMap.range f) + Module.length O (LinearMap.range f) := by
-    rw [← h1, h2, add_comm]
-  exact WithTop.add_right_cancel hR h5
+  apply _root_.Formalism.KernelCokernelLengths.KernelCokernelEqualityLemmas.main <;> assumption
 
 variable {O : Type} [CommRing O] (ℓ : O) (n k : ℕ)
 

@@ -55,12 +55,6 @@ theorem divisible_small {σ : Type} {l : ℕ} (μ : σ →₀ ℕ) (hdiv : ∀ s
     rintro rfl
     simp at hk
     exact hs hk
-  have hl0 : 0 < l := by
-    rcases Nat.eq_zero_or_pos l with h | h
-    · subst h
-      simp at hk
-      exact absurd hk hs
-    · exact h
   have hk2 : k = 1 := by
     by_contra hk2
     have : 2 * l ≤ μ s := by

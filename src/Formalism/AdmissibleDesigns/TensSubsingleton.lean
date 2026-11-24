@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ActQdRPeriodTEqCyclotomicBottom
 
 @[expose] public section
 
@@ -89,14 +90,7 @@ theorem fildR_anti (τ : K →ₐ[Qp] LL) (a : ℤ) : FildR PD ρ τ (a + 1) ≤
 theorem fildR_le (τ : K →ₐ[Qp] LL) (a : ℤ) : FildR PD ρ τ a ≤ DdR PD ρ := inf_le_left.trans inf_le_left
 
 theorem fd_DdR [FiniteDimensional LL V] (h : IsDR PD ρ) : FiniteDimensional LL ↥(DdR PD ρ) := by
-  haveI := PD.finK
-  by_cases hV : Module.finrank LL V = 0
-  · haveI : Subsingleton V := Module.finrank_zero_iff.mp hV
-    haveI : Subsingleton (V ⊗[Qp] BdR) := ⟨fun x y => by rw [tens_subsingleton x, tens_subsingleton y]⟩
-    infer_instance
-  · apply Module.finite_of_finrank_pos
-    rw [h]
-    exact Nat.mul_pos Module.finrank_pos (Nat.pos_of_ne_zero hV)
+  apply _root_.GlobalTheory.DeRhamCompare.finite_DdR <;> assumption
 
 theorem jump_of_mult (τ : K →ₐ[Qp] LL) (a : ℤ) (h : multV PD ρ τ a ≠ 0) : IsJumpV PD ρ τ a := by
   intro heq

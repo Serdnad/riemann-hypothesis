@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ArcLevelPointTangentVectorTransportIff
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsUniqueIsPointOfDualNumber
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.GermEqZeroOfThickenings
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.LinearIndependentOfIsExtension
@@ -209,20 +210,8 @@ theorem valR_iso_trans {w : LB.Iso M (M₀.pull φ)} (hw : w.IsGen) (x : Sp A �
 
 theorem valR_g_self (hM : M.IsLB) (x : Sp A ⟶ B) {k : M.ι} (h : ⊤ ≤ x ⁻¹ᵁ M.U k) :
     valR x _ (M.g k k).val = 1 := by
-  have toStkA_valR {X : Scheme.{0}} (x : Sp A ⟶ X) (U : X.Opens) (z : Sp A) (ht : ⊤ ≤ x ⁻¹ᵁ U) (a : Γ(X, U)ˣ) :
-      toStkA z (valR x U a.val) = (gm x z U a).val := by
-    have hz : x z ∈ U := ht (show z ∈ (⊤ : (Sp A).Opens) from trivial)
-    have e1 : ∀ c, (Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom ((Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom c) = c :=
-      fun c => congrArg (fun f => CommRingCat.Hom.hom f c) (Iso.hom_inv_id (Scheme.ΓSpecIso (CommRingCat.of A)))
-    rw [valR, dif_pos ht, gm, dif_pos hz]
-    show ((Sp A).presheaf.germ ⊤ z trivial).hom ((Scheme.ΓSpecIso (CommRingCat.of A)).inv.hom
-        ((Scheme.ΓSpecIso (CommRingCat.of A)).hom.hom ((x.appLE U ⊤ ht).hom a.val))) =
-      ((Sp A).presheaf.germ (x ⁻¹ᵁ U) z hz).hom ((x.app U).hom a.val)
-    rw [e1]
-    exact TopCat.Presheaf.germ_res_apply (Sp A).presheaf (homOfLE ht) z trivial ((x.app U).hom a.val)
-  have m := (top_le_iff_cpt _ _).1 h
-  apply (toStkA_injective (A := A))
-  rw [toStkA_valR x (M.U k ⊓ M.U k) _ ((top_le_iff_cpt _ _).2 ⟨m, m⟩), gm_self hM x _ m, map_one, Units.val_one]
+  intros
+  apply _root_.GlobalTheory.LevelTransport.valR_g_self <;> assumption
 
 end Local
 

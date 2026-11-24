@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemCompletedLatticeHalfIffFrameMatrixIntegral
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NabBaseChange
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeIsometrySignFirst
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimeDvdAbsNormHalfDifferent
@@ -78,37 +79,8 @@ theorem isIntM_of_mem {S T : HSp D} {ΛS : Submodule (𝓞 D.host.E) (Fin S.rank
     (hP : ∀ PP ∈ P, ((D.host.QS * D.host.q * Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal) {x : WO S T}
     (hx : IsHalf e x) (hl : x ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) :
     IsIntM (frMapO S T βS βT x) := by
-  have hx' : e • x = x := Matrix.ext hx
-  rw [← hx']
-  refine GlobalTheory.LatVac.latO_induction (p := fun u => IsIntM (frMapO S T βS βT (e • u))) ?_ ?_ ?_ ?_ hl
-  · intro α hα M hM
-    have hα' : ((1 : D.host.E) ⊗ₜ[D.host.F] α : EAf D) ∈ Formalism.L2.Herm.intAf D.host.F D.host.E :=
-      Subring.subset_closure (Or.inr ⟨⟨α, hα⟩, rfl⟩)
-    induction hM using AddSubgroup.closure_induction with
-    | mem w hw =>
-      obtain ⟨a, ha, s, hs, t, ht, rfl⟩ := hw
-      unfold frMapO
-      rw [GlobalTheory.ConjHalfInt.map_gen, Matrix.mul_smul, Matrix.smul_mul, ← Matrix.mul_assoc (βT⁻¹).val, Matrix.mul_assoc]
-      exact GlobalTheory.ConjHalfInt.isIntM_smul (mul_mem (toEAf_idem_mul_mem he hP ha) hα')
-        (GlobalTheory.ConjHalfInt.isIntM_mul (GlobalTheory.ConjHalfInt.frame_col_int fT ht)
-          (GlobalTheory.ConjHalfInt.pair_row_int hS fS hs))
-    | zero =>
-      rw [GlobalTheory.LatVac.finTens_zero, smul_zero, GlobalTheory.ConjHalfInt.frMapO_zero]
-      exact fun _ _ => zero_mem _
-    | add M N _ _ hM hN =>
-      rw [GlobalTheory.LatVac.finTens_add, smul_add, GlobalTheory.ConjHalfInt.frMapO_add]
-      exact fun i j => add_mem (hM i j) (hN i j)
-    | neg M _ hM =>
-      rw [GlobalTheory.LatVac.finTens_neg, smul_neg, GlobalTheory.ConjHalfInt.frMapO_neg]
-      exact fun i j => neg_mem (hM i j)
-  · rw [smul_zero, GlobalTheory.ConjHalfInt.frMapO_zero]
-    exact fun _ _ => zero_mem _
-  · intro u v hu hv
-    rw [smul_add, GlobalTheory.ConjHalfInt.frMapO_add]
-    exact fun i j => add_mem (hu i j) (hv i j)
-  · intro u hu
-    rw [smul_neg, GlobalTheory.ConjHalfInt.frMapO_neg]
-    exact fun i j => neg_mem (hu i j)
+  intros
+  apply _root_.GlobalTheory.HalfOInt.frMapO_int_of_half <;> assumption
 
 
 open GlobalTheory.ExportSeries.Model in
@@ -133,17 +105,8 @@ theorem mem_of_isIntM {S T : HSp D} {ΛS : Submodule (𝓞 D.host.E) (Fin S.rank
     (hP : ∀ PP ∈ P, ((D.host.QS * D.host.q * Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∉ PP.asIdeal) {x : WO S T}
     (hx : IsHalf e x) (h : IsIntM (frMapO S T βS βT x)) :
     x ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True := by
-  have hN : Ideal.absNorm D.host.ccK ≠ 0 := fun h0 => D.host.ccK_ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
-  refine GlobalTheory.DatumFourier.mem_latO_of_int hS hT fS fT (Formalism.IndefR.Fin.LevelGroupLemmas.isIdemSum_conj he) hN
-    (ReciprocityTheory.ChartRestriction.G.PullbackSections.PfModelLatA.normCc_mem_AA D) ?_ ?_ (isIntM_adj hS hT fS fT h)
-  · intro PP' hPP' hm
-    obtain ⟨PP, hPP, rfl⟩ := Finset.mem_image.1 hPP'
-    have h2 : Formalism.L2.DIV.starOHom ((Ideal.absNorm D.host.ccK : ℕ) : 𝓞 D.host.E) ∈ PP.asIdeal := hm
-    rw [map_natCast] at h2
-    exact hP PP hPP (GlobalTheory.HalfCompare.mem_of_dvd h2 (Dvd.intro_left _ rfl))
-  · intro i j
-    rw [Formalism.L2.Theta.cA_cA]
-    exact hx i j
+  intros
+  apply _root_.GlobalTheory.HalfOInt.mem_latO_of_int <;> assumption
 
 end GlobalTheory.HalfLatInt
 

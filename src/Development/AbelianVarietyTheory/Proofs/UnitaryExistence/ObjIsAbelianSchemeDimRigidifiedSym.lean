@@ -121,42 +121,8 @@ theorem finrank_eq_of_eigen (H : Host E) {k : Type} [Field k] [IsAlgClosed k] [C
     (h : ∀ τ : 𝓞 E →+* k, (τ H.rt = ρ → Module.finrank k (EigenSplit.eigenSub act τ) = p) ∧
       (τ H.rt ≠ ρ → Module.finrank k (EigenSplit.eigenSub act τ) = q)) :
     Module.finrank k N = Module.finrank ℚ E / 2 * (p + q) := by
-  classical
-  let σ : (E →+* k) → (𝓞 E →+* k) := fun φ => φ.comp (algebraMap (𝓞 E) E)
-  have hc := NumberField.Embeddings.card E k
-  obtain ⟨b⟩ := EigenSplit.nonempty_basis (E := E) hc
-  have hs : EigenSplit.IsSplitting σ :=
-    EigenSplit.isSplitting_of_isUnit_discr b (EigenSplit.det_sq_eq_discr_of_field Function.injective_id b)
-      (by simpa using NumberField.discr_ne_zero E)
-  have h1 : Module.finrank k N = ∑ φ, Module.finrank k (EigenSplit.eigenSub act (σ φ)) := by
-    rw [(EigenSplit.eigenEquiv hs act).finrank_eq, Module.finrank_pi_fintype]
-  let c : (E →+* k) → (E →+* k) := fun φ => φ.comp (IsCMField.complexConj E).toRingEquiv.toRingHom
-  have hcc : Function.Involutive c := fun φ => RingHom.ext fun a => by
-    simp [c]
-  have hrt : ∀ φ, σ (c φ) H.rt = -σ φ H.rt := fun φ => by
-    rw [← map_neg, ← HostModel.bar_rt]
-    exact congrArg φ (H.bar_eq H.rt).symm
-  have hd : (H.d : k) ≠ 0 := Nat.cast_ne_zero.2 H.d_prime.ne_zero
-  have h2 : ∀ φ, Module.finrank k (EigenSplit.eigenSub act (σ φ)) +
-      Module.finrank k (EigenSplit.eigenSub act (σ (c φ))) = p + q := fun φ => by
-    have hsq : σ φ H.rt ^ 2 = ρ ^ 2 := by rw [← map_pow, H.rt_sq, map_neg, map_natCast, hρ]
-    have hne : -ρ ≠ ρ := fun e => hd (by
-      have : ρ = 0 := by linear_combination (-1 / 2 : k) * e
-      rw [this] at hρ
-      simpa using hρ)
-    rcases sq_eq_sq_iff_eq_or_eq_neg.1 hsq with e | e
-    · rw [(h _).1 e, (h _).2 (by rw [hrt, e]; exact hne)]
-    · rw [(h _).2 (by rw [e]; exact hne), (h _).1 (by rw [hrt, e, neg_neg]), add_comm]
-  have h3 : 2 * Module.finrank k N = Module.finrank ℚ E * (p + q) := by
-    have := Equiv.sum_comp hcc.toPerm fun φ => Module.finrank k (EigenSplit.eigenSub act (σ φ))
-    rw [two_mul, h1]
-    conv_lhs => arg 2; rw [← this]
-    rw [← Finset.sum_add_distrib, ← hc]
-    exact (Finset.sum_congr rfl fun φ _ => h2 φ).trans (by simp)
-  rw [← (letI : Module.Free (maximalRealSubfield E) E := Module.Free.of_divisionRing _ _; Module.finrank_mul_finrank ℚ (maximalRealSubfield E) E),
-    Algebra.IsQuadraticExtension.finrank_eq_two (maximalRealSubfield E) E] at h3 ⊢
-  rw [Nat.mul_div_cancel _ two_pos]
-  linarith
+  intros
+  apply _root_.GlobalTheory.ObjDim.finrank_eq_of_eigenSub <;> assumption
 
 variable {H : Host E} {D : Datum H} {l : Level H} {B : Type} [CommRing B] {b : Base l B} {S : Scheme.{0}}
   {s : S ⟶ Sp B}

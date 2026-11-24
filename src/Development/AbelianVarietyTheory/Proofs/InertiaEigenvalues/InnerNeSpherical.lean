@@ -589,12 +589,7 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.w
 
 theorem lx_eq_of_rep_rel {R : RealDat D A Ks} {i : Fin D.R.m} {v : HeightOneSpectrum (𝓞 D.host.F)} {x y : LX R i v}
     (h : (rep x)⁻¹ * rep y ∈ levW R i) : x = y := by
-  have : (Quotient.mk _ (Quotient.out x) : LX R i v) = Quotient.mk _ (Quotient.out y) := by
-    apply Quotient.sound
-    change ((QuotientGroup.leftRel (levW R i)).comap (Subtype.val : locSet R i v → GA D (Wc D i))) _ _
-    rw [Setoid.comap_rel, QuotientGroup.leftRel_apply]
-    exact h
-  exact (Quotient.out_eq x).symm.trans (this.trans (Quotient.out_eq y))
+  apply _root_.GlobalTheory.RawLift.FamSum.eq_of_rep <;> assumption
 
 theorem rep_notMem_levW {R : RealDat D A Ks} {i : Fin D.R.m} {v : HeightOneSpectrum (𝓞 D.host.F)} {x : LX R i v}
     (hx : x ≠ lx0 R i v) : rep x ∉ levW R i := fun h =>
@@ -712,12 +707,7 @@ variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.w
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
 
 theorem isFinIdem_fid (D : D7) (v : HeightOneSpectrum (𝓞 D.host.F)) : IsFinIdem D v (Eu.fid D v) := by
-  have h : ∃ f, IsFinIdem D v f := by
-    obtain ⟨ε, hε⟩ := GlobalTheory.IdemSupport.exists_placeIdem (D := D) v
-    exact ⟨_, ε, hε, rfl⟩
-  unfold Eu.fid
-  rw [dite_eq_left h]
-  exact h.choose_spec
+  apply _root_.GlobalTheory.RawLift.FamSum.isFinIdem_fid <;> assumption
 
 theorem exists_primeIdem {v : HeightOneSpectrum (𝓞 D.host.F)} {f : AE D} (hf : IsFinIdem D v f) :
     ∃ P e, P.under (𝓞 D.host.F) = v ∧ IsPrimeIdem P e f := by
@@ -748,10 +738,7 @@ variable {R : RealDat D A Ks} {i : Fin D.R.m}
 
 theorem bop_spec (hTL : TransLaws R i) {γ : GA D (Wc D i)} (hγ : γ ∈ GfC (Wc D i)) (x y) :
     trPair R i γ x y = ⟪x, Eu.Bop R i γ y⟫_ℂ := by
-  have hex := hTL.2.2.1 γ hγ
-  unfold Eu.Bop
-  rw [dite_eq_left hex]
-  exact hex.choose_spec.2 x y
+  apply _root_.GlobalTheory.RawLift.FamSum.trPair_eq_bop <;> assumption
 
 theorem bop_mul_lev (hLP : LevProd R i) (hTL : TransLaws R i) {γ k : GA D (Wc D i)} (hγ : γ ∈ GfC (Wc D i))
     (hk : k ∈ levW R i) : Eu.Bop R i (γ * k) = Eu.Bop R i γ := by
@@ -950,16 +937,7 @@ theorem prod_toList_insert_comm {ι M : Type} [Monoid M] [DecidableEq ι] (s : F
   exact hv (Finset.mem_toList.1 hw)
 
 theorem fid_orth (D : D7) {v w : HeightOneSpectrum (𝓞 D.host.F)} (h : v ≠ w) : fid D v * fid D w = 0 := by
-  obtain ⟨Φ, hΦ⟩ := GlobalTheory.IdemSupport.exists_comp D
-  unfold fid
-  split_ifs with h1 h2
-  · obtain ⟨ε, hε, e⟩ := h1.choose_spec
-    obtain ⟨ε', hε', e'⟩ := h2.choose_spec
-    rw [e, e']
-    exact GlobalTheory.IdemSupport.place_orth hΦ hε hε' h
-  · exact mul_zero _
-  · exact zero_mul _
-  · exact zero_mul _
+  apply _root_.GlobalTheory.RawLift.FamSum.fid_orth <;> assumption
 
 variable {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T : Type} {A : FamIn D.what₂.LL G Pl0 T D.R.m}
   {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
@@ -973,12 +951,7 @@ theorem rep_commute {R : RealDat D A Ks} {i : Fin D.R.m} {v w : HeightOneSpectru
 
 theorem famProd_mem_GfC (R : RealDat D A Ks) (i : Fin D.R.m) (F : ∀ v, LX R i v) :
     famProd R i F ∈ GfC (Wc D i) := by
-  unfold famProd
-  split_ifs with h
-  · refine Subgroup.list_prod_mem _ fun y hy => ?_
-    obtain ⟨w, -, rfl⟩ := List.mem_map.1 hy
-    exact (rep_mem_locSet _).1
-  · exact Subgroup.one_mem _
+  apply _root_.GlobalTheory.RawLift.FamSum.famProd_mem <;> assumption
 
 theorem bop_congr (R : RealDat D A Ks) (i : Fin D.R.m) {γ γ' : GA D (Wc D i)}
     (h : trPair R i γ = trPair R i γ') : Bop R i γ = Bop R i γ' := by
@@ -1108,17 +1081,11 @@ theorem supportedAtAdeleIdempotent_inv_closed (V : HSp D) (f : AE D) {g : GA D V
   rw [e, smul_neg, ← Matrix.mul_smul, hg]
 
 theorem supportedAtIdempotent_zero_eq_one (V : HSp D) {g : GA D V} (hg : SuppF V 0 g) : g = 1 := by
-  rw [supportedAtIdempotent_iff_smul_matrix_sub_one, zero_smul] at hg
-  apply unitaryAdeleMatrix_injective V
-  rw [unitaryAdeleMatrix_one]
-  exact (sub_eq_zero.mp hg.symm)
+  apply _root_.GlobalTheory.RawLift.Eu.eq_one_of_suppF_zero <;> assumption
 
 theorem rightTranslatePairingOperator_spec {R : RealDat D A Ks} {i : Fin D.R.m} (hTL : TransLaws R i) {γ : GA D (Wc D i)}
     (hγ : γ ∈ GfC (Wc D i)) : ∀ x y, trPair R i γ x y = ⟪x, Bop R i γ y⟫_ℂ := by
-  have hex := hTL.2.2.1 γ hγ
-  unfold Bop
-  rw [dite_eq_left hex]
-  exact hex.choose_spec.2
+  apply _root_.GlobalTheory.RawLift.FamSum.trPair_eq_bop <;> assumption
 
 theorem rightTranslatePairingOperator_eq_of_forms {R : RealDat D A Ks} {i : Fin D.R.m} (hTL : TransLaws R i) {γ : GA D (Wc D i)}
     (hγ : γ ∈ GfC (Wc D i)) (B : (R.HW i (sg0 D A)).H →L[ℂ] (R.HW i (sg0 D A)).H)

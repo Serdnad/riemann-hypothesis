@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SeparatingAlgebras.CAllFin
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SeparatingAlgebras.BlockBoundAlt
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsAlgebraicCharacterUnitary
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,51 +48,14 @@ open UpperTheory.Gal.Gen
 
 private theorem norm_map_integer_le_one {E : Type} [Field E] [NumberField E] (l : ℕ) [Fact l.Prime]
     (u : HeightOneSpectrum (𝓞 E)) (j : u.adicCompletion E →+* Qbar l) (hl : ((l : ℕ) : 𝓞 E) ∈ u.asIdeal)
-    (hj : Continuous j) (y : u.adicCompletion E) (hy : y ∈ u.adicCompletionIntegers E) : ‖j y‖ ≤ 1 := by
-  have hvl : Valued.v ((l : ℕ) : u.adicCompletion E) < 1 := by
-    have h1 : u.valuation E (((l : ℕ) : 𝓞 E) : E) < 1 :=
-      (HeightOneSpectrum.valuation_lt_one_iff_mem (K := E) u _).2 hl
-    have h2 : (((l : ℕ) : u.adicCompletion E)) = algebraMap E (u.adicCompletion E) (((l : ℕ) : 𝓞 E) : E) := by simp
-    rw [h2]
-    exact (HeightOneSpectrum.valuedAdicCompletion_eq_valuation' u _).trans_lt h1
-  have hlnorm : ‖j ((l : ℕ) : u.adicCompletion E)‖ = (l : ℝ)⁻¹ := by
-    have h0 : ((l : ℕ) : Qbar l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) := by simp
-    rw [map_natCast, h0, PadicAlgCl.norm_extends (p := l) (l : ℚ_[l]), Padic.norm_p]
-  have hlt : ∀ k : ℕ, ‖j ((l : ℕ) : u.adicCompletion E)‖ * ‖j y‖ ^ k < 1 := by
-    intro k
-    have hyv : Valued.v y ≤ 1 := hy
-    have hv : Valued.v (((l : ℕ) : u.adicCompletion E) * y ^ k) < 1 := by
-      rw [map_mul, map_pow]
-      exact mul_lt_one_of_lt_of_le hvl (pow_le_one' hyv k)
-    have ht := Valued.tendsto_zero_pow_of_v_lt_one hv
-    have ht2 : Filter.Tendsto (fun m : ℕ => (j (((l : ℕ) : u.adicCompletion E) * y ^ k)) ^ m) Filter.atTop (nhds 0) := by
-      have := (hj.tendsto 0).comp ht
-      simpa [Function.comp_def, map_pow] using this
-    have := tendsto_pow_atTop_nhds_zero_iff_norm_lt_one.1 ht2
-    simpa [map_mul, map_pow, norm_mul, norm_pow] using this
-  by_contra hcon
-  have hgt : 1 < ‖j y‖ := not_le.1 hcon
-  have hlpos : 0 < ‖j ((l : ℕ) : u.adicCompletion E)‖ := by
-    rw [hlnorm]
-    exact inv_pos.2 (by exact_mod_cast (Fact.out : l.Prime).pos)
-  obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt (‖j ((l : ℕ) : u.adicCompletion E)‖⁻¹) hgt
-  have := hlt k
-  have h3 : 1 < ‖j ((l : ℕ) : u.adicCompletion E)‖ * ‖j y‖ ^ k := by
-    rw [inv_lt_iff_one_lt_mul₀ hlpos] at hk
-    exact hk.trans_eq (mul_comm _ _)
-  linarith
+    (hj : Continuous j) (y : u.adicCompletion E) (hy : y ∈ u.adicCompletionIntegers E) : ‖j y‖ ≤ 1 :=
+  _root_.UpperTheory.Gal.Gen.Loc.norm_map_integer_le_one l u j hl hj y hy
 
 private theorem norm_map_entry_le {E : Type} [Field E] [NumberField E] (l : ℕ) [Fact l.Prime] {n : ℕ}
     (u : HeightOneSpectrum (𝓞 E)) (j : u.adicCompletion E →+* Qbar l) (hl : ((l : ℕ) : 𝓞 E) ∈ u.asIdeal)
     (hj : Continuous j) (d : ℕ) (M : Matrix (Fin n) (Fin n) (u.adicCompletion E))
-    (hM : GlobalTheory.CongW.IntMat u (((l : u.adicCompletion E) ^ d) • M)) (a b : Fin n) : ‖j (M a b)‖ ≤ (l : ℝ) ^ d := by
-  have h1 := norm_map_integer_le_one l u j hl hj _ (hM a b)
-  have hlnorm : ‖j ((l : ℕ) : u.adicCompletion E)‖ = (l : ℝ)⁻¹ := by
-    have h0 : ((l : ℕ) : Qbar l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) := by simp
-    rw [map_natCast, h0, PadicAlgCl.norm_extends (p := l) (l : ℚ_[l]), Padic.norm_p]
-  have hl0 : (0 : ℝ) < (l : ℝ) ^ d := pow_pos (by exact_mod_cast (Fact.out : l.Prime).pos) d
-  rw [Matrix.smul_apply, smul_eq_mul, map_mul, map_pow, norm_mul, norm_pow, hlnorm, inv_pow] at h1
-  rwa [inv_mul_le_iff₀ hl0, mul_one] at h1
+    (hM : GlobalTheory.CongW.IntMat u (((l : u.adicCompletion E) ^ d) • M)) (a b : Fin n) : ‖j (M a b)‖ ≤ (l : ℝ) ^ d :=
+  _root_.UpperTheory.Gal.Gen.Loc.norm_map_entry_le l u j hl hj d M hM a b
 
 theorem UpperTheory.Gal.Gen.kappa_pf :
     UpperTheory.Gal.Gen.Kappa := by

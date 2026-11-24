@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.PointsFinite
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EntryMem
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.EptInt
@@ -13,6 +14,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.SpanMono
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.MonicNormLtOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtActInternal
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtActInternal
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtExt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtLift
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.PtScale
@@ -665,43 +667,12 @@ private theorem ts_monomial {O σ S : Type} [CommRing O] [CommRing S] [Algebra O
     f (monomial m 1) = m.prod fun s k => f (MvPowerSeries.X s) ^ k := by
   rw [← MvPolynomial.coe_monomial, GlobalTheory.algHom_coe_mvPolynomial, MvPolynomial.aeval_monomial, map_one, one_mul]
 
-private theorem ts_prod {X σ S : Type} [AddCommGroup X] [CommRing S] (wt : σ → X)
-    (t : Multiplicative X →* Sˣ) (x : σ → S) (d : σ →₀ ℕ) :
-    (d.prod fun i k => ((t (Multiplicative.ofAdd (wt i)) : S) * x i) ^ k) =
-      (t (Multiplicative.ofAdd (Finsupp.weight wt d)) : S) * d.prod fun i k => x i ^ k := by
-  induction d using Finsupp.induction_linear with
-  | zero => simp
-  | add f g hf hg =>
-    rw [Finsupp.prod_add_index' (by simp) (fun _ _ _ => pow_add _ _ _),
-      Finsupp.prod_add_index' (by simp) (fun _ _ _ => pow_add _ _ _), hf, hg, map_add (f := _), ofAdd_add,
-      map_mul, Units.val_mul]
-    ring
-  | single i k =>
-    rw [Finsupp.prod_single_index (by simp), Finsupp.prod_single_index (by simp),
-      Finsupp.weight_single, ofAdd_nsmul, map_pow, Units.val_pow_eq_pow_val, mul_pow]
-
-private theorem ts_approx {O X σ : Type} [CommRing O] [AddCommGroup X] [Finite σ] (wt : σ → X)
-    (F : MvPowerSeries σ O) (n : ℕ) :
-    ∃ s : Finset X, (n : ℕ∞) ≤ (F - ∑ j ∈ s, wcomp O wt j F).order := by
-  classical
-  refine ⟨(truncTotal n F).support.image (Finsupp.weight wt), nat_le_order fun d hd => ?_⟩
-
-  rw [map_sub, map_sum]
-  simp only [coeff_wcomp]
-  rw [Finset.sum_ite_eq]
-  split_ifs with h
-  · exact sub_self _
-  · rw [sub_zero]
-    by_contra h0
-    refine h (Finset.mem_image_of_mem _ (MvPolynomial.mem_support_iff.2 ?_))
-    rwa [coeff_truncTotal _ hd]
-
 private theorem ts_vanish {O X σ S : Type} [CommRing O] [AddCommGroup X] [Finite σ] [CommRing S]
     [Algebra O S] (wt : σ → X) (J : Ideal S) [IsHausdorff J S] (φ : MvPowerSeries σ O →ₐ[O] S)
     (hφ : ∀ i, φ (MvPowerSeries.X i) ∈ J) (F : MvPowerSeries σ O) (h : ∀ j, φ (wcomp O wt j F) = 0) :
     φ F = 0 := by
   refine GlobalTheory.eq_of_forall_sub_mem_ideal_pow J fun n => ?_
-  obtain ⟨s, hs⟩ := ts_approx wt F n
+  obtain ⟨s, hs⟩ := _root_.pf_approx wt F n
   have := GlobalTheory.algHom_mem_pow_of_le_order φ hφ hs
   simpa [h] using this
 
@@ -740,7 +711,7 @@ private theorem ts_step (hg : ∀ s, ι (g (MvPowerSeries.X s)) = t (Multiplicat
     refine Finset.sum_congr rfl fun m hm => ?_
     rw [map_mul, map_mul, hc, ts_monomial, map_finsuppProd, map_finsuppProd]
     simp only [map_pow, hg]
-    rw [ts_prod W.wt t (fun s => ξ (W.zA s)), hS m (hμ hm)]
+    rw [_root_.pf_prod W.wt t (fun s => ξ (W.zA s)), hS m (hμ hm)]
     ring
 
   · rw [map_sum, ← Finset.sum_sub_distrib]
@@ -1004,20 +975,7 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 private theorem graded_subalgebra_internal {O R X : Type} [CommRing O] [CommRing R] [Algebra O R] [AddCommGroup X]
     [DecidableEq X] (𝒜 : X → Submodule O R) [SetLike.GradedMonoid 𝒜] (h : iSupIndep 𝒜) :
     DirectSum.IsInternal fun j => (𝒜 j).comap (gradedSub 𝒜).val.toLinearMap := by
-  rw [DirectSum.isInternal_submodule_iff_iSupIndep_and_iSup_eq_top]
-  constructor
-  · rw [iSupIndep_iff_finsetSum_eq_zero_imp_eq_zero]
-    intro s v hv hs i hi
-    have h1 := (iSupIndep_iff_finsetSum_eq_zero_imp_eq_zero _).1 h s (fun i => (v i : R)) hv
-      (by rw [← AddSubmonoidClass.coe_finsetSum, hs]; rfl) i hi
-    exact Subtype.ext h1
-  · rw [eq_top_iff]
-    rintro ⟨x, hx⟩ -
-    have hx' : x ∈ ⨆ j, 𝒜 j := hx
-    induction hx' using Submodule.iSup_induction' with
-    | mem i x hi => exact Submodule.mem_iSup_of_mem i hi
-    | zero => exact zero_mem _
-    | add x y hx1 hy1 ihx ihy => exact add_mem (ihx hx1) (ihy hy1)
+  apply _root_.UpperTheory.V.GradeZeroInterpolatingElement.ptAct_internal <;> assumption
 
 private theorem extend_point_degree_zero_graded {O A B K : Type} [CommRing O] [CommRing A] [CommRing B] [CommRing K] [Algebra O A]
     [Algebra O B] [Algebra O K] (𝓑 : ℤ × ℤ → Submodule O B) [GradedAlgebra 𝓑] (φ : A →ₐ[O] B) (X : A →ₐ[O] K)

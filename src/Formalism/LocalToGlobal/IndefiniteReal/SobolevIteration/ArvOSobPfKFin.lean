@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TraceGap.TotalDegreeBindLeOfLinear
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfSt
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfK
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.ArvOSobPfAs
@@ -108,20 +109,7 @@ theorem totalDegree_bind_le (A : Matrix (Fin n) (Fin n) ℂ) (q : MvPolynomial (
 def Mon (n N : ℕ) : Set (Var n →₀ ℕ) := {m | (m.sum fun _ e => e) ≤ N}
 
 theorem finite_Mon (n N : ℕ) : (Mon n N).Finite := by
-
-  refine (Set.finite_range (fun f : Var n → Fin (N + 1) =>
-    Finsupp.equivFunOnFinite.symm (fun v => (f v : ℕ)))).subset ?_
-  intro m hm
-  have hm' : ∑ v ∈ m.support, m v ≤ N := hm
-  have hle : ∀ v, m v ≤ N := by
-    intro v
-    by_cases hv : v ∈ m.support
-    · exact le_trans (Finset.single_le_sum (f := fun v => m v) (fun _ _ => Nat.zero_le _) hv) hm'
-    · have h0 : m v = 0 := by simpa using hv
-      rw [h0]; exact Nat.zero_le _
-  refine ⟨fun v => ⟨m v, Nat.lt_succ_of_le (hle v)⟩, ?_⟩
-  ext v
-  simp
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.TRGap.finite_monomials_of_degree_le <;> assumption
 
 theorem evalMatrix_eq_sum_monomial (q : MvPolynomial (Var n) ℂ) (k : Fin n → Fin n → ℂ) :
     evP q k = ∑ m ∈ q.support, q.coeff m * evP (MvPolynomial.monomial m 1) k := by

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ADensStBA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Tactic.TypeStar
@@ -21,25 +22,7 @@ namespace PtsSumMeasurable
 
 theorem measurable_maDensity {D : ℕ} (φ : Fin D → (Fin D → ℂ) → ℝ) :
     Measurable (maDensity φ) := by
-  set M : ((Fin D → ℂ) →L[ℝ] (Fin D → ℂ) →L[ℝ] ℝ) → Matrix (Fin D) (Fin D) ℂ := fun H i j =>
-    ((H (Pi.single i 1) (Pi.single j 1) +
-        H (Complex.I • Pi.single i 1) (Complex.I • Pi.single j 1) : ℝ) +
-      Complex.I * ((H (Pi.single i 1) (Complex.I • Pi.single j 1) -
-        H (Complex.I • Pi.single i 1) (Pi.single j 1) : ℝ))) / 4 with hMdef
-  have hM : Continuous M := continuous_pi fun i => continuous_pi fun j => by
-    simp only [hMdef]
-    set_option synthInstance.maxHeartbeats 200000 in
-      fun_prop
-  have hdisc : Continuous fun B : Fin D → Matrix (Fin D) (Fin D) ℂ => (mixedDisc B).re := by
-    unfold mixedDisc
-    exact Complex.continuous_re.comp (continuous_const.mul (continuous_finsetSum _ fun S _ =>
-      continuous_const.mul (Continuous.matrix_det (continuous_finsetSum _ fun k _ =>
-        continuous_apply k))))
-  have heq : maDensity φ = fun z => (D.factorial : ℝ) * (2 / Real.pi) ^ D *
-      (mixedDisc fun k => M (fderiv ℝ (fderiv ℝ (φ k)) z)).re := rfl
-  rw [heq]
-  exact measurable_const.mul ((hdisc.comp (continuous_pi fun k => hM.comp (continuous_apply k))).measurable.comp
-    (Measurable.of_eval fun k => measurable_fderiv ℝ _))
+  apply _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.adb_measurable_maDensity <;> assumption
 
 variable {K : Type*} [Fintype K] {ι : K → Type*} [∀ k, Fintype (ι k)] {e : ℕ}
 

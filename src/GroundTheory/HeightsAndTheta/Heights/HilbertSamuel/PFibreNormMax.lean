@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsFibreNormMax
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsFibreNormPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterRedG
@@ -36,15 +37,7 @@ theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f
 
 theorem isMultiHomog_pow {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
     IsMultiHomog (f ^ n) (n • a) := by
-  induction n with
-  | zero =>
-    intro m hm k
-    rw [pow_zero, MvPolynomial.support_one, Finset.mem_singleton] at hm
-    subst hm
-    simp
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact isMultiHomog_mul ih hf
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 theorem exists_lower {P : Ideal (MRing ι)} (hP : IsMultiHomogIdeal P) {m : ℕ} (e : K → ℕ)
     (L : Fin m → MRing ι) (hL : ∀ j, IsMultiHomog (L j) e)

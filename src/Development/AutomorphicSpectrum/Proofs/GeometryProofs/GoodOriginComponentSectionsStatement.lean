@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CompLawsTowerBoundStatement
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.CInfGood
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsCombBaseChangeStatement
@@ -203,73 +204,12 @@ namespace GlobalTheory.CompanionTheory.Ar.Plug.BirEx
 
 theorem isIntegral_of_forall_valuationSubring {L : Type} [Field L] (A : Subring L) (x : L)
     (h : ∀ V : ValuationSubring L, A ≤ V.toSubring → x ∈ V) : IsIntegral A x := by
-  by_contra hx
-  have hx0 : x ≠ 0 := fun e => hx (e ▸ isIntegral_zero)
-  let B : Subalgebra A L := Algebra.adjoin A {x⁻¹}
-  have hyB : x⁻¹ ∈ B := Algebra.subset_adjoin rfl
-  let y : B.toSubring := ⟨x⁻¹, hyB⟩
-  have hnu : ¬ IsUnit y := by
-    intro hu
-    obtain ⟨w, hw⟩ := hu.exists_right_inv
-    have hwx : (w : L) = x := by
-      have : x⁻¹ * (w : L) = 1 := congrArg Subtype.val hw
-      field_simp at this
-      exact this
-    have hxB : x ∈ Algebra.adjoin A ({x⁻¹} : Set L) := by
-      have := w.2
-      rw [hwx] at this
-      exact this
-    rw [Algebra.adjoin_singleton_eq_range_aeval] at hxB
-    obtain ⟨p, hp⟩ := hxB
-    apply hx
-    letI : Invertible x⁻¹ := invertibleOfNonzero (inv_ne_zero hx0)
-    have e1 := Polynomial.eval₂_reverse_mul_pow (algebraMap A L) x⁻¹ p
-    have e2 : ⅟(x⁻¹) = x := by simp
-    rw [e2] at e1
-    have e3 : Polynomial.eval₂ (algebraMap A L) x⁻¹ p = x := by
-      have := hp
-      simpa [Polynomial.aeval_def] using this
-    rw [e3] at e1
-    have hle : p.reverse.natDegree ≤ p.natDegree := Polynomial.reverse_natDegree_le p
-    refine ⟨Polynomial.X ^ (p.natDegree + 1) - p.reverse, ?_, ?_⟩
-    · apply Polynomial.monic_X_pow_sub
-      exact lt_of_le_of_lt Polynomial.degree_le_natDegree (by exact_mod_cast Nat.lt_succ_of_le hle)
-    · rw [Polynomial.eval₂_sub, Polynomial.eval₂_pow, Polynomial.eval₂_X, sub_eq_zero]
-      have h5 : (x⁻¹) ^ p.natDegree * x ^ p.natDegree = 1 := by
-        rw [← mul_pow, inv_mul_cancel₀ hx0, one_pow]
-      generalize Polynomial.eval₂ (algebraMap A L) x p.reverse = Q at e1
-      calc x ^ (p.natDegree + 1) = x * x ^ p.natDegree := by rw [pow_succ, mul_comm]
-        _ = Q * (x⁻¹ ^ p.natDegree * x ^ p.natDegree) := by
-          nth_rewrite 1 [← e1]
-          ring
-        _ = Q := by rw [h5, mul_one]
-  let I : Ideal B.toSubring := Ideal.span {y}
-  have hI : I ≠ ⊤ := fun e => hnu (Ideal.span_singleton_eq_top.1 e)
-  obtain ⟨V, hBV, hIV⟩ := Ideal.image_subset_nonunits_valuationSubring I hI
-  have hAV : A ≤ V.toSubring := fun a ha => hBV (by
-    exact B.algebraMap_mem ⟨a, ha⟩)
-  have hxV := h V hAV
-  have hy : x⁻¹ ∈ V.nonunits := hIV ⟨y, Ideal.mem_span_singleton_self y, rfl⟩
-  have := (ValuationSubring.mem_nonunits_iff_exists_mem_maximalIdeal).1 hy
-  obtain ⟨hyV, hm⟩ := this
-  exact (IsLocalRing.mem_maximalIdeal _).1 hm (IsUnit.of_mul_eq_one (⟨x, hxV⟩ : V) (Subtype.ext (by simp [hx0])))
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Plug.TraceRuleSec.isIntegral_of_forall_valuationSubring <;> assumption
 
 theorem exists_chart {K : Type} {ι : K → Type} [∀ k, Finite (ι k)] {Ω : Type} [Field Ω]
     (y : (Σ k, ι k) → Ω) (V : ValuationSubring Ω) (hy : ∀ k, ∃ i, y ⟨k, i⟩ ≠ 0) :
     ∃ cc : (k : K) → ι k, (∀ k, y ⟨k, cc k⟩ ≠ 0) ∧ ∀ k i, y ⟨k, i⟩ / y ⟨k, cc k⟩ ∈ V := by
-  have key : ∀ k, ∃ c : ι k, y ⟨k, c⟩ ≠ 0 ∧ ∀ i, y ⟨k, i⟩ / y ⟨k, c⟩ ∈ V := fun k => by
-    obtain ⟨i₀, hi₀⟩ := hy k
-    haveI : Nonempty (ι k) := ⟨i₀⟩
-    obtain ⟨c, hc⟩ := Finite.exists_max fun i => V.valuation (y ⟨k, i⟩)
-    have hc0 : y ⟨k, c⟩ ≠ 0 := fun e => by
-      have := hc i₀
-      rw [e, map_zero] at this
-      exact hi₀ ((V.valuation).zero_iff.1 (le_zero_iff.1 this))
-    refine ⟨c, hc0, fun i => ?_⟩
-    rw [← V.valuation_le_one_iff, map_div₀]
-    exact div_le_one_of_le₀ (hc i) zero_le'
-  choose cc h1 h2 using key
-  exact ⟨cc, h1, h2⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Plug.TraceRuleSec.exists_chart <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {Dw : Datum H}
 
@@ -284,23 +224,7 @@ theorem prod_ix {M : Type} [CommMonoid M] (g : Ix Dw → M) (h0 : g none = 1) :
 
 theorem exOf_root (u : GlobalTheory.AllWt.Weight Dw) (r : RootIx Dw) :
     GlobalTheory.AllWt.exOf Dw u 0 (Small.rootFrameIx Dw r) = HodgeCpt.rootSgn Dw r * u r.1 r.2 := by
-  obtain ⟨τ, n⟩ := r
-  by_cases h : (n : ℕ) < Dw.p
-  · have e1 : GlobalTheory.AllWt.exOf Dw u 0 (Small.rootFrameIx Dw (τ, n)) = (GlobalTheory.AllWt.wtOf Dw u 0).1 (τ.1, n) :=
-      congrArg (fun x : Σ s, Fin (labelRk Dw s) => (GlobalTheory.AllWt.wtOf Dw u 0).1 (Small.labelC x.1, (x.2 : ℕ)))
-        (GlobalTheory.CompanionTheory.Ar.Rec.FinRd.rootIdx_lt Dw (τ := τ) h)
-    rw [e1, GlobalTheory.AllWt.wtOf_big _ _ τ _ h]
-    simp [HodgeCpt.rootSgn, h]
-  · have e1 : GlobalTheory.AllWt.exOf Dw u 0 (Small.rootFrameIx Dw (τ, n)) =
-        (GlobalTheory.AllWt.wtOf Dw u 0).1 (conjEmb τ.1, Dw.p + Dw.q - 1 - n) :=
-      congrArg (fun x : Σ s, Fin (labelRk Dw s) => (GlobalTheory.AllWt.wtOf Dw u 0).1 (Small.labelC x.1, (x.2 : ℕ)))
-        (GlobalTheory.CompanionTheory.Ar.Rec.FinRd.rootIdx_ge Dw (τ := τ) h)
-    have hn := n.2
-    rw [e1, GlobalTheory.AllWt.wtOf_small _ _ τ _ (by omega)]
-    have : (⟨Dw.p + (Dw.q - 1 - (Dw.p + Dw.q - 1 - (n : ℕ))), by omega⟩ : Fin (Dw.p + Dw.q)) = n := Fin.ext (by
-      show Dw.p + (Dw.q - 1 - (Dw.p + Dw.q - 1 - (n : ℕ))) = n
-      omega)
-    simp [HodgeCpt.rootSgn, h, this]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Plug.TraceRuleSec.exOf_root <;> assumption
 
 theorem unit_calc {G K : Type} [CommGroup G] [Fintype K] (tt ph : Ix Dw → G) (u : GlobalTheory.AllWt.Weight Dw)
     (v ee : RootIx Dw → G) (yy : K → G) (xd : RootIx Dw → K → ℤ) (a : K → ℤ)

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GaugeUniqB
 public import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 public import Mathlib.RingTheory.MvPowerSeries.Substitution
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermDJet
@@ -155,23 +156,7 @@ private lemma low_trunc_lemma_5 {ι : Type} [Fintype ι] [DecidableEq ι] (m : �
 
 theorem psJet_mul {ι : Type} [Fintype ι] [DecidableEq ι] (m : ℕ) (f g : MvPowerSeries ι R) :
     psJet m (f * g) = psJet m f * psJet m g := by
-  unfold psJet
-  rw [← map_mul, Ideal.Quotient.eq]
-  apply mem_orig_pow_lemma_6
-  intro e he
-  have h1 := low_mul_lemma (G := g) (q := 0) (low_trunc_lemma_5 m f)
-    (fun d hd => absurd hd (Nat.not_lt_zero _)) e (by omega)
-  have h2 := low_mul_lemma (F := (psTrunc m f : MvPowerSeries ι R)) (p := 0)
-    (fun d hd => absurd hd (Nat.not_lt_zero _)) (low_trunc_lemma_5 m g) e (by omega)
-  have h3 := low_trunc_lemma_5 m (f * g) e he
-  have hcoe : AddMonoidAlgebra.coeff (psTrunc m (f * g) - psTrunc m f * psTrunc m g) e =
-      MvPowerSeries.coeff e ((f - (psTrunc m f : MvPowerSeries ι R)) * g +
-        (psTrunc m f : MvPowerSeries ι R) * (g - (psTrunc m g : MvPowerSeries ι R)) -
-        (f * g - (psTrunc m (f * g) : MvPowerSeries ι R))) := by
-    rw [← MvPolynomial.coeff_coe, coe_sub_lemma_7, MvPolynomial.coe_mul]
-    first
-    | (congr 1; ring)
-  rw [hcoe, map_sub, map_add (f := _), h1, h2, h3, add_zero, sub_zero]
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.GaugeR.psJet_mul <;> assumption
 
 theorem psJet_one {ι : Type} [Fintype ι] [DecidableEq ι] (m : ℕ) :
     psJet m (1 : MvPowerSeries ι R) = 1 := by

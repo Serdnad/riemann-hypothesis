@@ -82,19 +82,8 @@ theorem dirDeriv_apply {U : A.left.Opens} (h : ⊤ ≤ (u.ex 0).left ⁻¹ᵁ U)
 
 private theorem valAt'_constFn_of_comp_eq_id {X : Scheme.{0}} (x : Sp ℂ ⟶ X) (p : X ⟶ Sp ℂ) (hp : x ≫ p = 𝟙 _)
     (U : X.Opens) (h : ⊤ ≤ x ⁻¹ᵁ U) (a : ℂ) : valAt' x U (constFn p U a) = a := by
-  have key : ∀ (q : Sp ℂ ⟶ Sp ℂ) (e : ⊤ ≤ q ⁻¹ᵁ ⊤), q = 𝟙 _ →
-      (Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv ≫ q.appLE ⊤ ⊤ e ≫ (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom =
-        𝟙 _ := by
-    rintro q e rfl
-    simp [Scheme.Hom.appLE]
-    erw [CategoryTheory.Functor.map_id]
-    simp
-  have hcomp : (Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv ≫ p.appLE ⊤ U (show U ≤ p ⁻¹ᵁ ⊤ from fun _ _ => trivial) ≫
-      x.appLE U ⊤ h ≫ (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom = 𝟙 _ := by
-    rw [Scheme.Hom.appLE_comp_appLE_assoc]
-    exact key _ _ hp
-  rw [valAt', dite_eq_left h]
-  exact congrArg (fun φ => φ.hom a) hcomp
+  intros
+  apply _root_.GlobalTheory.valAt'_constFn <;> assumption
 
 theorem dirDeriv_constFn {U : A.left.Opens} (h : ⊤ ≤ (u.ex 0).left ⁻¹ᵁ U) (w : Fin g → ℂ) (a : ℂ) :
     dirDeriv u h w (constFn A.hom U a) = 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.AddNsmulResidueAssoc
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ApplyAddInfRat
@@ -180,15 +181,7 @@ theorem dRho_add (hψ : IsStdChar D ψ (-1)) (hθ : IsInfFam θ) (τ : D.what₂
     (hf' : IsThetaFunO ψ S T f') :
     Formalism.IndefR.Datum.dRho (heisO ψ S T) θ τ z (f + f') =
       Formalism.IndefR.Datum.dRho (heisO ψ S T) θ τ z f + Formalism.IndefR.Datum.dRho (heisO ψ S T) θ τ z f' := by
-  obtain ⟨l1, l2, -⟩ := GlobalTheory.WeilVacMove.isLineAt_lineAt hθ τ z
-  funext w
-  have h := ((GlobalTheory.WeilVacMove.hasDerivAt_zero_and_isTheta hψ l1 l2 hf).1 w).fun_add
-    ((GlobalTheory.WeilVacMove.hasDerivAt_zero_and_isTheta hψ l1 l2 hf').1 w)
-  refine Eq.trans ?_ h.deriv
-  unfold Formalism.IndefR.Datum.dRho
-  congr 1
-  funext t
-  exact congrFun ((GlobalTheory.SplitScalar.heisL ψ S T _).map_add f f') w
+  apply _root_.GlobalTheory.FockIndep.dRho_add <;> assumption
 
 theorem fock_heis (hψ : IsStdChar D ψ (-1)) (hθ : IsInfFam θ) {τ : D.what₂.Tau}
     {J : Matrix (Fin T.rank) (Fin S.rank) ℂ → Matrix (Fin T.rank) (Fin S.rank) ℂ} {f : WO S T → ℂ}

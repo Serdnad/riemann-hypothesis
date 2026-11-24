@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGenNearMul
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenTwistGenerated
 import Mathlib.Order.Interval.Finset.Box
@@ -251,11 +252,7 @@ theorem prodCochain_mem (hW : W ≤ Module.annihilator (MRingOver S ι) M) {𝓜
 
 theorem isMultiHomog_pow {p : MRingOver S ι} {a : K → ℕ} (hp : IsMultiHomog p a) (m : ℕ) :
     IsMultiHomog (p ^ m) (m • a) := by
-  induction m with
-  | zero => simpa using GenTwistGenerated.isMultiHomog_one (S := S) (ι := ι) 0 fun _ => rfl
-  | succ m ih =>
-    rw [pow_succ, succ_nsmul]
-    exact GenTwistGenerated.isMultiHomog_mul ih hp
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 def chartExpOf (c : ∀ k, ι k) (e : K → ℕ) : (Σ k, ι k) →₀ ℕ :=
   Finsupp.equivFunOnFinite.symm fun q => if q.2 = c q.1 then e q.1 else 0

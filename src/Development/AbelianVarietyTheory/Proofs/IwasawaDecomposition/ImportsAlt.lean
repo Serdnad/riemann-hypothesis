@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.Analysis.Normed.Ring.Basic
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousCharacterCocycleTrivialNearZero
 
 @[expose] public section
 
@@ -57,13 +58,6 @@ lemma key {z : ℂ} (h : ∀ (n : ℕ), ‖z ^ n - (1 : ℂ)‖ < (1 / 2 : ℝ))
   apply GlobalTheory.IterationConvergence.iter <;> assumption
 
 theorem main : ∀ {z : ℂ}, (∀ (n : ℕ), ‖z ^ n - (1 : ℂ)‖ < (1 / 2 : ℝ)) → z = (1 : ℂ) := by
-  intro z h
-  by_contra hne
-  have hpos : 0 < ‖z - 1‖ := norm_pos_iff.mpr (sub_ne_zero.mpr hne)
-  obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt (1 / 2 / ‖z - 1‖) (by norm_num : (1 : ℝ) < 3 / 2)
-  have h1 := key h k
-  have h2 := h (2 ^ k)
-  rw [div_lt_iff₀ hpos] at hk
-  linarith
+  apply _root_.GlobalTheory.InductiveNormBound.main <;> assumption
 
 end GlobalTheory.KeyLemmaTwo

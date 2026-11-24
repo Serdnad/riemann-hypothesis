@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -86,13 +87,7 @@ variable (O : Type*) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem isMultiHomog_C (c : O) : IsMultiHomog (C c : MRingOver O ι) 0 := by
-  classical
-  intro m hm k
-  rw [MvPolynomial.mem_support_iff, MvPolynomial.coeff_C] at hm
-  split_ifs at hm with h
-  · subst h
-    simp
-  · exact absurd rfl hm
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.constant <;> assumption
 
 def unif : O :=
   Classical.choose (IsDiscreteValuationRing.exists_irreducible O)

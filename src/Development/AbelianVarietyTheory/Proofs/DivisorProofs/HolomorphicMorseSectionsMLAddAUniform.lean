@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.MomentEntryBounds.UnitaryConeEstimates.ContVal
 public import ReciprocityTheory.L2DbarEstimates.IsLocalHomeomorph
 public import Mathlib.Analysis.Matrix.Hermitian
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.CommFderivApply
@@ -315,16 +316,7 @@ theorem qf_re_nonneg {n : ℕ} (H : Matrix (Fin n) (Fin n) ℂ) (hH : H.PosSemid
 
 theorem isCompact_bdd (n : ℕ) (C : ℝ) :
     IsCompact {H : Matrix (Fin n) (Fin n) ℂ | ∀ j l, ‖H j l‖ ≤ C} := by
-  have h : IsCompact (Set.pi Set.univ fun _ : Fin n => Set.pi Set.univ fun _ : Fin n =>
-      closedBall (0 : ℂ) C) :=
-    isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall 0 C
-  have e : {H : Matrix (Fin n) (Fin n) ℂ | ∀ j l, ‖H j l‖ ≤ C} =
-      (Set.pi Set.univ fun _ : Fin n => Set.pi Set.univ fun _ : Fin n =>
-      closedBall (0 : ℂ) C : Set (Matrix (Fin n) (Fin n) ℂ)) := by
-    ext H
-    show _ ↔ ∀ j ∈ Set.univ, ∀ l ∈ Set.univ, H j l ∈ closedBall (0 : ℂ) C
-    simp [mem_closedBall, dist_zero_right]
-  rw [e]; exact h
+  apply _root_.PositivityTheory.KB.MomentRationality.Cz.Pk.cpt_box <;> assumption
 
 theorem exists_det_bound (n : ℕ) (C : ℝ) : ∃ K : ℝ, 0 ≤ K ∧
     ∀ H : Matrix (Fin n) (Fin n) ℂ, (∀ j l, ‖H j l‖ ≤ C) → ‖H.det‖ ≤ K := by

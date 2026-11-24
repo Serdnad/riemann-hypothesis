@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LocalHolomorphicExponentialChart
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NonemptyCuspFrame
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsUniqueIsTanFrameOfIsEmpty
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsLieCombIffIsCombAt
@@ -872,23 +873,7 @@ namespace GlobalTheory.CompHS
 open TrivSqZeroExt in
 theorem exists_spMap_fst_eq {S : Type} [CommRing S] (s : Sp (DualNumber S)) :
     ∃ t : Sp S, spMap (fstHom S S S).toRingHom t = s := by
-  refine ⟨PrimeSpectrum.comap (inlHom S S) s, ?_⟩
-  show PrimeSpectrum.comap _ (PrimeSpectrum.comap _ s) = s
-  ext x
-  have hr : inr x.snd ∈ s.asIdeal := s.2.mem_of_pow_mem 2 (by
-    rw [show (inr x.snd : DualNumber S) ^ 2 = 0 by ext <;> simp [pow_two]]
-    exact s.asIdeal.zero_mem)
-  simp only [PrimeSpectrum.comap_asIdeal, Ideal.mem_comap]
-  change inl x.fst ∈ s.asIdeal ↔ x ∈ s.asIdeal
-  have e1 : inl x.fst + inr x.snd = x := inl_fst_add_inr_snd_eq x
-  have e2 : inl x.fst = x - inr x.snd := eq_sub_of_add_eq e1
-  constructor
-  · intro h
-    rw [← e1]
-    exact s.asIdeal.add_mem h hr
-  · intro h
-    rw [e2]
-    exact s.asIdeal.sub_mem h hr
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Flat.ExpChart.Coords.surj_fstC <;> assumption
 
 theorem le_preimage_of_fst {S : Type} [CommRing S] {T : Scheme.{0}} (x : Sp (DualNumber S) ⟶ T) (V : T.Opens)
     (h : ⊤ ≤ (spMap (TrivSqZeroExt.fstHom S S S).toRingHom ≫ x) ⁻¹ᵁ V) : ⊤ ≤ x ⁻¹ᵁ V := by

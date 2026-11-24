@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafTauUPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafThomCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -87,12 +88,7 @@ theorem pull_cast' {q : ℕ} {E E' : Spc} (f : E ⟶ E') {n i n' i' : ℤ} (hn :
 
 theorem pull_cpow' (hA : DivisorNaturality) (q : ℕ) [NeZero q] {E E' : Spc} (f : E ⟶ E') (hE : Inv q E')
     (x : Ht q E' 2 1) (k : ℕ) : pull _ f _ _ (cpow q x k) = cpow q (pull _ f _ _ x) k := by
-  induction k with
-  | zero => rw [cpow_zero, cpow_zero, pull_cast', (hA q).2.1 f hE]
-  | succ k ih =>
-    show pull _ f _ _ ((cup q (cpow q x k) x).cast (by push_cast; ring) (by push_cast; ring)) =
-      (cup q (cpow q (pull _ f _ _ x) k) (pull _ f _ _ x)).cast (by push_cast; ring) (by push_cast; ring)
-    rw [pull_cast', (hA q).1, ih]
+  apply @LateralTheory.CohomologicalPurity.Thom.pull_cpow <;> assumption
 
 theorem LeafPB_of' (hGeo : LeafGeo) (hCmp : LeafPBCmp) : LeafPB := by
   have hInv := leafPBInvSp

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AffineCoverCohomologyFinite
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.CechSeparated
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFrameOfForallExists
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.CapOComp
@@ -201,46 +202,7 @@ def secPresheaf : TopCat.Presheaf Ab.{0} X where
     exact (rs_rs _ _ _).symm
 
 theorem isSheaf_secPresheaf : (secPresheaf U κ g).IsSheaf := by
-  rw [TopCat.Presheaf.isSheaf_iff_isSheafUniqueGluing]
-  intro J C sf hsf
-  let sf' (j : J) : secGroup U κ g (C j) := sf j
-  have hsf' (j l : J) (α : ι) (k : κ α) (D : X.Opens) (hj : D ≤ C j ⊓ U α) (hl : D ≤ C l ⊓ U α) :
-      rs hj ((sf' j).1 α k) = rs hl ((sf' l).1 α k) := by
-    have e : secRes U κ g (inf_le_left : C j ⊓ C l ≤ C j) (sf' j) =
-      secRes U κ g (inf_le_right : C j ⊓ C l ≤ C l) (sf' l) := hsf j l
-    have e' := congrArg (fun s => s.1 α k) e
-    simp only [secRes_val] at e'
-    have hD : D ≤ (C j ⊓ C l) ⊓ U α :=
-      le_inf (le_inf (hj.trans inf_le_left) (hl.trans inf_le_left)) (hj.trans inf_le_right)
-    have e'' := congrArg (rs hD) e'
-    simpa only [rs_rs] using e''
-  have hcov (α : ι) : iSup C ⊓ U α ≤ ⨆ j, C j ⊓ U α := by
-    rw [iSup_inf_eq]
-  have hC (α : ι) (j : J) : C j ⊓ U α ≤ iSup C ⊓ U α := inf_le_inf_right _ (le_iSup C j)
-  choose b hb using fun (α : ι) (k : κ α) => exists_glue (fun j => C j ⊓ U α) (hC α) (hcov α)
-    (fun j => (sf' j).1 α k) fun j l D hj hl => hsf' j l α k D hj hl
-  have hbc : Compat U κ g (iSup C) b := fun α β k => by
-    have hle : iSup C ⊓ U α ⊓ U β ≤ ⨆ j, C j ⊓ U α ⊓ U β := by
-      rw [iSup_inf_eq, iSup_inf_eq]
-    refine eq_of_cover (fun j => C j ⊓ U α ⊓ U β) (fun j => inf_le_inf_right _ (hC α j)) hle
-      fun j => ?_
-
-    simp only [map_sum, map_mul, rs_rs]
-    have h1 := (sf' j).2.on α β k (T := C j ⊓ U α ⊓ U β) inf_le_left
-      (inf_le_inf_right _ inf_le_right) (inf_le_inf_right _ inf_le_left)
-    rw [← hb α k j, rs_rs] at h1
-    rw [h1]
-    refine Finset.sum_congr rfl fun k' _ => ?_
-    rw [← hb β k' j, rs_rs]
-  refine ⟨(⟨b, hbc⟩ : secGroup U κ g (iSup C)), fun j => ?_, fun t ht => ?_⟩
-  · refine Subtype.ext <| funext fun α => funext fun k => ?_
-    exact hb α k j
-  · let t' : secGroup U κ g (iSup C) := t
-    refine Subtype.ext <| funext fun α => funext fun k => ?_
-    refine eq_of_cover (fun j => C j ⊓ U α) (hC α) (hcov α) fun j => ?_
-    have e : secRes U κ g (le_iSup C j) t' = sf' j := ht j
-    rw [hb α k j]
-    exact congrArg (fun s => s.1 α k) e
+  apply _root_.GlobalTheory.CompanionTheory.VBGlue.isSheaf_secPresheaf <;> assumption
 
 def toMod : X.Modules :=
   letI : ∀ V, Module (X.ringCatSheaf.obj.obj V) ((secPresheaf U κ g).obj V) :=

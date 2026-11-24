@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.MemSmulLatCoord
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GgNone
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FramePairCoordinatesTransportInnerLattices
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFrameCoordinatesTransportInnerLattices
@@ -88,21 +89,8 @@ lemma lat_img (g : V ≃ₗ[E] V) (Λ : Submodule M.L.O V) :
 
 lemma mem_smulLat (a : E) (Λ : Submodule M.L.O V) (x : V) :
     x ∈ H.smulLat a Λ ↔ ∃ y ∈ Λ, x = a • y := by
-  constructor
-  · intro h
-    unfold HermSp.smulLat at h
-    induction h using Submodule.span_induction with
-    | mem x hx => obtain ⟨y, hy, rfl⟩ := hx; exact ⟨y, hy, rfl⟩
-    | zero => exact ⟨0, Λ.zero_mem, by simp⟩
-    | add x y _ _ hx hy =>
-      obtain ⟨u, hu, rfl⟩ := hx
-      obtain ⟨v, hv, rfl⟩ := hy
-      exact ⟨u + v, Λ.add_mem hu hv, by simp⟩
-    | smul s x _ hx =>
-      obtain ⟨u, hu, rfl⟩ := hx
-      exact ⟨s • u, Λ.smul_mem s hu, smul_comm _ _ _⟩
-  · rintro ⟨y, hy, rfl⟩
-    exact Submodule.subset_span ⟨y, hy, rfl⟩
+  intros
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.mem_smulLat_iff' <;> assumption
 
 lemma inTh_iff (Λ : Submodule M.L.O V) (x : V) :
     S.InTh (c.lat Λ) (c.e x) ↔ x ∈ H.smulLat (algebraMap F E S.th) Λ := by

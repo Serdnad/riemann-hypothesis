@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianClassFiniteness.HformSumRight
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeAutomorphismApprox.LinBase
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeAutomorphismApprox.LinDefs
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeAutomorphismApprox.LocDefs
@@ -226,16 +227,6 @@ theorem v_neg_one : O.valuation (-1 : K) = 1 := by
 
 end Main
 
-private theorem sub_vecMul_field {K : Type} [Field K] {n : ℕ} (M : Matrix (Fin n) (Fin n) K)
-    (x y : Fin n → K) : (x - y) ᵥ* M = x ᵥ* M - y ᵥ* M := by
-  first
-  | exact Matrix.sub_vecMul M x y
-
-private theorem add_vecMul_field {K : Type} [Field K] {n : ℕ} (M : Matrix (Fin n) (Fin n) K)
-    (x y : Fin n → K) : (x + y) ᵥ* M = x ᵥ* M + y ᵥ* M := by
-  first
-  | exact Matrix.add_vecMul M x y
-
 private theorem smul_vecMul_field {K : Type} [Field K] {n : ℕ} (M : Matrix (Fin n) (Fin n) K)
     (c : K) (x : Fin n → K) : (c • x) ᵥ* M = c • (x ᵥ* M) := by
   first
@@ -399,7 +390,7 @@ theorem existsLatticeAutomorphismApprox : LocLin := by
     ⟨kc • φ1 - w2, Λ2.sub_mem (smem O hkc hφ1) hw2, ?_⟩⟩
   · rw [hTinv, hu1e, smul_neg]
     abel
-  · rw [hTφ, hc, hφ0e, add_vecMul_field, sub_vecMul_field, smul_vecMul_field, smul_vecMul_field]
+  · rw [hTφ, hc, hφ0e, Matrix.add_vecMul, Matrix.sub_vecMul, smul_vecMul_field, smul_vecMul_field]
     first
     | module
 
@@ -624,16 +615,7 @@ theorem pr_rat (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F)) (p1 : RV I v →
 
 theorem hformE_swap (I : AutInst) (x y : Fin I.n → I.E) :
     Formalism.UG.hform (starRingEnd I.E) I.J y x = starRingEnd I.E (Formalism.UG.hform (starRingEnd I.E) I.J x y) := by
-  have hJij : ∀ i j, starRingEnd I.E (I.J j i) = I.J i j := by
-    intro i j
-    have := congrFun (congrFun I.J_herm i) j
-    simpa [Formalism.UG.cT] using this
-
-  simp only [Formalism.UG.hform, map_sum, map_mul, RingHomCompTriple.comp_apply, RingHom.id_apply]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [hJij j i]
-  ring
+  apply _root_.PI.UnitaryGroupMassFormula.InHHClassFin.hform_swap <;> assumption
 
 theorem first_coordinate_vector_smul (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F)) (p1 : RV I v →+* KV I v)
     (hp : ∀ c : KV I v, p1 (algebraMap (KV I v) (RV I v) c) = c) (c : OV I v) (X : Fin I.n → RV I v) :
@@ -1225,12 +1207,7 @@ abbrev LL (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F)) : Submodule (OV I v) 
 
 theorem sigV_sigV (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F)) (r : RV I v) :
     sigV I v (sigV I v r) = r := by
-  induction r using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a e =>
-    simp only [sigV, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.map_tmul, AlgHom.id_apply]
-    rw [show I.cm.sig (I.cm.sig e) = e from star_star e]
-  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
+  apply _root_.PI.UnitaryGroupMassFormula.ScXuExists.BrA.sig2 <;> assumption
 
 theorem sigV_alg (I : AutInst) (v : HeightOneSpectrum (𝓞 I.F)) (c : KV I v) :
     sigV I v (algebraMap (KV I v) (RV I v) c) = algebraMap (KV I v) (RV I v) c := by

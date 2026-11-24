@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.LiftPhaseAgreement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.NGData
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.VolPin
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.Vanish
@@ -130,19 +131,7 @@ variable {D : D7} (X : HidaSetting D)
 
 theorem psi_inv (u : D.what₂.Word) {n : X.B.I.Ginf} (hn : n ∈ X.NinfU u) :
     X.psiInfU u n⁻¹ = (X.psiInfU u n)⁻¹ := by
-  have hC := Formalism.L2.SG.Pf.psiInfChar_holds D X u
-  have hne : ∀ s, X.psiInfU u s ≠ 0 := by
-    intro s h0; have := psiInfU_norm X u s; rw [h0, norm_zero] at this; exact zero_ne_one this
-  have h1 : X.psiInfU u 1 = 1 := by
-    have e := (hC.2.1 1 hC.1 1 hC.1).2
-    rw [one_mul] at e
-    have e2 : X.psiInfU u 1 * (X.psiInfU u 1 - 1) = 0 := by rw [mul_sub, ← e]; ring
-    rcases mul_eq_zero.1 e2 with h | h
-    · exact absurd h (hne 1)
-    · exact sub_eq_zero.1 h
-  have e := (hC.2.1 n hn n⁻¹ (hC.2.2 n hn)).2
-  rw [mul_inv_cancel, h1] at e
-  exact eq_inv_of_mul_eq_one_right e.symm
+  first | exact _root_.Formalism.L2.SG.Pf.FinitePhaseConjugation.psiInfU_inv | exact @_root_.Formalism.L2.SG.Pf.FinitePhaseConjugation.psiInfU_inv | apply _root_.Formalism.L2.SG.Pf.FinitePhaseConjugation.psiInfU_inv <;> assumption
 
 end GlobalTheory.CosetOrbital
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.LevelKernelDetection.PfJumpsBdd
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TateDeRhamFiltrationQuotientInvariants
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
@@ -100,15 +101,7 @@ theorem filV_antitone : Antitone (FilV PD (LL := LL) (V := V)) := by
   | add x y hx hy => rw [map_add]; exact add_mem hx hy
 
 theorem filV_exhaustive (z : V ⊗[Qp] BdR) : ∃ a, z ∈ FilV PD (LL := LL) (V := V) a := by
-  induction z using TensorProduct.inductionOn with
-  | tmul v b =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh b
-    exact ⟨a, tmul_mem PD v ha⟩
-  | add x y hx hy =>
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hy
-    exact ⟨min a b, add_mem (filV_antitone PD (min_le_left a b) ha)
-      (filV_antitone PD (min_le_right a b) hb)⟩
+  apply _root_.Formalism.MainNotions.N.Ln03.Pf.jb_FilV_exh <;> assumption
 
 theorem φVB_act (g : G) (x : V ⊗[Qp] B) :
     φVB PD (LL := LL) (V := V) (actVB PD ρ g x) = actVB PD ρ g (φVB PD (LL := LL) (V := V) x) := by

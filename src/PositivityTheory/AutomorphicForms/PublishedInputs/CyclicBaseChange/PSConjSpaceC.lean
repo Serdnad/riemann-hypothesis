@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RingEquivPlaceCorrespondencePlaceUnder
 public import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.SConjSpaceC
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CapelliOperatorAlgebraStableUnderComplexConj
@@ -7,6 +8,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Exist
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ContinuousMapGL
 import GroundTheory.AutomorphicForms.GLnLocal
 import GroundTheory.GlobalFields.LocalFieldAtPlace
+import PositivityTheory.AutomorphicForms.PublishedInputs.CyclicBaseChange.PSGalAdEx
 
 @[expose] public section
 
@@ -49,16 +51,7 @@ theorem conj_ne (τ : E →+* ℂ) : ComplexEmbedding.conjugate τ ≠ τ := fun
 
 theorem cc_conj (τ : E →+* ℂ) (x : Cinf E) :
     cc (ComplexEmbedding.conjugate τ) x = starRingEnd ℂ (cc τ x) := by
-  have hm := InfinitePlace.mk_conjugate_eq τ
-  by_cases h : (InfinitePlace.mk τ).embedding = τ
-  · have h' : ¬ (InfinitePlace.mk (ComplexEmbedding.conjugate τ)).embedding = ComplexEmbedding.conjugate τ := by
-      rw [hm, h]; exact (conj_ne τ).symm
-    rw [cc_of_ne h', cc_of_eq h, hm]
-  · have h2 : (InfinitePlace.mk τ).embedding = ComplexEmbedding.conjugate τ :=
-      (InfinitePlace.embedding_mk_eq τ).resolve_left h
-    have h' : (InfinitePlace.mk (ComplexEmbedding.conjugate τ)).embedding = ComplexEmbedding.conjugate τ := by
-      rw [hm, h2]
-    rw [cc_of_eq h', cc_of_ne h, hm, starRingEnd_self_apply]
+  apply _root_.GlobalTheory.IsoPull.coord_conj <;> assumption
 
 theorem cc_star (τ : E →+* ℂ) (x : Cinf E) : cc τ (star x) = starRingEnd ℂ (cc τ x) := by
   by_cases h : (InfinitePlace.mk τ).embedding = τ
@@ -180,23 +173,7 @@ theorem Lx_atEmb (σ : E ≃+* E) (τ : E →+* ℂ) (z : ℂ) :
     exact this
 
 theorem conjFin_symm_conjFin (c : E ≃+* E) (x : Af E) : conjFin c.symm (conjFin c x) = x := by
-  have key : ∀ (v w : HeightOneSpectrum (𝓞 E)) (_ : w = v) (f : w.adicCompletion E → v.adicCompletion E),
-      Continuous f → (∀ k : E, f (algebraMap E _ k) = algebraMap E _ k) → f (pLoc E w x) = pLoc E v x := by
-    rintro _ v rfl f hf h
-    exact congrFun ((HeightOneSpectrum.denseRange_algebraMap (K := E) v).equalizer hf continuous_id (funext h)) _
-  refine FiniteAdeleRing.ext _ fun v => ?_
-  change pLoc E v (conjFin c.symm (conjFin c x)) = pLoc E v x
-  rw [pLoc_conjFin, pLoc_conjFin]
-  refine key v _ ?_ (conjLoc c.symm v ∘ conjLoc c _) ((conjLoc_spec _ _).1.comp (conjLoc_spec _ _).1) fun k => ?_
-  · refine (eq_conjSrc (c := c) fun k => ?_).symm
-    have h1 := (conjLoc_spec c.symm v).2.2 (algebraMap E _ (c k))
-    rw [(conjLoc_spec c.symm v).2.1, RingEquiv.symm_apply_apply] at h1
-    have e1 : Valued.v (algebraMap E (v.adicCompletion E) k) = v.valuation E k := v.valuedAdicCompletion_eq_valuation' k
-    have e2 : Valued.v (algebraMap E ((conjSrc c.symm v).adicCompletion E) (c k)) = (conjSrc c.symm v).valuation E (c k) :=
-      (conjSrc c.symm v).valuedAdicCompletion_eq_valuation' (c k)
-    rw [e1, e2] at h1
-    exact h1.symm
-  · rw [Function.comp_apply, (conjLoc_spec _ _).2.1, (conjLoc_spec _ _).2.1, RingEquiv.symm_apply_apply]
+  apply _root_.UpperTheory.CBC.GaloisActionOnAdeles.conjFin_symm_conjFin <;> assumption
 
 structure GD (E : Type) [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] where
   σ : E ≃+* E

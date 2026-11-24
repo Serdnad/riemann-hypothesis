@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.DensityLemma.PFibreBoundV
 public import Formalism.FormalDegreeBessel.StatementG
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -202,12 +203,7 @@ lemma ggHerm_bvec_right {ι : Type*} [Fintype ι] [DecidableEq ι] (H : Matrix �
   | simp [dotProduct, Pi.single_apply]
 
 lemma ggHpk_ee (k r : ℕ) (a b : Fin r) : Hpk k r (eI k r a) (eI k r b) = 0 := by
-  have ha := a.isLt
-  have hb := b.isLt
-  unfold Hpk
-  rw [if_neg (fun h => absurd h.2 (by change ¬ (a.val + b.val = 2 * r + k); omega)),
-    if_neg (fun h => absurd h.2 (by change ¬ (a.val + b.val = 2 * r + k); omega)),
-    if_neg (fun h => absurd h.1 (by change ¬ (r ≤ a.val); omega))]
+  apply _root_.PI.UnitaryGroupMassFormula.DLm.NBk.Hpk_ee <;> assumption
 
 lemma ggBlockA (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) (hz : inWb k r z) (a b : Fin (r + 1)) :
     herm (Hpk k r) (fvec k r z b) (fvec k r z a) = (herm (Hpk k r) z z • ggLastU r) a b := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.PowObjGeometricallyConnected
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
 import Mathlib.Algebra.Order.Floor.Extended
@@ -300,15 +301,7 @@ theorem rep_mul (h : ∀ i, IsGrpPullback (H i) G (𝒰.f i) (ψ i)) {i : 𝒰.I
 
 theorem isMonHom_of_points {S : Scheme.{0}} {A B : Over S} [GrpObj A] [GrpObj B] (e : A ⟶ B)
     (mul : ∀ (T : Over S) (x y : T ⟶ A), (x * y) ≫ e = (x ≫ e) * (y ≫ e)) : IsMonHom e := by
-  refine ⟨?_, ?_⟩
-  · have h1 := mul (𝟙_ _) 1 1
-    rw [_root_.mul_one, eq_comm, _root_.mul_eq_left] at h1
-    simp only [MonObj.one_eq_one]
-    exact h1
-  · have h2 := mul (A ⊗ A) (fst A A) (snd A A)
-    rw [← MonObj.mul_eq_mul] at h2
-    rw [h2, Hom.mul_def]
-    congr 1
+  apply _root_.GlobalTheory.Serre.isMonHom_of_mul_comp <;> assumption
 
 theorem exists_oAct {O : Type} [CommRing O] (h : ∀ i, IsGrpPullback (H i) G (𝒰.f i) (ψ i)) (α : ∀ i, OAct O (H i))
     (he : ∀ (x : O) (i j : 𝒰.I₀) (S : Scheme.{0}) (u : S ⟶ 𝒰.X i) (v : S ⟶ 𝒰.X j) (a : Over.mk u ⟶ H i)

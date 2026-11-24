@@ -355,18 +355,17 @@ theorem isNilpotent_aeval_of_resolvent {p f : ℂ → B} (hp : IsPolyFun p) (hf 
   have gY : ∀ u, Commute (g u) Y := fun u =>
     (hY u).sub_left (Algebra.commute_algebraMap_left _ _)
   let S := Submodule.span ℂ (Set.range g)
-  have c1 : ∀ x ∈ S, Commute x Y := fun x hx =>
-    Submodule.span_induction (p := fun x _ => Commute x Y)
-      (fun _ hy => by obtain ⟨u, rfl⟩ := hy; exact gY u) (Commute.zero_left _)
-      (fun _ _ _ _ h1 h2 => h1.add_left h2) (fun a _ _ h1 => h1.smul_left a) hx
-  have c2 : ∀ x ∈ S, ∀ v, Commute x (g v) := fun x hx v =>
-    Submodule.span_induction (p := fun x _ => Commute x (g v))
-      (fun _ hy => by obtain ⟨u, rfl⟩ := hy; exact gg u v) (Commute.zero_left _)
-      (fun _ _ _ _ h1 h2 => h1.add_left h2) (fun a _ _ h1 => h1.smul_left a) hx
-  have c3 : ∀ x ∈ S, ∀ y ∈ S, Commute x y := fun x hx y hy =>
-    Submodule.span_induction (p := fun y _ => Commute x y)
-      (fun _ hy => by obtain ⟨u, rfl⟩ := hy; exact c2 x hx u) (Commute.zero_right _)
-      (fun _ _ _ _ h1 h2 => h1.add_right h2) (fun a _ _ h1 => h1.smul_right a) hy
+  have c1 : ∀ x ∈ S, Commute x Y := by
+    refine Commute.span_left (R := ℂ) (s := Set.range g) ?_
+    rintro _ ⟨u, rfl⟩
+    exact gY u
+  have c3 : ∀ x ∈ S, ∀ y ∈ S, Commute x y := by
+    intro x hx
+    refine Commute.span_right (R := ℂ) (s := Set.range g) ?_
+    rintro _ ⟨v, rfl⟩
+    refine Commute.span_left (R := ℂ) (s := Set.range g) ?_ x hx
+    rintro _ ⟨u, rfl⟩
+    exact gg u v
   have c4 : ∀ x ∈ S, IsNilpotent x := fun x hx =>
     Submodule.span_induction (p := fun x _ => IsNilpotent x)
       (fun _ hy => by obtain ⟨u, rfl⟩ := hy; exact hnil u) IsNilpotent.zero

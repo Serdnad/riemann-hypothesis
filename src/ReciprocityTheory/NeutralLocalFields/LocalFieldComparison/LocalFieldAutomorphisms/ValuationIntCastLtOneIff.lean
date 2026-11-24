@@ -10,6 +10,7 @@ public import Mathlib.RingTheory.RegularLocalRing.Defs
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import ReciprocityTheory.GaloisValuations.GlobalB
 import Formalism.ConjugateSelfDual.Statement
+import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocA
 
 @[expose] public section
 
@@ -40,27 +41,9 @@ theorem Compat.valuation_lt_one_iff {A : ValuationSubring Ω} {ι : Ω →+* Pad
 
 theorem valuation_intCast_lt_one_iff [CharZero Ω] (B : ValuationSubring Ω) (hp : B.valuation (p : Ω) < 1) (n : ℤ) :
     B.valuation (n : Ω) < 1 ↔ (p : ℤ) ∣ n := by
-  have hpZ : Prime (p : ℤ) := Nat.prime_iff_prime_int.mp Fact.out
-  have hle : ∀ m : ℤ, B.valuation (m : Ω) ≤ 1 := fun m =>
-    (B.valuation_le_one_iff _).mpr (intCast_mem B m)
-  constructor
-  · intro hn
-    by_contra hpn
-    obtain ⟨a, b, hab⟩ := (Prime.coprime_iff_not_dvd hpZ).mpr hpn
-    have h1 : B.valuation ((a : Ω) * (p : Ω)) < 1 := by
-      rw [map_mul]
-      exact lt_of_le_of_lt (mul_le_of_le_one_left' (hle a)) hp
-    have h2 : B.valuation ((b : Ω) * (n : Ω)) < 1 := by
-      rw [map_mul]
-      exact lt_of_le_of_lt (mul_le_of_le_one_left' (hle b)) hn
-    have h3 : ((a : Ω) * (p : Ω)) + (b : Ω) * (n : Ω) = 1 := by exact_mod_cast hab
-    have h4 := B.valuation.map_add ((a : Ω) * (p : Ω)) ((b : Ω) * (n : Ω))
-    rw [h3, map_one] at h4
-    exact absurd (lt_of_le_of_lt h4 (max_lt h1 h2)) (lt_irrefl 1)
-  · rintro ⟨m, rfl⟩
-    push_cast
-    rw [map_mul]
-    exact lt_of_le_of_lt (mul_le_of_le_one_right' (hle m)) hp
+  first
+    | exact _root_.Formalism.BasicNotions.Examples₂.LB.val_intCast_lt_one_iff
+    | apply _root_.Formalism.BasicNotions.Examples₂.LB.val_intCast_lt_one_iff <;> first | assumption | rfl | infer_instance
 
 def ratPrime (p : ℕ) [Fact p.Prime] : HeightOneSpectrum (𝓞 ℚ) where
   asIdeal := Ideal.comap (Rat.ringOfIntegersEquiv : 𝓞 ℚ →+* ℤ) (Ideal.span {(p : ℤ)})

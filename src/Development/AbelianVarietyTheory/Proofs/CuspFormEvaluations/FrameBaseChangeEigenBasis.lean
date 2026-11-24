@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.GenBCFrameR
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsThRule
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.GlobalBasisAlgebra
@@ -185,15 +186,7 @@ theorem prod_comp {κ : Type} [Fintype κ] (φ : Xo.univ.t.G ⟶ Xo.univ.t.G) [I
   exact map_prod (IsMonHom.monoidHom φ (tEps x)) u Finset.univ
 
 theorem exists_embK_ne (c : Coeff l) {σ τ : E →+* ℂ} (h : σ ≠ τ) : ∃ b : 𝓞 E, embK c σ b ≠ embK c τ b := by
-  by_contra hne
-  simp only [not_exists, not_not] at hne
-  apply h
-  have h2 : embF c σ = embF c τ := by
-    apply IsLocalization.ringHom_ext (M := nonZeroDivisors (𝓞 E))
-    ext b
-    exact congrArg Subtype.val (hne b)
-  ext e
-  exact congrArg Subtype.val (RingHom.congr_fun h2 e)
+  apply _root_.GlobalTheory.EigDir.embK_sep <;> assumption
 
 theorem eigen_basis (c : Coeff l) [Algebra c.F T] (U : Lt1 Dw → (tEps x ⟶ Xo.univ.t.G))
     (hU : ∀ k, IsTanAt x (U k).left) (hE : ∀ k, IsEigAt c k.1 (U k).left)

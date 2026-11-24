@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PFibreNormDehomRoots
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullFormsGeneric
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullRatiosAlgebraic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
@@ -40,14 +41,7 @@ theorem aeval_mem (F : IntermediateField ℚ Ω) (w : (Σ k, ι k) → Ω) (hw :
 omit [CharZero Ω] in
 theorem aeval_scale {g : MRing ι} {d : K → ℕ} (hg : IsMultiHomog g d) (y : (Σ k, ι k) → Ω) (t : K → Ω) :
     aeval (fun p => y p * t p.1) g = aeval y g * ∏ k, t k ^ d k := by
-  have h := congrArg (MvPolynomial.eval t) (ProjLine.mConeMap_eq_of_isMultiHomog y hg)
-  rw [map_mul, eval_C, map_prod] at h
-  simp only [map_pow, eval_X] at h
-  rw [← h, mConeMap, aeval_def, aeval_def, eval₂_comp_left]
-  congr 1
-  · exact RingHom.ext_int _ _
-  · funext p
-    simp
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.FibreNormDehomRoots.aeval_scale <;> assumption
 
 theorem blockFnField_eq_top {y : (Σ k, ι k) → Ω} (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0)
     (hB : Birational y) : blockFnField y = ⊤ := by

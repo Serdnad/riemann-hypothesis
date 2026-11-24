@@ -1,5 +1,6 @@
 module
 
+import Formalism.JumpKernelCokernel.LengthTheoremsWithEarlier
 public import Formalism.WachLatticeTwists.LagrangeExtensionCocycles.StatementTop
 public import Formalism.WachLatticeTwists.LagrangeExtensionCocycles.Statement
 public import Formalism.WachLatticeTwists.LagrangeExtensionCocycles.StatWPrimeExt
@@ -320,16 +321,7 @@ lemma one_lt_cast : (1 : ℝ) < (ℓ : ℝ) := by
 
 lemma val_factorial_le (w : ℕ) :
     (padicValNat ℓ w.factorial : ℝ) ≤ (w : ℝ) / ((ℓ : ℝ) - 1) := by
-  have h := (Fact.out : ℓ.Prime).sub_one_mul_multiplicity_factorial (n := w)
-  rw [← Nat.padicValNat_def] at h
-  have h' : (ℓ - 1) * padicValNat ℓ w.factorial ≤ w := by rw [h]; exact Nat.sub_le _ _
-  have hl := one_lt_cast ℓ
-  rw [le_div_iff₀ (by linarith)]
-  have e : ((ℓ - 1 : ℕ) : ℝ) = (ℓ : ℝ) - 1 := by
-    rw [Nat.cast_sub (Fact.out : ℓ.Prime).one_lt.le]; simp
-  have h2 : (((ℓ - 1) * padicValNat ℓ w.factorial : ℕ) : ℝ) ≤ w := by exact_mod_cast h'
-  rw [Nat.cast_mul, e] at h2
-  linarith
+  apply _root_.Formalism.ZetaNonvanishing.ZetaNonvanishingCriteria.padicValNat_factorial_le_real <;> assumption
 
 lemma val_choose_le (N w : ℕ) :
     (padicValNat ℓ (N.choose w) : ℝ) ≤ Real.logb ℓ N := by

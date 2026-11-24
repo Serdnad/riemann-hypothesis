@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.LocDensSAInt
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.LocDensSAChar
 public import Mathlib.Algebra.Module.LinearMap.Rat
 public import Mathlib.RingTheory.DedekindDomain.Different
@@ -91,79 +92,7 @@ private theorem exists_trace_mul_eq_linearMap (F : Type) [Field F] [NumberField 
   rw [← hβ, LinearMap.BilinForm.toDual_def, Algebra.traceForm_apply]
 
 theorem addIntF_holds : AddIntF := by
-  intro F _ _ Λ ⟨c0, hc0, hc0Λ⟩ hnot g hg
-  have hmul : ∀ (r : 𝓞 F) (x : F), x ∈ Λ → algebraMap (𝓞 F) F r * x ∈ Λ := by
-    intro r x hx
-    have h1 := Λ.smul_mem r hx
-    rw [Algebra.smul_def] at h1
-    exact h1
-  obtain ⟨bb, hbb⟩ : ∃ bb, bb = NumberField.integralBasis F := ⟨_, rfl⟩
-  have hmem : ∀ i, c0 * bb i ∈ Λ := by
-    intro i
-    rw [hbb, NumberField.integralBasis_apply, mul_comm]
-    exact hmul _ _ hc0Λ
-  choose n hn using fun i => hg _ (hmem i)
-  let h0 : F →ₗ[ℚ] ℚ := bb.constr ℚ (fun i => (n i : ℚ))
-  have hh0 : ∀ y : F, g (c0 * y) = ((h0 y : ℚ) : ℂ) := by
-    let L1 : F →+ ℂ := g.comp (AddMonoidHom.mulLeft c0)
-    let L2 : F →+ ℂ := (Rat.castHom ℂ).toAddMonoidHom.comp h0.toAddMonoidHom
-    have hL : L1.toRatLinearMap = L2.toRatLinearMap := by
-      refine bb.ext (fun i => ?_)
-      simp [L1, L2, h0, hn i]
-    intro y
-    have h1 := congrArg (fun L : F →ₗ[ℚ] ℂ => L y) hL
-    simpa [L1, L2] using h1
-  obtain ⟨β, hβ⟩ := exists_trace_mul_eq_linearMap F h0
-  have hgx : ∀ x : F, g x = ((Algebra.trace ℚ F (β * c0⁻¹ * x) : ℚ) : ℂ) := by
-    intro x
-    have h1 := hh0 (c0⁻¹ * x)
-    rw [← mul_assoc, mul_inv_cancel₀ hc0, one_mul] at h1
-    rw [h1, hβ, mul_assoc]
-  intro a
-  by_contra ha
-  have hβ0 : β * c0⁻¹ ≠ 0 := by
-    intro h0'
-    apply ha
-    rw [hgx, h0', zero_mul, map_zero, Rat.cast_zero]
-  have h10 : (1 : FractionalIdeal (𝓞 F)⁰ F) ≠ 0 := by
-    intro h
-    have h1 : (1 : F) ∈ (1 : FractionalIdeal (𝓞 F)⁰ F) := by
-      rw [FractionalIdeal.mem_one_iff]
-      exact ⟨1, map_one _⟩
-    rw [h, FractionalIdeal.mem_zero_iff] at h1
-    exact one_ne_zero h1
-  have hdual : ∀ x ∈ Λ,
-      β * c0⁻¹ * x ∈ FractionalIdeal.dual ℤ ℚ (1 : FractionalIdeal (𝓞 F)⁰ F) := by
-    intro x hx
-    rw [FractionalIdeal.mem_dual h10]
-    intro b hb
-    rw [FractionalIdeal.mem_one_iff] at hb
-    obtain ⟨r, rfl⟩ := hb
-    obtain ⟨m, hm⟩ := hg _ (hmul r x hx)
-    rw [RingHom.mem_range]
-    refine ⟨m, ?_⟩
-    rw [Algebra.traceForm_apply, eq_intCast]
-    have h1 := hgx (algebraMap (𝓞 F) F r * x)
-    have h2 : ((Algebra.trace ℚ F (β * c0⁻¹ * (algebraMap (𝓞 F) F r * x)) : ℚ) : ℂ)
-        = ((m : ℚ) : ℂ) := by
-      rw [← h1, hm, Rat.cast_intCast]
-    rw [Rat.cast_inj] at h2
-    rw [← h2]
-    congr 1
-    ring
-  obtain ⟨d, hd, hdint⟩ :=
-    (FractionalIdeal.dual ℤ ℚ (1 : FractionalIdeal (𝓞 F)⁰ F)).isFractional
-  have hd0 : algebraMap (𝓞 F) F d ≠ 0 :=
-    IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hd
-  apply hnot ((algebraMap (𝓞 F) F d * (β * c0⁻¹))⁻¹) (inv_ne_zero (mul_ne_zero hd0 hβ0))
-  intro x hx
-  obtain ⟨r, hr⟩ := hdint _ (hdual x hx)
-  refine ⟨r, ?_⟩
-  rw [Algebra.smul_def] at hr
-  have hr' : (r : F) = algebraMap (𝓞 F) F r := rfl
-  rw [hr', hr, show algebraMap (𝓞 F) F d * (β * c0⁻¹ * x)
-      = algebraMap (𝓞 F) F d * (β * c0⁻¹) * x by ring,
-    inv_mul_cancel_left₀ (mul_ne_zero hd0 hβ0)]
+  apply _root_.PI.VolStabSW.addIntF_holds <;> assumption
 
 theorem chInf_of_lift (hL : ChLift) : ChInf :=
   chInf_of hL addIntF_holds
@@ -404,19 +333,7 @@ variable {F : Type} [Field F] [NumberField F]
 
 theorem psiV_nsmul (ψ : AddChar (AF F) ℂ) (v : HeightOneSpectrum (𝓞 F)) (n : ℕ) (y : Fv F v) :
     psiV F ψ v (n • y) = psiV F ψ v y ^ n := by
-  induction n with
-  | zero =>
-    simp only [zero_smul, pow_zero, psiV]
-    have : pairA F 0 (singleV F v 0) = 0 := by
-      have h := singleV_add (F := F) v 0 0
-      rw [add_zero] at h
-      have h0 : singleV F v 0 = 0 := by
-        have := congrArg (fun x => x - singleV F v 0) h
-        exact (by simpa using this : (0 : Af F) = singleV F v 0).symm
-      rw [h0]
-      rfl
-    rw [this, AddChar.map_zero_eq_one]
-  | succ n ih => rw [succ_nsmul, psiV_add, ih, pow_succ]
+  apply _root_.PI.VolStabSW.VolAAW.psiV_nsmul <;> assumption
 
 theorem ev_triv (ψ : AddChar (AF F) ℂ) (hψ : IsCharAF F ψ) :
     ∀ᶠ v in cofinite, ∀ y ∈ v.adicCompletionIntegers F, psiV F ψ v y = 1 := by
@@ -463,19 +380,10 @@ theorem af_neg (y : Af F) (w : HeightOneSpectrum (𝓞 F)) : (-y) w = -y w := rf
 theorem af_zero (w : HeightOneSpectrum (𝓞 F)) : (0 : Af F) w = 0 := rfl
 
 theorem adele_pairing_zero_add (y z : Af F) : pairA F 0 (y + z) = pairA F 0 y + pairA F 0 z := by
-  refine Prod.ext ?_ ?_
-  · show (0 : Ainf F) = 0 + 0
-    rw [add_zero]
-  · show y + z = y + z
-    rfl
+  apply _root_.PI.VolStabSW.VolAAW.adele_pairing_zero_add <;> assumption
 
 theorem pairA_nsmul0 (m : ℕ) (y : Af F) : pairA F 0 (m • y) = m • pairA F 0 y := by
-  induction m with
-  | zero =>
-    rw [zero_smul, zero_smul]
-    rfl
-  | succ k ih =>
-    rw [succ_nsmul, succ_nsmul, adele_pairing_zero_add, ih]
+  apply _root_.PI.VolStabSW.VolAAW.pairA_nsmul0 <;> assumption
 
 open Classical in
 theorem singleV_self (v : HeightOneSpectrum (𝓞 F)) (t : Fv F v) : singleV F v t v = t := by
@@ -567,11 +475,7 @@ def chiInf (ψ : AddChar (AF F) ℂ) : AddChar (InfiniteAdeleRing F) ℂ where
 
 theorem algebraMap_AF (a : F) :
     algebraMap F (AF F) a = pairA F (algebraMap F (Ainf F) a) 0 + pairA F 0 (algebraMap F (Af F) a) := by
-  refine Prod.ext ?_ ?_
-  · show algebraMap F (Ainf F) a = algebraMap F (Ainf F) a + 0
-    rw [add_zero]
-  · show algebraMap F (Af F) a = 0 + algebraMap F (Af F) a
-    rw [zero_add]
+  apply _root_.PI.VolStabSW.VolAAW.algebraMap_AF <;> assumption
 
 theorem psi_fin_of_char (ψ : AddChar (AF F) ℂ) (hψ : IsCharAF F ψ) (a : F) (h : ψ (pairA F 0 (algebraMap F (Af F) a)) = 1) :
     chiInf ψ (algebraMap F (InfiniteAdeleRing F) a) = 1 := by

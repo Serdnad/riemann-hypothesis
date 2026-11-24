@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmulNonnegOfShortRule
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.TorsionIsotropicCommutatorPairing
@@ -191,73 +192,8 @@ end Coprime
 section Triv
 open GlobalTheory.PlaceInt.ShortTriv
 
-theorem bound_of_trivAt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [StarRing (𝓞 E)], (∀ a : 𝓞 E, star a = H.bar a) → ∀ (T : CDVR) (io : c.F →+* T.Fr) (y : IntFr Xo c T io) (C : IntegralChartA3 Xo c T io y), Good3 C → ∀ nab : NabV Xo c, IsNab Xo c nab → ∀ (e : ℕ) (ρ : ℝ) (w : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), 0 < e → ChBound C e ρ w n → ∀ (ℓ : ℕ), ℓ.Prime → ¬ IsUnit (ℓ : T.V) → ∀ (Λ : GenLat E n) (N M : ℕ), Λ.Unimod → Λ.LevOK N M → ∀ P : MvPolynomial (LtN Dw n) c.F, P ∈ harmL c Λ w → ∀ (z : Fin (Λ.zCard N (Dw.p + Dw.q)) → Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G)) (tp : Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G)) (F : Fin (Λ.zCard N (Dw.p + Dw.q)) → Fin n → LB.Sec (LPow Xo.univ.t.G Xo.univ.t.PP.L ((N : ℤ) ^ 2) (ptO Xo (xOf y)))), (∀ i, InZh Xo Λ N (z i)) → GeoInj Xo (xOf y) z → (∀ b, tp b ^ (N ^ 2) = 1) → (∀ i b, IsUUOver Xo.univ.t.G Xo.univ.t.PP N (sOf1 y) (z i b) (tp b) (F i b)) → Λ.TrivAt ℓ → ∀ (n' A Bn j : ℕ) (α β₀ : 𝓞 E), Nat.Coprime n' ℓ → (N : 𝓞 E) = β₀ * α * n' → α * H.bar α = (A : 𝓞 E) → β₀ * H.bar β₀ = (Bn : 𝓞 E) → A * Bn = ℓ ^ j → (∀ b, (tp b ≫ Xo.univ.t.act.act β₀) ^ (n' ^ 2 * A) = 1) → letI := io.toAlgebra; ((-ρ : ℝ) : EReal) ≤ nval T.V e (io (nrm Dw c w α * (((Λ.mIdx N (Dw.p + Dw.q) : c.F))⁻¹ * ((N : c.F) ^ P.totalDegree)⁻¹)) * ∑ i, hv Xo c nab y.1 (N ^ 2) (fun b => sqN Xo N (F i b)) P) := by
-  intro E _ _ _ H Dw l Xo c _ hst T io y C hC nab hnab e ρ w n he hb ℓ hℓ hlu Λ N M hU hL P hP z tp F hz hg ht hF
-    htr n' A Bn j α β₀ hn' hfac hA hB hAB htp
-  letI := io.toAlgebra
-  have hN : Odd N := hL.1
-  obtain ⟨hfz, hm0, hT⟩ := _root_.GlobalTheory.TrivLattice.trivAt_units E H Dw l c n Λ N M ℓ hU hL hℓ htr
-  obtain ⟨-, hFF⟩ := hT T io hlu
-  obtain ⟨J, J', _, _, a, a', σ, -, haZ, ⟨m, hm, ha'⟩, hzs, hcard⟩ :=
-    GlobalTheory.T.isotropic_group_primary_decomposition E H Dw l Xo T.Fr (xOf y) n Λ N M ℓ hU hL hℓ z hz hg
-  have hlev : N ^ 2 = n' ^ 2 * ℓ ^ j := by
-    have h2 : (N : 𝓞 E) = H.bar β₀ * H.bar α * n' := by
-      have := congrArg H.bar hfac
-      simpa only [map_mul, map_natCast] using this
-    have h3 : ((N ^ 2 : ℕ) : 𝓞 E) = ((n' ^ 2 * (A * Bn) : ℕ) : 𝓞 E) := by
-      push_cast
-      rw [← hA, ← hB, sq]
-      nth_rewrite 1 [hfac]
-      rw [h2]; ring
-    rw [← hAB]
-    exact_mod_cast h3
-  have hUU : ∀ i i' b, IsUUOver Xo.univ.t.G Xo.univ.t.PP N (sOf1 y) (a' i' b) (tp b) (F (σ (i, i')) b) := by
-    intro i i' b
-    obtain ⟨hi, hi2⟩ := (haZ (a i)).1 ⟨i, rfl⟩
-    obtain ⟨k, hk⟩ := hi2 b
-    have h1 := hF (σ (i, i')) b
-    rw [hzs] at h1
-    exact isUUOver_of_mul Xo hN _ (a i b) (a' i' b) (tp b) (pow_eq_one_of_trivAt Xo htr hi b hk) (ha' i' b).2 (ht b)
-      (hm.pow_right k) hk (ha' i' b).1 _ h1
-  obtain ⟨i₀⟩ : Nonempty J := Fintype.card_pos_iff.1 (by rw [hcard]; exact pow_pos hℓ.pos _)
-  have hsum : ∑ i, hv Xo c nab y.1 (N ^ 2) (fun b => sqN Xo N (F i b)) P =
-      (Fintype.card J : T.Fr) * ∑ i', hv Xo c nab y.1 (N ^ 2) (fun b => sqN Xo N (F (σ (i₀, i')) b)) P := by
-    rw [← σ.sum_comp, Fintype.sum_prod_type, ← nsmul_eq_mul, ← Finset.card_univ, ← Finset.sum_const]
-    refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun i' _ => ?_
-    congr 1
-    funext b
-    exact sqN_eq_of_isUUOver Xo hN _ _ _ (ha' i' b).2 (ht b) _ _ (hUU i i' b) (hUU i₀ i' b)
-  have hterm : ∀ i', ((-ρ : ℝ) : EReal) ≤ nval T.V e (io (nrm Dw c w α * ((N : c.F) ^ P.totalDegree)⁻¹) *
-      hv Xo c nab y.1 (N ^ 2) (fun b => sqN Xo N (F (σ (i₀, i')) b)) P) := fun i' => by
-    refine _root_.GlobalTheory.PlaceInt.TermBound.term_bound E H Dw l Xo c hst T io y C hC nab hnab e ρ w n he hb N n' A Bn α β₀ hN hfac hA hB
-      (isUnit_of_coprime T hn' hlu) (a' i') tp _ (fun b => ⟨(ha' i' b).2, ht b, ?_, htp b, hUU i₀ i' b⟩) P hP.1
-      (hFF w P hP)
-    have h1 : (a' i' b ^ (n' ^ 2)) ^ m = 1 := by rw [← pow_mul, _root_.mul_comm, pow_mul, (ha' i' b).1, one_pow]
-    have h2 : (a' i' b ^ (n' ^ 2)) ^ (ℓ ^ j) = 1 := by rw [← pow_mul, ← hlev, (ha' i' b).2]
-    have h3 := pow_gcd_eq_one.2 ⟨h1, h2⟩
-    rw [(hm.pow_right j).gcd_eq_one, pow_one] at h3
-    have := Xo.univ.t.act.hom (α * β₀)
-    rw [← MonObj.pow_comp, h3, MonObj.one_comp]
-  obtain ⟨m', hm'c, hm'⟩ : ∃ m' : ℕ, Nat.Coprime m' ℓ ∧ Λ.mIdx N (Dw.p + Dw.q) = Fintype.card J * m' :=
-    ⟨_, (Nat.coprime_ordCompl hℓ hm0).symm, by rw [hcard, hfz, Nat.ordProj_mul_ordCompl_eq_self]⟩
-  have hm'u := isUnit_of_coprime T hm'c hlu
-  haveI : CharZero T.Fr := algebraRat.charZero _
-  have hm'0 : (m' : T.Fr) ≠ 0 := by
-    have : m' ≠ 0 := by rintro rfl; simp at hm'u
-    exact_mod_cast this
-  have hJ0 : (Fintype.card J : T.Fr) ≠ 0 := by
-    have : Fintype.card J ≠ 0 := by rw [hcard]; exact (pow_pos hℓ.pos _).ne'
-    exact_mod_cast this
-  have hre : ∀ s : T.Fr, io (nrm Dw c w α * (((Λ.mIdx N (Dw.p + Dw.q) : c.F))⁻¹ * ((N : c.F) ^ P.totalDegree)⁻¹)) *
-      ((Fintype.card J : T.Fr) * s) =
-      ((m' : T.Fr)⁻¹ * (io (nrm Dw c w α * ((N : c.F) ^ P.totalDegree)⁻¹) * s)) := fun s => by
-    rw [hm']
-    simp only [map_mul, map_inv₀, map_natCast, Nat.cast_mul]
-    generalize (io ((N : c.F) ^ P.totalDegree))⁻¹ = q
-    field_simp
-  rw [hsum, hre,
-    nval_mul_unit e (inv_ne_zero hm'0) (vV_inv_eq_zero T (vV_natCast T hm'u)), Finset.mul_sum]
-  exact le_nval_sum T _ e _ _ fun i' _ => hterm i'
+theorem bound_of_trivAt : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) [StarRing (𝓞 E)], (∀ a : 𝓞 E, star a = H.bar a) → ∀ (T : CDVR) (io : c.F →+* T.Fr) (y : IntFr Xo c T io) (C : IntegralChartA3 Xo c T io y), Good3 C → ∀ nab : NabV Xo c, IsNab Xo c nab → ∀ (e : ℕ) (ρ : ℝ) (w : (E →+* ℂ) × ℕ → ℕ) (n : ℕ), 0 < e → ChBound C e ρ w n → ∀ (ℓ : ℕ), ℓ.Prime → ¬ IsUnit (ℓ : T.V) → ∀ (Λ : GenLat E n) (N M : ℕ), Λ.Unimod → Λ.LevOK N M → ∀ P : MvPolynomial (LtN Dw n) c.F, P ∈ harmL c Λ w → ∀ (z : Fin (Λ.zCard N (Dw.p + Dw.q)) → Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G)) (tp : Fin n → (ptO Xo (xOf y) ⟶ Xo.univ.t.G)) (F : Fin (Λ.zCard N (Dw.p + Dw.q)) → Fin n → LB.Sec (LPow Xo.univ.t.G Xo.univ.t.PP.L ((N : ℤ) ^ 2) (ptO Xo (xOf y)))), (∀ i, InZh Xo Λ N (z i)) → GeoInj Xo (xOf y) z → (∀ b, tp b ^ (N ^ 2) = 1) → (∀ i b, IsUUOver Xo.univ.t.G Xo.univ.t.PP N (sOf1 y) (z i b) (tp b) (F i b)) → Λ.TrivAt ℓ → ∀ (n' A Bn j : ℕ) (α β₀ : 𝓞 E), Nat.Coprime n' ℓ → (N : 𝓞 E) = β₀ * α * n' → α * H.bar α = (A : 𝓞 E) → β₀ * H.bar β₀ = (Bn : 𝓞 E) → A * Bn = ℓ ^ j → (∀ b, (tp b ≫ Xo.univ.t.act.act β₀) ^ (n' ^ 2 * A) = 1) → letI := io.toAlgebra; ((-ρ : ℝ) : EReal) ≤ nval T.V e (io (nrm Dw c w α * (((Λ.mIdx N (Dw.p + Dw.q) : c.F))⁻¹ * ((N : c.F) ^ P.totalDegree)⁻¹)) * ∑ i, hv Xo c nab y.1 (N ^ 2) (fun b => sqN Xo N (F i b)) P) :=
+  @_root_.GlobalTheory.IntCuspLat.sum_bound_of_trivAt
 
 end Triv
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdmissibleClassesPropsOfFlatCoefficient
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NotFullBot
 public import Formalism.SharpRestriction.LevelLetterCocycles.DeltaInvariantLattices
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ZlTowerGen
@@ -1229,16 +1230,7 @@ theorem smul_coboundary {Qp LL V B : Type} [Field Qp] [Field LL] [Algebra Qp LL]
 variable {l : ℕ} [Fact l.Prime]
 
 theorem not_isUnit_l (P : LocPrime l) (LL : FinExt l) : ¬ IsUnit ((l : ℕ) : ↥(OL LL)) := by
-  intro hu
-  obtain ⟨u, hu⟩ := hu.exists_right_inv
-  have h1 : ((l : ℕ) : ↥LL.1) * (u : ↥LL.1) = 1 := by
-    have := congrArg (algebraMap ↥(OL LL) ↥LL.1) hu
-    rwa [map_mul, map_natCast, map_one] at this
-  have h2 := congrArg (P.v LL) h1
-  rw [AddValuation.map_mul, AddValuation.map_one, P.v_l] at h2
-  have h3 : 0 ≤ P.v LL (u : ↥LL.1) := (P.v_O LL _).2 u.2
-  have h4 : (1 : WithTop ℚ) ≤ 0 := h2 ▸ le_add_of_nonneg_right h3
-  exact absurd h4 (by simp)
+  apply _root_.GlobalTheory.AdmClasses.not_isUnit_integers <;> assumption
 
 theorem continuous_incl {K E : FinExt l} (hle : K.1 ≤ E.1) :
     Continuous (Subgroup.inclusion (GK_le hle)) :=

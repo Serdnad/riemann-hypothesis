@@ -54,6 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MatrixCongruentOneModUniformizerPowGroupAndOrbit
 
 @[expose] public section
 
@@ -162,17 +163,7 @@ theorem isHerm_iff (L : LocE F E) {m : ℕ} (X : Matrix (Fin m) (Fin m) E) :
 
 theorem mem_hermLat_iff (L : LocE F E) (m : ℕ) (X : Matrix (Fin m) (Fin m) E) :
     X ∈ hermLat L m ↔ IsHerm L X ∧ IsIntM L X := by
-  refine ⟨fun h => ?_, fun h => AddSubgroup.subset_closure h⟩
-  induction h using AddSubgroup.closure_induction with
-  | mem x hx => exact hx
-  | zero => exact ⟨(isHerm_iff L _).2 (by simp), fun i j => L.O.zero_mem⟩
-  | add x y _ _ hx hy =>
-    refine ⟨(isHerm_iff L _).2 fun i j => ?_, fun i j => L.O.add_mem (hx.2 i j) (hy.2 i j)⟩
-    rw [Matrix.add_apply, Matrix.add_apply, map_add (f := _), (isHerm_iff L _).1 hx.1,
-      (isHerm_iff L _).1 hy.1]
-  | neg x _ hx =>
-    refine ⟨(isHerm_iff L _).2 fun i j => ?_, fun i j => L.O.neg_mem (hx.2 i j)⟩
-    rw [Matrix.neg_apply, Matrix.neg_apply, map_neg, (isHerm_iff L _).1 hx.1]
+  apply _root_.GlobalTheory.CongGrp.mem_hermLat <;> assumption
 
 theorem cT_mul (L : LocE F E) {m : ℕ} (X Y : Matrix (Fin m) (Fin m) E) :
     cT L (X * Y) = cT L Y * cT L X := by

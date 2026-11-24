@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.ContOfRightInv
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GL4GeometricSide.InnerEq
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsNormalisedThetaSub
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EopWMemStabAlg
@@ -58,13 +59,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 
 private theorem along_unitary (w : InfinitePlace E) (g : GA E n) (φ : GA E n → ℂ) (k : Un n) :
     Bridge.along w g φ k.1 = φ (g * kAt w k) := by
-  classical
-  have e : Bridge.atW (E := E) w k.1 = toL (locInf w (Unitary.toUnits k)).val := by
-    funext i j v
-    rw [Bridge.atW]
-    exact (locInf_apply w (Unitary.toUnits k) i j v).symm
-  rw [Bridge.along, e, chart_val]
-  rfl
+  apply _root_.UpperTheory.V.Z.GSp4Splitting.along_unit <;> assumption
 
 private theorem eop_theta (w : InfinitePlace E) (a b : Fin n) {φ φ' : Sm E n}
     (h : ∀ x, φ'.1 x = φ.1 (thetaA E n x)) (x : GA E n) :
@@ -97,24 +92,6 @@ private theorem eop_theta (w : InfinitePlace E) (a b : Fin n) {φ φ' : Sm E n}
     ga_ext (by rw [thetaA, map_thetaR _ _ _ GlobalTheory.ThetaPull.pInf_conjAd, pInf_finGL, pInf_finGL, map_one])
       (by rw [pFin_finGL]; rfl)
 
-  have thetaA_kAt (w : InfinitePlace E) (c : UU n) : thetaA E n (kAt w c) = kAt w c := by
-    classical
-    have e : kAt w c = infGL E n (locInf w (Unitary.toUnits c)) := rfl
-    rw [e, thetaA_infGL]
-    congr 1
-    refine Units.ext ?_
-    ext i j v
-    rw [thetaR_val, ← map_inv, ← map_inv]
-    change star ((locInf w (Unitary.toUnits c)⁻¹ : GL (Fin n) (Cinf E)).val j i v) = _
-    rw [locInf_apply, locInf_apply]
-    by_cases hv : v = w
-    · simp only [hv, if_true]
-      change star ((star c.1 : Matrix (Fin n) (Fin n) ℂ) j i) = c.1 i j
-      simp [Matrix.star_apply]
-    · simp only [hv, if_false]
-      by_cases hij : i = j
-      · subst hij; simp
-      · simp [Matrix.one_apply_ne hij, Matrix.one_apply_ne (Ne.symm hij)]
 
   have toL_thetaR (y : GL (Fin n) (Cinf E)) :
       toL (thetaR (starRingEnd (Cinf E)) n y).val = adjH (GlobalTheory.ThetaPull.invL (toL y.val)) := by

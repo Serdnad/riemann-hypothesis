@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasCompactSupportDescend
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsCuspSpaceBot
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.Topology.Instances.Matrix
@@ -1260,19 +1261,7 @@ theorem exists_scale (X : Finset k) :
       _ = 1 := one_mul 1
 
 theorem isClosed_unipB : IsClosed (unipB k (Fin m) : Set (GL (Fin m) k)) := by
-  obtain ⟨_, _⟩ := GlobalTheory.SplitWeil.Model.secondCountable_and_t2_local_field (k := k)
-  have hc : ∀ i j : Fin m, Continuous fun g : GL (Fin m) k => (g : Matrix (Fin m) (Fin m) k) i j :=
-    fun i j => (Units.continuous_val (M := Matrix (Fin m) (Fin m) k)).matrix_elem i j
-  have e : (unipB k (Fin m) : Set (GL (Fin m) k)) =
-      (⋂ i : Fin m, ⋂ j : Fin m, {g : GL (Fin m) k | j < i → (g : Matrix (Fin m) (Fin m) k) i j = 0}) ∩
-        ⋂ i : Fin m, {g : GL (Fin m) k | (g : Matrix (Fin m) (Fin m) k) i i = 1} := by
-    ext g
-    simp only [SetLike.mem_coe, mem_unipB, Set.mem_inter_iff, Set.mem_iInter, Set.mem_setOf_eq]
-  rw [e]
-  refine (isClosed_iInter fun i => isClosed_iInter fun j => ?_).inter (isClosed_iInter fun i => isClosed_eq (hc i i) continuous_const)
-  by_cases hji : j < i
-  · simpa [hji] using isClosed_eq (hc i j) continuous_const
-  · simp [hji]
+  apply @GlobalTheory.LocLanglands.InvInt.isClosed_unipB <;> assumption
 
 theorem diag_conj_apply (t : Fin m → kˣ) (g : GL (Fin m) k) (i j : Fin m) :
     ((diagT k (Fin m) t * g * (diagT k (Fin m) t)⁻¹ : GL (Fin m) k) : Matrix (Fin m) (Fin m) k) i j =

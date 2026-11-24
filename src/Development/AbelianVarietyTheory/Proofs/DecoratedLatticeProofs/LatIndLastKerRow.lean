@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GluedLatticeFiniteExpansionsLocalFieldStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -176,19 +177,8 @@ theorem latInd_lastKer (ΛA : Submodule 𝒪[k] (n' → k)) (ΛT : Submodule �
 
 theorem latInd_lastKer_row (ΛA : Submodule 𝒪[k] (n' → k)) (ΛT : Submodule 𝒪[k] (n → k)) :
     latInd ΛT (lastKer ΛA) = tensRow (latInd ΛT ΛA) (dualInd ΛT) := by
-  classical
-  funext x
-  have key : (∀ y ∈ ΛT, x *ᵥ y ∈ lastKer ΛA) ↔
-      (∀ y ∈ ΛT, x.submatrix Sum.inl id *ᵥ y ∈ ΛA) ∧ InDual ΛT (x (Sum.inr 0)) := by
-    simp only [GlobalTheory.IndefiniteRowSideFullHecke.AppendedVectorData.mem_lastKer, InDual]
-    exact ⟨fun h => ⟨fun y hy => (h y hy).1, fun y hy => (h y hy).2⟩, fun h y hy => ⟨h.1 y hy, h.2 y hy⟩⟩
-  simp only [latInd, tensRow, dualInd]
-  by_cases h : ∀ y ∈ ΛT, x *ᵥ y ∈ lastKer ΛA
-  · rw [if_pos h, if_pos (key.1 h).1, if_pos (key.1 h).2, mul_one]
-  · rw [if_neg h]
-    by_cases h1 : ∀ y ∈ ΛT, x.submatrix Sum.inl id *ᵥ y ∈ ΛA
-    · rw [if_pos h1, if_neg fun h2 => h (key.2 ⟨h1, h2⟩), mul_zero]
-    · rw [if_neg h1, zero_mul]
+  intros
+  apply _root_.GlobalTheory.GluedExp.last_ker <;> assumption
 
 end Lat
 

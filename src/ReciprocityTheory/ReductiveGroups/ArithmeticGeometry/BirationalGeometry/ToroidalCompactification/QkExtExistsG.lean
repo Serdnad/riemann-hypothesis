@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.UwRQeIsNsmul
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ExistsGenVal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.QkExtExistsSt
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
@@ -25,16 +26,7 @@ theorem good_pt {F : Type} [Field F] {X : Scheme.{0}} {M : LB X} (hM : M.IsLB) (
   exact ⟨I, hI⟩
 
 theorem qkExtExists_g : QkExtExistsSt := by
-  intro R _ _ D F F' _ _ _ _ f hf k p
-  have hj : spMap f ≫ jFK (R := R) F = jFK (R := R) F' := (spMap_comp _ _).symm.trans (congrArg spMap (RingHom.ext hf))
-  let ρ : TF (R := R) F' ⟶ TF (R := R) F := Over.homMk (spMap f) ((Category.assoc _ _ _).symm.trans (congrArg (· ≫ _) hj))
-  obtain ⟨J, hJ⟩ := good_pt D.P.isLB (default : PrimeSpectrum F')
-  obtain ⟨q, hy, hb, hv⟩ := exists_qk (F := F') hJ (n := k) p.y (ρ ≫ p.g.b) _ (mult_gx ρ hJ p.g) fun χ =>
-    (gx_qk ρ hJ p χ).trans (Ex.ext rfl (congrArg (fun q => val (D.tau p.y χ) q _ J) (hj.trans (Category.id_comp _).symm)))
-  refine ⟨q, hy, congrArg (fun q => q.left) hb, fun χ => corr_pt D.P.isLB (fun U _ h => ?_) (q.g.isGen χ)
-    (pullGen_isGen _ _ _ _ (p.g.isGen χ) _) hJ ((hv χ).trans ((val_pull hJ _ _ _).trans (by rw [Category.id_comp]; rfl)).symm)⟩
-  refine (prod_gt _ χ h).trans (Eq.trans ?_ (prod_gt p.g.b χ fun q => h (ρ.left ≫ q)).symm)
-  simp only [← Over.comp_left, MonObj.comp_mul, comp_cP, MonObj.comp_one, hb]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.qkExtExists <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {D : Datum H} {l : Level H} {c : Coeff l}
   {k : Type} [Field k] {bF : c.F →+* k} (a : ArcIn D l (RingHom.id c.F) k bF) {F : Type} [Field F] [IsAlgClosed F]

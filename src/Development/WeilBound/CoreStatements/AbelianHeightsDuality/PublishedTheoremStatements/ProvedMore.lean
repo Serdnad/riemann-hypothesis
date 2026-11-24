@@ -1270,28 +1270,8 @@ open NormedSpace Set MeasureTheory Filter
 
 variable {𝔸 : Type} [NormedRing 𝔸] [NormedAlgebra ℝ 𝔸] [CompleteSpace 𝔸] [FiniteDimensional ℝ 𝔸]
 
-theorem exists_lie (H : Subgroup 𝔸ˣ) (hH : IsClosed (H : Set 𝔸ˣ)) : ∃ 𝔤 : Submodule ℝ 𝔸, IsExpLieAlgebra H 𝔤 := by
-  let M : Submonoid 𝔸 := (H.toSubmonoid.map (Units.coeHom 𝔸)).topologicalClosure
-  have hc : IsClosed (M : Set 𝔸) := isClosed_closure
-  have hsub : ∀ u ∈ H, (u : 𝔸) ∈ (M : Set 𝔸) := fun u hu => subset_closure ⟨u, hu, rfl⟩
-  have hcl : ∀ u : 𝔸ˣ, (u : 𝔸) ∈ (M : Set 𝔸) → u ∈ H := fun u hu => by
-    have : u ∈ closure (H : Set 𝔸ˣ) := by
-      rw [Units.isOpenEmbedding_val.isInducing.closure_eq_preimage_closure_image]
-      exact hu
-    rwa [hH.closure_eq] at this
-  have hm : ∀ a ∈ (M : Set 𝔸), ∀ b ∈ (M : Set 𝔸), a * b ∈ (M : Set 𝔸) := fun a ha b hb => M.mul_mem ha hb
-  have hi : ∀ Z : 𝔸, exp Z ∈ (M : Set 𝔸) → exp (-Z) ∈ (M : Set 𝔸) := fun Z hZ =>
-    hsub _ (H.inv_mem (hcl (expUnit ℝ 𝔸 Z) hZ))
-  refine ⟨GlobalTheory.ClosedMatGroup.lieSub M hc M.one_mem hm, fun X hX => hcl _ (by simpa using hX 1), ?_⟩
-  have hs := (expPartialHomeomorph ℝ 𝔸).open_source.mem_nhds (zero_mem_expPartialHomeomorph_source ℝ 𝔸)
-  have h1 := GlobalTheory.ClosedMatGroup.eventually_exists_exp hc M.one_mem hm hi hs
-  have h2 : Tendsto (exp : 𝔸 → 𝔸) (𝓝 0) (𝓝 1) := by
-    simpa using (contDiff_exp ℝ 𝔸 (n := 0)).continuous.tendsto 0
-  obtain ⟨U, hU, hUo, h0⟩ := mem_nhds_iff.1 ((h2.eventually h1).and hs)
-  refine ⟨U, hUo, h0, fun X hX => (hU hX).2, fun X hX hG => ?_⟩
-  obtain ⟨Y, hY, hY', e⟩ := (hU hX).1 (hsub _ hG)
-  obtain rfl : Y = X := (expPartialHomeomorph ℝ 𝔸).injOn hY (hU hX).2 e
-  exact hY'
+theorem exists_lie (H : Subgroup 𝔸ˣ) (hH : IsClosed (H : Set 𝔸ˣ)) : ∃ 𝔤 : Submodule ℝ 𝔸, IsExpLieAlgebra H 𝔤 :=
+  _root_.CompanionTheory.DM.exists_lie H hH
 
 theorem mem_ccSmooth_iff {H : Subgroup 𝔸ˣ} {𝔤 : Submodule ℝ 𝔸} (h : IsExpLieAlgebra H 𝔤) (f : H → ℂ) :
     f ∈ CcSmooth (fun x : H => ((x : 𝔸ˣ) : 𝔸)) ↔

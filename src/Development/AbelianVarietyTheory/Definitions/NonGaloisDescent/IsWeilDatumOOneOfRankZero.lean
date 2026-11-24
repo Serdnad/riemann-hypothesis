@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.MeasureExistence.ExistsMeas
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LengthPosOfPosDef
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFundamentalDomain
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnramifiedHeckeCharHalfExponentRestrictQua
@@ -171,16 +172,7 @@ theorem lagTerm_one_one (μ : Measure (WO V W)) (𝓕 : Set (WO V W)) (f₁ f₂
 
 theorem exists_haar_fundDomain (V : HSp D) :
     ∃ (ν : Measure (GA D V)) (𝓖 : Set (GA D V)), ν.IsHaarMeasure ∧ IsFundamentalDomain (GQ V) 𝓖 ν := by
-  have := (GlobalTheory.MemberAdelicTop.locallyCompact_secondCountable_t2 D V).1
-  have : BorelSpace (GA D V) := ⟨rfl⟩
-  have : IsModuleTopology (AF D.host.F) (AF D.host.F ⊗[D.host.F] D.host.E) := ⟨rfl⟩
-  have : Module.Finite D.host.F D.host.E := Module.Finite.of_restrictScalars_finite ℚ _ _
-  have : IsTopologicalRing (AF D.host.F ⊗[D.host.F] D.host.E) :=
-    IsModuleTopology.isTopologicalRing (AF D.host.F) _
-  have : IsTopologicalGroup (GA D V) :=
-    inferInstanceAs (IsTopologicalGroup (HR (AF D.host.F) D.sp.cm.sig V.gram))
-  obtain ⟨𝓖, h⟩ := GlobalTheory.FundDomDiscrete.exists_fundDom D V Measure.haar inferInstance
-  exact ⟨Measure.haar, 𝓖, inferInstance, h⟩
+  first | exact _root_.PositivityTheory.MatrixIdentityOffBase.exists_meas | exact @_root_.PositivityTheory.MatrixIdentityOffBase.exists_meas | apply _root_.PositivityTheory.MatrixIdentityOffBase.exists_meas <;> assumption
 
 theorem exists_hecke_resEta (D : D7) (n : ℕ) : ∃ χ : (AE D)ˣ →* Circle, IsHeckeChar D χ ∧ ResEta D χ n := by
   obtain ⟨η, h1, -, h3, -⟩ := GlobalTheory.Mem.EtaTilde.exists_etaTilde D

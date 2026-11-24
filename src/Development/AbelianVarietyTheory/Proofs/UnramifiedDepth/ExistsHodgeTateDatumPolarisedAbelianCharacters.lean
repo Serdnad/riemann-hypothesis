@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GrpPullbackSquareProductLift
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.IsEigBasisIff
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AbelianFunctorNilChartOfNilpotentChartStatement
@@ -305,26 +306,8 @@ private theorem exists_mulEquiv {B B' : Scheme.{0}} {G : Over B} [GrpObj G] {G' 
     {f : B' ⟶ B} {π : G'.left ⟶ G.left} (h : Geo.Tor.IsGrpPullback G' G f π) {Y : Scheme.{0}}
     (t' : Y ⟶ B') (t : Y ⟶ B) (ht : t = t' ≫ f) :
     ∃ e : (Over.mk t' ⟶ G') ≃* (Over.mk t ⟶ G), ∀ z, (e z).left = z.left ≫ π := by
-  subst ht
-  let m : (Over.mk t' ⟶ G') → (Over.mk (t' ≫ f) ⟶ G) := fun z =>
-    Over.homMk (z.left ≫ π) (by
-      have := Over.w z
-      simp only [Over.mk_hom] at this
-      simp only [Over.mk_hom, Category.assoc, h.1.w]
-      rw [← Category.assoc, this])
-  have hm : ∀ z, (m z).left = z.left ≫ π := fun _ => rfl
-  have hb : Function.Bijective m := by
-    refine ⟨fun z w hzw => ?_, fun y => ?_⟩
-    · apply Over.OverMorphism.ext
-      refine h.1.hom_ext ?_ ?_
-      · rw [← hm, ← hm, hzw]
-      · rw [Over.w z, Over.w w]
-    · refine ⟨Over.homMk (h.1.lift y.left t' (Over.w y)) (h.1.lift_snd _ _ _), ?_⟩
-      apply Over.OverMorphism.ext
-      exact h.1.lift_fst _ _ _
-  refine ⟨MulEquiv.mk (Equiv.ofBijective m hb) (fun z w => ?_), hm⟩
-  apply Over.OverMorphism.ext
-  exact (h.2 (Over.mk t') z w (m z) (m w) rfl rfl).symm
+  intros
+  apply _root_.GlobalTheory.adjPoints <;> assumption
 
 private abbrev resAlg {R R' : Type} [CommRing R] [CommRing R'] (β : R →+* R') (S : Type) [CommRing S]
     [Algebra R' S] : Algebra R S := ((algebraMap R' S).comp β).toAlgebra

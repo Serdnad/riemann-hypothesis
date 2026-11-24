@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.TwistingSheafOneChartEqPreimageStandardChart
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EEContainsStableWeightZero
 
 @[expose] public section
 
@@ -126,45 +127,7 @@ private theorem mem_span_range_iff_vecMul_inv_mem {o Ω : Type} [CommRing o] [Fi
     {J : Type} [Fintype J] [DecidableEq J]
     (R : Subalgebra o Ω) (b : Matrix J J Ω) (hb : b.det ≠ 0) (w : J → Ω) :
     w ∈ Submodule.span R (Set.range b) ↔ ∀ k, Matrix.vecMul w b⁻¹ k ∈ R := by
-  have hu : IsUnit b.det := isUnit_iff_ne_zero.mpr hb
-  constructor
-  · intro hw
-    induction hw using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨r, rfl⟩ := hx
-      intro k
-      have hrow : Matrix.vecMul (b r) b⁻¹ = Pi.single r 1 := by
-        funext j
-        have h1 := congrFun (congrFun (Matrix.mul_nonsing_inv b hu) r) j
-        rw [Matrix.mul_apply] at h1
-        simp only [Matrix.vecMul, dotProduct]
-        rw [h1, Matrix.one_apply]
-        by_cases hrj : r = j
-        · subst hrj; simp
-        · simp [hrj, Ne.symm hrj]
-      rw [hrow]
-      by_cases hkr : k = r
-      · subst hkr; simp [R.one_mem]
-      · simp [hkr, R.zero_mem]
-    | zero => intro k; simp [R.zero_mem]
-    | add x y _ _ hx hy =>
-      intro k
-      rw [Matrix.add_vecMul]
-      exact R.add_mem (hx k) (hy k)
-    | smul c x _ hx =>
-      intro k
-      have hsm : Matrix.vecMul (c • x) b⁻¹ = (c : Ω) • Matrix.vecMul x b⁻¹ := by
-        rw [← Matrix.smul_vecMul]; rfl
-      rw [hsm, Pi.smul_apply, smul_eq_mul]
-      exact R.mul_mem c.2 (hx k)
-  · intro hc
-    have hw : w = Matrix.vecMul (Matrix.vecMul w b⁻¹) b := by
-      rw [Matrix.vecMul_vecMul, Matrix.nonsing_inv_mul b hu, Matrix.vecMul_one]
-    rw [hw, Matrix.vecMul_eq_sum]
-    refine Submodule.sum_mem _ (fun k _ => ?_)
-    have hsm : Matrix.vecMul w b⁻¹ k • b k = (⟨_, hc k⟩ : R) • b k := rfl
-    rw [hsm]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨k, rfl⟩)
+  apply _root_.GlobalTheory.ZH.mem_span_rows_iff_coords_mem <;> assumption
 
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry in

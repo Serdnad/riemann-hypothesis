@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.WtAddSingle
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FockSubstitutionIdentities
 public import Formalism.LocalRingCardinality.FactDelDualNabla
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
 public import Formalism.SharpRestriction.GlobalSchurBounds.GL3Columns
@@ -180,18 +182,8 @@ theorem fpair_C (r : K) (F : MvPowerSeries σ K) :
 theorem prod_factorial_add_single [Fintype σ] [DecidableEq σ] (α : σ →₀ ℕ) (j : σ) :
     ((α + Finsupp.single j 1).prod fun _ n => (n.factorial : K)) =
       (α.prod fun _ n => (n.factorial : K)) * ((α j : K) + 1) := by
-  rw [Finsupp.prod_fintype _ _ (fun _ => by simp), Finsupp.prod_fintype _ _ (fun _ => by simp)]
-  have h : ∀ i, ((((α + Finsupp.single j 1 : σ →₀ ℕ) i).factorial : ℕ) : K) =
-      ((α i).factorial : K) * (if i = j then (α j : K) + 1 else 1) := by
-    intro i
-    by_cases hi : i = j
-    · subst hi
-      simp [Nat.factorial_succ]
-      ring
-    · simp [hi]
-  simp_rw [h]
-  rw [Finset.prod_mul_distrib, Finset.prod_ite_eq']
-  simp
+  intros
+  apply _root_.GlobalTheory.DetPowPairing.wt_add_single <;> assumption
 
 theorem fpair_mul_X [Fintype σ] [DecidableEq σ] (Q : MvPolynomial σ K) (j : σ) (F : MvPowerSeries σ K) :
     fpair (Q * MvPolynomial.X j) F = fpair Q (MvPowerSeries.pderiv (R := K) j F) := by
@@ -320,15 +312,7 @@ theorem sum_sel {T K : Type} [Fintype T] [AddCommMonoid K] {N1 N0 : ℕ} (τ : T
 theorem sum4 {A B C E M : Type} [Fintype A] [Fintype B] [Fintype C] [Fintype E] [AddCommMonoid M]
     (f : A → B → C → E → M) :
     ∑ a, ∑ b, ∑ c, ∑ e, f a b c e = ∑ c, ∑ e, ∑ b, ∑ a, f a b c e := by
-  calc ∑ a, ∑ b, ∑ c, ∑ e, f a b c e = ∑ a, ∑ c, ∑ e, ∑ b, f a b c e := by
-        refine Finset.sum_congr rfl fun a _ => ?_
-        rw [Finset.sum_comm]
-        exact Finset.sum_congr rfl fun c _ => Finset.sum_comm
-    _ = ∑ c, ∑ e, ∑ a, ∑ b, f a b c e := by
-        rw [Finset.sum_comm]
-        exact Finset.sum_congr rfl fun c _ => Finset.sum_comm
-    _ = ∑ c, ∑ e, ∑ b, ∑ a, f a b c e :=
-        Finset.sum_congr rfl fun c _ => Finset.sum_congr rfl fun e _ => Finset.sum_comm
+  apply _root_.GlobalTheory.KJInf.sum_four_fintype_permute <;> assumption
 
 theorem jetMap_frame_eq_applyQ : ∀ (D : D7) {p : ℕ} [Fact p.Prime] (N0 N1 : ℕ) (hN : N0 ≤ N1)
     (T : MvPowerSeries (D.what₂.Tau × Fin N1 × Fin N0) ℂ_[p]) (s : D.what₂.Tau → ℂ_[p])

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicSchwartzFixedBySchroedingerOpenFiniteSubgr
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SchwartzBruhatMixedFamilies
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RealSizeNonneg
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ModerateGrowthSchwartz
@@ -72,23 +73,7 @@ variable {D : D7} {m n : ℕ}
 
 theorem eventually_invariant {M : Type} [AddCommGroup M] [TopologicalSpace M] [IsTopologicalAddGroup M] {Φ : M → ℂ}
     (h1 : IsLocallyConstant Φ) (h2 : HasCompactSupport Φ) : ∀ᶠ u in 𝓝 (0 : M), ∀ x, Φ (x + u) = Φ x := by
-  have h : ∀ᶠ u in 𝓝 (0 : M), ∀ x ∈ tsupport Φ, Φ (x + u) = Φ x ∧ Φ (x - u) = Φ x := by
-    apply h2.isCompact.eventually_forall_of_forall_eventually
-    intro x _
-    have a1 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 + z.1 by fun_prop)).eventually_eq (0, x)
-    have a2 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 - z.1 by fun_prop)).eventually_eq (0, x)
-    have a3 := (h1.comp_continuous (show Continuous fun z : M × M => z.2 by fun_prop)).eventually_eq (0, x)
-    filter_upwards [a1, a2, a3] with z b1 b2 b3
-    simp only [Function.comp, add_zero, sub_zero] at b1 b2 b3
-    exact ⟨b1.trans b3.symm, b2.trans b3.symm⟩
-  filter_upwards [h] with u hu x
-  by_cases hx : x ∈ tsupport Φ
-  · exact (hu x hx).1
-  · by_cases hx' : x + u ∈ tsupport Φ
-    · have := (hu _ hx').2
-      rw [add_sub_cancel_right] at this
-      exact this.symm
-    · rw [image_eq_zero_of_notMem_tsupport hx, image_eq_zero_of_notMem_tsupport hx']
+  first | exact _root_.GlobalTheory.WeilLevel.eventually_invariant | exact @_root_.GlobalTheory.WeilLevel.eventually_invariant | apply _root_.GlobalTheory.WeilLevel.eventually_invariant <;> assumption
 
 def periods {M : Type} [AddCommGroup M] (Φ : M → ℂ) : AddSubgroup M where
   carrier := {u | ∀ x, Φ (x + u) = Φ x}

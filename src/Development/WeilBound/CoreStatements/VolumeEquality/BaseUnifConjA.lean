@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.ConjugateUniversalFamily
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.IsFundSet
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.PolBaseChangeOfRelAmpleLocal
@@ -48,6 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GramMatrixConjugation
 
 @[expose] public section
 
@@ -92,16 +94,7 @@ theorem extends_conj (M : LieModel G ξ E) {x x' : X} (hx : x = x') (h : genPt �
     ∃ v' : epsAt (X.fromSpecStalk x') ⟶ G, M.Extends ⟨x', h'⟩ e v' ∧
       Spec.map (CommRingCat.ofHom (dualMap φ'.hom)) ≫ v'.left =
         spMap (dualMap (starRingEnd ℂ)) ≫ Spec.map (CommRingCat.ofHom (dualMap φ.hom)) ≫ v.left := by
-  subst hx
-  refine ⟨v, hv, ?_⟩
-  have h1 : Spec.map φ' = Spec.map (φ ≫ CommRingCat.ofHom (starRingEnd ℂ)) := by
-    rw [← cancel_mono (X.fromSpecStalk x), H, Spec.map_comp, Category.assoc]
-  have h2 : φ' = φ ≫ CommRingCat.ofHom (starRingEnd ℂ) := Spec.map_injective h1
-  subst h2
-  have h3 : dualMap (φ ≫ CommRingCat.ofHom (starRingEnd ℂ)).hom =
-      (dualMap (starRingEnd ℂ)).comp (dualMap φ.hom) := dualMap_comp _ _
-  rw [h3, CommRingCat.ofHom_comp, Spec.map_comp]
-  exact Category.assoc _ _ _
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HodgeMetric.ConjPoint.extends_conj <;> assumption
 
 theorem eps_sq : spMap (dualMap (starRingEnd ℂ)) ≫ spMap (algebraMap ℂ (DualNumber ℂ)) =
     spMap (algebraMap ℂ (DualNumber ℂ)) ≫ spMap (starRingEnd ℂ) := by
@@ -188,15 +181,8 @@ theorem fibreLatVec_conj {X : Scheme.{0}} (t : SAB H X) (z : Sp ℂ ⟶ X) (R R'
 
 theorem eqvBy_conj {R₁ R₂ R₁' R₂' : RiemLat E g Λ} (h₁ : ∀ x, R₁'.P x = star (R₁.P x))
     (h₂ : ∀ x, R₂'.P x = star (R₂.P x)) {gm : Λ ≃ₗ[𝓞 E] Λ} (h : R₁.EqvBy R₂ gm) : R₁'.EqvBy R₂' gm := by
-  obtain ⟨k, hk⟩ := h
-  refine ⟨{ toFun := fun x => star (k (star x))
-            invFun := fun x => star (k.symm (star x))
-            map_add' := fun x y => by simp
-            map_smul' := fun a x => by simp
-            left_inv := fun x => by simp
-            right_inv := fun x => by simp }, fun x => ?_⟩
-  show R₂'.P (gm x) = star (k (star (R₁'.P x)))
-  rw [h₁, h₂, hk, star_star]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.ConjFam.eqvBy_conj <;> assumption
 
 theorem autGrp_neg (f : Λ →ₗ[ℤ] Λ →ₗ[ℤ] ℤ) : autGrp (E := E) (-f) = autGrp f := by
   ext gm

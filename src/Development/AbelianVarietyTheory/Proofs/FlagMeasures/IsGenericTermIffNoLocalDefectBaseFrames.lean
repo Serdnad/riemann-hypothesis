@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsTermLocalTermMoveOfIsometry
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GenericMassLeHeightPowMulGluedCountStatement
 public import Formalism.SharpRestriction.CuspSpanNormBounds.IsTermOver
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDatumEqOfSameLattice
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
@@ -107,24 +109,8 @@ variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
 
 lemma isTerm_move (H : HermSp M V) {g : V ≃ₗ[E] V} (hg : IsUnitary H g) {r : ℕ} {t : Term V M r}
     (ht : H.IsTerm t) : H.IsTerm (move g t) := by
-  have hg' : ∀ x y, H.h (g x) (g y) = H.h x y := hg
-  have hZ : H.Zhat (move g t).f (move g t).f' = H.Zhat t.f t.f' := by
-    ext a b; simp [HermSp.Zhat, move, hg']
-  obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
-  refine ⟨_root_.GlobalTheory.LocOver.TermOver.img_selfDual H hg h1, _root_.GlobalTheory.LocOver.TermOver.img_frame H hg h2, _root_.GlobalTheory.LocOver.TermOver.img_frame H hg h3, ?_, ?_, ?_⟩
-  · simpa [HermSp.Dl, hZ] using h4
-  · show H.Gdet (move g t).f (move g t).f' t.T t.T' ≠ 0
-    simpa [HermSp.Gdet, HermSp.Dl, hZ] using h5
-  · intro g0 hs
-    obtain ⟨hu, hc, hadm⟩ := h6 g0 hs
-    refine ⟨hu, hc, fun b => ?_⟩
-    have hb := hadm b
-    show g (t.f' b) - g (t.f b) ∈ H.smulLat _ (img g t.abelian₂)
-    rw [← map_sub]
-    have := Submodule.apply_mem_span_image_of_mem_span ((g : V →ₗ[E] V).restrictScalars M.L.O) hb
-    refine Submodule.span_mono ?_ this
-    rintro _ ⟨_, ⟨y, hy, rfl⟩, rfl⟩
-    exact ⟨g y, (_root_.GlobalTheory.LocOver.TermOver.mem_img g t.abelian₂ _).2 ⟨y, hy, rfl⟩, by simp⟩
+  intros
+  apply _root_.GlobalTheory.LocOver.MoveTerm.isTerm_move <;> assumption
 
 lemma mmfam_move (H : HermSp M V) (g : V ≃ₗ[E] V) {r : ℕ} (t : Term V M r) (i : Fin (r + 1) ⊕ Fin (r + 1)) :
     H.MMfam (move g t) i = g (H.MMfam t i) := by
@@ -201,34 +187,11 @@ lemma bbne_sign (H : HermSp M V) {r : ℕ} (t t' : Term V M r) (s s' : Fin (r + 
 
 lemma uni_mul {K : Type} [CommRing K] {n : ℕ} {A B : Matrix (Fin n) (Fin n) K} (hA : Uni A) (hB : Uni B) :
     Uni (A * B) := by
-  obtain ⟨hA0, hA1⟩ := hA
-  obtain ⟨hB0, hB1⟩ := hB
-  refine ⟨fun a b hba => ?_, fun a => ?_⟩
-  · rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun c _ => ?_
-    rcases lt_or_ge c a with hca | hac
-    · rw [hA0 a c hca, zero_mul]
-    · rw [hB0 c b (lt_of_lt_of_le hba hac), mul_zero]
-  · rw [Matrix.mul_apply, Finset.sum_eq_single a, hA1, hB1, one_mul]
-    · intro c _ hca
-      rcases lt_or_gt_of_ne hca with h | h
-      · rw [hA0 a c h, zero_mul]
-      · rw [hB0 c a h, mul_zero]
-    · intro h; exact absurd (Finset.mem_univ a) h
+  apply _root_.GlobalTheory.FrameChoice.uni_mul <;> assumption
 
 lemma tri_trans {K W : Type} [CommRing K] [AddCommGroup W] [Module K W] {n : ℕ} {f g h : Fin n → W}
     (h1 : Tri K f g) (h2 : Tri K g h) : Tri K f h := by
-  obtain ⟨A, hA, hfg⟩ := h1
-  obtain ⟨B, hB, hgh⟩ := h2
-  refine ⟨A * B, uni_mul hA hB, fun c => ?_⟩
-  have e1 : ∀ b, g b = ∑ a, A a b • f a := hfg
-  have e2 : h c = ∑ b, B b c • g b := hgh c
-  rw [e2]
-  simp_rw [e1, Finset.smul_sum, smul_smul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun a _ => ?_
-  rw [Matrix.mul_apply, Finset.sum_smul]
-  exact Finset.sum_congr rfl fun b _ => by rw [mul_comm]
+  apply _root_.GlobalTheory.GenMassBound.tri_trans <;> assumption
 
 lemma tri_map {K W : Type} [CommRing K] [AddCommGroup W] [Module K W] {n : ℕ} {f h : Fin n → W}
     (g : W ≃ₗ[K] W) (h1 : Tri K f h) : Tri K (fun a => g (f a)) (fun a => g (h a)) := by

@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationApplyOfWild
 
 @[expose] public section
 
@@ -50,27 +51,6 @@ open NumberField IsDedekindDomain Formalism Formalism.ConjugateSelfDual Reciproc
 
 namespace GlobalTheory.TameDesign
 open scoped Pointwise
-
-private theorem wild_mem_Ine {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω]
-    {A : ValuationSubring Ω} {σ : Formalism.ConjugateSelfDual.G E Ω}
-    (hσ : ∀ y : Ω, y ≠ 0 → A.valuation (σ y / y - 1) < 1) : σ ∈ Ine (F := E) A := by
-  have hv : ∀ y : Ω, A.valuation (σ y) = A.valuation y := by
-    intro y
-    rcases eq_or_ne y 0 with rfl | hy
-    · simp
-    have h := A.valuation.map_one_add_of_lt (hσ y hy)
-    rw [add_sub_cancel, map_div₀, div_eq_one_iff_eq (by simpa using hy)] at h
-    exact h
-  refine ⟨?_, fun x hx => ?_⟩
-  · show σ • A = A
-    ext x
-    rw [ValuationSubring.mem_pointwise_smul_iff_inv_smul_mem, AlgEquiv.smul_def,
-      ← A.valuation_le_one_iff, ← A.valuation_le_one_iff, ← hv, mul_inv_apply]
-  · rcases eq_or_ne x 0 with rfl | hx0
-    · simp
-    have e : σ x - x = (σ x / x - 1) * x := by field_simp
-    rw [e, map_mul]
-    exact lt_of_le_of_lt (mul_le_of_le_one_right' hx) (hσ x hx0)
 
 section General
 
@@ -123,7 +103,7 @@ theorem firstLocalChar_wild_eq_one_away_from_l (D : D7) (i : D.nd.Loc) (v : Heig
     (hvl : v ∉ placesOver D.host.E (D.nd.l i)) (σ : GE D.nd) (hσ : σ ∈ wildSet D.nd (D.nd.plOm.1 v)) :
     D.nd.chi i 1 σ = 1 := by
   have hA : IsPlaceOver (D.nd.plOm.1 v) v := D.nd.plOm.2 v
-  have hI : σ ∈ Ine (F := D.host.E) (D.nd.plOm.1 v) := wild_mem_Ine hσ
+  have hI : σ ∈ Ine (F := D.host.E) (D.nd.plOm.1 v) := _root_.GlobalTheory.TameCharUnique.mem_Ine_of_wild hσ
   have hvl' : v ∉ placesOver D.host.E (D.ntw.l (D.ntw.twOf i)) := by rwa [D.ntw.twOf_l]
 
   have hψ : D.ntw.psiL i σ = 1 := by

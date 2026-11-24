@@ -133,11 +133,9 @@ def pmat {K : Type} [Field K] [NumberField K] {a D : ℕ} (v : InfinitePlace K)
 theorem pairC_eq {K : Type} [Field K] [NumberField K] {a D : ℕ} (v : InfinitePlace K)
     (B : (Fin a → K) →ₗ[K] Module.Dual K (Fin D → K)) (x : Fin a → ℂ) (y : Fin D → ℂ) :
     pairC v B x y = y ⬝ᵥ (pmat v B).mulVec x := by
-  first
-    | simp only [pairC, pmat, dotProduct, Matrix.mulVec, Matrix.of_apply, Finset.mul_sum]
+  simp only [pairC, pmat, dotProduct, Matrix.mulVec, Matrix.of_apply, Finset.mul_sum]
   rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun i _ => ?_
-  ring
+  exact Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
 
 theorem toMatrix_dual {K : Type} [Field K] [NumberField K] {a D : ℕ} (v : InfinitePlace K)
     (B : (Fin a → K) →ₗ[K] Module.Dual K (Fin D → K)) :
@@ -173,41 +171,23 @@ end OperatorNormFrames
 
 open OperatorNormFrames
 
-theorem frobenius_norm_rational : FnormRat := by
-  unfold FnormRat
-  intro K _ _ _ n X v x y
-  have hx : (fun i => v.embedding (x i)) = Formalism.HermitianLatticesTheory.vecAt (Pi.basisFun K (Fin n)) v x := by
-    funext i
-    show v.embedding (x i) = v.embedding ((Pi.basisFun K (Fin n)).repr x i)
-    rw [Pi.basisFun_repr]
-  have hy : (fun i => v.embedding (y i)) = Formalism.HermitianLatticesTheory.vecAt (Pi.basisFun K (Fin n)) v y := by
-    funext i
-    show v.embedding (y i) = v.embedding ((Pi.basisFun K (Fin n)).repr y i)
-    rw [Pi.basisFun_repr]
-  refine ⟨?_, ?_, ?_⟩
-  · simp only [fnorm, Formalism.HermitianLatticesTheory.normAt, Formalism.HermitianLatticesTheory.fcoord]
-    rw [hx]
-  · simp only [fmaj, Formalism.HermitianLatticesTheory.majAt, Formalism.HermitianLatticesTheory.fcoord]
-    rw [hx, hy]
-  · simp only [fnorm, fmaj]
-    rw [← star_dot_self]
-    rfl
+theorem frobenius_norm_rational : FnormRat := fun K _ _ _ n X v x y => by
+  have hv (z : Fin n → K) : (fun i => v.embedding (z i)) =
+      Formalism.HermitianLatticesTheory.vecAt (Pi.basisFun K (Fin n)) v z := by
+    ext i; simp [Formalism.HermitianLatticesTheory.vecAt]
+  exact ⟨by simp [fnorm, Formalism.HermitianLatticesTheory.normAt,
+      Formalism.HermitianLatticesTheory.fcoord, hv],
+    by simp [fmaj, Formalism.HermitianLatticesTheory.majAt,
+      Formalism.HermitianLatticesTheory.fcoord, hv],
+    (star_dot_self _).symm⟩
 
-theorem operator_norm_dual : OpNormDual := by
-  unfold OpNormDual
-  intro K _ _ _ a D XM XE hM hE B v c hc
+theorem operator_norm_dual : OpNormDual := fun K _ _ _ a D XM XE hM hE B v c hc => by
   rw [opNormAt_dual_eq XM XE hE B v, opNorm_le_iff _ c hc]
-  constructor
-  · intro h x y
-    have h1 := h ((XM v)⁻¹.mulVec x) ((XE v)⁻¹.mulVec y)
-    rw [dot_frames, mul_inv_mulVec _ (hE v), mul_inv_mulVec _ (hM v)] at h1
-    rw [pairC_eq]
-    exact h1
-  · intro h x y
-    have h1 := h ((XM v).mulVec x) ((XE v).mulVec y)
-    rw [pairC_eq] at h1
-    rw [dot_frames]
-    simpa only [fnorm, inv_mul_mulVec _ (hM v), inv_mul_mulVec _ (hE v)] using h1
+  refine ⟨fun h x y => ?_, fun h x y => ?_⟩
+  · simpa only [fnorm, pairC_eq, dot_frames, mul_inv_mulVec _ (hE v),
+      mul_inv_mulVec _ (hM v)] using h ((XM v)⁻¹.mulVec x) ((XE v)⁻¹.mulVec y)
+  · simpa only [pairC_eq, fnorm, inv_mul_mulVec _ (hM v), inv_mul_mulVec _ (hE v),
+      ← dot_frames] using h ((XM v).mulVec x) ((XE v).mulVec y)
 
 namespace OperatorNormFrames
 
@@ -225,16 +205,12 @@ theorem prod_filter_succ {m : ℕ} (k : Fin m → ℝ) (j : Fin m) :
   rw [filter_succ, Finset.prod_insert (by simp)]
 
 theorem filter_last {m : ℕ} :
-    Finset.univ.filter (fun i : Fin m => i.castSucc < Fin.last m) = Finset.univ := by
-  first
-    | exact Finset.filter_true_of_mem fun i _ => Fin.castSucc_lt_last i
-    | ext i; simp [Fin.castSucc_lt_last]
+    Finset.univ.filter (fun i : Fin m => i.castSucc < Fin.last m) = Finset.univ :=
+  Finset.filter_true_of_mem fun i _ => Fin.castSucc_lt_last i
 
 theorem filter_zero {m : ℕ} :
-    Finset.univ.filter (fun i : Fin m => i.castSucc < (0 : Fin (m + 1))) = ∅ := by
-  first
-    | exact Finset.filter_false_of_mem fun i _ => Fin.not_lt_zero _
-    | ext i; simp
+    Finset.univ.filter (fun i : Fin m => i.castSucc < (0 : Fin (m + 1))) = ∅ :=
+  Finset.filter_false_of_mem fun _ _ => Fin.not_lt_zero _
 
 end OperatorNormFrames
 
@@ -259,33 +235,16 @@ theorem le_minOver {Ix : Type} [Fintype Ix] [Nonempty Ix] (f : Ix → ℝ) (a : 
 end OperatorNormFrames
 
 open OperatorNormFrames in
-theorem successive_minimum_log : SminLog := by
-  unfold SminLog
-  intro Ix J _ _ _ κ lam hκ hlam
-  have hpos : ∀ p, 0 < ∏ j, lam j p := fun p => Finset.prod_pos fun j _ => hlam j p
-  have hlog : ∀ p, Real.log (∏ j, lam j p) = ∑ j, Real.log (lam j p) := by
-    intro p
-    first
-      | exact Real.log_prod fun j _ => (hlam j p).ne'
-  obtain ⟨q, hq0⟩ := exists_minOver (fun p => ∏ j, lam j p)
-  have hq : minOver (fun p => ∏ j, lam j p) = ∏ j, lam j q := hq0
-  have hmin : ∀ p, ∏ j, lam j q ≤ ∏ j, lam j p := by
-    intro p
-    rw [← hq]
-    exact minOver_le _ p
-  refine ⟨?_, fun p => ?_, ⟨q, by rw [hq]⟩, ?_⟩
-  · rw [hq]
-    exact mul_pos hκ (hpos q)
-  · exact mul_le_mul_of_nonneg_left (minOver_le _ p) hκ.le
-  · rw [hq, Real.log_mul hκ.ne' (hpos q).ne', hlog q]
-    congr 1
-    apply le_antisymm
-    · apply le_minOver
-      intro p
-      show ∑ j, Real.log (lam j q) ≤ ∑ j, Real.log (lam j p)
-      rw [← hlog q, ← hlog p]
-      exact Real.log_le_log (hpos q) (hmin p)
-    · exact minOver_le _ q
+theorem successive_minimum_log : SminLog := fun Ix J _ _ _ κ lam hκ hlam => by
+  have hpos (p : Ix) : 0 < ∏ j, lam j p := Finset.prod_pos fun j _ => hlam j p
+  have hlog (p : Ix) : Real.log (∏ j, lam j p) = ∑ j, Real.log (lam j p) :=
+    Real.log_prod fun j _ => (hlam j p).ne'
+  obtain ⟨q, hq⟩ := exists_minOver fun p => ∏ j, lam j p
+  refine ⟨hq ▸ mul_pos hκ (hpos q), fun p => mul_le_mul_of_nonneg_left (minOver_le _ p) hκ.le,
+    ⟨q, by rw [hq]⟩, ?_⟩
+  rw [hq, Real.log_mul hκ.ne' (hpos q).ne', hlog q]
+  refine congrArg (Real.log κ + ·) (le_antisymm (le_minOver _ _ fun p => ?_) (minOver_le _ q))
+  rw [← hlog q, ← hlog p]; exact Real.log_le_log (hpos q) (hq ▸ minOver_le _ p)
 
 namespace OperatorNormFrames
 
@@ -299,56 +258,30 @@ theorem quot_rep {n D : ℕ} (Hc X0 : Matrix (Fin n) (Fin n) ℂ) (h0 : IsUnit X
     ∃ x : Fin n → ℂ, Pc.mulVec x = y ∧ fnorm X0 x = fnorm XQ y ∧
       ∀ u : Fin n → ℂ, Pc.mulVec u = 0 → fmaj X0 x u = 0 := by
   generalize hM : Pc * Hc⁻¹ * Pcᴴ = M at hG
-  have hX0i : IsUnit (X0⁻¹).det := Matrix.isUnit_nonsing_inv_det X0 h0
-  have hXQi : IsUnit (XQ⁻¹).det := Matrix.isUnit_nonsing_inv_det XQ hQ
   have hHcU : IsUnit Hc.det := by
-    rw [isUnit_iff_ne_zero] at hX0i ⊢
     rw [← hH, Matrix.det_mul, Matrix.det_conjTranspose]
-    exact mul_ne_zero (star_ne_zero.2 hX0i) hX0i
-  have hMiU : IsUnit (M⁻¹).det := by
-    rw [isUnit_iff_ne_zero] at hXQi ⊢
+    exact (Matrix.isUnit_nonsing_inv_det X0 h0).star.mul (Matrix.isUnit_nonsing_inv_det X0 h0)
+  have hMU : IsUnit M.det := Matrix.isUnit_nonsing_inv_det_iff.mp <| by
     rw [← hG, Matrix.det_mul, Matrix.det_conjTranspose]
-    exact mul_ne_zero (star_ne_zero.2 hXQi) hXQi
-  have hMU : IsUnit M.det := Matrix.isUnit_nonsing_inv_det_iff.mp hMiU
-  have hHcH : Hcᴴ = Hc := by
-    rw [← hH, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose]
-  have hHiH : (Hc⁻¹)ᴴ = Hc⁻¹ := by
-    rw [Matrix.conjTranspose_nonsing_inv, hHcH]
-  have hMH : Mᴴ = M := by
-    rw [← hM, Matrix.conjTranspose_mul, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose,
-      hHiH, Matrix.mul_assoc]
-  have hGH : (M⁻¹)ᴴ = M⁻¹ := by
-    rw [Matrix.conjTranspose_nonsing_inv, hMH]
-  have hx : Hc⁻¹ *ᵥ (Pcᴴ *ᵥ (M⁻¹ *ᵥ y)) = (Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y := by
-    rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec]
-  have hNN : (X0⁻¹ * (Hc⁻¹ * Pcᴴ * M⁻¹))ᴴ * (X0⁻¹ * (Hc⁻¹ * Pcᴴ * M⁻¹)) = (XQ⁻¹)ᴴ * XQ⁻¹ := by
-    rw [hG, Matrix.conjTranspose_mul, Matrix.mul_assoc, ← Matrix.mul_assoc (X0⁻¹)ᴴ X0⁻¹, hH,
-      Matrix.conjTranspose_mul, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hHiH, hGH]
-    simp only [Matrix.mul_assoc, Matrix.nonsing_inv_mul_cancel_left _ _ hHcU]
-    rw [← Matrix.mul_assoc Pc, ← Matrix.mul_assoc (Pc * Hc⁻¹), hM, ← Matrix.mul_assoc,
-      Matrix.nonsing_inv_mul _ hMU, Matrix.one_mul]
+    exact (Matrix.isUnit_nonsing_inv_det XQ hQ).star.mul (Matrix.isUnit_nonsing_inv_det XQ hQ)
+  have hHiH : (Hc⁻¹)ᴴ = Hc⁻¹ := by simp [Matrix.conjTranspose_nonsing_inv, ← hH]
+  have hGH : (M⁻¹)ᴴ = M⁻¹ := by simp [← hG]
   have hA : (X0⁻¹ * (Hc⁻¹ * Pcᴴ * M⁻¹))ᴴ * X0⁻¹ = M⁻¹ * Pc := by
     rw [Matrix.conjTranspose_mul, Matrix.mul_assoc, hH, Matrix.conjTranspose_mul,
       Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hHiH, hGH]
     simp only [Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hHcU, Matrix.mul_one]
-  refine ⟨Hc⁻¹ *ᵥ (Pcᴴ *ᵥ (M⁻¹ *ᵥ y)), ?_, ?_, ?_⟩
-  · rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, hM,
+  refine ⟨(Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y, ?_, ?_, fun u hu => ?_⟩
+  · rw [Matrix.mulVec_mulVec, ← Matrix.mul_assoc, ← Matrix.mul_assoc, hM,
       Matrix.mul_nonsing_inv _ hMU, Matrix.one_mulVec]
-  · rw [hx]
-    have h1 : ((fnorm X0 ((Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y) ^ 2 : ℝ) : ℂ) = ((fnorm XQ y ^ 2 : ℝ) : ℂ) := by
-      show ((Formalism.HermitianLatticesTheory.cnorm (X0⁻¹ *ᵥ ((Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y)) ^ 2 : ℝ) : ℂ) =
-        ((Formalism.HermitianLatticesTheory.cnorm (XQ⁻¹ *ᵥ y) ^ 2 : ℝ) : ℂ)
-      rw [Matrix.mulVec_mulVec, cnorm_sq_mulVec, cnorm_sq_mulVec, hNN]
-    have h2 := Complex.ofReal_injective h1
-    have ha : 0 ≤ fnorm X0 ((Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y) := cnorm_nonneg _
-    have hb : 0 ≤ fnorm XQ y := cnorm_nonneg _
-    exact le_antisymm (by nlinarith) (by nlinarith)
-  · intro u hu
-    rw [hx]
-    show star (X0⁻¹ *ᵥ ((Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y)) ⬝ᵥ (X0⁻¹ *ᵥ u) = 0
+  · refine (sq_eq_sq₀ (cnorm_nonneg _) (cnorm_nonneg _)).mp <| Complex.ofReal_injective ?_
+    rw [Matrix.mulVec_mulVec, cnorm_sq_mulVec, cnorm_sq_mulVec,
+      ← Matrix.mul_assoc _ _ (Hc⁻¹ * Pcᴴ * M⁻¹), hA]
+    exact congrArg (fun Z => star y ⬝ᵥ Z *ᵥ y) ((by simp only [Matrix.mul_assoc] :
+      M⁻¹ * Pc * (Hc⁻¹ * Pcᴴ * M⁻¹) = M⁻¹ * (Pc * Hc⁻¹ * Pcᴴ) * M⁻¹).trans
+      (by rw [hM, Matrix.nonsing_inv_mul _ hMU, Matrix.one_mul, hG]))
+  · show star (X0⁻¹ *ᵥ ((Hc⁻¹ * Pcᴴ * M⁻¹) *ᵥ y)) ⬝ᵥ (X0⁻¹ *ᵥ u) = 0
     rw [Matrix.mulVec_mulVec, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec,
-      hA, ← Matrix.mulVec_mulVec, hu]
-    simp
+      hA, ← Matrix.mulVec_mulVec, hu]; simp
 
 end OperatorNormFrames
 
@@ -357,12 +290,9 @@ namespace OperatorNormFrames
 
 theorem dual_expand {K : Type} [Field K] {D : ℕ} (f : Module.Dual K (Fin D → K)) (e : Fin D → K) :
     f e = ∑ d, e d * f (Pi.single d 1) := by
-  have he : e = ∑ d, e d • Pi.single d 1 := by
-    ext k
-    simp [Finset.sum_apply, Pi.single_apply]
-  conv_lhs => rw [he]
-
-  simp [map_sum, map_smul]
+  conv_lhs =>
+    rw [show e = ∑ d, e d • Pi.single d 1 by ext; simp [Finset.sum_apply, Pi.single_apply]]
+  simp [map_sum]
 
 theorem map_expand {K : Type} [Field K] {a D : ℕ} (B : (Fin a → K) →ₗ[K] Module.Dual K (Fin D → K))
     (φ : Fin a → K) (e : Fin D → K) : B φ e = ∑ i, φ i * B (Pi.single i 1) e := by
@@ -411,14 +341,11 @@ def nrm {a b : ℕ} (A : Matrix (Fin b) (Fin a) ℂ) : ℝ :=
 
 theorem nrm_mul_le {a b c : ℕ} (A : Matrix (Fin c) (Fin b) ℂ) (B : Matrix (Fin b) (Fin a) ℂ) :
     nrm (A * B) ≤ nrm A * nrm B := by
-  unfold nrm
-  have e : LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin (A * B)) =
-      (LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin A)).comp
-        (LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin B)) := by
-    ext x : 1
-    simp [Matrix.toLpLin_apply, Matrix.mulVec_mulVec]
-  rw [e]
-  exact ContinuousLinearMap.opNorm_comp_le _ _
+  simpa only [nrm, show LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin (A * B)) =
+    (LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin A)).comp
+      (LinearMap.toContinuousLinearMap (Matrix.toEuclideanLin B)) by
+    ext; simp [Matrix.toLpLin_apply, Matrix.mulVec_mulVec]] using
+    ContinuousLinearMap.opNorm_comp_le _ _
 
 theorem opNormAt_mulVecLin {K : Type} [Field K] [NumberField K] [StarRing K] {a b : ℕ}
     (X : InfinitePlace K → Matrix (Fin a) (Fin a) ℂ) (X' : InfinitePlace K → Matrix (Fin b) (Fin b) ℂ)
@@ -441,62 +368,42 @@ theorem mulVecLin_ne_zero {K : Type} [Field K] {a b : ℕ} (N : Matrix (Fin b) (
 end OperatorNormFrames
 
 open OperatorNormFrames in
-theorem composition_norm_at_place : CompNormAt := by
-  intro K _ _ _ m c Xc hX Kj
-  have key : ∀ v, Formalism.HN.opNormAt (Pi.basisFun K (Fin (c 0))) (Xc 0)
+theorem composition_norm_at_place : CompNormAt := fun K _ _ _ m c Xc hX Kj => by
+  have key (v : InfinitePlace K) : Formalism.HN.opNormAt (Pi.basisFun K (Fin (c 0))) (Xc 0)
       (Pi.basisFun K (Fin (c (Fin.last m)))) (Xc (Fin.last m)) v
         (Matrix.mulVecLin (chainMat Kj (Fin.last m))) ≤
       ∏ j : Fin m, Formalism.HN.opNormAt (Pi.basisFun K (Fin (c j.castSucc))) (Xc j.castSucc)
         (Pi.basisFun K (Fin (c j.succ))) (Xc j.succ) v (Matrix.mulVecLin (Kj j)) := by
-    intro v
-    simp only [opNormAt_mulVecLin]
-    have step : ∀ i : Fin (m + 1), nrm ((Xc i v)⁻¹ * (chainMat Kj i).map v.embedding * Xc 0 v) ≤
+    suffices ∀ i : Fin (m + 1), nrm ((Xc i v)⁻¹ * (chainMat Kj i).map v.embedding * Xc 0 v) ≤
         ∏ j ∈ Finset.univ.filter (fun j : Fin m => j.castSucc < i),
-          nrm ((Xc j.succ v)⁻¹ * (Kj j).map v.embedding * Xc j.castSucc v) := by
-      intro i
-      induction i using Fin.induction with
-      | zero =>
-        rw [filter_zero, Finset.prod_empty]
-        have h1 : chainMat Kj 0 = 1 := rfl
-        rw [h1, Matrix.map_one _ (map_zero _) (map_one _), Matrix.mul_one,
-          Matrix.nonsing_inv_mul _ (hX 0 v)]
-        refine ContinuousLinearMap.opNorm_le_bound _ zero_le_one fun x => ?_
-        simp
-      | succ j ih =>
-        rw [prod_filter_succ]
-        have h1 : chainMat Kj j.succ = Kj j * chainMat Kj j.castSucc := rfl
-        have h2 : (Xc j.succ v)⁻¹ * (chainMat Kj j.succ).map v.embedding * Xc 0 v =
-            ((Xc j.succ v)⁻¹ * (Kj j).map v.embedding * Xc j.castSucc v) *
-              ((Xc j.castSucc v)⁻¹ * (chainMat Kj j.castSucc).map v.embedding * Xc 0 v) := by
-          rw [h1, Matrix.map_mul]
-          simp only [Matrix.mul_assoc]
-          rw [← Matrix.mul_assoc (Xc j.castSucc v), Matrix.mul_nonsing_inv _ (hX _ v), Matrix.one_mul]
-        rw [h2]
-        exact (nrm_mul_le _ _).trans (mul_le_mul_of_nonneg_left ih (norm_nonneg _))
-    have := step (Fin.last m)
-    rwa [filter_last] at this
+          nrm ((Xc j.succ v)⁻¹ * (Kj j).map v.embedding * Xc j.castSucc v) by
+      simpa [opNormAt_mulVecLin, filter_last] using this (Fin.last m)
+    intro i; induction i using Fin.induction with
+    | zero =>
+      rw [filter_zero, Finset.prod_empty]
+      change nrm ((Xc 0 v)⁻¹ * (1 : Matrix _ _ K).map v.embedding * Xc 0 v) ≤ 1
+      rw [Matrix.map_one _ (map_zero _) (map_one _), Matrix.mul_one,
+        Matrix.nonsing_inv_mul _ (hX 0 v)]
+      exact ContinuousLinearMap.opNorm_le_bound _ zero_le_one fun _ => by simp
+    | succ j ih =>
+      rw [prod_filter_succ]
+      have h2 : (Xc j.succ v)⁻¹ * (chainMat Kj j.succ).map v.embedding * Xc 0 v =
+          ((Xc j.succ v)⁻¹ * (Kj j).map v.embedding * Xc j.castSucc v) *
+            ((Xc j.castSucc v)⁻¹ * (chainMat Kj j.castSucc).map v.embedding * Xc 0 v) := by
+        change (Xc j.succ v)⁻¹ * (Kj j * chainMat Kj j.castSucc).map v.embedding * Xc 0 v = _
+        rw [Matrix.map_mul]; simp only [Matrix.mul_assoc]
+        rw [← Matrix.mul_assoc (Xc j.castSucc v), Matrix.mul_nonsing_inv _ (hX _ v), Matrix.one_mul]
+      rw [h2]; exact (nrm_mul_le _ _).trans (mul_le_mul_of_nonneg_left ih (norm_nonneg _))
   refine ⟨key, fun hne => ?_⟩
-  have hpos : ∀ v, 0 < Formalism.HN.opNormAt (Pi.basisFun K (Fin (c 0))) (Xc 0)
-      (Pi.basisFun K (Fin (c (Fin.last m)))) (Xc (Fin.last m)) v
-        (Matrix.mulVecLin (chainMat Kj (Fin.last m))) := fun v =>
-    Formalism.HN.PlaceOperatorNorms.opNormAt_pos _ _ _ _ (hX _) (hX _) v _ (mulVecLin_ne_zero _ hne)
-  have hterm : ∀ v, Real.log (Formalism.HN.opNormAt (Pi.basisFun K (Fin (c 0))) (Xc 0)
-      (Pi.basisFun K (Fin (c (Fin.last m)))) (Xc (Fin.last m)) v
-        (Matrix.mulVecLin (chainMat Kj (Fin.last m))) ^ 2) ≤
-      ∑ j : Fin m, Real.log (Formalism.HN.opNormAt (Pi.basisFun K (Fin (c j.castSucc))) (Xc j.castSucc)
-        (Pi.basisFun K (Fin (c j.succ))) (Xc j.succ) v (Matrix.mulVecLin (Kj j)) ^ 2) := by
-    intro v
-    have hprod := (hpos v).trans_le (key v)
-    have hne' : ∀ j ∈ (Finset.univ : Finset (Fin m)),
-        Formalism.HN.opNormAt (Pi.basisFun K (Fin (c j.castSucc))) (Xc j.castSucc)
-        (Pi.basisFun K (Fin (c j.succ))) (Xc j.succ) v (Matrix.mulVecLin (Kj j)) ^ 2 ≠ 0 := by
-      intro j hj
-      exact pow_ne_zero 2 (Finset.prod_ne_zero_iff.1 hprod.ne' j hj)
-    rw [← Real.log_prod hne', Finset.prod_pow]
-    exact Real.log_le_log (pow_pos (hpos v) 2) (pow_le_pow_left₀ (hpos v).le (key v) 2)
-  simp only [Formalism.HN.htMap]
-  rw [← Finset.mul_sum, Finset.sum_comm]
-  exact mul_le_mul_of_nonneg_left (Finset.sum_le_sum fun v _ => hterm v) (by positivity)
+  simp only [Formalism.HN.htMap]; rw [← Finset.mul_sum, Finset.sum_comm]
+  refine mul_le_mul_of_nonneg_left (Finset.sum_le_sum fun v _ => ?_) (by positivity)
+  have hpos := Formalism.HN.PlaceOperatorNorms.opNormAt_pos
+    (Pi.basisFun K (Fin (c 0))) (Xc 0) (Pi.basisFun K (Fin (c (Fin.last m)))) (Xc (Fin.last m))
+    (hX _) (hX _) v _ (mulVecLin_ne_zero _ hne)
+  have hprod := hpos.trans_le (key v)
+  rw [← Real.log_prod fun j hj => pow_ne_zero 2 (Finset.prod_ne_zero_iff.mp hprod.ne' j hj),
+    Finset.prod_pow]
+  exact Real.log_le_log (pow_pos hpos 2) (pow_le_pow_left₀ hpos.le (key v) 2)
 
 namespace OperatorNormFrames
 

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PPowerSumsEsymmAnalytic
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompletionBaseChangePlaces
@@ -240,20 +241,7 @@ theorem newton_fn {σ : Type} [Fintype σ] (f : σ → ℂ) (k : ℕ) :
 theorem newton_multiset (s : Multiset ℂ) (k : ℕ) :
     (k : ℂ) * s.esymm k = (-1) ^ (k + 1) *
       ∑ a ∈ antidiagonal k with a.1 < k, (-1) ^ a.1 * s.esymm a.1 * (s.map (· ^ a.2)).sum := by
-  have hs : s = (univ : Finset (Fin s.toList.length)).val.map (fun i => s.toList.get i) := by
-    rw [Fin.univ_val_map, List.ofFn_get, Multiset.coe_toList]
-  have h := newton_fn (fun i : Fin s.toList.length => s.toList.get i) k
-  rw [← hs] at h
-  rw [h]
-  congr 1
-  refine Finset.sum_congr rfl fun a _ => ?_
-  congr 1
-  have e : ∀ n : ℕ, (s.map (· ^ n)).sum = ∑ i : Fin s.toList.length, s.toList.get i ^ n := by
-    intro n
-    conv_lhs => rw [hs]
-    rw [Multiset.map_map]
-    rfl
-  exact (e a.2).symm
+  first | exact _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.multiset_mul_esymm_eq_sum | exact @_root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.multiset_mul_esymm_eq_sum | apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.multiset_mul_esymm_eq_sum <;> assumption
 
 theorem esymm_eq_of_psum_eq (s t : Multiset ℂ) (h : ∀ k, (s.map (· ^ k)).sum = (t.map (· ^ k)).sum) :
     ∀ k, s.esymm k = t.esymm k := by

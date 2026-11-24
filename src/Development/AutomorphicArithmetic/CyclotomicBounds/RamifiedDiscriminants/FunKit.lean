@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PartialZetaDenominatorsCMFieldOfSiegelKlingenDel
 public import Formalism.LocalRingCardinality.DataHost
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.NumberTheory.NumberField.Discriminant.Different
@@ -99,18 +100,8 @@ namespace UpperTheory.Ram.Fun
 
 theorem sum_padicValNat_log_le {n : ℕ} (hn : n ≠ 0) (S : Finset ℕ) (hS : ∀ l ∈ S, l.Prime) :
     ∑ l ∈ S, (padicValNat l n : ℝ) * Real.log l ≤ Real.log n := by
-  classical
-  rw [Real.log_nat_eq_sum_factorization, Finsupp.sum]
-  calc ∑ l ∈ S, (padicValNat l n : ℝ) * Real.log l
-      = ∑ l ∈ S, (n.factorization l : ℝ) * Real.log l :=
-        Finset.sum_congr rfl fun l hl => by
-          rw [Nat.padicValNat_def, Nat.factorization_def n (hS l hl)]
-    _ ≤ ∑ l ∈ S ∪ n.factorization.support, (n.factorization l : ℝ) * Real.log l :=
-        Finset.sum_le_sum_of_subset_of_nonneg Finset.subset_union_left fun l _ _ =>
-          mul_nonneg (by positivity) (Real.log_natCast_nonneg l)
-    _ = ∑ l ∈ n.factorization.support, (n.factorization l : ℝ) * Real.log l := by
-        refine (Finset.sum_subset Finset.subset_union_right fun l _ hl => ?_).symm
-        rw [Finsupp.notMem_support_iff.1 hl]; simp
+ intros
+ apply @_root_.GlobalTheory.ceSum_val_le <;> assumption
 
 theorem sum_log_le_of_dvd {n : ℕ} (hn : n ≠ 0) (S : Finset ℕ) (hS : ∀ l ∈ S, l.Prime ∧ l ∣ n) :
     ∑ l ∈ S, Real.log l ≤ Real.log n := by

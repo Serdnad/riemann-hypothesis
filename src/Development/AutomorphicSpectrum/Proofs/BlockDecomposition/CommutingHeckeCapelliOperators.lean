@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UfamConst
 import Development.WeilBound.RepresentationTheoryGL.ResidualSpectrum.ExponentialNegativity.GapAbsOf
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoeffMemSubmoduleOfComplexPolyValuesMem
 
 @[expose] public section
 
@@ -58,27 +59,7 @@ namespace GlobalTheory.CompanionTheory.CapCoeff
 
 theorem coeff_mem_of_values {A : Type} [AddCommGroup A] [Module ℂ A] (W : Submodule ℂ A) (n : ℕ) (c : ℕ → A)
     (h : ∀ u : ℂ, ∑ k ∈ Finset.range n, u ^ k • c k ∈ W) : ∀ k < n, c k ∈ W := by
-  intro k hk
-  rw [← Submodule.Quotient.mk_eq_zero W]
-  refine (Module.forall_dual_apply_eq_zero_iff ℂ _).1 fun f => ?_
-  let p : ℂ[X] := ∑ i ∈ Finset.range n, Polynomial.C (f (Submodule.Quotient.mk (c i))) * Polynomial.X ^ i
-  have hp : p = 0 := by
-    refine Polynomial.funext fun u => ?_
-    have h0 : (Submodule.Quotient.mk (∑ i ∈ Finset.range n, u ^ i • c i) : A ⧸ W) = 0 :=
-      (Submodule.Quotient.mk_eq_zero W).2 (h u)
-    have h1 := congrArg f h0
-
-    rw [← Submodule.mkQ_apply, map_sum, map_sum, map_zero] at h1
-    simp only [p, Polynomial.eval_finsetSum, Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow,
-      Polynomial.eval_X, Polynomial.eval_zero]
-    rw [← h1]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [map_smul, map_smul, smul_eq_mul, mul_comm]
-    rfl
-  have hc := congrArg (fun q : ℂ[X] => q.coeff k) hp
-  simp only [p, Polynomial.finsetSum_coeff, Polynomial.coeff_C_mul_X_pow, Polynomial.coeff_zero] at hc
-  rw [Finset.sum_ite_eq] at hc
-  simpa [Finset.mem_range, hk] using hc
+  apply _root_.GlobalTheory.coeff_mem_of_poly_values_mem <;> assumption
 
 theorem qdet_coeffs {A : Type} [Ring A] [Algebra ℂ A] (W : Subalgebra ℂ A) (m : ℕ)
     (X : Fin (m + 1) → Fin (m + 1) → A) (s : ℂ) (hW : ∀ u, Formalism.REAL.qdet X u ∈ W) :

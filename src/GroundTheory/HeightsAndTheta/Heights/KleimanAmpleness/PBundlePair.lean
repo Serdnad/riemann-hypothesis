@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistAlg
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Objects
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PExtension
@@ -25,16 +26,7 @@ variable {S : Type} [CommRing S] {N : ℕ} {Ω : Type} [Field Ω] [Algebra S Ω]
 
 theorem twist_sub_eq_mul (F Q : Kleiman.SubSystem S x Ω) (I : Kleiman.Chart x) :
     (F.twist Q).sub I = Q.sub I * F.sub I := by
-  rw [Submodule.mul_eq_span_mul_set]
-  change Submodule.span _ _ = _
-  congr 1
-  ext z
-  simp only [Set.mem_ofPred_eq, Set.mem_mul, SetLike.mem_coe, smul_eq_mul]
-  constructor
-  · rintro ⟨q, hq, w, hw, rfl⟩
-    exact ⟨q, hq, w, hw, rfl⟩
-  · rintro ⟨q, hq, w, hw, rfl⟩
-    exact ⟨q, hq, w, hw, rfl⟩
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SubSystem.twist_sub_eq_mul_of_line <;> assumption
 
 theorem exists_mul_eq_prod_pow {I : Finset (Fin (N + 1))} {s : Kleiman.Poly S N} (hs : s ∈ Kleiman.monos I) :
     ∃ (r d d' : ℕ) (s' : Kleiman.Poly S N), s.IsHomogeneous d ∧ s'.IsHomogeneous d' ∧

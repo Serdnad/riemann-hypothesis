@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.LeafPtVPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafVanStalk
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,31 +51,11 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC CochainCo
 namespace LateralTheory.E.LeafVanVPf
 
 theorem free_empty (R : Type) [CommRing R] (X : Scheme.{0}) [IsEmpty X] : IsZero ((free R).obj (yoneda.obj X)) := by
-  have key : ∀ (F : Shv R) (f g : (freeP R).obj (yoneda.obj X) ⟶ F.obj), f = g := by
-    intro F f g
-    ext1
-    funext U
-    by_cases hU : IsEmpty U.unop
-    · have hb : ⊥ ∈ Scheme.etaleTopology U.unop := Scheme.bot_mem_grothendieckTopology _
-      exact (Sheaf.isTerminalOfBotCover F U.unop hb).hom_ext _ _
-    · apply ModuleCat.free_hom_ext
-      rintro ⟨x⟩
-      exfalso
-      apply hU
-      exact ⟨fun u => IsEmpty.false ((show U.unop ⟶ X from x) u)⟩
-  rw [IsZero.iff_id_eq_zero]
-  apply ((sheafificationAdjunction Scheme.etaleTopology (ModuleCat.{1} (ULift.{1} R))).homEquiv _ _).injective
-  exact key _ _ _
+  apply @LateralTheory.E.LeafPtVPf.isZero_free_empty <;> assumption
 
 theorem chains_empty (R : Type) [CommRing R] (X : Scheme.{0}) [IsEmpty X] (n : ℤ) :
     IsZero (((chains R).obj (sch.obj X)).X n) := by
-  by_cases h : n ≤ 0
-  · obtain ⟨p, rfl⟩ : ∃ p : ℕ, n = -(p : ℤ) := ⟨(-n).toNat, by omega⟩
-    exact (free_empty R X).of_iso (chainsXIso R _ p)
-  · refine HomologicalComplex.isZero_extend_X ((chainsN R).obj (sch.obj X)) ComplexShape.embeddingDownNat n ?_
-    intro i hi
-    change -(i : ℤ) = n at hi
-    omega
+  apply @LateralTheory.E.LeafPtVPf.isZero_chains_empty <;> assumption
 
 theorem isIso_inr {C : Type*} [Category C] [Abelian C] {K L : CochainComplex C ℤ} (φ : K ⟶ L)
     (h : ∀ n, IsZero (K.X n)) : IsIso (mappingCone.inr φ) := by

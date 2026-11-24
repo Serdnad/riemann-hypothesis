@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharactersUnramifiedOffLevelPlaces
 
 @[expose] public section
 
@@ -67,14 +68,7 @@ theorem exists_under (D : D7) (v : HeightOneSpectrum (𝓞 D.host.F)) :
 
 theorem under_eq_of_conj {D : D7} {P P' : HeightOneSpectrum (𝓞 D.host.E)} (h : Formalism.IndefR.Lev.IsConjPl P P') :
     P.under (𝓞 D.host.F) = P'.under (𝓞 D.host.F) := by
-  refine HeightOneSpectrum.ext ((P.under (𝓞 D.host.F)).isMaximal.eq_of_le (P'.under (𝓞 D.host.F)).isPrime.ne_top
-    fun a ha => ?_)
-  obtain ⟨c', h1, h2⟩ := h (algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a) ha
-  have hfix : star (algebraMap D.host.F D.host.E (a : D.host.F)) = algebraMap D.host.F D.host.E (a : D.host.F) :=
-    (D.sp.cm.fixed _).2 ⟨_, rfl⟩
-  have e : algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a = c' := RingOfIntegers.ext (h2.trans hfix).symm
-  change algebraMap (𝓞 D.host.F) (𝓞 D.host.E) a ∈ P'.asIdeal
-  rwa [e]
+  apply _root_.GlobalTheory.LevelPlaces.under_eq_of_isConjPl <;> assumption
 
 end GlobalTheory.RawLift.Small
 

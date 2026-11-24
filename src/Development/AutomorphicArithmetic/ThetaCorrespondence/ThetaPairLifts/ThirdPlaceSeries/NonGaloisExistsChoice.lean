@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.TwOneOfStepsStatement
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FockOfApply
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenUsedOfCenReal
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GoodSetupCountEqZeroOffBadPlaces
@@ -1330,22 +1331,7 @@ open GlobalTheory.HeightCounting.Up (PrN)
 theorem GlobalTheory.PlaceRead.evaluates_of_lunif {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 T0 : Type} {A : FamIn D.what₂.LL G Pl0 T0 D.R.m}
     {T : Formalism.L2.Pj.CoreJ D} [Algebra T.Q.c.F D.what₂.LL] {R : RealDat D A T.Q.c.F} {κ : ∀ i : Fin D.R.m, WeightFamilies.Wt D ((i : ℕ) + 1)}
     {v₀ : ∀ (i : Fin D.R.m) (σ : D.what₂.LL →+* ℂ), (R.MW i σ).Vec} (fw : FWTie T R κ v₀) (hu : R.LUnif) : fw.Evaluates := by
-  intro i σ hσ hV
-  refine fw.ev i σ hσ hV ?_
-  by_contra hne
-  have h0 := fw.ev0 i σ hσ hV hne
-  have hx : ∀ x : Fin (R.nW i) → D.what₂.LL, x = 0 := fun x => by
-    by_contra hx
-    have h1 : LinearIndependent D.what₂.LL (fun _ : Fin 1 => x) := linearIndependent_unique_iff.2 hx
-    have h2 := ((hu i σ).1 1 _ h1).ne_zero 0
-    rw [h0] at h2
-    exact h2 rfl
-  refine hne ⟨0, fun f => ?_⟩
-  have hf : f = 0 := (fw.e i).injective (Subtype.ext ((hx _).trans (hx _).symm))
-  subst hf
-  refine Eq.trans ?_ (GlobalTheory.phiC_zero_rule T hV (wtA (κ i))).symm
-  rw [LinearMap.zero_apply, map_zero]
-  rfl
+  first | exact _root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' | exact @_root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' | apply _root_.GlobalTheory.ConjExpandRational.evaluates_of_unif' <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConjugateFunctionAtPlace =====

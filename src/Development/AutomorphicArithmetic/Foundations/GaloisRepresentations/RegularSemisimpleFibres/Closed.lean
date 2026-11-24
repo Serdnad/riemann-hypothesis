@@ -964,22 +964,12 @@ variable {k K : Type} [Field k] [Field K] [Algebra k K]
 
 private theorem aut_pow_finrank [FiniteDimensional k K] (s : K ≃ₐ[k] K) :
     s ^ Module.finrank k K = 1 := by
-  have h1 := IntermediateField.finrank_fixedField_eq_card (F := k) (E := K) (Subgroup.zpowers s)
-  rw [Nat.card_zpowers] at h1
-  rw [← (letI : Module.Free (IntermediateField.fixedField (Subgroup.zpowers s)) K := Module.Free.of_divisionRing _ _; Module.finrank_mul_finrank k (IntermediateField.fixedField (Subgroup.zpowers s)) K), h1,
-    pow_mul', pow_orderOf_eq_one, one_pow]
+  apply _root_.UpperTheory.Gal.InertialTypesAlt.L.pow_finrank_aut <;> assumption
 
 private theorem ofFn_twConj (s : K ≃ₐ[k] K) (n : ℕ) (δ g : GL (Fin n) K) (m : ℕ) :
     (List.ofFn fun j : Fin m => galAct (s ^ (j : ℕ)) n (g⁻¹ * δ * galAct s n g)).prod =
       g⁻¹ * (List.ofFn fun j : Fin m => galAct (s ^ (j : ℕ)) n δ).prod * galAct (s ^ m) n g := by
-  induction m with
-  | zero => simp [galAct_one]
-  | succ m ih =>
-    simp only [List.ofFn_succ', List.prod_concat, Fin.coe_castSucc, Fin.val_last]
-    rw [ih]
-    simp only [map_mul, map_inv]
-    rw [pow_succ, galAct_mul, MonoidHom.comp_apply]
-    group
+  apply _root_.UpperTheory.Gal.InertialTypesAlt.L.partial_twConj <;> assumption
 
 private theorem norm_twConj [FiniteDimensional k K] (s : K ≃ₐ[k] K) (n : ℕ) (δ g : GL (Fin n) K) :
     GlobalTheory.LBC.norm k s (g⁻¹ * δ * galAct s n g) = g⁻¹ * GlobalTheory.LBC.norm k s δ * g := by

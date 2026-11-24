@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MinusculeSetEqDoubleCoset
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIntZero
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SphericalHeckeValuesSameParameters
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SatakeParametersOfTwist
@@ -72,32 +73,8 @@ theorem sum_ite_lt (n m : ℕ) : ∑ j : Fin n, (if (j : ℕ) < m then (1 : ℤ)
 
 theorem antitone_eq {n k : ℕ} {a : Fin n → ℤ} (ha : Antitone a) (h0 : ∀ i, 0 ≤ a i) (h1 : ∀ i, a i ≤ 1)
     (hs : ∑ i, a i = (k : ℤ)) (i : Fin n) : a i = if (i : ℕ) < k then 1 else 0 := by
-  have hi := i.2
-  have hc : a i = 0 ∨ a i = 1 := by
-    have := h0 i
-    have := h1 i
-    omega
-  rcases hc with hc | hc
-  · have hle : ∑ j, a j ≤ ∑ j : Fin n, (if (j : ℕ) < (i : ℕ) then (1 : ℤ) else 0) := by
-      refine Finset.sum_le_sum fun j _ => ?_
-      split_ifs with hj
-      · exact h1 j
-      · have : a j ≤ a i := ha (Fin.le_def.2 (by omega))
-        omega
-    rw [hs, sum_ite_lt] at hle
-    have : k ≤ (i : ℕ) := by omega
-    rw [hc, if_neg (by omega)]
-  · have hle : ∑ j : Fin n, (if (j : ℕ) < (i : ℕ) + 1 then (1 : ℤ) else 0) ≤ ∑ j, a j := by
-      refine Finset.sum_le_sum fun j _ => ?_
-      split_ifs with hj
-      · have : a i ≤ a j := ha (Fin.le_def.2 (by omega))
-        omega
-      · exact h0 j
-    rw [hs, sum_ite_lt] at hle
-    have : (i : ℕ) < k := by
-      push_cast at hle
-      omega
-    rw [hc, if_pos this]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SatakeTyping.eq_ite_of_antitone <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] {w : HeightOneSpectrum (𝓞 E)} {n : ℕ} {ϖ : w.adicCompletion E}
 

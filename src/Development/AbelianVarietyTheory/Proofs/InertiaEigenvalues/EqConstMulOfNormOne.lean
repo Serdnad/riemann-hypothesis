@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelCoverPullbackReadingEqUnitConstPowMul
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IntFormsSubset
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LevelCoverComponentReadingsUnitModulusScalar
@@ -61,44 +62,7 @@ noncomputable section
 namespace GlobalTheory.CoverConst
 
 theorem eq_const_mul_of_norm_one : ∀ {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] {ι : Type*} (U : Set V), IsOpen U → IsPreconnected U → ∀ (P₂ P : ι → V → ℂ) (g : V → ℂ), (∀ i, DifferentiableOn ℂ (P₂ i) U) → (∀ i, DifferentiableOn ℂ (P i) U) → (∀ x ∈ U, ‖g x‖ = 1) → (∀ i, ∀ x ∈ U, P₂ i x = g x * P i x) → ∃ u : ℂ, ‖u‖ = 1 ∧ ∀ i, ∀ x ∈ U, P₂ i x = u * P i x := by
-  intro V _ _ ι U hU hc P₂ P g hP₂ hP hg1 hg
-  by_cases h : ∃ i, ∃ x ∈ U, P i x ≠ 0
-  swap
-  · push_neg at h
-    refine ⟨1, by simp, fun i x hx => ?_⟩
-    rw [hg i x hx, h i x hx]
-    simp
-  obtain ⟨i₀, x₀, hx₀, hne⟩ := h
-  have hcont : ContinuousAt (P i₀) x₀ := (hP i₀).continuousOn.continuousAt (hU.mem_nhds hx₀)
-  have hnb : ∀ᶠ y in nhds x₀, y ∈ U ∧ P i₀ y ≠ 0 := (hU.eventually_mem hx₀).and (hcont.eventually_ne hne)
-  obtain ⟨ε, hε, hball⟩ := Metric.eventually_nhds_iff_ball.1 hnb
-  have hx₀b : x₀ ∈ Metric.ball x₀ ε := Metric.mem_ball_self hε
-  let q : V → ℂ := fun y => P₂ i₀ y * (P i₀ y)⁻¹
-  have hqd : DifferentiableOn ℂ q (Metric.ball x₀ ε) :=
-    ((hP₂ i₀).mono (fun y hy => (hball y hy).1)).mul (((hP i₀).mono (fun y hy => (hball y hy).1)).inv
-      (fun y hy => (hball y hy).2))
-  have hqg : ∀ y ∈ Metric.ball x₀ ε, q y = g y := fun y hy => by
-    simp only [q]
-    rw [hg i₀ y (hball y hy).1, mul_assoc, mul_inv_cancel₀ (hball y hy).2, mul_one]
-  have hmax : IsMaxOn (norm ∘ q) (Metric.ball x₀ ε) x₀ := fun y hy => by
-    simp only [Set.mem_setOf_eq, Function.comp_apply]
-    rw [hqg y hy, hqg x₀ hx₀b, hg1 _ (hball y hy).1, hg1 _ (hball x₀ hx₀b).1]
-  have heq := Complex.eqOn_of_isPreconnected_of_isMaxOn_norm (convex_ball x₀ ε).isPreconnected
-    Metric.isOpen_ball hqd hx₀b hmax
-  refine ⟨g x₀, hg1 x₀ hx₀, fun i => ?_⟩
-  have hzero : ∀ y ∈ U, (fun y => P₂ i y - g x₀ * P i y) y = 0 := by
-    refine ReciprocityTheory.ChartRestriction.G.PullbackSections.Pf.eq_zero_of_eventually hU hc ((hP₂ i).sub ((hP i).const_mul (g x₀))) hx₀ ?_
-    filter_upwards [Metric.ball_mem_nhds x₀ hε] with y hy
-    have e : g y = g x₀ := by
-      rw [← hqg y hy, ← hqg x₀ hx₀b]
-      exact heq hy
-    simp only [Pi.zero_apply]
-    rw [hg i y (hball y hy).1, e]
-    ring
-  intro x hx
-  have := hzero x hx
-  simp only at this
-  exact sub_eq_zero.1 this
+  first | exact _root_.GlobalTheory.LevRead.eq_const_mul_of_norm_one | exact @_root_.GlobalTheory.LevRead.eq_const_mul_of_norm_one | apply _root_.GlobalTheory.LevRead.eq_const_mul_of_norm_one <;> assumption
 
 theorem psi_and_weight_eq : ∀ (D : D7) (T : CoreJ D), LawsJ T → ∀ j, Formalism.L2.Pj.InR D j → ∀ σ : T.Q.c.F →+* ℂ, GoodEmb T.Q.c σ → ∀ C : Cover T j σ, C.IsUnif → ∀ (k₂ : C.U₂.Comp) (k : (T.U j σ).Comp), (∀ τ : D.host.E →+* ℂ, τ ∈ (C.U₂.X k₂).Ψ ↔ τ ∈ ((T.U j σ).X k).Ψ) ∧ ∀ (a : (D.host.E →+* ℂ) × ℕ → ℕ) (n : ℕ) (τ : D.host.E →+* ℂ) (h₂ : τ ∈ (C.U₂.X k₂).Ψ) (h₁ : τ ∈ ((T.U j σ).X k).Ψ) (i : Fin D.R.r), laU C.U₂ a n k₂ ⟨τ, h₂⟩ i = laU (T.U j σ) a n k ⟨τ, h₁⟩ i := by
   intro D T hL j hj σ hσ C hC k₂ k

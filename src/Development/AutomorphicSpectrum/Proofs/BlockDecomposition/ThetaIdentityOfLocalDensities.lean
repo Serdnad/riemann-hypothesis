@@ -54,6 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocalDensityRatioFormula
 
 @[expose] public section
 
@@ -213,20 +214,7 @@ section Local
 variable {F : Type} [Field F] [NumberField F]
 
 theorem idele_val (a : (AF F)ˣ) : ∀ᶠ v : HeightOneSpectrum (𝓞 F) in cofinite, Valued.v ((a : AF F).2 v) = 1 := by
-  have h1 := (a : AF F).2.2
-  have h2 := ((a⁻¹ : (AF F)ˣ) : AF F).2.2
-  filter_upwards [h1, h2] with v e1 e2
-  have e1' : Valued.v ((a : AF F).2 v) ≤ 1 := e1
-  have e2' : Valued.v (((a⁻¹ : (AF F)ˣ) : AF F).2 v) ≤ 1 := e2
-  have e3 : (a : AF F).2 v * ((a⁻¹ : (AF F)ˣ) : AF F).2 v = 1 := by
-    have := congrArg (fun z : AF F => z.2 v) (Units.mul_inv a)
-    exact this
-  have e4 := congrArg Valued.v e3
-  rw [map_mul, map_one] at e4
-  refine le_antisymm e1' ?_
-  calc (1 : WithZero (Multiplicative ℤ)) = _ := e4.symm
-    _ ≤ Valued.v ((a : AF F).2 v) * 1 := mul_le_mul_right e2' _
-    _ = _ := mul_one _
+  apply _root_.GlobalTheory.CompanionTheory.RatioBase.eventually_val_eq_one <;> assumption
 
 theorem rv_unit (v : HeightOneSpectrum (𝓞 F)) (e : ℝ) {s : Fv F v} (hs : Valued.v s = 1) : rv v e s = 1 := by
   have h0 : s ≠ 0 := by

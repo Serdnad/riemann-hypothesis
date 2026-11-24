@@ -1322,24 +1322,8 @@ theorem posM_mul_row (m : ℕ) (y : UnipotentBlockColumnIndex a m m → R) (M : 
 
 theorem mul_posM_blk (m : ℕ) (y : UnipotentBlockColumnIndex a m m → R) (h : GL (Fin a) R) (hB : GlobalTheory m h) :
     h.val * posM (Subtype.val : UnipotentBlockColumnIndex a m m → Fin a × Fin a) y =
-      posM Subtype.val (fun t : UnipotentBlockColumnIndex a m m => ∑ s, h.val t.1.1 s.1.1 * y s) := by
-  ext i k
-  rw [mul_posM_apply, posM_col]
-  split_ifs with hc
-  · refine Finset.sum_congr rfl fun s _ => ?_
-    rw [if_pos (Fin.ext (by have := s.2; omega))]
-  · refine Finset.sum_eq_zero fun s _ => ?_
-    split_ifs with hs
-    · have h2 := s.2
-      have hk : (k : ℕ) = m := by rw [← hs]; omega
-      have hi : m ≤ (i : ℕ) := by
-        by_contra hh
-        exact hc ⟨by omega, hk⟩
-      rw [hB i s.1.1 (Or.inl hi), Matrix.one_apply_ne, zero_mul]
-      intro e
-      rw [← e] at h2
-      omega
-    · rfl
+      posM Subtype.val (fun t : UnipotentBlockColumnIndex a m m => ∑ s, h.val t.1.1 s.1.1 * y s) :=
+  _root_.PositivityTheory.AdelicQuotientData.ColumnBlockEquiv.mul_posM_blockColumn m y h hB
 
 end PositiveMatrixBlocks
 

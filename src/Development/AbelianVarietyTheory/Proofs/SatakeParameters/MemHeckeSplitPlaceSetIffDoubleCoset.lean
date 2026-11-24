@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsParahoricTypeVectorAtConjugatePlace
 public import Formalism.AlgebraicWeights.IsAlgWeight
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SplitPlaceDoubleCosetOperatorsCommuteSpherical
@@ -70,15 +71,7 @@ theorem trivOutside_mul {L : Type} [Field L] [NumberField L] [IsCMField L] {n : 
 
 theorem mem_GLint_of_entries {K : Type} [Field K] {n : ℕ} (O : Subring K) (g : GL (Fin n) K)
     (h1 : ∀ a b, g.val a b ∈ O) (h2 : ∀ a b, (g⁻¹).val a b ∈ O) : g ∈ Formalism.UG.GLint (Fin n) O := by
-  have inj : Function.Injective (O.subtype.mapMatrix (m := Fin n)) :=
-    fun A B h => by ext i j; exact congrFun (congrFun h i) j
-  let A : Matrix (Fin n) (Fin n) O := fun i j => ⟨g.val i j, h1 i j⟩
-  let B : Matrix (Fin n) (Fin n) O := fun i j => ⟨(g⁻¹).val i j, h2 i j⟩
-  have hA : O.subtype.mapMatrix A = g.val := rfl
-  have hB : O.subtype.mapMatrix B = (g⁻¹).val := rfl
-  refine ⟨⟨A, B, inj ?_, inj ?_⟩, Units.ext rfl⟩
-  · rw [map_mul, hA, hB, map_one, Units.mul_inv]
-  · rw [map_mul, hA, hB, map_one, Units.inv_mul]
+  apply _root_.GlobalTheory.ConjParahoric.mem_GLint_of_entries <;> assumption
 
 theorem loc_mem_GLint {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ} (s : SplitPlace L)
     {k : GA L n} (hk : k ∈ Umax L n) :

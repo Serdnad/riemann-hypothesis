@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LefschetzSigmaSums.PSchWEq
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FrameReading.LimitbDefs
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.CompatFub
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,21 +65,8 @@ open PositivityTheory.Rg.BcB.F PositivityTheory.Rg.BcB.F.Rd
 
 theorem perm_of_map_eq {n : ℕ} (f g : Fin n → ℂ)
     (h : Multiset.map f Finset.univ.val = Multiset.map g Finset.univ.val) :
-    ∃ σ : Equiv.Perm (Fin n), ∀ a, g (σ a) = f a := by
-  have hc : ∀ c : ℂ, Fintype.card {a // f a = c} = Fintype.card {b // g b = c} := by
-    intro c
-    have h1 := congrArg (Multiset.count c) h
-    rw [Multiset.count_map, Multiset.count_map] at h1
-    rw [Fintype.card_subtype, Fintype.card_subtype]
-    have e1 : (Finset.univ.filter fun a => f a = c) = (Finset.univ.filter fun a => c = f a) := by
-      ext a; simp [eq_comm]
-    have e2 : (Finset.univ.filter fun a => g a = c) = (Finset.univ.filter fun a => c = g a) := by
-      ext a; simp [eq_comm]
-    rw [e1, e2]
-    exact_mod_cast h1
-  let e : ∀ c, {a // f a = c} ≃ {b // g b = c} := fun c => Fintype.equivOfCardEq (hc c)
-  refine ⟨Equiv.ofFiberEquiv e, fun a => ?_⟩
-  exact Equiv.ofFiberEquiv_map e a
+    ∃ σ : Equiv.Perm (Fin n), ∀ a, g (σ a) = f a :=
+  _root_.UpperTheory.Reformulated.B.Qh57.exists_perm_of_map_eq f g h
 
 theorem herm_of_realSym {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (χ : InfinitePlace E → Inf n)
     (h : RealSym (mOf χ)) (v : InfinitePlace E) : IsHerm (χ v) := by

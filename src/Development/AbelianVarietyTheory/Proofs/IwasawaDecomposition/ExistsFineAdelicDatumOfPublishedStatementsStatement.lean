@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelActionFramedPointsIsAction
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsAdelicSideOfModelsStatement
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SpanRangeEquiv
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.BrgStdR
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.GeoExV
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksExistW
@@ -325,15 +328,8 @@ theorem exists_thAd (hR : R.IsModels) (t : T0) {K' : Type} [Field K'] {σ' : K' 
     (c0' : VsV D i K' →ₛₗ[σ'] (R.cV i).W) {Cl : Type} (h : Cl → GA D (Vc D i)) {J' : Subgroup (Bridge.Gf (Vc D i))}
     (hle : J' ≤ levJ R i t) (hr : Bridge.IsReps (Bridge.ratF (Vc D i)) J' (fun k => FWT.fin _ (h k)))
     (v₀ : (R.MW i (sg0 D A)).Vec) : ∃ thAd, ThAdIs R i t h c0' v₀ thAd := by
-  classical
-  obtain ⟨hinj, hrange, -⟩ := hR.HV i t
-  have huniq : ∀ y y' x, Place R i t h c0' y x → Place R i t h c0' y' x → y = y' := fun y y' x h1 h2 =>
-    hinj (adForms_ext _ _ _ hle hr (hrange.le (LinearMap.mem_range_self _ y)) (hrange.le (LinearMap.mem_range_self _ y'))
-      fun k => (h1 k).trans (h2 k).symm)
-  refine ⟨fun x => if hx : ∃ y, Place R i t h c0' y x then onQ (Wc D i) (R.thF i t hx.choose v₀) else 0, fun y x hy => ?_⟩
-  have hx : ∃ y, Place R i t h c0' y x := ⟨y, hy⟩
-  simp only [dif_pos hx]
-  rw [huniq _ _ _ hx.choose_spec hy]
+  intros
+  apply _root_.GlobalTheory.T.exists_adelicSide_of_models <;> assumption
 
 
 
@@ -360,25 +356,8 @@ variable (T : CoreJ D) [Algebra T.Q.c.F D.what₂.LL] (R : RealDat D A T.Q.c.F)
 open GlobalTheory.LevelAction in
 theorem exists_levIs (hT : LawsJ T) (hL : R.toLevCh.Is A.μ0) (hpb : T.pb = R.C.P.pb) (i : Fin D.R.m) :
     ∃ lev, LevIs R i (iotaW T i) T.Q.l.M (Mfr T.Q.l) lev := by
-  have hβ := hL.βW i
-  have hle : ∀ PP ∈ R.Pg, T.Q.l.Mb ≤ PP.asIdeal := by
-    intro PP hP
-    obtain ⟨k, hk⟩ := (hL.Pg PP).1 hP
-    rw [hT.half.2]
-    refine (Ideal.prod_le_inf.trans (Finset.inf_le (Finset.mem_univ k))).trans ?_
-    rw [hpb, ← show PP.under (𝓞 D.host.K) = R.C.P.pb k from hk]
-    exact Ideal.map_comap_le
-  have hlift : Lev.LiftsExist (Wc D i) (R.βW i) (R.datWp i R.triv) := by
-    obtain ⟨c, hc⟩ := hβ
-    refine GlobalTheory.T.parahoricLevel_liftsExist _ _ _ _ _ hc (fun PP h PP' h' => ?_) (Finset.disjoint_empty_right _)
-    rcases h' with h' | h'
-    · exact not_isConjPl T.Q.l (hle PP h) (hle PP' h')
-    · exact absurd h' (Finset.notMem_empty _)
-  have hM : 0 < T.Q.l.M := lt_of_lt_of_le (by norm_num) T.Q.l.three_le
-  choose k hk using fun g => hlift (R.eG g)
-  choose f hf using fun g => exists_endo (iotaW T i) (GlobalTheory.LevelAction.latEmb_iotaW T hT i) hM
-    (finCong_of_mem_St hβ (parLev_St (hk g).2.1))
-  exact ⟨f, fun g => ⟨k g, hk g, fun a _ => hf g a⟩⟩
+  intros
+  apply _root_.GlobalTheory.RefPins.exists_levIs <;> assumption
 
 
 open GlobalTheory.LevelActAnyField in
@@ -388,26 +367,8 @@ theorem actLev_of_levIs (hT : LawsJ T) (hL : R.toLevCh.Is A.μ0) (hO : T.pb = R.
     (hlev : LevIs R i (iotaW T i) T.Q.l.M (Mfr T.Q.l) lev) :
     ActLev (Xo := T.Q.Xo ((i : ℕ) + 1)) c' (fun g => (lev g,
       (LinearMap.id : (T.Q.Dw ((i : ℕ) + 1)).La →ₗ[𝓞 D.host.E] (T.Q.Dw ((i : ℕ) + 1)).La))) := by
-  have hj : InR D ((i : ℕ) + 1) := ⟨Nat.le_add_left _ _, i.2⟩
-  have hpq : 1 ≤ (T.Q.Dw ((i : ℕ) + 1)).p + (T.Q.Dw ((i : ℕ) + 1)).q := by
-    have h1 := (hT.pins.2.2.2 _ hj).1
-    have h2 := D.R.m_add_three_le_k
-    rw [h1]
-    simp only [Ranks.sigW]
-    omega
-  have hA : T.Q.l.A.Coprime T.Q.l.M := by rw [hT.pins.2.1.2]; exact Nat.coprime_one_left _
-  have hprod := T.Q.l.prod
-  have hMb : T.Q.l.Mb = ∏ PP ∈ R.Pg, PP.asIdeal := by
-    refine GlobalTheory.CoverHalf.eq_prod_of_squarefree ?_ _ fun PP => ?_
-    · rw [hT.pins.2.1.1] at hprod
-      exact (hprod ▸ GlobalTheory.CoverHalf.squarefree_span_g D : Squarefree (T.Q.l.Mb * _)).of_mul_left
-    · rw [hL.Pg, hT.half.2, GlobalTheory.CoverHalf.prod_map_le_iff, hO]
-      rfl
-  have hM : T.Q.l.M ≠ 0 := by have := T.Q.l.three_le; omega
-  obtain ⟨h1, hm⟩ := mul_on_half (hL.βW i) (R.datWp i R.triv) (rank_Wc i) (J := Mfr T.Q.l)
-    (hMb ▸ hprod) hM (GlobalTheory.PinnedData.latEmb_iotaW T hT i) R.eG.toMonoidHom lev hlev
-  exact actLaws_of_action_mod hpq hA _ c' lev (mem_of_half (lev 1 - LinearMap.id) h1)
-    fun g g' => mem_of_half (lev (g * g') - lev g ∘ₗ lev g') (hm g g')
+  intros
+  apply _root_.GlobalTheory.LevelActFromLevel.actLev_of_levIs <;> assumption
 
 end Level
 
@@ -1715,22 +1676,7 @@ open Formalism.L2.Pj GlobalTheory.AtMember
 namespace GlobalTheory.Mem.R3.Rw
 
 theorem selHalf_of_pin {B : Base} {f : Fr B.toPre} {T : TwDat B} {w : ColW B f T} (p : ColPin w) : SelHalf w.I := by
-  intro a b P hP P' hP' hq
-  obtain ⟨q, hq, hqP, hqP'⟩ := hq
-  obtain ⟨v, -, rfl⟩ := (Formalism.L2.Col.mem_QE _ _ _).1 hP
-  obtain ⟨v', -, rfl⟩ := (Formalism.L2.Col.mem_QE _ _ _).1 hP'
-  have hab : ∀ v, (w.I.sel v).under (𝓞 B.host.F) = v := fun v => by
-    have h := p.above v
-    unfold Formalism.L2.Host.aboveF at h
-    rw [Set.Finite.mem_toFinset] at h
-    exact h
-  have hmem : ∀ v, ((q : 𝓞 B.host.E) ∈ (w.I.sel v).asIdeal) → (q : 𝓞 B.host.F) ∈ v.asIdeal := fun v h => by
-    rw [← hab v]
-    show (q : 𝓞 B.host.F) ∈ (w.I.sel v).asIdeal.comap (algebraMap _ _)
-    rw [Ideal.mem_comap, map_natCast]
-    exact h
-  have := p.half v v' q hq (hmem v hqP) (hmem v' hqP')
-  exact congrArg HeightOneSpectrum.asIdeal this
+  apply _root_.GlobalTheory.MtId.selHalf_of <;> assumption
 
 theorem isIdG_of_heq' (X : Stages) {px : PreX X.B.toPre} {Pg Pg' : Finset (Pl X.toD7.host.E)} (e : Gc X.B px ≃* G0 Pg X.toD7.R.r)
     (e' : Gc X.B px ≃* G0 Pg' X.toD7.R.r) (hP : Pg = Pg') (h : HEq e e') (h' : IsPlacewiseIdentity X (px := px) e') : IsPlacewiseIdentity X (px := px) e := by

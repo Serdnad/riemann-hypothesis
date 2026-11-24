@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.PtShape
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.LocalPublishedTheorems
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.NormO
@@ -94,18 +95,7 @@ private theorem mem_max_iff {l : ℕ} [Fact l.Prime] (c : Coef l) (b : c.O) :
     simp at this
 
 private theorem norm_le {l : ℕ} [Fact l.Prime] (c : Coef l) (x : c.O) : ‖(x : PadicAlgCl l)‖ ≤ 1 := by
-  obtain ⟨-, -, -, -, -, h0, hfin, -, -⟩ := dvrFacts l c.O
-  have hE : (eO l c.O).toNat ≠ 0 := by
-    rw [Ne, ENat.toNat_eq_zero, not_or]
-    exact ⟨h0, ne_top_of_le_ne_top (ENat.coe_ne_top _) hfin⟩
-  have hl : (1 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).one_lt
-  have hl0 : (0 : ℝ) < (l : ℝ)⁻¹ := by positivity
-  have hl1 : (l : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ hl
-  rcases eq_or_ne x 0 with rfl | hx
-  · simp
-  · have := normO l c.O x hx
-    rw [← pow_le_one_iff_of_nonneg (norm_nonneg _) hE, this]
-    exact pow_le_one₀ hl0.le hl1.le
+  apply _root_.norm_coe_coefO_le_one <;> assumption
 
 private theorem locConst {l : ℕ} [Fact l.Prime] (c : Coef l) {X : Type} [TopologicalSpace X] (f : X → c.O)
     (hf : Continuous fun x => (f x : PadicAlgCl l)) : IsLocallyConstant fun x => residue c.O (f x) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PolarizedGaloisRep
 public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedHecke
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
@@ -640,23 +641,7 @@ theorem norm_le_one_of_finite {p : ℕ} [Fact p.Prime] {O : Type} [CommRing O] [
     [Module.Finite ℤ_[p] O] (f : O →+* Qbar p)
     (hf : ∀ z : ℤ_[p], f (algebraMap ℤ_[p] O z) = algebraMap ℚ_[p] (Qbar p) (z : ℚ_[p])) (y : O) :
     ‖f y‖ ≤ 1 := by
-  have hy : IsIntegral ℤ_[p] y := Algebra.IsIntegral.isIntegral y
-  let v := NormedField.valuation (K := Qbar p)
-  have hmem : ∀ z : ℤ_[p], ((algebraMap ℚ_[p] (Qbar p)).comp PadicInt.Coe.ringHom) z ∈ v.integer := by
-    intro z
-    rw [Valuation.mem_integer_iff, NormedField.valuation_apply]
-    have : ‖algebraMap ℚ_[p] (Qbar p) (z : ℚ_[p])‖ ≤ 1 := by
-      rw [PadicAlgCl.norm_extends p]; exact PadicInt.norm_le_one z
-    exact_mod_cast this
-  let φ : ℤ_[p] →+* v.integer := ((algebraMap ℚ_[p] (Qbar p)).comp PadicInt.Coe.ringHom).codRestrict v.integer hmem
-  have hI : IsIntegral v.integer (f y) := by
-    refine IsIntegral.map_of_comp_eq φ f ?_ hy
-    ext z
-    simp only [RingHom.comp_apply, hf]
-    rfl
-  have h := (Valuation.integer.integers v).mem_of_integral hI
-  rw [Valuation.mem_integer_iff, NormedField.valuation_apply] at h
-  exact_mod_cast h
+  first | exact _root_.GlobalTheory.Proof.SemisimpleRepresentationIntegralConjugate.norm_le_one | exact @_root_.GlobalTheory.Proof.SemisimpleRepresentationIntegralConjugate.norm_le_one | apply _root_.GlobalTheory.Proof.SemisimpleRepresentationIntegralConjugate.norm_le_one <;> assumption
 
 theorem norm_lt_one_of_mem_maximalIdeal {p : ℕ} [Fact p.Prime] {O : Type} [CommRing O] [IsDomain O]
     [IsDiscreteValuationRing O] [Algebra ℤ_[p] O]

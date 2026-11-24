@@ -16,17 +16,7 @@ variable {S : Type} [CommRing S] {K : Type} {ι : K → Type} {Ω : Type} [Field
 
 theorem cellSec_mono [∀ k, Fintype (ι k)] (y : (Σ k, ι k) → Ω) (γ : K → ℤ) {I I' : ∀ k, Finset (ι k)} (h : ∀ k, I k ⊆ I' k)
     (hI' : CellMeets y I') : cellSec S y γ I ≤ cellSec S y γ I' := by
-  classical
-  unfold cellSec
-  rw [if_pos hI']
-  split_ifs with hI
-  · refine Submodule.span_mono ?_
-    rintro z ⟨g, t, a, ht, hta, hγ, hg, rfl⟩
-    refine ⟨g, t, a, ?_, hta, hγ, hg, rfl⟩
-    refine Submonoid.closure_mono ?_ ht
-    rintro f ⟨k, i, hi, rfl⟩
-    exact ⟨k, i, h k hi, rfl⟩
-  · exact bot_le
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.RowLocCover.cellSec_mono <;> assumption
 
 variable [LinearOrder K] [∀ k, LinearOrder (ι k)]
 

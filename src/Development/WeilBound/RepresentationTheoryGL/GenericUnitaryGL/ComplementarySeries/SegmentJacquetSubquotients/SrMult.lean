@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.RealGroups.GeneralUnitaryRepresentations.ArchimedeanJacquetSegments.SegmentSubquotients.SrMult
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.ExistsCellOfIsSubquotient
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.EmbedsLevelZeroDepthZero
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NormalizedAbsCharacterization
@@ -78,40 +79,8 @@ theorem exists_nabs_ne_one : ∃ x : kˣ, nabs k x ≠ 1 := by
   exact ⟨ϖ, fun e => ValuativeRel.uniformizer_lt_one.ne (hϖ ▸ (nabs_eq_one_iff ϖ).1 e)⟩
 
 theorem not_equiv_segTerm {d : ℕ} (hd : 0 < d) (σ : IrrRep (GL (Fin d) k)) (l : ℕ) {a b : Fin l}
-    (hab : a ≠ b) : IsEmpty ((segTerm σ.ρ l a).Equiv (segTerm σ.ρ l b)) := by
-  refine ⟨fun φ => ?_⟩
-  obtain ⟨x, hx⟩ := exists_nabs_ne_one (k := k)
-  let z : GL (Fin d) k := GeneralLinearGroup.scalar (Fin d) x
-  have hz : ∀ g : GL (Fin d) k, z * g = g * z := fun g => by
-    ext i j
-    simp [z, GeneralLinearGroup.scalar, Matrix.diagonal_mul, Matrix.mul_diagonal, mul_comm]
-  have hdet : GeneralLinearGroup.det z = x ^ d := by
-    ext
-    simp [z, GeneralLinearGroup.scalar]
-  obtain ⟨c, hc⟩ := GlobalTheory.CompanionTheory.SocleFrob.exists_eq_smul_id σ.ρ σ.smooth σ.irr (σ.ρ z) fun g y => by
-    rw [← Module.End.mul_apply, ← map_mul, hz g, map_mul, Module.End.mul_apply]
-  have hcz : ∀ y, σ.ρ z y = c • y := fun y => by
-    rw [hc]; rfl
-  obtain ⟨v, hv⟩ := exists_ne_zero_irr σ.ρ σ.irr
-  have hc0 : c ≠ 0 := fun e => hv (by
-    have h2 : σ.ρ z⁻¹ (σ.ρ z v) = v := by
-      rw [← Module.End.mul_apply, ← map_mul]
-      simp
-    rw [hcz, e, zero_smul, map_zero] at h2
-    exact h2.symm)
-  have hφv : φ.toLinearEquiv v ≠ 0 := fun e => hv (φ.toLinearEquiv.map_eq_zero_iff.1 e)
-  have h3 : φ.toLinearEquiv ((segTerm σ.ρ l a) z v) = (segTerm σ.ρ l b) z (φ.toLinearEquiv v) :=
-    Representation.IntertwiningMap.isIntertwining _ _ φ.toIntertwiningMap z v
-  simp only [segTerm, twist_apply, detChar_apply, hdet, map_smul, hcz, smul_smul] at h3
-  have h4 := mul_right_cancel₀ hc0 (smul_left_injective ℂ hφv h3)
-  rw [val_absPow, val_absPow, Complex.cpow_natCast, Complex.cpow_natCast] at h4
-  have h5 : nabs k (x ^ d) ^ (a : ℕ) = nabs k (x ^ d) ^ (b : ℕ) := by exact_mod_cast h4
-  have hpos : 0 < nabs k (x ^ d) := nabs_pos' k _
-  have hne : nabs k (x ^ d) ≠ 1 := by
-    have hpow : nabs k (x ^ d) = nabs k x ^ d := by simp [nabs]
-    rw [hpow]
-    exact fun e => hx ((pow_eq_one_iff_of_nonneg (nabs_pos' k x).le hd.ne').1 e)
-  exact hab (Fin.ext (pow_right_injective₀ hpos hne h5))
+    (hab : a ≠ b) : IsEmpty ((segTerm σ.ρ l a).Equiv (segTerm σ.ρ l b)) :=
+  _root_.CompanionTheory.Pf1.SegRepC.Twist.not_equiv_segTerm hd σ l hab
 
 end PositivityTheory.Pf1.SegRepC.Twist
 
@@ -189,44 +158,7 @@ theorem jhMult_jac_multiProd (hG : GeometricLemma) {d l : ℕ} (hd : 0 < d) (hl 
     (σ : IrrRep (GL (Fin d) k)) (hσ : IsCuspidal σ.ρ) :
     jhMult (piTensor (segTerm σ.ρ l))
       (jac (consecBlocks l d) (multiProd (consecBlocks l d) (segTerm σ.ρ l))) = 1 := by
-  classical
-  have hx : ∑ a, (cl' σ l a).1 = l * d := by
-    simp [cl', mul_comm]
-  have hinj : Function.Injective (cl' σ l) := fun a b h => cl_injective hd σ h
-  have hc : ∀ a, (cl' σ l a).IsCusp := fun a => cl_cusp hd σ hσ a
-  have key := _root_.GlobalTheory.CompanionTheory.CuspJm.main irrAdm (cl' σ l) (cl' σ l) hx hx hc hc
-  have hset : {e : Fin l ≃ Fin l | ∀ a, cl' σ l a = cl' σ l (e a)} = {Equiv.refl _} := by
-    ext e
-    simp only [Set.mem_ofPred_eq, Set.mem_singleton_iff]
-    constructor
-    · intro h
-      ext a
-      exact congrArg Fin.val (hinj (h a)).symm
-    · rintro rfl a
-      rfl
-  rw [hset, Set.ncard_singleton] at key
-  have h1 : jhMult (piTensor fun a => (cl' σ l a).rep)
-      (jac (stdBlocks (fun _ : Fin l => d) hx)
-        (multiProd (stdBlocks (fun _ : Fin l => d) hx) fun a => (cl' σ l a).rep)) = 1 := by
-    have h := key
-    exact_mod_cast h
-  have hblk0 : ∀ h : ∑ _a : Fin l, d = l * d, stdBlocks (fun _ : Fin l => d) h = consecBlocks l d := by
-    intro h
-    ext ⟨a, i⟩
-    rw [stdBlocks_val, consecBlocks_val]
-    simp [mul_comm, add_comm]
-  rw [hblk0 hx] at h1
-  calc jhMult (piTensor (segTerm σ.ρ l)) (jac (consecBlocks l d) (multiProd (consecBlocks l d) (segTerm σ.ρ l)))
-      = jhMult (piTensor fun a => (cl' σ l a).rep)
-          (jac (consecBlocks l d) (multiProd (consecBlocks l d) (segTerm σ.ρ l))) :=
-        jhMult_congr_left (piTensorEquiv fun a => IrrGL.equivOf (segTerm σ.ρ l a) (isSmooth_segTerm' σ a)
-          (isIrreducible_segTerm' σ a)) _
-    _ = jhMult (piTensor fun a => (cl' σ l a).rep)
-          (jac (consecBlocks l d) (multiProd (consecBlocks l d) fun a => (cl' σ l a).rep)) :=
-        jhMult_congr_right _ (jacEquivOf (consecBlocks l d)
-          (multiProdEquiv (consecBlocks l d) fun a => IrrGL.equivOf (segTerm σ.ρ l a) (isSmooth_segTerm' σ a)
-            (isIrreducible_segTerm' σ a)))
-    _ = 1 := h1
+  apply _root_.CompanionTheory.RgGu.SRC.jhMult_jac_multiProd <;> assumption
 
 end PositivityTheory.RgGu.SRC
 

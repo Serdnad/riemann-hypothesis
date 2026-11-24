@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GlobalTheory.HLatOpsP
 public import Formalism.LocalToGlobal.Divisibility.ConstantGeTwentyEight
 public import Formalism.LocalToGlobal.Columns.HeckeInert
 public import Formalism.LocalToGlobal.Divisibility.Inputs
@@ -335,16 +336,7 @@ theorem mem_dualLat_iff {V : Type} [AddCommGroup V] [Module K V] [Module (𝓞 K
 
 theorem cnorm_isom {m n : Type} [Fintype m] [DecidableEq m] [Fintype n] [DecidableEq n] (W : Matrix m n ℂ)
     (hW : Wᴴ * W = 1) (c : n → ℂ) : Formalism.HermitianLatticesTheory.cnorm (W *ᵥ c) = Formalism.HermitianLatticesTheory.cnorm c := by
-  have key : ∀ {ι : Type} [Fintype ι] (u : ι → ℂ), ((∑ i, ‖u i‖ ^ 2 : ℝ) : ℂ) = star u ⬝ᵥ u := by
-    intro ι _ u
-    push_cast
-    simp only [dotProduct, Pi.star_apply, Complex.star_def, Complex.conj_mul']
-  unfold Formalism.HermitianLatticesTheory.cnorm
-  congr 1
-  have h : ((∑ i, ‖(W *ᵥ c) i‖ ^ 2 : ℝ) : ℂ) = ((∑ i, ‖c i‖ ^ 2 : ℝ) : ℂ) := by
-    rw [key, key, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, hW,
-      Matrix.one_mulVec]
-  exact_mod_cast h
+  apply _root_.Formalism.L2.GlobalTheoryTheory.HLatOps.cnorm_mulVec <;> assumption
 
 theorem muDual_tie (A : Formalism.BasicNotions.HLat K) {n : ℕ} (L : Submodule (𝓞 K) (Fin n → K))
     (XE : InfinitePlace K → Matrix (Fin n) (Fin n) ℂ) (e : (Fin n → K) ≃ₗ[K] A.V)

@@ -698,15 +698,7 @@ theorem mem_stabilizer_of {g : A} (L : stLat O E g) (t : Aˣ)
 
 theorem finite_quotient_span [IsDomain O] [IsDiscreteValuationRing O]
     [Finite (IsLocalRing.ResidueField O)] {c : O} (hc : c ≠ 0) : Finite (O ⧸ Ideal.span {c}) := by
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible O
-  have hne : Ideal.span {c} ≠ ⊥ := by simpa using hc
-  obtain ⟨n, hn⟩ := IsDiscreteValuationRing.ideal_eq_span_pow_irreducible hne hϖ
-  have hm : IsLocalRing.maximalIdeal O = Ideal.span {ϖ} :=
-    (IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).1 hϖ
-  haveI : Finite (O ⧸ IsLocalRing.maximalIdeal O) :=
-    (inferInstance : Finite (IsLocalRing.ResidueField O))
-  have := Ideal.finite_quotient_pow (IsNoetherian.noetherian (IsLocalRing.maximalIdeal O)) n
-  rwa [hm, Ideal.span_singleton_pow, ← hn] at this
+  apply _root_.GlobalTheory.finite_quot_span_singleton_of_dvr_sandwich <;> assumption
 
 variable [IsDomain O] [Algebra O E] [IsFractionRing O E] [IsScalarTower O E A]
 

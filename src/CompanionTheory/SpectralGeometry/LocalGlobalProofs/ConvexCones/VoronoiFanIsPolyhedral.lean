@@ -21,6 +21,8 @@ import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.TypeStar
 import Mathlib.Algebra.Module.Torsion.Prod
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.HostGeneratorPowFourTraceNormModEight
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthLeOnCentreCell
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SuperadditiveOfCellsCoverCone
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.IsMin2IffFinite, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsBalancedFormsDominating, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsFiniteBelowModTwo, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.IntEqZeroOfForallTwoPowDvd, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsPsdFormsCoverContactSet, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.IsPosDefAddAndMemPsdCone, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.MemRationalConeOfPerturbation, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ContactSetSpansOfPosDef, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.PsdConeAddMem, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.PsdConeAddMemStatement, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.PsdConeDescendsAlongSurjection, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.PsdConeExistsMaximalSupport, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ContactSetSpannedOfCover, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.ExistsNatCombOfToRealMemRcone, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.MemConeOfModTwoLift, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.PsdConeFinitelyManyOrbits, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.VorFunHomogSuperadd, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.VoronoiFunctionIntegralPositive, CompanionTheory.SpectralGeometry.LocalGlobalProofs.ConvexCones.VoronoiFanIsPolyhedral
@@ -914,43 +916,8 @@ theorem free_int_of_torsion_eq_bot (M : Type) [AddCommGroup M] [Module O M] [Mod
 
 end DedekindLFunctions
 
-theorem add_mem_psdCone : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O) (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] (B B' : X →ₗ[ℤ] X →ₗ[ℤ] ℝ), B ∈ psdCone (bar := bar) (X := X) → B' ∈ psdCone (bar := bar) (X := X) → B + B' ∈ psdCone (bar := bar) (X := X) := by
-  intro O _ _ _ _ bar X _ _ _ B B' hB hB'
-  obtain ⟨X₁, _, _, _, r₁, B₁, hr₁, hb₁, hd₁, he₁⟩ := hB
-  obtain ⟨X₂, _, _, _, r₂, B₂, hr₂, hb₂, hd₂, he₂⟩ := hB'
-  have : Module.Finite O X₁ := Module.Finite.of_surjective r₁ hr₁
-  have : Module.Finite O X₂ := Module.Finite.of_surjective r₂ hr₂
-  have ht₁ : Submodule.torsion O X₁ = ⊥ := IsDedekindDomain.flat_iff_torsion_eq_bot.1 inferInstance
-  have ht₂ : Submodule.torsion O X₂ = ⊥ := IsDedekindDomain.flat_iff_torsion_eq_bot.1 inferInstance
-  have : Module.Free ℤ X₁ := free_int_of_torsion_eq_bot O X₁ ht₁
-  have : Module.Free ℤ X₂ := free_int_of_torsion_eq_bot O X₂ ht₂
-  have : Module.Finite ℤ X₁ := Module.Finite.trans O X₁
-  have : Module.Finite ℤ X₂ := Module.Finite.trans O X₂
-  have hdef := isPosDef_orthSum (Module.Free.chooseBasis ℤ X₁) (Module.Free.chooseBasis ℤ X₂) hd₁ hd₂
-  let r : X →ₗ[O] X₁ × X₂ := r₁.prod r₂
-  let P := LinearMap.range r
-  have htP : Submodule.torsion O P = ⊥ := by
-    have ht : Submodule.torsion O (X₁ × X₂) = ⊥ := IsDedekindDomain.flat_iff_torsion_eq_bot.1 inferInstance
-    refine (Submodule.eq_bot_iff _).2 fun u hu => ?_
-    obtain ⟨a, hau⟩ := (Submodule.mem_torsion_iff u).1 hu
-    have h1 : (u : X₁ × X₂) ∈ Submodule.torsion O (X₁ × X₂) :=
-      (Submodule.mem_torsion_iff _).2 ⟨a, by simpa using congrArg Subtype.val hau⟩
-    rw [ht] at h1
-    exact Subtype.ext h1
-  have : Module.Flat O P := IsDedekindDomain.flat_iff_torsion_eq_bot.2 htP
-  have : Module.FinitePresentation O P := Module.finitePresentation_of_finite _ _
-  have hproj : Module.Projective O P := Module.Flat.projective_of_finitePresentation
-  let j : P →ₗ[ℤ] X₁ × X₂ := P.subtype.toAddMonoidHom.toIntLinearMap
-  refine ⟨P, inferInstance, inferInstance, hproj, r.rangeRestrict, (orthSum B₁ B₂).compl₁₂ j j,
-    r.surjective_rangeRestrict, ⟨fun y z => ?_, fun a y z => ?_⟩,
-    isPosDef_compl_injective hdef j Subtype.val_injective, fun a b => ?_⟩
-  · change B₁ _ _ + B₂ _ _ = B₁ _ _ + B₂ _ _
-    rw [hb₁.1, hb₂.1]
-  · change B₁ (a • _) _ + B₂ (a • _) _ = B₁ _ (bar a • _) + B₂ _ (bar a • _)
-    rw [hb₁.2, hb₂.2]
-    rfl
-  · change B a b + B' a b = B₁ (r₁ a) (r₁ b) + B₂ (r₂ a) (r₂ b)
-    rw [he₁, he₂]
+theorem add_mem_psdCone : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O) (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] (B B' : X →ₗ[ℤ] X →ₗ[ℤ] ℝ), B ∈ psdCone (bar := bar) (X := X) → B' ∈ psdCone (bar := bar) (X := X) → B + B' ∈ psdCone (bar := bar) (X := X) :=
+  _root_.GlobalTheory.PolFan.CoverSuper.add_mem_psdCone
 
 end GlobalTheory.CompanionTheory.Ar.Fan
 end -- clump:auto
@@ -1215,63 +1182,7 @@ namespace GlobalTheory.CompanionTheory.Ar.Fan
 theorem exists_nat_comb_of_toReal_mem_rcone (X : Type) [AddCommGroup X] (m : ℕ)
     (γ : Fin m → LinearMap.BilinForm ℤ X) (β : LinearMap.BilinForm ℤ X) (hβ : toReal β ∈ rcone γ) :
     ∃ (k : ℕ) (c : Fin m → ℕ), 0 < k ∧ k • β = ∑ i, c i • γ i := by
-  obtain ⟨t, ht0, ht⟩ := hβ
-  let vec : X × X → Fin (m + 1) → ℤ := fun p =>
-    Fin.snoc (α := fun _ => ℤ) (fun i => γ i p.1 p.2) (-(β p.1 p.2))
-  obtain ⟨r, v, hreal, -⟩ :=
-    GlobalTheory.MinkWeylReal.cone_orthant_fg (m + 1) ∅ (Set.range vec) Set.finite_empty
-  let T : Fin (m + 1) → ℝ := Fin.snoc (α := fun _ => ℝ) t 1
-  have hpt : ∀ y z : X, (β y z : ℝ) = ∑ i, t i * (γ i y z : ℝ) := by
-    intro y z
-    have h := LinearMap.congr_fun (LinearMap.congr_fun ht y) z
-    simpa [toReal, LinearMap.sum_apply] using h
-  have hT : (∀ i, 0 ≤ T i) ∧ (∀ a ∈ (∅ : Set (Fin (m + 1) → ℤ)), ∑ i, (a i : ℝ) * T i ≤ 0) ∧
-      (∀ b ∈ Set.range vec, ∑ i, (b i : ℝ) * T i = 0) := by
-    refine ⟨fun i => ?_, fun a ha => absurd ha (Set.notMem_empty a), ?_⟩
-    · refine Fin.lastCases ?_ (fun j => ?_) i
-      · simp [T]
-      · simpa [T] using ht0 j
-    · rintro _ ⟨⟨y, z⟩, rfl⟩
-      rw [Fin.sum_univ_castSucc]
-      simp only [vec, T, Fin.snoc_castSucc, Fin.snoc_last]
-      have h2 : ∑ x, ((γ x y z : ℤ) : ℝ) * t x = ∑ i, t i * (γ i y z : ℝ) :=
-        Finset.sum_congr rfl fun i _ => mul_comm _ _
-      have h3 := hpt y z
-      push_cast
-      linarith
-  obtain ⟨c, hc0, hTc⟩ := (hreal T).1 hT
-  have hlast : (1 : ℝ) = ∑ k, c k * (v k (Fin.last m) : ℝ) := by
-    have h := congrFun hTc (Fin.last m)
-    simpa [T, Finset.sum_apply] using h
-  have hex : ∃ k, 0 < v k (Fin.last m) := by
-    by_contra hno
-    push_neg at hno
-    have : ∑ k, c k * (v k (Fin.last m) : ℝ) = 0 :=
-      Finset.sum_eq_zero fun k _ => by
-        have : v k (Fin.last m) = 0 := Nat.le_zero.1 (hno k)
-        simp [this]
-    rw [this] at hlast
-    exact one_ne_zero hlast
-  obtain ⟨k, hk⟩ := hex
-  have hv := (hreal (fun i => (v k i : ℝ))).2
-    ⟨Pi.single k 1, fun j => by
-      by_cases h : j = k
-      · subst h; simp
-      · simp [Pi.single_eq_of_ne h], by
-      rw [Finset.sum_eq_single k (fun b _ hb => by simp [Pi.single_eq_of_ne hb]) (by simp)]
-      simp⟩
-  refine ⟨v k (Fin.last m), fun i => v k i.castSucc, hk, ?_⟩
-  refine LinearMap.ext₂ fun y z => ?_
-  have h := hv.2.2 (vec (y, z)) ⟨(y, z), rfl⟩
-  rw [Fin.sum_univ_castSucc] at h
-  simp only [vec, Fin.snoc_castSucc, Fin.snoc_last] at h
-  have h' : ∑ i, γ i y z * (v k i.castSucc : ℤ) + -(β y z) * (v k (Fin.last m) : ℤ) = 0 := by
-    exact_mod_cast h
-  simp only [LinearMap.smul_apply, LinearMap.sum_apply, nsmul_eq_mul]
-  have h2 : ∑ i, (v k i.castSucc : ℤ) * γ i y z = ∑ i, γ i y z * (v k i.castSucc : ℤ) :=
-    Finset.sum_congr rfl fun i _ => mul_comm _ _
-  rw [h2]
-  linarith
+  apply _root_.GlobalTheory.PolFan.StarOnCell.exists_nat_of_inRCone <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.Fan
 end -- clump:auto

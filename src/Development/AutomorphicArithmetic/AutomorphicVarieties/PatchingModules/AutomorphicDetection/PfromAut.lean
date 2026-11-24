@@ -13,7 +13,9 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingMod
 public import Mathlib.RingTheory.Polynomial.Resultant.Basic
 public import Mathlib.RingTheory.Filtration
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.CharPOfPadicAlt
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.CharPOfPadicAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.DetFin
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DeterminantPadicFree.DetFin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.ArchimedeanH0Cards.PushforwardPreservesSelmerCocycles
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.TaylorWilesObstructionBound
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.ArchimedeanH0Cards.H2RightExactModLOfH3Subsingleton
@@ -44,6 +46,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingMod
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.ArPl
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.BoundW1Arithmetic
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.ConjugationDescendsToSubring
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.ConjugationDescendsToSubring
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.AutomorphicDetection.Raw
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -174,37 +177,9 @@ private theorem ac_eta {g : ℕ} (t : R) {f : Γ → DD R g}
   rw [← e, ← hc, ← map_pow, show (DD.C (t ^ N) : DD R g) = ⟨t ^ N, 0, 0, 0⟩ from rfl]
   simp
 
-private theorem sum_comp {g : ℕ} {ι : Type} (T : Finset ι) (f : ι → DD R g) :
-    (∑ i ∈ T, f i).a = ∑ i ∈ T, (f i).a ∧ (∀ j, (∑ i ∈ T, f i).ep j = ∑ i ∈ T, (f i).ep j) ∧
-      (∀ j, (∑ i ∈ T, f i).ep' j = ∑ i ∈ T, (f i).ep' j) ∧ (∑ i ∈ T, f i).eta = ∑ i ∈ T, (f i).eta := by
-  classical
-  induction T using Finset.induction_on with
-  | empty => exact ⟨rfl, fun _ => rfl, fun _ => rfl, rfl⟩
-  | insert i T hi ih =>
-    obtain ⟨h1, h2, h3, h4⟩ := ih
-    simp only [Finset.sum_insert hi]
-    exact ⟨by rw [← h1]; rfl, fun j => by rw [← h2 j]; rfl, fun j => by rw [← h3 j]; rfl, by rw [← h4]; rfl⟩
-
 private theorem epM_eq {g n : ℕ} (Z : Fin g → Matrix (Fin n) (Fin n) R) (a b : Fin n) :
     DD.epM Z a b = ∑ j, DD.C (Z j a b) * (⟨0, Pi.single j 1, 0, 0⟩ : DD R g) := by
-  classical
-  have hC : ∀ c : R, (DD.C c : DD R g) = ⟨c, 0, 0, 0⟩ := fun _ => rfl
-  obtain ⟨h1, h2, h3, h4⟩ := sum_comp Finset.univ (fun j => DD.C (Z j a b) * (⟨0, Pi.single j 1, 0, 0⟩ : DD R g))
-  apply DD.ext
-  · rw [h1]
-    change (0 : R) = _
-    simp [hC]
-  · funext j
-    rw [h2 j]
-    change Z j a b = _
-    simp [hC, Pi.single_apply]
-  · funext j
-    rw [h3 j]
-    change (0 : R) = _
-    simp [hC]
-  · rw [h4]
-    change (0 : R) = _
-    simp [hC]
+  apply _root_.epM_entry <;> assumption
 
 end
 
@@ -358,19 +333,7 @@ open Matrix IsLocalRing UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.Pa
 
 private theorem charP_of_padic {l : ℕ} [Fact l.Prime] {K : Type} [Field K] [Finite K] (f : ℤ_[l] →+* K) :
     CharP K l := by
-  obtain ⟨p, hp⟩ := CharP.exists K
-  have hpp : p.Prime := CharP.char_is_prime K p
-  have hpK : ((p : ℕ) : K) = 0 := CharP.cast_eq_zero K p
-  have hpl : p = l := by
-    by_contra hne
-    have hcop : l.Coprime p := (Nat.coprime_primes (Fact.out) hpp).2 (Ne.symm hne)
-    have hu : IsUnit ((p : ℕ) : ℤ_[l]) :=
-      PadicInt.isUnit_iff.2 (PadicInt.norm_natCast_eq_one_iff.2 hcop)
-    have hu' := hu.map f
-    rw [map_natCast, hpK] at hu'
-    exact not_isUnit_zero hu'
-  subst hpl
-  exact hp
+  apply _root_.charP_of_padic <;> assumption
 
 theorem UpperTheory.V.Pa.Det.kapEx :
     ∀ {l : ℕ} [Fact l.Prime] {F : GFrame l} {n : ℕ} (x : NP F n), PhiCond F.Γ l → Nonempty (Kap x) := by
@@ -1347,19 +1310,7 @@ section -- clump:auto
 open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.Gal IsLocalRing Filter UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.Pa
 
 private theorem charK (l : ℕ) [Fact l.Prime] (K : Type) [Field K] [Finite K] [Algebra ℤ_[l] K] : CharP K l := by
-  obtain ⟨p, hp⟩ := CharP.exists K
-  haveI := hp
-  have hpp : p.Prime := CharP.char_is_prime K p
-  by_contra hne
-  have hpl : p ≠ l := fun h => hne (h ▸ hp)
-  have hu : IsUnit (p : ℤ_[l]) := by
-    by_contra h
-    rw [PadicInt.not_isUnit_iff, ← Int.cast_natCast, PadicInt.norm_int_lt_one_iff_dvd,
-      Int.natCast_dvd_natCast] at h
-    exact hpl ((Nat.prime_dvd_prime_iff_eq (Fact.out) hpp).mp h).symm
-  have := hu.map (algebraMap ℤ_[l] K)
-  rw [map_natCast, CharP.cast_eq_zero] at this
-  exact not_isUnit_zero this
+  apply _root_.charK <;> assumption
 
 private theorem unip_pow (l : ℕ) [Fact l.Prime] (K : Type) [Field K] [CharP K l] (n m : ℕ)
     (M : Matrix (Fin n) (Fin n) (PowerSeries K))
@@ -1476,19 +1427,7 @@ section -- clump:auto
 open Matrix IsLocalRing UpperTheory.V.Alg UpperTheory.V.W UpperTheory.V.Pa
 
 private theorem l_zero {l : ℕ} [Fact l.Prime] {K : Type} [Field K] [Finite K] (f : ℤ_[l] →+* K) : (l : K) = 0 := by
-  by_contra hne
-  have hp : (ringChar K).Prime := CharP.char_is_prime K (ringChar K)
-  have hlp : ringChar K ≠ l := by
-    intro h
-    apply hne
-    rw [← h]
-    exact ringChar.Nat.cast_ringChar
-  have hcop : l.Coprime (ringChar K) := (Nat.coprime_primes (Fact.out) hp).mpr hlp.symm
-  have hu : IsUnit ((ringChar K : ℕ) : ℤ_[l]) :=
-    PadicInt.isUnit_iff.mpr (PadicInt.norm_natCast_eq_one_iff.mpr hcop)
-  have hu' := hu.map f
-  rw [map_natCast, ringChar.Nat.cast_ringChar] at hu'
-  exact not_isUnit_zero hu'
+  apply _root_.char_of_padic <;> assumption
 
 private theorem hom_uniq {l : ℕ} [Fact l.Prime] {R : Type} [CommRing R] (f f' : ℤ_[l] →+* R) (h : (l : R) = 0) :
     f = f' := by

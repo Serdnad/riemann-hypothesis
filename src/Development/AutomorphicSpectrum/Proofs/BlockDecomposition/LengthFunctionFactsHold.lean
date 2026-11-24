@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LengthFunctionCompact
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.WaveSt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,6 +49,7 @@ import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.KTypeLemma.RightHolRightHolEq
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Topology.Algebra.Group.Units
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.LeftEquivariantFunctions.GelfandFlags.SecondCountableG
 
 @[expose] public section
 
@@ -74,18 +76,7 @@ theorem lg_eq (y : Mat n) : lg y = Real.log (1 + (hs y + hs y⁻¹)) := by
   simp only [lg, hs, sum_add_distrib]
 
 theorem hs_mul_le (x y : Mat n) : hs (x * y) ≤ hs x * hs y := by
-  have h : ∀ a b, ‖(x * y) a b‖ ^ 2 ≤ (∑ c, ‖x a c‖ ^ 2) * ∑ c, ‖y c b‖ ^ 2 := by
-    intro a b
-    have h1 : ‖(x * y) a b‖ ≤ ∑ c, ‖x a c‖ * ‖y c b‖ := by
-      rw [Matrix.mul_apply]
-      exact (norm_sum_le _ _).trans (le_of_eq (sum_congr rfl fun c _ => norm_mul _ _))
-    calc ‖(x * y) a b‖ ^ 2 ≤ (∑ c, ‖x a c‖ * ‖y c b‖) ^ 2 := by gcongr
-      _ ≤ _ := sum_mul_sq_le_sq_mul_sq _ _ _
-  calc hs (x * y) ≤ ∑ a, ∑ b, (∑ c, ‖x a c‖ ^ 2) * ∑ c, ‖y c b‖ ^ 2 :=
-        sum_le_sum fun a _ => sum_le_sum fun b _ => h a b
-    _ = hs x * hs y := by
-        simp only [hs, ← mul_sum, ← sum_mul]
-        rw [sum_comm (f := fun b c => ‖y c b‖ ^ 2)]
+  apply _root_.PositivityTheory.RgBcC.VC.NAvgH.sq_mul_le <;> assumption
 
 theorem hs_eq_trace (y : Mat n) : hs y = (trace (y * yᴴ)).re := by
   have h : trace (y * yᴴ) = ((hs y : ℝ) : ℂ) := by
@@ -152,22 +143,7 @@ theorem entry_le_of_lg_le {R : ℝ} {y : Mat n} (hy : lg y ≤ R) :
     fun a b => key _ (norm_nonneg _) ((sq_entry_le_hs y⁻¹ a b).trans (by linarith)) hE⟩
 
 theorem isCompact_G (R : ℝ) : IsCompact {y : G n | lg y.val ≤ R} := by
-  have hc : Continuous fun y : G n => lg y.val :=
-    contDiffOn_lg.continuousOn.comp_continuous Units.continuous_val mem_GLs_val
-  have hcl : IsClosed {y : G n | lg y.val ≤ R} := isClosed_le hc continuous_const
-  haveI : ProperSpace (Mat n) := FiniteDimensional.proper_real _
-  have hB : IsCompact (Metric.closedBall (0 : Mat n) (Real.exp R)) := isCompact_closedBall _ _
-  have hK : IsCompact ((Metric.closedBall (0 : Mat n) (Real.exp R)) ×ˢ
-      (MulOpposite.op '' Metric.closedBall (0 : Mat n) (Real.exp R))) :=
-    hB.prod (hB.image MulOpposite.continuous_op)
-  have hpre := Units.isClosedEmbedding_embedProduct.isCompact_preimage hK
-  refine hpre.of_isClosed_subset hcl fun y hy => ?_
-  obtain ⟨h1, h2⟩ := entry_le_of_lg_le hy
-  have hE : 0 ≤ Real.exp R := (Real.exp_pos R).le
-  refine ⟨?_, ⟨(y⁻¹ : G n).val, ?_, rfl⟩⟩
-  · simpa [Units.embedProduct] using (Matrix.norm_le_iff hE).2 h1
-  · rw [mem_closedBall_zero_iff, Matrix.coe_units_inv]
-    exact (Matrix.norm_le_iff hE).2 h2
+  apply _root_.GlobalTheory.CompanionTheory.LgBound.lgCpt <;> assumption
 
 theorem isCompact_Mat (R : ℝ) : IsCompact {y : Mat n | y ∈ GLs n ∧ lg y ≤ R} := by
   have e : {y : Mat n | y ∈ GLs n ∧ lg y ≤ R} = Units.val '' {y : G n | lg y.val ≤ R} := by
@@ -279,16 +255,7 @@ theorem hs_bs (p : Bool × Fin n × Fin n) : hs (bs p) = 1 := by
   simp [hs, h]
 
 theorem lg_mul_le (x y : Mat n) : lg (x * y) ≤ lg x + lg y := by
-  rw [lg_eq, lg_eq, lg_eq, ← Real.log_mul (phi_pos x).ne' (phi_pos y).ne',
-    Matrix.mul_inv_rev]
-  refine Real.log_le_log (by have := hs_nonneg (x * y); have := hs_nonneg (y⁻¹ * x⁻¹); linarith) ?_
-  have h1 := hs_mul_le x y
-  have h2 := hs_mul_le y⁻¹ x⁻¹
-  have a := hs_nonneg x
-  have b := hs_nonneg x⁻¹
-  have c := hs_nonneg y
-  have d := hs_nonneg y⁻¹
-  nlinarith [mul_nonneg a c, mul_nonneg a d, mul_nonneg b c, mul_nonneg b d]
+  apply _root_.PositivityTheory.RgBcC.VC.NAvgH.lg_mul_le <;> assumption
 
 theorem lg_inv {x : Mat n} (hx : x ∈ GLs n) : lg x⁻¹ = lg x := by
   rw [lg_eq, lg_eq, Matrix.nonsing_inv_nonsing_inv x (isUnit_det_of_mem hx), add_comm (hs x⁻¹)]

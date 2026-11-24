@@ -94,6 +94,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.D
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.Linter.Style
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.DetOfTriangular
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.DoubledHermitianTestFunctionZeroAndNorm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsFamilyInvariantOfFockInner, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.Imports, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsFundamentalDomain, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IntegrableTsumOfSummableIntegralNorm, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IsOpenFrames, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LatticeOperatorCoefficients, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SetIntegralCompOfStable, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.SummableSetIntegralOfSummableNorm, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianThetaSeriesSpanBoundedForms, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelThetaSpan
@@ -609,16 +610,7 @@ theorem cont_dmin (τ : X.Ψ) (i : Fin (r + 1)) :
   exact (h.matrix_submatrix _ _).matrix_det
 
 theorem isOpen_frames : IsOpen X.dom := by
-  have h : X.dom = ⋂ τ : X.Ψ, ({x : Frame X.Ψ r | (mat x τ).det ≠ 0} ∩
-      ⋂ i : Fin (r + 1), {x | 0 < psgn X.p0 i * (dmin X.Gm x τ i).re}) := by
-    ext x; simp [Data.dom, GG]
-  rw [h]
-  refine isOpen_iInter_of_finite fun τ => IsOpen.inter ?_ (isOpen_iInter_of_finite fun i => ?_)
-  · exact isOpen_ne_fun
-      (show Continuous fun x : Frame X.Ψ r => mat x τ from continuous_apply τ).matrix_det
-      continuous_const
-  · exact isOpen_lt continuous_const (continuous_const.mul (Complex.continuous_re.comp
-      (cont_dmin X τ i)))
+  apply _root_.ReciprocityTheory.ChartRestriction.G.FD.FourierCoefficientDomain.isOpen_dom <;> assumption
 
 theorem dmin_ne {x : Frame X.Ψ r} (hx : x ∈ X.dom) (τ : X.Ψ) (i : Fin (r + 1)) :
     dmin X.Gm x τ i ≠ 0 := by
@@ -838,19 +830,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 theorem ip_smul_smul {K κ ι : Type} [Field K] [NumberField K] [Fintype κ] [Fintype ι]
     {φ ψ : Matrix κ ι K → ℂ} (hφ : IsSB φ) (hψ : IsSB ψ) (a b : ℂ) :
     ip (a • φ) (b • ψ) = a * conj b * ip φ ψ := by
-  have hc : IsSB fun x => conj (ψ x) :=
-    (isSB_algebra_haar_linear K κ ι ψ ψ hψ hψ).2.2.2.1
-  have hp : IsSB (φ * fun x => conj (ψ x)) :=
-    (isSB_algebra_haar_linear K κ ι φ _ hφ hc).2.2.1
-  have hs := (isSB_algebra_haar_linear K κ ι _ _ hp hp).2.2.2.2.2.1 (a * conj b)
-  have key : (fun x => (a • φ) x * conj ((b • ψ) x)) =
-      (a * conj b) • (φ * fun x => conj (ψ x)) := by
-    funext x
-    simp only [Pi.smul_apply, smul_eq_mul, Pi.mul_apply, map_mul]
-    ring
-  unfold ip
-  rw [key, hs]
-  rfl
+  apply _root_.GlobalTheory.SW.DblZero.ip_smul <;> assumption
 
 theorem classSum_eq_sum {M : ℕ} [Fintype (Cls E n M)] (f : Lt E n → ℂ) :
     classSum M f = ∑ c : Cls E n M, (wt M (Quot.out c).1 : ℂ) * f (Quot.out c).1 := by

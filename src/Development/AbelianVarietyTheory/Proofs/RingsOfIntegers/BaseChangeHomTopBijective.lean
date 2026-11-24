@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsIntegralFramedPointBaseChangeCdvrTransitiv
 public import Development.AbelianVarietyTheory.Definitions.PlaceAdaptation.AdaptStd
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ThreeTermComplexOfProjectiveCechModel
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThetaFramePf
@@ -81,76 +82,7 @@ variable {R R' : Type} [CommRing R] [CommRing R'] [Algebra R R'] {Y Y' : Scheme.
 theorem baseChangeHom_top_bijective [Module.Flat R R'] [CompactSpace Y] [IsSeparated f] (hM : M.IsLB)
     (H : IsPullback π f' f (Spec.map (CommRingCat.ofHom (algebraMap R R')))) :
     Function.Bijective (SecOnR.baseChangeHom M H.w ⊤ ⊤ le_top) := by
-  classical
-  have e0 : (⊤ : Y'.Opens) ≤ π ⁻¹ᵁ ⊤ := le_top
-  show Function.Bijective (SecOnR.baseChangeHom M H.w ⊤ ⊤ e0)
-  have : IsSeparated (terminal.from Y) := by
-    rw [← terminal.comp_from f]
-    infer_instance
-  obtain ⟨s, hs, hcov⟩ := (isCompact_iff_finite_and_eq_biUnion_affineOpens (X := Y) (U := ⊤)).mp
-    (by rw [TopologicalSpace.Opens.coe_top]; exact isCompact_univ)
-  let t := hs.toFinset
-  let D : Fin t.card → Y.Opens := fun k => ((t.equivFin.symm k : t) : Y.affineOpens)
-  have hDa : ∀ k, IsAffineOpen (D k) := fun k => ((t.equivFin.symm k : t) : Y.affineOpens).2
-  have hD : ∀ I : Finset (Fin t.card), I.Nonempty → IsAffineOpen (⨅ i ∈ I, D i) := fun I hI =>
-    IsAffineOpen.biInf (I : Set (Fin t.card)) I.finite_toSet hI (fun k _ => hDa k)
-  have hc : ⨆ k, D k = ⊤ := by
-    refine top_unique ?_
-    rw [hcov]
-    refine iSup₂_le fun i hi => ?_
-    have hit : i ∈ t := hs.mem_toFinset.mpr hi
-    refine le_trans (le_of_eq ?_) (le_iSup D (t.equivFin ⟨i, hit⟩))
-    simp [D]
-  have hc' : ⨆ k, π ⁻¹ᵁ D k = ⊤ := iSup_preimage π hc
-  let toC := CechOne.toCech M f D (fun _ => le_top)
-  let toC' := CechOne.toCech (M.pull π) f' (fun k => π ⁻¹ᵁ D k) (fun _ => le_top)
-  have hinj' : Function.Injective toC' :=
-    CechOne.toCech_injective (M.pull π) f' (D := fun k => π ⁻¹ᵁ D k) (fun _ => le_top) hc'.ge
-  have hex' : Function.Exact toC' ((cechLB f' (M.pull π) fun k => π ⁻¹ᵁ D k).d 0 1).hom :=
-    CechOne.exact_toCech (M.pull π) f' (D := fun k => π ⁻¹ᵁ D k) (fun _ => le_top) hc'.ge
-  have hflat : Function.Injective (toC.baseChange R') := by
-    rw [LinearMap.baseChange_eq_ltensor]
-    exact Module.Flat.lTensor_preserves_injective_linearMap _
-      (CechOne.toCech_injective M f (D := D) (fun _ => le_top) hc.ge)
-  have hexR : Function.Exact (toC.baseChange R') (((cechLB f M D).d 0 1).hom.baseChange R') := by
-    rw [LinearMap.baseChange_eq_ltensor, LinearMap.baseChange_eq_ltensor]
-    exact Module.Flat.lTensor_exact R' (CechOne.exact_toCech M f (D := D) (fun _ => le_top) hc.ge)
-  have compat : ∀ x, toC' (SecOnR.baseChangeHom M H.w ⊤ ⊤ e0 x) =
-      termMap M D H.w 0 (toC.baseChange R' x) := by
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
-    | tmul c s0 =>
-      funext u
-      rw [LinearMap.baseChange_tmul, SecOnR.baseChangeHom_tmul]
-      unfold termMap
-      erw [secTermBaseChange_tmul, LinearMap.map_smul, Pi.smul_apply]
-      erw [CechOne.toCech_apply (M.pull π) f' (fun k => π ⁻¹ᵁ D k) (fun _ => le_top) _ u le_top]
-      erw [CechOne.toCech_apply M f D (fun _ => le_top) s0 u le_top]
-      congr 1
-      have h1 := SecOnR.baseChangeHom_restrict H.w (le_top : (⨅ i ∈ u.1, D i) ≤ ⊤)
-        (le_top : (⨅ i ∈ u.1, π ⁻¹ᵁ D i) ≤ ⊤) e0 (preimage_biInf D π u.1).ge ((1 : R') ⊗ₜ s0)
-      rw [LinearMap.baseChange_tmul, SecOnR.baseChangeHom_tmul, SecOnR.baseChangeHom_tmul, one_smul,
-        one_smul] at h1
-      have h2 := secCubeBaseChange_app_tmul M D H.w u.1 (1 : R') (SecOnR.restrict f M le_top s0)
-      rw [one_smul] at h2
-      erw [← h1, ← h2]
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-  have hbij := termMap_bijOn hM H hD
-  constructor
-  · intro x y hxy
-    apply hflat
-    have hx : toC.baseChange R' x ∈ LinearMap.ker (((cechLB f M D).d 0 1).hom.baseChange R') :=
-      LinearMap.mem_ker.mpr (hexR.apply_apply_eq_zero x)
-    have hy : toC.baseChange R' y ∈ LinearMap.ker (((cechLB f M D).d 0 1).hom.baseChange R') :=
-      LinearMap.mem_ker.mpr (hexR.apply_apply_eq_zero y)
-    exact hbij.injOn hx hy (by rw [← compat, ← compat, hxy])
-  · intro z
-    have hz : toC' z ∈ LinearMap.ker ((cechLB f' (M.pull π) fun k => π ⁻¹ᵁ D k).d 0 1).hom :=
-      LinearMap.mem_ker.mpr (hex'.apply_apply_eq_zero z)
-    obtain ⟨u, hu, hu'⟩ := hbij.surjOn hz
-    obtain ⟨x, rfl⟩ := (hexR u).mp (LinearMap.mem_ker.mp hu)
-    exact ⟨x, hinj' (by rw [compat, hu'])⟩
+  first | exact _root_.GlobalTheory.PlaceInt.Ext.baseChangeHom_top_bijective | exact @_root_.GlobalTheory.PlaceInt.Ext.baseChangeHom_top_bijective | apply _root_.GlobalTheory.PlaceInt.Ext.baseChangeHom_top_bijective <;> assumption
 
 theorem eq_smul_iff (x y : SecOnR f M ⊤) (a : R) : x = a • y ↔
     ∀ i, (SecOnR.topEquiv f M x).f i = cst f _ a * (SecOnR.topEquiv f M y).f i := by
@@ -311,138 +243,7 @@ theorem exists_eigenbasis_pullback {V V' : Type} [CommRing V] [IsLocalRing V] [I
         (∀ a, (w ≫ (Over.pullback (fB V V')).map (act a)).left = spMap (epsMul (algebraMap V V' (χ a))) ≫ w.left) →
         ∃! c : Fin m → V', IsComb u' c w) ∧
       ∀ i, (u' i).left ≫ pullback.fst G.hom (fB V V') = spMap (dualMap (algebraMap V V')) ≫ (u i).left := by
-  have isTan_iff : ∀ {R : Type} [CommRing R] {G : Over (Sp R)} [GrpObj G] (w : epsOver R R ⟶ G),
-      ReciprocityTheory.ChartRestriction.G.Chart.IsTan w ↔ IsTan w := by
-    intro R _ G _ w
-    unfold ReciprocityTheory.ChartRestriction.G.Chart.IsTan IsTan
-    constructor
-    · intro h
-      exact congrArg (fun q => Over.Hom.left q) h
-    · intro h
-      exact Over.OverMorphism.ext h
-  have prod_tvec : ∀ {R : Type} [CommRing R] {G : Over (Sp R)} [GrpObj G] {n : ℕ}
-      {x : ∀ k : ℕ, ReciprocityTheory.ChartRestriction.G.Chart.sp (R₀ := R) (ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin n) k) ⟶ G}
-      (hx : ReciprocityTheory.ChartRestriction.G.Chart.IsUnivChart G n x) {m : ℕ} (c : Fin m → R) (b : Fin m → Fin n → R),
-      (List.ofFn fun i => tvec (x := x) (c i • b i)).prod = tvec (x := x) (∑ i, c i • b i) := by
-    intro R _ G _ n x hx m c b
-    obtain ⟨h, hh⟩ := ReciprocityTheory.ChartRestriction.G.Chart.list_prod_tan' hx (fun i => tvec (x := x) (c i • b i))
-      (fun i => isTan_tvec hx _)
-    calc (List.ofFn fun i => tvec (x := x) (c i • b i)).prod
-        = tvec (x := x) (ReciprocityTheory.ChartRestriction.G.Chart.tcoord hx _ h) := ReciprocityTheory.ChartRestriction.G.Chart.tcoord_spec hx _ h
-      _ = tvec (x := x) (∑ i, c i • b i) := by
-        rw [hh]
-        congr 1
-        exact Finset.sum_congr rfl (fun i _ => ReciprocityTheory.ChartRestriction.G.Chart.tcoord_tvec hx _)
-  have comb_iff : ∀ {R : Type} [CommRing R] {G : Over (Sp R)} [GrpObj G] {n : ℕ}
-      {x : ∀ k : ℕ, ReciprocityTheory.ChartRestriction.G.Chart.sp (R₀ := R) (ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin n) k) ⟶ G}
-      (hx : ReciprocityTheory.ChartRestriction.G.Chart.IsUnivChart G n x) {m : ℕ} (b : Fin m → Fin n → R) (c : Fin m → R)
-      (w : epsOver R R ⟶ G),
-      IsComb (fun i => tvec (x := x) (b i)) c w ↔ w = tvec (x := x) (∑ i, c i • b i) := by
-    intro R _ G _ n x hx m b c w
-    have hs : ∀ i, tvec (x := x) (c i • b i) =
-        ReciprocityTheory.ChartRestriction.G.Chart.spMap (ReciprocityTheory.ChartRestriction.G.Chart.scaleD (c i)) ≫ tvec (x := x) (b i) :=
-      fun i => ReciprocityTheory.ChartRestriction.G.Chart.tvec_smul hx (c i) (b i)
-    constructor
-    · rintro ⟨u', hu', rfl⟩
-      have e : u' = fun i => tvec (x := x) (c i • b i) := by
-        funext i
-        apply Over.OverMorphism.ext
-        rw [hu' i, hs i]
-        rfl
-      subst e
-      exact prod_tvec hx c b
-    · intro hw
-      refine ⟨fun i => tvec (x := x) (c i • b i), fun i => ?_, ?_⟩
-      · dsimp only
-        rw [hs i]
-        rfl
-      · rw [hw, prod_tvec hx c b]
-  have eig_iff : ∀ {R : Type} [CommRing R] {G : Over (Sp R)} [GrpObj G] {n : ℕ}
-      {x : ∀ k : ℕ, ReciprocityTheory.ChartRestriction.G.Chart.sp (R₀ := R) (ReciprocityTheory.ChartRestriction.G.Chart.JetR R (Fin n) k) ⟶ G}
-      (hx : ReciprocityTheory.ChartRestriction.G.Chart.IsUnivChart G n x) (f : G ⟶ G) [IsMonHom f] (c : Fin n → R) (s : R),
-      (tvec (x := x) c ≫ f).left = spMap (epsMul s) ≫ (tvec (x := x) c).left ↔ tmap hx f c = s • c := by
-    intro R _ G _ n x hx f _ c s
-    rw [← ReciprocityTheory.ChartRestriction.G.Chart.tvec_eig_iff hx f c s]
-    constructor
-    · intro h
-      exact Over.OverMorphism.ext h
-    · intro h
-      exact congrArg (fun q => Over.Hom.left q) h
-  have vecMul_eq : ∀ {A S : Type} [CommRing A] [CommRing S] [Algebra A S] {d : ℕ}
-      (L : (Fin d → A) →ₗ[A] (Fin d → A)) (T : (Fin d → S) →ₗ[S] (Fin d → S)),
-      (∀ c, T (algebraMap A S ∘ c) = algebraMap A S ∘ L c) → ∀ (w : Fin d → S),
-      w ᵥ* (Matrix.of fun i k => L (fun j => if i = j then 1 else 0) k).map (algebraMap A S) = T w := by
-    intro A S _ _ _ d L T hT w
-    rw [LinearMap.pi_apply_eq_sum_univ T w]
-    funext k
-    simp only [Matrix.vecMul, dotProduct, Matrix.map_apply, Matrix.of_apply, Finset.sum_apply, Pi.smul_apply,
-      smul_eq_mul]
-    refine Finset.sum_congr rfl (fun i _ => ?_)
-    have e : (fun j => if i = j then (1 : S) else 0) = algebraMap A S ∘ (fun j => if i = j then (1 : A) else 0) := by
-      funext j
-      by_cases h : i = j <;> simp [h]
-    rw [e, hT]
-    rfl
-  obtain ⟨d, x, hx⟩ := univChartLoc G
-  obtain ⟨x', hx', hxx'⟩ := tanBC_alg (R' := V') G d x hx
-  have htan : ∀ i, ReciprocityTheory.ChartRestriction.G.Chart.IsTan (u i) := fun i => (isTan_iff (u i)).2 (ht i)
-  obtain ⟨b, hu⟩ : ∃ b : Fin m → Fin d → V, u = fun i => tvec (x := x) (b i) :=
-    ⟨fun i => ReciprocityTheory.ChartRestriction.G.Chart.tcoord hx (u i) (htan i),
-      funext fun i => ReciprocityTheory.ChartRestriction.G.Chart.tcoord_spec hx (u i) (htan i)⟩
-  subst hu
-  have hbe : ∀ i a, tmap hx (act a) (b i) = χ a • b i :=
-    fun i a => (eig_iff hx (act a) (b i) (χ a)).1 (he i a)
-  let M : O → Matrix (Fin d) (Fin d) V :=
-    fun a => Matrix.of fun i k => tmap hx (act a) (fun j => if i = j then 1 else 0) k
-  have hMV : ∀ a (w : Fin d → V), w ᵥ* (M a).map (algebraMap V V) = tmap hx (act a) w :=
-    fun a w => vecMul_eq (tmap hx (act a)) (tmap hx (act a)) (fun c => by ext; simp) w
-  have hM0 : ∀ a (w : Fin d → V), w ᵥ* M a = tmap hx (act a) w := by
-    intro a w
-    have e : (M a).map (algebraMap V V) = M a := by
-      ext i k
-      rfl
-    rw [← e]
-    exact hMV a w
-  have key := (GlobalTheory.commonEigenvectors_flat_baseChange V O d m M χ).1 V b
-    (fun k a => (hM0 a (b k)).trans (hbe k a))
-    (fun w hw => by
-      have hw' : ∀ a, tmap hx (act a) w = χ a • w := fun a => (hMV a w).symm.trans (hw a)
-      obtain ⟨c, hc, huniq⟩ := hb (tvec (x := x) w) ((isTan_iff _).1 (isTan_tvec hx w))
-        (fun a => (eig_iff hx (act a) w (χ a)).2 (hw' a))
-      refine ⟨c, ?_, fun c' hc' => huniq c' ?_⟩
-      · exact tvec_inj hx ((comb_iff hx b c _).1 hc)
-      · exact (comb_iff hx b c' _).2 (congrArg (fun z => tvec (x := x) z) hc'))
-  have hT : ∀ a c, tmap hx' ((Over.pullback (fB V V')).map (act a)) (algebraMap V V' ∘ c) =
-      algebraMap V V' ∘ tmap hx (act a) c := by
-    intro a c
-    apply tvec_inj hx'
-    rw [tvec_tmap hx' ((Over.pullback (fB V V')).map (act a))]
-    apply pushR_inj G
-    apply Over.OverMorphism.ext
-    rw [pushR_map, Over.comp_left, pushR_left, pushR_left, hxx' c, hxx' (tmap hx (act a) c),
-      tvec_tmap hx (act a) c, Over.comp_left, Category.assoc]
-  have hbe' : ∀ i a, tmap hx' ((Over.pullback (fB V V')).map (act a)) (algebraMap V V' ∘ b i) =
-      algebraMap V V' (χ a) • (algebraMap V V' ∘ b i) := by
-    intro i a
-    rw [hT, hbe i a]
-    funext j
-    simp
-  refine ⟨fun i => tvec (x := x') (algebraMap V V' ∘ b i), fun i => (isTan_iff _).1 (isTan_tvec hx' _),
-    fun i a => (eig_iff hx' _ _ _).2 (hbe' i a), ?_, fun i => hxx' (b i)⟩
-  intro w hw hwe
-  have hwc := (isTan_iff w).2 hw
-  obtain ⟨c', rfl⟩ : ∃ c', w = tvec (x := x') c' := ⟨_, ReciprocityTheory.ChartRestriction.G.Chart.tcoord_spec hx' w hwc⟩
-  have hce : ∀ a, tmap hx' ((Over.pullback (fB V V')).map (act a)) c' = algebraMap V V' (χ a) • c' :=
-    fun a => (eig_iff hx' _ c' _).1 (hwe a)
-  have hk := key V' c' (fun a => (vecMul_eq (tmap hx (act a))
-    (tmap hx' ((Over.pullback (fB V V')).map (act a))) (hT a) c').trans (hce a))
-  refine (existsUnique_congr fun cf => ?_).2 hk
-  rw [comb_iff hx' (fun i => algebraMap V V' ∘ b i) cf]
-  constructor
-  · intro h
-    exact tvec_inj hx' h
-  · intro h
-    exact congrArg (fun z => tvec (x := x') z) h
+  first | exact _root_.GlobalTheory.PlaceInt.Ext.exists_eigenbasis_pullback | exact @_root_.GlobalTheory.PlaceInt.Ext.exists_eigenbasis_pullback | apply _root_.GlobalTheory.PlaceInt.Ext.exists_eigenbasis_pullback <;> assumption
 
 end Lie
 
@@ -456,39 +257,7 @@ attribute [local instance] Over.cartesianMonoidalCategory
 theorem exists_restrict (T T' : CDVR) (iT : T.Fr →+* T'.Fr) (e : ℕ)
     (h : ∀ a : T.Fr, vV T'.V (iT a) = (e : ℤ) * vV T.V a) :
     ∃ φ : T.V →+* T'.V, ∀ a, algebraMap T'.V T'.Fr (φ a) = iT (algebraMap T.V T.Fr a) := by
-  classical
-  have key : ∀ a : T.V, iT (algebraMap T.V T.Fr a) ∈ (algebraMap T'.V T'.Fr).range := by
-    intro a
-    by_cases hx : iT (algebraMap T.V T.Fr a) = 0
-    · rw [hx]; exact zero_mem _
-    have ha : algebraMap T.V T.Fr a ≠ 0 := fun h0 => hx (by rw [h0, map_zero])
-    have h1 := h (algebraMap T.V T.Fr a)
-    unfold vV valV at h1
-    have hle : (IsDiscreteValuationRing.maximalIdeal T.V).valuation (FractionRing T.V)
-        (algebraMap T.V T.Fr a) ≤ 1 :=
-      (IsDiscreteValuationRing.maximalIdeal T.V).valuation_le_one (K := FractionRing T.V) a
-    have hne : (IsDiscreteValuationRing.maximalIdeal T.V).valuation (FractionRing T.V)
-        (algebraMap T.V T.Fr a) ≠ 0 := (Valuation.ne_zero_iff _).mpr ha
-    have hne' : (IsDiscreteValuationRing.maximalIdeal T'.V).valuation (FractionRing T'.V)
-        (iT (algebraMap T.V T.Fr a)) ≠ 0 := (Valuation.ne_zero_iff _).mpr hx
-    have hlog : WithZero.log ((IsDiscreteValuationRing.maximalIdeal T.V).valuation (FractionRing T.V)
-        (algebraMap T.V T.Fr a)) ≤ 0 := (WithZero.log_le_iff_le_exp hne).mpr hle
-    have hpos : (0 : ℤ) ≤ (e : ℤ) * -WithZero.log ((IsDiscreteValuationRing.maximalIdeal T.V).valuation
-        (FractionRing T.V) (algebraMap T.V T.Fr a)) :=
-      mul_nonneg (Int.natCast_nonneg e) (neg_nonneg.mpr hlog)
-    have hlog' : WithZero.log ((IsDiscreteValuationRing.maximalIdeal T'.V).valuation (FractionRing T'.V)
-        (iT (algebraMap T.V T.Fr a))) ≤ 0 := by linarith
-    have hle' := (WithZero.log_le_iff_le_exp hne').mp hlog'
-    obtain ⟨b, hb⟩ := IsDiscreteValuationRing.exists_lift_of_le_one (A := T'.V) (K := FractionRing T'.V) hle'
-    exact ⟨b, hb⟩
-  let g : T'.V →+* (algebraMap T'.V T'.Fr).range := (algebraMap T'.V T'.Fr).rangeRestrict
-  have hg : Function.Bijective g :=
-    ⟨fun x y hxy => IsFractionRing.injective T'.V T'.Fr (congrArg Subtype.val hxy),
-      (algebraMap T'.V T'.Fr).rangeRestrict_surjective⟩
-  let eq := RingEquiv.ofBijective g hg
-  refine ⟨eq.symm.toRingHom.comp ((iT.comp (algebraMap T.V T.Fr)).codRestrict _ key), fun a => ?_⟩
-  have h2 : g (eq.symm ⟨_, key a⟩) = ⟨_, key a⟩ := eq.apply_symm_apply _
-  exact congrArg Subtype.val h2
+  first | exact _root_.GlobalTheory.PlaceInt.Ext.exists_restrict | exact @_root_.GlobalTheory.PlaceInt.Ext.exists_restrict | apply _root_.GlobalTheory.PlaceInt.Ext.exists_restrict <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
   {Xo : Moduli Dw l} {c : Coeff l}
@@ -643,34 +412,6 @@ attribute [local instance] Over.cartesianMonoidalCategory
 open GlobalTheory.PlaceInt
 
 theorem exists_isExt_and_trans : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (T T' : CDVR) (io : c.F →+* T.Fr) (y : IntFr Xo c T io) (iT : T.Fr →+* T'.Fr) (e : ℕ), 0 < e → (∀ a : T.Fr, vV T'.V (iT a) = (e : ℤ) * vV T.V a) → (∃ y' : IntFr Xo c T' (iT.comp io), IsExt y iT e y') ∧ ∀ y' : IntFr Xo c T' (iT.comp io), IsExt y iT e y' → xOf y' = spMap iT ≫ xOf y ∧ ∀ (T'' : CDVR) (iT' : T'.Fr →+* T''.Fr) (e' : ℕ) (y'' : IntFr Xo c T'' (iT'.comp (iT.comp io))), IsExt y' iT' e' y'' → IsExt y (iT'.comp iT) (e' * e) y'' := by
-  intro E _ _ _ H Dw l Xo c T T' io y iT e he hv
-  letI : Algebra c.F T.Fr := io.toAlgebra
-  letI : Algebra c.F T'.Fr := (iT.comp io).toAlgebra
-  let ψ : T.Fr →ₐ[c.F] T'.Fr := { iT with commutes' := fun _ => rfl }
-  have hψ : ψ.toRingHom = iT := rfl
-  refine ⟨?_, ?_⟩
-  · obtain ⟨φ, hφ⟩ := Ext.exists_restrict T T' iT e hv
-    obtain ⟨z, hz⟩ := GlobalTheory.FramedBaseChange.exists_frMap GlobalTheory.allSixLaws.1 E H Dw l Xo c T.Fr T'.Fr ψ y.1
-    obtain ⟨p, φ0, y0, h0⟩ := y.2.1
-    exact ⟨⟨z, ⟨p, ψ.comp φ0, y0, GlobalTheory.FramedBaseChange.trans φ0 ψ h0 hz⟩,
-      Ext.integral_of_frMap T T' io iT φ hφ ψ y.1 z hψ hz y.2.2⟩, he, hv, ψ, hψ, hz⟩
-  · intro y' hy'
-    obtain ⟨_, _, φ1, hφ1, hm1⟩ := hy'
-    refine ⟨?_, ?_⟩
-    · show y'.1.x = spMap iT ≫ y.1.x
-      rw [hm1.1, hφ1]
-    · intro T'' iT' e' y'' h2
-      letI : Algebra c.F T''.Fr := (iT'.comp (iT.comp io)).toAlgebra
-      obtain ⟨he', hv', φ2, hφ2, hm2⟩ := h2
-      refine ⟨Nat.mul_pos he' he, fun a => ?_, φ2.comp φ1, ?_, GlobalTheory.FramedBaseChange.trans φ1 φ2 hm1 hm2⟩
-      · rw [RingHom.comp_apply, hv', hv a]
-        push_cast
-        ring
-      · ext a
-        have h1 := congrArg (fun f : T.Fr →+* T'.Fr => f a) hφ1
-        have h2 := congrArg (fun f : T'.Fr →+* T''.Fr => f (iT a)) hφ2
-        show φ2 (φ1 a) = iT' (iT a)
-        rw [← h2, ← h1]
-        rfl
+  first | exact _root_.GlobalTheory.PlaceInt.exists_isExt_and_trans | exact @_root_.GlobalTheory.PlaceInt.exists_isExt_and_trans | apply _root_.GlobalTheory.PlaceInt.exists_isExt_and_trans <;> assumption
 
 end GlobalTheory.ThetaBound

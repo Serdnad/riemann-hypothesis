@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.GaloisValuations.Global
 public import Formalism.ConjugateSelfDual.Statement
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,20 +71,7 @@ theorem apply_mem_iff_of_mem_Dec {A : ValuationSubring (Ω)} {σ : G F Ω}
 
 theorem valuation_lt_one_iff' (A : ValuationSubring (Ω)) (y : Ω) :
     A.valuation y < 1 ↔ y ∈ A ∧ (y = 0 ∨ y⁻¹ ∉ A) := by
-  rw [← A.valuation_le_one_iff, ← A.valuation_le_one_iff, map_inv₀]
-  rcases eq_or_ne y 0 with rfl | hy
-  · simp
-  · have h0 : A.valuation y ≠ 0 := by simpa using hy
-    simp only [hy, false_or]
-    constructor
-    · intro h
-      refine ⟨h.le, fun h' => ?_⟩
-      have : (1 : A.ValueGroup) ≤ A.valuation y := by
-        simpa using (inv_le_one₀ (zero_lt_iff.mpr h0)).mp h'
-      exact absurd h (not_lt.mpr this)
-    · rintro ⟨h1, h2⟩
-      refine lt_of_le_of_ne h1 fun he => h2 ?_
-      rw [he, inv_one]
+  apply _root_.ReciprocityTheory.Gal.valuation_lt_one_iff' <;> assumption
 
 theorem valuation_apply_lt_one_iff {A : ValuationSubring (Ω)} {σ : G F Ω}
     (hσ : σ ∈ Dec (F := F) A) (y : Ω) :

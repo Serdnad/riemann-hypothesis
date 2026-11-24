@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.VaceigenDual
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
@@ -498,26 +499,7 @@ theorem mem_latAtV_of_dual {B : Base F E} {X : Spc F E n} {W : Spc F E d} {r s r
     {u : Matrix (Fin n) (Fin d) (AE F E)} (hu : At (evFin F v) u)
     (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ u) = 1) :
     u ∈ latAtV X W v := by
-  obtain ⟨ι, _, x, x', y, y', hm, he⟩ := exists_frames hB hX hW
-  rw [he u]
-  refine AddSubgroup.sum_mem _ fun i _ => ?_
-  have hat : At (evFin F v) (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J)
-      (incM F (Matrix.vecMulVec (x' i) (y' i))) u) := fun t ht => by
-    have h := GlobalTheory.LatVac.symp_smul_smul σ (incM F X.J) (incM F W.J) (-1) 1 t (incM F (Matrix.vecMulVec (x' i) (y' i))) u
-    rw [hu t ht, GlobalTheory.LatVacArith.symp_zero_right, one_mul] at h
-    exact h.symm
-  refine AddSubgroup.subset_closure ⟨_, hat, (hv _).1 fun a ha => ?_, _, (hm i).1, _, (hm i).2.2.1, rfl⟩
-  have h1 := h _ (AddSubgroup.subset_closure ⟨GlobalTheory.LatVac.liftV v a, GlobalTheory.LatVac.at_liftV v a,
-    by rw [GlobalTheory.LatVac.evFin_liftV]; exact ha, _, (hm i).2.1, _, (hm i).2.2.2, rfl⟩)
-  have h2 := GlobalTheory.LatVac.symp_smul_smul σ (incM F X.J) (incM F W.J) (-1) (GlobalTheory.LatVac.liftV v a) 1
-    (incM F (Matrix.vecMulVec (x' i) (y' i))) u
-  rw [one_smul, mul_one] at h2
-  have hat' : At (evFin F v) (GlobalTheory.LatVac.liftV v a *
-      symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J)
-        (incM F (Matrix.vecMulVec (x' i) (y' i))) u) := fun t ht => by
-    rw [smul_eq_mul, mul_left_comm, ← smul_eq_mul t _, hat t ht, mul_zero]
-  rw [h2, GlobalTheory.StdVacuum.psi_eq_psiLoc _ v _ hat', map_mul, GlobalTheory.LatVac.evFin_liftV, mul_comm] at h1
-  exact h1
+  apply _root_.PositivityTheory.ThK.Vac.mem_latAtV <;> assumption
 
 end PositivityTheory.ThKH.Evl
 end -- clump:auto
@@ -1298,12 +1280,7 @@ theorem finSt_relIndex_le {G : Type} [Group G] {H K L : Subgroup G} (hKL : K ≤
 
 theorem finSt_relIndex_nhds {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] {K H : Subgroup G}
     (hK : IsCompact (K : Set G)) {U : Set G} (hU : U ∈ 𝓝 (1 : G)) (hH : ∀ k ∈ K, k ∈ U → k ∈ H) : H.relIndex K ≠ 0 := by
-  have : CompactSpace K := isCompact_iff_compactSpace.1 hK
-  have ho : IsOpen ((H.subgroupOf K : Subgroup K) : Set K) :=
-    (H.subgroupOf K).isOpen_of_mem_nhds (Filter.mem_of_superset (continuous_subtype_val.continuousAt (x := (1 : K)) hU)
-      fun k hk => Subgroup.mem_subgroupOf.2 (hH k.1 k.2 hk))
-  have : Finite (K ⧸ H.subgroupOf K) := Subgroup.quotient_finite_of_isOpen _ ho
-  exact Subgroup.index_ne_zero_of_finite
+  apply _root_.PositivityTheory.Sph.relIndex_ne_zero_of_nhds <;> assumption
 
 theorem finSt_KGL {E : Type} [Field E] [NumberField E] (w : HeightOneSpectrum (𝓞 E)) (n : ℕ)
     (b : GL (Fin n) (w.adicCompletion E)) :

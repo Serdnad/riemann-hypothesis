@@ -129,15 +129,8 @@ variable {S : Scheme.{0}} {A : Over S} [GrpObj A]
 
 theorem weilIs_swap {L : LB A.left} (hL : L.IsLB) {k : ℤ} {T : Over S} {x y : T ⟶ A} {c : Γ(T.left, ⊤)ˣ}
     (h : WeilIs A L k x y c) : WeilIs A L k y x c⁻¹ := by
-  intro p
-  obtain ⟨V, hp, ⟨θx, θy, h1, h2⟩, h3⟩ := h p
-  refine ⟨V, hp, ⟨θy, θx, h2, h1⟩, fun θ₁ θ₂ e₁ e₂ => ?_⟩
-  have H := h3 θ₂ θ₁ e₂ e₁
-  unfold CommIsOf at H ⊢
-  refine corr_of_val hL fun q J hJ => ?_
-  have e := val_corr hJ H (𝟙 _)
-  simp only [val_mul hJ, H1.val_constGen, unitRes, map_inv] at e ⊢
-  rw [e, mul_inv_cancel_right]
+  intros
+  apply _root_.GlobalTheory.CommPairing.weilIs_symm <;> assumption
 
 abbrev fr {X Y : Scheme.{0}} (ψ : Y ⟶ X) : Group.Abelianization (FreeGroup (Y ⟶ X)) :=
   Group.Abelianization.of (FreeGroup.of ψ)

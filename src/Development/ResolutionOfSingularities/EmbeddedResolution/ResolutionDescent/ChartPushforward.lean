@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.AffineSpaceLinearEmbeddings
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.StrictTransformTower
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.ClosedEmbedding.StrictTransformClosedImmersion
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.DetachedLocus
@@ -248,28 +249,10 @@ theorem strictTransformIso_zero_hom_comp_strictTransformZeroIso_hom (P : ChartPu
           rw [P.emb_ambientMap]
   exact (cancel_mono S'.emb).mp key
 
-private theorem range_subset_range_of_ker_le {U V W : Scheme.{u}} (f : U ⟶ W) (g : V ⟶ W)
-    [AlgebraicGeometry.IsClosedImmersion f] [AlgebraicGeometry.IsClosedImmersion g]
-    (hle : Scheme.Hom.ker g ≤ Scheme.Hom.ker f) :
-    Set.range ⇑f ⊆ Set.range ⇑g := by
-  obtain ⟨e, he⟩ : ∃ e : U ⟶ V, e ≫ g = f :=
-    ⟨AlgebraicGeometry.IsClosedImmersion.lift g f hle, by rw [IsClosedImmersion.lift_fac]⟩
-  rintro y ⟨x, rfl⟩
-  refine ⟨e.base x, ?_⟩
-  have hx : ⇑(e ≫ g) x = ⇑f x := by rw [he]
-  exact hx
-
 private theorem support_ker_eq_range {U W : Scheme.{u}} (h : U ⟶ W)
     [AlgebraicGeometry.IsClosedImmersion h] :
     ((Scheme.Hom.ker h).support : Set ↥W) = Set.range ⇑h := by
-  have hker : Scheme.Hom.ker ((Scheme.Hom.ker h).subschemeι) = Scheme.Hom.ker h :=
-    Scheme.IdealSheafData.ker_subschemeι _
-  have h1 : Set.range ⇑((Scheme.Hom.ker h).subschemeι)
-      = ((Scheme.Hom.ker h).support : Set ↥W) :=
-    Scheme.IdealSheafData.range_subschemeι _
-  rw [← h1]
-  exact Set.Subset.antisymm (range_subset_range_of_ker_le _ h (le_of_eq hker.symm))
-    (range_subset_range_of_ker_le h _ (le_of_eq hker))
+  apply _root_.FunctorialResolution.EmbeddedResolution.support_ker_eq_range_of_isClosedImmersion <;> assumption
 
 theorem support_ambientCenter_eq_image (P : ChartPushforward S S') (i : ℕ) (hi : i < S'.length) :
     ((S'.ambientCenter i).support : Set ↥(S'.schemeAt i)) =

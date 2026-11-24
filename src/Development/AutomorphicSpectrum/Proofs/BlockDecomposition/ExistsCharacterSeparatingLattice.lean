@@ -49,6 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FourierBijOnSchwartzBruhatFinitePlace
 
 @[expose] public section
 
@@ -87,14 +88,7 @@ theorem fourier_sub_translate_eq_zero [MeasurableSpace k] [BorelSpace k] {n : �
       hgx.mul_right
   have e1 : ∫ z, g (z + x) * (ψ (z ⬝ᵥ y) : ℂ) ∂μ =
       (ψ (-(x ⬝ᵥ y)) : ℂ) * ∫ z, g z * (ψ (z ⬝ᵥ y) : ℂ) ∂μ := by
-    have h := integral_add_right_eq_self (μ := μ) (fun w => g w * (ψ ((w - x) ⬝ᵥ y) : ℂ)) x
-    simp only [add_sub_cancel_right] at h
-    rw [h, ← integral_const_mul]
-    refine integral_congr_ae (Filter.Eventually.of_forall fun w => ?_)
-    have hwx : (w - x) ⬝ᵥ y = w ⬝ᵥ y + -(x ⬝ᵥ y) := by rw [sub_dotProduct, sub_eq_add_neg]
-    beta_reduce
-    rw [hwx, AddChar.map_add_eq_mul, Circle.coe_mul]
-    ring
+    apply _root_.GlobalTheory.FourierLocBij.translate_fourier <;> assumption
   simp only [sub_mul]
   rw [integral_sub hi1 hi2, e1]
   by_cases hy : ∀ a ∈ A, ψ (y ⬝ᵥ a) = 1

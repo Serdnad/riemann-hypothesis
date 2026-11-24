@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.PerFrLact
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FrameChangeExistsUniqueOfSamePoint
 public import Formalism.LocalToGlobal.ProjectiveLattices.UnFree
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.VerticalDerivativeInCoordinates
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsInvariantNatLengthLattice
@@ -71,15 +73,7 @@ theorem exists_unit_of_generators {x : Sp S ⟶ Xo.X} (s s' : LB.Sec (PPx x))
     (hs : ∀ s'' : LB.Sec (PPx x), ∃! a : S, ∀ i, s''.f i = scal x a i * s.f i)
     (hs' : ∀ s'' : LB.Sec (PPx x), ∃! a : S, ∀ i, s''.f i = scal x a i * s'.f i) :
     ∃ u : Sˣ, ∀ i, s'.f i = scal x (u : S) i * s.f i := by
-  obtain ⟨a, ha, -⟩ := hs s'
-  obtain ⟨b, hb, -⟩ := hs' s
-  obtain ⟨c1, -, hc1⟩ := hs s
-  have h1 : b * a = 1 := by
-    have e1 : ∀ i, s.f i = scal x (b * a) i * s.f i := fun i => by
-      rw [scal_mul, mul_assoc, ← ha i, ← hb i]
-    have e2 : ∀ i, s.f i = scal x 1 i * s.f i := fun i => by rw [scal_one, one_mul]
-    exact (hc1 _ e1).trans (hc1 _ e2).symm
-  exact ⟨⟨a, b, by rw [mul_comm]; exact h1, h1⟩, ha⟩
+  apply _root_.GlobalTheory.Frames.ChgOf.gen_unit' <;> assumption
 
 theorem frBor_of_eq [Algebra c.F S] (y y' : FrPt Xo c S) (hx : y'.x = y.x) (hu : y'.u = y.u) :
     ∃ t : Ix Dw → Sˣ, FrBor t y y' := by
@@ -116,18 +110,8 @@ theorem perFr_lact {r : ℕ} (X : Data E r) (x : Frame X.Ψ r) (γ : GL (Fin r) 
       herm X.Gm u v) (v : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     Formalism.L2.PjFree.perFr X (lact γ x) ((γ : Matrix (Fin r) (Fin r) E) *ᵥ v) τ i =
       Formalism.L2.PjFree.perFr X x v τ i := by
-  have hm : ∀ τ : X.Ψ, mat (lact γ x) τ = (γ : Matrix (Fin r) (Fin r) E).map τ.1 * mat x τ := fun _ => rfl
-  unfold Formalism.L2.PjFree.perFr
-  simp only [hm, PerMove.emb_mulVec]
-  split_ifs with h1 h2 h3 h4
-  · have hu : IsUnit ((γ : Matrix (Fin r) (Fin r) E).map τ).det :=
-      (Matrix.isUnit_iff_isUnit_det _).1 (γ.isUnit.map τ.mapMatrix)
-    rw [Matrix.mul_inv_rev, Matrix.mulVec_mulVec, Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hu,
-      Matrix.mul_one]
-  · rfl
-  · rw [PerMove.col_mul, PerMove.hermC_unitary _ _ _ hγ]
-  · rfl
-  · rfl
+  intros
+  apply _root_.GlobalTheory.PerGam.perFr_lact <;> assumption
 
 noncomputable def latAut {r : ℕ} (Λ : Submodule (𝓞 E) (Fin r → E)) (γ : GL (Fin r) E)
     (h : ∀ x, x ∈ Λ ↔ (γ : Matrix (Fin r) (Fin r) E) *ᵥ x ∈ Λ) : Λ ≃ₗ[𝓞 E] Λ where

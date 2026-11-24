@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.GramSt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.WeightFunctionOnFrames
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExhaustFStatementPfC
 import Mathlib.Algebra.Order.Floor.Extended
@@ -222,30 +223,7 @@ section Matrices
 
 theorem det_le_prod_diag {m : ℕ} {A : Matrix (Fin m) (Fin m) ℂ} (hA : A.PosDef) :
     A.det.re ≤ ∏ i, (A i i).re := by
-  rcases Nat.eq_zero_or_pos m with rfl | hm
-  · simp
-  have hd : ∀ i, 0 < A i i := fun i => hA.diag_pos
-  have hre : ∀ i, ((A i i).re : ℂ) = A i i := fun i =>
-    Complex.ext (by simp) (by simp [(Complex.lt_def.1 (hd i)).2.symm])
-  have hD : (Matrix.diagonal fun i => A i i).PosDef := Matrix.posDef_diagonal_iff.2 hd
-  have h := RgB.amgm hm hA hD
-  have hinv : (Matrix.diagonal fun i => A i i)⁻¹ = Matrix.diagonal fun i => (A i i)⁻¹ := by
-    refine Matrix.inv_eq_right_inv ?_
-    rw [Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext i
-    exact mul_inv_cancel₀ (hd i).ne'
-  have htr : (A * (Matrix.diagonal fun i => A i i)⁻¹).trace.re = m := by
-    rw [hinv]
-    simp only [Matrix.trace, Matrix.diag, Matrix.mul_diagonal, mul_inv_cancel₀ (hd _).ne']
-    simp
-  have hdet : (Matrix.diagonal fun i => A i i).det.re = ∏ i, (A i i).re := by
-    rw [Matrix.det_diagonal, ← Complex.ofReal_re (∏ i, (A i i).re), Complex.ofReal_prod]
-    simp only [hre]
-  have hmR : (0 : ℝ) < m := by exact_mod_cast hm
-  rw [htr, hdet, div_self hmR.ne', mul_one] at h
-  have hp : 0 ≤ ∏ i, (A i i).re := Finset.prod_nonneg fun i _ => (Complex.lt_def.1 (hd i)).1.le
-  exact (Real.rpow_le_rpow_iff (ExhA.det_re_pos_im hA).1.le hp (inv_pos.2 hmR)).1 h
+  first | exact _root_.ReciprocityTheory.GeometryOfNumbersTheory.gramSt_hadamard | exact @_root_.ReciprocityTheory.GeometryOfNumbersTheory.gramSt_hadamard | apply _root_.ReciprocityTheory.GeometryOfNumbersTheory.gramSt_hadamard <;> assumption
 
 theorem conj_diag {p q : ℕ} (U : Matrix (Fin p) (Fin p) ℂ) (hU : Uᴴ * U = 1)
     (Z : Matrix (Fin p) (Fin q) ℂ) (a : Fin p) :

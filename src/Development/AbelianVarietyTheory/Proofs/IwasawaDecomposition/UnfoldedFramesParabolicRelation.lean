@@ -56,6 +56,7 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsBloc
 import Development.AbelianVarietyTheory.Definitions.Divisors.DetJacMatCoordsEqTransitionJacobianDet
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 import Formalism.MoebiusJetDuality.StatementU
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsUnitAnalyticFunction
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExpFourClauses, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnfoldedFramesParabolicRelation
@@ -262,15 +263,7 @@ theorem hmap_single {T : Type} {μ : T → ℕ} {g : ℕ} (e : Fin g ≃ Σ τ :
 theorem isDerivAt0_comp {g : ℕ} {X : Scheme.{0}} (e e' : (Fin g → ℂ) → (Sp ℂ ⟶ X))
     (h : (Fin g → ℂ) ≃ₗ[ℂ] (Fin g → ℂ)) (he : ∀ z, e' (h z) = e z) {w : Fin g → ℂ}
     {v : Sp (DualNumber ℂ) ⟶ X} (hd : IsDerivAt0 e w v) : IsDerivAt0 e' (h w) v := by
-  refine ⟨?_, fun U hU f => ?_⟩
-  · rw [hd.1, ← he 0, map_zero]
-  · rw [hd.2 U hU f]
-    let hc : (Fin g → ℂ) ≃L[ℂ] (Fin g → ℂ) := h.toContinuousLinearEquiv
-    have e1 : (fun z => valAt' (e z) U f) = (fun z => valAt' (e' z) U f) ∘ hc := by
-      funext z
-      simp only [Function.comp, hc, LinearEquiv.coe_toContinuousLinearEquiv', he]
-    rw [e1, hc.comp_right_fderiv]
-    simp [hc]
+  apply _root_.PositivityTheory.Xgn.AnalyticTypeDefinition.deriv_transport <;> assumption
 
 end GlobalTheory.FramePairGram.Comb
 

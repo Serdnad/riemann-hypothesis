@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DeepHecke
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.MatchSmulAlt
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.OrbitalIntegrals.TwistedOrbitalIntegrals.HeckeRepresentationSatake
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Bridge
@@ -615,13 +616,7 @@ private theorem strict_map {k E : Type} [Field k] [ValuativeRel k] [TopologicalS
     [Field E] [ValuativeRel E] [TopologicalSpace E] [IsNonarchimedeanLocalField E]
     [Algebra k E] [ValuativeExtension k E] {n : ℕ} {t : Fin n → kˣ} (ht : Strict t) :
     Strict fun i => Units.map (algebraMap k E : k →* E) (t i) := by
-  intro i j hij
-  have h := ht i j hij
-  rw [← (valuation k).vlt_iff_lt] at h
-  rw [← (valuation E).vlt_iff_lt]
-  simp only [Units.coe_map, MonoidHom.coe_coe]
-  intro hle
-  exact h (ValuativeExtension.vle_iff_vle.mp hle)
+  apply _root_.strict_map <;> assumption
 
 theorem UpperTheory.Gal.InertialTypesAlt.L.align :
     UpperTheory.Gal.InertialTypesAlt.L.Align := by

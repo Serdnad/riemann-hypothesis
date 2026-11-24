@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ScalarPairOrthogonal.XLeOrthXplus
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeSCSCl
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CongruenceAtSplitFrobeniusHolds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
@@ -47,7 +49,6 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.CuspSpanNormBounds.AuxiliaryNormPrimes, Formalism.SharpRestriction.CuspSpanNormBounds.AbsoluteAmplitudeSecondOfSource
 
@@ -319,11 +320,7 @@ theorem finrank_orth_Xplus (F : Formalism.MainNotions.S.FlagG S r T) (hT : T ≠
   omega
 
 theorem X_le_orth_Xplus (F : Formalism.MainNotions.S.FlagG S r T) : F.X ≤ orth S F.Xplus := by
-  intro x hx
-  rw [mem_orth_iff]
-  refine hT_zero_of_mem_Xplus F (fun a => ?_) ?_
-  · exact hT_swap_zero (hT_zero_of_mem_X F (fun b => F.e_iso b a) x hx)
-  · exact hT_swap_zero (hT_zero_of_mem_X F F.z_orth x hx)
+  apply _root_.PI.ScalarPairDr.W.X_le_orth_Xplus <;> assumption
 
 theorem finrank_X (F : Formalism.MainNotions.S.FlagG S r T) : finrank E F.X = r := by
   unfold Formalism.MainNotions.S.FlagG.X

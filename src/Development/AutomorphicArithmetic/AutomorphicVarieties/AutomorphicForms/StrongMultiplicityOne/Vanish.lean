@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.SmoothRepresentationsGL.Vanish
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.StrongMultiplicityOne.StrongMultOneC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -56,16 +57,7 @@ private theorem isY_one {R : Type} [CommRing R] {n m : ℕ} : IsY m (1 : GL (Fin
 
 private theorem isY_mul {R : Type} [CommRing R] {n m : ℕ} {p q : GL (Fin n) R}
     (hp : IsY m p.val) (hq : IsY m q.val) : IsY m (p * q).val := by
-  intro i hi
-  have key : ∀ j, j ≤ i → (p * q).val i j = q.val i j := by
-    intro j hj
-    rw [Units.val_mul, Matrix.mul_apply, Finset.sum_eq_single i, (hp i hi).1, one_mul]
-    · intro k _ hk
-      rcases lt_or_gt_of_ne hk with h | h
-      · rw [(hp i hi).2 k h, zero_mul]
-      · rw [(hq k (hi.trans h.le)).2 j (hj.trans_lt h), mul_zero]
-    · simp
-  exact ⟨by rw [key i le_rfl, (hq i hi).1], fun j hj => by rw [key j hj.le, (hq i hi).2 j hj]⟩
+  apply _root_.isY_mul <;> assumption
 
 section
 
@@ -73,21 +65,7 @@ variable {E : Type} [Field E] [NumberField E] {n : ℕ}
 
 private theorem exists_part (S : Finset (HeightOneSpectrum (𝓞 E))) (g : GL (Fin n) (Af E)) :
     ∃ s : GL (Fin n) (Af E), SuppIn S s ∧ ∀ w ∈ S, cmp w s = cmp w g := by
-  classical
-  induction S using Finset.induction_on with
-  | empty => exact ⟨1, fun w _ => map_one _, fun w hw => absurd hw (Finset.notMem_empty w)⟩
-  | insert v S hv ih =>
-    obtain ⟨s, h1, h2⟩ := ih
-    refine ⟨s * locGL E n v (cmp v g), fun w hw => ?_, fun w hw => ?_⟩
-    · rw [Finset.mem_insert, not_or] at hw
-      rw [map_mul, h1 w hw.2, one_mul]
-      exact GlobalTheory.CuspRep.pLoc_locGL_of_ne hw.1 _
-    · rw [map_mul]
-      rcases Finset.mem_insert.1 hw with rfl | h
-      · rw [h1 w hv, one_mul]
-        exact GlobalTheory.CuspRep.pLoc_locGL _ _
-      · rw [h2 w h, show cmp w (locGL E n v (cmp v g)) = 1 from
-          GlobalTheory.CuspRep.pLoc_locGL_of_ne (fun e : w = v => hv (e ▸ h)) _, mul_one]
+  apply _root_.exists_part <;> assumption
 
 private theorem af_ext {x y : Af E} (h : ∀ w, pLoc E w x = pLoc E w y) : x = y :=
   DFunLike.ext _ _ h

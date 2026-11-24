@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsComplEquiv
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.FinrankLeOfMapLe
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.RingSpecNormalisedCharacterEq
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ThetaMod
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsIrreducibleSubspaceTrivialOutsideSplitPlacStatement
@@ -113,28 +115,7 @@ variable {L : Type} [Field L] [NumberField L] [IsCMField L]
 theorem exists_equiv (s : SplitPlace L) :
     ∃ e : s.v.adicCompletion (maximalRealSubfield L) ≃+* s.w.adicCompletion L, Continuous e ∧ Continuous e.symm ∧
       ∀ x : L, e (s.i x) = algebraMap L (s.w.adicCompletion L) x := by
-  obtain ⟨φ, hφc, hφ⟩ := exists_extension s.w s.v s.i.toRingHom (fun r => s.split_le_one r)
-    (fun r => (s.split_mem_ideal r).symm)
-  obtain ⟨ψ, hψc, hψ⟩ := exists_extension s.v s.w
-    ((algebraMap L (s.w.adicCompletion L)).comp (algebraMap (maximalRealSubfield L) L))
-    (fun r => by
-      rw [RingHom.comp_apply, adic_valued_algebraMap, ← split_coe_algebraMap]
-      exact s.w.valuation_le_one _)
-    (fun r => by
-      rw [RingHom.comp_apply, adic_valued_algebraMap, ← split_coe_algebraMap, ← s.split_alg_mem]
-      exact s.w.valuation_lt_one_iff_mem _)
-  have h1 : ∀ y, φ (ψ y) = y := by
-    have := (HeightOneSpectrum.denseRange_algebraMap (maximalRealSubfield L) s.v).equalizer (hφc.comp hψc) continuous_id
-      (by
-        funext a
-        simp only [Function.comp_apply, hψ, RingHom.comp_apply, hφ, id]
-        exact s.i.commutes a)
-    exact congrFun this
-  have h2 : ∀ y, ψ (φ y) = y := fun y => φ.injective (h1 _)
-  refine ⟨RingEquiv.ofRingHom ψ φ (RingHom.ext h2) (RingHom.ext h1), hψc, hφc, fun x => ?_⟩
-  have := h2 (algebraMap L _ x)
-  rw [hφ] at this
-  exact this
+  first | exact _root_.GlobalTheory.SplitComplHomeo.exists_complEquiv | exact @_root_.GlobalTheory.SplitComplHomeo.exists_complEquiv | apply _root_.GlobalTheory.SplitComplHomeo.exists_complEquiv <;> assumption
 
 end Completion
 
@@ -146,23 +127,7 @@ local notation3 "L⁺" => maximalRealSubfield L
 
 theorem exists_imaginary (L : Type) [Field L] [NumberField L] [IsCMField L] :
     ∃ δ : 𝓞 L, (δ : L) ≠ 0 ∧ IsCMField.complexConj L (δ : L) = -(δ : L) := by
-  have : ∃ y : 𝓞 L, IsCMField.complexConj L (y : L) ≠ y := by
-    by_contra h
-    push Not at h
-    apply IsCMField.complexConj_ne_one L
-    ext x
-    obtain ⟨a, b, -, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 L) x
-    rw [map_div₀]
-    exact congrArg₂ (· / ·) (h a) (h b)
-  obtain ⟨y, hy⟩ := this
-  refine ⟨y - IsCMField.ringOfIntegersComplexConj L y, ?_, ?_⟩
-  · have : ((y - IsCMField.ringOfIntegersComplexConj L y : 𝓞 L) : L) = y - IsCMField.complexConj L y := by
-      rw [← IsCMField.coe_ringOfIntegersComplexConj]; rfl
-    rw [this]
-    exact sub_ne_zero.2 hy.symm
-  · have : ((y - IsCMField.ringOfIntegersComplexConj L y : 𝓞 L) : L) = y - IsCMField.complexConj L y := by
-      rw [← IsCMField.coe_ringOfIntegersComplexConj]; rfl
-    rw [this, map_sub, IsCMField.complexConj_apply_apply, neg_sub]
+  first | exact _root_.Formalism.FourierDecayAlt.P.S6x3.exists_delta | exact @_root_.Formalism.FourierDecayAlt.P.S6x3.exists_delta | apply _root_.Formalism.FourierDecayAlt.P.S6x3.exists_delta <;> assumption
 
 theorem exists_basis {δ : L} (h0 : δ ≠ 0) (hδ : IsCMField.complexConj L δ = -δ) :
     ∃ b : Module.Basis (Fin 2) L⁺ L, b 0 = 1 ∧ b 1 = δ := by

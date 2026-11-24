@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsCompactAdeleRingModNumberField
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.RatVInjective
 public import GroundTheory.AutomorphicForms.AnisotropicUnitaryRes
 public import GroundTheory.AutomorphicForms.ReductionMahler
@@ -337,21 +338,7 @@ namespace GlobalTheory.CompanionTheory.RedCov
 theorem hE_mulVec_self {F E : Type} [Field F] [Field E] [Algebra F E] (σ : E →ₐ[F] E) {n : ℕ}
     (J M : Matrix (Fin n) (Fin n) E) (hM : cT (σ : E →+* E) M * J * M = J) (w : Fin n → E) :
     hE σ J (M *ᵥ w) (M *ᵥ w) = hE σ J w w := by
-  have key : ∀ x y : Fin n → E, hE σ J x y = (fun i => σ (x i)) ⬝ᵥ (J *ᵥ y) := by
-    intro x y
-    simp only [hE, Formalism.UG.hform, dotProduct, mulVec, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-    simp [mul_assoc]
-  have hs : (fun i => σ ((M *ᵥ w) i)) = (M.map (σ : E →+* E)) *ᵥ (fun i => σ (w i)) := by
-    funext i
-    exact RingHom.map_mulVec (σ : E →+* E) M w i
-  rw [key, key, hs, Matrix.mulVec_mulVec, ← Matrix.vecMul_transpose, ← Matrix.dotProduct_mulVec]
-  have : (M.map (σ : E →+* E))ᵀ *ᵥ ((J * M) *ᵥ w) = J *ᵥ w := by
-    rw [Matrix.mulVec_mulVec, ← Matrix.mul_assoc]
-    have h := hM
-    unfold cT at h
-    rw [h]
-  rw [this]
+  apply _root_.GlobalTheory.CompanionTheory.RedCov.First.hE_mulVec <;> assumption
 
 theorem exists_sends_hE : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (n : ℕ) (J : Matrix (Fin n) (Fin n) E), IsHermND σ J → ∀ γ ∈ ratPts σ J, ∀ w : Fin n → E, ∃ w' : Fin n → E, Sends σ J γ w w' ∧ hE σ J w' w' = hE σ J w w := by
   intro F E _ _ _ _ _ σ _ n J _ γ hγ w
@@ -387,15 +374,7 @@ namespace GlobalTheory.CompanionTheory.RedCov.Simple.BoxCpt
 
 theorem properSpace_completion (F : Type) [Field F] [NumberField F] (w : InfinitePlace F) :
     ProperSpace w.Completion := by
-  have hi := NumberField.InfinitePlace.Completion.isometry_extensionEmbedding w
-  have hce := hi.isClosedEmbedding
-  refine ⟨fun x r => ?_⟩
-  have e : Metric.closedBall x r = NumberField.InfinitePlace.Completion.extensionEmbedding w ⁻¹'
-      Metric.closedBall (NumberField.InfinitePlace.Completion.extensionEmbedding w x) r := by
-    ext y
-    simp [Metric.mem_closedBall, hi.dist_eq]
-  rw [e]
-  exact hce.isCompact_preimage (isCompact_closedBall _ _)
+  apply _root_.GlobalTheory.AdeleCocompact.properSpace_completion <;> assumption
 
 theorem isCompact_boxF_one (F : Type) [Field F] [NumberField F] : IsCompact (boxF F 1) := by
   have h1 : IsCompact (Set.univ.pi fun w : InfinitePlace F => Metric.closedBall (0 : w.Completion) 1) := by

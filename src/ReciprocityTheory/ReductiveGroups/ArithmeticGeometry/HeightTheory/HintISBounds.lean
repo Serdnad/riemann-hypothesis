@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.FsumLeOf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.HintLogFinprod
 public import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Algebra.Order.Star.Real
@@ -192,20 +193,7 @@ theorem hint_log_le (hd : d.AxH 𝒜) {c : ι} {G : WT} {f : A c} (hf : f ∈ �
     ∀ P ∈ PT (Ω := Ω c) sg, Real.log (d.nrm c G f P) ≤ Real.log B := fun P hP => Real.log_le_log (hd.nrm_pos c P hf hf0) (hB P hP)
 
 theorem hint_thp_ne (hd : d.AxH 𝒜) (c : ι) : ∃ k, d.thp k c ≠ 0 := by
-  by_contra hall
-  push_neg at hall
-  obtain ⟨e, he, -, h3⟩ := hd.a4
-  obtain ⟨q, hq, p, hp⟩ := h3 1
-  apply hq c
-  have h4 := hp c
-  rw [Pi.one_apply, mul_one] at h4
-  rw [h4]
-  refine Finset.sum_eq_zero fun k _ => ?_
-  have hr : ratio (Ω := Ω c) (d.thp (hd.sel k) c) (e c) = 0 := by
-    rw [hall]
-    have h1 := _root_.ReciprocityTheory.ChartRestriction.G.T0.Data.hint_line hd (he c).1 (he c).2 (Submodule.zero_mem _)
-    exact (smul_eq_zero.mp h1.symm).resolve_right (he c).2
-  rw [hr, map_zero, mul_zero]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.T0.Data.thp_ne <;> assumption
 
 end Data
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.BaseGeOfStepsStatement
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.RowAtOfRatStep
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealizationEmbeddingCompatible
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsKsFormOfAlgebraicFormsIso
@@ -534,24 +535,7 @@ variable {O : Type} [CommRing O] [IsDomain O] {M : Type} [AddCommGroup M] [Modul
 
 theorem exists_smul_eq_sum_tmul_finBasis (x : L ⊗[O] M) : ∃ d : O, d ≠ 0 ∧
     ∃ c : _ → L, d • x = ∑ a, c a ⊗ₜ Module.finBasis (FractionRing O) M a := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨1, one_ne_zero, 0, by simp⟩
-  | add x y hx hy =>
-    obtain ⟨d, hd, c, e⟩ := hx
-    obtain ⟨d', hd', c', e'⟩ := hy
-    refine ⟨d * d', mul_ne_zero hd hd', d' • c + d • c', ?_⟩
-    rw [smul_add, mul_smul d d' y, mul_comm, mul_smul, e, e']
-    simp [Finset.smul_sum, TensorProduct.add_tmul, Finset.sum_add_distrib, TensorProduct.smul_tmul']
-  | tmul a f =>
-    obtain ⟨d, hd⟩ := IsLocalization.exist_integer_multiples_of_finite (nonZeroDivisors O)
-      fun c => (Module.finBasis (FractionRing O) M).repr f c
-    choose y hy using hd
-    refine ⟨d, nonZeroDivisors.coe_ne_zero d, fun c => y c • a, ?_⟩
-    rw [← TensorProduct.tmul_smul]
-    conv_lhs => rw [← (Module.finBasis (FractionRing O) M).sum_repr f]
-    rw [Finset.smul_sum, TensorProduct.tmul_sum]
-    refine Finset.sum_congr rfl fun c _ => ?_
-    rw [TensorProduct.smul_tmul, ← algebraMap_smul (FractionRing O) (y c), hy, smul_assoc]
+  apply _root_.GlobalTheory.BigOn.Exp.exists_smul_eq_sum_finBasis <;> assumption
 
 variable (rd : M →ₛₗ[eK] (G → ℂ)) (eL : L →+* ℂ)
   (hL : ∀ c : O, eL (algebraMap O L c) = eK (algebraMap O (FractionRing O) c))
@@ -605,16 +589,8 @@ end ScalarGeneric
 theorem exists_algebraMap_eq_of_isIntegral {R : Type} [CommRing R] [IsDomain R] [IsDiscreteValuationRing R]
     (e : FractionRing R →+* ℂ) (b₀ : FractionRing R) (N : ℕ) (hN : IsUnit (N : R)) (m : ℕ)
     (h : IsIntegral ℤ ((N : ℂ) ^ m * e b₀)) : ∃ b : R, algebraMap R (FractionRing R) b = b₀ := by
-  let f : FractionRing R →ₐ[ℤ] ℂ := { e with commutes' := fun r => by simp }
-  have e1 : (N : ℂ) ^ m * e b₀ = f ((N : FractionRing R) ^ m * b₀) := by
-    simp [f, map_mul, map_pow, map_natCast]
-  rw [e1] at h
-  have h' : IsIntegral ℤ ((N : FractionRing R) ^ m * b₀) := (isIntegral_algHom_iff f e.injective).1 h
-  obtain ⟨c, hc⟩ := IsIntegrallyClosed.isIntegral_iff.1 (h'.tower_top (A := R))
-  refine ⟨(↑hN.unit⁻¹ : R) ^ m * c, ?_⟩
-  have hu : algebraMap R (FractionRing R) (↑hN.unit⁻¹ : R) * (N : FractionRing R) = 1 := by
-    rw [← map_natCast (algebraMap R (FractionRing R)) N, ← map_mul, hN.val_inv_mul, map_one]
-  rw [map_mul, map_pow, hc, ← mul_assoc, ← mul_pow, hu, one_pow, one_mul]
+  intros
+  apply _root_.GlobalTheory.BigOn.Exp.SerBase.exists_of_integral <;> assumption
 
 end GlobalTheory.BigOn.Exp
 end -- clump:auto

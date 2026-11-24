@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExistsPlaceWithVectors
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.Admissible
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
@@ -311,17 +312,7 @@ variable {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace �
   [InnerProductSpace ℂ Wq]
 
 theorem closed_SS (D : B.RealPlaceData k r Wp Wq) : IsClosed {p | D.inSS p} := by
-  have hWc := (P.weyl_subgroup_closed k r D.z).closed
-  have hWc' := (P.weyl_subgroup_closed k r D.z').closed
-  have hNc := (P.unipotent_radical_closed k r).closed
-  have e : {p | D.inSS p} = (fun p : B.SS k r => (p.1.1 : B.Mat k r)) ⁻¹' (UWset k r D.z) ∩
-      ((fun p : B.SS k r => (p.1.2 : B.Mat k r)) ⁻¹' (Nset k r) ∩
-        ((fun p : B.SS k r => (p.2.1 : B.Mat k r)) ⁻¹' (UWset k r D.z') ∩
-          (fun p : B.SS k r => (p.2.2 : B.Mat k r)) ⁻¹' (Nset k r))) := by
-    ext p; rfl
-  rw [e]
-  exact (hWc.preimage continuous_fst.fst).inter ((hNc.preimage continuous_fst.snd).inter
-    ((hWc'.preimage continuous_snd.fst).inter (hNc.preimage continuous_snd.snd)))
+  first | exact _root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed | exact @_root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed | apply _root_.Formalism.FourierDecayAlt.P.B6.setting_support_closed <;> assumption
 
 theorem integrand_contOn (D : B.RealPlaceData k r Wp Wq) {γ : B.Mat k r} (hγ : γ ∈ B.GV k r)
     {F : B.Mat k r → (Wq →L[ℂ] Wp)} (hF : ContinuousOn F (B.GV k r)) :
@@ -380,18 +371,7 @@ theorem hsNormSq_hsVec [FiniteDimensional ℂ Wq] (X : Wq →L[ℂ] Wp) : hsNorm
 
 theorem haar_smul {U : Set (B.Mat k r)} {μ : Measure (Mt k r)} (h : B.IsHaarOn U μ) {c : ENNReal} (h0 : c ≠ 0)
     (h1 : c ≠ ⊤) : B.IsHaarOn U (c • μ) := by
-  refine ⟨?_, fun a ha => ?_, fun a ha => ?_, fun K hK => ?_, ?_⟩
-  · rw [Measure.smul_apply, h.conc, smul_zero]
-  · rw [Measure.map_smul, h.left a ha]
-    exact (show Continuous (lmulM a : Mt k r → Mt k r) from
-      continuous_const.matrix_mul continuous_id).measurable.aemeasurable
-  · rw [Measure.map_smul, h.right a ha]
-    exact (show Continuous (B.rmulF a : Mt k r → Mt k r) from
-      continuous_id.matrix_mul continuous_const).measurable.aemeasurable
-  · rw [Measure.smul_apply, smul_eq_mul]; exact ENNReal.mul_lt_top h1.lt_top (h.finite_compact K hK)
-  · intro e
-    have e2 : c * μ Set.univ = 0 := congrArg (fun m : Measure (Mt k r) => m Set.univ) e
-    exact (mul_eq_zero.1 e2).elim h0 fun e3 => h.ne_zero (Measure.measure_univ_eq_zero.1 e3)
+  first | exact _root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul | exact @_root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul | apply _root_.Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature.haarSmul <;> assumption
 
 end cont
 

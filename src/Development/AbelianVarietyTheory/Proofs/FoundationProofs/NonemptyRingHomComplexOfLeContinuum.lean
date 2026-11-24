@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BezoutEisensteinDerivativePrimePow
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyRingHomComplexOfFg
 public import Formalism.LocalRingCardinality.DataDIV
 public import Mathlib.Algebra.MvPolynomial.Cardinal
@@ -59,17 +60,7 @@ theorem nonempty_ringHom_complex_of_le_continuum (K : Type) [Field K] [CharZero 
 
 theorem charZero_wittVector (p : ℕ) [hp : Fact p.Prime] (k : Type) [Field k] [CharP k p] :
     CharZero (WittVector p k) := by
-  obtain ⟨q, hq⟩ := CharP.exists (WittVector p k)
-  have h1 : ((q : ℕ) : k) = 0 := by
-    have := congrArg (WittVector.constantCoeff : WittVector p k →+* k) (CharP.cast_eq_zero (WittVector p k) q)
-    rwa [map_natCast, map_zero] at this
-  have h2 : p ∣ q := (CharP.cast_eq_zero_iff k p q).1 h1
-  rcases CharP.char_is_prime_or_zero (WittVector p k) q with h | h
-  · have h3 : p = q := (Nat.prime_dvd_prime_iff_eq hp.out h).1 h2
-    subst h3
-    exact absurd (CharP.cast_eq_zero (WittVector p k) p) (WittVector.p_nonzero p k)
-  · subst h
-    exact CharP.charP_to_charZero _
+  first | exact _root_.GlobalTheory.charZero_wittVector_of_field | exact @_root_.GlobalTheory.charZero_wittVector_of_field | apply _root_.GlobalTheory.charZero_wittVector_of_field <;> assumption
 
 
 open Cardinal in

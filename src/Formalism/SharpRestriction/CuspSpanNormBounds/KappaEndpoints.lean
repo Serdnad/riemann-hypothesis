@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LeadingMinorsProdDenominatorUnitriangularFactors
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DetGramSumElimSmulSub
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalClassLatticesIffRationalClassLocalFramePStatement
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeIndexAndWeightTheory
 public import Formalism.FlagUnipotentLattices.AutBoundOfMinkowskiBound
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
@@ -1251,46 +1254,16 @@ theorem ng_modK_nonunit (hOK : M.OK) (a : 𝒪[F]) (ha0 : (a : F) ≠ 0) (hau : 
 
 theorem ng_sum_castLE {n l : ℕ} (hl : l ≤ n) (g : Fin n → E) (hg : ∀ i : Fin n, l ≤ i.val → g i = 0) :
     ∑ i, g i = ∑ j : Fin l, g (Fin.castLE hl j) := by
-  classical
-  have h1 : ∑ j : Fin l, g (Fin.castLE hl j) = ∑ i ∈ Finset.univ.map (Fin.castLEEmb hl), g i := by
-    rw [Finset.sum_map]; rfl
-  rw [h1]
-  symm
-  apply Finset.sum_subset (Finset.subset_univ _)
-  intro i _ hi
-  apply hg
-  by_contra h
-  push Not at h
-  exact hi (Finset.mem_map.2 ⟨⟨i.val, h⟩, Finset.mem_univ _, Fin.ext rfl⟩)
+  intros
+  apply _root_.GlobalTheory.OrbitDenom.sum_castLE <;> assumption
 
 theorem ng_minor {n l : ℕ} (hl : l ≤ n) (Lo Z Up : Matrix (Fin n) (Fin n) E)
     (hLo : ∀ a d, a < d → Lo a d = 0) (hLo1 : ∀ a, Lo a a = 1)
     (hUp : ∀ c b, b < c → Up c b = 0) (hUp1 : ∀ a, Up a a = 1) :
     ((Lo * Z * Up).submatrix (Fin.castLE hl) (Fin.castLE hl)).det =
       (Z.submatrix (Fin.castLE hl) (Fin.castLE hl)).det := by
-  have hsub : (Lo * Z * Up).submatrix (Fin.castLE hl) (Fin.castLE hl) =
-      Lo.submatrix (Fin.castLE hl) (Fin.castLE hl) * Z.submatrix (Fin.castLE hl) (Fin.castLE hl) *
-        Up.submatrix (Fin.castLE hl) (Fin.castLE hl) := by
-    ext a b
-    simp only [Matrix.submatrix_apply, Matrix.mul_apply]
-    rw [ng_sum_castLE hl _ (fun e he => by
-      rw [hUp e (Fin.castLE hl b) (by
-        rw [Fin.lt_def]; exact lt_of_lt_of_le b.2 he), mul_zero])]
-    refine Finset.sum_congr rfl (fun e _ => ?_)
-    rw [ng_sum_castLE hl _ (fun d hd => by
-      rw [hLo (Fin.castLE hl a) d (by
-        rw [Fin.lt_def]; exact lt_of_lt_of_le a.2 hd), zero_mul])]
-  have hT1 : (Lo.submatrix (Fin.castLE hl) (Fin.castLE hl)).BlockTriangular OrderDual.toDual := by
-    intro i j hij
-    have h' : i < j := hij
-    exact hLo _ _ (by rw [Fin.lt_def]; exact h')
-  have hT2 : (Up.submatrix (Fin.castLE hl) (Fin.castLE hl)).BlockTriangular id := by
-    intro i j hij
-    have h' : j < i := hij
-    exact hUp _ _ (by rw [Fin.lt_def]; exact h')
-  rw [hsub, Matrix.det_mul, Matrix.det_mul, Matrix.det_of_isLowerTriangular _ hT1,
-    Matrix.det_of_isUpperTriangular hT2]
-  simp [hLo1, hUp1]
+  intros
+  apply _root_.GlobalTheory.OrbitDenom.det_three <;> assumption
 
 variable {H : HermSp M V} {r : ℕ}
 
@@ -1323,32 +1296,10 @@ theorem ng_h_es_e (i b : Fin r) : H.h (Fr.es i) (Fr.e b) = if b = i then 1 else 
   split_ifs <;> simp
 
 theorem ng_prF_e (v : V) (b : Fin r) : H.h (Fr.prF v) (Fr.e b) = 0 := by
-  classical
-  unfold FrameD.prF
-  rw [h_sub_left, h_sub_left, h_sum_left, h_sum_left]
-  have z1 : ∑ i, H.h v (Fr.es i) * H.h (Fr.e i) (Fr.e b) = 0 :=
-    Finset.sum_eq_zero (fun i _ => by
-      rw [show H.h (Fr.e i) (Fr.e b) = 0 from Fr.h_iso _ _ (Or.inl (Fin.castSucc_lt_last i).ne), mul_zero])
-  have z2 : ∑ i, H.h v (Fr.e i) * H.h (Fr.es i) (Fr.e b) = H.h v (Fr.e b) := by
-    rw [Finset.sum_eq_single b]
-    · rw [ng_h_es_e, if_pos rfl, mul_one]
-    · intro i _ hi; rw [ng_h_es_e, if_neg (Ne.symm hi), mul_zero]
-    · intro h; exact absurd (Finset.mem_univ b) h
-  rw [z1, z2]; ring
+  apply _root_.GlobalTheory.InnerRead.prF_e <;> assumption
 
 theorem ng_prF_es (v : V) (b : Fin r) : H.h (Fr.prF v) (Fr.es b) = 0 := by
-  classical
-  unfold FrameD.prF
-  rw [h_sub_left, h_sub_left, h_sum_left, h_sum_left]
-  have z1 : ∑ i, H.h v (Fr.es i) * H.h (Fr.e i) (Fr.es b) = H.h v (Fr.es b) := by
-    rw [Finset.sum_eq_single b]
-    · rw [show H.h (Fr.e b) (Fr.es b) = 1 from by have := Fr.h_es b b; rwa [if_pos rfl] at this, mul_one]
-    · intro i _ hi
-      rw [show H.h (Fr.e i) (Fr.es b) = 0 from by have := Fr.h_es i b; rwa [if_neg hi] at this, mul_zero]
-    · intro h; exact absurd (Finset.mem_univ b) h
-  have z2 : ∑ i, H.h v (Fr.e i) * H.h (Fr.es i) (Fr.es b) = 0 :=
-    Finset.sum_eq_zero (fun i _ => by rw [Fr.h_ss, mul_zero])
-  rw [z1, z2]; ring
+  apply _root_.GlobalTheory.InnerRead.prF_es <;> assumption
 
 theorem ng_expand (v y : V) : H.h v y = ∑ a, H.h v (Fr.es a) * H.h (Fr.e a) y + H.h (Fr.prF v) y +
     ∑ a, H.h v (Fr.e a) * H.h (Fr.es a) y := by
@@ -1405,59 +1356,7 @@ theorem ng_LamStd_int (hL : Fr.IsInner L) {v w : V} (hv : v ∈ Fr.LamStd L) (hw
 end Std
 
 theorem ng_gram_base (P : FPair H r) : (H.gram (Sum.elim P.A.f P.B.f)).det = (-1) ^ (r + 1) * P.Gv := by
-  set c : E →+* E := (M.L.cj : E ≃ₐ[F] E).toAlgHom.toRingHom with hc
-  have hcx : ∀ x, c x = M.L.cj x := fun _ => rfl
-  set Zh := H.Zhat P.A.f P.B.f with hZh
-  have hG : H.gram (Sum.elim P.A.f P.B.f) =
-      Matrix.fromBlocks (Matrix.diagonal fun i => if i = Fin.last r then -(algebraMap F E P.A.T) else 0) Zh
-        (Zh.transpose.map c) (Matrix.diagonal fun i => if i = Fin.last r then -(algebraMap F E P.B.T) else 0) := by
-    ext i j
-    rcases i with a | a <;> rcases j with b | b
-    · simp only [HermSp.gram, Matrix.of_apply, Sum.elim_inl, Matrix.fromBlocks_apply₁₁, Matrix.diagonal_apply]
-      by_cases hab : a = b
-      · subst hab
-        by_cases ha : a = Fin.last r
-        · subst ha; simp [P.A.h_zz]
-        · simp [ha, P.A.h_iso a a (Or.inl ha)]
-      · rw [if_neg hab]
-        by_cases ha : a = Fin.last r
-        · exact P.A.h_iso b a (Or.inl (fun h => hab (by rw [ha, h])))
-        · exact P.A.h_iso b a (Or.inr ha)
-    · simp [HermSp.gram, hZh, HermSp.Zhat]
-    · simp only [HermSp.gram, Matrix.of_apply, Sum.elim_inl, Sum.elim_inr, Matrix.fromBlocks_apply₂₁, Matrix.map_apply,
-        Matrix.transpose_apply, hZh, HermSp.Zhat, hcx]
-      exact H.h_herm _ _
-    · simp only [HermSp.gram, Matrix.of_apply, Sum.elim_inr, Matrix.fromBlocks_apply₂₂, Matrix.diagonal_apply]
-      by_cases hab : a = b
-      · subst hab
-        by_cases ha : a = Fin.last r
-        · subst ha; simp [P.B.h_zz]
-        · simp [ha, P.B.h_iso a a (Or.inl ha)]
-      · rw [if_neg hab]
-        by_cases ha : a = Fin.last r
-        · exact P.B.h_iso b a (Or.inl (fun h => hab (by rw [ha, h])))
-        · exact P.B.h_iso b a (Or.inr ha)
-  rw [hG, _root_.Formalism.HermitianLatticeCounting.P.gram_determinant_general E r (Zh.transpose.map c) Zh]
-  have d1 : (Zh.transpose.map c).det = M.L.cj Zh.det := by
-    rw [← hcx, RingHom.map_det, ← Matrix.det_transpose]
-    rfl
-  have d2 : ((Zh.transpose.map c).submatrix Fin.castSucc Fin.castSucc).det =
-      M.L.cj (Zh.submatrix Fin.castSucc Fin.castSucc).det := by
-    rw [← hcx, RingHom.map_det, ← Matrix.det_transpose]
-    rfl
-  have e1 : P.Dm (r + 1) = Zh.det := by
-    unfold FPair.Dm HermSp.Dl
-    rw [dite_eq_left le_rfl]
-    rfl
-  have e2 : P.Dm r = (Zh.submatrix Fin.castSucc Fin.castSucc).det := by
-    unfold FPair.Dm HermSp.Dl
-    rw [dite_eq_left (Nat.le_succ r)]
-    rfl
-  rw [d1, d2]
-  unfold FPair.Gv HermSp.Gdet HermSp.normE
-  change _ = (-1) ^ (r + 1) * (P.Dm (r + 1) * M.L.cj (P.Dm (r + 1)) - algebraMap F E (P.A.T * P.B.T) * (P.Dm r * M.L.cj (P.Dm r)))
-  rw [e1, e2, map_mul]
-  ring
+  apply _root_.GlobalTheory.det_gram_sumElim_frames <;> assumption
 
 theorem ng_theta_mem (M : Model F E) : ∃ a : 𝒪[F], (a : F) = theta M ∧ (a : F) ≠ 0 := by
   unfold theta

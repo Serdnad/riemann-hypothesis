@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFunctionOfSmoothLocalDescentReduced
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Different
@@ -494,15 +495,8 @@ theorem nonempty_algHom_of_isAlgClosed (K C : Type) [Field K] [IsAlgClosed K] [C
 theorem exists_lift (A B : Type) [CommRing A] [CommRing B] [Algebra A B] (hff : Module.FaithfullyFlat A B)
     (hft : Algebra.FiniteType A B) (k : Type) [Field k] [IsAlgClosed k] (φ : A →+* k) :
     ∃ φ' : B →+* k, φ'.comp (algebraMap A B) = φ := by
-  letI : Algebra A k := φ.toAlgebra
-  haveI : Nontrivial (k ⊗[A] B) := Module.FaithfullyFlat.rTensor_nontrivial A B k
-  haveI : Algebra.FiniteType k (k ⊗[A] B) := inferInstance
-  obtain ⟨f⟩ := nonempty_algHom_of_isAlgClosed k (k ⊗[A] B)
-  refine ⟨f.toRingHom.comp (Algebra.TensorProduct.includeRight : B →ₐ[A] k ⊗[A] B).toRingHom, ?_⟩
-  ext a
-  simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, AlgHom.commutes]
-  rw [IsScalarTower.algebraMap_apply A k (k ⊗[A] B), AlgHom.commutes]
-  rfl
+  intros
+  apply _root_.GlobalTheory.SmoothLocalDescent.exists_lift_geom <;> assumption
 
 end GlobalTheory.GeomPointLift
 end -- clump:auto

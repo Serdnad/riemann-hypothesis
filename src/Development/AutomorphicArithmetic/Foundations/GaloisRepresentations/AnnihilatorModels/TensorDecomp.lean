@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorOrderFaithfulLattice
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.PairCalc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,27 +59,7 @@ open scoped TensorProduct
 private lemma UpperTheory.Gal.crystallineComparison.Mod.tensor_decomp (p : ℕ) [Fact p.Prime] (B : Type) [AddCommGroup B]
     (a : B ⊗[ℤ] ℤ_[p]) :
     ∃ (c : B) (a' : B ⊗[ℤ] ℤ_[p]), a = c ⊗ₜ[ℤ] (1 : ℤ_[p]) + (p : ℤ) • a' := by
-  induction a using TensorProduct.induction_on with
-  | zero => exact ⟨0, 0, by simp⟩
-  | tmul c z =>
-    obtain ⟨r, z', hz⟩ : ∃ (r : ℤ) (z' : ℤ_[p]), z = r • (1 : ℤ_[p]) + (p : ℤ) • z' := by
-      have h : z - (PadicInt.zmodRepr z : ℤ_[p]) ∈ Ideal.span {(p : ℤ_[p])} := by
-        rw [← PadicInt.maximalIdeal_eq_span_p]
-        exact PadicInt.sub_zmodRepr_mem z
-      obtain ⟨z', hz'⟩ := Ideal.mem_span_singleton'.mp h
-      refine ⟨(PadicInt.zmodRepr z : ℤ), z', ?_⟩
-      have : z = (PadicInt.zmodRepr z : ℤ_[p]) + z' * p := by rw [hz']; ring
-      simp only [zsmul_eq_mul]
-      push_cast
-      rw [mul_comm (p : ℤ_[p])]
-      first | simpa using this
-    refine ⟨r • c, c ⊗ₜ[ℤ] z', ?_⟩
-    rw [hz, TensorProduct.tmul_add, TensorProduct.tmul_smul (p : ℤ), TensorProduct.tmul_smul r,
-      TensorProduct.smul_tmul']
-  | add a b ha hb =>
-    obtain ⟨c, a', rfl⟩ := ha
-    obtain ⟨d, b', rfl⟩ := hb
-    exact ⟨c + d, a' + b', by rw [TensorProduct.add_tmul, smul_add]; abel⟩
+  apply _root_.GlobalTheory.HTFaith.approx <;> assumption
 
 theorem UpperTheory.Gal.crystallineComparison.Mod.oMod_of :
     OMod := by

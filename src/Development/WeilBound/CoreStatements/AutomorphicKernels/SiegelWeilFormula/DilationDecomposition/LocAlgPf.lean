@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AbsoluteConvergence.InGBlocks
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobData
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
@@ -94,18 +95,7 @@ theorem JJ_mul_self : JJ n * JJ n = -1 := by
   simp
 
 theorem rows_rel (g : M2 n) (h : InG g) : g * JJ n * gᴴ = JJ n := by
-  have hinv : (-(JJ n) * gᴴ * JJ n) * g = 1 := by
-    have h' : gᴴ * JJ n * g = JJ n := h
-    calc (-(JJ n) * gᴴ * JJ n) * g = -(JJ n * (gᴴ * JJ n * g)) := by
-          simp only [Matrix.mul_assoc, Matrix.neg_mul]
-      _ = 1 := by rw [h', JJ_mul_self, neg_neg]
-  have h2 : g * (-(JJ n) * gᴴ * JJ n) = 1 := mul_eq_one_comm.mp hinv
-  calc g * JJ n * gᴴ = g * JJ n * gᴴ * (-(JJ n * JJ n)) := by
-        rw [JJ_mul_self, neg_neg, Matrix.mul_one]
-    _ = -((g * (-(JJ n) * gᴴ * JJ n)) * JJ n) * (-1) * (-1) * (-1) := by
-        simp only [Matrix.mul_assoc, Matrix.neg_mul, Matrix.mul_neg, Matrix.mul_one, neg_neg]
-    _ = JJ n := by
-        rw [h2]; simp
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.IwaPf.inG_rows <;> assumption
 
 theorem block_rel (g : M2 n) (h : InG g) :
     g.toBlocks₂₁ * g.toBlocks₂₂ᴴ = g.toBlocks₂₂ * g.toBlocks₂₁ᴴ := by

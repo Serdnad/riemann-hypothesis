@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BesselDatumAuxiliaryVectorOrthogonalImage
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsSelfDualCLatFrame
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
@@ -168,16 +169,8 @@ theorem suppAt_inv {e : AE D} {V : HSp D} {g : GA D V} (hg : SuppAt e V g) : Sup
   exact fun i j => congrFun (congrFun h2 i) j
 
 theorem mem_GfC {e : AE D} (he : IsSplitIdem D e) {V : HSp D} {g : GA D V} (hg : SuppAt e V g) : g ∈ GfC V := by
-  refine Units.ext (Matrix.ext fun i j => ?_)
-  have h : infPart D ((mt V g - 1) i j) = 0 := by
-    rw [← hg i j, RingHom.map_mul, RingHom.map_add (f := _), GlobalTheory.SplitScalar.infPart_splitIdem he,
-      GlobalTheory.SplitScalar.infPart_splitIdem (GlobalTheory.SplitScalar.isSplitIdem_conj he), add_zero, zero_mul]
-  rw [Matrix.sub_apply, RingHom.map_sub, sub_eq_zero] at h
-  show infPart D (mt V g i j) = (1 : Matrix _ _ _) i j
-  rw [h, Matrix.one_apply, Matrix.one_apply]
-  split_ifs
-  · rw [RingHom.map_one]
-  · rw [RingHom.map_zero]
+  intros
+  apply _root_.GlobalTheory.RootExch.mem_GfC <;> assumption
 
 variable {e : AE D} {v : HeightOneSpectrum (𝓞 D.host.F)} {π : AE D →+* Fv D.host.F v} {V : HSp D}
   {β : GL (Fin V.rank) (Fv D.host.F v)}

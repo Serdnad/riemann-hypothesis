@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.ContinuousMapGL
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Development.AutomorphicArithmetic.Foundations.Convolution.NormCharacterPowers.LiftSum
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FamSat
@@ -48,15 +49,7 @@ open NumberField IsDedekindDomain Formalism.L2.Host Formalism.ConjugateSelfDual 
 private theorem above_finite {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {S : Set (HeightOneSpectrum (𝓞 F))} (hS : S.Finite) :
     {w : HeightOneSpectrum (𝓞 E) | w.under (𝓞 F) ∈ S}.Finite := by
-  refine Set.Finite.preimage' (f := fun w : HeightOneSpectrum (𝓞 E) => w.under (𝓞 F)) hS fun v _ => ?_
-  have h := Ideal.finite_factors (R := 𝓞 E) (I := v.asIdeal.map (algebraMap (𝓞 F) (𝓞 E)))
-    (by
-      intro h
-      exact v.ne_bot ((Ideal.map_eq_bot_iff_of_injective (FaithfulSMul.algebraMap_injective _ _)).1 h))
-  refine h.subset fun w hw => ?_
-  have e : w.under (𝓞 F) = v := hw
-  rw [Set.mem_setOf_eq, Ideal.dvd_iff_le, Ideal.map_le_iff_le_comap, ← e]
-  exact le_rfl
+  apply _root_.UpperTheory.ConvolutionTheory.GM.CompactClopenAverage.finite_under <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.T.famParts :
     UpperTheory.ConvolutionTheory.T.FamParts := by

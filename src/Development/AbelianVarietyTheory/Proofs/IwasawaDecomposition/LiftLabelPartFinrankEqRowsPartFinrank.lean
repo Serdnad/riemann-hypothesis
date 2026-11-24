@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CardBaseRowsLabelEqRowsPartFinrank
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StableIffCarrierEq
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.WeilRepresentationUnitaryPair
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DsExistsOfDiscreteSeriesExists
@@ -57,20 +58,7 @@ namespace GlobalTheory.Mem.R3.LamDim
 
 theorem finrank_twSub (s : Bool) {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℂ E] (V : Submodule ℂ E) :
     Module.finrank ℂ (Tw.sub s V) = Module.finrank ℂ V := by
-  let j : V ≃+ Tw.sub s V :=
-    { toFun := fun x => ⟨Tw.mk s (x : E), x.2⟩
-      invFun := fun y => ⟨Tw.out (y : Tw s E), y.2⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl
-      map_add' := fun _ _ => rfl }
-  have hi : Function.Bijective (cj s) :=
-    ⟨fun a b h => by simpa [cj_cj] using congrArg (cj s) h, fun z => ⟨cj s z, cj_cj s z⟩⟩
-  have h := rank_eq_of_equiv_equiv (cj s) j hi (fun r m => by
-    apply Subtype.ext
-    show r • (m : E) = cj s (cj s r) • (m : E)
-    rw [cj_cj])
-  unfold Module.finrank
-  rw [h]
+  first | exact _root_.GlobalTheory.Mem.R3.LabCount.finrank_twSub | exact @_root_.GlobalTheory.Mem.R3.LabCount.finrank_twSub | apply _root_.GlobalTheory.Mem.R3.LabCount.finrank_twSub <;> assumption
 
 theorem twSub_inf (s : Bool) {E : Type} [NormedAddCommGroup E] [InnerProductSpace ℂ E] (V W : Submodule ℂ E) :
     Tw.sub s (V ⊓ W) = Tw.sub s V ⊓ Tw.sub s W := by

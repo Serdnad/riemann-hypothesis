@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EEContainsStableWeightZero
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.InducedModelMorphismCompStructureMap
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsSpecializesIsLocalization
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.ArithBase
@@ -68,20 +69,8 @@ namespace GlobalTheory.ZH
 theorem mem_span_rows_iff_vecMul_inv {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] (S : Subalgebra o Ω)
     {J : Type} [Fintype J] [DecidableEq J] {c : Matrix J J Ω} (hc : c.det ≠ 0) (v : J → Ω) :
     v ∈ Submodule.span S (Set.range c) ↔ ∀ j, Matrix.vecMul v c⁻¹ j ∈ S := by
-  have hu : IsUnit c.det := isUnit_iff_ne_zero.2 hc
-  have key : ∀ a : J → S, ∑ i, a i • c i = Matrix.vecMul (fun i => (a i : Ω)) c := fun a => by
-    ext j
-    simp [Matrix.vecMul, dotProduct, Finset.sum_apply, Subalgebra.smul_def]
-  refine (Submodule.mem_span_range_iff_exists_fun S (v := fun i => c i)).trans ?_
-  constructor
-  · rintro ⟨a, rfl⟩ j
-    rw [key, Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ hu, Matrix.vecMul_one]
-    exact (a j).2
-  · intro h
-    refine ⟨fun j => ⟨_, h j⟩, ?_⟩
-    rw [key]
-    show Matrix.vecMul (Matrix.vecMul v c⁻¹) c = v
-    rw [Matrix.vecMul_vecMul, Matrix.nonsing_inv_mul _ hu, Matrix.vecMul_one]
+  intros
+  apply _root_.GlobalTheory.ZH.mem_span_rows_iff_coords_mem <;> assumption
 
 namespace RatModel
 

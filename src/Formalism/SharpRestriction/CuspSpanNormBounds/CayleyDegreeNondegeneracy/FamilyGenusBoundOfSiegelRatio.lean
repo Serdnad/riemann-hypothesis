@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.FiniteDimensionalOfOrtho
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsFinsetTypesOfBoundedBases
 public import Formalism.HermitianLattices.StatementMass
 public import Formalism.HermitianLattices.FinalNeighbourConstruct
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
@@ -97,11 +99,7 @@ variable {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [M
 theorem inner_sum_orthonormal (h : V →ₗ⋆[K] V →ₗ[K] K) {n : ℕ} (e : Fin n → V)
     (he : ∀ i j, h (e i) (e j) = if i = j then 1 else 0) (a b : Fin n → K) :
     h (∑ i, a i • e i) (∑ j, b j • e j) = ∑ i, star (a i) * b i := by
-
-  simp only [map_sum, LinearMap.sum_apply, LinearMap.map_smulₛₗ, LinearMap.smul_apply, map_smul, he,
-  smul_eq_mul, starRingEnd_apply]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  simp [mul_comm]
+  apply _root_.ReciprocityTheory.ChartRestriction.L3.StandardSymmetricSums.form_sum <;> assumption
 
 theorem fg_of_orthonormal_basis (h : V →ₗ⋆[K] V →ₗ[K] K) (L : Submodule (𝓞 K) V) {n : ℕ} (hL : IsOrthoLattice h L n) : L.FG := by
   obtain ⟨e, -, -, rfl, -⟩ := hL
@@ -902,14 +900,7 @@ section Final
 
 theorem natAbs_norm_le_pow_of_bounded (K : Type) [Field K] [NumberField K] (d : 𝓞 K) (B : ℝ)
     (hd : ∀ φ : K →+* ℂ, ‖φ (d : K)‖ ≤ B) : ((Algebra.norm ℤ d).natAbs : ℝ) ≤ B ^ finrank ℚ K := by
-  have h1 : ((Algebra.norm ℤ d).natAbs : ℝ) = |((Algebra.norm ℚ (d : K) : ℚ) : ℝ)| := by
-    rw [← Algebra.coe_norm_int d, Nat.cast_natAbs]
-    push_cast
-    rfl
-  rw [h1, ← prod_norm_embeddings_eq_abs_norm_alt]
-  calc ∏ φ : K →+* ℂ, ‖φ (d : K)‖ ≤ ∏ _φ : K →+* ℂ, B :=
-        Finset.prod_le_prod₀ (fun _ _ => norm_nonneg _) (fun φ _ => hd φ)
-    _ = B ^ finrank ℚ K := by rw [Finset.prod_const, Finset.card_univ, NumberField.Embeddings.card]
+  apply _root_.GlobalTheory.BoundedBasis.natAbs_norm_le_pow <;> assumption
 
 theorem class_count_plane_bound (K : Type) [Field K] [NumberField K] [StarRing K] (hK : IsCMUnram K) (V : Type)
     [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] (h : V →ₗ⋆[K] V →ₗ[K] K)

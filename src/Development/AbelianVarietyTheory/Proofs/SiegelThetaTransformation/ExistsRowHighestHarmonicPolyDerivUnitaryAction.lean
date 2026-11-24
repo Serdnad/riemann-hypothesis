@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ApplyAtOriginMinorProductLinear
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiablePolyDeriv
 import Mathlib.Algebra.Order.Floor.Extended
@@ -94,19 +95,7 @@ theorem polyDeriv_subst [Fintype κ] {F : W → ℂ} (hF : ContDiff ℂ (⊤ : �
     (hΦ : ∀ l, Φ (MvPolynomial.X l) = ∑ k, MvPolynomial.C (s l k) * MvPolynomial.X (j l k))
     (u : σ → W) (P : MvPolynomial σ ℂ) (x : W) :
     I2.polyDeriv (Φ P) u F x = I2.polyDeriv P (fun l => ∑ k, s l k • u (j l k)) F x := by
-  induction P using MvPolynomial.induction_on generalizing x with
-  | C a =>
-    rw [MvPolynomial.algHom_C]
-    exact polyDeriv_C_indep a _ _ F x
-  | add p q hp hq => rw [map_add (f := _), I2.polyDeriv_add, I2.polyDeriv_add, hp, hq]
-  | mul_X p l hp =>
-    have e1 : (fun y => I2.polyDeriv (Φ p) u F y) =
-        fun y => I2.polyDeriv p (fun l => ∑ k, s l k • u (j l k)) F y := funext hp
-    rw [polyDeriv_mul_X hF p _ l x, map_mul, hΦ l, Finset.mul_sum, I2.jof_polyDeriv_sum]
-    simp_rw [MvPolynomial.C_mul', mul_smul_comm, I2.polyDeriv_smul, polyDeriv_mul_X hF (Φ p) u _ x, e1]
-
-    rw [map_sum]
-    simp only [map_smul, smul_eq_mul]
+  first | exact _root_.GlobalTheory.NormSum.Minor.polyDeriv_subst | exact @_root_.GlobalTheory.NormSum.Minor.polyDeriv_subst | apply _root_.GlobalTheory.NormSum.Minor.polyDeriv_subst <;> assumption
 
 end Deriv
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.QuotientMetricDivisors.HermitianTwistDivisors.CommutingTwist
 public import Formalism.LocalToGlobal.IndefiniteReal.PartsOrth
 public import Formalism.LocalToGlobal.Divisibility.ProjLemmas
 public import Formalism.LocalToGlobal.Divisibility.RowLatLemmas
@@ -79,22 +80,7 @@ variable {K : Type} [Field K] [NumberField K] [StarRing K] {n : ℕ}
 
 theorem aniso {v0 : InfinitePlace K} (hv0 : IsConjAt v0) {H : Matrix (Fin n) (Fin n) K}
     (hH : (H.map v0.embedding).PosDef) (x : Fin n → K) (hx : star x ⬝ᵥ H *ᵥ x = 0) : x = 0 := by
-  have hs : ∀ a : K, v0.embedding (star a) = star (v0.embedding a) := fun a => by
-    rw [hv0 a]; rfl
-  by_contra hne
-  have hy : (fun i => v0.embedding (x i)) ≠ 0 := by
-    intro h0
-    apply hne
-    funext i
-    have hi := congrFun h0 i
-    simpa using hi
-  have key : star (fun i => v0.embedding (x i)) ⬝ᵥ (H.map v0.embedding) *ᵥ (fun i => v0.embedding (x i)) =
-      v0.embedding (star x ⬝ᵥ H *ᵥ x) := by
-
-    simp only [dotProduct, Matrix.mulVec, Matrix.map_apply, map_sum, map_mul, Pi.star_apply, hs]
-  have hpos := hH.dotProduct_mulVec_pos hy
-  rw [key, hx, map_zero] at hpos
-  exact lt_irrefl _ hpos
+  apply _root_.Formalism.DivisionValues.FinitelyNonzeroLinear.aniso <;> assumption
 
 end Aniso
 

@@ -15,8 +15,8 @@ open NumberField ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.Toroi
 
 namespace GlobalTheory.CompanionTheory.Ar.Fan.FaceCells
 
-theorem isCell_face_of_isFaceCut : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O), CMOrd O bar → ∀ (q : ℕ) (ψ : InvFun O), IsPolyFan bar q ψ → ∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → Dominates bar X → ∀ (m : ℕ) (v : Fin m → LinearMap.BilinForm ℤ X), IsCell bar ψ v → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut v s h → IsCell bar ψ (fun j => v (s j)) := by
-  intro O _ _ _ _ bar _ q ψ hψ X _ _ _ _ hX hD m v hv m' s h hcut
+theorem isCell_face_restriction : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O), ∀ (q : ℕ) (ψ : InvFun O), IsPolyFan bar q ψ → ∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → Dominates bar X → ∀ (m : ℕ) (v : Fin m → LinearMap.BilinForm ℤ X), IsCell bar ψ v → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut v s h → IsCell bar ψ (fun j => v (s j)) := by
+  intro O _ _ _ _ bar q ψ hψ X _ _ _ _ hX hD m v hv m' s h hcut
   have hP := hψ X hX
   obtain ⟨N, ℓ, hN, h1, h2, h3⟩ := hv.strict
   have hNr : (0 : ℝ) < N := by exact_mod_cast hN
@@ -152,5 +152,9 @@ theorem isCell_face_of_isFaceCut : ∀ (O : Type) [CommRing O] [IsDedekindDomain
     rw [← Finset.sum_map Finset.univ s (fun j => c j • v j)]
     refine (Finset.sum_subset (Finset.subset_univ _) fun j _ hj => ?_).symm
     rw [hc0 j fun ⟨i, hi⟩ => hj (by simp [← hi]), zero_smul]
+
+theorem isCell_face_of_isFaceCut : ∀ (O : Type) [CommRing O] [IsDedekindDomain O] [CharZero O] [Module.Finite ℤ O] (bar : O → O), CMOrd O bar → ∀ (q : ℕ) (ψ : InvFun O), IsPolyFan bar q ψ → ∀ (X : Type) [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X], Module.finrank O X ≤ q → Dominates bar X → ∀ (m : ℕ) (v : Fin m → LinearMap.BilinForm ℤ X), IsCell bar ψ v → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut v s h → IsCell bar ψ (fun j => v (s j)) := by
+  intro O _ _ _ _ bar _
+  exact isCell_face_restriction O bar
 
 end GlobalTheory.CompanionTheory.Ar.Fan.FaceCells

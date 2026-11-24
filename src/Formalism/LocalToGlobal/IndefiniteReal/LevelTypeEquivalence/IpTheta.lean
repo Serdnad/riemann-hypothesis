@@ -26,20 +26,7 @@ theorem thetaO_add {f g : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) (hg : IsTh
   apply Formalism.IndefR.Fock.CCR.theta_add <;> assumption
 
 theorem thetaO_smul {f : WO S T → ℂ} (c : ℂ) (hf : IsThetaFunO ψ S T f) : IsThetaFunO ψ S T (c • f) := by
-
-  obtain ⟨U1, hU1, h1⟩ := hf.level
-  constructor
-  · intro γ w
-    simp only [Pi.smul_apply, smul_eq_mul, hf.quasi]
-    ring
-  · refine ⟨U1, hU1, fun u hu hfin => ?_⟩
-    funext x
-    have e1x := congrFun (h1 u hu hfin) x
-    simp only [heisO, Pi.smul_apply, smul_eq_mul] at e1x ⊢
-    rw [mul_left_comm, e1x]
-  · exact hf.cont.const_smul c
-  · intro k L hL hfin w
-    exact (hf.smooth k L hL hfin w).const_smul c
+  apply _root_.Formalism.IndefR.Fock.CCR.theta_smul <;> assumption
 
 end Basic
 

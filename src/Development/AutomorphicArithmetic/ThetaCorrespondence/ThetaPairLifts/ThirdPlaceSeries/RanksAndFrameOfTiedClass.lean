@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NcardPrimesOverEqFinrankOfAbsNormEqOfNotMemSq
 public import Formalism.SharpRestriction.CuspSpanNormBounds.PExtra
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermRepUnram
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RootLatticeThresholds.SzHypFam
@@ -145,36 +146,7 @@ private lemma liesOver_span_of_prime_natCast_mem {A : Type*} [CommRing A] {p : �
 theorem ncard_primesOver_of_norm {E : Type} [Field E] [NumberField E] {p : ℕ} (hp : p.Prime)
     (h : ∀ P : Ideal (𝓞 E), P.IsMaximal → ((p : 𝓞 E) ∈ P) → Ideal.absNorm P = p ∧ (p : 𝓞 E) ∉ P ^ 2) :
     (Ideal.primesOver (Ideal.span {(p : ℤ)}) (𝓞 E)).ncard = Module.finrank ℚ E := by
-  classical
-  have hp0 : Ideal.span {(p : ℤ)} ≠ ⊥ := by
-    simp [hp.ne_zero]
-  haveI := span_prime_isMaximal' hp
-  rw [← Ideal.sum_ramification_inertia (R := ℤ) (S := 𝓞 E) ℚ E hp0,
-    ← IsDedekindDomain.coe_primesOverFinset hp0 (𝓞 E), Set.ncard_coe_finset, Finset.card_eq_sum_ones]
-  refine Finset.sum_congr rfl fun P hP => ?_
-  rw [IsDedekindDomain.mem_primesOverFinset_iff hp0] at hP
-  obtain ⟨hPp, hPl⟩ := hP
-  have hPne : P ≠ ⊥ := Ideal.ne_bot_of_liesOver_of_ne_bot hp0 P
-  haveI hPm : P.IsMaximal := hPp.isMaximal hPne
-  have hpP : (p : 𝓞 E) ∈ P := by
-    have := (Ideal.mem_of_liesOver P (Ideal.span {(p : ℤ)}) (p : ℤ)).mp (Ideal.mem_span_singleton_self _)
-    simpa using this
-  obtain ⟨hn, hsq⟩ := h P hPm hpP
-  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(p : ℤ)}) = Ideal.span {(p : 𝓞 E)} := by
-    rw [Ideal.map_span, Set.image_singleton]
-    simp
-  have he : Ideal.ramificationIdx' (Ideal.span {(p : ℤ)}) P = 1 := by
-    apply Ideal.ramificationIdx'_spec
-    · rw [hmap, pow_one, Ideal.span_singleton_le_iff_mem]
-      exact hpP
-    · rw [hmap, Ideal.span_singleton_le_iff_mem]
-      exact hsq
-  have hf : Ideal.inertiaDeg' (Ideal.span {(p : ℤ)}) P = 1 := by
-    rw [Ideal.inertiaDeg'_eq_inertiaDeg]
-    have h1 := Ideal.pow_inertiaDeg p P
-    rw [hn] at h1
-    exact (Nat.pow_eq_self_iff hp.one_lt).mp h1
-  rw [he, hf]
+  apply _root_.GlobalTheory.ncard_primesOver_eq_finrank_of_absNorm_eq_of_not_mem_sq <;> assumption
 
 theorem splitsF_of_norm : ∀ (D : D7) (p : ℕ), p.Prime →
     (∀ P : Ideal (𝓞 D.host.E), P.IsMaximal → ((p : 𝓞 D.host.E) ∈ P) →

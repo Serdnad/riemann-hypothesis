@@ -1,5 +1,6 @@
 module
 
+import Formalism.TameInertiaTowers.CentralOrderTwo.OrderOfThreeUnitsTwoPow
 public import Formalism.FrobeniusOrbits.Statement
 public import Formalism.TameInertiaTowers.CentralOrderTwo.Galois
 import Mathlib.Algebra.Order.Floor.Extended
@@ -112,23 +113,7 @@ lemma cast_eq_neg_one (m : ℕ) (z : ℤ) : (z : ZMod m) = -1 ↔ (m : ℤ) ∣ 
   exact eq_comm.trans h
 
 lemma card_H (e : ℕ) : Nat.card (HGrp e) = 2 ^ e := by
-  have hc : Nat.card (ZMod (2 ^ (e + 2)))ˣ = 2 ^ (e + 1) := by
-    rw [Nat.card_eq_fintype_card, ZMod.card_units_eq_totient,
-      Nat.totient_prime_pow Nat.prime_two (by omega), show e + 2 - 1 = e + 1 by omega]
-    simp
-  have ho : orderOf (-1 : (ZMod (2 ^ (e + 2)))ˣ) = 2 := by
-    refine orderOf_eq_prime neg_one_sq fun h => ?_
-    have h' : ((1 : ℤ) : ZMod (2 ^ (e + 2))) = -1 := by
-      simpa using (congrArg Units.val h).symm
-    have h5 := Int.le_of_dvd (by norm_num) ((cast_eq_neg_one _ _).mp h')
-    push_cast at h5
-    have : (0 : ℤ) < 2 ^ e := by positivity
-    rw [show (2 : ℤ) ^ (e + 2) = 4 * 2 ^ e by ring] at h5
-    omega
-  have h := Subgroup.card_eq_card_quotient_mul_card_subgroup
-    (Subgroup.zpowers (-1 : (ZMod (2 ^ (e + 2)))ˣ))
-  rw [Nat.card_zpowers, ho, hc] at h
-  exact Nat.eq_of_mul_eq_mul_right two_pos (h.symm.trans (pow_succ 2 e))
+  apply _root_.Formalism.TwoAdicCyclotomicDecomposition.AdmissibleUnits.card_quot <;> assumption
 
 lemma order_le (e : ℕ) (x : HGrp e) (j : ℕ) : orderOf x ≤ 2 ^ j ↔ x ^ (2 ^ j) = 1 := by
   have hd : orderOf x ∣ 2 ^ e := card_H e ▸ orderOf_dvd_natCard x

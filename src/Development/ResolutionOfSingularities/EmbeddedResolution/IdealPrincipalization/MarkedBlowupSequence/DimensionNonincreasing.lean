@@ -1,5 +1,6 @@
 module
 
+import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.KrullDimEtaleBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.MarkedSequenceOfBlowups
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StalkKrullDimension
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.FiniteKrullDim
@@ -85,18 +86,7 @@ theorem ringKrullDim_stalk_le_of_etaleChart {k : Type u} [Field k] {Y : Scheme.{
     (p : Y ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.IsLocallyNoetherian Y]
     {U : Y.Opens} {m : ℕ} (c : EtaleChart p U m) (y : Y) (hy : y ∈ U) :
     ringKrullDim (Y.presheaf.stalk y) ≤ ((m : ℕ∞) : WithBot ℕ∞) := by
-  have := c.isEtale
-  have hbase : U.ι.base (⟨y, hy⟩ : ↥U) = y := rfl
-  have h0 : IsNoetherianRing (Y.presheaf.stalk (U.ι.base (⟨y, hy⟩ : ↥U))) := by
-    rw [hbase]
-    exact inferInstance
-  have h1 : IsNoetherianRing (U.toScheme.presheaf.stalk (⟨y, hy⟩ : ↥U)) :=
-    isNoetherianRing_stalk_of_isOpenImmersion U.ι (⟨y, hy⟩ : ↥U)
-  have h2 := ringKrullDim_stalk_le_of_etale_affineSpace c.map (⟨y, hy⟩ : ↥U)
-  have h3 := ringKrullDim_stalk_eq_of_isOpenImmersion U.ι (⟨y, hy⟩ : ↥U)
-  rw [hbase] at h3
-  rw [← h3]
-  exact h2
+  exact ringKrullDim_stalk_le_of_etaleChart_of_isLocallyNoetherian p c y hy
 
 theorem le_topologicalKrullDim_of_etaleChart {k : Type u} [Field k] {X : Scheme.{u}}
     (p : X ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.LocallyOfFiniteType p]

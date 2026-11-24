@@ -178,28 +178,7 @@ end TriLemmas
 
 theorem tri (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (c : Cls k) :
     Tri k := by
-  intro 𝔪 𝔫 h x y hd hL hy hj
-  obtain ⟨Δ, hΔ, hx⟩ := hL
-  obtain ⟨h', x', hd', ⟨Γ, hΓ, _⟩, _⟩ := id hy
-  have hadm := PositivityTheory.Tls2.BZGL.irreducibleAdmissibleGL_top
-  have hw : Wd y.rep (wtW Γ) := _root_.GlobalTheory.CompanionTheory.ZWordL.wd_wtW_of_isL hadm c.soc c.jac 𝔫 y.rep hy h' Γ hΓ
-  have hsub : IsSubquotient y.rep (prodIrr x hd) := jhMult_ne_zero_iff.mp hj
-  have hw2 : Wd (prodIrr x hd) (wtW Γ) := _root_.GlobalTheory.CompanionTheory.Words.wd_of_isSubquotient _ _ (isSmooth_prodIrr x hd) hsub _ hw
-  have hsh : InShW (Multiset.map Δ Finset.univ.val) (wtW Γ) :=
-    _root_.GlobalTheory.CompanionTheory.CuspShuffle.inShW_of_wd hadm c.jac x hd Δ hx _ (_root_.GlobalTheory.CompanionTheory.ZcWords.wtW_isCusp Γ) hw2
-  rw [hΔ.1] at hsh
-  refine ⟨(tri_msupp_of_inShW hsh).trans (tri_msupp_wtW hΓ).symm, ?_⟩
-  by_cases heq : 𝔪 = 𝔫
-  · exact Or.inl heq
-  · right
-    have hne : Multiset.map toA 𝔪 ≠ ↑(List.map toA (List.ofFn Γ)) := by
-      rw [GlobalTheory.CompanionTheory.ZcWords.coe_map_ofFn hΓ]
-      exact fun e => heq (Multiset.map_injective GlobalTheory.CompanionTheory.ZcWords.toA_injective e)
-    have hlt := _root_.GlobalTheory.CompanionTheory.MultiSeg.Rank.sqLen_lt_of_inSh sNu GlobalTheory.CompanionTheory.ZcWords.sNu_injective GlobalTheory.CompanionTheory.ZcWords.sNu_aperiodic
-      (List.map toA (List.ofFn Γ)) (Multiset.map toA 𝔪) (GlobalTheory.CompanionTheory.ZcWords.aOrdered_of_isOrderedForm hΓ)
-      (GlobalTheory.CompanionTheory.ZcWords.inSh_of_inShW hsh) hne
-    rw [GlobalTheory.CompanionTheory.ZcWords.coe_map_ofFn hΓ, tri_sqLen_map_toA, tri_sqLen_map_toA] at hlt
-    exact hlt
+  apply _root_.CompanionTheory.Groth.tri <;> assumption
 
 end PositivityTheory.Groth
 

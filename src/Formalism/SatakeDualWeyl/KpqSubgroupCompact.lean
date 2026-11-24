@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitaryClassFiniteness.IsIntegralOfIntOE
 public import Formalism.SatakeDualWeyl.DefsCS
 public import Formalism.HermitianLattices.HermitianLatticesProofs.ClassSetAssembly
 public import Formalism.HermitianLattices.HermitianLatticesProofs.FinIntermediate
@@ -121,13 +122,7 @@ namespace Formalism.UG.P
 
 theorem csBdd_nat_mul {K : Type} [Field K] [NumberField K] (d : 𝓞 K) (hd : d ≠ 0) :
     ∃ m : ℕ, 0 < m ∧ ∃ t : 𝓞 K, (m : 𝓞 K) = d * t := by
-  classical
-  refine ⟨Ideal.absNorm (Ideal.span {d}), ?_, ?_⟩
-  · refine Nat.pos_of_ne_zero ?_
-    rw [Ne, Ideal.absNorm_eq_zero_iff, Ideal.span_singleton_eq_bot]
-    exact hd
-  · obtain ⟨t, ht⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {d}))
-    exact ⟨t, by rw [← ht, mul_comm]⟩
+  apply _root_.PI.UnitaryGroupMassFormula.UJClassFin.nat_mult <;> assumption
 
 theorem class_set_finite_bounded_holds (hCovolOfDual : Formalism.UG.CS.CovolOfDual) :
     Formalism.UG.CS.ClassSetFiniteBdd := by

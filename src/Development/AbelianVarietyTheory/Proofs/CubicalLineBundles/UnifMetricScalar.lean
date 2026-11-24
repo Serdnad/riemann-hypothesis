@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LogCardCompUnfLe
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
 public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
@@ -195,18 +196,8 @@ theorem isDerivAt0_comp {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ}
 
 theorem isHolTo_exp {σ : KA l →+* ℂ} {g : ℕ} {ty : Fin g → (E →+* ℂ)} (F : FamilyUnif Xo σ ty) (i : Fin F.n)
     {P : (F.Di i).La →+ (Fin g → ℂ)} (hP : IsPeriod (F.Di i) ty P) :
-    IsHolTo Set.univ fun z => (F.ex i P z).left := fun U f => by
-  have h := (F.hol i 0 Set.univ (fun _ => P) isOpen_univ
-    ⟨fun _ _ => hP, fun _ => differentiableOn_const _⟩).2 U f
-  have hd : Differentiable ℂ (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) := by fun_prop
-  refine ⟨?_, h.2.comp (f := fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) hd.differentiableOn
-    fun z hz => ⟨⟨trivial, trivial⟩, hz.2⟩⟩
-  have e : {b ∈ Set.univ | ⊤ ≤ (F.ex i P b).left ⁻¹ᵁ U} =
-      (fun z : Fin g → ℂ => ((0, z) : (Fin 0 → ℂ) × (Fin g → ℂ))) ⁻¹'
-        {b ∈ Set.univ ×ˢ Set.univ | ⊤ ≤ (F.ex i P b.2).left ⁻¹ᵁ U} := by
-    ext z
-    exact ⟨fun hz => ⟨⟨trivial, trivial⟩, hz.2⟩, fun hz => ⟨trivial, hz.2⟩⟩
-  exact e ▸ h.1.preimage hd.continuous
+    IsHolTo Set.univ fun z => (F.ex i P z).left := by
+  first | exact _root_.GlobalTheory.UnifMatch.isHolTo_ex | exact @_root_.GlobalTheory.UnifMatch.isHolTo_ex | apply _root_.GlobalTheory.UnifMatch.isHolTo_ex <;> assumption
 
 theorem eq_of_isDerivAt0 {σ : KA l →+* ℂ} {g : ℕ} {ty : Fin g → (E →+* ℂ)} (F : FamilyUnif Xo σ ty) (i : Fin F.n)
     {P : (F.Di i).La →+ (Fin g → ℂ)} (hP : IsPeriod (F.Di i) ty P) {w : Fin g → ℂ}

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RootFlatPushforwardGeoFun
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.ApartOfNotMem
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemMaxCompactGLOfCommuteEtaleCharpolyBounded
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,21 +60,7 @@ open scoped TensorProduct
 namespace UpperTheory.Gal.W2.Seed
 
 private theorem den_of_norm {p : ℕ} [Fact p.Prime] {c : ℚ} (h : ‖(c : ℚ_[p])‖ ≤ 1) : ¬ p ∣ c.den := by
-  intro hd
-  have h1 : ‖((c.den : ℕ) : ℚ_[p])‖ < 1 := Padic.norm_natCast_lt_one_iff.2 hd
-  have hn : ¬ p ∣ c.num.natAbs := fun hn =>
-    (Fact.out : p.Prime).one_lt.ne' (Nat.eq_one_of_dvd_coprimes c.reduced hn hd)
-  have hn1 : ‖((c.num.natAbs : ℕ) : ℚ_[p])‖ = 1 := by
-    have h0 : ‖((c.num.natAbs : ℕ) : ℤ_[p])‖ = 1 :=
-      PadicInt.norm_natCast_eq_one_iff.2 ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 hn)
-    rw [← PadicInt.coe_natCast]
-    exact h0
-  have h2 : ‖(c.num : ℚ_[p])‖ = 1 := by
-    rcases Int.natAbs_eq c.num with e | e <;> rw [e] <;> simpa using hn1
-  have h3 : (c : ℚ_[p]) * (c.den : ℚ_[p]) = c.num := by exact_mod_cast Rat.mul_den_eq_num c
-  have h4 := congrArg norm h3
-  rw [norm_mul, h2] at h4
-  nlinarith [norm_nonneg (c : ℚ_[p]), norm_nonneg ((c.den : ℕ) : ℚ_[p])]
+  apply _root_.GlobalTheory.CoordP.not_dvd_den_of_norm_le_one' <;> assumption
 
 private theorem val_rat_le {p : ℕ} [Fact p.Prime] {E : Type} [Field E] [NumberField E] (w : Plc E)
     (hw : (p : 𝓞 E) ∈ w.asIdeal) {c : ℚ} (h : ‖(c : ℚ_[p])‖ ≤ 1) : w.valuation E (algebraMap ℚ E c) ≤ 1 := by

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.HidaCompleteRings.LocFree
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.ContinuousTorusCharacter
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Mathlib.Algebra.Module.LinearMap.End
@@ -226,14 +227,7 @@ section -- clump:auto
 private theorem UpperTheory.pow_preserves_submodule {A M : Type} [CommRing A] [AddCommGroup M] [Module A M]
     (U : Submodule A M) (T : Module.End A M) (hT : ∀ f ∈ U, T f ∈ U) (n : ℕ) :
     ∀ f ∈ U, (T ^ n) f ∈ U := by
-  induction n with
-  | zero =>
-    intro f hf
-    simpa using hf
-  | succ n ih =>
-    intro f hf
-    rw [pow_succ, Module.End.mul_apply]
-    exact ih _ (hT f hf)
+  apply _root_.pres_pow <;> assumption
 
 private theorem UpperTheory.periodic_difference_shift {A M : Type} [CommRing A] [AddCommGroup M] [Module A M]
     (U : Submodule A M) (T : Module.End A M) (hT : ∀ f ∈ U, T f ∈ U) (f : M) (a q : ℕ)

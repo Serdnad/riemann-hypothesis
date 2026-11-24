@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CohomologyUnramifiedLift
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.FixedIntegersIsUnitOfNotMemPrimeSpan
 public import Mathlib.RingTheory.ZMod.UnitsCyclic
 public import Development.AutomorphicArithmetic.Foundations.IwahoriReduction.LangPolynomials.DvdOfNormLe
@@ -408,17 +409,6 @@ private theorem logfun {Γ : Type} [Group Γ] [Fintype Γ] (γ : Γ) (τ : Qbar 
     refine Finset.sum_congr rfl fun i _ => ?_
     simp
 
-private theorem coef_norm (c : Coef l) {x : Qbar l} (hx : x ∈ c.O) : ‖x‖ ≤ 1 := by
-  obtain ⟨⟨β⟩, h⟩ := pBasEx l c
-  have h1 := (h β).1
-  have e := congrArg (fun y : c.O => (y : Qbar l)) (β.e.sum_repr ⟨x, hx⟩)
-  simp only [AddSubmonoidClass.coe_finsetSum, Algebra.smul_def] at e
-  rw [← e]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one fun i _ => ?_
-  have h2 : ‖((β.e i : c.O) : Qbar l)‖ ≤ 1 := h1 i
-  rw [Subalgebra.coe_mul, Subalgebra.coe_algebraMap, norm_mul, alg_norm]
-  exact mul_le_one₀ (PadicInt.norm_le_one _) (norm_nonneg _) h2
-
 private theorem coef_div (c : Coef l) {x : Qbar l} (hx : x ∈ c.O) {t : ℤ_[l]} (ht : t ≠ 0)
     (hle : ‖x‖ ≤ ‖algebraMap ℤ_[l] (Qbar l) t‖) : x / algebraMap ℤ_[l] (Qbar l) t ∈ c.O := by
   obtain ⟨⟨β⟩, h⟩ := pBasEx l c
@@ -477,7 +467,7 @@ theorem UpperTheory.Kd.C7.pDivAlg :
     have hτ1 : τ ^ N - 1 ≠ 0 := by
       rw [sub_ne_zero, hτ, inv_pow, Ne, inv_eq_one]; exact hne r
     have hτO : τ ∈ c.O := hz ▸ c.O.algebraMap_mem z
-    have hμn : ∀ r x, ‖μ r x‖ ≤ 1 := fun r x => coef_norm c (hμ r x)
+    have hμn : ∀ r x, ‖μ r x‖ ≤ 1 := fun r x => _root_.GlobalTheory.BrTame.norm_le_one_of_mem c (hμ r x)
     let S : (ZMod (l ^ r))ˣ → Qbar l := fun x => ∑ i ∈ Finset.range N, τ ^ i * μ r (x * γ ^ i)
     have hS : ∀ x, τ * S (x * γ) - S x = (τ ^ N - 1) * μ r x := fun x => by
       have e := Finset.sum_range_sub (fun i => τ ^ i * μ r (x * γ ^ i)) N

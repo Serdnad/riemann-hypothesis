@@ -1,5 +1,6 @@
 module
 
+import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.AbsIrrOfSpan
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.DistinctEigenvalueCornerPerturbation
 public import Formalism.WachLatticeTwists.RamifiedBlockRings.RamifiedBlockProofs.RingObjectsOfMatrixData
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,17 +65,7 @@ variable {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] {X d G
 
 theorem deltaO_eq (hD : RingDef O T r₀ π χ₁ ε g₀ eB e₁ s D) :
     D.δO = ∏ i ∈ Finset.Ioo 0 t, ((χ₁ g₀ : O) - (χ₁ g₀ : O) * (((ε g₀)⁻¹ ^ i : Oˣ) : O)) := by
-  obtain ⟨-, -, -, -, -, hrr, -⟩ := hD
-  have h2 : D.δO = ∏ i ∈ Finset.Ioo 0 t,
-      ((D.rr 0 : D.X' → O) D.π' - (D.rr i : D.X' → O) D.π') := by
-    show ((Pi.evalRingHom (fun _ : D.X' => O) D.π').comp D.T'.val.toRingHom) D.δ = _
-    unfold RingData.δ
-    rw [map_prod]; rfl
-  rw [h2]
-  refine Finset.prod_congr rfl fun i hi => ?_
-  rw [Finset.mem_Ioo] at hi
-  rw [hrr 0 (by omega), hrr i hi.2]
-  simp
+  apply _root_.Formalism.RepresentationBoundsCohomology.ringDataObjects.deltaO_eq <;> assumption
 
 theorem idempotent_rank_one_at_point (hI : IdemHyp O T r₀ π bl eB e₁) (hD : RingDef O T r₀ π χ₁ ε g₀ eB e₁ s D) :
     ((D.ρk 0 D.e₁).map (algebraMap O (FractionRing O))).rank = 1 := by

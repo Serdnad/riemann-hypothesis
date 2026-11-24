@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.CovolumeCount
 public import Formalism.LatticeSlopes.CovolAntiSameRank
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.CovolPos
 public import Formalism.LatticeSlopes.LatticeSlopesProofs.DegQuot
@@ -78,13 +79,7 @@ variable {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℝ E] [FiniteDim
 
 theorem finite_mem_norm_le (L : Submodule ℤ E) [hL : DiscreteTopology L] (C : ℝ) :
     {v : E | v ∈ L ∧ ‖v‖ ≤ C}.Finite := by
-  have hD : DiscreteTopology (L.toAddSubgroup) := hL
-  have hcl : IsClosed (L : Set E) := (L.toAddSubgroup).isClosed_of_discreteTopology
-  have hs : IsDiscrete (L : Set E) := isDiscrete_iff_discreteTopology.mpr hL
-  refine (Metric.finite_isBounded_inter_isClosed hs (Metric.isBounded_closedBall (x := (0 : E)) (r := C))
-    hcl).subset ?_
-  intro v hv
-  exact ⟨mem_closedBall_zero_iff.mpr hv.2, hv.1⟩
+  apply _root_.GroundTheory.Heights₂.Heights.finite_lattice_closedBall <;> assumption
 
 theorem sub_mem_of_starProjection_eq (W : Submodule ℝ E) {x z : E}
     (h : Wᗮ.starProjection x = Wᗮ.starProjection z) : x - z ∈ W := by

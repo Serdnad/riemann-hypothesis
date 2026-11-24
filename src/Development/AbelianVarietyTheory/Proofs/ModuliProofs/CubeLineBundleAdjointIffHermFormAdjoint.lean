@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolLinearLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsGenRosati
@@ -83,17 +84,7 @@ theorem unitOn_injective {R : Type} [CommRing R] : Function.Injective (unitOn (R
 theorem int_eq_of_exp {p q : ℤ}
     (h : ∀ n : ℕ, 0 < n → Complex.exp (-(2 * Real.pi * Complex.I) * (p : ℂ) / n) =
       Complex.exp (-(2 * Real.pi * Complex.I) * (q : ℂ) / n)) : p = q := by
-  obtain ⟨m, hm⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h ((q - p).natAbs + 1) (Nat.succ_pos _))
-  have hn : (((q - p).natAbs + 1 : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.succ_ne_zero _)
-  have h₁ : ((q - p : ℤ) : ℂ) = ((m * (((q - p).natAbs + 1 : ℕ) : ℤ) : ℤ) : ℂ) := by
-    rw [Int.cast_mul, Int.cast_natCast, Int.cast_sub]
-    generalize (((q - p).natAbs + 1 : ℕ) : ℂ) = N at hm hn
-    refine mul_left_cancel₀ Complex.two_pi_I_ne_zero ?_
-    field_simp at hm ⊢
-    linear_combination hm
-  have h₂ : (((q - p).natAbs + 1 : ℕ) : ℤ) ∣ q - p := ⟨m, by rw [mul_comm]; exact Int.cast_injective h₁⟩
-  have h₃ := Int.eq_zero_of_dvd_of_natAbs_lt_natAbs h₂ (by rw [Int.natAbs_natCast]; exact Nat.lt_succ_self _)
-  omega
+  first | exact _root_.GlobalTheory.LocLift.int_eq_of_exp | exact @_root_.GlobalTheory.LocLift.int_eq_of_exp | apply _root_.GlobalTheory.LocLift.int_eq_of_exp <;> assumption
 
 theorem adjoint_of_im (Hm : Matrix (Fin g) (Fin g) ℂ) (F F' : (Fin g → ℂ) →ₗ[ℂ] (Fin g → ℂ)) (s : Set (Fin g → ℂ))
     (hs : Submodule.span ℝ s = ⊤) (h : ∀ a ∈ s, ∀ b ∈ s, (hermForm Hm (F a) b).im = (hermForm Hm a (F' b)).im)

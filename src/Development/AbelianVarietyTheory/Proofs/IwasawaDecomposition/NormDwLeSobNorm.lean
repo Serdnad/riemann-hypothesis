@@ -1,5 +1,6 @@
 module
 
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.RightDerivativeZeroOutsideSupport
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MultiplicitySpaceEqZeroOfLowestKTypes
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasDRepIffHasDerivAt
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HarishChandraModulesOn
@@ -201,16 +202,7 @@ theorem continuous_hs : Continuous (hs : Mx n → ℝ) := by
   unfold hs; fun_prop
 
 theorem hs_mul_le (a b : Mx n) : hs (a * b) ≤ hs a * hs b := by
-  unfold hs
-  rw [Finset.sum_mul]
-  refine Finset.sum_le_sum fun i _ => ?_
-  rw [Finset.sum_comm, Finset.mul_sum]
-  refine Finset.sum_le_sum fun j _ => ?_
-  calc ‖(a * b) i j‖ ^ 2 ≤ (∑ k, ‖a i k‖ * ‖b k j‖) ^ 2 := by
-        refine pow_le_pow_left₀ (norm_nonneg _) ?_ 2
-        rw [Matrix.mul_apply]
-        exact (norm_sum_le _ _).trans (le_of_eq (by simp))
-    _ ≤ _ := Finset.sum_mul_sq_le_sq_mul_sq _ _ _
+  exact _root_.Formalism.REAL.frobenius_mul_le a b
 
 theorem one_add_hs_mul_le (a b : Mx n) : 1 + hs (a * b) ≤ (1 + hs a) * (1 + hs b) := by
   nlinarith [hs_mul_le a b, hs_nonneg a, hs_nonneg b]

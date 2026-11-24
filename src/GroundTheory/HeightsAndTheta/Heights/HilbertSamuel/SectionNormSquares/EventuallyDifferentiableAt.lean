@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StZariskiAnalyticNormality
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.ADensStC
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPowerBlock
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.SectionNormSquares.ExistsFormOfMemChartRingZ
 public import Mathlib.Analysis.InnerProductSpace.Calculus
@@ -28,49 +30,7 @@ variable {J : Type} [Fintype J]
 theorem hasFDerivAt_eval (P : MvPolynomial J ℂ) (x : J → ℂ) :
     HasFDerivAt (fun y => eval y P)
       (∑ q, eval x (pderiv q P) • ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : J => ℂ) q) x := by
-  classical
-  induction P using MvPolynomial.induction_on with
-  | C a =>
-    have e : (fun y : J → ℂ => eval y (C a)) = fun _ => a := by funext y; simp
-    rw [e]
-    refine (hasFDerivAt_const (𝕜 := ℂ) a x).congr_fderiv (ContinuousLinearMap.ext fun w => ?_)
-    simp
-  | add p q hp hq =>
-    have e : (fun y : J → ℂ => eval y (p + q)) = fun y => eval y p + eval y q := by funext y; simp
-    rw [e]
-    refine (hp.add hq).congr_fderiv (ContinuousLinearMap.ext fun w => ?_)
-    simp [add_mul, Finset.sum_add_distrib]
-  | mul_X p q0 hp =>
-    have hX : HasFDerivAt (fun y : J → ℂ => y q0) (ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : J => ℂ) q0) x :=
-      hasFDerivAt_apply q0 x
-    have key : ∀ q, eval x (pderiv q (p * X q0)) =
-        eval x (pderiv q p) * x q0 + if q = q0 then eval x p else 0 := by
-      intro q
-      rw [Derivation.leibniz, pderiv_X]
-      by_cases hq : q = q0
-      · subst hq
-        simp only [Pi.single_eq_same, smul_eq_mul, map_add (f := _), map_mul, eval_X, map_one, if_true]
-        ring
-      · rw [Pi.single_eq_of_ne' hq]
-        simp only [smul_eq_mul, map_add (f := _), map_mul, eval_X, map_zero, if_neg hq]
-        ring
-    have e : (fun y : J → ℂ => eval y (p * X q0)) = fun y => eval y p * y q0 := by funext y; simp
-    rw [e]
-    refine (hp.mul hX).congr_fderiv (ContinuousLinearMap.ext fun w => ?_)
-    have lhs : (∑ q, eval x (pderiv q (p * X q0)) • ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : J => ℂ) q) w =
-        ∑ q, eval x (pderiv q (p * X q0)) * w q := by simp
-    rw [lhs]
-    simp only [key, add_mul, Finset.sum_add_distrib, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ,
-      if_true]
-    simp only [ContinuousLinearMap.add_apply, ContinuousLinearMap.smul_apply, smul_eq_mul,
-      ContinuousLinearMap.proj_apply]
-    have hs : (∑ q, eval x (pderiv q p) • ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : J => ℂ) q) w =
-        ∑ q, eval x (pderiv q p) * w q := by simp
-    rw [hs, Finset.mul_sum]
-    rw [add_comm]
-    congr 1
-    refine Finset.sum_congr rfl fun q _ => ?_
-    ring
+  apply _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.adens_hasFDerivAt_eval <;> assumption
 
 theorem fderiv_eval_apply (P : MvPolynomial J ℂ) (x w : J → ℂ) :
     fderiv ℂ (fun y => eval y P) x w = ∑ q, eval x (pderiv q P) * w q := by
@@ -78,16 +38,8 @@ theorem fderiv_eval_apply (P : MvPolynomial J ℂ) (x w : J → ℂ) :
   simp
 
 theorem analyticAt_eval (P : MvPolynomial J ℂ) (z : J → ℂ) : AnalyticAt ℂ (fun y => eval y P) z := by
-  induction P using MvPolynomial.induction_on with
-  | C a =>
-    simp only [eval_C]
-    exact analyticAt_const
-  | add p q hp hq =>
-    simp only [map_add (f := _)]
-    exact hp.add hq
-  | mul_X p v hp =>
-    simp only [map_mul, eval_X]
-    exact hp.mul ((ContinuousLinearMap.proj (R := ℂ) (φ := fun _ : J => ℂ) v).analyticAt z)
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.analyticAt_eval_polynomial <;> assumption
 
 theorem fderiv_eq_zero_of_tangent {I : Ideal (MvPolynomial J ℤ)} {z w : J → ℂ}
     (h : IsConeTangent (Int.castRingHom ℂ) I z w) {f : MvPolynomial J ℤ} (hf : f ∈ I) :

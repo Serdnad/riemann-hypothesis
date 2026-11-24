@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.ThresholdCubicInequalitySignPattern
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalBesselAndTopKernel
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesUpqExistsIffDsExists
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.FormalDegreeCompactDualIff
@@ -78,30 +79,7 @@ theorem vand_pos {n : ℕ} {x : Fin n → ℝ} (h : StrictAnti x) : 0 < vand x :
   prod_pos fun _ _ => prod_pos fun _ hb => sub_pos.2 (h (mem_filter.1 hb).2)
 
 theorem isHCParam_uS (D : D7) (w : D.what₂.Word) (τ : D.what₂.Tau) : Formalism.QuantumDeterminants.IsHCParam (uS D w τ) := by
-  have hk := D.R.m_add_three_le_k
-  obtain ⟨c, hc⟩ := D.R.k_even
-  refine ⟨?_, fun a => ?_⟩
-  · obtain ⟨n, hn⟩ : ∃ n, D.R.k = n + 1 := ⟨D.R.k - 1, by omega⟩
-    have key : ∀ (d i : ℕ) (h : i + d + 1 < D.R.k),
-        (D.hcW w τ).u ⟨i + d + 1, h⟩ < (D.hcW w τ).u ⟨i, by omega⟩ := by
-      have step : ∀ (i : ℕ) (h : i + 1 < D.R.k), (D.hcW w τ).u ⟨i + 1, h⟩ < (D.hcW w τ).u ⟨i, by omega⟩ :=
-        fun i h => lt_trans ((D.hcW w τ).v_gt_u ⟨i, by omega⟩) ((D.hcW w τ).u_gt_v ⟨i, by omega⟩)
-      intro d
-      induction d with
-      | zero => intro i h; exact step i h
-      | succ d ih => intro i h; exact lt_trans (step (i + d + 1) h) (ih i (by omega))
-    intro i j hij
-    have hlt : i.val < j.val := hij
-    have := key (j.val - i.val - 1) i.val (by omega)
-    have e : (D.hcW w τ).u ⟨i.val + (j.val - i.val - 1) + 1, by omega⟩ = (D.hcW w τ).u j :=
-      congrArg _ (Fin.ext (by simp; omega))
-    rw [e] at this
-    unfold uS
-    exact_mod_cast this
-  · obtain ⟨z, hz⟩ := (D.hcW w τ).u_half a
-    refine ⟨z - c + 1, ?_⟩
-    unfold uS
-    rw [hz, hc]; push_cast; ring
+  apply _root_.Formalism.MainNotions.uS_hc <;> assumption
 
 theorem tcrit_eq (D : D7) (hv : 0 < D.host.v) (u : D.what₂.Word) (τ : D.what₂.Tau) :
     Tcrit D u τ = Sz.Tcrit D.R.k D.R.m D.host.ka D.host.rdE (gg D) (VV D τ) (vand (uS D u τ)) := by

@@ -823,10 +823,7 @@ private theorem exists_unit {E : Type} [Field E] [NumberField E] (P : HeightOneS
 
 private theorem fin_lift {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (y : Af F ⊗[F] E) : finPartF F E (PositivityTheory.ThKW.LatB.liftF F E y) = y := by
-  induction y using TensorProduct.induction_on with
-  | zero => rw [map_zero, map_zero]
-  | tmul a t => rfl
-  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
+  apply _root_.finPart_lift <;> assumption
 
 private theorem inf_lift {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (y : Af F ⊗[F] E) : infPartF F E (PositivityTheory.ThKW.LatB.liftF F E y) = 0 := by

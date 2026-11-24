@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.StabCardOfStabTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.KerIsTerm
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.HermitianCodeWordWeilElementMemQuadraticField
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AssembleLattice
@@ -152,30 +153,7 @@ variable {X : Fields} {Pr : Primes X} {R : Ranks}
 
 theorem notMem_QE (hs : IsSel X sel) (mu : Tup X.F X.E X.K S) {P : HeightOneSpectrum (𝓞 X.E)}
     (hP : P ∈ QE sel (mu : Chr X.F X.E X.K)) {p : ℕ} (hp : p.Prime) (hS : p ∈ S) : (p : 𝓞 X.E) ∉ P.asIdeal := by
-  classical
-  intro hm
-  unfold QE at hP
-  split_ifs at hP with hf
-  swap
-  · simp at hP
-  obtain ⟨v, hv, rfl⟩ := Finset.mem_image.1 hP
-  have hv' : v ∈ Qprime (mu : Chr X.F X.E X.K) := (Set.Finite.mem_toFinset hf).1 hv
-  have hg : GoodPl X.E S v := by
-    by_contra hn
-    have := (Subgroup.mem_inf.1 mu.2).2
-    exact hv' (Subgroup.mem_iInf.1 (Subgroup.mem_iInf.1 this v) hn)
-  apply hg.2.2
-  have h1 : (p : 𝓞 X.F) ∈ v.asIdeal := by
-    rw [← hs v, Ideal.mem_under]
-    simpa using hm
-  have h2 : ((p : ℕ) : 𝓞 X.F ⧸ v.asIdeal) = 0 := by
-    rw [← map_natCast (Ideal.Quotient.mk v.asIdeal)]
-    exact Ideal.Quotient.eq_zero_iff_mem.2 h1
-  have h3 := (ringChar.spec _ p).1 h2
-  have h4 : ringChar (𝓞 X.F ⧸ v.asIdeal) = p :=
-    ((Nat.dvd_prime hp).1 h3).resolve_left CharP.ringChar_ne_one
-  show ringChar (𝓞 X.F ⧸ v.asIdeal) ∈ S
-  rwa [h4]
+  first | exact _root_.GlobalTheory.KFormsCmp.notMem_of_QE | exact @_root_.GlobalTheory.KFormsCmp.notMem_of_QE | apply _root_.GlobalTheory.KFormsCmp.notMem_of_QE <;> assumption
 
 variable (sel) (mu : Tup X.F X.E X.K S) (cst : LocCst X (rowSG Pr sel mu)) (u : Pr.Word) (i : ℕ)
 

@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PEigSame
+import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.InvMemLatMonoidOfMemAwaySupp
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,17 +60,7 @@ variable {Γ : Type} [Group Γ]
 
 private theorem mem_hl {K : Subgroup Γ} {h u : Γ} :
     u ∈ GlobalTheory.HeckeCorr.heckeLevel K h⁻¹ ↔ u ∈ K ∧ h * u * h⁻¹ ∈ K := by
-  unfold GlobalTheory.HeckeCorr.heckeLevel
-  rw [Subgroup.mem_inf, Subgroup.mem_map]
-  refine and_congr_right fun _ => ⟨?_, ?_⟩
-  · rintro ⟨w, hw, rfl⟩
-    convert hw using 1
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
-    group
-  · intro hu
-    refine ⟨h * u * h⁻¹, hu, ?_⟩
-    simp only [MulEquiv.coe_toMonoidHom, MulAut.conj_apply]
-    group
+  apply _root_.GlobalTheory.W2.mem_heckeLevel_inv <;> assumption
 
 private theorem out_rel {A B : Subgroup Γ} (x : A) :
     (x : Γ)⁻¹ * (((x : A ⧸ B.subgroupOf A).out : A) : Γ) ∈ B := by
@@ -182,14 +174,7 @@ private theorem fixL_div {β : G.Cˣ} {y y' : GlobalTheory.LKCx.grp G β} {z : F
 private theorem same_symm {β : G.Cˣ} {x : (AfP p ⊗[ℚ] G.C)ˣ} {t : (AfP p)ˣ} {hx : Triv G (AfP p) β x t}
     {Kf : Subgroup G.GAf} {K₂ : Subgroup (Gr G 1)} {a b : GlobalTheory.LKCx.Dat G v β}
     (h : GlobalTheory.LKCx.Same G v β x t hx Kf K₂ a b) : GlobalTheory.LKCx.Same G v β x t hx Kf K₂ b a := by
-  obtain ⟨y, k, c, hk1, hk2, hc, h1, h2⟩ := h
-  refine ⟨y⁻¹, k⁻¹, c⁻¹, Kf.inv_mem hk1, K₂.inv_mem hk2, inv_ne_zero hc, ?_, ?_⟩
-  · have e : ((GlobalTheory.LKCx.toAfF G β x t hx y⁻¹, GlobalTheory.LKCx.toP1 G β y⁻¹) : G.GAf × Gr G 1) =
-        (GlobalTheory.LKCx.toAfF G β x t hx y, GlobalTheory.LKCx.toP1 G β y)⁻¹ := by
-      simp [map_inv]
-    rw [h1, e]
-    group
-  · rw [h2, Matrix.mulVec_smul, toV_inv, smul_smul, inv_mul_cancel₀ hc, one_smul]
+  apply _root_.UpperTheory.Gal.W2.SameEigenvalues.same_symm <;> assumption
 
 private theorem same_trans {β : G.Cˣ} {x : (AfP p ⊗[ℚ] G.C)ˣ} {t : (AfP p)ˣ} {hx : Triv G (AfP p) β x t}
     {Kf : Subgroup G.GAf} {K₂ : Subgroup (Gr G 1)} {a b d : GlobalTheory.LKCx.Dat G v β}

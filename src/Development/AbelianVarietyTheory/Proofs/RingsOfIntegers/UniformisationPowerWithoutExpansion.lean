@@ -58,6 +58,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.BoxSymIsSymmetry
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.PulledComparisonEven
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PullCub
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsBoxIso, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsIsoOfIsPowGrp, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.SquareRes, Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.UniformisationPowerWithoutExpansion
@@ -490,17 +491,6 @@ private theorem gm_id_res_eq' {Y : Scheme.{0}} {U V : Y.Opens} (hV : V ≤ U) (u
   simp only [MonoidHom.comp_apply, Units.coe_map, MonoidHom.coe_coe, res, pullU]
   exact TopCat.Presheaf.germ_res_apply Y.presheaf (homOfLE hV) y hy _
 
-private theorem units_ext_of_gm_id_eq' {Y : Scheme.{0}} {V : Y.Opens} (a b : Γ(Y, V)ˣ)
-    (H : ∀ y (hy : y ∈ V), gm (𝟙 Y) y V a = gm (𝟙 Y) y V b) : a = b := by
-  apply Units.ext
-  apply TopCat.Presheaf.section_ext Y.sheaf V
-  intro y hy
-  have e := congrArg Units.val (H y hy)
-  have hy1 : (𝟙 Y : Y ⟶ Y) y ∈ V := hy
-  unfold gm at e
-  rw [dite_eq_left hy1] at e
-  exact e
-
 theorem square_res (hM' : M'.IsLB)
     {w : LB.Iso M' (LB.LinComb M pr (fun _ => 1))} {we : LB.Iso (L.pull f) (M.pull p)}
     {we' : LB.Iso ((LB.LinComb L prG (fun _ => 1)).pull f') (M'.pull p')} {h : Fin j → (T' ⟶ T)}
@@ -549,7 +539,7 @@ theorem square_res (hM' : M'.IsLB)
   rw [← hg]
   refine (mul_left_comm _ _ _).trans ((mul_comm _ _).trans ?_)
   refine congrArg₂ (· * ·) ?_ ((sec_res_comp_algebraMap _ _ _).trans rfl)
-  apply units_ext_of_gm_id_eq'
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.unit_ext
   intro y hy
   have c1 : ∀ i, pr i (p' ((𝟙 T' : T' ⟶ T') y)) ∈ M.U (jNM i) := fun i => Set.mem_iInter.1 (h₁ hy).1 i
   have c2 : p' ((𝟙 T' : T' ⟶ T') y) ∈ M'.U jM' := (h₁ hy).2

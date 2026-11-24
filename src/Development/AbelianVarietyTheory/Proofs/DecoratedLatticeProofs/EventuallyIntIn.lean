@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ThetaAtSeesawProductDatumEqVacuumCombinations
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSymmetricDataConductorOne
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCombAt
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlaceIdempotentActsOnSupportedAndOff
@@ -45,7 +48,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.LatticeFrames.UnitRatio
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsDoubleStep, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EventuallyIntIn
 
@@ -137,19 +139,7 @@ variable {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [Is
 
 theorem int_dense {PP : Formalism.L2.DIV.Pl D.host.E} (h : IsIdemAt q.e PP) :
     (∀ a, (ofSplit q).pr a ∈ 𝒪[k] ↔ IntAt PP a) ∧ DenseRange (ofSplit q).pr := by
-  obtain ⟨k₀, _, _, _, _, q₀, he, -, hi, hd⟩ := GlobalTheory.LocMod.SplitCompl.exists_place D PP q.e h
-  have pe : ∀ x, q.pr (q.e * x) = q.pr x := fun x => by rw [← q.sec_pr, q.pr_sec]
-  refine ⟨fun a => ?_, ?_⟩
-  · rw [← hi, q.int_iff, q₀.int_iff]
-    change finPart D (q.sec (q.pr _)) ∈ _ ↔ finPart D (q₀.sec (q₀.pr _)) ∈ _
-    rw [q.sec_pr, q₀.sec_pr, he]
-  · have hs : Function.Surjective (fun x => q.pr (q₀.sec x)) := fun y =>
-      ⟨q₀.pr (q.sec y), by simp only [q₀.sec_pr, he, pe, q.pr_sec]⟩
-    have := hs.denseRange.comp hd (q.cont_pr.comp q₀.cont_sec)
-    convert this using 1
-    funext a
-    change q.pr _ = q.pr (q₀.sec (q₀.pr _))
-    rw [q₀.sec_pr, he, pe]
+  first | exact _root_.GlobalTheory.LocMod.SymChainAt.place_facts | exact @_root_.GlobalTheory.LocMod.SymChainAt.place_facts | apply _root_.GlobalTheory.LocMod.SymChainAt.place_facts <;> assumption
 
 theorem xi_unit (hu : q.UnitAA) : valuation k (ofSplit q).xi = 1 := by
   have he := (DblInhab.sec_mem_intAt q 1).2 (map_one _).le
@@ -163,20 +153,8 @@ theorem xi_unit (hu : q.UnitAA) : valuation k (ofSplit q).xi = 1 := by
 
 theorem exists_char (hu : q.UnitAA) {ψ : AddChar (AF D.host.F) ℂ} (hψ : IsStdChar D ψ (-1)) :
     ∃ ψk, (ofSplit q).IsChar ψ ψk ∧ HasConductor ψk 1 := by
-  obtain ⟨⟨ψk, hk⟩, -⟩ := GlobalTheory.LocChar.weil_char_split D k (ofSplit q) ψ hψ
-  have hx := Witness.xi_ne (ofSplit q)
-  have hv := xi_unit q hu
-  have h1 : q.IsChar ψ (ψk.mulShift (ofSplit q).xi⁻¹) := fun a => by
-    rw [AddChar.mulShift_apply, hk]
-    change psiE ψ (incA D D.host.xi0 * q.sec _) = _
-    rw [mul_comm (incA D _), ← DblInhab.sec_mul_pr]
-    change psiE ψ (q.sec (_ * (ofSplit q).xi)) = _
-    rw [mul_comm, mul_inv_cancel_left₀ hx]
-  have h2 := GlobalTheory.SplitCharCond.hasConductor_one D k q ψ _ hψ h1 hu
-  refine ⟨ψk, hk, fun x => (Iff.trans ⟨fun h y hy => ?_, fun h y hy => ?_⟩ (h2 x))⟩
-  · exact h _ (by simpa [hv] using hy)
-  · have := h ((ofSplit q).xi * y) (by simpa [hv] using hy)
-    rwa [AddChar.mulShift_apply, inv_mul_cancel_left₀ hx] at this
+  intros
+  apply _root_.GlobalTheory.T.exists_splitPoint_weilChar_conductor_one_of_units <;> assumption
 
 end Place
 

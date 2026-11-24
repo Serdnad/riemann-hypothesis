@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AbelianSchemeProperClosureDataBasicProperties
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.BaseFacts
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsAffineSplitTorusLeft
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemNonzeroLocusIffPowFn
@@ -692,16 +693,7 @@ theorem exists_hom {V C : Type} [CommRing V] [IsDomain V] [Field C] (g : V →+*
       (CommRingCat.ofHom (algebraMap V (FractionRing V))) (CommRingCat.ofHom (IsFractionRing.lift hg)))
 
 theorem cl_of_test {C : Core} {p : ℕ} [Fact p.Prime] {y : Sp (ZJ.OO p) ⟶ C.Z} (τ : C.Test y) : C.Cl y := by
-  obtain ⟨φ, hφ⟩ := exists_hom ((ZJ.OO p).subtype.comp τ.j) (Subtype.val_injective.comp τ.j_inj)
-  have e₀ : ZJ.gPt p ≫ spMap τ.j = spMap φ ≫ jK τ.V := by
-    rw [← hφ, ← Spec.map_comp]
-    rfl
-  have e : ZJ.gPt p ≫ y = (spMap φ ≫ τ.yK) ≫ C.U.ι := by
-    rw [Category.assoc, τ.yK_fac, ← reassoc_of% e₀, τ.fac]
-  unfold Core.Cl
-  rw [e]
-  rintro _ ⟨a, rfl⟩
-  exact ((spMap φ ≫ τ.yK) a).2
+  first | exact _root_.GlobalTheory.ZJ.Core.Test.cl | exact @_root_.GlobalTheory.ZJ.Core.Test.cl | apply _root_.GlobalTheory.ZJ.Core.Test.cl <;> assumption
 
 end Main
 

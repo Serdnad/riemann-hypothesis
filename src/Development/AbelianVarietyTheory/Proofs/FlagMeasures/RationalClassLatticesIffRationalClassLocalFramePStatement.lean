@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FrameDualUnipotentGroupActsUnitriangularOnto
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalTermLatticeOverInnerDatumFgSpanStatement
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DoubleCosetEqIffIsometryUnipotentTranslateStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsUnimodularOfLocalStandardLatticeTranslates
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalOrthogonalProjCommComplementUnitary
@@ -206,23 +209,7 @@ theorem baseChange_mem_perp (Z : LocDat D) (p : PlF D) {T : D.host.E} (G : LFlag
   rw [(locH Z p).h_herm, key, map_zero]
 
 theorem X_le_orth {T : D.host.E} (G : LFlag (D.sp.Y 0) D.R.rS T) : Xsp G ≤ orth (VS D) (Xsp G) := by
-  intro y hy
-  rw [GlobalTheory.FrameProj.mem_orth_iff]
-  intro u hu
-  have hu' : u ∈ Submodule.span D.host.E (Set.range G.fl.e) := hu
-  have hy' : y ∈ Submodule.span D.host.E (Set.range G.fl.e) := hy
-  clear hu hy
-  induction hy' using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨b, rfl⟩ := hx
-    induction hu' using Submodule.span_induction with
-    | mem x hx => obtain ⟨a, rfl⟩ := hx; exact G.fl.e_iso a b
-    | zero => simp
-    | add x y _ _ hx hy => simp [map_add (f := _), hx, hy]
-    | smul c x _ hx => simp [hx]
-  | zero => simp
-  | add x y _ _ hx hy => simp [map_add (f := _), hx, hy]
-  | smul c x _ hx => simp [hx]
+  apply _root_.GlobalTheory.HL.NmlCoset.X_le_orth <;> assumption
 
 theorem gS_ne : ((gS D : ℕ) : D.host.E) ≠ 0 := by
   have h0 := (D.host.g_prime 0).pos
@@ -846,16 +833,7 @@ theorem NgX_dec {Λ : Submodule (𝓞 D.host.E) (VS D).V} {T T' : D.host.E} {F :
 theorem bcP_X {T : D.host.E} (G : LFlag (D.sp.Y 0) D.R.rS T) (f : Fin (D.R.rS + 1) → Vp D p)
     (hf : f = fun a => frFac Zd.δ p a • baseChange₂ D p (frame G a)) {u : (VS D).V} (hu : u ∈ Xsp G) :
     baseChange₂ D p u ∈ (locH Zd p).X f := by
-  refine Submodule.span_induction (p := fun u _ => baseChange₂ D p u ∈ (locH Zd p).X f) ?_ ?_ ?_ ?_ hu
-  · rintro _ ⟨a, rfl⟩
-    obtain ⟨c, hc⟩ := (Formalism.L2.SG.Pf.ScalarFramePf.isUnit_frFac Zd p a.castSucc).exists_left_inv
-    have : baseChange₂ D p (G.fl.e a) = c • f a.castSucc := by
-      rw [hf]; simp only; rw [smul_smul, hc, one_smul]; simp [frame, FlagG.fvec]
-    rw [this]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)
-  · rw [map_zero]; exact zero_mem _
-  · intro a b _ _ ha hb; rw [map_add]; exact add_mem ha hb
-  · intro c a _ ha; rw [Formalism.L2.SG.TermLoc.baseChange_smul₂]; exact Submodule.smul_mem _ _ ha
+  apply _root_.GlobalTheory.Unfold.IotaGlob.bcP_mem_X <;> assumption
 
 theorem rep_of_lsub {T : D.host.E} (G : LFlag (D.sp.Y 0) D.R.rS T) {Λ₁ Λ₂ : LV D} (h : Lsub Λ₁ G = Lsub Λ₂ G)
     {l : (VS D).V} (hl : l ∈ Lrep Λ₁ G) : ∃ m ∈ Lrep Λ₂ G, l - m ∈ Xsp G := by
@@ -1176,29 +1154,10 @@ lemma h_es_e (a b : Fin r) : H.h (Fr.es a) (Fr.e b) = if b = a then 1 else 0 := 
   split_ifs <;> simp
 
 lemma mem_perp_iff (v : V) : v ∈ H.perp (H.X Fr.f) ↔ ∀ a, H.h v (Fr.e a) = 0 := by
-  constructor
-  · intro hv a
-    exact hv _ (Submodule.subset_span ⟨a, rfl⟩)
-  · intro h x hx
-    induction hx using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨a, rfl⟩ := hx
-      exact h a
-    | zero => exact h_zero_right H v
-    | add x y _ _ hx hy => rw [h_add_right, hx, hy, add_zero]
-    | smul c x _ hx => rw [h_smul_right, hx, mul_zero]
+  apply _root_.GlobalTheory.TermLat.mem_perpX <;> assumption
 
 lemma X_le_perp : H.X Fr.f ≤ H.perp (H.X Fr.f) := by
-  intro x hx
-  rw [mem_perp_iff]
-  intro a
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨b, rfl⟩ := hx
-    exact h_ee Fr b a
-  | zero => exact H.h_zero_left _
-  | add x y _ _ hx hy => rw [H.h_add_left, hx, hy, add_zero]
-  | smul c x _ hx => rw [H.h_smul_left, hx, mul_zero]
+  apply _root_.GlobalTheory.LocOver.UnipOnto.X_le_perp <;> assumption
 
 lemma prF_e (v : V) (b : Fin r) : H.h (Fr.prF v) (Fr.e b) = 0 := by
   unfold FrameD.prF

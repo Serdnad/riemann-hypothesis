@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ImaginaryQuadraticFieldStructure
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsCongrIffTraceFormsIsometricCm
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasseNormTheoremQuadraticExtension
@@ -1004,23 +1005,7 @@ theorem hYY_pos (D : D7)
     (hp : ∀ y : D.host.E, y ≠ 0 → ∃ a : ℚ, 0 < a ∧ Algebra.trace D.host.K D.host.E (y * D.host.conj y) = (a : D.host.K))
     {N N' : ℕ} (x : Matrix (Fin N') (Fin N) D.host.E) (hx : x ≠ 0) :
     ∃ a : ℚ, 0 < a ∧ hYY D x x = (a : D.host.K) := by
-  have h1 : ∀ y : D.host.E, ∃ a : ℚ, 0 ≤ a ∧ (y ≠ 0 → 0 < a) ∧
-      Algebra.trace D.host.K D.host.E (y * D.host.conj y) = (a : D.host.K) := by
-    intro y
-    by_cases hy : y = 0
-    · exact ⟨0, le_rfl, fun h => absurd hy h, by simp [hy]⟩
-    · obtain ⟨a, ha, h⟩ := hp y hy
-      exact ⟨a, ha.le, fun _ => ha, h⟩
-  choose a ha0 ha1 ha2 using h1
-  obtain ⟨i, j, hij⟩ : ∃ i j, x i j ≠ 0 := by
-    by_contra hn
-    push Not at hn
-    exact hx (Matrix.ext hn)
-  refine ⟨∑ i, ∑ j, a (x i j), ?_, ?_⟩
-  · refine Finset.sum_pos' (fun i _ => Finset.sum_nonneg fun j _ => ha0 _) ⟨i, Finset.mem_univ _, ?_⟩
-    exact Finset.sum_pos' (fun j _ => ha0 _) ⟨j, Finset.mem_univ _, ha1 _ hij⟩
-
-  · simp only [hYY, map_sum, ha2, Rat.cast_sum]
+  apply _root_.GlobalTheory.FourCopies.exists_rat_pos <;> assumption
 
 theorem hYY_single (D : D7) {N N' : ℕ} (x : Matrix (Fin N') (Fin N) D.host.E) (i : Fin N') (j : Fin N)
     (y : D.host.E) :

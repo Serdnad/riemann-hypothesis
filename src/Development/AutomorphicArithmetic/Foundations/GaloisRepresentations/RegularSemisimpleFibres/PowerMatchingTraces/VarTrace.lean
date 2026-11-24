@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FdFixed
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.LocHeckeInert
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.GmOfBcfl
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.IntegralUnitBaseChange.BcflUnit
@@ -31,6 +32,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Integrab
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.ExistsPowerSums
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.LocGalEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TermEV
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TermEV
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreDescOf
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreLift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.FamParts
@@ -144,38 +146,14 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 private theorem cmp_surj {v : Pl F} (w : PlacesOver E v) (h : ∀ u : PlacesOver E v, u = w) :
     Function.Surjective (GM.cmp (n := n) w) := by
-  have hev : Function.Bijective (Pi.evalRingHom (fun w : PlacesOver E v => w.1.adicCompletion E) w) := by
-    letI : Unique (PlacesOver E v) := ⟨⟨w⟩, h⟩
-    constructor
-    · intro a b e
-      funext u
-      obtain rfl := h u
-      exact e
-    · intro z
-      refine ⟨fun u => (h u).symm ▸ z, ?_⟩
-      show ((h w).symm ▸ z : (w.1.adicCompletion E)) = z
-      rfl
-  let e := RingEquiv.ofBijective _ hev
-  intro y
-  refine ⟨mapGL n (e.symm : _ →+* _) y, ?_⟩
-  exact Units.ext (Matrix.ext fun a b => e.apply_symm_apply _)
+  apply _root_.UpperTheory.ConvolutionTheory.C.TraceVanishing.cmp_surj <;> assumption
 
 variable [IsGalois F E] {σ : E ≃ₐ[F] E} {q : Pl F} {w₀ : PlacesOver E q}
 
 private theorem stabV (T : Ty σ n q w₀) (v : Pl F) (h : ∀ u : PlacesOver E v, u = T.mk' v)
     {a : Gw n (T.mk' v).1 →* Gw n (T.mk' v).1} (ha : IsLocGal σ (T.mk' v) a) (x : Gw n (T.mk' v).1) (hx : x ∈ T.J (T.mk' v).1) :
     a x ∈ T.J (T.mk' v).1 ∧ T.χ (T.mk' v).1 (a x) = T.χ (T.mk' v).1 x := by
-  obtain ⟨g, rfl⟩ := cmp_surj (T.mk' v) h x
-  letI : Unique (PlacesOver E v) := ⟨⟨T.mk' v⟩, h⟩
-  have hall : ∀ u : PlacesOver E v, GM.cmp u g ∈ T.J u.1 := fun u => by
-    obtain rfl := h u
-    exact hx
-  obtain ⟨h1, h2⟩ := T.stable v g hall
-  rw [finprod_unique, finprod_unique] at h2
-  have e : (default : PlacesOver E v) = T.mk' v := rfl
-  rw [e] at h2
-  rw [← ha]
-  exact ⟨h1 _, h2⟩
+  apply _root_.UpperTheory.ConvolutionTheory.C.TraceVanishing.stabV <;> assumption
 
 end Loc
 
@@ -628,21 +606,7 @@ private theorem fd_fixed {G V : Type} [Group G] [MeasurableSpace G] [AddCommGrou
     (m : Measure G) (ρ : Representation ℂ G V) (J : Subgroup G) (hJ : MeasurableSet (J : Set G))
     (h1 : m (J : Set G) = 1) (A : V →ₗ[ℂ] V) (hA : IsIntegralOp m ρ ((J : Set G).indicator 1) A)
     (hf : FiniteDimensional ℂ (LinearMap.range A)) : FiniteDimensional ℂ (fixedVectors ρ J) := by
-  refine Submodule.finiteDimensional_of_le (S₂ := LinearMap.range A) fun x hx => ?_
-  have hAx : A x = x := by
-    rw [← sub_eq_zero, ← Module.forall_dual_apply_eq_zero_iff ℂ]
-    intro l
-    rw [map_sub, (hA x l).2, sub_eq_zero]
-    have e : (fun g => ((J : Set G).indicator (1 : G → ℂ)) g * l (ρ g x)) =
-        (J : Set G).indicator fun _ => l x := by
-      funext g
-      by_cases hg : g ∈ (J : Set G)
-      · have hgx : ρ g x = x := hx g hg
-        simp [Set.indicator_of_mem hg, hgx]
-      · simp [Set.indicator_of_notMem hg]
-    rw [e, integral_indicator hJ]
-    simp [Measure.real, h1]
-  exact ⟨x, hAx⟩
+  apply _root_.fd_fixed <;> assumption
 
 private theorem under_eq {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {v : HeightOneSpectrum (𝓞 F)} (w : PlacesOver E v) : w.1.under (𝓞 F) = v :=

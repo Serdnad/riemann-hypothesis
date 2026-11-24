@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DeRhamFiniteAndFiltrationBounded
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.GlobalSerreRelations.GlobSerreSt
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FilteredCohomologyRestrictionBijective
@@ -91,17 +92,7 @@ variable {R : Type} [CommRing R] {C : Type 1} [Category.{0} C] {A : C ⥤ CommAl
 
 theorem toSq_bijective_of_bot (a₀ b : IdF A) (h0 : ∀ T, a₀.S T = ⊤) (hb : ∀ T, b.S T = ⊥) (j : ℕ) :
     Function.Bijective ((toSq a₀ b h0).pull j) := by
-  refine CrystallineSemistableComparison.P.mapH_bij (toSq a₀ b h0).hom (fun n => ⟨fun f f' h => ?_, fun y => ?_⟩) j
-  · funext s
-    have h1 := congrArg Subtype.val (congrFun h s)
-    have h2 := Ideal.Quotient.eq.1 h1
-    rw [hb] at h2
-    exact sub_eq_zero.1 h2
-  · have hm : ∀ s : ComposableArrows C n, ∃ t : A.obj (s.obj (Fin.last n)),
-        Ideal.Quotient.mk _ t = (show sqM a₀ b _ from y s).1 :=
-      fun s => Ideal.Quotient.mk_surjective _
-    choose t ht using hm
-    exact ⟨t, funext fun s => Subtype.ext (ht s)⟩
+  apply _root_.GlobalTheory.CompanionTheory.KFin.toSq_bijective <;> assumption
 
 end Abstract
 
@@ -635,23 +626,8 @@ theorem tau_comp (T : C) (y : (sq c b).obj T) :
 theorem sq_exact (j : ℕ) :
     Function.Exact ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).pull j)
       ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).pull j) := by
-  have inj : ∀ n, Function.Injective ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).hom.f n) :=
-    fun n f g h => funext fun s => tau_inj a c b hca _ _ _ (congrFun h s)
-  have surj : ∀ n, Function.Surjective ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).hom.f n) := by
-    intro n f
-    choose y hy using fun s : ComposableArrows C n => tau_surj a c b hbc _ (f s)
-    exact ⟨y, funext hy⟩
-  have ex : ∀ n, Function.Exact ((sqLe (a := c) (b := b) (a' := a) (b' := b) hca (fun _ => le_rfl)).hom.f n)
-      ((sqLe (a := a) (b := b) (a' := a) (b' := c) (fun _ => le_rfl) hbc).hom.f n) := by
-    intro n f
-    constructor
-    · intro h
-      choose y hy using fun s : ComposableArrows C n => tau_ex a c b hbc hca _ (f s) (congrFun h s)
-      exact ⟨y, funext hy⟩
-    · rintro ⟨g, rfl⟩
-      exact funext fun s => tau_comp a c b hbc hca _ (g s)
-  obtain ⟨δ, -, -, e1, -, -⟩ := CrystallineSemistableComparison.P.les _ _ inj ex surj
-  exact e1 j
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.KFin.sq_les <;> assumption
 
 end Les
 

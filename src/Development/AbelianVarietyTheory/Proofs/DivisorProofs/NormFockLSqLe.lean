@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Divisibility.BrJoint
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsUnitaryMulTriangular
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.ProdFactorialSupportSubSingle
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DualWeylEqEvalAtOneSmulExtremalOfRowWeight
@@ -293,19 +294,7 @@ theorem exists_sing {a b : ℕ} (A : Matrix (Fin a) (Fin b) ℂ) :
 theorem dominance {n : ℕ} (ν : Fin n → ℕ) {f : MvPolynomial (Fin n × Fin n) ℂ} (hf : f ∈ dualWeyl ℂ n n ν) :
     ∀ m ∈ f.support, (∀ k : ℕ, (∑ a : Fin n with a.val < k, rowDeg m a) ≤ ∑ t : Fin n with t.val < k, ν t) ∧
       ∑ a : Fin n, rowDeg m a = ∑ t : Fin n, ν t := by
-  classical
-  rw [standardMonomialSpanDomain ℂ n n ν] at hf
-  induction hf using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨K, sz, hsz, I, rfl, rfl⟩ := hx
-    exact fun m hm => bidetDominance ℂ n n K sz hsz I m hm
-  | zero => simp
-  | add x y _ _ hx hy =>
-    intro m hm
-    rcases Finset.mem_union.mp (support_add hm) with h | h
-    · exact hx m h
-    · exact hy m h
-  | smul c x _ hx => exact fun m hm => hx m (support_smul hm)
+  apply _root_.PI.WSF.evA_dom <;> assumption
 
 theorem fock_subst_le {a b : ℕ} (h : a ≤ b) (A : Matrix (Fin a) (Fin b) ℂ) :
     ∃ t : Fin a → ℝ, (∀ i, 0 ≤ t i) ∧ ∑ i, t i ^ 2 = ∑ β, ∑ α, ‖A α β‖ ^ 2 ∧

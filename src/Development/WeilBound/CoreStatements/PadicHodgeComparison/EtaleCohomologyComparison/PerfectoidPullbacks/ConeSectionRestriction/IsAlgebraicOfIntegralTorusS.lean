@@ -1133,13 +1133,7 @@ theorem evV_awayMap (i : X ⟶ PSpace K N) {f g x : MvPolynomial (Fin (N + 1)) K
     (hf : V ≤ i ⁻¹ᵁ Proj.basicOpen (grK K N) f) (hxV : V ≤ i ⁻¹ᵁ Proj.basicOpen (grK K N) x)
     (a : Away (grK K N) f) :
     evV i x V hxV (awayMap (grK K N) hg hx a) = evV i f V hf a := by
-  have h := congrArg (fun φ => φ.hom a) (Proj.awayMap_awayToSection (grK K N) hg hx)
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at h
-  change (i.appLE _ V hxV).hom ((Proj.awayToSection (grK K N) x).hom (awayMap (grK K N) hg hx a)) = _
-  rw [h]
-  change ((_ ≫ i.appLE _ V hxV).hom) _ = _
-  rw [Scheme.Hom.map_appLE]
-  rfl
+  apply _root_.GlobalTheory.CompanionTheory.GeoTorus.evV_awayMap <;> assumption
 
 theorem prod_pow_mem {n e p : ℕ} (y : Fin n → MvPolynomial (Fin (N + 1)) K)
     (hy : ∀ k, (y k).IsHomogeneous e) (α : Fin n → ℕ) (hp : (∑ j, α j) * e = p) :

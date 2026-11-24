@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspFormBlockEmbLeftInvariant
 public import Development.WeilBound.ThetaLifts.Reductions.SiegelCore
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsHermRingRat
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IsSmoothModerateOfIsAutFunSm
@@ -653,16 +654,7 @@ variable {R : Type} [CommRing R] {O : Subring R} {n : ℕ}
 
 theorem exists_common_denom (hden : ∀ a : R, ∃ s ∈ O, IsUnit s ∧ s * a ∈ O) {ι : Type} (T : Finset ι) (f : ι → R) :
     ∃ w ∈ O, IsUnit w ∧ ∀ i ∈ T, w * f i ∈ O := by
-  classical
-  induction T using Finset.induction_on with
-  | empty => exact ⟨1, O.one_mem, isUnit_one, by simp⟩
-  | insert a T _ ih =>
-    obtain ⟨w, hw, hwu, h⟩ := ih
-    obtain ⟨s, hs, hsu, h'⟩ := hden (f a)
-    refine ⟨w * s, O.mul_mem hw hs, hwu.mul hsu, fun i hi => ?_⟩
-    rcases Finset.mem_insert.1 hi with rfl | hi
-    · rw [mul_assoc]; exact O.mul_mem hw h'
-    · rw [mul_right_comm]; exact O.mul_mem (h i hi) hs
+  apply _root_.GlobalTheory.CompanionTheory.KFin.Adapted.common_denom <;> assumption
 
 theorem smul_mem_of_mem {Λ : Submodule O (Fin n → R)} {a : R} {z : Fin n → R} (ha : a ∈ O) (hz : z ∈ Λ) :
     a • z ∈ Λ :=
@@ -1137,19 +1129,7 @@ theorem isUnit_intCast {m : ℤ} (hm : m ≠ 0) : IsUnit ((m : ℤ) : Fv F v ⊗
 
 theorem denom_intLoc (a : Fv F v ⊗[F] E) :
     ∃ s ∈ intLoc F E v, IsUnit s ∧ s * a ∈ intLoc F E v := by
-  obtain ⟨x, hx⟩ := exists_sub_mem_intLoc v a
-  obtain ⟨m, hm, he⟩ := exists_integral_multiples ℤ ℚ ({x} : Finset E)
-  have he' : IsIntegral ℤ (m • x) := he x (Finset.mem_singleton_self x)
-  have hmem : ((m : ℤ) : Fv F v ⊗[F] E) ∈ intLoc F E v := intCast_mem _ m
-  refine ⟨_, hmem, isUnit_intCast hm, ?_⟩
-  have h2 := tmul_mem_intLoc (E := E) (one_mem (v.adicCompletionIntegers F)) ⟨m • x, he'⟩
-  have e : ((m : ℤ) : Fv F v ⊗[F] E) * a =
-      ((m : ℤ) : Fv F v ⊗[F] E) * (a - (1 : Fv F v) ⊗ₜ[F] x) + (1 : Fv F v) ⊗ₜ[F] (m • x) := by
-    have e1 : ((m : ℤ) : Fv F v ⊗[F] E) * (1 : Fv F v) ⊗ₜ[F] x = (1 : Fv F v) ⊗ₜ[F] (m • x) := by
-      rw [← zsmul_eq_mul, TensorProduct.tmul_smul]
-    rw [mul_sub, e1, sub_add_cancel]
-  rw [e]
-  exact add_mem (mul_mem hmem hx) h2
+  apply _root_.GlobalTheory.CompanionTheory.KFin.CompactStab.exists_denom_intLoc <;> assumption
 
 theorem span_eq_of {R : Type} [CommRing R] {𝔬 : Subring R} {S : Set R} {u : R}
     (hu : u ∈ Submodule.span 𝔬 S) (h : ∀ s ∈ S, ∃ c ∈ 𝔬, s = c * u) :
@@ -1381,18 +1361,8 @@ theorem cT_mul_rect (s : E →+* E) {a b c : Type} [Fintype b] (P : Matrix a b E
 
 theorem gram_yx (hCM : IsCMExt F E σ) (hJ : IsHermND σ J) {X Y : Matrix (Fin n) (Fin r) E}
     (hW : IsWittFrame σ J X Y) : cT (σ : E →+* E) Y * J * X = 1 := by
-  have hcT : cT (σ : E →+* E) J = J := by
-    ext i j
-    exact hJ.1 i j
-  have hcc : cT (σ : E →+* E) (cT (σ : E →+* E) X) = X := by
-    ext i j
-    exact _root_.GlobalTheory.AdelicU.cm_conj_conj hCM _
-  have h1 : cT (σ : E →+* E) (1 : Matrix (Fin r) (Fin r) E) = 1 := by
-    ext i j
-    simp [cT, Matrix.one_apply, eq_comm]
-  have := congrArg (cT (σ : E →+* E)) hW.xy
-  rw [cT_mul_rect, cT_mul_rect, hcT, hcc, h1, ← Matrix.mul_assoc] at this
-  exact this
+  intros
+  apply _root_.GlobalTheory.CuspBlockLeft.yx_eq_one <;> assumption
 
 def projP (v : HeightOneSpectrum (𝓞 F)) (σ : E →ₐ[F] E) (J : Matrix (Fin n) (Fin n) E)
     (X Y : Matrix (Fin n) (Fin r) E) : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E) :=

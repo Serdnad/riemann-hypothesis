@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GaugeVolumeEqOfSemilinearIsometryGenus
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ContinuousGaussSp
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.IntegrableMonomialMulConjComplexGaussian
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -974,22 +975,6 @@ theorem hsDist_equiv_symm {n P Q : ℕ} {ε : Fin n → Bool} {f : Fin P ⊕ Fin
   rw [← f.sum_comp]
   simp
 
-private theorem pos_of_isGauge' {n : ℕ} {ε : Fin n → Bool} {c : ℝ} (hc : GlobalTheory.Count.IsGauge ε c) :
-    0 < c := by
-  have hV : 0 < (volume (Metric.ball (0 : EuclideanSpace ℝ (Fin (n ^ 2))) 1)).toReal :=
-    ENNReal.toReal_pos (Metric.measure_ball_pos _ _ one_pos).ne' measure_ball_lt_top.ne
-  by_contra hneg'
-  have hneg : c ≤ 0 := not_lt.1 hneg'
-  have hle : ∀ᶠ r in 𝓝[>] (0 : ℝ),
-      c * (Formalism.REAL.muG ε {g | Real.sqrt (Formalism.REAL.hs (Formalism.MainNotions.S.uMat g - 1)) ≤ r}).toReal / r ^ (n ^ 2)
-        ≤ 0 := by
-    filter_upwards [self_mem_nhdsWithin] with r hr
-    have hr' : (0 : ℝ) < r := hr
-    exact div_nonpos_iff.2 (Or.inr ⟨mul_nonpos_iff.2 (Or.inr ⟨hneg, ENNReal.toReal_nonneg⟩),
-      (pow_pos hr' _).le⟩)
-  have := le_of_tendsto hc hle
-  linarith
-
 private theorem tendsto_gauge_ratio_volume_ball {n : ℕ} {ε : Fin n → Bool} {c : ℝ} (hc : GlobalTheory.Count.IsGauge ε c)
     (hc0 : 0 < c) :
     Tendsto (fun r : ℝ =>
@@ -1054,7 +1039,7 @@ private theorem tendsto_gauge_ratio_volume_ball {n : ℕ} {ε : Fin n → Bool} 
 
 theorem gauge_transport : ∀ (n : ℕ) (ε : Fin n → Bool) (c : ℝ) (P Q : ℕ) (f : Fin P ⊕ Fin Q ≃ Fin n) (hf : Sorts ε f), GlobalTheory.Count.IsGauge ε c → 0 < c ∧ HasEuclDensity ((ENNReal.ofReal c • Formalism.REAL.muG ε).map hf.equiv.symm) := by
   intro n ε c P Q f hf hc
-  have hc0 : 0 < c := pos_of_isGauge' hc
+  have hc0 : 0 < c := _root_.GlobalTheory.GaugeTransport.pos_of_isGauge hc
   refine ⟨hc0, ?_⟩
   have : BorelSpace (UpqT P Q) := ⟨rfl⟩
   have hPQ : P + Q = n := Sorts.add_eq f

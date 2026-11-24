@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaRuleValuePeriods
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHolPeriods
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
@@ -124,56 +125,13 @@ private theorem form_eq_zero_of_im_span' {g : ℕ} (s : Set (Fin g → ℂ)) (hs
     (h2 : ∀ (r : ℂ) z w, B (r • z) w = r * B z w) (h3 : ∀ z w w', B z (w + w') = B z w + B z w')
     (h4 : ∀ (r : ℝ) z w, B z (r • w) = r * B z w) (h0 : ∀ z ∈ s, ∀ w ∈ s, (B z w).im = 0) (z w : Fin g → ℂ) :
     B z w = 0 := by
-  have hA : ∀ z ∈ s, ∀ w, (B z w).im = 0 := by
-    intro z hz w
-    have hw : w ∈ Submodule.span ℝ s := hs ▸ Submodule.mem_top
-    induction hw using Submodule.span_induction with
-    | mem w hw => exact h0 z hz w hw
-    | zero => simpa using congrArg Complex.im (h4 0 z 0)
-    | add w w' _ _ e e' => rw [h3, Complex.add_im, e, e', add_zero]
-    | smul r w _ e => rw [h4, Complex.im_ofReal_mul, e, mul_zero]
-  have hB : ∀ z w, (B z w).im = 0 := by
-    intro z w
-    have hz : z ∈ Submodule.span ℝ s := hs ▸ Submodule.mem_top
-    induction hz using Submodule.span_induction with
-    | mem z hz => exact hA z hz w
-    | zero => simpa using congrArg Complex.im (h2 0 0 w)
-    | add z z' _ _ e e' => rw [h1, Complex.add_im, e, e', add_zero]
-    | smul r z _ e =>
-      have : r • z = (r : ℂ) • z := by ext k; simp
-      rw [this, h2, Complex.im_ofReal_mul, e, mul_zero]
-  apply Complex.ext
-  · have := hB (Complex.I • z) w
-    rw [h2] at this
-    simpa using this
-  · simpa using hB z w
+  apply _root_.GlobalTheory.AnVal.form_eq_zero_of_im_span <;> assumption
 
 private theorem hermForm_adj_of_im_span' {g : ℕ} (s : Set (Fin g → ℂ)) (hs : Submodule.span ℝ s = ⊤)
     (Hm : Matrix (Fin g) (Fin g) ℂ) (A A' : (Fin g → ℂ) →ₗ[ℂ] (Fin g → ℂ))
     (h0 : ∀ z ∈ s, ∀ w ∈ s, (hermForm Hm (A z) w).im = (hermForm Hm z (A' w)).im) (z w : Fin g → ℂ) :
     hermForm Hm (A z) w = hermForm Hm z (A' w) := by
-  have hr : ∀ (r : ℝ) (w : Fin g → ℂ), r • w = (r : ℂ) • w := fun r w => by ext k; simp
-  have l1 : ∀ z z' w, hermForm Hm (z + z') w = hermForm Hm z w + hermForm Hm z' w := fun z z' w => by
-    simp only [hermForm, add_dotProduct]
-  have l2 : ∀ (r : ℂ) z w, hermForm Hm (r • z) w = r * hermForm Hm z w := fun r z w => by
-    simp only [hermForm, smul_dotProduct, smul_eq_mul]
-  have l3 : ∀ z w w', hermForm Hm z (w + w') = hermForm Hm z w + hermForm Hm z w' := fun z w w' => by
-    simp only [hermForm, star_add, Matrix.mulVec_add, dotProduct_add]
-  have l4 : ∀ (r : ℝ) z w, hermForm Hm z ((r : ℂ) • w) = r * hermForm Hm z w := fun r z w => by
-    simp only [hermForm, star_smul, Matrix.mulVec_smul, dotProduct_smul, smul_eq_mul, Complex.star_def,
-      Complex.conj_ofReal]
-  refine sub_eq_zero.mp (form_eq_zero_of_im_span' s hs
-    (fun z w => hermForm Hm (A z) w - hermForm Hm z (A' w)) ?_ ?_ ?_ ?_ ?_ z w)
-  · intro z z' w
-    simp only [map_add (f := _), l1]; ring
-  · intro r z w
-    simp only [map_smul, l2]; ring
-  · intro z w w'
-    simp only [map_add (f := _), l3]; ring
-  · intro r z w
-    simp only [hr, map_smul, l4]; ring
-  · intro z hz w hw
-    simp only [Complex.sub_im, h0 z hz w hw, sub_self]
+  apply _root_.GlobalTheory.AnVal.hermForm_adj_of_im_span <;> assumption
 
 theorem gram_re_posdef_adj : ∀ (O : Type) [Ring O] (bar : O → O) (g : ℕ) (ρ : O →+* Matrix (Fin g) (Fin g) ℂ)
     (D : PLat O bar) (P : D.La →+ (Fin g → ℂ)) (r : ℕ) (e : Module.Basis (Fin r) ℤ D.La), IsPeriod D ρ P →

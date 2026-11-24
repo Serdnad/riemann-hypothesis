@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.RowFormsLemmas
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ReadsDeco
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.StepZeroTwistReferenceTupleEqId
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnitaryFiniteAdelicPointAsMatrixMemFlagIwahori
@@ -93,17 +94,8 @@ theorem blockDeterminant_eq_diagonalBlockDet {n : ℕ} {β : ℕ → ℕ} {b : F
 
 theorem blkDet_diagEmb {n r : ℕ} (h : r ≤ n) (bl : List ℕ) (g : GL (Fin r) κ) (s : ℕ) :
     Formalism.L2.Col.blkDet n κ (Formalism.L2.Col.coarse r bl) (s + 1) ⟨_, Formalism.L2.Col.diagEmb_mem_blockUT h bl g⟩ = 1 := by
-  apply Units.ext
-  rw [Formalism.L2.Col.blkDet_val, Units.val_one]
-  refine (congrArg Matrix.det (a₂ := 1) ?_).trans Matrix.det_one
-  ext i j
-  have hi : ¬ i.1.val < r := fun hi => by
-    have h1 := i.2
-    rw [Formalism.L2.Col.coarse_of_lt hi] at h1
-    omega
-  simp only [Matrix.toSquareBlock_def, Matrix.of_apply]
-  rw [Formalism.L2.Col.diagEmb_val, Formalism.L2.Col.diagMat_of_not_left _ _ hi]
-  simp only [Matrix.one_apply, Subtype.ext_iff]
+  intros
+  apply _root_.Formalism.L2.Col.blkDet_diagEmb_one <;> assumption
 
 theorem reindex_refl {n : ℕ} (R : GL (Fin n) κ) :
     Units.map (Matrix.reindexAlgEquiv κ κ (finCongr (rfl : n = n))).toMonoidHom R = R := by

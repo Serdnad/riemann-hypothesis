@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SatAvg
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 public import GroundTheory.AutomorphicForms.MacdonaldSpherical
@@ -676,14 +677,6 @@ private theorem cv_sum_right {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : �
   exact integral_finsetSum _ fun i hi => integrable_mul_of_mem ha
     ((hb i hi).1.continuous.comp (continuous_inv.mul continuous_const))
 
-private theorem cv_sum_left {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : ι → G → ℂ}
-    (ha : a ∈ locallyConstantCompactSupport G ℂ ℂ)
-    (hb : ∀ i ∈ S, b i ∈ locallyConstantCompactSupport G ℂ ℂ) :
-    groupConv μ (∑ i ∈ S, b i) a = ∑ i ∈ S, groupConv μ (b i) a := by
-  funext x
-  simp only [groupConv, Finset.sum_apply, Finset.sum_mul]
-  exact integral_finsetSum _ fun i hi => integrable_mul_of_mem (hb i hi)
-    (ha.1.continuous.comp (continuous_inv.mul continuous_const))
 
 private theorem cv_mul_left {a b : G → ℂ} {k : G} (hk : ∀ g, a (k * g) = a g) (x : G) :
     groupConv μ a b (k * x) = groupConv μ a b x := by
@@ -715,28 +708,10 @@ private theorem dom_monomial {a : Fin n → ℤ} (ha : Antitone a) : Dom (monomi
 end Aux2
 
 private theorem dPol_ne_zero (n : ℕ) (t : ℂ) : dPol n t ≠ 0 := by
-  refine Finset.prod_ne_zero_iff.2 fun p hp h => ?_
-  have hp' : p.1 < p.2 := (Finset.mem_filter.1 hp).2
-  have hne : (Pi.single p.2 1 : Fin n → ℤ) ≠ Pi.single p.1 1 := fun e => by
-    have := congrFun e p.1
-    simp [hp'.ne] at this
-  have := congrArg (fun y : LaurentRing n => y.coeff (Pi.single p.1 1)) h
-  simp [hne] at this
+  apply _root_.dPol_ne_zero <;> assumption
 
 private theorem inj_of_dPol {n : ℕ} {z : Fin n → ℂˣ} (h : evalAt z (dPol n 1) ≠ 0) : Function.Injective z := by
-  have key : ∀ i j, i < j → z i ≠ z j := fun i j hij e => by
-    refine h ?_
-    unfold dPol
-    rw [map_prod]
-    refine Finset.prod_eq_zero (i := (i, j)) (Finset.mem_filter.2 ⟨Finset.mem_univ _, hij⟩) ?_
-    have hv : ∀ a, evalAt z (varL a) = z a := fun a => by
-      rw [evalAt_single, one_mul, monomialChar_apply, Finset.prod_eq_single a] <;> simp +contextual
-    simp [hv, e]
-  intro i j e
-  rcases lt_trichotomy i j with h | h | h
-  · exact absurd e (key _ _ h)
-  · exact h
-  · exact absurd e.symm (key _ _ h)
+  apply _root_.inj_of_dPol <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.H.sandId :
     ∀ (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ)

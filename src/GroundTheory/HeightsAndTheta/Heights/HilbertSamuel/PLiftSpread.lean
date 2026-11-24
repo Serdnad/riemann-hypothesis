@@ -134,14 +134,7 @@ theorem evL_liftOfLE {T T' : Submonoid (MRingOver ℚ ι)} (hle : T ≤ T') (hT'
 
 theorem cellMon_ne {I : ∀ k, Finset (ι k)} (hI : ∀ k, ∀ i ∈ I k, y ⟨k, i⟩ ≠ 0) :
     ∀ t ∈ KH.cellMon ℚ I, aeval y t ≠ 0 := by
-  intro t ht
-  induction ht using Submonoid.closure_induction with
-  | mem x hx =>
-    obtain ⟨k, i, hi, rfl⟩ := hx
-    rw [aeval_X]
-    exact hI k i hi
-  | one => simp
-  | mul x x' _ _ hx hx' => rw [map_mul]; exact mul_ne_zero hx hx'
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ChartLatQCech.cellMon_aevalQ_ne <;> assumption
 
 
 variable (y) in

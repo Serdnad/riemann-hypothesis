@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.OwnEvIntro
+import Formalism.SharpRestriction.CuspSpanNormBounds.CayleyDegreeNondegeneracy.RowsSiz
 
 @[expose] public section
 
@@ -64,17 +65,7 @@ def pairToTriple (p : D.s.Pair u u') : Trip D ((Tu D u' : ℕ) : D.host.E) :=
 variable {X}
 
 theorem rows_isTermF (t : D.s.Term u u') (hG : D.s.Gterm t ≠ 0) : IsTermF D (X.abelian₂ t) (lf D Y.F0) (X.fl' t) := by
-  have hfl := Y.fl_eq t
-  unfold IsTermF IsTerm
-  refine ⟨⟨X.lift' t, ?_, ?_⟩, Y.frame_ok t⟩
-  · rw [← hfl]
-    exact X.adm t
-  · rw [← hfl]
-    intro h0
-    apply hG
-    have h := X.G_eq t
-    rw [h0] at h
-    exact (algebraMap _ _).injective (h.trans (map_zero _).symm)
+  apply _root_.Formalism.MainNotions.BridgeLemma₂.rows_isTermF' <;> assumption
 
 def wordSublatticeTripleBound (D : D7) (large₂ : SizeData₂ D) (u : D.what₂.Word) (C : ℝ) (Z' Z'' : GramM D) (s : ℕ) (De : ℝ) : ℝ :=
   (De / NT D u) ^ D.R.k * XiS D u (HHZ D large₂.sc.b C Z' * HHZ D large₂.sc.b C Z'') C s *

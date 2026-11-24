@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsGenericTermIffNoLocalDefectBaseFrames
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.NGData
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsDatumOfTwoCongruentFrames
@@ -234,34 +235,11 @@ section Mat
 
 theorem uni_mul {K : Type} [CommRing K] {n : ℕ} {A B : Matrix (Fin n) (Fin n) K} (hA : Uni A) (hB : Uni B) :
     Uni (A * B) := by
-  obtain ⟨hA0, hA1⟩ := hA
-  obtain ⟨hB0, hB1⟩ := hB
-  refine ⟨fun a b hab => ?_, fun a => ?_⟩
-  · rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun c _ => ?_
-    rcases lt_or_ge c a with h | h
-    · rw [hA0 a c h, zero_mul]
-    · rw [hB0 c b (lt_of_lt_of_le hab h), mul_zero]
-  · rw [Matrix.mul_apply, Finset.sum_eq_single a]
-    · rw [hA1, hB1, one_mul]
-    · intro c _ hc
-      rcases lt_or_gt_of_ne hc with h | h
-      · rw [hA0 a c h, zero_mul]
-      · rw [hB0 c a h, mul_zero]
-    · intro h
-      exact absurd (Finset.mem_univ a) h
+  apply _root_.GlobalTheory.Unfold.GenLoc.uni_mul <;> assumption
 
 theorem tri_trans {K W : Type} [CommRing K] [AddCommGroup W] [Module K W] {n : ℕ} {f g h : Fin n → W}
     (h1 : Tri K f g) (h2 : Tri K g h) : Tri K f h := by
-  obtain ⟨A, hA, hAc⟩ := h1
-  obtain ⟨B, hB, hBc⟩ := h2
-  have hAc' : ∀ b, g b = ∑ a, A a b • f a := hAc
-  have hBc' : ∀ b, h b = ∑ a, B a b • g a := hBc
-  refine ⟨A * B, uni_mul hA hB, fun b => ?_⟩
-  rw [hBc' b]
-  simp only [hAc', Finset.smul_sum, smul_smul, Matrix.mul_apply, Finset.sum_smul]
-  rw [Finset.sum_comm]
-  exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun c _ => by rw [mul_comm]
+  apply _root_.GlobalTheory.Unfold.GenLoc.tri_trans <;> assumption
 
 theorem tri_map {K W W' : Type} [CommRing K] [AddCommGroup W] [Module K W] [AddCommGroup W'] [Module K W'] {n : ℕ}
     (φ : W →ₗ[K] W') {f g : Fin n → W} (h : Tri K f g) : Tri K (fun a => φ (f a)) (fun a => φ (g a)) := by
@@ -307,19 +285,7 @@ private lemma Dl_comp_unitary (H : HermSp M V) {g : V ≃ₗ[E] V} (hg : IsUnita
 
 theorem isTerm_move (H : HermSp M V) {g : V ≃ₗ[E] V} (hg : IsUnitary H g) {r : ℕ} {t : Term V M r}
     (ht : H.IsTerm t) : H.IsTerm (move g t) := by
-  obtain ⟨hsd, hfr, hfr', hD, hG, hsp⟩ := ht
-  refine ⟨_root_.GlobalTheory.LocOver.TermOver.img_selfDual H hg hsd, _root_.GlobalTheory.LocOver.TermOver.img_frame H hg hfr, _root_.GlobalTheory.LocOver.TermOver.img_frame H hg hfr', ?_, ?_, ?_⟩
-  · show IsUnit (H.Dl (fun b => g (t.f b)) (fun b => g (t.f' b)) (r + 1))
-    rw [Dl_comp_unitary H hg]
-    exact hD
-  · show H.Gdet (fun b => g (t.f b)) (fun b => g (t.f' b)) t.T t.T' ≠ 0
-    simpa only [HermSp.Gdet, Dl_comp_unitary H hg] using hG
-  · intro q hq
-    obtain ⟨h1, h2, h3⟩ := hsp q hq
-    refine ⟨h1, h2, fun b => ?_⟩
-    show g (t.f' b) - g (t.f b) ∈ H.smulLat _ (img g t.abelian₂)
-    rw [← map_sub]
-    exact smulLat_map H g _ t.abelian₂ (h3 b)
+  apply _root_.GlobalTheory.Unfold.GenLoc.isTerm_move <;> assumption
 
 end Loc
 

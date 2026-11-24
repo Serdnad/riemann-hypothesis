@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeCharacterTrivialNearOne
 
 @[expose] public section
 
@@ -91,24 +92,7 @@ theorem sqrt_sq (D : D7) : D.host.sqrtMinusD ^ 2 = -(D.host.d : D.host.E) :=
 
 theorem exists_coord (D : D7) (x : D.host.E) (hx : x ∈ D.host.K) :
     ∃ u v : ℚ, x = (u : D.host.E) + (v : D.host.E) * D.host.sqrtMinusD := by
-  have halg : IsAlgebraic ℚ D.host.sqrtMinusD := Algebra.IsAlgebraic.isAlgebraic _
-  have hx' : x ∈ Algebra.adjoin ℚ {D.host.sqrtMinusD} := by
-    rw [← IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic halg]
-    exact hx
-  clear hx
-  induction hx' using Algebra.adjoin_induction with
-  | mem y hy => exact ⟨0, 1, by rw [Set.mem_singleton_iff.1 hy]; simp⟩
-  | algebraMap r => exact ⟨r, 0, by simp⟩
-  | add y z _ _ hy hz =>
-    obtain ⟨u, v, rfl⟩ := hy
-    obtain ⟨u', v', rfl⟩ := hz
-    exact ⟨u + u', v + v', by push_cast; ring⟩
-  | mul y z _ _ hy hz =>
-    obtain ⟨u, v, rfl⟩ := hy
-    obtain ⟨u', v', rfl⟩ := hz
-    refine ⟨u * u' - D.host.d * v * v', u * v' + v * u', ?_⟩
-    push_cast
-    linear_combination (v * v' : D.host.E) * sqrt_sq D
+  apply _root_.GlobalTheory.QuadSubfield.exists_coords <;> assumption
 
 theorem exists_norm (D : D7) (x : 𝓞 D.host.K) :
     ∃ (x' : 𝓞 D.host.K) (n : ℤ), algebraMap (𝓞 D.host.K) (𝓞 D.host.E) x' = cO D.host.E (algebraMap (𝓞 D.host.K) (𝓞 D.host.E) x) ∧

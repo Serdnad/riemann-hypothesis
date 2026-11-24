@@ -679,7 +679,13 @@ private theorem lat_span_eq_top_of_unimodular {Λ : Submodule (𝓞 D.host.E) (V
   rw [map_mul, hb, map_one, mul_inv_cancel₀ (hne ha)]
 
 
-theorem latExists_of_steps (hSB : SatBasis) (hH : HypRep) (hI : IsoW D) (hDd : DdG D) :
+theorem latExists_of_steps_with_rep (hSB : SatBasis) (hI : IsoW D) (hDd : DdG D)
+    (hrep : ∀ (e f : (VS D).V) (c : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E),
+      c ≠ 0 → (VS D).hT e e = 0 → (VS D).hT f f = 0 → (VS D).hT e f = 1 →
+      (∀ x ∈ c, x • e ∈ (VS D).L0) → (∀ y ∈ (VS D).L0, (VS D).hT f y ∈ c) →
+      ∀ T : ℕ, T ≠ 0 → ∃ z : (VS D).V, z ∈ Submodule.span D.host.E {e, f} ∧ z ∈ (VS D).L0 ∧
+      (VS D).hT z z = -((T : ℕ) : D.host.E) ∧
+      ∀ γ : D.host.E, γ • z ∈ (VS D).L0 → ∃ o : 𝓞 D.host.E, (o : D.host.E) = γ) :
     Formalism.L2.SG.SplitPrimeNormLemmas.LatExists D := by
   classical
   obtain ⟨w, hw0, hww, hwo⟩ := hI
@@ -764,8 +770,7 @@ theorem latExists_of_steps (hSB : SatBasis) (hH : HypRep) (hI : IsoW D) (hDd : D
       (VS D).hT z z = -(((D.mem u).A.T : ℕ) : D.host.E) ∧
       ∀ γ : D.host.E, γ • z ∈ (VS D).L0 → ∃ o : 𝓞 D.host.E, (o : D.host.E) = γ := by
     intro u
-    exact hH D.host.F D.host.E D.sp.cm (VS D) (VS D).L0 (VS D).baseLattice_isUnimodular (PI.SRW.trace_reduction D)
-      el fl c hc0 hel_el hfl_fl hel_fl hcel hflc _ (D.mem u).A.T_prime.ne_zero
+    exact hrep el fl c hc0 hel_el hfl_fl hel_fl hcel hflc _ (D.mem u).A.T_prime.ne_zero
   choose zu hzspan hzL hznorm hzprim using hz
   have hzo : ∀ u a, (VS D).hT (eX a) (zu u) = 0 ∧ (VS D).hT (fY a) (zu u) = 0 := fun u a =>
     ⟨orth_pair (hl1 a) (hl2 a) (hzspan u), orth_pair (hl3 a) (hl4 a) (hzspan u)⟩
@@ -857,6 +862,11 @@ theorem latExists_of_steps (hSB : SatBasis) (hH : HypRep) (hI : IsoW D) (hDd : D
   show Formalism.HermitianLatticesTheory.localization₂ P.asIdeal ((VS D).L0 ⊓ (Submodule.span D.host.E (Set.range eX)).restrictScalars (𝓞 D.host.E)) = _
   rw [hXL]
   exact hcle
+
+theorem latExists_of_steps (hSB : SatBasis) (hH : HypRep) (hI : IsoW D) (hDd : DdG D) :
+    Formalism.L2.SG.SplitPrimeNormLemmas.LatExists D := by
+  exact latExists_of_steps_with_rep D hSB hI hDd
+    (hH D.host.F D.host.E D.sp.cm (VS D) (VS D).L0 (VS D).baseLattice_isUnimodular (PI.SRW.trace_reduction D))
 
 end D7main
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EigenvectorAdjointIntertwinerNormalOperatorsStatement
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SphericalOperatorsFormsOnRankSpaceNormal
 public import Formalism.LocalToGlobal.IndefiniteReal.NormalDecomposition.DecompOfNormalStatement
@@ -432,25 +433,8 @@ namespace GlobalTheory.SplitEigen
 theorem adjoint_apply_of_eigen {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [FiniteDimensional ℂ H]
     (A : Module.End ℂ H) (hA : Commute A (LinearMap.adjoint A)) (v : H) (μ : ℂ) (hv : A v = μ • v) :
     LinearMap.adjoint A v = starRingEnd ℂ μ • v := by
-  set B : Module.End ℂ H := A - μ • 1 with hBdef
-  have hBadj : LinearMap.adjoint B = LinearMap.adjoint A - starRingEnd ℂ μ • 1 := by
-    rw [hBdef, map_sub, map_smulₛₗ]
-    congr 2
-    exact LinearMap.adjoint_id
-  have hBv : B v = 0 := by
-    rw [hBdef, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, hv, sub_self]
-  have hc : Commute B (LinearMap.adjoint B) := by
-    rw [hBadj, hBdef]
-    exact (hA.sub_right ((Commute.one_right A).smul_right _)).sub_left ((Commute.one_left _).smul_left _)
-  have h0 : LinearMap.adjoint B v = 0 := by
-    have e : inner ℂ (LinearMap.adjoint B v) (LinearMap.adjoint B v) = (0 : ℂ) := by
-      rw [LinearMap.adjoint_inner_left]
-      have : B (LinearMap.adjoint B v) = LinearMap.adjoint B (B v) := by
-        rw [← Module.End.mul_apply, hc.eq, Module.End.mul_apply]
-      rw [this, hBv, map_zero, inner_zero_right]
-    exact inner_self_eq_zero.1 e
-  rw [hBadj, LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, sub_eq_zero] at h0
-  exact h0
+  intros
+  apply _root_.GlobalTheory.HkUp.adjoint_apply_of_normal_eigen <;> assumption
 
 theorem adjoin_scalar {M : Type} [AddCommGroup M] [Module ℂ M] (S : Set (Module.End ℂ M)) (X : Set M)
     (hS : ∀ b ∈ S, ∃ μ : ℂ, ∀ u ∈ X, b u = μ • u) : ∀ b ∈ Algebra.adjoin ℂ S, ∃ μ : ℂ, ∀ u ∈ X, b u = μ • u := by

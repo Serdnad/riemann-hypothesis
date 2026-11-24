@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ComplexEmbeddingHermitianQuadrupleSum
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.IsTopologicalRingAE
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
@@ -174,15 +175,7 @@ theorem symplOH_skew (S T : HSp D) (x y : WO S T) : symplOH S T y x = -symplOH S
 
 theorem continuous_symplOH (S T : HSp D) {X : Type} [TopologicalSpace X] {x y : X → WO S T} (hx : Continuous x)
     (hy : Continuous y) : Continuous fun t => symplOH S T (x t) (y t) := by
-  have hy' : ∀ i j, Continuous fun t => cA D (y t i j) := fun i j =>
-    ThetaCont.continuous_conj.comp ((continuous_apply j).comp ((continuous_apply i).comp hy))
-  have hx' : ∀ i j, Continuous fun t => x t i j := fun i j =>
-    (continuous_apply j).comp ((continuous_apply i).comp hx)
-  have hh : Continuous fun t => hO S T (x t) (y t) :=
-    continuous_finsetSum _ fun _ _ => continuous_finsetSum _ fun _ _ => continuous_finsetSum _ fun _ _ =>
-      continuous_finsetSum _ fun _ _ => ((continuous_const.mul (hy' _ _)).mul continuous_const).mul (hx' _ _)
-  have ht : Continuous (Algebra.trace (AF D.host.F) (AE D)) := IsModuleTopology.continuous_of_linearMap _
-  exact continuous_const.mul (ht.comp (continuous_const.mul hh))
+  first | exact _root_.GlobalTheory.OrientedHeis.continuous_symplOH | exact @_root_.GlobalTheory.OrientedHeis.continuous_symplOH | apply _root_.GlobalTheory.OrientedHeis.continuous_symplOH <;> assumption
 
 theorem sum_reorder {A : Type} [CommRing A] {m n : ℕ} (σ : A → A) (P : Fin m → Fin m → A)
     (Q : Fin n → Fin n → A) (x y : Matrix (Fin n) (Fin m) A) :
@@ -269,33 +262,12 @@ theorem isTheta_zero : IsThetaFunO ψ S T 0 := {
   smooth k L _ _ w := contDiff_const }
 
 theorem isTheta_add {f g : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) (hg : IsThetaFunO ψ S T g) :
-    IsThetaFunO ψ S T (f + g) := {
-  quasi γ w := by simp only [Pi.add_apply, hf.quasi, hg.quasi, mul_add]
-  level := by
-    obtain ⟨U, hU, h1⟩ := hf.level
-    obtain ⟨U', hU', h2⟩ := hg.level
-    refine ⟨U ⊓ U', hU.inter hU', fun u hu h0 => ?_⟩
-    funext w
-    have e1 := congrFun (h1 u hu.1 h0) w
-    have e2 := congrFun (h2 u hu.2 h0) w
-    unfold heisO at e1 e2 ⊢
-    rw [Pi.add_apply, Pi.add_apply, mul_add, e1, e2]
-  cont := hf.cont.add hg.cont
-  smooth k L h1 h2 w := (hf.smooth k L h1 h2 w).add (hg.smooth k L h1 h2 w) }
+    IsThetaFunO ψ S T (f + g) := by
+  first | exact _root_.GlobalTheory.OrientedHeis.theta_add | exact @_root_.GlobalTheory.OrientedHeis.theta_add | apply _root_.GlobalTheory.OrientedHeis.theta_add <;> assumption
 
 theorem isTheta_smul (c : ℂ) {f : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) :
-    IsThetaFunO ψ S T (c • f) := {
-  quasi γ w := by
-    rw [Pi.smul_apply, Pi.smul_apply, hf.quasi, smul_eq_mul, smul_eq_mul, mul_left_comm]
-  level := by
-    obtain ⟨U, hU, h1⟩ := hf.level
-    refine ⟨U, hU, fun u hu h0 => ?_⟩
-    funext w
-    have e1 := congrFun (h1 u hu h0) w
-    unfold heisO at e1 ⊢
-    rw [Pi.smul_apply, Pi.smul_apply, smul_eq_mul, smul_eq_mul, mul_left_comm, e1]
-  cont := hf.cont.const_smul c
-  smooth k L h1 h2 w := contDiff_const.mul (hf.smooth k L h1 h2 w) }
+    IsThetaFunO ψ S T (c • f) := by
+  first | exact _root_.GlobalTheory.OrientedHeis.theta_smul | exact @_root_.GlobalTheory.OrientedHeis.theta_smul | apply _root_.GlobalTheory.OrientedHeis.theta_smul <;> assumption
 
 theorem isTheta_sub {f g : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) (hg : IsThetaFunO ψ S T g) :
     IsThetaFunO ψ S T (f - g) := by
@@ -308,38 +280,8 @@ theorem continuous_of_level (h : Chart θ σ) (hψ : Continuous ψ) (f : WO S T 
     (hU : ∃ U : AddSubgroup (WO S T), IsOpen (U : Set (WO S T)) ∧
       ∀ u ∈ U, u.map (infPart D) = 0 → heisO ψ S T u f = f)
     (hs : Sm (iotaW σ T S) f) : Continuous f := by
-  obtain ⟨U, hUo, hU⟩ := hU
-  have : IsTopologicalAddGroup (AE D) := IsTopologicalRing.to_topologicalAddGroup
-  have : IsTopologicalAddGroup (WA T S) := Pi.topologicalAddGroup
-  have : ContinuousSub (WA T S) := IsTopologicalAddGroup.to_continuousSub
-  refine continuous_iff_continuousAt.2 fun w => ?_
-  let x : WA T S → RW T S := fun w' => piW θ T S (w' - w)
-  let a : WA T S → WA T S := fun w' => w + iotaW σ T S (x w')
-  let u : WA T S → WA T S := fun w' => w' - a w'
-  have hx : Continuous x := (continuous_pi' h.inf T S).comp (continuous_id.sub continuous_const)
-  have ha : Continuous a := continuous_const.add ((h.continuous_iota T S).comp hx)
-  have hu : Continuous u := continuous_id.sub ha
-  have huw : u w = 0 := by
-    show w - (w + iotaW σ T S (piW θ T S (w - w))) = 0
-    rw [sub_self, AddMonoidHom.map_zero, AddMonoidHom.map_zero, add_zero, sub_self]
-  have hinf : ∀ w', (u w').map (infPart D) = 0 := by
-    intro w'
-    have hp : piW θ T S (u w') = 0 := by
-      show piW θ T S (w' - (w + iotaW σ T S (piW θ T S (w' - w)))) = 0
-      rw [← sub_sub, AddMonoidHom.map_sub, h.pi_iota, sub_self]
-    ext i j
-    exact ThetaCont.infPart_eq_zero h _ fun τ => congrFun (congrFun (congrFun hp τ) i) j
-  have hg : Continuous fun w' => ψ (-symplOH S T (a w') (u w')) * f (a w') :=
-    (hψ.comp (continuous_symplOH S T ha hu).neg).mul ((hs w).continuous.comp hx)
-  have hev : ∀ᶠ w' in 𝓝 w, u w' ∈ U :=
-    hu.continuousAt.preimage_mem_nhds (hUo.mem_nhds (by rw [huw]; exact U.zero_mem))
-  refine hg.continuousAt.congr (hev.mono fun w' hw' => ?_)
-  have e := congrFun (hU _ hw' (hinf w')) (a w')
-  have e2 : a w' + u w' = w' := add_sub_cancel _ _
-  show ψ (-symplOH S T (a w') (u w')) * f (a w') = f w'
-  rw [← e]
-  show _ * (ψ (symplOH S T (a w') (u w')) * f (a w' + u w')) = _
-  rw [e2, ← mul_assoc, ← AddChar.map_add_eq_mul, neg_add_cancel, AddChar.map_zero_eq_one, one_mul]
+  intros
+  apply _root_.GlobalTheory.OrientedHeis.continuous_of_level <;> assumption
 
 def phase (lam : AF D.host.F →+ ℂ) (S T : HSp D) (v : WO S T) : WO S T →+ ℂ where
   toFun w := lam (symplOH S T w v)

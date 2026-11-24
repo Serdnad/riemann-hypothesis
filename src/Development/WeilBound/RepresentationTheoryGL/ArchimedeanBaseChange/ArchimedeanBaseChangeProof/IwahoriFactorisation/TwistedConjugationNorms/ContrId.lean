@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PermEqOneOfMonomialMem
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.LocalBaseChange.ElementaryCosets.CosetMap
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalConjugationInvolutiveValuationPreservingStatement
@@ -92,17 +93,7 @@ theorem offDiag_of_mem {N : ℕ} {x : GL (Fin N) k} (hx : x ∈ Tor k N) {i j : 
 theorem diag_ne_zero {N : ℕ} (x : GL (Fin N) k)
     (h : ∀ i j : Fin N, i ≠ j → (x : Matrix (Fin N) (Fin N) k) i j = 0) (i : Fin N) :
     (x : Matrix (Fin N) (Fin N) k) i i ≠ 0 := by
-  have hM : (x : Matrix (Fin N) (Fin N) k) =
-      Matrix.diagonal fun l => (x : Matrix (Fin N) (Fin N) k) l l := by
-    ext a b
-    by_cases hab : a = b
-    · subst hab
-      simp
-    · rw [Matrix.diagonal_apply_ne _ hab]
-      exact h a b hab
-  have hdet : (x : Matrix (Fin N) (Fin N) k).det ≠ 0 := (Matrix.isUnits_det_units x).ne_zero
-  rw [hM, Matrix.det_diagonal] at hdet
-  exact Finset.prod_ne_zero_iff.mp hdet i (Finset.mem_univ i)
+  apply _root_.GlobalTheory.CompanionTheory.LbElem.MonomialInJ.diag_ne_zero_of_offDiag <;> assumption
 
 theorem mem_of_offDiag {N : ℕ} (x : GL (Fin N) k)
     (h : ∀ i j : Fin N, i ≠ j → (x : Matrix (Fin N) (Fin N) k) i j = 0) : x ∈ Tor k N := by
@@ -401,15 +392,8 @@ private theorem valued_v_lt_one_of_ordL_eq_one (w : Pl E) (ϖ : (w.adicCompletio
 private theorem incrV_tdiag_of_strictAnti_of_ordL_eq_one (w : Pl E) (n : ℕ) (ϖ : (w.adicCompletion E)ˣ)
     (hϖ : ordL (ϖ : w.adicCompletion E) = 1) (a : Fin n → ℤ) (ha : StrictAnti a) :
     PositivityTheory.Lbc.IncrV (w.adicCompletion E) n (GlobalTheory.BCT.tdiag ϖ a) := by
-  show PositivityTheory.Lbc.IncrV _ n (diagT _ (Fin n) fun i => ϖ ^ a i)
-  apply diagT_incrV
-  intro i j hij
-  rw [(ValuativeRel.isEquiv (valuation (w.adicCompletion E)) Valued.v).lt_iff_lt]
-  simp only [Units.val_zpow_eq_zpow_val, map_zpow₀]
-  have hpos : 0 < Valued.v (ϖ : w.adicCompletion E) := by
-    rw [zero_lt_iff]
-    simp
-  exact zpow_lt_zpow_right_of_lt_one₀ hpos (valued_v_lt_one_of_ordL_eq_one w ϖ hϖ) (ha hij)
+  intros
+  apply _root_.PositivityTheory.Rg.Bc.ArchbcB.B.M4.tdiag_incrV <;> assumption
 
 theorem tl_goodT_of (w : Pl E) (n : ℕ) (θ : MulAut (GLw n w)) (ϖ : (w.adicCompletion E)ˣ)
     (hϖ : ordL (ϖ : w.adicCompletion E) = 1) (y : Fin n → ℤ) (hy : StrictAnti y)

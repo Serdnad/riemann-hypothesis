@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemLevelTypeFormsOfUniversalCoeffReading
 public import Formalism.SharpRestriction.LevelLetterCocycles.IntegralHeckeForms
 public import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.ToricLatticeDenominators
 public import Development.AbelianVarietyTheory.Definitions.QuasicoherentCohomology.LengthCommensurableMapIffOfInjective
@@ -911,17 +912,8 @@ section Cell
 variable {ρ : Setup X} {hρ : ρ.Good} {i : X.Tw} {j : Fin D.R.m} {b : Bool} {rd : Rd ρ Y i j b}
 
 theorem rd_injective (T : CellTie hρ Y rd) : Function.Injective rd := by
-  refine (injective_iff_map_eq_zero _).2 fun f hf => ?_
-  have h0 : ((1 : X.Ok i 0) ⊗ₜ[X.O i] f : X.Ok i 0 ⊗[X.O i] Y.Fm i ((j : ℕ) + 1) b) = 0 :=
-    T.injective_rdK 0 (by rw [rdK_tmul, hf, smul_zero, map_zero])
-  have : Module.Flat (X.O i) (Y.Fm i ((j : ℕ) + 1) b) :=
-    have := IsLocalization.flat (FractionRing (X.O i)) (nonZeroDivisors (X.O i))
-    Module.Flat.trans (X.O i) (FractionRing (X.O i)) _
-  have hi := Module.Flat.rTensor_preserves_injective_linearMap (M := Y.Fm i ((j : ℕ) + 1) b)
-    (Algebra.linearMap (X.O i) (X.Ok i 0)) (X.Ok_inj i 0)
-  have h1 : ((1 : X.O i) ⊗ₜ[X.O i] f : X.O i ⊗[X.O i] Y.Fm i ((j : ℕ) + 1) b) = 0 :=
-    hi (by rw [LinearMap.rTensor_tmul, Algebra.linearMap_apply, map_one, h0, map_zero])
-  simpa using congrArg (TensorProduct.lid (X.O i) _) h1
+  intros
+  apply _root_.GlobalTheory.ExportType.injective_rd <;> assumption
 
 theorem range_th (T : CellTie hρ Y rd) : Set.range (Y.th i ((j : ℕ) + 1) b) =
     {f | ∃ s h P, ρ.IsDatum i j b s h P ∧ rd f = ρ.theta i j b h P} := by

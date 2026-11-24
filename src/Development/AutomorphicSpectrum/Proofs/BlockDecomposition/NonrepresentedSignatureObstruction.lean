@@ -64,6 +64,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.PicardGroup
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsForallAbvSubLt
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianSpaceOppositeFormSignatureConditionStatement
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenseRangeRealEmbeddings, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NonrepresentedSignatureObstruction
@@ -395,14 +396,7 @@ theorem finrank_le_of_posOn {m p q : ℕ} (G : Matrix (Fin m) (Fin m) ℂ) (hs :
 
 theorem hasSig_neg {n : Type} [Fintype n] [DecidableEq n] {J : Matrix n n ℂ} {p q : ℕ}
     (h : Formalism.UG.HasSignature J p q) : Formalism.UG.HasSignature (-J) q p := by
-  obtain ⟨c, Q, hQ⟩ := Formalism.UG.P.sig_data _ _ _ h
-  let s := Equiv.sumComm (Fin q) (Fin p)
-  refine GlobalTheory.FrameComplement.hasSignature_of_frame (by omega) (Q.submatrix id s) ?_
-  have e1 : (Q.submatrix id s)ᴴ * (-J) * Q.submatrix id s = -((Qᴴ * J * Q).submatrix s s) := by
-    ext a b
-    simp [Matrix.mul_apply, Matrix.conjTranspose_apply]
-  rw [e1, hQ]
-  ext (a | a) (b | b) <;> simp [Formalism.UG.Jpq, s, Matrix.one_apply]
+  apply _root_.GlobalTheory.NegSpace.hasSignature_neg_swap <;> assumption
 
 theorem sig_bound {m r t : ℕ} (ht : t < r) (Z : Matrix (Fin r) (Fin r) ℂ)
     (hZ : ∀ i j : Fin r, (t ≤ i.1 ∨ t ≤ j.1) → Z i j = 0) (G : Matrix (Fin m) (Fin m) ℂ) {p₁ q₁ p q : ℕ}

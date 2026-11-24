@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Development.AbelianVarietyTheory.BlockTheory.JetGauges.LogExpAdaptedGauge
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
@@ -115,18 +116,7 @@ theorem linear_limit (V : VF C) {dd : ℕ} (e : Pt C 1 dd) (s : ℕ → Pt C 1 d
 theorem subst_singlePointUncurry {dd : ℕ} {τ : Type} (a : Fin dd → MvPowerSeries τ C)
     (ha : ∀ i, MvPowerSeries.constantCoeff (a i) = 0) (f : PS C 1 dd) :
     MvPowerSeries.subst a (un1 f) = MvPowerSeries.subst (fun p : Fin 1 × Fin dd => a p.2) f := by
-  let ι : Fin dd ≃ Fin 1 × Fin dd :=
-    { toFun := fun x => (0, x)
-      invFun := fun p => p.2
-      left_inv := fun _ => rfl
-      right_inv := fun p => Prod.ext (Subsingleton.elim _ _) rfl }
-  ext μ
-  rw [MvPowerSeries.coeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero ha),
-    MvPowerSeries.coeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero fun p : Fin 1 × Fin dd => ha p.2),
-    ← finsum_comp_equiv (Finsupp.equivCongrLeft ι)]
-  refine finsum_congr fun e => ?_
-  rw [Finsupp.equivCongrLeft_apply, Finsupp.prod_equivMapDomain, Finsupp.equivMapDomain_eq_mapDomain]
-  rfl
+  apply _root_.Formalism.L2.FormalSeriesBounds.subst_singlePointUncurry <;> assumption
 
 theorem germComp1_eq_subst {dd n : ℕ} (e : Pt C 1 dd) (a : Pt C n dd) (i : Fin dd) :
     comp1 e a i = MvPowerSeries.subst (fun q : Fin 1 × Fin dd => a q.2) (e i) := by

@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightDerivativeSmoothOnIndefiniteUnitaryGroup
 
 @[expose] public section
 
@@ -59,15 +60,7 @@ variable {n : ℕ}
 open scoped Matrix.Norms.Operator in
 theorem hasDerivAt_exp_entry_real (X : Matrix (Fin n) (Fin n) ℂ) (i j : Fin n) :
     HasDerivAt (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X)) i j) (X i j) 0 := by
-  have h := hasDerivAt_exp_smul_const (𝕂 := ℝ) X (0 : ℝ)
-  simp only [zero_smul, NormedSpace.exp_zero, one_mul] at h
-  let L : Matrix (Fin n) (Fin n) ℂ →L[ℝ] ℂ :=
-    LinearMap.toContinuousLinearMap (Matrix.entryLinearMap ℝ ℂ i j)
-  have h2 : HasDerivAt (fun t : ℝ => (NormedSpace.exp (t • X)) i j) (X i j) 0 :=
-    L.hasFDerivAt.comp_hasDerivAt (0 : ℝ) h
-  have e : (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X)) i j) = fun t : ℝ => (NormedSpace.exp (t • X)) i j := by
-    funext t; rw [Complex.coe_smul]
-  rw [e]; exact h2
+  apply _root_.GlobalTheory.RightDerivSmooth.hasDerivAt_exp_entry <;> assumption
 
 theorem coord_mul_expK_zero {ε : Fin n → Bool} {X : Matrix (Fin n) (Fin n) ℂ} (hX : inK ε X)
     (c : Fin n × Fin n × Bool) (k : KG ε) : coord ε c (k * expK ε X 0) = coord ε c k := by

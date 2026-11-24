@@ -7,7 +7,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTool
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwHkApply
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwJqLine
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwMemIwC
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwThetaEx
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwThetaEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.NilpotentLevelLowering.IsoFix
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.NilpotentLevelLowering.ThetaLoc
 import Mathlib.Algebra.Order.Floor.Extended
@@ -58,29 +58,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 private theorem nilKill_split {k : Type} [Field k] [ValuativeRel k] {n : ℕ} (t : Fin n → kˣ) :
     ∃ c : kˣ, ∀ s : Fin n → kˣ, (s = 1 ∨ s = t) → ∀ i j : Fin n, i ≤ j →
       valuation k ((s i * c ^ (n - i) : kˣ) : k) ≤ valuation k ((s j * c ^ (n - j) : kˣ) : k) := by
-  rcases isEmpty_or_nonempty (Fin n) with h | h
-  · exact ⟨1, fun _ _ i => h.elim i⟩
-  obtain ⟨p, hp⟩ := Finite.exists_min (fun p : Fin n × Fin n => valuation k ((t p.2 * (t p.1)⁻¹ : kˣ) : k))
-  set c : kˣ := t p.2 * (t p.1)⁻¹ with hc
-  have h1 : valuation k (c : k) ≤ 1 := by simpa using hp (p.1, p.1)
-  refine ⟨c, fun s hs i j hij => ?_⟩
-  rcases hij.eq_or_lt with rfl | hlt
-  · exact le_rfl
-  have h2 : valuation k (s i : k) * valuation k (c : k) ≤ valuation k (s j : k) := by
-    rcases hs with rfl | rfl
-    · simpa using h1
-    · have := mul_le_mul_right (hp (i, j)) (valuation k (s i : k))
-      refine this.trans (le_of_eq ?_)
-      rw [← map_mul, ← Units.val_mul]
-      congr 2
-      simp
-  have hj := j.2
-  have hlt' : (i : ℕ) < j := hlt
-  have e : n - (i : ℕ) = 1 + ((n - j) + (j - i - 1)) := by omega
-  rw [e]
-  simp only [Units.val_mul, Units.val_pow_eq_pow_val, map_mul, map_pow, pow_add, pow_one]
-  rw [← mul_assoc]
-  exact mul_le_mul' h2 (mul_le_of_le_one_right' (pow_le_one' h1 _))
+  apply _root_.thetaEx_split <;> assumption
 
 private theorem nilKill_dc {A M A' M' G : Type} [CommRing A] [AddCommGroup M] [Module A M] [CommRing A'] [AddCommGroup M']
     [Module A' M'] [Group G] (ρ : Representation A G M) (ρ' : Representation A' G M') (K K' : Subgroup G) (x : G)

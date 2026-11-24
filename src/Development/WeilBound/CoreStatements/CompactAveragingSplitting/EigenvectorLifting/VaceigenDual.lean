@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.InertDef
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatAtVAtStable
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DualLatticeDifferentIndex
@@ -203,54 +204,20 @@ theorem exists_tr_rep (hσ : ∀ x, σ (σ x) = x) {J : Matrix (Fin d) (Fin d) E
 
   rw [← map_sum, Finset.univ_sum_single]
 
-theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
+theorem mem_latW_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hstd : IsStd B.ψ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
     {w : Fin d → AE F E} (hw : At (evFin F v) w)
     (h : ∀ y ∈ W.L, ∀ a ∈ v.adicCompletionIntegers F, B.ψ (liftV v a * trF σ W.J y w) = 1) : w ∈ latW W v := by
-  have hσ := sigma_sigma hB.cm
+  have hσ := sigma_sigma hcm
   have : Module.Finite (𝓞 F) (𝓞 E) := Module.Finite.of_restrictScalars_finite ℤ _ _
   have hsk (x y : Fin d → E) : form σ W.J x y = -σ (form σ W.J y x) := by
 
     simp only [form, dotProduct, Matrix.mulVec, map_sum, map_mul, Finset.mul_sum, hσ, hW.skew, ← Finset.sum_neg_distrib]
     rw [Finset.sum_comm]
     exact Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
-  have hFull : W.L.IsFullLattice E := by
-    let := hW.lat
-    refine { span_eq_top := ?_ }
-    let U := Submodule.span E (W.L : Set (Fin d → E))
-    change U = ⊤
-    by_contra hU
-    let g : (Fin d → E) →ₗ[E] Module.Dual E U :=
-      ((dotProductBilin E E).compl₂ (Matrix.mulVecLin W.Jᵀ)).domRestrict₂ U
-    have hdim : Module.finrank E (Module.Dual E U) < Module.finrank E (Fin d → E) := by
-      rw [Subspace.dual_finrank_eq]
-      exact Submodule.finrank_lt hU
-    obtain ⟨z, hz, hz₀⟩ :=
-      Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-    let y : Fin d → E := fun i => σ (z i)
-    have hy₀ : y ≠ 0 := by
-      intro hy
-      apply hz₀
-      exact funext fun i => σ.injective ((congrFun hy i).trans (map_zero σ).symm)
-    have horth (x : Fin d → E) (hx : x ∈ W.L) : form σ W.J y x = 0 := by
-      have hz' : z ⬝ᵥ W.Jᵀ *ᵥ x = 0 :=
-        congrArg (fun f : Module.Dual E U => f ⟨x, Submodule.subset_span hx⟩)
-          (LinearMap.mem_ker.mp hz)
-      have hzero : form σ W.J x y = 0 := by
-        rw [Matrix.dotProduct_transpose_mulVec] at hz'
-        simpa only [form, y, hσ] using hz'
-      rw [hsk, hzero, map_zero, neg_zero]
-    have hline (a : E) : a • y ∈ W.L := by
-      have hzform (x : Fin d → E) (hx : x ∈ W.L) : form σ W.J (a • y) x = 0 := by
-        simpa only [form, smul_dotProduct, smul_eq_mul] using
-          (show a * form σ W.J y x = 0 by rw [horth x hx, mul_zero])
-      exact (hW.dual _).2 fun x hx o => by rw [hzform x hx, mul_zero, map_zero]; exact isIntegral_zero
-    let i : E →ₗ[𝓞 E] W.L :=
-      ((LinearMap.toSpanSingleton E _ y).restrictScalars (𝓞 E)).codRestrict W.L hline
-    let : Module.Finite (𝓞 E) W.L := Module.Finite.iff_fg.mpr hW.lat.fg
-    let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-      smul_left_injective E hy₀ (congrArg Subtype.val hab)
-    exact RingOfIntegers.not_isField E
-      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  have hFull : W.L.IsFullLattice E :=
+    PositivityTheory.Mix.full_of_dual_zero_of_involutive hσ (-1) (by simpa using hW.skew)
+      hW.lat.toIsLattice (fun y hy =>
+        (hW.dual y).2 fun x hx o => by rw [hy x hx, mul_zero, map_zero]; exact isIntegral_zero)
   letI := hFull
   obtain ⟨m, g, f, hg, hf, hid⟩ := dual_family (𝓞 F) F (W.L.restrictScalars (𝓞 F)) (hW.lat.fg.restrictScalars) (by
     rw [eq_top_iff]
@@ -283,7 +250,7 @@ theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (
   rw [hdec w]
   refine sum_mem fun i _ => AddSubgroup.subset_closure ⟨_, fun a ha => ?_, ?_, g i, hg i, rfl⟩
   · rw [← map_smul, hw a ha, map_zero]
-  · refine mem_int_of_psi hB.std v _ fun t ht a ha => ?_
+  · refine mem_int_of_psi hstd v _ fun t ht a ha => ?_
     have hm : algebraMap F E t • u i ∈ W.L := (hW.dual _).2 fun x hx o => by
       let o' : 𝓞 E := ⟨σ o, (RingOfIntegers.isIntegral_coe o).map (σ.restrictScalars ℤ)⟩
       obtain ⟨c, hc⟩ := hf i _ (W.L.smul_mem o' hx)
@@ -301,6 +268,11 @@ theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (
       exact isIntegral_algebraMap
     have := h _ hm a ha
     rwa [trF_smul, liftV_mul, map_mul (evFin F v), AlgHom.commutes] at this
+
+theorem mem_latW {B : Base F E} (hB : B.IsGood σ) {W : Spc F E d} {r s : ℕ} (hW : W.IsSkew σ B r s) (v : Pl F)
+    {w : Fin d → AE F E} (hw : At (evFin F v) w)
+    (h : ∀ y ∈ W.L, ∀ a ∈ v.adicCompletionIntegers F, B.ψ (liftV v a * trF σ W.J y w) = 1) : w ∈ latW W v := by
+  exact _root_.PositivityTheory.ThK.Vac.mem_latW_of_standard_character hB.cm hB.std hW v hw h
 
 theorem vecMulVec_mem {X : Spc F E n} {W : Spc F E d} {v : Pl F} {x : Fin n → E} (hx : x ∈ X.L) {w : Fin d → AE F E}
     (hw : w ∈ latW W v) : Matrix.vecMulVec (incV x) w ∈ latAtV X W v := by
@@ -334,55 +306,14 @@ theorem symp_vecMulVec (hσ : ∀ x, σ (σ x) = x) (JA : Matrix (Fin n) (Fin n)
     Finset.sum_congr rfl fun l _ => ?_
   ring
 
-theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+theorem mem_latAtV_of_standard_character {B : Base F E} (hcm : IsCMExt F E σ) (hstd : IsStd B.ψ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
     (hW : W.IsSkew σ B r' s') (v : Pl F) {z : Matrix (Fin n) (Fin d) (AE F E)} (hz : At (evFin F v) z)
     (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1) : z ∈ latAtV X W v := by
-  have hσ := sigma_sigma hB.cm
-  have hFull : X.L.IsFullLattice E := by
-    let := hX.lat
-    refine { span_eq_top := ?_ }
-    let W := Submodule.span E (X.L : Set (Fin n → E))
-    change W = ⊤
-    by_contra hW
-    let g : (Fin n → E) →ₗ[E] Module.Dual E W :=
-      ((dotProductBilin E E).compl₂ (Matrix.mulVecLin X.Jᵀ)).domRestrict₂ W
-    have hdim : Module.finrank E (Module.Dual E W) < Module.finrank E (Fin n → E) := by
-      rw [Subspace.dual_finrank_eq]
-      exact Submodule.finrank_lt hW
-    obtain ⟨z, hz, hz₀⟩ :=
-      Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-    let y : Fin n → E := fun i => σ (z i)
-    have hy₀ : y ≠ 0 := by
-      intro hy
-      apply hz₀
-      exact funext fun i => σ.injective ((congrFun hy i).trans (map_zero σ).symm)
-    have hJ : X.Jᵀ.map σ = X.J := Matrix.ext hX.herm
-    -- Self-duality puts every scalar multiple of an orthogonal vector in the lattice.
-    have hline (a : E) : a • y ∈ X.L := (hX.dual _).2 fun x hx => by
-      have hz' : z ⬝ᵥ X.Jᵀ *ᵥ x = 0 :=
-        congrArg (fun f : Module.Dual E W => f ⟨x, Submodule.subset_span hx⟩)
-          (LinearMap.mem_ker.mp hz)
-      have horth : form σ X.J y x = 0 := by
-        have he := σ.toRingHom.map_dotProduct z (X.Jᵀ *ᵥ x)
-        rw [hz', map_zero] at he
-        have hm : σ.toRingHom ∘ (X.Jᵀ *ᵥ x) = X.J *ᵥ (fun i => σ (x i)) := by
-          funext i
-          rw [Function.comp_apply, σ.toRingHom.map_mulVec]
-          exact congrFun (congrArg (fun M => M *ᵥ (fun j => σ (x j))) hJ) i
-        rw [hm] at he
-        exact he.symm
-      have : form σ X.J (a • y) x = 0 := by
-        simpa only [form, smul_dotProduct, smul_eq_mul] using
-          (show a * form σ X.J y x = 0 by rw [horth, mul_zero])
-      rw [this]
-      exact isIntegral_zero
-    let i : E →ₗ[𝓞 E] X.L :=
-      ((LinearMap.toSpanSingleton E _ y).restrictScalars (𝓞 E)).codRestrict X.L hline
-    let : Module.Finite (𝓞 E) X.L := Module.Finite.iff_fg.mpr hX.lat.fg
-    let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-      smul_left_injective E hy₀ (congrArg Subtype.val hab)
-    exact RingOfIntegers.not_isField E
-      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  have hσ := sigma_sigma hcm
+  have hFull : X.L.IsFullLattice E :=
+    PositivityTheory.Mix.full_of_dual_zero_of_involutive hσ 1 (by simpa using hX.herm)
+      hX.lat.toIsLattice (fun y hy =>
+        (hX.dual y).2 fun x hx => by rw [hy x hx]; exact isIntegral_zero)
   letI := hFull
   obtain ⟨m, g, f, hg, hf, hid⟩ := dual_family (𝓞 E) E X.L hX.lat.fg (Submodule.IsFullLattice.span_eq_top (A := E) (M := X.L))
   let a : Fin m → Fin n → E := fun i k => f i (Pi.single k 1)
@@ -414,10 +345,15 @@ theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F 
     simp only [← Finset.sum_mul, e]
     exact (congrFun (congrFun (Matrix.one_mul z) p) l).symm
   rw [hdec]
-  refine sum_mem fun i _ => vecMulVec_mem (hg i) (mem_latW hB hW v (fun c hc => ?_) fun y hy c hc => ?_)
+  refine sum_mem fun i _ => vecMulVec_mem (hg i) (mem_latW_of_standard_character hcm hstd hW v (fun c hc => ?_) fun y hy c hc => ?_)
   · rw [← Matrix.vecMul_smul, hz c hc, Matrix.vecMul_zero]
   · have := h _ (neg_mem (AddSubgroup.subset_closure ⟨liftV v c, at_liftV v c, by rwa [evFin_liftV], u i, huL i, y, hy, rfl⟩))
     rw [GlobalTheory.LatVacArith.symp_neg_left, ← one_smul (AF F) z, symp_smul_smul, symp_vecMulVec hσ, hu] at this
     simpa only [hσ, mul_one, mul_neg, neg_neg] using this
+
+theorem mem_latAtV {B : Base F E} (hB : B.IsGood σ) {X : Spc F E n} {W : Spc F E d} {r s r' s' : ℕ} (hX : X.IsHerm σ B r s)
+    (hW : W.IsSkew σ B r' s') (v : Pl F) {z : Matrix (Fin n) (Fin d) (AE F E)} (hz : At (evFin F v) z)
+    (h : ∀ γ ∈ latAtV X W v, B.ψ (symp (R := AF F) (cA σ) (-1) (incM F X.J) (incM F W.J) γ z) = 1) : z ∈ latAtV X W v := by
+  exact _root_.PositivityTheory.ThK.Vac.mem_latAtV_of_standard_character hB.cm hB.std hX hW v hz h
 
 end PositivityTheory.ThK.Vac

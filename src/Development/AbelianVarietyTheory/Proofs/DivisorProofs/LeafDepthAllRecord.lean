@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NotInPsiConj
 public import Development.AbelianVarietyTheory.Definitions.Jets.DepthNumbersThresholdEq
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmEmbeddingsIntegralAndDistinctModMaximal
@@ -247,15 +248,7 @@ namespace GlobalTheory.LargePkg
 
 theorem not_inPsi_conj {E : Type} [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E)
     {τ : E →+* ℂ} (h : InPsi H τ) : ¬ InPsi H (ComplexEmbedding.conjugate τ) := by
-  intro h'
-  unfold InPsi at h h'
-  rw [ComplexEmbedding.conjugate_coe_eq, h] at h'
-  obtain ⟨r, hr⟩ := Complex.conj_eq_iff_real.1 h'
-  have e := H.sqrt_neg_disc_sq
-  rw [hr] at e
-  have e4 : r ^ 2 = -(H.d : ℝ) := by exact_mod_cast e
-  have : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  linarith [sq_nonneg r]
+  apply _root_.GlobalTheory.LabSelf.not_inPsi_conj <;> assumption
 
 theorem pkg_of_supply (P : RF.Par) (l : ℕ) {C : Type} [Field C] (V : VF C) (hV : V.l = l) (Z : Finset P.Pl)
     (hZ : RF.IsReps P Z) (hw : ∀ z, 0 ≤ P.w z) (big : P.Pl → Fin 2 → ZMod P.d → Prop)
@@ -396,20 +389,7 @@ namespace GlobalTheory.SplitPackage
 
 theorem not_inPsi_conjugate {E : Type} [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E)
     {τ : E →+* ℂ} (h : InPsi H τ) : ¬ InPsi H (ComplexEmbedding.conjugate τ) := by
-  intro h'
-  have hd : 0 < H.d := H.d_prime.pos
-  have e2 : starRingEnd ℂ (τ (H.rt : E)) = τ (H.rt : E) := by
-    have h1 : τ (H.rt : E) = H.rt0 := h
-    have h2 : starRingEnd ℂ (τ (H.rt : E)) = H.rt0 := h'
-    rw [h2, h1]
-  have e3 : τ (H.rt : E) ^ 2 = -(H.d : ℂ) := by
-    have := congrArg (fun z : 𝓞 E => τ (z : E)) H.rt_sq
-    simpa using this
-  obtain ⟨r, hr⟩ := Complex.conj_eq_iff_real.1 e2
-  rw [hr] at e3
-  have e4 : r ^ 2 = -(H.d : ℝ) := by exact_mod_cast e3
-  have : (0 : ℝ) < H.d := by exact_mod_cast hd
-  linarith [sq_nonneg r]
+  apply _root_.GlobalTheory.InertPackage.not_inPsi_conjugate <;> assumption
 
 theorem pkgSplit : (∀ (p : ℕ) [Fact p.Prime], ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.UpFSt p) → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (lv : Level H) (Xo : Moduli Dw lv) (c : Coeff lv) [StarRing (𝓞 E)], PkgSplitSt Xo c := by
   intro hU E _ _ _ H Dw lv Xo c _ hstar N j pl a hj1 hjm hpl hp hq hdom la h2 hq' hd' hM _ T io e hov y hy C3 nW ν hν

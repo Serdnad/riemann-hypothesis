@@ -42,6 +42,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AbsoluteConvergence.SecZeroA
 
 @[expose] public section
 
@@ -243,16 +244,7 @@ theorem continuous_weight_factor_unitary (p q : ℕ) (e : ℤ) : Continuous (F0 
   exact (hu1.zpow₀ _ fun g => Or.inl (automorphy_first_det_ne_zero g)).mul (hu2.zpow₀ _ fun g => Or.inl (automorphy_second_det_ne_zero g))
 
 theorem inG_swap {M : M2 n} (h : InG M) : M * JJ n * Mᴴ = JJ n := by
-  have hM := det_ne_of_inG h
-  have hX : IsUnit (JJ n * M).det := by
-    rw [Matrix.det_mul]; exact (isUnit_iff_ne_zero.2 JJ_det_ne).mul hM
-  have e : M * JJ n * Mᴴ * (JJ n * M) = JJ n * (JJ n * M) := by
-    calc M * JJ n * Mᴴ * (JJ n * M) = M * JJ n * (Mᴴ * JJ n * M) := by simp only [Matrix.mul_assoc]
-      _ = M * (JJ n * JJ n) := by rw [h, Matrix.mul_assoc]
-      _ = JJ n * (JJ n * M) := by rw [JJ_mul_JJ, ← Matrix.mul_assoc, JJ_mul_JJ]; simp
-  calc M * JJ n * Mᴴ = M * JJ n * Mᴴ * ((JJ n * M) * (JJ n * M)⁻¹) := by rw [Matrix.mul_nonsing_inv _ hX, Matrix.mul_one]
-    _ = JJ n * (JJ n * M) * (JJ n * M)⁻¹ := by rw [← Matrix.mul_assoc, e]
-    _ = JJ n := by rw [Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hX, Matrix.mul_one]
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.SZ.yJyH <;> assumption
 
 theorem inG_blocks' {M : M2 n} (h : InG M) :
     M.toBlocks₁₁ * M.toBlocks₂₂ᴴ - M.toBlocks₁₂ * M.toBlocks₂₁ᴴ = 1 ∧

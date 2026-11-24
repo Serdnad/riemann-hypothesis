@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.MemSatSqIffConstantCoeffAndLinearCoeffEqZero
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
 public import Mathlib.RingTheory.PowerSeries.Basic
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.MvPowerSeriesEvalOfPowMem
@@ -304,31 +305,12 @@ theorem surjective_of_max_le [IsAdicComplete (maximalIdeal O) O] {σ : Type} [Fi
       exact π.commutes a)
   exact hs
 
-private theorem eq_zero_or_exists_eq_single_of_degree_lt_two {τ : Type} (d : τ →₀ ℕ) (h : Finsupp.degree d < 2) :
-    d = 0 ∨ ∃ j, d = Finsupp.single j 1 := by
-  by_cases h0 : d = 0
-  · exact Or.inl h0
-  right
-  obtain ⟨j, hj⟩ : ∃ j, d j ≠ 0 := by
-    by_contra hc
-    push_neg at hc
-    exact h0 (Finsupp.ext hc)
-  have hle : Finsupp.single j 1 ≤ d := by
-    rw [Finsupp.single_le_iff]
-    omega
-  obtain ⟨e, rfl⟩ := exists_add_of_le hle
-  have he : Finsupp.degree e = 0 := by
-    rw [map_add (f := _), Finsupp.degree_single] at h
-    omega
-  rw [Finsupp.degree_eq_zero_iff] at he
-  exact ⟨j, by simp [he]⟩
-
 private theorem two_le_order_sub_constant_add_linear {A τ : Type} [CommRing A] [Fintype τ] (f : MvPowerSeries τ A) :
     ((2 : ℕ) : ℕ∞) ≤ (f - (C (constantCoeff f) + ∑ k, C (coeff (Finsupp.single k 1) f) * X k)).order := by
   classical
   apply MvPowerSeries.nat_le_order
   intro d hd
-  rcases eq_zero_or_exists_eq_single_of_degree_lt_two d hd with rfl | ⟨j, rfl⟩
+  rcases _root_.low_degree d hd with rfl | ⟨j, rfl⟩
   · simp
   · simp [coeff_C, coeff_C_mul, coeff_X, Finsupp.single_eq_single_iff]
 

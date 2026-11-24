@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.ComplexLatticeClosure.LatticeAreaPositivity.Bridge
 public import Formalism.FrobeniusOrbits.Statement
 public import Mathlib.RingTheory.SimpleRing.Principal
 public import Formalism.FrobeniusOrbits.FrobeniusOrbitsProofs.Galois
@@ -92,14 +93,7 @@ theorem two_mem_of_pow {R : Type*} [CommRing R] [IsDomain R] (Q : Ideal R) :
 
 theorem omega_integral {F : Type} [Field F] [NumberField F] {r : ℕ} (hr4 : r % 4 = 3) {X : F}
     (hX : X ^ 2 = -(r : F)) : IsIntegral ℤ ((1 + X) / 2) := by
-  obtain ⟨k, rfl⟩ : ∃ k, r = 4 * k + 3 := ⟨r / 4, by omega⟩
-  refine ⟨Polynomial.X ^ 2 - Polynomial.X + Polynomial.C ((k : ℤ) + 1), by monicity!, ?_⟩
-  push_cast at hX
-  rw [Polynomial.eval₂_add, Polynomial.eval₂_sub, Polynomial.eval₂_pow, Polynomial.eval₂_X,
-    Polynomial.eval₂_C]
-  simp only [algebraMap_int_eq, eq_intCast]
-  push_cast
-  linear_combination (1 / 4 : F) * hX
+  apply _root_.Formalism.L2.Th1.F2.half_integral <;> assumption
 
 theorem sqrt_fixed {F : Type} [Field F] [NumberField F] {r p : ℕ} (hr : r.Prime) (hr4 : r % 4 = 3)
     (hp : p.Prime) (hpr : p ≠ r) (P : Ideal (𝓞 F)) [P.IsPrime] [P.LiesOver (span {(p : ℤ)})]

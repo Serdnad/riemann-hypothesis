@@ -1034,13 +1034,7 @@ theorem mem_Dpcris (ρ : Representation LL G V) (x : V ⊗[Qp] B) :
 
 theorem act_mem_Dpcris (ρ : Representation LL G V) (g : G) (x : V ⊗[Qp] B) (hx : x ∈ PC.Dpcris ρ) :
     actVB PC.PD ρ g x ∈ PC.Dpcris ρ := by
-  rw [mem_Dpcris] at hx ⊢
-  intro h
-  have h1 := hx ⟨g⁻¹ * h * g, PC.normal.conj_mem' _ h.2 g⟩
-  conv_rhs => rw [← h1]
-  rw [← actVB_mul, ← actVB_mul]
-  congr 2
-  group
+  apply _root_.GlobalTheory.subIner_Dpcris_stable <;> assumption
 
 variable [IsDomain B] [FiniteDimensional Qp LL]
 

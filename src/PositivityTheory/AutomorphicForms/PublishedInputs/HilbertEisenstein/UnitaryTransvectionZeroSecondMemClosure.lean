@@ -12,6 +12,7 @@ public import GroundTheory.GlobalFields.TateThesis.TateThetaDecay
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.RestrictionMemInvariantH1
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 import Development.AutomorphicArithmetic.AutomorphicVarieties.PublishedTheorems.GelfandKazhdanReal
+import PositivityTheory.AutomorphicForms.PublishedInputs.HilbertEisenstein.IdeleModuleInfIdDetLe
 
 @[expose] public section
 
@@ -259,27 +260,8 @@ theorem bound_small {ω : HChar F} {c : HeightOneSpectrum (𝓞 F) → ℕ} (hH 
     _ = (t : ℝ) * M := by field_simp
 
 theorem lintegral_min_lt_top :
-    ∫⁻ t, ENNReal.ofReal (min (t : ℝ) (t : ℝ)⁻¹) ∂posRealMeasure < ⊤ := by
-  have hmeas : Measurable fun t : {r : ℝ // 0 < r} => ENNReal.ofReal (min (t : ℝ) (t : ℝ)⁻¹) :=
-    ENNReal.measurable_ofReal.comp
-      ((continuous_subtype_val.min (continuous_subtype_val.inv₀ fun t => t.2.ne')).measurable)
-  rw [posRealMeasure_eq_map_expPos, lintegral_map hmeas measurable_expPos]
-  have key : ∀ y : ℝ, 0 ≤ y → (Real.exp y)⁻¹ ≤ 2 * (1 + y ^ 2)⁻¹ := fun y hy => by
-    have h1 := Real.quadratic_le_exp_of_nonneg hy
-    rw [← div_eq_mul_inv, le_div_iff₀ (by positivity), inv_mul_le_iff₀ (Real.exp_pos y)]
-    nlinarith
-  have hle : ∀ x : ℝ, ENNReal.ofReal (min ((expPos x : {r : ℝ // 0 < r}) : ℝ)
-      ((expPos x : {r : ℝ // 0 < r}) : ℝ)⁻¹) ≤ ENNReal.ofReal (2 * (1 + x ^ 2)⁻¹) := by
-    intro x
-    apply ENNReal.ofReal_le_ofReal
-    simp only [coe_expPos]
-    rcases le_total 0 x with hx | hx
-    · exact (min_le_right _ _).trans (key x hx)
-    · refine (min_le_left _ _).trans ?_
-      have := key (-x) (by linarith)
-      rwa [Real.exp_neg, inv_inv, neg_sq] at this
-  calc _ ≤ ∫⁻ x, ENNReal.ofReal (2 * (1 + x ^ 2)⁻¹) := lintegral_mono hle
-    _ < ⊤ := (integrable_inv_one_add_sq.const_mul 2).lintegral_lt_top
+    ∫⁻ t, ENNReal.ofReal (min (t : ℝ) (t : ℝ)⁻¹) ∂posRealMeasure < ⊤ :=
+  @_root_.UpperTheory.HilbertEisensteinWeightOne.eisensteinGrowth.lintegral_min_lt_top
 
 theorem integrable_min : Integrable (fun t : {r : ℝ // 0 < r} => min (t : ℝ) (t : ℝ)⁻¹) posRealMeasure := by
   have hc : Continuous fun t : {r : ℝ // 0 < r} => min (t : ℝ) (t : ℝ)⁻¹ :=

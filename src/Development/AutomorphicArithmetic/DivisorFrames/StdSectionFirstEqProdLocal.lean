@@ -58,7 +58,7 @@ private theorem det_mem' {R : Type} [CommRing R] (S : Subring R) {n : ℕ} (M : 
   exact sum_mem fun σ _ => mul_mem (intCast_mem S _) (prod_mem fun i _ => h _ _)
 
 open Classical in
-private theorem botFst_loc {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
+theorem GlobalTheory.StdPairCone.stdA_transpose {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     (ν : kˣ →* ℂˣ) (ϖ : kˣ) (hϖ : GlobalTheory.SplitFlip.IsUnif ϖ) (c a a' d : ℕ) (hr : a + a' = d) (M : Matrix (Fin d) (Fin a) k) :
     GlobalTheory.StdPairCone.stdA ν ϖ c a a' ((Mᵀ).submatrix id (finCongr hr)) =
       if (∀ i j, M i j ∈ (ValuativeRel.valuation k).integer) ∧ ∀ i j, a ≤ i.1 → M i j ∈ GlobalTheory.SplitWeil.cball (ϖ ^ c) then
@@ -113,7 +113,7 @@ theorem UpperTheory.stdSectionFirst_eq_prod_local :
   classical
   have hϖ : ∀ i, GlobalTheory.SplitFlip.IsUnif (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.unifAt (pl i)) := fun i =>
     (GlobalTheory.SplitFlip.exists_isUnif (k := Fv D.host.F (pl i))).choose_spec
-  simp only [botFst_loc _ _ (hϖ _)]
+  simp only [GlobalTheory.StdPairCone.stdA_transpose _ _ (hϖ _)]
   unfold GlobalTheory.IndefiniteRowSideFullHecke.UnitCharTriangle.stdFst
   have hN : ∀ i j, toEAf D ε * frMapO A WW βA βW x i j = frMapO A WW βA βW x i j := by
     have h1 : toEAf D ε • Matrix.map x (toEAf D) = Matrix.map x (toEAf D) := by

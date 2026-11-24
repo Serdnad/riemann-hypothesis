@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.CgeZeroIffIntegral
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.BrBase
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -202,12 +203,7 @@ section BB
 variable {K : Type} [Field K] (v : AddValuation K (WithTop ℚ))
 
 theorem br_vR_mul (x y : K) : vR v (x * y) = vR v x + vR v y := by
-  unfold vR
-  rw [AddValuation.map_mul]
-  generalize v x = a
-  generalize v y = b
-  induction a using WithTop.recTopCoe <;> induction b using WithTop.recTopCoe <;> simp
-  norm_cast
+  apply _root_.Formalism.MainNotions.PlaneGram.vR_mul <;> assumption
 
 theorem br_le_vBB_iff {σ : Type} (t : ℝ) (F : MvPolynomial σ K) :
     ((t : ℝ) : WithTop ℝ) ≤ vBB v F ↔ ∀ α, ((t : ℝ) : WithTop ℝ) ≤

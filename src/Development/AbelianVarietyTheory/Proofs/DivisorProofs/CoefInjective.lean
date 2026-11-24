@@ -158,17 +158,6 @@ theorem adjoint_idem {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     refine (Fintype.sum_equiv (MulAut.conj g).toEquiv _ _ fun h => ?_).symm
     show _ = a (g * h * g⁻¹) • ρ (g * h * g⁻¹ * g) u
     rw [ha.1, inv_mul_cancel_right]
-  have hidem : ∀ u, E (E u) = E u := fun u => by
-    have h1 : E u = ∑ g, ∑ h, (a h * a (h⁻¹ * g)) • ρ g u := by
-      simp only [← Finset.sum_smul, ha.2, hE, LinearMap.sum_apply, LinearMap.smul_apply]
-    have h2 : E (E u) = ∑ h, ∑ g, (a h * a g) • ρ h (ρ g u) := by
-
-      simp only [hE, LinearMap.sum_apply, LinearMap.smul_apply, map_sum, map_smul, Finset.smul_sum, smul_smul]
-      rw [Finset.sum_comm]
-      simp only [mul_comm]
-    rw [h2, h1, Finset.sum_comm (f := fun g h => (a h * a (h⁻¹ * g)) • ρ g u)]
-    refine Finset.sum_congr rfl fun h _ => Fintype.sum_equiv (Equiv.mulLeft h) _ _ fun g => ?_
-    simp only [Equiv.coe_mulLeft, inv_mul_cancel_left, map_mul, Module.End.mul_apply]
 
   have hadj : ∀ u, LinearMap.adjoint E u = ∑ g, star (a g) • ρ g⁻¹ u := fun u => by
     refine ext_inner_right ℂ fun w => ?_

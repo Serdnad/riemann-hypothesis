@@ -49,6 +49,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DetCharacterLabelRootOfHarishChandraConstituent
 
 @[expose] public section
 
@@ -96,15 +97,7 @@ theorem ip_sum_sum {G : Type} [Group G] [Fintype G] (A B : List (G → ℂ)) (hA
 
 theorem ip_ne_zero_of_common {G : Type} [Group G] [Fintype G] (χ α β : G → ℂ) (hχ : IsIrr χ)
     (hα : IsChar α) (hβ : IsChar β) (h1 : ip χ α ≠ 0) (h2 : ip χ β ≠ 0) : ip α β ≠ 0 := by
-  obtain ⟨A, hA, rfl⟩ := (_root_.GlobalTheory.charDec G α).1 hα
-  obtain ⟨B, hB, rfl⟩ := (_root_.GlobalTheory.charDec G β).1 hβ
-  obtain ⟨m1, h1m, h1A⟩ := ip_irr_sum χ hχ A hA
-  obtain ⟨m2, h2m, h2B⟩ := ip_irr_sum χ hχ B hB
-  obtain ⟨m, hm, hmm⟩ := ip_sum_sum A B hA hB
-  have hχA : χ ∈ A := h1A.1 (fun h0 => h1 (by rw [h1m, h0]; simp))
-  have hχB : χ ∈ B := h2B.1 (fun h0 => h2 (by rw [h2m, h0]; simp))
-  rw [hm]
-  exact_mod_cast hmm χ hχA hχB
+  apply _root_.GlobalTheory.GLq.DetRoot.ip_ne_zero_of_common <;> assumption
 
 alias isChar_of_isIrr := _root_.GlobalTheory.CharDec.isChar_of_isIrr
 

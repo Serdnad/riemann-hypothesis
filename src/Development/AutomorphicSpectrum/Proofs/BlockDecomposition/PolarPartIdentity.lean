@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.LCfRel
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.ThetaIdempotents.HeckeEta
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.ThetaIdempotents.MapsExist
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SiegelParabolicUnnMatrixBlockUpperTriangular
@@ -81,17 +82,7 @@ theorem absA_ne_zero_of_ht {H : G D n → ℝ≥0} (hH : IsHt H) {q : G D n} (hq
 
 theorem isLaw_fam {H : G D n → ℝ≥0} (hH : IsHt H) {χ : (AE D)ˣ →* Circle} {s₁ : ℂ} {φ : G D n → ℂ}
     (hφ : IsLaw χ s₁ φ) (z : ℂ) : IsLaw χ z (fam H φ s₁ z) := by
-  intro q hq a ha g
-  have hA := absA_ne_zero_of_ht hH hq ha
-  have e : npow (absA D (Matrix.GeneralLinearGroup.det a)) (z + (n : ℂ) / 2) =
-      npow (absA D (Matrix.GeneralLinearGroup.det a)) (z - s₁) *
-        npow (absA D (Matrix.GeneralLinearGroup.det a)) (s₁ + (n : ℂ) / 2) := by
-    rw [← npow_add' hA]
-    congr 1
-    ring
-  simp only [fam]
-  rw [hH.2.2 q hq a ha g, hφ q hq a ha g, npow_mul', e]
-  ring
+  apply _root_.PositivityTheory.Rg.Rsw.L.LCfRel.law_fam <;> assumption
 
 theorem continuous_fam {H : G D n → ℝ≥0} (hH : IsHt H) {φ : G D n → ℂ} (hφ : Continuous φ) (s₁ z : ℂ) :
     Continuous (fam H φ s₁ z) := by

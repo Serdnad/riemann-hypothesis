@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.KummerTheory.CupAWCutEv
 public import Development.EtaleCohomology.KummerTheory.DictPf
 public import Development.EtaleCohomology.KummerTheory.DictPfEv
 import Mathlib.Algebra.Order.Floor.Extended
@@ -152,13 +153,7 @@ namespace LateralTheory.KummerTheory
 theorem chains_d (R : Type) [CommRing R] (E : Spc) (p : ℕ) :
     (chainsXIso R E (p + 1)).inv ≫ ((chains R).obj E).d (-((p + 1 : ℕ) : ℤ)) (-(p : ℤ)) =
       (∑ i : Fin (p + 2), (-1 : ℤ) ^ (i : ℕ) • (free R).map (E.δ i)) ≫ (chainsXIso R E p).inv := by
-  simp only [chainsXIso, chains, Functor.comp_obj]
-  erw [HomologicalComplex.extend_d_eq _ _ (i := p + 1) (j := p) rfl rfl]
-  erw [Iso.inv_hom_id_assoc]
-  congr 1
-  simp only [chainsN, Functor.comp_obj]
-  erw [AlgebraicTopology.AlternatingFaceMapComplex.obj_d_eq]
-  rfl
+  apply @LateralTheory.KummerTheory.AW.chains_d <;> assumption
 
 def evAt {R : Type} [CommRing R] {F G : Shv R} (U : Scheme.{0}) (y : Sec F U) : (F ⟶ G) →+ Sec G U where
   toFun φ := (φ.hom.app (op U)).hom y

@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohTate
 public import CompanionTheory.AutomorphicTheory.PadicCyclotomicFields.GcohDefs
 public import GroundTheory.ProfiniteCohomology.PoincareDuality.NsmulEqZeroOfNonemptyAddEquiv
 public import Development.WeilBound.CoreStatements.EulerCharacteristicCounts.GcohTateA
@@ -219,17 +220,7 @@ theorem tate_core (hRep : SgcRep) (h0 : Sgc0) (h1 : Sgc1) (h2 : Sgc2) {n : ℕ} 
 
 theorem tate_of (hRep : SgcRep) (h0 : Sgc0) (h1 : Sgc1) (h2 : Sgc2) (hF : SgcField) (hMu : SgcMu) :
     Formalism.GaloisCohomology.LocalTateDualityK := by
-  intro l _ K hK r M _ _ _ _ _ rho hr hrho
-  obtain ⟨hsep, _, _, hloc, -⟩ := hF l K hK
-  have hl : (l ^ r : ℕ) ≠ 0 := pow_ne_zero _ (Fact.out : l.Prime).ne_zero
-  have : NeZero (l ^ r) := ⟨hl⟩
-  have : CharZero K := algebraRat.charZero K
-  have hn : ((l ^ r : ℕ) : K) ≠ 0 := Nat.cast_ne_zero.2 hl
-  obtain ⟨eD, hD⟩ := hMu l K r
-  exact tate_core hRep h0 h1 h2 (galRootsOfUnity.{0} K (PadicAlgCl l) (l ^ r))
-    (localDualityHypotheses hn)
-    (fun A _ _ hA => finite_cohomology_galois_top K (PadicAlgCl l) hn A hA 1)
-    (cycK l K r) eD hD M rho hrho
+  apply _root_.CompanionTheory.LocalTateOrthogonality.Gcoh.tate_of <;> assumption
 
 end PositivityTheory.LocalTateOrthogonality.Gcoh
 end -- clump:auto

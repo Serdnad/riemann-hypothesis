@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GlobalTheory.BlockActions.CTExtUnitary
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RatInOfUnit
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousKapSymm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsometryPosDefHermitianSameRank
@@ -512,21 +513,12 @@ variable {D : D7} {S S' T T' : HSp D}
 
 theorem gramInv_conj (I : IsoMat S S') :
     I.Q * S'.gram⁻¹ * cT (D.sp.cm.sig : D.host.E →+* D.host.E) I.Q = S.gram⁻¹ := by
-  have hu : IsUnit S'.gram.det := (GlobalTheory.SmoothAutCheck.gram_det_ne S').isUnit
-  have h : cT (D.sp.cm.sig : D.host.E →+* D.host.E) I.Q * S.gram * I.Q = S'.gram := I.symm.gram
-  refine (Matrix.inv_eq_left_inv ?_).symm
-  calc _ = I.Q * (S'.gram⁻¹ * (cT (D.sp.cm.sig : D.host.E →+* D.host.E) I.Q * S.gram * I.Q)) * I.P := by
-        simp only [Matrix.mul_assoc, I.QP, Matrix.mul_one]
-    _ = 1 := by rw [h, Matrix.nonsing_inv_mul _ hu, Matrix.mul_one, I.QP]
+  apply _root_.gram_inv_move <;> assumption
 
 theorem hO_eq_trace (S T : HSp D) (x y : WO S T) :
     hO S T x y = Matrix.trace (HMul.hMul ((S.gram⁻¹).map (incA D))
       (HMul.hMul (HMul.hMul (cT (cA D) y) (T.gram.map (incA D))) x)) := by
-  unfold hO
-  simp only [Matrix.trace, Matrix.diag]
-  refine Finset.sum_congr rfl fun a _ => ?_
-  rw [Matrix.mul_apply]
-  exact Finset.sum_congr rfl fun b _ => sum_form (cA D) (T.gram.map (incA D)) x y (incA D (S.gram⁻¹ a b)) a b
+  apply _root_.hO_trace <;> assumption
 
 theorem trace_conj {A : Type} [CommRing A] {m n k l : ℕ} (s : A →+* A) {H : Matrix (Fin n) (Fin n) A} {H' : Matrix (Fin m) (Fin m) A}
     {Q : Matrix (Fin n) (Fin m) A} (hQ : Q * H' * cT s Q = H) {J : Matrix (Fin k) (Fin k) A} {J' : Matrix (Fin l) (Fin l) A}
@@ -541,14 +533,7 @@ theorem trace_conj {A : Type} [CommRing A] {m n k l : ℕ} (s : A →+* A) {H : 
 
 theorem hO_homMap (IS : IsoMat S S') (IT : IsoMat T T') (x y : WO S T) :
     hO S' T' (homMap IS IT x) (homMap IS IT y) = hO S T x y := by
-  rw [hO_eq_trace, hO_eq_trace]
-  have e : cT (cA D) (IS.Q.map (incA D)) = (cT (D.sp.cm.sig : D.host.E →+* D.host.E) IS.Q).map (incA D) := by
-    ext i j
-    rfl
-  have hQ : HMul.hMul (HMul.hMul IS.aQ ((S'.gram⁻¹).map (incA D))) (cT (cA D) IS.aQ) = (S.gram⁻¹).map (incA D) := by
-    rw [← gramInv_conj IS, Matrix.map_mul, Matrix.map_mul, ← e]
-    rfl
-  exact trace_conj (cA D) hQ (map_gram (incA D) _ (cA D) (fun _ => rfl) IT.gram) x y
+  apply _root_.hO_homMap <;> assumption
 
 theorem symplOH_homMap (IS : IsoMat S S') (IT : IsoMat T T') (x y : WO S T) :
     symplOH S' T' (homMap IS IT x) (homMap IS IT y) = symplOH S T x y := by
@@ -874,32 +859,12 @@ variable {D : D7}
 theorem hO_eq_trace (S T : HSp D) (x y : WO S T) :
     hO S T x y = Matrix.trace (HMul.hMul ((S.gram⁻¹).map (incA D))
       (HMul.hMul (HMul.hMul (cT (cA D) y) (T.gram.map (incA D))) x)) := by
-  calc hO S T x y = ∑ a, ∑ b, incA D (S.gram⁻¹ a b) *
-        (HMul.hMul (HMul.hMul (cT (cA D) y) (T.gram.map (incA D))) x : Matrix (Fin S.rank) (Fin S.rank) (AE D)) b a := by
-        unfold hO
-        refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-        exact sum_form (cA D) (T.gram.map (incA D)) x y (incA D (S.gram⁻¹ a b)) a b
-    _ = _ := by
-        rw [Matrix.trace]
-        refine Finset.sum_congr rfl fun a _ => ?_
-        rw [Matrix.diag_apply, Matrix.mul_apply]
-        rfl
+  apply _root_.hO_trace <;> assumption
 
 variable {A A' : HSp D} (J : IsoMat A A')
 
 theorem gram_inv_conj : J.Q * A'.gram⁻¹ * cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.Q = A.gram⁻¹ := by
-  symm
-  apply Matrix.inv_eq_left_inv
-  have hu : IsUnit A'.gram.det := isUnit_iff_ne_zero.2 (gram_det_ne A')
-  have h1 : cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.Q * cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.P = 1 := by
-    rw [← cT_mul, J.PQ, cT_one]
-  rw [← J.gram]
-  calc J.Q * A'.gram⁻¹ * cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.Q *
-        (cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.P * A'.gram * J.P)
-      = J.Q * A'.gram⁻¹ * (cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.Q * cT (D.sp.cm.sig : D.host.E →+* D.host.E) J.P) *
-          A'.gram * J.P := by simp only [Matrix.mul_assoc]
-    _ = J.Q * (A'.gram⁻¹ * A'.gram) * J.P := by rw [h1, Matrix.mul_one]; simp only [Matrix.mul_assoc]
-    _ = 1 := by rw [Matrix.nonsing_inv_mul _ hu, Matrix.mul_one, J.QP]
+  apply _root_.gram_inv_move <;> assumption
 
 variable (T : HSp D)
 
@@ -1215,21 +1180,7 @@ theorem latS_mulVec_mem {F E : Type} [Field F] [NumberField F] [Field E] [Number
     (M : Matrix (Fin N) (Fin n) E) (Λ' : Submodule (𝓞 E) (Fin n → E)) (Λ : Submodule (𝓞 E) (Fin N → E))
     (hM : ∀ x ∈ Λ', M *ᵥ x ∈ Λ) :
     ∀ x ∈ Formalism.UG.latS (F := F) R T Λ', (M.map (Formalism.UG.inclE (F := F) R)) *ᵥ x ∈ Formalism.UG.latS (F := F) R T Λ := by
-  intro x hx
-  induction hx using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨x0, hx0, rfl⟩ := hy
-    apply Submodule.subset_span
-    refine ⟨M *ᵥ x0, hM x0 hx0, ?_⟩
-    funext i
-
-    simp only [mulVec, dotProduct, map_sum, map_mul, Matrix.map_apply]
-  | zero => rw [mulVec_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [mulVec_add]; exact add_mem hx hy
-  | smul a x _ hx =>
-    have e : (M.map (Formalism.UG.inclE (F := F) R)) *ᵥ (a • x) = a • ((M.map (Formalism.UG.inclE (F := F) R)) *ᵥ x) := by
-      rw [Subring.smul_def, Subring.smul_def, mulVec_smul]
-    rw [e]; exact Submodule.smul_mem _ a hx
+  apply _root_.Formalism.L2.GlobalTheoryTheory.Br.latS_mulVec <;> assumption
 
 theorem mem_hatL_move (I : IsoMat S S') (Λ : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (x : Fin S'.rank → Lev.EAf D) :
     x ∈ Formalism.L2.Herm.hatL (latMove I Λ) ↔ fQ I *ᵥ x ∈ Formalism.L2.Herm.hatL Λ := by
@@ -1579,12 +1530,7 @@ private theorem dualCoord_homMap {S S' T T' : HSp D} (IS : IsoMat S S') (IT : Is
 
 private theorem isHalf_homMap {S S' T T' : HSp D} (IS : IsoMat S S') (IT : IsoMat T T') (c : AE D) (y : WO S T) :
     IsHalf c (homMap IS IT y) ↔ IsHalf c y := by
-  have hs : ∀ {m n : ℕ} (u : Mx D m n), IsHalf c u ↔ c • u = u := fun u =>
-    ⟨fun h => Matrix.ext fun i j => (h i j : _), fun h i j => (congrFun (congrFun h i) j : _)⟩
-  rw [hs, hs]
-  have hm : c • homMap IS IT y = homMap IS IT (c • y) := by
-    rw [homMap_apply, homMap_apply, Matrix.mul_smul, Matrix.smul_mul]
-  rw [hm, (homMap IS IT).injective.eq_iff]
+  apply _root_.GlobalTheory.TriMove.StdFstMove.isHalf_homMap <;> assumption
 
 private theorem read_cond {m m' n n' : ℕ} (h1 : m = m') (h2 : n = n') (ν : (AE D)ˣ →* Circle) (e : AE D) (I : Ideal (𝓞 D.host.E))
     (a : ℕ) (N : Matrix (Fin m) (Fin n) (Lev.EAf D)) :
@@ -1809,11 +1755,7 @@ private theorem symplO_homMap (IS : IsoMat S S') (IT : IsoMat T T') (x y : WO S 
 
 private theorem isHalf_homMap (IS : IsoMat S S') (IT : IsoMat T T') (a : AE D) (x : WO S T) :
     IsHalf a (homMap IS IT x) ↔ IsHalf a x := by
-  have key : ∀ {m n : ℕ} (u : Mx D m n), IsHalf a u ↔ a • u = u := fun u =>
-    ⟨fun h => by ext i j; exact h i j, fun h i j => congrFun (congrFun h i) j⟩
-  have e : a • homMap IS IT x = homMap IS IT (a • x) := by
-    rw [homMap_apply, homMap_apply, Matrix.mul_smul, Matrix.smul_mul]
-  rw [key, key, e, (homMap IS IT).injective.eq_iff]
+  apply _root_.GlobalTheory.TriMove.StdFstMove.isHalf_homMap <;> assumption
 
 private theorem latMove_symm (I : IsoMat S S') (L : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) :
     latMove I.symm (latMove I L) = L := by

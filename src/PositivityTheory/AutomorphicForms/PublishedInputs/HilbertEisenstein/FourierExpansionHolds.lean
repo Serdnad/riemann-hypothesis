@@ -1069,22 +1069,7 @@ namespace UpperTheory.HilbertEisensteinWeightOne.FourierExpansionEisenstein
 open UpperTheory.HilbertEisensteinWeightOne.FourierExpansionEisenstein.L1
 
 theorem finite_expansion_holds : SFin := by
-  intro F _ _ _ ω c H
-  set χ : (FiniteAdeleRing (𝓞 F) F)ˣ →* ℂˣ := ω.1.comp IdeleGroup.ofFinite with hχdef
-  have hχ : Continuous χ := ω.2.1.comp IdeleGroup.continuous_ofFinite
-  refine (IdeleGroup.finite_support_conductorExponentAt Complex.units_noSmallSubgroups χ hχ).subset ?_
-  intro w hw
-  rw [Function.mem_support]
-  intro h0
-  apply hw
-  have hk := (IdeleGroup.conductorExponentAt_eq_zero_iff Complex.units_noSmallSubgroups χ hχ w).1 h0
-  have hmem : (0 : ℕ) ∈ {n : ℕ | ∀ x : (w.adicCompletion F)ˣ, IsUnitAt w x →
-      Valued.v ((x : w.adicCompletion F) - 1) ≤ WithZero.exp (-(n : ℤ)) → ω.loc w x = 1} := by
-    intro x hx _
-    have h1 := hk (mem_units_of_isUnitAt w x hx)
-    rw [MonoidHom.mem_ker] at h1
-    exact h1
-  exact Nat.le_zero.1 ((H.cond w).2 hmem)
+  apply _root_.UpperTheory.HilbertEisensteinWeightOne.FourierExpansionEisenstein.L2.finite_support <;> assumption
 
 theorem kernel_expansion_holds : SKern := by
   intro F _ _ _ c hc

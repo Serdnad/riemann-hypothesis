@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HoweSplittingActsFockActionPlusTraceMultiples
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ArchActionReadingsCompatible
@@ -292,58 +293,9 @@ theorem exists_generic_representation : _root_.GlobalTheory.FunPr.ThetaLocalInpu
       (∀ l ∈ (adeleClass F).adm κ, ∀ φ ∈ schA F κ,
         ContinuousOn (fun g => l (ω₀ g φ)) {g : UG (cA σ) JB | At (evI F) ((g.1 : Matrix β β (AE F E)) - 1)}) ∧
       ActsBy τ C ω₀ Φ (fockAct2 P Q R S) c₀ := by
-  intro hP hD hV F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S ψ τ JA JB d a b A C Φ hCM hψ hFr hΦ
-  obtain ⟨ρ, c₀, hR, hcont, hder⟩ := _root_.GlobalTheory.T.archimedean_component_discreteSeries hP hD hV F E σ α β κ P Q R S ψ τ JA JB d a b A C Φ hCM hψ hFr hΦ
-  obtain ⟨ω₀, hω⟩ := _root_.GlobalTheory.SliceExt.exists_rep_pure F κ (UG (cA σ) JB) ρ
-  have hgen : ∀ g, ∀ φ ∈ schA F κ, ω₀ g φ ∈ schA F κ := by
-    intro g φ hφ
-    unfold schA at hφ ⊢
-    induction hφ using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨f, h, hh, rfl⟩ := hx
-      rw [hω]
-      exact Submodule.subset_span ⟨ρ g f, h, hh, rfl⟩
-    | zero => rw [map_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-    | smul c x _ hx => rw [map_smul]; exact Submodule.smul_mem _ c hx
-  have h1m : At (evI F) (((1 : UG (cA σ) JB).1 : Matrix β β (AE F E)) - 1) := fun u _ => by simp
-  have hact1 : ∀ x : Matrix α β (AE F E), actB (cA σ) (1 : UG (cA σ) JB) x = x := fun x => by simp [actB]
-  refine ⟨ω₀, c₀, fun g hg => ⟨hgen g, fun w φ hφ => ?_, fun μ hμ φ hφ =>
-    _root_.GlobalTheory.ArchimedeanL2.lintegral_arch_eq F κ (ρ g).toLinearMap (ω₀ g) (hω g) (hR g hg).2 μ hμ φ hφ⟩, fun l hl φ hφ => ?_, ?_⟩
-  · unfold schA at hφ
-    induction hφ using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨f, h, hh, rfl⟩ := hx
-      obtain ⟨u, H, hu, hsplit⟩ := _root_.GlobalTheory.HeisSplit.rho_split F E σ α β κ ψ JA JB d w
-      obtain ⟨f₁, hf₁⟩ := _root_.GlobalTheory.ArchHeisPure.rho_pureA F E σ α β κ ψ JA JB d hψ u hu f
-      have e1 : d.rho ψ w (pureA F f h) = pureA F f₁ (H h) := by
-        have := hsplit 1 h1m f f₁ h (by simpa only [hact1] using hf₁)
-        simpa only [hact1] using this
-      rw [e1, hω, hω]
-      exact (hsplit g hg (ρ g f) (ρ g f₁) h ((hR g hg).1 u hu f f₁ hf₁)).symm
-    | zero => rw [rho_zero', map_zero, rho_zero']
-    | add x y _ _ hx hy => rw [rho_add', map_add (f := _), map_add (f := _), hx, hy, rho_add']
-    | smul c x _ hx => rw [rho_smul', map_smul, map_smul, hx, rho_smul']
-  · unfold schA at hφ
-    induction hφ using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨f, h, hh, rfl⟩ := hx
-      obtain ⟨T, hT⟩ := hl h hh
-      have e : (fun g => l (ω₀ g (pureA F f h))) = fun g => T (ρ g f) := funext fun g => by rw [hω, hT]
-      rw [e]
-      exact hcont T f
-    | zero => simp only [map_zero]; exact continuousOn_const
-    | add x y _ _ hx hy => simp only [map_add (f := _)]; exact hx.add hy
-    | smul c x _ hx => simp only [map_smul, smul_eq_mul]; exact continuousOn_const.mul hx
-  · intro γ hγ Y hY T h hh l hl
-    obtain ⟨L, hL⟩ := hl h hh
-    show HasDerivAt (fun t : ℝ => l (ω₀ (γ (Multiplicative.ofAdd t)) (pureA F (Φ T) h))) _ 0
-    have heq : (fun t : ℝ => l (ω₀ (γ (Multiplicative.ofAdd t)) (pureA F (Φ T) h))) =
-        (fun t : ℝ => L (ρ (γ (Multiplicative.ofAdd t)) (Φ T))) := by
-      funext t
-      erw [hω, hL]
-    rw [heq, hL]
-    exact hder γ hγ Y hY T L
+  intro _ _ _ F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S ψ τ JA JB d a b A C Φ hCM hψ hFr hΦ
+  exact _root_.GlobalTheory.GenRepD.genRepD F E σ α β κ (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S)
+    ψ τ JA JB d a b A C Φ hCM hψ hFr hΦ
 end GlobalTheory.GenRep
 end
 end
@@ -370,126 +322,8 @@ theorem adelic_schur_lemma : _root_.GlobalTheory.FunPr.ThetaLocalInputs → ∀ 
     (∀ μ : @Measure (κ → AF F) (borel _), @Measure.IsAddHaarMeasure _ _ _ (borel _) μ →
       ∀ φ ∈ schA F κ, ∫⁻ x, ‖M φ x‖ₑ ^ 2 ∂μ = ∫⁻ x, ‖φ x‖ₑ ^ 2 ∂μ) →
     ∃ z : ℂ, ∀ φ ∈ schA F κ, M φ = z • φ := by
-  intro _ F _ _ κ _ ψ hψ M hpres hcomm hiso
-  letI : MeasurableSpace (κ → AF F) := borel _
-  haveI : BorelSpace (κ → AF F) := ⟨rfl⟩
-  haveI : SecondCountableTopology (AF F) := GlobalTheory.AdelicUnitaryTop.secondCountable_adele F
-  let μ : Measure (κ → AF F) := Measure.addHaar
-  haveI hμH : μ.IsAddHaarMeasure := by dsimp [μ]; infer_instance
-  have hL2 : ∀ φ ∈ schA F κ, MemLp φ 2 μ := fun φ hφ =>
-    GlobalTheory.WeilM.schA_memLp_two F κ μ hμH φ hφ
-  have hint : ∀ φ ∈ schA F κ, Integrable (fun x => ‖φ x‖ ^ 2) μ := fun φ hφ =>
-    (hL2 φ hφ).integrable_norm_pow two_ne_zero
-  have hnorm : ∀ φ ∈ schA F κ, ∫ x, ‖M φ x‖ ^ 2 ∂μ = ∫ x, ‖φ x‖ ^ 2 ∂μ := by
-    intro φ hφ
-    have h := hiso μ hμH φ hφ
-    have e : ∀ g ∈ schA F κ, ∫⁻ x, ‖g x‖ₑ ^ 2 ∂μ = ENNReal.ofReal (∫ x, ‖g x‖ ^ 2 ∂μ) := fun g hg => by
-      rw [ofReal_integral_eq_lintegral_ofReal (hint g hg) (Filter.Eventually.of_forall fun x => by positivity)]
-      congr 1
-      funext x
-      rw [ENNReal.ofReal_pow (norm_nonneg _), ofReal_norm_eq_enorm]
-    rw [e _ (hpres φ hφ), e φ hφ] at h
-    exact (ENNReal.ofReal_eq_ofReal_iff (integral_nonneg fun x => by positivity)
-      (integral_nonneg fun x => by positivity)).1 h
-  have hψn : ∀ a, ‖ψ a‖ = 1 := GlobalTheory.HeisLineTheta.norm_psi hψ
-  have hcy : ∀ y : κ → AF F, Continuous fun x : κ → AF F => ψ (x ⬝ᵥ y) := fun y =>
-    hψ.1.comp (continuous_finsetSum _ fun i _ => (continuous_apply i).mul continuous_const)
-  have hschr0 : ∀ (y : κ → AF F) (f : (κ → AF F) → ℂ) x, schr ψ (0, y) f x = ψ (x ⬝ᵥ y) * f x := by
-    intro y f x
-    simp [schr]
-  have hdiag : ∀ φ ∈ schA F κ, ∀ x, ‖M φ x‖ = ‖φ x‖ := by
-    intro φ hφ
-    have hMφ := hpres φ hφ
-    set D : (κ → AF F) → ℝ := fun x => ‖M φ x‖ ^ 2 - ‖φ x‖ ^ 2 with hD
-    have hDi : Integrable D μ := (hint _ hMφ).sub (hint φ hφ)
-    have hDc : Continuous D :=
-      ((GlobalTheory.ThetaTransformMeas.continuous_of_mem_schA F hMφ).norm.pow 2).sub
-        ((GlobalTheory.ThetaTransformMeas.continuous_of_mem_schA F hφ).norm.pow 2)
-    have hbi : ∀ (y : κ → AF F) (c : ℂ) (f : (κ → AF F) → ℂ), f ∈ schA F κ →
-        Integrable (fun x => (c * ψ (x ⬝ᵥ y)).re * ‖f x‖ ^ 2) μ := fun y c f hf =>
-      (hint f hf).bdd_mul (Complex.continuous_re.comp (continuous_const.mul (hcy y))).aestronglyMeasurable
-        (Filter.Eventually.of_forall fun x => by
-          rw [Real.norm_eq_abs]
-          refine (Complex.abs_re_le_norm _).trans ?_
-          rw [norm_mul, hψn, mul_one])
-    have hre : ∀ (y : κ → AF F) (c : ℂ), ∫ x, (c * ψ (x ⬝ᵥ y)).re * D x ∂μ = 0 := by
-      intro y c
-      have hg : φ + c • schr ψ (0, y) φ ∈ schA F κ :=
-        (schA F κ).add_mem hφ ((schA F κ).smul_mem c (GlobalTheory.HeisSchA.schr_mem_schA ψ hψ _ φ hφ))
-      have hMg : M (φ + c • schr ψ (0, y) φ) = M φ + c • schr ψ (0, y) (M φ) := by
-        rw [map_add (f := _), map_smul, hcomm _ φ hφ]
-      have h1 := hnorm _ hg
-      rw [hMg] at h1
-      have hpt : ∀ f : (κ → AF F) → ℂ, (fun x => ‖(f + c • schr ψ (0, y) f) x‖ ^ 2) =
-          fun x => (1 + ‖c‖ ^ 2) * ‖f x‖ ^ 2 + 2 * ((c * ψ (x ⬝ᵥ y)).re * ‖f x‖ ^ 2) := by
-        intro f
-        funext x
-        rw [Pi.add_apply, Pi.smul_apply, hschr0, smul_eq_mul,
-          show f x + c * (ψ (x ⬝ᵥ y) * f x) = (1 + c * ψ (x ⬝ᵥ y)) * f x by ring, norm_mul, mul_pow,
-          norm_one_add_sq c _ (hψn _)]
-        ring
-      rw [hpt, hpt, integral_add ((hint _ hMφ).const_mul _) ((hbi y c _ hMφ).const_mul _),
-        integral_add ((hint _ hφ).const_mul _) ((hbi y c _ hφ).const_mul _),
-        integral_const_mul, integral_const_mul, integral_const_mul, integral_const_mul, hnorm φ hφ] at h1
-      have h2 : ∫ x, (c * ψ (x ⬝ᵥ y)).re * ‖M φ x‖ ^ 2 ∂μ = ∫ x, (c * ψ (x ⬝ᵥ y)).re * ‖φ x‖ ^ 2 ∂μ := by
-        linarith
-      have e : (fun x => (c * ψ (x ⬝ᵥ y)).re * D x) =
-          fun x => (c * ψ (x ⬝ᵥ y)).re * ‖M φ x‖ ^ 2 - (c * ψ (x ⬝ᵥ y)).re * ‖φ x‖ ^ 2 := by
-        funext x
-        simp only [hD]
-        ring
-      rw [e, integral_sub (hbi y c _ hMφ) (hbi y c _ hφ), h2, sub_self]
-    have hF : ∀ y : κ → AF F, ∫ x, ψ (x ⬝ᵥ y) * (D x : ℂ) ∂μ = 0 := by
-      intro y
-      have hI : Integrable (fun x => ψ (x ⬝ᵥ y) * (D x : ℂ)) μ :=
-        hDi.ofReal.bdd_mul (hcy y).aestronglyMeasurable (Filter.Eventually.of_forall fun x => (hψn _).le)
-      apply Complex.ext
-      · rw [Complex.zero_re, ← RCLike.re_to_complex, ← integral_re hI]
-        have e : (fun x => RCLike.re (ψ (x ⬝ᵥ y) * (D x : ℂ))) = fun x => ((1 : ℂ) * ψ (x ⬝ᵥ y)).re * D x := by
-          funext x
-          simp
-        rw [e]
-        exact hre y 1
-      · rw [Complex.zero_im, ← RCLike.im_to_complex, ← integral_im hI]
-        have e : (fun x => RCLike.im (ψ (x ⬝ᵥ y) * (D x : ℂ))) = fun x => ((-Complex.I) * ψ (x ⬝ᵥ y)).re * D x := by
-          funext x
-          simp [Complex.mul_re]
-        rw [e]
-        exact hre y (-Complex.I)
-    have hD0 := GlobalTheory.CharFourierInj.real_eq_zero (G := κ → AF F) (A := κ → AF F) (fun y x => ψ (x ⬝ᵥ y)) hcy
-      (fun y x x' => by simp only [add_dotProduct, AddChar.map_add_eq_mul])
-      (fun y y' x => by simp only [dotProduct_add, AddChar.map_add_eq_mul])
-      (fun x => by simp only [dotProduct_zero, AddChar.map_zero_eq_one])
-      (fun y x => hψn _) (fun x hx => GlobalTheory.AdelicSchur.sep ψ hψ x hx) μ D hDc hDi hF
-    intro x
-    have := congrFun hD0 x
-    simp only [hD, Pi.zero_apply, sub_eq_zero] at this
-    exact (pow_left_inj₀ (norm_nonneg _) (norm_nonneg _) two_ne_zero).1 this
-  have htwo : ∀ φ ∈ schA F κ, ∀ φ' ∈ schA F κ, ∀ x a,
-      star (M φ x) * M φ' (x + a) = star (φ x) * φ' (x + a) := by
-    intro φ hφ φ' hφ' x a
-    apply conj_mul_eq
-    intro c
-    have hg : φ + c • schr ψ (a, 0) φ' ∈ schA F κ :=
-      (schA F κ).add_mem hφ ((schA F κ).smul_mem c (GlobalTheory.HeisSchA.schr_mem_schA ψ hψ _ φ' hφ'))
-    have h1 := hdiag _ hg x
-    rw [map_add (f := _), map_smul, hcomm _ φ' hφ'] at h1
-    simpa [schr] using h1
-  by_cases h0 : ∃ φ₀ ∈ schA F κ, ∃ x₀, φ₀ x₀ ≠ 0
-  · obtain ⟨φ₀, hφ₀, x₀, hx₀⟩ := h0
-    have hn1 : ‖M φ₀ x₀‖ = ‖φ₀ x₀‖ := hdiag φ₀ hφ₀ x₀
-    have hs : star (M φ₀ x₀) ≠ 0 := by
-      rw [star_ne_zero, ← norm_ne_zero_iff, hn1, norm_ne_zero_iff]
-      exact hx₀
-    refine ⟨star (φ₀ x₀) / star (M φ₀ x₀), fun φ hφ => funext fun x => ?_⟩
-    have h2 := htwo φ₀ hφ₀ φ hφ x₀ (x - x₀)
-    rw [add_sub_cancel] at h2
-    rw [Pi.smul_apply, smul_eq_mul, div_mul_eq_mul_div, eq_div_iff hs]
-    exact (mul_comm _ _).trans h2
-  · push_neg at h0
-    refine ⟨0, fun φ hφ => ?_⟩
-    have : φ = 0 := funext fun x => h0 φ hφ x
-    rw [this, map_zero, smul_zero]
+  intro _
+  exact _root_.GlobalTheory.HoweD.AdelicSchur.schur
 end GlobalTheory.AdelicSchur
 end
 end

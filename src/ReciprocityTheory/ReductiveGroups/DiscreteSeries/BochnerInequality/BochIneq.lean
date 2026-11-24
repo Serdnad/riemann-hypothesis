@@ -23,9 +23,9 @@ section Boch
 variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
   {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M} {lam : Fin n → ℝ}
 
-theorem bochner_ineq (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem bochner_ineq_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} {P : Big n k M} (hP : P ∈ ncV ε V k)
+    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {k : ℕ} {P : Big n k M} (hP : P ∈ ncV ε V k)
     (hposition : ∀ i κ, slice i κ P ∈ Wp ε E V) :
     (casValK ε (lowK ε lam) + 2 * (k : ℝ) * (h - n + 1)) * ‖P‖ ^ 2 ≤
       RCLike.re (inner ℂ (casimirK ε (bAct E k) P) P) := by
@@ -42,7 +42,7 @@ theorem bochner_ineq (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε
       rw [h4]; exact V.zero_mem
   have hpositions : ∀ i : Fin k, 2 * (h - n + 1) * ‖P‖ ^ 2 ≤
       2 * RCLike.re (inner ℂ (crossOp ε E k i P) P) := fun i =>
-    crossOp_position_bound hE hU hV hmono hh hbig i (fun κ => hposition i κ)
+    crossOp_position_bound_of_lt hE hU hV hmono hh hbig i (fun κ => hposition i κ)
   have hnn := factorCasimir_nonneg (M := M) (ε := ε) k P
   have key : RCLike.re (inner ℂ (casimirK ε (bAct E k) P) P) =
       RCLike.re (inner ℂ (factorCasimir (M := M) ε k P) P) + casValK ε (lowK ε lam) * ‖P‖ ^ 2 +
@@ -60,6 +60,14 @@ theorem bochner_ineq (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε
   rw [Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul] at hsum
   rw [key]
   nlinarith [hsum, hnn]
+
+theorem bochner_ineq (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
+    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} {P : Big n k M} (hP : P ∈ ncV ε V k)
+    (hposition : ∀ i κ, slice i κ P ∈ Wp ε E V) :
+    (casValK ε (lowK ε lam) + 2 * (k : ℝ) * (h - n + 1)) * ‖P‖ ^ 2 ≤
+      RCLike.re (inner ℂ (casimirK ε (bAct E k) P) P) :=
+  bochner_ineq_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) hP hposition
 
 end Boch
 

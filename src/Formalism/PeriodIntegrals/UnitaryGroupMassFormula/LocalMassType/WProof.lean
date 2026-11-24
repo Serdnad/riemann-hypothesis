@@ -265,19 +265,37 @@ section Core
 
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
-theorem stepW_core {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {v : HeightOneSpectrum (𝓞 F)}
-    {r : ℕ} {P : Frame E n r} {Λ : Set (Fin n → E)} (D : SD σ v) (Q : GL (Fin n) (Fv F v ⊗[F] E))
+def firstSplitFrame {σ : E →ₐ[F] E} {v : HeightOneSpectrum (𝓞 F)} (D : SD σ v) {n m : ℕ}
+    (Z : Fin m → Fin n → Fv F v ⊗[F] E) (hZ : ∀ a, IntV v (Z a)) :
+    Matrix (Fin n) (Fin m) (v.adicCompletionIntegers F) :=
+  Matrix.of fun i a => ⟨D.π₁ (Z a i), ((D.hO _).1 (hZ a i)).1⟩
+
+def secondSplitFrame {σ : E →ₐ[F] E} {v : HeightOneSpectrum (𝓞 F)} (D : SD σ v) {n m : ℕ}
+    (Z : Fin m → Fin n → Fv F v ⊗[F] E) (hZ : ∀ a, IntV v (Z a)) :
+    Matrix (Fin n) (Fin m) (v.adicCompletionIntegers F) :=
+  Matrix.of fun i a => ⟨D.π₂ (Z a i), ((D.hO _).1 (hZ a i)).2⟩
+
+theorem witt_conjugate_split_matrix {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {v : HeightOneSpectrum (𝓞 F)}
+    {Λ : Set (Fin n → E)} (D : SD σ v) (Q : GL (Fin n) (Fv F v ⊗[F] E))
     (hQΛ : ∀ y, y ∈ latLoc (E := E) v Λ ↔
       ∃ x : Fin n → Fv F v ⊗[F] E, (∀ i, x i ∈ OEv (E := E) v) ∧
         y = (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
     (hQh : ∀ x y : Fin n → Fv F v ⊗[F] E,
       hR (Fv F v) σ J ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
         ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ y) = ∑ i, sigR (Fv F v) σ (x i) * y i)
-    (hSat : SatSplit) (hC : WCore)
-    (hPr : IsPrim v Λ (locF v (ratTup (F := F) (Fv F v) (F0 P)))) (h : HA (Fv F v) σ J)
-    (hPrh : IsPrim v Λ (locF v (h • ratTup (F := F) (Fv F v) (F0 P)))) :
-    ∃ k ∈ Formalism.L2.SG.TypedSets.Kv σ J Λ v,
-      k • ratTup (F := F) (Fv F v) (F0 P) = h • ratTup (F := F) (Fv F v) (F0 P) := by
+    {m : ℕ} (Z0 Z : Fin m → Fin n → Fv F v ⊗[F] E)
+    (hZ0 : ∀ a, IntV v (Z0 a)) (hZ : ∀ a, IntV v (Z a))
+    (k1 : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F)) (hk1u : IsUnit k1)
+    (hk1A : k1 * firstSplitFrame D Z0 hZ0 = firstSplitFrame D Z hZ)
+    (hk1B : k1ᵀ * secondSplitFrame D Z hZ = secondSplitFrame D Z0 hZ0) :
+    ∃ k ∈ Formalism.L2.SG.TypedSets.Kv σ J Λ v, (∀ a,
+      (HA.mat (Fv F v) σ J k : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ
+          ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ Z0 a) =
+        (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ Z a) ∧
+      ∀ x, (HA.mat (Fv F v) σ J k : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x =
+        (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ
+          (D.kS (k1.map (v.adicCompletionIntegers F).subtype) ((k1⁻¹)ᵀ.map (v.adicCompletionIntegers F).subtype) *ᵥ
+            (((Q⁻¹ : GL (Fin n) (Fv F v ⊗[F] E)) : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)) := by
   classical
   set Qm : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E) := (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) with hQm
   set Qi : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E) :=
@@ -292,67 +310,10 @@ theorem stepW_core {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E}
       rwa [mulVec_mulVec, hQiQ, one_mulVec]
     · intro hy
       exact ⟨Qi *ᵥ y, hy, by rw [mulVec_mulVec, hQQi, one_mulVec]⟩
-  set X0r := ratTup (F := F) (Fv F v) (F0 P) with hX0r
-  set Y0 := locF v X0r with hY0
-  have hYdef : locF v (h • X0r) = h • Y0 := locF_smul σ J v h X0r
-  rw [hYdef] at hPrh
-
-  have hunit : ∀ x y, hR (Fv F v) σ J ((HA.mat (Fv F v) σ J h : Matrix (Fin n) (Fin n) _) *ᵥ x)
-      ((HA.mat (Fv F v) σ J h : Matrix (Fin n) (Fin n) _) *ᵥ y) = hR (Fv F v) σ J x y := by
-    intro x y
-    have hmem := (show HR (Fv F v) σ J from h).2
-    show Formalism.UG.hform _ _ _ _ = Formalism.UG.hform _ _ _ _
-    rw [hform_mulVec]
-    congr 1
-
-  have primT : ∀ W : Fin (r + 1) → Fin n → Fv F v ⊗[F] E, IsPrim v Λ W →
-      ∀ c : Fin (r + 1) → Fv F v ⊗[F] E, IntV v (∑ a, c a • (Qi *ᵥ W a)) → ∀ a, c a ∈ OEv (E := E) v := by
-    intro W hW c hc
-    apply hW.2 c
-    rw [memΛ]
-    have : Qi *ᵥ (∑ a, c a • W a) = ∑ a, c a • (Qi *ᵥ W a) := by
-      show Matrix.mulVecLin Qi (∑ a, c a • W a) = _
-
-      rw [map_sum]
-      simp only [map_smul, Matrix.mulVecLin_apply]
-    rwa [this]
-  set Z0 : Fin (r + 1) → Fin n → Fv F v ⊗[F] E := fun a => Qi *ᵥ Y0 a with hZ0def
-  set Z : Fin (r + 1) → Fin n → Fv F v ⊗[F] E := fun a => Qi *ᵥ (h • Y0) a with hZdef
-  have hZ0 : ∀ a, IntV v (Z0 a) := fun a => (memΛ _).1 (hPr.1 a)
-  have hZ : ∀ a, IntV v (Z a) := fun a => (memΛ _).1 (hPrh.1 a)
-  have pZ0 := primT Y0 hPr
-  have pZ := primT (h • Y0) hPrh
-
-  let A0 : Matrix (Fin n) (Fin (r + 1)) (v.adicCompletionIntegers F) :=
-    Matrix.of fun i a => ⟨D.π₁ (Z0 a i), ((D.hO _).1 (hZ0 a i)).1⟩
-  let B0 : Matrix (Fin n) (Fin (r + 1)) (v.adicCompletionIntegers F) :=
-    Matrix.of fun i a => ⟨D.π₂ (Z0 a i), ((D.hO _).1 (hZ0 a i)).2⟩
-  let A1 : Matrix (Fin n) (Fin (r + 1)) (v.adicCompletionIntegers F) :=
-    Matrix.of fun i a => ⟨D.π₁ (Z a i), ((D.hO _).1 (hZ a i)).1⟩
-  let B1 : Matrix (Fin n) (Fin (r + 1)) (v.adicCompletionIntegers F) :=
-    Matrix.of fun i a => ⟨D.π₂ (Z a i), ((D.hO _).1 (hZ a i)).2⟩
-  have hA0 := hSat v n (r + 1) A0 (fun t ht => D.sat₁ Z0 pZ0 t ht)
-  have hB0 := hSat v n (r + 1) B0 (fun t ht => D.sat₂ Z0 pZ0 t ht)
-  have hA1 := hSat v n (r + 1) A1 (fun t ht => D.sat₁ Z pZ t ht)
-  have hB1 := hSat v n (r + 1) B1 (fun t ht => D.sat₂ Z pZ t ht)
-
-  have hstd : ∀ a b, stdH σ (Z a) (Z b) = stdH σ (Z0 a) (Z0 b) := by
-    intro a b
-    have e1 : stdH σ (Z a) (Z b) = hR (Fv F v) σ J ((h • Y0) a) ((h • Y0) b) := by
-      rw [stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec, one_mulVec]
-    have e2 : stdH σ (Z0 a) (Z0 b) = hR (Fv F v) σ J (Y0 a) (Y0 b) := by
-      rw [stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec, one_mulVec]
-    rw [e1, e2]
-    exact hunit (Y0 a) (Y0 b)
-  have hgram : A0ᵀ * B0 = A1ᵀ * B1 := by
-    refine Matrix.ext fun a b => Subtype.ext ?_
-    have := congrArg D.π₂ (hstd a b)
-    rw [D.snd_proj_standard_hermitian_form, D.snd_proj_standard_hermitian_form] at this
-    simp only [Matrix.mul_apply, Matrix.transpose_apply]
-    push_cast
-    simp only [dotProduct] at this
-    exact this.symm
-  obtain ⟨k1, hk1u, hk1A, hk1B⟩ := hC (v.adicCompletionIntegers F) n (r + 1) A0 A1 B0 B1 hA0 hA1 hB0 hB1 hgram
+  set A0 := firstSplitFrame D Z0 hZ0 with hA0def
+  set B0 := secondSplitFrame D Z0 hZ0 with hB0def
+  set A1 := firstSplitFrame D Z hZ with hA1def
+  set B1 := secondSplitFrame D Z hZ with hB1def
   have hdet : IsUnit k1.det := (Matrix.isUnit_iff_isUnit_det k1).1 hk1u
   have hki : k1 * k1⁻¹ = 1 := Matrix.mul_nonsing_inv k1 hdet
   have hik : k1⁻¹ * k1 = 1 := Matrix.nonsing_inv_mul k1 hdet
@@ -427,18 +388,134 @@ theorem stepW_core {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E}
     rw [hkx, hkx, hQh, ← stdH, hkU, stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec,
       one_mulVec]
   let kH : HA (Fv F v) σ J := (⟨kG, hmem⟩ : HR (Fv F v) σ J)
-  refine ⟨kH, ?_, ?_⟩
+  refine ⟨kH, ?_, ?_, hkx⟩
   · intro y
     show y ∈ latLoc (E := E) v Λ ↔ kM *ᵥ y ∈ latLoc (E := E) v Λ
     rw [memΛ, memΛ, hkx, mulVec_mulVec, hQiQ, one_mulVec, hkI]
-  · apply locF_injective v
-    rw [locF_smul σ J v kH X0r, hYdef]
-    funext a
-    show kM *ᵥ Y0 a = (h • Y0) a
-    rw [hkx]
-    have := hkZ a
-    simp only [hZ0def, hZdef] at this
-    rw [this, mulVec_mulVec, hQQi, one_mulVec]
+  · intro a
+    show kM *ᵥ (Qm *ᵥ Z0 a) = Qm *ᵥ Z a
+    rw [hkx, show Qi *ᵥ (Qm *ᵥ Z0 a) = Z0 a by rw [mulVec_mulVec, hQiQ, one_mulVec], hkZ a]
+
+
+theorem witt_extend_split_frame {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {v : HeightOneSpectrum (𝓞 F)}
+    {Λ : Set (Fin n → E)} (D : SD σ v) (Q : GL (Fin n) (Fv F v ⊗[F] E))
+    (hQΛ : ∀ y, y ∈ latLoc (E := E) v Λ ↔
+      ∃ x : Fin n → Fv F v ⊗[F] E, (∀ i, x i ∈ OEv (E := E) v) ∧
+        y = (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
+    (hQh : ∀ x y : Fin n → Fv F v ⊗[F] E,
+      hR (Fv F v) σ J ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
+        ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ y) = ∑ i, sigR (Fv F v) σ (x i) * y i)
+    (hC : WCore) {m : ℕ} (Z0 Z : Fin m → Fin n → Fv F v ⊗[F] E)
+    (hZ0 : ∀ a, IntV v (Z0 a)) (hZ : ∀ a, IntV v (Z a))
+    (hA0 : ∃ L : Matrix (Fin m) (Fin n) (v.adicCompletionIntegers F), L * firstSplitFrame D Z0 hZ0 = 1)
+    (hB0 : ∃ L : Matrix (Fin m) (Fin n) (v.adicCompletionIntegers F), L * secondSplitFrame D Z0 hZ0 = 1)
+    (hA1 : ∃ L : Matrix (Fin m) (Fin n) (v.adicCompletionIntegers F), L * firstSplitFrame D Z hZ = 1)
+    (hB1 : ∃ L : Matrix (Fin m) (Fin n) (v.adicCompletionIntegers F), L * secondSplitFrame D Z hZ = 1)
+    (hstd : ∀ a b, stdH σ (Z a) (Z b) = stdH σ (Z0 a) (Z0 b)) :
+    ∃ k ∈ Formalism.L2.SG.TypedSets.Kv σ J Λ v, ∀ a,
+      (HA.mat (Fv F v) σ J k : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ
+          ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ Z0 a) =
+        (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ Z a := by
+  classical
+  set A0 := firstSplitFrame D Z0 hZ0 with hA0def
+  set B0 := secondSplitFrame D Z0 hZ0 with hB0def
+  set A1 := firstSplitFrame D Z hZ with hA1def
+  set B1 := secondSplitFrame D Z hZ with hB1def
+  have hgram : A0ᵀ * B0 = A1ᵀ * B1 := by
+    refine Matrix.ext fun a b => Subtype.ext ?_
+    have := congrArg D.π₂ (hstd a b)
+    rw [D.snd_proj_standard_hermitian_form, D.snd_proj_standard_hermitian_form] at this
+    simp only [Matrix.mul_apply, Matrix.transpose_apply]
+    push_cast
+    simp only [dotProduct] at this
+    exact this.symm
+  obtain ⟨k1, hk1u, hk1A, hk1B⟩ := hC (v.adicCompletionIntegers F) n m A0 A1 B0 B1 hA0 hA1 hB0 hB1 hgram
+  obtain ⟨k, hk, hZ₁, _⟩ := witt_conjugate_split_matrix D Q hQΛ hQh Z0 Z hZ0 hZ k1 hk1u hk1A hk1B
+  exact ⟨k, hk, hZ₁⟩
+
+theorem stepW_core {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fin n) E} {v : HeightOneSpectrum (𝓞 F)}
+    {r : ℕ} {P : Frame E n r} {Λ : Set (Fin n → E)} (D : SD σ v) (Q : GL (Fin n) (Fv F v ⊗[F] E))
+    (hQΛ : ∀ y, y ∈ latLoc (E := E) v Λ ↔
+      ∃ x : Fin n → Fv F v ⊗[F] E, (∀ i, x i ∈ OEv (E := E) v) ∧
+        y = (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
+    (hQh : ∀ x y : Fin n → Fv F v ⊗[F] E,
+      hR (Fv F v) σ J ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ x)
+        ((Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) *ᵥ y) = ∑ i, sigR (Fv F v) σ (x i) * y i)
+    (hSat : SatSplit) (hC : WCore)
+    (hPr : IsPrim v Λ (locF v (ratTup (F := F) (Fv F v) (F0 P)))) (h : HA (Fv F v) σ J)
+    (hPrh : IsPrim v Λ (locF v (h • ratTup (F := F) (Fv F v) (F0 P)))) :
+    ∃ k ∈ Formalism.L2.SG.TypedSets.Kv σ J Λ v,
+      k • ratTup (F := F) (Fv F v) (F0 P) = h • ratTup (F := F) (Fv F v) (F0 P) := by
+  classical
+  set Qm : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E) := (Q : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) with hQm
+  set Qi : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E) :=
+    ((Q⁻¹ : GL (Fin n) (Fv F v ⊗[F] E)) : Matrix (Fin n) (Fin n) (Fv F v ⊗[F] E)) with hQi
+  have hQQi : Qm * Qi = 1 := Q.mul_inv
+  have hQiQ : Qi * Qm = 1 := Q.inv_mul
+  have memΛ : ∀ y, y ∈ latLoc (E := E) v Λ ↔ IntV v (Qi *ᵥ y) := by
+    intro y
+    rw [hQΛ]
+    constructor
+    · rintro ⟨x, hx, rfl⟩
+      rwa [mulVec_mulVec, hQiQ, one_mulVec]
+    · intro hy
+      exact ⟨Qi *ᵥ y, hy, by rw [mulVec_mulVec, hQQi, one_mulVec]⟩
+  set X0r := ratTup (F := F) (Fv F v) (F0 P) with hX0r
+  set Y0 := locF v X0r with hY0
+  have hYdef : locF v (h • X0r) = h • Y0 := locF_smul σ J v h X0r
+  rw [hYdef] at hPrh
+
+  have hunit : ∀ x y, hR (Fv F v) σ J ((HA.mat (Fv F v) σ J h : Matrix (Fin n) (Fin n) _) *ᵥ x)
+      ((HA.mat (Fv F v) σ J h : Matrix (Fin n) (Fin n) _) *ᵥ y) = hR (Fv F v) σ J x y := by
+    intro x y
+    have hmem := (show HR (Fv F v) σ J from h).2
+    show Formalism.UG.hform _ _ _ _ = Formalism.UG.hform _ _ _ _
+    rw [hform_mulVec]
+    congr 1
+
+  have primT : ∀ W : Fin (r + 1) → Fin n → Fv F v ⊗[F] E, IsPrim v Λ W →
+      ∀ c : Fin (r + 1) → Fv F v ⊗[F] E, IntV v (∑ a, c a • (Qi *ᵥ W a)) → ∀ a, c a ∈ OEv (E := E) v := by
+    intro W hW c hc
+    apply hW.2 c
+    rw [memΛ]
+    have : Qi *ᵥ (∑ a, c a • W a) = ∑ a, c a • (Qi *ᵥ W a) := by
+      show Matrix.mulVecLin Qi (∑ a, c a • W a) = _
+
+      rw [map_sum]
+      simp only [map_smul, Matrix.mulVecLin_apply]
+    rwa [this]
+  set Z0 : Fin (r + 1) → Fin n → Fv F v ⊗[F] E := fun a => Qi *ᵥ Y0 a with hZ0def
+  set Z : Fin (r + 1) → Fin n → Fv F v ⊗[F] E := fun a => Qi *ᵥ (h • Y0) a with hZdef
+  have hZ0 : ∀ a, IntV v (Z0 a) := fun a => (memΛ _).1 (hPr.1 a)
+  have hZ : ∀ a, IntV v (Z a) := fun a => (memΛ _).1 (hPrh.1 a)
+  have pZ0 := primT Y0 hPr
+  have pZ := primT (h • Y0) hPrh
+
+  let A0 := firstSplitFrame D Z0 hZ0
+  let B0 := secondSplitFrame D Z0 hZ0
+  let A1 := firstSplitFrame D Z hZ
+  let B1 := secondSplitFrame D Z hZ
+  have hA0 := hSat v n (r + 1) A0 (fun t ht => D.sat₁ Z0 pZ0 t ht)
+  have hB0 := hSat v n (r + 1) B0 (fun t ht => D.sat₂ Z0 pZ0 t ht)
+  have hA1 := hSat v n (r + 1) A1 (fun t ht => D.sat₁ Z pZ t ht)
+  have hB1 := hSat v n (r + 1) B1 (fun t ht => D.sat₂ Z pZ t ht)
+
+  have hstd : ∀ a b, stdH σ (Z a) (Z b) = stdH σ (Z0 a) (Z0 b) := by
+    intro a b
+    have e1 : stdH σ (Z a) (Z b) = hR (Fv F v) σ J ((h • Y0) a) ((h • Y0) b) := by
+      rw [stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec, one_mulVec]
+    have e2 : stdH σ (Z0 a) (Z0 b) = hR (Fv F v) σ J (Y0 a) (Y0 b) := by
+      rw [stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec, one_mulVec]
+    rw [e1, e2]
+    exact hunit (Y0 a) (Y0 b)
+  obtain ⟨k, hk, hact⟩ := witt_extend_split_frame D Q hQΛ hQh hC Z0 Z hZ0 hZ hA0 hB0 hA1 hB1 hstd
+  refine ⟨k, hk, locF_injective v ?_⟩
+  rw [locF_smul σ J v k X0r, hYdef]
+  funext a
+  have ha := hact a
+  change (HA.mat (Fv F v) σ J k : Matrix (Fin n) (Fin n) _) *ᵥ (Qm *ᵥ Z0 a) = Qm *ᵥ Z a at ha
+  simp only [hZ0def, hZdef, mulVec_mulVec, hQQi, one_mulVec, Matrix.mul_one] at ha
+  exact ha
 
 theorem stepW_of (hS : SplitR) (hLs : LatStd) (hSat : SatSplit) (hC : WCore) : StepW := by
   intro F E _ _ _ _ _ σ n J ψ v r P Λ T hStd hP hSD hUn hEta hPr hL h hPrh

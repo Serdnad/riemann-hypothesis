@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsEvLePreimage
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.RepTransport
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsBasisFSum
@@ -106,15 +107,8 @@ theorem le_preimage_of_field {F F' : Type} [Field F] [Field F'] (ρ : F →+* F'
 
 theorem le_preimage_of_ev (Γ : Germs) (w : ℂ) {x : Sp (Γ.R w) ⟶ Z} {U : Z.Opens}
     (h : ⊤ ≤ (spMap (Γ.ev w).toRingHom ≫ x) ⁻¹ᵁ U) : ⊤ ≤ x ⁻¹ᵁ U := by
-  have : IsLocalRing (Γ.R w) := IsLocalRing.of_isUnit_or_isUnit_one_sub_self fun a => by
-    by_cases ha : Γ.ev w a = 0
-    · exact Or.inr (Γ.unit w _ (by simp [ha]))
-    · exact Or.inl (Γ.unit w _ ha)
-  have hl : IsLocalHom (CommRingCat.ofHom (Γ.ev w).toRingHom).hom := ⟨fun a ha => Γ.unit w a ha.ne_zero⟩
-  refine (Scheme.preimage_eq_top_of_closedPoint_mem (R := CommRingCat.of (Γ.R w)) x ?_).ge
-  have := h (x := IsLocalRing.closedPoint ℂ) trivial
-  rw [← Spec_closedPoint (f := CommRingCat.ofHom (Γ.ev w).toRingHom)]
-  exact this
+  intros
+  apply _root_.GlobalTheory.SpecCoord.germ_le_preimage <;> assumption
 
 theorem mem_of_inverse {k F : Type} [Field k] [Field F] [Algebra k F] (M : IntermediateField k F) {n N : ℕ}
     {g : Fin N → Fin n → F} {c : Fin n → Fin N → F} (hg : ∀ i a, g i a ∈ M)

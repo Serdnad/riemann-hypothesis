@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GenericCharacterTrivialBesselStepUnitriangularStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TowerEx
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DepthLatticeGridRowLocalEqCompletedHomLattice
@@ -146,25 +147,7 @@ theorem idV_mul_inv_iff {D : D7} {v : GlobalTheory.FinPl.Pl D} (I : Ideal (𝓞 
 theorem exists_mem_modul {D : D7} {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) {v : GlobalTheory.FinPl.Pl D}
     (hv : v ∉ P.S0) : ∃ t : 𝓞 D.host.F, t ∉ v.asIdeal ∧
       algebraMap (𝓞 D.host.F) (𝓞 D.host.E) t ∈ P.modul sc := by
-  have h : ∀ u : HeightOneSpectrum (𝓞 D.host.F), ∃ t : 𝓞 D.host.F, t ∉ v.asIdeal ∧ (u ∈ P.S0 → t ∈ u.asIdeal) := by
-    intro u
-    by_cases hu : u ∈ P.S0
-    · have hne : ¬ u.asIdeal ≤ v.asIdeal := fun hle =>
-        hv ((HeightOneSpectrum.ext (u.isMaximal.eq_of_le v.isPrime.ne_top hle)) ▸ hu)
-      obtain ⟨t, h1, h2⟩ := SetLike.not_le_iff_exists.1 hne
-      exact ⟨t, h2, fun _ => h1⟩
-    · exact ⟨1, (Ideal.ne_top_iff_one _).1 v.isPrime.ne_top, fun h => absurd h hu⟩
-  choose t ht1 ht2 using h
-  refine ⟨∏ u ∈ P.S0, t u ^ P.depth sc u, ?_, ?_⟩
-  · have := v.isPrime
-    exact prod_mem (S := v.asIdeal.primeCompl) fun u _ => pow_mem (show t u ∈ v.asIdeal.primeCompl from ht1 u) _
-  · rw [map_prod]
-    refine Ideal.prod_mem_prod fun u hu => ?_
-    rw [map_pow]
-    refine Ideal.pow_mem_pow ?_ _
-    have h1 := ht2 u hu
-    have h2 : t u ∈ ((P.w u).under (𝓞 D.host.F)).asIdeal := by rw [P.under_w hu]; exact h1
-    exact h2
+  first | exact _root_.GlobalTheory.StairUnit.exists_mem_modul_notMem | exact @_root_.GlobalTheory.StairUnit.exists_mem_modul_notMem | apply _root_.GlobalTheory.StairUnit.exists_mem_modul_notMem <;> assumption
 
 theorem idV_mul_modulBar_inv : ∀ {D : D7} {T : Type} {L : LevCh D T} (P : Places L) (sc : Consts) {v : GlobalTheory.FinPl.Pl D}, v ∉ P.S0 → ∀ (𝔞 : GlobalTheory.SeeSaw.FI D) (s : AE D), s ∈ GlobalTheory.SeeSaw.idV (𝔞 * ((P.modulBar sc : Ideal (𝓞 D.host.E)) : GlobalTheory.SeeSaw.FI D)⁻¹) v ↔ s ∈ GlobalTheory.SeeSaw.idV 𝔞 v := by
   intro D T L P sc v hv 𝔞 s

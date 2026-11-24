@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPolarizationCrystalFormPerfectSelfAnnihila
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NefFibOfIsNef
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,17 +59,7 @@ def Isometric (L M : HermLB p) : Prop :=
       (M.φ σ).φ a y = (L.φ σ).φ b y + Real.log (‖ev p σ _ (w.s (a, b)).val y‖ ^ 2)
 private theorem isGen_iso_self_of_isLB (B : LB X) (hB : B.IsLB) :
     (⟨fun c => B.g c.1 c.2⟩ : LB.Iso B B).IsGen := by
-  obtain ⟨-, -, hc⟩ := hB
-  rintro ⟨a, b⟩ ⟨a', b'⟩
-  have e1 := congrArg (res (fun x hx => by simp only [Opens.mem_inf] at hx ⊢; tauto :
-    (B.U a ⊓ B.U b) ⊓ (B.U a' ⊓ B.U b') ≤ _)) (hc a a' b')
-  have e2 := congrArg (res (fun x hx => by simp only [Opens.mem_inf] at hx ⊢; tauto :
-    (B.U a ⊓ B.U b) ⊓ (B.U a' ⊓ B.U b') ≤ _)) (hc a b b')
-  simp only [map_mul, _root_.ReciprocityTheory.ChartRestriction.G.DVR.res_res'] at e1 e2
-  dsimp only [LB.div]
-  refine (eq_mul_inv_of_mul_eq e2).trans ?_
-  rw [← e1]
-  exact mul_right_comm _ _ _
+  apply _root_.GlobalTheory.PolExists.isGen_self <;> assumption
 private theorem iso_phi_eq_add_log_normSq_transition {B : LB X} (hB : B.IsLB) (φ ψ : ∀ σ : k →+* ℂ, Weight p σ B)
     (h : ∀ σ a, ∀ y ∈ ptsIn p σ (B.U a), (ψ σ).φ a y = (φ σ).φ a y) (σ : k →+* ℂ) (a b : B.ι)
     (y : CxPts p σ) (ha : y ∈ ptsIn p σ (B.U a)) (hb : y ∈ ptsIn p σ (B.U b)) :

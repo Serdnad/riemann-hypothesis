@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ClassFieldTheory.LocalClassField.ExistsIntEKMulVbar
 public import ReciprocityTheory.ClassFieldTheory.LocalClassField.MemOfPowQKSubOne
 import Mathlib.Algebra.AffineMonoid.UniqueSums
 import Mathlib.Tactic.TypeStar
@@ -115,18 +116,7 @@ theorem Kn_le {n : ℕ} {S : IntermediateField ℚ_[p] (PadicAlgCl p)} (h1 : K �
   sup_le h1 (IntermediateField.adjoin_le_iff.2 h2)
 
 theorem map_mem_Kn (n : ℕ) (σ : GK p K) {x : PadicAlgCl p} (hx : x ∈ Kn p K n) : σ x ∈ Kn p K n := by
-  have h : Kn p K n ≤ (Kn p K n).comap ((σ.restrictScalars ℚ_[p] : PadicAlgCl p ≃ₐ[ℚ_[p]] PadicAlgCl p) :
-      PadicAlgCl p →ₐ[ℚ_[p]] PadicAlgCl p) := by
-    apply Kn_le
-    · intro y hy
-      change σ y ∈ Kn p K n
-      have : σ y = y := σ.commutes ⟨y, hy⟩
-      rw [this]; exact le_Kn K n hy
-    · intro ζ hζ
-      change σ ζ ∈ Kn p K n
-      apply mem_Kn_of_pow
-      rw [← map_pow, hζ, map_one]
-  exact h hx
+  apply ReciprocityTheory.DiscreteGroups.LocalClassField.Kn_stable <;> assumption
 
 noncomputable def eqField (σ τ : GK p K) : IntermediateField ℚ_[p] (PadicAlgCl p) where
   toSubalgebra := AlgHom.equalizer

@@ -67,6 +67,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Lemma
+import Formalism.PieriBlockIdeals.PieriColumnMinors.LrfcApplyWordAppendSingle
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.CwlApplyWordAppendSingle, Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.LowerTriangularOverField, Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.WeylFormNondegenerateGlobal
@@ -459,80 +460,12 @@ theorem cw_prod_pt (m : Fin r × Fin n →₀ ℕ) :
 
 theorem cw_ext (m e : Fin r × Fin n →₀ ℕ) (hm : LowerTri m) (he : LowerTri e) (hs : cwStrict m = cwStrict e)
     (hc : ∀ s : Fin n, ∑ a : Fin r, m (a, s) = ∑ a : Fin r, e (a, s)) : m = e := by
-  classical
-  have off : ∀ (a : Fin r) (s : Fin n), a.val ≠ s.val → m (a, s) = e (a, s) := by
-    intro a s hne
-    rcases lt_or_gt_of_ne hne with c | c
-    · rw [hm a s c, he a s c]
-    · have h0 := DFunLike.congr_fun hs (a, s)
-      simpa [cwStrict, Finsupp.filter_apply, c] using h0
-  ext ⟨a, s⟩
-  by_cases h : a.val = s.val
-  · have h0 := hc s
-    rw [← Finset.add_sum_erase _ (fun x => m (x, s)) (Finset.mem_univ a),
-      ← Finset.add_sum_erase _ (fun x => e (x, s)) (Finset.mem_univ a)] at h0
-    have h2 : ∑ x ∈ Finset.univ.erase a, m (x, s) = ∑ x ∈ Finset.univ.erase a, e (x, s) := by
-      apply Finset.sum_congr rfl
-      intro x hx
-      apply off
-      intro hxs
-      exact (Finset.mem_erase.mp hx).1 (Fin.ext (by omega))
-    omega
-  · exact off a s h
+  apply _root_.Formalism.CohomologicalDescent.LR.lrf_unique <;> assumption
 
 end
 
 theorem coeffWord' : CoeffWord := by
-  classical
-  intro R _ r n ν F e hF he hsum
-  have hw : wordOf e = (cwLetters r n).map fun l => (l.1, l.2.1, cwStrict e l.2.2) := by
-    rw [cw_wordOf]
-    apply List.map_congr_left
-    intro l hl
-    have h0 := (cw_mem_letters l).mp hl
-    simp [cwStrict, h0.1, h0.2.1, h0.2.2]
-  have hnd : ((cwLetters r n).map (·.2.2)).Nodup := by
-    rw [List.Nodup, List.pairwise_map]
-    exact cw_letters_pairwise.imp fun h => h.2
-  have hmem : ∀ v : Fin r × Fin n, v ∈ (cwLetters r n).map (·.2.2) ↔ v.2.val < v.1.val := by
-    intro v
-    rw [List.mem_map]
-    constructor
-    · rintro ⟨l, hl, rfl⟩
-      have h0 := (cw_mem_letters l).mp hl
-      rw [h0.1, h0.2.1]; exact h0.2.2
-    · intro hv
-      exact ⟨(⟨v.2.val, by omega⟩, v.1, v), (cw_mem_letters _).mpr ⟨rfl, rfl, hv⟩, rfl⟩
-  have hcond : ∀ u, u ∉ (cwLetters r n).map (·.2.2) → cwStrict e u = 0 := by
-    intro u hu
-    rw [hmem] at hu
-    simp [cwStrict, hu]
-  have key := cwl_coeffT_Phi (cwLetters r n) hnd F (cwStrict e)
-  rw [if_pos hcond, ← hw] at key
-  rw [← key, cw_eval_coeffT]
-  have hid : (fun v => (C (idFrame R r n v) : MvPolynomial (Fin r × Fin n) R)) =
-      idFrame (MvPolynomial (Fin r × Fin n) R) r n := by
-    funext v
-    simp [idFrame]
-  rw [hid, cw_eval_Phi, cw_foldl_point _ (fun l hl => (cw_mem_letters l).mp hl) cw_letters_pairwise]
-  have hpt : (fun v => idFrame (MvPolynomial (Fin r × Fin n) R) r n v +
-      if v ∈ (cwLetters r n).map (·.2.2) then X v else 0) = cwPt := by
-    funext v
-    simp [cwPt, hmem]
-  rw [hpt, cwl_iota, eval_map, eval₂_eq', coeff_sum]
-  simp only [coeff_C_mul, cw_prod_pt]
-  rw [Finset.sum_eq_single e]
-  · rw [if_pos he, coeff_monomial, if_pos rfl, mul_one]
-  · intro m hm hne
-    split_ifs with hL
-    · rw [coeff_monomial, if_neg, mul_zero]
-      intro hs
-      apply hne
-      refine cw_ext m e hL he hs fun s => ?_
-      rw [hsum s, ← lccomp_weight_colW_apply, hF (mem_support_iff.mp hm)]
-    · simp
-  · intro h
-    rw [notMem_support_iff.mp h, zero_mul]
+  apply _root_.Formalism.CohomologicalDescent.LR.coefficient_word <;> assumption
 
 end Formalism.L2.G.Model.TS
 end -- clump:auto

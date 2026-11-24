@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdelicUnitaryPointOfLocalFamily
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.T2SpaceFiniteAdeleRing
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.GlobalCharacterOfInputs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjSrcMemOrb
@@ -97,20 +98,7 @@ theorem ae_mem (g : Gf E a b) : ∀ᶠ u in cofinite, atH a b u g ∈ K2 a b u :
 
 theorem exists_GL_of_family {n : ℕ} (z : ∀ u : Pl E, GLw n u) (hz : ∀ᶠ u in cofinite, z u ∈ GlobalTheory.LFun.KGL u (n := n)) :
     ∃ g : GL (Fin n) (Af E), ∀ u, GeneralLinearGroup.map (pLoc E u) g = z u := by
-  let M : Matrix (Fin n) (Fin n) (Af E) := Matrix.of fun i j =>
-    ⟨fun w => (z w).1 i j, hz.mono fun w h => (GlobalTheory.EulerTwRestr.mem_KGL_iff.1 h).1 i j⟩
-  let M' : Matrix (Fin n) (Fin n) (Af E) := Matrix.of fun i j =>
-    ⟨fun w => ((z w)⁻¹).1 i j, hz.mono fun w h => (GlobalTheory.EulerTwRestr.mem_KGL_iff.1 h).2 i j⟩
-  have hloc : ∀ P Q : Matrix (Fin n) (Fin n) (Af E),
-      (∀ w : Pl E, P.map (pLoc E w) = Q.map (pLoc E w)) → P = Q := fun P Q h =>
-    Matrix.ext fun i j => Subtype.ext (funext fun w => congrFun (congrFun (h w) i) j)
-  have hMM' : M * M' = 1 := hloc _ _ fun w => by
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact (z w).mul_inv
-  have hM'M : M' * M = 1 := hloc _ _ fun w => by
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact (z w).inv_mul
-  exact ⟨⟨M, M', hMM', hM'M⟩, fun u => Units.ext (Matrix.ext fun i j => rfl)⟩
+  apply _root_.GlobalTheory.BCT.LocGlue.glue <;> assumption
 
 theorem exists_of_family (z : ∀ u : Pl E, GLw a u × GLw b u) (hz : ∀ᶠ u in cofinite, z u ∈ K2 a b u) :
     ∃ g : Gf E a b, ∀ u, atH a b u g = z u := by

@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.TangentLinearity.ConstPullback
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ValueAtUnitSection
 
 @[expose] public section
 
@@ -111,14 +112,7 @@ variable {S S' : Scheme.{0}} (f : S' ⟶ S)
 theorem eSec_fst (G : Over S) [GrpObj G] :
     eSec ((Over.pullback f).obj G) ≫ pullback.fst G.hom f =
       (f : (𝟙_ (Over S')).left ⟶ (𝟙_ (Over S)).left) ≫ eSec G := by
-  have h := isGrpPullback_pullback G f
-  have e := congrArg (fun z => z.left) (map_one (pushHom h (𝟙_ (Over S'))))
-  have e₁ : (1 : 𝟙_ (Over S') ⟶ (Over.pullback f).obj G) = η[(Over.pullback f).obj G] := by
-    rw [Hom.one_def]; simp
-  rw [e₁] at e
-  refine e.trans ?_
-  show (toUnit _ ≫ η[G]).left = _
-  simp [eSec]
+  apply _root_.GlobalTheory.UnitValue.eSec_pullback_fst <;> assumption
 
 def rigChart (B : Over S) [GrpObj B] (L : LB B.left) :
     ChartPull ((L.pull (pullback.fst B.hom f)).pull (eSec ((Over.pullback f).obj B))) (L.pull (eSec B))

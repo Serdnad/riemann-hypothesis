@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.ModuliSurvey.ExistsGoodLevel
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ModelsAt
 public import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
@@ -59,21 +60,7 @@ open scoped LaurentSeries
 namespace GlobalTheory.ArcDetect
 
 theorem exists_place (p : ℕ) (hp : p.Prime) : ∃ W : ValuationSubring ℂ, (p : ℂ) ∈ W.nonunits := by
-  have hne : (Ideal.span {(p : (⊥ : Subring ℂ))}) ≠ ⊤ := by
-    rw [Ne, Ideal.span_singleton_eq_top]
-    intro hu
-    obtain ⟨v, hv⟩ := hu.exists_right_inv
-    obtain ⟨n, hn⟩ := Subring.mem_bot.1 v.2
-    have h1 : ((p : ℤ) * n : ℤ) = 1 := by
-      have := congrArg Subtype.val hv
-      simp only [Subring.coe_mul, Subring.coe_natCast, Subring.coe_one] at this
-      rw [← hn] at this
-      exact_mod_cast this
-    have := Int.isUnit_iff_natAbs_eq.1 (IsUnit.of_mul_eq_one _ h1)
-    simp at this
-    exact hp.one_lt.ne' this
-  obtain ⟨W, -, hW⟩ := Ideal.image_subset_nonunits_valuationSubring _ hne
-  exact ⟨W, hW ⟨p, Ideal.mem_span_singleton_self _, by simp⟩⟩
+  first | exact _root_.GlobalTheory.GlobalModelGuards.exists_place | exact @_root_.GlobalTheory.GlobalModelGuards.exists_place | apply _root_.GlobalTheory.GlobalModelGuards.exists_place <;> assumption
 
 theorem iSup_sub_iInf_le {r : ℕ} (hr : 0 < r) (x : Fin r → ℝ) (A B : ℝ) (h1 : ∀ i, x i ≤ A) (h2 : ∀ i, -B ≤ x i) :
     (⨆ i, x i) - ⨅ i, x i ≤ A + B := by

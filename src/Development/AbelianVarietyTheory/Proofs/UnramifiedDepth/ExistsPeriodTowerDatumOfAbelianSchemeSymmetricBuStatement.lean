@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KodairaSpencerTangentDifference
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.Biextensions.GenericFiberCubeInclusion
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import ReciprocityTheory.DualLattices.SqZeroOfSpan
@@ -568,34 +569,12 @@ private theorem bx_lift_one {T : Over S} : (1 : T ⟶ A ⊗ A) = lift 1 1 := by
 private theorem bx_prod₁ {T : Over S} (a b c : T ⟶ A) {U : Type} [CommGroup U] (h : (T.left ⟶ (G2 A).left) → U) :
     ∏ k, h ((lift a (lift b c)).left ≫ law1φ A (x3 A 0) (x3 A 1) (x3 A 2) k) ^ lawε k =
       h (lift (a * b) c).left * (h (lift a c).left)⁻¹ * (h (lift b c).left)⁻¹ := by
-  have r₀ : lift a (lift b c) ≫ x3 A 0 = a := by simp [x3]
-  have r₁ : lift a (lift b c) ≫ x3 A 1 = b := by simp [x3]
-  have r₂ : lift a (lift b c) ≫ x3 A 2 = c := by simp [x3]
-  have s : lift a (lift b c) ≫ padd A (x3 A 0) (x3 A 1) = a * b := (MonObj.comp_mul _ _ _).trans (by rw [r₀, r₁])
-  refine (Fintype.prod_equiv Equiv.ulift _ (fun i : Fin 3 => h ((lift a (lift b c)).left ≫
-    law1φ A (x3 A 0) (x3 A 1) (x3 A 2) ⟨i⟩) ^ lawε ⟨i⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (lift a (lift b c) ≫ lift (padd A (x3 A 0) (x3 A 1)) (x3 A 2)).left ^ (1 : ℤ) *
-    h (lift a (lift b c) ≫ lift (x3 A 0) (x3 A 2)).left ^ (-1 : ℤ) *
-    h (lift a (lift b c) ≫ lift (x3 A 1) (x3 A 2)).left ^ (-1 : ℤ) = _
-  rw [comp_lift, comp_lift, comp_lift, s, r₀, r₁, r₂]
-  simp only [zpow_neg, zpow_one]
+  apply _root_.GlobalTheory.BiextSym.biextension_first_law_product <;> assumption
 
 private theorem bx_prod₂ {T : Over S} (a b c : T ⟶ A) {U : Type} [CommGroup U] (h : (T.left ⟶ (G2 A).left) → U) :
     ∏ k, h ((lift a (lift b c)).left ≫ law2φ A (x3 A 0) (x3 A 1) (x3 A 2) k) ^ lawε k =
       h (lift a (b * c)).left * (h (lift a b).left)⁻¹ * (h (lift a c).left)⁻¹ := by
-  have r₀ : lift a (lift b c) ≫ x3 A 0 = a := by simp [x3]
-  have r₁ : lift a (lift b c) ≫ x3 A 1 = b := by simp [x3]
-  have r₂ : lift a (lift b c) ≫ x3 A 2 = c := by simp [x3]
-  have s : lift a (lift b c) ≫ padd A (x3 A 1) (x3 A 2) = b * c := (MonObj.comp_mul _ _ _).trans (by rw [r₁, r₂])
-  refine (Fintype.prod_equiv Equiv.ulift _ (fun i : Fin 3 => h ((lift a (lift b c)).left ≫
-    law2φ A (x3 A 0) (x3 A 1) (x3 A 2) ⟨i⟩) ^ lawε ⟨i⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (lift a (lift b c) ≫ lift (x3 A 0) (padd A (x3 A 1) (x3 A 2))).left ^ (1 : ℤ) *
-    h (lift a (lift b c) ≫ lift (x3 A 0) (x3 A 1)).left ^ (-1 : ℤ) *
-    h (lift a (lift b c) ≫ lift (x3 A 0) (x3 A 2)).left ^ (-1 : ℤ) = _
-  rw [comp_lift, comp_lift, comp_lift, s, r₀, r₁, r₂]
-  simp only [zpow_neg, zpow_one]
+  apply _root_.GlobalTheory.BiextSym.biextension_second_law_product <;> assumption
 
 private theorem bx_id₃ : lift (x3 A 0) (lift (x3 A 1) (x3 A 2)) = 𝟙 (G3 A) := by
   ext <;> simp [x3]
@@ -784,44 +763,6 @@ open ReciprocityTheory.ChartRestriction.G.Semi ReciprocityTheory.ChartRestrictio
 
 variable {S : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj G] {P : LB (G ⊗ G).left} (β : IsBiext G P)
 
-private theorem pfTie_prod1 {T : Over S} (x x' y : T ⟶ G) {U : Type} [CommGroup U] (h : (T.left ⟶ (G ⊗ G).left) → U) :
-    ∏ k, h ((CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y)).left ≫ law1φ G (x3 G 0) (x3 G 1) (x3 G 2) k) ^ lawε k =
-      h (CartesianMonoidalCategory.lift (x * x') y).left * (h (CartesianMonoidalCategory.lift x y).left)⁻¹ * (h (CartesianMonoidalCategory.lift x' y).left)⁻¹ := by
-  have e₀ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (padd G (x3 G 0) (x3 G 1)) (x3 G 2) = CartesianMonoidalCategory.lift (x * x') y := by
-    rw [comp_lift]
-    congr 1
-    · exact (MonObj.comp_mul _ _ _).trans (by simp [x3])
-    · simp [x3]
-  have e₁ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 2) = CartesianMonoidalCategory.lift x y := by rw [comp_lift]; simp [x3]
-  have e₂ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (x3 G 1) (x3 G 2) = CartesianMonoidalCategory.lift x' y := by rw [comp_lift]; simp [x3]
-  refine (Fintype.prod_equiv (Equiv.ulift : ULift.{0} (Fin 3) ≃ Fin 3) _
-    (fun k => h ((CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y)).left ≫ law1φ G (x3 G 0) (x3 G 1) (x3 G 2) ⟨k⟩) ^ lawε ⟨k⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (padd G (x3 G 0) (x3 G 1)) (x3 G 2)).left ^ (1 : ℤ) *
-    h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 2)).left ^ (-1 : ℤ) *
-    h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift x' y) ≫ CartesianMonoidalCategory.lift (x3 G 1) (x3 G 2)).left ^ (-1 : ℤ) = _
-  rw [e₀, e₁, e₂]
-  simp only [_root_.zpow_neg, zpow_one]
-
-private theorem pfTie_prod2 {T : Over S} (x y y' : T ⟶ G) {U : Type} [CommGroup U] (h : (T.left ⟶ (G ⊗ G).left) → U) :
-    ∏ k, h ((CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y')).left ≫ law2φ G (x3 G 0) (x3 G 1) (x3 G 2) k) ^ lawε k =
-      h (CartesianMonoidalCategory.lift x (y * y')).left * (h (CartesianMonoidalCategory.lift x y).left)⁻¹ * (h (CartesianMonoidalCategory.lift x y').left)⁻¹ := by
-  have e₀ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (padd G (x3 G 1) (x3 G 2)) = CartesianMonoidalCategory.lift x (y * y') := by
-    rw [comp_lift]
-    congr 1
-    · simp [x3]
-    · exact (MonObj.comp_mul _ _ _).trans (by simp [x3])
-  have e₁ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 1) = CartesianMonoidalCategory.lift x y := by rw [comp_lift]; simp [x3]
-  have e₂ : CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 2) = CartesianMonoidalCategory.lift x y' := by rw [comp_lift]; simp [x3]
-  refine (Fintype.prod_equiv (Equiv.ulift : ULift.{0} (Fin 3) ≃ Fin 3) _
-    (fun k => h ((CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y')).left ≫ law2φ G (x3 G 0) (x3 G 1) (x3 G 2) ⟨k⟩) ^ lawε ⟨k⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (padd G (x3 G 1) (x3 G 2))).left ^ (1 : ℤ) *
-    h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 1)).left ^ (-1 : ℤ) *
-    h (CartesianMonoidalCategory.lift x (CartesianMonoidalCategory.lift y y') ≫ CartesianMonoidalCategory.lift (x3 G 0) (x3 G 2)).left ^ (-1 : ℤ) = _
-  rw [e₀, e₁, e₂]
-  simp only [_root_.zpow_neg, zpow_one]
-
 private theorem pfTie_gen {T : Over S} (x y : T ⟶ G) (n : ℕ) :
     ∃ t : LB.Gen (LB.LinComb P (K := Fin 4) ![(CartesianMonoidalCategory.lift (x ^ n) y).left, (CartesianMonoidalCategory.lift (1 : T ⟶ G) y).left, (CartesianMonoidalCategory.lift x (y ^ n)).left,
         (CartesianMonoidalCategory.lift x (1 : T ⟶ G)).left] ![1, -1, -1, 1]), t.IsGen ∧
@@ -842,8 +783,8 @@ private theorem pfTie_gen {T : Over S} (x y : T ⟶ G) (n : ℕ) :
         refine (DVR.prod_sum₂ (K := Fin 4) (K' := ULift.{0} (Fin 3) ⊕ ULift.{0} (Fin 3)) (U := U) _
           (c := ∏ i, h ((![(CartesianMonoidalCategory.lift (x ^ n) y).left, (CartesianMonoidalCategory.lift (1 : T ⟶ G) y).left, (CartesianMonoidalCategory.lift x (y ^ n)).left,
             (CartesianMonoidalCategory.lift x (1 : T ⟶ G)).left] : Fin 4 → _) i) ^ (![1, -1, -1, 1] : Fin 4 → ℤ) i) rfl
-          (DVR.prod_sum₂ (K := ULift.{0} (Fin 3)) (K' := ULift.{0} (Fin 3)) (U := U) _ (pfTie_prod1 (x ^ n) x y h)
-            (DVR.prod_neg _ _ (pfTie_prod2 x (y ^ n) y h)))).trans ?_
+          (DVR.prod_sum₂ (K := ULift.{0} (Fin 3)) (K' := ULift.{0} (Fin 3)) (U := U) _ (_root_.GlobalTheory.BiextSym.biextension_first_law_product (x ^ n) x y h)
+            (DVR.prod_neg _ _ (_root_.GlobalTheory.BiextSym.biextension_second_law_product x (y ^ n) y h)))).trans ?_
         rw [pow_succ x, pow_succ y]
         apply Additive.ofMul.injective
         simp [Fin.prod_univ_succ, ofMul_mul, ofMul_inv]
@@ -1086,17 +1027,7 @@ theorem bxFibre_exists_chart {Y : Scheme.{0}} {U : Y.Opens} (hU : IsAffineOpen U
     [CommRing P] [IsLocalRing P] (x : Spec (CommRingCat.of P) ⟶ Y)
     (h : x (closedPoint P) ∈ U) :
     ∃ φ : Γ(Y, U) →+* P, x = Spec.map (CommRingCat.ofHom φ) ≫ hU.fromSpec := by
-  have hx : ⊤ ≤ x ⁻¹ᵁ U := fun p _ => by
-    have hsp : (p : PrimeSpectrum P) ⤳ closedPoint P :=
-      (PrimeSpectrum.le_iff_specializes _ _).mp
-        (IsLocalRing.le_maximalIdeal (p : PrimeSpectrum P).isPrime.ne_top)
-    exact hsp.mem_open (x ⁻¹ᵁ U).isOpen h
-  refine ⟨(x.appLE U ⊤ hx ≫ (Scheme.ΓSpecIso (CommRingCat.of P)).hom).hom, ?_⟩
-  have h := IsAffineOpen.SpecMap_appLE_fromSpec x hU
-    (isAffineOpen_top (Spec (CommRingCat.of P))) hx
-  rw [IsAffineOpen.fromSpec_top, Scheme.isoSpec_Spec_inv] at h
-  rw [CommRingCat.ofHom_hom, Spec.map_comp, Category.assoc, h, ← Category.assoc, ← Spec.map_comp,
-    Iso.inv_hom_id, Spec.map_id, Category.id_comp]
+  first | exact _root_.GlobalTheory.spec_local_hom_factors_affineOpen | exact @_root_.GlobalTheory.spec_local_hom_factors_affineOpen | apply _root_.GlobalTheory.spec_local_hom_factors_affineOpen <;> assumption
 
 theorem bxFibre_closed {Y : Scheme.{0}} {P Q : Type} [CommRing P] [IsLocalRing P] [CommRing Q]
     [IsLocalRing Q] (f : P →+* Q) [IsLocalHom f] (x : Spec (CommRingCat.of P) ⟶ Y) :
@@ -1326,34 +1257,12 @@ variable {S : Scheme.{0}} {G : Over S} [GrpObj G] [IsCommMonObj G] {P : LB (G �
 theorem prod_law₁ {T : Over S} (x x' y : T ⟶ G) {U : Type} [CommGroup U] (h : (T.left ⟶ (G ⊗ G).left) → U) :
     ∏ k, h ((lift x (lift x' y)).left ≫ law1φ G (x3 G 0) (x3 G 1) (x3 G 2) k) ^ lawε k =
       h (lift (x * x') y).left * (h (lift x y).left)⁻¹ * (h (lift x' y).left)⁻¹ := by
-  have a₀ : lift x (lift x' y) ≫ x3 G 0 = x := by simp [x3]
-  have a₁ : lift x (lift x' y) ≫ x3 G 1 = x' := by simp [x3]
-  have a₂ : lift x (lift x' y) ≫ x3 G 2 = y := by simp [x3]
-  have b : lift x (lift x' y) ≫ padd G (x3 G 0) (x3 G 1) = x * x' := (MonObj.comp_mul _ _ _).trans (by rw [a₀, a₁])
-  refine (Fintype.prod_equiv (Equiv.ulift : ULift (Fin 3) ≃ Fin 3) _
-    (fun i => h ((lift x (lift x' y)).left ≫ law1φ G (x3 G 0) (x3 G 1) (x3 G 2) ⟨i⟩) ^ lawε ⟨i⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (lift x (lift x' y) ≫ lift (padd G (x3 G 0) (x3 G 1)) (x3 G 2)).left ^ (1 : ℤ) *
-    h (lift x (lift x' y) ≫ lift (x3 G 0) (x3 G 2)).left ^ (-1 : ℤ) *
-    h (lift x (lift x' y) ≫ lift (x3 G 1) (x3 G 2)).left ^ (-1 : ℤ) = _
-  rw [comp_lift, comp_lift, comp_lift, b, a₀, a₁, a₂]
-  simp only [_root_.zpow_neg, _root_.zpow_one]
+  first | exact _root_.GlobalTheory.BiextSym.biextension_first_law_product | exact @_root_.GlobalTheory.BiextSym.biextension_first_law_product | apply _root_.GlobalTheory.BiextSym.biextension_first_law_product <;> assumption
 
 theorem prod_law₂ {T : Over S} (x y y' : T ⟶ G) {U : Type} [CommGroup U] (h : (T.left ⟶ (G ⊗ G).left) → U) :
     ∏ k, h ((lift x (lift y y')).left ≫ law2φ G (x3 G 0) (x3 G 1) (x3 G 2) k) ^ lawε k =
       h (lift x (y * y')).left * (h (lift x y).left)⁻¹ * (h (lift x y').left)⁻¹ := by
-  have a₀ : lift x (lift y y') ≫ x3 G 0 = x := by simp [x3]
-  have a₁ : lift x (lift y y') ≫ x3 G 1 = y := by simp [x3]
-  have a₂ : lift x (lift y y') ≫ x3 G 2 = y' := by simp [x3]
-  have b : lift x (lift y y') ≫ padd G (x3 G 1) (x3 G 2) = y * y' := (MonObj.comp_mul _ _ _).trans (by rw [a₁, a₂])
-  refine (Fintype.prod_equiv (Equiv.ulift : ULift (Fin 3) ≃ Fin 3) _
-    (fun i => h ((lift x (lift y y')).left ≫ law2φ G (x3 G 0) (x3 G 1) (x3 G 2) ⟨i⟩) ^ lawε ⟨i⟩) (fun _ => rfl)).trans ?_
-  rw [Fin.prod_univ_three]
-  show h (lift x (lift y y') ≫ lift (x3 G 0) (padd G (x3 G 1) (x3 G 2))).left ^ (1 : ℤ) *
-    h (lift x (lift y y') ≫ lift (x3 G 0) (x3 G 1)).left ^ (-1 : ℤ) *
-    h (lift x (lift y y') ≫ lift (x3 G 0) (x3 G 2)).left ^ (-1 : ℤ) = _
-  rw [comp_lift, comp_lift, comp_lift, b, a₀, a₁, a₂]
-  simp only [_root_.zpow_neg, _root_.zpow_one]
+  first | exact _root_.GlobalTheory.BiextSym.biextension_second_law_product | exact @_root_.GlobalTheory.BiextSym.biextension_second_law_product | apply _root_.GlobalTheory.BiextSym.biextension_second_law_product <;> assumption
 
 omit [IsCommMonObj G] in
 theorem comp_pow' {T T' : Over S} (ρ : T' ⟶ T) (a : T ⟶ G) (k : ℕ) : ρ ≫ a ^ k = (ρ ≫ a) ^ k := by

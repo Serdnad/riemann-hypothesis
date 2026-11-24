@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PGradedFinite
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.IsFieldIntersection
 import Mathlib.Data.Finsupp.Interval
 import Mathlib.Order.CompletePartialOrder
@@ -148,25 +149,9 @@ theorem chartTheta_X_ne_zero {j : ∀ k, ι k} (hj : IsChart W j) (k : K) :
 private theorem aeval_mul_const_of_isMultiHomog {A : Type*} [CommRing A] [Algebra F A] (c : K → A)
     (y : (Σ k, ι k) → A) {f : MRingOver F ι} {a : K → ℕ} (hf : IsMultiHomog f a) :
     aeval (fun p => c p.1 * y p) f = (∏ k, c k ^ a k) * aeval y f := by
-  classical
-  conv_lhs => rw [MvPolynomial.as_sum f]
-  conv_rhs => rw [MvPolynomial.as_sum f]
-
-  rw [map_sum, map_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hw := (mem_weightedHomogeneousSubmodule _ _ _ _).mp (mem_weighted_of_isMultiHomog hf)
-    (MvPolynomial.mem_support_iff.mp hm)
-  rw [weight_mw] at hw
-  rw [aeval_monomial, aeval_monomial]
-  have key : (m.prod fun p e => c p.1 ^ e) = ∏ k, c k ^ a k := by
-    rw [Finsupp.prod_fintype _ _ (fun _ => pow_zero _), Fintype.prod_sigma, ← hw]
-    simp only [Finset.prod_pow_eq_pow_sum]
-  have split : (m.prod fun p e => (c p.1 * y p) ^ e) =
-      (m.prod fun p e => c p.1 ^ e) * m.prod fun p e => y p ^ e := by
-    simp only [mul_pow]
-    exact Finsupp.prod_mul
-  rw [split, key]
-  ring
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.G.AI.I1.aeval_blockScale
+    | apply _root_.ReciprocityTheory.ChartRestriction.G.AI.I1.aeval_blockScale <;> first | assumption | rfl | infer_instance
 
 theorem chartRho_chartIdeal (hW : IsMultiHomogIdeal W) {j : ∀ k, ι k} (hj : IsChart W j)
     {g : MRingOver F ι} (hg : g ∈ chartIdeal W j) : chartRho W j g = 0 := by
@@ -331,20 +316,8 @@ theorem chart_finite (hW : IsProjVarF W 0) {j : ∀ k, ι k} (hj : IsChart W j) 
 
 instance finiteDimensional_weighted [DecidableEq K] (e : K → ℕ) :
     FiniteDimensional F (weightedHomogeneousSubmodule F (mw (ι := ι)) e) := by
-  classical
-  rw [weightedHomogeneousSubmodule_eq_finsupp_supported, AddMonoidAlgebra.supported_eq_span_single]
-  apply FiniteDimensional.span_of_finite
-  have hfin : {m : (Σ k, ι k) →₀ ℕ | Finsupp.weight (mw (ι := ι)) m = e}.Finite := by
-    apply (Set.finite_Iic (Finsupp.equivFunOnFinite.symm fun p : Σ k, ι k => e p.1)).subset
-    intro m hm
-    rw [Set.mem_setOf_eq, weight_mw] at hm
-    rw [Set.mem_Iic, Finsupp.le_def]
-    intro p
-    simp only [Finsupp.equivFunOnFinite_symm_apply_apply]
-    rw [← hm]
-    exact Finset.single_le_sum (f := fun i => m ⟨p.1, i⟩) (fun _ _ => Nat.zero_le _)
-      (Finset.mem_univ p.2)
-  exact hfin.image _
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.finiteDimensional_multiHomogForms <;> assumption
 
 end Point
 

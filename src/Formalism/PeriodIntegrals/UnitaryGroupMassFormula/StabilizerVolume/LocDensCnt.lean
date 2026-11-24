@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.LocDensVolA
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.UnifVSpec
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.LocDensFF
@@ -245,12 +246,7 @@ theorem lt_one_iff_unif (x : Fv F v) :
 
 theorem ev_int (x : F) : ∀ᶠ v in cofinite,
     algebraMap F (Fv F v) x ∈ v.adicCompletionIntegers F := by
-  have hfin := IsDedekindDomain.HeightOneSpectrum.Support.finite (𝓞 F) x
-  refine Filter.eventually_cofinite.mpr (hfin.subset ?_)
-  intro w hw
-  simp only [Set.mem_setOf_eq] at hw
-  rw [IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers (𝓞 F) F w, vcoe, not_le] at hw
-  exact hw
+  apply _root_.PI.VolStabS.VolAAW.ev_int <;> assumption
 
 theorem ev_unit {x : F} (hx : x ≠ 0) : ∀ᶠ v in cofinite,
     Valued.v (algebraMap F (Fv F v) x) = 1 := by

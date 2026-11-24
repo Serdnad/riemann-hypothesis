@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitConjSum
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.HeightOrbitChartMax
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PMinimalPrimeMultiHomog
 public import GroundTheory.HeightsAndTheta.Heights.HeightComparison.POrbitCurve
@@ -95,21 +96,7 @@ theorem prod_inv_pow_ne_zero {Ω : Type*} [Field Ω] (z : Coord n → Ω) (c : (
 theorem mem_orbitIdeal_of_aeval_eq_zero (x : Cone n (AlgebraicClosure ℚ))
     {G : MvPolynomial (Coord n) ℤ} {b : ι → ℕ} (hG : IsWeightedHomogeneous (coordDeg n) G b)
     (h0 : aeval (flatCone x) G = 0) : G ∈ orbitIdeal x := by
-  rw [orbitIdeal, Geo.mCoordIdeal, RingHom.mem_ker, Geo.mConeMap]
-  have e : (fun p : Coord n ↦ C (flatCone x p) * (X p.1 : MvPolynomial ι (AlgebraicClosure ℚ))) =
-      fun p ↦ (X p.1 : MvPolynomial ι (AlgebraicClosure ℚ)) * C (flatCone x p) :=
-    funext fun p ↦ mul_comm _ _
-  have hC : aeval (fun p : Coord n ↦ (C (flatCone x p) : MvPolynomial ι (AlgebraicClosure ℚ))) G =
-      C (aeval (flatCone x) G) := by
-    rw [aeval_def, aeval_def, eval₂_comp_left]
-    congr 1
-  change aeval (fun p : Coord n ↦ C (flatCone x p) * (X p.1 : MvPolynomial ι (AlgebraicClosure ℚ))) G = 0
-  have h := aeval_mul_of_homog (fun k : ι ↦ (X k : MvPolynomial ι (AlgebraicClosure ℚ)))
-    (fun p ↦ C (flatCone x p)) hG
-  beta_reduce at h
-  rw [e]
-  refine h.trans (mul_eq_zero_of_left (hC.trans ?_) _)
-  rw [h0, map_zero]
+  apply _root_.GroundTheory.Heights₂.Heights.OrbitConjSum.mem_orbitIdeal_of_homog <;> assumption
 
 theorem aeval_dehomCoords_of_homog {Ω : Type*} [Field Ω] [Algebra ℤ Ω] (z : Coord n → Ω)
     (c : (k : ι) → Fin (n k + 1)) {G : MvPolynomial (Coord n) ℤ} {b : ι → ℕ}

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.CharacterShapes.FiniteOrbits.HomTrivialOnDetOne
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.CharacterShapes.UnitaryThreeTestFunctionHeckeRelations
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.CharacterShapes.FiniteOrbits.LocalLevelOutsideSigma
 import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.LevelTorusLeTorus
@@ -63,26 +64,7 @@ private theorem det_dg (d : Fin 2 → kˣ) : GeneralLinearGroup.det (dg d) = d 0
   simp [dg, val_diagT, Matrix.det_diagonal, Fin.prod_univ_two]
 
 private theorem det_mem (V : Lev k) (g : GL (Fin 2) k) (hg : g ∈ V.J 2) : GeneralLinearGroup.det g ∈ V.H := by
-  obtain ⟨a, ha, s, hs, b, hb, rfl⟩ := (factJ k V 2).1 g hg
-  obtain ⟨t, ht, rfl⟩ := Subgroup.mem_map.1 hs
-  have hau : a ∈ unipB k (Fin 2) := (glIwa k 2).N_le ha
-  have hb0 : b ∈ Subgroup.comap (GlobalTheory.CuspRep.invT 2 k) (unipB k (Fin 2)) ⊓ Kc k 2 (V.c + 1) := hb
-  have hbl := GlAx.mem_low.1 (Subgroup.mem_inf.1 hb0).1
-  have hal := (mem_unipB k).1 hau
-  have da : GeneralLinearGroup.det a = 1 := by
-    ext
-    simp only [GeneralLinearGroup.val_det_apply, Units.val_one]
-    rw [Matrix.det_of_upperTriangular (fun i j hij => hal.1 i j hij)]
-    simp [hal.2]
-  have db : GeneralLinearGroup.det b = 1 := by
-    ext
-    simp only [GeneralLinearGroup.val_det_apply, Units.val_one]
-    rw [Matrix.det_of_lowerTriangular _ (fun i j hij => hbl.1 i j hij)]
-    simp [hbl.2]
-  rw [map_mul, map_mul, da, db, one_mul, mul_one]
-  have ht' : ∀ i, t i ∈ V.H := fun i => ht i (Set.mem_univ i)
-  rw [show diagT k (Fin 2) t = dg t from rfl, det_dg]
-  exact V.H.mul_mem (ht' 0) (ht' 1)
+  apply _root_.det_in_H <;> assumption
 
 private theorem loc {O : Type} [CommRing O] [Algebra O k] (hO : IsInts k O) (h2 : (2 : k) ≠ 0) {Δ s : k} (hs : s * s = Δ)
     (hs0 : s ≠ 0) (V : Lev k) (u : DX Δ) (hu : eD hs u ∈ V.J 2) :

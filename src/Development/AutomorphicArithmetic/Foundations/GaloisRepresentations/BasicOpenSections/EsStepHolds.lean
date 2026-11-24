@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.PTrSplitQ
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.BasicOpenSections.PlaceData
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.TranscendenceTraces.IsolateSpecHolds
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
@@ -217,34 +218,7 @@ private theorem existsUnique_sec {U P : Scheme.{0}} (p' : P ⟶ U) {m : ℕ} (s'
     (hs : ∀ j, s' j ≫ p' = 𝟙 U) (hiso : IsIso (Sigma.desc s' : ∐ (fun _ : Fin m => U) ⟶ P))
     {Ω : Type} [Field Ω] (x0 : gp Ω ⟶ U) (y : gp Ω ⟶ P) (hy : y ≫ p' = x0) :
     ∃! j, x0 ≫ s' j = y := by
-  classical
-  set D : ∐ (fun _ : Fin m => U) ⟶ P := Sigma.desc s' with hD
-  have hι : ∀ j, Sigma.ι (fun _ : Fin m => U) j ≫ D = s' j := fun j => Sigma.ι_desc _ _
-  have huniq : ∀ j₁ j₂, x0 ≫ s' j₁ = x0 ≫ s' j₂ → j₁ = j₂ := by
-    intro j₁ j₂ h
-    rw [← hι j₁, ← hι j₂, ← Category.assoc, ← Category.assoc, cancel_mono] at h
-    have h2 := congrArg (fun f : gp Ω ⟶ ∐ (fun _ : Fin m => U) => f (IsLocalRing.closedPoint Ω)) h
-    simp only at h2
-    have h3 := (sigmaι_eq_iff (fun _ : Fin m => U) j₁ j₂ _ _).mp h2
-    exact (Sigma.mk.inj_iff.mp h3).1
-  obtain ⟨⟨j, u⟩, hju⟩ :=
-    (sigmaMk (fun _ : Fin m => U)).surjective ((y ≫ inv D) (IsLocalRing.closedPoint Ω))
-  rw [sigmaMk_mk] at hju
-  have hrange : Set.range (y ≫ inv D).base ⊆ Set.range (Sigma.ι (fun _ : Fin m => U) j).base := by
-    rintro _ ⟨z, rfl⟩
-    refine ⟨u, ?_⟩
-    rw [Subsingleton.elim z (IsLocalRing.closedPoint Ω)]
-    exact hju
-  obtain ⟨t, ht⟩ : ∃ t, t ≫ Sigma.ι (fun _ : Fin m => U) j = y ≫ inv D :=
-    ⟨_, IsOpenImmersion.lift_fac _ _ hrange⟩
-  have hy2 : t ≫ s' j = y := by
-    rw [← hι j, ← Category.assoc, ht, Category.assoc, IsIso.inv_hom_id, Category.comp_id]
-  have htx : t = x0 := by
-    rw [← hy, ← hy2, Category.assoc, hs, Category.comp_id]
-  have hy3 : x0 ≫ s' j = y := by
-    rw [← htx]
-    exact hy2
-  exact ⟨j, hy3, fun j₁ hj₁ => huniq _ _ (hj₁.trans hy3.symm)⟩
+  apply _root_.existsUnique_sec <;> assumption
 
 private theorem push_one {W S : Scheme.{0}} (c : W ⟶ S) [IsFinite c] [Surjective c] {G : Type} [Finite G]
     (a : G → (W ⟶ W)) (hs : Splits c c a) : (Wt.const W 1).push c = Wt.const S (Nat.card G : ℤ) := by

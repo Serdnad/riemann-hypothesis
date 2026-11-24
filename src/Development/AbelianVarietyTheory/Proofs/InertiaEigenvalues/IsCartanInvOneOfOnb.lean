@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaFockVacuumProperties
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdjFormula
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksStage
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsNormaliseMeanSquareOfCocompact
@@ -93,27 +94,7 @@ open GlobalTheory.RawLift.VecNonzero
 
 open scoped ComplexOrder in
 theorem isCartanInv_one_of_onb {k : ℕ} {Gm B : Matrix (Fin k) (Fin k) ℂ} (h : IsONBasis Gm 1 B k) : IsCartanInv Gm 1 := by
-  obtain ⟨ε, hε, hG, -⟩ := h
-  have e1 : ∀ a, (ε a : ℂ) = 1 := fun a => by
-    rcases hε a with h | h
-    · simp [h.1]
-    · exact absurd a.2 (not_lt.2 h.2)
-  have hB : Bᴴ * Gm * B = 1 := by
-    rw [hG]
-    simp only [e1, Matrix.diagonal_one]
-  have hu : IsUnit B.det := Matrix.isUnit_det_of_left_inverse hB
-  have h1 := Matrix.mul_nonsing_inv B hu
-  have h2 : Gm = (B⁻¹)ᴴ * B⁻¹ := by
-    have h3 : (B⁻¹)ᴴ * (Bᴴ * Gm * B) * B⁻¹ = (B⁻¹)ᴴ * B⁻¹ := by rw [hB, Matrix.mul_one]
-    have h4 : (B⁻¹)ᴴ * Bᴴ = 1 := by rw [← Matrix.conjTranspose_mul, h1, Matrix.conjTranspose_one]
-    rw [← h3]
-    simp only [Matrix.mul_assoc, h1, Matrix.mul_one]
-    rw [← Matrix.mul_assoc, h4, Matrix.one_mul]
-  refine ⟨Matrix.mul_one _, by simp, ?_⟩
-  rw [Matrix.mul_one, h2]
-  exact Matrix.PosDef.conjTranspose_mul_self _
-    (Matrix.mulVec_injective_iff_isUnit.2 ((Matrix.isUnit_iff_isUnit_det _).2 (by
-      rw [Matrix.det_nonsing_inv]; exact hu.ringInverse)))
+  first | exact _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | exact @_root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | apply _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb <;> assumption
 
 theorem vecNe : ∀ (D : D7) (G : Type) [Group G] [Fintype G] (Pl0 T : Type) (A : FamIn D.what₂.LL G Pl0 T D.R.m) (Ks : Type) [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] (R : RealDat D A Ks) (F : Face D A), Laws R F → R.FullP → ∀ i t, VecNe R i t := by
   intro D G _ _ Pl0 T A Ks _ _ _ R F hL hF i t μ 𝓕 hμ

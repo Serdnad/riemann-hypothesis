@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ThetaSeriesRationalityAndCoefficientBoundStatement
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MovedReadingSameMapsBaseReadingAgrees
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.RunsAlong
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RayFieldTheta
@@ -139,27 +140,7 @@ namespace GlobalTheory.RayOnto
 theorem containsRayField_comp {K L L' : Type} [Field K] [NumberField K] [Field L] [NumberField L] [Field L'] [NumberField L']
     (φ : K →+* L) (τ : L →+* L') (n : ℕ) (h : GlobalTheory.IndefiniteRowSideFullHecke.RayFieldTheta.ContainsRayField φ n) :
     GlobalTheory.IndefiniteRowSideFullHecke.RayFieldTheta.ContainsRayField (τ.comp φ) n := by
-  intro P hP
-  letI : Algebra L L' := τ.toAlgebra
-  let Q : HeightOneSpectrum (𝓞 L) := P.under (𝓞 L)
-  have hQ : Q.asIdeal = P.asIdeal.comap (RingOfIntegers.mapRingHom τ) := rfl
-  haveI hPo : P.asIdeal.LiesOver Q.asIdeal := ⟨rfl⟩
-  have hn : ((n : ℕ) : 𝓞 L) ∉ Q.asIdeal := fun h' => hP (by
-    rw [hQ, Ideal.mem_comap, map_natCast] at h'
-    exact h')
-  obtain ⟨f, α, h1, h2, h3⟩ := h Q hn
-  have hf := Ideal.absNorm_eq_pow_inertiaDeg'_of_liesOver P.asIdeal Q.asIdeal Q.isPrime Q.ne_bot
-  have hcm : P.asIdeal.comap (RingOfIntegers.mapRingHom (τ.comp φ)) =
-      Q.asIdeal.comap (RingOfIntegers.mapRingHom φ) := by
-    ext x
-    rfl
-  rw [hcm]
-  refine ⟨f * Q.asIdeal.inertiaDeg' P.asIdeal, α ^ Q.asIdeal.inertiaDeg' P.asIdeal, ?_, ?_, ?_⟩
-  · rw [hf, h1, ← pow_mul]
-  · rw [pow_mul, h2, Ideal.span_singleton_pow]
-  · have := sub_dvd_pow_sub_pow α 1 (Q.asIdeal.inertiaDeg' P.asIdeal)
-    rw [one_pow] at this
-    exact dvd_trans h3 this
+  first | exact _root_.GlobalTheory.RayUp.containsRayField_up | exact @_root_.GlobalTheory.RayUp.containsRayField_up | apply _root_.GlobalTheory.RayUp.containsRayField_up <;> assumption
 
 theorem exists_finset_containsRayField : GlobalTheory.NT.RayField → ∀ (P : Pre) (M : ℕ), M ≠ 0 → ∃ S : Finset ℂ, (∀ z ∈ S, IsAlgebraic ℚ z) ∧ ∀ (L : Type) [Field L] [NumberField L] (σ : L →+* ℂ) (φ : P.host.K →+* L), σ.comp φ = P.host.φ₀.comp (algebraMap P.host.K P.host.E) → (∀ z ∈ S, ∃ x, σ x = z) → GlobalTheory.IndefiniteRowSideFullHecke.RayFieldTheta.ContainsRayField φ M := by
   intro hR P M hM

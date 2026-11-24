@@ -611,12 +611,7 @@ theorem algebraMap_mem_O (L : LocE F E) (a : 𝒪[F]) : algebraMap F E a ∈ L.O
   exact isIntegral_algebraMap
 
 theorem mem_OF_of_mem_O [Nontrivial E] (L : LocE F E) (a : F) (h : algebraMap F E a ∈ L.O) : a ∈ 𝒪[F] := by
-  rw [L.O_def] at h
-  have hinj : Function.Injective ((Algebra.ofId F E).restrictScalars 𝒪[F]) := (algebraMap F E).injective
-  have h' : IsIntegral 𝒪[F] a := (isIntegral_algHom_iff _ hinj).mp h
-  obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.mp h'
-  rw [← hy]
-  exact y.2
+  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.mem_OF_of_mem_O <;> assumption
 
 theorem cj_mem_O (L : LocE F E) (x : E) (h : x ∈ L.O) : L.cj x ∈ L.O := by
   rw [L.O_def] at h ⊢
@@ -636,13 +631,7 @@ theorem inv_mem_OF (a : F) (h : a ∉ 𝒪[F]) : a⁻¹ ∈ 𝒪[F] := by
        exact inv_le_one_of_one_le₀ (le_of_lt (not_le.mp h)))
 
 theorem exists_scale (a : F) : ∃ r : 𝒪[F], (r : F) ≠ 0 ∧ (r : F) * a ∈ 𝒪[F] := by
-  by_cases ha : a ∈ 𝒪[F]
-  · exact ⟨1, by simp, by simpa using ha⟩
-  · have ha0 : a ≠ 0 := fun h0 => ha (by rw [h0]; exact zero_mem _)
-    refine ⟨⟨a⁻¹, inv_mem_OF a ha⟩, inv_ne_zero ha0, ?_⟩
-    show a⁻¹ * a ∈ 𝒪[F]
-    rw [inv_mul_cancel₀ ha0]
-    exact one_mem _
+  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.exists_scale <;> assumption
 
 theorem exists_pow_mul_mem [IsNonarchimedeanLocalField F] (π : 𝒪[F]) (hπ : Irreducible π) (a : F) :
     ∃ m : ℕ, ∀ k, m ≤ k → (π : F) ^ k * a ∈ 𝒪[F] := by
@@ -697,11 +686,7 @@ variable {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E]
 theorem decomp (L : LocE F E) (θ : E) (hθc : L.cj θ = -θ) (D : F) (hD : θ * θ = algebraMap F E D) (x : E) :
     ∃ t c : F, algebraMap F E t = x + L.cj x ∧ algebraMap F E c = (x - L.cj x) * θ ∧
       algebraMap F E (2 * D) * x = algebraMap F E (D * t) + algebraMap F E c * θ := by
-  obtain ⟨t, ht⟩ := tr_ex L x
-  obtain ⟨c, hc⟩ := (L.cj_fix ((x - L.cj x) * θ)).mp (by rw [map_mul, map_sub, L.cj_cj, hθc]; ring)
-  refine ⟨t, c, ht, hc, ?_⟩
-  rw [map_mul, map_mul, ht, hc, map_ofNat]
-  linear_combination (L.cj x - x) * hD
+  apply +allowSynthFailures _root_.PI.LocHerm.SlopeTestRemainingChoices.decomp <;> assumption
 
 theorem O_top (L : LocE F E) [IsNonarchimedeanLocalField F] [CharZero F] [IsTopologicalRing E] :
     IsOpen (L.O : Set E) ∧ IsCompact (L.O : Set E) ∧

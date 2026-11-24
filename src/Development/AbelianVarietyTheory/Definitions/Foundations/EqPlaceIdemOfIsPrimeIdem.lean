@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSelfDualAtScaled
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NonemptyAlgHomOfNotIsField
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsSplitIdempotentsOfRelTraceOneModTwo
@@ -65,17 +66,7 @@ theorem tens_map_map {R R' R'' : Type} [CommRing R] [Algebra F R] [CommRing R'] 
 
 omit [NumberField E] in
 theorem adTens_eq_one' {y : AF F ⊗[F] E} (h1 : ∀ w, compInf F E w y = 1) (h2 : ∀ v, compFin F E v y = 1) : y = 1 := by
-  have := GlobalTheory.AutFunCounterexample.tens_inj (F := F) (E := E) (A := Ainf F) (B := Af F) (n := 1) (Matrix.of fun _ _ => y)
-    (by
-      ext i j
-      rw [Subsingleton.elim i j, Matrix.one_apply_eq]
-      exact GlobalTheory.AutFunCompare.infTens_ext fun w => (tens_map_map _ _ y).trans ((h1 w).trans (map_one _).symm))
-    (by
-      ext i j
-      rw [Subsingleton.elim i j, Matrix.one_apply_eq]
-      exact GlobalTheory.LatticeLocalGlobal.ext_components _ _ fun v =>
-        (tens_map_map _ _ y).trans ((h2 v).trans (map_one _).symm))
-  exact congrFun (congrFun this 0) 0
+  first | exact _root_.GlobalTheory.AdelicU.Model.adTens_eq_one | exact @_root_.GlobalTheory.AdelicU.Model.adTens_eq_one | apply _root_.GlobalTheory.AdelicU.Model.adTens_eq_one <;> assumption
 
 omit [NumberField E] in
 theorem mul_idem_iff_mem_range_emb {n : ℕ} (J : Matrix (Fin n) (Fin n) E) (v : HeightOneSpectrum (𝓞 F)) (ε : AF F)

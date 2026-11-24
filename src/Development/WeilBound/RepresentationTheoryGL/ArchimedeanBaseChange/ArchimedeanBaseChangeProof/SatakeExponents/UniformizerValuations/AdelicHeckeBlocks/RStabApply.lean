@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SupportOutFinite
 
 @[expose] public section
 
@@ -105,16 +106,7 @@ theorem coset_mem {G : Type} [Group G] (W : Subgroup G) (q : G ⧸ W) (y : G) :
 theorem fin_supp {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] (W : Subgroup G)
     (hW : IsOpen (W : Set G)) (g : G → ℂ) (hg : HasCompactSupport g) :
     (Function.support fun q : G ⧸ W => g q.out).Finite := by
-  obtain ⟨t, ht⟩ := hg.isCompact.elim_finite_subcover
-    (fun q : G ⧸ W => (fun y => q.out⁻¹ * y) ⁻¹' (W : Set G))
-    (fun q => hW.preimage (continuous_const_mul _))
-    (fun y _ => Set.mem_iUnion.2 ⟨(y : G ⧸ W), (coset_mem W _ y).2 rfl⟩)
-  refine t.finite_toSet.subset fun q hq => ?_
-  obtain ⟨i, hi, hyi⟩ := Set.mem_iUnion₂.1 (ht (subset_tsupport g hq))
-  have h := (coset_mem W i _).1 hyi
-  rw [QuotientGroup.out_eq'] at h
-  rw [h]
-  exact hi
+  apply _root_.GlobalTheory.TraceLevel.support_out_finite <;> assumption
 
 theorem int_cosets {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [MeasurableSpace Γ]
     [BorelSpace Γ] (ν : Measure Γ) [ν.IsMulLeftInvariant] (V : Subgroup Γ) (hV : IsOpen (V : Set Γ))

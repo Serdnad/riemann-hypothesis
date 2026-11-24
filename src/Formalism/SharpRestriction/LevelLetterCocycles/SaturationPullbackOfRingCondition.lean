@@ -116,11 +116,12 @@ theorem linInd_of_span {R M : Type} [CommRing R] [AddCommGroup M] [Module R M] {
   apply hgi
   simp only [LinearMap.coe_comp, Function.comp_apply, hab]
 
-theorem linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
+theorem span_and_linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
     (b : Fin r → W.DD T) (hb : ∀ j, b j ∈ W.NΔ T)
     (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
     (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
-    LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
+    Submodule.span W.EE (Set.range fun j => ((W.φD T) ^ e) (b j)) = ⊤ ∧
+      LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
 
   have hli : LinearIndependent (LetA O n) (fun j => (⟨b j, (hb j).1⟩ : W.N T)) := by
     refine Fintype.linearIndependent_iff.2 fun g hg => ?_
@@ -174,7 +175,15 @@ theorem linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1
       rw [← algebraMap_smul W.EE (W.q ^ k), smul_smul, map_pow, ← hu, Units.inv_mul, one_smul]
     rw [h2]
     exact Submodule.smul_mem _ _ h1
-  exact linInd_of_span bD _ (span_φ_pow W T b hspan hφ e)
+  have hspanPow := span_φ_pow W T b hspan hφ e
+  exact ⟨hspanPow, linInd_of_span bD _ hspanPow⟩
+
+theorem linInd_φ_pow (T : LocLat G Qp LL O) (hT : IsCrys PD T.ρ) (hs : W.s = 1) {r : ℕ}
+    (b : Fin r → W.DD T) (hb : ∀ j, b j ∈ W.NΔ T)
+    (huniq : ∀ x ∈ W.N T, ∃! a : Fin r → LetA O n, x = ∑ j, a j • b j)
+    (hq : IsUnit (algebraMap (LetA O n) W.EE W.q)) (e : ℕ) :
+    LinearIndependent W.EE (fun j => ((W.φD T) ^ e) (b j)) := by
+  exact (span_and_linInd_φ_pow W T hT hs b hb huniq hq e).2
 
 theorem φA_pow_letE (c : ZMod n) (e : ℕ) :
     (W.φA ^ e) (letE c : LetA O n) = letE (c + (e : ZMod n)) := by

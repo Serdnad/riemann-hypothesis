@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.GenericGradient
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionMetricPair
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsResolutionPullback
 import Mathlib.Algebra.Ring.IsFormallyReal
@@ -67,16 +69,7 @@ theorem eval_torus {f : MRing ι} {k₀ : K} {n : ℕ} (hf : IsMultiHomog f (blo
     (c : K → ℂ) (z : (Σ k, ι k) → ℂ) :
     eval (fun p => c p.1 * z p) (map (Int.castRingHom ℂ) f) =
       c k₀ ^ n * eval z (map (Int.castRingHom ℂ) f) := by
-  rw [eval_eq', eval_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hdeg := hf m (support_map_subset _ _ hm)
-  have hc : ∏ p : (Σ k, ι k), c p.1 ^ m p = c k₀ ^ n := by
-    rw [Fintype.prod_sigma]
-    simp_rw [Finset.prod_pow_eq_pow_sum, hdeg]
-    rw [Fintype.prod_eq_single k₀ fun k hk => by simp [blockDeg, hk]]
-    simp [blockDeg]
-  simp_rw [mul_pow, Finset.prod_mul_distrib, hc]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SupBoundBlock.eval_torus_blockDeg <;> assumption
 
 theorem prod_norm_unitDeg (c : K → ℂ) (k₀ : K) : ∏ k, ‖c k‖ ^ unitDeg k₀ k = ‖c k₀‖ := by
   rw [Fintype.prod_eq_single k₀ fun k hk => by simp [unitDeg, hk]]
@@ -115,16 +108,7 @@ theorem isConeTangent_of_map {P0 P : Ideal (MRing ι)} (hP0 : P0 ≤ P) {e : ℕ
     {γ : (Fin e → ℂ) → (Σ k, ι k) → ℂ} {y : Fin e → ℂ} (hγ : AnalyticAt ℂ γ y)
     (hpts : ∀ᶠ y' in 𝓝 y, γ y' ∈ mcPts P) (ξ : Fin e → ℂ) :
     IsConeTangent (Int.castRingHom ℂ) P0 (γ y) (fderiv ℂ γ y ξ) := by
-  intro f hf
-  set F := map (Int.castRingHom ℂ) f
-  have hzero : (fun w => eval w F) ∘ γ =ᶠ[𝓝 y] fun _ => (0 : ℂ) := by
-    filter_upwards [hpts] with w hw
-    exact hw.2 f (hP0 hf)
-  have hd := (adens_hasFDerivAt_eval F (γ y)).comp y hγ.differentiableAt.hasFDerivAt
-  have h0 : HasFDerivAt ((fun w => eval w F) ∘ γ) (0 : (Fin e → ℂ) →L[ℂ] ℂ) y :=
-    (hasFDerivAt_const (0 : ℂ) y).congr_of_eventuallyEq hzero
-  have := congrArg (fun L => L ξ) (hd.unique h0)
-  simpa [_root_.sum_apply, smul_eq_mul] using this
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ResolutionMetricPair.isConeTangent_of_map <;> assumption
 
 theorem levi_const_mul {κ : Type} [Fintype κ] {f : (κ → ℂ) → ℝ} {z : κ → ℂ} (c : ℝ)
     (hf : ContDiffAt ℝ 2 f z) (w : κ → ℂ) : levi (fun y => c * f y) z w = c * levi f z w := by

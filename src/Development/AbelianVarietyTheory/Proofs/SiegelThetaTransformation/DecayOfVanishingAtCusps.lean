@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ThHEqThSDictionary
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.FirstCoordinateAdmissible
 public import Mathlib.NumberTheory.NumberField.House
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.NormLeTsumOfCubeFourierCoeffLe
@@ -100,19 +101,7 @@ theorem cc_smul (q : ℚ) (x : E) : cc (q • x) = q • cc x :=
 
 theorem sum_univ {Ψ : Finset (E →+* ℂ)} (hΨ : IsType Ψ) (g : (E →+* ℂ) → ℂ) :
     ∑ σ, g σ = ∑ τ : Ψ, (g τ + g (ComplexEmbedding.conjugate τ.1)) := by
-  rw [Finset.sum_coe_sort Ψ (fun τ => g τ + g (ComplexEmbedding.conjugate τ)),
-    Finset.sum_add_distrib, ← Finset.sum_add_sum_compl Ψ]
-  congr 1
-  symm
-  refine Finset.sum_bij' (fun τ _ => ComplexEmbedding.conjugate τ)
-    (fun τ _ => ComplexEmbedding.conjugate τ) ?_ ?_ ?_ ?_ ?_
-  · intro τ hτ; exact Finset.mem_compl.2 ((hΨ τ).1 hτ)
-  · intro τ hτ
-    by_contra hc
-    exact Finset.mem_compl.1 hτ ((hΨ τ).2 hc)
-  · intro τ _; exact star_star τ
-  · intro τ _; exact star_star τ
-  · intro τ _; rfl
+  apply _root_.GlobalTheory.SW.Dict.sum_type <;> assumption
 
 theorem half_trace {Ψ : Finset (E →+* ℂ)} (hΨ : IsType Ψ) {x : E} (hx : cc x = x) :
     (((1 / 2 : ℚ) * Algebra.trace ℚ E x : ℚ) : ℂ) = ∑ τ : Ψ, τ.1 x := by

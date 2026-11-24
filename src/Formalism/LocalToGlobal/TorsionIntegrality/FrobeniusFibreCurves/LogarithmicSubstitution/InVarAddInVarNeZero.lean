@@ -7,6 +7,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 public import Mathlib.Analysis.Normed.Group.Ultra
+import Formalism.LocalToGlobal.CharacterGerms.ConstantZeroDoubleMultiplicationPair
 
 @[expose] public section
 
@@ -22,15 +23,7 @@ section Alg
 variable {K : Type} [Field K] [CharZero K]
 
 theorem fExp_zero {ι : Type} : fExp (0 : MvPowerSeries ι K) = 1 := by
-  have h0 : MvPowerSeries.constantCoeff (0 : MvPowerSeries ι K) = 0 := map_zero _
-  have hm : Formalism.L2.Th1.B.fExp (0 : MvPowerSeries ι K) * Formalism.L2.Th1.B.fExp 0 = Formalism.L2.Th1.B.fExp 0 * 1 := by
-    rw [mul_one, ← Formalism.L2.Th1.B.fExp_add h0 h0, add_zero]
-  have hne : Formalism.L2.Th1.B.fExp (0 : MvPowerSeries ι K) ≠ 0 := by
-    intro h
-    have h1 := Formalism.L2.Th1.B.constantCoeff_fExp h0
-    rw [h, map_zero] at h1
-    exact zero_ne_one h1
-  exact mul_left_cancel₀ hne hm
+  apply _root_.Formalism.L2.FormalSeriesBounds.FirstUnitSeriesIntegrality.ex_zero <;> assumption
 
 theorem fExp_mul_neg {ι : Type} {f : MvPowerSeries ι K} (hf : MvPowerSeries.constantCoeff f = 0) :
     fExp f * fExp (-f) = 1 := by

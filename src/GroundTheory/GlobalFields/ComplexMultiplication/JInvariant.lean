@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsPolynomialModularJOfHasQExpansion
 public import GroundTheory.GlobalFields.ComplexMultiplication.Uniformization
 public import Mathlib.NumberTheory.ModularForms.Discriminant
 public import Mathlib.NumberTheory.ModularForms.LevelOne.GradedRing
@@ -84,16 +85,7 @@ theorem weierstrassCurve_latticeOfTau_j (τ : ℍ) :
   ring
 
 theorem modularJ_smul (γ : SL(2, ℤ)) (τ : ℍ) : modularJ (γ • τ) = modularJ τ := by
-  have hγ : (γ : GL (Fin 2) ℝ) ∈ 𝒮ℒ := ⟨γ, rfl⟩
-  have h4 := SlashInvariantForm.slash_action_eqn'' E₄ hγ τ
-  have hΔ := SlashInvariantForm.slash_action_eqn'' CuspForm.discriminant hγ τ
-  simp only [CuspForm.coe_discriminant] at hΔ
-  have hd := denom_ne_zero (γ : GL (Fin 2) ℝ) τ
-  have hΔ0 := ModularForm.discriminant_ne_zero τ
-  rw [modularJ, modularJ, show γ • τ = (γ : GL (Fin 2) ℝ) • τ from rfl, h4, hΔ]
-  have : (denom (γ : GL (Fin 2) ℝ) τ ^ (4 : ℤ)) ^ 3 = denom (γ : GL (Fin 2) ℝ) τ ^ (12 : ℤ) := by
-    rw [← zpow_natCast, ← zpow_mul]; norm_num
-  rw [mul_pow, this, mul_div_mul_left _ _ (zpow_ne_zero _ hd)]
+  apply _root_.GlobalTheory.modularJ_smul <;> assumption
 
 end Elliptic
 end GroundTheory.Global

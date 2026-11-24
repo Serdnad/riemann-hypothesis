@@ -60,6 +60,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DiamondOperatorOfMatrixCompMul
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.PeterssonCosetIntegralSumDiamondOperatorUnitary, Development.AbelianVarietyTheory.Proofs.FoundationProofs.PeterssonCosetIntegralSumHeckeTAdjoint, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LevFiniteIndex, Development.AbelianVarietyTheory.Proofs.FoundationProofs.PeterssonCosetIntegralSumSelfPosGamma1InterGamma, Development.AbelianVarietyTheory.Proofs.FoundationProofs.PeterssonCosetIntegralSumSesquilinearHermitian, Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeTOperatorExplicitSemisimpleCuspForms
@@ -345,20 +346,7 @@ private theorem isDia_one_mem {N l : ℕ} {s : SL(2, ℤ)} (hs : IsDia N l 1 s) 
 
 private theorem isDia_mul {N l : ℕ} {d e : ℤ} {s t : SL(2, ℤ)} (hs : IsDia N l d s) (ht : IsDia N l e t) :
     IsDia N l (d * e) (s * t) := by
-  have cs := isDia_N hs
-  have e10 : (s * t) 1 0 = s 1 0 * t 0 0 + s 1 1 * t 1 0 := by
-    simp [Matrix.mul_apply, Fin.sum_univ_two]
-  have e11 : (s * t) 1 1 = s 1 0 * t 0 1 + s 1 1 * t 1 1 := by
-    simp [Matrix.mul_apply, Fin.sum_univ_two]
-  have hs1 := hs.1
-  have ht1 := ht.1
-  have hs2 := hs.2
-  have ht2 := ht.2
-  refine ⟨?_, ?_⟩
-  · rw [e10]; push_cast
-    linear_combination ((t 0 0 : ℤ) : ZMod (N * l)) * hs1 + ((s 1 1 : ℤ) : ZMod (N * l)) * ht1
-  · rw [e11]; push_cast
-    linear_combination ((t 0 1 : ℤ) : ZMod N) * cs + ((t 1 1 : ℤ) : ZMod N) * hs2 + (d : ZMod N) * ht2
+  apply _root_.GlobalTheory.Hk.isDia_mul <;> assumption
 
 private theorem isDia_congr {N l : ℕ} {d e : ℤ} {s : SL(2, ℤ)} (hs : IsDia N l d s) (h : (d : ZMod N) = e) :
     IsDia N l e s := ⟨hs.1, hs.2.trans h⟩
@@ -609,10 +597,7 @@ open scoped MatrixGroups ModularForm Manifold
 namespace GlobalTheory.Hk
 
 theorem lev_finiteIndex' (N l : ℕ) (hN : 0 < N) (hl : 0 < l) : (lev N l).FiniteIndex := by
-  haveI : NeZero N := ⟨hN.ne'⟩
-  haveI : NeZero l := ⟨hl.ne'⟩
-  unfold lev
-  infer_instance
+  apply _root_.GlobalTheory.Hk.lev_finiteIndex <;> assumption
 
 theorem pet_eq_quotInt (Γ : Subgroup SL(2, ℤ)) (k : ℤ) (f g : ℍ → ℂ) :
     pet Γ k f g = UpperTheory.V.Lit.KT.quotInt Γ (petersson k f g) := rfl

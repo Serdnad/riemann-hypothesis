@@ -142,17 +142,8 @@ attribute [local instance] Over.cartesianMonoidalCategory
 namespace GlobalTheory.FiniteGroupSchemeLength
 
 theorem length_self_eq_of_ringEquiv {R S : Type*} [CommRing R] [CommRing S] (e : R ≃+* S) :
-    Module.length R R = Module.length S S := by
-  letI : Algebra R S := e.toRingHom.toAlgebra
-  have h1 : Module.length R S = Module.length S S :=
-    Module.length_eq_of_surjective (R := S) (M := S) (S := R) e.surjective
-  let l : R ≃ₗ[R] S :=
-    { toFun := e, invFun := e.symm, left_inv := e.left_inv, right_inv := e.right_inv,
-      map_add' := e.map_add,
-      map_smul' := fun r x => by
-        simp only [smul_eq_mul, map_mul, RingHom.id_apply, Algebra.smul_def]
-        rfl }
-  rw [l.length_eq, h1]
+    Module.length R R = Module.length S S :=
+  _root_.GlobalTheory.FinSchemeRank.length_self_eq_of_ringEquiv e
 
 theorem isClosed_singleton_of_isFinite {k : Type} [Field k] {H : Scheme.{0}}
     (f : H ⟶ Spec (CommRingCat.of k)) [IsFinite f] (z : H) : IsClosed ({z} : Set H) := by
@@ -1442,11 +1433,7 @@ private theorem cancel_sp {k T : Type} [Field k] [CommRing T] (j : DualNumber k 
 
 private theorem frobN_nat {X Y : Scheme.{0}} (hX : (p : Γ(X, ⊤)) = 0) (hY : (p : Γ(Y, ⊤)) = 0) (g : Y ⟶ X) (f : ℕ) :
     frobN p Y hY f ≫ g = g ≫ frobN p X hX f := by
-  induction f with
-  | zero => simp [frobN]
-  | succ n ih =>
-    simp only [frobN, Category.assoc, ih]
-    rw [← Category.assoc, GlobalTheory.VB.frob_naturality p hX g hY, Category.assoc]
+  apply _root_.UpperTheory.Gal.Ord.frobN_nat <;> assumption
 
 private theorem frobN_sp (T : Type) [CommRing T] (hT : (p : T) = 0) (h : (p : Γ(Sp T, ⊤)) = 0) (f : ℕ) :
     ∃ φ : T →+* T, (∀ x, φ x = x ^ p ^ f) ∧ frobN p (Sp T) h f = spMap φ := by

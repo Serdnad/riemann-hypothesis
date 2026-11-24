@@ -577,14 +577,8 @@ theorem isSF_ssetF_base {D : D7} {G : Type} [Group G] [Fintype G] {Pl0 I0 T : Ty
     {A3 : FamIn3 D.what₂.LL G Pl0 I0 (List ℕ) T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL]
     (R : RealDat3 D A3 Ks) (F : Face3 D A3) (hW : R.WeakCharacterisation F) (hC : GlobalTheory.Hk3.Core R.toRealDat F.lv2) :
     GlobalTheory.Hk3.IsSF R.toRealDat (SsetF R.toRealDat A3.A.μ0) := by
-  intro v
-  have hQ := (GlobalTheory.T.theta_lift_levels_good_primes_properties R.toRealDat F.lv2 hC.lev).1
-  have hS : R.Sb = R.Pg := hW.allPl
-  unfold SsetF
-  rw [hQ, hS]
-  simp only [Finset.union_empty, Finset.mem_image]
-  refine exists_congr fun PP => and_congr_right fun _ => ?_
-  exact ⟨fun h => by rw [← h]; rfl, fun h => HeightOneSpectrum.ext h⟩
+  intros
+  apply _root_.GlobalTheory.Mem.R3.EigEx.isSF_ssetF <;> assumption
 
 
 

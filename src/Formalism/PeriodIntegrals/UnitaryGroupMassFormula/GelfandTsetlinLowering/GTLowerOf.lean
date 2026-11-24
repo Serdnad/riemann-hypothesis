@@ -760,10 +760,7 @@ theorem rat_of_pairings {ι : Type*} [Fintype ι] (β : ι → MvPolynomial σ �
 end fock
 
 theorem natW_anti {N : ℕ} (lam : DomWeight N) : Antitone lam.natW := by
-  intro i j hij
-  have h := lam.anti hij
-  simp only [DomWeight.natW]
-  omega
+  apply _root_.PI.WGL.Adj.natW_anti <;> assumption
 
 private theorem map_initMinor {R S : Type*} [CommRing R] [CommRing S] (φ : R →+* S)
     {r n s : ℕ} (I : Fin s → Fin r) (hs : s ≤ n) :
@@ -1653,21 +1650,6 @@ theorem xi_unitri {n N : ℕ} (h : n + 1 = N) (lam : DomWeight N) (sg : DomWeigh
   rw [hdu]
   simp
 
-private theorem mul_mem_dualWeyl_complex_add {N : ℕ} (ν μ : Fin N → ℕ) (f g : MvPolynomial (Fin N × Fin N) ℂ)
-    (hf : f ∈ Formalism.GradedWeylDivisibility.dualWeyl ℂ N N ν) (hg : g ∈ Formalism.GradedWeylDivisibility.dualWeyl ℂ N N μ) :
-    f * g ∈ Formalism.GradedWeylDivisibility.dualWeyl ℂ N N (ν + μ) := by
-  unfold Formalism.GradedWeylDivisibility.dualWeyl at hf hg ⊢
-  rw [Submodule.mem_inf] at hf hg ⊢
-  obtain ⟨hf1, hf2⟩ := hf
-  obtain ⟨hg1, hg2⟩ := hg
-  refine ⟨?_, ?_⟩
-  · rw [MvPolynomial.mem_weightedHomogeneousSubmodule] at hf1 hg1 ⊢
-    exact hf1.mul hg1
-  · simp only [Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply, AlgHom.toLinearMap_apply,
-      sub_eq_zero] at hf2 hg2 ⊢
-    intro l j hlj
-    rw [map_mul, map_mul, hf2 l j hlj, hg2 l j hlj]
-
 theorem nu_eq {n N : ℕ} (h : n + 1 = N) (lam : DomWeight N) (sg : DomWeight n) (hI : Interlace h lam sg)
     (t : Fin N) :
     (∑ i : Fin n, ((aa h lam sg i).toNat * (if t.1 < i.1 + 1 then 1 else 0) +
@@ -1711,7 +1693,7 @@ theorem xi_mem {n N : ℕ} (h : n + 1 = N) (lam : DomWeight N) (sg : DomWeight n
   unfold xi
   rw [key]
   refine XiA.prod_mem Finset.univ _ _ (fun i _ => ?_)
-  apply mul_mem_dualWeyl_complex_add
+  apply _root_.PI.WGL.XiA.mul_mem_dualWeyl_complex
   · apply XiA.pow_mem
     rw [XiA.lpMinor_eq]
     exact XiA.initMinor_mem _ _

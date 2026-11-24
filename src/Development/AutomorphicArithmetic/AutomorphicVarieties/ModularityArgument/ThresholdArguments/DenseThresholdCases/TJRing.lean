@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.EigenbasisLifts.IntModel
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.PtShape
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ArithmeticPointClassicality
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.DecompSigmaOrd
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CompactGroupRepDefinedOverFiniteExtension
@@ -21,6 +23,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTool
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DeterminantRepresentations.PolarInj
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.HiAlgUnit
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AuTeichEx
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AuTeichEx
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.OrdCoreH
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.TDenseU
 import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.LocalRingsCompletion.dvrFinite
@@ -79,22 +82,7 @@ open NumberField IsDedekindDomain Formalism.ConjugateSelfDual ReciprocityTheory.
 open UpperTheory.V.HV (Coef)
 
 private theorem jv_small {l : ℕ} [hl : Fact l.Prime] (C : ℝ) : ∃ N : ℕ, ‖((l : PadicAlgCl l)) ^ N‖ * C ≤ 1 := by
-  have hcast : ((l : PadicAlgCl l)) = (((l : ℚ_[l]) : PadicAlgCl l)) := by
-    simp
-  have hlt : ‖((l : PadicAlgCl l))‖ < 1 := by
-    rw [hcast, PadicAlgCl.norm_extends]
-    exact Padic.norm_p_lt_one
-  have hpos : (0:ℝ) < 1 / (|C| + 1) := by positivity
-  obtain ⟨N, hN⟩ := exists_pow_lt_of_lt_one hpos hlt
-  refine ⟨N, ?_⟩
-  rw [norm_pow]
-  have h0 : 0 ≤ ‖((l : PadicAlgCl l))‖ ^ N := by positivity
-  calc ‖((l : PadicAlgCl l))‖ ^ N * C ≤ ‖((l : PadicAlgCl l))‖ ^ N * |C| :=
-        mul_le_mul_of_nonneg_left (le_abs_self C) h0
-    _ ≤ 1 / (|C| + 1) * |C| := mul_le_mul_of_nonneg_right hN.le (abs_nonneg C)
-    _ ≤ 1 := by
-        rw [div_mul_eq_mul_div, one_mul, div_le_one (by positivity)]
-        linarith
+  apply _root_.im_small <;> assumption
 
 private theorem isFractionRing_coef_of_mem_iff_norm_le_one {l : ℕ} [hl : Fact l.Prime] (E : IntermediateField ℚ_[l] (PadicAlgCl l)) (c : Coef l)
     (hc : ∀ x, x ∈ c.O ↔ x ∈ E ∧ ‖x‖ ≤ 1) [Algebra c.O E]
@@ -133,81 +121,6 @@ private theorem isFractionRing_coef_of_mem_iff_norm_le_one {l : ℕ} [hl : Fact 
     ring
   · intro x y h
     exact ⟨1, by rw [hinj h]⟩
-
-private theorem jv_model {l : ℕ} [hl : Fact l.Prime] {G : Type} [Group G] [TopologicalSpace G] [CompactSpace G] {n : ℕ}
-    (E : IntermediateField ℚ_[l] (PadicAlgCl l)) (c : Coef l) (hc : ∀ x, x ∈ c.O ↔ x ∈ E ∧ ‖x‖ ≤ 1)
-    (r : G →* GL (Fin n) (PadicAlgCl l)) (hr : ∀ i j, Continuous fun g => (r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j)
-    (hE : ∀ g i j, (r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j ∈ E) :
-    ∃ (Q : GL (Fin n) (PadicAlgCl l)) (r₀ : G →* GL (Fin n) c.O),
-      ∀ g, r g * Q = Q * pushRep (algebraMap c.O (PadicAlgCl l)) r₀ g := by
-  classical
-  letI : Algebra c.O E :=
-    ((algebraMap c.O (PadicAlgCl l)).codRestrict E (fun a => ((hc a).1 a.2).1)).toAlgebra
-  have hφ : ∀ a : c.O, ((algebraMap c.O E a : E) : PadicAlgCl l) = a := fun a => rfl
-  haveI := isFractionRing_coef_of_mem_iff_norm_le_one E c hc hφ
-  let ι : E →+* PadicAlgCl l := algebraMap E (PadicAlgCl l)
-  have hι : ∀ e : E, ι e = (e : PadicAlgCl l) := fun e => rfl
-  have hinjM : Function.Injective (ι.mapMatrix : Matrix (Fin n) (Fin n) E →+* _) := by
-    intro A A' h
-    ext i j
-    have := congrFun (congrFun h i) j
-    exact this
-  let M : G →* Matrix (Fin n) (Fin n) E :=
-    { toFun := fun g => Matrix.of fun i j => ⟨(r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j, hE g i j⟩
-      map_one' := by
-        apply hinjM
-        ext i j
-        simp [hι, Matrix.one_apply]
-        split_ifs <;> rfl
-      map_mul' := by
-        intro g h
-        apply hinjM
-        ext i j
-        simp [hι, Matrix.mul_apply] }
-  have hM : ∀ g, ι.mapMatrix (M g) = (r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) := by
-    intro g
-    ext i j
-    rfl
-  let rE : G →* GL (Fin n) E := M.toHomUnits
-  have hb : ∀ i j, ∃ C : ℝ, ∀ g, ‖(r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j‖ ≤ C := by
-    intro i j
-    obtain ⟨C, hC⟩ := isBounded_iff_forall_norm_le.1 (isCompact_range (hr i j)).isBounded
-    exact ⟨C, fun g => hC _ ⟨g, rfl⟩⟩
-  choose C hC using hb
-  obtain ⟨N, hN⟩ := jv_small (l := l) (∑ i, ∑ j, |C i j|)
-  have hbd : ∀ g i j, ‖(r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j‖ ≤ ∑ i, ∑ j, |C i j| := by
-    intro g i j
-    refine (hC i j g).trans ((le_abs_self _).trans ?_)
-    refine (Finset.single_le_sum (f := fun j => |C i j|) (fun _ _ => abs_nonneg _) (Finset.mem_univ j)).trans ?_
-    exact Finset.single_le_sum (f := fun i => ∑ j, |C i j|) (fun _ _ => Finset.sum_nonneg fun _ _ => abs_nonneg _) (Finset.mem_univ i)
-  have hlO : ((l : PadicAlgCl l)) ∈ c.O := Subalgebra.natCast_mem _ _
-  have hl0 : ((l : PadicAlgCl l)) ≠ 0 := by exact_mod_cast (Fact.out : l.Prime).ne_zero
-  let d : c.O := ⟨(l : PadicAlgCl l) ^ N, c.O.pow_mem hlO N⟩
-  have hd : d ≠ 0 := by
-    intro h
-    apply pow_ne_zero N hl0
-    exact congrArg Subtype.val h
-  have hint : ∀ g i j, ∃ a : c.O, algebraMap c.O E d * (rE g : Matrix (Fin n) (Fin n) E) i j = algebraMap c.O E a := by
-    intro g i j
-    have hmem : (l : PadicAlgCl l) ^ N * (r g : Matrix (Fin n) (Fin n) (PadicAlgCl l)) i j ∈ c.O := by
-      rw [hc]
-      refine ⟨E.mul_mem (pow_mem (E.natCast_mem l) N) (hE g i j), ?_⟩
-      rw [norm_mul]
-      exact (mul_le_mul_of_nonneg_left (hbd g i j) (norm_nonneg _)).trans hN
-    exact ⟨⟨_, hmem⟩, Subtype.ext rfl⟩
-  obtain ⟨Q, r₀, hQ⟩ := Pa.Det.latInt rE d hd hint
-  refine ⟨Matrix.GeneralLinearGroup.map ι Q, r₀, fun g => ?_⟩
-  have key := congrArg (Matrix.GeneralLinearGroup.map ι) (hQ g)
-  rw [map_mul, map_mul] at key
-  have h1 : Matrix.GeneralLinearGroup.map ι (rE g) = r g := by
-    ext i j
-    rfl
-  have h2 : Matrix.GeneralLinearGroup.map ι (pushRep (algebraMap c.O E) r₀ g) =
-      pushRep (algebraMap c.O (PadicAlgCl l)) r₀ g := by
-    ext i j
-    rfl
-  rw [h1, h2] at key
-  exact key
 
 private theorem jv_cont {l : ℕ} [hl : Fact l.Prime] {G : Type} [TopologicalSpace G]
     (E : IntermediateField ℚ_[l] (PadicAlgCl l)) (c : Coef l) (hc : ∀ x, x ∈ c.O ↔ x ∈ E ∧ ‖x‖ ≤ 1)
@@ -248,33 +161,7 @@ private theorem norm_algebraMap_padicInt_padicAlgCl_le_one' {l : ℕ} [Fact l.Pr
 
 private theorem norm_coe_coef_integer_le_one {l : ℕ} [Fact l.Prime] (c : Coef l) (x : c.O) :
     ‖(x : PadicAlgCl l)‖ ≤ 1 := by
-  obtain ⟨s, hs⟩ := Module.Finite.fg_top (R := ℤ_[l]) (M := c.O)
-  have hM : ∀ z : c.O, ‖(z : PadicAlgCl l)‖ ≤ 1 + ∑ t ∈ s, ‖(t : PadicAlgCl l)‖ := by
-    intro z
-    have hz : z ∈ Submodule.span ℤ_[l] (s : Set c.O) := by
-      rw [hs]
-      trivial
-    induction hz using Submodule.span_induction with
-    | mem t ht =>
-      have : ‖(t : PadicAlgCl l)‖ ≤ ∑ t ∈ s, ‖(t : PadicAlgCl l)‖ :=
-        Finset.single_le_sum (f := fun t : c.O => ‖(t : PadicAlgCl l)‖) (fun _ _ => norm_nonneg _) ht
-      linarith
-    | zero =>
-      have : (0 : ℝ) ≤ ∑ t ∈ s, ‖(t : PadicAlgCl l)‖ := Finset.sum_nonneg fun _ _ => norm_nonneg _
-      simp only [ZeroMemClass.coe_zero, norm_zero]
-      linarith
-    | add a b _ _ ha hb =>
-      rw [Subalgebra.coe_add]
-      exact (IsUltrametricDist.norm_add_le_max _ _).trans (max_le ha hb)
-    | smul a z _ hz =>
-      rw [Subalgebra.coe_smul, Algebra.smul_def, norm_mul]
-      exact (mul_le_of_le_one_left (norm_nonneg _) (norm_algebraMap_padicInt_padicAlgCl_le_one' a)).trans hz
-  by_contra h
-  push_neg at h
-  obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt (1 + ∑ t ∈ s, ‖(t : PadicAlgCl l)‖) h
-  have := hM (x ^ k)
-  rw [SubmonoidClass.coe_pow, norm_pow] at this
-  linarith
+  apply _root_.norm_coe_coefO_le_one <;> assumption
 
 private theorem exists_finiteDimensional_ge_forall_coef_integer_mem {l : ℕ} [Fact l.Prime] (c : Coef l)
     (K : IntermediateField ℚ_[l] (PadicAlgCl l)) [FiniteDimensional ℚ_[l] K] :
@@ -362,7 +249,7 @@ private theorem jv_local {p l : ℕ} [Fact p.Prime] [hl : Fact l.Prime] (hpl : p
   obtain ⟨E, hEfd, hKE, hcE⟩ := exists_finiteDimensional_ge_forall_coef_integer_mem c K
   obtain ⟨c', hc'⟩ := X.So.coefOf l E
   have hle : c.O ≤ c'.O := fun x hx => (hc' x).2 ⟨hcE ⟨x, hx⟩, norm_coe_coef_integer_le_one c ⟨x, hx⟩⟩
-  obtain ⟨Q, r₀, hQ⟩ := jv_model E c' hc' ρ hρe (fun g i j => hKE (hK g i j))
+  obtain ⟨Q, r₀, hQ⟩ := _root_.im_model E c' hc' ρ hρe (fun g i j => hKE (hK g i j))
   obtain ⟨hcomp, hfin, hlmem, -, -, -⟩ := abelian₂.dvr_finite l c'.O
   haveI := hcomp
   haveI := hfin
@@ -562,15 +449,7 @@ open UpperTheory.V.W
 private theorem jr_teich_ex (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsLocalRing O]
     [IsAdicComplete (maximalIdeal O) O] [Finite (ResidueField O)] [CharP (ResidueField O) l] :
     ∃ τ : ResidueField O →* O, ∀ x, residue O (τ x) = x := by
-  haveI : CharP (O ⧸ maximalIdeal O) l := inferInstanceAs (CharP (ResidueField O) l)
-  haveI : PerfectRing (ResidueField O) l := inferInstance
-  let j : ResidueField O →+* Perfection (O ⧸ maximalIdeal O) l :=
-    Perfection.lift l (ResidueField O) (O ⧸ maximalIdeal O) (RingHom.id (ResidueField O))
-  have hj : ∀ x, Perfection.coeff (O ⧸ maximalIdeal O) l 0 (j x) = x := fun x => by
-    have := (Perfection.lift l (ResidueField O) (O ⧸ maximalIdeal O)).symm_apply_apply (RingHom.id (ResidueField O))
-    exact RingHom.congr_fun this x
-  refine ⟨(Perfection.teichmuller l (maximalIdeal O)).comp j, fun x => ?_⟩
-  exact (Perfection.mk_teichmuller (j x)).trans (hj x)
+  apply _root_.au_teich_ex <;> assumption
 private theorem jr_isTeich {l : ℕ} [hl : Fact l.Prime] {F : GFrame l} (c : Coef l) {n : ℕ} (r : Resid F c.O n) :
     ∃ t, r.IsTeich t ∧ ∀ i g, r.chib i g = 1 → t i g = 1 := by
   obtain ⟨hc, hfin, hlm, -⟩ := UpperTheory.V.abelian₂.dvr_finite l c.O

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLatticeBasisHermitianSpace
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EulerProductLocalDensitiesConverges
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianOneByOneIsScalar
@@ -158,24 +159,8 @@ theorem exists_exponents (a : ℕ) (ha : 0 < a) :
     rw [h3, Algebra.norm_algebraMap, RingOfIntegers.rank, Int.natAbs_pow, Int.natAbs_natCast]
     push_cast; rfl
 
-theorem exists_den (β : F) : ∃ D : ℕ, 0 < D ∧ ∃ x : 𝓞 F, (D : F) * β = algebraMap (𝓞 F) F x := by
-  have halg : IsAlgebraic ℤ β :=
-    (IsFractionRing.isAlgebraic_iff ℤ ℚ F).2 (Algebra.IsAlgebraic.isAlgebraic β)
-  obtain ⟨y, hy0, hy⟩ := halg.exists_integral_multiple
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy0, ?_⟩
-  let x' : 𝓞 F := ⟨y • β, hy⟩
-  have hx' : algebraMap (𝓞 F) F x' = (y : F) * β := by
-    change y • β = _
-    rw [zsmul_eq_mul]
-  rcases Int.natAbs_eq y with h1 | h1
-  · refine ⟨x', ?_⟩
-    rw [hx']
-    conv_rhs => rw [h1]
-    simp
-  · refine ⟨-x', ?_⟩
-    rw [map_neg, hx']
-    conv_rhs => rw [h1]
-    simp
+theorem exists_den (β : F) : ∃ D : ℕ, 0 < D ∧ ∃ x : 𝓞 F, (D : F) * β = algebraMap (𝓞 F) F x :=
+  CoordinateBasisBounds.nat_mul_integral β
 end Place
 
 section Tuples

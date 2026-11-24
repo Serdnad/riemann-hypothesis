@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ControlledTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossings
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.ClopenSubscheme
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.OpenImmersionAppLE
@@ -130,12 +131,7 @@ private theorem comap_opensι_eq_ker_morphismRestrict {T : Scheme.{u}} (K : T.Id
 
 private theorem image_preimage_opensι_of_le {Y : Scheme.{u}} (V O : Y.Opens) (h : O ≤ V) :
     Scheme.Opens.ι V ''ᵁ (Scheme.Opens.ι V ⁻¹ᵁ O) = O := by
-  rw [Scheme.Hom.image_preimage_eq_opensRange_inf]
-  refine inf_eq_right.mpr ?_
-  intro x hx
-  show x ∈ Set.range ⇑(Scheme.Opens.ι V).base
-  rw [Scheme.Opens.range_ι]
-  exact h hx
+  apply _root_.FunctorialResolution.EmbeddedResolution.image_preimage_opensι <;> assumption
 
 private theorem injective_app_opensι_of_le {Y : Scheme.{u}} (V O : Y.Opens) (h : O ≤ V) :
     Function.Injective (CommRingCat.Hom.hom ((Scheme.Opens.ι V).app O)) := by

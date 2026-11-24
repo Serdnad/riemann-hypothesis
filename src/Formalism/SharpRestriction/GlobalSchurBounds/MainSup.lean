@@ -4,6 +4,7 @@ public import Formalism.GL3MeanSquares.SecondEstimateOfIntervalHypothesis
 public import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
 public import Formalism.GL3MeanSquares.SmoothedRemainderRealIntegralFormula
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.PsiZeroIntegral
+import all Formalism.GL3MeanSquares.HookFormulaTorsion.PsiZeroIntegral
 public import Formalism.GL3MeanSquares.HookFormulaTorsion.SmoothedRemainderRealIntegralFormula
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.FrameFacts
 public import Formalism.SizeWindowBrackets.ChainSlopeWindows.LipschitzWeightAndMinimum
@@ -123,11 +124,6 @@ theorem numerical_nonvanishing_bound : Formalism.HermitianLattices.ZeroFreeRegio
           have : 0 ≤ x ^ (ε / 3) := by positivity
           linarith
 
-private lemma gl2b2_intH (b : ℝ) (hb : 0 < b) :
-    MeasureTheory.IntegrableOn (fun v : ℝ => v ^ (2 : ℝ) * Real.exp (-b * v ^ (39 / 100 : ℝ)))
-      (Set.Ioi 0) := by
-  exact integrableOn_rpow_mul_exp_neg_mul_rpow (by norm_num) (by norm_num) hb
-
 private lemma gl2b2_ptw (c v lam : ℝ) (hc : 0 < c) (hv : 1 ≤ v) (hl0 : 0 < lam)
     (hl : lam ≤ v ^ (61 / 100 : ℝ)) :
     (v + lam) ^ 2 * Real.exp (-c * v / (lam + Real.sqrt v)) ≤
@@ -173,7 +169,9 @@ theorem gl2b2_thinIntegral : Formalism.HermitianLattices.ZeroFreeRegionGL2.ThinI
   unfold Formalism.HermitianLattices.ZeroFreeRegionGL2.ThinIntegral
   intro ε c hε hc
   set I : ℝ := ∫ v in Set.Ioi 0, v ^ (2 : ℝ) * Real.exp (-(c / 4) * v ^ (39 / 100 : ℝ)) with hI
-  have hIint := gl2b2_intH (c / 4) (by positivity)
+  have hIint : MeasureTheory.IntegrableOn
+      (fun v : ℝ => v ^ (2 : ℝ) * Real.exp (-(c / 4) * v ^ (39 / 100 : ℝ))) (Set.Ioi 0) :=
+    integrableOn_rpow_mul_exp_neg_mul_rpow (by norm_num) (by norm_num) (by positivity)
   have hI0 : 0 ≤ I := by
     apply MeasureTheory.setIntegral_nonneg measurableSet_Ioi
     intro v hv
@@ -444,24 +442,7 @@ lemma dom_integrableOn {a : ℝ} (ha : 1 < a) : IntegrableOn dom (Set.Ioi a) := 
 
 lemma exp_sqrt_le {c : ℝ} (hc : 0 < c) {x : ℝ} (hx : 1 < x) :
     Real.exp (-c * Real.sqrt (Real.log x)) ≤ 24 / c ^ 4 / Real.log x ^ 2 := by
-  have hL : 0 < Real.log x := Real.log_pos hx
-  set y : ℝ := c * Real.sqrt (Real.log x) with hy
-  have hy0 : 0 ≤ y := by positivity
-  have h1 := Real.pow_div_factorial_le_exp y hy0 4
-  have hy4 : y ^ 4 = c ^ 4 * Real.log x ^ 2 := by
-    rw [hy, mul_pow]
-    have : Real.sqrt (Real.log x) ^ 4 = (Real.sqrt (Real.log x) ^ 2) ^ 2 := by ring
-    rw [this, Real.sq_sqrt hL.le]
-  have hpos : 0 < c ^ 4 * Real.log x ^ 2 := by positivity
-  have hfac : ((Nat.factorial 4 : ℕ) : ℝ) = 24 := by norm_num [Nat.factorial]
-  rw [hfac, hy4] at h1
-  have h2 : Real.exp (-c * Real.sqrt (Real.log x)) = (Real.exp y)⁻¹ := by
-    rw [← Real.exp_neg, hy]; ring_nf
-  rw [h2]
-  have h3 : (Real.exp y)⁻¹ ≤ (c ^ 4 * Real.log x ^ 2 / 24)⁻¹ :=
-    inv_anti₀ (by positivity) h1
-  refine h3.trans (le_of_eq ?_)
-  field_simp
+  apply _root_.Formalism.HermitianLattices.P.PsiZeroIntegral.exp_sqrt_le <;> assumption
 
 def rem (a : ℕ → ℂ) (m : ℂ) (t : ℝ) : ℂ := (∑ k ∈ Icc 1 ⌊t⌋₊, a k) - m * t
 
@@ -676,7 +657,6 @@ theorem exceptional_zero_real_of_landau_page {C1 c : ℝ} (hc : 0 < c) (D : D7) 
   have hN0 : N ≠ 0 := NeZero.ne N
   have hN1 : (1 : ℝ) ≤ N := by exact_mod_cast Nat.one_le_iff_ne_zero.2 hN0
   have ha : 0 ≤ |ρ.im| := abs_nonneg _
-  have hl3 : 0 < Real.log 3 := Real.log_pos (by norm_num)
   by_cases h3 : 3 ≤ N
   · have hN3 : (3 : ℝ) ≤ N := by exact_mod_cast h3
     have hm3 : (3 : ℝ) ≤ max (N : ℝ) (N * |ρ.im|) := hN3.trans (le_max_left _ _)
@@ -879,12 +859,10 @@ theorem psi_thin_core {C7 C2 c lam : ℝ} (hC7 : 0 < C7) (hC2 : 0 ≤ C2) (hc : 
     have hmul := le_mul_of_one_le_right (by linarith : 0 ≤ s) hs1
     linarith
   set c' : ℝ := min (c / 3) 1 with hc'
-  have hc'0 : 0 < c' := lt_min (by positivity) one_pos
   have hc'1 : c' ≤ 1 := min_le_right _ _
   have hc'3 : c' ≤ c / 3 := min_le_left _ _
   have hls : 0 < lam + s := by linarith
   set E : ℝ := Real.exp (-c' * v / (lam + s)) with hE
-  have hE0 : 0 < E := Real.exp_pos _
   set T : ℝ := Real.exp s with hT
   have hT2 : 2 ≤ T := by have := Real.add_one_le_exp s; linarith
   have huv : u = Real.exp v := (Real.exp_log hu0).symm
@@ -892,7 +870,6 @@ theorem psi_thin_core {C7 C2 c lam : ℝ} (hC7 : 0 < C7) (hC2 : 0 ≤ C2) (hc : 
   have hT0 : 0 < T := Real.exp_pos _
   have hlT : Real.log T = s := Real.log_exp s
   set W : ℝ := v + lam with hW
-  have hW2 : 2 ≤ W := by linarith
   set P : ℝ := u * E with hP
   have hP0 : 0 < P := by positivity
   have q0 : c' * v / (lam + s) ≤ v := by
@@ -1039,10 +1016,8 @@ theorem zero_sum_core {C7 C lam ka : ℝ} (hC : 0 < C) (hlam : 1 ≤ lam) (hka :
     exact ⟨r0, r1, lt_of_lt_of_le r2 (le_max_left _ _), r3⟩
   set M : ℕ := ⌊T⌋₊ with hM
   have hMT : (M : ℝ) ≤ T := Nat.floor_le (by linarith)
-  have hM0 : (0 : ℝ) ≤ M := Nat.cast_nonneg M
   have hlT : 0 ≤ Real.log T := Real.log_nonneg hT
   set Y : ℝ := lam + Real.log T with hY
-  have hY1 : 1 ≤ Y := by linarith
   set La : ℝ := lam + Real.log ((M : ℝ) + 2) with hLa
   have hl2 := Real.log_two_lt_d9
   have hl3 : Real.log 3 ≤ 2 := by
@@ -1083,7 +1058,6 @@ theorem zero_sum_core {C7 C lam ka : ℝ} (hC : 0 < C) (hlam : 1 ≤ lam) (hka :
       ∑ ρ ∈ hfin.toFinset with ⌊|ρ.im|⌋₊ = i, (zOrd χ ρ : ℝ) / ‖ρ‖ ≤ a i * (2 * (C * La)) := by
     intro i hi
     have hiM : i ≤ M := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-    have hi0 : (0 : ℝ) < (i : ℝ) + 1 := by positivity
     have st1 : ∑ ρ ∈ hfin.toFinset with ⌊|ρ.im|⌋₊ = i, (zOrd χ ρ : ℝ) / ‖ρ‖ ≤
         ∑ ρ ∈ hfin.toFinset with ⌊|ρ.im|⌋₊ = i, a i * (zOrd χ ρ : ℝ) := by
       apply Finset.sum_le_sum
@@ -1703,7 +1677,6 @@ theorem proviso_e (L : SizeData₂ D) (h4f : LinkB.RankM D) (hDu : StandardLatti
     ChProviso_at L (Real.exp 1) := by
   intro u
   have hΓ : 1 < (D.mem u).A.GamP := (D.mem u).A.one_lt_gammaP
-  have hΓ0 : 0 < (D.mem u).A.GamP := lt_trans one_pos hΓ
   have hD : 0 < StandardLattice.DstarD D := by rw [← hDs, ← D.Dstar_eq u]; exact (D.mem u).A.Dstar_pos
   have hd : 0 < StandardLattice.duStarU D u := by rw [← hDu u]; exact_mod_cast (D.mem u).A.duStar_pos
   have hk := D.R.k_ge
@@ -1717,8 +1690,6 @@ theorem proviso_e (L : SizeData₂ D) (h4f : LinkB.RankM D) (hDu : StandardLatti
     have h3 : 2 ^ D.R.k = 2 * 2 ^ (D.R.k - 1) := by
       rw [← pow_succ']; congr 1; omega
     omega
-  have hfR : (0 : ℝ) < D.R.f := by exact_mod_cast hf
-  have hkR : (0 : ℝ) < D.R.k := by exact_mod_cast (by omega : 0 < D.R.k)
   have hX : Real.exp (StandardLattice.logXuD D u) ^ (D.R.f * D.R.k) = StandardLattice.DstarD D / StandardLattice.duStarU D u := by
     rw [← Real.exp_nat_mul]
     unfold StandardLattice.logXuD StandardLattice.logXu

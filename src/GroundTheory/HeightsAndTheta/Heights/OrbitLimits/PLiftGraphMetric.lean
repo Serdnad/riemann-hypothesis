@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPowerBlockMeasure
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftGraphMetric
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StatementsLiftGraphFactor
 import Mathlib.Algebra.Order.Floor.Extended
@@ -103,17 +104,8 @@ variable {Ω : Type} [Field Ω]
 
 theorem rename_mem_mCoordIdeal (y : (Σ k, ι k) → Ω) (v : Fin r → Ω) {f : MRing ι}
     (hf : f ∈ mCoordIdeal y) : rename (oldEmb r) f ∈ mCoordIdeal (addBlock y v) := by
-  rw [mCoordIdeal, RingHom.mem_ker] at hf ⊢
-  have key : ∀ g : MRing ι, mConeMap (addBlock y v) (rename (oldEmb r) g) = rename some (mConeMap y g) := by
-    intro g
-    simp only [mConeMap, aeval_rename]
-    induction g using MvPolynomial.induction_on with
-    | C a => simp
-    | add p q hp hq => simp [hp, hq]
-    | mul_X p n hp =>
-      simp only [map_mul, aeval_X, hp, Function.comp_apply, rename_C, rename_X]
-      rfl
-  rw [key, hf, map_zero]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.PowerBlockMeasure.rename_old_mem <;> assumption
 
 theorem oldPart_mem_mcPts {y : (Σ k, ι k) → Ω} {v : Fin r → Ω} {z : (Σ k, addIdx ι r k) → ℂ}
     (hz : z ∈ mcPts (mCoordIdeal (addBlock y v))) : basePart₂ z ∈ mcPts (mCoordIdeal y) := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPerturbMonomial
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ReferenceGeometryMultihomogForm
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsLiftBirationalAmple
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedNonzeroSection
@@ -38,19 +39,8 @@ variable {y}
 
 theorem chartLat_mul {a b : K → ℤ} {s u : Ω} (hs : s ∈ chartLat y a 1) (hu : u ∈ chartLat y b 1) :
     s * u ∈ chartLat y (a + b) 1 := by
-  rw [mem_chartLat_one] at hs hu ⊢
-  intro c hc
-  have e : s * u * ∏ k, y ⟨k, c k⟩ ^ (-(a + b) k) =
-      (s * ∏ k, y ⟨k, c k⟩ ^ (-a k)) * (u * ∏ k, y ⟨k, c k⟩ ^ (-b k)) := by
-    rw [mul_mul_mul_comm, ← Finset.prod_mul_distrib]
-    congr 1
-    refine Finset.prod_congr rfl fun k _ => ?_
-    rw [← zpow_add₀ (hc k)]
-    congr 1
-    simp only [Pi.add_apply]
-    ring
-  rw [e]
-  exact mul_mem (hs c hc) (hu c hc)
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SmallGenTwist.mul_mem_chartLat <;> assumption
 
 theorem chartLat_one_mem : (1 : Ω) ∈ chartLat y 0 1 := by
   rw [mem_chartLat_one]

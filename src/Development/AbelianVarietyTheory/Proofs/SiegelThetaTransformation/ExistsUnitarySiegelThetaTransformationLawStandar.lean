@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsExOfPow
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.EchEqOneIff
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsEqTransposeMulDiagonalMul
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsEventuallyNormRiemannThetaTermLe
@@ -454,16 +455,7 @@ theorem level_mul {R : ℕ} {φ : Matrix κ ι ℚ → ℂ} (h : HasLevel R φ) 
   · rw [Nat.cast_mul, ← smul_smul]; exact h.2 x _ (intM_nsmul hy S)
 
 theorem exists_den (y : Matrix κ ι ℚ) : ∃ S : ℕ, 0 < S ∧ IntM ((S : ℚ) • y) := by
-  classical
-  refine ⟨∏ p : κ × ι, (y p.1 p.2).den, Finset.prod_pos fun p _ => (y p.1 p.2).den_pos, ?_⟩
-  intro k i
-  obtain ⟨d, hd⟩ : (y k i).den ∣ ∏ p : κ × ι, (y p.1 p.2).den :=
-    Finset.dvd_prod_of_mem (fun p : κ × ι => (y p.1 p.2).den) (Finset.mem_univ (k, i))
-  have : (((∏ p : κ × ι, (y p.1 p.2).den : ℕ) : ℚ) • y) k i = ((d * (y k i).num : ℤ) : ℚ) := by
-    rw [hd, Matrix.smul_apply, smul_eq_mul]; push_cast
-    rw [← Rat.den_mul_eq_num]; ring
-  rw [this]
-  exact isIntegral_algebraMap (R := ℤ) (x := d * (y k i).num)
+  apply _root_.GlobalTheory.SW.Vac.exists_den <;> assumption
 
 theorem level_ch {R : ℕ} {φ : Matrix κ ι ℚ → ℂ} (h : HasLevel R φ) {y : Matrix κ ι ℚ}
     (hy : IntM ((R : ℚ) • y)) : HasLevel R fun x => φ x * ech (pr x y) := by

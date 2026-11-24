@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsRecordCgTrueT
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsRecTLocRecT
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EquivOfISupRange
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsFixedOfMemISup
@@ -90,15 +91,8 @@ theorem dim_local_parameter_eq_rank (π : CG E a) (h : IsPlaceOver A w) : (_root
 include hF in
 theorem eventually_unramified_local_parameter (π : CG E a) : ∀ᶠ w : HeightOneSpectrum (𝓞 E) in Filter.cofinite,
     ∀ (A : ValuationSubring Ω) (h : IsPlaceOver A w), (_root_.GlobalTheory.CuspRep.ParLawsT.locParT hL π h).unr := by
-  induction π using Quotient.inductionOn with | _ π =>
-  filter_upwards [LocSph.locComp_spherical E a π] with w hw A h
-  obtain ⟨σ, hσ, -⟩ := LocEx.exists_isLocComp hF E a π w
-  obtain ⟨v, h0, hv⟩ := hw σ hσ
-  refine (_root_.GlobalTheory.CuspRep.ParLaws.local_parameter_eq_reciprocity_of_is_local_component hL hσ h).symm ▸ (_root_.GlobalTheory.CuspRep.ParLaws.reciprocity_unramified_iff_spherical (_root_.GlobalTheory.CuspRep.ParLawsT.isRecT_locRecT hL h) _).2 ((Submodule.ne_bot_iff _).2 ⟨v, fun x => ?_, h0⟩)
-  obtain ⟨x, hx⟩ := x
-  rw [SphCompletion.KO_completion] at hx
-  obtain ⟨g, rfl⟩ := hx
-  exact (hv g).trans (one_smul _ _).symm
+  intros
+  apply _root_.GlobalTheory.CuspRep.ParLawsT.eventually_unrT <;> assumption
 theorem local_parameter_of_hecke_character_eq_reciprocity (χ : HChar E) (h : IsPlaceOver A w) :
     _root_.GlobalTheory.CuspRep.ParLawsT.locParT hL (CG.ofChar χ) h = _root_.GlobalTheory.CuspRep.ParLawsT.locRecT hL h (.ofChar (χ.loc w) (isSmoothChar_loc χ w)) :=
   _root_.GlobalTheory.CuspRep.ParLaws.local_parameter_eq_reciprocity_of_is_local_component hL (CG.isLoc_ofChar χ w) h

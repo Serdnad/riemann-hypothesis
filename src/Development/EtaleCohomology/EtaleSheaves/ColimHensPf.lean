@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistRingFunctorPreservesFilteredColimits
 public import Development.EtaleCohomology.EtaleSheaves.HensCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -95,14 +96,7 @@ lemma rep_above (j : J) (z : c.pt) : ∃ (j' : J) (_ : j ⟶ j') (y : D.obj j'),
 
 lemma eq_later {j : J} (x y : D.obj j) (h : (c.ι.app j).hom x = (c.ι.app j).hom y) :
     ∃ (j' : J) (f : j ⟶ j'), (D.map f).hom x = (D.map f).hom y := by
-  obtain ⟨k, f, g, hfg⟩ := Concrete.isColimit_exists_of_rep_eq D hc x y h
-  refine ⟨_, f ≫ IsFiltered.coeqHom f g, ?_⟩
-  have hfg' : (D.map f).hom x = (D.map g).hom y := hfg
-  calc (D.map (f ≫ IsFiltered.coeqHom f g)).hom x
-        = (D.map (IsFiltered.coeqHom f g)).hom ((D.map f).hom x) := by simp
-    _ = (D.map (IsFiltered.coeqHom f g)).hom ((D.map g).hom y) := by rw [hfg']
-    _ = (D.map (g ≫ IsFiltered.coeqHom f g)).hom y := by simp
-    _ = (D.map (f ≫ IsFiltered.coeqHom f g)).hom y := by rw [IsFiltered.coeq_condition]
+  apply @GlobalTheory.EtC.PrimColim.exists_eq <;> assumption
 
 lemma zero_later {j : J} (x : D.obj j) (h : (c.ι.app j).hom x = 0) :
     ∃ (j' : J) (f : j ⟶ j'), (D.map f).hom x = 0 := by

@@ -1,5 +1,6 @@
 module
 
+import all ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.UnipotentOnHyperbolicComplement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FlowMatMulVec
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsIntegralCc
@@ -477,14 +478,9 @@ theorem Mmat_comb (β : Fin n → ℂ) : Mmat τ G p f g *ᵥ (∑ c, β c • f
   rw [Matrix.mulVec_smul, Mmat_f τ G p f g hG hf]
 
 private lemma hermC_eq_conj_hermC_swap (u v : Fin r → ℂ) : hermC τ G u v = conj (hermC τ G v u) := by
-  unfold hermC
-
-  simp only [map_sum, map_mul, Complex.conj_conj]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [← hG i j]
-  simp only [cc, IsCMField.complexEmbedding_complexConj]
-  ring
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.G.FD.hC_symm
+    | apply _root_.ReciprocityTheory.ChartRestriction.G.FD.hC_symm <;> first | assumption | rfl | infer_instance
 
 theorem Mmat_unitary (hgf : ∀ k, g k ∈ Submodule.span ℂ (Set.range f))
     (hg : ∀ k l, hermC τ G (g k) (g l) = if k = l then (if (k : ℕ) < p then 1 else -1) else 0)
@@ -551,13 +547,6 @@ private theorem hermC_finset_sum_left' {r : ℕ} (τ : E →+* ℂ) (G : Matrix 
     hermC τ G (∑ i ∈ s, u i) v = ∑ i ∈ s, hermC τ G (u i) v :=
   map_sum (AddMonoidHom.mk' (fun x => hermC τ G x v) (fun a b => hermC_add_left τ G a b v)) u s
 
-private theorem hermC_finset_sum_right_of_conj_symm {r : ℕ} (τ : E →+* ℂ) {G : Matrix (Fin r) (Fin r) E}
-    (hG : ∀ a b, cc (G a b) = G b a) {ι : Type} (s : Finset ι) (u : Fin r → ℂ)
-    (v : ι → Fin r → ℂ) : hermC τ G u (∑ i ∈ s, v i) = ∑ i ∈ s, hermC τ G u (v i) := by
-
-  rw [← hermC_conj τ hG _ u, hermC_finset_sum_left', map_sum]
-  exact Finset.sum_congr rfl (fun i _ => hermC_conj τ hG _ _)
-
 private theorem hermC_sub_right_of_conj_symm {r : ℕ} (τ : E →+* ℂ) {G : Matrix (Fin r) (Fin r) E}
     (hG : ∀ a b, cc (G a b) = G b a) (u v v' : Fin r → ℂ) :
     hermC τ G u (v - v') = hermC τ G u v - hermC τ G u v' := by
@@ -566,21 +555,7 @@ private theorem hermC_sub_right_of_conj_symm {r : ℕ} (τ : E →+* ℂ) {G : M
 private theorem ppos_self_adjoint_hermC {r : ℕ} (X : Data E r) (x : Frame X.Ψ r) (τ : X.Ψ)
     (w v : Fin r → ℂ) :
     hermC τ.1 X.Gm (X.ppos x τ w) v = hermC τ.1 X.Gm w (X.ppos x τ v) := by
-  have hH : (X.gramPos x τ).IsHermitian := by
-    ext i j
-    simp only [Matrix.conjTranspose_apply, Data.gramPos, Matrix.submatrix_apply, gram,
-      Matrix.of_apply]
-    rw [← starRingEnd_apply]
-    exact hermC_conj _ X.Gm_herm _ _
-  have hM := hH.inv
-  simp only [Data.ppos]
-  rw [hermC_finset_sum_left', hermC_finset_sum_right_of_conj_symm _ X.Gm_herm]
-
-  simp only [hermC_smul_left, hermC_smul_right, Finset.sum_mul, map_sum, map_mul]
-  conv_rhs => rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl (fun a _ => Finset.sum_congr rfl (fun b _ => ?_))
-  rw [hermC_conj _ X.Gm_herm, starRingEnd_apply, hM.apply]
-  ring
+  apply _root_.ReciprocityTheory.ChartRestriction.G.FD.Data.hermC_ppos_left_eq_ppos_right_frame <;> assumption
 
 private theorem hermC_ppos_eq_zero_of_hermC_eq_zero_of_Jt {r : ℕ} (X : Data E r) (x : Frame X.Ψ r) (τ : X.Ψ)
     (w v : Fin r → ℂ) (h0 : hermC τ.1 X.Gm w v = 0) (hJ : hermC τ.1 X.Gm w (X.Jt x τ v) = 0) :

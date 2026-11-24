@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ProjArchOfInfEmbArchPi
 public import Formalism.SatakeDualWeyl.Statement
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IwasawaIsotropicColumnsRingIsoComplex
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SphericalVolumeLift
@@ -117,17 +118,7 @@ theorem tens_prod_ext {F E A B : Type} [Field F] [Field E] [Algebra F E] [CommRi
       Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) z')
     (b : Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z =
       Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z') : z = z' := by
-  have hz : ∀ z : (A × B) ⊗[F] E, z = LinearMap.rTensor E (LinearMap.inl F A B)
-        (Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) z) +
-      LinearMap.rTensor E (LinearMap.inr F A B)
-        (Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z) := by
-    intro z
-    induction z with
-    | tmul x y => simp [← TensorProduct.add_tmul]
-    | add x y hx hy =>
-      simp only [map_add (f := _)]
-      rw [add_add_add_comm, ← hx, ← hy]
-  rw [hz z, hz z', a, b]
+  first | exact _root_.GlobalTheory.CompanionTheory.SiegelArch.tens_prod_ext | exact @_root_.GlobalTheory.CompanionTheory.SiegelArch.tens_prod_ext | apply _root_.GlobalTheory.CompanionTheory.SiegelArch.tens_prod_ext <;> assumption
 
 theorem adTens_ext {F E : Type} [Field F] [NumberField F] [Field E] [Algebra F E] {z z' : AF F ⊗[F] E}
     (h1 : ∀ w : InfinitePlace F, GlobalTheory.AdelicU.compInf F E w z = GlobalTheory.AdelicU.compInf F E w z')

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinSeriesConvergent
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousUnitaryOneParameterRealPlaceComponent
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModerateGrowthOfHasCompactSupport
@@ -46,6 +47,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalJacobianType.ContinuousTrESymm
 
 @[expose] public section
 
@@ -61,21 +63,7 @@ open GlobalTheory.Doubling (absE)
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 theorem exists_intBasis : ∃ b : Module.Basis (Fin (Module.finrank F E)) F E, ∀ i, IsIntegral ℤ (b i) := by
-  haveI : FiniteDimensional F E := Module.Finite.of_restrictScalars_finite ℚ F E
-  have h : ∀ x : E, ∃ m : ℤ, m ≠ 0 ∧ IsIntegral ℤ (m • x) := fun x => by
-    obtain ⟨m, hm, hi⟩ := ((IsFractionRing.isAlgebraic_iff ℤ ℚ E).2
-      (Algebra.IsAlgebraic.isAlgebraic x)).exists_integral_multiple
-    exact ⟨m, hm, hi⟩
-  choose m hm hi using h
-  let b := Module.finBasis F E
-  let u : Fin (Module.finrank F E) → Fˣ := fun i => Units.mk0 (m (b i) : F) (by exact_mod_cast hm _)
-  refine ⟨b.unitsSMul u, fun i => ?_⟩
-  rw [Module.Basis.unitsSMul_apply]
-  have e : u i • b i = m (b i) • b i := by
-    change ((m (b i) : F)) • b i = _
-    exact Int.cast_smul_eq_zsmul F _ _
-  rw [e]
-  exact hi _
+  apply _root_.PI.UnitaryGroupMassFormula.LocJacTyp.Sd.exists_intBasis <;> assumption
 
 theorem isOpen_intAd : IsOpen {a : AF F | ∀ v, evFin F v a ∈ v.adicCompletionIntegers F} := by
   have h : IsOpen {f : FiniteAdeleRing (𝓞 F) F | ∀ v, f v ∈ v.adicCompletionIntegers F} :=
@@ -145,21 +133,7 @@ theorem compFin_finOne_smul (v : HeightOneSpectrum (𝓞 F)) (z : AE F E) :
 
 theorem absFin_le_one_of_mem {z : AE F E} (hz : z ∈ intHat F E) (v : HeightOneSpectrum (𝓞 F)) :
     absFin F v (compFin F E v z) ≤ 1 := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, -, ha, o, rfl⟩ := hz
-    have e : compFin F E v (a • inclR (F := F) (E := E) (AF F) (o : E)) = evFin F v a ⊗ₜ[F] (o : E) := by
-      simp [compFin, inclR, TensorProduct.smul_tmul']
-    rw [e]
-    refine (absFin_tmul_le F v _ o).trans ?_
-    exact_mod_cast Valued.toNormedField.norm_le_one_iff.2 (ha v)
-  | zero => simp
-  | add x y _ _ hx hy =>
-    rw [map_add (f := _)]
-    exact (absFin_add_le F v _ _).trans (max_le hx hy)
-  | neg x _ hx =>
-    rw [map_neg, absFin_neg]
-    exact hx
+  apply _root_.GlobalTheory.CompanionTheory.GodementH.StdInt.absFin_compFin_le_one <;> assumption
 
 theorem opNorm_le_one {ι : Type} [Fintype ι] [DecidableEq ι] {M : Matrix ι ι ℂ} (h : M * Mᴴ = 1) : opNorm M ≤ 1 := by
   have e : Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) M * star (Matrix.toEuclideanCLM (n := ι) (𝕜 := ℂ) M) = 1 := by

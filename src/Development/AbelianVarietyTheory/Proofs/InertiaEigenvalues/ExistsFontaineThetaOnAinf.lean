@@ -44,6 +44,7 @@ import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
 import Mathlib.Topology.Sheaves.Init
 public import ReciprocityTheory.DualLattices.AinfFacts
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AcrisTorsionFreeComplete
 
 @[expose] public section
 
@@ -64,14 +65,7 @@ theorem actC_eq_σC (g : GQ l) (y : PadicComplex l) : AI.actC g y = Formalism.Pe
   | ih a => exact (AI.actC_ext g a).trans (GlobalTheory.RingBasics.σC_coe g a).symm
 
 theorem actT_eq_σF (g : GQ l) (x : OCb l) : AI.actT g x = Formalism.Per.σF g x := by
-  refine Perfection.ext fun n => ?_
-  obtain ⟨y, hy⟩ := Ideal.Quotient.mk_surjective (PreTilt.coeff n x)
-  obtain ⟨y', h1, h2⟩ := AI.actT_coeff g x n y hy.symm
-  have h3 : y' = Formalism.Per.σO g y := Subtype.ext ((h1.trans (actC_eq_σC AI g y)).trans
-    (by symm; apply GlobalTheory.RingIface.sigO_coe))
-  refine h2.trans ?_
-  rw [h3]
-  exact (GlobalTheory.AdicMaps.coeff_galois l g x n y hy.symm).symm
+  apply _root_.GlobalTheory.MemLoc.locAinf_actT <;> assumption
 
 theorem ζ_add_pow (j n : ℕ) : AI.ζ (j + n) ^ l ^ n = AI.ζ j := by
   induction n with

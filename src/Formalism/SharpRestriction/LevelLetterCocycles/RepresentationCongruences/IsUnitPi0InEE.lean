@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.SharpRestriction.LevelLetterCocycles.SemisimpleLetterIffForallMem
 
 @[expose] public section
 
@@ -203,15 +204,7 @@ theorem den_dvd_Lam (A : ArcP n) (hA : A.OK) {c : ZMod n} (hc : c ∈ A.cuts) (S
 
 theorem isUnit_pi0_in_EE (hcase : Formalism.MainNotions.LiftingTheory.CaseA W) (hP9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W) {T : LocLat G Qp LL O}
     (hT : IsCrys PD T.ρ) : IsUnit (algebraMap (LetA O n) W.EE W.π₀) := by
-  obtain ⟨hbij, hs, hp2⟩ := hcase
-  have h9 := hP9 T hT hs hp2
-  have hfr : Module.finrank K₀ K = 1 :=
-    (LinearEquiv.ofBijective (Algebra.linearMap K₀ K) hbij).finrank_eq.symm.trans (Module.finrank_self K₀)
-  have hR : GS.RD W := by
-    first
-    | exact GS.rd_of W (h9.2.2 hfr).1
-  first
-  | exact GS.isUnit_π₀ hR
+  apply _root_.Formalism.MainNotions.UnusedSlot35.DssRec.π₀_unit <;> assumption
 
 section Main
 

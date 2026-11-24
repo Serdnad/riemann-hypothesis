@@ -1,5 +1,7 @@
 module
 
+
+import Development.EtaleCohomology.CohomologicalPurity.LeafHtpyPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafThomCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -42,7 +44,6 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.CohomologicalPurity.LeafTailPf, Development.EtaleCohomology.CohomologicalPurity.LeafTailRepPf
 
@@ -129,13 +130,7 @@ theorem Vec.hom_subsingleton (N k : ℕ) (U : Scheme.{0}) (v w : Vec N k U) : Su
 
 theorem off_le_C (A : Type) [CommRing A] (I : Ideal A) : off (Polynomial A) (I.map Polynomial.C) ≤
     Spec.map (CommRingCat.ofHom (Polynomial.C : A →+* Polynomial A)) ⁻¹ᵁ off A I := by
-  intro p hp
-  simp only [off, Scheme.Hom.mem_preimage] at hp ⊢
-  intro hI
-  apply hp
-  have hI' : ∀ x ∈ I, Polynomial.C x ∈ p.asIdeal := fun x hx => hI hx
-  show ((Ideal.map Polynomial.C I : Ideal (Polynomial A)) : Set (Polynomial A)) ⊆ p.asIdeal
-  exact Ideal.map_le_iff_le_comap.2 (fun x hx => hI' x hx)
+  apply @LateralTheory.CohomologicalPurity.Thom.HtpyPf.offle <;> assumption
 
 def LeafTailNerve : Prop := ∀ (d : ℕ) (R : Type) [CommRing R] (n : SimplexCategoryᵒᵖ),
   ∃ (R' : Type) (_ : CommRing R') (_ : R →+* R')

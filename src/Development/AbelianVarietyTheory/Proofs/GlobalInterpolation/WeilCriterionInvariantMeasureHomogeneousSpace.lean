@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.LintegralMulRightOfMem
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InvariantRadonFibre
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsBruhatFunctionClosedSubgroup
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsUniqueHaarOfInvariantRadonOnCosets
@@ -80,15 +81,8 @@ theorem exists_measurableSet_pos_finite (μ : Measure G) [μ.IsHaarMeasure] :
   exact ⟨K, hK.measurableSet, (measure_pos_of_mem_nhds μ hK1).ne', hK.measure_lt_top.ne⟩
 
 theorem measurable_modulus : Measurable fun g : G => (modularCharacterFun g : ℝ≥0∞) := by
-  let μ : Measure G := haar
-  obtain ⟨s, hs, h0, ht⟩ := exists_measurableSet_pos_finite μ
-  have h : (fun g : G => (modularCharacterFun g : ℝ≥0∞)) =
-      fun g => μ ((· * g) ⁻¹' s) * (μ s)⁻¹ := by
-    funext g
-    rw [measure_preimage_mul_right_eq_modulus μ hs, mul_assoc, ENNReal.mul_inv_cancel h0 ht,
-      mul_one]
-  rw [h]
-  exact (measurable_measure_mul_right μ hs).mul_const _
+  intros
+  apply _root_.PI.AprimeInfA.measurable_modChar <;> assumption
 
 theorem lintegral_modulus_mul_inv (μ : Measure G) [μ.IsHaarMeasure] {f : G → ℝ≥0∞}
     (hf : Measurable f) :

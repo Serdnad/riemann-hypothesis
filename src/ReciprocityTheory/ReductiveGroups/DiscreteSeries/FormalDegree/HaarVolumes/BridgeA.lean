@@ -1,5 +1,7 @@
 module
 
+
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.VolUMeasurableSetTriPos
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.TriDens
 public import Formalism.LocalRingCardinality.DataCD
 public import Mathlib.Analysis.SpecialFunctions.Gaussian.GaussianIntegral
@@ -13,7 +15,6 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Lemma
 import Mathlib.LinearAlgebra.Matrix.FiniteDimensional
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.OmegaA, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.IntegralGaussEOmPhiOmE, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.BridgeA
 
@@ -489,12 +490,7 @@ variable {N : ℕ}
 abbrev eN (N : ℕ) : Fin N ⊕ Fin 0 ≃ Fin N := Equiv.sumEmpty (Fin N) (Fin 0)
 
 lemma Jpq_zero (N : ℕ) : Formalism.UG.Jpq N 0 = 1 := by
-  ext i j
-  rcases i with i | i
-  · rcases j with j | j
-    · simp [Formalism.UG.Jpq, Matrix.one_apply]
-    · exact j.elim0
-  · exact i.elim0
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.jpq_N_zero_om <;> assumption
 
 lemma cT_eq {m : Type} [Fintype m] (M : Matrix m m ℂ) : Formalism.UG.cT (starRingEnd ℂ) M = Mᴴ := by
   ext i j
@@ -669,21 +665,7 @@ lemma toM_preimage_exp_ball_eq_upqT_exp_ball (N : ℕ) (r : ℝ) :
 alias volU_pos := _root_.ReciprocityTheory.ChartRestriction.DS.volU_pos'
 
 lemma continuous_skMat (N : ℕ) : Continuous (skMat : UCo N → Matrix (Fin N) (Fin N) ℂ) := by
-  refine continuous_pi fun a => continuous_pi fun b => ?_
-  simp only [skMat]
-  by_cases h1 : a = b
-  · simp only [ite_eq_left h1]
-    exact continuous_const.mul (Complex.continuous_ofReal.comp ((continuous_apply a).comp continuous_fst))
-  · simp only [ite_eq_right h1]
-    by_cases h2 : b < a
-    · simp only [dite_eq_left h2]
-      exact (continuous_apply _).comp continuous_snd
-    · simp only [dite_eq_right h2]
-      by_cases h3 : a < b
-      · simp only [dite_eq_left h3]
-        exact ((continuous_apply _).comp continuous_snd).star.neg
-      · simp only [dite_eq_right h3]
-        exact continuous_const
+  apply ReciprocityTheory.ChartRestriction.DS.volU_continuous_skMat <;> assumption
 
 lemma continuous_uToLie (N : ℕ) : Continuous (uToLie (N := N)) := by
   show Continuous fun x : UCo N => (⟨uToLieMat x, uToLieMat_mem x⟩ : Formalism.BasicNotions.lieU N 0)

@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNeZeroAtZero
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialRatAndSplit
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
@@ -47,7 +49,6 @@ import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Topology.Sheaves.Init
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialRatAndSplitStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilDatumUniqueOnThetaFunctions
 
@@ -144,49 +145,8 @@ theorem scalar_split (H : IsWeilDatumO ψ S T χS χT om) (H' : IsWeilDatumO ψ 
   apply mul_right_cancel₀ (Complex.ofReal_ne_zero.2 hr.ne')
   rw [e2, Circle.coe_one, one_mul]
 
-theorem weilDatum_unique : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (S T : HSp D) (χS χT : (AE D)ˣ →* Circle) (om om' : (GA D S × GA D T →* Module.End ℂ (WO S T → ℂ))), IsWeilDatumO ψ S T χS χT om → IsWeilDatumO ψ S T χS χT om' → ∀ p f, IsThetaFunO ψ S T f → om p f = om' p f := by
-  intro D ψ hψ S T χS χT om om' H H' p f hf
-  by_cases h0 : f = 0
-  · rw [h0, map_zero, map_zero]
-  obtain ⟨f₀, hf₀, h00⟩ := exists_ne_zero_at_zero hψ hf h0
-  have hne : ∀ q, om' q f₀ ≠ 0 := fun q hq => by
-    have := om_inv_om om' q f₀
-    rw [hq, map_zero] at this
-    exact h00 (by rw [← this]; rfl)
-  choose c hc using exists_scalar H H'
-  have hmul : ∀ q q', c (q * q') = c q * c q' := fun q q' => by
-    apply Circle.ext
-    apply smul_left_injective ℂ (hne (q * q'))
-    have := hc (q * q') f₀ hf₀
-    dsimp only
-    rw [← this, map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, hc q' f₀ hf₀, map_smul,
-      hc q _ (H'.om_pres _ _ hf₀), smul_smul, Circle.coe_mul, mul_comm]
-  have hcont : Continuous c := by
-    refine continuous_induced_rng.2 (continuous_iff_continuousAt.2 fun q => ?_)
-    obtain ⟨w, hw⟩ := Function.ne_iff.1 (hne q)
-    have h1 : ContinuousAt (fun q' => om q' f₀ w / om' q' f₀ w) q :=
-      (H.om_cont f₀ hf₀ w).continuousAt.div (H'.om_cont f₀ hf₀ w).continuousAt hw
-    refine h1.congr ?_
-    filter_upwards [(H'.om_cont f₀ hf₀ w).continuousAt.eventually_ne hw] with q' hq'
-    rw [hc q' f₀ hf₀, Pi.smul_apply, smul_eq_mul, mul_div_cancel_right₀ _ hq']
-    rfl
-  have hrat : ∀ γ ∈ GQ S, ∀ γ' ∈ GQ T, c (γ, γ') = 1 := fun γ hγ γ' hγ' => by
-    have h1 := congrFun (hc (γ, γ') f₀ hf₀) 0
-    rw [Pi.smul_apply, H.om_aut γ hγ γ' hγ' f₀ hf₀, H'.om_aut γ hγ γ' hγ' f₀ hf₀, smul_eq_mul] at h1
-    apply Circle.ext
-    apply mul_right_cancel₀ h00
-    rw [← h1, Circle.coe_one, one_mul]
-  let ν : GA D S × GA D T →* Circle := MonoidHom.mk' c hmul
-  have hS := GlobalTheory.T.unitary_adelic_character_trivial_rat_and_split D S (ν.comp (MonoidHom.inl _ _)) (hcont.comp (Continuous.prodMk_left _))
-    (fun γ hγ => hrat γ hγ 1 (one_mem _))
-    (fun e he g hg => scalar_split H H' he hg (suppAt_one e T) (hc (g, 1)))
-  have hT := GlobalTheory.T.unitary_adelic_character_trivial_rat_and_split D T (ν.comp (MonoidHom.inr _ _)) (hcont.comp (Continuous.prodMk_right _))
-    (fun γ hγ => hrat 1 (one_mem _) γ hγ)
-    (fun e he h hh => scalar_split H H' he (suppAt_one e S) hh (hc (1, h)))
-  have h1 : c p = 1 := by
-    have e : p = (p.1, 1) * (1, p.2) := by rw [Prod.mk_mul_mk, mul_one, one_mul]
-    rw [e, hmul, show c (p.1, 1) = 1 from hS p.1, show c (1, p.2) = 1 from hT p.2, mul_one]
-  rw [hc p f hf, h1, Circle.coe_one, one_smul]
+theorem weilDatum_unique : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ), IsStdChar D ψ (-1) → ∀ (S T : HSp D) (χS χT : (AE D)ˣ →* Circle) (om om' : (GA D S × GA D T →* Module.End ℂ (WO S T → ℂ))), IsWeilDatumO ψ S T χS χT om → IsWeilDatumO ψ S T χS χT om' → ∀ p f, IsThetaFunO ψ S T f → om p f = om' p f :=
+  _root_.GlobalTheory.WeilDetermined.agree_on_theta
 
 end GlobalTheory.WeilUniq
 end -- clump:auto

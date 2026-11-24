@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.EigenvalueEndgame.EigenKilling.RealVanishOf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockActDualPairCommutingLieActions
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaKernelReal
@@ -401,24 +402,7 @@ theorem jm_conjTranspose (R S : ℕ) : (Formalism.BasicNotions.TH.Jm R S)ᴴ = F
   simp [Formalism.BasicNotions.TH.Jm, Formalism.UG.Jpq, Matrix.fromBlocks_conjTranspose]
 
 theorem upq_decomp {R S : ℕ} (Z : Mat R S) : ∃ Y₁ ∈ upq R S, ∃ Y₂ ∈ upq R S, Z = Y₁ + Complex.I • Y₂ := by
-  set J := Formalism.BasicNotions.TH.Jm R S
-  have hJ : J * J = 1 := GlobalTheory.FockKStab.jm_mul_jm R S
-  have hJ' : Jᴴ = J := jm_conjTranspose R S
-  have h1 : ∀ M : Mat R S, J * (J * M) = M := fun M => by rw [← Matrix.mul_assoc, hJ, Matrix.one_mul]
-  refine ⟨(1 / 2 : ℂ) • (Z - J * Zᴴ * J), ?_, (1 / (2 * Complex.I)) • (Z + J * Zᴴ * J), ?_, ?_⟩
-  · show _ * J + J * _ = 0
-    rw [Matrix.conjTranspose_smul, show star (1 / 2 : ℂ) = 1 / 2 by simp, Matrix.smul_mul, Matrix.mul_smul, ← smul_add]
-    simp only [Matrix.conjTranspose_sub, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hJ', Matrix.sub_mul,
-      Matrix.mul_sub, Matrix.mul_assoc, hJ, h1, Matrix.mul_one]
-    simp
-  · show _ * J + J * _ = 0
-    rw [Matrix.conjTranspose_smul, show star (1 / (2 * Complex.I)) = -(1 / (2 * Complex.I)) by simp, neg_smul,
-      Matrix.neg_mul, Matrix.smul_mul, Matrix.mul_smul, neg_add_eq_zero]
-    simp only [Matrix.conjTranspose_add, Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hJ', Matrix.add_mul,
-      Matrix.mul_add, Matrix.mul_assoc, hJ, h1, Matrix.mul_one]
-    rw [add_comm]
-  · rw [smul_smul, show Complex.I * (1 / (2 * Complex.I)) = 1 / 2 by field_simp, ← smul_add]
-    rw [show Z - J * Zᴴ * J + (Z + J * Zᴴ * J) = (2 : ℂ) • Z by rw [two_smul]; abel, smul_smul]; norm_num
+  apply _root_.PositivityTheory.ThKEnd.Comp.upq_span <;> assumption
 
 section Tens
 
@@ -1378,12 +1362,7 @@ private theorem fock_second_action_one_polynomial {n d : ℕ} (Y : Mat d 0) :
   simp only [Fintype.card_sum, Fintype.card_fin, add_zero]
   ring
 private theorem jm_zero_pk (N : ℕ) : Jm N 0 = 1 := by
-  ext a b
-  rcases a with a | a
-  · rcases b with b | b
-    · simp [Jm, Formalism.UG.Jpq, Matrix.one_apply]
-    · exact b.elim0
-  · exact a.elim0
+  apply _root_.UpperTheory.TP.RP.HermitianFrame.jm_eq_one <;> assumption
 private theorem isKC_all_pk {N : ℕ} (Y : Mat N 0) : IsKC Y := by
   rintro (a | a) (b | b) h
   · exact absurd trivial h

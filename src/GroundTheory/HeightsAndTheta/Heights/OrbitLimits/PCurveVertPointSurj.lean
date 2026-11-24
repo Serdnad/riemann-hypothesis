@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PVertPointSurj
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsLogCardLength
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsPointVertRSteps
@@ -198,21 +199,7 @@ theorem le_of_minimal {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) (c : ∀ 
 
 theorem locLen_quot_eq_zero {R : Type*} [CommRing R] (m : Ideal R) [m.IsPrime] {a : R} (ha : a ∉ m) :
     locLen m (R ⧸ Ideal.span {a}) = 0 := by
-  have key : ∀ w : LocalizedModule m.primeCompl (R ⧸ Ideal.span {a}), w = 0 := by
-    intro w
-    induction w using LocalizedModule.induction_on with
-    | h x t =>
-      rw [← LocalizedModule.zero_mk t, LocalizedModule.mk_eq]
-      refine ⟨⟨a, ha⟩, ?_⟩
-      obtain ⟨x', rfl⟩ := Ideal.Quotient.mk_surjective x
-      rw [smul_zero, smul_zero, Submonoid.smul_def, Submonoid.smul_def, Algebra.smul_def,
-        Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul, ← map_mul,
-        Ideal.Quotient.eq_zero_iff_mem]
-      exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self a)
-  have hsub : Subsingleton (LocalizedModule m.primeCompl (R ⧸ Ideal.span {a})) :=
-    ⟨fun u v => by rw [key u, key v]⟩
-  rw [locLen, dite_eq_left ‹m.IsPrime›, Module.length_eq_zero_iff.mpr hsub]
-  rfl
+  apply _root_.GroundTheory.Heights₂.Heights.VerticalPointSurjective.locLen_quot_eq_zero <;> assumption
 
 end CurveVerticalPointSurjective
 

@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensInfCo
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.SemiAlg
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LeviInt
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LeviRat
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.FrameStd
@@ -88,15 +90,7 @@ theorem conjTensor_involutive (hσ : ∀ x, σ (σ x) = x) (a : R ⊗[F] E) : si
 
 theorem hermForm_conj_symm (hσ : ∀ x, σ (σ x) = x) (hJ : ∀ i j, σ (J j i) = J i j) (x y : Fin n → R ⊗[F] E) :
     sigR R σ (hR R σ J x y) = hR R σ J y x := by
-  unfold hR Formalism.UG.hform
-
-  simp only [map_sum, map_mul, conjTensor_involutive hσ]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  have hJ' : sigR R σ (JR R J j i) = JR R J i j := by
-    simp only [JR, Matrix.map_apply, conjTensor_incl, hJ]
-  rw [hJ']
-  ring
+  apply _root_.PI.VolStabS.hR_herm <;> assumption
 
 theorem hR_sum_smul_left' {ι : Type} (s : Finset ι) (d : ι → R ⊗[F] E) (v : ι → Fin n → R ⊗[F] E)
     (y : Fin n → R ⊗[F] E) : hR R σ J (∑ i ∈ s, d i • v i) y = ∑ i ∈ s, sigR R σ (d i) * hR R σ J (v i) y := by
@@ -262,16 +256,7 @@ theorem parabolic_preserves_isotropic {s : HA R σ J} (hs : s ∈ Ssub R σ J P)
 
 theorem parabolic_fixes_modulo_span {s : HA R σ J} (hs : s ∈ Ssub R σ J P) :
     lin R σ J s (ratV (F := F) R P.z) - ratV (F := F) R P.z ∈ spanR (F := F) R P.e Set.univ := by
-  have h := hs (Fin.last r)
-  have e : F0 P (Fin.last r) = P.z := by simp [F0]
-  rw [e] at h
-  refine (Submodule.span_le.2 ?_) h
-  rintro _ ⟨a, ha, rfl⟩
-  obtain ⟨a', rfl⟩ := Fin.exists_castSucc_eq.2 (Fin.ne_last_of_lt ha)
-  show ratV (F := F) R (F0 P (Fin.castSucc a')) ∈ spanR (F := F) R P.e Set.univ
-  have e' : F0 P (Fin.castSucc a') = P.e a' := by simp [F0]
-  rw [e']
-  exact Submodule.subset_span ⟨a', Set.mem_univ _, rfl⟩
+  apply _root_.PI.LevelKSplit.W.SemiA.stabilizer_fixes_tail_coords <;> assumption
 
 theorem isotropic_span_hermForm_zero (ht : FrameTab (σ := σ) (J := J) P c T) {x y : Fin n → R ⊗[F] E}
     (hx : x ∈ spanR (F := F) R P.e Set.univ) (hy : y ∈ spanR (F := F) R P.e Set.univ) : hR R σ J x y = 0 := by

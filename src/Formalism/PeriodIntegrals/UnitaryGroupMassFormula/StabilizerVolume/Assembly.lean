@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ArchimedeanOrbitMeasures.PushSupp
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.PullLocSt
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.FinTheta
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.VolStabFromSWS
@@ -460,16 +461,7 @@ open MeasureTheory Complex Filter Topology
 alias char_real := _root_.Bl.FunctionAtZero.goal1
 
 theorem freq_unique {u v : ℝ} (h : ∀ s : ℝ, exp (↑(u * s) * I) = exp (↑(v * s) * I)) : u = v := by
-  by_contra huv
-  have hne : u - v ≠ 0 := sub_ne_zero.2 huv
-  have h1 := h (Real.pi / (u - v))
-  have h2 : exp (↑((u - v) * (Real.pi / (u - v))) * I) = 1 := by
-    have : (↑((u - v) * (Real.pi / (u - v))) : ℂ) * I =
-        ↑(u * (Real.pi / (u - v))) * I - ↑(v * (Real.pi / (u - v))) * I := by
-      push_cast; ring
-    rw [this, Complex.exp_sub, h1, div_self (Complex.exp_ne_zero _)]
-  rw [mul_div_cancel₀ _ hne, Complex.exp_pi_mul_I] at h2
-  norm_num at h2
+  apply _root_.PI.AprimeInfW.ST.freq_unique <;> assumption
 
 section Bichar
 
@@ -803,15 +795,7 @@ variable {F E : Type} [Field F] [Field E] [Algebra F E] [FiniteDimensional F E]
 
 theorem gramR_smul (h : HA R σ J) (X : Fin a → Fin M → R ⊗[F] E) :
     gramR R σ J (h • X) = gramR R σ J X := by
-  have hg : Formalism.UG.cT (sigR R σ) ((HA.mat R σ J h : GL (Fin M) (R ⊗[F] E)) :
-      Matrix (Fin M) (Fin M) _) * JR R J *
-      ((HA.mat R σ J h : GL (Fin M) (R ⊗[F] E)) : Matrix (Fin M) (Fin M) _) = JR R J := h.2
-  funext x y
-  change hR R σ J (((HA.mat R σ J h : GL (Fin M) (R ⊗[F] E)) :
-      Matrix (Fin M) (Fin M) _) *ᵥ X x) (((HA.mat R σ J h : GL (Fin M) (R ⊗[F] E)) :
-      Matrix (Fin M) (Fin M) _) *ᵥ X y) = hR R σ J (X x) (X y)
-  rw [hR, TopoGram.hform_mulVec, hg]
-  rfl
+  apply _root_.PI.AprimeInfW.gramR_smul <;> assumption
 
 theorem linIndep_mulVec {A : Type} [CommRing A] (G : GL (Fin M) A) (X : Fin a → Fin M → A) :
     LinearIndependent A (fun x => (G : Matrix (Fin M) (Fin M) A) *ᵥ X x) ↔ LinearIndependent A X := by

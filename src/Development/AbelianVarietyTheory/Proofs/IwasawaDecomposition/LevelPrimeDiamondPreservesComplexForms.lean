@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ExtUHInjective
 
 @[expose] public section
 
@@ -60,26 +61,11 @@ theorem tr_one (b : S.β) (F : Fr emb σ n → ℂ) : S.tr emb σ b 1 F = F := b
 theorem evV_rho (b : S.β) (g : S.G b) (v : VV K lam) :
     evV emb (1 : Matrix (Fin n) (Fin n) E) lam σ (S.rho emb lam b g v) =
       S.tr emb σ b g (evV emb (1 : Matrix (Fin n) (Fin n) E) lam σ v) := by
-  funext y
-  have h : S.rho emb lam b g v = ((S.chr b g : Kˣ) : K) • rhoVr emb lam (S.gam b g) v := rfl
-  rw [h, LinearMap.map_smulₛₗ, GStep.tr, trFr_apply, Pi.smul_apply, smul_eq_mul]
-  congr 1
-  refine evV_rhoVr_tr emb 1 lam σ _ v y _ ?_
-  have := congrArg Subtype.val ((frEquiv emb σ (S.gam b g)).apply_symm_apply y)
-  intro τ
-  exact (congrFun this τ).symm
+  apply _root_.GlobalTheory.Mem.Col2.Law.evV_rho <;> assumption
 
 theorem tr_mem (b : S.β) (g : S.G b)
     {F : Fr emb σ n → ℂ} (hF : F ∈ ValC (Gr emb σ n) lam) : S.tr emb σ b g F ∈ ValC (Gr emb σ n) lam := by
-  rw [← span_evV emb 1 lam σ] at hF
-  induction hF using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨v, rfl⟩ := hx
-    rw [← evV_rho]
-    exact evV_mem_ValC emb 1 lam σ _
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
-  | add x y _ _ hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
-  | smul c x _ hx => rw [map_smul]; exact Submodule.smul_mem _ _ hx
+  apply _root_.GlobalTheory.Mem.Col2.Law.tr_mem <;> assumption
 
 theorem mem_Fi (hf : S.Free)
     (φ : S.Cl → Fr emb σ n → ℂ) (h : ∀ c, φ c ∈ ValC (Gr emb σ n) lam) : φ ∈ S.Fi emb σ lam := fun c =>

@@ -42,6 +42,7 @@ import Mathlib.Topology.Algebra.Group.Units
 import Mathlib.Topology.Compactness.CompactlyGeneratedSpace
 import Mathlib.Topology.Sheaves.Init
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.DiscreteSeriesCoverIrreducibleUnitary
 
 @[expose] public section
 
@@ -103,20 +104,7 @@ theorem isClosedEmbedding_emb (T : GrpData p q) :
 
 theorem norm_sq_eq_one {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : BlockOrd e ε) (T : GrpData p q) (x : T.G) :
     ‖(T.sq x : ℂ)‖ = 1 := by
-  have h1 := (mem_Upq _).1 (T.cov_mem x)
-  have hJ : (Jm p q).det ≠ 0 := by
-    have : (Matrix.reindex e e (Jm p q)).det * (Matrix.reindex e e (Jm p q)).det = 1 := by
-      rw [h.reindex_Jm, ← Matrix.det_mul, Formalism.REAL.Jm_mul_self, Matrix.det_one]
-    rw [Matrix.det_reindex_self] at this
-    exact left_ne_zero_of_mul_eq_one this
-  have h2 := congrArg (fun A => ‖Matrix.det A‖) h1
-  simp only [Matrix.det_mul, Matrix.det_conjTranspose, norm_mul, norm_star, ← T.sq_sq x, norm_pow] at h2
-  have h3 : ‖(T.sq x : ℂ)‖ ^ 4 = 1 := by
-    apply mul_right_cancel₀ (norm_ne_zero_iff.2 hJ)
-    rw [one_mul]
-    conv_rhs => rw [← h2]
-    ring
-  exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) (by norm_num)).1 h3
+  apply _root_.GlobalTheory.RealPar.CoverURep.norm_sq_eq_one <;> assumption
 
 theorem isProperMap_covU {e : Ix p q ≃ Fin n} {ε : Fin n → Bool} (h : BlockOrd e ε) (T : GrpData p q) :
     IsProperMap (covU h T) := by

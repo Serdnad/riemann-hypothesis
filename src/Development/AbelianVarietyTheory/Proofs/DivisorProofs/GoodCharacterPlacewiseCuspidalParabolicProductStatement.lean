@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.IrreducibleFinrankOne.IrrOfFinrankOne
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Formalism.LocalToGlobal.NormalizedHeckeFactors.CoeffZeroNeOfMonicIrr
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.CuspidalProductMultiplicity
@@ -65,44 +66,8 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem isIrrChar_of_abs {G K : Type} [Group G] [Fintype G] [Field K] [CharZero K] (σ : K →+* ℂ) {χ : G → K}
     (h : IsAbsIrrChar χ) : Formalism.L2.NT.IsIrrChar (fun g => σ (χ g)) := by
-  classical
-  obtain ⟨n, ρ, hρ, hχ⟩ := h
-  letI : Algebra K ℂ := σ.toAlgebra
-  let ι : AlgebraicClosure K →ₐ[K] ℂ := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
-  have hι : ∀ x : K, ι (algebraMap K (AlgebraicClosure K) x) = σ x := fun x => ι.commutes x
-  have hch : ∀ g, ρ.character g = Matrix.trace (LinearMap.toMatrix' (ρ g)) := fun g => by
-    rw [Representation.character, LinearMap.trace_eq_matrix_trace _ (Pi.basisFun _ (Fin n)),
-      LinearMap.toMatrix_eq_toMatrix']
-  let ρm : G →* GL (Fin n) (AlgebraicClosure K) :=
-    MonoidHom.toHomUnits ((LinearMap.toMatrixAlgEquiv' : Module.End (AlgebraicClosure K) (Fin n → AlgebraicClosure K)
-      ≃ₐ[AlgebraicClosure K] Matrix (Fin n) (Fin n) (AlgebraicClosure K)).toRingEquiv.toMonoidHom.comp ρ)
-  let ρc : G →* GL (Fin n) ℂ := (Matrix.GeneralLinearGroup.map (ι : AlgebraicClosure K →+* ℂ)).comp ρm
-  have htr : ∀ g, Matrix.trace (ρc g : Matrix (Fin n) (Fin n) ℂ) = σ (χ g) := fun g => by
-    rw [← hι, ← hχ g, hch g]
-
-    simp [ρc, ρm, Matrix.trace, Matrix.diag, map_sum]
-  have hC : ∀ g, star (σ (χ g)) = σ (χ g⁻¹) := fun g => by
-    have := PI.SerBridgeGLW.conjugate_character_formula G (PI.SerBridgeGLW.repOfGL ρc) g
-    rwa [PI.SerBridgeGLW.repOfGL_character, PI.SerBridgeGLW.repOfGL_character, htr, htr] at this
-  refine ⟨⟨n, ρc, fun g => (htr g).symm⟩, ?_⟩
-  have horth := Formalism.L2.Col.gx_orth (G := G) (k := AlgebraicClosure K) (ψ := ρ.character) (ψ' := ρ.character)
-    ⟨n, ρ, hρ, rfl⟩ ⟨n, ρ, hρ, rfl⟩
-  rw [if_pos rfl] at horth
-  have hcard : (Nat.card G : AlgebraicClosure K) ≠ 0 := Nat.cast_ne_zero.mpr Nat.card_pos.ne'
-  have hsum : ∑ g, ρ.character g * ρ.character g⁻¹ = (Nat.card G : AlgebraicClosure K) := by
-    rw [← mul_one (Nat.card G : AlgebraicClosure K), ← horth, ← mul_assoc, mul_inv_cancel₀ hcard, one_mul]
-  unfold Formalism.L2.NT.ipG
-  simp only [hC]
-  have := congrArg ι hsum
-
-  rw [map_sum, map_natCast, Nat.card_eq_fintype_card] at this
-  rw [← this]
-  refine Finset.sum_congr rfl fun g _ => ?_
-  rw [map_mul, hχ, hχ, hι, hι]
+  intros
+  apply _root_.PI.XgCTieBrWork.Chars.absIrr_isIrr <;> assumption
 
 theorem isIrrChar_comp {G G' : Type} [Group G] [Fintype G] [Group G'] [Fintype G'] (e : G' ≃* G) {χ : G → ℂ}
     (h : Formalism.L2.NT.IsIrrChar χ) : Formalism.L2.NT.IsIrrChar fun x => χ (e x) := by

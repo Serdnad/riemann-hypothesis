@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DgMatOne
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsIntZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -59,15 +60,7 @@ theorem blk_val_eq {E : Type} [Field E] [NumberField E] [IsCMField E] {n a b : �
     (m : GLw a w × GLw b w) (X : Matrix (Fin a) (Fin b) (w.adicCompletion E)) :
     (blk h w m X).val = Matrix.reindex (finSumFinEquiv.trans (finCongr h)) (finSumFinEquiv.trans (finCongr h))
       (Matrix.fromBlocks m.1.val (m.1.val * X) 0 m.2.val) := by
-  have hU : IsUnit (Matrix.reindex (finSumFinEquiv.trans (finCongr h)) (finSumFinEquiv.trans (finCongr h))
-      (Matrix.fromBlocks m.1.val (m.1.val * X) 0 m.2.val)) := by
-    rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
-    exact ((Matrix.isUnit_iff_isUnit_det _).1 m.1.isUnit).mul
-      ((Matrix.isUnit_iff_isUnit_det _).1 m.2.isUnit)
-  unfold blk
-  simp only
-  rw [dite_eq_left hU]
-  rfl
+  apply _root_.GlobalTheory.BCT.CtLevel.blk_val <;> assumption
 
 theorem isInt_blk_iff : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n a b : ℕ) (h : a + b = n) (w : Pl E) (m : GLw a w × GLw b w) (X : Matrix (Fin a) (Fin b) (w.adicCompletion E)), IsInt w (blk h w m X).val ↔ IsInt w m.1.val ∧ IsInt w m.2.val ∧ IsInt w (m.1.val * X) := by
   intro E _ _ _ n a b h w m X

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.PatchingBaseChange.ResidBc
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.NormsAndPolarizations.CjApply
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,16 +54,7 @@ private theorem inc_local {l : ℕ} [Fact l.Prime] {c c' : Coef l} (h : c.O ≤ 
 
 private theorem pushCh_ker {H A B : Type} [Group H] [CommRing A] [CommRing B] (f : A →+* B) (hf : Function.Injective f)
     (χ : H →* Aˣ) : (pushCh f χ).ker = χ.ker := by
-  ext g
-  simp only [MonoidHom.mem_ker, MonoidHom.comp_apply]
-  constructor
-  · intro hg
-    apply Units.ext
-    apply hf
-    have := congrArg Units.val hg
-    simpa using this
-  · intro hg
-    rw [hg, map_one]
+  apply _root_.push_ker <;> assumption
 
 private theorem polar_push {l : ℕ} [Fact l.Prime] {n : ℕ} (F : GFrame l) {O O' k k' : Type} [CommRing O] [CommRing O']
     [CommRing k] [CommRing k'] [Algebra ℤ_[l] O] [Algebra ℤ_[l] O'] [Algebra O k] [Algebra O' k']

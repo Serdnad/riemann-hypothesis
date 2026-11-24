@@ -727,11 +727,7 @@ namespace GlobalTheory.CompanionTheory.KunGlue
 
 theorem resU_self_bij {R : Type} [CommRing R] {C : Type 1} [Category.{0} C] (F : C ⥤ ModuleCat.{0} R)
     (U : ObjectProperty C) (k : U ≤ U) (n : ℕ) : Function.Bijective ((resU F k).pull n) := by
-  have h : ∀ x, (resU F k).pull n x = x := by
-    intro x
-    obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    rfl
-  exact ⟨fun x y e => by simpa only [h] using e, fun y => ⟨y, h y⟩⟩
+  apply _root_.GlobalTheory.CompanionTheory.KunGlue.Right.res_self_bij <;> assumption
 
 theorem resU_bij_congr {R : Type} [CommRing R] {C : Type 1} [Category.{0} C] (F : C ⥤ ModuleCat.{0} R)
     {U V V' : ObjectProperty C} (e : V = V') (k : V ≤ U) (k' : V' ≤ U) (n : ℕ)

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.LatticeEmbeddings.IotaPlace
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TypePrimeBadPrimesLevelsHypotheses
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AlgebraicNumbersPadicPlacesFacts
 import Mathlib.Algebra.Order.Floor.Extended
@@ -76,17 +77,7 @@ def smallIdeal (ι : K →+* ℂ_[p]) : Ideal (𝓞 K) where
 theorem mem_smallIdeal (ι : K →+* ℂ_[p]) (y : 𝓞 K) : y ∈ smallIdeal ι ↔ ‖ι (y : K)‖ < 1 := Iff.rfl
 
 theorem smallIdeal_isPrime (ι : K →+* ℂ_[p]) : (smallIdeal ι).IsPrime := by
-  refine ⟨?_, ?_⟩
-  · rw [Ideal.ne_top_iff_one, mem_smallIdeal]
-    simp
-  · intro a b hab
-    rw [mem_smallIdeal] at hab
-    rw [mem_smallIdeal, mem_smallIdeal]
-    have : ι ((a * b : 𝓞 K) : K) = ι (a : K) * ι (b : K) := by simp
-    rw [this, norm_mul] at hab
-    by_contra hcon
-    push Not at hcon
-    nlinarith [hcon.1, hcon.2]
+  first | exact _root_.ReciprocityTheory.ChartRestriction.B3.IotaPl.smallIdeal_isPrime | exact @_root_.ReciprocityTheory.ChartRestriction.B3.IotaPl.smallIdeal_isPrime | apply _root_.ReciprocityTheory.ChartRestriction.B3.IotaPl.smallIdeal_isPrime <;> assumption
 
 theorem dvd_of_natCast_mem {R : Type*} [CommRing R] (I : Ideal R) (hI : I ≠ ⊤) {q M : ℕ} (hq : q.Prime)
     (h1 : (q : R) ∈ I) (h2 : (M : R) ∈ I) : q ∣ M := by

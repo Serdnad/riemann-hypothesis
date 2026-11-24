@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.CartanFactorisation.ExistsBeta
 public import Mathlib.Algebra.Module.LinearMap.End
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Span.Defs
@@ -220,17 +221,8 @@ theorem exists_op (hD : DictSt) (hp : IsPair B M χX χW om r s r' s') {v : Pl F
 
 theorem I_left (hB : ThetaBasic) (hE : EpsOf) (hU : PositivityTheory.ThKF.Unimod) (hp : IsPair B M χX χW om r s r' s') {Φ : Fn F n d}
     (hΦ : Φ ∈ schA F _) (g₀ : UA σ X.J) : M.I om (om (g₀, 1) Φ) = M.I om Φ := by
-  funext h
-  obtain ⟨h1, -, h2⟩ := hU F E σ hp.base.cm n X.J 1 (fun i j => by simpa using hp.herm.herm i j)
-    (hE F E σ B hp.base n X _ _ (Or.inl hp.herm)).1.2
-  have := hp.good.haar
-  have := h2 _ this
-  have : BorelSpace (UA σ X.J) := ⟨rfl⟩
-  have e : ∀ g, theta om (om (g₀, 1) Φ) g h = theta om Φ (g * g₀) h := fun g => by
-    simp only [theta, ← Module.End.mul_apply, ← map_mul, Prod.mk_mul_mk, mul_one]
-  simp only [Model.I, e]
-  exact PositivityTheory.ThKF.L2.integral_right hp.good.dom (fun g => theta om Φ g h) (fun γ hγ g => by
-    simpa using ((hB F E σ B n d X W M χX χW om r s r' s' hp).1 Φ hΦ).2.1 γ hγ 1 (one_mem _) g h) g₀
+  intros
+  apply _root_.PositivityTheory.ThKF.I_left <;> assumption
 
 theorem I_add (hp : IsPair B M χX χW om r s r' s') {Φ Ψ : Fn F n d} (a : Φ ∈ schA F _ ∧ M.Conv om Φ) (b : Ψ ∈ schA F _ ∧ M.Conv om Ψ) :
     M.I om (Φ + Ψ) = M.I om Φ + M.I om Ψ := funext fun h => by

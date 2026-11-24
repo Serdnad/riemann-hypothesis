@@ -720,15 +720,6 @@ theorem exists_isLocS_rows (hH : GlobalTheory.Published.HarishChandraFinite) (hC
   have hM := hP.char.base.models
   have hθ : IsInfFam R.θ := hM.inf
   have hSig : (Yc D 0).SigOK := D.sp.Y_sig 0
-  have hfd : ∀ j, j < D.R.m → (R.νY A3.A.μ0 j).IsHaarMeasure ∧
-      IsFundamentalDomain (GQ (Yc D j)) (R.fdY A3.A.μ0 j) (R.νY A3.A.μ0 j) := by
-    intro j hj
-    by_cases h : j + 1 < D.R.m
-    · have := hM.νY A3.A.μ0 j h
-      exact ⟨this.1.1, this.2⟩
-    · obtain rfl : j = D.R.m - 1 := by omega
-      have := hM.νY' A3.A.μ0
-      exact ⟨this.1.1, this.2⟩
   have hHA : HCAll D := fun V _ S θ M J χ =>
     (GlobalTheory.MultFinite.hcFinite_and_schurMult hH hC D θ V S M J χ 0 ∅).1
   obtain ⟨B, k1, k2, k3, k4⟩ := GlobalTheory.RowSphSmall.exists_form_rowRepR hH hC D G Pl0 I0 T A3 Ks R F cG X0 Y hP σ

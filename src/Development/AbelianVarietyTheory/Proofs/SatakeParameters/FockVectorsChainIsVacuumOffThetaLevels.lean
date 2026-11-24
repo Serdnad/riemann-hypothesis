@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeisenbergOperatorFixThetaDatumAwaySplitPlacesStatement
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeisenbergOrientedFiniteFixesFockPolynomialVectoStatement
@@ -60,17 +61,7 @@ variable {D : D7}
 
 theorem infPart_latO {S T : HSp D} {LS : Set (Fin S.rank → D.host.E)} {LT : Set (Fin T.rank → D.host.E)} {u : WO S T}
     (hu : u ∈ latO S T LS LT fun _ => True) : u.map (infPart D) = 0 := by
-  ext i j
-  rw [Matrix.map_apply, Matrix.zero_apply]
-  unfold latO at hu
-  refine AddSubgroup.closure_induction (p := fun u _ => infPart D (u i j) = 0) ?_ ?_ ?_ ?_ hu
-  · rintro w ⟨α, -, -, a, -, s, -, t, -, rfl⟩
-    rw [Matrix.of_apply]
-    exact (show infPart D (pairA D.host.F 0 α ⊗ₜ[D.host.F] (a * t i * ∑ k, star (s k) * S.gram k j)) =
-      (0 : Ainf D.host.F) ⊗ₜ[D.host.F] (a * t i * ∑ k, star (s k) * S.gram k j) from rfl).trans (TensorProduct.zero_tmul _ _)
-  · simp
-  · intro x y _ _ hx hy; rw [Matrix.add_apply, RingHom.map_add (f := _), hx, hy, add_zero]
-  · intro x _ hx; rw [Matrix.neg_apply, RingHom.map_neg, hx, neg_zero]
+  first | exact _root_.GlobalTheory.SplitScalar.latO_fin | exact @_root_.GlobalTheory.SplitScalar.latO_fin | apply _root_.GlobalTheory.SplitScalar.latO_fin <;> assumption
 
 theorem prime_idem_absorb (S : HSp D) {P : HeightOneSpectrum (𝓞 D.host.E)} {e f : AE D} (h : IsPrimeIdem P e f) :
     f * e = e := by

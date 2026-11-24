@@ -358,11 +358,7 @@ noncomputable section
 namespace GlobalTheory.CrysPrism.GoodX
 
 theorem pow_factorial_dvd (i m : ℕ) : i.factorial ^ m ∣ (m * i).factorial := by
-  induction m with
-  | zero => simp
-  | succ m ih =>
-    rw [pow_succ, Nat.succ_mul]
-    exact (Nat.mul_dvd_mul_right ih _).trans (Nat.factorial_mul_factorial_dvd_factorial_add _ _)
+  apply _root_.GlobalTheory.CrysPrism.factorial_pow_dvd_factorial_mul <;> assumption
 
 theorem mul_pow_factorial_dvd (l i : ℕ) (hl : l ≠ 0) (hi : i ≠ 0) :
     i.factorial ^ l * l ∣ (l * i).factorial := by

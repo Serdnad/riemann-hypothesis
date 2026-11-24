@@ -951,14 +951,8 @@ variable {n r : ℕ}
 theorem ballM_eq_pi (c : kˣ) (x₀ : Matrix (Fin n) (Fin r) k) :
     (ballM c x₀ : Set (Matrix (Fin n) (Fin r) k)) =
       (Set.univ.pi fun i => Set.univ.pi fun l => {y : k | valuation k (y - x₀ i l) ≤ valuation k (c : k)} :
-        Set (Fin n → Fin r → k)) := by
-  ext x
-  simp only [ballM, Set.mem_setOf_eq]
-  constructor
-  · intro h i _ l _
-    exact h i l
-  · intro h i l
-    exact h i (Set.mem_univ _) l (Set.mem_univ _)
+        Set (Fin n → Fin r → k)) :=
+  _root_.PositivityTheory.Rg.Ming.GermX.ballM_eq_pi c x₀
 
 theorem measurableSet_ballM [MeasurableSpace k] [BorelSpace k] (c : kˣ) (x₀ : Matrix (Fin n) (Fin r) k) :
     MeasurableSet (ballM c x₀) := by
@@ -967,30 +961,12 @@ theorem measurableSet_ballM [MeasurableSpace k] [BorelSpace k] (c : kˣ) (x₀ :
 
 theorem volM_ballM [MeasurableSpace k] [BorelSpace k] (ν : Measure k) (hν : IsUnitVol ν) (c : kˣ)
     (x₀ : Matrix (Fin n) (Fin r) k) :
-    volM ν (Fin n) (Fin r) (ballM c x₀) = ∏ _i : Fin n, ∏ _l : Fin r, ENNReal.ofReal (nabs k c) := by
-  obtain ⟨hH, h1⟩ := hν
-  haveI := hH
-  haveI : SecondCountableTopology k := by exact secondCountable k
-  rw [volM, ballM_eq_pi]
-  erw [Measure.pi_pi]
-  refine Finset.prod_congr rfl fun i _ => ?_
-  rw [Measure.pi_pi]
-  exact Finset.prod_congr rfl fun l _ => vol_valSet ν ⟨hH, h1⟩ (x₀ i l) c
+    volM ν (Fin n) (Fin r) (ballM c x₀) = ∏ _i : Fin n, ∏ _l : Fin r, ENNReal.ofReal (nabs k c) :=
+  _root_.PositivityTheory.Rg.Ming.GermX.volM_ballM ν hν c x₀
 
 theorem volM_ballM_ne_zero [MeasurableSpace k] [BorelSpace k] (ν : Measure k) (hν : IsUnitVol ν) (c : kˣ)
-    (x₀ : Matrix (Fin n) (Fin r) k) : (volM ν (Fin n) (Fin r) (ballM c x₀)).toReal ≠ 0 := by
-  have hpos : 0 < nabs k c := by
-    unfold nabs
-    have h : distribHaarChar k c * distribHaarChar k c⁻¹ = 1 := by
-      rw [← map_mul, mul_inv_cancel, map_one]
-    have hne : distribHaarChar k c ≠ 0 := left_ne_zero_of_mul_eq_one h
-    exact_mod_cast pos_iff_ne_zero.2 hne
-  rw [volM_ballM ν hν, ENNReal.toReal_prod]
-  refine Finset.prod_ne_zero_iff.2 fun i _ => ?_
-  rw [ENNReal.toReal_prod]
-  refine Finset.prod_ne_zero_iff.2 fun l _ => ?_
-  rw [ENNReal.toReal_ofReal hpos.le]
-  exact hpos.ne'
+    (x₀ : Matrix (Fin n) (Fin r) k) : (volM ν (Fin n) (Fin r) (ballM c x₀)).toReal ≠ 0 :=
+  _root_.PositivityTheory.Rg.Ming.GermX.volM_ballM_ne_zero ν hν c x₀
 
 theorem integral_ind [MeasurableSpace k] [BorelSpace k] (ν : Measure k) (c : kˣ) (x₀ : Matrix (Fin n) (Fin r) k) :
     ∫ x, (ballM c x₀).indicator (fun _ => (1 : ℂ)) x ∂volM ν (Fin n) (Fin r) =

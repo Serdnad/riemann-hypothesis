@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.HeckeGaloisCriteria.ActEqZeroOfQK
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 
 @[expose] public section
@@ -29,24 +30,8 @@ theorem evPt_injective (T : Subalgebra O (X → O))
 theorem exists_delta (T : Subalgebra O (X → O))
     (hsep : ∀ x y : X, x ≠ y → ∃ f ∈ T, (f : X → O) x ≠ (f : X → O) y) (x : X) :
     ∃ P : T, (P : X → O) x ≠ 0 ∧ ∀ y, y ≠ x → (P : X → O) y = 0 := by
-  classical
-  have key : ∀ y, y ≠ x → ∃ g ∈ T, g x ≠ 0 ∧ g y = 0 := by
-    intro y hy
-    obtain ⟨f, hf, hne⟩ := hsep x y (Ne.symm hy)
-    refine ⟨f - algebraMap O (X → O) (f y), T.sub_mem hf (T.algebraMap_mem _), ?_, ?_⟩
-    · simpa [sub_eq_zero] using hne
-    · simp
-  choose g hgT hgx hgy using key
-  let e : X → T := fun y => if hy : y = x then 1 else ⟨g y hy, hgT y hy⟩
-  refine ⟨∏ y, e y, ?_, ?_⟩
-  · simp only [SubmonoidClass.coe_finsetProd, Finset.prod_apply]
-    refine Finset.prod_ne_zero_iff.mpr fun y _ => ?_
-    by_cases hy : y = x
-    · simp [e, hy]
-    · simp [e, hy, hgx y hy]
-  · intro y hy
-    simp only [SubmonoidClass.coe_finsetProd, Finset.prod_apply]
-    exact Finset.prod_eq_zero (Finset.mem_univ y) (by simp [e, hy, hgy y hy])
+  intros
+  apply _root_.UpperTheory.GalC.Alg.exists_sep <;> assumption
 
 theorem evPt_surjective (T : Subalgebra O (X → O))
     (hsep : ∀ x y : X, x ≠ y → ∃ f ∈ T, (f : X → O) x ≠ (f : X → O) y) : Function.Surjective (evPt T) := by

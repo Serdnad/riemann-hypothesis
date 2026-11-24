@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfCoefficientsSeparatingCharactersEqZero
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
@@ -80,16 +81,6 @@ theorem tsum_coefficients_eq_value_zero : ∀ (G : Type) [AddCommGroup G] [Topol
       intro h; have := hχnorm a 0; rw [h, norm_zero] at this; exact zero_ne_one this
     have h2 : χ a 0 * χ a 0 = χ a 0 * 1 := by rw [← hχmul, add_zero, mul_one]
     exact (mul_left_cancel₀ hne h2)
-  have hχne : ∀ a x, χ a x ≠ 0 := by
-    intro a x h; have := hχnorm a x; rw [h, norm_zero] at this; exact zero_ne_one this
-  have hstar : ∀ a x, star (χ a x) = χ (-a) x := by
-    intro a x
-    have h1 : star (χ a x) * χ a x = 1 := by
-      have := Complex.conj_mul' (χ a x)
-      rw [hχnorm] at this
-      simpa using this
-    have h2 : χ (-a) x * χ a x = 1 := by rw [← hχadd, neg_add_cancel, hχ0]
-    exact mul_right_cancel₀ (hχne a x) (h1.trans h2.symm)
   have hχper : ∀ a, ∀ γ ∈ Γ, ∀ x, χ a (γ + x) = χ a x := by
     intro a γ hγ x
     rw [hχmul, (hχker γ).mpr hγ a, one_mul]
@@ -146,15 +137,6 @@ theorem tsum_coefficients_eq_value_zero : ∀ (G : Type) [AddCommGroup G] [Topol
     intro a a'; ext q
     obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective q
     simp [he, hχadd]
-  have hstarE : ∀ a, star (e a) = e (-a) := by
-    intro a; ext q
-    obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective q
-    simp only [ContinuousMap.star_apply, he]
-    exact hstar a x
-  have hone : e 0 = 1 := by
-    ext q
-    obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective q
-    simp [he, hχ0]
   have hnorm1 : ∀ a, ‖e a‖ ≤ 1 := by
     intro a
     refine (ContinuousMap.norm_le _ zero_le_one).mpr fun q => ?_
@@ -221,115 +203,21 @@ theorem tsum_coefficients_eq_value_zero : ∀ (G : Type) [AddCommGroup G] [Topol
     intro b
     rw [hHdef, mul_sub, map_sub, ← hcoef, hgcoef, sub_self]
 
-  let V : Submodule ℂ C(G ⧸ Γ, ℂ) := Submodule.span ℂ (Set.range e)
-  have hVmul : ∀ u ∈ V, ∀ v ∈ V, u * v ∈ V := by
-    intro u hu v hv
-    have h1 := Submodule.mul_mem_mul hu hv
-    rw [Submodule.span_mul_span] at h1
-    refine Submodule.span_mono ?_ h1
-    rintro _ ⟨_, ⟨a, rfl⟩, _, ⟨a', rfl⟩, rfl⟩
-    exact ⟨a + a', (hprod a a').symm⟩
-  have hVone : (1 : C(G ⧸ Γ, ℂ)) ∈ V := by
-    rw [← hone]; exact Submodule.subset_span ⟨0, rfl⟩
-  have hVstar : ∀ u ∈ V, star u ∈ V := by
-    intro u hu
-    induction hu using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨a, rfl⟩ := hx
-      rw [hstarE]
-      exact Submodule.subset_span ⟨-a, rfl⟩
-    | zero => simp
-    | add x y _ _ hx hy => rw [star_add]; exact V.add_mem hx hy
-    | smul r x _ hx => rw [star_smul]; exact V.smul_mem _ hx
-  let S : StarSubalgebra ℂ C(G ⧸ Γ, ℂ) :=
-    { carrier := (V : Set C(G ⧸ Γ, ℂ))
-      add_mem' := fun ha hb => V.add_mem ha hb
-      zero_mem' := V.zero_mem
-      mul_mem' := fun ha hb => hVmul _ ha _ hb
-      one_mem' := hVone
-      algebraMap_mem' := fun r => by
-        rw [Algebra.algebraMap_eq_smul_one]
-        exact V.smul_mem r hVone
-      star_mem' := fun ha => hVstar _ ha }
-  have hsep : S.SeparatesPoints := by
-    intro q q' hne
-    obtain ⟨x, rfl⟩ := QuotientAddGroup.mk_surjective q
-    obtain ⟨y, rfl⟩ := QuotientAddGroup.mk_surjective q'
-    have hnot : -x + y ∉ Γ := fun h => hne (QuotientAddGroup.eq.mpr h)
-    obtain ⟨a, ha⟩ : ∃ a, χ a (-x + y) ≠ 1 := by
-      by_contra hcon
-      push_neg at hcon
-      exact hnot ((hχker _).mp hcon)
-    refine ⟨e a, ⟨e a, Submodule.subset_span ⟨a, rfl⟩, rfl⟩, ?_⟩
-    simp only [he]
-    intro heq
-    apply ha
-    rw [hχmul, ← heq, ← hχmul, neg_add_cancel, hχz]
-  have hcl := ContinuousMap.starSubalgebra_topologicalClosure_eq_top_of_separatesPoints S hsep
-
-  have hZ : IsClosed {q : C(G ⧸ Γ, ℂ) | I (q * H) = 0} :=
-    isClosed_eq (I.continuous.comp (continuous_id.mul continuous_const)) continuous_const
-  have hSZ : (S : Set C(G ⧸ Γ, ℂ)) ⊆ {q : C(G ⧸ Γ, ℂ) | I (q * H) = 0} := by
-    intro u hu
-    change u ∈ V at hu
-    induction hu using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨a, rfl⟩ := hx
-      exact hH a
-    | zero => simp
-    | add x y _ _ hx hy =>
-      simp only [Set.mem_setOf_eq] at hx hy ⊢
-      rw [add_mul, map_add (f := _), hx, hy, add_zero]
-    | smul r x _ hx =>
-      simp only [Set.mem_setOf_eq] at hx ⊢
-      rw [smul_mul_assoc, map_smul, hx, smul_zero]
-  have hmem : star H ∈ closure (S : Set C(G ⧸ Γ, ℂ)) := by
-    rw [← StarSubalgebra.topologicalClosure_coe, hcl]
-    simp
-  have hHH : I (star H * H) = 0 := closure_minimal hSZ hZ hmem
-
-  set k : G → ℂ := fun x => H (QuotientAddGroup.mk x) with hkdef
+  let k : G → ℂ := fun x => H (QuotientAddGroup.mk x)
   have hkc : Continuous k := H.continuous.comp QuotientAddGroup.continuous_mk
-  have hkper : ∀ γ : Γ, ∀ x, k (γ +ᵥ x) = k x := by
-    intro γ x
-    show H (QuotientAddGroup.mk ((γ : G) + x)) = H (QuotientAddGroup.mk x)
-    congr 1
+  have hkper : ∀ γ ∈ Γ, ∀ x, k (γ + x) = k x := by
+    intro γ hγ x
+    apply congrArg H
     refine QuotientAddGroup.eq.mpr ?_
-    rw [show -((γ : G) + x) + x = -(γ : G) by abel]
-    exact neg_mem γ.2
-  have hpt : ∀ x, (star H * H) (QuotientAddGroup.mk x) = ((‖k x‖ ^ 2 : ℝ) : ℂ) := by
-    intro x
-    rw [ContinuousMap.mul_apply, ContinuousMap.star_apply, Complex.ofReal_pow]
-    exact Complex.conj_mul' _
-  have hr : ∫ x in 𝓕, ‖k x‖ ^ 2 ∂μ = 0 := by
-    rw [hI] at hHH
-    simp_rw [hpt] at hHH
-    rw [integral_complex_ofReal] at hHH
-    exact_mod_cast hHH
-  have hkint : Integrable (fun x => ‖k x‖ ^ 2) (μ.restrict 𝓕) := by
-    refine (hint (star H * H)).norm.congr (Filter.Eventually.of_forall fun x => ?_)
-    simp only [hpt, Complex.norm_real, Real.norm_eq_abs]
-    exact abs_of_nonneg (by positivity)
-  have hae := (integral_eq_zero_iff_of_nonneg (fun x => by positivity) hkint).mp hr
-  set t : Set G := {x | k x ≠ 0} with htdef
-  have ht : IsOpen t := isOpen_ne_fun hkc continuous_const
-  have h1 : μ.restrict 𝓕 t = 0 := by
-    rw [Filter.EventuallyEq, ae_iff] at hae
-    refine measure_mono_null ?_ hae
-    intro x hx
-    exact pow_ne_zero 2 (norm_ne_zero_iff.mpr hx)
-  rw [Measure.restrict_apply ht.measurableSet] at h1
-  have h2 : μ t = 0 := by
-    refine h𝓕.measure_zero_of_invariant t (fun γ => ?_) h1
-    ext x
-    rw [Set.mem_vadd_set_iff_neg_vadd_mem]
-    simp only [htdef, Set.mem_setOf_eq, hkper]
-  have h3 : t = ∅ := (ht.measure_eq_zero_iff μ).mp h2
-  have hk0 : k 0 = 0 := by
-    by_contra hne
-    have : (0 : G) ∈ t := hne
-    rw [h3] at this
-    exact this
+    rw [show -(γ + x) + x = -γ by abel]
+    exact Γ.neg_mem hγ
+  have hk : k = 0 :=
+    _root_.GlobalTheory.SeparatingCharacters.eq_zero_of_coefficients_eq_zero G Γ K hK hKcov A χ
+      hχc hχmul hχadd hχ0 hχnorm hχker μ 𝓕 hμ h𝓕 k hkc hkper (fun b => by
+        have hb := hH b
+        rw [hI] at hb
+        simpa only [ContinuousMap.mul_apply, he] using hb)
+  have hk0 : k 0 = 0 := congrFun hk 0
   have hg0 : g (QuotientAddGroup.mk 0) = ∑' a, c a := by
     have hev := (ContinuousMap.evalCLM ℂ (QuotientAddGroup.mk 0 : G ⧸ Γ)).map_tsum hgs
     simp only [ContinuousMap.evalCLM_apply] at hev
@@ -337,7 +225,7 @@ theorem tsum_coefficients_eq_value_zero : ∀ (G : Type) [AddCommGroup G] [Topol
     congr 1; funext a
     rw [ContinuousMap.smul_apply, he, hχz, smul_eq_mul, mul_one]
   have : k 0 = Φ 0 - ∑' a, c a := by
-    rw [hkdef]
+    change H (QuotientAddGroup.mk 0) = _
     simp only [hHdef, ContinuousMap.sub_apply, hP]
     rw [hg0]
   rw [hk0] at this

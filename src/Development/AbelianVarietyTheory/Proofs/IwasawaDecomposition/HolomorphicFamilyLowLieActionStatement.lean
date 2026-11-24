@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PsiPolarDecompositionEquivariance
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLowestKTypeLeSmoothVectors
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHolRepOfIsTau
@@ -96,15 +97,7 @@ namespace GlobalTheory.JointHarm.KTypeOp
 
 theorem star_mem_K {n : ℕ} {ε : Fin n → Bool} {k : Matrix (Fin n) (Fin n) ℂ} (hk : k ∈ Formalism.REAL.Kset ε) :
     kᴴ ∈ Formalism.REAL.Kset ε := by
-  refine ⟨Unitary.star_mem hk.1, ?_⟩
-  have hJ : (Formalism.REAL.Jm ε)ᴴ = Formalism.REAL.Jm ε := by
-    simp only [Formalism.REAL.Jm, Matrix.diagonal_conjTranspose]
-    congr 1
-    funext a
-    by_cases h : ε a = true <;> simp [h]
-  have := congrArg Matrix.conjTranspose hk.2
-  rw [Matrix.conjTranspose_mul, Matrix.conjTranspose_mul, hJ] at this
-  exact this.symm
+  apply _root_.GlobalTheory.Dec.PsiPolarProof.star_mem_K <;> assumption
 
 theorem mul_mem_K {n : ℕ} {ε : Fin n → Bool} {a b : Matrix (Fin n) (Fin n) ℂ} (ha : a ∈ Formalism.REAL.Kset ε)
     (hb : b ∈ Formalism.REAL.Kset ε) : a * b ∈ Formalism.REAL.Kset ε := by

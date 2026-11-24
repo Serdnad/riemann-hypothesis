@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdempotentSumSelfDualFramesBound
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PrimeDvdAbsNormHalfDifferent
 import Mathlib.Algebra.Order.Floor.Extended
@@ -56,23 +57,7 @@ namespace GlobalTheory.IdemIntegral
 
 theorem toEAf_mem_of_finPart {D : D7} {w : AE D} (hw : finPart D w ∈ intAE D) :
     toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  have key : ∀ z ∈ intAE D, Algebra.TensorProduct.comm D.host.F (Formalism.L2.Herm.Af D.host.F) D.host.E z ∈
-      Formalism.L2.Herm.intAf D.host.F D.host.E := by
-    intro z hz
-    induction hz using AddSubgroup.closure_induction with
-    | mem z hz =>
-      obtain ⟨a, ha, x, rfl⟩ := hz
-      have h1 : (1 : D.host.E) ⊗ₜ[D.host.F] a ∈ Formalism.L2.Herm.intAf D.host.F D.host.E :=
-        Subring.subset_closure (Or.inr ⟨⟨a, ha⟩, rfl⟩)
-      have h2 : (x : D.host.E) ⊗ₜ[D.host.F] (1 : Formalism.L2.Herm.Af D.host.F) ∈ Formalism.L2.Herm.intAf D.host.F D.host.E :=
-        Subring.subset_closure (Or.inl ⟨⟨_, x, rfl⟩, rfl⟩)
-      have h3 := mul_mem h2 h1
-      rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul, mul_one] at h3
-      exact h3
-    | zero => rw [map_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-    | neg x _ hx => rw [map_neg]; exact neg_mem hx
-  exact key _ hw
+  first | exact _root_.GlobalTheory.HalfAdjLattice.toEAf_int | exact @_root_.GlobalTheory.HalfAdjLattice.toEAf_int | apply _root_.GlobalTheory.HalfAdjLattice.toEAf_int <;> assumption
 
 theorem toEAf_incA (D : D7) (x : D.host.E) : toEAf D (incA D x) = eToEAf D x := rfl
 

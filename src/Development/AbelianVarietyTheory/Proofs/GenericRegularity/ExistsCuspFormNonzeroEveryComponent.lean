@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.CurveModelExistsAllPrimesAllPoints
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import Formalism.LocalToGlobal.ProjectiveLattices.RecPJThAllNeBot
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsThetaGeneratorReadingNeZeroAtFrameStatement
@@ -100,17 +101,7 @@ theorem eval_ne_zero_of_nonZeroComp {D : D7} {B : WeightFamilies.Prov D} {P : Mo
     (hinj : ∀ (u : WeightFamilies.Wt D j) (F : B.Cusp j u), (∀ Z, gF Z (X.inc u F) = 0) → F = 0)
     {u v : WeightFamilies.Wt D j} (g : B.Cusp j u) (hg : X.NonZeroComp u g) (Z : ι) (g' : B.Cusp j v)
     (h1 : gF Z (X.inc v g') ≠ 0) (h2 : ∀ Z', Z' ≠ Z → gF Z' (X.inc v g') = 0) : gF Z (X.inc u g) ≠ 0 := by
-  intro h0
-  obtain ⟨H, hH⟩ := X.inc_mul u v g g'
-  have hz : H = 0 := by
-    refine hinj _ H fun Z' => ?_
-    rw [← hH, map_mul]
-    by_cases e : Z' = Z
-    · subst e
-      rw [h0, zero_mul]
-    · rw [h2 Z' e, mul_zero]
-  have hg0 : g' = 0 := hg v g' (by rw [hH, hz, map_zero])
-  exact h1 (by rw [hg0, map_zero, map_zero])
+  apply _root_.GlobalTheory.CurveRecord.ev_ne_zero_of_nonZeroComp <;> assumption
 
 section Record
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsColIntertwiner
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
 public import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
@@ -205,22 +206,7 @@ theorem num_e_lt {l l' : ℕ} (h1 : 1 ≤ l) (h : l < l') (h2 : l' ≤ D.R.m) : 
     linarith
 
 theorem num_cloud {i : ℕ} (h1 : 2 ≤ i) (h2 : i ≤ D.R.k) : -((Γ).b 1 : ℚ) + 1 ≤ (Γ).v i := by
-  have hm : 1 ≤ D.R.m := by have := D.R.two_le_m; omega
-  have hk : 2 ≤ D.R.k := by omega
-  have base : -((Γ).b 1 : ℚ) < (Γ).v D.R.k := by
-    rw [num_v D C τ hk le_rfl, num_b D C τ le_rfl hm]
-    have e1 := (D.hc τ).u_last_gt (by omega) (by omega)
-    have e2 := (D.hc τ).v_gt_u ⟨D.R.k - 2, by omega⟩
-    have e3 : (⟨D.R.k - 2 + 1, by omega⟩ : Fin D.R.k) = ⟨D.R.k - 1, by omega⟩ := Fin.ext (by simp only; omega)
-    simp only [e3] at e2
-    exact e1.trans e2
-  have base' : -((Γ).b 1) < (Γ).v D.R.k := by exact_mod_cast base
-  have step : (Γ).v D.R.k ≤ (Γ).v i := by
-    rcases h2.eq_or_lt with rfl | h
-    · exact le_rfl
-    · exact ((Γ).v_anti i D.R.k h1 h le_rfl).le
-  have : -((Γ).b 1) + 1 ≤ (Γ).v i := by omega
-  exact_mod_cast this
+  apply _root_.GlobalTheory.ColParam.cloud_ge <;> assumption
 
 theorem num_ga : sLen D + 2 ≤ gap D C := by
   have := (isLeast_gap D C).1.2.1

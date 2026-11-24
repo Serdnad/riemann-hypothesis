@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisUnitMatchStepOfOneLeNorm
 public import Formalism.MahlerMeasure.LieRoots
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 import Mathlib.Algebra.Order.Floor.Extended
@@ -146,11 +147,7 @@ theorem gaussR_le_max_coeff_zero {ρ : NNReal} (hρ : ρ ≤ 1) (P : K[X]) (hP :
 
 theorem norm_det_le_one {n : ℕ} (M : Matrix (Fin n) (Fin n) K) (hM : ∀ i j, ‖M i j‖ ≤ 1) :
     ‖M.det‖ ≤ 1 := by
-  have h := gaussR_det_le 1 (M.map C) (fun _ => 1) (fun i j => by
-    rw [Matrix.map_apply, gaussR_C, ← NNReal.coe_le_coe]; simpa using hM i j)
-  have e : (M.map C).det = C M.det := (RingHom.map_det C M).symm
-  rw [e, gaussR_C, prod_const_one, ← NNReal.coe_le_coe] at h
-  simpa using h
+  apply _root_.GlobalTheory.JR.OmegaInv.norm_det_le_one <;> assumption
 
 theorem norm_inv_entry_le {n : ℕ} (U : Matrix (Fin n) (Fin n) K) (hU : ∀ i j, ‖U i j‖ ≤ 1)
     (hdet : ‖U.det‖ = 1) (i j : Fin n) : ‖U⁻¹ i j‖ ≤ 1 := by

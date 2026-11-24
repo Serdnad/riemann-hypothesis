@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsGenericTermIffNoLocalDefectBaseFrames
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GenericMassLeHeightPowMulGluedCountStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsDatumOfTwoCongruentFrames
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianDatumOfTermReadOnLattice
@@ -289,21 +291,8 @@ lemma tri_trans {n : ℕ} {f g h : Fin n → V} (h1 : Tri E f g) (h2 : Tri E g h
 
 lemma isTerm_move {r : ℕ} {g : V ≃ₗ[E] V} (hg : IsUnitary H g) {t : Term V M r} (ht : H.IsTerm t) :
     H.IsTerm (move g t) := by
-  obtain ⟨h1, h2, h3, h4, h5, h6⟩ := ht
-  have hZ : H.Zhat (move g t).f (move g t).f' = H.Zhat t.f t.f' := by
-    ext a b
-    simp only [HermSp.Zhat, Matrix.of_apply, move]
-    exact hg _ _
-  have hD : ∀ l, H.Dl (move g t).f (move g t).f' l = H.Dl t.f t.f' l := by
-    intro l; unfold HermSp.Dl; rw [hZ]
-  refine ⟨TermOver.img_selfDual H hg h1, TermOver.img_frame H hg h2, TermOver.img_frame H hg h3,
-    by rw [hD]; exact h4, ?_, fun gs hgs => ?_⟩
-  · unfold HermSp.Gdet; rw [hD, hD]; exact h5
-  · obtain ⟨a, b, c⟩ := h6 gs hgs
-    refine ⟨a, b, fun j => ?_⟩
-    change g (t.f' j) - g (t.f j) ∈ H.smulLat _ (img g t.abelian₂)
-    rw [← map_sub, smulLat_img]
-    exact (TermOver.mem_img g _ _).2 ⟨_, c j, rfl⟩
+  intros
+  apply _root_.GlobalTheory.Unfold.GenLoc.isTerm_move <;> assumption
 
 end GlobalTheory.LocOver.SameDC
 
@@ -540,29 +529,7 @@ theorem tri_symm {f g : Fin n → W} (h : Tri K f g) : Tri K g f := by
         simp only [Finset.sum_smul]
 
 theorem tri_trans {f g h : Fin n → W} (h1 : Tri K f g) (h2 : Tri K g h) : Tri K f h := by
-  obtain ⟨A, hA, hc⟩ := h1
-  obtain ⟨B, hB, hd⟩ := h2
-  refine ⟨A * B, ⟨fun a b hab => ?_, fun a => ?_⟩, fun b => ?_⟩
-  · rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun c _ => ?_
-    rcases lt_or_ge c a with hca | hca
-    · rw [hA.1 a c hca, zero_mul]
-    · rw [hB.1 c b (lt_of_lt_of_le hab hca), mul_zero]
-  · rw [Matrix.mul_apply, Finset.sum_eq_single a]
-    · rw [hA.2, hB.2, one_mul]
-    · intro c _ hc
-      rcases lt_or_gt_of_ne hc with hc | hc
-      · rw [hA.1 a c hc, zero_mul]
-      · rw [hB.1 c a hc, mul_zero]
-    · intro h; exact absurd (Finset.mem_univ a) h
-  · rw [hd b]
-    have e1 : ∀ c, B c b • g c = ∑ a, (A a c * B c b) • f a := by
-      intro c; rw [hc c, Finset.smul_sum]
-      refine Finset.sum_congr rfl fun a _ => ?_
-      rw [smul_smul, mul_comm]
-    rw [Finset.sum_congr rfl fun c _ => e1 c, Finset.sum_comm]
-    refine Finset.sum_congr rfl fun a _ => ?_
-    rw [Matrix.mul_apply, Finset.sum_smul]
+  first | exact _root_.GlobalTheory.GenMassBound.tri_trans | exact @_root_.GlobalTheory.GenMassBound.tri_trans | apply _root_.GlobalTheory.GenMassBound.tri_trans <;> assumption
 
 theorem tri_map {f g : Fin n → W} (h : Tri K f g) (φ : W ≃ₗ[K] W) :
     Tri K (fun a => φ (f a)) (fun a => φ (g a)) := by

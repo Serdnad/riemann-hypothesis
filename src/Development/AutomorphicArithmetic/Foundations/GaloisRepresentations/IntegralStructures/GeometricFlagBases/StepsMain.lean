@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.PLiesGen
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.HodgeTrAt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SplitLineSubtraction.PCpFacts
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.BlowUpFibreSemilocal
@@ -575,12 +576,7 @@ private theorem fEt_surj {Y X : Scheme.{0}} {f : Y ⟶ X} {d : ℕ} (hf : FEt f 
 
 private theorem fEt_comp_iso {Y X X' : Scheme.{0}} {f : Y ⟶ X} (e : X ⟶ X') [IsIso e] {d : ℕ}
     (hf : FEt f d) : FEt (f ≫ e) d := by
-  obtain ⟨h1, h2, h3⟩ := hf
-  refine ⟨inferInstance, inferInstance, fun K _ _ x => ?_⟩
-  rw [← h3 K (x ≫ inv e)]
-  refine Nat.card_congr ⟨fun y => ⟨y.1, ?_⟩, fun y => ⟨y.1, ?_⟩, fun _ => rfl, fun _ => rfl⟩
-  · rw [← cancel_mono e]; simp [y.2]
-  · rw [← Category.assoc, y.2]; simp
+  apply _root_.fEt_comp_iso <;> assumption
 
 theorem UpperTheory.Gal.Int.Geo.Cut.liesCut :
     UpperTheory.Gal.Int.Geo.Cut.LiesCut := by

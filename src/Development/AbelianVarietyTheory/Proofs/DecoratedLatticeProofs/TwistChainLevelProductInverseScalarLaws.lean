@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SplitPlaceDoubleStepTrilinearFormProperties
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocK
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ExistsDblClosed
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinsetSum
@@ -93,17 +94,7 @@ theorem combAt_aconv {D : D7} {S T : HSp D} (P : GlobalTheory.FinPl.Pl D → Pro
 theorem comb_aconv_cons {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (e : WO S T →₀ ℂ)
     (l : List (WO S T →₀ ℂ)) (h : ∀ x ∈ e.support, ∀ y ∈ (aconv l).support, symplO S T x y = 0) (f : WO S T → ℂ) :
     comb ψ S T (aconv (e :: l)) f = comb ψ S T e (comb ψ S T (aconv l) f) := by
-  rw [GlobalTheory.HeisComb.comb_comb, GlobalTheory.HeisComb.comb_eq_sum]
-  have hG0 : ∀ u, (0 : ℂ) • heisO ψ S T u f = 0 := fun u => zero_smul _ _
-  have hGa : ∀ u (a b : ℂ), (a + b) • heisO ψ S T u f = a • heisO ψ S T u f + b • heisO ψ S T u f :=
-    fun u a b => add_smul _ _ _
-  show (e.sum fun g a => (aconv l).sum fun h b => Finsupp.single (g + h) (a * b)).sum
-    (fun u a => a • heisO ψ S T u f) = _
-  rw [Finsupp.sum_sum_index hG0 hGa, Finsupp.sum]
-  refine Finset.sum_congr rfl fun x hx => ?_
-  rw [Finsupp.sum_sum_index hG0 hGa, Finsupp.sum]
-  refine Finset.sum_congr rfl fun y hy => ?_
-  rw [Finsupp.sum_single_index (hG0 _), GlobalTheory.SplitScalar.heisO_add_of_orth ψ S T (h x hx y hy)]
+  first | exact _root_.GlobalTheory.TriStep.IdempotentCombination.comb_aconv_cons | exact @_root_.GlobalTheory.TriStep.IdempotentCombination.comb_aconv_cons | apply _root_.GlobalTheory.TriStep.IdempotentCombination.comb_aconv_cons <;> assumption
 
 theorem comb_aconv_map {D : D7} (ψ : AddChar (AF D.host.F) ℂ) {S T : HSp D} {r : ℕ} (p : Fin r → GlobalTheory.FinPl.Pl D)
     (hp : Function.Injective p) (E : Fin r → WO S T →₀ ℂ) (hE : ∀ a, GlobalTheory.FinPl.CombAt (· = p a) (E a))

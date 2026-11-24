@@ -167,17 +167,7 @@ theorem isSmoothDivisor_mul_of_disjoint_support {X : Scheme.{u}} {k : Type u} [F
 private theorem restrictIdeal_comap_eq_top_of_notMem_support {X X' : Scheme.{u}} (π : X' ⟶ X)
     (B : X.IdealSheafData) (V : X'.Opens) (hV : ∀ y : X', y ∈ V → π.base y ∉ B.support) :
     restrictIdeal (B.comap π) V = ⊤ := by
-  have hcc : B.comap (V.ι ≫ π) = (B.comap π).comap V.ι := by
-    rw [Scheme.IdealSheafData.comap_comp]
-  have htop : B.comap (V.ι ≫ π) = ⊤ := by
-    refine Blowup.comap_eq_top_of_notMem_support (V.ι ≫ π) B ?_
-    intro y
-    have hy : V.ι.base y ∈ Set.range V.ι.base := Set.mem_range_self y
-    rw [Scheme.Opens.range_ι] at hy
-    have h2 : π.base (V.ι.base y) ∉ B.support := hV _ hy
-    simpa using h2
-  rw [restrictIdeal_eq_comap_ι, ← hcc]
-  exact htop
+  apply _root_.FunctorialResolution.EmbeddedResolution.restrictIdeal_exceptionalIdeal_eq_top_of_notMem_support <;> assumption
 
 theorem isSmoothDivisor_comap_of_isBlowupAlongIdealSheaf {X X' : Scheme.{u}} {k : Type u} [Field k]
     [CharZero k] (p : X ⟶ Spec (CommRingCat.of k)) [AlgebraicGeometry.Smooth p]

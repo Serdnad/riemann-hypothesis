@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.MinkSat
 import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.CmHostIdempotentTraceEqOne
 public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
@@ -152,18 +153,7 @@ theorem single_mem (n : ℕ) (i : Fin n) : (Pi.single i (1 : E) : Fin n → E) �
 omit [IsCMField E] in
 theorem stdLat_eq_span (n : ℕ) :
     stdLat E n = Submodule.span (𝓞 E) (Set.range fun i : Fin n => (Pi.single i (1 : E) : Fin n → E)) := by
-  apply le_antisymm
-  · intro x hx
-    have hx' : ∀ i, ∃ r : 𝓞 E, algebraMap (𝓞 E) E r = x i := fun i => Submodule.mem_one.1 (hx i trivial)
-    choose r hr using hx'
-    have : x = ∑ i, r i • (Pi.single i (1 : E) : Fin n → E) := by
-      funext j
-      simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hr]
-    rw [this]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  · rw [Submodule.span_le]
-    rintro _ ⟨i, rfl⟩
-    exact single_mem n i
+  apply _root_.ReciprocityTheory.ChartRestriction.G.T0.hStd_eq_span_pi_single <;> assumption
 
 theorem hermE_one {F : Type} [Field F] [Algebra F E] (c : E ≃ₐ[F] E) {n : ℕ} (x y : Fin n → E) :
     hermE c 1 x y = ∑ a, x a * c (y a) := by

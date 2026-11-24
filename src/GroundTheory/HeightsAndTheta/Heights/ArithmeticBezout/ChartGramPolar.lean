@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsSemipositiveOn
 public import Mathlib.Algebra.Group.ForwardDiff
 
@@ -28,14 +29,6 @@ theorem ChartGram.sum_neg_one_pow_card_pow (D : ℕ) :
 
 theorem ChartGram.mixedDisc_const {D : ℕ} (A : Matrix (Fin D) (Fin D) ℂ) :
     mixedDisc (fun _ => A) = A.det := by
-  unfold mixedDisc
-  have h : ∀ S : Finset (Fin D), (-1 : ℂ) ^ (D - S.card) * (∑ _k ∈ S, A).det =
-      ((-1 : ℂ) ^ (D - S.card) * (S.card : ℂ) ^ D) * A.det := by
-    intro S
-    rw [Finset.sum_const, ← Nat.cast_smul_eq_nsmul ℂ, Matrix.det_smul, Fintype.card_fin]
-    ring
-  simp_rw [h, ← Finset.sum_mul, ChartGram.sum_neg_one_pow_card_pow]
-  have : (D.factorial : ℂ) ≠ 0 := by exact_mod_cast D.factorial_ne_zero
-  field_simp
+  apply _root_.ReciprocityTheory.AnForm.A.mdisc_const <;> assumption
 
 end GroundTheory.Heights₂.Heights

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.HaarExpB
 public import Mathlib.Analysis.Normed.Module.Basic
 public import Mathlib.LinearAlgebra.FiniteDimensional.Defs
 public import Mathlib.MeasureTheory.Group.Measure
@@ -68,13 +69,7 @@ def QInv (nu : Measure V) (ε δ : ℝ) : Prop :=
 
 theorem tendsto_mul_pos {t : ℝ} (ht : 0 < t) :
     Tendsto (fun r : ℝ => t * r) (𝓝[>] 0) (𝓝[>] 0) := by
-  have hc : Tendsto (fun r : ℝ => t * r) (𝓝[>] 0) (𝓝 0) := by
-    have : Tendsto (fun r : ℝ => t * r) (𝓝 0) (𝓝 (t * 0)) := tendsto_const_nhds.mul tendsto_id
-    rw [mul_zero] at this
-    exact this.mono_left nhdsWithin_le_nhds
-  refine tendsto_nhdsWithin_iff.mpr ⟨hc, ?_⟩
-  filter_upwards [self_mem_nhdsWithin] with r hr
-  exact mul_pos ht hr
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.HExp.tendsto_mul_pos <;> assumption
 
 variable (lam nu : Measure V) [lam.IsAddHaarMeasure] [IsFiniteMeasure nu]
 
@@ -143,12 +138,7 @@ theorem le_of_eventually_down {ε δ : ℝ} (hε0 : 0 < ε) (hq : QInv nu ε δ)
 
 theorem tendsto_ofReal_pow (n : ℕ) (σ : ℝ) :
     Tendsto (fun ε : ℝ => ENNReal.ofReal ((1 + σ * ε) ^ n)) (𝓝[>] 0) (𝓝 1) := by
-  have h : Tendsto (fun ε : ℝ => (1 + σ * ε) ^ n) (𝓝 0) (𝓝 ((1 + σ * 0) ^ n)) :=
-    ((tendsto_const_nhds.add (tendsto_const_nhds.mul tendsto_id)).pow n)
-  rw [mul_zero, add_zero, one_pow] at h
-  have h2 := (ENNReal.continuous_ofReal.tendsto 1).comp h
-  rw [ENNReal.ofReal_one] at h2
-  exact h2.mono_left nhdsWithin_le_nhds
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.HExp.tendsto_ofReal_pow <;> assumption
 
 theorem limsup_liminf_bounds {ε δ : ℝ} (hε0 : 0 < ε) (hε1 : ε < 1) (hδ : 0 < δ) (hq : QInv nu ε δ) :
     ∃ L : ℝ≥0∞, L ≠ ⊤ ∧

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.CoarseMultiplicity.FockRAddRight
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.FockR
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.OneSidedLemma4Realisable
 public import Formalism.LocalToGlobal.GroupLattices.FockModels.TransposeWords.TransposeWordsProofs.FockPairingRowAction
@@ -149,67 +150,6 @@ theorem Aa_dual {K : Type} [Field K] {m : ℕ} (vec : Bool) (M : Matrix (Fin (m 
 theorem multDiv_kapFl (O : Type) [CommRing O] [IsLocalRing O] (p : ℕ) [hp : Fact p.Prime]
     (hpO : (p : O) ∈ IsLocalRing.maximalIdeal O) {n' k : ℕ} (d : Fin n' → ℕ) :
     MultDiv O p (kapFl p k d) (k := k) d := by
-  intro α hα
-
-  have h1 : ∀ s, (d s).factorial = Nat.multinomial Finset.univ (fun c : Fin k => α (s, c)) *
-      ∏ c : Fin k, (α (s, c)).factorial := by
-    intro s
-    rw [mul_comm, Nat.multinomial_spec, ← hα s]
-    rfl
-  have h2 : expFact α = ∏ s : Fin n', ∏ c : Fin k, (α (s, c)).factorial := by
-    unfold expFact
-    rw [Finsupp.prod_fintype _ _ (fun _ => rfl), Fintype.prod_prod_type]
-  set Mn : ℕ := ∏ s : Fin n', Nat.multinomial Finset.univ (fun c : Fin k => α (s, c)) with hMn
-  have h3 : (∏ s, (d s).factorial) = Mn * expFact α := by
-    rw [h2, hMn, ← Finset.prod_mul_distrib]
-    exact Finset.prod_congr rfl fun s _ => h1 s
-  have hMn0 : Mn ≠ 0 := Finset.prod_ne_zero_iff.2 fun s _ => (Nat.multinomial_pos _ _).ne'
-  have h4 : padicValNat p Mn ≤ kapFl p k d := by
-    rw [hMn, Formalism.CountingSumsFrames.fock_val_prod p _ _ (fun s _ => (Nat.multinomial_pos _ _).ne')]
-    unfold kapFl
-    refine Finset.sum_le_sum fun s _ => ?_
-    have := Formalism.CountingSumsFrames.fock_mult_val_le p (fun c : Fin k => α (s, c)) Finset.univ
-    rw [Finset.card_univ, Fintype.card_fin] at this
-    have e : ∑ c : Fin k, α (s, c) = d s := hα s
-    rw [e] at this
-    exact this
-
-  have hdv : p ^ padicValNat p Mn ∣ Mn := (_root_.Dvd.intro_left _ (_root_.Nat.divMaxPow_mul_pow_padicValNat _ _))
-  have hnd : ¬ p ^ (padicValNat p Mn + 1) ∣ Mn := by
-    rw [Nat.padicValNat_def]
-    exact pow_succ_multiplicity_not_dvd hMn0
-  generalize padicValNat p Mn = v at h4 hdv hnd
-  obtain ⟨u, hu⟩ := hdv
-  have hpu : ¬ p ∣ u := by
-    intro hd
-    apply hnd
-    rw [hu, pow_succ]
-    exact Nat.mul_dvd_mul_left _ hd
-  have huO : IsUnit ((u : ℕ) : O) := by
-    have hco : Nat.Coprime u p := ((Nat.Prime.coprime_iff_not_dvd hp.out).2 hpu).symm
-    by_contra hnu
-    have hm : ((u : ℕ) : O) ∈ IsLocalRing.maximalIdeal O := (IsLocalRing.mem_maximalIdeal _).2 hnu
-    have hb := Nat.gcd_eq_gcd_ab u p
-    rw [hco] at hb
-    have h5 : (1 : O) = (u : O) * ((Nat.gcdA u p : ℤ) : O) + (p : O) * ((Nat.gcdB u p : ℤ) : O) := by
-      have := congrArg (fun z : ℤ => (z : O)) hb
-      push_cast at this
-      exact this
-    have h6 : (1 : O) ∈ IsLocalRing.maximalIdeal O := by
-      rw [h5]
-      exact Ideal.add_mem _ (Ideal.mul_mem_right _ _ hm) (Ideal.mul_mem_right _ _ hpO)
-    exact (IsLocalRing.maximalIdeal.isMaximal O).ne_top ((Ideal.eq_top_iff_one _).2 h6)
-  obtain ⟨uu, huu⟩ := huO
-  refine ⟨(p : O) ^ (kapFl p k d - v) * (↑uu⁻¹ : O), ?_⟩
-  rw [h3, hu]
-  push_cast
-  rw [← huu]
-  have e1 : (p : O) ^ kapFl p k d = (p : O) ^ v * (p : O) ^ (kapFl p k d - v) := by
-    rw [← pow_add]
-    congr 1
-    omega
-  rw [e1]
-  have e2 : (uu : O) * (↑uu⁻¹ : O) = 1 := Units.mul_inv uu
-  linear_combination (-(p : O) ^ v * (p : O) ^ (kapFl p k d - v) * (expFact α : O)) * e2
+  exact _root_.Formalism.MainNotions.ColumnSystems.Pf.TF.multDiv_kapFl O p hpO d
 
 end Formalism.MainNotions.TestSideCounting

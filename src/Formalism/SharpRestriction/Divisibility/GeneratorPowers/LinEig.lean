@@ -83,28 +83,7 @@ theorem aeval_tan [Fintype κ] [DecidableEq κ] (v : κ → S) (P : MvPolynomial
     MvPolynomial.aeval (fun i => v i • (DualNumber.eps : DualNumber S)) P =
       algebraMap S (DualNumber S) (MvPolynomial.constantCoeff P) +
         (∑ i, AddMonoidAlgebra.coeff P (Finsupp.single i 1) * v i) • (DualNumber.eps : DualNumber S) := by
-  induction P using MvPolynomial.induction_on with
-  | C a =>
-    have h : ∀ i, AddMonoidAlgebra.coeff (MvPolynomial.C a : MvPolynomial κ S) (Finsupp.single i 1) = 0 := fun i => by
-      rw [MvPolynomial.coeff_C, if_neg (Finsupp.single_ne_zero.2 one_ne_zero).symm]
-    simp [h]
-  | add p q hp hq =>
-    rw [map_add (f := _), hp, hq, map_add (f := _), map_add (f := _)]
-    simp only [AddMonoidAlgebra.coeff_add, Finsupp.add_apply, add_mul, Finset.sum_add_distrib, add_smul]
-    abel
-  | mul_X p n hp =>
-    rw [map_mul, hp, MvPolynomial.aeval_X]
-    have hc : ∀ i, AddMonoidAlgebra.coeff (p * MvPolynomial.X n) (Finsupp.single i 1) =
-        if i = n then MvPolynomial.constantCoeff p else 0 := by
-      intro i
-      rw [MvPolynomial.coeff_mul_X']
-      by_cases h : i = n
-      · subst h
-        rw [if_pos (by simp), if_pos rfl, tsub_self, MvPolynomial.constantCoeff_eq]
-      · rw [if_neg (by simp [Ne.symm h]), if_neg h]
-    simp only [hc, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, map_mul,
-      MvPolynomial.constantCoeff_X, mul_zero, map_zero, zero_add]
-    apply TrivSqZeroExt.ext <;> simp [Algebra.smul_def, TrivSqZeroExt.algebraMap_eq_inl, mul_comm]
+  apply _root_.GlobalTheory.EigDir.aeval_tan <;> assumption
 
 theorem tanV_comp_jetMap {κ' : Type} [Fintype κ'] [DecidableEq κ'] (φ : κ → MvPolynomial κ' S)
     (hφ : ∀ i, φ i ∈ orig S κ') (v : κ' → S) :
@@ -123,19 +102,7 @@ theorem tanV_comp_jetMap {κ' : Type} [Fintype κ'] [DecidableEq κ'] (φ : κ �
 
 theorem coeff_psTrunc' {ιt : Type} [Fintype ιt] [DecidableEq ιt] (m : ℕ) (f : MvPowerSeries ιt S) (e : ιt →₀ ℕ)
     (he : e.degree ≤ m) : AddMonoidAlgebra.coeff (psTrunc m f) e = MvPowerSeries.coeff e f := by
-  have hmem : e ∈ degLE m := by
-    rw [degLE, Finset.mem_filter, Finset.mem_image]
-    refine ⟨⟨fun i => ⟨e i, Nat.lt_succ_of_le ((Finsupp.le_degree i e).trans he)⟩, Finset.mem_univ _, ?_⟩, ?_⟩
-    · ext i
-      simp
-    · rw [Finsupp.degree_apply] at he
-      exact he
-  rw [psTrunc, MvPolynomial.coeff_sum, Finset.sum_eq_single e]
-  · simp [MvPolynomial.coeff_monomial]
-  · intro b _ hb
-    rw [MvPolynomial.coeff_monomial, if_neg hb]
-  · intro h
-    exact absurd hmem h
+  apply _root_.GlobalTheory.EigDir.coeff_psTrunc' <;> assumption
 
 end Jet
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.ReHermitianCombinationNonpos
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.IotaDictPf
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SaturatedPf
 
@@ -109,63 +110,8 @@ theorem xlam_le {F : LFlag S r T} {F' : LFlag S r T'} (hAdm : IsAdmissible Λ g 
 
 theorem xlam_le' {F : LFlag S r T} {F' : LFlag S r T'} (hAdm : IsAdmissible Λ g F F') (hF : IsFixedConv Λ g F)
     (hF' : IsFixedConv Λ g F') : XLam Λ F ≤ Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F' := by
-  obtain ⟨ξ, hlow, hdiag, hmod⟩ := hAdm
-  apply le_of_forall_localization_le
-  intro P
-  haveI := P.isPrime
-  have hmono : ∀ {A B : Submodule (𝓞 E) S.V}, A ≤ B →
-      Formalism.HermitianLatticesTheory.localization₂ P.asIdeal A ≤ Formalism.HermitianLatticesTheory.localization₂ P.asIdeal B :=
-    fun hAB _ ⟨s, hs, hx⟩ => ⟨s, hs, hAB hx⟩
-  have hsm : ∀ (o : 𝓞 E) (v : S.V),
-      v ∈ Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F') →
-      ((o : E)) • v ∈ Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F') := by
-    intro o v hv
-    rw [show ((o : E)) • v = o • v from algebraMap_smul E o v]
-    exact Submodule.smul_mem _ o hv
-  have hframe : ∀ b : Fin r, frame F (Fin.castSucc b) = F.fl.e b := fun b => by
-    simp [frame, Formalism.MainNotions.S.FlagG.fvec]
-  have hframe' : ∀ b : Fin r, frame F' (Fin.castSucc b) = F'.fl.e b := fun b => by
-    simp [frame, Formalism.MainNotions.S.FlagG.fvec]
-  by_cases hg : (g : 𝓞 E) ∈ P.asIdeal
-  · refine xlam_le_locP Λ g hF P hg (fun a => ?_)
-
-    have key : ∀ k : ℕ, ∀ b : Fin r, (b : ℕ) = k →
-        F.fl.e b ∈ Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F') := by
-      intro k
-      induction k using Nat.strong_induction_on with
-      | _ k ih =>
-      intro b hbk
-      have hsplit : frameAct (frame F) ξ (Fin.castSucc b) = F.fl.e b +
-          ∑ a ∈ Finset.univ.erase (Fin.castSucc b), ((ξ a (Fin.castSucc b) : 𝓞 E) : E) • frame F a := by
-        unfold frameAct
-        rw [← Finset.add_sum_erase _ _ (Finset.mem_univ (Fin.castSucc b)), hdiag, hframe]
-        simp
-      have hrest : ∑ a ∈ Finset.univ.erase (Fin.castSucc b), ((ξ a (Fin.castSucc b) : 𝓞 E) : E) • frame F a ∈
-          Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F') := by
-        refine Submodule.sum_mem _ fun a ha => ?_
-        have hab : a ≠ Fin.castSucc b := Finset.ne_of_mem_erase ha
-        rcases lt_or_gt_of_ne hab with hlt | hgt
-        · have hlt' : (a : ℕ) < (b : ℕ) := by simpa [Fin.lt_def] using hlt
-          have har : (a : ℕ) < r := lt_trans hlt' b.isLt
-          obtain ⟨a', rfl⟩ : ∃ a' : Fin r, a = Fin.castSucc a' :=
-            ⟨a.castLT har, (Fin.castSucc_castLT a har).symm⟩
-          rw [hframe]
-          exact hsm _ _ (ih a' (by rw [← hbk]; simpa using hlt') a' rfl)
-        · rw [hlow a (Fin.castSucc b) hgt]
-          simp
-      have h1 := hmod (Fin.castSucc b) P hg
-      rw [hframe'] at h1
-      have e : F.fl.e b = F'.fl.e b - (F'.fl.e b - frameAct (frame F) ξ (Fin.castSucc b)) -
-          ∑ a ∈ Finset.univ.erase (Fin.castSucc b), ((ξ a (Fin.castSucc b) : 𝓞 E) : E) • frame F a := by
-        rw [hsplit]
-        abel
-      rw [e]
-      exact Submodule.sub_mem _ (Submodule.sub_mem _ (hmono le_sup_right (e_mem_locP Λ g hF' P hg b))
-        (hmono le_sup_left h1)) hrest
-    exact key a a rfl
-  · intro x hx
-    exact ⟨(g : 𝓞 E), hg, Submodule.mem_sup_left
-      (Submodule.smul_mem_smul (Ideal.mem_span_singleton_self _) hx.1)⟩
+  intros
+  apply _root_.Formalism.L2.SG.Pf.xlam_le <;> assumption
 
 theorem rep_exists {F : LFlag S r T} {F' : LFlag S r T'} (hg0 : ((g : ℕ) : E) ≠ 0) {f : Fin r → S.V}
     {L : Submodule (𝓞 E) S.V} (aa : Fin r → FractionalIdeal (nonZeroDivisors (𝓞 E)) E)

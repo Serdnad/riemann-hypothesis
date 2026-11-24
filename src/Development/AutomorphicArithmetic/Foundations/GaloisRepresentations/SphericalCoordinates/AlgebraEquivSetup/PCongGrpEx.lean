@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SeparatingAlgebras.CongSub
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.TrivOfLe
 public import Development.AbelianVarietyTheory.Definitions.Foundations.GLintEqKOAndPrincEqKOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
@@ -125,17 +126,7 @@ private def congGrp (N : ℕ) (w : Plc E) : Subgroup (GL (Fin n) (w.adicCompleti
 
 private theorem isOpen_ball {w : Plc E} {c : w.adicCompletion E} (hc : c ≠ 0) :
     IsOpen {x : w.adicCompletion E | Valued.v x ≤ Valued.v c} := by
-  have h0 : IsOpen ((w.adicCompletionIntegers E : Set (w.adicCompletion E))) :=
-    Valued.isOpen_valuationSubring _
-  have h1 : {x : w.adicCompletion E | Valued.v x ≤ Valued.v c} =
-      (fun x => c⁻¹ * x) ⁻¹' (w.adicCompletionIntegers E : Set (w.adicCompletion E)) := by
-    ext x
-    have hv : Valued.v c ≠ 0 := (Valuation.ne_zero_iff _).2 hc
-    simp only [Set.mem_setOf_eq, Set.mem_preimage, SetLike.mem_coe, HeightOneSpectrum.mem_adicCompletionIntegers (𝓞 E) E w,
-      map_mul, map_inv₀]
-    rw [inv_mul_le_iff₀ (zero_lt_iff.2 hv), mul_one]
-  rw [h1]
-  exact h0.preimage (continuous_const.mul continuous_id)
+  apply _root_.UpperTheory.Gal.CongruenceSubgroupGeneration.isOpen_ball <;> assumption
 
 private theorem isOpen_cong {N : ℕ} (hN : 0 < N) (w : Plc E) :
     IsOpen {y : GL (Fin n) (w.adicCompletion E) | Cong1 N w y} := by

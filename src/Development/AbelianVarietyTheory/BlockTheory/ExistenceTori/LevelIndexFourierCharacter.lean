@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.SqrtNegDiscMemCoeffField
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsThRule
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -157,19 +158,7 @@ def pairing {n : ℕ} (a : Fin n → ConjCl D l) (t : Fin n → NamedCl D l) : Z
   ∑ b, pairOne D l (a b) (t b)
 
 theorem zeta_level_mem (c : Coeff l) : zeta l.M ∈ c.F := by
-  have hM : l.M ≠ 0 := by have := l.three_le; omega
-  obtain ⟨k, hk⟩ : l.M ∣ l.M' := Nat.dvd_lcm_left _ _
-  have hM' : l.M' ≠ 0 := Nat.lcm_ne_zero hM l.A_pos.ne'
-  have hk0 : k ≠ 0 := by rintro rfl; simp at hk; exact hM' hk
-  have : zeta l.M = zeta l.M' ^ k := by
-    rw [zeta, zeta, ← Complex.exp_nat_mul, hk]
-    congr 1
-    have : (k : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hk0
-    have : (l.M : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hM
-    push_cast
-    field_simp
-  rw [this]
-  exact pow_mem c.zeta_mem k
+  apply _root_.GlobalTheory.HostModel.zeta_M_mem_coeff <;> assumption
 
 
 variable {l} in

@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.BinomialSeriesCoefficients.CoeffPowEqZeroOfCc
+import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSo
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.CurveHyp
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Mathlib.RingTheory.SimpleRing.Principal
@@ -180,19 +182,7 @@ theorem exp_biv :
     (exp K).subst (MvPowerSeries.X 0 + MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) =
       (exp K).subst (MvPowerSeries.X 0 : MvPowerSeries (Fin 2) K) *
         (exp K).subst (MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) := by
-  have h0 : MvPowerSeries.constantCoeff (MvPowerSeries.X 0 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  have h1 : MvPowerSeries.constantCoeff (MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  have h01 : MvPowerSeries.constantCoeff
-      (MvPowerSeries.X 0 + MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  rw [← sub_eq_zero]
-  apply eq_zero_of_forall_pderiv_eq_self
-  · intro i
-    rw [map_sub, Derivation.leibniz, pderiv_exp_subst_eq_mul_pderiv i h01, pderiv_exp_subst_eq_mul_pderiv i h0,
-      pderiv_exp_subst_eq_mul_pderiv i h1, map_add, smul_eq_mul, smul_eq_mul]
-    fin_cases i <;> simp <;> ring
-  · rw [map_sub, map_mul, constantCoeff_powerSeries_subst_mv_eq _ h01, constantCoeff_powerSeries_subst_mv_eq _ h0,
-      constantCoeff_powerSeries_subst_mv_eq _ h1]
-    simp
+  apply _root_.Formalism.MainNotions.J.Ex_biv <;> assumption
 
 private theorem hasSubst_of_forall_constantCoeff_eq_zero {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ K}
     (h : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) : MvPowerSeries.HasSubst a := by
@@ -215,16 +205,7 @@ variable {K : Type} [Field K] [CharZero K] {ι : Type}
 
 theorem fExp_add {f g : MvPowerSeries ι K} (hf : MvPowerSeries.constantCoeff f = 0)
     (hg : MvPowerSeries.constantCoeff g = 0) : fExp (f + g) = fExp f * fExp g := by
-  have hb : MvPowerSeries.HasSubst ![f, g] :=
-    hasSubst_of_forall_constantCoeff_eq_zero (fun i => by fin_cases i <;> simpa)
-  have h0 : MvPowerSeries.constantCoeff (MvPowerSeries.X 0 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  have h1 : MvPowerSeries.constantCoeff (MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  have h01 : MvPowerSeries.constantCoeff
-      (MvPowerSeries.X 0 + MvPowerSeries.X 1 : MvPowerSeries (Fin 2) K) = 0 := by simp
-  have h := congrArg (MvPowerSeries.subst ![f, g]) (exp_biv (K := K))
-  rw [psubst_msubst _ h01 hb, MvPowerSeries.subst_mul hb, psubst_msubst _ h0 hb,
-    psubst_msubst _ h1 hb] at h
-  simpa [fExp, MvPowerSeries.subst_add hb, MvPowerSeries.subst_X hb] using h
+  apply _root_.Formalism.L2.Th1.C.mvExp_add <;> assumption
 
 theorem constantCoeff_fExp {f : MvPowerSeries ι K} (hf : MvPowerSeries.constantCoeff f = 0) :
     MvPowerSeries.constantCoeff (fExp f) = 1 :=

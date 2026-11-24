@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsMassConstOne
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExtOfSymmApply
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.FiniteRepSetOfOrtho
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.MassSt
@@ -65,19 +66,7 @@ variable {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [M
 
 theorem trace_pos {h : V →ₗ⋆[K] V →ₗ[K] K} (hd : IsTotPosDef h) :
     ∀ x : V, x ≠ 0 → 0 < Algebra.trace ℚ K (h x x) := by
-  intro x hx
-  have hp := hd x hx
-  have ht := trace_eq_sum_embeddings (K := ℚ) (L := K) ℂ (x := h x x)
-  have hre := congrArg Complex.re ht
-  rw [Complex.re_sum] at hre
-  have hpos : 0 < ∑ σ : K →ₐ[ℚ] ℂ, (σ (h x x)).re :=
-    Finset.sum_pos (fun σ _ => hp σ.toRingHom)
-      ⟨(Classical.arbitrary (K →+* ℂ)).toRatAlgHom, Finset.mem_univ _⟩
-  rw [← hre] at hpos
-  have : (algebraMap ℚ ℂ (Algebra.trace ℚ K (h x x))).re = ((Algebra.trace ℚ K (h x x) : ℚ) : ℝ) := by
-    simp
-  rw [this] at hpos
-  exact_mod_cast hpos
+  apply _root_.Formalism.HermitianLattices.Ext.L3.RankOne.trace_pos <;> assumption
 
 alias exists_smul_mem := _root_.Bl.general_b_fact_second_form.goal1
 

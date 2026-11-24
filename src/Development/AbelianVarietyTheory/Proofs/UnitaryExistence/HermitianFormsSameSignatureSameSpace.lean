@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsIntegralCc
 public import Mathlib.Basic.Complex.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Mathlib.RingTheory.DedekindDomain.Different
@@ -533,16 +534,8 @@ theorem cc_det {r : ℕ} (G : Matrix (Fin r) (Fin r) E) (h : ∀ a b, FD.cc (G a
   rw [FD.cc, h1, h2, det_transpose]
 
 theorem im_ne (τ : E →+* ℂ) {ξ : E} (h : FD.cc ξ = -ξ) (h0 : ξ ≠ 0) : (τ ξ).im ≠ 0 := by
-  intro hi
-  have h1 := emb_cc τ ξ
-  rw [h, map_neg] at h1
-  have h2 := congrArg Complex.re h1
-  simp at h2
-  apply h0
-  apply τ.injective
-  rw [map_zero]
-  apply Complex.ext <;> simp [hi]
-  linarith
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.FD.im_ne_zero <;> assumption
 
 end GlobalTheory.OneSpace
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.WeightKernels.TwistRatios.AutIso
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.SplitLineSubtraction.SubtractOf
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EigencharacterOfSummandCharZero
 import Mathlib.Algebra.Order.Floor.Extended
@@ -126,27 +127,7 @@ private theorem ss_left {a b : ℕ} (r : Γ →* GL (Fin a) k) (s : Γ →* GL (
 
 private theorem ss_of_iso {n : ℕ} (r r' : Γ →* GL (Fin n) k) (h : RepIso r r') (hr : IsSSRep r) :
     IsSSRep r' := by
-  obtain ⟨g, hg⟩ := h
-  let e : (Fin n → k) ≃ₗ[k] (Fin n → k) := Matrix.toLin'OfInv
-    (M := ((g⁻¹ : GL (Fin n) k) : Matrix (Fin n) (Fin n) k)) (M' := (g : Matrix (Fin n) (Fin n) k))
-    (Units.inv_mul g) (Units.mul_inv g)
-  have he : ∀ v, e v = (g : Matrix (Fin n) (Fin n) k) *ᵥ v := fun v => rfl
-  have key : ∀ s v, e ((r s : Matrix (Fin n) (Fin n) k) *ᵥ v) = (r' s : Matrix (Fin n) (Fin n) k) *ᵥ e v := by
-    intro s v
-    rw [he, he, hg, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← Units.val_mul, ← Units.val_mul,
-      inv_mul_cancel_right]
-  intro W hW
-  obtain ⟨C, hC, hc⟩ := hr (W.comap (e : (Fin n → k) →ₗ[k] (Fin n → k))) (by
-    intro s v hv
-    show e _ ∈ W
-    rw [key]
-    exact hW s _ hv)
-  refine ⟨C.map (e : (Fin n → k) →ₗ[k] (Fin n → k)), ?_, ?_⟩
-  · rintro s _ ⟨u, hu, rfl⟩
-    exact ⟨_, hC s u hu, key s u⟩
-  · have h2 : IsCompl ((W.comap (e : (Fin n → k) →ₗ[k] (Fin n → k))).map (e : (Fin n → k) →ₗ[k] (Fin n → k)))
-        (C.map (e : (Fin n → k) →ₗ[k] (Fin n → k))) := (Submodule.orderIsoMapComap e).isCompl hc
-    rwa [Submodule.map_comap_eq_of_surjective e.surjective] at h2
+  apply _root_.UpperTheory.V.Z.Sym.Ga.AutomorphyInvariantUnderRepIso.ss_iso <;> assumption
 
 private theorem ss_tw {n : ℕ} (r : Γ →* GL (Fin n) k) (c : Γ →* kˣ) (hr : IsSSRep r) :
     IsSSRep (tw r c) := by

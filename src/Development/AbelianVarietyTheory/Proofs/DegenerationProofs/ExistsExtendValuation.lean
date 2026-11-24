@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.MemRangeIffOfFinite
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.NotAllMatchRankZero
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TwistTerms
 public import Mathlib.Topology.Algebra.InfiniteSum.Nonarchimedean
@@ -117,7 +119,6 @@ import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.FullTorsionObj
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SummableVtQT
 import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaCoordinatesExistUniqueSeparatePointsStatement
 import Mathlib.RingTheory.PowerSeries.Ideal
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EvalTwistTxEqZeroOfAevalArcTx, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AevalArcTxEqZero, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsArcFOver, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsRingHomComplexOfCountableOfRelations, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaSeriesIdentityPrincipleComplexPoints, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaSeriesIdentityPrincipleComplexPointsStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsObjectWithThetaPointOfDegenerationSeries, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsObjectWithThetaPointOfDegenerationSeriesStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsCompleteAlgClosedFieldPowerSeriesExtension, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsCompleteAlgClosedFieldPowerSeriesExtensionStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.QvalAddTowerStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TwistTxNest, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TwistTxNestStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaPointsAllPrimePowerLevelsOfSingleObject, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ThetaPointsAllPrimePowerLevelsOfSingleObjectStatement, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsExtendValuation
 
@@ -165,15 +166,7 @@ variable {C : Type} [NontriviallyNormedField C] [CompleteSpace C] in
 private theorem absSumAt_add {u : C} {f g : PowerSeries C} {a b : C}
     (hf : _root_.GlobalTheory.BddArc.AbsSumAt u f a) (hg : _root_.GlobalTheory.BddArc.AbsSumAt u g b) :
     _root_.GlobalTheory.BddArc.AbsSumAt u (f + g) (a + b) := by
-  have h : ∀ n, PowerSeries.coeff n (f + g) * u ^ n =
-      PowerSeries.coeff n f * u ^ n + PowerSeries.coeff n g * u ^ n := fun n => by
-    rw [map_add (f := _), add_mul]
-  refine ⟨?_, ?_⟩
-  · refine Summable.of_nonneg_of_le (fun n => norm_nonneg _) (fun n => ?_) (Summable.add hf.1 hg.1)
-    rw [h]
-    exact norm_add_le _ _
-  · simp_rw [h]
-    rw [(hf.1.of_norm).tsum_add hg.1.of_norm, hf.2, hg.2]
+  apply _root_.GlobalTheory.BddArc.AbsSumAt.add <;> assumption
 
 open scoped BigOperators in
 variable {C : Type} [NontriviallyNormedField C] [CompleteSpace C] in
@@ -1540,18 +1533,7 @@ theorem exists_prime_unit (O : Type) [CommRing O] [IsLocalRing O] {d : ℕ} (hd 
 
 theorem valuation_comap_eq_one {K K' : Type} [Field K] [Field K'] (f : K →+* K') (S : ValuationSubring K') (x : K) :
     (S.comap f).valuation x = 1 ↔ S.valuation (f x) = 1 := by
-  have key : ∀ {F : Type} [Field F] (T : ValuationSubring F) (y : F), T.valuation y = 1 ↔ y ≠ 0 ∧ y ∈ T ∧ y⁻¹ ∈ T := by
-    intro F _ T y
-    rw [← T.valuation_le_one_iff, ← T.valuation_le_one_iff, map_inv₀]
-    constructor
-    · intro h
-      refine ⟨fun h0 => ?_, h.le, by rw [h, inv_one]⟩
-      rw [h0, map_zero] at h
-      exact zero_ne_one h
-    · rintro ⟨h0, h₁, h₂⟩
-      have : 0 < T.valuation y := zero_lt_iff.2 ((map_ne_zero _).2 h0)
-      exact le_antisymm h₁ ((inv_le_one₀ this).1 h₂)
-  rw [key, key, ValuationSubring.mem_comap, ValuationSubring.mem_comap, map_inv₀, map_ne_zero]
+  first | exact _root_.GlobalTheory.OneBasis.Places.val_comap | exact @_root_.GlobalTheory.OneBasis.Places.val_comap | apply _root_.GlobalTheory.OneBasis.Places.val_comap <;> assumption
 
 section
 variable {C : Type} [NormedField C] [IsUltrametricDist C] [CompleteSpace C] {N : NumD C} {q : QuadraticMap ℤ N.X ℝ}

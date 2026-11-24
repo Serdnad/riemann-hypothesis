@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AutomorphicRepEqOfEqAtAlmostAllSplitPlaces
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.RankOneUnitary
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,15 +65,7 @@ theorem placesOver_finite_of_ne_zero (E : Type) [Field E] [NumberField E] (p : �
 
 theorem isoLoc_perm {Pa Pa' : List (Part A.CG)} (h : Pa.Perm Pa') (w : PlE H) :
     isoLoc N A Pa w = isoLoc N A Pa' w := by
-  induction h with
-  | nil => rfl
-  | cons p _ ih =>
-    simp only [isoLoc, List.foldr_cons] at ih ⊢
-    rw [ih]
-  | swap p q l =>
-    simp only [isoLoc, List.foldr_cons]
-    rw [← A.lpSum_assoc (spehLoc N A q w), A.lpSum_comm (spehLoc N A q w) (spehLoc N A p w), A.lpSum_assoc]
-  | trans _ _ ih1 ih2 => exact ih1.trans ih2
+  apply _root_.GlobalTheory.RowTie.RepDet.isoLoc_perm <;> assumption
 
 theorem locV_eq_of_pt (i : N.Loc) {P P' : A.AV i} {x : N.X i} (hx : A.ptV i P = some x)
     (hx' : A.ptV i P' = some x) {w : PlE H} (hso : SplitOut N i w) (hg : ∀ k, w ∉ placesOver H.E (H.g k))

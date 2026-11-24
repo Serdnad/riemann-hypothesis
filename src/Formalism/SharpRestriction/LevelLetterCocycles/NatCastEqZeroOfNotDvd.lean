@@ -1,5 +1,6 @@
 module
 
+import all Formalism.SharpRestriction.LevelLetterCocycles.DvrLatticeRank.GradNPfC
 public import Mathlib.NumberTheory.Padics.PadicVal.Basic
 public import Mathlib.RingTheory.Valuation.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -107,13 +108,7 @@ theorem geom_nonneg {x : K} (hx : 0 ≤ v x) (k : ℕ) : 0 ≤ v (∑ j ∈ Fins
   v_finset_sum_nonneg_of_forall v _ _ (fun j _ => pow_nonneg' v hx j)
 
 private theorem v_add_eq_left_of_v_lt {a b : K} (h : v a < v b) : v (a + b) = v a := by
-  apply le_antisymm
-  · have h1 := v.map_add (a + b) (-b)
-    rw [AddValuation.map_neg, add_neg_cancel_right] at h1
-    rcases min_le_iff.1 h1 with h2 | h2
-    · exact h2
-    · exact absurd h2 (not_le.2 h)
-  · exact le_trans (le_min le_rfl h.le) (v.map_add a b)
+  apply _root_.Formalism.MainNotions.N.Ln34.val_add_eq_left_of_val_lt <;> assumption
 
 theorem v_x_zero {x : K} (hy : 0 < v (x - 1)) : v x = 0 := by
   have h1 := v_add_eq_left_of_v_lt v (a := 1) (b := x - 1) (by rw [AddValuation.map_one]; exact hy)

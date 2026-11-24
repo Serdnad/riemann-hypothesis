@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.JacquetRallisOrbitInvariantMapProper
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMulStarEqOfNormOneUnramifiedQuadratic
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsTestRep
 public import Mathlib.FieldTheory.Separable
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LeftMulTau
@@ -651,16 +653,7 @@ namespace GlobalTheory.JR.LinDesc.Swap
 
 theorem norm_eq_of_sub_lt {K : Type} [NormedField K] [IsUltrametricDist K] {x y : K}
     (h : ‖x - y‖ < ‖y‖) : ‖x‖ = ‖y‖ := by
-  have h1 : ‖x‖ ≤ max ‖x - y‖ ‖y‖ := by
-    simpa using IsUltrametricDist.norm_add_le_max (x - y) y
-  have h2 : ‖y‖ ≤ max ‖y - x‖ ‖x‖ := by
-    simpa using IsUltrametricDist.norm_add_le_max (y - x) x
-  rw [norm_sub_rev] at h2
-  apply le_antisymm
-  · exact h1.trans (max_le h.le le_rfl)
-  · rcases le_max_iff.mp h2 with h3 | h3
-    · exact absurd h3 (not_le.mpr h)
-    · exact h3
+  first | exact _root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt | exact @_root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt | apply _root_.GlobalTheory.NormUnits.norm_eq_of_norm_sub_lt <;> assumption
 
 theorem eta_eventually {F : Type} [NormedField F] [IsUltrametricDist F] {x : F} (hx : x ≠ 0) :
     ∀ᶠ y in 𝓝 x, eta x = eta y := by
@@ -693,15 +686,8 @@ theorem continuous_psi {F : Type} [NormedField F] (ψ : AddChar F ℂ) (hψ : Is
 
 theorem continuous_act {F : Type} [NontriviallyNormedField F] (r : ℕ) :
     Continuous (fun z : GL (Fin r) F × Gl r F => act z.1 z.2) := by
-  unfold act
-  have h1 : Continuous (fun z : GL (Fin r) F × Gl r F => ((z.1 : Matrix (Fin r) (Fin r) F))) :=
-    Units.continuous_val.comp continuous_fst
-  have h2 : Continuous (fun z : GL (Fin r) F × Gl r F =>
-      (((z.1⁻¹ : GL (Fin r) F) : Matrix (Fin r) (Fin r) F))) :=
-    Units.continuous_coe_inv.comp continuous_fst
-  exact ((h1.matrix_mul continuous_snd.fst).matrix_mul h2).prodMk
-    ((h1.matrix_mulVec continuous_snd.snd.fst).prodMk
-      ((continuous_snd.snd.snd.fst.matrix_vecMul h2).prodMk continuous_snd.snd.snd.snd))
+  intros
+  apply _root_.GlobalTheory.JR.OrbitProper.cont_act <;> assumption
 
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
   [StarRing E] (A : Et F E)

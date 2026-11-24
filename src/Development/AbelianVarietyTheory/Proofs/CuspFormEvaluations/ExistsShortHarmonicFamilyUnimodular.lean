@@ -71,6 +71,7 @@ import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.TraceHermNondegenerate
 import Mathlib.Algebra.Order.Star.Real
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsMinorProdEqSmulColActBasePoly, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.SpanGridPerpVecEqOrbitSpanOfLe, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsShortHarmonicFamilyFewColumnsLinear, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LogShortFamilyNumbersLe, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsShortHarmonicFamilyUnimodular
@@ -761,25 +762,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ}
 private theorem perpVec_apply_eq_zero {R V : Type} [CommRing R] [AddCommGroup V] [Module R V] {m : ℕ}
     (h : V →ₗ[R] (V → R)) (e e' : Fin m → V) (g : V) (c : Fin m) :
     h (perpVec h e e' g) (e c) = 0 := by
-  set M := ReciprocityTheory.ChartRestriction.G.TB.hMat h e e' with hMdef
-  have hM : ∀ a', M a' c = h (e' a') (e c) := fun _ => rfl
-  have hadj : ∀ a, ∑ a', M.adjugate a a' * M a' c = if a = c then M.det else 0 := by
-    intro a
-    have := congrFun (congrFun (Matrix.adjugate_mul M) a) c
-    rw [Matrix.mul_apply] at this
-    rw [this, Matrix.smul_apply, Matrix.one_apply, smul_eq_mul, mul_ite, mul_one, mul_zero]
-  have hrow : ∀ a, ∑ a', M.adjugate a a' * h g (e a) * h (e' a') (e c) =
-      h g (e a) * if a = c then M.det else 0 := by
-    intro a
-    rw [← hadj a, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun a' _ => ?_
-    rw [hM]
-    ring
-
-  simp only [perpVec, ← hMdef, map_sub, map_smul, map_sum, Pi.sub_apply, Pi.smul_apply,
-  Finset.sum_apply, smul_eq_mul, hrow, mul_ite, mul_zero, Finset.sum_ite_eq', Finset.mem_univ,
-  if_true]
-  ring
+  intros
+  apply _root_.PI.UnitaryGroupMassFormula.FormPartialDerivatives.perpVec_perp <;> assumption
 
 theorem exists_short_harmonic_family_few_columns (hfg : Λ.FG)
     (hint : ∀ x ∈ Λ, ∀ y ∈ Λ, IsIntegral ℤ (herm 1 x y))
@@ -1124,15 +1108,7 @@ theorem mem_iff_herm_of_unimod {n : ℕ} {Λ : GenLat E n} (h : Λ.Unimod) (x : 
 
 theorem not_inPsi_and_conjugate (H : Host E) (τ : E →+* ℂ) :
     ¬ (InPsi H τ ∧ InPsi H (ComplexEmbedding.conjugate τ)) := by
-  rintro ⟨h1, h2⟩
-  unfold InPsi at h1 h2
-  rw [ComplexEmbedding.conjugate_coe_eq, h1] at h2
-  have him : H.rt0.im = 0 := Complex.conj_eq_iff_im.mp h2
-  have hre := congrArg Complex.re H.sqrt_neg_disc_sq
-  simp only [pow_two, Complex.mul_re, him, mul_zero, sub_zero, Complex.neg_re,
-    Complex.natCast_re] at hre
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  nlinarith [mul_self_nonneg H.rt0.re]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.CVA.not_inPsi_both <;> assumption
 
 private theorem coe_embF {H : Host E} {l : Level H} (c : Coeff l) (τ : E →+* ℂ) (x : E) :
     ((embF c τ x : c.F) : ℂ) = τ x := rfl

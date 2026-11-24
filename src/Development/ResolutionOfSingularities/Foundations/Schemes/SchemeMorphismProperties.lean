@@ -88,8 +88,16 @@ private theorem le_comap_map_of_isClosedImmersion {S X : Scheme.{u}} (ι : S ⟶
 
 theorem comap_map_of_isClosedImmersion {S X : Scheme.{u}} (ι : S ⟶ X)
     [IsClosedImmersion ι] (Z : S.IdealSheafData) :
-    (Z.map ι).comap ι = Z :=
-  le_antisymm (Scheme.IdealSheafData.comap_map_le Z ι) (le_comap_map_of_isClosedImmersion ι Z)
+    (Z.map ι).comap ι = Z := by
+  let f := Z.subschemeι ≫ ι
+  have h : IsPullback Z.subschemeι f.toImage ι (Z.map ι).subschemeι :=
+    IsPullback.of_vert_isIso_mono ⟨f.toImage_imageι.symm⟩
+  change (pullback.fst ι (Z.map ι).subschemeι).ker = Z
+  calc
+    _ = (h.isoPullback.hom ≫ pullback.fst ι (Z.map ι).subschemeι).ker :=
+      (Scheme.Hom.ker_comp_of_isIso _ _).symm
+    _ = Z.subschemeι.ker := congrArg Scheme.Hom.ker h.isoPullback_hom_fst
+    _ = Z := Scheme.IdealSheafData.ker_subschemeι Z
 
 theorem isOpen_connectedComponent_of_noetherianSpace (T : Type v) [TopologicalSpace T]
     [TopologicalSpace.NoetherianSpace T] (x : T) : IsOpen (connectedComponent x) := by

@@ -23,16 +23,16 @@ section Slot
 variable {M : Type*} [NormedAddCommGroup M] [InnerProductSpace ℂ M] {ε : Fin n → Bool}
   {E : Fin n → Fin n → Module.End ℂ M} {V : Submodule ℂ M} {lam : Fin n → ℝ}
 
-theorem position_perp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem position_perp_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : P ∈ ncV ε V k)
+    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : P ∈ ncV ε V k)
     (hperp : ∀ F ∈ ncV ε V k, (∀ κ, slice i κ F ∈ Wm ε E V) → inner ℂ F P = 0) :
     ∀ κ, slice i κ P ∈ Wp ε E V := by
   intro κ
   rw [slice_eq_slt]
   set r := (slRest i κ).2 with hr
   have hx : slt i r P ∈ ncV ε V 1 := slt_mem_ncV i r hP
-  obtain ⟨xm, hxm, xp, hxp, hdec⟩ := ncV_one_decomp hE hU hV hmono hh hbig hx
+  obtain ⟨xm, hxm, xp, hxp, hdec⟩ := ncV_one_decomp_of_lt hE hU hV hmono hh hbig hx
   have hkey : inner ℂ xm (slt i r P) = (‖xm‖ : ℂ) ^ 2 := by
     rw [hdec, inner_add_right, Wm_perp_Wp hU hxm hxp, add_zero]
     exact inner_self_eq_norm_sq_to_K xm
@@ -108,9 +108,16 @@ theorem position_perp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW �
   rw [hinner, hkey] at hF0
   simpa using hF0
 
-theorem crossOp_position_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+theorem position_perp (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
     (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
-    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : ∀ κ, slice i κ P ∈ Wp ε E V) :
+    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : P ∈ ncV ε V k)
+    (hperp : ∀ F ∈ ncV ε V k, (∀ κ, slice i κ F ∈ Wm ε E V) → inner ℂ F P = 0) :
+    ∀ κ, slice i κ P ∈ Wp ε E V :=
+  position_perp_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) i hP hperp
+
+theorem crossOp_position_bound_of_lt (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
+    (hbig : ∀ {r s : Fin n}, ε r ≠ ε s → (n : ℝ) - 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : ∀ κ, slice i κ P ∈ Wp ε E V) :
     2 * (h - n + 1) * ‖P‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E k i P) P) := by
   have hr : ∀ r, slt i r P ∈ Wp ε E V := by
     intro r
@@ -131,7 +138,13 @@ theorem crossOp_position_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : I
     rw [slt_inner_eq_sum i, map_sum]
     simp only [slt_crossOp]
   rw [hn, hc, Finset.mul_sum, Finset.mul_sum]
-  exact Finset.sum_le_sum fun r _ => Wp_bound hE hU hV hmono hh hbig (hr r)
+  exact Finset.sum_le_sum fun r _ => Wp_bound_of_lt hE hU hV hmono hh hbig (hr r)
+
+theorem crossOp_position_bound (hE : IsGlRep E) (hU : IsInfUnitary ε E) (hV : IsKIrrHW ε E (lowK ε lam) V)
+    (hmono : StrictAnti lam) {h : ℝ} (hh : GapAtLeast ε lam h)
+    (hbig : (n : ℝ) * (pOf ε : ℝ) * (qOf ε : ℝ) + 1 < h) {k : ℕ} (i : Fin k) {P : Big n k M} (hP : ∀ κ, slice i κ P ∈ Wp ε E V) :
+    2 * (h - n + 1) * ‖P‖ ^ 2 ≤ 2 * RCLike.re (inner ℂ (crossOp ε E k i P) P) :=
+  crossOp_position_bound_of_lt hE hU hV hmono hh (fun hrs => (gap_gt hrs hbig).2) i hP
 
 end Slot
 

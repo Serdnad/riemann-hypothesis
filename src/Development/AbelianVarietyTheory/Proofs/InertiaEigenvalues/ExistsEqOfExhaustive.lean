@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SecondTwistSmallIffExactlyAtAndFinClause
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ConcretePeriodDeRhamModuleFinrankLe
 import Mathlib.Algebra.Order.Floor.Extended
@@ -115,16 +116,7 @@ theorem filV_antitone : Antitone (FilV PD (LL := LL) (V := V)) := by
   | add x y hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
 
 theorem filV_exhaustive (x : V ⊗[Qp] BdR) : ∃ a, x ∈ FilV PD (LL := LL) (V := V) a := by
-  induction x using TensorProduct.induction_on with
-  | zero => exact ⟨0, Submodule.zero_mem _⟩
-  | tmul v c =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh c
-    exact ⟨a, tmul_mem_filV PD a v c ha⟩
-  | add x y hx hy =>
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hy
-    exact ⟨min a b, Submodule.add_mem _ (filV_antitone PD (min_le_left a b) ha)
-      (filV_antitone PD (min_le_right a b) hb)⟩
+  apply _root_.GlobalTheory.Cmp.SmallJumps.filV_exh <;> assumption
 
 theorem codim_fil_zero (ρ : Representation LL G V) [FiniteDimensional LL ↥(DdR PD ρ)]
     (τ : K →ₐ[Qp] LL) (J : Finset ℤ) (hJ : ∀ a, a ∉ J → multV PD ρ τ a = 0) :

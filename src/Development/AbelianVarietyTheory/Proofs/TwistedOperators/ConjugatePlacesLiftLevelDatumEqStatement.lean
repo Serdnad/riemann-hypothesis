@@ -1153,10 +1153,7 @@ theorem partAt_of_isHalf' {S T : HSp D} {c : AE D} {w : WO S T} (h : IsHalf c w)
 
 theorem fullStd' (n : ℕ) : (stdL D.host.E n).FG ∧
     Submodule.span D.host.E (stdL D.host.E n : Set (Fin n → D.host.E)) = ⊤ := by
-  refine ⟨Submodule.fg_span (Set.finite_range _), ?_⟩
-  rw [stdL, Submodule.span_span_of_tower]
-  convert (Pi.basisFun D.host.E (Fin n)).span_eq
-  simp
+  apply _root_.GlobalTheory.LiftDat.RowKer.full_std <;> assumption
 
 theorem adjA_finW_row (S T : HSp D) (hS : S.gram = 1) (βS : GL (Fin S.rank) (EAf D))
     (βT : GL (Fin T.rank) (EAf D)) (a e : AE D) (y : Matrix (Fin S.rank) (Fin T.rank) D.host.E)

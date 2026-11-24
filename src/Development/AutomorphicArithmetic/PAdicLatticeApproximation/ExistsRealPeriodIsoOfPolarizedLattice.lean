@@ -406,12 +406,7 @@ private theorem span_gen {La V : Type} [AddCommGroup V] [Module ℚ V] [AddCommG
 private theorem actOn_tg {C V R : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V] [Module ℚ V]
     [CommRing R] [Algebra ℚ R] (rep : C →ₐ[ℚ] Module.End ℚ V) (r s : R) (c : C) (v : V) :
     actOn rep R (r ⊗ₜ[ℚ] c) (s ⊗ₜ[ℚ] v) = (r * s) ⊗ₜ[ℚ] rep c v := by
-  have hl : actOn rep R (r ⊗ₜ[ℚ] c) =
-      Algebra.ofId R (Module.End R (R ⊗[ℚ] V)) r * ((Module.End.baseChangeHom ℚ R V).comp rep) c :=
-    Algebra.TensorProduct.lift_tmul _ _ _ r c
-  rw [hl, Module.End.mul_eq_comp, LinearMap.comp_apply]
-  change r • ((rep c).baseChange R (s ⊗ₜ[ℚ] v)) = _
-  rw [LinearMap.baseChange_tmul, TensorProduct.smul_tmul', smul_eq_mul]
+  apply _root_.actOn_tmul <;> assumption
 
 private theorem actOn_tt {C V : Type} [Ring C] [Algebra ℚ C] [AddCommGroup V] [Module ℚ V]
     (rep : C →ₐ[ℚ] Module.End ℚ V) (r s : ℝ) (c : C) (v : V) :

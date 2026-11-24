@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.ThetaLifts.LatticeBasics.RealInvL
 
 @[expose] public section
 
@@ -82,22 +83,7 @@ theorem continuous_splitE : Continuous (splitE F κ) := by
     ((continuous_apply i).comp continuous_fst)).prodMk ((continuous_apply i).comp continuous_snd)
 
 theorem continuous_splitE_symm : Continuous (splitE F κ).symm := by
-  rw [show ⇑(splitE F κ).symm = fun x : κ → AdeleRing (𝓞 F) F =>
-    ((fun i => InfiniteAdeleRing.ringEquiv_mixedSpace F (x i).1, fun i => (x i).2) :
-      (κ → mixedEmbedding.mixedSpace F) × (κ → FiniteAdeleRing (𝓞 F) F)) from rfl]
-  have hc : Continuous (InfiniteAdeleRing.ringEquiv_mixedSpace F) := by
-    have he : (InfiniteAdeleRing.ringEquiv_mixedSpace F : InfiniteAdeleRing F → mixedEmbedding.mixedSpace F) =
-        fun x => ((fun v : {w : InfinitePlace F // InfinitePlace.IsReal w} =>
-            InfinitePlace.Completion.extensionEmbeddingOfIsReal v.2 (x v)),
-          (fun v : {w : InfinitePlace F // InfinitePlace.IsComplex w} =>
-            InfinitePlace.Completion.extensionEmbedding v.1 (x v))) := by
-      funext x; exact InfiniteAdeleRing.ringEquiv_mixedSpace_apply F x
-    rw [he]
-    refine Continuous.prodMk (continuous_pi fun v => ?_) (continuous_pi fun v => ?_)
-    · exact (InfinitePlace.Completion.isometry_extensionEmbeddingOfIsReal v.2).continuous.comp (continuous_apply _)
-    · exact (InfinitePlace.Completion.isometry_extensionEmbedding v.1).continuous.comp (continuous_apply _)
-  exact (continuous_pi fun i => hc.comp
-    (continuous_fst.comp (continuous_apply i))).prodMk (continuous_pi fun i => continuous_snd.comp (continuous_apply i))
+  apply _root_.GlobalTheory.ThK.Dbl.Dense.continuous_splitE_symm <;> assumption
 
 theorem pureA_splitE (f : (κ → mixedEmbedding.mixedSpace F) → ℂ) (g : (κ → FiniteAdeleRing (𝓞 F) F) → ℂ)
     (p : (κ → mixedEmbedding.mixedSpace F) × (κ → FiniteAdeleRing (𝓞 F) F)) :

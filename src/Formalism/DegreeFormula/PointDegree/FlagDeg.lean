@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ProportionalityOfLocalCharts
 public import Formalism.DegreeFormula.FlagDegFormula
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -218,33 +219,6 @@ end PFlagDeg
 
 open PFlagDeg in
 theorem flagDegFormula_statement : FlagDegFormula := by
-  unfold FlagDegFormula
-  intro ι _ _ N lam
-  unfold flagDeg degFl weylProd
-  simp only [coeff_pow]
-  have hV : ∀ τ, ∏ i : Fin N, ∏ k : Fin N,
-      (if i < k then (lam τ i - lam τ k) / ((k : ℝ) - (i : ℝ)) else 1) =
-        (∏ i : Fin N, ∏ k : Fin N, if i < k then lam τ i - lam τ k else 1) / (sfac N : ℝ) := by
-    intro τ
-    rw [← pairs_nat N, ← Finset.prod_div_distrib]
-    refine Finset.prod_congr rfl fun i _ => ?_
-    rw [← Finset.prod_div_distrib]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    split_ifs <;> simp
-  have hsum : ∑ σ : ι → Equiv.Perm (Fin N), (∏ τ, ((Equiv.Perm.sign (σ τ) : ℤ) : ℝ)) *
-        ∏ τ, ∏ i : Fin N, lam τ i ^ (N - 1 - ((σ τ i : Fin N) : ℕ)) =
-      ∏ τ, ∏ i : Fin N, ∏ k : Fin N, (if i < k then lam τ i - lam τ k else 1) := by
-    rw [Finset.prod_congr rfl (fun τ _ => (vandermonde_sum (lam τ)).symm), Fintype.prod_sum]
-    refine Finset.sum_congr rfl fun σ _ => ?_
-    rw [Finset.prod_mul_distrib]
-  have hsq : ((-1 : ℝ) ^ dimFl ι N) * (-1) ^ dimFl ι N = 1 := by
-    rw [← mul_pow]
-    norm_num
-  simp only [hV, Finset.prod_div_distrib, Finset.prod_const, Finset.card_univ]
-  rw [← hsum, Finset.sum_div, Finset.mul_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun σ _ => ?_
-  linear_combination ((∏ τ, ((Equiv.Perm.sign (σ τ) : ℤ) : ℝ)) *
-    (((dimFl ι N).factorial : ℝ) / ((sfac N : ℝ) ^ Fintype.card ι)) *
-      ∏ τ, ∏ i : Fin N, lam τ i ^ (N - 1 - ((σ τ i : Fin N) : ℕ))) * hsq
+  apply _root_.GlobalTheory.FlagPoly.flagDegFormula <;> assumption
 
 end Formalism.DegreeFormula

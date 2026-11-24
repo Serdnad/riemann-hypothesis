@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.NormDiag
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.SmallRadAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.BallSub
 import Mathlib.Algebra.Order.Floor.Extended
@@ -133,34 +134,9 @@ private theorem near_inv' {r : ValueGroupWithZero k} (h1 : r < 1) (x : kˣ) (hx 
   rw [e, map_mul, hv', mul_one, Valuation.map_neg]
   exact hx
 
-private theorem t2 : T2Space k := by
-  letI := IsTopologicalAddGroup.rightUniformSpace k
-  haveI := isUniformAddGroup_of_addCommGroup (G := k)
-  letI : (Valued.v (R := k)).RankOne :=
-    { hom' := IsRankLeOne.nonempty.some.emb (R := k).comp MonoidWithZeroHom.ValueGroup₀.embedding
-      strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
-        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-  infer_instance
-
 private theorem compact_units (r : ValueGroupWithZero k) (h1 : r < 1) :
     IsCompact {x : kˣ | valuation k ((x : k) - 1) ≤ r} := by
-  haveI : T2Space k := t2
-  have hC : IsCompact {x : k | valuation k (x - 1) ≤ r} := by
-    have h := (IsNonarchimedeanLocalField.isCompact_closedBall k r).image (f := fun x => x + 1) (by fun_prop)
-    convert h using 1
-    ext x
-    constructor
-    · intro hx
-      exact ⟨x - 1, hx, sub_add_cancel _ _⟩
-    · rintro ⟨y, hy, rfl⟩
-      simpa using hy
-  have h := (Units.isClosedEmbedding_embedProduct (α := k)).isCompact_preimage
-    (hC.prod (hC.image MulOpposite.continuous_op))
-  convert h using 1
-  ext x
-  simp only [Set.mem_setOf_eq, Set.mem_preimage, Units.embedProduct_apply, Set.mem_prod,
-    MulOpposite.op_injective.mem_set_image]
-  exact ⟨fun hx => ⟨hx, near_inv' h1 x hx⟩, fun hx => hx.1⟩
+  apply _root_.UpperTheory.Gal.InertialTypesAlt.L.near_compact <;> assumption
 
 end SlopeTestRemainingChoices
 

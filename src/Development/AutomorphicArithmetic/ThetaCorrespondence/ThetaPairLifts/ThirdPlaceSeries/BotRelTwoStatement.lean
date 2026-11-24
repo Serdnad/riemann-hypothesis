@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsContAutRTrans
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsThetaFam
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ThetaIdentityOfMapsAll
@@ -124,17 +125,7 @@ theorem contAut_rTrans {V : HSp D} {f : GA D V → ℂ} (h : GA D V) (hf : IsCon
 
 theorem contAut_multT {V : HSp D} {S : D.what₂.Tau → SPar} {θ : InfFam D} {M : DSModel V S} {J : Set (GA D V)}
     {χ : GA D V → ℂ} {G : SmT M →ₗ[ℂ] (GA D V → ℂ)} (hG : G ∈ MultT θ M J χ) (x : SmT M) : IsContAut V (G x) := by
-  obtain ⟨T, hT, rfl⟩ := hG
-  induction hT using Submodule.span_induction generalizing x with
-  | mem T hT =>
-    induction x using PiTensorProduct.induction_on with
-    | smul_tprod r v =>
-      rw [map_smul, LinearEquiv.coe_coe, PiTensorProduct.lift.tprod]
-      exact contAut_smul ⟨(hT.aut v).left, (hT.aut v).cont⟩ r
-    | add x y hx hy => rw [map_add (f := _)]; exact contAut_add hx hy
-  | zero => simpa using contAut_zero V
-  | add T₁ T₂ _ _ h₁ h₂ => rw [map_add (f := _), LinearMap.add_apply]; exact contAut_add (h₁ x) (h₂ x)
-  | smul c T _ h => rw [map_smul, LinearMap.smul_apply]; exact contAut_smul (h x) c
+  apply _root_.GlobalTheory.Core.Mi.BotPin.isContAut_multT <;> assumption
 
 theorem lev_multT {V : HSp D} {S : D.what₂.Tau → SPar} {θ : InfFam D} {M : DSModel V S} {J : Set (GA D V)}
     {χ : GA D V → ℂ} {G : SmT M →ₗ[ℂ] (GA D V → ℂ)} (hG : G ∈ MultT θ M J χ) (x : SmT M) {k : GA D V} (hk : k ∈ J)

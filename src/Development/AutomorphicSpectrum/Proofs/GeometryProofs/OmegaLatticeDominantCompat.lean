@@ -97,25 +97,7 @@ theorem lieBC {S : Scheme.{0}} {G : Over S} [GrpObj G] {A B : Type} [CommRing A]
     ∃ j : E →+ E', (∀ e, (M'.pt (j e)).left = Spec.map (CommRingCat.ofHom (dualMap c)) ≫ (M.pt e).left) ∧
       (∀ (a : A) e, j (a • e) = c a • j e) ∧ Submodule.span B (Set.range j) = ⊤ ∧
       ∀ l : Module.Dual A E, ∃ l' : Module.Dual B E', ∀ e, l' (j e) = c (l e) := by
-  subst hy
-  letI : Algebra A B := c.toAlgebra
-  letI : Module A E' := Module.compHom E' c
-  haveI : IsScalarTower A B E' := ⟨fun a b e => by
-    show (c a * b) • e = c a • b • e
-    rw [mul_smul]⟩
-  haveI : Smooth G.hom := hsm
-  obtain ⟨j, h1, h2, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.lieModel_baseChange S G A B x E E' M M'
-  let β : E →ₗ[A] E' := { toFun := j, map_add' := map_add j, map_smul' := fun a e => h2 a e }
-  have hbc : IsBaseChange B β := (_root_.GlobalTheory.CompanionTheory.Ar.LieProj.lie_finite_projective_baseChange S G A x E M).2.2 B E' M' β h1
-  refine ⟨j, h1, h2, ?_, ?_⟩
-  · refine eq_top_iff.2 fun e _ => ?_
-    refine hbc.inductionOn e ?_ ?_ ?_
-    · exact fun m => Submodule.subset_span ⟨m, rfl⟩
-    · exact fun s n h => Submodule.smul_mem _ s h
-    · exact fun a b ha hb => Submodule.add_mem _ ha hb
-  · intro l
-    refine ⟨hbc.lift ((Algebra.linearMap A B).comp l), fun e => ?_⟩
-    exact hbc.lift_eq _ e
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HTPullK.lieBC <;> assumption
 
 section Setup
 
@@ -150,43 +132,7 @@ theorem backward [IsIntegrallyClosed R] [IsNoetherianRing R] (hs : Function.Inje
     ∃ w, M.IsHTFormOver N x k w ∧ ∃ u' : Module.Dual Ω' V', w' = jd w + N • u' ∧
       ∀ (e : V') (v : epsAt x' ⟶ G'), IsTanAt G' x' v →
         (M'.pt e).left = Spec.map (CommRingCat.ofHom (dualMap k')) ≫ v.left → u' e ∈ k'.range := by
-  have hsm' : Smooth G'.hom := MorphismProperty.of_isPullback hφ.1 hsm
-  obtain ⟨_, T, _, Γ, i₀, L, _, _, M₀, -, -, -, tor, -, -, -⟩ := h0
-  haveI := _root_.GlobalTheory.CompanionTheory.Ar.BT.QFGroup.finite_of_qfGroup R T Γ
-  obtain ⟨_, T₂, _, Γ₂, i₂, L₂, _, _, M₂, j₂, χ₂, w₂, tor₂, hj₂, hHT₂, hw₂⟩ := H
-  obtain ⟨L', _, _, ⟨M₀'⟩⟩ := lieModel_exists X' G' R' x'
-  obtain ⟨Γ', i', β, tor', hβ, hsp, hext, hcore⟩ := GlobalTheory.CompanionTheory.Ar.HTPullK.core hs x x' f hx φ hφ hsm Γ N i₀ tor M₀ M₀'
-  obtain ⟨b, hb⟩ := _root_.GlobalTheory.CompanionTheory.Ar.BT.TorIso.exists_mulEquiv_isHT R' T₂ T Γ₂ Γ' X' G' x' N i₂ i' tor₂ tor'
-  have H₁ := hb L₂ M₂ χ₂ w₂ hHT₂
-  obtain ⟨g, hg, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.lieModel_existsUnique_equiv X' G' R' x' L' L₂ M₀' M₂
-  have H₂ := GlobalTheory.CompanionTheory.Ar.HTPullK.isHT_lie Γ' g hg H₁
-  obtain ⟨χ, hχ⟩ := GlobalTheory.CompanionTheory.Ar.HTPullK.char_descends (algebraMap R R') hs hN hz (_root_.GlobalTheory.CompanionTheory.Ar.BT.TorsionKilled.pow_eq_one R T Γ X G x N i₀ tor)
-    (χ₂.comp b.symm.toMonoidHom)
-  obtain ⟨w₀, hw₀⟩ := _root_.GlobalTheory.CompanionTheory.Relay.exists_hodge_tate_functional R T Γ X G x N i₀ tor hsm L M₀ χ
-  obtain ⟨j₁, hj₁, -, -, hj₁ext⟩ := lieBC k x ξ hξ hsm M₀ M
-  obtain ⟨w, hw⟩ := hj₁ext w₀
-  obtain ⟨w₀', hw₀'⟩ := hext w₀
-  have H₃ := hcore χ w₀ w₀' hw₀' hw₀
-  rw [hχ] at H₃
-  obtain ⟨u, hu⟩ := (_root_.GlobalTheory.CompanionTheory.Ar.BT.HT.isHT_iff R' T Γ' X' G' x' N i' tor' hsm' hN0 L' M₀' _ w₀' _ H₃).1 H₂
-  obtain ⟨j', hj', hjs, hjsp, hjext⟩ := lieBC k' x' ξ' hξ' hsm' M₀' M'
-  obtain ⟨u', hu'⟩ := hjext u
-  refine ⟨w, ⟨inferInstance, T, _, Γ, i₀, L, _, _, M₀, j₁, χ, w₀, tor, hj₁, hw₀, hw⟩, u', ?_, ?_⟩
-  · have hd := GlobalTheory.CompanionTheory.Ar.HTPullK.form_eq (w := w) (w' := jd w) hk hsp hjs (GlobalTheory.CompanionTheory.Ar.HTPullK.j_comm hφ hk hj hβ hj₁ hj') (hjd w) hw hw₀'
-    refine LinearMap.ext_on hjsp ?_
-    rintro _ ⟨e, rfl⟩
-    have a1 : j₂ (g e) = j' e := M'.inj (Over.OverMorphism.ext (by rw [hj₂, hg, hj']))
-    have a2 := hw₂ (g e)
-    have a3 := LinearMap.congr_fun hu e
-    simp only [LinearMap.comp_apply, LinearEquiv.coe_coe, LinearMap.add_apply, LinearMap.smul_apply] at a3
-    rw [a1, a3] at a2
-    simp only [LinearMap.add_apply, LinearMap.smul_apply]
-    rw [a2, hd, hu', map_add (f := _), map_nsmul]
-  · intro e v hv he
-    obtain ⟨l, rfl⟩ := M₀'.onto v hv
-    have : e = j' l := M'.inj (Over.OverMorphism.ext (he.trans (hj' l).symm))
-    subst this
-    exact ⟨u l, (hu' l).symm⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HTPullK.backward <;> assumption
 
 end Back
 

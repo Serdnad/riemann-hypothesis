@@ -49,6 +49,7 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValua
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionArithmetic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SectionDivision
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.SquareUnits
+import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.ExistsMulPullSec
 
 @[expose] public section
 
@@ -99,16 +100,7 @@ theorem triv_of_sec (hL : L.IsLB) {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : L
 theorem mem_nonzeroLocus_iff {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (r : Z ⟶ Y)
     (z : Z) {J : (Z ⟶ X) → L.ι} (hJ : Good L z J) :
     r z ∈ nonzeroLocus s ↔ IsUnit (sval s r z J) := by
-  constructor
-  · intro h
-    obtain ⟨k, hk⟩ := Opens.mem_iSup.1 h
-    exact isUnit_sval s r z hJ k hk
-  · intro h
-    have hm := hJ.mem φ r
-    have hu := (congrArg IsUnit (gs_eq r z _ hm (s.f (fun k => J (r ≫ φ k))))).mp h
-    have hz := (Z.mem_basicOpen _ z hm).2 hu
-    exact Opens.mem_iSup.2 ⟨fun k => J (r ≫ φ k),
-      (SetLike.ext_iff.1 (Scheme.preimage_basicOpen r (s.f (fun k => J (r ≫ φ k)))) z).2 hz⟩
+  apply _root_.GlobalTheory.MulPullSec.mem_nonzeroLocus_iff <;> assumption
 
 theorem sval_eq_zero {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (h : ∀ j, s.f j = 0)
     (r : Z ⟶ Y) (z : Z) {J : (Z ⟶ X) → L.ι} (hJ : Good L z J) : sval s r z J = 0 :=

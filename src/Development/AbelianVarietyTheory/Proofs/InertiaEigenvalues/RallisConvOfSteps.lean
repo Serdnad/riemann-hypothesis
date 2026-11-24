@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsUnfoldingFlatMapNeZeroFullRankStatement
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWeilDatumOOneOfRankZero
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.WeilRepresentationContinuous
@@ -1362,16 +1363,7 @@ theorem ni_prop (W : HSp D) {s : ℕ} (I : Matrix (Fin W.rank) (Fin s) D.host.E)
 
 theorem exists_leftInv {m s : ℕ} (I : Matrix (Fin m) (Fin s) D.host.E) (hI : LinearIndependent D.host.E I.transpose) :
     ∃ L : Matrix (Fin s) (Fin m) D.host.E, L * I = 1 := by
-  have hB : Function.Injective I.mulVec := by
-    rw [Matrix.mulVec_injective_iff]
-    exact hI
-  have hker : LinearMap.ker (Matrix.toLin' I) = ⊥ := by
-    rw [LinearMap.ker_eq_bot]
-    intro x y h
-    exact hB (by simpa [Matrix.toLin'_apply] using h)
-  obtain ⟨g, hg⟩ := LinearMap.exists_leftInverse_of_injective (Matrix.toLin' I) hker
-  exact ⟨LinearMap.toMatrix' g, by
-    rw [← LinearMap.toMatrix'_toLin' I, ← LinearMap.toMatrix'_comp, hg, LinearMap.toMatrix'_id]⟩
+  apply _root_.GlobalTheory.AscFinNe.left_inv_of_li <;> assumption
 
 theorem descend {m s : ℕ} (I : Matrix (Fin m) (Fin s) D.host.E) (hI : LinearIndependent D.host.E I.transpose)
     (v : Fin m → D.host.E) (a : Fin s → AE D) (h : (fun i => incA D (v i)) = I.map (incA D) *ᵥ a) :

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CuspidalMultiplicityCarriers
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodIdempotentCoeffInvEqCoeff
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SuppFLocal
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.EllipticPartTestData
@@ -207,16 +209,8 @@ open GlobalTheory.Hk3 (Core IsSF SchurAll EEc Wcc)
 namespace GlobalTheory.TrLevMult
 
 theorem level_eq_trivial {E : Type} [Field E] [NumberField E] {Pg : Finset (Pl E)} {r : ℕ} {LL : Type} [CommRing LL]
-    (L : LevelP Pg r LL) (h : L.H = ⊥) : L = LevelP.triv Pg r LL := by
-  obtain ⟨H, chi⟩ := L
-  simp only at h
-  subst h
-  unfold LevelP.triv
-  congr 1
-  ext x
-  have hx : x = 1 := Subtype.ext (Subgroup.mem_bot.mp x.2)
-  subst hx
-  simp
+    (L : LevelP Pg r LL) (h : L.H = ⊥) : L = LevelP.triv Pg r LL :=
+  _root_.GlobalTheory.OccW.level_eq_trivial_of_subgroup_eq_bot L h
 
 theorem levPOf_bot_eq {D : D7} {G K : Type} [Group G] [Field K] {Pg : Finset (Pl D.host.E)} {r : ℕ} (eG : G ≃* G0 Pg r)
     (σ : K →+* ℂ) (ψ : (⊥ : Subgroup G) →* Kˣ) : levPOf eG σ ⊥ ψ = LevelP.triv Pg r ℂ := by
@@ -349,18 +343,8 @@ namespace GlobalTheory.GoodStableDual
 open GlobalTheory.IndefiniteRowSideFullHecke GlobalTheory.DimPartsCompare GlobalTheory.BI
 
 theorem isChar_dual {G : Type} [Group G] [Fintype G] {χ : G → ℂ} (h : IsChar ℂ ℂ χ) :
-    IsChar ℂ ℂ fun g => χ g⁻¹ := by
-  obtain ⟨n, ρ, hρ⟩ := h
-  let e : Module.Dual ℂ (Fin n → ℂ) ≃ₗ[ℂ] (Fin n → ℂ) := (Pi.basisFun ℂ (Fin n)).dualBasis.equivFun
-  let σ : Representation ℂ G (Fin n → ℂ) :=
-    { toFun := fun g => e.conj (ρ.dual g)
-      map_one' := by rw [map_one]; exact LinearEquiv.conj_id e
-      map_mul' := fun a b => by rw [map_mul]; exact LinearEquiv.conj_comp e _ _ }
-  refine ⟨n, σ, fun g => ?_⟩
-  have : σ.character g = ρ.dual.character g := LinearMap.trace_conj' _ e
-  show χ g⁻¹ = _
-  rw [Algebra.algebraMap_self, RingHom.id_apply, this, Representation.char_dual, hρ, Algebra.algebraMap_self,
-    RingHom.id_apply]
+    IsChar ℂ ℂ fun g => χ g⁻¹ :=
+  _root_.GlobalTheory.Mem.R3.GoodDual.isChar_inv h
 
 
 open Formalism.L2.DIV in

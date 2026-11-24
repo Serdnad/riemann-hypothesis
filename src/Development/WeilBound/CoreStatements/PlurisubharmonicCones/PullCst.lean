@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.RealisationFibreProductCompatible
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.FlagCoverBasePointRegular
 public import Development.WeilBound.CoreStatements.VolumeEquality.DegPushTestA
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterNamed
 public import Development.AutomorphicSpectrum.Definitions.DivisibilityTowers.Birational
@@ -328,20 +330,7 @@ theorem sum_mapDomain {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (hv : �
 
 theorem isMultiHomog_rename {κ : K → K'} {v : (Σ k, ι k) → Σ k, ι' k} (hb : IsBlockMap κ v) {f : MRing ι}
     {b : K → ℕ} (hf : IsMultiHomog f b) : IsMultiHomog (rename v f) (Function.extend κ b 0) := by
-  classical
-  intro m hm k'
-  rw [support_rename_of_injective hb.2.1, Finset.mem_image] at hm
-  obtain ⟨m₀, hm₀, rfl⟩ := hm
-  rw [sum_mapDomain hb.2.2.1, Fintype.sum_sigma]
-  by_cases hk : ∃ k, κ k = k'
-  · obtain ⟨k, rfl⟩ := hk
-    rw [hb.1.extend_apply, Finset.sum_eq_single k]
-    · simpa using hf m₀ hm₀ k
-    · intro k₂ _ hne
-      exact Finset.sum_eq_zero fun i _ => if_neg (hb.1.ne hne)
-    · simp
-  · rw [Function.extend_apply' _ _ _ hk]
-    exact Finset.sum_eq_zero fun k _ => Finset.sum_eq_zero fun i _ => if_neg fun h => hk ⟨k, h⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.CovGraph.RegPhi.isMultiHomog_rename_block <;> assumption
 
 theorem isMultiHomog_mul {f g : MRing ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
     IsMultiHomog (f * g) (a + b) := by
@@ -450,16 +439,8 @@ theorem log_comb {σ : Type} [Fintype σ] (A : σ → HermLine J) (n : σ → �
 
 theorem den_ne {P : Ideal (MRing J)} (hP : P.IsPrime) {f g u v : MRing J} (h : UnitRatio P f g) {z : (Σ k, J k) → ℂ}
     (hz : z ∈ mcPts P) (huv : u * f - v * g ∈ P) (hu : evC z u ≠ 0) : evC z v ≠ 0 := by
-  obtain ⟨u', v', h1, -, h2⟩ := OneModel.exists_pair_ne h hz
-  have h3 : (u * v' - u' * v) * g ∈ P := by
-    have := P.sub_mem (P.mul_mem_left u' huv) (P.mul_mem_left u h1)
-    convert this using 1
-    ring
-  have h4 : evC z (u * v' - u' * v) = 0 := hz.2 _ ((hP.mem_or_mem h3).resolve_right h.2.1)
-  intro h0
-  have h5 : evC z (u * v' - u' * v) = evC z u * evC z v' - evC z u' * evC z v := by simp [evC]
-  rw [h5, h0, mul_zero, sub_zero] at h4
-  exact mul_ne_zero hu h2 h4
+  intros
+  apply _root_.PositivityTheory.UnitarySelfGeneration.h_samesing_ne <;> assumption
 
 theorem log_defect {a b : ℂ} (ha : a ≠ 0) (hb : b ≠ 0) {x y : ℝ} (hx : 0 < x) (hy : 0 < y) :
     Real.log (‖a‖ / ‖b‖ * x / y) = Real.log (‖a‖ / ‖b‖) + Real.log x - Real.log y := by

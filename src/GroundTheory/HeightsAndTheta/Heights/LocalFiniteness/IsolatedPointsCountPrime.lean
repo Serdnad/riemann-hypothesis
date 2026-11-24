@@ -68,6 +68,7 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Topology.Algebra.MvPolynomial
 import Mathlib.Tactic.TypeStar
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PImageDimLe, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PIsolatedFibreOpenPoly, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PIsolatedFibreOpenPolyFull, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PIsolatedPointsCountPrime, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSameOrdersLiftCentre, GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.IsolatedPointsCountPrime
@@ -314,20 +315,7 @@ noncomputable section
 
 theorem IsolatedPointsCountPrime.exists_dim_eq {n : ℕ} (J : Ideal (MvPolynomial (Fin n) ℂ)) [J.IsPrime] :
     ∃ d : ℕ, ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = d := by
-  have h0 : 0 ≤ ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) := ringKrullDim_nonneg_of_nontrivial
-  have h1 := ringKrullDim_quotient_le J
-  rw [MvPolynomial.ringKrullDim_of_isNoetherianRing_of_finite, ringKrullDim_eq_zero_of_field,
-    Nat.card_eq_fintype_card, Fintype.card_fin, zero_add] at h1
-  generalize ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ J) = x at h0 h1 ⊢
-  induction x using WithBot.recBotCoe with
-  | bot => simp at h0
-  | coe k =>
-    induction k using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have h2 : ((⊤ : ℕ∞) : WithBot ℕ∞) ≤ ((n : ℕ∞) : WithBot ℕ∞) := h1
-      exact absurd (WithBot.coe_le_coe.1 h2) (by simp)
-    | coe k => exact ⟨k, rfl⟩
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.IrreducibleBasicOpenConnected.exists_dim <;> assumption
 
 theorem IsolatedPointsCountPrime.eval_aeval {n m : ℕ} (Q : Fin m → MvPolynomial (Fin n) ℂ)
     (f : MvPolynomial (Fin m) ℂ) (x : Fin n → ℂ) :

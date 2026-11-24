@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.Hilbert90IntegralIdelesOfMovedPrimes
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CmFiniteAdeleStrongApproxModAdelicIdeal
@@ -102,16 +103,7 @@ theorem iop_zero (D : D7) (T : Tor D) {N N' : ℕ} (A B : AddSubgroup (VC D N N'
 
 theorem iop_self (D : D7) (T : Tor D) {N N' : ℕ} (A : AddSubgroup (VC D N N')) {G : VC D N N' → ℂ}
     (hG : G ∈ ThSp D T A) : Iop D T A A G = G := by
-  funext z
-  have hi : (A.addSubgroupOf A).index = 1 := by simp
-  have : Subsingleton (A ⧸ A.addSubgroupOf A) := by
-    rw [AddSubgroup.addSubgroupOf_self]
-    exact QuotientAddGroup.subsingleton_quotient_top
-  have : Unique (A ⧸ A.addSubgroupOf A) :=
-    ⟨⟨((0 : A) : A ⧸ A.addSubgroupOf A)⟩, fun _ => Subsingleton.elim _ _⟩
-  unfold Iop
-  rw [hi, finsum_unique, hG.2 _ (Subtype.mem _)]
-  simp
+  apply _root_.GlobalTheory.NormSum.VacInt.iop_self <;> assumption
 
 def MI (D : D7) (cc : Ideal (𝓞 D.host.K)) (m : ℕ) {a b : ℕ} (M : Matrix (Fin a) (Fin b) (AE D)) : Prop :=
   ∀ i j, ∃ y ∈ IhE D cc, M i j = (m : AE D) * y

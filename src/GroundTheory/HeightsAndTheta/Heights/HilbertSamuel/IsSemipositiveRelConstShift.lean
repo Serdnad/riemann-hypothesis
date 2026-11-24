@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.SemipositiveHeights.ImportsBis
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsConstantShift
 
@@ -71,30 +72,7 @@ end Shift
 
 theorem exists_small_section_of_arithmeticVolume_pos {Ω : Type} [Field Ω] {Pr : ℕ → Ω → Prop} {La : ℕ → AddSubgroup Ω}
     {D : ℕ} (h : 0 < arVolP Pr La 1 D) : ∃ n, 1 ≤ n ∧ ∃ s ∈ La n, s ≠ 0 ∧ Pr n s := by
-  by_contra hne
-  push Not at hne
-  have hzero : ∀ k, 1 ≤ k → smallSectionCount Pr La k = 0 := by
-    intro k hk
-    have hsub : Subsingleton {s : La k // Pr k (s : Ω)} := by
-      constructor
-      rintro ⟨a, ha⟩ ⟨b, hb⟩
-      have ha0 : (a : Ω) = 0 := by
-        by_contra h0
-        exact hne k hk a a.2 h0 ha
-      have hb0 : (b : Ω) = 0 := by
-        by_contra h0
-        exact hne k hk b b.2 h0 hb
-      exact Subtype.ext (Subtype.ext (ha0.trans hb0.symm))
-    have := hsub
-    have hc : Nat.card {s : La k // Pr k (s : Ω)} ≤ 1 := Finite.card_le_one_iff_subsingleton.mpr hsub
-    unfold smallSectionCount
-    interval_cases Nat.card {s : La k // Pr k (s : Ω)} <;> simp
-  have : arVolP Pr La 1 D = 0 := by
-    unfold arVolP
-    refine (limsup_congr ?_).trans (limsup_const 0)
-    filter_upwards [eventually_ge_atTop 1] with k hk
-    rw [one_mul, hzero k hk, zero_div]
-  linarith
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LatticeWithoutBigness.exists_small_section_of_arithmeticVolume_pos <;> assumption
 
 theorem G4.proof (hG6 : ArithmeticVolumeBig.Statement) (hCS : ConstantShift.Statement) : G4.Statement := by
   intro K _ ι _ Ω _ _ y D M P0 II hD hII har hb hM hpos

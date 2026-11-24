@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.GenericGradient
+import GroundTheory.HeightsAndTheta.Heights.Intersections.PDeSlotAdd
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagGrassSteps
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsAntisym
 import Mathlib.Algebra.Order.Star.Real
@@ -67,17 +69,7 @@ theorem invTensor_h {z : (Σ k, ι k) → ℂ} (hz : ∀ k, ∃ i, z ⟨k, i⟩ 
 omit [∀ k, Fintype (ι k)] in
 theorem ptsIntegral_eq_zero {e : ℕ} (P : Ideal (MRing ι)) (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ)
     (g : ((Σ k, ι k) → ℂ) → ℝ) (hg : ∀ z ∈ mcPts P, g z = 0) : ptsIntegral P φ g = 0 := by
-  unfold ptsIntegral
-  split_ifs with hΨ
-  · unfold ptsIntegralAt
-    have h0 : ∀ y w, sheetDensity P hΨ.choose φ g y w = 0 := by
-      intro y w
-      unfold sheetDensity
-      split_ifs with hγ
-      · rw [hg _ hγ.choose_spec.2.self_of_nhds.2.1, zero_mul]
-      · rfl
-    simp [h0]
-  · rfl
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.ptsIntegral_eq_zero_of_vanish <;> assumption
 
 theorem snoc_invTensor (II : IntersectionSystem) (hII : IsIntersectionSystem II) (P : Ideal (MRing ι)) (n : ℕ)
     (L : Fin n → HermLine ι) (hP : IsArithVar P (n + 1)) (hL : ∀ j, IsSmoothHerm (L j)) :

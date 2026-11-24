@@ -77,6 +77,7 @@ import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.TotallySplit
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTwoTorsionCMPointAllConjugates
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsIntSmulIntegral, Development.AbelianVarietyTheory.Proofs.FoundationProofs.CardParitySignLengthOfEq, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLocalComponentUnitaryMatrix, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsMatrixProjectionSelfDualLattices, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaLatticeTriplesDistributive, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTripleConstantEqNegOnePow, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTripleConstantEqOneDistributive, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTripleDataOfNeighbourTriple, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ThetaTripleDiagonalDataOfSelfDualNeighbourTriple, Development.AbelianVarietyTheory.Proofs.FoundationProofs.TrivialAtPrimeAdelicGLSubgroup, Development.AbelianVarietyTheory.Proofs.FoundationProofs.UnitaryTransvectionMovesLatticeAtPrime, Development.AbelianVarietyTheory.Proofs.FoundationProofs.WeilRepresentationVacuumSignInertPlaces
@@ -1828,14 +1829,7 @@ theorem core (hσ : σ * σ = 1) (hnz : e0 ≠ 0) (he0 : e0 ∈ ThSp D T (Λ (st
 end Core
 
 theorem delta_ne_zero {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (hc : Crv D cc δ) : δ ≠ 0 := by
-  obtain ⟨L, hL⟩ := GlobalTheory.CurveLattice.exists_periodPair_lamOf D cc δ hc
-  rintro rfl
-  have h1 := (hL L.ω₁).2 L.ω₁_mem_lattice
-  have h2 : lamOf D cc 0 ≤ ⊥ := by
-    rw [lamOf, AddSubgroup.closure_le]
-    rintro w ⟨c, -, rfl⟩
-    simp
-  exact L.indep.ne_zero 0 (by simpa using h2 h1)
+  apply _root_.GlobalTheory.TwoTorsionPt.delta_ne <;> assumption
 
 end GlobalTheory.InertSign
 

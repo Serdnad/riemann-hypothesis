@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteAffineNeighbourhoodExists
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsTorsionFreeOfForallExists
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IntersectionNumberEqGenericRankMulProjCurve
 import Mathlib.Algebra.Order.Floor.Extended
@@ -57,15 +58,7 @@ theorem isFractionRing_evaluation (X : Scheme.{0}) [IsIntegral X] {U : X.Opens}
     (hU : IsAffineOpen U) {x : X} (hx : x = genericPoint X) (hxU : x ∈ U) :
     letI := (X.evaluation U x hxU).hom.toAlgebra
     IsFractionRing Γ(X, U) (X.residueField x) := by
-  subst hx
-  letI := (X.evaluation U _ hxU).hom.toAlgebra
-  haveI : Nonempty U := ⟨⟨_, hxU⟩⟩
-  have := functionField_isFractionRing_of_isAffineOpen X U hU
-  let φ : X.functionField →+* X.residueField (genericPoint X) := (X.residue _).hom
-  let e : X.functionField ≃ₐ[Γ(X, U)] X.residueField (genericPoint X) :=
-    { RingEquiv.ofBijective φ ⟨φ.injective, X.residue_surjective _⟩ with
-      commutes' := fun _ => rfl }
-  exact IsLocalization.isLocalization_of_algEquiv _ e
+  apply _root_.GlobalTheory.GenFiniteEtale.isFractionRing_eval <;> assumption
 
 theorem finrank_app_eq_residueDegree {Z Z' : Scheme.{0}} [IsIntegral Z] [IsIntegral Z']
     (f : Z' ⟶ Z) [IsFinite f] (h : f (genericPoint Z') = genericPoint Z) {U : Z.Opens}

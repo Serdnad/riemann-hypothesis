@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TermEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.MatchOne
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TwistedLocalOrbits.Match
@@ -785,24 +786,10 @@ section Scale
 variable {n : ℕ} {R S : Type*} [CommRing R] [CommRing S] [TopologicalSpace R]
   [MeasurableSpace (GL (Fin n) R)] [MeasurableSpace (GL (Fin n) S)]
 
-private theorem orb_scale (μ : Measure (GL (Fin n) R)) (γ : GL (Fin n) R) (ν : Measure (Subgroup.centralizer {γ}))
-    (a : ℂ) (f : GL (Fin n) R → ℂ) : orb μ γ ν (fun g => a * f g) = a * orb μ γ ν f := by
-  unfold orb quotInt
-  split_ifs with h
-  · simp only [mul_assoc]
-    rw [integral_const_mul]
-  · simp
-
 private theorem match_scale (ι : R →+* S) (s : S →+* S) (l : ℕ) (μS : Measure (GL (Fin n) S)) (μR : Measure (GL (Fin n) R))
     {a : ℂ} (ha : a ≠ 0) (φ : GL (Fin n) S → ℂ) (f : GL (Fin n) R → ℂ)
     (h : Match ι s l μS μR 1 φ (fun g => a * f g)) : Match ι s l μS μR a φ f := by
-  intro γ hγ ν hν
-  obtain ⟨h1, h2⟩ := h γ hγ ν hν
-  refine ⟨fun δ hδ => ?_, fun hn => ?_⟩
-  · rw [h1 δ hδ, orb_scale, one_mul]
-  · have := h2 hn
-    rw [orb_scale] at this
-    exact (mul_eq_zero.1 this).resolve_left ha
+  apply _root_.UpperTheory.ConvolutionTheory.L1.CosetQuotientIntegrals.match_of_scale <;> assumption
 
 end Scale
 

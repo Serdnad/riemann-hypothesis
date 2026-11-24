@@ -725,11 +725,7 @@ variable {σ J}
 
 theorem hE_conj (hσ : ∀ a, σ (σ a) = a) (hJ : ∀ i j, σ (J j i) = J i j) (u v : Fin M → E) :
     σ (hE σ J u v) = hE σ J v u := by
-
-  simp only [hE, hform, map_sum, map_mul, RingHom.coe_coe, hσ]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [hJ]; ring
+  apply _root_.GlobalTheory.CompanionTheory.SW.WittIso.hE_conj <;> assumption
 
 theorem exists_partner (hσ : ∀ a, σ (σ a) = a) (hJ : IsHermND σ J) (h2 : (2 : E) ≠ 0)
     (x : Fin M → E) (hx : x ≠ 0) (hxx : hE σ J x x = 0) :

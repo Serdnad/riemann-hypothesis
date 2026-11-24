@@ -7,6 +7,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrin
 import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtMultiplicativity
 import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderPullback
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
+import Mathlib.Data.List.Lex
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -1249,10 +1250,7 @@ private theorem get_transformedBoundary_exceptionalIndex_eq_comap {X' X : Scheme
 
 private theorem injective_strictTransformIndex {X' X : Scheme.{u}} (π : X' ⟶ X) (Z : X.IdealSheafData)
     (L : List X.IdealSheafData) : Function.Injective (strictTransformIndex π Z L) := by
-  intro i j hij
-  apply Fin.val_injective
-  have h := congrArg (fun z : Fin (transformedBoundary π Z L).length => (z : ℕ)) hij
-  simpa [strictTransformIndex_val] using h
+  apply _root_.FunctorialResolution.EmbeddedResolution.strictTransformIndex_injective <;> assumption
 
 private theorem strictMono_strictTransformIndex {X' X : Scheme.{u}} (π : X' ⟶ X) (Z : X.IdealSheafData)
     (L : List X.IdealSheafData) : StrictMono (strictTransformIndex π Z L) := by
@@ -1728,28 +1726,7 @@ private theorem minIndexCard_lt_or_maxCandidateOrder_lt_of_isBlowupAlongIdealShe
       conv_lhs => rw [← himgc]
       exact sortedIndices_image_strictTransformIndex π (monomialCenter T.ideal T.mult T.boundary)
         T.boundary _
-    have htrich : ∀ (a b : List ℕ), List.Lex (· < ·) a b ∨ a = b ∨ List.Lex (· < ·) b a := by
-      intro a
-      induction a with
-      | nil =>
-        intro b
-        cases b with
-        | nil => exact Or.inr (Or.inl rfl)
-        | cons _ _ => exact Or.inl List.Lex.nil
-      | cons x xs ih =>
-        intro b
-        cases b with
-        | nil => exact Or.inr (Or.inr List.Lex.nil)
-        | cons y ys =>
-          rcases lt_trichotomy x y with h | h | h
-          · exact Or.inl (List.Lex.rel h)
-          · subst y
-            rcases ih ys with h | h | h
-            · exact Or.inl (List.Lex.cons h)
-            · exact Or.inr (Or.inl (congrArg (List.cons x) h))
-            · exact Or.inr (Or.inr (List.Lex.cons h))
-          · exact Or.inr (Or.inr (List.Lex.rel h))
-    rcases htrich
+    rcases trichotomous_of (List.Lex (· < ·) : List ℕ → List ℕ → Prop)
         (MonomialCenter.sortedIndices (lexMaxIndices T.ideal T.mult T.boundary))
         (MonomialCenter.sortedIndices
           (preimageStrictTransformIndex π (monomialCenter T.ideal T.mult T.boundary) T.boundary

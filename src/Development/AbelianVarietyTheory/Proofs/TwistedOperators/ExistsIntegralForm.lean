@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMultiplicityLiftLastChainStep
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FiniteSupport
 public import Mathlib.LinearAlgebra.PiTensorProduct.Basis
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.BarMatrix
@@ -588,17 +589,7 @@ theorem exists_mult (hG : GlobalTheory.IndefiniteRowSideFullHecke.KTypeExtension
 
 theorem exists_integralForm {X : Type} [MeasurableSpace X] (μ : Measure X) :
     ∃ I : (X → ℂ) →ₗ[ℂ] ℂ, ∀ φ, Integrable φ μ → I φ = ∫ x, φ x ∂μ := by
-  let U : Submodule ℂ (X → ℂ) :=
-    { carrier := {φ | Integrable φ μ}
-      add_mem' := fun ha hb => Integrable.add ha hb
-      zero_mem' := integrable_zero _ _ _
-      smul_mem' := fun c _ h => Integrable.smul c h }
-  let l : U →ₗ[ℂ] ℂ :=
-    { toFun := fun φ => ∫ x, φ.1 x ∂μ
-      map_add' := fun a b => integral_add a.2 b.2
-      map_smul' := fun c a => integral_smul c a.1 }
-  obtain ⟨I, hI⟩ := LinearMap.exists_extend l
-  exact ⟨I, fun φ h => LinearMap.congr_fun hI ⟨φ, h⟩⟩
+  apply _root_.GlobalTheory.DefLift.exists_integralForm <;> assumption
 
 theorem exists_trilinear {G H S P Ds : Type} [MeasurableSpace H] [AddCommGroup S] [Module ℂ S] [AddCommGroup P] [Module ℂ P]
     [AddCommGroup Ds] [Module ℂ Ds] (ν : Measure H) (𝓕 : Set H) (th : G → H → S →ₗ[ℂ] ℂ) (pt : P →ₗ[ℂ] S)
@@ -606,26 +597,7 @@ theorem exists_trilinear {G H S P Ds : Type} [MeasurableSpace H] [AddCommGroup S
     (hint : ∀ F : C, ∀ φ v g, IntegrableOn (fun h => th g h (pt φ) * (F : Ds →ₗ[ℂ] (H → ℂ)) v h) 𝓕 ν) :
     ∃ B : P →ₗ[ℂ] Ds →ₗ[ℂ] C →ₗ[ℂ] (G → ℂ), ∀ φ v F,
       B φ v F = Lift.liftInt ν 𝓕 (fun g h s => th g h s) (pt φ) ((F : Ds →ₗ[ℂ] (H → ℂ)) v) := by
-  obtain ⟨I, hI⟩ := exists_integralForm (ν.restrict 𝓕)
-  let b : P → Ds → C →ₗ[ℂ] (G → ℂ) := fun φ v =>
-    { toFun := fun F g => I fun h => th g h (pt φ) * (F : Ds →ₗ[ℂ] (H → ℂ)) v h
-      map_add' := fun F F' => funext fun g => by
-        rw [Pi.add_apply, ← map_add (f := _)]; congr 1; funext h; simp [mul_add]
-      map_smul' := fun c F => funext fun g => by
-        rw [Pi.smul_apply, ← map_smul]; congr 1; funext h; simp [mul_left_comm] }
-  refine ⟨LinearMap.mk₂ ℂ b ?_ ?_ ?_ ?_, fun φ v F => funext fun g => hI _ (hint F φ v g)⟩
-  · refine fun φ φ' v => LinearMap.ext fun F => funext fun g => ?_
-    show I _ = I _ + I _
-    rw [← map_add (f := _)]; congr 1; funext h; simp [add_mul]
-  · refine fun c φ v => LinearMap.ext fun F => funext fun g => ?_
-    show I _ = c • I _
-    rw [← map_smul]; congr 1; funext h; simp [mul_assoc]
-  · refine fun φ v v' => LinearMap.ext fun F => funext fun g => ?_
-    show I _ = I _ + I _
-    rw [← map_add (f := _)]; congr 1; funext h; simp [mul_add]
-  · refine fun c φ v => LinearMap.ext fun F => funext fun g => ?_
-    show I _ = c • I _
-    rw [← map_smul]; congr 1; funext h; simp [mul_left_comm]
+  apply _root_.GlobalTheory.DefLift.exists_trilinear <;> assumption
 
 theorem ioExists_of_forall {G H S P Ds Dt : Type} [MeasurableSpace H] [AddCommGroup P] [Module ℂ P]
     [AddCommGroup Ds] [Module ℂ Ds] [AddCommGroup Dt] [Module ℂ Dt] {ν : Measure H} {𝓕 : Set H} {th : G → H → S → ℂ}

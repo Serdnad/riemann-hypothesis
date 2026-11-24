@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalIdeles.NormUnr
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.PowerMatchingTraces.MatchPowAlt
 public import Development.AbelianVarietyTheory.BlockTheory.AdelicCMFields.UnitaryHeckeCharacterIdele
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ArtinTransportAlgClosureEquiv
@@ -55,15 +56,7 @@ open UpperTheory.Gal.InertialTypesAlt.G
 
 private theorem loc_one_of' {L : Type} [Field L] [NumberField L] (ψ : HChar L) (w : HeightOneSpectrum (𝓞 L))
     (hu : ψ.UnrAt w) (hv : ψ.val w = 1) (x : (w.adicCompletion L)ˣ) : ψ.loc w x = 1 := by
-  refine GlobalTheory.FrobDense.eq_one_of_unif (ψ.loc w) (fun y hy => ?_) x
-  have h2 := unif_spec w
-  have h3 := hu (y * (atFin w (unif w))⁻¹) (by
-    unfold IsUnitAt
-    unfold IsUnifAt at hy h2
-    rw [Units.val_mul, Units.val_inv_eq_inv_val, map_mul, map_inv₀, hy, h2]
-    exact mul_inv_cancel₀ WithZero.exp_ne_zero)
-  rw [map_mul, map_inv, mul_inv_eq_one] at h3
-  exact h3.trans hv
+  apply _root_.UpperTheory.ConvolutionTheory.Sph.NormUnramified.loc_one_of <;> assumption
 
 theorem UpperTheory.Gal.InertialTypesAlt.G.normTriv :
     UpperTheory.Gal.InertialTypesAlt.G.NormTriv := by

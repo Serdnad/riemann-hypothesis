@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsMulMemOfMemSpan
 public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.IsHermForm
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThShort
 public import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsUnitaryOfSelfDual
@@ -314,15 +315,7 @@ theorem span_eq_top (Λ : GenLat E n) (hU : Λ.Unimod) : Submodule.span E (Λ.La
 omit [IsCMField E] in
 theorem span_smul_le_iff (k : ℕ) (L₁ L₂ : Submodule (𝓞 E) (Fin n → E)) :
     Ideal.span {(k : 𝓞 E)} • L₁ ≤ L₂ ↔ ∀ x ∈ L₁, k • x ∈ L₂ := by
-  constructor
-  · intro h x hx
-    have := h (Submodule.smul_mem_smul (Ideal.mem_span_singleton_self _) hx)
-    rwa [Nat.cast_smul_eq_nsmul] at this
-  · intro h
-    refine Submodule.smul_le.2 fun r hr x hx => ?_
-    obtain ⟨a, rfl⟩ := Ideal.mem_span_singleton'.1 hr
-    rw [mul_smul, Nat.cast_smul_eq_nsmul]
-    exact L₂.smul_mem a (h x hx)
+  apply _root_.GlobalTheory.GenusLatCompare.span_smul_le_iff <;> assumption
 
 theorem exists_pos (Λ : GenLat E n) (hU : Λ.Unimod) {M : ℕ} (hT : Λ.TrivAt M) :
     ∃ k : ℕ, 0 < k ∧ k.Coprime M ∧ (∀ x ∈ Λ.La, k • x ∈ stdLat E n) ∧ ∀ x ∈ stdLat E n, k • x ∈ Λ.La := by

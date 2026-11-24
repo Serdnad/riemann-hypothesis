@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CpTransportedTaylorSeriesInChartRingHomLaws
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SigmaStarSquareQuotientInModelParameter
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EndoZInstance
 public import Mathlib.Analysis.Calculus.IteratedDeriv.Lemmas
 public import Mathlib.Analysis.SpecialFunctions.ExpDeriv
@@ -27,19 +29,7 @@ theorem taylor0_add {f g : ℂ → ℂ} (hf : AnalyticAt ℂ f 0) (hg : Analytic
 
 theorem taylor0_mul {f g : ℂ → ℂ} (hf : AnalyticAt ℂ f 0) (hg : AnalyticAt ℂ g 0) :
     taylor0 (fun z => f z * g z) = taylor0 f * taylor0 g := by
-  ext n
-  rw [coeff_mul, coeff_taylor0, iteratedDeriv_fun_mul hf.contDiffAt hg.contDiffAt,
-    Finset.Nat.sum_antidiagonal_eq_sum_range_succ_mk, Finset.sum_div]
-  refine Finset.sum_congr rfl fun i hi => ?_
-  have hi' : i ≤ n := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-  simp only [coeff_taylor0]
-  have h1 : (n.factorial : ℂ) = (n.choose i : ℂ) * (i.factorial : ℂ) * ((n - i).factorial : ℂ) := by
-    exact_mod_cast (Nat.choose_mul_factorial_mul_factorial hi').symm
-  have h2 : (n.choose i : ℂ) ≠ 0 := by exact_mod_cast (Nat.choose_pos hi').ne'
-  have h3 : (i.factorial : ℂ) ≠ 0 := by exact_mod_cast i.factorial_ne_zero
-  have h4 : ((n - i).factorial : ℂ) ≠ 0 := by exact_mod_cast (n - i).factorial_ne_zero
-  rw [h1]
-  field_simp
+  apply _root_.GlobalTheory.WpSeries.tay_mul <;> assumption
 
 theorem taylor0_const (c : ℂ) : taylor0 (fun _ => c) = C c := by
   ext n
@@ -95,23 +85,7 @@ theorem taylor0_rescale {f : ℂ → ℂ} (a : ℂ) (hf : AnalyticAt ℂ f 0) :
 
 theorem taylor0_inj {f g : ℂ → ℂ} (hf : AnalyticAt ℂ f 0) (hg : AnalyticAt ℂ g 0)
     (h : taylor0 f = taylor0 g) : f =ᶠ[nhds 0] g := by
-  have hd : AnalyticAt ℂ (fun z => f z - g z) 0 := hf.fun_sub hg
-  have h0 : ∀ n, iteratedDeriv n (fun z => f z - g z) 0 = 0 := by
-    intro n
-    have h1 := congrArg (coeff n) h
-    rw [coeff_taylor0, coeff_taylor0] at h1
-    have h3 : (n.factorial : ℂ) ≠ 0 := by exact_mod_cast n.factorial_ne_zero
-    have h2 : iteratedDeriv n f 0 = iteratedDeriv n g 0 := by
-      field_simp at h1
-      exact h1
-    rw [iteratedDeriv_fun_sub hf.contDiffAt hg.contDiffAt, h2, sub_self]
-  have ht : analyticOrderAt (fun z => f z - g z) 0 = ⊤ := by
-    rw [ENat.eq_top_iff_forall_ge]
-    intro n
-    exact (natCast_le_analyticOrderAt_iff_iteratedDeriv_eq_zero hd).mpr fun i _ => h0 i
-  rw [analyticOrderAt_eq_top] at ht
-  filter_upwards [ht] with z hz
-  exact sub_eq_zero.mp hz
+  apply _root_.GlobalTheory.MomOne.TaylorRead.eventuallyEq_of_tay_eq <;> assumption
 
 theorem ode_zero {a Y : PowerSeries ℂ} (h : derivative Y = a * Y) (h0 : constantCoeff Y = 0) :
     Y = 0 := by

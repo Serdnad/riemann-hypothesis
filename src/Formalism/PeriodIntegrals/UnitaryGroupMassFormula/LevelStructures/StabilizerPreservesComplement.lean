@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.SemiAlg
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LeviInt
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LocLevi
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.CMInst
@@ -97,23 +98,11 @@ theorem rational_vector_in_complement {r : ℕ} (P : Frame E n r) (x : Fin n →
 
 theorem stabilizer_fixes_isotropic_e {r : ℕ} (P : Frame E n r) {h : HA R σ J} (hh : h ∈ Hsub R σ J P) (a : Fin r) :
     lin R σ J h (ratV (F := F) R (P.e a)) = ratV (F := F) R (P.e a) := by
-  have hfix : h • ratTup (F := F) R (tupH P) = ratTup (F := F) R (tupH P) := hh
-  have h1 : lin R σ J h (ratTup (F := F) R (tupH P) (Fin.castAdd r (Fin.castSucc a))) =
-      ratTup (F := F) R (tupH P) (Fin.castAdd r (Fin.castSucc a)) := congrFun hfix _
-  have e1 : ratTup (F := F) R (tupH P) (Fin.castAdd r (Fin.castSucc a)) = ratV (F := F) R (P.e a) := by
-    funext i
-    simp [ratTup, tupH, F0, ratV]
-  rwa [e1] at h1
+  apply _root_.PI.LevelKSplit.W.SemiA.H_fix_e <;> assumption
 
 theorem stabilizer_fixes_isotropic_f {r : ℕ} (P : Frame E n r) {h : HA R σ J} (hh : h ∈ Hsub R σ J P) (a : Fin r) :
     lin R σ J h (ratV (F := F) R (P.f a)) = ratV (F := F) R (P.f a) := by
-  have hfix : h • ratTup (F := F) R (tupH P) = ratTup (F := F) R (tupH P) := hh
-  have h1 : lin R σ J h (ratTup (F := F) R (tupH P) (Fin.natAdd (r + 1) a)) =
-      ratTup (F := F) R (tupH P) (Fin.natAdd (r + 1) a) := congrFun hfix _
-  have e1 : ratTup (F := F) R (tupH P) (Fin.natAdd (r + 1) a) = ratV (F := F) R (P.f a) := by
-    funext i
-    simp [ratTup, tupH, F0, ratV]
-  rwa [e1] at h1
+  apply _root_.PI.LevelKSplit.W.SemiA.H_fix_f <;> assumption
 
 theorem stabilizer_fixes_span {r : ℕ} (P : Frame E n r) {h : HA R σ J} (hh : h ∈ Hsub R σ J P) (Y : Fin r → Fin n → E)
     (hY : ∀ a, lin R σ J h (ratV (F := F) R (Y a)) = ratV (F := F) R (Y a))

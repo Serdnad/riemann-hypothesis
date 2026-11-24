@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.AlgebraProofs.RelatedPairsOrbitalTermEq
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.IsCompactUnitaryPointsAtPlaceFstMemCompact
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Mathlib.RingTheory.DedekindDomain.Factorization
@@ -57,6 +58,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Algebra.Order.Star.Real
+import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.HodgeTatePoints.FamprojAlg, Development.WeilBound.CoreStatements.HodgeTatePoints.Famproj
@@ -351,37 +353,8 @@ private theorem coe_mul_dualInt_eq_sum (a : 𝓞 E) (j : Module.Free.ChooseBasis
 private theorem rho_mul_eigProj' {K L : Type} [Field K] [AddCommGroup L] [Module K L]
     (ρ : 𝓞 E →+* Module.End K L) (σ : E →+* K) (a : 𝓞 E) :
     ρ a * eigProj ρ σ = σ (a : E) • eigProj ρ σ := by
-  classical
-  calc ρ a * eigProj ρ σ = ∑ l, σ (dualInt E l) • ρ (a * RingOfIntegers.basis E l) := by
-        unfold eigProj
-        rw [Finset.mul_sum]
-        simp only [mul_smul_comm, map_mul]
-    _ = ∑ l, σ (dualInt E l) • ∑ j, ((RingOfIntegers.basis E).repr (a * RingOfIntegers.basis E l) j : K) •
-          ρ (RingOfIntegers.basis E j) := by
-        apply Finset.sum_congr rfl
-        intro l _
-        conv_lhs => rw [← (RingOfIntegers.basis E).sum_repr (a * RingOfIntegers.basis E l)]
-
-        simp only [map_sum, map_zsmul, Int.cast_smul_eq_zsmul]
-    _ = ∑ j, (∑ l, ((RingOfIntegers.basis E).repr (a * RingOfIntegers.basis E l) j : K) * σ (dualInt E l)) •
-          ρ (RingOfIntegers.basis E j) := by
-        simp only [Finset.smul_sum, smul_smul, Finset.sum_smul]
-        rw [Finset.sum_comm]
-        apply Finset.sum_congr rfl
-        intro j _
-        apply Finset.sum_congr rfl
-        intro l _
-        rw [mul_comm]
-    _ = ∑ j, (σ (a : E) * σ (dualInt E j)) • ρ (RingOfIntegers.basis E j) := by
-        apply Finset.sum_congr rfl
-        intro j _
-
-        rw [← map_mul, coe_mul_dualInt_eq_sum, map_sum]
-        simp only [map_mul, map_intCast]
-    _ = σ (a : E) • eigProj ρ σ := by
-        unfold eigProj
-        rw [Finset.smul_sum]
-        simp only [smul_smul]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HT.ProjEig.rho_mul_eigProj <;> assumption
 
 private theorem eigProj_eq_self_of_eigenvector {K L : Type} [Field K] [AddCommGroup L] [Module K L]
     (ρ : 𝓞 E →+* Module.End K L) (σ : E →+* K) (x : L) (hx : ∀ a : 𝓞 E, ρ a x = σ (a : E) • x) :
@@ -598,19 +571,7 @@ theorem rt_sq_map (H : Host E) (τ : E →+* ℂ) : τ H.rt ^ 2 = -(H.d : ℂ) :
   simpa using congrArg (fun w : 𝓞 E => τ w) H.rt_sq
 
 theorem bar_rt (H : Host E) : H.bar H.rt = -H.rt := by
-  have h1 : H.bar H.rt ^ 2 = H.rt ^ 2 := by rw [← map_pow, H.rt_sq]; simp
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 h1 with h | h
-  · exfalso
-    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    have h2 : starRingEnd ℂ (τ H.rt) = τ H.rt := by
-      rw [← IsCMField.complexEmbedding_complexConj, ← H.bar_eq, h]
-    have h3 : τ H.rt ^ 2 = -(H.d : ℂ) := rt_sq_map H τ
-    obtain ⟨r, hr⟩ := Complex.conj_eq_iff_real.1 h2
-    rw [hr] at h3
-    have h4 : r ^ 2 = -(H.d : ℝ) := by exact_mod_cast h3
-    have h5 : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    nlinarith [sq_nonneg r]
-  · exact h
+  apply _root_.GlobalTheory.HostModel.bar_rt <;> assumption
 
 theorem bar_bar (H : Host E) (a : 𝓞 E) : H.bar (H.bar a) = a := by
   ext; rw [H.bar_eq, H.bar_eq, IsCMField.complexConj_apply_apply]

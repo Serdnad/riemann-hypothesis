@@ -350,16 +350,16 @@ theorem hasGrowth_uAction {N : ℕ} (u : UEnv K n) :
     rw [map_add (f := _), LinearMap.add_apply, Submodule.coe_add]
     exact (ha hφ hN).add (hb hφ hN)
 
-theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAutomorphicForm φ) :
+theorem exists_norm_diffSum_le_of_growth {φ : AdelicGLn.AdelicGL K n → ℂ} (hsm : φ ∈ archSmooth K n)
+    (N : ℕ) (hN : ∀ u : UEnv K n, HasGrowth (uAction u ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ) N) :
     ∃ N : ℕ, ∀ (k : ℕ) (T : ℝ), ∃ C : ℝ, ∀ (x : AdelicGLn.AdelicGL K n)
       (Y : Fin k → ArchMatrix K n), (∀ i j, Y i * Y j = 0) → (∀ i, ‖Y i‖ ≤ T) →
       ‖diffSum φ x Y‖ ≤ C * (∏ i, ‖Y i‖) * height x ^ N := by
-  obtain ⟨C₀, N, hC₀⟩ := hφ.hasModerateGrowth
   refine ⟨N, fun k T => ?_⟩
   obtain ⟨c, hc0, hc⟩ := exists_abs_archBasis_repr_le (K := K) (n := n)
   have hgrowth : ∀ J : Fin k → Fin (archDim K n),
-      HasGrowth (uAction (uJ k J) ⟨φ, hφ.isSmooth.1⟩ : AdelicGLn.AdelicGL K n → ℂ) N :=
-    fun J => hasGrowth_uAction (uJ k J) hφ.isSmoothKZ ⟨C₀, hC₀⟩
+      HasGrowth (uAction (uJ k J) ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ) N :=
+    fun J => hN _
   choose CJ hCJ using hgrowth
   set T' := (k : ℝ) * max T 0
   set S : Set (archGroup K n) :=
@@ -378,7 +378,7 @@ theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAu
     have := height_pos x
     have : 0 ≤ Mh' := le_trans zero_le_one (le_max_right _ _)
     positivity
-  have h := norm_diffSum_le hc0 hc k ⟨φ, hφ.isSmooth.1⟩ x Y hcomm _ hB0 fun J t ht => by
+  have h := norm_diffSum_le hc0 hc k ⟨φ, hsm⟩ x Y hcomm _ hB0 fun J t ht => by
     have hZ : ‖∑ i, t i • Y i‖ ≤ T' := by
       refine (norm_sum_le _ _).trans ?_
       calc ∑ i, ‖t i • Y i‖ ≤ ∑ _i : Fin k, max T 0 := Finset.sum_le_sum fun i _ => by
@@ -392,7 +392,7 @@ theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAu
     have hh : height (x * archExp (∑ i, t i • Y i)) ≤ heightConst K n * height x * Mh' :=
       (height_mul_le _ _).trans (mul_le_mul_of_nonneg_left ((hMh _ hmem).trans (le_max_left _ _))
         (mul_nonneg hc0' (height_pos x).le))
-    calc ‖(uAction (uJ k J) ⟨φ, hφ.isSmooth.1⟩ : AdelicGLn.AdelicGL K n → ℂ)
+    calc ‖(uAction (uJ k J) ⟨φ, hsm⟩ : AdelicGLn.AdelicGL K n → ℂ)
           (x * archExp (∑ i, t i • Y i))‖
         ≤ CJ J * height (x * archExp (∑ i, t i • Y i)) ^ N := hCJ J _
       _ ≤ |CJ J| * (heightConst K n * height x * Mh') ^ N :=
@@ -407,6 +407,14 @@ theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAu
       _ = Cs * (heightConst K n * Mh') ^ N * height x ^ N := by ring
   refine h.trans (le_of_eq ?_)
   ring
+
+theorem exists_norm_diffSum_le {φ : AdelicGLn.AdelicGL K n → ℂ} (hφ : IsAutomorphicForm φ) :
+    ∃ N : ℕ, ∀ (k : ℕ) (T : ℝ), ∃ C : ℝ, ∀ (x : AdelicGLn.AdelicGL K n)
+      (Y : Fin k → ArchMatrix K n), (∀ i j, Y i * Y j = 0) → (∀ i, ‖Y i‖ ≤ T) →
+      ‖diffSum φ x Y‖ ≤ C * (∏ i, ‖Y i‖) * height x ^ N := by
+  obtain ⟨C, N, hC⟩ := hφ.hasModerateGrowth
+  exact exists_norm_diffSum_le_of_growth hφ.isSmooth.1 N
+    (fun u => hasGrowth_uAction u hφ.isSmoothKZ ⟨C, hC⟩)
 
 end CuspidalSpectrum
 

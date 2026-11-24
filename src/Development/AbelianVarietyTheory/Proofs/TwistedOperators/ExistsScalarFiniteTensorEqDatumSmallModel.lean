@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsGaussianDatumFlippedFiniteTensorBigRoute
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.GenPtSSubset
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AtWAtPlSelf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsNotRelZero
@@ -417,17 +418,7 @@ theorem lagr_vac {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E
     (hd : ∀ x ∈ A, (∀ y ∈ Λ, y ∈ A' → ψ (symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (-1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J)
       (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) x y) = 1) → x ∈ Λ) :
     ι φ 0 ≠ 0 ∧ ∀ x ∈ A, ι φ (co x) = Λ.indicator (fun _ => ι φ 0) x := by
-  have key : ∀ x ∈ A, ι φ (co x) = Λ.indicator (fun _ => ι φ 0) x := fun x hx => by
-    by_cases hΛ : x ∈ Λ
-    · rw [Set.indicator_of_mem hΛ, h.2.1 x hx φ hφ φ hφ (hfix x hΛ (.inl hx)) 0, zero_add]
-    · rw [Set.indicator_of_notMem hΛ]
-      by_contra hne
-      exact hΛ (hd x hx fun y hy hy' =>
-        mul_right_cancel₀ hne ((h.2.2 y hy' φ hφ φ hφ (hfix y hy (.inr hy')) x hx).symm.trans (one_mul _).symm))
-  refine ⟨fun h1 => h0 (h.1.injOn hφ (zero_mem _) (funext fun z => ?_)), key⟩
-  obtain ⟨x, hx, rfl⟩ := hon z
-  rw [key x hx, h1, map_zero]
-  exact congrFun (Set.indicator_zero _ _) x
+  apply _root_.GlobalTheory.BigDat.lagr_vac <;> assumption
 
 variable {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc}
 
@@ -452,18 +443,18 @@ theorem mem_of_sum_smul {m n : ℕ} {ι : Type} {P : Finset ι} {a : ι → AE D
 
 
 
-theorem exists_scalar_datum : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {μ₀ : T} (hL : L.Is μ₀) (W : G.Weil) (B : Frames G) (ρ : RealMatch W) (t : T) (i j : Fin D.R.m) (M : Vol G) (hst : SquareStanding G t) (e : Num G i j) (Bs : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base D.host.F D.host.E) (Γ : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.Geo G i j) (X : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars D.host.F D.host.E)
+theorem exists_scalar_datum_product : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {μ₀ : T} (hL : L.Is μ₀) (W : G.Weil) (B : Frames G) (ρ : RealMatch W) (t : T) (i j : Fin D.R.m) (M : Vol G) (hst : SquareStanding G t) (e : Num G i j) (Bs : Base D.host.F D.host.E) (Γ : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.Geo G i j) (X : Chars D.host.F D.host.E)
     (om : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep D.sp.cm.sig Γ.V Γ.W) (om' : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep D.sp.cm.sig Γ.V' Γ.W) (h : IsTripleOf W M t i j e Bs Γ X), IsTriple Bs Γ X om om' → IsDoublyCompatible t i j e Bs Γ X →
     ∀ f₀, IsDatumB (t := t) W e Γ (Finsupp.single (((), ρ.vT i j), ρ.vX i j) 1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f₀ Γ.M'.vac) →
     ∀ ι : ∀ w : Pl D.host.E, ((Fin (spW₁ G i j).rank × Fin ((spW G i j).rank + (spW₁ G i j).rank) → Fv D.host.F (w.under (𝓞 D.host.F))) → ℂ) →ₗ[ℂ]
       (Matrix (Fin ((locGrid G t w).rank (i, j))) ((locGrid G t w).Cols i j) (Kw w) → ℂ),
     (∀ w ∈ locPl G t, IsLagrModel Γ.M' W.ψ (w.under (𝓞 D.host.F)) (mixHalfS e (atPl w 1)) (mixHalfS e (cA D (atPl w 1))) (mixCoS B t e w) (ι w)) →
-    ∃ s : ℂ, s ≠ 0 ∧ ∀ ε, IsIdemSum ε (locPl G t) → ∀ (n : Pl D.host.E → ℕ) Ψ (τ : TotT G (routeSmall t i j)),
+    (∏ w ∈ locPl G t, ι w (Γ.M'.vac _) 0) ≠ 0 ∧ ∀ ε, IsIdemSum ε (locPl G t) → ∀ (n : Pl D.host.E → ℕ) Ψ (τ : TotT G (routeSmall t i j)),
       (∀ w ∈ locPl G t, IsNatDatum (unifAt w) (n w) (Ψ w)) →
       HasLocal B t ε (X := (i, j + 1)) (M := (i, j)) (Y := (i + 1, j)) ⟨i.2.le, j.2⟩ ⟨i.2.le, j.2.le⟩ ⟨i.2, j.2.le⟩
         (IsLocVec W (.mu t i j) ε (ρ.vT i j)) (IsLocVec W (.chi i j) ε (ρ.vX i j)) τ Ψ →
       ∀ φ, IsFinPart Γ.M' X.T φ → (∀ w ∈ locPl G t, ι w (φ (w.under (𝓞 D.host.F))) = Ψ w) →
-        IsDatumB W e Γ τ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (s • f₀) φ) := by
+        IsDatumB W e Γ τ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure ((∏ w ∈ locPl G t, ι w (Γ.M'.vac _) 0) • f₀) φ) := by
   intro D T L sc G μ₀ hL W B ρ t i j M _ e Bs Γ X om om' h hT hti f hf₀ I hI
   classical
   have h₁ := ρ.vT_is t i j i.2.le j.2
@@ -485,7 +476,7 @@ theorem exists_scalar_datum : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Cons
       (fun h => ⟨_, (hid w hw).1, h⟩) fun h => ⟨_, splitIdem_conj (hid w hw).1, h⟩⟩)) (hco w).2.1 (hh w hw).2.2.2.1
   set c := ∏ w ∈ locPl G t, I w (Γ.M'.vac _) 0 with hc
   have hc0 : c ≠ 0 := Finset.prod_ne_zero_iff.2 fun w hw => (hv w hw).1
-  refine ⟨c, hc0, fun ε hε n Ψ τ _ ⟨φ₁, φ₂, hmem, hsum⟩ φ hφ hΨ => ?_⟩
+  refine ⟨hc0, fun ε hε n Ψ τ _ ⟨φ₁, φ₂, hmem, hsum⟩ φ hφ hΨ => ?_⟩
   have hb : thetaS Γ W.ψ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (c • f) Γ.M'.vac) = c • boxS t e (ρ.vT i j) (ρ.vX i j) := by
     rw [← hf]
     exact funext fun u => (congrArg (thetaS Γ W.ψ · u) (funext fun _ => mul_assoc _ _ _)).trans (thetaS_smul _ _ _ _ u)
@@ -575,6 +566,21 @@ theorem exists_scalar_datum : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Cons
   have := congrFun (sub_eq_zero.1 this) u
   rw [Prod.snd_sum, Finset.sum_apply] at this
   exact this
+
+theorem exists_scalar_datum : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : GridData L sc} {μ₀ : T} (hL : L.Is μ₀) (W : G.Weil) (B : Frames G) (ρ : RealMatch W) (t : T) (i j : Fin D.R.m) (M : Vol G) (hst : SquareStanding G t) (e : Num G i j) (Bs : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base D.host.F D.host.E) (Γ : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.Geo G i j) (X : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars D.host.F D.host.E)
+    (om : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep D.sp.cm.sig Γ.V Γ.W) (om' : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Rep D.sp.cm.sig Γ.V' Γ.W) (h : IsTripleOf W M t i j e Bs Γ X), IsTriple Bs Γ X om om' → IsDoublyCompatible t i j e Bs Γ X →
+    ∀ f₀, IsDatumB (t := t) W e Γ (Finsupp.single (((), ρ.vT i j), ρ.vX i j) 1) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f₀ Γ.M'.vac) →
+    ∀ ι : ∀ w : Pl D.host.E, ((Fin (spW₁ G i j).rank × Fin ((spW G i j).rank + (spW₁ G i j).rank) → Fv D.host.F (w.under (𝓞 D.host.F))) → ℂ) →ₗ[ℂ]
+      (Matrix (Fin ((locGrid G t w).rank (i, j))) ((locGrid G t w).Cols i j) (Kw w) → ℂ),
+    (∀ w ∈ locPl G t, IsLagrModel Γ.M' W.ψ (w.under (𝓞 D.host.F)) (mixHalfS e (atPl w 1)) (mixHalfS e (cA D (atPl w 1))) (mixCoS B t e w) (ι w)) →
+    ∃ s : ℂ, s ≠ 0 ∧ ∀ ε, IsIdemSum ε (locPl G t) → ∀ (n : Pl D.host.E → ℕ) Ψ (τ : TotT G (routeSmall t i j)),
+      (∀ w ∈ locPl G t, IsNatDatum (unifAt w) (n w) (Ψ w)) →
+      HasLocal B t ε (X := (i, j + 1)) (M := (i, j)) (Y := (i + 1, j)) ⟨i.2.le, j.2⟩ ⟨i.2.le, j.2.le⟩ ⟨i.2, j.2.le⟩
+        (IsLocVec W (.mu t i j) ε (ρ.vT i j)) (IsLocVec W (.chi i j) ε (ρ.vX i j)) τ Ψ →
+      ∀ φ, IsFinPart Γ.M' X.T φ → (∀ w ∈ locPl G t, ι w (φ (w.under (𝓞 D.host.F))) = Ψ w) →
+        IsDatumB W e Γ τ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (s • f₀) φ) := by
+  intro D T L sc G μ₀ hL W B ρ t i j M hst e Bs Γ X om om' h hT hti f hf₀ I hI
+  exact ⟨∏ w ∈ locPl G t, I w (Γ.M'.vac _) 0, exists_scalar_datum_product hL W B ρ t i j M hst e Bs Γ X om om' h hT hti f hf₀ I hI⟩
 
 end GlobalTheory.SmallPlaces
 

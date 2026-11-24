@@ -13,6 +13,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.SignatureTorusFixedPoints.OrbitalIntegralGL2Formula
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.SignatureTorusFixedPoints.StabFin
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.SignatureTorusFixedPoints.OkGOrb
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.SignatureTorusFixedPoints.OkGOrb
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.CharacterShapes.UnitaryThreeTestFunctionHeckeRelations
 public import Development.AutomorphicSpectrum.Proofs.MembershipProofs.ResCardAndUniformizer
 import Mathlib.Algebra.Order.Floor.Extended
@@ -400,14 +401,7 @@ private theorem quot_pow_zero {R : Type} [CommRing R] (I : Ideal R) : Subsinglet
 
 private theorem uc_relIndex (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] (m : ℕ) :
     (Uc k m).relIndex (Uo k) ≠ 0 := by
-  cases m with
-  | succ c => exact (finFacts k (Lev.deep k c)).1
-  | zero =>
-    refine fun h => (finFacts k (Lev.deep k 0)).1 (Subgroup.relIndex_eq_zero_of_le_left (H := Uc k (0 + 1)) ?_ h)
-    refine Subgroup.map_mono fun u _ => ?_
-    rw [MonoidHom.mem_ker]
-    apply Units.ext
-    exact (quot_pow_zero _).elim _ _
+  apply _root_.UpperTheory.V.Z.Sym.Sig.uc_relIndex <;> assumption
 
 private theorem diagonal_orbit_admissible : OkDOrb := by
   intro k _ _ _ _ O _ _ hO h2 Δ s hs hs0 V Ry hRy χ hχ t ht S τ γ j hτ hTr hE z hz

@@ -1,5 +1,10 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AmplificationAbsoluteSidePieceBound
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LebesgueCommonStabilizerEqRadicalLeviMap
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CovolumeReferenceLatticeStabiliserBounds
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CoordOfMemXa
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentLeviRadicalCoordsHomeomorph
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.IsNormalFormStabilizerMeasure
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.UpperOff
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsotropicLeviEmbeddingHomomorphismProperties
@@ -158,21 +163,7 @@ theorem mid_uEmb (u : Matrix (Fin r) (Fin r) ℂ) (v : Fin (2 * r + k + 1) → �
 
 theorem mid_mEmb (m : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (v : Fin (2 * r + k + 1) → ℂ) :
     mid k r (mEmb k r m *ᵥ v) = m *ᵥ mid k r v := by
-  funext b
-  simp only [mid, Matrix.mulVec, dotProduct]
-  have := b.2
-  rw [_root_.GlobalTheory.Amp.NfMid.sum_mid]
-  · refine Finset.sum_congr rfl fun j _ => ?_
-    have := j.2
-    congr 1
-    have e : (wI k r b).val = r + b.val := rfl
-    have e' : (wI k r j).val = r + j.val := rfl
-    unfold mEmb
-    rw [dite_eq_left (by omega)]
-    congr 1 <;> exact Fin.ext (by simp only []; omega)
-  · intro i hi
-    simp only [mEmb, wI, Fin.ext_iff]
-    split_ifs <;> first | omega | simp
+  apply _root_.GlobalTheory.Amp.NormGram.rW_m <;> assumption
 
 theorem top_mEmb (m : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ) (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     (mEmb k r m *ᵥ v) (esI k r a) = v (esI k r a) := by
@@ -508,54 +499,13 @@ open scoped InnerProductSpace ENNReal in
 theorem _root_.GlobalTheory.Amp.Model.cont_uEmb (k r : ℕ) :
     Continuous fun x : _root_.GlobalTheory.Amp.UT r → ℂ =>
       _root_.GlobalTheory.Amp.uEmb k r (_root_.GlobalTheory.Amp.upper x) := by
-  have hup : Continuous fun x : _root_.GlobalTheory.Amp.UT r → ℂ =>
-      _root_.GlobalTheory.Amp.upper x := by
-    refine continuous_pi fun a => continuous_pi fun b => ?_
-    unfold _root_.GlobalTheory.Amp.upper
-    split_ifs
-    · exact continuous_apply _
-    · exact continuous_const
-    · exact continuous_const
-  have hinv : ∀ x : _root_.GlobalTheory.Amp.UT r → ℂ,
-      (_root_.GlobalTheory.Amp.upper x)⁻¹ = (_root_.GlobalTheory.Amp.upper x).adjugate := by
-    intro x; rw [Matrix.inv_def, _root_.GlobalTheory.Amp.Model.det_upper]; simp
-  have hc : Continuous fun x : _root_.GlobalTheory.Amp.UT r → ℂ =>
-      (_root_.GlobalTheory.Amp.upper x)⁻¹ := by
-    simp_rw [hinv]; exact hup.matrix_adjugate
-  refine continuous_pi fun i => continuous_pi fun j => ?_
-  unfold _root_.GlobalTheory.Amp.uEmb
-  split_ifs
-  · exact (continuous_apply_apply _ _).comp hup
-  · exact ((continuous_apply_apply _ _).comp hc).star
-  · exact continuous_const
-  · exact continuous_const
+  first | exact _root_.GlobalTheory.Amp.Swap.cont_uEmb | exact @_root_.GlobalTheory.Amp.Swap.cont_uEmb | apply _root_.GlobalTheory.Amp.Swap.cont_uEmb <;> assumption
 
 open MeasureTheory Matrix in
 open scoped InnerProductSpace ENNReal in
 theorem _root_.GlobalTheory.Amp.Model.cont_pOf (k r : ℕ) :
     Continuous (_root_.GlobalTheory.Amp.pOf k r) := by
-  have herm : ∀ {f g : _root_.GlobalTheory.Amp.PPar k r → Fin (k + 1) → ℂ},
-      Continuous f → Continuous g → Continuous fun q => _root_.Formalism.QuantumDeterminants.herm (_root_.Formalism.QuantumDeterminants.Hb k) (f q) (g q) :=
-    fun hf hg => (_root_.Formalism.FourierDecayAlt.P.B2x5.continuous_herm (_root_.Formalism.QuantumDeterminants.Hb k)).comp (hf.prodMk hg)
-  have hB : ∀ a, Continuous fun q : _root_.GlobalTheory.Amp.PPar k r => q.1 a :=
-    fun a => (continuous_apply a).comp continuous_fst
-  have hS : ∀ a b, Continuous fun q : _root_.GlobalTheory.Amp.PPar k r =>
-      _root_.GlobalTheory.Amp.skewM q.2.1 q.2.2 a b := by
-    intro a b
-    unfold _root_.GlobalTheory.Amp.skewM
-    split_ifs
-    · exact (continuous_apply _).comp (continuous_fst.comp continuous_snd)
-    · exact ((continuous_apply _).comp (continuous_fst.comp continuous_snd)).star.neg
-    · exact (Complex.continuous_ofReal.comp
-        ((continuous_apply _).comp (continuous_snd.comp continuous_snd))).mul continuous_const
-  refine continuous_pi fun i => continuous_pi fun j => ?_
-  unfold _root_.GlobalTheory.Amp.pOf _root_.GlobalTheory.Amp.pEl
-  split_ifs
-  · exact continuous_const
-  · exact (herm continuous_const (hB _)).neg
-  · exact (continuous_apply _).comp (hB _)
-  · exact (hS _ _).sub ((herm (hB _) (hB _)).div_const _)
-  · exact continuous_const
+  first | exact _root_.GlobalTheory.Amp.Swap.cont_pOf | exact @_root_.GlobalTheory.Amp.Swap.cont_pOf | apply _root_.GlobalTheory.Amp.Swap.cont_pOf <;> assumption
 
 open MeasureTheory Matrix in
 open scoped InnerProductSpace ENNReal in
@@ -1230,47 +1180,15 @@ theorem herm_bvec {n : ℕ} (G : Matrix (Fin n) (Fin n) ℂ) (v : Fin n → ℂ)
 
 theorem herm_eI (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     herm (Hpk k r) v (bvec (eI k r a)) = v (esI k r a) := by
-  have ha := a.isLt
-  rw [herm_bvec, Finset.sum_eq_single (esI k r a)]
-  · unfold Hpk
-    rw [if_pos (by simp only [eI, esI]; omega), one_mul]
-  · intro b _ hb
-    have hb' : b.val ≠ 2 * r + k - a.val := fun e => hb (Fin.ext e)
-    unfold Hpk
-    rw [if_neg (by simp only [eI]; omega), if_neg (by simp only [eI]; omega),
-      if_neg (by simp only [eI]; omega), zero_mul]
-  · simp
+  first | exact _root_.GlobalTheory.DegVol.RealMat.herm_eI | exact @_root_.GlobalTheory.DegVol.RealMat.herm_eI | apply _root_.GlobalTheory.DegVol.RealMat.herm_eI <;> assumption
 
 theorem herm_esI (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     herm (Hpk k r) v (bvec (esI k r a)) = v (eI k r a) := by
-  have ha := a.isLt
-  rw [herm_bvec, Finset.sum_eq_single (eI k r a)]
-  · unfold Hpk
-    rw [if_neg (by simp only [eI, esI]; omega), if_pos (by simp only [eI, esI]; omega), one_mul]
-  · intro b _ hb
-    have hb' : b.val ≠ a.val := fun e => hb (Fin.ext e)
-    unfold Hpk
-    rw [if_neg (by simp only [esI]; omega), if_neg (by simp only [esI]; omega),
-      if_neg (by simp only [esI]; omega), zero_mul]
-  · simp
+  first | exact _root_.GlobalTheory.DegVol.RefCovSkew.herm_esI | exact @_root_.GlobalTheory.DegVol.RefCovSkew.herm_esI | apply _root_.GlobalTheory.DegVol.RefCovSkew.herm_esI <;> assumption
 
 theorem Hpk_mulVec_wI (v : Fin (2 * r + k + 1) → ℂ) (j : Fin (k + 1)) :
     (Hpk k r *ᵥ v) (wI k r j) = (Hb k *ᵥ fun l => v (wI k r l)) j := by
-  have hj := j.isLt
-  unfold Hb
-  rw [Matrix.mulVec_diagonal]
-  show ∑ l, Hpk k r (wI k r j) l * v l = _
-  rw [Finset.sum_eq_single (wI k r j)]
-  · unfold Hpk
-    rw [if_neg (by simp only [wI]; omega), if_neg (by simp only [wI]; omega),
-      if_pos ⟨by simp only [wI]; omega, by simp only [wI]; omega, rfl⟩]
-    congr 1
-    simp [wI, Fin.ext_iff]
-  · intro b _ hb
-    unfold Hpk
-    rw [if_neg (by simp only [wI]; omega), if_neg (by simp only [wI]; omega),
-      if_neg (fun h => hb h.2.2.symm), zero_mul]
-  · simp
+  first | exact _root_.GlobalTheory.Amp.NCoord.H_w | exact @_root_.GlobalTheory.Amp.NCoord.H_w | apply _root_.GlobalTheory.Amp.NCoord.H_w <;> assumption
 
 theorem herm_midVec (v : Fin (2 * r + k + 1) → ℂ) (w : Fin (k + 1) → ℂ) :
     herm (Hpk k r) v (midVec k r w) = herm (Hb k) (fun l => v (wI k r l)) w := by

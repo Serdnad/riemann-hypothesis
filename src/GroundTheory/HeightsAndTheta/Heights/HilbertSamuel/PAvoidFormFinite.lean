@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsAvoidFormFinite
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PFibreRepresentatives
 import Mathlib.Algebra.Order.Floor.Extended
@@ -98,42 +99,18 @@ theorem isMultiHomog_monomial (m : (Σ k, ι k) →₀ ℕ) (c : ℂ) :
 
 theorem isMultiHomog_mul {f g : MRingOver ℂ ι} {a b : K → ℕ} (hf : IsMultiHomog f a)
     (hg : IsMultiHomog g b) : IsMultiHomog (f * g) (a + b) := by
-  classical
-  rw [isMultiHomog_iff] at hf hg ⊢
-  intro m hm
-  rw [coeff_mul] at hm
-  obtain ⟨x, hx, hx0⟩ := Finset.exists_ne_zero_of_sum_ne_zero hm
-  rw [Finset.HasAntidiagonal.mem_antidiagonal] at hx
-  rw [← hx, bdeg_add, hf x.1 (left_ne_zero_of_mul hx0), hg x.2 (right_ne_zero_of_mul hx0)]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
 
 theorem isMultiHomog_one : IsMultiHomog (1 : MRingOver ℂ ι) 0 := by
-  classical
-  rw [isMultiHomog_iff]
-  intro m hm
-  rw [coeff_one] at hm
-  split_ifs at hm with h
-  · subst h
-    funext k
-    simp [bdeg]
-  · exact absurd rfl hm
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
 
 theorem isMultiHomog_pow {f : MRingOver ℂ ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
     IsMultiHomog (f ^ n) (n • a) := by
-  induction n with
-  | zero => simpa using isMultiHomog_one
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact isMultiHomog_mul ih hf
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 theorem isMultiHomog_add {f g : MRingOver ℂ ι} {a : K → ℕ} (hf : IsMultiHomog f a)
     (hg : IsMultiHomog g a) : IsMultiHomog (f + g) a := by
-  rw [isMultiHomog_iff] at hf hg ⊢
-  intro m hm
-  rw [MvPolynomial.coeff_add] at hm
-  by_cases h0 : AddMonoidAlgebra.coeff f m = 0
-  · rw [h0, zero_add] at hm
-    exact hg m hm
-  · exact hf m h0
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
 
 theorem isMultiHomog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver ℂ ι) a := by
   intro m hm
@@ -148,23 +125,11 @@ theorem isMultiHomog_C_mul {f : MRingOver ℂ ι} {a : K → ℕ} (hf : IsMultiH
 
 theorem isMultiHomog_sum {α : Type} (s : Finset α) (f : α → MRingOver ℂ ι) {a : K → ℕ}
     (h : ∀ j ∈ s, IsMultiHomog (f j) a) : IsMultiHomog (∑ j ∈ s, f j) a := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using isMultiHomog_zero a
-  | @insert j s hj ih =>
-    rw [Finset.sum_insert hj]
-    exact isMultiHomog_add (h j (Finset.mem_insert_self _ _))
-      (ih fun x hx => h x (Finset.mem_insert_of_mem hx))
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.sum <;> assumption
 
 theorem isMultiHomog_prod {α : Type} (s : Finset α) (f : α → MRingOver ℂ ι) (a : α → K → ℕ)
     (h : ∀ j ∈ s, IsMultiHomog (f j) (a j)) : IsMultiHomog (∏ j ∈ s, f j) (∑ j ∈ s, a j) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using isMultiHomog_one
-  | @insert j s hj ih =>
-    rw [Finset.prod_insert hj, Finset.sum_insert hj]
-    exact isMultiHomog_mul (h j (Finset.mem_insert_self _ _))
-      (ih fun x hx => h x (Finset.mem_insert_of_mem hx))
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
 
 
 open Classical in

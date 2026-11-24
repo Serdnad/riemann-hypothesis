@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsBasisLocF
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.LocalDensityRatio
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.TraceReal
@@ -78,14 +79,7 @@ theorem mem_closure_iff {𝔭 : Ideal (𝓞 F)} (hp : 𝔭.IsPrime) (s : 𝓞 K)
 
 theorem mem_locF_iff {𝔭 : Ideal (𝓞 F)} (hp : 𝔭.IsPrime) (L : Submodule (𝓞 K) W) (x : W) :
     x ∈ locF 𝔭 L ↔ ∃ t : 𝓞 F, t ∉ 𝔭 ∧ algebraMap (𝓞 F) (𝓞 K) t • x ∈ L := by
-  unfold locF
-  rw [Formalism.HermitianLatticesTheory.locBasic_mem_locS]
-  constructor
-  · rintro ⟨s, hs, hx⟩
-    obtain ⟨t, ht, rfl⟩ := (mem_closure_iff hp s).mp hs
-    exact ⟨t, ht, hx⟩
-  · rintro ⟨t, ht, hx⟩
-    exact ⟨_, (mem_closure_iff hp _).mpr ⟨t, ht, rfl⟩, hx⟩
+  apply _root_.Formalism.HermitianLattices.Ext.L3.LocalSpans.mem_locF <;> assumption
 
 theorem le_locF (𝔭 : Ideal (𝓞 F)) (L : Submodule (𝓞 K) W) : L ≤ locF 𝔭 L :=
   Formalism.HermitianLatticesTheory.locBasic_le_locS _ L

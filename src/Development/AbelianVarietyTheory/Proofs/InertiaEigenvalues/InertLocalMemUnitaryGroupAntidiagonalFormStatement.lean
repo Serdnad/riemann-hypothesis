@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertHeckeOperatorCompSphericalConvolution
 public import Formalism.AlgebraicWeights.InertDatumExists
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -99,35 +100,7 @@ theorem mem_UJ_iff {A : Type} [CommRing A] {m : Type} [Fintype m] [DecidableEq m
 theorem loc_mem_GU : ∀ (L : Type) [Field L] [NumberField L] [IsCMField L] (n : ℕ)
     (v : HeightOneSpectrum (𝓞 (maximalRealSubfield L))) (w : HeightOneSpectrum (𝓞 L))
     (Dv : InertDatum L n v w) (x : GAf L n), Dv.loc x ∈ Formalism.UG.GU Dv.σw n := by
-  intro L _ _ _ n v w Dv x
-  let φ : AL L →+* HeightOneSpectrum.adicCompletion L w :=
-    (Dv.e : _ →+* HeightOneSpectrum.adicCompletion L w).comp (compAt L v)
-  have hφ : ∀ a : AL L, φ (conjAL L a) = Dv.σw (φ a) := by
-    intro a
-    simp only [φ, RingHom.comp_apply, RingHom.coe_coe, compAt_conjAL, Dv.comm]
-  have hx : ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) *
-      ReciprocityTheory.Aut.conjT (conjAL L) (x.1 : Matrix (Fin n) (Fin n) (AL L)) = 1 := x.2
-  have hconj : φ.mapMatrix (ReciprocityTheory.Aut.conjT (conjAL L)
-      ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L))) =
-      Formalism.UG.cT Dv.σw (φ.mapMatrix ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L))) := by
-    ext i j
-    simp only [RingHom.mapMatrix_apply, Matrix.map_apply, ReciprocityTheory.Aut.conjT, Formalism.UG.cT,
-      Matrix.transpose_apply, hφ]
-  have hX : φ.mapMatrix ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) *
-      Formalism.UG.cT Dv.σw (φ.mapMatrix ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L))) = 1 := by
-    rw [← hconj, ← map_mul, hx, map_one]
-  have hX' := mul_eq_one_comm.mp hX
-  have hloc : ((Dv.loc x : GL (Fin n) (HeightOneSpectrum.adicCompletion L w)) :
-      Matrix (Fin n) (Fin n) (HeightOneSpectrum.adicCompletion L w)) =
-      ((Dv.P⁻¹ : GL (Fin n) (HeightOneSpectrum.adicCompletion L w)) :
-        Matrix (Fin n) (Fin n) (HeightOneSpectrum.adicCompletion L w)) *
-      φ.mapMatrix ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) *
-      ((Dv.P : GL (Fin n) (HeightOneSpectrum.adicCompletion L w)) :
-        Matrix (Fin n) (Fin n) (HeightOneSpectrum.adicCompletion L w)) := by
-    rw [Formalism.AUTREP.InertDatum.loc, Units.val_mul, Units.val_mul]
-    congr 2
-  rw [mem_UJ_iff, hloc, ← Dv.Panti]
-  exact cT_conj_form Dv.σw _ _ _ (by simp) hX'
+  apply _root_.GlobalTheory.InertLocUnitary.loc_mem_GU <;> assumption
 
 end GlobalTheory.LocalUnitary
 end -- clump:auto

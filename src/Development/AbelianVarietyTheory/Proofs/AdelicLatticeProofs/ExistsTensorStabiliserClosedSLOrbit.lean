@@ -235,26 +235,12 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 omit [DecidableEq ι] in
 theorem evC_ltr (g y : Matrix ι ι ℂ) (f : MvPolynomial (ι × ι) ℂ) :
     evC (ltr g f) y = evC f (g * y) := by
-  unfold evC ltr
-  induction f using MvPolynomial.induction_on with
-  | C a => simp
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
-  | mul_X p n hp =>
-    simp only [map_mul, hp]
-    simp [Matrix.mul_apply]
+  apply _root_.GlobalTheory.ClassFin.CosetSep.evC_ltr <;> assumption
 
 omit [DecidableEq ι] in
 theorem isInv_iff (Γ : Set (Matrix ι ι ℂ)) (f : MvPolynomial (ι × ι) ℂ) :
     IsInv Γ f ↔ ∀ g ∈ Γ, ltr g f = f := by
-  constructor
-  · intro h g hg
-    apply MvPolynomial.funext
-    intro x
-    have := h g hg (Matrix.of fun i j => x (i, j))
-    rw [← evC_ltr] at this
-    exact this
-  · intro h g hg y
-    rw [← evC_ltr, h g hg]
+  apply _root_.GlobalTheory.ClassFin.ReynoldsLtr.isInv_iff <;> assumption
 
 omit [DecidableEq ι] in
 theorem ltr_homog (g : Matrix ι ι ℂ) {f : MvPolynomial (ι × ι) ℂ} {n : ℕ}

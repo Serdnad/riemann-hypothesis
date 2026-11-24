@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SerIntAtOfSeriesRat
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.InPsiOrInPsiConjugate
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.RefinedSumWeightOfSizeLe
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PrimeProj
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.CharConj
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPieceDegree
@@ -332,22 +335,7 @@ section -- clump:auto
 
 theorem UpperTheory.Reformulated.B.Qk60.conj_eq_neg_of_sq :
     ∀ {z : ℂ} {d : ℕ},
-    (0 : ℕ) < d → z ^ (2 : ℕ) = -(↑d : ℂ) → (starRingEnd ℂ : ℂ → ℂ) z = -z := by
-  intro z d hd h
-  have hd' : (0 : ℝ) < d := Nat.cast_pos.mpr hd
-  have hre : z.re * z.re - z.im * z.im = -(d : ℝ) := by
-    simpa [pow_two] using congrArg Complex.re h
-  have him : z.re * z.im + z.im * z.re = 0 := by
-    simpa [pow_two] using congrArg Complex.im h
-  have h0 : z.re = 0 := by
-    have hmul : z.re * z.im = 0 := by linarith
-    rcases mul_eq_zero.mp hmul with h1 | h1
-    · exact h1
-    · rw [h1] at hre
-      nlinarith [mul_self_nonneg z.re]
-  apply Complex.ext
-  · simp [h0]
-  · simp
+    (0 : ℕ) < d → z ^ (2 : ℕ) = -(↑d : ℂ) → (starRingEnd ℂ : ℂ → ℂ) z = -z := @_root_.GlobalTheory.CMTypeOrConjugate.conj_eq_neg_of_sq
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ConjEqNegOfSq =====
@@ -527,28 +515,7 @@ section -- clump:auto
 
 theorem UpperTheory.Reformulated.B.Qh67.imag_of_sq :
     ∀ {c : ℂ} {d : ℕ},
-    (0 : ℕ) < d → c ^ (2 : ℕ) = -(↑d : ℂ) → (starRingEnd ℂ : ℂ → ℂ) c = -c ∧ c ≠ (0 : ℂ) := by
-  intro c d hd h
-  have hd' : (0 : ℝ) < d := Nat.cast_pos.mpr hd
-  have h1 : c.re * c.re - c.im * c.im = -(d : ℝ) := by
-    have := congrArg Complex.re h
-    simpa [pow_two] using this
-  have h2 : c.re * c.im + c.im * c.re = 0 := by
-    have := congrArg Complex.im h
-    simpa [pow_two] using this
-  have h3 : c.re * c.im = 0 := by linarith [mul_comm c.re c.im]
-  have hre : c.re = 0 := by
-    rcases mul_eq_zero.mp h3 with h4 | h4
-    · exact h4
-    · rw [h4] at h1
-      nlinarith [mul_self_nonneg c.re]
-  refine ⟨?_, ?_⟩
-  · apply Complex.ext
-    · simp [hre]
-    · simp
-  · rintro rfl
-    simp at h1
-    omega
+    (0 : ℕ) < d → c ^ (2 : ℕ) = -(↑d : ℂ) → (starRingEnd ℂ : ℂ → ℂ) c = -c ∧ c ≠ (0 : ℂ) := @_root_.GlobalTheory.ClosingLemmaFourth.main
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImagOfSq =====
@@ -970,25 +937,8 @@ section -- clump:auto
 theorem UpperTheory.Reformulated.B.ExistsPlace.exists_place :
     ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E] [NumberField.IsCMField E] (q : ℕ),
       Nat.Prime q → ∃ (w : UpperTheory.Reformulated.B.ExistsPlace.Plc E), (↑q : NumberField.RingOfIntegers E) ∈ w.asIdeal := by
-  intro E _ _ _ q hq
-  have hne : (q : NumberField.RingOfIntegers E) ≠ 0 := by
-    exact_mod_cast hq.ne_zero
-  have hnu : ¬ IsUnit (q : NumberField.RingOfIntegers E) := by
-    intro h
-    have h1 := h.map (Algebra.norm ℤ (S := NumberField.RingOfIntegers E))
-    have h2 : Algebra.norm ℤ (q : NumberField.RingOfIntegers E) =
-        (q : ℤ) ^ Module.finrank ℤ (NumberField.RingOfIntegers E) := by
-      have := Algebra.norm_algebraMap (R := ℤ) (S := NumberField.RingOfIntegers E) (q : ℤ)
-      simpa using this
-    rw [h2] at h1
-    have hpos : Module.finrank ℤ (NumberField.RingOfIntegers E) ≠ 0 := Module.finrank_pos.ne'
-    have h3 : IsUnit (q : ℤ) := (isUnit_pow_iff hpos).1 h1
-    exact hq.not_isUnit (Int.ofNat_isUnit.1 h3)
-  obtain ⟨M, hM, hqM⟩ := exists_max_ideal_of_mem_nonunits hnu
-  refine ⟨⟨M, hM.isPrime, ?_⟩, hqM⟩
-  intro h
-  rw [h] at hqM
-  exact hne (by simpa using hqM)
+  intros
+  apply _root_.GlobalTheory.LevelSeries.exists_place_over <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsPlace =====

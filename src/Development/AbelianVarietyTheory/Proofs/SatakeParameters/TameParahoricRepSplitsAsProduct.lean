@@ -817,12 +817,7 @@ theorem permGL_mem_KO {N : ℕ} (w : Equiv.Perm (Fin N)) : GlobalTheory.Paraboli
 
 theorem val_det_of_mem_KO {m : Type} [Fintype m] [DecidableEq m] {g : GL m k} (hg : g ∈ KO k m) :
     valuation k (GeneralLinearGroup.det g : k) = 1 := by
-  obtain ⟨g, rfl⟩ := hg
-  have h1 : ((GeneralLinearGroup.det (GeneralLinearGroup.map (algebraMap 𝒪[k] k) g) : kˣ) : k) =
-      algebraMap 𝒪[k] k (GeneralLinearGroup.det g : 𝒪[k]ˣ) :=
-    ((algebraMap 𝒪[k] k).map_det _).symm
-  rw [h1]
-  exact (Valuation.integer.integers (valuation k)).one_of_isUnit (Units.isUnit _)
+  apply _root_.GlobalTheory.ParahoricSph.valuation_det_of_mem_KO <;> assumption
 
 theorem emb₂_one_apply {r t : ℕ} (m : GL (Fin r) k) (x y : Fin r ⊕ Fin t) :
     ((emb₂ k (stdSum (rfl : r + t = r + t)) (m, 1) : GL (Fin (r + t)) k) : Matrix (Fin (r + t)) (Fin (r + t)) k)

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PClaimVanishCech
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.QuotTransSt
 
 @[expose] public section
@@ -34,52 +35,13 @@ theorem subsingleton_H_one_iff :
 
 theorem sgn_mul_sgn_erase {J : Finset (Fin n)} {j k : Fin n} (hj : j ∈ J) (hk : k ∈ J) (hjk : j ≠ k) :
     Cech.sgn J j * Cech.sgn (J.erase j) k = -(Cech.sgn J k * Cech.sgn (J.erase k) j) := by
-  wlog h : j < k generalizing j k
-  · have h' : k < j := lt_of_le_of_ne (not_lt.mp h) hjk.symm
-    rw [this hk hj hjk.symm h', neg_neg]
-  have hmem : j ∈ J.filter (· < k) := Finset.mem_filter.mpr ⟨hj, h⟩
-  have e1 : (J.erase j).filter (· < k) = (J.filter (· < k)).erase j := by rw [Finset.filter_erase]
-  have e2 : (J.erase k).filter (· < j) = J.filter (· < j) := by
-    rw [Finset.filter_erase]
-    apply Finset.erase_eq_of_notMem
-    simp only [Finset.mem_filter, not_and, not_lt]
-    intro _; exact h.le
-  have hb : 1 ≤ (J.filter (· < k)).card := Finset.card_pos.mpr ⟨j, hmem⟩
-  unfold Cech.sgn
-  rw [e1, e2, Finset.card_erase_of_mem hmem]
-  obtain ⟨b', hb'⟩ : ∃ b', (J.filter (· < k)).card = b' + 1 := ⟨_, (Nat.sub_add_cancel hb).symm⟩
-  rw [hb', Nat.add_sub_cancel, pow_succ]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.Cech.sgn_mul_sgn_erase <;> assumption
 
 theorem d_one_d_zero
     (hρ : ∀ (I J K : Cell U) (h : I.1 ⊆ J.1) (h' : J.1 ⊆ K.1) (m : G I),
       ρ J K h' (ρ I J h m) = ρ I K (h.trans h') m)
     (w : Cech.Cochain G 0) : Cech.d G ρ 1 (Cech.d G ρ 0 w) = 0 := by
-  funext J
-  have key : ∀ (K K' : Cech.Idx U 0) (h : K.1.1 ⊆ J.1.1) (h' : K'.1.1 ⊆ J.1.1), K = K' →
-      ρ K.1 J.1 h (w K) = ρ K'.1 J.1 h' (w K') := by
-    rintro K _ h h' rfl; rfl
-  rw [Cech.d_apply]
-
-  simp only [Cech.d_apply, map_sum, map_zsmul, hρ, Finset.smul_sum, smul_smul]
-  rw [Pi.zero_apply, Finset.sum_sigma']
-  refine Finset.sum_involution
-    (fun p _ => ⟨⟨p.2.1, Finset.mem_of_mem_erase p.2.2⟩,
-      ⟨p.1.1, Finset.mem_erase.mpr ⟨(Finset.mem_erase.mp p.2.2).1.symm, p.1.2⟩⟩⟩) ?_ ?_
-    (fun _ _ => Finset.mem_univ _) (fun p _ => rfl)
-  · rintro ⟨⟨j, hj⟩, ⟨k, hk⟩⟩ -
-    have hk' := Finset.mem_erase.mp hk
-    have hidx : Cech.face (Cech.face J ⟨j, hj⟩) ⟨k, hk⟩ =
-        Cech.face (Cech.face J ⟨k, hk'.2⟩) ⟨j, Finset.mem_erase.mpr ⟨hk'.1.symm, hj⟩⟩ :=
-      Subtype.ext (Subtype.ext (Finset.erase_right_comm))
-    dsimp only
-    rw [key _ _ _ (((Cech.face_subset _ _).trans (Cech.face_subset _ _))) hidx, ← add_smul]
-    have hs : Cech.sgn J.1.1 j * Cech.sgn (Cech.face J ⟨j, hj⟩).1.1 k =
-        -(Cech.sgn J.1.1 k * Cech.sgn (Cech.face J ⟨k, hk'.2⟩).1.1 j) :=
-      sgn_mul_sgn_erase hj hk'.2 hk'.1.symm
-    rw [hs, neg_add_cancel, zero_smul]
-  · rintro ⟨⟨j, hj⟩, ⟨k, hk⟩⟩ - - heq
-    exact (Finset.mem_erase.mp hk).1 (congrArg (fun p => p.1.1) heq)
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.Cech.d_one_d_zero <;> assumption
 
 theorem subsingleton_H_one_of_exact {A B C : Cell U → Type v}
     [∀ I, AddCommGroup (A I)] [∀ I, Module R (A I)] [∀ I, AddCommGroup (B I)] [∀ I, Module R (B I)]

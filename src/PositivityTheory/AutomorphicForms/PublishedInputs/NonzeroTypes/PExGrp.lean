@@ -1,7 +1,8 @@
 module
 
-public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.CJDefs
 
+import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.PLamBasic
+public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.CJDefs
 @[expose] public section
 
 noncomputable section
@@ -20,39 +21,7 @@ namespace P_exGrp
 
 theorem exists_level (μ : kˣ →* ℂˣ) (hμ : IsSmoothChar μ) :
     ∃ c : ℕ, ∀ u : 𝒪[k]ˣ, (u : 𝒪[k]) - 1 ∈ IsLocalRing.maximalIdeal 𝒪[k] ^ c → res μ u = 1 := by
-  have hopen : IsOpen (μ.ker : Set kˣ) := hμ
-  obtain ⟨V, hVo, hV⟩ := (Units.isEmbedding_val₀ (G₀ := k)).isInducing.isOpen_iff.mp hopen
-  have h1 : (1 : k) ∈ V := by
-    have : (1 : kˣ) ∈ (Units.val ⁻¹' V) := by rw [hV]; exact μ.ker.one_mem
-    simpa using this
-  obtain ⟨γ, hγ⟩ := (IsValuativeTopology.mem_nhds_iff' (R := k)).mp (hVo.mem_nhds h1)
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[k]
-  have hlt : valuation k (algebraMap 𝒪[k] k ϖ) < 1 :=
-    (Valuation.integer.integers (valuation k)).valuation_irreducible_lt_one hϖ
-  have : MulArchimedean (ValueGroupWithZero k) :=
-    ValuativeRel.isRankLeOne_iff_mulArchimedean.mp inferInstance
-  obtain ⟨c, hc⟩ := exists_pow_lt₀ hlt γ
-  refine ⟨c, fun u hu => ?_⟩
-  have hm : IsLocalRing.maximalIdeal 𝒪[k] = Ideal.span {ϖ} :=
-    (IsDiscreteValuationRing.irreducible_iff_uniformizer ϖ).mp hϖ
-  rw [hm, Ideal.span_singleton_pow, Ideal.mem_span_singleton] at hu
-  obtain ⟨t, ht⟩ := hu
-  have e : ((u : 𝒪[k]) : k) - 1 = (algebraMap 𝒪[k] k ϖ) ^ c * algebraMap 𝒪[k] k t := by
-    have := congrArg (algebraMap 𝒪[k] k) ht
-    rw [map_sub, map_one, map_mul, map_pow] at this
-    exact this
-  have ht1 : valuation k (algebraMap 𝒪[k] k t) ≤ 1 := t.2
-  have hv : valuation k (((u : 𝒪[k]) : k) - 1) < γ := by
-    rw [e, map_mul, map_pow]
-    calc valuation k (algebraMap 𝒪[k] k ϖ) ^ c * valuation k (algebraMap 𝒪[k] k t)
-        ≤ valuation k (algebraMap 𝒪[k] k ϖ) ^ c := mul_le_of_le_one_right' ht1
-      _ < γ := hc
-  have hmem : ((u : 𝒪[k]) : k) ∈ V := hγ hv
-  have hk : unitIncl k u ∈ μ.ker := by
-    have : unitIncl k u ∈ (Units.val ⁻¹' V : Set kˣ) := hmem
-    rw [hV] at this
-    exact this
-  exact hk
+  apply @_root_.UpperTheory.TNZ.Grp.P_lamBasic.exists_triv <;> assumption
 
 def Good {α : Type} (d : α → α → ℕ) (l : List α) : Prop :=
   ∀ (a a' b' b : ℕ) (h1 : a ≤ a') (h2 : a' < b') (h3 : b' ≤ b) (hb : b < l.length),

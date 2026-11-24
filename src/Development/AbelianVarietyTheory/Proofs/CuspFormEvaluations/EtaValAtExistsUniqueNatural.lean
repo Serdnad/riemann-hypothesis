@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FullLinearLevelCoverBaseChangeTorsor
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsNullVal
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ThetaNullValueExistsUniqueNaturalLinear
@@ -85,16 +86,7 @@ namespace GlobalTheory.EtaForm
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
 
 theorem finite_latMod (Dw : Datum H) {k : ℕ} (hk : 0 < k) : Finite (LatMod Dw k) := by
-  haveI := Dw.fin
-  haveI : Module.Finite ℤ (LatMod Dw k) := Module.Finite.trans (𝓞 E) _
-  refine Module.finite_of_fg_torsion (M := LatMod Dw k) fun x => ?_
-  obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective _ x
-  refine ⟨⟨(k : ℤ), mem_nonZeroDivisors_of_ne_zero (by exact_mod_cast hk.ne')⟩, ?_⟩
-  change (k : ℤ) • Submodule.mkQ (Ideal.span {(k : 𝓞 E)} • ⊤ : Submodule (𝓞 E) Dw.La) x = 0
-  rw [natCast_zsmul, ← map_nsmul]
-  refine (Submodule.Quotient.mk_eq_zero _).2 ?_
-  rw [← Nat.cast_smul_eq_nsmul (𝓞 E)]
-  exact Submodule.smul_mem_smul (Ideal.mem_span_singleton_self _) Submodule.mem_top
+  first | exact _root_.GlobalTheory.FullLevel.finite_latMod | exact @_root_.GlobalTheory.FullLevel.finite_latMod | apply _root_.GlobalTheory.FullLevel.finite_latMod <;> assumption
 
 theorem finite_levGrp (Dw : Datum H) {k : ℕ} (hk : 0 < k) : Finite (LevGrp Dw k) := by
   haveI := finite_latMod Dw hk

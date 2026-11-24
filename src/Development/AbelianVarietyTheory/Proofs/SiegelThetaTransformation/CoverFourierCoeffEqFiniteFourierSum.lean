@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.CmHostUnitAddConjEqOne
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.AdmissibleSmulIffOfCoprime
 import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
@@ -379,16 +380,8 @@ theorem natCast_mem (l : Geo.Tor.Level H) : (l.M : 𝓞 E) ∈ l.Mb ∧ (l.M : �
 theorem root_mem {l : Geo.Tor.Level H} {L : Lt E r} {mk : Dw.La →ₗ[𝓞 E] (Fin r → E)} (hmk : IsMark l L mk)
     {Y : Fin r → E} {a : Dw.La} (ha : a ∈ Mfr l • (⊤ : Submodule (𝓞 E) Dw.La))
     (hY : Y - ((l.M : E)⁻¹) • mk a ∈ L) {t : 𝓞 E} (ht : t ∈ l.Mb) : t • Y ∈ L := by
-  have hM : (l.M : E) ≠ 0 := by have := l.three_le; exact_mod_cast (by omega : l.M ≠ 0)
-  have h1 : t • a ∈ Ideal.span {(l.M : 𝓞 E)} • (⊤ : Submodule (𝓞 E) Dw.La) := by
-    rw [← l.prod, Submodule.mul_smul]; exact Submodule.smul_mem_smul ht ha
-  rw [Submodule.ideal_span_singleton_smul] at h1
-  obtain ⟨a', -, e⟩ := (Submodule.mem_smul_pointwise_iff_exists _ _ _).1 h1
-  have h2 : t • ((l.M : E)⁻¹) • mk a = mk a' := by
-    rw [smul_comm, ← map_smul, ← e, map_smul]
-    funext j; simp [Algebra.smul_def, hM]
-  have := add_mem (L.smul_mem t hY) (hmk.mem a')
-  rwa [← h2, ← smul_add, sub_add_cancel] at this
+  intros
+  apply _root_.GlobalTheory.Dict.MarkMove.root_mem <;> assumption
 
 theorem root_mem' {l : Geo.Tor.Level H} {L : Lt E r} {N : ℕ} {Y : Fin r → E} (h1 : (l.M : 𝓞 E) • Y ∈ L)
     (h2 : ∃ j : ℕ, ∀ s ∈ l.Mb ^ j, ∃ u ∈ L, s • Y = (2 * N) • u) {s k : ℤ} (hs : s = 1 + k * l.M) {a : E}

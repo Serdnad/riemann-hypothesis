@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsTameGenAtOfValuationSubring
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DataS
 public import Formalism.SharpRestriction.GrowthBounds.DataG
 public import Mathlib.NumberTheory.Padics.PadicIntegers
@@ -504,38 +505,8 @@ theorem exists_test (y : Ω) : ∃ t : Test E Ω, ∀ κ ∈ t.φ.ker, κ y = y 
 
 theorem exists_tameGen (p : ℕ) (hp0 : p ≠ 0) (hp : A.valuation (p : Ω) < 1) :
     ∃ γ : G E Ω, TameGenAt A γ := by
-  have : IsGalois E Ω := IsAlgClosure.isGalois E Ω
-  have : Nonempty (Test E Ω) := ⟨(exists_test (E := E) (0 : Ω)).choose⟩
-  let S : Test E Ω → Set (G E Ω) := fun t => (Ine (F := E) A : Set (G E Ω)) ∩
-    {γ | ∀ σ ∈ Ine (F := E) A, ∃ n : ℤ, Near A t.φ ((γ ^ n)⁻¹ * σ)}
-  have hcl : ∀ t, IsClosed (S t) := fun t => (isClosed_Ine (F := E) A).inter
-    (closed_of_sat t _ fun γ γ' e h σ hσ => (h σ hσ).imp fun n hn =>
-      hn.congr A (by simp only [map_mul, map_inv, map_zpow, e]))
-  obtain ⟨γ, hγ⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed S
-    (fun s t => ⟨s.prod t,
-      fun γ h => ⟨h.1, fun σ hσ => (h.2 σ hσ).imp fun _ hn => near_left A hn⟩,
-      fun γ h => ⟨h.1, fun σ hσ => (h.2 σ hσ).imp fun _ hn => near_right A hn⟩⟩)
-    (fun t => exists_gen A p hp0 hp t.A' t.φ t.ho) (fun t => (hcl t).isCompact) hcl
-  rw [Set.mem_iInter] at hγ
-  refine ⟨γ, (hγ (Classical.arbitrary _)).1, fun σ hσ => ?_⟩
-  set C := Subgroup.closure (insert γ {σ : G E Ω | ∀ y : Ω, y ≠ 0 → A.valuation (σ y / y - 1) < 1})
-  let U : Test E Ω → Set (G E Ω) := fun t => (C.topologicalClosure : Set (G E Ω)) ∩
-    {τ | Near A t.φ (τ⁻¹ * σ)}
-  have hU : ∀ t, IsClosed (U t) := fun t => C.isClosed_topologicalClosure.inter
-    (closed_of_sat t _ fun τ τ' e h => Near.congr A (by simp only [map_mul, map_inv, e]) h)
-  obtain ⟨τ, hτ⟩ := IsCompact.nonempty_iInter_of_directed_nonempty_isCompact_isClosed U
-    (fun s t => ⟨s.prod t, fun τ h => ⟨h.1, near_left A h.2⟩, fun τ h => ⟨h.1, near_right A h.2⟩⟩)
-    (fun t => by
-      obtain ⟨n, hn⟩ := (hγ t).2 σ hσ
-      exact ⟨γ ^ n, C.le_topologicalClosure
-        (zpow_mem (Subgroup.subset_closure (Set.mem_insert _ _)) n), hn⟩)
-    (fun t => (hU t).isCompact) hU
-  rw [Set.mem_iInter] at hτ
-  have hw : τ⁻¹ * σ ∈ C := Subgroup.subset_closure (Set.mem_insert_of_mem _ fun y hy => by
-    obtain ⟨t, ht⟩ := exists_test (E := E) y
-    exact (hτ t).2 y hy ht)
-  have := mul_mem (hτ (Classical.arbitrary _)).1 (C.le_topologicalClosure hw)
-  rwa [mul_inv_cancel_left] at this
+  intros
+  apply _root_.GlobalTheory.TameInertiaGen.exists_tameGenAt_of_valuationSubring <;> assumption
 
 end Formalism.BasicNotions.Examples₂.Tame
 end -- clump:auto

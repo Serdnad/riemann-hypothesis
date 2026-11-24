@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ToricGeometry.FderivEqZeroOfAffine
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsSymm
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFibreCoords
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueSectionOfLocallyRegular
@@ -83,24 +84,6 @@ private theorem valAt'_resG_of_le {Y : Scheme.{0}} (x : Sp ℂ ⟶ Y) {U V : Y.O
     (congrArg (fun φ => CommRingCat.Hom.hom φ f) (Scheme.Hom.map_appLE x h (homOfLE hVU).op))
 
 private alias valAt'_app_eq_valAt'_comp_moduli := _root_.GlobalTheory.valAt'_comp
-
-private theorem valAt'_constFn' {Y : Scheme.{0}} (y : Sp ℂ ⟶ Y) (q : Y ⟶ Sp ℂ) (hq : y ≫ q = 𝟙 _) (U : Y.Opens)
-    (h : ⊤ ≤ y ⁻¹ᵁ U) (c : ℂ) : valAt' y U (constFn q U c) = c := by
-  unfold valAt' constFn
-  rw [dif_pos h]
-  unfold valAt
-  have e2 := congrArg (fun φ => CommRingCat.Hom.hom φ ((Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom c))
-    (Scheme.Hom.appLE_comp_appLE y q ⊤ U ⊤ (fun x _ => trivial) h)
-  have key : ∀ (φ : Sp ℂ ⟶ Sp ℂ) (_ : φ = 𝟙 _) (e : ⊤ ≤ φ ⁻¹ᵁ ⊤),
-      (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom.hom ((φ.appLE ⊤ ⊤ e).hom
-        ((Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom c)) = c := by
-    rintro φ rfl e
-    simp [Scheme.Hom.appLE]
-    change (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom.hom (((Sp ℂ).presheaf.map (𝟙 (Opposite.op ⊤))).hom
-      ((Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom c)) = c
-    rw [CategoryTheory.Functor.map_id]
-    simp
-  exact (congrArg (fun s => (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom.hom s) e2).trans (key _ hq _)
 
 private theorem top_le_preimage_basicOpen_of_valAt'_ne_zero {Y : Scheme.{0}} (y : Sp ℂ ⟶ Y) (U : Y.Opens) (h : ⊤ ≤ y ⁻¹ᵁ U) (g : Γ(Y, U))
     (hg : valAt' y U g ≠ 0) : ⊤ ≤ y ⁻¹ᵁ Y.basicOpen g := by
@@ -215,7 +198,7 @@ theorem ptOf_const {D : R → ℂ} (h : LocDer q p m D W₀ d) (y : Sp ℂ ⟶ Y
     (hy : ⊤ ≤ (y ≫ m) ⁻¹ᵁ W₀) (r : R) : ptOf W₀ d y ⊤ (constFn p ⊤ r) = D r := by
   unfold ptOf
   rw [resG_constFn, h.base _ inf_le_right r]
-  exact valAt'_constFn' y q hq (m ⁻¹ᵁ (⊤ ⊓ W₀)) (fun a ha => ⟨trivial, hy ha⟩) (D r)
+  exact _root_.GlobalTheory.AdaptedCoord.valAt'_constFn_of_comp_eq_id y q hq (m ⁻¹ᵁ (⊤ ⊓ W₀)) (fun a ha => ⟨trivial, hy ha⟩) (D r)
 
 end GlobalTheory.KS.VertReg
 

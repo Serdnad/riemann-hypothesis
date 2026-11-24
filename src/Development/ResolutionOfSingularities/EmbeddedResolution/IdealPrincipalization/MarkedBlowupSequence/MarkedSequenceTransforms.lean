@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IdealBlowupSequenceBoundary
 
 @[expose] public section
 
@@ -61,26 +62,7 @@ theorem inStrictNormalCrossingPosition_comap_iso {k : Type u} [Field k] {X Y : S
     (q : Y ⟶ Spec (CommRingCat.of k)) (e : X ≅ Y) (L : List Y.IdealSheafData)
     (h : InStrictNormalCrossingPosition q L) :
     InStrictNormalCrossingPosition (e.hom ≫ q) (L.map (fun D => D.comap e.hom)) := by
-  rw [inStrictNormalCrossingPosition_iff] at h ⊢
-  refine ⟨?_, ?_⟩
-  · intro D hD
-    rw [List.mem_map] at hD
-    obtain ⟨D', hD', rfl⟩ := hD
-    exact PrincipalizationIsoTransport.isSmoothDivisor_comap_iso q e D' (h.1 D' hD')
-  · intro x
-    obtain ⟨U, hxU, m, c, a, hinj, hnone, hsome⟩ := h.2 (e.hom.base x)
-    refine ⟨(TopologicalSpace.Opens.map e.hom.base).obj U, hxU, m,
-      EtaleChart.ofIso q e c, a, ?_, ?_, ?_⟩
-    · intro i hi j hj t hti htj
-      exact hinj i (by simpa using hi) j (by simpa using hj) t hti htj
-    · intro i hi ha
-      have hi' : i < L.length := by simpa using hi
-      simp only [List.getElem_map]
-      rw [restrictIdeal_comap, hnone i hi' ha, Scheme.IdealSheafData.comap_top]
-    · intro i hi t ht
-      have hi' : i < L.length := by simpa using hi
-      simp only [List.getElem_map]
-      rw [restrictIdeal_comap, hsome i hi' t ht, EtaleChart.ofIso_coordIdeal]
+  apply _root_.FunctorialResolution.EmbeddedResolution.inStrictNormalCrossingPosition_comp_iso_hom <;> assumption
 
 namespace MarkedSequenceOfBlowups
 

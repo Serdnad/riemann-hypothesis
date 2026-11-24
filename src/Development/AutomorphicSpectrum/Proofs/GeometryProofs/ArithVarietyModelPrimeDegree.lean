@@ -1,5 +1,8 @@
 module
 
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.FunctionFamilyChartFacts
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsIntegrallyClosedOfDenom
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsIntegrallyClosedOfDenomBis
 public import Development.AutomorphicSpectrum.Statements.GeometryStatements.IsPolLatticePlane
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.NonemptyLinearEquivOfPiFinPowFinite
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.AbelianSchemeQuotients.IsAbelianScheme
@@ -248,94 +251,16 @@ theorem isUnit_natCast {A O : Type} [CommRing A] [CommRing O] [Algebra A O]
 theorem exists_denom {o A O Ω : Type} [CommRing o] [CommRing A] [CommRing O] [Field Ω] [Algebra o Ω] [Algebra A Ω]
     [Algebra A O] [Algebra O Ω] [IsScalarTower A O Ω] (M : Submonoid A) [IsLocalization M O] (T : Set Ω)
     (hA : ∀ a : A, algebraMap A Ω a ∈ Algebra.adjoin o T) {w : Ω} (hw : w ∈ Algebra.adjoin O T) :
-    ∃ s : M, w * algebraMap A Ω s ∈ Algebra.adjoin o T := by
-  induction hw using Algebra.adjoin_induction with
-  | mem x hx => exact ⟨1, by simpa using Algebra.subset_adjoin hx⟩
-  | algebraMap r =>
-    obtain ⟨⟨a, s⟩, e⟩ := IsLocalization.surj M r
-    refine ⟨s, ?_⟩
-    rw [IsScalarTower.algebraMap_apply A O Ω, ← map_mul, e, ← IsScalarTower.algebraMap_apply]
-    exact hA _
-  | add x y _ _ hx hy =>
-    obtain ⟨b, hx⟩ := hx
-    obtain ⟨b', hy⟩ := hy
-    refine ⟨b * b', ?_⟩
-    have : (x + y) * algebraMap A Ω ((b * b' : M) : A) =
-        x * algebraMap A Ω b * algebraMap A Ω b' + y * algebraMap A Ω b' * algebraMap A Ω b := by
-      rw [Submonoid.coe_mul, map_mul]; ring
-    rw [this]
-    exact add_mem (mul_mem hx (hA _)) (mul_mem hy (hA _))
-  | mul x y _ _ hx hy =>
-    obtain ⟨b, hx⟩ := hx
-    obtain ⟨b', hy⟩ := hy
-    refine ⟨b * b', ?_⟩
-    have : (x * y) * algebraMap A Ω ((b * b' : M) : A) = x * algebraMap A Ω b * (y * algebraMap A Ω b') := by
-      rw [Submonoid.coe_mul, map_mul]; ring
-    rw [this]
-    exact mul_mem hx hy
+    ∃ s : M, w * algebraMap A Ω s ∈ Algebra.adjoin o T :=
+  _root_.PositivityTheory.Xgn.PackingFacts.exists_denom M T hA hw
 
 theorem isIntegrallyClosed_of_denom {o O Ω : Type} [CommRing o] [CommRing O] [Field Ω] [Algebra o Ω] [Algebra O Ω]
     (B : Subalgebra o Ω) (B' : Subalgebra O Ω) [IsIntegrallyClosed B] (hle : ∀ w ∈ B, w ∈ B')
-    (hden : ∀ w ∈ B', ∃ s ∈ B, (∃ t ∈ B', s * t = 1) ∧ w * s ∈ B) : IsIntegrallyClosed B' := by
-  let ψ : B →+* B' := (algebraMap B Ω).codRestrict _ fun s => hle _ s.2
-  letI : Algebra B B' := ψ.toAlgebra
-  let M : Submonoid B := (IsUnit.submonoid B').comap ψ
-  haveI hloc : IsLocalization M B' := by
-    refine ⟨fun s => s.2, fun a => ?_, fun {r s} h => ⟨1, ?_⟩⟩
-    · obtain ⟨s, hs, ⟨t, ht, e⟩, hws⟩ := hden a a.2
-      have hu : IsUnit (ψ ⟨s, hs⟩) := IsUnit.of_mul_eq_one (⟨t, ht⟩ : B') (Subtype.ext e)
-      exact ⟨⟨⟨_, hws⟩, ⟨⟨s, hs⟩, hu⟩⟩, Subtype.ext rfl⟩
-    · have h' : (r : Ω) = s := congrArg (fun z : B' => (z : Ω)) h
-      rw [Subtype.ext h']
-  have hM : M ≤ nonZeroDivisors B := by
-    intro s hs
-    refine mem_nonZeroDivisors_of_ne_zero fun h => ?_
-    have hu : IsUnit (ψ s) := hs
-    rw [h, map_zero] at hu
-    exact not_isUnit_zero hu
-  exact isIntegrallyClosed_of_isLocalization B' M hM
+    (hden : ∀ w ∈ B', ∃ s ∈ B, (∃ t ∈ B', s * t = 1) ∧ w * s ∈ B) : IsIntegrallyClosed B' :=
+  _root_.PositivityTheory.Xgn.PackingFacts.isIntegrallyClosed_of_denom B B' hle hden
 
 theorem chart_facts : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (c : Coeff l) (O₀ : Type) [CommRing O₀] (β : O₀ →+* c.F) (Y : Model Xo c β) (S : Finset ℕ) (Ω : Type) [Field Ω] (K : Type) [Fintype K] [DecidableEq K] (J : K → Type) [∀ k, Fintype (J k)] (y : (Σ k, J k) → Ω) (𝔐 : HodgeCpt Y S y) (d : ℕ), IsArithVar (mCoordIdeal y) (d + 1) → ∀ (p : ℕ) [Fact p.Prime], p ∈ S → ∀ (A : Type) [CommRing A] [Algebra A Ω] [IsIntegralClosure A ℤ Ω] (m : Ideal A) [m.IsPrime], (p : A) ∈ m → ∀ (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra A O] [IsLocalization.AtPrime O m] [Algebra O Ω] [IsScalarTower A O Ω] (c' : ∀ k, J k), mseg y c' ≠ 0 → CharZero Ω ∧ IsNoetherianRing (CR O y c') ∧ IsIntegrallyClosed (CR O y c') ∧ IsFractionRing (CR O y c') Ω := by
-  intro E _ _ _ H D l Xo c O₀ _ β Y S Ω _ K _ _ J _ y 𝔐 d hV p _ hpS A _ _ _ m _ hpm O _ _ _ _ _ _ _ c' hc'
-  haveI hch : CharZero Ω := GlobalTheory.CompanionTheory.Ar.Num.ConstClosure.charZero_of_isArithVar hV
-  obtain ⟨-, -, -, -, -, -, hchart⟩ := _root_.GlobalTheory.CompanionTheory.Ar.HT.hcpt_generic_point E H D l Xo c O₀ β Y S Ω K J y 𝔐 p hpS (zp Ω p) (mem_range_zp Ω p)
-  obtain ⟨-, hic, hfr, -⟩ := hchart c' hc'
-  obtain ⟨-, -, -, hconst, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.Num.ConstClosure.const_closure E H D l Xo c O₀ β Y S Ω K J y 𝔐 d hV A
-  have eO := PositivityTheory.HtPt.Hcptgen.chartRing_mseg (o := O) y c' hc'
-  have eo := PositivityTheory.HtPt.Hcptgen.chartRing_mseg (o := zp Ω p) y c' hc'
-  have eZ := PositivityTheory.HtPt.Hcptgen.chartRing_mseg (o := ℤ) y c' hc'
-  have hr : ∀ a : zp Ω p, algebraMap (zp Ω p) Ω a ∈ (algebraMap O Ω).range := by
-    intro a
-    obtain ⟨a₁, b, hb, hab⟩ := (mem_range_zp Ω p _).1 ⟨a, rfl⟩
-    have hu := isUnit_natCast (O := O) m p hpm b hb
-    refine ⟨(a₁ : O) * ↑hu.unit⁻¹, ?_⟩
-    rw [hab, map_mul, map_intCast, div_eq_mul_inv]
-    congr 1
-    refine eq_inv_of_mul_eq_one_left ?_
-    rw [← map_natCast (algebraMap O Ω) b, ← map_mul, hu.val_inv_mul, map_one]
-  have hle : ∀ w ∈ chartRing (zp Ω p) (mseg y) c', w ∈ CR O y c' := by
-    intro w hw
-    exact eO.ge (mem_adjoin_of_range_le hr _ (eo.le hw))
-  have hA : ∀ a : A, algebraMap A Ω a ∈
-      Algebra.adjoin (zp Ω p) (Set.range fun j => mseg y j / mseg y c') := by
-    intro a
-    have h1 : algebraMap A Ω a ∈ chartRing ℤ (mseg y) c' := hconst c' hc' a
-    rw [eZ] at h1
-    exact mem_adjoin_of_int _ _ h1
-  refine ⟨hch, ?_, ?_, ?_⟩
-  · haveI : Algebra.FiniteType O (CR O y c') := by
-      refine (Subalgebra.fg_iff_finiteType _).1 ⟨(Set.finite_range fun j => mseg y j / mseg y c').toFinset, ?_⟩
-      rw [Set.Finite.coe_toFinset]
-      exact eO.symm
-    exact Algebra.FiniteType.isNoetherianRing O _
-  · refine isIntegrallyClosed_of_denom (chartRing (zp Ω p) (mseg y) c') (CR O y c') hle fun w hw => ?_
-    obtain ⟨s, hs⟩ := exists_denom m.primeCompl _ hA (eO.le hw)
-    have hu := IsLocalization.map_units O s
-    refine ⟨algebraMap A Ω s, eo.ge (hA _), ⟨algebraMap O Ω ↑hu.unit⁻¹, Subalgebra.algebraMap_mem _ _, ?_⟩, eo.ge hs⟩
-    rw [IsScalarTower.algebraMap_apply A O Ω, ← map_mul, hu.mul_val_inv, map_one]
-  · refine IsFractionRing.of_field _ _ fun a => ?_
-    obtain ⟨g, h, -, e⟩ := IsFractionRing.div_surjective (A := chartRing (zp Ω p) (mseg y) c') a
-    exact ⟨⟨g, hle _ g.2⟩, ⟨h, hle _ h.2⟩, e.symm⟩
+  exact _root_.PositivityTheory.Xgn.TestGroupPoint.Par.chart_facts
 
 open GlobalTheory.CompanionTheory.Ar.HT
 
@@ -490,36 +415,8 @@ theorem exists_coords {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Ho
     (onto : ∀ g : Over.mk ξ ⟶ t.G, g ^ (p ^ m) = 1 ↔ ∃ s, pt s = g)
     (lin : ∀ (a : 𝓞 E) (x : Fin (D.p + D.q) → 𝓞 E), pt (qmk _ (a • x)) = pt (qmk _ x) ≫ t.act.act a) :
     ∃ u : Fin (D.p + D.q) → D.La, IsPolLattice (cmConj E) p D.EF u ∧
-      ∀ z : Fin (D.p + D.q) → 𝓞 E, ev (∑ k, z k • u k) = pt (qmk _ z) := by
-  classical
-  have hu : ∀ k, ∃ a, ev a = pt (qmk _ (Pi.single k 1)) := fun k => (hev.onto _).1 ((onto _).2 ⟨_, rfl⟩)
-  choose u hu using hu
-  have ev0 : ev 0 = 1 := (hev.ker 0).2 ⟨0, by simp⟩
-  have hadd : ∀ x y : Fin (D.p + D.q) → 𝓞 E, pt (qmk _ (x + y)) = pt (qmk _ x) * pt (qmk _ y) := fun x y =>
-    (pt.comp (qhom _ _)).map_mul (Multiplicative.ofAdd x) (Multiplicative.ofAdd y)
-  have hz : ∀ z : Fin (D.p + D.q) → 𝓞 E, ev (∑ k, z k • u k) = pt (qmk _ z) := by
-    intro z
-    have : ∀ s : Finset (Fin (D.p + D.q)),
-        ev (∑ k ∈ s, z k • u k) = pt (qmk _ (∑ k ∈ s, z k • (Pi.single k 1 : Fin (D.p + D.q) → 𝓞 E))) := by
-      intro s
-      induction s using Finset.induction_on with
-      | empty =>
-        rw [Finset.sum_empty, Finset.sum_empty, ev0]
-        exact (pt.comp (qhom _ _)).map_one.symm
-      | insert k s hk ih => rw [Finset.sum_insert hk, Finset.sum_insert hk, hev.add, hadd, ih, hev.lin, hu, lin]
-    rw [this, ← pi_eq_sum_univ' z]
-  obtain ⟨u', hu'⟩ := pol_lattice E H D p
-  refine ⟨u, ⟨hu'.free, hu'.finite, hu'.alt, hu'.unimod, hu'.adj, hu'.rank, fun x => ?_⟩, hz⟩
-  obtain ⟨s, hs⟩ := (onto (ev x)).1 ((hev.onto _).2 ⟨x, rfl⟩)
-  obtain ⟨z, rfl⟩ := qhom_surj _ _ s
-  have h1 : ev (∑ k, z.toAdd k • u k) = ev x := (hz _).trans hs
-  have h2 : ev (x - ∑ k, z.toAdd k • u k) = 1 := by
-    have := hev.add (x - ∑ k, z.toAdd k • u k) (∑ k, z.toAdd k • u k)
-    rw [sub_add_cancel, h1] at this
-    exact (mul_eq_right.1 this.symm)
-  obtain ⟨b, hb⟩ := (hev.ker _).1 h2
-  refine ⟨z.toAdd, p ^ (m - 1) • b, ?_⟩
-  rw [← mul_smul, ← pow_succ', Nat.sub_add_cancel hm, ← hb, add_sub_cancel]
+      ∀ z : Fin (D.p + D.q) → 𝓞 E, ev (∑ k, z k • u k) = pt (qmk _ z) :=
+  _root_.PositivityTheory.Xgn.TestGroupPoint.Par.exists_coords D t ξ p m hm hev pt onto lin
 
 theorem spMap_cancel {F Ω k : Type} [Field F] [Field Ω] [Field k] (κ : F ≃+* Ω) (f : F →+* k) {Z : Scheme.{0}}
     (g : Sp F ⟶ Z) : spMap (f.comp κ.symm.toRingHom) ≫ spMap κ.toRingHom ≫ g = spMap f ≫ g := by

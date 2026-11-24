@@ -83,23 +83,7 @@ private theorem cv_sub_right {a b c : G → ℂ} (ha : a ∈ locallyConstantComp
   congrArg (fun x : HeckeAlgebra μ => (x : G → ℂ))
     (mul_sub (HeckeAlgebra.mk μ a ha) (HeckeAlgebra.mk μ b hb) (HeckeAlgebra.mk μ c hc))
 
-private theorem cv_sum_right {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : ι → G → ℂ}
-    (ha : a ∈ locallyConstantCompactSupport G ℂ ℂ)
-    (hb : ∀ i ∈ S, b i ∈ locallyConstantCompactSupport G ℂ ℂ) :
-    groupConv μ a (∑ i ∈ S, b i) = ∑ i ∈ S, groupConv μ a (b i) := by
-  funext x
-  simp only [groupConv, Finset.sum_apply, Finset.mul_sum]
-  exact integral_finsetSum _ fun i hi => integrable_mul_of_mem ha
-    ((hb i hi).1.continuous.comp (continuous_inv.mul continuous_const))
 
-private theorem cv_sum_left {ι : Type*} (S : Finset ι) {a : G → ℂ} {b : ι → G → ℂ}
-    (ha : a ∈ locallyConstantCompactSupport G ℂ ℂ)
-    (hb : ∀ i ∈ S, b i ∈ locallyConstantCompactSupport G ℂ ℂ) :
-    groupConv μ (∑ i ∈ S, b i) a = ∑ i ∈ S, groupConv μ (b i) a := by
-  funext x
-  simp only [groupConv, Finset.sum_apply, Finset.sum_mul]
-  exact integral_finsetSum _ fun i hi => integrable_mul_of_mem (hb i hi)
-    (ha.1.continuous.comp (continuous_inv.mul continuous_const))
 
 private theorem cv_mul_left {a b : G → ℂ} {k : G} (hk : ∀ g, a (k * g) = a g) (x : G) :
     groupConv μ a b (k * x) = groupConv μ a b x := by

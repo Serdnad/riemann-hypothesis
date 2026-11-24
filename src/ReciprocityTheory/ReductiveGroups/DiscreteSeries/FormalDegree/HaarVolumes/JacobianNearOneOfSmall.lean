@@ -64,6 +64,7 @@ import Mathlib.Analysis.SpecialFunctions.Bernstein
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Algebra.Order.Star.Real
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.VolUMeasurableSetTriPos
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.ContinuousMatrixExpCompact, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.KDensA, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.KDensB, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.KDensC, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.KdMeasImageProd, ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.HaarVolumes.JacobianNearOneOfSmall
@@ -718,17 +719,9 @@ variable {N : ℕ}
 def kdF (N : ℕ) (x : UCo N) : Fin N → Fin N → ℂ := Matrix.of.symm (NormedSpace.exp (skMat x))
 
 lemma kd_skMat_injective : Function.Injective (skMat (N := N)) := by
-  intro x y h
-  have hd : ∀ a b, skMat x a b = skMat y a b := fun a b => by rw [h]
-  refine Prod.ext (funext fun a => ?_) (funext fun ab => ?_)
-  · have := hd a a
-    simp only [skMat] at this
-    exact_mod_cast mul_left_cancel₀ Complex.I_ne_zero this
-  · obtain ⟨⟨a, b⟩, hab⟩ := ab
-    have hab' : b < a := hab
-    have := hd a b
-    simp only [skMat, if_neg (ne_of_gt hab'), dif_pos hab'] at this
-    exact this
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.DS.volU_skMat_injective
+    | apply _root_.ReciprocityTheory.ChartRestriction.DS.volU_skMat_injective <;> first | assumption | rfl | infer_instance
 
 lemma kd_continuous_skMat : Continuous (skMat (N := N)) := by
   refine continuous_matrix fun a b => ?_

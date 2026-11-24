@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PAnalyticGermComponents
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PHSMTransport
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNestedLattice
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -112,16 +114,7 @@ theorem matAct_mem_span {A : Matrix J J ℚ} (hA : ∀ i j, ∃ k : ℤ, A i j =
   exact Submodule.smul_mem _ k (Submodule.subset_span ⟨j, rfl⟩)
 
 theorem exists_clear_den (A : Matrix J J ℚ) : ∃ c : ℕ, c ≠ 0 ∧ ∀ i j, ∃ k : ℤ, (c : ℚ) * A i j = k := by
-  classical
-  refine ⟨∏ i, ∏ j, (A i j).den,
-    Finset.prod_ne_zero_iff.2 fun i _ => Finset.prod_ne_zero_iff.2 fun j _ => (A i j).den_nz, fun i j => ?_⟩
-  obtain ⟨t, ht⟩ : (A i j).den ∣ ∏ i, ∏ j, (A i j).den :=
-    (Finset.dvd_prod_of_mem (fun j => (A i j).den) (Finset.mem_univ j)).trans
-      (Finset.dvd_prod_of_mem (fun i => ∏ j, (A i j).den) (Finset.mem_univ i))
-  refine ⟨t * (A i j).num, ?_⟩
-  rw [ht]
-  push_cast
-  rw [mul_comm ((A i j).den : ℚ) t, mul_assoc, Rat.den_mul_eq_num]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.HSMTransport.exists_clear_den <;> assumption
 
 theorem isInvMat_of_mul [DecidableEq J] {A A' : Matrix J J ℚ} (h1 : A * A' = 1) (h2 : A' * A = 1) : IsInvMat A :=
   ⟨A', fun v => by simp [Matrix.mulVec_mulVec, h1, h2]⟩
@@ -223,26 +216,7 @@ theorem log_relIndex_cocycle {M L L' : AddSubgroup Ω} (hL : M ≤ L) (hL' : M �
 
 theorem coordIdeal_const_mul {c : Ω} (hc : c ≠ 0) (x : J → Ω) :
     coordIdeal ℤ (fun i => c * x i) = coordIdeal ℤ x := by
-  have key : ((Polynomial.aeval (Polynomial.C c * Polynomial.X : Polynomial Ω)).restrictScalars ℤ).comp
-      (coneMap ℤ x) = coneMap ℤ (fun i => c * x i) := by
-    apply MvPolynomial.algHom_ext
-    intro i
-    simp [coneMap, Polynomial.C_mul]
-    ring
-  have back : ∀ p : Polynomial Ω,
-      (Polynomial.aeval (Polynomial.C c * Polynomial.X) p).comp (Polynomial.C c⁻¹ * Polynomial.X) = p := by
-    intro p
-    rw [← Polynomial.comp_eq_aeval, Polynomial.comp_assoc, Polynomial.mul_comp, Polynomial.C_comp,
-      Polynomial.X_comp, ← mul_assoc, ← Polynomial.C_mul, mul_inv_cancel₀ hc, Polynomial.C_1, one_mul,
-      Polynomial.comp_X]
-  ext f
-  show f ∈ RingHom.ker (coneMap ℤ _) ↔ f ∈ RingHom.ker (coneMap ℤ x)
-  rw [RingHom.mem_ker, RingHom.mem_ker, ← key, AlgHom.comp_apply, AlgHom.restrictScalars_apply]
-  constructor
-  · intro h0
-    rw [← back (coneMap ℤ x f), h0, Polynomial.zero_comp]
-  · intro h0
-    rw [h0, map_zero]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.HSMTransport.coordIdeal_const_mul <;> assumption
 
 theorem linearIndependent_const_mul {c : Ω} (hc : c ≠ 0) {x : J → Ω} (hx : LinearIndependent ℤ x) :
     LinearIndependent ℤ (fun i => c * x i) :=

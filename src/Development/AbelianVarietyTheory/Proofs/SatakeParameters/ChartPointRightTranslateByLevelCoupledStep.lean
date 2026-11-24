@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicMatrixCongruenceMoveRationalFrame
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.AbsNormEqOfSplitFactor
@@ -102,24 +103,7 @@ theorem intAtA_sum {ι : Type} (s : Finset ι) (f : ι → E ⊗[F] FiniteAdeleR
 
 theorem congAt_mul (n : ℕ) {k k' : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} (h : CongAt P n k) (h' : CongAt P n k') :
     CongAt P n (k * k') := by
-  intro a b
-  have hq : ((qOf P : ℕ) : E) ≠ 0 := by
-    have : qOf P ≠ 0 := fun h0 => P.ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
-    exact_mod_cast this
-  set c := iA F E (((qOf P : ℕ) : E) ^ n)⁻¹ with hc
-  set d := iA F E (algebraMap (𝓞 E) E (((qOf P : ℕ) : 𝓞 E) ^ n)) with hd
-  have hcd : d * c = 1 := by
-    rw [hc, hd, ← map_mul, map_pow, map_natCast, mul_inv_cancel₀ (pow_ne_zero _ hq), map_one]
-  have e : ((k * k' : GL (Fin N) _) : Matrix (Fin N) (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) - 1 =
-      ((k : Matrix (Fin N) (Fin N) _) - 1) * ((k' : Matrix (Fin N) (Fin N) _) - 1) + (((k : Matrix (Fin N) (Fin N) _) - 1) + ((k' : Matrix (Fin N) (Fin N) _) - 1)) := by
-    rw [Units.val_mul]; noncomm_ring
-  rw [e, Matrix.add_apply, Matrix.add_apply, mul_add, mul_add, Matrix.mul_apply, Finset.mul_sum]
-  refine intAtA_add (intAtA_sum _ _ fun l _ => ?_) (intAtA_add (h a b) (h' a b))
-  have e2 : ∀ x y : E ⊗[F] FiniteAdeleRing (𝓞 F) F, c * (x * y) = d * ((c * x) * (c * y)) := by
-    intro x y
-    linear_combination (-(c * (x * y))) * hcd
-  rw [e2]
-  exact intAtA_mul (intAtA_int _) (intAtA_mul (h a l) (h' l b))
+  first | exact _root_.GlobalTheory.CongMove.congAt_mul | exact @_root_.GlobalTheory.CongMove.congAt_mul | apply _root_.GlobalTheory.CongMove.congAt_mul <;> assumption
 
 theorem nearAt_mul (n : ℕ) {x : GL (Fin N) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)} {g k : GL (Fin N) E} (h : NearAt P n x g)
     (hk : CongAt P n (ratA F k)) : NearAt P n x (g * k) := by

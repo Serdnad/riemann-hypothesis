@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsReadingRealSide
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ReadsHecke
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LevelByPlacesParahoricAtConductorPlaceTameCharac
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsReadsAtOfCover
@@ -400,20 +401,8 @@ theorem exists_gal {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E
 variable {D : D7}
 
 theorem delta_tame (i : D.ntw.Tw) {P : PlE D.host} (hP : P ∈ D.ntw.pD i) : ((15 : ℕ) : 𝓞 D.host.E) ∉ P.asIdeal ∧
-    ∀ A : ValuationSubring D.nd.Om, IsPlaceOver A P → ∀ σ ∈ Ine (F := D.host.E) A, D.ntw.delta i σ ^ 15 = 1 := by
-  refine ⟨fun h => ?_, fun A hA σ hσ => ?_⟩
-  · have h1 := D.ntw.delta_tame i P hP
-    have h2 : Ideal.absNorm P.asIdeal ∣ 15 ^ Module.finrank ℤ (𝓞 D.host.E) := by
-      have := Ideal.absNorm_dvd_absNorm_of_le ((Ideal.span_singleton_le_iff_mem _).2 h)
-      rwa [Ideal.absNorm_span_natCast] at this
-    have h3 : Nat.Coprime (Ideal.absNorm P.asIdeal) 15 := by
-      rw [Nat.Coprime, Nat.gcd_comm, Nat.gcd_rec, h1]
-      rfl
-    have h4 := Nat.Coprime.eq_one_of_dvd (Nat.Coprime.pow_right _ h3) h2
-    exact P.isPrime.ne_top (Ideal.absNorm_eq_one_iff.1 h4)
-  · have h1 := pow_card_eq_one' (x := (⟨D.ntw.delta i σ, σ, hσ, rfl⟩ : (Ine (F := D.host.E) A).map (D.ntw.delta i)))
-    rw [D.ntw.delta_15 i P hP A hA] at h1
-    exact congrArg Subtype.val h1
+    ∀ A : ValuationSubring D.nd.Om, IsPlaceOver A P → ∀ σ ∈ Ine (F := D.host.E) A, D.ntw.delta i σ ^ 15 = 1 :=
+  _root_.GlobalTheory.MtRead.delta_tame i hP
 
 theorem read_of_side {i : D.ntw.Tw} {b : Bool} {k : ℕ} {e : NX.Kk D i k →+* ℂ} (he : SideRead i b k e) (y : D.ntw.O0 i)
     (x : ↥D.LL0) (h : algebraMap (D.ntw.O0 i) (FractionRing (D.ntw.O0 i)) y = (if b then D.ntw.emb0 i else D.ntw.emb0b i) x) :

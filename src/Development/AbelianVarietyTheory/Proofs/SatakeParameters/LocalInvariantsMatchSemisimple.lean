@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GaloisRepUniqueBaseChange
 public import Formalism.SharpRestriction.LevelLetterCocycles.SumRepresentations
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -102,17 +103,7 @@ theorem charpoly_eq_of_dense [TopologicalSpace Γ] [TopologicalSpace k] [IsTopol
       ((ρ₂ g : GL (Fin a) k) : Matrix (Fin a) (Fin a) k).charpoly) (g : Γ) :
     ((ρ₁ g : GL (Fin a) k) : Matrix (Fin a) (Fin a) k).charpoly =
       ((ρ₂ g : GL (Fin a) k) : Matrix (Fin a) (Fin a) k).charpoly := by
-  apply Polynomial.funext
-  intro t
-  rw [Matrix.eval_charpoly, Matrix.eval_charpoly]
-  have hc : IsClosed {g : Γ | (Matrix.scalar (Fin a) t - ((ρ₁ g : GL (Fin a) k) : Matrix (Fin a) (Fin a) k)).det =
-      (Matrix.scalar (Fin a) t - ((ρ₂ g : GL (Fin a) k) : Matrix (Fin a) (Fin a) k)).det} :=
-    isClosed_eq (continuous_const.sub h1).matrix_det (continuous_const.sub h2).matrix_det
-  have hsub : closure S ⊆ _ := hc.closure_subset_iff.mpr fun g hg => by
-    show _ = _
-    rw [← Matrix.eval_charpoly, ← Matrix.eval_charpoly, hE g hg]
-  rw [hS] at hsub
-  exact hsub (Set.mem_univ g)
+  first | exact _root_.GlobalTheory.BaseChangeConj.charpoly_eq_of_dense' | exact @_root_.GlobalTheory.BaseChangeConj.charpoly_eq_of_dense' | apply _root_.GlobalTheory.BaseChangeConj.charpoly_eq_of_dense' <;> assumption
 
 end Rep
 

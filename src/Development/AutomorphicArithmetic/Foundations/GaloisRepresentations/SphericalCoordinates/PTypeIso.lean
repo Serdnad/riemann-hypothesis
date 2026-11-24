@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PDiagExists
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LineBasis
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.RootSumWOff
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,24 +54,7 @@ open UpperTheory.Gal.W2
 
 private theorem sep_of_integer {F : Type} [Field F] [NumberField F] {R : Type} [Ring R] [Algebra ℂ R]
     (f : 𝓞 F →+* R) (c : 𝓞 F) : ∃ p : ℂ[X], p.Separable ∧ aeval (f c) p = 0 := by
-  have hint : IsIntegral ℤ (c : F) := RingOfIntegers.isIntegral_coe c
-  have hq : minpoly ℚ (c : F) = (minpoly ℤ (c : F)).map (algebraMap ℤ ℚ) :=
-    minpoly.isIntegrallyClosed_eq_field_fractions' ℚ hint
-  have hs : (minpoly ℚ (c : F)).Separable := Algebra.IsSeparable.isSeparable ℚ (c : F)
-  have h0 : aeval c (minpoly ℤ (c : F)) = 0 := by
-    apply FaithfulSMul.algebraMap_injective (𝓞 F) F
-    rw [map_zero, ← aeval_algebraMap_apply]
-    exact minpoly.aeval ℤ (c : F)
-  refine ⟨(minpoly ℤ (c : F)).map (algebraMap ℤ ℂ), ?_, ?_⟩
-  · have h1 : (minpoly ℤ (c : F)).map (algebraMap ℤ ℂ) = (minpoly ℚ (c : F)).map (algebraMap ℚ ℂ) := by
-      rw [hq, Polynomial.map_map]
-      congr 1
-    rw [h1]
-    exact hs.map
-  · rw [aeval_map_algebraMap]
-    have h2 := aeval_algHom_apply f.toIntAlgHom c (minpoly ℤ (c : F))
-    rw [h0, map_zero] at h2
-    exact h2
+  apply _root_.sep_of_integer <;> assumption
 
 private theorem exDiag (hSim : SimDiag) (hExt : ExtendEmb) {F : Type} [Field F] [NumberField F]
     {O : Type} [Ring O] {g : ℕ} (ρ : O →+* Matrix (Fin g) (Fin g) ℂ) (a : 𝓞 F →+* O) :

@@ -53,6 +53,7 @@ import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 import Formalism.LocalToGlobal.ProjectiveLattices.JFDFree
 import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 import Mathlib.Tactic.Linter.Style
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelTestFunctionFiniteSumEquivariant
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.VacuumTensorLatticeFixedRationalHeisenberg, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.VacuumTensorLatticeFixedRationalHeisenbergStatement, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HeisenbergVacuumProjectionRootOfUnityPhases, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HeisenbergVacuumProjectionRootOfUnityPhasesStatement
@@ -168,15 +169,7 @@ theorem ip_smul_smul {φ ψ : Matrix α β ℚ → ℂ} (hφ : IsSB φ) (hψ : I
 
 theorem ip_conj {φ ψ : Matrix α β ℚ → ℂ} (hφ : IsSB φ) (hψ : IsSB ψ) :
     ip ψ φ = conj (ip φ ψ) := by
-  have hψc : IsSB (fun x => conj (ψ x)) := (_root_.GlobalTheory.SW.isSB_algebra_haar_linear ℚ α β ψ ψ hψ hψ).2.2.2.1
-  have hpr : IsSB (φ * fun x => conj (ψ x)) := (_root_.GlobalTheory.SW.isSB_algebra_haar_linear ℚ α β φ _ hφ hψc).2.2.1
-  have hc := (_root_.GlobalTheory.SW.isSB_algebra_haar_linear ℚ α β _ _ hpr hpr).2.2.2.2.2.2.1
-  have hfun : (fun x => ψ x * conj (φ x)) = fun x => conj ((φ * fun x => conj (ψ x)) x) := by
-    funext x
-    simp only [Pi.mul_apply, map_mul, Complex.conj_conj]
-    ring
-  show haar (fun x => ψ x * conj (φ x)) = conj (haar (φ * fun x => conj (ψ x)))
-  rw [hfun, hc]
+  apply _root_.GlobalTheory.SW.TensVac.ip_conj <;> assumption
 
 theorem ph_ip [DecidableEq β] {φ ψ : Matrix α β ℚ → ℂ} (hφ : PV φ) (hψ : PV ψ) : Ph (ip φ ψ) := by
   have sφ : Shape φ := (_root_.GlobalTheory.Phase.VacShape.vacuum_shape α β φ).2.1 hφ
@@ -192,19 +185,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g n : ℕ} {X : D
 
 theorem isVac_smul {w : E} {A : AddSubgroup (Matrix (Fin n) (Fin r) E)} {v : TF n g}
     (hv : IsVac X bas w A v) {u : ℂ} (hu : ‖u‖ = 1) : IsVac X bas w A (u • v) := by
-  have hv' := hv
-  unfold IsVac at hv'
-  obtain ⟨hsb, hip, hfix⟩ := hv'
-  unfold IsVac
-  refine ⟨(_root_.GlobalTheory.SW.isSB_algebra_haar_linear ℚ (Fin n) (Fin g) v v hsb hsb).2.1 u, ?_, ?_⟩
-  · rw [ip_smul_smul hsb hsb, hip, _root_.mul_one, Complex.mul_conj, Complex.normSq_eq_norm_sq, hu]
-    simp
-  · intro y hy
-    have hlin : heisG X bas y (u • v) = u • heisG X bas y v := by
-      funext x
-      simp only [heisG, heisS, Pi.smul_apply, smul_eq_mul]
-      ring
-    rw [hlin, smul_comm, hfix y hy]
+  apply _root_.GlobalTheory.SW.RecSum.isVac_smul <;> assumption
 
 theorem unitv_smul {v : TF n g} (hv : IsSB v) (h1 : ip v v = 1) (c : ℂ) :
     unitv (c • v) = (((‖c‖ : ℝ) : ℂ)⁻¹ * c) • v := by

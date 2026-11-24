@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaActionExists
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ArchimedeanSupportedSmulTransposeGramFiniteSubOn
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsComplementaryAdelicSchwartzRestFunction
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationLocalAtFinitePlaceUnitaryGroup
@@ -149,32 +151,7 @@ theorem acts_comb {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ] 
     (h₁ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Acts (GlobalTheory.AdelicU.evFin F v) T φ φ₁)
     (h₂ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Acts (GlobalTheory.AdelicU.evFin F v) T ψ ψ₁) (s t : ℂ) :
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Acts (GlobalTheory.AdelicU.evFin F v) T (s • φ + t • ψ) (s • φ₁ + t • ψ₁) := by
-  have hs : s • φ + t • ψ ∈ GlobalTheory.WeilM.SB (κ → Fv F v) :=
-    add_mem ((GlobalTheory.WeilM.SB _).smul_mem s hφ) ((GlobalTheory.WeilM.SB _).smul_mem t hψ)
-  obtain ⟨χ, -, hχ⟩ := hex _ hs
-  obtain ⟨R, hR0, hR⟩ := GlobalTheory.RestWitness.exists_rest κ v
-  have e : ∀ α β : (κ → Fv F v) → ℂ, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.AdelicU.evFin F v) (s • α + t • β) R =
-      s • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.AdelicU.evFin F v) α R + t • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.AdelicU.evFin F v) β R := by
-    intro α β
-    funext x
-    simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens, Pi.add_apply, Pi.smul_apply, smul_eq_mul]
-    ring
-  have key : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.AdelicU.evFin F v) χ R =
-      GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.AdelicU.evFin F v) (s • φ₁ + t • ψ₁) R := by
-    rw [← hχ R (hR _ hs), e, map_add (f := _), map_smul, map_smul, h₁ R (hR φ hφ), h₂ R (hR ψ hψ), e]
-  have hχe : χ = s • φ₁ + t • ψ₁ := by
-    funext y
-    have hz : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.AdelicU.evFin F v) (fun i => GlobalTheory.LatVac.liftV v (y i)) := by
-      intro u' hu'
-      funext i
-      exact GlobalTheory.LatVac.at_liftV v _ u' hu'
-    have hRz : R (fun i => GlobalTheory.LatVac.liftV v (y i)) = R 0 := by
-      simpa using (hR φ hφ).1 0 _ hz
-    have := congrFun key (fun i => GlobalTheory.LatVac.liftV v (y i))
-    simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens, GlobalTheory.LatVac.evFin_liftV, hRz] at this
-    exact mul_right_cancel₀ hR0 this
-  rw [← hχe]
-  exact hχ
+  first | exact _root_.GlobalTheory.ThK.LocalOps.acts_lin | exact @_root_.GlobalTheory.ThK.LocalOps.acts_lin | apply _root_.GlobalTheory.ThK.LocalOps.acts_lin <;> assumption
 
 theorem exists_localOp : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) (a a' : ℕ)
     (Bs : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Base F E) (Γ : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Geo σ a a') (Xc : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Chars F E)
@@ -345,37 +322,7 @@ def infIncl (F : Type) [Field F] [NumberField F] : Ainf F →ₗ[F] AF F where
 theorem smul_eq_zero_of_fst (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (x : AF F ⊗[F] E) (hx : Algebra.TensorProduct.map (fstA F) (AlgHom.id F E) x = 0) (u : AF F)
     (hu : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) u) : u • x = 0 := by
-  let e : AF F := ((1, 0) : Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F)
-  let f : AF F := ((0, 1) : Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F)
-  have hf : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F f = 0 := by
-    show InfiniteAdeleRing.ringEquiv_mixedSpace F (0 : Ainf F) = 0
-    exact map_zero _
-  have h0 : f • u = 0 := hu f hf
-  have hef : e + f = 1 := by
-    refine Prod.ext ?_ ?_
-    · show (1 : Ainf F) + 0 = 1
-      rw [add_zero]
-    · show (0 : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F) + 1 = 1
-      rw [zero_add]
-  have hu' : u = e * u := by
-    calc u = (e + f) * u := by rw [hef, one_mul]
-      _ = e * u + f • u := add_mul _ _ _
-      _ = e * u := by rw [h0, add_zero]
-  have key : ∀ y : AF F ⊗[F] E,
-      e • y = (infIncl F).rTensor E (Algebra.TensorProduct.map (fstA F) (AlgHom.id F E) y) := by
-    intro y
-    induction y using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a b =>
-      rw [TensorProduct.smul_tmul', Algebra.TensorProduct.map_tmul, LinearMap.rTensor_tmul]
-      congr 1
-      show ((1, 0) : Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F) * (show Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F from a) =
-        (((show Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F from a).1, 0) : Ainf F × Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F)
-      refine Prod.ext ?_ ?_
-      · exact one_mul _
-      · exact zero_mul _
-    | add y z hy hz => rw [smul_add, hy, hz, map_add (f := _), map_add (f := _)]
-  rw [hu', mul_comm, mul_smul, key, hx, map_zero, smul_zero]
+  first | exact _root_.GlobalTheory.InfKill.smul_eq_zero_of_fst | exact @_root_.GlobalTheory.InfKill.smul_eq_zero_of_fst | apply _root_.GlobalTheory.InfKill.smul_eq_zero_of_fst <;> assumption
 
 theorem gfc_arch : ∀ (D : D7) (X : HSp D) {k : ℕ} (e : Fin k ≃ Fin X.rank) {J : Matrix (Fin k) (Fin k) D.host.E}
     (hJ : J = D.host.xi0 • (X.gramᵀ).submatrix e e) (g : GA D X), g ∈ GfC X →

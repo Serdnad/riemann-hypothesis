@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.FockOperators.OpsEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.UnfoldedThetaIntegralConvergesSimilitudeOne
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,13 +71,7 @@ private lemma shift_zero (w : InfinitePlace F) (i : Fin 4) (v : V4 F) :
 
 private lemma finPart_shift (w : InfinitePlace F) (i : Fin 4) (v : V4 F) (t : ℝ) :
     finPartPi (v + Pi.single i (Fo.at1 w t)) = finPartPi v := by
-  funext j
-  by_cases h : j = i
-  · subst h
-    simp only [finPartPi, Pi.add_apply, Pi.single_eq_same]
-    change (v j).2 + (Fo.at1 w t).2 = (v j).2
-    rw [placeEmbedReal_finitePart, add_zero]
-  · simp [finPartPi, Pi.single_eq_of_ne h]
+  apply _root_.fin_line <;> assumption
 
 private lemma coord_shift (w w' : InfinitePlace F) (i j : Fin 4) (v : V4 F) (t : ℝ) :
     ((TR.pInf F ((v + Pi.single i (Fo.at1 w t) : V4 F) j) w' : ℝ) : ℂ) =

@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ImageCochainExists
 
 @[expose] public section
 
@@ -71,20 +72,7 @@ theorem img_unique (hB : LateralTheory.EtaleFoundations.pp_ev_basic) (ρ : SemiM
 theorem img_delta (hD : LateralTheory.EtaleFoundations.pp_ev_delta) (ρ : SemiMap I J) {E : Spc} {n m : ℤ} (hm : n + 1 = m)
     {α : Cochain ((chains S).obj E) I n} {β : Cochain ((chains R).obj E) J n}
     (h : ρ.IsImage α β) : ρ.IsImage (δ n m α) (δ n m β) := by
-  intro p t ht U x
-  cases p with
-  | zero =>
-    obtain rfl : t = m := by omega
-    rw [(hD R hm β U).1 x, (hD S hm α U).1 x, h, ρ.comm]
-  | succ p =>
-    rw [(hD R hm β U).2 p _ t rfl ht x, (hD S hm α U).2 p _ t rfl ht x]
-    rw [map_add (f := _), ← ρ.comm, ← h]
-    congr 1
-
-    rw [Units.smul_def, Units.smul_def, map_zsmul, map_sum]
-    congr 1
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [map_zsmul, ← h]
+  apply _root_.GlobalTheory.EtC.CupSpec.image_δ <;> assumption
 
 theorem img_cocycle (hB : LateralTheory.EtaleFoundations.pp_ev_basic) (hM : LateralTheory.EtaleFoundations.pp_ev_mk) (hD : LateralTheory.EtaleFoundations.pp_ev_delta)
     (ρ : SemiMap I J) {E : Spc} {n : ℤ} (α : Cocycle ((chains S).obj E) I n) :

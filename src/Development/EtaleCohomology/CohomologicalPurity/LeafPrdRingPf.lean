@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.FixLeafCl
 public import Development.EtaleCohomology.CohomologicalPurity.LeafTubeCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,17 +51,7 @@ namespace LateralTheory.CohomologicalPurity.TubeCut
 theorem prd_sub_C_mem {σ R : Type} [CommRing R] (p : MvPolynomial σ R) :
     p - MvPolynomial.C (MvPolynomial.constantCoeff p) ∈
       Ideal.span (Set.range (MvPolynomial.X : σ → MvPolynomial σ R)) := by
-  induction p using MvPolynomial.induction_on with
-  | C a => simp
-  | add p r hp hr =>
-    have e : p + r - MvPolynomial.C (MvPolynomial.constantCoeff (p + r)) =
-        (p - MvPolynomial.C (MvPolynomial.constantCoeff p)) + (r - MvPolynomial.C (MvPolynomial.constantCoeff r)) := by
-      simp only [map_add (f := _)]; ring
-    rw [e]; exact Ideal.add_mem _ hp hr
-  | mul_X p i _ =>
-    have e : p * MvPolynomial.X i - MvPolynomial.C (MvPolynomial.constantCoeff (p * MvPolynomial.X i)) =
-        p * MvPolynomial.X i := by simp
-    rw [e]; exact Ideal.mul_mem_left _ _ (Ideal.subset_span ⟨i, rfl⟩)
+  apply @LateralTheory.CohomologicalPurity.Cl.sub_C_mem_X <;> assumption
 
 theorem prd_nbhd_psi {d : ℕ} {A B : Type} [CommRing A] [CommRing B] (I : Ideal A) (φ : A →+* B)
     (ψ : MvPolynomial (Fin d) (A ⧸ I) →+* B) (hφ : Nbhd φ I) (hψ : ψ.Etale)

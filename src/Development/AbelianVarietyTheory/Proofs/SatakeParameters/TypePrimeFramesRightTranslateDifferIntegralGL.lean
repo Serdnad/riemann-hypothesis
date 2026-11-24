@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChainChartFramesBadPrimeCongruentOneOfAdelicAgre
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
@@ -210,18 +211,7 @@ end Inv
 
 theorem intAt_of_seam {D : D7} {X : Fields} (s : Seam D X) (P : HeightOneSpectrum (𝓞 X.E)) (z : X.E)
     (h : IntAt (seamP s P) (s.iE z)) : IntAt P z := by
-  obtain ⟨r, c, hc, e⟩ := h
-  set f := RingOfIntegers.mapRingEquiv s.iE
-  refine ⟨f.symm r, f.symm c, fun hm => hc ?_, ?_⟩
-  · have := (mem_seamP s P (f.symm c)).2 hm
-    rwa [show (RingOfIntegers.mapRingEquiv s.iE) (f.symm c) = c from f.apply_symm_apply c] at this
-  · apply s.iE.injective
-    rw [map_mul]
-    have h1 : ∀ w : 𝓞 D.host.E, s.iE (algebraMap (𝓞 X.E) X.E (f.symm w)) = algebraMap (𝓞 D.host.E) D.host.E w := by
-      intro w
-      have h2 : ∀ x : 𝓞 X.E, s.iE (algebraMap (𝓞 X.E) X.E x) = algebraMap (𝓞 D.host.E) D.host.E (f x) := fun x => rfl
-      rw [h2, f.apply_symm_apply]
-    rw [h1, h1, e]
+  first | exact _root_.GlobalTheory.FrameAway.intAt_of_seamP | exact @_root_.GlobalTheory.FrameAway.intAt_of_seamP | apply _root_.GlobalTheory.FrameAway.intAt_of_seamP <;> assumption
 
 theorem cols_of_congAt {D : D7} {X : Fields} (s : Seam D X) {n : ℕ} (P : HeightOneSpectrum (𝓞 X.E)) (c : ℕ)
     (m : Sp X.E n ≃ₗ[X.E] Sp X.E n) (h : CongAt (F := D.host.F) (seamP s P) c (ratA D.host.F (seamGL s m))) (j l : Fin n) :

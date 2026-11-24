@@ -1247,20 +1247,10 @@ lemma herm_bvec_right (u : Fin (2 * r + k + 1) → ℂ) (j : Fin (2 * r + k + 1)
   simp [herm, bvec, Pi.star_single]
 
 lemma herm_e_right (u : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : ⟪u, bvec (eI k r a)⟫ = u (esI k r a) := by
-  rw [herm_bvec_right, B2x6.hpk_mulVec]
-  have h1 : WeylGroupFacts.tau k r (eI k r a) = esI k r a := by
-    apply Fin.ext; rw [B2x6.tau_out _ (by simp only [eI]; omega)]; simp [eI, esI]
-  have h2 : WeylGroupFacts.sgn k r (eI k r a) = 1 := by
-    unfold WeylGroupFacts.sgn; rw [if_neg (by simp only [eI]; omega)]
-  rw [h1, h2, one_mul]
+  apply _root_.Formalism.FourierDecayAlt.P.Qx4.herm_e_right <;> assumption
 
 lemma herm_es_right (u : Fin (2 * r + k + 1) → ℂ) (a : Fin r) : ⟪u, bvec (esI k r a)⟫ = u (eI k r a) := by
-  rw [herm_bvec_right, B2x6.hpk_mulVec]
-  have h1 : WeylGroupFacts.tau k r (esI k r a) = eI k r a := by
-    apply Fin.ext; rw [B2x6.tau_out _ (by simp only [esI]; omega)]; simp only [eI, esI]; omega
-  have h2 : WeylGroupFacts.sgn k r (esI k r a) = 1 := by
-    unfold WeylGroupFacts.sgn; rw [if_neg (by simp only [esI]; omega)]
-  rw [h1, h2, one_mul]
+  apply _root_.Formalism.FourierDecayAlt.P.Qx4.herm_es_right <;> assumption
 
 lemma eI_ne_esI (a b : Fin r) : eI k r a ≠ esI k r b := by
   intro h; have := congrArg Fin.val h; simp only [eI, esI] at this; omega
@@ -1312,20 +1302,7 @@ lemma weyl_cell_apply_other (c : ℂ) {p : Fin (2 * r + k + 1)} (h1 : p ≠ eI k
 
 lemma weyl_cell_mulVec (c : ℂ) (y : Fin (2 * r + k + 1) → ℂ) :
     w1 k r l c *ᵥ y = y + (c * ⟪y, 𝐬⟫ - ⟪y, 𝐞⟫) • 𝐬 + ((conj c)⁻¹ * ⟪y, 𝐞⟫ - ⟪y, 𝐬⟫) • 𝐞 := by
-  ext p
-  rw [herm_e_right, herm_es_right]
-  simp only [Pi.add_apply, Pi.smul_apply, smul_eq_mul, bvec, Pi.single_apply, mulVec, dotProduct]
-  by_cases h2 : p = esI k r l
-  · subst h2
-    simp only [weyl_cell_apply_dual_basis, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, (eI_ne_esI l l).symm, if_false]
-    ring
-  · by_cases h1 : p = eI k r l
-    · subst h1
-      simp only [weyl_cell_apply_basis, ite_mul, zero_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, eI_ne_esI l l, if_false]
-      rw [Complex.star_def]; ring
-    · simp only [weyl_cell_apply_other c h1 h2, ite_mul, zero_mul, one_mul, Finset.sum_ite_eq', Finset.mem_univ, if_true, h1, h2,
-        if_false]
-      ring
+  apply _root_.Formalism.FourierDecayAlt.P.Qx4.weyl_cell_mulVec <;> assumption
 
 lemma weyl_cell_mem_level_group {c : ℂ} (hc : c ≠ 0) : w1 k r l c ∈ Glev k r l.castSucc := by
   apply PI.IsotropicReflections.reflection_mem_Glev_castSucc <;> assumption

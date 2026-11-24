@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentCharacterArgumentMulStabilizer
 public import Formalism.LocalToGlobal.Columns.ChainTwZero
 public import Formalism.LocalToGlobal.Columns.ChainLawXi
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
@@ -72,21 +73,7 @@ theorem clXQ_eq_inX {v : Fin (n + c) → k} (hv : v ∈ Loc.Ufl k n c 0) : v = L
 
 theorem clXQ_res {r : (Fin (n + c) → k) ≃ₗ[k] (Fin (n + c) → k)} (hr : r ∈ Loc.R1 k n c) :
     ∃ g : (Fin n → k) ≃ₗ[k] (Fin n → k), ∀ x, r (Loc.inX k n c x) = Loc.inX k n c (g x) := by
-  have h1 : ∀ x, r (Loc.inX k n c x) = Loc.inX k n c (twZrPr (r (Loc.inX k n c x))) :=
-    fun x => clXQ_eq_inX (hr.1.1 0 _ (twZr_inX_mem_Ufl x 0))
-  have h2 : ∀ x, r⁻¹ (Loc.inX k n c x) = Loc.inX k n c (twZrPr (r⁻¹ (Loc.inX k n c x))) :=
-    fun x => clXQ_eq_inX (hr.2.1 0 _ (twZr_inX_mem_Ufl x 0))
-  refine ⟨LinearEquiv.ofLinear (twZrPr ∘ₗ r.toLinearMap ∘ₗ Loc.inX k n c) (twZrPr ∘ₗ (r⁻¹).toLinearMap ∘ₗ Loc.inX k n c) ?_ ?_, h1⟩
-  · refine LinearMap.ext fun x => ?_
-    show twZrPr (r (Loc.inX k n c (twZrPr (r⁻¹ (Loc.inX k n c x))))) = x
-    rw [← h2]
-    show twZrPr (r (r.symm (Loc.inX k n c x))) = x
-    rw [LinearEquiv.apply_symm_apply, twZrPr_inX]
-  · refine LinearMap.ext fun x => ?_
-    show twZrPr (r⁻¹ (Loc.inX k n c (twZrPr (r (Loc.inX k n c x))))) = x
-    rw [← h1]
-    show twZrPr (r.symm (r (Loc.inX k n c x))) = x
-    rw [LinearEquiv.symm_apply_apply, twZrPr_inX]
+  apply +allowSynthFailures _root_.GlobalTheory.QNormal.exists_res <;> assumption
 
 end Res
 

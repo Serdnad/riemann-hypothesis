@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormFlagZeroMiddleInverseMinorOrthogonal
+import Formalism.SharpRestriction.CuspSpanNormBounds.BesselShellMomentBounds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.DiagonalEntryIdentity
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalDataRealPlace
 public import Formalism.HermitianCurvature.StatementG
@@ -308,20 +310,7 @@ theorem Hpk_wI (k r : ℕ) (j : Fin (k + 1)) (q : Fin (2 * r + k + 1)) :
 
 theorem herm_Hpk_wb (k r : ℕ) (v w : Fin (2 * r + k + 1) → ℂ) (hw : inWb k r w) :
     herm (Hpk k r) v w = herm (Hb k) (wbPart k r v) (wbPart k r w) := by
-  rw [herm_Hb]
-  unfold herm
-  simp only [dotProduct, Pi.star_apply]
-  symm
-  apply Fintype.sum_of_injective (wI k r) (wI_inj k r)
-  · intro i hi
-    rw [hw i (not_range_wI k r i hi)]
-    simp
-  · intro j
-    have : (Hpk k r *ᵥ v) (wI k r j) = (if j = Fin.last k then (-1 : ℂ) else 1) * v (wI k r j) := by
-      simp only [Matrix.mulVec, dotProduct, Hpk_wI]
-      simp
-    rw [this]
-    rfl
+  apply _root_.GlobalTheory.Amp.NfMid.herm_mid <;> assumption
 
 theorem wbPart_bigCell (k r : ℕ) (c : Fin r → ℂ) (μ : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ)
     (z' : Fin (2 * r + k + 1) → ℂ) (hz' : inWb k r z') :
@@ -681,40 +670,7 @@ theorem plEmb_injective : Function.Injective (plEmb D) := by
   exact D.eTau.injective (Subtype.ext h1)
 
 theorem plOf_bijective : Function.Bijective (plOf D) := by
-  have hcm := D.host.der.cmType.1
-  constructor
-  · intro v w h
-    rcases InfinitePlace.mk_eq_iff.1 h with h | h
-    · exact plEmb_injective D h
-    · exfalso
-      have h1 := (hcm (plEmb D v)).1 (plEmb_mem D v)
-      apply h1
-      have : (starRingEnd ℂ).comp (plEmb D v) = plEmb D w := h
-      rw [this]
-      exact plEmb_mem D w
-  · intro w
-    by_cases hw : w.embedding ∈ D.host.cmType
-    · obtain ⟨g, hg⟩ := (factEmb D.R D.host).1.2 w.embedding
-      have hgP : g ∈ D.R.Psi := ((factEmb D.R D.host).2 g).1 (hg ▸ hw)
-      refine ⟨D.eTau.symm ⟨g, hgP⟩, ?_⟩
-      have : plEmb D (D.eTau.symm ⟨g, hgP⟩) = w.embedding := by
-        unfold plEmb
-        rw [Equiv.apply_symm_apply]
-        exact hg
-      unfold plOf
-      rw [this, InfinitePlace.mk_embedding]
-    · have hw' : (starRingEnd ℂ).comp w.embedding ∈ D.host.cmType := by
-        by_contra hc
-        exact hw ((hcm w.embedding).2 hc)
-      obtain ⟨g, hg⟩ := (factEmb D.R D.host).1.2 ((starRingEnd ℂ).comp w.embedding)
-      have hgP : g ∈ D.R.Psi := ((factEmb D.R D.host).2 g).1 (hg ▸ hw')
-      refine ⟨D.eTau.symm ⟨g, hgP⟩, ?_⟩
-      have : plEmb D (D.eTau.symm ⟨g, hgP⟩) = ComplexEmbedding.conjugate w.embedding := by
-        unfold plEmb
-        rw [Equiv.apply_symm_apply]
-        exact hg
-      unfold plOf
-      rw [this, InfinitePlace.mk_conjugate_eq, InfinitePlace.mk_embedding]
+  apply _root_.Formalism.MainNotions.BesselShellMomentBounds.plOf_bij <;> assumption
 
 theorem card_places : Fintype.card (InfinitePlace D.host.E) = D.R.f := by
   rw [← D.what₂.card_Tau]

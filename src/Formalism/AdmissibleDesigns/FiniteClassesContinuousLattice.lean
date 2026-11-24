@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCyclotomicBlockCocyclesLeSha
 public import Formalism.AdmissibleDesigns.NonemptyPl
 public import Formalism.CharacterColumnKernels.IdempotentNormalForms.GlobalConcreteOf
 public import Formalism.WachLatticeTwists.RealClassMaps.RealClassMapTheorem
@@ -67,24 +68,8 @@ variable {l : ℕ} [Fact l.Prime] {E Ω : Type} [Field E] [Field Ω] [Algebra E 
   (Bw : LocBridge l E Ω Gw O)
 
 theorem toLLK_surj : Function.Surjective (Br.toLLK Bw) := by
-  intro y
-  have halg : IsAlgebraic ℚ_[l] y := Algebra.IsAlgebraic.isAlgebraic y
-  have halg' : IsAlgebraic ℤ_[l] y := (IsFractionRing.isAlgebraic_iff ℤ_[l] ℚ_[l] (Br.LLw Bw)).mpr halg
-  obtain ⟨n, hn, hint⟩ := IsAlgebraic.exists_integral_multiple halg'
-  let x : Formalism.BasicNotions.Loc.OL Bw.LL := ⟨n • y, hint⟩
-  have hn' : algebraMap ℤ_[l] (Br.LLw Bw) n ≠ 0 := by
-    intro h0
-    apply hn
-    have : algebraMap ℚ_[l] (Br.LLw Bw) (algebraMap ℤ_[l] ℚ_[l] n) = 0 := by
-      rw [← IsScalarTower.algebraMap_apply]; exact h0
-    have h2 := (algebraMap ℚ_[l] (Br.LLw Bw)).injective (this.trans (map_zero _).symm)
-    exact (IsFractionRing.injective ℤ_[l] ℚ_[l]) (h2.trans (map_zero _).symm)
-  refine ⟨algebraMap O (FractionRing O) (Bw.eO.symm x) /
-    algebraMap O (FractionRing O) (Bw.eO.symm (algebraMap ℤ_[l] (Formalism.BasicNotions.Loc.OL Bw.LL) n)), ?_⟩
-  rw [map_div₀, Br.toLLK_alg, Br.toLLK_alg, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
-  rw [← IsScalarTower.algebraMap_apply, div_eq_iff hn']
-  change n • y = y * _
-  rw [Algebra.smul_def, mul_comm]
+  intros
+  apply _root_.GlobalTheory.Cut.ShaBound.toLLK_surj <;> assumption
 
 def eK : FractionRing O ≃+* Br.LLw Bw :=
   RingEquiv.ofBijective (Br.toLLK Bw) ⟨(Br.toLLK Bw).injective, toLLK_surj Bw⟩

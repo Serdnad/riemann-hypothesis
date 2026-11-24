@@ -4,6 +4,7 @@ public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassifica
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Topology.UniformSpace.Matrix
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IntegrableComplexContinuousBoundedSupport
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RightDerivativeSmoothOnIndefiniteUnitaryGroup
 
 @[expose] public section
 
@@ -25,17 +26,7 @@ def RightOK (ε : Fin n → Bool) (X : GMod n) (c : X.V →ₗ[ℂ] (Matrix (Fin
 set_option backward.isDefEq.respectTransparency false in
 theorem exp_entry (Y : Matrix (Fin n) (Fin n) ℂ) (i j : Fin n) :
     HasDerivAt (fun t : ℝ => NormedSpace.exp ((t : ℂ) • Y) i j) (Y i j) 0 := by
-  have e1 : (fun t : ℝ => NormedSpace.exp ((t : ℂ) • Y) i j) =
-      fun t : ℝ => Matrix.entryLinearMap ℝ ℂ i j (NormedSpace.exp (t • Y)) := by
-    funext t
-    have : (t : ℂ) • Y = t • Y := by ext a b; simp [Complex.real_smul]
-    rw [this]; rfl
-  have e2 : Y i j = Matrix.entryLinearMap ℝ ℂ i j (NormedSpace.exp ((0 : ℝ) • Y) * Y) := by
-    simp [NormedSpace.exp_zero]
-  rw [e1, e2]
-  open scoped Matrix.Norms.Operator in
-  exact (LinearMap.toContinuousLinearMap (Matrix.entryLinearMap ℝ ℂ i j)).hasFDerivAt.comp_hasDerivAt
-    (0 : ℝ) (hasDerivAt_exp_smul_const (𝕂 := ℝ) Y 0)
+  apply _root_.GlobalTheory.RightDerivSmooth.hasDerivAt_exp_entry <;> assumption
 
 theorem mul_exp_entry (g Y : Matrix (Fin n) (Fin n) ℂ) (j i : Fin n) :
     HasDerivAt (fun t : ℝ => (g * NormedSpace.exp ((t : ℂ) • Y)) j i) ((g * Y) j i) 0 := by

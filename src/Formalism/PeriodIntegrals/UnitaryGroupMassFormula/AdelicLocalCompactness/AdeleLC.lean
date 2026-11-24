@@ -151,80 +151,14 @@ private theorem exists_ringOfIntegers_valuation_sub_lt_one_of_le (k : F) (hk : v
     _ = v.valuation F (algebraMap (𝓞 F) F i) := one_mul _
     _ < 1 := hvi
 
-private theorem valued_algebraMap_adicCompletion_eq_valuation' (k : F) :
-    Valued.v (algebraMap F (v.adicCompletion F) k) = v.valuation F k := by
-  exact valuedAdicCompletion_eq_valuation' v k
-
 private theorem valued_algebraMap_ringOfIntegers_eq_intValuation (a : 𝓞 F) :
     Valued.v (algebraMap (𝓞 F) (v.adicCompletion F) a) = v.intValuation a := by
-  rw [IsScalarTower.algebraMap_apply (𝓞 F) F (v.adicCompletion F), valued_algebraMap_adicCompletion_eq_valuation']
-  exact valuation_of_algebraMap v a
+  rw [IsScalarTower.algebraMap_apply (𝓞 F) F (v.adicCompletion F)]
+  exact (valuedAdicCompletion_eq_valuation' v _).trans (valuation_of_algebraMap v a)
 
 private theorem denseRange_algebraMap_adicCompletion' : DenseRange (algebraMap F (v.adicCompletion F)) := by
   first
   | exact IsDedekindDomain.HeightOneSpectrum.denseRange_algebraMap F v
-
-private theorem exists_ringOfIntegers_valued_sub_lt_one_of_le_one (x : v.adicCompletion F) (hx : Valued.v x ≤ 1) :
-    ∃ r : 𝓞 F, Valued.v (x - algebraMap (𝓞 F) (v.adicCompletion F) r) < 1 := by
-  obtain ⟨π, hπp, hπ0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot v.ne_bot
-  have hvP : Valued.v (algebraMap (𝓞 F) (v.adicCompletion F) π) < 1 := by
-    rw [valued_algebraMap_ringOfIntegers_eq_intValuation]
-    exact (intValuation_lt_one_iff_mem v π).mpr hπp
-  have hP0 : algebraMap (𝓞 F) (v.adicCompletion F) π ≠ 0 := by
-    rw [IsScalarTower.algebraMap_apply (𝓞 F) F (v.adicCompletion F)]
-    exact (map_ne_zero _).mpr ((map_ne_zero_iff _ (IsFractionRing.injective (𝓞 F) F)).mpr hπ0)
-  have hO : IsOpen (v.adicCompletionIntegers F : Set (v.adicCompletion F)) :=
-    Valued.isOpen_valuationSubring _
-  have hW : IsOpen ((fun y => (algebraMap (𝓞 F) (v.adicCompletion F) π)⁻¹ * (y - x)) ⁻¹'
-      (v.adicCompletionIntegers F : Set (v.adicCompletion F))) := by
-    apply hO.preimage
-    exact continuous_const.mul (continuous_id.sub continuous_const)
-  have hxW : x ∈ ((fun y => (algebraMap (𝓞 F) (v.adicCompletion F) π)⁻¹ * (y - x)) ⁻¹'
-      (v.adicCompletionIntegers F : Set (v.adicCompletion F))) := by
-    show (algebraMap (𝓞 F) (v.adicCompletion F) π)⁻¹ * (x - x) ∈ v.adicCompletionIntegers F
-    rw [sub_self, mul_zero]
-    exact zero_mem _
-  obtain ⟨k, hk⟩ := (denseRange_algebraMap_adicCompletion' F v).exists_mem_open hW ⟨x, hxW⟩
-  have h1 : (algebraMap (𝓞 F) (v.adicCompletion F) π)⁻¹ *
-      (algebraMap F (v.adicCompletion F) k - x) ∈ v.adicCompletionIntegers F := hk
-  have h2 := (mem_adicCompletionIntegers (𝓞 F) F v).mp h1
-  have hk' : Valued.v (algebraMap F (v.adicCompletion F) k - x) < 1 := by
-    have e : algebraMap F (v.adicCompletion F) k - x =
-        algebraMap (𝓞 F) (v.adicCompletion F) π * ((algebraMap (𝓞 F) (v.adicCompletion F) π)⁻¹ *
-          (algebraMap F (v.adicCompletion F) k - x)) := by
-      rw [mul_inv_cancel_left₀ hP0]
-    rw [e, map_mul]
-    calc _ ≤ Valued.v (algebraMap (𝓞 F) (v.adicCompletion F) π) * 1 := by
-          first
-          | gcongr
-      _ < 1 := by rw [mul_one]; exact hvP
-  have hkv : v.valuation F k ≤ 1 := by
-    rw [← valued_algebraMap_adicCompletion_eq_valuation' F v k]
-    have h3 := Valuation.map_add_le (v := Valued.v) hk'.le hx
-    rwa [sub_add_cancel] at h3
-  obtain ⟨r, hr⟩ := exists_ringOfIntegers_valuation_sub_lt_one_of_le F v k hkv
-  refine ⟨r, ?_⟩
-  have e : x - algebraMap (𝓞 F) (v.adicCompletion F) r =
-      (x - algebraMap F (v.adicCompletion F) k) +
-        algebraMap F (v.adicCompletion F) (k - algebraMap (𝓞 F) F r) := by
-    rw [map_sub, ← IsScalarTower.algebraMap_apply (𝓞 F) F (v.adicCompletion F)]
-    ring
-  rw [e]
-  refine Valuation.map_add_lt (v := Valued.v) ?_ ?_
-  · rw [Valuation.map_sub_swap]
-    exact hk'
-  · rw [valued_algebraMap_adicCompletion_eq_valuation']
-    exact hr
-
-private theorem mem_maximalIdeal_of_valued_lt_one (d : Valued.integer (v.adicCompletion F))
-    (hd : Valued.v (d : v.adicCompletion F) < 1) :
-    d ∈ IsLocalRing.maximalIdeal (Valued.integer (v.adicCompletion F)) := by
-  show ¬ IsUnit d
-  intro hu
-  have h1 : Valued.v (d : v.adicCompletion F) = 1 := by
-    exact (Valuation.integer.integers
-      (Valued.v : Valuation (v.adicCompletion F) _)).isUnit_iff_valuation_eq_one.mp hu
-  exact (ne_of_lt hd) h1
 
 theorem finite_residueField :
     Finite (IsLocalRing.ResidueField (Valued.integer (v.adicCompletion F))) := by

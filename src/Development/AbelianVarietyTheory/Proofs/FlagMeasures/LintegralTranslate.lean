@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MeasurableEmbeddingLmul
 public import Development.AbelianVarietyTheory.Definitions.Jets.SideFam
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 import Mathlib.Algebra.Order.Floor.Extended
@@ -212,14 +213,7 @@ theorem isBesselMapSm_of {k r : ℕ} {H Wp : Type} [NormedAddCommGroup H] [Inner
     [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] {z : Fin (2 * r + k + 1) → ℂ} {ψ : MatKR k r → ℂ}
     {σ : MatKR k r → (H →L[ℂ] H)} {π : MatKR k r → (Wp →L[ℂ] Wp)} {B : H → Wp}
     (h : IsBesselMapSm (k := k) (r := r) z ψ σ π B) : PI.BesselMapUniq.IsBesselMapSm (k := k) (r := r) z ψ σ π B := by
-  have e : ∀ (w : List (MatKR k r)) (v : H), PI.UpqRep.dsigW (k := k) (r := r) σ w v = dsigW (k := k) (r := r) σ w v := by
-    intro w v
-    induction w with
-    | nil => rfl
-    | cons X w ih =>
-      show PI.UpqRep.dsig σ X (PI.UpqRep.dsigW σ w v) = dsig σ X (dsigW σ w v)
-      rw [ih]; rfl
-  obtain ⟨h1, h2, h3, C, Ws, h4, h5⟩ := h
-  exact ⟨h1, h2, h3, C, Ws, h4, fun v hv => by simp only [e]; exact h5 v hv⟩
+  intros
+  apply _root_.GlobalTheory.BesselSchur.isBesselMapSm_of <;> assumption
 
 end GlobalTheory.AmpMoments

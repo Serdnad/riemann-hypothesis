@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.PeriodLatticeFinitelyGenerated
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GenericMassLeHeightPowMulGluedCountStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermLoc
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.AtBase
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RowsConc
@@ -398,15 +400,8 @@ namespace GlobalTheory.HL
 private theorem sum_castLE_lemma {M : Type} [AddCommMonoid M] {l N : ℕ} (h : l ≤ N) (g : Fin N → M)
     (hg : ∀ a : Fin N, l ≤ (a : ℕ) → g a = 0) :
     ∑ a, g a = ∑ a : Fin l, g (Fin.castLE h a) := by
-  symm
-  calc ∑ a : Fin l, g (Fin.castLE h a) = ∑ x ∈ Finset.univ.map (Fin.castLEEmb h), g x :=
-        (Finset.sum_map Finset.univ (Fin.castLEEmb h) g).symm
-    _ = ∑ a, g a := by
-        apply Finset.sum_subset (Finset.subset_univ _)
-        intro a _ ha
-        apply hg
-        by_contra hlt
-        exact ha (Finset.mem_map.2 ⟨⟨(a : ℕ), Nat.lt_of_not_le hlt⟩, Finset.mem_univ _, Fin.ext rfl⟩)
+  intros
+  apply _root_.Formalism.L2.Ker.sum_castLE <;> assumption
 
 theorem leadMinorE_unitri_both {E : Type} [Field E] {N : ℕ} (Z U U' : Matrix (Fin N) (Fin N) E)
     (hU : IsUpUni U) (hU' : IsUpUni U') (l : ℕ) :
@@ -630,19 +625,7 @@ namespace GlobalTheory.HL.MovedTermLoc
 
 theorem uni_mul {R : Type} [CommRing R] {n : ℕ} (A B : Matrix (Fin n) (Fin n) R) (hA : Uni A) (hB : Uni B) :
     Uni (A * B) := by
-  refine ⟨fun a b hab => ?_, fun a => ?_⟩
-  · rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun c _ => ?_
-    rcases lt_or_ge c a with h | h
-    · rw [hA.1 a c h, zero_mul]
-    · rw [hB.1 c b (lt_of_lt_of_le hab h), mul_zero]
-  · rw [Matrix.mul_apply, Finset.sum_eq_single a]
-    · rw [hA.2 a, hB.2 a, one_mul]
-    · intro c _ hc
-      rcases lt_or_gt_of_ne hc with h | h
-      · rw [hA.1 a c h, zero_mul]
-      · rw [hB.1 c a h, mul_zero]
-    · intro h; exact absurd (Finset.mem_univ a) h
+  first | exact _root_.GlobalTheory.FrameChoice.uni_mul | exact @_root_.GlobalTheory.FrameChoice.uni_mul | apply _root_.GlobalTheory.FrameChoice.uni_mul <;> assumption
 
 theorem uni_map {R S : Type} [CommRing R] [CommRing S] {n : ℕ} (f : R →+* S) (A : Matrix (Fin n) (Fin n) R)
     (hA : Uni A) : Uni (A.map f) :=

@@ -87,8 +87,8 @@ theorem good_of_span (hW1 : GeneratorSpanInclusion) (hW2 : GeneratorImageIsSymbo
 
 end Asm
 
-theorem lemma4_of_remaining_statements (D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) (hModel : RestModel) (hDiv : RestDivM CLa CD Csz)
-    (hW1 : GeneratorSpanInclusion) (hW2 : GeneratorImageIsSymbol) (hMon : RestMon) (hPh : RestPh) : Conclusion6 D CLa CD Csz := by
+theorem lemma4_of_remaining_statements_with (degreeBound : ℝ → ℝ → Prop) (D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) (hModel : RestModel) (hDiv : RestDivMWith degreeBound CLa CD Csz)
+    (hW1 : GeneratorSpanInclusion) (hW2 : GeneratorImageIsSymbol) (hMon : RestMon) (hPh : RestPh) : Conclusion6With degreeBound D CLa CD Csz := by
   intro p n' r K _ _ _ _ O _ _ _ _ S hO hH Fr L₁ N₁ G' hV hT deg a Y c0 c'' cStar Dd hII c' g hg n obd xi dd hxi hdd
     mon hmon hmonT o ho
   have hII' := hII
@@ -138,5 +138,9 @@ theorem lemma4_of_remaining_statements (D : Formalism.BasicNotions.D7) (CLa CD C
   · exact inWPow_zero_mul (inWPow_zero_mul (bc_inWj_monomial S.w mon) hSg0) hY0
   · intro m hm
     exact ho m (support_map_subset _ _ hm)
+
+theorem lemma4_of_remaining_statements (D : Formalism.BasicNotions.D7) (CLa CD Csz : ℝ) (hModel : RestModel) (hDiv : RestDivM CLa CD Csz)
+    (hW1 : GeneratorSpanInclusion) (hW2 : GeneratorImageIsSymbol) (hMon : RestMon) (hPh : RestPh) : Conclusion6 D CLa CD Csz := by
+  exact lemma4_of_remaining_statements_with (fun d l => |d - l| ≤ l / 100) D CLa CD Csz hModel hDiv hW1 hW2 hMon hPh
 
 end Formalism.MainNotions.G.symbolGeneratorData

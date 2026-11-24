@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CoprimeLevel
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IsDiffOf
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.NonemptyFiniteRootsOfBimul
@@ -86,24 +87,7 @@ theorem main : ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E] [inst_2 
     (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) {a : NumberField.RingOfIntegers E}, a ∈ GlobalTheory.CM.OK H →
     ∃ (u : ℤ) (v : ℤ), a = (↑u : NumberField.RingOfIntegers E) + (↑v : NumberField.RingOfIntegers E) *
       ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host.w0 H := by
-  intro E _ _ _ H a ha
-  set k : ℤ := (((H.d + 1) / 4 : ℕ) : ℤ) with hk
-  have hsq : H.w0 * H.w0 = H.w0 - (k : 𝓞 E) := by rw [cm_generator_sq_quadratic_eq H, hk, Int.cast_natCast]
-  induction ha using Algebra.adjoin_induction with
-  | mem x hx =>
-    rw [Set.mem_singleton_iff] at hx
-    exact ⟨0, 1, by rw [hx]; push_cast; ring⟩
-  | algebraMap r => exact ⟨r, 0, by simp⟩
-  | add x y _ _ hx hy =>
-    obtain ⟨u, v, rfl⟩ := hx
-    obtain ⟨u', v', rfl⟩ := hy
-    exact ⟨u + u', v + v', by push_cast; ring⟩
-  | mul x y _ _ hx hy =>
-    obtain ⟨u, v, rfl⟩ := hx
-    obtain ⟨u', v', rfl⟩ := hy
-    refine ⟨u * u' - v * v' * k, u * v' + v * u' + v * v', ?_⟩
-    push_cast
-    linear_combination (v * v' : 𝓞 E) * hsq
+  apply _root_.GlobalTheory.Models.exists_eq_of_mem_adjoin_quadratic_generator <;> assumption
 
 end GlobalTheory.CMGeneratorSquare
 end -- clump:auto

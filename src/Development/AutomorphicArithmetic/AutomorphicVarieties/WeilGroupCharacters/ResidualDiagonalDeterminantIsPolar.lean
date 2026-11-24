@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocallyConstantOfKernel
 public import Mathlib.Algebra.Group.Subgroup.Ker
 public import Mathlib.Topology.Algebra.Group.Defs
 public import Mathlib.Topology.LocallyConstant.Basic
@@ -60,17 +61,8 @@ section -- clump:auto
 theorem UpperTheory.Reformulated.B.LocallyConstantOfKernelCapelliIdentities.locConst_of_ker :
     ∀ {G M : Type} [inst : Group G]
     [inst_1 : TopologicalSpace G] [IsTopologicalGroup G] [inst_3 : Group M] (χ : G →* M),
-    IsOpen (↑χ.ker : Set G) → IsLocallyConstant (⇑χ : G → M) := by
-  intro G M _ _ _ _ χ h
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  refine ⟨(fun y => x⁻¹ * y) ⁻¹' (↑χ.ker : Set G),
-    h.preimage (continuous_const.mul continuous_id), ?_, ?_⟩
-  · simp
-  · intro y hy
-    have hy' : χ (x⁻¹ * y) = 1 := MonoidHom.mem_ker.mp hy
-    rw [map_mul, map_inv] at hy'
-    exact (inv_mul_eq_one.mp hy').symm
+    IsOpen (↑χ.ker : Set G) → IsLocallyConstant (⇑χ : G → M) :=
+  _root_.UpperTheory.Reformulated.B.LocallyConstantOfKernel.lc_of_ker
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocConstOfKer =====

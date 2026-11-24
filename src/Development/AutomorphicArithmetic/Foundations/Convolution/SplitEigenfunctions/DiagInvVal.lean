@@ -135,14 +135,6 @@ private def cR {E : Type} [Field E] (t : Eˣ) (g : Matrix.SpecialLinearGroup (Fi
     rw [this]
     exact h⟩
 
-private theorem cD_ratS {E : Type} [Field E] [NumberField E] (t : Eˣ)
-    (g : Matrix.SpecialLinearGroup (Fin 2) E) :
-    cD (IdeleGroup.diagonal E t) (ratS E g) = ratS E (cR t g) := by
-  refine Subtype.ext ?_
-  rw [M.val_ratS]
-  ext i j
-  fin_cases i <;> fin_cases j <;>
-    simp [cD, cR, M.val_ratS, diag_inv_val, UpperTheory.ConvolutionTheory.R2.rt, map_mul]
 
 private theorem conj_int {E : Type} [Field E] [NumberField E] (N : MeasE E) (u : G1 E → ℂ)
     (hu : ∀ γ g, u (ratS E γ * g) = u g) (t : Eˣ) :

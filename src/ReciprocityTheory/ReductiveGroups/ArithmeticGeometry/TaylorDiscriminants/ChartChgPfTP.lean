@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
 import Mathlib.RingTheory.PiTensorProduct
 public import Mathlib.Data.Finset.MulAntidiagonal
@@ -130,41 +131,8 @@ theorem pderiv_subst_coe {σ τ : Type} [Fintype σ] [DecidableEq σ] {a : σ �
 theorem pderiv_subst {σ τ : Type} [Fintype σ] [DecidableEq σ] (a : σ → MvPowerSeries τ k)
     (ha : ∀ s, constantCoeff (a s) = 0) (i : τ) (f : MvPowerSeries σ k) :
     pderiv i (subst a f) = ∑ s, subst a (pderiv s f) * pderiv i (a s) := by
-  classical
-  have hs : HasSubst a := (by first
-      | exact MvPowerSeries.hasSubst_of_constantCoeff_zero ha)
-  have hle : ∀ (m : σ →₀ ℕ) (s : σ), m s ≤ m.degree := by
-    intro m s
-    have h := congrArg Finsupp.degree (Finsupp.single_add_erase s m)
-    first
-    | (rw [map_add (f := _), Finsupp.degree_single] at h; omega)
-  ext e
-  obtain ⟨q, hq⟩ : ∃ q : MvPolynomial σ k, OrdGE (e.degree + 1 + 1) (f - (q : MvPowerSeries σ k)) := by
-    refine ⟨∑ m ∈ Finset.Iic (Finsupp.equivFunOnFinite.symm (fun _ : σ => e.degree + 1 + 1)),
-      MvPolynomial.monomial m (coeff m f), ?_⟩
-    intro m hm
-    have hmn : m ∈ Finset.Iic (Finsupp.equivFunOnFinite.symm (fun _ : σ => e.degree + 1 + 1)) := by
-      rw [Finset.mem_Iic]
-      show ∀ s, m s ≤ (Finsupp.equivFunOnFinite.symm (fun _ : σ => e.degree + 1 + 1)) s
-      intro s
-      have := hle m s
-      first
-      | (show m s ≤ e.degree + 1 + 1; omega)
-    rw [map_sub, MvPolynomial.coeff_coe, MvPolynomial.coeff_sum]
-    simp [MvPolynomial.coeff_monomial, hmn]
-  have k1 : coeff e (pderiv i (subst a (f - (q : MvPowerSeries σ k)))) = 0 :=
-    ordGE_pderiv i (r := e.degree + 1) (ordGE_subst a ha hq) e (by omega)
-  have k2 : coeff e (∑ s, subst a (pderiv s (f - (q : MvPowerSeries σ k))) * pderiv i (a s)) = 0 := by
-
-    rw [map_sum]
-    refine Finset.sum_eq_zero fun s _ => ?_
-    exact ordGE_mul (ordGE_subst a ha (ordGE_pderiv s (r := e.degree + 1) hq))
-      (ordGE_zero_left (pderiv i (a s))) e (by omega)
-  have hpoly := ChartChgPfTP.pderiv_subst_coe hs i q
-  rw [MvPowerSeries.coe_substAlgHom] at hpoly
-  have hfq : f = (q : MvPowerSeries σ k) + (f - (q : MvPowerSeries σ k)) := (add_sub_cancel _ _).symm
-  rw [hfq]
-  simp only [MvPowerSeries.subst_add hs, map_add (f := _), add_mul, Finset.sum_add_distrib, hpoly, k1, k2]
+  intros
+  apply _root_.GlobalTheory.FormalLog.pderiv_subst <;> assumption
 
 variable {d : ℕ}
 

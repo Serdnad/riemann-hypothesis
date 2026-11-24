@@ -1,5 +1,6 @@
 module
 
+import all Formalism.HermitianCurvature.HermitianCurvatureProofs.RegularisedPairingViaPhase
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreGTRRotCut
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.TwoByOneBlock
@@ -171,12 +172,7 @@ theorem hpk_col (p i : Fin (2 * r + k + 1)) (hp : r ≤ p.val ∧ p.val ≤ r + 
 
 theorem hpk_row (p j : Fin (2 * r + k + 1)) (hp : r ≤ p.val ∧ p.val ≤ r + k) :
     Hpk k r p j = if j = p then (if p.val = r + k then -1 else 1) else 0 := by
-  unfold Hpk
-  by_cases hip : j = p
-  · subst hip
-    rw [if_neg (by omega), if_neg (by omega), if_pos ⟨hp.1, hp.2, rfl⟩, if_pos rfl]
-  · have hv : j.val ≠ p.val := fun h => hip (Fin.ext h)
-    rw [if_neg (by omega), if_neg (by omega), if_neg (fun h => hip h.2.2.symm), if_neg hip]
+  apply _root_.Formalism.FourierDecayAlt.P.B5.hpk_apply_of_mid_index <;> assumption
 
 theorem hs_apply (p i m : Fin (2 * r + k + 1)) :
     (Hpk k r * Matrix.single p p (1 : ℂ)) i m = if m = p then Hpk k r i p else 0 := by
@@ -539,11 +535,7 @@ theorem phase_star_mul (φ : ℝ) :
   simp [Complex.conj_ofReal]
 
 theorem Hb_mul_self : Hb k * Hb k = 1 := by
-  unfold Hb
-  rw [diagonal_mul_diagonal, ← diagonal_one]
-  congr 1
-  funext j
-  split_ifs <;> norm_num
+  apply _root_.Formalism.FourierDecayAlt.P.TwoByOneBlock.Hb_sq <;> assumption
 
 theorem inv_of_UH {g : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (Hb k)) :
     g⁻¹ * g = 1 ∧ g * g⁻¹ = 1 := by
@@ -556,12 +548,7 @@ theorem inv_of_UH {g : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (H
 
 theorem UH_mul {g h : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (Hb k)) (hh : h ∈ UH (Hb k)) :
     g * h ∈ UH (Hb k) := by
-  have e1 : gᴴ * Hb k * g = Hb k := hg
-  have e2 : hᴴ * Hb k * h = Hb k := hh
-  show (g * h)ᴴ * Hb k * (g * h) = Hb k
-  rw [conjTranspose_mul]
-  calc hᴴ * gᴴ * Hb k * (g * h) = hᴴ * (gᴴ * Hb k * g) * h := by simp only [Matrix.mul_assoc]
-    _ = Hb k := by rw [e1, e2]
+  apply _root_.Formalism.FourierDecayAlt.P.TwoByOneBlock.UHb_mul <;> assumption
 
 theorem UH_inv {g : Matrix (Fin (k + 1)) (Fin (k + 1)) ℂ} (hg : g ∈ UH (Hb k)) : g⁻¹ ∈ UH (Hb k) := by
   have hg' : gᴴ * Hb k * g = Hb k := hg

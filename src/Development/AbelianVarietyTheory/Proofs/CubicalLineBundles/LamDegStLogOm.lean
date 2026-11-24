@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.DegreeLieLatticeHermitianInvariant
 public import Formalism.LocalToGlobal.CMDeterminantIdeals.DetIdeal
 public import ReciprocityTheory.GeometryOfNumbers.LatticeCovolumes.ConjSymm
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.TwoMulDegDualLineCmIdeal
@@ -313,19 +314,7 @@ theorem hermFam_isometry_injective {K : Type*} [Field K] [NumberField K] {V V' :
     [AddCommGroup V] [Module K V] [AddCommGroup V'] [Module K V']
     (h : HermFam K V) (h' : HermFam K V') (M : V →ₗ[K] V')
     (hM : ∀ s a b, h'.form s (M a) (M b) = h.form s a b) : Function.Injective M := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  intro x hx
-  by_contra h0
-  obtain ⟨s⟩ : Nonempty (K →+* ℂ) := inferInstance
-  have hli : LinearIndependent K ![x] := by
-    rw [linearIndependent_unique_iff]; simpa using h0
-  have h1 := (h.posDef s 1 ![x] hli).diag_pos (i := 0)
-  have h2 : h'.form s (M x) (M x) = 0 := by
-    have := h'.smul_right s 0 (M x) (M x)
-    rw [zero_smul, map_zero, zero_mul] at this
-    rw [← this, hx]
-  rw [hM] at h2
-  simp [h2] at h1
+  apply _root_.GlobalTheory.FibIndep.injective_of_isometry <;> assumption
 
 theorem deg_map_isometry : ∀ (K : Type) [Field K] [NumberField K] (V V' : Type) [AddCommGroup V] [Module K V] [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] [AddCommGroup V'] [Module K V'] [Module (𝓞 K) V'] [IsScalarTower (𝓞 K) K V'] (h : HermFam K V) (h' : HermFam K V') (M : V →ₗ[K] V') (Λ : Submodule (𝓞 K) V), Λ.FG → (∀ s a b, h'.form s (M a) (M b) = h.form s a b) → ReciprocityTheory.GeometryOfNumbersTheory.deg h' (Λ.map (M.restrictScalars (𝓞 K))) = ReciprocityTheory.GeometryOfNumbersTheory.deg h Λ := by
   intro K _ _ V V' _ _ _ _ _ _ _ _ h h' M E hE hM

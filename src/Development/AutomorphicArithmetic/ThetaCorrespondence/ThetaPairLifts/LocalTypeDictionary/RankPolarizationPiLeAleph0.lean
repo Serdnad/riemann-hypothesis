@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RankSchwartzBruhatAdicCompletionPiLeAleph0
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RankAlgebraicDataSchrodingerModelLeAleph0
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -109,28 +110,7 @@ open TopologicalSpace Cardinal
 
 theorem countable_compactOpen (X : Type) [TopologicalSpace X] [SecondCountableTopology X] :
     {K : Set X | IsCompact K ∧ IsOpen K}.Countable := by
-  classical
-  have hB := isBasis_countableBasis X
-  haveI : Countable (countableBasis X) := (countable_countableBasis X).to_subtype
-  refine (Set.countable_range fun t : Finset (countableBasis X) => ⋃ b ∈ t, (b : Set X)).mono ?_
-  rintro K ⟨hKc, hKo⟩
-  obtain ⟨t, ht⟩ := hKc.elim_finite_subcover (fun b : {b : countableBasis X // (b : Set X) ⊆ K} => (b.1 : Set X))
-    (fun b => hB.isOpen b.1.2) (fun x hx => by
-      obtain ⟨b, hbB, hxb, hbK⟩ := hB.exists_subset_of_mem_open hx hKo
-      exact Set.mem_iUnion.2 ⟨⟨⟨b, hbB⟩, hbK⟩, hxb⟩)
-  refine ⟨t.image (fun c => c.1), ?_⟩
-  apply Set.Subset.antisymm
-  · intro x hx
-    rw [Set.mem_iUnion₂] at hx
-    obtain ⟨b, hb, hxb⟩ := hx
-    obtain ⟨c, -, rfl⟩ := Finset.mem_image.1 hb
-    exact c.2 hxb
-  · intro x hx
-    have := ht hx
-    rw [Set.mem_iUnion₂] at this
-    obtain ⟨c, hc, hxc⟩ := this
-    rw [Set.mem_iUnion₂]
-    exact ⟨c.1, Finset.mem_image.2 ⟨c, hc, rfl⟩, hxc⟩
+  first | exact _root_.GlobalTheory.SBCount.countable_compact_open | exact @_root_.GlobalTheory.SBCount.countable_compact_open | apply _root_.GlobalTheory.SBCount.countable_compact_open <;> assumption
 
 theorem finite_range_of_sb {X : Type} [TopologicalSpace X] {f : X → ℂ} (hf : IsLocallyConstant f)
     (hc : HasCompactSupport f) : (Set.range f).Finite := by

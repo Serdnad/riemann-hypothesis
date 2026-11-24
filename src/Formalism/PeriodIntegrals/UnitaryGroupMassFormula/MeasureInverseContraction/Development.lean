@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.HaarOn
 public import Mathlib.MeasureTheory.Constructions.BorelSpace.Basic
 public import Mathlib.MeasureTheory.Group.Defs
 public import Mathlib.MeasureTheory.Group.Prod
@@ -86,15 +87,7 @@ def HaarOn (N : Subgroup G) (μ : Measure G) : Prop :=
 
 theorem map_comap_subgroup (H : Subgroup G) (hH : IsClosed (H : Set G)) (μ : Measure G)
     (hc : μ (H : Set G)ᶜ = 0) : (μ.comap ((↑) : H → G)).map ((↑) : H → G) = μ := by
-  have hemb : MeasurableEmbedding ((↑) : H → G) := MeasurableEmbedding.subtype_coe hH.measurableSet
-  ext s hs
-  rw [Measure.map_apply hemb.measurable hs, hemb.comap_apply, Set.image_preimage_eq_inter_range]
-  have hr : Set.range ((↑) : H → G) = (H : Set G) := by ext x; simp
-  rw [hr]
-  have h1 := measure_inter_add_diff (μ := μ) s hH.measurableSet
-  have h2 : μ (s \ (H : Set G)) = 0 := measure_mono_null (fun x hx => hx.2) hc
-  rw [h2, add_zero] at h1
-  exact h1
+  apply _root_.Formalism.L2.SG.Pf.map_comap_subgroup <;> assumption
 
 private theorem abs_inv_lemma (S : Subgroup G) (hS : IsClosed (S : Set G)) (ν : Measure G)
     (hνc : ν (S : Set G)ᶜ = 0) (hνi : ∀ s ∈ S, ν.map (fun x => s * x) = ν) :

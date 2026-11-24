@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.AdjoinCoordsArithVar
 public import Development.EtaleCohomology.EtaleSheaves.LeafCloseBCut
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.AbProj
@@ -60,23 +61,8 @@ open CategoryTheory AlgebraicGeometry TopologicalSpace
 namespace LateralTheory.E.LeafProjModelPf
 
 theorem image_isReduced {X Y : Scheme.{0}} (f : X ⟶ Y) [QuasiCompact f] [IsReduced X] : IsReduced f.image := by
-  have hB := Y.isBasis_affineOpens.of_isInducing f.imageι.isEmbedding.isInducing
-  have hred : ∀ U : Y.affineOpens, _root_.IsReduced Γ(f.image, f.imageι ⁻¹ᵁ U) := fun U =>
-    isReduced_of_injective _ (f.toImage_app_injective U)
-  refine @isReduced_of_isReduced_stalk _ (fun z => ⟨?_⟩)
-  rintro g ⟨n, e⟩
-  obtain ⟨U, hzU, s, rfl⟩ := f.image.presheaf.exists_germ_eq g
-  rw [← map_pow, ← map_zero (f.image.presheaf.germ _ z hzU).hom] at e
-  obtain ⟨V, hzV, iU, iV, e'⟩ := f.image.presheaf.germ_eq z hzU hzU _ 0 e
-  rw [map_pow, map_zero] at e'
-  obtain ⟨_, ⟨W, hW, rfl⟩, hzW, hWV⟩ := Opens.isBasis_iff_nbhd.mp hB hzV
-  have h0 : f.image.presheaf.map (homOfLE hWV).op (f.image.presheaf.map iU.op s) = 0 := by
-    have hx := congrArg (f.image.presheaf.map (homOfLE hWV).op) e'
-    rw [map_pow, map_zero] at hx
-    exact (hred ⟨W, hW⟩).eq_zero _ ⟨n, hx⟩
-  rw [← f.image.presheaf.germ_res iU z hzV, ← f.image.presheaf.germ_res (homOfLE hWV) z hzW]
-  simp only [CommRingCat.comp_apply] at h0 ⊢
-  rw [h0, map_zero]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.SncRes.isReduced_image_of_quasiCompact <;> assumption
 
 theorem image_irreducible {X Y : Scheme.{0}} (f : X ⟶ Y) [QuasiCompact f] [IrreducibleSpace X] :
     IrreducibleSpace f.image := by

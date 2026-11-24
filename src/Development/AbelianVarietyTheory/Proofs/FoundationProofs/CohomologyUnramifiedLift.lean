@@ -532,18 +532,7 @@ theorem natCast_mem_iff (v : Pl) (n : ℕ) : (n : 𝓞 ℚ) ∈ v.asIdeal ↔ no
   exact Ideal.mul_mem_right _ _ (Ideal.absNorm_mem _)
 
 theorem normV_prime' (v : Pl) : (normV v).Prime := by
-  have h1 : 1 < normV v := by
-    rw [normV_eq_absNorm]
-    exact NumberField.HeightOneSpectrum.one_lt_absNorm v
-  refine Nat.prime_def.2 ⟨h1, fun m hm => ?_⟩
-  obtain ⟨c, hc⟩ := hm
-  have h2 := (natCast_mem_iff v _).2 dvd_rfl
-  rw [hc, Nat.cast_mul] at h2
-  rcases v.isPrime.mem_or_mem h2 with h | h
-  · exact Or.inr (Nat.dvd_antisymm ⟨c, hc⟩ ((natCast_mem_iff v _).1 h))
-  · have h3 := Nat.dvd_antisymm (Dvd.intro_left m hc.symm) ((natCast_mem_iff v _).1 h)
-    rw [h3] at hc
-    exact Or.inl (Nat.eq_of_mul_eq_mul_right (by omega) (hc.symm.trans (one_mul _).symm))
+  apply _root_.GlobalTheory.Ord2.PrimeChar.normV_prime <;> assumption
 
 theorem val_natCast_lt_one_iff {Ω : Type} [Field Ω] [Algebra ℚ Ω] {A : ValuationSubring Ω} {w : Pl}
     (h : IsPlaceOver A w) (n : ℕ) : A.valuation (n : Ω) < 1 ↔ normV w ∣ n := by
@@ -995,11 +984,7 @@ theorem dvd_of_mem {I : Ideal (𝓞 ℚ)} {n : ℕ} (h : (n : 𝓞 ℚ) ∈ I) :
   rwa [Ideal.absNorm_span_natCast, RingOfIntegers.rank, Module.finrank_self, pow_one] at h1
 
 theorem mem_iff (v : Pl) (n : ℕ) : (n : 𝓞 ℚ) ∈ v.asIdeal ↔ normV v ∣ n := by
-  rw [normV_eq]
-  refine ⟨dvd_of_mem, ?_⟩
-  rintro ⟨c, rfl⟩
-  rw [Nat.cast_mul]
-  exact Ideal.mul_mem_right _ _ (Ideal.absNorm_mem _)
+  apply _root_.GlobalTheory.Ord2.AuxiliaryInertOddPrime.natCast_mem_iff <;> assumption
 
 theorem not_mem_l {w : Pl} {n : ℕ} (hn : 1 ≤ n) (hw : l ^ n ∣ normV w - 1) : ((l : ℕ) : 𝓞 ℚ) ∉ w.asIdeal := by
   intro h

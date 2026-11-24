@@ -8,6 +8,7 @@ public import GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PLinePairOrbit
 import Mathlib.Data.Finset.Functor
 import Mathlib.NumberTheory.NumberField.ClassNumber
 import Mathlib.Tactic.TypeStar
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.Counting
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PIdealClassesFinite, GroundTheory.HeightsAndTheta.Heights.FiniteCovolume.PLineNormalForm
@@ -163,17 +164,7 @@ theorem isIntegral_mul_of_dvd {a b : ℕ} {x : E} (hx : IsIntegral ℤ ((a : E) 
   exact isIntegral_natCast_mul hx
 
 theorem exists_nat_mul_isIntegral (x : E) : ∃ n : ℕ, 0 < n ∧ IsIntegral ℤ ((n : E) * x) := by
-  obtain ⟨y, hy, hyx⟩ := exists_integral_multiples ℤ ℚ (L := E) {x}
-  have hyx := hyx x (Finset.mem_singleton_self x)
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, ?_⟩
-  rw [zsmul_eq_mul] at hyx
-  have hc : ((y.natAbs : ℕ) : E) = ((y.natAbs : ℤ) : E) := (Int.cast_natCast _).symm
-  rw [hc]
-  rcases Int.natAbs_eq y with h | h
-  · rwa [← h]
-  · have h' : (y.natAbs : ℤ) = -y := by omega
-    rw [h', Int.cast_neg, neg_mul]
-    exact hyx.neg
+  apply _root_.GroundTheory.Automorphic.CuspidalSpectrum.exists_pos_natCast_mul_isIntegral <;> assumption
 
 
 theorem exists_den_of_fg {J : AddSubgroup E} (hJ : J.FG) :

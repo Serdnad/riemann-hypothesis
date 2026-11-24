@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachExpansionLatticeGradedOfLevelLe
 public import Formalism.SharpRestriction.GrowthBounds.MonomialOrderSegments.MemPolKIff
 public import Mathlib.Data.Nat.Choose.Multinomial
 import Mathlib.Algebra.Order.Floor.Extended
@@ -186,18 +187,10 @@ theorem cge_mul {σ : Type} {a b : ℝ} {F G : MvPolynomial σ K} (hF : cge v a 
   exact vge_sum v _ _ fun x _ => vge_mul v (hF _) (hG _)
 
 theorem v_natCast_nonneg (n : ℕ) : 0 ≤ v (n : K) := by
-  induction n with
-  | zero => simp
-  | succ n ih =>
-    push_cast
-    exact le_trans (le_min ih (by simp)) (v.map_add _ _)
+  apply _root_.GlobalTheory.NL.GradedLat.val_nat_nonneg <;> assumption
 
 theorem v_intCast_nonneg (z : ℤ) : 0 ≤ v (z : K) := by
-  cases z with
-  | ofNat n => simpa using v_natCast_nonneg v n
-  | negSucc n =>
-    rw [Int.cast_negSucc, AddValuation.map_neg]
-    exact v_natCast_nonneg v (n + 1)
+  apply _root_.GlobalTheory.NL.GradedLat.val_int_nonneg <;> assumption
 
 theorem vge_natCast (n : ℕ) : vge v 0 (n : K) := (vge_zero_iff v _).mpr (v_natCast_nonneg v n)
 

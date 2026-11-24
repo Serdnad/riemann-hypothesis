@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntersectionNumberMetricChange
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.IsOpenHoloPreimage
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.MetricsProjectionFormulaNef
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.AnalyticSystemRegularityProperties
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.MongeAmpereIntegralCongrPotentials
@@ -70,17 +72,8 @@ open MeasureTheory ReciprocityTheory.AnForm ReciprocityTheory.AnForm.M Reciproci
 theorem pts_congr {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] (P : Ideal (MRing ι)) {e : ℕ}
     (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) {g g' : ((Σ k, ι k) → ℂ) → ℝ} (h : ∀ z ∈ mcPts P, g z = g' z) :
     ptsIntegral P φ g = ptsIntegral P φ g' := by
-  have key : ∀ Ψ y w, sheetDensity P Ψ φ g y w = sheetDensity P Ψ φ g' y w := by
-    intro Ψ y w
-    unfold sheetDensity
-    split_ifs with hγ
-    · rw [h _ hγ.choose_spec.2.self_of_nhds.2.1]
-    · rfl
-  unfold ptsIntegral
-  split_ifs with hΨ
-  · unfold ptsIntegralAt
-    simp only [key]
-  · rfl
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Tele.ptsIntegral_congr_on <;> assumption
 
 theorem isC2At_of_isPotential {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X) {Q : LocPot X}
     (h : IsPotential A Q) (x : X) : IsTwiceDifferentiableAt A Q x := by
@@ -256,22 +249,8 @@ theorem line_samePot (a : σ) {t : ℝ} (h0 : 0 < t) (h1 : t ≤ S.t₀) :
 
 theorem holoOn_comp {e e' : ℕ} {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y] {A : FinHolAtlas e X}
     {B : FinHolAtlas e' Y} {h : Y → X} (hh : HoloMap B A h) {U : Set X} {g : X → ℂ} (hg : A.HoloOn U g) :
-    B.HoloOn (h ⁻¹' U) (fun y => g (h y)) := by
-  intro j y hy
-  obtain ⟨k, hk⟩ := A.cover (h ((B.chart j).symm y))
-  have a1 := hh.2 j k y ⟨hy.1, hk⟩
-  have a2 := hg k (A.chart k (h ((B.chart j).symm y))) ⟨(A.chart k).map_source hk, by
-    show (A.chart k).symm (A.chart k (h ((B.chart j).symm y))) ∈ U
-    rw [(A.chart k).left_inv hk]
-    exact hy.2⟩
-  have a3 : AnalyticAt ℂ ((g ∘ (A.chart k).symm) ∘ (A.chart k ∘ h ∘ (B.chart j).symm)) y :=
-    AnalyticAt.comp a2 a1
-  refine a3.congr ?_
-  have hc : ContinuousAt (h ∘ (B.chart j).symm) y :=
-    hh.1.continuousAt.comp ((B.chart j).continuousAt_symm hy.1)
-  filter_upwards [hc.preimage_mem_nhds ((A.chart k).open_source.mem_nhds hk)] with z hz
-  simp only [Function.comp_apply]
-  rw [(A.chart k).left_inv (show h ((B.chart j).symm z) ∈ (A.chart k).source from hz)]
+    B.HoloOn (h ⁻¹' U) (fun y => g (h y)) :=
+  _root_.PositivityTheory.UnitarySelfGeneration.HolomorphicMinorCharts.holo_comp_map hh hg
 
 theorem preimage_null : IsNull Re.R.A (Re.π ⁻¹' S.open')ᶜ := by
   have hAn : Re.R.A.IsAnalyticSubset (Re.π ⁻¹' bdry S.s) := by

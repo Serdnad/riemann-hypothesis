@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.LeafThomCut
 public import Development.EtaleCohomology.CohomologicalPurity.LeafTubeCutHoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,14 +50,7 @@ namespace LateralTheory.CohomologicalPurity.TubeCut
 
 theorem dbl_map_fold {P' P : Arrow Spc} (φ : P' ⟶ P) :
     dbl.map φ ≫ dbl.fold P = dbl.fold P' ≫ φ.right := by
-  set_option synthInstance.maxHeartbeats 200000 in
-    apply pushout.hom_ext
-  · simp only [dbl.map, dbl.fold, pushout.map]
-    erw [pushout.inl_desc_assoc, Category.assoc, pushout.inl_desc, pushout.inl_desc_assoc]
-    simp
-  · simp only [dbl.map, dbl.fold, pushout.map]
-    erw [pushout.inr_desc_assoc, Category.assoc, pushout.inr_desc, pushout.inr_desc_assoc]
-    simp
+  apply @LateralTheory.CohomologicalPurity.Thom.map_fold <;> assumption
 
 theorem LeafActNat_of : LeafActNat := by
   intro hA q _ P' P φ n m i j a b

@@ -127,12 +127,6 @@ private theorem rB_mono' (x : Fin (d + 1) → F) {J J' : Finset (Fin (d + 1))} (
   have hy' : IsIntegral (rA ℂ x J) y := hy
   exact IsIntegral.map_of_comp_eq (Subalgebra.inclusion hA).toRingHom (RingHom.id K) (by ext; rfl) hy'
 
-private theorem integralClosure_mono_subset (x : Fin (d + 1) → F) (j2 : K →ₐ[ℂ] K') {J J' : Finset (Fin (d + 1))} (h : J ⊆ J') :
-    R2 x j2 J ≤ R2 x j2 J' := by
-  have hA : (rB ℂ K x J).map j2 ≤ (rB ℂ K x J').map j2 := Subalgebra.map_mono (rB_mono' x h)
-  intro y hy
-  have hy' : IsIntegral ((rB ℂ K x J).map j2) y := hy
-  exact IsIntegral.map_of_comp_eq (Subalgebra.inclusion hA).toRingHom (RingHom.id K') (by ext; rfl) hy'
 
 end Mono
 

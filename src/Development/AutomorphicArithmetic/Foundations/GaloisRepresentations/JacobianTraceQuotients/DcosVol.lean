@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.HoweType
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.JacobianTraceQuotients.TraceQuot
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
@@ -98,15 +99,7 @@ private theorem isOpen_dcos {K : Subgroup (GL (Fin n) k)} (hK : CO K) (t : Fin n
 
 open GlobalTheory.SplitWeil GlobalTheory.IwahoriTraceProof in
 private theorem isClosed_unipB : IsClosed (unipB k (Fin n) : Set (GL (Fin n) k)) := by
-  have e : (unipB k (Fin n) : Set (GL (Fin n) k)) = (⋂ i, ⋂ j, ⋂ _ : j < i, {g : GL (Fin n) k | g.val i j = 0}) ∩
-      ⋂ i, {g : GL (Fin n) k | g.val i i = 1} := by
-    ext g
-    simp only [Set.mem_inter_iff, Set.mem_iInter]
-    exact mem_unipB k
-  rw [e]
-  exact (isClosed_iInter fun i => isClosed_iInter fun j => isClosed_iInter fun _ =>
-    isClosed_eq (Units.continuous_val.matrix_elem i j) continuous_const).inter
-    (isClosed_iInter fun i => isClosed_eq (Units.continuous_val.matrix_elem i i) continuous_const)
+  apply _root_.DiscreteGroups.sglob.DzType.isClosed_unipB <;> assumption
 
 
 open GlobalTheory.SplitWeil GlobalTheory.IwahoriTraceProof in

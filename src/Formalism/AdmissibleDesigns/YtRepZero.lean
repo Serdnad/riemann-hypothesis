@@ -1,5 +1,6 @@
 module
 
+import Formalism.AdmissibleDesigns.FinDimOfLat
 public import Formalism.AdmissibleDesigns.FiniteClassesContinuousLattice
 public import Formalism.AdmissibleDesigns.TrCMemZ1D
 public import Formalism.WachLatticeTwists.CoprimeLiftBounds.FirstSummandRepresentation
@@ -164,13 +165,7 @@ theorem finite_MOY [Module.Finite O M] [Module.Free O M] : Module.Finite Ow (MOY
       rw [RingEquiv.symm_apply_apply]))
 
 theorem mkK_spanY (v : MK (O := O) M) : ∃ c : O, c ≠ 0 ∧ ∃ m, mkK m = c • v := by
-  induction v using LocalizedModule.induction_on with
-  | h m s =>
-    refine ⟨(s : O), nonZeroDivisors.coe_ne_zero s, m, ?_⟩
-    rw [LocalizedModule.smul'_mk]
-    show LocalizedModule.mk m 1 = _
-    rw [LocalizedModule.mk_eq]
-    exact ⟨1, by simp [Submonoid.smul_def]⟩
+  apply _root_.Formalism.MainNotions.N.KRow.mkK_span <;> assumption
 
 theorem mkK_injY [NoZeroSMulDivisors O M] : Function.Injective (mkK (O := O) (M := M)) := by
   intro a b h

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EnnrealVolumeRatioStepCancel
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.SameKindIsometric
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LayerProd
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsFiniteAdelicPointLatticeEqSelfDual
@@ -104,33 +105,7 @@ theorem eq_or_conj {E : Type} [Field E] [CharZero E] [StarRing E] (φ ψ : E →
 
 theorem hasSignature_all (I : AutInst) {p q : ℕ} (h : HasSig I p q) (φ : I.E →+* ℂ) :
     Formalism.UG.HasSignature (I.J.map φ) p q := by
-  set v : InfinitePlace I.F := InfinitePlace.mk (φ.comp (algebraMap I.F I.E)) with hv
-  have hc := I.cm.cmUnram.2.1
-  have hag : ∀ a, star a = a → φ a = I.φ v a := by
-    intro a ha
-    obtain ⟨c, rfl⟩ := (I.cm.fixed a).1 ha
-    rw [I.φ_over]
-    rcases InfinitePlace.embedding_mk_eq (φ.comp (algebraMap I.F I.E)) with h1 | h1
-    · rw [hv, h1]; rfl
-    · rw [hv, h1, ComplexEmbedding.conjugate_coe_eq, RingHom.comp_apply, ← hc, ha]
-  rw [← (h v).1, ← (h v).2]
-  rcases eq_or_conj φ (I.φ v) (hc _) hag with h1 | h1
-  · have e0 : I.J.map φ = I.J.map (I.φ v) := congrArg (fun ψ : I.E →+* ℂ => I.J.map ψ) h1
-    rw [e0]
-    exact GlobalTheory.AutInhab.hasSignature_inst I v
-  · refine GlobalTheory.AutInhab.hasSignature_of_frame (P := (I.P v).map (starRingEnd ℂ)) ?_ ?_
-    · exact (I.P_unit v).map (starRingEnd ℂ).mapMatrix
-    · have := congrArg (fun M => Matrix.map M (starRingEnd ℂ)) (I.P_spec v)
-      simp only [Matrix.map_mul] at this
-      have e1 : I.J.map φ = (I.J.map (I.φ v)).map (starRingEnd ℂ) := by
-        ext i j; conv_lhs => rw [h1]
-        rfl
-      have e2 : ((I.P v).map (starRingEnd ℂ))ᴴ = ((I.P v)ᴴ).map (starRingEnd ℂ) := by
-        ext i j; rfl
-      rw [e1, e2, this]
-      ext i j
-      simp only [Formalism.REAL.Jm, Matrix.map_apply, Matrix.diagonal_apply]
-      split_ifs <;> simp
+  first | exact _root_.GlobalTheory.PerpInst.hasSignature_all | exact @_root_.GlobalTheory.PerpInst.hasSignature_all | apply _root_.GlobalTheory.PerpInst.hasSignature_all <;> assumption
 
 section Transport
 

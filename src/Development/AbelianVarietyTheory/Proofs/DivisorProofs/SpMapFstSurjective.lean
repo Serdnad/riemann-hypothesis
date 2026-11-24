@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LieLatticeVectorBundleOfSmooth
 public import Mathlib.Algebra.TrivSqZeroExt.Basic
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,23 +61,8 @@ namespace GlobalTheory.Pinch
 
 theorem spMap_fst_surjective (R M : Type) [CommRing R] [AddCommGroup M] [Module R M] [Module Rᵐᵒᵖ M]
     [IsCentralScalar R M] : Function.Surjective (spMap (TrivSqZeroExt.fstHom R R M).toRingHom) := by
-  intro q
-  haveI : q.asIdeal.IsPrime := q.2
-  refine ⟨⟨q.asIdeal.comap (TrivSqZeroExt.inlHom R M), Ideal.IsPrime.comap _⟩, ?_⟩
-  apply PrimeSpectrum.ext
-  ext a
-  show (TrivSqZeroExt.inlHom R M) ((TrivSqZeroExt.fstHom R R M) a) ∈ q.asIdeal ↔ a ∈ q.asIdeal
-  have hm : TrivSqZeroExt.inr a.snd ∈ q.asIdeal :=
-    q.2.mem_of_pow_mem 2 (by rw [pow_two, TrivSqZeroExt.inr_mul_inr]; exact q.asIdeal.zero_mem)
-  have e : TrivSqZeroExt.inl a.fst + TrivSqZeroExt.inr a.snd = a := TrivSqZeroExt.inl_fst_add_inr_snd_eq a
-  constructor
-  · intro h
-    rw [← e]
-    exact q.asIdeal.add_mem h hm
-  · intro h
-    show TrivSqZeroExt.inl a.fst ∈ q.asIdeal
-    rw [eq_sub_of_add_eq e]
-    exact q.asIdeal.sub_mem h hm
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.LieVB.surj_fst <;> assumption
 
 theorem exists_basicOpen_inl {R M : Type} [CommRing R] [AddCommGroup M] [Module R M] [Module Rᵐᵒᵖ M]
     [IsCentralScalar R M] {X : Scheme.{0}} (x : Sp R ⟶ X) (q : Sp (TrivSqZeroExt R M)) :

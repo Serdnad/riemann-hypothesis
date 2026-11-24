@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemIntegralGLSplitPlaceOfCarriesLatticeCompletio
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiagonalBlockDetBlockTriangular
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsCombAt
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsOneComb
@@ -1181,32 +1182,8 @@ theorem idAt_of_place {D : D7} (P : Pl D → Prop) (v : Pl D) (hv : P v) {a : AE
 theorem mem_latV_iff {D : D7} (S : HSp D) (L : Lat S) (hL : Submodule.IsLattice D.host.E L) (P : Pl D → Prop)
     (v : Pl D) (hv : P v) (y : Fin S.rank → AE D) (hy : ∀ i, y i ∈ idAt D (· = v)) :
     y ∈ latV S L P ↔ y ∈ latV S L (· = v) := by
-  have hT := ((GlobalTheory.FinPl.localComponents D P).2 S).2.2.2 L y hL
-  have hV := ((GlobalTheory.FinPl.localComponents D (· = v)).2 S).2.2.2 L y hL
-  rw [hT, hV]
-  constructor
-  · rintro ⟨_, h⟩
-    exact ⟨hy, fun w hw e he => h w (hw ▸ hv) e he⟩
-  · rintro ⟨_, h⟩
-    refine ⟨fun i => idAt_of_place P v hv (hy i), fun w _ e he => ?_⟩
-    by_cases hwv : w = v
-    · exact h w hwv e he
-    · obtain ⟨ε, -, -, -, hAt, hOff⟩ := (GlobalTheory.FinPl.localComponents D (· = w)).1
-      have hzero : e • y = 0 := by
-        funext i
-        have hyi : y i ∈ idOff D (· = w) := by
-          have h' := hy i
-          simp only [idAt, Submodule.mem_inf, Submodule.mem_iInf] at h'
-          simp only [idOff, Submodule.mem_iInf]
-          intro u
-          have := h'.2 ⟨u.1, by rw [u.2]; exact hwv⟩
-          exact this
-        have h1 : ε * e = e := (hAt e).1 he.1
-        have h2 : ε * y i = 0 := (hOff (y i)).1 hyi
-        show e * y i = 0
-        rw [← h1, mul_comm ε e, mul_assoc, h2, mul_zero]
-      rw [hzero]
-      exact (latV S L (· = w)).zero_mem
+  intros
+  apply _root_.GlobalTheory.SplitInt.mem_latV_iff_at <;> assumption
 
 theorem mul_sec {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     (q : SplitPt D k) (a : AE D) (x : k) : a * q.sec x = q.sec (q.pr a * x) := by

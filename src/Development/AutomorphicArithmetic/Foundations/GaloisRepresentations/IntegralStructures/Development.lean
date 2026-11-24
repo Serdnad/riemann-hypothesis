@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NormOneIffOfSqrt
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.CrystallineDescent.LimOddOfLimFinOdd
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.ZetaCharacterDivisibility.StConj
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.GenericMulOfProd
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.ZetaCharacterDivisibility.PhiOfDivOf
@@ -518,24 +520,8 @@ theorem UpperTheory.Reformulated.B.AdjoinForm.adjoin_form :
     ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E]
     {d : ℕ},
     (0 : ℕ) < d → ∀ {x : E}, x ^ (2 : ℕ) = -(↑d : E) → ∀ y ∈ ℚ⟮x⟯, ∃ (s : ℚ) (t : ℚ), y = (↑s : E) + (↑t : E) * x := by
-  intro E _ _ d _ x hx y hy
-  have hint : IsIntegral ℚ x := Algebra.IsIntegral.isIntegral x
-  have h : y ∈ (ℚ⟮x⟯).toSubalgebra := hy
-  rw [IntermediateField.adjoin_simple_toSubalgebra_of_isAlgebraic hint.isAlgebraic] at h
-  clear hy
-  induction h using Algebra.adjoin_induction with
-  | mem a ha =>
-    rw [Set.mem_singleton_iff] at ha
-    exact ⟨0, 1, by simp [ha]⟩
-  | algebraMap r => exact ⟨r, 0, by simp⟩
-  | add a b _ _ iha ihb =>
-    obtain ⟨s, t, rfl⟩ := iha
-    obtain ⟨s', t', rfl⟩ := ihb
-    exact ⟨s + s', t + t', by push_cast; ring⟩
-  | mul a b _ _ iha ihb =>
-    obtain ⟨s, t, rfl⟩ := iha
-    obtain ⟨s', t', rfl⟩ := ihb
-    exact ⟨s * s' - t * t' * d, s * t' + t * s', by push_cast; linear_combination (t * t' : E) * hx⟩
+  intros
+  apply _root_.GlobalTheory.RatCoordsAdjoin.exists_rat_add_mul_of_mem_adjoin <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AdjoinForm =====
@@ -549,26 +535,7 @@ theorem UpperTheory.Reformulated.B.CMConjNegOfSqEqNegPos.conj_alt_bis :
     ∀ {E : Type} [inst : Field E] [inst_1 : NumberField E]
     [inst_2 : NumberField.IsCMField E] {d : ℕ},
     (0 : ℕ) < d → ∀ {x : E}, x ^ (2 : ℕ) = -(↑d : E) → (NumberField.IsCMField.complexConj E : E → E) x = -x := by
-  intro E _ _ _ d hd x hx
-  let φ : E →+* ℂ := Classical.choice (inferInstance : Nonempty _)
-  apply φ.injective
-  rw [NumberField.IsCMField.complexEmbedding_complexConj, map_neg]
-  have h : (φ x) ^ 2 = -(d : ℂ) := by
-    rw [← map_pow, hx, map_neg, map_natCast]
-  have hd' : (0 : ℝ) < d := Nat.cast_pos.mpr hd
-  have hre := congrArg Complex.re h
-  have him := congrArg Complex.im h
-  simp only [pow_two, Complex.mul_re, Complex.mul_im, Complex.neg_re, Complex.neg_im,
-    Complex.natCast_re, Complex.natCast_im, neg_zero] at hre him
-  have h0 : (φ x).re * (φ x).im = 0 := by linarith
-  have hr : (φ x).re = 0 := by
-    rcases mul_eq_zero.mp h0 with h1 | h1
-    · exact h1
-    · rw [h1] at hre
-      nlinarith [mul_self_nonneg (φ x).re]
-  apply Complex.ext
-  · rw [Complex.conj_re, Complex.neg_re, hr, neg_zero]
-  · rw [Complex.conj_im, Complex.neg_im]
+  apply _root_.complexConj_eq_neg_of_sq_eq_neg_natCast <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ConjugateElement =====

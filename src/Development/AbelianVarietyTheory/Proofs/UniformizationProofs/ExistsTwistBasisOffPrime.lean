@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.SectionLinCombFiberProductSeparatedStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.TwistBCPf
 public import Mathlib.Tactic.ENatToNat
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsMonHomOfMul
@@ -70,36 +71,8 @@ theorem exists_sec_of_cover (hL : L.IsLB) (φ : K → (Y ⟶ X)) (ε : K → ℤ
     ∃ s : LB.Sec (LB.LinComb L φ ε), ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (i : I) (j : K → L.ι),
       r z ∈ V i → r z ∈ LB.wchart L φ j →
       gs r z (LB.wchart L φ j) (s.f j) = (trF φ ε r z j (p i)).val * gs r z _ (a i) := by
-  have glue : ∀ j : K → L.ι, ∃ s : Γ(Y, LB.wchart L φ j), ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) (i : I),
-      r z ∈ V i → r z ∈ LB.wchart L φ j → gs r z _ s = (trF φ ε r z j (p i)).val * gs r z _ (a i) := by
-    intro j
-    let W : I → Y.Opens := fun i => LB.wchart L φ j ⊓ V i
-    have le : ∀ i, W i ≤ LB.wchart L φ j ⊓ LB.wchart L φ (p i) := fun i => inf_le_inf_left _ (hp i)
-    obtain ⟨u, hu⟩ : ∃ u : ∀ i, Γ(Y, W i), ∀ (Z : Scheme.{0}) (r : Z ⟶ Y) (z : Z) i, r z ∈ W i →
-        gs r z (W i) (u i) = (trF φ ε r z j (p i)).val * gs r z _ (a i) :=
-      ⟨fun i => (Y.presheaf.map (homOfLE (le i)).op).hom ((LB.LinComb L φ ε).g j (p i)).val *
-          (Y.presheaf.map (homOfLE (inf_le_right : W i ≤ V i)).op).hom (a i), fun Z r z i hz =>
-        (gs_mul r z _ hz _ _).trans (congrArg₂ (· * ·) ((gs_res r z _ hz _).trans ((gs_unit r z _ (le i hz) _).trans
-          (congrArg Units.val (gm_linComb L φ ε r z _ _ hz.1 (hp i hz.2))))) (gs_res r z _ hz _))⟩
-    obtain ⟨s, hs, -⟩ := Y.sheaf.existsUnique_gluing' W (LB.wchart L φ j)
-      (fun i => homOfLE inf_le_left) (fun y hy => by
-        obtain ⟨i, hi⟩ := hV y
-        exact Opens.mem_iSup.2 ⟨i, hy, hi⟩) u
-      (fun i i' => fn_ext (V := W i ⊓ W i') fun y hy => by
-        refine (gs_res (𝟙 Y) y inf_le_left hy _).trans (Eq.trans ?_ (gs_res (𝟙 Y) y inf_le_right hy _).symm)
-        rw [hu _ _ y i hy.1, hu _ _ y i' hy.2, ha i i' y hy.1.2 hy.2.2, ← _root_.mul_assoc, ← Units.val_mul,
-          trF_trans hL φ ε (𝟙 Y) y hy.1.1 (hp i hy.1.2) (hp i' hy.2.2)])
-    refine ⟨s, fun Z r z i h₁ h₂ => ?_⟩
-    have hz : r z ∈ W i := ⟨h₂, h₁⟩
-    exact (gs_res r z inf_le_left hz s).symm.trans ((congrArg (gs r z (W i)) (hs i)).trans (hu Z r z i hz))
-  choose s hs using glue
-  refine ⟨⟨s, fun j j' => fn_ext fun y hy => ?_⟩, fun Z r z i j => hs j Z r z i⟩
-  obtain ⟨i, hi⟩ := hV y
-  refine (gs_res (𝟙 Y) y _ hy _).trans (Eq.trans ?_ ((gs_mul (𝟙 Y) y _ hy _ _).trans (congrArg₂ (· * ·)
-    ((gs_unit (𝟙 Y) y _ hy _).trans (congrArg Units.val (gm_linComb L φ ε (𝟙 Y) y j j' hy.1 hy.2)))
-    (gs_res (𝟙 Y) y _ hy _))).symm)
-  refine (hs j _ (𝟙 Y) y i hi hy.1).trans (Eq.trans ?_ (congrArg _ (hs j' _ (𝟙 Y) y i hi hy.2)).symm)
-  rw [← trF_trans hL φ ε (𝟙 Y) y hy.1 hy.2 (hp i hi), Units.val_mul, _root_.mul_assoc]; rfl
+  intros
+  apply _root_.GlobalTheory.SectionsProduct.exists_sec_of_cover <;> assumption
 
 theorem exists_up_sec {w : LB.Iso L' (L.pull F)} (hw : PGen w) (hL : L.IsLB) (hL' : L'.IsLB)
     {φ' : K → (Y ⟶ X')} {ψ : K → (Y ⟶ X)} (hψ : ∀ k, φ' k ≫ F = ψ k) (ε : K → ℤ)

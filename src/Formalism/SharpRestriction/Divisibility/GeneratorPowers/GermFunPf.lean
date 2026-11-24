@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.SharpRestriction.Divisibility.GeneratorPowers.LBPull
 public import Formalism.LocalToGlobal.ProjectiveLattices.ThGerm
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -41,7 +43,6 @@ import Mathlib.AlgebraicGeometry.Modules.Sheaf
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFun, Formalism.SharpRestriction.Divisibility.GeneratorPowers.GermFunPf
 
@@ -156,12 +157,7 @@ theorem pull_unique {S : Scheme.{0}} (A : Over S) [GrpObj A] (L : LB A.left) (a 
     (h : T' ⊗ A ⟶ T ⊗ A) (hh : h ≫ snd T A = snd T' A) (s : LB.Sec (LPow A L a T))
     (s₁ s₂ : LB.Sec (LPow A L a T')) (h₁ : IsPullSec A L a h hh s s₁) (h₂ : IsPullSec A L a h hh s s₂) :
     s₁ = s₂ := by
-  have hf : s₁.f = s₂.f := funext fun j => (h₁ j).trans (h₂ j).symm
-  cases s₁
-  cases s₂
-  simp only at hf
-  subst hf
-  rfl
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.LBPull.isPullSec_unique <;> assumption
 
 theorem value_unique {S : Scheme.{0}} (A : Over S) [GrpObj A] (L : LB A.left) (hL : L.IsLB) (a : ℤ)
     {T : Over S} (s : LB.Sec (LPow A L a T)) (z : T ⟶ A)

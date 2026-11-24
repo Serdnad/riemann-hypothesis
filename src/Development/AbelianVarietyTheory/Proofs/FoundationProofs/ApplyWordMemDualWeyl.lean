@@ -4,7 +4,7 @@ public import Formalism.GradedWeylDivisibility.StatementE
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.LinearAlgebra.BilinearForm.DualLattice
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
-import Formalism.GradedWeylDivisibility.FinalB
+import all Formalism.GradedWeylDivisibility.FinalB
 public import Formalism.GradedWeylDivisibility.FinalD
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -101,13 +101,7 @@ private theorem map_intCast_applyWord {r n : ℕ} (w : List (Fin r × Fin r × �
 
 private theorem map_intCast_hw {r n : ℕ} (hn : n ≤ r) (ν : Fin n → ℕ) :
     map (Int.castRingHom ℚ) (hw ℤ hn ν) = hw ℚ hn ν := by
-  unfold hw lpMinor
-  rw [map_prod]
-  refine Finset.prod_congr rfl fun s _ => ?_
-  rw [map_pow, RingHom.map_det]
-  congr 2
-  ext p q
-  simp
+  apply _root_.Formalism.GradedWeylDivisibility.map_intCast_hw <;> assumption
 
 theorem intQ_word {r n : ℕ} (hn : n ≤ r) (ν : Fin n → ℕ) (w : List (Fin r × Fin r × ℕ)) :
     intQ r n (applyWord ℤ w (hw ℤ hn ν)) = applyWord ℚ w (hw ℚ hn ν) := by

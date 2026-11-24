@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupPointsOfIntegralChartSpec
 public import Development.AbelianVarietyTheory.Definitions.Divisors.NotCompactOfMEqOne
 public import Development.AbelianVarietyTheory.Proofs.HermitianTraceForms.IsLocallyConstantRankAtStalkEigenSub
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.DetCondIffHasMultiplicities
@@ -1053,15 +1054,8 @@ end Grp
 theorem pull_one_left {S S' : Scheme.{0}} {f : S' ⟶ S} {G : Over S} [GrpObj G] {G' : Over S'} [GrpObj G']
     {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) (T : Over S') :
     (1 : T ⟶ G').left ≫ φ = (T.hom ≫ f) ≫ η[G].left := by
-  have hw : ((1 : T ⟶ G').left ≫ φ) ≫ G.hom = (Over.mk (T.hom ≫ f)).hom := by
-    rw [Category.assoc, h.1.w, ← Category.assoc, Over.w]; rfl
-  let x₀ : Over.mk (T.hom ≫ f) ⟶ G := Over.homMk ((1 : T ⟶ G').left ≫ φ) hw
-  have hm := h.2 T 1 1 x₀ x₀ rfl rfl
-  rw [_root_.mul_one] at hm
-  have hx : x₀ * x₀ = x₀ := Over.OverMorphism.ext hm
-  have h1 : x₀ = 1 := by simpa using hx
-  have : x₀.left = (Over.mk (T.hom ≫ f)).hom ≫ η[G].left := by rw [h1, one_left']
-  exact this
+  intros
+  apply _root_.GlobalTheory.PlaceFormPt.push_one_left <;> assumption
 
 end GlobalTheory.TorLie
 

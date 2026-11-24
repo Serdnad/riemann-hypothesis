@@ -90,6 +90,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Analysis.SpecialFunctions.Bernstein
 import Mathlib.Analysis.SpecialFunctions.Gamma.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NuPairOfAdmissibility
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.ExistsUnitaryCentralTwist, Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.SegmentOfTwistedSquareIntegrable, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LanglandsSingleSegmentIsSegmentRep, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.WeightedAntitoneLastNonpos, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SquareIntegrableSingleSegment, Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.TemperedProducts.Development, Development.WeilBound.CoreStatements.TemperedRepresentationTheory.SquareIntegrableTempered.TempProdUsedOf, Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.Development, Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.EssSquareIntegrableSegmentsOfLit, Development.WeilBound.CoreStatements.AutomorphicKernels.SquareIntegrableSegments.EssSquareIntegrableSegmentsMain2, Development.WeilBound.CoreStatements.AutomorphicKernels.LanglandsExhaustion.EssSquareIntegrableSegmentsOfSeg
@@ -107,15 +108,7 @@ namespace PositivityTheory.PfEss.H2
 
 private theorem nontrivial_irrRep_V {G : Type} [Group G] [TopologicalSpace G] (σ : IrrRep G) :
     Nontrivial σ.V := by
-  by_contra h
-  rw [not_nontrivial_iff_subsingleton] at h
-  haveI : IsSimpleOrder (Subrepresentation σ.ρ) := σ.irr
-  apply (bot_ne_top : (⊥ : Subrepresentation σ.ρ) ≠ ⊤)
-  apply Subrepresentation.ext
-  ext v
-  rw [Subsingleton.elim v 0]
-  exact ⟨fun _ => (⊤ : Subrepresentation σ.ρ).toSubmodule.zero_mem,
-    fun _ => (⊥ : Subrepresentation σ.ρ).toSubmodule.zero_mem⟩
+  apply _root_.GlobalTheory.CompanionTheory.BZCuspPair.nontrivial_of_irr <;> assumption
 
 private theorem exists_smooth_central_character_of_admissible {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k]
     [IsNonarchimedeanLocalField k] (n : ℕ) (σ : IrrRep (GL (Fin n) k)) (hadm : IsAdmissible σ.ρ) :

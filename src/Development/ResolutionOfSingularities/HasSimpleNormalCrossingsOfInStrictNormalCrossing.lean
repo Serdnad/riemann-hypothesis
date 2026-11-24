@@ -74,6 +74,7 @@ import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupCoproduct
 import Development.ResolutionOfSingularities.Foundations.Schemes.SchemeCoproduct
 import Development.ResolutionOfSingularities.Foundations.Blowup.BlowupProper
 import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.IdealBlowupSequenceBoundary
+import Development.WeilBound.CoreStatements.ResolutionCharZero.ExistsFinsetComapProdIdealEqSpanProdCoord
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossingsClopen, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.AffineBoundaryStrictNormalCrossings, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.ClosedEmbeddingsIntoAffineSpace, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.CentersLieOverSingularLocus, Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.SingularPreimageBoundary, Development.ResolutionOfSingularities.EmbeddedResolution.HironakaTheorem, Development.ResolutionOfSingularities.HasSimpleNormalCrossingsOfInStrictNormalCrossing
@@ -121,23 +122,7 @@ private theorem ι_appLE_top_bijective {Y : Scheme.{u}} (V : Y.Opens) :
 private theorem ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top {Y : Scheme.{u}} (D : Y.IdealSheafData)
     {V : Y.Opens} (hV : IsAffineOpen V) (htop : restrictIdeal D V = ⊤) :
     D.ideal ⟨V, hV⟩ = ⊤ := by
-  have : IsAffine V.toScheme := hV
-  have key := Scheme.IdealSheafData.comap_ideal_eq_map_appLE D V.ι ⟨V, hV⟩
-      ⟨⊤, isAffineOpen_top V.toScheme⟩ (top_le_ι_preimage_self V)
-  rw [← restrictIdeal_eq_comap_ι, htop] at key
-  have h0 : ((⊤ : V.toScheme.IdealSheafData).ideal ⟨⊤, isAffineOpen_top V.toScheme⟩) = ⊤ := by
-    simp
-  rw [h0] at key
-  have key2 : Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-      (D.ideal ⟨V, hV⟩) = ⊤ := key.symm
-  have hbij := ι_appLE_top_bijective V
-  have hcomap : Ideal.comap (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-      (Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-        (D.ideal ⟨V, hV⟩)) = D.ideal ⟨V, hV⟩ := by
-    apply Ideal.comap_map_of_bijective
-    exact hbij
-  rw [key2, Ideal.comap_top] at hcomap
-  exact hcomap.symm
+  apply _root_.PositivityTheory.ResPlug.BlowupCentre.ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top <;> assumption
 
 private theorem etaleChartCoord_eq_coord {X : Scheme.{u}} {k : Type u} [Field k]
     {p : X ⟶ Spec (CommRingCat.of k)} {V : X.Opens} {m : ℕ} (c : EtaleChart p V m) (j : Fin m) :
@@ -173,63 +158,7 @@ private theorem exists_finset_comap_prod_ideal_eq_span_prod_coord {Y W : Scheme.
       ∃ J : Finset (Fin n),
         (∀ j ∈ J, ∃ i, ∃ _ : i < F.length, γ i = some j) ∧
         (F.prod.comap g).ideal ⟨V, hV⟩ = Ideal.span {∏ j ∈ J, c.coord j} := by
-  intro F
-  induction F with
-  | nil =>
-      intro γ _ _ _
-      refine ⟨∅, by simp, ?_⟩
-      have h1 : (([] : List W.IdealSheafData).prod).comap g = (⊤ : Y.IdealSheafData) := by
-        rw [Blowup.idealSheafData_prod_nil]
-        simp
-      rw [h1, Finset.prod_empty, Ideal.span_singleton_one]
-      exact ideal_top _
-  | cons D F ih =>
-      intro γ hnone hsome hinj
-      have hlen : ∀ i, i < F.length → i + 1 < (D :: F).length := by
-        intro i hi
-        simp only [List.length_cons]
-        omega
-      have hD0 : (0 : ℕ) < (D :: F).length := by
-        simp only [List.length_cons]
-        omega
-      obtain ⟨J', hJ'mem, hJ'⟩ := ih (fun i => γ (i + 1))
-        (fun i h hg => hnone (i + 1) (hlen i h) hg)
-        (fun i h j hg => hsome (i + 1) (hlen i h) j hg)
-        (fun i i' hi hi' j h1 h2 => by
-          have h3 := hinj (i + 1) (i' + 1) (hlen i hi) (hlen i' hi') j h1 h2
-          omega)
-      have hprod : ((D :: F).prod.comap g).ideal ⟨V, hV⟩
-          = (D.comap g).ideal ⟨V, hV⟩ * ((F.prod).comap g).ideal ⟨V, hV⟩ := by
-        rw [Blowup.idealSheafData_prod_cons]
-        exact ideal_comap_mul g U ⟨V, hV⟩ e D F.prod
-      cases hγ0 : γ 0 with
-      | none =>
-          have hD : (D.comap g).ideal ⟨V, hV⟩ = ⊤ :=
-            ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top _ hV (hnone 0 hD0 hγ0)
-          refine ⟨J', ?_, ?_⟩
-          · intro j hj
-            obtain ⟨i, hi, hγi⟩ := hJ'mem j hj
-            exact ⟨i + 1, hlen i hi, hγi⟩
-          · rw [hprod, hD, hJ', Ideal.top_mul]
-      | some j0 =>
-          have hD : (D.comap g).ideal ⟨V, hV⟩ = Ideal.span {c.coord j0} := by
-            have h2 := EtaleChart.ideal_eq_span_coord c hV (D.comap g) {j0}
-              (hsome 0 hD0 j0 hγ0)
-            rw [Finset.coe_singleton, Set.image_singleton] at h2
-            exact h2
-          have hj0 : j0 ∉ J' := by
-            intro hj0mem
-            obtain ⟨i, hi, hγi⟩ := hJ'mem j0 hj0mem
-            have h3 := hinj 0 (i + 1) hD0 (hlen i hi) j0 hγ0 hγi
-            omega
-          refine ⟨insert j0 J', ?_, ?_⟩
-          · intro j hj
-            rcases Finset.mem_insert.mp hj with rfl | hj'
-            · exact ⟨0, hD0, hγ0⟩
-            · obtain ⟨i, hi, hγi⟩ := hJ'mem j hj'
-              exact ⟨i + 1, hlen i hi, hγi⟩
-          · rw [hprod, hD, hJ', Ideal.span_singleton_mul_span_singleton,
-              Finset.prod_insert hj0]
+  apply _root_.PositivityTheory.ResPlug.BlowupCentre.exists_finset_comap_prod_ideal_eq_span_prod_coord <;> assumption
 
 theorem strictNormalCrossingsRestrictToClopen : StrictNormalCrossingsRestrictToClopen.{u} := by
   intro k _ W p _ E Z hE hZ T hTclosed hcomp y

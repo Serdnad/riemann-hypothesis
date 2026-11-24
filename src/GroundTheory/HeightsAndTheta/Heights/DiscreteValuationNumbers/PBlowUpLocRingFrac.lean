@@ -20,22 +20,28 @@ noncomputable section
 
 universe u
 
-theorem BlowUpLocRingFrac.proof (hiso : BlowUpLocRingIso.Statement.{u})
+/-- Write elements of a blow-up local ring as fractions with an invertible denominator. -/
+theorem BlowUpLocRingFrac.exists_fraction (hiso : BlowUpLocRingIso.Statement.{u})
     (hfam : BlowUpOverLocFamilyFinite.Statement.{u}) (havoid : MultiHomogPrimeAvoid.Statement.{u}) :
-    BlowUpLocRingFrac.Statement.{u} := by
-  intro O _ _ _ ϖ hϖ K _ _ ι _ J _ P n hP N u hu hu' c x hx hxP W hϖW hWmin hWrel
+  ∀ (O : Type u) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
+    (K : Type) [Fintype K] [DecidableEq K] (ι : K → Type) [∀ k, Fintype (ι k)]
+      (J : Type) [Fintype J] (P : Ideal (MRing ι O)) (n : ℕ) (hP : IsModelOver P n),
+    ∀ (N : K → ℕ) (u : J → MRing ι O), (∀ j, IsMultiHomog (u j) N) → (∃ j, u j ∉ P) →
+    ∀ (c : K → ℕ) (x : MRing ι O), IsMultiHomog x c → x ∉ P →
+    ∀ W : Ideal (MRing ι O), W ∈ (P ⊔ Ideal.span {x}).minimalPrimes →
+      IsRelevant W →
+      haveI := hP.multiProj.isPrime
+      ∀ W' : Ideal (MRing (extIdx ι J) O), W'.IsPrime → IsMultiHomogIdeal W' → IsRelevant W' →
+        blowUpOf P u ≤ W' → W'.comap (liftForm (ι := ι) (J := J) (R := O)) ≤ W →
+        ∀ z ∈ blowUpLocRing P u W', ∃ b ∈ blowUpOverLoc P W u, ∃ s ∈ blowUpOverLoc P W u,
+          (∃ t ∈ blowUpLocRing P u W', s * t = 1) ∧ z * s = b := by
+  intro O _ _ _ K _ _ ι _ J _ P n hP N u hu hu' c x hx hxP W hWmin hWrel
   have := hP.multiProj.isPrime
-  intro W' hW' hW'rel hW'W
-  have hW'p : W'.IsPrime := hW'.1.1
-  have hbl : blowUpOf P u ≤ W' := le_trans le_sup_left hW'.1.2
-  have hmh : IsMultiHomogIdeal W' :=
-    MinimalPrimeMultiHomog.full O (Option K) (extIdx ι J) _ W'
-      (SupSpanMultiHomog.full O (Option K) (extIdx ι J) _ _ (liftMDeg c)
-        (isMultiHomogIdeal_blowUpOf hP.multiProj.multiHomog N u hu) (isMultiHomog_liftForm hx)) hW'
+  intro W' hW'p hmh hW'rel hbl hW'W
   obtain ⟨e, L, hL, he, hLQ⟩ := havoid O (Option K) (extIdx ι J) _
     (hfam O K ι J P n hP N u hu hu' c x hx hxP W hWmin hWrel) (fun Q hQ => ⟨hQ.1, hQ.2.1, hQ.2.2.1⟩)
   have hW'fam : W'.IsPrime ∧ IsMultiHomogIdeal W' ∧ IsRelevant W' ∧ blowUpOf P u ≤ W' ∧
-      W'.comap (liftForm (ι := ι) (J := J) (R := O)) ≤ W := ⟨hW'p, hmh, hW'rel, hbl, hW'W.le⟩
+      W'.comap (liftForm (ι := ι) (J := J) (R := O)) ≤ W := ⟨hW'p, hmh, hW'rel, hbl, hW'W⟩
   have : (blowUpOf P u).IsPrime := RingHom.ker_isPrime _
   obtain ⟨φ, hφ⟩ := hiso O K ι J P u W' hbl
 
@@ -116,6 +122,21 @@ theorem BlowUpLocRingFrac.proof (hiso : BlowUpLocRingIso.Statement.{u})
       ⟨t₁ * t₂, mul_mem ht₁ ht₂, by rw [mul_mul_mul_comm, hst₁, hst₂, one_mul]⟩, ?_⟩
     rw [← hx₁, ← hx₂]
     ring
+
+theorem BlowUpLocRingFrac.proof (hiso : BlowUpLocRingIso.Statement.{u})
+    (hfam : BlowUpOverLocFamilyFinite.Statement.{u}) (havoid : MultiHomogPrimeAvoid.Statement.{u}) :
+    BlowUpLocRingFrac.Statement.{u} := by
+  intro O _ _ _ ϖ hϖ K _ _ ι _ J _ P n hP N u hu hu' c x hx hxP W hϖW hWmin hWrel
+  have := hP.multiProj.isPrime
+  intro W' hW' hW'rel hW'W
+  have hW'p : W'.IsPrime := hW'.1.1
+  have hbl : blowUpOf P u ≤ W' := le_trans le_sup_left hW'.1.2
+  have hmh : IsMultiHomogIdeal W' :=
+    MinimalPrimeMultiHomog.full O (Option K) (extIdx ι J) _ W'
+      (SupSpanMultiHomog.full O (Option K) (extIdx ι J) _ _ (liftMDeg c)
+        (isMultiHomogIdeal_blowUpOf hP.multiProj.multiHomog N u hu) (isMultiHomog_liftForm hx)) hW'
+  exact BlowUpLocRingFrac.exists_fraction hiso hfam havoid
+    O K ι J P n hP N u hu hu' c x hx hxP W hWmin hWrel W' hW'p hmh hW'rel hbl hW'W.le
 
 end
 

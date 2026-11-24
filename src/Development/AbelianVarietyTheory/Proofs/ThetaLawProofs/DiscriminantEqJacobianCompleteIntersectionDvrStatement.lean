@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKoszulTorsionTransversalSplitZeros
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.GenericSectionsMeetTransversally
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyInvariantAfterDvrExtension
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Mathlib.RingTheory.MvPowerSeries.Inverse
@@ -113,16 +116,7 @@ open EtBaseChange
 
 theorem valT_cst {R T : Type} [CommRing R] [CommRing T] {X : Scheme.{0}} (p : X ⟶ Sp R) (w : Sp T ⟶ X) (F : R →+* T)
     (hw : w ≫ p = spMap F) (U : X.Opens) (h : ⊤ ≤ w ⁻¹ᵁ U) (c : R) : valT w U (AbLaw.cst p U c) = F c := by
-  have h0 : valT w U (AbLaw.cst p U c) =
-      valT w U ((p.appLE ⊤ U le_top).hom ((Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom c)) := rfl
-  refine h0.trans ((valT_appLE w p (U := ⊤) le_top h _).trans ?_)
-  rw [hw, ← Category.comp_id (spMap F)]
-  refine (valT_spMap F (𝟙 (Sp R)) le_top _).trans (congrArg F ((valT_eq _ _ le_top _).trans ?_))
-  have e3 : Scheme.Hom.appLE (𝟙 (Sp R)) ⊤ ⊤ le_top = 𝟙 _ := by
-    rw [← Scheme.Hom.id_appTop]; exact Scheme.Hom.appLE_eq_app _
-  unfold valH
-  erw [e3]
-  exact congrArg (fun q => q.hom c) (Scheme.ΓSpecIso (CommRingCat.of R)).inv_hom_id
+  first | exact _root_.GlobalTheory.KeyKa.GenericZeros.valT_cst | exact @_root_.GlobalTheory.KeyKa.GenericZeros.valT_cst | apply _root_.GlobalTheory.KeyKa.GenericZeros.valT_cst <;> assumption
 
 theorem top_le_of_closedPoint {T : Type} [CommRing T] [IsLocalRing T] {X : Scheme.{0}} (w : Sp T ⟶ X) {U : X.Opens}
     (h : w (IsLocalRing.closedPoint T) ∈ U) : ⊤ ≤ w ⁻¹ᵁ U := fun p _ =>
@@ -154,16 +148,7 @@ theorem exists_mem_sub_mem_pow {σ K : Type} [Finite σ] [CommRing K] (S : Subri
 theorem mem_nonzeroLocus_of_via {R R' : Type} [CommRing R] [CommRing R'] {x : KeyIn R} {x' : KeyIn R'}
     {φ : x'.P.A.left ⟶ x.P.A.left} {w : LB.Iso x'.P.L (x.P.L.pull φ)} {l : ℕ} {s' : RR x' l} {s : RR x l}
     (hs : SecVia x' x φ w s' s) (y : x'.P.A.left) (hy : y ∈ Out.nonzeroLocus s') : φ y ∈ Out.nonzeroLocus s := by
-  obtain ⟨i, hi⟩ := TopologicalSpace.Opens.mem_iSup.1 hy
-  obtain ⟨k, hk⟩ := exists_chart x.P.isLB (φ y)
-  have hle : (x.P.L.pull φ).U (fun _ => k) ⊓ x'.P.L.U i ≤ φ ⁻¹ᵁ x.P.L.U k := fun y hy => mem_pull.1 hy.1
-  have e := hs (fun _ => k) i hle
-  have hm : y ∈ (x.P.L.pull φ).U (fun _ => k) ⊓ x'.P.L.U i := ⟨mem_pull.2 hk, x'.P.A.left.basicOpen_le _ hi⟩
-  have h1 : y ∈ x'.P.A.left.basicOpen ((φ.appLE _ _ hle).hom (s.f k)) := by
-    refine (congrArg x'.P.A.left.basicOpen e).ge ((Scheme.basicOpen_mul _ _ _).ge ⟨?_, ?_⟩)
-    · exact (Scheme.basicOpen_of_isUnit _ ((w.s (fun _ => k, i)).isUnit.pow l)).ge hm
-    · exact (Scheme.basicOpen_res _ _ _).ge ⟨hm, hi⟩
-  exact TopologicalSpace.Opens.mem_iSup.2 ⟨k, ((Scheme.basicOpen_appLE φ _ (x.P.L.U k) hle (s.f k)).le h1).2⟩
+  first | exact _root_.GlobalTheory.HenselZero.map_mem_nonzeroLocus_via | exact @_root_.GlobalTheory.HenselZero.map_mem_nonzeroLocus_via | apply _root_.GlobalTheory.HenselZero.map_mem_nonzeroLocus_via <;> assumption
 
 theorem isLocalHom_map {σ O K : Type} [CommRing O] [IsLocalRing O] [Field K] (f : O →+* K)
     (hf : RingHom.ker f = IsLocalRing.maximalIdeal O) : IsLocalHom (MvPowerSeries.map (σ := σ) f) :=
@@ -1305,15 +1290,8 @@ theorem mulVec_empty {R : Type} [CommRing R] (m : Fin g → ∀ j j', Matrix (Fi
 theorem mulVec_inr {R : Type} [CommRing R] (m : Fin g → ∀ j j', Matrix (Fin (N j)) (Fin (N j')) R)
     (ev : ∀ j, Matrix (Fin d) (Fin (N j)) R) (u : KIx g d N → R) (a : Fin d) :
     (kosD m ev *ᵥ u) (.inr a) = (ev 0 *ᵥ (fun k => u (.inl ⟨∅, k⟩))) a := by
-  simp only [mulVec, dotProduct, Fintype.sum_sum_type, kosD, zero_mul, Finset.sum_const_zero, add_zero]
-  rw [Fintype.sum_sigma, Finset.sum_eq_single ∅]
-  · refine Finset.sum_congr rfl fun k _ => ?_
-    rw [if_pos rfl]
-    rfl
-  · intro J _ hJ
-    refine Finset.sum_eq_zero fun k _ => ?_
-    rw [if_neg hJ, zero_mul]
-  · simp
+  intros
+  apply _root_.GlobalTheory.KeyKa.KoszulEx.mulVec_inr <;> assumption
 
 theorem mulVec_inl_map {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) {d' : ℕ}
     (m : Fin g → ∀ j j', Matrix (Fin (N j)) (Fin (N j')) R)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalLevelCharacterMatchAtTypePrime
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeColumns.LocRed
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LatticeColumns.IdxProd
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalVolumeIndices.CompPiVLocGSame
@@ -90,13 +91,7 @@ end Gen
 
 theorem isUnit_natCast_of_not_mem {F : Type} [Field F] [NumberField F] (v : HeightOneSpectrum (𝓞 F)) (m : ℕ)
     (hm : (m : 𝓞 F) ∉ v.asIdeal) : IsUnit ((m : v.adicCompletionIntegers F)) := by
-  rw [IsDedekindDomain.HeightOneSpectrum.adicCompletionIntegers.isUnit_iff_valued_eq_one,
-    ← map_natCast (algebraMap (𝓞 F) (v.adicCompletionIntegers F)) m,
-    IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletionIntegers_apply,
-    IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation',
-    IsDedekindDomain.HeightOneSpectrum.valuation_of_algebraMap]
-  exact le_antisymm (IsDedekindDomain.HeightOneSpectrum.intValuation_le_one v _)
-    (not_lt.1 fun h => hm ((IsDedekindDomain.HeightOneSpectrum.intValuation_lt_one_iff_mem v _).1 h))
+  apply _root_.GlobalTheory.St.G.TypePrimeProduct.isUnit_natCast_of_not_mem <;> assumption
 
 variable {D : D7}
 

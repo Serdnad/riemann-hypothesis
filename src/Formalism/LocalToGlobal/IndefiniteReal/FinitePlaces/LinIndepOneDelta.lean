@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.QuadFiniteDimensional
 public import Mathlib.LinearAlgebra.FiniteDimensional.Lemmas
 public import Mathlib.RingTheory.TensorProduct.Free
 public import Mathlib.RingTheory.TensorProduct.Maps
@@ -45,25 +46,7 @@ theorem exists_delta (σ : E →ₐ[F] E) (hinv : ∀ e, σ (σ e) = e)
 variable (σ : E →ₐ[F] E) (δ : E)
 
 theorem linIndep_one_delta (hδ : σ δ = -δ) (hδ0 : δ ≠ 0) : LinearIndependent F ![(1 : E), δ] := by
-  rw [LinearIndependent.pair_iff]
-  intro s t h
-  have h' : σ (s • (1 : E) + t • δ) = 0 := by rw [h, map_zero]
-  rw [map_add (f := _), map_smul, map_smul, map_one, hδ] at h'
-  have hs : (2 : F) • (s • (1 : E)) = 0 := by
-    rw [two_smul]
-    calc s • (1 : E) + s • 1 = (s • 1 + t • δ) + (s • 1 + t • -δ) := by rw [smul_neg]; abel
-      _ = 0 := by rw [h, h', add_zero]
-  have hs0 : s = 0 := by
-    rw [smul_smul, smul_eq_zero] at hs
-    rcases hs with hs | hs
-    · rcases mul_eq_zero.mp hs with h2' | h2'
-      · exact absurd h2' two_ne_zero
-      · exact h2'
-    · exact absurd hs one_ne_zero
-  subst hs0
-  refine ⟨rfl, ?_⟩
-  rw [zero_smul, zero_add, smul_eq_zero] at h
-  exact h.resolve_right hδ0
+  apply _root_.PIW.AdelicOrbitU.quad_li <;> assumption
 
 end Gen
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilMatrixCoefficientVacuaUnramifiedPlace
 public import Formalism.LocalToGlobal.KernelLattices.FirstKernelLawReading
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,20 +50,7 @@ namespace GlobalTheory.KerTie
 
 theorem natCast_mem_of_prime_dvd_absNorm {E : Type} [Field E] [NumberField E] (P : HeightOneSpectrum (𝓞 E)) {q : ℕ}
     (hq : q.Prime) (h : q ∣ Ideal.absNorm P.asIdeal) : (q : 𝓞 E) ∈ P.asIdeal := by
-  have : Fact q.Prime := ⟨hq⟩
-  have := P.isPrime
-  have : Finite (𝓞 E ⧸ P.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot P.asIdeal P.ne_bot
-  rw [Ideal.absNorm_apply, Submodule.cardQuot_apply] at h
-  obtain ⟨x, hx⟩ := exists_prime_addOrderOf_dvd_card' (G := 𝓞 E ⧸ P.asIdeal) q h
-  have hx0 : x ≠ 0 := by
-    rintro rfl
-    rw [addOrderOf_zero] at hx
-    exact hq.one_lt.ne hx
-  have h1 : q • x = 0 := by rw [← hx]; exact addOrderOf_nsmul_eq_zero x
-  rw [nsmul_eq_mul] at h1
-  have h2 : ((q : ℕ) : 𝓞 E ⧸ P.asIdeal) = 0 := (mul_eq_zero.1 h1).resolve_right hx0
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
-  exact h2
+  first | exact _root_.GlobalTheory.NatCastMemOfPrimeDvdNorm.natCast_mem_of_prime_dvd_absNorm | exact @_root_.GlobalTheory.NatCastMemOfPrimeDvdNorm.natCast_mem_of_prime_dvd_absNorm | apply _root_.GlobalTheory.NatCastMemOfPrimeDvdNorm.natCast_mem_of_prime_dvd_absNorm <;> assumption
 
 theorem sNum_qOf_rowSG :
     ∀ (D : D7) (L : SizeData₂ D) (hT : GatTies D) (Gi : G.Inst D L) (Gl : G.LatInst D) (K : G.Consts) (Y : DivX D) (cX : ExtraC)

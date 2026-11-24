@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.ReproducingKernels.OneLeGN
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.SymmetricScalarBlockMatrixMul
 public import Formalism.HermitianCurvature.StatementU
 public import Formalism.FormalDegreeBessel.FinalG
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
@@ -102,11 +104,7 @@ theorem block3_mul
       blk3 (A11 * ToralGalois + A12 * B21 + A13 * B31) (A11 * cocyclesToWachVectorsExponent + A12 * B22 + A13 * B32) (A11 * B13 + A12 * B23 + A13 * B33)
         (A21 * ToralGalois + A22 * B21 + A23 * B31) (A21 * cocyclesToWachVectorsExponent + A22 * B22 + A23 * B32) (A21 * B13 + A22 * B23 + A23 * B33)
         (A31 * ToralGalois + A32 * B21 + A33 * B31) (A31 * cocyclesToWachVectorsExponent + A32 * B22 + A33 * B32) (A31 * B13 + A32 * B23 + A33 * B33) := by
-  unfold blk3
-  rw [Matrix.reindex_apply, Matrix.reindex_apply, Matrix.submatrix_mul_equiv, Matrix.reindex_apply]
-  congr 1
-  ext (((a | a) | a)) (((b | b) | b)) <;>
-    simp [Matrix.mul_apply, Fintype.sum_sum_type, add_assoc]
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.block3_mul <;> assumption
 
 theorem block3_conjTranspose
     (A11 : Matrix (Fin j) (Fin j) ℂ) (A12 : Matrix (Fin j) (Fin (2 * ρ + k + 1)) ℂ) (A13 : Matrix (Fin j) (Fin j) ℂ)
@@ -128,14 +126,7 @@ theorem wMat_mul_self (d : ℕ) : G.wMat d * G.wMat d = 1 := by
   simp [G.wMat, Matrix.mul_apply, Matrix.one_apply, Matrix.of_apply, key]
 
 theorem wMat_conjTranspose (d : ℕ) : (G.wMat d)ᴴ = G.wMat d := by
-  ext i b
-  simp only [G.wMat, Matrix.conjTranspose_apply, Matrix.of_apply]
-  by_cases h : i = b.rev
-  · have h' : b = i.rev := by rw [h, Fin.rev_rev]
-    rw [if_pos h, if_pos h', star_one]
-  · have h' : ¬ b = i.rev := by
-      intro h'; apply h; rw [h', Fin.rev_rev]
-    rw [if_neg h, if_neg h', star_zero]
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.wMat_conjTranspose <;> assumption
 
 theorem hpk_conjTranspose (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := by
   ext i b
@@ -143,14 +134,7 @@ theorem hpk_conjTranspose (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := by
   split_ifs <;> (try simp) <;> omega
 
 theorem hpkBlocks : HpkBlocks := by
-  intro k j ρ
-  apply ext_eB
-  rintro (((a | a) | a)) (((b | b) | b)) <;>
-    simp only [block3_apply, Matrix.fromBlocks_apply₁₁, Matrix.fromBlocks_apply₁₂, Matrix.fromBlocks_apply₂₁,
-      Matrix.fromBlocks_apply₂₂, Matrix.fromRows_apply_inl, Matrix.fromRows_apply_inr, Matrix.fromCols_apply_inl,
-      Matrix.fromCols_apply_inr, Matrix.zero_apply, G.wMat, Matrix.of_apply, Hpk, Fin.ext_iff, block_index_first_val_eq, block_index_middle_val_eq, block_index_last_val_eq,
-      Fin.val_rev] <;>
-    split_ifs <;> first | rfl | omega
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.hpkBlocks <;> assumption
 
 end blocks
 
@@ -165,14 +149,7 @@ theorem w_w_mul' {n : ℕ} (M : Matrix (Fin j) (Fin n) ℂ) : G.wMat j * (G.wMat
   rw [← Matrix.mul_assoc, wMat_mul_self, Matrix.one_mul]
 
 theorem skewOf_conjTranspose (q : (G.UT j → ℂ) × (Fin j → ℝ)) : (skewOf q)ᴴ = -skewOf q := by
-  unfold skewOf
-  rw [Matrix.conjTranspose_add, Matrix.conjTranspose_sub, Matrix.conjTranspose_conjTranspose,
-    Matrix.diagonal_conjTranspose]
-  have : (star fun i => Complex.I * ((q.2 i : ℝ) : ℂ)) = (fun i => -(Complex.I * ((q.2 i : ℝ) : ℂ))) := by
-    funext i
-    simp [Complex.conj_ofReal]
-  rw [this, ← Matrix.diagonal_neg]
-  abel
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.skewOf_conjTranspose <;> assumption
 
 theorem Rn_unitary (x : RC k j ρ) : (Rn k j ρ x)ᴴ * Hpk k (j + ρ) * Rn k j ρ x = Hpk k (j + ρ) := by
   rw [hpkBlocks k j ρ]
@@ -192,17 +169,7 @@ section sizes
 variable {k j ρ : ℕ}
 
 theorem entry_le_gN {r : ℕ} (M : B.Mat k r) (i l : Fin (2 * r + k + 1)) : ‖M i l‖ ≤ B.gN M := by
-  unfold B.gN
-  calc ‖M i l‖ = Real.sqrt (Complex.normSq (M i l)) := by
-        rw [Complex.normSq_eq_norm_sq, Real.sqrt_sq (norm_nonneg _)]
-    _ ≤ Real.sqrt (∑ i, ∑ l, Complex.normSq (M i l)) := by
-        apply Real.sqrt_le_sqrt
-        calc Complex.normSq (M i l) ≤ ∑ l, Complex.normSq (M i l) :=
-              Finset.single_le_sum (f := fun l => Complex.normSq (M i l)) (fun _ _ => Complex.normSq_nonneg _)
-                (Finset.mem_univ l)
-          _ ≤ ∑ i, ∑ l, Complex.normSq (M i l) :=
-              Finset.single_le_sum (f := fun i => ∑ l, Complex.normSq (M i l))
-                (fun _ _ => Finset.sum_nonneg fun _ _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.S0.DecA.gN_entry <;> assumption
 
 theorem wMat_mul_apply' {n : ℕ} (M : Matrix (Fin j) (Fin n) ℂ) (a : Fin j) (b : Fin n) :
     (G.wMat j * M) a b = M a.rev b := by
@@ -282,28 +249,13 @@ theorem block2_det_upper_triangular {p s : ℕ} (A : Matrix (Fin p) (Fin p) ℂ)
   rw [Matrix.det_reindex_self, Matrix.det_fromBlocks_zero₂₁]
 
 theorem det_upper {p : ℕ} (u : G.UT p → ℂ) : (G.upper u).det = 1 := by
-  have h : (G.upper u).BlockTriangular id := by
-    intro i j hij
-    simp only [id] at hij
-    simp [G.upper, G.strictUpper, ne_of_gt hij, not_lt.mpr (le_of_lt hij)]
-  rw [Matrix.det_of_isUpperTriangular h]
-  simp [G.upper, G.strictUpper]
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.det_upper <;> assumption
 
 theorem det_lowW {p : ℕ} (σ : Equiv.Perm (Fin p)) (v : LW σ → ℂ) : (lowW σ v).det = 1 := by
-  have h : (lowW σ v).BlockTriangular OrderDual.toDual := by
-    intro i j hij
-    have hij' : i < j := hij
-    have : ¬ (j < i ∧ σ.symm j < σ.symm i) := fun h => absurd h.1 (not_lt.mpr (le_of_lt hij'))
-    simp [lowW, ne_of_lt hij', this]
-  rw [Matrix.det_of_isLowerTriangular _ h]
-  simp [lowW]
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.det_lowW <;> assumption
 
 theorem detZj : DetZj := by
-  intro p s σ d η Z
-  unfold ZjH Zj headH hMat G.detM
-  rw [Matrix.det_mul, Matrix.det_mul, block2_det_lower_triangular, block2_det_lower_triangular, block2_det_upper_triangular]
-  simp only [Matrix.det_mul, det_upper, det_lowW, Matrix.det_one]
-  ring
+  apply _root_.Formalism.FourierDecayAlt.P.Ux3.detZj <;> assumption
 
 end det
 

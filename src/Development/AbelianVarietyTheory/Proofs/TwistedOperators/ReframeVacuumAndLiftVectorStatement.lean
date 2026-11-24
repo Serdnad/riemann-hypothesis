@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OmegaFormIntegrality
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MapAFrPMulFrPinv
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RevPosRevPos
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
@@ -444,10 +445,7 @@ namespace GlobalTheory.AdSpan.ReVec.ThetaCarry
 
 theorem continuous_reW {D : D7} (S T : HSp D) (b : Module.Basis (Fin S.rank) D.host.E S.V) :
     Continuous (reW S T b : WO (reS S b) T → WO S T) := by
-  haveI : IsTopologicalRing (AE D) := IsModuleTopology.isTopologicalRing (AF D.host.F) (AE D)
-  exact (continuous_id.matrix_mul continuous_const :
-    Continuous fun x : Matrix (Fin T.rank) (Fin S.rank) (AE D) =>
-      HMul.hMul (α := Matrix (Fin T.rank) (Fin S.rank) (AE D)) x ((frPinv S b).map (incA D)))
+  apply _root_.GlobalTheory.AdSpan.ReVec.FockVac.continuous_reW <;> assumption
 
 theorem reW_ratW {D : D7} (S T : HSp D) (b : Module.Basis (Fin S.rank) D.host.E S.V)
     (γ : Matrix (Fin T.rank) (Fin S.rank) D.host.E) :
@@ -691,16 +689,7 @@ namespace GlobalTheory.AdSpan.ReVec.Lat
 variable {D : D7} (S T : HSp D) (b : Module.Basis (Fin S.rank) D.host.E S.V)
 
 theorem gram_reS_eq : (reS S b).gram = (frP S b)ᴴ * S.gram * frP S b := by
-  refine Matrix.ext fun (i j : Fin S.rank) => ?_
-  have hb : ∀ k, b k = ∑ l, frP S b l k • S.frame l := fun k =>
-    (Module.Basis.sum_toMatrix_smul_self S.frame b k).symm
-  show S.hT (b i) (b j) = ∑ k, (∑ l, star (frP S b l i) * S.gram l k) * frP S b k j
-  rw [hb i, hb j]
-
-  simp only [map_sum, LinearMap.map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul,
-  HSpace.gram, Finset.sum_mul, Finset.mul_sum, RingHom.id_apply, starRingEnd_apply]
-  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l _ => ?_
-  ring
+  apply _root_.GlobalTheory.AdSpan.ReVec.FrMap.gram_reS <;> assumption
 
 theorem sum_frameMatrix_mulVec_smul (s' : Fin S.rank → D.host.E) :
     ∑ k, (frP S b *ᵥ s') k • S.frame k = ∑ a, s' a • b a := by
@@ -1048,21 +1037,7 @@ theorem L_frame : ∀ (D : D7) (S : HSp D) (b : Module.Basis (Fin S.rank) D.host
 
 theorem pi_eq_stdL' (E : Type) [Field E] [NumberField E] (n : ℕ) :
     (Submodule.pi Set.univ fun _ => (1 : Submodule (𝓞 E) E)) = stdL E n := by
-  apply le_antisymm
-  · intro x hx
-    rw [← Finset.univ_sum_single x]
-    refine Submodule.sum_mem _ fun a _ => ?_
-    obtain ⟨b, hb⟩ := Submodule.mem_one.1 (hx a trivial)
-    have : (Pi.single a (x a) : Fin n → E) = b • (Pi.single a 1 : Fin n → E) := by
-      rw [← Pi.single_smul, ← hb, Algebra.smul_def, mul_one]
-    rw [this]
-    exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)
-  · refine Submodule.span_le.2 ?_
-    rintro _ ⟨a, rfl⟩ j -
-    by_cases h : j = a
-    · subst h
-      exact Submodule.mem_one.2 ⟨1, by simp⟩
-    · simp [h]
+  apply _root_.GlobalTheory.OneMapRef.FactsLat.pi_eq_stdL <;> assumption
 
 theorem L_std : ∀ (D : D7) (S : HSp D) (b : Module.Basis (Fin S.rank) D.host.E S.V), StdFrame.OrthFrame (reS S b) → L0c D (reS S b) = (stdL D.host.E (reS S b).rank : Set (Fin (reS S b).rank → D.host.E)) := by
   intro D S b hO

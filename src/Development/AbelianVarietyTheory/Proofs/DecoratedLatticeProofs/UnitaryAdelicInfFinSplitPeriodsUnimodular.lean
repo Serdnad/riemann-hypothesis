@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LeviDecompositionGradedIsotropicFlag
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.EqSemiMeasOfCovolOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMulRightInvariantHaarAdelicUnitaryGroupHermiti
@@ -160,17 +161,7 @@ theorem tens_ext {F E A B : Type} [Field F] [Field E] [Algebra F E] [CommRing A]
       Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) w)
     (h2 : Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z =
       Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) w) : z = w := by
-  have hz : ∀ z : (A × B) ⊗[F] E, z = LinearMap.rTensor E (LinearMap.inl F A B)
-        (Algebra.TensorProduct.map (AlgHom.fst F A B) (AlgHom.id F E) z) +
-      LinearMap.rTensor E (LinearMap.inr F A B)
-        (Algebra.TensorProduct.map (AlgHom.snd F A B) (AlgHom.id F E) z) := by
-    intro z
-    induction z with
-    | tmul x y => simp [← TensorProduct.add_tmul]
-    | add x y hx hy =>
-      simp only [map_add (f := _)]
-      rw [add_add_add_comm, ← hx, ← hy]
-  rw [hz z, hz w, h1, h2]
+  first | exact _root_.GlobalTheory.UAut.TorusLevi.prodTens_ext | exact @_root_.GlobalTheory.UAut.TorusLevi.prodTens_ext | apply _root_.GlobalTheory.UAut.TorusLevi.prodTens_ext <;> assumption
 
 theorem entry_eq {R R₁ R₂ : Type} [CommRing R] [CommRing R₁] [CommRing R₂] (φ : R →+* R₁) (ψ : R →+* R₂)
     (hinj : ∀ z w, φ z = φ w → ψ z = ψ w → z = w) {n k m : ℕ} {M N K : Matrix (Fin n) (Fin n) R}

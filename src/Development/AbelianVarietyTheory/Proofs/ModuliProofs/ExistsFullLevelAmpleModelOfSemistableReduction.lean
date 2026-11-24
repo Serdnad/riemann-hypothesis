@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsModuliSchemePolarizedAbelianLevel
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.AuxiliaryInertOddPrime
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.SiegelPullbackIdCompCancel
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
@@ -158,6 +159,8 @@ import Mathlib.AlgebraicGeometry.ValuativeCriterion
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ExistsRosatiGen
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.GenCalc
 import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.AllSixAbelianSchemeLawsHoldStatement
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsObjectAtMinimalPrime
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ThetaLevelAbelianSchemeConstOverDualNumbers
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.ModuliProofs.Direct, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSabMapOfIsProperOfLbIsoLam, Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsLocalizationOfLeClosure, Development.AbelianVarietyTheory.Proofs.ModuliProofs.Rigidity, Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmFamilyFiniteUnramifiedOverSiegelFamily, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniversalFullLevelOfPelThetaFamily, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniversalQuasiProjectiveSiegelFamilyLargeL, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFullLevelModelAmpleFrames, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SemiAbelianHomExtensionOfLaws, Development.AbelianVarietyTheory.Proofs.DegenerationProofs.SemiAbelianHomExtensionOfLawsStatement, Development.AbelianVarietyTheory.Proofs.ModuliProofs.GoodReductionOfThetaPointUnits, Development.AbelianVarietyTheory.Proofs.ModuliProofs.SemistableReductionSplitOfPadic, Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsFullLevelAmpleModelOfSemistableReduction
@@ -474,20 +477,7 @@ open GlobalTheory.Models GlobalTheory.ZM
 namespace GlobalTheory.EpsAct
 
 theorem subsingleton_sp_dualNumber (k : Type) [Field k] : Subsingleton (Sp (DualNumber k)) := by
-  change Subsingleton (PrimeSpectrum (DualNumber k))
-  have key : ∀ (p : PrimeSpectrum (DualNumber k)) (x : DualNumber k), x ∈ p.asIdeal ↔ x.fst = 0 := by
-    intro p x
-    constructor
-    · intro hx
-      by_contra h
-      exact p.isPrime.ne_top (Ideal.eq_top_of_isUnit_mem _ hx
-        (TrivSqZeroExt.isUnit_iff_isUnit_fst.2 (isUnit_iff_ne_zero.2 h)))
-    · intro h
-      apply p.isPrime.mem_of_pow_mem 2
-      have hx : x = TrivSqZeroExt.inr x.snd := TrivSqZeroExt.ext (by simp [h]) (by simp)
-      rw [hx, pow_two]
-      simp
-  exact ⟨fun p q => PrimeSpectrum.ext (Ideal.ext fun x => (key p x).trans (key q x).symm)⟩
+  apply _root_.GlobalTheory.ConstTheta.subsingleton_sp <;> assumption
 
 theorem rigidity (hL : Out.Laws) (k : Type) [Field k] {Z : Scheme.{0}} (c₀ : Z ⟶ Sp k)
     (A' G' : Over (Sp (DualNumber k))) [GrpObj A'] [GrpObj G'] (j : Z ⟶ A'.left) (a b : A' ⟶ G')
@@ -1225,22 +1215,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem exists_ringGenerators (x y : 𝓞 E) : ∃ (J : Type) (_ : Finite J) (a : J → 𝓞 E) (w w' : J),
     a w = x ∧ a w' = y ∧ Subring.closure (Set.range a) = ⊤ := by
-  classical
-  let b := NumberField.RingOfIntegers.basis E
-  refine ⟨Option (Option (Module.Free.ChooseBasisIndex ℤ (𝓞 E))), inferInstance,
-    fun j => Option.elim j x (fun j' => Option.elim j' y b), none, some none, rfl, rfl, ?_⟩
-  rw [eq_top_iff]
-  rintro z -
-  have hz : z ∈ Submodule.span ℤ (Set.range b) := by
-    rw [b.span_eq]
-    exact Submodule.mem_top
-  induction hz using Submodule.span_induction with
-  | mem u hu =>
-    obtain ⟨i, rfl⟩ := hu
-    exact Subring.subset_closure ⟨some (some i), rfl⟩
-  | zero => exact zero_mem _
-  | add u v _ _ hu hv => exact add_mem hu hv
-  | smul m u _ hu => exact zsmul_mem hu m
+  apply _root_.GlobalTheory.ZM.FullLevel.exists_generating_family <;> assumption
 
 theorem RZ.coe_rt (H : Host E) (S A : ℕ) : (RZ H S A).subtype (RZ.rt H S A) = H.rt0 := by
   rw [RZ.rt, map_sub, map_mul, map_ofNat, map_one]
@@ -1762,14 +1737,7 @@ theorem exists_obj_model (h₁ : Out.Laws) (h₂ : Out.Laws2) {o : Type} [CommRi
 theorem hasTh_unit_mul {o : Type} [CommRing o] {g N : ℕ} {J : Type} {b : TBase o (N ^ 2)} {S : Scheme.{0}}
     {s : S ⟶ Sp o} (t : TObj g (N ^ 2) J b s) {R : Type} [CommRing R] {x : Sp R ⟶ S} {v : Ix g (N ^ 2) → R}
     (h : t.HasTh x v) {r : R} (hr : IsUnit r) : t.HasTh x (fun a => r * v a) := by
-  refine ⟨h.1, h.2.1, fun p => ?_⟩
-  obtain ⟨V, hV, th, s₁, α, τ, U, s₂, w, u, a₁, a₂, a₃, a₄, a₅, a₆, a₇, a₈⟩ := h.2.2 p
-  refine ⟨V, hV, th, s₁, α, τ, U, s₂, w,
-    Out.unitRes (T := Over.mk x) V (hr.map (Scheme.ΓSpecIso (CommRingCat.of R)).inv.hom).unit * u, a₁, a₂, a₃, a₄, a₅, a₆, a₇,
-    fun i => ?_⟩
-  refine (congrArg V.ι.appTop.hom (map_mul _ _ _)).trans ((map_mul _ _ _).trans ?_)
-  exact (congrArg (fun q : Γ((Out.overRes (T := Over.mk x) V).left, ⊤) => (_ : Γ((Out.overRes (T := Over.mk x) V).left, ⊤)) * q)
-    (a₈ i)).trans (_root_.mul_assoc _ _ _).symm
+  apply _root_.GlobalTheory.ZM.TObj.HasTh.unit_mul <;> assumption
 
 theorem hasTh_of_generic (h₁ : Out.Laws) (h₂ : Out.Laws2) {o : Type} [CommRing o] {g n N : ℕ} {J : Type}
     {b : TBase o (N ^ 2)} (W K : Type) [CommRing W] [IsDomain W] [IsDiscreteValuationRing W] [Field K] [Algebra W K]

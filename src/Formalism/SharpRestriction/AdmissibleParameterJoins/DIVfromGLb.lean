@@ -140,12 +140,6 @@ theorem orderBound_of_fifth_sixth (D : D7) (L : SizeData₂ D) (Cn C5 C6 cL : �
   have hx0 : 0 < L.sc.x := hsc.1
   have hxb : 0 ≤ L.sc.x * L.sc.b := (mul_pos hsc.1 hsc.2.2.1).le
   have hmt0 : (0 : ℝ) ≤ (D.R.m : ℝ) * D.R.t := mul_nonneg (Nat.cast_nonneg _) (Nat.cast_nonneg _)
-  have hb'x : 0 < L.sc.b' / L.sc.x := by linarith
-  have hb' : 0 ≤ L.sc.b' := by
-    by_contra hneg
-    push_neg at hneg
-    have := div_neg_of_neg_of_pos hneg hx0
-    linarith
   have hbS : 0 ≤ L.sc.b' + L.Sc := by linarith
   have hk0 : (0 : ℝ) ≤ D.R.k := by linarith
   have hfk2L : 0 ≤ (D.R.f : ℝ) * (D.R.k : ℝ) ^ 2 * L.sc.L :=

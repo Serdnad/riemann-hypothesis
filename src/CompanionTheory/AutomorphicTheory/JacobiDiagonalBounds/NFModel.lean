@@ -53,13 +53,10 @@ omit [StarRing A]
 variable (L : LevelData A r)
 
 theorem comm_cl {z : A} (hz : ∀ f ∈ L.fns, Commute z f) {y : A} (hy : y ∈ Subring.closure L.fns) : Commute z y := by
-  induction hy using Subring.closure_induction with
-  | mem x hx => exact hz x hx
-  | zero => exact Commute.zero_right _
-  | one => exact Commute.one_right _
-  | add x y _ _ hx hy => exact hx.add_right hy
-  | neg x _ hx => exact hx.neg_right
-  | mul x y _ _ hx hy => exact hx.mul_right hy
+  have hcentral : Subring.closure L.fns ≤ Subring.centralizer {z} :=
+    Subring.closure_le.mpr fun f hf =>
+      Subring.mem_centralizer_iff.mpr fun _ h => Set.mem_singleton_iff.mp h ▸ hz f hf
+  exact Subring.mem_centralizer_iff.mp (hcentral hy) z (Set.mem_singleton z)
 
 theorem cl_comm {x y : A} (hx : x ∈ Subring.closure L.fns) (hy : y ∈ Subring.closure L.fns) : Commute x y :=
   comm_cl L (fun _ hf => (comm_cl L (fun _ hg => fc L hf hg) hx).symm) hy

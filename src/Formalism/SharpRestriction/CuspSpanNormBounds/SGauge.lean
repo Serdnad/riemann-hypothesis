@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ChainRuleSecondOrder.HasDerivAtDOf
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -139,22 +140,11 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 open scoped Matrix.Norms.Operator in
 theorem exp_entry (X : Matrix (Fin n) (Fin n) ℂ) (i j : Fin n) :
     HasDerivAt (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X)) i j) (X i j) 0 := by
-  have h := hasDerivAt_exp_smul_const (𝕂 := ℝ) X (0 : ℝ)
-  simp only [zero_smul, NormedSpace.exp_zero, one_mul] at h
-  let L : Matrix (Fin n) (Fin n) ℂ →L[ℝ] ℂ := LinearMap.toContinuousLinearMap (Matrix.entryLinearMap ℝ ℂ i j)
-  have := L.hasFDerivAt.comp_hasDerivAt (0 : ℝ) h
-  simp only [Complex.coe_smul]
-  exact this
+  apply _root_.PI.ComplexConjugateDerivative.exp_entry <;> assumption
 
 theorem exp_deriv (X : Matrix (Fin n) (Fin n) ℂ) :
     HasDerivAt (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X)) X 0 := by
-  have : HasDerivAt (fun t : ℝ => (fun i j => (NormedSpace.exp ((t : ℂ) • X)) i j : Fin n → Fin n → ℂ)) (fun i j => X i j) 0 := by
-    rw [hasDerivAt_pi]
-    intro i
-    rw [hasDerivAt_pi]
-    intro j
-    exact exp_entry X i j
-  exact this
+  apply _root_.PI.ComplexConjugateDerivative.exp_deriv <;> assumption
 
 def mulL (a : Matrix (Fin n) (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ →L[ℝ] Matrix (Fin n) (Fin n) ℂ :=
   LinearMap.toContinuousLinearMap (LinearMap.mulLeft ℝ a)

@@ -77,60 +77,7 @@ theorem group_action_pairing_holds : GAPair := by
   have hQm : MeasurableSet Qs := (MA.Qset_open _ _).measurableSet
   set W : (Fin S.G.r → ℂ) × ℂ → ℝ := bcWeight S.G.k S.G.r (Tz S.G.k S.G.r Db.z) (Tz S.G.k S.G.r Db.z') with hWdef
   have hW0 : ∀ x, 0 ≤ W x := fun x => Formalism.FourierDecayAlt.P.JCTx2.bcWeight_nonneg' _ _ x
-
-  have hW : ∀ x ∈ Qs, W x = Formalism.FourierDecayAlt.P.MAx2.Adj.dR x * MA.wq S.G.k x (D.parOf S v).TT := by
-    intro x hx
-    have hle : Tz S.G.k S.G.r Db.z * Tz S.G.k S.G.r Db.z' ≤ Complex.normSq x.2 := by
-      rw [hTT]; exact le_of_lt hx.2
-    rw [hWdef]
-    unfold bcWeight
-    rw [if_pos hle]
-    unfold Formalism.FourierDecayAlt.P.MAx2.Adj.dR MA.wq
-    rw [hTT, ← mul_assoc, ← Finset.prod_mul_distrib]
-    congr 1
-    refine Finset.prod_congr rfl fun l _ => ?_
-    have hM : 2 ≤ MA.Mdim S.G.k S.G.r l := by
-      have := l.isLt
-      simp only [MA.Mdim]; omega
-    have hn : Complex.normSq (x.1 l) ≠ 0 := (Complex.normSq_pos.2 (hx.1 l)).ne'
-    have e1 : Formalism.QuantumDeterminants.Mdim S.G.k S.G.r l = MA.Mdim S.G.k S.G.r l := rfl
-    rw [e1, pow_mul, Complex.sq_norm, show MA.Mdim S.G.k S.G.r l - 1 = (MA.Mdim S.G.k S.G.r l - 2) + 1 by omega,
-      pow_succ]
-    field_simp
-
-  have hval : ∀ J ∈ Q.FFl S.G.k S.G.r Db.z Db.z' Db.π Db.π' 0 (OmP S T v), ∀ ρ,
-      ((trJ S T v e J ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) : MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) =
-        fun q => ((Real.sqrt (MA.wq S.G.k q.1 (D.parOf S v).TT) : ℝ) : ℂ) *
-          inner ℂ (B.hsVec (e ρ q.1.2)) (B.hsVec (J (B.gq Db q.1))) := fun J hJ ρ =>
-    toSm_val_of_mem (D.parOf S v) (trace_smoothness E Wp Wq S T v hplace e hFr J hJ ρ)
-
-  have hR : ∀ ρ, MA.ip0 (trJ S T v e X ρ) (trJ S T v e Y ρ) =
-      ∫ x in Qs, ((W x : ℝ) : ℂ) * (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (X (B.gq Db x))) *
-        conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (Y (B.gq Db x))))) := by
-    intro ρ
-    unfold MA.ip0
-    rw [Formalism.FourierDecayAlt.P.MAx2.Adj.integral_base_measure]
-    have hz : ∀ x, x ∉ Qs → ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
-        MA.ext (r := (D.parOf S v).r) (TT := (D.parOf S v).TT)
-          (fun q : MA.Qp (D.parOf S v).r (D.parOf S v).TT =>
-            ((trJ S T v e X ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) : MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q *
-            conj (((trJ S T v e Y ρ : MA.SmQ (D.parOf S v).r (D.parOf S v).TT) :
-              MA.Qp (D.parOf S v).r (D.parOf S v).TT → ℂ) q)) x = 0 := by
-      intro x hx
-      rw [Formalism.FourierDecayAlt.P.MAx2.Adj.ext_out _ hx, mul_zero]
-    rw [← setIntegral_eq_integral_of_forall_compl_eq_zero hz]
-    refine setIntegral_congr_fun hQm fun x hx => ?_
-    simp only [MA.ext, hval X hX, hval Y hY]
-    rw [dite_eq_left (show x ∈ MA.Qset S.G.r (D.parOf S v).TT from hx)]
-    rw [hW x hx, map_mul, Complex.conj_ofReal]
-    have hw := wq_pos (k := S.G.k) hx
-    have hs : ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) *
-        ((Real.sqrt (MA.wq S.G.k x (D.parOf S v).TT) : ℝ) : ℂ) = ((MA.wq S.G.k x (D.parOf S v).TT : ℝ) : ℂ) := by
-      rw [← Complex.ofReal_mul, Real.mul_self_sqrt hw.le]
-    push_cast
-    linear_combination ((Formalism.FourierDecayAlt.P.MAx2.Adj.dR x : ℝ) : ℂ) *
-      inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (X (B.gq Db x))) *
-        conj (inner ℂ (B.hsVec (e ρ x.2)) (B.hsVec (Y (B.gq Db x)))) * hs
+  have hR := trace_pairing_integral S T v hplace e hFr hX hY
 
   have hcont : ∀ J ∈ Q.FFl S.G.k S.G.r Db.z Db.z' Db.π Db.π' 0 (OmP S T v),
       ContinuousOn (fun x => B.hsVec (J (B.gq Db x))) Qs := fun J hJ =>

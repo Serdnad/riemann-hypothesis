@@ -8,6 +8,7 @@ public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.CharLem
 import Formalism.LocalToGlobal.IndefiniteReal.PHeisThA
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.RingTheory.PiTensorProduct
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.EmbeddingXiZeroNeZero
 
 @[expose] public section
 
@@ -116,15 +117,7 @@ theorem fin_coord_zero (c : AE D) (h : finPart D c = 0) :
   exact pair_eq_zero D (Af D.host.F) _ _ h
 
 theorem eq_zero_of_parts (c : AE D) (h1 : infPart D c = 0) (h2 : finPart D c = 0) : c = 0 := by
-  have h1' := h1
-  rw [infPart_dec] at h1'
-  have hi := pair_eq_zero D (Ainf D.host.F) _ _ h1'
-  have hf := fin_coord_zero D c h2
-  have e0 : (basR D (AF D.host.F)).repr c 0 = 0 :=
-    AF_ext D (by rw [hi.1, map_zero]) (by rw [hf.1, map_zero])
-  have e1 : (basR D (AF D.host.F)).repr c 1 = 0 :=
-    AF_ext D (by rw [hi.2, map_zero]) (by rw [hf.2, map_zero])
-  rw [decR D c, e0, e1, TensorProduct.zero_tmul, TensorProduct.zero_tmul, add_zero]
+  apply _root_.GlobalTheory.DualPairCompare.parts_zero <;> assumption
 
 theorem finPart_cA (c : AE D) :
     finPart D (cA D c) = Algebra.TensorProduct.map (AlgHom.id D.host.F (Af D.host.F)) D.sp.cm.sig (finPart D c) := by

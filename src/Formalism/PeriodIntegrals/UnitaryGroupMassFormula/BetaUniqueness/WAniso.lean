@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Skeleton
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaUniqueness.Lemmas
 import Mathlib.Algebra.Order.Floor.Extended
@@ -64,24 +65,13 @@ theorem wa_cT_conj_eq {m k : Type} (M : Matrix m k ℂ) : Formalism.UG.cT (starR
 
 theorem wa_sig_data (J : Matrix n n ℂ) (p q : ℕ) (h : Formalism.UG.HasSignature J p q) :
     Fintype.card n = p + q ∧ ∃ Q : Matrix n (Fin p ⊕ Fin q) ℂ, Qᴴ * J * Q = Formalism.UG.Jpq p q := by
-  obtain ⟨e, P, hP⟩ := h
-  refine ⟨by rw [Fintype.card_congr e, Fintype.card_sum, Fintype.card_fin, Fintype.card_fin], ?_⟩
-  refine ⟨(P : Matrix _ _ ℂ).submatrix e id, ?_⟩
-  rw [wa_cT_conj_eq] at hP
-  have hJ : J = (J.reindex e e).submatrix e e := by
-    ext i j; simp
-  rw [hJ, conjTranspose_submatrix, submatrix_mul_equiv, submatrix_mul_equiv]
-  simpa using hP
+  apply _root_.Formalism.UG.P.sig_data <;> assumption
 
 theorem wa_sig_quad {p q : ℕ} (J : Matrix n n ℂ) (Q : Matrix n (Fin p ⊕ Fin q) ℂ)
     (hQ : Qᴴ * J * Q = Formalism.UG.Jpq p q) (x : Fin p ⊕ Fin q → ℂ) :
     star (Q *ᵥ x) ⬝ᵥ (J *ᵥ (Q *ᵥ x)) =
       (∑ i, star (x (Sum.inl i)) * x (Sum.inl i)) - ∑ j, star (x (Sum.inr j)) * x (Sum.inr j) := by
-  have : star (Q *ᵥ x) ⬝ᵥ (J *ᵥ (Q *ᵥ x)) = star x ⬝ᵥ ((Qᴴ * J * Q) *ᵥ x) := by
-    rw [star_mulVec, mulVec_mulVec, dotProduct_mulVec, vecMul_vecMul, ← dotProduct_mulVec,
-      Matrix.mul_assoc]
-  rw [this, hQ]
-  simp [Formalism.UG.Jpq, fromBlocks_mulVec, dotProduct, Fintype.sum_sum_type, sub_eq_add_neg, neg_mulVec]
+  apply _root_.Formalism.UG.P.sig_quad <;> assumption
 
 theorem wa_neg_dim {p q m : ℕ} (J : Matrix n n ℂ) (Q : Matrix n (Fin p ⊕ Fin q) ℂ)
     (hQ : Qᴴ * J * Q = Formalism.UG.Jpq p q) (hc : Fintype.card n = p + q) (V : Fin m → n → ℂ)

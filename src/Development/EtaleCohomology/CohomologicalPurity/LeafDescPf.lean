@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.FinLeafIndExc
 public import Development.EtaleCohomology.CohomologicalPurity.LeafClCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -77,11 +78,7 @@ def LeafPcSep : Prop := ∀ (q : ℕ) {X : Scheme.{0}} (U : X.Opens) (m i : ℤ)
 def LeafPcGlue : Prop := ∀ (q : ℕ) {X : Scheme.{0}} (U : X.Opens) (m i : ℤ), GlueO q U m i → Glue q U m i
 
 theorem opnMap_id {X : Scheme.{0}} (U : X.Opens) (h) : opnMap (𝟙 X) U U h = 𝟙 _ := by
-  apply Arrow.hom_ext
-  · change sch.map _ = sch.map (𝟙 _)
-    congr 1
-    exact (Scheme.Hom.resLE_id (X := X) (V := U) (V' := U) le_rfl).trans (Scheme.homOfLE_rfl _ _)
-  · exact sch.map_id X
+  apply @LateralTheory.CohomologicalPurity.opnMap_id <;> assumption
 
 theorem dbl_id (P : Arrow Spc) : dbl.map (𝟙 P) = 𝟙 _ := by
   set_option synthInstance.maxHeartbeats 200000 in

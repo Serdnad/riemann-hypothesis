@@ -22,54 +22,27 @@ variable {G : Type*} [Group G] {A : Type*} [CommGroup A] [MulDistribMulAction G 
 theorem exists_eq_smul_div_of_mem_augmentation_of_generator {K L : Subgroup G} (hLK : L ≤ K)
     [(L.subgroupOf K).Normal] {τ : G} (hτ : τ ∈ K) (hgen : ∀ g ∈ K, ∃ m : ℕ, (τ ^ m)⁻¹ * g ∈ L)
     {x : A} (hx : x ∈ augmentation A K L) : ∃ b ∈ fixedModule A L, x = τ • b / b := by
-
-  let S : Subgroup A :=
-    { carrier := {y | ∃ b ∈ fixedModule A L, y = τ • b / b}
-      one_mem' := ⟨1, Subgroup.one_mem _, by rw [smul_one, div_one]⟩
-      mul_mem' := by
-        rintro _ _ ⟨b, hb, rfl⟩ ⟨c, hc, rfl⟩
-        exact ⟨b * c, Subgroup.mul_mem _ hb hc, by rw [smul_mul', mul_div_mul_comm]⟩
-      inv_mem' := by
-        rintro _ ⟨b, hb, rfl⟩
-        exact ⟨b⁻¹, Subgroup.inv_mem _ hb, by rw [smul_inv', inv_div_inv, inv_div]⟩ }
-
-  let T : Subgroup K :=
-    { carrier := {g | ∀ a ∈ fixedModule A L, (g : G) • a / a ∈ S}
-      one_mem' := fun a _ => by
-        rw [OneMemClass.coe_one, one_smul, div_self']
-        exact S.one_mem
-      mul_mem' := by
-        intro g h hg hh a ha
-        have hha : (h : G) • a ∈ fixedModule A L := smul_mem_fixedModule_of_normal hLK h.2 ha
-        have e : ((g * h : K) : G) • a / a = ((g : G) • ((h : G) • a) / ((h : G) • a)) * ((h : G) • a / a) := by
-          rw [Subgroup.coe_mul, mul_smul]
-          simp only [div_eq_mul_inv, mul_assoc, inv_mul_cancel_left]
-        rw [e]
-        exact S.mul_mem (hg _ hha) (hh a ha)
-      inv_mem' := by
-        intro g hg a ha
-        have hga : ((g⁻¹ : K) : G) • a ∈ fixedModule A L :=
-          smul_mem_fixedModule_of_normal hLK (g⁻¹).2 ha
-        have e : ((g⁻¹ : K) : G) • a / a =
-            ((g : G) • (((g⁻¹ : K) : G) • a) / (((g⁻¹ : K) : G) • a))⁻¹ := by
-          rw [smul_smul, InvMemClass.coe_inv, mul_inv_cancel, one_smul, inv_div]
-        rw [e]
-        exact S.inv_mem (hg _ hga) }
-  have hτT : (⟨τ, hτ⟩ : K) ∈ T := fun a ha => ⟨a, ha, rfl⟩
-  have hLT : ∀ ρ : K, (ρ : G) ∈ L → ρ ∈ T := fun ρ hρ a ha => by
-    rw [ha ρ hρ, div_self']
-    exact S.one_mem
-  have hTop : ∀ g : K, g ∈ T := by
-    intro g
-    obtain ⟨m, hm⟩ := hgen g g.2
-    have hg : g = (⟨τ, hτ⟩ : K) ^ m * (((⟨τ, hτ⟩ : K) ^ m)⁻¹ * g) := by group
-    rw [hg]
-    exact T.mul_mem (T.pow_mem hτT m) (hLT _ (by simpa using hm))
-  have hle : augmentation A K L ≤ S := by
+  let δ : fixedModule A L →* A :=
+    { toFun := fun b ↦ τ • (b : A) / (b : A)
+      map_one' := by simp
+      map_mul' := fun b c ↦ by
+        simp only [Subgroup.coe_mul, smul_mul', mul_div_mul_comm] }
+  have hle : augmentation A K L ≤ δ.range := by
     rw [augmentation, Subgroup.closure_le]
     rintro _ ⟨g, hg, a, ha, rfl⟩
-    exact hTop ⟨g, hg⟩ a ha
-  exact hle hx
+    obtain ⟨m, hm⟩ := hgen g hg
+    have hga : g • a = τ ^ m • a := by
+      conv_lhs => rw [show g = τ ^ m * ((τ ^ m)⁻¹ * g) by group]
+      rw [mul_smul, ha _ hm]
+    let b := ∏ ν : Fin m, τ ^ (ν : ℕ) • a
+    have hb : b ∈ fixedModule A L := Subgroup.prod_mem _ fun ν _ ↦
+      smul_mem_fixedModule_of_normal hLK (K.pow_mem hτ _) ha
+    refine ⟨⟨b, hb⟩, ?_⟩
+    change τ • b / b = g • a / a
+    rw [hga]
+    exact ClassFieldData.smul_prod_pow_div τ a m
+  obtain ⟨b, hb⟩ := hle hx
+  exact ⟨b, b.property, hb.symm⟩
 
 end Augmentation
 

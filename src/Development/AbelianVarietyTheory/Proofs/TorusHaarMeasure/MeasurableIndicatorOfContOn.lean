@@ -217,22 +217,7 @@ private theorem diag_ne_zero_of_mem_bor {r : ℕ} {Ψ : Finset (E →+* ℂ)} {b
   rw [Matrix.det_of_upperTriangular (mat_blockTriangular_of_mem_bor hb τ)] at h
   exact Finset.prod_ne_zero_iff.mp h a (Finset.mem_univ a)
 
-private theorem exists_dmin_rmul_eq_normSq_mul' {r : ℕ} (X : Data E r) {x b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r)
-    (τ : X.Ψ) (i : Fin (r + 1)) :
-    ∃ d : ℂ, d ≠ 0 ∧ dmin X.Gm (rmul x b) τ i = (Complex.normSq d : ℂ) * dmin X.Gm x τ i := by
-  have hk : (i : ℕ) ≤ r := Nat.le_of_lt_succ i.isLt
-  have hNt : ((mat b τ).submatrix (Fin.castLE hk) (Fin.castLE hk)).BlockTriangular id :=
-    fun p q hpq => mat_blockTriangular_of_mem_bor hb τ (show Fin.castLE hk q < Fin.castLE hk p from hpq)
-  refine ⟨((mat b τ).submatrix (Fin.castLE hk) (Fin.castLE hk)).det, ?_, ?_⟩
-  · rw [Matrix.det_of_upperTriangular hNt]
-    exact Finset.prod_ne_zero_iff.mpr fun p _ => diag_ne_zero_of_mem_bor hb τ (Fin.castLE hk p)
-  · simp only [dmin, lminor]
-    rw [mat_rmul_torus_haar_measure, _root_.ReciprocityTheory.ChartRestriction.G.FD.FrameDegreeData.gram_mul, submatrix_congr_mul_of_blockTriangular hk _ _ (mat_blockTriangular_of_mem_bor hb τ), Matrix.det_mul, Matrix.det_mul,
-      Matrix.det_transpose]
-    have hc : (((mat b τ).submatrix (Fin.castLE hk) (Fin.castLE hk)).map (starRingEnd ℂ)).det =
-        starRingEnd ℂ ((mat b τ).submatrix (Fin.castLE hk) (Fin.castLE hk)).det :=
-      (RingHom.map_det (starRingEnd ℂ) _).symm
-    rw [hc, mul_right_comm, Complex.mul_conj]
+
 
 private theorem lact_one_frame' {r : ℕ} (X : Data E r) (y : Frame X.Ψ r) :
     lact (1 : GL (Fin r) E) y = y := by

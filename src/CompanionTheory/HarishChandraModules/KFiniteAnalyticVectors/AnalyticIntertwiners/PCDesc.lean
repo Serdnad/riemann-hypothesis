@@ -4,6 +4,7 @@ public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.Analyt
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ExpFromBlocks
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnipotentCorrectionU1.DjCurveA
 import Mathlib.Analysis.Normed.Algebra.MatrixExponential
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.NotTrivialAndTwist
 
 @[expose] public section
 
@@ -136,14 +137,7 @@ theorem sq_or_negC {x y : T.G} (h : T.cov x = T.cov y) : T.sq x = T.sq y ∨ T.s
   · exact Or.inr (Units.ext (by simpa using h2))
 
 theorem norm_sqC (x : T.G) : ‖((T.sq x : ℂˣ) : ℂ)‖ = 1 := by
-  have h : (covC T x)ᴴ * Formalism.UG.Jpq p q * covC T x = Formalism.UG.Jpq p q := T.cov_mem x
-  have hJ : ‖(Formalism.UG.Jpq p q).det‖ = 1 := by
-    simp [Formalism.UG.Jpq, Matrix.det_fromBlocks_zero₂₁, Matrix.det_neg]
-  have hd := congrArg (fun A => ‖Matrix.det A‖) h
-  simp only [det_mul, det_conjTranspose, norm_mul, norm_star, hJ, mul_one] at hd
-  have h2 : ‖((T.sq x : ℂˣ) : ℂ)‖ ^ 4 = 1 := by
-    rw [show (4 : ℕ) = 2 * 2 from rfl, pow_mul, ← norm_pow, sq_sqC, _root_.sq, ← hd]
-  exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) (by norm_num)).1 h2
+  apply _root_.GlobalTheory.RealPar.Cover.norm_sq <;> assumption
 
 theorem sq_contC : Continuous fun x : T.G => ((T.sq x : ℂˣ) : ℂ) :=
   Units.continuous_val.comp (continuous_snd.comp T.emb.continuous)

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.FinLeafHens
 public import Mathlib.Algebra.Algebra.Defs
 public import Mathlib.Algebra.Polynomial.Degree.Defs
 public import Mathlib.Algebra.Polynomial.Eval.Defs
@@ -723,13 +724,7 @@ theorem ker_le_span_sub_sup_map {A A' : Type} [CommRing A] [CommRing A'] [Algebr
 
 theorem isUnit_of_mk {A : Type} [CommRing A] {I : Ideal A} (hI : I ≤ Ideal.jacobson ⊥) (a : A)
     (h : IsUnit (Ideal.Quotient.mk I a)) : IsUnit a := by
-  obtain ⟨v, hv⟩ := h.exists_right_inv
-  obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective v
-  have hm : a * b - 1 ∈ I := by
-    rw [← Ideal.Quotient.eq_zero_iff_mem, map_sub, map_mul, hv, map_one, sub_self]
-  have := (Ideal.mem_jacobson_bot.mp (hI hm)) 1
-  rw [mul_one, sub_add_cancel] at this
-  exact isUnit_of_mul_isUnit_left this
+  apply @LateralTheory.CohomologicalPurity.Hz.hens_isUnit_of_mk <;> assumption
 
 theorem exists_idem {A A' : Type} [CommRing A] [CommRing A'] [Algebra A A'] (I : Ideal A)
     (hid : LateralTheory.E.LChartPf.IdemLiftInt A I) (φ : A' →ₐ[A] A ⧸ I) (S : Subalgebra A A') [Module.Finite A S]

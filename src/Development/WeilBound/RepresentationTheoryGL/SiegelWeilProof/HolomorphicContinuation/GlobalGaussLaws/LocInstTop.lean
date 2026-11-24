@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.DilationDecomposition.Bridge
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.GaussLaw
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.LocInstSt
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.LocCellSt
@@ -1437,22 +1438,7 @@ theorem finite_bad (g : GR n) :
   exact hs
 
 theorem dense_cell : Dense {g : GR n | ((mR g).toBlocks₂₁).det ≠ 0} := by
-  intro g
-  have hT : Tendsto (fun s : ℝ => g * nbE s) (𝓝[≠] 0) (𝓝 g) := by
-    have hc : Continuous fun s : ℝ => g * nbE s := continuous_const.mul cont_nbE
-    have h := hc.tendsto 0
-    rw [nbE_zero, mul_one] at h
-    exact h.mono_left nhdsWithin_le_nhds
-  refine mem_closure_of_tendsto hT ?_
-  have hfin := finite_bad g
-  have hZ : IsClosed ({s : ℝ | ((mR g).toBlocks₂₁ + (s : ℂ) • (mR g).toBlocks₂₂).det = 0} \ {0}) :=
-    (hfin.subset Set.sdiff_subset).isClosed
-  have h0 : (0 : ℝ) ∉ ({s : ℝ | ((mR g).toBlocks₂₁ + (s : ℂ) • (mR g).toBlocks₂₂).det = 0} \ {0}) := by simp
-  filter_upwards [mem_nhdsWithin_of_mem_nhds (hZ.isOpen_compl.mem_nhds h0), self_mem_nhdsWithin] with s hs hs0
-  show ((mR (g * nbE s)).toBlocks₂₁).det ≠ 0
-  rw [lower_left_block_mul_lowering]
-  intro hdet
-  exact hs ⟨hdet, hs0⟩
+  apply _root_.GlobalTheory.CompanionTheory.BigCell.dense_bigCell <;> assumption
 
 theorem bigcell (g : GR n) (hγ : ((mR g).toBlocks₂₁).det ≠ 0) :
     ∃ (y h : GR n) (b : Matrix (Fin n) (Fin n) ℂ), (mR y).toBlocks₂₁ = 0 ∧ b.IsHermitian ∧ mR h = JJ n * nU b ∧

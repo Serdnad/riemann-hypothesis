@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.TowerModels.PlaneCodiff
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateHaarMeasure
@@ -966,41 +967,7 @@ def sigE {σ : E →ₐ[F] E} (h : IsCMExt F E σ) : Gal(E/F) :=
 
 theorem trace_eq {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (e : E) :
     algebraMap F E (Algebra.trace F E e) = e + σ e := by
-  haveI : FiniteDimensional F E := Module.finite_of_finrank_eq_succ h.2.2.1
-  have hne : (1 : Gal(E/F)) ≠ sigE h := by
-    intro h1
-    obtain ⟨x, hx⟩ := _root_.GlobalTheory.AdelicU.exists_cm_conj_ne h
-    exact hx (congrArg (fun g : Gal(E/F) => g x) h1).symm
-  have hle : Nat.card Gal(E/F) ≤ 2 := by
-    calc Nat.card Gal(E/F) ≤ Nat.card (E →ₐ[F] E) :=
-          Nat.card_le_card_of_injective (fun g => (g : E →ₐ[F] E)) (fun a b hab => AlgEquiv.coe_algHom_injective hab)
-      _ ≤ Module.finrank F E := card_algHom_le_finrank F E E
-      _ = 2 := h.2.2.1
-  have hall : ∀ g : Gal(E/F), g = 1 ∨ g = sigE h := by
-    classical
-    have hc : (({1, sigE h} : Finset Gal(E/F))).card = 2 := Finset.card_pair hne
-    have hu : ({1, sigE h} : Finset Gal(E/F)) = Finset.univ := by
-      apply Finset.eq_univ_of_card
-      rw [hc]
-      rw [← Nat.card_eq_fintype_card]
-      have : 2 ≤ Nat.card Gal(E/F) := by
-        rw [Nat.card_eq_fintype_card, ← hc]; exact Finset.card_le_univ _
-      omega
-    intro g
-    have := Finset.mem_univ g
-    rw [← hu] at this
-    simpa using this
-  have hgal : IsGalois F E := by
-    apply IsGalois.of_card_aut_eq_finrank
-    rw [h.2.2.1]
-    apply le_antisymm hle
-    classical
-    rw [Nat.card_eq_fintype_card, ← Finset.card_pair hne]
-    exact Finset.card_le_univ _
-  rw [trace_eq_sum_automorphisms]
-  classical
-  rw [Fintype.sum_eq_add 1 (sigE h) hne (fun g hg => absurd (hall g) (by tauto))]
-  rfl
+  apply _root_.PositivityTheory.ThKG.Tow.Pln.trace_cm <;> assumption
 
 end GlobalTheory.CMTrace
 

@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PotentialTheory.Degree
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IsPotentialPullbackStatement
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
 import Mathlib.RingTheory.Coalgebra.IsFrobenius
@@ -18,37 +19,7 @@ variable {e : ℕ} {X Y : Type} [TopologicalSpace X] [TopologicalSpace Y]
 
 theorem isClosed_of_isAnalyticSubset' (A : FinHolAtlas e X) {S : Set X}
     (hS : A.IsAnalyticSubset S) : IsClosed S := by
-  unfold FinHolAtlas.IsAnalyticSubset at hS
-  rw [← isOpen_compl_iff, isOpen_iff_mem_nhds]
-  intro x hx
-  obtain ⟨W, hW, hxW, r, f, hf, hSW⟩ := hS x
-  have hne : ∃ i, f i x ≠ 0 := by
-    by_contra hcon
-    push_neg at hcon
-    apply hx
-    have hxSW : x ∈ S ∩ W := by
-      rw [hSW]
-      exact ⟨hxW, hcon⟩
-    exact hxSW.1
-  obtain ⟨i, hi⟩ := hne
-  have hca : ContinuousAt (f i) x := by
-    obtain ⟨j, hxj⟩ := A.cover x
-    have h : ∀ k, AnalyticOnNhd ℂ ((f i) ∘ (A.chart k).symm)
-        ((A.chart k).target ∩ (A.chart k).symm ⁻¹' W) := hf i
-    have hmem : (A.chart j) x ∈ (A.chart j).target ∩ (A.chart j).symm ⁻¹' W := by
-      refine ⟨(A.chart j).map_source hxj, ?_⟩
-      show (A.chart j).symm ((A.chart j) x) ∈ W
-      rw [(A.chart j).left_inv hxj]
-      exact hxW
-    have h1 : ContinuousAt ((f i ∘ (A.chart j).symm) ∘ (A.chart j)) x :=
-      ((h j _ hmem).continuousAt).comp ((A.chart j).continuousAt hxj)
-    refine h1.congr ?_
-    filter_upwards [(A.chart j).open_source.mem_nhds hxj] with y hy
-    simp only [Function.comp_apply, (A.chart j).left_inv hy]
-  filter_upwards [hW.mem_nhds hxW, hca.eventually_ne hi] with y hyW hyi hyS
-  have hy : y ∈ S ∩ W := ⟨hyS, hyW⟩
-  rw [hSW] at hy
-  exact hyi (hy.2 i)
+  apply ReciprocityTheory.AnForm.M.isClosed_of_isAnalyticSubset <;> assumption
 
 theorem exists_localHomeomorph_of_isDegreeOff {A : FinHolAtlas e X} {B : FinHolAtlas e Y}
     {h : Y → X} (hh : HoloMap B A h) {d : ℕ} {S : Set X} (hd : IsDegreeOff A B h d S) (y : Y)

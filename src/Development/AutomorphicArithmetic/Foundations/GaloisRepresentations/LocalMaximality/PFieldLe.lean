@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PLCupRel
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PDtPull
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLaurentConstantTermFormFunctionFieldStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTopDegreeCoefficientFormAndEqOnTopFormsStatement
@@ -91,20 +93,7 @@ private lemma rgt_mono' {ι κ : Type} [LinearOrder ι] [LinearOrder κ] {s t : 
 
 private lemma card_split' {ι : Type} [LinearOrder ι] (u : Finset ι) {j : ι} (hj : j ∈ u) :
     (u.filter (· ≤ j)).card + (u.filter (j ≤ ·)).card = u.card + 1 := by
-  have h1 := Finset.card_filter_add_card_filter_not (s := u) (fun i => i ≤ j)
-  have h2 : u.filter (j ≤ ·) = insert j (u.filter (fun i => ¬ i ≤ j)) := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_insert, not_le]
-    constructor
-    · rintro ⟨hi, hji⟩
-      rcases hji.eq_or_lt with h | h
-      · exact Or.inl h.symm
-      · exact Or.inr ⟨hi, h⟩
-    · rintro (rfl | ⟨hi, h⟩)
-      · exact ⟨hj, le_rfl⟩
-      · exact ⟨hi, h.le⟩
-  rw [h2, Finset.card_insert_of_notMem (by simp)]
-  omega
+  apply _root_.card_split <;> assumption
 
 private lemma cechC_iff' {ι E : Type} [LinearOrder ι] [AddCommGroup E] [Module ℂ E] {A : Finset ι → Submodule ℂ E}
     {n : ℤ} {c : Finset ι → E} :
@@ -217,21 +206,6 @@ private lemma edge_id' {ι κ E : Type} [LinearOrder ι] [LinearOrder κ] [AddCo
 section Forms
 variable {K L : Type} [Field K] [Field L] [Algebra ℂ K] [Algebra ℂ L] [Algebra K L] [IsScalarTower ℂ K L]
 
-private lemma mapDR_ιMulti' (q : ℕ) (v : Fin q → K) :
-    mapDR ℂ K L (ExteriorAlgebra.ιMulti K q fun j => D ℂ K (v j)) =
-      ExteriorAlgebra.ιMulti L q fun j => D ℂ L (algebraMap K L (v j)) := by
-  induction q with
-  | zero => rw [ExteriorAlgebra.ιMulti_zero_apply, ExteriorAlgebra.ιMulti_zero_apply, map_one]
-  | succ q ih =>
-    rw [ExteriorAlgebra.ιMulti_succ_apply, ExteriorAlgebra.ιMulti_succ_apply, map_mul]
-    have ht : Matrix.vecTail (fun j => D ℂ K (v j)) = fun j => D ℂ K (v j.succ) := rfl
-    have ht' : Matrix.vecTail (fun j => D ℂ L (algebraMap K L (v j))) =
-        fun j => D ℂ L (algebraMap K L (v j.succ)) := rfl
-    rw [ht, ht', ih (fun j => v j.succ)]
-    congr 1
-    simp only [mapDR, ExteriorAlgebra.lift_ι_apply]
-    simp [map1, KaehlerDifferential.map_D]
-
 private lemma mapL_mem' (B : Subalgebra ℂ K) (B' : Subalgebra ℂ L) (h : ∀ y ∈ B, algebraMap K L y ∈ B') (n : ℕ) :
     ∀ y ∈ omB ℂ K B n, mapL K L y ∈ omB ℂ L B' n := by
   have hle : omB ℂ K B n ≤ (omB ℂ L B' n).comap (mapL K L) := by
@@ -239,7 +213,7 @@ private lemma mapL_mem' (B : Subalgebra ℂ K) (B' : Subalgebra ℂ L) (h : ∀ 
     rintro _ ⟨b, hb, v, hv, rfl⟩
     refine Submodule.subset_span ⟨algebraMap K L b, h b hb, fun j => algebraMap K L (v j), fun j => h _ (hv j), ?_⟩
     show mapDR ℂ K L (b • _) = _
-    rw [map_smul, mapDR_ιMulti', algebraMap_smul]
+    rw [map_smul, _root_.mapDR_iM, algebraMap_smul]
   exact fun y hy => hle hy
 
 private lemma mapC_Z' {ι : Type} [LinearOrder ι] (B : Finset ι → Subalgebra ℂ K) (B' : Finset ι → Subalgebra ℂ L)

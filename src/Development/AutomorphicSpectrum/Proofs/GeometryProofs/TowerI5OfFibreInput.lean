@@ -107,33 +107,7 @@ variable {L : Type} [Field L] [NumberField L]
 
 lemma log_sup_support {ι : Type} [Fintype ι] (x : ι → L) (hx : ∃ i, x i ≠ 0) :
     (Function.support fun v : FinitePlace L => Real.log (⨆ i, v (x i))).Finite := by
-  classical
-  obtain ⟨i₀, hi₀⟩ := hx
-  haveI : Nonempty ι := ⟨i₀⟩
-  have hS : (⋃ i ∈ Finset.univ.filter (fun i => x i ≠ 0),
-      Function.mulSupport fun v : FinitePlace L => v (x i)).Finite := by
-    refine Set.Finite.biUnion (Finset.finite_toSet _) fun i hi => ?_
-    exact FinitePlace.hasFiniteMulSupport (by simpa using hi)
-  refine hS.subset fun v hv => ?_
-  by_contra hn
-  apply hv
-  have h1 : ∀ i, x i ≠ 0 → v (x i) = 1 := by
-    intro i hi
-    by_contra h
-    exact hn (Set.mem_biUnion (by simpa using hi) h)
-  have h2 : ∀ i, v (x i) ≤ 1 := by
-    intro i
-    by_cases hi : x i = 0
-    · simp [hi]
-    · exact (h1 i hi).le
-  have h3 : (⨆ i, v (x i)) = 1 := by
-    have hle : (⨆ i, v (x i)) ≤ 1 := ciSup_le h2
-    have hge : (1 : ℝ) ≤ ⨆ i, v (x i) := by
-      have hb : BddAbove (Set.range fun i => v (x i)) := (Set.finite_range _).bddAbove
-      calc (1 : ℝ) = v (x i₀) := (h1 i₀ hi₀).symm
-        _ ≤ _ := le_ciSup hb i₀
-    exact le_antisymm hle hge
-  simp [h3]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Ht.CloseHt.log_sup_support <;> assumption
 
 lemma product_formula {x : L} (hx : x ≠ 0) :
     (∑ᶠ v : FinitePlace L, Real.log (v x)) + ∑ σ : L →+* ℂ, Real.log ‖σ x‖ = 0 := by
@@ -1306,14 +1280,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem ptsOver_map {F E : Type} [Field F] [Field E] (f : F →+* E) {P : Ideal (MRing ι)}
     {z : (Σ k, ι k) → F} (hz : z ∈ ptsOver F P) : (fun p => f (z p)) ∈ ptsOver E P := by
-  obtain ⟨h1, h2⟩ := hz
-  refine ⟨fun k => ?_, fun p hp => ?_⟩
-  · obtain ⟨i, hi⟩ := h1 k
-    exact ⟨i, (map_ne_zero f).mpr hi⟩
-  · have e := congrArg f (h2 p hp)
-    rw [map_zero, MvPolynomial.aeval_def, MvPolynomial.eval₂_comp_left] at e
-    rw [MvPolynomial.aeval_def]
-    rwa [show f.comp (algebraMap _ F) = algebraMap _ E from Subsingleton.elim _ _] at e
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Ht.FlatLine.ptsOver_embed <;> assumption
 
 theorem ptsOver_of_map {F E : Type} [Field F] [Field E] (f : F →+* E) {P : Ideal (MRing ι)}
     {z : (Σ k, ι k) → F} (hz : (fun p => f (z p)) ∈ ptsOver E P) : z ∈ ptsOver F P := by

@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ChowForms.PAffineChartTrdeg
+import Mathlib.RingTheory.MvPolynomial.Homogeneous
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.ImportsBis
 import Mathlib.RingTheory.LocalProperties.Reduced
 import Mathlib.Tactic.TypeStar
@@ -19,13 +21,7 @@ namespace ChartKernel
 theorem aeval_smul_of_isHomogeneous {F σ S : Type*} [Field F] [CommRing S] [Algebra F S]
     {φ : MvPolynomial σ F} {d : ℕ} (hφ : φ.IsHomogeneous d) (a : S) (x : σ → S) :
     aeval (a • x) φ = a ^ d * aeval x φ := by
-  simp only [aeval_def, eval₂_eq, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun s hs => ?_
-  have hs' : ∑ i ∈ s.support, s i = d := by
-    rw [← hφ (mem_support_iff.mp hs)]
-    simp [Finsupp.weight_apply, Finsupp.sum]
-  simp only [Pi.smul_apply, smul_eq_mul, mul_pow, Finset.prod_mul_distrib, Finset.prod_pow_eq_pow_sum, hs']
-  ring
+  simpa only [MvPolynomial.aeval_def, MvPolynomial.eval₂_eq_eval_map] using (hφ.map (algebraMap F S)).eval_smul a x
 
 theorem map_eq_zero_iff_of_ker_eq {A B B' σ : Type*} [CommRing A] [CommRing B] [CommRing B']
     {f : A →+* B} {f' : A →+* B'} (h : RingHom.ker f = RingHom.ker f') (x : MvPolynomial σ A) :
@@ -111,16 +107,7 @@ theorem ker_aeval_chart (I : Ideal (MvPolynomial (Fin n) F)) [I.IsPrime] (hI : I
 
 theorem aeval_genPt_eq_zero_iff (I : Ideal (MvPolynomial (Fin n) F)) [I.IsPrime] (g : MvPolynomial (Fin n) F) :
     aeval (genPt I) g = 0 ↔ g ∈ I := by
-  have h : (aeval (genPt I) : MvPolynomial (Fin n) F →ₐ[F] FractionRing (MvPolynomial (Fin n) F ⧸ I)) =
-      (IsScalarTower.toAlgHom F (MvPolynomial (Fin n) F ⧸ I) (FractionRing (MvPolynomial (Fin n) F ⧸ I))).comp
-        (Ideal.Quotient.mkₐ F I) := by
-    ext j
-    simp [genPt]
-  have h' : aeval (genPt I) g = algebraMap (MvPolynomial (Fin n) F ⧸ I)
-      (FractionRing (MvPolynomial (Fin n) F ⧸ I)) (Ideal.Quotient.mk I g) := by
-    rw [h]
-    rfl
-  rw [h', map_eq_zero_iff _ (IsFractionRing.injective _ _), Ideal.Quotient.eq_zero_iff_mem]
+  apply _root_.GroundTheory.Heights₂.Heights.AffineChartTrdeg.aeval_genPt_eq_zero_iff <;> assumption
 
 theorem map_genSubst_X {B : Type*} [CommRing B] {e : ℕ} (q : MvPolynomial (Fin n) F →+* B) (t : Fin n → F)
     (ij : Fin e × Fin n) :

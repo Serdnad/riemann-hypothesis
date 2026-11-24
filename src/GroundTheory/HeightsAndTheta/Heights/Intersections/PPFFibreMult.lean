@@ -7,6 +7,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.TypeStar
+import GroundTheory.HeightsAndTheta.Heights.Intersections.PPFFibreBij
 
 @[expose] public section
 
@@ -42,19 +43,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 omit [Fintype K'] [∀ k, Fintype (ι' k)] in
 theorem baseSubst_rename (hv : IsBlockMap κ v) (G : GenFibre v P') (t : MRing ι) :
     baseSubst κ G (rename v t) = C (aeval G.x t) := by
-  have h : (baseSubst κ G).comp (rename v : MRing ι →ₐ[ℤ] MRing ι').toRingHom =
-      (C : G.Φ →+* MRingOver G.Φ (fibreIdx ι' κ)).comp (aeval G.x : MRing ι →ₐ[ℤ] G.Φ).toRingHom := by
-    apply MvPolynomial.ringHom_ext
-    · intro r
-      simp only [show (C r : MRing ι) = (r : MRing ι) from eq_intCast C r, map_intCast]
-    · intro p
-      simp only [RingHom.comp_apply, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, rename_X, aeval_X]
-      unfold baseSubst
-      rw [eval₂Hom_X']
-      have h1 : (v p).1 ∈ Set.range κ := ⟨p.1, (hv.2.2.1 p).symm⟩
-      have h2 : v p ∈ Set.range v := ⟨p, rfl⟩
-      rw [dite_eq_left h1, dite_eq_left h2, hv.2.1 h2.choose_spec]
-  exact DFunLike.congr_fun h t
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.baseSubst_rename <;> assumption
 
 
 omit [Fintype K'] [∀ k, Fintype (ι' k)] in

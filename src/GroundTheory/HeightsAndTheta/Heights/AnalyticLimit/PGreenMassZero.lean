@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsCompactRWSublevel
 public import GroundTheory.HeightsAndTheta.Heights.AnalyticLimit.GreenMassZero
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Algebra.Ring.IsFormallyReal
@@ -40,17 +41,7 @@ theorem continuousAt_of_charts {e : ℕ} {X : Type} [TopologicalSpace X] {E : Ty
 theorem continuous_secNorm {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X)
     (L : LocPot X) (s : X → X → ℂ) (hL : IsPotential A L) (hs : IsSection A L s) :
     Continuous (secNorm L s) := by
-  rw [continuous_iff_continuousAt]
-  intro x₀
-  have hsc : ContinuousAt (s x₀) x₀ := continuousAt_of_charts A (L.isOpen_U x₀) (s x₀)
-    (fun j => (hs.1 x₀ j).continuousOn) (L.mem_U x₀)
-  have hφc : ContinuousAt (L.φ x₀) x₀ := continuousAt_of_charts A (L.isOpen_U x₀) (L.φ x₀)
-    (fun j => (hL.1 x₀ j).continuousOn) (L.mem_U x₀)
-  have hf : ContinuousAt (fun y => ‖s x₀ y‖ * Real.exp (-L.φ x₀ y)) x₀ :=
-    hsc.norm.mul (Real.continuous_exp.continuousAt.comp hφc.neg)
-  refine hf.congr ?_
-  filter_upwards [(L.isOpen_U x₀).mem_nhds (L.mem_U x₀)] with y hy
-  exact hs.2 x₀ y y ⟨hy, L.mem_U y⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Giv.continuous_normSec <;> assumption
 
 theorem isPsh_of_isPosPot {e : ℕ} {X : Type} [TopologicalSpace X] (A : FinHolAtlas e X)
     (P : LocPot X) (hP : IsPosPot A P) : IsPsh A P := by

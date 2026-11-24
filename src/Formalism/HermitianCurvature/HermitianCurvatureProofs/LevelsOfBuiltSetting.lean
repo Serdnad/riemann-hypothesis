@@ -55,6 +55,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.QnRdSkew
 
 @[expose] public section
 
@@ -118,18 +119,7 @@ private theorem liftVec_dotProduct_eq_dotProduct_levPos (x : Fin (2 * r' + k + 1
 
 private theorem hpk_levPos_levPos (j q : Fin (2 * r' + k + 1)) :
     Hpk k (i + r') (levPos k i r' j) (levPos k i r' q) = Hpk k r' j q := by
-  obtain ⟨jv, hjv⟩ := j
-  obtain ⟨qv, hqv⟩ := q
-  simp only [Hpk, levPos, Fin.ext_iff, Fin.val_mk]
-  have e1 : (jv + i < i + r' ∧ jv + i + (qv + i) = 2 * (i + r') + k) ↔ (jv < r' ∧ jv + qv = 2 * r' + k) := by
-    omega
-  have e2 : (qv + i < i + r' ∧ jv + i + (qv + i) = 2 * (i + r') + k) ↔ (qv < r' ∧ jv + qv = 2 * r' + k) := by
-    omega
-  have e3 : (i + r' ≤ jv + i ∧ jv + i ≤ i + r' + k ∧ jv + i = qv + i) ↔ (r' ≤ jv ∧ jv ≤ r' + k ∧ jv = qv) := by
-    omega
-  have e4 : (jv + i = i + r' + k) ↔ (jv = r' + k) := by
-    omega
-  simp only [e1, e2, e3, e4]
+  apply _root_.QnGlevImageW.hpk_shift <;> assumption
 
 private theorem hpk_levPos_apply_eq_zero_of_outside (j : Fin (2 * r' + k + 1)) (q : Fin (2 * (i + r') + k + 1))
     (hq : ¬(i ≤ q.val ∧ q.val < 2 * r' + k + 1 + i)) :
@@ -388,14 +378,7 @@ theorem projL_embL (x : Mt k 0) : projL k r' (embL k r' x) = x := by
   simp [projL, embL, ιLev, levPos, hp', hq']
 
 theorem glev_closed (k r : ℕ) (i : Fin (r + 1)) : IsClosed (Glev k r i) := by
-  unfold Glev
-  simp only [Set.setOf_and, Set.setOf_forall, Set.setOf_mem_eq]
-  refine IsClosed.inter ?_ (isClosed_iInter fun a => isClosed_iInter fun _ => IsClosed.inter ?_ ?_)
-  · unfold UH
-    first
-      | exact isClosed_eq (by fun_prop) continuous_const
-  all_goals first
-    | exact isClosed_eq (by fun_prop) continuous_const
+  apply _root_.QnRdSkewW.glev_closed <;> assumption
 
 theorem glev_measurable (k r : ℕ) (i : Fin (r + 1)) : @MeasurableSet (Mt k r) _ (Glev k r i) := by
   first

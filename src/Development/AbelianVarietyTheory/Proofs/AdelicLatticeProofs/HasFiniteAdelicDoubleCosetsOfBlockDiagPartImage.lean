@@ -27,6 +27,7 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Galois
 public import Mathlib.Algebra.MvPolynomial.Funext
 public import Mathlib.LinearAlgebra.Matrix.Adjugate
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsFiniteAdeleLikePairElementary
+import all Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.IsFiniteAdeleLikePairElementary
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RatMemRatZariskiClosurePoints
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -1376,13 +1377,7 @@ open Matrix in
 open scoped Kronecker ComplexOrder TensorProduct in
 private lemma exists_nat_mul_rat_eq_int {κ : Type} [Fintype κ] (q : κ → ℚ) :
     ∃ M : ℕ, 0 < M ∧ ∀ k, ∃ z : ℤ, (M : ℚ) * q k = z := by
-  refine ⟨∏ k, (q k).den, Finset.prod_pos fun k _ => (q k).pos, fun k => ?_⟩
-  obtain ⟨m, hm⟩ := Finset.dvd_prod_of_mem (fun k => (q k).den) (Finset.mem_univ k)
-  refine ⟨m * (q k).num, ?_⟩
-  rw [hm]
-  push_cast
-  calc ((q k).den : ℚ) * m * q k = m * (q k * (q k).den) := by ring
-    _ = m * (q k).num := by rw [Rat.mul_den_eq_num]
+  apply _root_.GlobalTheory.ClassFin.exists_pos_nat_clearing_rat_denominators <;> assumption
 
 open Matrix in
 open scoped Kronecker ComplexOrder TensorProduct in

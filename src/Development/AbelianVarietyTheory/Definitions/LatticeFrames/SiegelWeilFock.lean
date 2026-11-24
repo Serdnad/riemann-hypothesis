@@ -52,9 +52,9 @@ open GlobalTheory.IndefiniteRowSideFullHecke.SphericalZero (ip delta swSec sZero
 open GlobalTheory.Mem.Th (CptF)
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
-def SiegelWeilFock (D : D7) : Prop :=
+def SiegelWeilFockWhen (D : D7) (eligible : HSp D → HSp D → Prop) : Prop :=
   ∀ (ψ : AddChar (AF D.host.F) ℂ) (A B : HSp D), 1 ≤ A.rank → A.rank < B.rank →
-    (wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank) →
+    eligible A B →
   ∀ (χB : (AE D)ˣ →* Circle) (omh : WRep (dblSp A) B), IsWeilDatumO ψ (dblSp A) B 1 χB omh →
   ∀ a : GL (Fin A.rank) (AE D), IsMaj A a →
   ∀ (θ : InfFam D) (sS : RealMat (dblSp A)) (sB : RealMat B), IsInfFam θ →
@@ -66,6 +66,9 @@ def SiegelWeilFock (D : D7) : Prop :=
   ∀ φ : WO (dblSp A) B → ℂ, IsFockVec ψ θ (dblSp A) B sS sB φ →
     (∀ g, Integrable (AutomorphicL2Unitary.descend (GQ B) fun h => thetaKO omh g h φ) (autMeasure B mH)) ∧
     Eis.EisValueAt A (flat A a (swSec A B omh ν 𝓕 φ) (sZero A B)) (sZero A B) (ThetaMean.thetaMean omh mH φ)
+
+def SiegelWeilFock (D : D7) : Prop :=
+  SiegelWeilFockWhen D (fun A B => wittIndex B = 0 ∨ A.rank + wittIndex B < B.rank)
 
 end GlobalTheory.Core.Rk.IP
 

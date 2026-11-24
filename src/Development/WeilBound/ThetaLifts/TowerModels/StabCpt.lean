@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
 import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactOfUnits
 public import Development.WeilBound.ThetaLifts.TowerModels.ExistsHaarOfIsCompact
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
@@ -180,51 +181,10 @@ theorem exists_section (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOv
 theorem exists_compact_mat {B : Base F E} {X : Spc F E n} {r s : ℕ} (hB : B.IsGood σ) (hX : X.IsHerm σ B r s) :
     ∃ S : Set (Matrix (Fin n) (Fin n) (AE F E)), IsCompact S ∧ ∀ k ∈ stabK (σ := σ) B X, mat k ∈ S := by
   obtain ⟨Φ, hΦ, eΦ⟩ := exists_section hB.cm B.emb
-  have hFull : X.L.IsFullLattice E := by
-    let := hX.lat
-    refine { span_eq_top := ?_ }
-    let W := Submodule.span E (X.L : Set (Fin n → E))
-    change W = ⊤
-    by_contra hW
-    let g : (Fin n → E) →ₗ[E] Module.Dual E W :=
-      ((dotProductBilin E E).compl₂ (Matrix.mulVecLin X.Jᵀ)).domRestrict₂ W
-    have hdim : Module.finrank E (Module.Dual E W) < Module.finrank E (Fin n → E) := by
-      rw [Subspace.dual_finrank_eq]
-      exact Submodule.finrank_lt hW
-    obtain ⟨z, hz, hz₀⟩ :=
-      Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-    let y : Fin n → E := fun i => σ (z i)
-    have hy₀ : y ≠ 0 := by
-      intro hy
-      apply hz₀
-      exact funext fun i => σ.injective ((congrFun hy i).trans (map_zero σ).symm)
-    have hJ : X.Jᵀ.map σ = X.J := Matrix.ext hX.herm
-    -- Self-duality puts every scalar multiple of an orthogonal vector in the lattice.
-    have hline (a : E) : a • y ∈ X.L := (hX.dual _).2 fun x hx => by
-      have hz' : z ⬝ᵥ X.Jᵀ *ᵥ x = 0 :=
-        congrArg (fun f : Module.Dual E W => f ⟨x, Submodule.subset_span hx⟩)
-          (LinearMap.mem_ker.mp hz)
-      have horth : form σ X.J y x = 0 := by
-        have he := σ.toRingHom.map_dotProduct z (X.Jᵀ *ᵥ x)
-        rw [hz', map_zero] at he
-        have hm : σ.toRingHom ∘ (X.Jᵀ *ᵥ x) = X.J *ᵥ (fun i => σ (x i)) := by
-          funext i
-          rw [Function.comp_apply, σ.toRingHom.map_mulVec]
-          exact congrFun (congrArg (fun M => M *ᵥ (fun j => σ (x j))) hJ) i
-        rw [hm] at he
-        exact he.symm
-      have : form σ X.J (a • y) x = 0 := by
-        simpa only [form, smul_dotProduct, smul_eq_mul] using
-          (show a * form σ X.J y x = 0 by rw [horth, mul_zero])
-      rw [this]
-      exact isIntegral_zero
-    let i : E →ₗ[𝓞 E] X.L :=
-      ((LinearMap.toSpanSingleton E _ y).restrictScalars (𝓞 E)).codRestrict X.L hline
-    let : Module.Finite (𝓞 E) X.L := Module.Finite.iff_fg.mpr hX.lat.fg
-    let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-      smul_left_injective E hy₀ (congrArg Subtype.val hab)
-    exact RingOfIntegers.not_isField E
-      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  have hFull : X.L.IsFullLattice E :=
+    PositivityTheory.Mix.full_of_dual_zero hB 1 (by simpa using hX.herm)
+      hX.lat.toIsLattice (fun y hy =>
+        (hX.dual y).2 fun x hx => by rw [hy x hx]; exact isIntegral_zero)
   choose C hC h using fin_bound X hFull
   choose R hR using fun w => cartan_bound (hX.cartan w)
   have hD : IsCompact (Φ '' Set.univ.pi fun w => Metric.closedBall (0 : ℂ) (R w)) :=

@@ -785,16 +785,7 @@ def ee {d : ℕ} (E : Frame Φ d) (k i : Fin d) : Φ.A.obj E.D := if i = k then 
 
 theorem cupList_mem (hF : IsFil Φ Fil) : ∀ (m : ℕ) (ℓ : Fin m → CH.Cn (CH.modF Φ.A) 1),
     (∀ k, ℓ k ∈ FC (Fil ((1 : ℕ) : ℤ)) 1) → cupListC Φ.A ℓ ∈ FC (Fil (m : ℤ)) m := by
-  intro m
-  induction m with
-  | zero =>
-    intro ℓ _
-    refine mem_FC.2 fun s => ?_
-    rw [Nat.cast_zero, hF.top 0 le_rfl]
-    trivial
-  | succ m ih =>
-    intro ℓ hl
-    exact cup_mem hF rfl (ih _ fun k => hl _) (hl (Fin.last m))
+  apply _root_.GlobalTheory.CompanionTheory.ConeLRestr.cupList_mem <;> assumption
 
 theorem form_id_eq {n : ℕ} (E : Frame Φ n) (σ : ∀ T : C, E.D ⟶ T) (w : Φ.A.obj E.D)
     (u : ComposableArrows C n) :

@@ -49,6 +49,7 @@ public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Comp
 public import Mathlib.Analysis.Calculus.ContDiff.Operations
 public import Mathlib.Analysis.Calculus.FDeriv.Mul
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.MollifiedIntegrability.GBInvar
 
 @[expose] public section
 
@@ -151,16 +152,7 @@ theorem foldr_herm (τ : Fin n → Fin n) (hU : IsOpen U) (hF : ContDiffOn ℂ (
 
 theorem deltaC_contDiffOn (hU : IsOpen U) (hF : ContDiffOn ℂ (⊤ : ℕ∞) F U) :
     ContDiffOn ℂ (⊤ : ℕ∞) (DeltaC F) U := by
-  have : DeltaC F = fun b => ∑ σ : Equiv.Perm (Fin n), ((Equiv.Perm.sign σ : ℤ) : ℂ) •
-      (List.finRange n).foldr (fun k g => cpart (σ k) k g) F b := by
-    funext b; simp [DeltaC, Finset.sum_apply]
-  rw [this]
-  refine ContDiffOn.sum fun σ _ => ContDiffOn.const_smul _ ?_
-  have key : ∀ L : List (Fin n), ContDiffOn ℂ (⊤ : ℕ∞) (L.foldr (fun k g => cpart (σ k) k g) F) U := by
-    intro L; induction L with
-    | nil => exact hF
-    | cons a L ih => exact cpart_contDiffOn _ _ hU ih
-  exact key _
+  apply _root_.PositivityTheory.Rg.Sw.WR.K.GB.Inv.deltaC_smooth <;> assumption
 
 theorem delta_herm (hU : IsOpen U) (hF : ContDiffOn ℂ (⊤ : ℕ∞) F U) (hh : ∀ y, herm y ∈ U) :
     Delta (fun y => F (herm y)) = fun y => DeltaC F (herm y) := by

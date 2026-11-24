@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdelicGLIwasawaDecompositionStandardParabolic
 public import Formalism.JacquetSubsetSums.JacquetSubsetSum
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.StandardMaximalParabolic
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsOfValILeOne
@@ -165,21 +166,7 @@ namespace GlobalTheory.ParabConj
 
 theorem stdBlocks_lt {s r : ℕ} (d : Fin s → ℕ) (hd : ∑ i, d i = r) {a b : Fin s} (i : Fin (d a)) (j : Fin (d b))
     (hba : b < a) : stdBlocks d hd ⟨b, j⟩ < stdBlocks d hd ⟨a, i⟩ := by
-  let f : ℕ → ℕ := fun n => if h : n < s then d ⟨n, h⟩ else 0
-  have key : ∀ c : Fin s, ∑ x : Fin c, d (Fin.castLE c.2.le x) = ∑ x ∈ Finset.range c, f x := by
-    intro c
-    rw [← Fin.sum_univ_eq_sum_range]
-    refine Finset.sum_congr rfl fun x _ => ?_
-    have hx : (x : ℕ) < s := x.2.trans c.2
-    simp only [f, hx, dif_pos]
-    rfl
-  rw [Fin.lt_def, stdBlocks_val, stdBlocks_val, key, key]
-  have h1 : ∑ x ∈ Finset.range (b + 1), f x ≤ ∑ x ∈ Finset.range a, f x :=
-    Finset.sum_le_sum_of_subset (Finset.range_mono (Nat.succ_le_of_lt hba))
-  rw [Finset.sum_range_succ] at h1
-  have h2 : f b = d b := by simp [f]
-  have := j.2
-  omega
+  first | exact _root_.GlobalTheory.IwasawaAdelic.stdBlocks_lt_of_lt | exact @_root_.GlobalTheory.IwasawaAdelic.stdBlocks_lt_of_lt | apply _root_.GlobalTheory.IwasawaAdelic.stdBlocks_lt_of_lt <;> assumption
 
 theorem mem_stdMaxParab_of_le_conjBy (F : Type) [Field F] {r a b s : ℕ} (h : a + b = r) (d : Fin s → ℕ)
     (hd : ∑ i, d i = r) (g : GL (Fin r) F) (H : parab F (stdBlocks d hd) ≤ conjBy g (stdMaxParab F h)) :

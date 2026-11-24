@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.ExistsTorusOfPeriodHermitian
 public import Mathlib.Analysis.InnerProductSpace.Orthogonal
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsLinearIndependentNormLeSuccMin
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.SumFinsuppAntidiagProdPowDivMultiFactorial
@@ -556,33 +557,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 
 theorem mult_add_mult_conjugate (Dw : Datum H) (τ : E →+* ℂ) :
     Dw.mult τ + Dw.mult (ComplexEmbedding.conjugate τ) = Dw.p + Dw.q := by
-  have h2 := H.sqrt_neg_disc_sq
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have hne : H.rt0 ≠ -H.rt0 := fun h => by
-    have h0 : H.rt0 = 0 := by linear_combination h / 2
-    rw [h0] at h2
-    have : (H.d : ℂ) = 0 := by simpa using h2.symm
-    exact H.d_prime.ne_zero (by exact_mod_cast this)
-  have hc : starRingEnd ℂ H.rt0 = -H.rt0 := by
-    have him := congrArg Complex.im h2
-    have hre := congrArg Complex.re h2
-    simp [pow_two] at him hre
-    have h0 : H.rt0.re = 0 := by
-      by_contra hne
-      have : H.rt0.im = 0 := by
-        have : H.rt0.re * H.rt0.im = 0 := by linarith
-        exact (mul_eq_zero.1 this).resolve_left hne
-      rw [this] at hre
-      nlinarith [mul_self_nonneg H.rt0.re]
-    apply Complex.ext <;> simp [h0]
-  have hs : τ (H.rt : E) ^ 2 = H.rt0 ^ 2 := by
-    have h := congrArg (fun a : 𝓞 E => τ (a : E)) H.rt_sq
-    rw [H.sqrt_neg_disc_sq]
-    simpa using h
-  simp only [Datum.mult, ComplexEmbedding.conjugate_coe_eq]
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 hs with h | h
-  · rw [if_pos h, if_neg (by rw [h, hc]; exact hne.symm)]
-  · rw [if_neg (by rw [h]; exact hne.symm), if_pos (by rw [h, map_neg, hc, neg_neg]), add_comm]
+  apply _root_.GlobalTheory.PeriodTorus.mult_add_mult_conj <;> assumption
 
 theorem card_LtN (Dw : Datum H) (n : ℕ) :
     Fintype.card (LtN Dw n) = FD.fdeg E * (Dw.p + Dw.q) * n := by

@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.InterlaceDifferenceShiftInvariant
+import Formalism.LocalToGlobal.Columns.ColumnsProofs.HFSCoef
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.InterlacingEquivariance
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
 import Formalism.GradedWeylDivisibility.FinalD
@@ -85,19 +87,7 @@ theorem ten_ne_zero {ι : Type} [Fintype ι] {n : ℕ} (f : ι → MvPolynomial 
 
 theorem map_mem_VV {ι : Type} [Fintype ι] {n : ℕ} (lam : ι → DomWeight n) (F : Pol K ι n) (hF : F ∈ VV K lam) :
     map φ F ∈ VV K' lam := by
-  unfold VV Formalism.GradedWeylDivisibility.tensorLat at hF
-  induction hF using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨f, hf, rfl⟩ := hx
-    have h := map_ten φ f
-    unfold ten at h
-    rw [h]
-    exact ten_mem lam _ fun τ => Formalism.GradedWeylDivisibility.dualWeylMap K K' φ n n _ _ (hf τ)
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
-  | add x y _ _ hx hy => rw [map_add (f := _)]; exact Submodule.add_mem _ hx hy
-  | smul c x _ hx =>
-    rw [MvPolynomial.smul_eq_C_mul, map_mul, MvPolynomial.map_C, ← MvPolynomial.smul_eq_C_mul]
-    exact Submodule.smul_mem _ _ hx
+  first | exact _root_.Formalism.L2.Col.hfs_map_mem_VV | exact @_root_.Formalism.L2.Col.hfs_map_mem_VV | apply _root_.Formalism.L2.Col.hfs_map_mem_VV <;> assumption
 
 theorem ssB_desc {n : ℕ} (ν : Fin n → ℕ) (m : Formalism.GradedWeylDivisibility.ssIdx n n ν) :
     ∃ f ∈ Formalism.GradedWeylDivisibility.dualWeyl K n n ν, ssB K' ν m = map φ f := by
@@ -125,17 +115,8 @@ theorem eq_zero_of_fockB [CharZero K] (sg : ι → DomWeight n) (x : VV K sg)
 
 open Classical in
 theorem gramB_det_ne_zero [CharZero K] (sg : ι → DomWeight n) : (Br.gramB (K := K) sg).det ≠ 0 := by
-  intro h
-  obtain ⟨v, hv, hv0⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h
-  have h1 : ∑ j, v j • bVV K sg j = 0 := by
-    refine eq_zero_of_fockB sg _ fun i => ?_
-    have := congrFun hv0 i
-    simp only [Matrix.mulVec, dotProduct, Br.gramB, Matrix.of_apply, Pi.zero_apply] at this
-
-    rw [← fockBL_apply, Submodule.coe_sum, map_sum, ← this]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    rw [Submodule.coe_smul, map_smul, bVV_coe, fockBL_apply, smul_eq_mul, mul_comm]
-  exact hv (funext (Fintype.linearIndependent_iff.mp (bVV K sg).linearIndependent v h1))
+  intros
+  apply _root_.Formalism.L2.Ker.gramB_det_ne <;> assumption
 
 theorem fockB_projVV_basis [CharZero K] (sg : ι → DomWeight n) (F : Pol K ι n) (k : VVIdx sg) :
     fockB (bVVfun K sg k) (Br.projVV sg F : Pol K ι n) = fockB (bVVfun K sg k) F := by

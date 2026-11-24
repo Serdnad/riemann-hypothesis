@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GlobalLatticesCountEqProdLocalCountsBadPlacesStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalFramePairsDifferIsometryUnitriangularStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedVolumeStatements.GenericRatioOfBoundHolds
@@ -692,11 +693,7 @@ namespace GlobalTheory.GenusStab
 
 theorem finrank_Vp_k (D : D7) (p : PlF D) :
     Module.finrank (D.s.atP p).Ep (Vp D p) = D.R.k + 2 * D.R.rS + 1 := by
-  rw [finrank_Vp]
-  have h2 := D.R.two_le_m
-  obtain ⟨c, hc⟩ := D.R.m_even
-  simp only [Ranks.r, Ranks.rS]
-  omega
+  apply _root_.GlobalTheory.Unfold.GlueOrbit.finrank_loc <;> assumption
 
 theorem inGen_of_gRel : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word), ∀ (F : LFlag (D.sp.Y 0) D.R.rS (((D.mem u).A.T : ℕ) : D.host.E)) (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (w : Point D.host.E (D.R.rS + 1)), ZhatOM (ZhatL F F') = ptMat w → Gval F F' ≠ 0 → ∀ (Z : LocDat D) (FP : ∀ p : PlF D, LocNG.FPair (locH Z p) D.R.rS), Based Z FP (Tu D u) (Tu D u') F F' → (∀ p, (FP p).RelG (LocNG.theta (Z.M p))) → ∀ (Λ : LV D) (d y y' : Dat Z FP), LocOver Λ y → InGen d y → GRel F F' y y' → InGen d y' := by
   intro D X Y u u' F F' w hw hG Z FP hB hRel Λ d y y' hov hgen hgr
@@ -1439,50 +1436,7 @@ private theorem full_of_local_span (D : D7) (Z : LocDat D) (Λ : LV D)
     (hΛ : Submodule.IsLattice D.host.E Λ) (p : PlF D)
     (hspan : Submodule.span (D.s.atP p).Ep (lattice₂ D Z.M p Λ : Set (Vp D p)) = ⊤) :
     Submodule.IsFullLattice D.host.E Λ := by
-  let A := GlobalTheory.HL.placesOf Z
-  let L := GlobalTheory.Unfold.LatLoc.cL Λ
-  haveI := (A.loc p).lf
-  haveI := (A.loc p).char0
-  haveI := GlobalTheory.HL.PlacesInt.nontrivial_Ep (A.loc p)
-  have hc : Submodule.IsFullLattice D.host.E L := by
-    refine { toIsLattice := GlobalTheory.Unfold.LatLoc.isLattice_map _ _ hΛ, span_eq_top := ?_ }
-    by_contra hne
-    obtain ⟨φ, hφ, hzero⟩ :=
-      Submodule.exists_dual_map_eq_bot_of_lt_top (lt_top_iff_ne_top.mpr hne) inferInstance
-    let ψ : (Fin (nV D) → (A.loc p).Ep) →ₗ[(A.loc p).Ep] (A.loc p).Ep :=
-      ∑ i : Fin (nV D), (A.loc p).ιE (φ fun j => if i = j then 1 else 0) • LinearMap.proj i
-    have hψ (z : Fin (nV D) → D.host.E) : ψ (A.bc p z) = (A.loc p).ιE (φ z) := by
-      rw [φ.pi_apply_eq_sum_univ z, map_sum]
-      simp only [ψ, LinearMap.sum_apply, LinearMap.smul_apply, LinearMap.proj_apply,
-        smul_eq_mul, map_mul, GlobalTheory.HL.Places.bc]
-      exact Finset.sum_congr rfl fun _ _ => mul_comm _ _
-    have hlat : A.lat p L ≤ (LinearMap.ker ψ).restrictScalars (A.L p).O := by
-      apply Submodule.span_le.mpr
-      rintro _ ⟨z, hz, rfl⟩
-      have hz' : φ z ∈ (⊥ : Submodule D.host.E D.host.E) := by
-        rw [← hzero]
-        exact Submodule.mem_map_of_mem (Submodule.subset_span hz)
-      change ψ (A.bc p z) = 0
-      rw [hψ, (Submodule.mem_bot D.host.E).mp hz', map_zero]
-    have hker : Submodule.span (A.loc p).Ep (A.lat p L : Set _) ≤ LinearMap.ker ψ :=
-      Submodule.span_le.mpr hlat
-    rw [GlobalTheory.Unfold.LatLoc.localLattice_eq Z p Λ] at hspan
-    change Submodule.span (A.loc p).Ep (A.lat p L : Set (Fin (nV D) → (A.loc p).Ep)) = ⊤ at hspan
-    rw [hspan] at hker
-    apply hφ
-    apply LinearMap.ext
-    intro z
-    have hz := LinearMap.mem_ker.mp (hker (Submodule.mem_top (x := A.bc p z)))
-    rw [hψ] at hz
-    exact (map_eq_zero_iff _ (A.loc p).ιE.injective).mp hz
-  refine { toIsLattice := hΛ, span_eq_top := ?_ }
-  have hm : (Submodule.span D.host.E (Λ : Set (VS D).V)).map
-      (GlobalTheory.Unfold.LatLoc.cE D).toLinearMap = ⊤ := by
-    rw [← Submodule.span_image]
-    exact hc.span_eq_top
-  rw [← Submodule.comap_map_eq_of_injective (GlobalTheory.Unfold.LatLoc.cE D).injective
-    (Submodule.span D.host.E (Λ : Set (VS D).V)), hm,
-    Submodule.comap_top]
+  apply _root_.GlobalTheory.GenMass.Fibre.full_of_local_span <;> assumption
 
 theorem rows_mass_genus : ∀ (D : D7) (X : HidaSetting D) (Y : Full X) (u u' : D.what₂.Word), ∀ (F : LFlag (D.sp.Y 0) D.R.rS (((D.mem u).A.T : ℕ) : D.host.E)) (F' : LFlag (D.sp.Y 0) D.R.rS (((D.mem u').A.T : ℕ) : D.host.E)) (w : Point D.host.E (D.R.rS + 1)), ZhatOM (ZhatL F F') = ptMat w → Gval F F' ≠ 0 → ∀ {Cl : Type} (TS : Set (TauC Y u u')) (cls : TauC Y u u' → Cl) (Fm : LocFam (zOf Y) Cl (NuC D)), Based (zOf Y) Fm.FP (Tu D u) (Tu D u') F F' → ClsRow TS cls → LocClosed F F' (zOf Y) Fm.FP TS → (∀ p ∈ Fm.P, ∀ d ∈ Fm.Ds p, d ∈ (Fm.R p).RD) → (∀ p, p ∉ Fm.P → ∀ t ∈ TS, ptPN t = toPts w → OverOrb Fm t p (Fm.d0 p)) → (∃ Λ₀ : LV D, Submodule.IsLattice D.host.E Λ₀ ∧ ∀ p, p ∉ Fm.P → ∃ τ, LocNG.IsTermOver (Fm.FP p) (Fm.d0 p) τ ∧ τ.abelian₂ = lattice₂ D (zOf Y).M p Λ₀) → (∀ c ν, (Fm.dat c ν = none → ¬ ∃ t ∈ TS, cls t = c ∧ ptPN t = toPts w ∧ nmlOf Y u u' t = ν) ∧ ∀ d, Fm.dat c ν = some d → (∃ t ∈ TS, cls t = c ∧ ptPN t = toPts w ∧ nmlOf Y u u' t = ν) ∧ ∀ t ∈ TS, cls t = c → ptPN t = toPts w → nmlOf Y u u' t = ν → (∀ p (hp : p ∈ Fm.P), OverOrb Fm t p (d ⟨p, hp⟩).1) ∧ Fm.rw c = (wt t) ^ 2) → ∀ d : (∀ p : {p // p ∈ Fm.P}, {d // d ∈ Fm.Ds p.1}), (∃ x : Cl × NuC D, Fm.dat x.1 x.2 = some d) → ∀ dd : Dat (zOf Y) Fm.FP, (∀ p (hp : p ∈ Fm.P), dd p = (d ⟨p, hp⟩).1) → (∀ p, p ∉ Fm.P → dd p = Fm.d0 p) → (∀ p, ∃ τ, LocNG.IsTermOver (Fm.FP p) (dd p) τ) ∧ ∑' x : {x : Cl × NuC D // Fm.dat x.1 x.2 = some d}, ENNReal.ofReal (Fm.rw x.1.1) = massA F F' dd := by
   intro D X Y u u' F F' w hZ hG Cl TS cls Fm hB hCR hLC hDs hstd hΛ₀ hdat d hx dd hddP hddN

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.LieBaseChange
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KaRuleK
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LieCombBaseChange
@@ -83,21 +84,8 @@ private lemma presheaf_map_constFn {A : Type} [CommRing A] {X : Scheme.{0}} (p :
 private lemma appLE_constFn_theta_law {A B : Type} [CommRing A] [CommRing B] (f : A →+* B) {X Y : Scheme.{0}}
     (p : X ⟶ Sp A) (q : Y ⟶ Sp B) (φ : Y ⟶ X) (hsq : φ ≫ p = q ≫ spMap f) (U : X.Opens) (V : Y.Opens)
     (h : V ≤ φ ⁻¹ᵁ U) (c : A) : (φ.appLE U V h).hom (constFn p U c) = constFn q V (f c) := by
-  have key : ∀ (e : U ≤ p ⁻¹ᵁ ⊤) (e' : V ≤ q ⁻¹ᵁ ⊤) (z : Γ(Sp A, ⊤)),
-      (φ.appLE U V h).hom ((p.appLE ⊤ U e).hom z) = (q.appLE ⊤ V e').hom ((spMap f).appTop.hom z) := by
-    intro e e' z
-    rw [← RingHom.comp_apply, ← CommRingCat.hom_comp, Scheme.Hom.appLE_comp_appLE]
-    generalize_proofs e₃
-    revert e₃
-    rw [hsq]
-    intro e₃
-    rw [Scheme.Hom.comp_appLE, CommRingCat.hom_comp, RingHom.comp_apply]
-    rfl
-  have hn := congrArg (fun g => g.hom c) (Scheme.ΓSpecIso_inv_naturality (CommRingCat.ofHom f))
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply, CommRingCat.hom_ofHom] at hn
-  unfold constFn
-  rw [hn]
-  exact key _ _ _
+  intros
+  apply _root_.GlobalTheory.KeyPBScale.appLE_constFn <;> assumption
 
 private lemma isUnit_of_sec_eq_const_mul_nonvanishing {A : Type} [CommRing A] (P : Out.PolAV (Sp A)) (th th' : P.L.Sec) (a : A)
     (ha : ∀ i, LB.Sec.f th' i = constFn P.A.hom _ a * LB.Sec.f th i)

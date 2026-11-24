@@ -64,6 +64,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsDualBound
 
 @[expose] public section
 
@@ -81,19 +82,7 @@ variable {K F V V' : Type} [Field K] [NumberField K] [StarRing K] [Field F] [Num
 variable {h : V →ₗ⋆[K] V →ₗ[K] K} {h' : V' →ₗ⋆[K] V' →ₗ[K] K}
 
 theorem nondegenerate (hd : IsTotPosDef h) : h.Nondegenerate := by
-  have hne : ∀ v : V, v ≠ 0 → h v v ≠ 0 := by
-    intro v hv e
-    obtain ⟨φ⟩ : Nonempty (K →+* ℂ) := inferInstance
-    have := hd v hv φ
-    rw [e, map_zero] at this
-    exact lt_irrefl _ this
-  constructor
-  · intro x hx
-    by_contra h0
-    exact hne x h0 (hx x)
-  · intro x hx
-    by_contra h0
-    exact hne x h0 (hx x)
+  apply _root_.Formalism.HermitianLattices.Ext.L3.D2.nondegenerate <;> assumption
 
 theorem loc_eq_loc_adjoin_cut (S : VecSplit h h') {P : Ideal (𝓞 K)} (hP : P.IsPrime)
     {B : Submodule (𝓞 K) V} (hBi : Formalism.HermitianLatticesTheory.IsIntegralLat h B)

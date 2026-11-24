@@ -453,60 +453,17 @@ theorem fixed_pb {Λ : AddSubgroup W} {α : V → ℂ} {α' : W → ℂ} (hα : 
   exact h _ hx' _
 
 theorem selfDual_pb {Λ : AddSubgroup W} (h : IsSelfDual H' Λ) : IsSelfDual H (pb e Λ) := by
-  unfold IsSelfDual at h ⊢
-  ext x
-  constructor
-  · intro hx
-    show e x ∈ Λ
-    rw [← h]
-    intro y' hy'
-    obtain ⟨m, hm⟩ := hx (e.symm y') (show e (e.symm y') ∈ Λ by simpa using hy')
-    refine ⟨m, ?_⟩
-    simpa [altE, hH] using hm
-  · intro hx
-    have hx' : e x ∈ dualLat H' Λ := by
-      rw [h]
-      exact hx
-    intro y hy
-    obtain ⟨m, hm⟩ := hx' (e y) hy
-    refine ⟨m, ?_⟩
-    simpa [altE, hH] using hm
+  apply _root_.Formalism.L2.Ker.KS.selfDual_pb <;> assumption
 
 theorem reps_pb {Λ₁ Λ₂ : AddSubgroup W} {S : Finset W} (hS : IsReps Λ₁ Λ₂ S) :
     IsReps (pb e Λ₁) (pb e Λ₂) (S.map e.symm.toEquiv.toEmbedding) := by
-  refine ⟨?_, ?_, ?_⟩
-  · intro x hx
-    obtain ⟨y, hy, rfl⟩ := Finset.mem_map.1 hx
-    show e (e.symm y) ∈ Λ₂
-    rw [e.apply_symm_apply]
-    exact hS.1 y hy
-  · intro x hx y hy hxy
-    obtain ⟨x', hx', rfl⟩ := Finset.mem_map.1 hx
-    obtain ⟨y', hy', rfl⟩ := Finset.mem_map.1 hy
-    have : e (e.symm x' - e.symm y') ∈ Λ₁ := hxy
-    rw [map_sub, e.apply_symm_apply, e.apply_symm_apply] at this
-    rw [hS.2.1 x' hx' y' hy' this]
-  · intro y hy
-    obtain ⟨x, hx, hxy⟩ := hS.2.2 (e y) hy
-    refine ⟨e.symm x, Finset.mem_map.2 ⟨x, hx, rfl⟩, ?_⟩
-    show e (y - e.symm x) ∈ Λ₁
-    rwa [map_sub, e.apply_symm_apply]
+  apply _root_.Formalism.L2.Ker.KS.reps_pb <;> assumption
 
 theorem inter_pb (hH' : IsHerm H') (Λ₁ Λ₂ : AddSubgroup W) (α : V → ℂ) (α' : W → ℂ)
     (hα₁ : ∀ x, e x ∈ Λ₁ → α x = α' (e x)) (hα₂ : ∀ x, e x ∈ Λ₂ → α x = α' (e x))
     (hS : IsSemiChar H' Λ₂ α') (hidx : relIdx Λ₁ Λ₂ ≠ 0) (F : W → ℂ) (hF : F ∈ fixedBy H' α' Λ₁) :
     inter H α (pb e Λ₁) (pb e Λ₂) (fun v => F (e v)) = fun z => inter H' α' Λ₁ Λ₂ F (e z) := by
-  funext z
-  obtain ⟨⟨S, hSr⟩, -⟩ := cosetRepsExist W Λ₁ Λ₂ hidx
-  rw [InterReps_of semicharacterHom W H' hH' Λ₁ Λ₂ α' hS F hF S hSr (e z),
-    InterReps_of semicharacterHom V H (herm_pb e H H' hH hH') _ _ α (semi_pb e H H' hH hα₂ hS) _
-      (fixed_pb e H H' hH hα₁ hF) _ (reps_pb e H H' hH hSr) z, relIdx_pb]
-  congr 1
-  simp only [sumU, Finset.sum_map]
-  refine Finset.sum_congr rfl fun x hx => ?_
-  have hx2 : e (e.symm x) ∈ Λ₂ := by rw [e.apply_symm_apply]; exact hSr.1 x hx
-  show α (e.symm x) * opU H (e.symm x) (fun v => F (e v)) z = _
-  rw [opU_pb e H H' hH, hα₂ _ hx2, e.apply_symm_apply]
+  apply _root_.Formalism.L2.Ker.KS.inter_pb <;> assumption
 
 end Gen
 
@@ -869,28 +826,7 @@ variable {D : Car} {X : Fields} (s : Seam D X)
 
 theorem form_flat (A : ℝ) (a b : ℕ) (x y : DVar X.Tau a b → ℂ) :
     matH (hSc X.Tau a b A⁻¹) x y = formV A D.what₂.Tau a b (s.flatV a b x) (s.flatV a b y) := by
-  rw [formV_apply]
-  show (∑ i, ∑ j, x i * hSc X.Tau a b A⁻¹ i j * conj (y j)) = _
-  have h1 : ∀ i : DVar X.Tau a b, (∑ j, x i * hSc X.Tau a b A⁻¹ i j * conj (y j)) = x i * conj (y i) / (A : ℂ) := by
-    intro i
-    rw [Finset.sum_eq_single i]
-    · unfold hSc
-      rw [Matrix.diagonal_apply_eq]
-      push_cast
-      field_simp
-    · intro j _ hj
-      unfold hSc
-      rw [Matrix.diagonal_apply_ne _ (Ne.symm hj)]
-      simp
-    · intro hi
-      exact absurd (Finset.mem_univ i) hi
-  simp only [h1]
-  rw [← Finset.sum_div]
-  congr 1
-  rw [Fintype.sum_prod_type, ← Equiv.sum_comp s.iT.symm]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [Fintype.sum_prod_type]
-  rfl
+  apply _root_.Formalism.L2.Ker.Cd.KS.form_flat <;> assumption
 
 theorem isom_flat (A : ℝ) (a b : ℕ) :
     IsIsom (matH (hSc X.Tau a b A⁻¹)) (formV A D.what₂.Tau a b)

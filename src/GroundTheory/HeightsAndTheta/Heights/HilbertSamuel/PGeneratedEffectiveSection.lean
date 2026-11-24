@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGeneratedEffectiveSection
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Cartier
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.DivCycleEqZeroOfFormNotMem
@@ -33,11 +34,7 @@ theorem isMultiHomog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver F ι) a 
 
 theorem isMultiHomog_add {p q : MRingOver F ι} {a : K → ℕ} (hp : IsMultiHomog p a)
     (hq : IsMultiHomog q a) : IsMultiHomog (p + q) a := by
-  classical
-  intro m hm k
-  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
-  · exact hp m h k
-  · exact hq m h k
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
 
 theorem isMultiHomog_smul {p : MRingOver F ι} {a : K → ℕ} (r : F) (hp : IsMultiHomog p a) :
     IsMultiHomog (r • p) a :=

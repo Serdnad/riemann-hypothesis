@@ -794,16 +794,7 @@ theorem inBox_gmap {K : Type} [Field K] {S : Finset (HeightOneSpectrum (𝓞 E))
     {N : Submodule (𝓞 E) (Sp E a)} {N' : Submodule (𝓞 E) (Sp E b)} {Ξ : HomE E a b → K}
     (h : GlobalTheory.IndefiniteRowSideFullHecke.IndexExponentDegree.InBox S cA cB N N' Ξ) (g : Sp E a ≃ₗ[E] Sp E a) (g' : Sp E b ≃ₗ[E] Sp E b) :
     GlobalTheory.IndefiniteRowSideFullHecke.IndexExponentDegree.InBox S cA cB (gmap g N) (gmap g' N') fun x => Ξ (g'.symm.toLinearMap ∘ₗ x ∘ₗ g.toLinearMap) := by
-  refine ⟨fun x hx => ?_, fun x y hy => ?_⟩
-  · have h1 : ((cA : 𝓞 E) • (g'.symm.toLinearMap ∘ₗ x ∘ₗ g.toLinearMap : HomE E a b)) ∈ homAt S N N' := h.1 _ hx
-    change ((cA : 𝓞 E) • x) ∈ homAt S (gmap g N) (gmap g' N')
-    rwa [mem_homAt_gmap, conj_osmul]
-  · obtain ⟨z, hz, rfl⟩ := hy
-    have := h.2 (g'.symm.toLinearMap ∘ₗ x ∘ₗ g.toLinearMap) _ ⟨_, (mem_homAt_gmap S g g' N N' z).1 hz, rfl⟩
-    refine Eq.trans ?_ this
-    change Ξ (g'.symm.toLinearMap ∘ₗ (x + (cB : 𝓞 E) • z) ∘ₗ g.toLinearMap) =
-      Ξ (_ + (cB : 𝓞 E) • (g'.symm.toLinearMap ∘ₗ z ∘ₗ g.toLinearMap : HomE E a b))
-    rw [LinearMap.add_comp, LinearMap.comp_add, conj_osmul]
+  first | exact _root_.GlobalTheory.KerT.Bar.inBox_gmap | exact @_root_.GlobalTheory.KerT.Bar.inBox_gmap | apply _root_.GlobalTheory.KerT.Bar.inBox_gmap <;> assumption
 
 end Hom
 

@@ -226,21 +226,7 @@ theorem exists_pw_h1Zero (R : Type) [CommRing R] [IsNoetherianRing R]
     (B : Over (Spec (CommRingCat.of R))) (L : LB B.left) (hL : L.IsLB) (h : RelAmple B L) :
     ∃ d : ℕ, 1 ≤ d ∧ FirstCohomologyVanishes (AbLaw.pw L d) ∧
       ∃ (n : ℕ) (s : Fin (n + 1) → LB.Sec (AbLaw.pw L d)), VeryAmpleBy B.hom (AbLaw.pw L d) s := by
-  obtain ⟨d₀, hd₀, n₀, s₀, hs₀⟩ := (Unif.relAmple_iff_veryAmpleBy R B L hL).1 h
-  have hH := isLB_pw hL (d₀ : ℤ)
-  obtain ⟨t₀, ht₀⟩ := exists_h1Zero_tw_of_veryAmpleBy R B.left B.hom _ n₀ s₀ _ hH hH hs₀
-  have h1 := ht₀ (t₀.toNat : ℤ) (Int.self_le_toNat t₀)
-  obtain ⟨w, hw⟩ := lbIso_tw hH (t₀.toNat : ℤ)
-  have h2 := H1Iso.firstCohomologyVanishes_of_iso_of_isGen (isLB_tw hH hH _).cover (isLB_pw hH _) w hw h1
-  have h3 := veryAmpleBy_pw R B.left B.hom _ n₀ s₀ hH hs₀ (t₀.toNat + 1) (Nat.le_add_left _ _)
-  have e : AbLaw.pw (AbLaw.pw L (d₀ : ℤ)) ((t₀.toNat + 1 : ℕ) : ℤ) =
-      AbLaw.pw L ((d₀ * (t₀.toNat + 1) : ℕ) : ℤ) := by
-    rw [pw_pw, Nat.cast_mul]
-  refine ⟨d₀ * (t₀.toNat + 1), Nat.mul_pos hd₀ (Nat.succ_pos _), ?_, ?_⟩
-  · rw [← e, Nat.cast_add, Nat.cast_one]
-    exact h2
-  · rw [← e]
-    exact h3
+  first | exact _root_.GlobalTheory.Algebraise.exists_veryAmple_h1Zero | exact @_root_.GlobalTheory.Algebraise.exists_veryAmple_h1Zero | apply _root_.GlobalTheory.Algebraise.exists_veryAmple_h1Zero <;> assumption
 
 end Powers
 

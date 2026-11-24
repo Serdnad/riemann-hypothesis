@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LocMIterateDiag
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermConvolutionHecke
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.MatchT
@@ -137,18 +138,7 @@ theorem hint_comp_equiv {H H' : Type} [Group H] [Group H'] (e : H ≃* H') (K : 
 
 theorem hint_const_mul {H : Type} [Group H] (K : Subgroup H) (c : ℂ) (hc : c ≠ 0) (u : H → ℂ) :
     hint K (fun z => c * u z) = c * hint K u := by
-  have hr : rStab (fun z => c * u z) = rStab u := by
-    ext k
-    constructor
-    · intro hk x
-      exact mul_left_cancel₀ hc (hk x)
-    · intro hk x
-      show c * u (x * k) = c * u x
-      rw [hk x]
-  unfold hint
-  rw [hr, mul_left_comm]
-  congr 1
-  simpa [smul_eq_mul] using (smul_finsum c (fun q : H ⧸ (rStab u ⊓ K) => u q.out)).symm
+  apply _root_.GlobalTheory.CompanionTheory.TailLocPow.hint_smul <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 

@@ -135,6 +135,7 @@ import Development.WeilBound.RepresentationTheoryGL.FormalDegree.FormalDegreeHil
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.PicardGroup
 import CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.PositiveConjugation.PhiMul
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.AnalyticVectors.ConjTransposeEqOfInG
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.CoverExistsOf, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.Development, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.EquivariantSections.KeyIdentityHolds, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.HilbertSpaceModels.HilbertStableHolds, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.HilbertSpaceModels.HilbertSpaceRealisationHolds, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.InfinitesimalCharacters.DsInfCharOf, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.InfinitesimalCharacters.DiscreteSeriesInfinitesimalCharacter, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.FormalDegreeFormula.CoefPow, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.DegreeNormalization.GapNorm, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.FormalDegreeFormula.CKContinuous, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.PositiveConjugation.DzSubMuNextNonneg, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.SignDefiniteness.NormDef, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.NormIndOfSteps, CompanionTheory.RealGroups.FormalDegrees.ArchimedeanFormalDegrees.ExplicitFunctionSquareIntegrable, CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.KTypesAbove
@@ -603,15 +604,7 @@ variable {n : ℕ}
 
 theorem inP_entry_zero {ε : Fin n → Bool} {X : Matrix (Fin n) (Fin n) ℂ} (hX : inP ε X) {a b : Fin n}
     (h : ε a = ε b) : X a b = 0 := by
-  have h1 := congrFun (congrFun hX.2 a) b
-  simp only [Matrix.mul_apply, Matrix.neg_apply, Jm, Matrix.diagonal_apply, mul_ite, mul_zero, ite_mul, zero_mul,
-    Finset.sum_ite_eq', Finset.sum_ite_eq, Finset.mem_univ, if_true] at h1
-  rw [h] at h1
-  split_ifs at h1 with hb
-  · have : (2 : ℂ) * X a b = 0 := by linear_combination h1
-    simpa using this
-  · have : (2 : ℂ) * X a b = 0 := by linear_combination -h1
-    simpa using this
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.inP_apply_eq_zero <;> assumption
 
 theorem exists_pmat {ε : Fin n → Bool} {X : Matrix (Fin n) (Fin n) ℂ} (hX : inP ε X) :
     ∃ z : PCoord ε → ℂ, pmat z = X := by

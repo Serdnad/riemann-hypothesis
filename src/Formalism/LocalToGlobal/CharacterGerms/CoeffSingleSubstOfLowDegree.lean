@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DifferentialOperatorDepthRestrictColumns
 public import Formalism.LocalToGlobal.CharacterGerms.IntSubst
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieDefs
 public import Mathlib.RingTheory.PowerSeries.Substitution
@@ -154,18 +155,7 @@ theorem coeff_single_subst_lin {σ τ : Type} [Finite σ] (a : σ → MvPowerSer
 theorem subst_zero_of_const {σ τ : Type} [Finite σ] (f : MvPowerSeries σ C)
     (hf : MvPowerSeries.constantCoeff f = 0) :
     MvPowerSeries.subst (0 : σ → MvPowerSeries τ C) f = 0 := by
-  ext μ
-  rw [MvPowerSeries.coeff_subst (MvPowerSeries.hasSubst_of_constantCoeff_zero (fun _ => by simp)), map_zero]
-  rw [finsum_eq_single _ 0]
-  · simp [hf]
-  · intro e he
-    obtain ⟨s, hs⟩ : ∃ s, e s ≠ 0 := by
-      by_contra h
-      push_neg at h
-      exact he (Finsupp.ext h)
-    simp only [Pi.zero_apply, Finsupp.prod]
-    rw [Finset.prod_eq_zero (Finsupp.mem_support_iff.mpr hs) (zero_pow hs)]
-    simp
+  apply _root_.GlobalTheory.FGDepth.subst_zero_of_constantCoeff <;> assumption
 
 theorem intS_X {V : VF C} {τ : Type} (c : τ) : IntS V (MvPowerSeries.X c : MvPowerSeries τ C) := by
   rw [AbstractGermZero.intS_iff_alt]

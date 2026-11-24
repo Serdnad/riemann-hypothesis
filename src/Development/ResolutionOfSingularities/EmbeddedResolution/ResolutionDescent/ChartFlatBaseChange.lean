@@ -4,6 +4,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.Resolutio
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.BlowupSequenceBasic
 public import Development.ResolutionOfSingularities.EmbeddedResolution.ResolutionDescent.BlowupSequenceFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.EmbeddedBlowupSequence
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrongResolution.EmbeddedBlowupSequence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.AlgebraicPreliminaries.KernelFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IteratedBlowups.StrictTransformOffCenter
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformFlatBaseChange
@@ -457,30 +458,10 @@ theorem strictTransformIdeal_eq_comap (F : ChartFlatBaseChange S S') (j : ℕ) (
       rw [← hkey, S.strictTransformIdeal_succ (F.reindex n), hst, ← hIH, ← hcenter]
       exact S'.strictTransformIdeal_succ n
 
-private theorem exists_iso_of_mono_of_comp_eq
-    {A Z W : Scheme.{u}} (g : Z ⟶ A) (i : W ⟶ A)
-    [CategoryTheory.Mono g] [CategoryTheory.Mono i] (a : W ⟶ Z) (b : Z ⟶ W)
-    (ha : a ≫ g = i) (hb : b ≫ i = g) :
-    ∃ u : W ≅ Z, u.hom ≫ g = i := by
-  refine ⟨⟨a, b, ?_, ?_⟩, ha⟩
-  · refine (cancel_mono i).mp ?_
-    rw [Category.assoc, hb, ha, Category.id_comp]
-  · refine (cancel_mono g).mp ?_
-    rw [Category.assoc, ha, hb, Category.id_comp]
-
 private theorem exists_iso_subscheme_ker
     {A Z : Scheme.{u}} (g : Z ⟶ A) [AlgebraicGeometry.IsClosedImmersion g] :
     ∃ u : (Scheme.Hom.ker g).subscheme ≅ Z, u.hom ≫ g = (Scheme.Hom.ker g).subschemeι := by
-  have hker : Scheme.Hom.ker (Scheme.Hom.ker g).subschemeι = Scheme.Hom.ker g :=
-    AlgebraicGeometry.Scheme.IdealSheafData.ker_subschemeι _
-  have h1 : Scheme.Hom.ker g ≤ Scheme.Hom.ker (Scheme.Hom.ker g).subschemeι :=
-    le_of_eq hker.symm
-  have h2 : Scheme.Hom.ker (Scheme.Hom.ker g).subschemeι ≤ Scheme.Hom.ker g := le_of_eq hker
-  exact exists_iso_of_mono_of_comp_eq g (Scheme.Hom.ker g).subschemeι
-    (AlgebraicGeometry.IsClosedImmersion.lift g (Scheme.Hom.ker g).subschemeι h1)
-    (AlgebraicGeometry.IsClosedImmersion.lift (Scheme.Hom.ker g).subschemeι g h2)
-    (AlgebraicGeometry.IsClosedImmersion.lift_fac ..)
-    (AlgebraicGeometry.IsClosedImmersion.lift_fac ..)
+  apply _root_.FunctorialResolution.EmbeddedResolution.EmbeddedBlowupSequence.exists_kerSubschemeIso_of_isClosedImmersion <;> assumption
 
 private theorem exists_isPullback_subscheme_of_ker_eq
     {A B : Scheme.{u}} (f : A ⟶ B) (I : B.IdealSheafData) (J : A.IdealSheafData)

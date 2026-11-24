@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LocalisationCoefficientExtensionIsWildInertiaCyc
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWildInertiaCyclotomicElement
 public import Formalism.LocalToGlobal.IndefiniteReal.Bridge
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ClassSumSmallerLevel
@@ -57,21 +58,7 @@ variable {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ}
 theorem exists_reps (J : Subgroup (GAf L n)) (S : Finset (GAf L n))
     (hS : ∀ g : GAf L n, ∃ s ∈ S, ∃ (γ : GQ L n) (κ : GAf L n), κ ∈ J ∧ g = (γ : GAf L n) * s * κ) :
     ∃ T, IsClassReps J T := by
-  classical
-  let q : GAf L n → DoubleCoset.Quotient (GQ L n : Set (GAf L n)) (J : Set (GAf L n)) := DoubleCoset.mk (GQ L n) J
-  have hq : ∀ a b, q a = q b ↔ ∃ (γ : GQ L n) (κ : GAf L n), κ ∈ J ∧ b = (γ : GAf L n) * a * κ := fun a b => by
-    rw [DoubleCoset.eq]
-    exact ⟨fun ⟨h, hh, k, hk, e⟩ => ⟨⟨h, hh⟩, k, hk, e⟩, fun ⟨h, k, hk, e⟩ => ⟨h, h.2, k, hk, e⟩⟩
-  refine ⟨S.image fun s => (q s).out, fun g => ?_⟩
-  obtain ⟨s, hs, e⟩ := hS g
-  have e1 : q s = q g := (hq _ _).2 e
-  have ho : ∀ c : DoubleCoset.Quotient (GQ L n : Set (GAf L n)) (J : Set (GAf L n)), q c.out = c := fun c => Quotient.out_eq c
-  refine ⟨(q s).out, ⟨Finset.mem_image_of_mem _ hs, (hq _ _).1 ((ho _).trans e1)⟩, ?_⟩
-  rintro t ⟨ht, h⟩
-  obtain ⟨s', -, rfl⟩ := Finset.mem_image.1 ht
-  have := (hq _ _).2 h
-  rw [ho] at this
-  rw [this, e1]
+  first | exact _root_.GlobalTheory.CoefDuty.Model.exists_isClassReps | exact @_root_.GlobalTheory.CoefDuty.Model.exists_isClassReps | apply _root_.GlobalTheory.CoefDuty.Model.exists_isClassReps <;> assumption
 
 theorem relIndex_ne_zero_of_reps {J K : Subgroup (GAf L n)} (hJ : IsBounded J) (hle : K ≤ J) {T : Finset (GAf L n)}
     (hT : IsClassReps K T) : K.relIndex J ≠ 0 := by

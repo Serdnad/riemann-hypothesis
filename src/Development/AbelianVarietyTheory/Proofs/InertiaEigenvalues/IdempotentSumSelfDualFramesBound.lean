@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsNatSmulMem
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.InfPartOfSplitIdem
 import Formalism.LocalToGlobal.BesselHermitianTheta.LemmasWeil
 import Mathlib.Algebra.Order.Floor.Extended
@@ -129,33 +130,7 @@ lemma selfDual_isFullLattice (V : HSp D) (Λ : Submodule (𝓞 D.host.E) (Fin V.
 lemma exists_nat_smul_mem {n : ℕ} {Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)}
     (hΛ : Submodule.IsFullLattice D.host.E Λ) (x : Fin n → D.host.E) :
     ∃ N : ℕ, 0 < N ∧ (N : D.host.E) • x ∈ Λ := by
-  have hnat : ∀ (m : ℕ) {y : Fin n → D.host.E}, y ∈ Λ → (m : D.host.E) • y ∈ Λ := fun m y hy => by
-    rw [Nat.cast_smul_eq_nsmul]; exact Λ.nsmul_mem hy m
-  have hx : x ∈ Submodule.span D.host.E (Λ : Set (Fin n → D.host.E)) := by
-    letI := hΛ
-    rw [Submodule.IsFullLattice.span_eq_top]; trivial
-  induction hx using Submodule.span_induction with
-  | mem y hy => exact ⟨1, one_pos, by simpa using hy⟩
-  | zero => exact ⟨1, one_pos, by simp⟩
-  | add y z _ _ hy hz =>
-    obtain ⟨N₁, hN₁, h₁⟩ := hy
-    obtain ⟨N₂, hN₂, h₂⟩ := hz
-    refine ⟨N₁ * N₂, Nat.mul_pos hN₁ hN₂, ?_⟩
-    have : ((N₁ * N₂ : ℕ) : D.host.E) • (y + z) = (N₂ : D.host.E) • ((N₁ : D.host.E) • y) +
-        (N₁ : D.host.E) • ((N₂ : D.host.E) • z) := by
-      rw [smul_add, smul_smul, smul_smul]; push_cast; ring_nf
-    rw [this]
-    exact Λ.add_mem (hnat _ h₁) (hnat _ h₂)
-  | smul c y _ hy =>
-    obtain ⟨N, hN, h⟩ := hy
-    obtain ⟨M, hM, o, ho⟩ := exists_nat_mul_mem c
-    refine ⟨M * N, Nat.mul_pos hM hN, ?_⟩
-    have : ((M * N : ℕ) : D.host.E) • (c • y) = (o : 𝓞 D.host.E) • ((N : D.host.E) • y) := by
-      rw [← algebraMap_smul D.host.E o, ho, smul_smul, smul_smul]
-      congr 1
-      push_cast; ring
-    rw [this]
-    exact Λ.smul_mem _ h
+  first | exact _root_.UpperTheory.Reformulated.B.ExistsNatSmulMem.exists_nat_smul_mem | exact @_root_.UpperTheory.Reformulated.B.ExistsNatSmulMem.exists_nat_smul_mem | apply _root_.UpperTheory.Reformulated.B.ExistsNatSmulMem.exists_nat_smul_mem <;> assumption
 
 lemma exists_nat_smul_single {n : ℕ} {Λ : Submodule (𝓞 D.host.E) (Fin n → D.host.E)}
     (hΛ : Submodule.IsFullLattice D.host.E Λ) :

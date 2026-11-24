@@ -886,34 +886,7 @@ theorem partAt_mem_hatA (S T : HSp D) (I : Ideal (𝓞 D.host.E)) (L : Lt D.host
       y = a ⊗ₜ[D.host.F] (x : D.host.E)})
     {u : WO S T} (hu : u ∈ hatA S T (tens (stdL D.host.E S.rank) L)) :
     partAt w u ∈ hatA S T (tens (stdL D.host.E S.rank) (I • L)) := by
-  let Ψ : WO S T →+ WO S T := AddMonoidHom.mk' (fun u => partAt w u)
-    fun x y => Matrix.ext fun i j => mul_add w (x i j) (y i j)
-  have main : hatA S T (tens (stdL D.host.E S.rank) L) ≤
-      (hatA S T (tens (stdL D.host.E S.rank) (I • L))).comap Ψ := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro _ ⟨α, hα, y, hy, rfl⟩
-    let Φ : Af D.host.F ⊗[D.host.F] D.host.E →+ WO S T := AddMonoidHom.mk'
-      (fun z => Matrix.of fun a k => GlobalTheory.LatticeStable.liftMul D (α ⊗ₜ[D.host.F] y k a) z)
-      fun z z' => Matrix.ext fun a k => (GlobalTheory.LatticeStable.liftMul D _).map_add z z'
-    have hle : AddSubgroup.closure {y | ∃ a ∈ intAf D.host.F, ∃ x : 𝓞 D.host.E, x ∈ I ∧
-        y = a ⊗ₜ[D.host.F] (x : D.host.E)} ≤ (hatA S T (tens (stdL D.host.E S.rank) (I • L))).comap Φ := by
-      refine (AddSubgroup.closure_le _).2 ?_
-      rintro _ ⟨β, hβ, o, ho, rfl⟩
-      refine AddSubgroup.subset_closure ⟨β * α, fun v => ?_, (o : D.host.E) • y, ?_, ?_⟩
-      · rw [map_mul]; exact mul_mem (hβ v) (hα v)
-      · rw [GlobalTheory.SW.TensLat.mem_tens_stdL] at hy ⊢
-        intro k
-        have := Submodule.smul_mem_smul ho (hy k)
-        exact this
-      · ext a k
-        change GlobalTheory.LatticeStable.liftFin D ((β ⊗ₜ[D.host.F] (o : D.host.E)) * (α ⊗ₜ[D.host.F] y k a)) = _
-        rw [Algebra.TensorProduct.tmul_mul_tmul, GlobalTheory.LatticeStable.liftFin_tmul]
-        simp [Matrix.smul_apply]
-    have e : Ψ (Matrix.of fun a k => pairA D.host.F 0 α ⊗ₜ[D.host.F] y k a) = Φ (finPart D w) :=
-      Matrix.ext fun a k => GlobalTheory.LatticeStable.mul_pair_tmul D w α _
-    rw [SetLike.mem_coe, AddSubgroup.mem_comap, e]
-    exact hle hw
-  exact main hu
+  first | exact _root_.GlobalTheory.RowOnto.partAt_mem_hatA' | exact @_root_.GlobalTheory.RowOnto.partAt_mem_hatA' | apply _root_.GlobalTheory.RowOnto.partAt_mem_hatA' <;> assumption
 
 end GlobalTheory.LiftLevel.DatSum
 
@@ -959,19 +932,7 @@ theorem tens_inter {n r : ℕ} {I J : Ideal (𝓞 D.host.E)} (h : IsCoprime I J)
 theorem nsmul_mem_hatA (S T : HSp D) {𝔪 : Ideal (𝓞 D.host.E)} {N : ℕ} (hN : (N : 𝓞 D.host.E) ∈ 𝔪)
     (L : Lt D.host.E T.rank) {u : WO S T} (hu : u ∈ hatA S T (tens (stdL D.host.E S.rank) L)) :
     N • u ∈ hatA S T (tens (stdL D.host.E S.rank) (𝔪 • L)) := by
-  have main : hatA S T (tens (stdL D.host.E S.rank) L) ≤
-      (hatA S T (tens (stdL D.host.E S.rank) (𝔪 • L))).comap (nsmulAddMonoidHom N) := by
-    refine (AddSubgroup.closure_le _).2 ?_
-    rintro _ ⟨α, hα, y, hy, rfl⟩
-    refine AddSubgroup.subset_closure ⟨α, hα, N • y, ?_, ?_⟩
-    · rw [GlobalTheory.SW.TensLat.mem_tens_stdL] at hy ⊢
-      intro k
-      have := Submodule.smul_mem_smul hN (hy k)
-      rwa [Nat.cast_smul_eq_nsmul] at this
-    · ext a k
-      change N • (pairA D.host.F 0 α ⊗ₜ[D.host.F] y k a) = pairA D.host.F 0 α ⊗ₜ[D.host.F] (N • y k a)
-      exact (map_nsmul (TensorProduct.mk D.host.F (AF D.host.F) D.host.E (pairA D.host.F 0 α)) N (y k a)).symm
-  exact main hu
+  first | exact _root_.GlobalTheory.RowOnto.nsmul_mem_hatA' | exact @_root_.GlobalTheory.RowOnto.nsmul_mem_hatA' | apply _root_.GlobalTheory.RowOnto.nsmul_mem_hatA' <;> assumption
 
 theorem fullStd (n : ℕ) : (stdL D.host.E n).FG ∧
     Submodule.span D.host.E (stdL D.host.E n : Set (Fin n → D.host.E)) = ⊤ := by

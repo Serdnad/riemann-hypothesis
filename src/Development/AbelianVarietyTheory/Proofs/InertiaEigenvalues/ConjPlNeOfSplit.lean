@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsHeckeDatum
 
 @[expose] public section
 
@@ -56,14 +57,7 @@ namespace GlobalTheory.UnivGood
 variable {D : D7}
 
 theorem conjPl_ne_of_split {P : Pl D.host.E} (h : IsSplitPl D.host P) : Formalism.DivisionValues.conjPl P ≠ P := by
-  intro hP
-  obtain ⟨x, hx, hy⟩ := h
-  refine hy (Formalism.DivisionValues.cO D.host.E x) ?_ ?_
-  · show starRingAut (x : D.host.E) = D.host.conj (x : D.host.E)
-    rw [starRingAut_apply]
-    exact Formalism.BasicNotions.bridge_star_holds D.R D.host _
-  · have : Formalism.DivisionValues.cO _ x ∈ (Formalism.DivisionValues.conjPl P).asIdeal := Ideal.mem_map_of_mem _ hx
-    rwa [hP] at this
+  apply _root_.GlobalTheory.HeckeDatumExists.conj_ne_of_split <;> assumption
 
 theorem splitSet_of_split {S : Finset (Pl D.host.E)} (hs : ∀ P ∈ S, IsSplitPl D.host P)
     (hn : ∀ P ∈ S, ∀ P' ∈ S, ¬ IsConjPl D.host P P') : SplitSet S := by

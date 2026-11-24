@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Connected.Separation
 import Mathlib.Topology.MetricSpace.Ultra.TotallySeparated
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.LocalComparisonSplitting.EulerFactorLevels.PUnitAE
 
 @[expose] public section
 
@@ -124,24 +125,7 @@ theorem isCompact_snd {A B : Type} [Group A] [TopologicalSpace A] [Group B] [Top
   rintro _ ⟨k, rfl⟩
   exact ⟨t ^ k, subset_closure ⟨k, rfl⟩, by simp⟩
 
-theorem main : PositivityTheory.Rg.BcB.G8.Fin.UnitAE := by
-  intro E _ _ _ hU a b S _ δ₁ δ₂ h₁ h₂
-  have e₁ := eventually_one hU a δ₁ h₁.2.2.1
-  have e₂ := eventually_one hU b δ₂ h₂.2.2.1
-  have hT : Tendsto (Subtype.val : {w : Pl E // w ∈ S} → Pl E) cofinite cofinite :=
-    Subtype.val_injective.tendsto_cofinite
-  filter_upwards [hT.eventually e₁, hT.eventually e₂] with w hw₁ hw₂ y hy
-  subst hy
-  obtain ⟨i₁, u₁, c₁⟩ := hw₁
-  obtain ⟨i₂, u₂, c₂⟩ := hw₂
-  refine ⟨⟨i₁, i₂⟩, fun g hg => ?_, (Subgroup.closure_le _).2 ?_⟩
-  · obtain ⟨t₁, ht₁, k₁⟩ := u₁ g.1 hg.1
-    obtain ⟨t₂, ht₂, k₂⟩ := u₂ g.2 hg.2
-    refine ⟨(t₁, t₂), ?_, ⟨k₁, k₂⟩⟩
-    exact Prod.ext ht₁ ht₂
-  · rintro t ⟨ht, hc⟩
-    have ht' : t * _ = _ * _ := ht
-    exact ⟨c₁ t.1 (congrArg Prod.fst ht') (isCompact_fst t hc), c₂ t.2 (congrArg Prod.snd ht') (isCompact_snd t hc)⟩
+theorem main : PositivityTheory.Rg.BcB.G8.Fin.UnitAE := @_root_.PositivityTheory.Rg.BcB.G8.Fin.unitAE_holds
 
 end GlobalTheory.CompanionTheory.UnitAEPair
 

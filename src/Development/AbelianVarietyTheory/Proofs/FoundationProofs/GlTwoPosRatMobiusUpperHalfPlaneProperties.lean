@@ -54,6 +54,7 @@ import Mathlib.Geometry.Manifold.StructureGroupoid
 public import Mathlib.NumberTheory.ModularForms.EisensteinSeries.Basic
 import Mathlib.NumberTheory.ModularForms.SlashActions
 public import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.ModDefs
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.GlTwoPosRatMobiusBasicLaws
 
 @[expose] public section
 
@@ -76,34 +77,10 @@ theorem im_frac (a b c d : ℝ) (z : ℂ) :
   ring
 
 theorem denom_ne (g : GQ) {z : ℂ} (hz : z ∈ Hs) : (ent g 1 0 : ℂ) * z + (ent g 1 1 : ℂ) ≠ 0 := by
-  intro h
-  have hi := congrArg Complex.im h
-  have hr := congrArg Complex.re h
-  simp at hi hr
-  have hz' : 0 < z.im := hz
-  have hc : ent g 1 0 = 0 := by
-    rcases hi with h1 | h1
-    · exact_mod_cast h1
-    · exact absurd h1 hz'.ne'
-  rw [hc] at hr
-  have hd : ent g 1 1 = 0 := by simpa using hr
-  have := det_pos g
-  rw [hc, hd] at this
-  simp at this
+  apply _root_.GlobalTheory.KZ.MobLaws.den_ne <;> assumption
 
 theorem mob_mem (g : GQ) {z : ℂ} (hz : z ∈ Hs) : mob g z ∈ Hs := by
-  have hne := denom_ne g hz
-  have e : mob g z = ((((ent g 0 0 : ℝ)) : ℂ) * z + ((ent g 0 1 : ℝ) : ℂ)) /
-      ((((ent g 1 0 : ℝ)) : ℂ) * z + ((ent g 1 1 : ℝ) : ℂ)) := by
-    simp [mob]
-  show 0 < (mob g z).im
-  rw [e, im_frac]
-  have hn : 0 < Complex.normSq ((((ent g 1 0 : ℝ)) : ℂ) * z + ((ent g 1 1 : ℝ) : ℂ)) := by
-    rw [Complex.normSq_pos]; simpa using hne
-  have hd : (0 : ℝ) < (ent g 0 0 : ℝ) * (ent g 1 1 : ℝ) - (ent g 0 1 : ℝ) * (ent g 1 0 : ℝ) := by
-    exact_mod_cast det_pos g
-  have hz' : 0 < z.im := hz
-  positivity
+  apply _root_.GlobalTheory.KZ.MobLaws.mob_mem <;> assumption
 
 theorem ent_mul (g h : GQ) (i j : Fin 2) : ent (g * h) i j = ent g i 0 * ent h 0 j + ent g i 1 * ent h 1 j := by
   simp [ent, Matrix.mul_apply, Fin.sum_univ_two]

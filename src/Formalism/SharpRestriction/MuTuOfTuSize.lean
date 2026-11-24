@@ -50,19 +50,26 @@ open Formalism.BasicNotions
 abbrev WithTw (𝒞 : FamClass) : FamClass := fun Fm => 𝒞 Fm ∧ TwGood Fm
 
 theorem muTu_of_tuSize {eps : ℝ} (Fm : FamP eps) (h0 : 0 < eps) (h : TuSize Fm) : J.MuTu Fm := by
-  obtain ⟨x0, h⟩ := h
-  have ht : Filter.Tendsto (fun x : ℝ => x ^ (eps / 100)) Filter.atTop Filter.atTop :=
-    tendsto_rpow_atTop (by positivity)
-  obtain ⟨x2, hx2⟩ := Filter.eventually_atTop.1 (ht.eventually_ge_atTop Fm.CTu)
-  refine J.muTu_of_sizeTu Fm ⟨max (max x0 x2) (Fm.x1 + 1), fun x hx i u => ?_⟩
-  have a0 : x ≥ x0 := ((le_max_left _ _).trans (le_max_left _ _)).trans hx
-  have a2 : x ≥ x2 := ((le_max_right _ _).trans (le_max_left _ _)).trans hx
-  have a1 : Fm.x1 < x := lt_of_lt_of_le (by linarith) ((le_max_right _ _).trans hx)
-  refine ((h x a0 i).2 u).trans ?_
-  have hL : 0 ≤ (Fm.L x i).sc.L := Real.rpow_nonneg (zero_lt_one.trans (Fm.L x i).sc.one_lt_alt).le _
-  have hC : Fm.CTu ≤ (Fm.L x i).sc.x ^ szTh (Fm.L x i) := by
-    unfold szTh; rw [Fm.L_x x i a1, Fm.L_eps x i]; exact hx2 x a2
-  exact mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right hC (Nat.cast_nonneg _)) hL
+  obtain ⟨x0, hx0⟩ := h
+  let C := max Fm.CTu 0
+  have hC : 0 ≤ C := le_max_right _ _
+  refine ⟨2 * C, x0, fun x hx i u => ?_⟩
+  let s := (Fm.L x i).sc
+  let R := (Fm.D x i).R
+  have hL : s.L ≤ s.x := by
+    exact J.scale_rpow_le_self_of_le_one s (by linarith [s.eps_lt])
+  have hL0 : 0 ≤ s.L := zero_le_one.trans (Real.one_le_rpow s.one_lt_alt.le (by
+    change 0 ≤ (Fm.L x i).sc.eps
+    simpa only [Fm.L_eps] using h0.le))
+  have hm : (R.m : ℝ) ≤ 2 * R.n := by exact_mod_cast R.m_le_f
+  calc
+    Real.log (((Fm.D x i).mem u).A.T : ℝ) ≤ Fm.CTu * R.m * s.L := (hx0 x hx i).2 u
+    _ ≤ C * R.m * s.L :=
+      mul_le_mul_of_nonneg_right (mul_le_mul_of_nonneg_right (le_max_left _ _) (Nat.cast_nonneg _)) hL0
+    _ ≤ C * (2 * R.n) * s.x :=
+      mul_le_mul (mul_le_mul_of_nonneg_left hm hC) hL hL0 (by positivity)
+    _ = (2 * C) * (s.x * R.n) := by ring
+    _ ≤ (2 * C) * s.X'' R.n := mul_le_mul_of_nonneg_left (J.xn_le_Xpp s R) (by positivity)
 
 end Formalism.MainNotions
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TermsSameRationalInnerClassAreTranslatesStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.NGData
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ThetaCocycleProductOfRationalUnipotents
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SatGram
@@ -74,15 +75,7 @@ lemma orth_anti {U U' : Submodule D.host.E (VS D).V} (h : U ≤ U') : orth (VS D
   exact fun x hx => hy x (h hx)
 
 lemma z_mem_orth {T : D.host.E} (F : LFlag (D.sp.Y 0) D.R.rS T) : F.fl.z ∈ orth (VS D) (Xsp F) := by
-  rw [mem_orth_iff']
-  intro x hx
-  have hx' : x ∈ Submodule.span D.host.E (Set.range F.fl.e) := hx
-  clear hx
-  induction hx' using Submodule.span_induction with
-  | mem x h => obtain ⟨a, rfl⟩ := h; exact F.fl.z_orth a
-  | zero => simp
-  | add x y _ _ hx hy => simp [hx, hy]
-  | smul c x _ hx => simp [hx]
+  apply _root_.GlobalTheory.Unfold.SideEq.z_mem_orth <;> assumption
 
 lemma Xsp_le_Xplus {T : D.host.E} (F : LFlag (D.sp.Y 0) D.R.rS T) : Xsp F ≤ Xplus F := by
   show F.fl.X ≤ F.fl.X ⊔ _

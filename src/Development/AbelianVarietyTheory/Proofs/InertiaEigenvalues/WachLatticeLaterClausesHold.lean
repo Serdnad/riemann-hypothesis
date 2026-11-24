@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExpansionsLowAndPullback
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemEurOfTeichmullerSeries
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PhiFree
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
@@ -96,6 +97,7 @@ import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HerrH1Descript
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachIntegralComplexCocycleClassFinite
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeGaloisTrivialModUniformizer
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachModuleUniquenessCharacterisation
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FiniteLengthOfSmulEqZero
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.XXPowMemOfQQPowMulMemMapPhi, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CokernelCrystallineSurjectionKilledByXPow, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLetterBasis, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LettersFree, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoboundaryOfFiniteIndex, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemH1fIffResMem, Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.WachCrystallineComparison, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CmpIsoOfExpansions, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeComparisonDcris, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachModuleSaturatedExactnessCrystalline, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachLatticeLaterClausesHold
@@ -1064,25 +1066,8 @@ theorem full_of_std {D : Submodule LL M} {Λ : Submodule LL (ℤ → M)} (h : St
 theorem span_const_of_std {ι : Type} {D : Submodule LL M} {ex : ι → ℤ → M}
     (h : Std D (latSpan (LL := LL) ex)) :
     Submodule.span LL (Set.range fun x => ex x 0) = D := by
-  apply le_antisymm
-  · rw [Submodule.span_le]
-    rintro _ ⟨x, rfl⟩
-    exact ((h _).1 (mem_latSpan ex x)).1 0
-  · intro d hd
-    have h1 : (Pi.single (0 : ℤ) d : ℤ → M) ∈ latSpan (LL := LL) ex := by
-      refine (h _).2 ⟨fun k => ?_, fun k hk => Pi.single_eq_of_ne hk.ne _⟩
-      by_cases hk : k = 0
-      · subst hk; simpa using hd
-      · rw [Pi.single_eq_of_ne hk]; exact D.zero_mem
-    have h2 : latSpan (LL := LL) ex ≤ (Submodule.span LL (Set.range fun x => ex x 0)).comap
-        (LinearMap.proj (R := LL) (φ := fun _ : ℤ => M) 0) := by
-      unfold latSpan
-      rw [Submodule.span_le]
-      rintro _ ⟨e, x, rfl⟩
-      change conv e (ex x) 0 ∈ Submodule.span LL (Set.range fun x => ex x 0)
-      rw [conv_zero_coeff e _ (neg_eq_zero_of_std h x)]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨x, rfl⟩)
-    simpa using h2 h1
+  intros
+  apply _root_.GlobalTheory.NL.LowLevel.span_const <;> assumption
 
 theorem exists_shift_of_std {D : Submodule LL M} {Λ : Submodule LL (ℤ → M)} (h : Std D Λ)
     (g : ℤ → M) (hg : g ∈ Λ) (h0 : g 0 = 0) : ∃ f ∈ Λ, ∀ j : ℤ, g j = f (j - ((1 : ℕ) : ℤ)) := by
@@ -1331,16 +1316,7 @@ theorem finite_of_pi_pow {O : Type} [CommRing O] {n : ℕ} [NeZero n] {M : Type}
 theorem finiteLength_of_killed {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
     {M : Type} [AddCommGroup M] [Module O M] [Module.Finite O M] {c : O}
     (hc : c ≠ 0) (h : ∀ x : M, c • x = 0) : IsFiniteLength O M := by
-  have hfl := isFiniteLength_quotient_span_singleton O (mem_nonZeroDivisors_of_ne_zero hc)
-  rw [isFiniteLength_iff_isNoetherian_isArtinian] at hfl ⊢
-  refine ⟨inferInstance, ?_⟩
-  have ht : Module.IsTorsionBySet O M (Ideal.span {c}) :=
-    (Module.isTorsionBySet_span_singleton_iff c).mpr (fun x => h x)
-  letI := ht.module
-  haveI : IsScalarTower O (O ⧸ Ideal.span {c}) M := ht.isScalarTower
-  haveI : IsArtinianRing (O ⧸ Ideal.span {c}) := isArtinian_of_tower O hfl.2
-  haveI : Module.Finite (O ⧸ Ideal.span {c}) M := Module.Finite.of_restrictScalars_finite O _ _
-  exact isArtinian_of_surjective_algebraMap (R := O ⧸ Ideal.span {c}) Ideal.Quotient.mk_surjective
+  apply _root_.GlobalTheory.AdmLoc.finiteLength_of_smul_eq_zero <;> assumption
 
 section Generic
 

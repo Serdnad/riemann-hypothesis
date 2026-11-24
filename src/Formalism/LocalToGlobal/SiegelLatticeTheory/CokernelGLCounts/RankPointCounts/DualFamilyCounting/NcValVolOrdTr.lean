@@ -31,25 +31,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem trace_eq_add (σ : E →ₐ[F] E) (hinv : ∀ y, σ (σ y) = y) (hnt : ∃ x, σ x ≠ x)
     (hfin : Module.finrank F E = 2) (x : E) :
     algebraMap F E (Algebra.trace F E x) = x + σ x := by
-  classical
-  haveI : FiniteDimensional F E := Module.finite_of_finrank_eq_succ hfin
-  obtain ⟨x0, hx0⟩ := hnt
-  let σe : E ≃ₐ[F] E := AlgEquiv.ofAlgHom σ σ (AlgHom.ext hinv) (AlgHom.ext hinv)
-  have hne : (1 : E ≃ₐ[F] E) ≠ σe := by
-    intro h
-    apply hx0
-    have := congrArg (fun τ : E ≃ₐ[F] E => τ x0) h
-    simpa [σe] using this.symm
-  have hle : Fintype.card (E ≃ₐ[F] E) ≤ 2 := hfin ▸ AlgEquiv.card_le
-  have huniv : (Finset.univ : Finset (E ≃ₐ[F] E)) = {1, σe} := by
-    symm
-    apply Finset.eq_of_subset_of_card_le (Finset.subset_univ _)
-    rw [Finset.card_univ, Finset.card_pair hne]
-    exact hle
-  haveI : IsGalois F E := IsGalois.of_card_aut_eq_finrank F E (by
-    rw [Nat.card_eq_fintype_card, ← Finset.card_univ, huniv, Finset.card_pair hne, hfin])
-  rw [trace_eq_sum_automorphisms, huniv, Finset.sum_pair hne]
-  simp [σe]
+  apply _root_.Formalism.L2.SG.Pf.NcVal.VolUTr.TrW.trace_eq_add <;> assumption
 
 variable (v : HeightOneSpectrum (𝓞 F))
 
@@ -59,11 +41,7 @@ theorem inclR_mem' (a : 𝓞 E) : inclR (F := F) (Fv F v) (a : E) ∈ OEv (E := 
 
 theorem oev_smul' {c : Fv F v} (hc : c ∈ v.adicCompletionIntegers F) {x : Fv F v ⊗[F] E}
     (hx : x ∈ OEv (E := E) v) : c • x ∈ OEv (E := E) v := by
-  change x ∈ Submodule.span (v.adicCompletionIntegers F)
-    ((fun x : 𝓞 E => inclR (F := F) (Fv F v) (x : E)) '' Set.univ) at hx
-  change c • x ∈ Submodule.span (v.adicCompletionIntegers F)
-    ((fun x : 𝓞 E => inclR (F := F) (Fv F v) (x : E)) '' Set.univ)
-  exact Submodule.smul_mem _ (⟨c, hc⟩ : v.adicCompletionIntegers F) hx
+  apply _root_.Formalism.L2.SG.Pf.NcVal.VolUTr.TrW.oev_smul' <;> assumption
 
 theorem one_mem : (1 : Fv F v ⊗[F] E) ∈ OEv (E := E) v := by
   simpa using inclR_mem' (F := F) (E := E) v (1 : 𝓞 E)
@@ -88,20 +66,7 @@ theorem mul_mem {x y : Fv F v ⊗[F] E} (hx : x ∈ OEv (E := E) v) (hy : y ∈ 
 
 theorem trace_mem {x : Fv F v ⊗[F] E} (hx : x ∈ OEv (E := E) v) :
     Algebra.trace (Fv F v) (Fv F v ⊗[F] E) x ∈ v.adicCompletionIntegers F := by
-  simp only [OEv, SetLike.mem_coe] at hx
-  induction hx using Submodule.span_induction with
-  | mem z hz =>
-    obtain ⟨a, -, rfl⟩ := hz
-    rw [PI.UnitaryGroupMassFormula.LocJacTyp.Sd.trace_inclR (v := v)]
-    have hi : IsIntegral ℤ (Algebra.trace F E (a : E)) :=
-      Algebra.isIntegral_trace (RingOfIntegers.isIntegral_coe a)
-    exact int_mem (F := F) v ⟨_, hi⟩
-  | zero => rw [map_zero]; exact zero_mem _
-  | add x z _ _ hx hz => rw [map_add]; exact add_mem hx hz
-  | smul c x _ hx =>
-    show Algebra.trace (Fv F v) (Fv F v ⊗[F] E) ((c : Fv F v) • x) ∈ _
-    rw [map_smul, smul_eq_mul]
-    exact MulMemClass.mul_mem c.2 hx
+  apply _root_.Formalism.L2.SG.Pf.NcVal.VolUTr.TrW.trace_mem <;> assumption
 
 theorem trace_v (σ : E →ₐ[F] E) (hinv : ∀ y, σ (σ y) = y) (hnt : ∃ x, σ x ≠ x)
     (hfin : Module.finrank F E = 2) (w : Fv F v ⊗[F] E) :

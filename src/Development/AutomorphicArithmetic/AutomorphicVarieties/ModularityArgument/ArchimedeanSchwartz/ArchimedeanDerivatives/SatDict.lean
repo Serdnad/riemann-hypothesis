@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.LocIso
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ArchimedeanSchwartz.HodgeTateFromSandwich
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ValuationDetEqOne
@@ -62,15 +63,7 @@ namespace UpperTheory.V.Z.Inf
 private theorem localEmbedding_eq {K : Type} [Field K] [NumberField K] {n : ℕ}
     (w : HeightOneSpectrum (𝓞 K)) (g : GL (Fin n) (w.adicCompletion K)) :
     AdelicGLn.localEmbedding w g = locGL K n w g := by
-  refine Units.ext <| Matrix.ext fun a b => FiniteAdeleRing.ext K fun v => ?_
-  change ((AdelicGLn.finiteRestrictedEquiv K n).symm _ : AdelicGLn.FiniteAdelicGL K n) a b v = _
-  rw [AdelicGLn.finiteRestrictedEquiv_symm_apply, RestrictedProduct.coe_mulSingle_apply]
-  by_cases h : v = w
-  · subst h
-    rw [Pi.mulSingle_eq_same]
-    exact (congrArg (fun x : GL (Fin n) (v.adicCompletion K) => x a b) (pLoc_locGL v g)).symm
-  · rw [Pi.mulSingle_eq_of_ne h]
-    exact (congrArg (fun x : GL (Fin n) (v.adicCompletion K) => x a b) (pLoc_locGL_of_ne h g)).symm
+  apply _root_.UpperTheory.V.Z.Gam.localEmbedding_eq <;> assumption
 
 private theorem isSatake_of_eig {K : Type} [Field K] [NumberField K] {n : ℕ} (w : HeightOneSpectrum (𝓞 K))
     {V : Type} [AddCommGroup V] [Module ℂ V] (ρ : Representation ℂ (GL (Fin n) (w.adicCompletion K)) V)

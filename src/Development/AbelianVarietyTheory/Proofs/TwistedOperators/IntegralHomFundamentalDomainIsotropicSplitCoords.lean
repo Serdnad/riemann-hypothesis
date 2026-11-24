@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EisensteinUnfoldingSecondTermStatement
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.AdjointIsotropicDecomposition
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.CovolOneIntegralAdd
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.SqNormIntegralFundamentalDomainEqL2NormSq
@@ -57,39 +58,7 @@ theorem isAddFundamentalDomain_prod {A B : Type*} [AddGroup A] [AddGroup B] [Mea
     [MeasurableSpace B] {Γ : AddSubgroup A} {Δ : AddSubgroup B} {μ : Measure A} {ν : Measure B} [SFinite μ]
     [SFinite ν] {s : Set A} {t : Set B} (hs : IsAddFundamentalDomain Γ s μ) (ht : IsAddFundamentalDomain Δ t ν) :
     IsAddFundamentalDomain (Γ.prod Δ) (s ×ˢ t) (μ.prod ν) := by
-  refine ⟨hs.nullMeasurableSet.prod ht.nullMeasurableSet, ?_, ?_⟩
-  ·
-    have h1 := (Measure.quasiMeasurePreserving_fst (μ := μ) (ν := ν)).ae hs.ae_covers
-    have h2 := (Measure.quasiMeasurePreserving_snd (μ := μ) (ν := ν)).ae ht.ae_covers
-    filter_upwards [h1, h2] with p hp hq
-    obtain ⟨g, hg⟩ := hp
-    obtain ⟨h, hh⟩ := hq
-    exact ⟨⟨((g : A), (h : B)), AddSubgroup.mem_prod.2 ⟨g.2, h.2⟩⟩, hg, hh⟩
-  ·
-    intro g h hgh
-    change μ.prod ν ((g +ᵥ s ×ˢ t) ∩ (h +ᵥ s ×ˢ t)) = 0
-    let g1 : Γ := ⟨(g : A × B).1, (AddSubgroup.mem_prod.1 g.2).1⟩
-    let h1 : Γ := ⟨(h : A × B).1, (AddSubgroup.mem_prod.1 h.2).1⟩
-    let g2 : Δ := ⟨(g : A × B).2, (AddSubgroup.mem_prod.1 g.2).2⟩
-    let h2 : Δ := ⟨(h : A × B).2, (AddSubgroup.mem_prod.1 h.2).2⟩
-    by_cases e1 : g1 = h1
-    · have e2 : g2 ≠ h2 := fun e2 => hgh (Subtype.ext (Prod.ext (congrArg Subtype.val e1) (congrArg Subtype.val e2)))
-      have h0 : ν ((g2 +ᵥ t) ∩ (h2 +ᵥ t)) = 0 := ht.aedisjoint e2
-      refine measure_mono_null (t := Set.univ ×ˢ ((g2 +ᵥ t) ∩ (h2 +ᵥ t))) ?_ ?_
-      · rintro p ⟨hp1, hp2⟩
-        rw [Set.mem_vadd_set_iff_neg_vadd_mem] at hp1 hp2
-        refine ⟨Set.mem_univ _, ?_, ?_⟩
-        · rw [Set.mem_vadd_set_iff_neg_vadd_mem]; exact hp1.2
-        · rw [Set.mem_vadd_set_iff_neg_vadd_mem]; exact hp2.2
-      · rw [Measure.prod_prod, h0, mul_zero]
-    · have h0 : μ ((g1 +ᵥ s) ∩ (h1 +ᵥ s)) = 0 := hs.aedisjoint e1
-      refine measure_mono_null (t := ((g1 +ᵥ s) ∩ (h1 +ᵥ s)) ×ˢ Set.univ) ?_ ?_
-      · rintro p ⟨hp1, hp2⟩
-        rw [Set.mem_vadd_set_iff_neg_vadd_mem] at hp1 hp2
-        refine ⟨⟨?_, ?_⟩, Set.mem_univ _⟩
-        · rw [Set.mem_vadd_set_iff_neg_vadd_mem]; exact hp1.1
-        · rw [Set.mem_vadd_set_iff_neg_vadd_mem]; exact hp2.1
-      · rw [Measure.prod_prod, h0, zero_mul]
+  first | exact _root_.GlobalTheory.CompanionTheory.EisUnfold.ProdCovol.isAddFundamentalDomain_prod | exact @_root_.GlobalTheory.CompanionTheory.EisUnfold.ProdCovol.isAddFundamentalDomain_prod | apply _root_.GlobalTheory.CompanionTheory.EisUnfold.ProdCovol.isAddFundamentalDomain_prod <;> assumption
 
 end GlobalTheory.TwistHaar
 

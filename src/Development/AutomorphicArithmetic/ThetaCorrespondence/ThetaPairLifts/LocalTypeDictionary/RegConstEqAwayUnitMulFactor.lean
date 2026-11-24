@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ClassNumberAll
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RegConst
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SquareStanding
@@ -398,19 +399,7 @@ theorem vol_mul_relIndex [MeasurableSpace k] [BorelSpace k] {n : Type} [Fintype 
 
 theorem gl_residue_surjective (O : Type) [CommRing O] [IsLocalRing O] (n : ℕ) :
     Function.Surjective (GeneralLinearGroup.map (n := Fin n) (IsLocalRing.residue O)) := by
-  intro g
-  choose f hf using (IsLocalRing.residue_surjective (R := O))
-  have hM : (IsLocalRing.residue O).mapMatrix (g.val.map f) = g.val := by
-    ext a b
-    simp [hf]
-  have hd : IsUnit (g.val.map f).det := by
-    refine (isUnit_map_iff (IsLocalRing.residue O) _).1 ?_
-    rw [RingHom.map_det, hM]
-    exact (Matrix.isUnit_iff_isUnit_det _).1 g.isUnit
-  obtain ⟨u, hu⟩ := (Matrix.isUnit_iff_isUnit_det _).2 hd
-  refine ⟨u, Units.ext ?_⟩
-  rw [← hM, ← hu]
-  rfl
+  apply _root_.GlobalTheory.MeasTupleEq.map_residue_surjective <;> assumption
 
 theorem relIndex_parahoric {n : ℕ} (r : ℕ) (J : Subgroup (GL (Fin n) k))
     (hJ : ∀ g, g ∈ J ↔ g ∈ KO k (Fin n) ∧ ∀ a b, blk2 r b < blk2 r a → valuation k (g.1 a b) < 1) :
@@ -974,117 +963,7 @@ theorem mixglobA : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : Gr
         (IsLocVec W (.chi i (j + 1)) ε (ρ.vX i (j + 1))) (IsLocVec W (.mu t (i + 1) j) ε (ρ.vT (i + 1) j)) τ Ψ →
       ∀ φ, IsFinPart Γ.M X.T φ → (∀ w ∈ locPl G t, ι w (φ (w.under (𝓞 D.host.F))) = Ψ w) →
         IsDatumA W e Γ τ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure ((∏ w ∈ locPl G t, ι w (Γ.M.vac _) 0) • f₀) φ) := by
-  intro D T L sc G μ₀ hL W B ρ t i j M _ e Bs Γ X om om' h hT hti f₀ hdat ι hι
-  classical
-  have h₁ := ρ.vX_is i (j + 1) i.2 j.2
-  have h₂ := ρ.vT_is t (i + 1) j i.2 j.2
-  have hstd : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd W.ψ := h.ψ ▸ hT.base.std
-  have hG : Γ.M.IsGood W.ψ := h.ψ ▸ hT.geo.hM
-  obtain ⟨hadd, -, -⟩ := GlobalTheory.BigDat.ThBox.thetaPt_box W M t i j e Bs Γ X om om' h hT
-  have hf : thetaPt Γ W.ψ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f₀ Γ.M.vac) = box e (ρ.vX i (j + 1)) (ρ.vT (i + 1) j) := by
-    funext u
-    have := hdat.2 u
-    exact this.trans ((Finsupp.sum_single_index (zero_mul _)).trans (one_mul _))
-  obtain ⟨hid, hsumid⟩ := GlobalTheory.IdemAtPl.main hL (G := G) t
-  have hh := fun w hw => GlobalTheory.BigDat.halves_split hL W i j e Γ h.JW h.JWW _ _ (hid w hw).1 (hid w hw).2
-  have hco := GlobalTheory.BigDat.mixCo_spec B t i j e
-  have hv := fun w hw => lagr_vac (hι w hw) (hG.vac _).1 (hG.vac _).2.1 (latPt e (w.under (𝓞 D.host.F)) : Set _)
-    (fun γ hγ hγ' => GlobalTheory.BigDat.VacFix.vac_fixed W M t i j e Bs Γ X om om' h hT _ (GlobalTheory.BigDat.latPt_le_latAtV t i j e Bs Γ X hti _) γ (.inr ⟨hγ, hγ'.elim
-      (fun h => ⟨_, (hid w hw).1, h⟩) fun h => ⟨_, splitIdem_conj (hid w hw).1, h⟩⟩)) (hco w).2.1 (hh w hw).2.2.2.1
-  set c := ∏ w ∈ locPl G t, ι w (Γ.M.vac _) 0 with hc
-  have hc0 : c ≠ 0 := Finset.prod_ne_zero_iff.2 fun w hw => (hv w hw).1
-  refine ⟨hc0, ?_⟩
-  intro ε hε n Ψ τ _ hloc φ hφ hΨ
-  obtain ⟨φ₁, φ₂, hmem, hsum⟩ := hloc
-  have sW := (node_isV G hL (X := .grid (i + 1) (j + 1)) ⟨i.2, j.2⟩).sd
-  obtain ⟨T₁, hT₁⟩ := (GlobalTheory.PlaceModelSum.placeModelExistsSum D W.ψ W.ψ_std _ _ _ _ (isSelfDualC_neg sW)
-    (node_isV G hL (X := .grid i (j + 1)) ⟨i.2.le, j.2⟩).sd _ ε hε _ h₁.2.theta h₁.2.lat).1
-  obtain ⟨T₂, hT₂⟩ := (GlobalTheory.PlaceModelSum.placeModelExistsSum D W.ψ W.ψ_std _ _ _ _
-    (node_isV G hL (X := .grid (i + 1) j) ⟨i.2, j.2.le⟩).sd sW _ ε hε _ h₂.2.theta h₂.2.lat).1
-  obtain ⟨g0, g1, g2⟩ := GlobalTheory.BigDat.boxGraph_graph_heis hL W i j e Γ h.JW h.JWW ε _ hε _ _ T₁ T₂ hT₁ hT₂
-  obtain ⟨hεs, hεw⟩ := hsumid ε hε
-  have hb : thetaPt Γ W.ψ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (c • f₀) Γ.M.vac) = c • box e (ρ.vX i (j + 1)) (ρ.vT (i + 1) j) := by
-    rw [← hf]
-    exact funext fun u => (congrArg (thetaPt Γ W.ψ · u) (funext fun _ => mul_assoc _ _ _)).trans (thetaPt_smul _ _ _ _ u)
-  let R : Submodule ℂ ((Pt G i j → ℂ) × ((Ix G i j → AF D.host.F) → ℂ)) :=
-    { carrier := {p | p.2 ∈ schA D.host.F _ ∧ (p.1, thetaPt Γ W.ψ p.2) ∈ boxGraph e ε T₁ T₂}
-      zero_mem' := ⟨zero_mem _, by
-        have : thetaPt Γ W.ψ 0 = 0 := funext fun u => by simpa using thetaPt_smul Γ W.ψ 0 0 u
-        rw [Prod.snd_zero, this]; exact zero_mem _⟩
-      add_mem' := fun {p q} hp hq => ⟨add_mem hp.1 hq.1, by
-        rw [Prod.snd_add, hadd _ hp.1 _ hq.1]; exact add_mem hp.2 hq.2⟩
-      smul_mem' := fun a p hp => ⟨Submodule.smul_mem _ a hp.1, by
-        rw [Prod.smul_snd, show thetaPt Γ W.ψ (a • p.2) = a • thetaPt Γ W.ψ p.2 from funext (thetaPt_smul _ _ _ _)]
-        exact Submodule.smul_mem _ a hp.2⟩ }
-  have hA : ∀ w ∈ locPl G t, ∀ x ∈ mixHalf e (atPl w 1), x ∈ mixHalf e ε := fun w hw x hx =>
-    ⟨isHalf_mono (hεw w hw) hx.1, isHalf_mono (hεw w hw) hx.2⟩
-  have hA' : ∀ w ∈ locPl G t, ∀ x ∈ mixHalf e (cA D (atPl w 1)), x ∈ mixHalf e (cA D ε) := fun w hw x hx =>
-    have : cA D ε * cA D (atPl w 1) = cA D (atPl w 1) := by rw [← RingHom.map_mul, hεw w hw]
-    ⟨isHalf_mono this hx.1, isHalf_mono this hx.2⟩
-  have hbase : (Set.indicator (halfPt e ε : Set _) fun u => ∏ w ∈ locPl G t, ι w (Γ.M.vac _) (mixCo B t e w u)) =
-      c • box e (halfInd ε (latV G i j)) (halfInd ε (latW G i j)) := by
-    funext u
-    rw [Pi.smul_apply, smul_eq_mul, box, halfInd, halfInd]
-    by_cases hu : u ∈ mixHalf e ε
-    · rw [Set.indicator_of_mem (mem_halfPt.2 hu), Finset.prod_congr rfl fun w hw =>
-        (congrArg _ ((hco w).2.2.1 u).symm).trans ((hv w hw).2 _ ((hh w hw).2.2.2.2 u).1)]
-      by_cases hl : mapV e u ∈ latV G i j ∧ mapW e u ∈ latW G i j
-      · rw [if_pos ⟨hl.1, hu.1⟩, if_pos ⟨hl.2, hu.2⟩, mul_one, mul_one]
-        exact Finset.prod_congr rfl fun w hw => Set.indicator_of_mem (((hh w hw).2.2.2.2 u).2.2 hl.1 hl.2) _
-      · have : ∃ w ∈ locPl G t, ofMaps e (atPl w 1 • mapV e u, atPl w 1 • mapW e u) ∉ latPt e (w.under (𝓞 D.host.F)) := by
-          by_contra! hall
-          exact hl ⟨mem_of_sum_smul (hεs ▸ hu.1) fun w hw => (mapV_ofMaps e _ ▸ (hall w hw).2.1 :),
-            mem_of_sum_smul (hεs ▸ hu.2) fun w hw => (mapW_ofMaps e _ ▸ (hall w hw).2.2 :)⟩
-        obtain ⟨w, hw, hn⟩ := this
-        rw [Finset.prod_eq_zero hw (Set.indicator_of_notMem hn _)]
-        rcases not_and_or.1 hl with hl | hl
-        · rw [if_neg fun h => hl h.1, zero_mul, mul_zero]
-        · rw [if_neg fun h : _ ∧ IsHalf ε (mapW e u) => hl h.1, mul_zero, mul_zero]
-    · rw [Set.indicator_of_notMem (mt mem_halfPt.1 hu)]
-      rcases not_and_or.1 hu with hl | hl
-      · rw [if_neg fun h => hl h.2, zero_mul, mul_zero]
-      · rw [if_neg fun h : _ ∧ IsHalf ε (mapW e u) => hl h.2, mul_zero, mul_zero]
-  have hR := GlobalTheory.InductLagr.rel_of_vac Γ.M W.ψ hstd hG (locPl G t) (fun w => w.under (𝓞 D.host.F)) (Good.under_injOn hL G t) _
-    (fun w => mixHalf e (atPl w 1)) (fun w => mixHalf e (cA D (atPl w 1))) (mixCo B t e) ι (halfPt e ε) R (c • f₀)
-    (fun w hw => hι w hw) (fun w hw u hu => ⟨(hh w hw).1 u hu, mem_halfPt.2 (hA w hw u hu)⟩) (fun w hw => (hh w hw).2.1)
-    (fun w hw => (hh w hw).2.2.1) (fun w _ x _ u => (hco w).1 u x)
-    (fun w _ w' _ hne x hx u => by rw [(hco w').1, (hco w').2.2.2 w hne.symm x hx, add_zero])
-    (fun w hw u => ⟨_, ((hh w hw).2.2.2.2 u).1, (hco w).2.2.1 u, ((hh w hw).2.2.2.2 u).2.1⟩)
-    (fun w hw x hx p hp => ⟨GlobalTheory.HeisSchA.rho_mem_schA Γ.M W.ψ hstd x _ hp.1, by
-      have := g1 x (hA w hw x hx) _ hp.2
-      rwa [← thetaPt_rho] at this⟩)
-    (fun w hw x hx p hp => ⟨GlobalTheory.HeisSchA.rho_mem_schA Γ.M W.ψ hstd x _ hp.1, by
-      have := g2 x (hA' w hw x hx) _ hp.2
-      rwa [← thetaPt_rho] at this⟩)
-    ⟨(isFinPart_vac hG ∅).fam.mem hG _, by
-      have := (boxGraph e ε T₁ T₂).smul_mem c (Submodule.subset_span
-        ⟨_, _, GlobalTheory.isSBHalf_halfInd ε _, GlobalTheory.isSBHalf_halfInd ε _, rfl⟩)
-      rw [(congrArg T₁ (one_smul ℂ _).symm).trans hT₁.vac, (congrArg T₂ (one_smul ℂ _).symm).trans hT₂.vac] at this
-      show (_, thetaPt Γ W.ψ _) ∈ _
-      rw [hbase, hb]
-      exact this⟩
-    φ hφ.1 fun v hv => hφ.2 v fun hm => let ⟨w, hw, e⟩ := (hti.2.2.1 v).1 hm; hv w hw e
-  have hτ : (∑ d ∈ τ.support, τ d • (box e (φ₁ d) (φ₂ d), box e d.1.2 d.2)) ∈ boxGraph e ε T₁ T₂ :=
-    sum_mem fun d hd => Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, _, (hmem d hd).1.1, (hmem d hd).2.1, by
-      rw [← (hmem d hd).1.2.2 T₁ hT₁, ← (hmem d hd).2.2.2 T₂ hT₂]⟩)
-  have hfst : (Set.indicator (halfPt e ε : Set _) fun u => ∏ w ∈ locPl G t, ι w (φ _) (mixCo B t e w u)) =
-      (∑ d ∈ τ.support, τ d • (box e (φ₁ d) (φ₂ d), box e d.1.2 d.2)).1 := by
-    funext u
-    rw [Prod.fst_sum, Finset.sum_apply]
-    by_cases hu : u ∈ mixHalf e ε
-    · rw [Set.indicator_of_mem (mem_halfPt.2 hu), Finset.prod_congr rfl fun w hw => congrFun (hΨ w hw) _]
-      exact (hsum _ _ hu.1 hu.2).symm
-    · rw [Set.indicator_of_notMem (mt mem_halfPt.1 hu)]
-      refine (Finset.sum_eq_zero fun d hd => mul_eq_zero_of_right _ ?_).symm
-      by_contra hne
-      exact hu ⟨(hmem d hd).1.1.1 _ (left_ne_zero_of_mul hne), (hmem d hd).2.1.1 _ (right_ne_zero_of_mul hne)⟩
-  refine ⟨hR.1, fun u => ?_⟩
-  have := g0 _ (by
-    have := sub_mem hR.2 hτ
-    rwa [← Prod.mk.eta (p := Finset.sum _ _), Prod.mk_sub_mk, ← hfst, sub_self] at this)
-  have := congrFun (sub_eq_zero.1 this) u
-  rw [Prod.snd_sum, Finset.sum_apply] at this
-  exact this
+  exact @_root_.GlobalTheory.FlipMatch.datum_placesA_product
 
 end GlobalTheory.TopFlip
 end
@@ -1122,117 +1001,7 @@ theorem mixglobB : ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} {G : Gr
         (IsLocVec W (.mu t i j) ε (ρ.vT i j)) (IsLocVec W (.chi i j) ε (ρ.vX i j)) τ Ψ →
       ∀ φ, IsFinPart Γ.M' X.T φ → (∀ w ∈ locPl G t, ι w (φ (w.under (𝓞 D.host.F))) = Ψ w) →
         IsDatumB W e Γ τ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure ((∏ w ∈ locPl G t, ι w (Γ.M'.vac _) 0) • f₀) φ) := by
-  intro D T L sc G μ₀ hL W B ρ t i j M _ e Bs Γ X om om' h hT hti f hf₀ I hI
-  classical
-  have h₁ := ρ.vT_is t i j i.2.le j.2
-  have h₂ := ρ.vX_is i j i.2 j.2.le
-  have hstd : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsStd W.ψ := h.ψ ▸ hT.base.std
-  have hG : Γ.M'.IsGood W.ψ := h.ψ ▸ hT.geo.hM'
-  have hadd : ∀ Φ ∈ schA D.host.F (IxS G i j), ∀ Φ' ∈ schA D.host.F (IxS G i j),
-      thetaS Γ W.ψ (Φ + Φ') = thetaS Γ W.ψ Φ + thetaS Γ W.ψ Φ' := fun Φ hΦ Φ' hΦ' => funext fun u =>
-    (tsum_congr fun _ => mul_add _ _ _).trans
-      ((summable_of_mem_schA _ (GlobalTheory.HeisSchA.rho_mem_schA Γ.M' W.ψ hstd u _ hΦ)).tsum_add
-        (summable_of_mem_schA _ (GlobalTheory.HeisSchA.rho_mem_schA Γ.M' W.ψ hstd u _ hΦ')))
-  have hf : thetaS Γ W.ψ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f Γ.M'.vac) = boxS t e (ρ.vT i j) (ρ.vX i j) :=
-    funext fun u => (hf₀.2 u).trans ((Finsupp.sum_single_index (zero_mul _)).trans (one_mul _))
-  obtain ⟨hid, hsumid⟩ := GlobalTheory.T.gridLocalTensorPlaces_splitIdempotent_sum hL (G := G) t
-  have hh := fun w hw => halves_split hL W t i j e Γ h.JW₁ h.JWW _ _ (hid w hw).1 (hid w hw).2
-  have hco := mixCoS_spec B t i j e
-  have hv := fun w hw => lagr_vac (hI w hw) (hG.vac _).1 (hG.vac _).2.1 (latPtS t e (w.under (𝓞 D.host.F)) : Set _)
-    (fun γ hγ hγ' => VacFix.vac_fixed W M t i j e Bs Γ X om om' h hT _ (latPtS_le_latAtV t i j e Bs Γ X hti _) γ (.inr ⟨hγ, hγ'.elim
-      (fun h => ⟨_, (hid w hw).1, h⟩) fun h => ⟨_, splitIdem_conj (hid w hw).1, h⟩⟩)) (hco w).2.1 (hh w hw).2.2.2.1
-  set c := ∏ w ∈ locPl G t, I w (Γ.M'.vac _) 0 with hc
-  have hc0 : c ≠ 0 := Finset.prod_ne_zero_iff.2 fun w hw => (hv w hw).1
-  refine ⟨hc0, fun ε hε n Ψ τ _ ⟨φ₁, φ₂, hmem, hsum⟩ φ hφ hΨ => ?_⟩
-  have hb : thetaS Γ W.ψ (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (c • f) Γ.M'.vac) = c • boxS t e (ρ.vT i j) (ρ.vX i j) := by
-    rw [← hf]
-    exact funext fun u => (congrArg (thetaS Γ W.ψ · u) (funext fun _ => mul_assoc _ _ _)).trans (thetaS_smul _ _ _ _ u)
-  have sW := (node_isV G hL (X := .grid i j) ⟨i.2.le, j.2.le⟩).sd
-  obtain ⟨T₁, hT₁⟩ := (GlobalTheory.PlaceModelSum.placeModelExistsSum D W.ψ W.ψ_std _ _ _ _ sW
-    (node_isV G hL (X := .grid i (j + 1)) ⟨i.2.le, j.2⟩).sd _ ε hε _ h₁.2.theta h₁.2.lat).1
-  obtain ⟨T₂, hT₂⟩ := (GlobalTheory.PlaceModelSum.placeModelExistsSum D W.ψ W.ψ_std _ _ _ _
-    (isSelfDualC_neg (node_isV G hL (X := .grid (i + 1) j) ⟨i.2, j.2.le⟩).sd) sW _ ε hε _ h₂.2.theta h₂.2.lat).1
-  obtain ⟨g0, g1, g2⟩ := boxGraph_graph_heis hL W t i j e Γ h.JW₁ h.JWW ε _ hε _ _ T₁ T₂ hT₁ hT₂
-  obtain ⟨hεs, hεw⟩ := hsumid ε hε
-  let R : Submodule ℂ ((PtS G i j → ℂ) × ((IxS G i j → AF D.host.F) → ℂ)) :=
-    { carrier := {p | p.2 ∈ schA D.host.F _ ∧ (p.1, thetaS Γ W.ψ p.2) ∈ boxGraph t e ε T₁ T₂}
-      zero_mem' := ⟨zero_mem _, by
-        have : thetaS Γ W.ψ 0 = 0 := funext fun u => by simpa using thetaS_smul Γ W.ψ 0 0 u
-        rw [Prod.snd_zero, this]; exact zero_mem _⟩
-      add_mem' := fun {p q} hp hq => ⟨add_mem hp.1 hq.1, by
-        rw [Prod.snd_add, hadd _ hp.1 _ hq.1]; exact add_mem hp.2 hq.2⟩
-      smul_mem' := fun a p hp => ⟨Submodule.smul_mem _ a hp.1, by
-        rw [Prod.smul_snd, show thetaS Γ W.ψ (a • p.2) = a • thetaS Γ W.ψ p.2 from funext (thetaS_smul _ _ _ _)]
-        exact Submodule.smul_mem _ a hp.2⟩ }
-  have hA : ∀ w ∈ locPl G t, ∀ x ∈ mixHalfS e (atPl w 1), x ∈ mixHalfS e ε := fun w hw x hx =>
-    ⟨isHalf_mono (hεw w hw) hx.1, isHalf_mono (hεw w hw) hx.2⟩
-  have hA' : ∀ w ∈ locPl G t, ∀ x ∈ mixHalfS e (cA D (atPl w 1)), x ∈ mixHalfS e (cA D ε) := fun w hw x hx =>
-    have : cA D ε * cA D (atPl w 1) = cA D (atPl w 1) := by rw [← RingHom.map_mul, hεw w hw]
-    ⟨isHalf_mono this hx.1, isHalf_mono this hx.2⟩
-  have hbase : (Set.indicator (halfPt t e ε : Set _) fun u => ∏ w ∈ locPl G t, I w (Γ.M'.vac _) (mixCoS B t e w u)) =
-      c • boxS t e (halfInd ε (latA G t i j)) (halfInd ε (latB G i j)) := by
-    funext u
-    rw [Pi.smul_apply, smul_eq_mul, boxS, halfInd, halfInd]
-    by_cases hu : u ∈ mixHalfS e ε
-    · rw [Set.indicator_of_mem (mem_halfPt.2 hu), Finset.prod_congr rfl fun w hw =>
-        (congrArg _ ((hco w).2.2.1 u).symm).trans ((hv w hw).2 _ ((hh w hw).2.2.2.2 u).1)]
-      by_cases hl : mapA t e u ∈ latA G t i j ∧ mapB e u ∈ latB G i j
-      · rw [if_pos ⟨hl.1, hu.1⟩, if_pos ⟨hl.2, hu.2⟩, mul_one, mul_one]
-        exact Finset.prod_congr rfl fun w hw => Set.indicator_of_mem (((hh w hw).2.2.2.2 u).2.2 hl.1 hl.2) _
-      · have : ∃ w ∈ locPl G t, ofMaps t e (atPl w 1 • mapA t e u, atPl w 1 • mapB e u) ∉ latPtS t e (w.under (𝓞 D.host.F)) := by
-          by_contra! hall
-          exact hl ⟨mem_of_sum_smul (hεs ▸ hu.1) fun w hw => (mapA_ofMaps t e _ ▸ (hall w hw).2.1 :),
-            mem_of_sum_smul (hεs ▸ hu.2) fun w hw => (mapB_ofMaps t e _ ▸ (hall w hw).2.2 :)⟩
-        obtain ⟨w, hw, hn⟩ := this
-        rw [Finset.prod_eq_zero hw (Set.indicator_of_notMem hn _)]
-        rcases not_and_or.1 hl with hl | hl
-        · rw [if_neg fun h => hl h.1, zero_mul, mul_zero]
-        · rw [if_neg fun h : _ ∧ IsHalf ε (mapB e u) => hl h.1, mul_zero, mul_zero]
-    · rw [Set.indicator_of_notMem (mt mem_halfPt.1 hu)]
-      rcases not_and_or.1 hu with hl | hl
-      · rw [if_neg fun h => hl h.2, zero_mul, mul_zero]
-      · rw [if_neg fun h : _ ∧ IsHalf ε (mapB e u) => hl h.2, mul_zero, mul_zero]
-  have hR := _root_.GlobalTheory.InductLagr.rel_of_vac Γ.M' W.ψ hstd hG (locPl G t) (fun w => w.under (𝓞 D.host.F)) (Good.under_injOn hL G t) _
-    (fun w => mixHalfS e (atPl w 1)) (fun w => mixHalfS e (cA D (atPl w 1))) (mixCoS B t e) I (halfPt t e ε) R (c • f)
-    hI (fun w hw u hu => ⟨(hh w hw).1 u hu, mem_halfPt.2 (hA w hw u hu)⟩) (fun w hw => (hh w hw).2.1)
-    (fun w hw => (hh w hw).2.2.1) (fun w _ x _ u => (hco w).1 u x)
-    (fun w _ w' _ hne x hx u => by rw [(hco w').1, (hco w').2.2.2 w hne.symm x hx, add_zero])
-    (fun w hw u => ⟨_, ((hh w hw).2.2.2.2 u).1, (hco w).2.2.1 u, ((hh w hw).2.2.2.2 u).2.1⟩)
-    (fun w hw x hx p hp => ⟨GlobalTheory.HeisSchA.rho_mem_schA Γ.M' W.ψ hstd x _ hp.1, by
-      have := g1 x (hA w hw x hx) _ hp.2
-      rwa [← thetaS_rho] at this⟩)
-    (fun w hw x hx p hp => ⟨GlobalTheory.HeisSchA.rho_mem_schA Γ.M' W.ψ hstd x _ hp.1, by
-      have := g2 x (hA' w hw x hx) _ hp.2
-      rwa [← thetaS_rho] at this⟩)
-    ⟨(isFinPart_vac hG ∅).fam.mem hG _, by
-      have := (boxGraph t e ε T₁ T₂).smul_mem c (Submodule.subset_span
-        ⟨_, _, GlobalTheory.isSBHalf_halfInd ε _, GlobalTheory.isSBHalf_halfInd ε _, rfl⟩)
-      rw [(congrArg T₁ (one_smul ℂ _).symm).trans hT₁.vac, (congrArg T₂ (one_smul ℂ _).symm).trans hT₂.vac] at this
-      show (_, thetaS Γ W.ψ _) ∈ _
-      rw [hbase, hb]
-      exact this⟩
-    φ hφ.1 fun v hv => hφ.2 v fun hm => let ⟨w, hw, e⟩ := (hti.1.2.2.1 v).1 hm; hv w hw e
-  have hτ : (∑ d ∈ τ.support, τ d • (boxS t e (φ₁ d) (φ₂ d), boxS t e d.1.2 d.2)) ∈ boxGraph t e ε T₁ T₂ :=
-    sum_mem fun d hd => Submodule.smul_mem _ _ (Submodule.subset_span ⟨_, _, (hmem d hd).1.1, (hmem d hd).2.1, by
-      rw [← (hmem d hd).1.2.2 T₁ hT₁, ← (hmem d hd).2.2.2 T₂ hT₂]⟩)
-  have hfst : (Set.indicator (halfPt t e ε : Set _) fun u => ∏ w ∈ locPl G t, I w (φ _) (mixCoS B t e w u)) =
-      (∑ d ∈ τ.support, τ d • (boxS t e (φ₁ d) (φ₂ d), boxS t e d.1.2 d.2)).1 := by
-    funext u
-    rw [Prod.fst_sum, Finset.sum_apply]
-    by_cases hu : u ∈ mixHalfS e ε
-    · rw [Set.indicator_of_mem (mem_halfPt.2 hu), Finset.prod_congr rfl fun w hw => congrFun (hΨ w hw) _]
-      exact (hsum _ _ hu.1 hu.2).symm
-    · rw [Set.indicator_of_notMem (mt mem_halfPt.1 hu)]
-      refine (Finset.sum_eq_zero fun d hd => mul_eq_zero_of_right _ ?_).symm
-      by_contra hne
-      exact hu ⟨(hmem d hd).1.1.1 _ (left_ne_zero_of_mul hne), (hmem d hd).2.1.1 _ (right_ne_zero_of_mul hne)⟩
-  refine ⟨hR.1, fun u => ?_⟩
-  have := g0 _ (by
-    have := sub_mem hR.2 hτ
-    rwa [← Prod.mk.eta (p := Finset.sum _ _), Prod.mk_sub_mk, ← hfst, sub_self] at this)
-  have := congrFun (sub_eq_zero.1 this) u
-  rw [Prod.snd_sum, Finset.sum_apply] at this
-  exact this
+  exact @_root_.GlobalTheory.SmallPlaces.exists_scalar_datum_product
 
 end GlobalTheory.TopFlip
 end

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryLieElementsGenerateOneParamLines
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatC
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneVectorCcOfSiegelWeil
 import Mathlib.Algebra.Order.Floor.Extended
@@ -55,6 +56,7 @@ import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.WeilSie
 import Formalism.LocalToGlobal.BesselHermitianTheta.NoncompactGapAtLeastRange
 import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianFormFiniteZerosOnLineCmExt
 
 @[expose] public section
 
@@ -75,16 +77,7 @@ section Field
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
 
 theorem exists_moved (h : IsCMExt F E σ) : ∃ θ : E, σ θ ≠ θ := by
-  by_contra hc
-  push_neg at hc
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have hc' := h.2.1
-  refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
-  rw [ComplexEmbedding.isReal_iff]
-  ext y
-  have := h.2.2.2 τ y
-  rw [hc y] at this
-  simpa using this.symm
+  apply _root_.GlobalTheory.HermLineZeros.exists_conj_ne <;> assumption
 
 theorem im_ne_zero (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) (τ : E →+* ℂ) : (τ θ).im ≠ 0 := by
   intro h0
@@ -95,22 +88,7 @@ theorem im_ne_zero (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) (τ : E �
 
 theorem linInd_one (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) :
     LinearIndependent F ![(1 : E), θ] := by
-  rw [LinearIndependent.pair_iff]
-  intro s t hst
-  have h1 : s • (1 : E) + t • σ θ = 0 := by
-    have := congrArg σ hst
-    simp only [Algebra.smul_def, map_add (f := _), map_mul, AlgHom.commutes, map_one, map_zero] at this ⊢
-    exact this
-  have h2 : t • (σ θ - θ) = 0 := by
-    rw [smul_sub, sub_eq_zero]
-    exact add_left_cancel (h1.trans hst.symm)
-  have ht : t = 0 := by
-    rcases smul_eq_zero.1 h2 with h3 | h3
-    · exact h3
-    · exact absurd (sub_eq_zero.1 h3) hθ
-  subst ht
-  refine ⟨?_, rfl⟩
-  simpa using hst
+  apply _root_.GlobalTheory.RealLift.OneParam.linInd_one <;> assumption
 
 def basisOne (h : IsCMExt F E σ) {θ : E} (hθ : σ θ ≠ θ) : Module.Basis (Fin 2) F E :=
   haveI : Module.Finite F E := Module.finite_of_finrank_pos (by rw [h.2.2.1]; norm_num)

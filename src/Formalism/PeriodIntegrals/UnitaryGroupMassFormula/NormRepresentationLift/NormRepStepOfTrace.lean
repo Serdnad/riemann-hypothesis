@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.TermDef
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.ActsByFrameAct
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.NormRepresentationLift.DiffIdealNeBot
@@ -103,14 +104,7 @@ theorem Xflag_mono (F : LFlag S r T) (j : ℕ) : Xflag F j ≤ Xflag F (j + 1) :
     omega)
 
 theorem X_le_orth (F : LFlag S r T) : Xsp F ≤ orth S (Xsp F) := by
-  intro x hx
-  simp only [orth, Submodule.mem_iInf, LinearMap.mem_ker]
-  intro y hy
-  refine span_zero (φ := S.hT y) (fun z hz => ?_) hx
-  obtain ⟨i, rfl⟩ := hz
-  rw [herm_eq, span_zero (φ := S.hT (F.fl.e i)) (fun z hz => by
-    obtain ⟨k, rfl⟩ := hz
-    exact F.fl.e_iso i k) hy, star_zero]
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.c_X_iso <;> assumption
 
 theorem NLam_mul (Λ : Submodule (𝓞 E) S.V) (F : LFlag S r T) {n₁ n₂ : S.V ≃ₗ[E] S.V}
     (h₁ : n₁ ∈ NLam Λ F) (h₂ : n₂ ∈ NLam Λ F) : n₁ * n₂ ∈ NLam Λ F := by

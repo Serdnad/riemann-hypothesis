@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DescEqvPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafVanBPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -102,15 +103,8 @@ theorem sub_of_iso {X Y : Scheme.{0}} (e : X ≅ Y) (R : Type) [CommRing R] (F :
 
 theorem sub_of_empty (hy : Hyps) (R : Type) [CommRing R] (F : Shv R) (W : Scheme.{0}) [IsEmpty W] (n : ℤ)
     (hn : 0 < n) : Subsingleton (H R (sch.obj W) F n) := by
-  have a5 : A5 := hy.2.2.2.2.1
-  suffices h : ∀ x : H R (sch.obj W) F n, x = 0 from ⟨fun a b => by rw [h a, h b]⟩
-  intro x
-  obtain ⟨Z, f, -, -, hf⟩ := a5 R W F n hn x
-  have : IsEmpty Z := ⟨fun z => isEmptyElim (f.base z)⟩
-  let g : W ⟶ Z := (isInitialOfIsEmpty (X := W)).to Z
-  have hgf : g ≫ f = 𝟙 W := (isInitialOfIsEmpty (X := W)).hom_ext _ _
-  have : pull R (sch.map (g ≫ f)) F n x = x := by rw [hgf, CategoryTheory.Functor.map_id, pull_id]
-  rw [← this, CategoryTheory.Functor.map_comp, pull_comp, hf, map_zero]
+  intros
+  apply _root_.LateralTheory.E.LeafKunEmptyPf.H_sub <;> assumption
 
 theorem LeafClosedSHPos_of : LateralTheory.E.LeafVanBPf.LeafClosedSHPos := by
   intro hy q _ i A _ _ hA hq W' ι' _ n hn

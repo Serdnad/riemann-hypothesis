@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ProductFormulaHaar.HaarBox
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.MulInvBlockDiagApplySameBlock
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LocalModelPeriodLattices
 public import Formalism.DoubleCosetMeasures.LowerUnipotentOrbits.ExistsContinuousLowerUpperEntry
@@ -336,16 +337,7 @@ variable {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace F]
 variable {E : Type} [CommRing E] [Algebra F E] [TopologicalSpace E] [MeasurableSpace E]
 
 theorem sc_F (hF : IsNonarchimedeanLocalField F) : SecondCountableTopology F := by
-  let := IsTopologicalAddGroup.rightUniformSpace F
-  have := isUniformAddGroup_of_addCommGroup (G := F)
-  let : (Valued.v (R := F)).RankOne :=
-  { hom' := IsRankLeOne.nonempty.some.emb (R := F).comp MonoidWithZeroHom.ValueGroup₀.embedding
-    strictMono' := IsRankLeOne.nonempty.some.strictMono.comp
-        MonoidWithZeroHom.ValueGroup₀.embedding_strictMono }
-  open scoped Valued in
-  have : ProperSpace F := .of_nontriviallyNormedField_of_weaklyLocallyCompactSpace F
-  open scoped Valued in
-  exact inferInstance
+  apply _root_.PI.ProdFormulaE.HaarBox.secondCountable <;> assumption
 
 end Top
 
@@ -1366,17 +1358,8 @@ theorem reindex {n n' : ℕ} (h : n' = n) (R : Subring E) (Z : Matrix (Fin n') (
 
 theorem det_orbZ (w : A5.Point E) (p : lowW E w.1 w.2 × upUniG E w.1.sum) :
     (A5.orbZ w p).det = (pt w.1 w.2).det := by
-  unfold A5.orbZ
-  rw [Matrix.det_mul, Matrix.det_mul]
-  have h1 : ((p.1 : GL (Fin w.1.sum) E) : Matrix (Fin w.1.sum) (Fin w.1.sum) E).det = 1 := by
-    first
-      | (rw [Matrix.det_of_lowerTriangular _ p.1.2.1.1]
-         simp [p.1.2.1.2])
-  have h2 : ((p.2 : GL (Fin w.1.sum) E) : Matrix (Fin w.1.sum) (Fin w.1.sum) E).det = 1 := by
-    first
-      | (rw [Matrix.det_of_upperTriangular p.2.2.1]
-         simp [p.2.2.2])
-  rw [h1, h2, one_mul, mul_one]
+  intros
+  apply _root_.Formalism.FourierDecayAlt.P.A5x6.orbZ_det <;> assumption
 
 theorem isUnit_det_sub {n : ℕ} (w : Pt E n) (p : lowW E (tr w).1 (tr w).2 × upUniG E (tr w).1.sum) :
     IsUnit ((A5.orbZ (tr w) p).submatrix (finCongr (tr_sum w).symm) (finCongr (tr_sum w).symm)).det := by

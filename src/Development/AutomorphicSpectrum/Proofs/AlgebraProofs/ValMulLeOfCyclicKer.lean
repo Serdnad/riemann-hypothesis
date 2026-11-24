@@ -61,7 +61,7 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.T
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.NonzeroLocus
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.AlWellDefSt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PlaceDivisors.StChartF
-import Development.WeilBound.CoreStatements.HodgeTatePoints.RbProj
+import all Development.WeilBound.CoreStatements.HodgeTatePoints.RbProj
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -365,12 +365,7 @@ variable {F : Type} [Field F] {N : Type} [AddCommGroup N] [Module F N]
 
 theorem sq_stable {M : Submodule R (N → C)} (hF : FStable F M) (a : F) {g : N → C}
     (hg : g ∈ sqIdeal (augIdeal M)) : (fun x => g (a • x)) ∈ sqIdeal (augIdeal M) := by
-  refine PullbackHopfOrder.sqIdeal_le (LinearMap.funLeft R C fun x : N => a • x) (fun _ _ => rfl) ?_ hg
-  rintro f ⟨hf, hf0⟩
-  refine ⟨hF a f hf, ?_⟩
-  show f (a • 0) = 0
-  rw [smul_zero]
-  exact hf0
+  apply _root_.PositivityTheory.HtPt.Rb.comp_smul_mem_sqIdeal_of_fStable <;> assumption
 
 end Sq
 

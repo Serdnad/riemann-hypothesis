@@ -259,39 +259,41 @@ theorem jm_mul_self (P Q : ℕ) : Jm P Q * Jm P Q = 1 := by
 
 section Main
 
-theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
-    (α β κ : Type) [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] (P Q R S : ℕ)
+theorem exists_bridge_of_place_signatures : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
+    (α β κ : Type) [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] (P Q R S : InfinitePlace F → ℕ)
     (τ : ∀ w : InfinitePlace F, EmbOver E w) (JA : Matrix α α (AE F E)) (JB : Matrix β β (AE F E))
-    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : InfinitePlace F → Matrix α (Ix P Q) ℂ)
-    (C : InfinitePlace F → Matrix β (Ix R S) ℂ) (ε : InfinitePlace F → ℤˣ), IsCMExt F E σ → Framed τ JA JB a b A C →
+    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : ∀ w : InfinitePlace F, Matrix α (Ix (P w) (Q w)) ℂ)
+    (C : ∀ w : InfinitePlace F, Matrix β (Ix (R w) (S w)) ℂ) (ε : InfinitePlace F → ℤˣ), IsCMExt F E σ → (a * b = Complex.I ∧ (∀ w, IsFrame (a • JA.map (piInf (τ w))) (A w)) ∧
+      ∀ w, IsFrame (b • JB.map (piInf (τ w))) (C w)) →
     ∃ (J e : ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) →ₗ[ℝ]
         ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)))
       (e' : (κ → mixedEmbedding.mixedSpace F) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F)),
       (∀ y, J (J y) = -y) ∧ (∀ y, e (e y) = e y) ∧ (∀ y, J (e y) = e (J y)) ∧ (∀ y, (e y).1 = e' y.1) ∧
       (∀ y x, trPair F κ x (e y).2 = trPair F κ (e' x) y.2) ∧
-      ∀ y, ∃ (u u' u₁ : Matrix α β (AE F E)) (c : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ),
+      ∀ y, ∃ (u u' u₁ : Matrix α β (AE F E)) (c : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ),
         At (evI F) u ∧ At (evI F) u' ∧ At (evI F) u₁ ∧ (∀ w, u.map (piInf (τ w)) = A w * c w * (C w)ᵀ) ∧
-        (∀ w, u'.map (piInf (τ w)) = A w * ((((ε w : ℤ) : ℂ) * Complex.I) • (Jm P Q * c w * Jm R S)) * (C w)ᵀ) ∧
-        (∀ w, u₁.map (piInf (τ w)) = A w * (Complex.I • (Jm P Q * c w * Jm R S)) * (C w)ᵀ) ∧
+        (∀ w, u'.map (piInf (τ w)) = A w * ((((ε w : ℤ) : ℂ) * Complex.I) • (Jm (P w) (Q w) * c w * Jm (R w) (S w))) * (C w)ᵀ) ∧
+        (∀ w, u₁.map (piInf (τ w)) = A w * (Complex.I • (Jm (P w) (Q w) * c w * Jm (R w) (S w))) * (C w)ᵀ) ∧
         coord d u = y ∧ coord d u' = J (y - (2 : ℝ) • e y) ∧ coord d u₁ = J y := by
   intro F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S τ JA JB d a b A C ε hcm hfr
   have := hcm.1
   obtain ⟨-, hA, hC⟩ := hfr
-  choose IA hIA using fun w => frame_inv _ (A w) (Jm P Q) (jm_mul_self P Q) (hA w).1 (hA w).2
-  choose IC hIC using fun w => frame_inv _ (C w) (Jm R S) (jm_mul_self R S) (hC w).1 (hC w).2
+  choose IA hIA using fun w =>
+    frame_inv _ (A w) (Jm (P w) (Q w)) (jm_mul_self (P w) (Q w)) (hA w).1 (hA w).2
+  choose IC hIC using fun w =>
+    frame_inv _ (C w) (Jm (R w) (S w)) (jm_mul_self (R w) (S w)) (hC w).1 (hC w).2
   have hback : ∀ w (X : Matrix α β ℂ), A w * (IA w * X * (IC w)ᵀ) * (C w)ᵀ = X := by
     intro w X
     have hCt : (IC w)ᵀ * (C w)ᵀ = 1 := by rw [← Matrix.transpose_mul, (hIC w).2, Matrix.transpose_one]
     calc _ = (A w * IA w) * X * ((IC w)ᵀ * (C w)ᵀ) := by simp only [Matrix.mul_assoc]
       _ = X := by rw [(hIA w).2, hCt, Matrix.one_mul, Matrix.mul_one]
-  have hfwd : ∀ w (c : Matrix (Ix P Q) (Ix R S) ℂ), IA w * (A w * c * (C w)ᵀ) * (IC w)ᵀ = c := by
+  have hfwd : ∀ w (c : Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ), IA w * (A w * c * (C w)ᵀ) * (IC w)ᵀ = c := by
     intro w c
     have hCt : (C w)ᵀ * (IC w)ᵀ = 1 := by rw [← Matrix.transpose_mul, (hIC w).1, Matrix.transpose_one]
     calc _ = (IA w * A w) * c * ((C w)ᵀ * (IC w)ᵀ) := by simp only [Matrix.mul_assoc]
       _ = c := by rw [(hIA w).1, hCt, Matrix.one_mul, Matrix.mul_one]
-
   let Ψl : ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) →ₗ[ℝ]
-      (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) :=
+      (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) :=
     { toFun := fun y w => IA w * (mkD d y).map (piInf (τ w)) * (IC w)ᵀ
       map_add' := fun y y' => by
         funext w
@@ -316,9 +318,9 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
     show IA w * (mkD d (coord d u)).map (piInf (τ w)) * (IC w)ᵀ = c w
     rw [mkD_coord d hu, hM w, hfwd]
   let Ψ := LinearEquiv.ofBijective Ψl ⟨hinj, hsurj⟩
-
-  let L : (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) :=
-    { toFun := fun c w => Complex.I • (Jm P Q * c w * Jm R S)
+  let L : (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ]
+      (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) :=
+    { toFun := fun c w => Complex.I • (Jm (P w) (Q w) * c w * Jm (R w) (S w))
       map_add' := fun c c' => by
         funext w
         simp only [Pi.add_apply, Matrix.mul_add, Matrix.add_mul, smul_add]
@@ -326,8 +328,8 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
         funext w
         simp only [Pi.smul_apply, RingHom.id_apply, Matrix.mul_smul, Matrix.smul_mul]
         exact smul_comm _ _ _ }
-
-  let Pm : (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) :=
+  let Pm : (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ]
+      (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) :=
     { toFun := fun c w => (if ε w = -1 then (1 : ℂ) else 0) • c w
       map_add' := fun c c' => by
         funext w
@@ -339,18 +341,18 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
   have hLL : ∀ c, L (L c) = -c := by
     intro c
     funext w
-    show Complex.I • (Jm P Q * (Complex.I • (Jm P Q * c w * Jm R S)) * Jm R S) = -c w
-    have key : Jm P Q * (Jm P Q * c w * Jm R S) * Jm R S = c w := by
-      calc _ = (Jm P Q * Jm P Q) * c w * (Jm R S * Jm R S) := by simp only [Matrix.mul_assoc]
+    show Complex.I • (Jm (P w) (Q w) * (Complex.I • (Jm (P w) (Q w) * c w * Jm (R w) (S w))) * Jm (R w) (S w)) = -c w
+    have key : Jm (P w) (Q w) * (Jm (P w) (Q w) * c w * Jm (R w) (S w)) * Jm (R w) (S w) = c w := by
+      calc _ = (Jm (P w) (Q w) * Jm (P w) (Q w)) * c w * (Jm (R w) (S w) * Jm (R w) (S w)) := by
+            simp only [Matrix.mul_assoc]
         _ = c w := by rw [jm_mul_self, jm_mul_self, Matrix.one_mul, Matrix.mul_one]
     rw [Matrix.mul_smul, Matrix.smul_mul, smul_smul, key, Complex.I_mul_I, neg_one_smul]
   have hLP : ∀ c, L (Pm c) = Pm (L c) := by
     intro c
     funext w
-    show Complex.I • (Jm P Q * ((if ε w = -1 then (1 : ℂ) else 0) • c w) * Jm R S) =
-      (if ε w = -1 then (1 : ℂ) else 0) • (Complex.I • (Jm P Q * c w * Jm R S))
+    show Complex.I • (Jm (P w) (Q w) * ((if ε w = -1 then (1 : ℂ) else 0) • c w) * Jm (R w) (S w)) =
+      (if ε w = -1 then (1 : ℂ) else 0) • (Complex.I • (Jm (P w) (Q w) * c w * Jm (R w) (S w)))
     rw [Matrix.mul_smul, Matrix.smul_mul, smul_comm]
-
   let tm : AF F := ((fun w => if ε w = -1 then 1 else 0 : InfiniteAdeleRing F), 0)
   have htm : tm * tm = tm := by
     refine Prod.ext (funext fun w => ?_) ?_
@@ -371,7 +373,7 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
     rw [mkD_mulP, map_smul_piInf, hext, Matrix.mul_smul, Matrix.smul_mul]
   let J : ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) →ₗ[ℝ]
       ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) :=
-    (Ψ.symm : (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] _).comp (L.comp Ψl)
+    (Ψ.symm : (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ] _).comp (L.comp Ψl)
   have hΨJ : ∀ y, Ψl (J y) = L (Ψl y) := fun y => Ψ.apply_symm_apply _
   refine ⟨J, mulP (evI F tm), mulC (evI F tm), ?_, ?_, ?_, fun y => rfl, ?_, ?_⟩
   · intro y
@@ -396,8 +398,9 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
     refine ⟨mkD d y, mkD d (J (y - (2 : ℝ) • mulP (evI F tm) y)), mkD d (J y), Ψl y, at_mkD d _, at_mkD d _,
       at_mkD d _, fun w => (hΨl y w).symm, fun w => ?_, fun w => ?_, coord_mkD d _, coord_mkD d _, coord_mkD d _⟩
     · rw [← hΨl, hΨJ, map_sub, map_smul, hΨe]
-      show A w * (Complex.I • (Jm P Q * (Ψl y w - (2 : ℝ) • ((if ε w = -1 then (1 : ℂ) else 0) • Ψl y w)) * Jm R S)) *
-          (C w)ᵀ = A w * ((((ε w : ℤ) : ℂ) * Complex.I) • (Jm P Q * Ψl y w * Jm R S)) * (C w)ᵀ
+      show A w * (Complex.I • (Jm (P w) (Q w) * (Ψl y w - (2 : ℝ) • ((if ε w = -1 then (1 : ℂ) else 0) • Ψl y w)) *
+          Jm (R w) (S w))) * (C w)ᵀ =
+        A w * ((((ε w : ℤ) : ℂ) * Complex.I) • (Jm (P w) (Q w) * Ψl y w * Jm (R w) (S w))) * (C w)ᵀ
       congr 2
       generalize Ψl y w = X
       rcases Int.units_eq_one_or (ε w) with h1 | h1
@@ -407,6 +410,25 @@ theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Nu
         simp [Matrix.mul_neg, Matrix.neg_mul]
     · rw [← hΨl, hΨJ]
       rfl
+
+theorem exists_bridge : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E)
+    (α β κ : Type) [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] (P Q R S : ℕ)
+    (τ : ∀ w : InfinitePlace F, EmbOver E w) (JA : Matrix α α (AE F E)) (JB : Matrix β β (AE F E))
+    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : InfinitePlace F → Matrix α (Ix P Q) ℂ)
+    (C : InfinitePlace F → Matrix β (Ix R S) ℂ) (ε : InfinitePlace F → ℤˣ), IsCMExt F E σ → Framed τ JA JB a b A C →
+    ∃ (J e : ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)) →ₗ[ℝ]
+        ((κ → mixedEmbedding.mixedSpace F) × (κ → mixedEmbedding.mixedSpace F)))
+      (e' : (κ → mixedEmbedding.mixedSpace F) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F)),
+      (∀ y, J (J y) = -y) ∧ (∀ y, e (e y) = e y) ∧ (∀ y, J (e y) = e (J y)) ∧ (∀ y, (e y).1 = e' y.1) ∧
+      (∀ y x, trPair F κ x (e y).2 = trPair F κ (e' x) y.2) ∧
+      ∀ y, ∃ (u u' u₁ : Matrix α β (AE F E)) (c : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ),
+        At (evI F) u ∧ At (evI F) u' ∧ At (evI F) u₁ ∧ (∀ w, u.map (piInf (τ w)) = A w * c w * (C w)ᵀ) ∧
+        (∀ w, u'.map (piInf (τ w)) = A w * ((((ε w : ℤ) : ℂ) * Complex.I) • (Jm P Q * c w * Jm R S)) * (C w)ᵀ) ∧
+        (∀ w, u₁.map (piInf (τ w)) = A w * (Complex.I • (Jm P Q * c w * Jm R S)) * (C w)ᵀ) ∧
+        coord d u = y ∧ coord d u' = J (y - (2 : ℝ) • e y) ∧ coord d u₁ = J y := by
+  intro F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S τ JA JB d a b A C ε hcm hfr
+  exact exists_bridge_of_place_signatures F E σ α β κ (fun _ => P) (fun _ => Q)
+    (fun _ => R) (fun _ => S) τ JA JB d a b A C ε hcm hfr
 
 end Main
 

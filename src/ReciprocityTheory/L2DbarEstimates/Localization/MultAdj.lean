@@ -9,6 +9,7 @@ public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubse
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.TypeStar
 import Mathlib.Algebra.Order.Star.Real
+import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.L2DbarEstimates.Localization.IntegrableOnCompactOfLocL2, ReciprocityTheory.L2DbarEstimates.Localization.MultAdj
@@ -112,18 +113,7 @@ theorem multA_int_mul {M : Type*} [TopologicalSpace M] [T2Space M] [MeasurableSp
 
 theorem multA_contR {n : ℕ} {M : Type*} [TopologicalSpace M] (z : M → V n)
     (hz : IsLocalHomeomorph z) (ph : M → ℝ) (hph : SmoothR n z ph) : Continuous ph := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hx, hze⟩ := hz x
-  have hc : IsChart n z e := fun y _ => by rw [hze]
-  have hg := (hph e hc).continuousOn
-  have h1 : ContinuousAt (((fun y => (ph y : ℂ)) ∘ e.symm) ∘ e) x :=
-    (hg.continuousAt (e.open_target.mem_nhds (e.map_source hx))).comp (e.continuousAt hx)
-  have h2 : ((fun y => (ph y : ℂ)) ∘ e.symm) ∘ e =ᶠ[𝓝 x] fun y => (ph y : ℂ) := by
-    filter_upwards [e.open_source.mem_nhds hx] with y hy
-    simp [e.left_inv hy]
-  have h3 := Complex.continuous_re.continuousAt.comp (h1.congr h2)
-  simpa [Function.comp_def] using h3
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothR <;> assumption
 
 end
 

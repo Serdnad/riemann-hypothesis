@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsMetricOfIsOrtho
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LatticeIsometrySignThird
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.PeriodTorusIsTorusAtFrameStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
@@ -425,143 +428,8 @@ private theorem eq_of_im_hermForm_eq_of_real_span_eq_univ {g : ℕ} {La : Type} 
     linarith
 
 theorem hm_eq_diagonal : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Geo.Tor.Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r) (k : U.Comp) (x : (U.X k).dom) (W : UnfAt U k x) (Wu : UnitAt W), GoodEmb c σ → IsUnf U → (U.X k).IsOrtho x.1 → Wu.Hm = Matrix.diagonal fun j => ((2 * ‖relab c σ (W.e j).1 (U.X k).ξ0‖ : ℝ) : ℂ) := by
-  intro E _ _ _ H Dw l Xo c σ r U k x W Wu hg hU ho
-  obtain ⟨hr, htype, -⟩ := hU
-  obtain ⟨hp0, hΨ⟩ := htype k
-  have hbij : Function.Bijective (relab c σ) := by
-    rw [← Finite.injective_iff_bijective]
-    intro τ₁ τ₂ h12
-    ext y
-    have h1 : σ (Formalism.L2.Pj.embF c τ₁ y) = σ (Formalism.L2.Pj.embF c τ₂ y) :=
-      congrArg (fun f : E →+* ℂ => f y) h12
-    exact congrArg Subtype.val (σ.injective h1)
-  have hsq : ∀ τ : E →+* ℂ, τ (H.rt : E) = H.rt0 ∨ τ (H.rt : E) = -H.rt0 := by
-    intro τ
-    have h1 : (H.rt : E) ^ 2 = -(H.d : E) := by
-      have := congrArg (fun t : 𝓞 E => (t : E)) H.rt_sq
-      simpa using this
-    have h2 : (τ (H.rt : E)) ^ 2 = H.rt0 ^ 2 := by
-      rw [← map_pow, h1, map_neg, map_natCast, H.sqrt_neg_disc_sq]
-    exact sq_eq_sq_iff_eq_or_eq_neg.mp h2
-  have hkey : ∀ τ : E →+* ℂ, relab c σ τ (H.rt : E) = H.rt0 ↔ τ (H.rt : E) = H.rt0 := by
-    intro τ
-    have hg' : σ (IntermediateField.inclusion c.le (baseKA l).ρ) = H.rt0 := hg
-    have hρ : ((IntermediateField.inclusion c.le (baseKA l).ρ : c.F) : ℂ) = H.rt0 := rfl
-    rcases hsq τ with h | h
-    · have e : Formalism.L2.Pj.embF c τ (H.rt : E) = IntermediateField.inclusion c.le (baseKA l).ρ :=
-        Subtype.ext (h.trans hρ.symm)
-      have h3 : relab c σ τ (H.rt : E) = H.rt0 := by
-        show σ (Formalism.L2.Pj.embF c τ (H.rt : E)) = H.rt0
-        rw [e, hg']
-      rw [h3, h]
-    · have e : Formalism.L2.Pj.embF c τ (H.rt : E) = -IntermediateField.inclusion c.le (baseKA l).ρ :=
-        Subtype.ext (by
-          show τ (H.rt : E) = -((IntermediateField.inclusion c.le (baseKA l).ρ : c.F) : ℂ)
-          rw [h, hρ])
-      have h3 : relab c σ τ (H.rt : E) = -H.rt0 := by
-        show σ (Formalism.L2.Pj.embF c τ (H.rt : E)) = -H.rt0
-        rw [e, map_neg, hg']
-      rw [h3, h]
-  have hpm : ∀ τ, relab c σ τ ∈ (U.X k).Ψ → Dw.mult τ = Dw.p := by
-    intro τ hτ
-    rw [hΨ, hkey] at hτ
-    unfold Geo.Tor.Datum.mult
-    rw [if_pos hτ]
-  have hqm : ∀ τ, relab c σ τ ∉ (U.X k).Ψ → Dw.mult τ = Dw.q := by
-    intro τ hτ
-    rw [hΨ, hkey] at hτ
-    unfold Geo.Tor.Datum.mult
-    rw [if_neg hτ]
-  obtain ⟨f, hf⟩ := GlobalTheory.FrameUnif.exists_letter_equiv (U.X k).Ψ (U.X k).cmType Dw.p Dw.q r hr
-    (relab c σ) hbij Dw.mult hpm hqm
-  set idx : Fin W.g ≃ (U.X k).Ψ × Fin r := W.e.trans f with hidx
-  have hz : ∀ a j, W.Pm a j = if ((idx j).2 : ℕ) < Dw.q then
-      FD.hermC (idx j).1.1 (U.X k).Gm (FD.col (FD.mat x.1 (idx j).1) (idx j).2)
-        (FD.Data.emb (idx j).1.1 (W.φ k a : Fin r → E))
-      else ((FD.mat x.1 (idx j).1)⁻¹.mulVec (FD.Data.emb (idx j).1.1 (W.φ k a : Fin r → E))) (idx j).2 := by
-    intro a j
-    rw [W.pm_eq a j]
-    unfold Formalism.L2.Pj.perFr
-    have hj : idx j = f (W.e j) := rfl
-    rw [hj]
-    rcases hf (W.e j) with ⟨hin, h1, h2⟩ | ⟨hout, h1, h2, h3⟩
-    · have hi : (U.X k).p0 + ((W.e j).2 : ℕ) < r := by
-        have := (f (W.e j)).2.isLt
-        omega
-      rw [dite_eq_left hin, dite_eq_left hi, if_neg (by omega)]
-      have e1 : (f (W.e j)).1 = ⟨relab c σ (W.e j).1, hin⟩ := Subtype.ext h1
-      have e2 : (f (W.e j)).2 = ⟨(U.X k).p0 + ((W.e j).2 : ℕ), hi⟩ := Fin.ext (by
-        show ((f (W.e j)).2 : ℕ) = (U.X k).p0 + ((W.e j).2 : ℕ)
-        omega)
-      rw [e1, e2]
-    · have hcj : conjEmb (relab c σ (W.e j).1) = (f (W.e j)).1.1 := by
-        rw [h1]
-        exact RingHom.ext fun y => by rw [ComplexEmbedding.conjugate_coe_eq]; rfl
-      have hin' : conjEmb (relab c σ (W.e j).1) ∈ (U.X k).Ψ := by
-        rw [hcj]
-        exact (f (W.e j)).1.2
-      have hi : (U.X k).p0 - 1 - ((W.e j).2 : ℕ) < r := by
-        have := (f (W.e j)).2.isLt
-        omega
-      rw [dite_eq_right hout, dite_eq_left hin', dite_eq_left hi, if_pos (by omega)]
-      have e1 : (f (W.e j)).1 = ⟨conjEmb (relab c σ (W.e j).1), hin'⟩ := Subtype.ext hcj.symm
-      have e2 : (f (W.e j)).2 = ⟨(U.X k).p0 - 1 - ((W.e j).2 : ℕ), hi⟩ := Fin.ext (by
-        show ((f (W.e j)).2 : ℕ) = (U.X k).p0 - 1 - ((W.e j).2 : ℕ)
-        omega)
-      rw [e1, e2]
-  have hcc : FD.cc (-(U.X k).ξ0) = -(-(U.X k).ξ0) := by
-    have h := (U.X k).ξ0_im
-    unfold FD.cc at h ⊢
-    rw [map_neg, h]
-  have hx : ∀ τ : (U.X k).Ψ, FD.gram τ.1 (U.X k).Gm (FD.mat x.1 τ) =
-      Matrix.diagonal fun a : Fin r => ((FD.sgn Dw.q (a : ℕ) : ℝ) : ℂ) := by
-    intro τ
-    rw [← hp0]
-    exact ho τ
-  set D0 : Matrix (Fin W.g) (Fin W.g) ℂ :=
-    Matrix.diagonal fun j => ((2 * ((idx j).1.1 (-(U.X k).ξ0)).im : ℝ) : ℂ) with hD0
-  have hD : ∀ a b, (hermForm Wu.Hm (W.Pm a) (W.Pm b)).im = (hermForm D0 (W.Pm a) (W.Pm b)).im := by
-    intro a b
-    rw [Wu.c1 a b, hD0, GlobalTheory.OrthoHerm.im_diag_eq_trace Dw.q (-(U.X k).ξ0) (U.X k).Gm (U.X k).Ψ
-      (U.X k).cmType idx hcc x.1 hx (W.φ k a : Fin r → E) (W.φ k b : Fin r → E) (W.Pm a) (W.Pm b)
-      (hz a) (hz b), ← W.isom k a b]
-    push_cast
-    rfl
-  have hD0h : D0.IsHermitian := by
-    rw [hD0]
-    apply Matrix.isHermitian_diagonal_of_self_adjoint
-    ext j
-    simp
-  obtain ⟨-, -, -, hspan, -⟩ := W.per
-  have hHm : Wu.Hm = D0 := eq_of_im_hermForm_eq_of_real_span_eq_univ Wu.Hm D0 Wu.herm hD0h W.Pm hspan hD
-  rw [hHm, hD0]
-  congr 1
-  funext j
-  have hpos := Wu.pos (Pi.single j 1) (by simp)
-  rw [hHm, hD0] at hpos
-  have hdiag : (hermForm (Matrix.diagonal fun j => ((2 * ((idx j).1.1 (-(U.X k).ξ0)).im : ℝ) : ℂ))
-      (Pi.single j 1) (Pi.single j 1)).re = 2 * ((idx j).1.1 (-(U.X k).ξ0)).im := by
-    simp [hermForm]
-  rw [hdiag, map_neg, Complex.neg_im] at hpos
-  have hre : ((idx j).1.1 (U.X k).ξ0).re = 0 := by
-    have h1 : starRingEnd ℂ ((idx j).1.1 (U.X k).ξ0) = -((idx j).1.1 (U.X k).ξ0) := by
-      rw [← NumberField.IsCMField.complexEmbedding_complexConj (φ := (idx j).1.1) (x := (U.X k).ξ0),
-        ← map_neg]
-      congr 1
-      exact (U.X k).ξ0_im
-    have h2 := congrArg Complex.re h1
-    simp at h2
-    linarith
-  have hnorm : ‖relab c σ (W.e j).1 (U.X k).ξ0‖ = ‖(idx j).1.1 (U.X k).ξ0‖ := by
-    have hj : idx j = f (W.e j) := rfl
-    rw [hj]
-    rcases hf (W.e j) with ⟨-, h1, -⟩ | ⟨-, h1, -, -⟩
-    · rw [h1]
-    · rw [h1, ComplexEmbedding.conjugate_coe_eq, Complex.norm_conj]
-  have hfin : ((idx j).1.1 (-(U.X k).ξ0)).im = ‖relab c σ (W.e j).1 (U.X k).ξ0‖ := by
-    rw [hnorm, ← (Complex.abs_im_eq_norm).mpr hre, map_neg, Complex.neg_im,
-      abs_of_neg (by linarith)]
-  rw [hfin]
+  intros
+  apply _root_.GlobalTheory.SupFull.hm_eq_diagonal <;> assumption
 
 end GlobalTheory.HermDiag
 end -- clump:auto
@@ -809,37 +677,11 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r : ℕ} (X : FD.Da
 
 theorem perFr_add (v w : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     Formalism.L2.Pj.perFr X x (v + w) τ i = Formalism.L2.Pj.perFr X x v τ i + Formalism.L2.Pj.perFr X x w τ i := by
-  have he : ∀ ρ : E →+* ℂ, Data.emb ρ (v + w) = Data.emb ρ v + Data.emb ρ w := by
-    intro ρ
-    funext a
-    simp [Data.emb]
-  unfold Formalism.L2.Pj.perFr
-  rw [he, he]
-  split_ifs
-  · simp [Matrix.mulVec_add]
-  · simp
-  · simp only [hermC, Pi.add_apply, map_add (f := _), mul_add, Finset.sum_add_distrib]
-  · simp
-  · simp
+  apply _root_.GlobalTheory.PeriodTorus.perFr_add <;> assumption
 
 theorem perFr_smul (α : E) (v : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     Formalism.L2.Pj.perFr X x (α • v) τ i = τ α * Formalism.L2.Pj.perFr X x v τ i := by
-  have he : ∀ ρ : E →+* ℂ, Data.emb ρ (α • v) = ρ α • Data.emb ρ v := by
-    intro ρ
-    funext a
-    simp [Data.emb]
-  have hc : (starRingEnd ℂ) ((conjEmb τ) α) = τ α := by
-    simp [conjEmb]
-  unfold Formalism.L2.Pj.perFr
-  rw [he, he]
-  split_ifs
-  · simp [Matrix.mulVec_smul]
-  · simp
-  · simp only [hermC, Pi.smul_apply, smul_eq_mul, map_mul, hc, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-    ring
-  · simp
-  · simp
+  apply _root_.GlobalTheory.PeriodTorus.perFr_smul <;> assumption
 
 theorem norm_sq_eq_Hf {J : Type} [Fintype J] (v : EuclideanSpace ℂ J) : ‖v‖ ^ 2 = (I2.Hf v v).re := by
   rw [EuclideanSpace.norm_sq_eq]
@@ -1342,15 +1184,7 @@ attribute [local instance] Over.cartesianMonoidalCategory
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem finite_levQ {H : Host E} (Dw : Datum H) (l : Geo.Tor.Level H) : Finite (LevQ Dw l) := by
-  have hne : l.Mb ≠ ⊥ := by
-    intro h
-    have hp := l.prod
-    rw [h, Ideal.bot_mul, eq_comm, Ideal.span_singleton_eq_bot, Nat.cast_eq_zero] at hp
-    have := l.three_le
-    omega
-  haveI : Finite (𝓞 E ⧸ l.Mb) := Ideal.finiteQuotientOfFreeOfNeBot _ hne
-  haveI := Dw.fin
-  exact Submodule.finite_quotient_smul l.Mb (N := (⊤ : Submodule (𝓞 E) Dw.La)) Module.Finite.fg_top
+  apply _root_.GlobalTheory.AdTh.ShortSeries.finite_levQ <;> assumption
 
 theorem exists_mult_le {H : Host E} (Dw : Datum H) (m : ℕ) (h : Dw.p ≤ m ∨ Dw.q ≤ m) : ∃ τ, Dw.mult τ ≤ m := by
   obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
@@ -1448,17 +1282,8 @@ theorem sum_le_finsum {A B : Type} [Finite B] (K : Finset A) (φ : B → A) (u :
 theorem differentiable_translate (X : I2.PT E) (q n : ℕ) (π : I2.Vsp X.dim →ₗ[ℂ] I2.Vsp X.dim)
     (s : (Fin 1 → I2.Vsp X.dim) → ℂ) (hs : Differentiable ℂ s) (b : Fin n → I2.Vsp X.dim) :
     Differentiable ℂ (X.U q b (I2.s0 X π s)) := by
-  have hπ : Differentiable ℂ π := (LinearMap.toContinuousLinearMap π).differentiable
-  have h0 : Differentiable ℂ (I2.s0 (n := n) X π s) := by
-    unfold I2.s0
-    have hk : ∀ k : Fin n, Differentiable ℂ fun v : Fin n → I2.Vsp X.dim => s fun _ => π (v k) := fun k =>
-      hs.comp (differentiable_pi.2 fun _ => hπ.comp (differentiable_apply k))
-    exact fun v => (HasFDerivAt.finsetProd fun k _ => (hk k v).hasFDerivAt).differentiableAt
-  have h1 : Differentiable ℂ fun v : Fin n → I2.Vsp X.dim => I2.HC v b := by
-    unfold I2.HC I2.Hf
-    fun_prop
-  unfold I2.PT.U
-  exact (((h1.const_mul _).sub_const _).cexp).mul (h0.comp (differentiable_id.sub_const b))
+  intros
+  apply _root_.GlobalTheory.AlphaChain.differentiable_translate <;> assumption
 
 theorem theta_law {H : Host E} {Dw : Datum H} {l : Geo.Tor.Level H} {Xo : Moduli Dw l} {c : Coeff l}
     {σ : c.F →+* ℂ} {r : ℕ} {U : Unf Xo c σ r} (hU : IsUnf U) {k : U.Comp} {x : (U.X k).dom} (W : UnfAt U k x)

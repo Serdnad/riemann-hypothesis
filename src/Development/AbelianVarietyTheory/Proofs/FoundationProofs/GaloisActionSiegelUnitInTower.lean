@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothedSiegelUnitIndexAddIntVector
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasQIff
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelFunctionHolomorphic
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.HasQExpansionModularForm
@@ -260,17 +261,7 @@ theorem cj_tprod (hh : 0 < h) {e : ℕ → ℕ} (he : ∀ m, m ≤ e m) (w : ℂ
   simp [map_sum]
 
 theorem geomProd_shift {q : ℂ} (hq : ‖q‖ < 1) (u : ℂ) : geomProd q u = (1 - q * u) * geomProd q (q * u) := by
-  have e : (fun m : ℕ => 1 - q ^ (m + 1 + 1) * u) = fun m : ℕ => 1 - q ^ (m + 1) * (q * u) := by
-    funext m; ring
-  have hs : Summable fun m : ℕ => ‖-(q ^ (m + 1) * (q * u))‖ := by
-    simp only [norm_neg, norm_mul, norm_pow, pow_succ]
-    exact ((summable_geometric_of_lt_one (norm_nonneg _) hq).mul_right _).mul_right _
-  have h : Multipliable fun m : ℕ => (fun m : ℕ => 1 - q ^ (m + 1) * u) (m + 1) := by
-    show Multipliable fun m : ℕ => 1 - q ^ (m + 1 + 1) * u
-    rw [e]; simpa [sub_eq_add_neg] using multipliable_one_add_of_summable hs
-  have := tprod_eq_zero_mul' (f := fun m : ℕ => 1 - q ^ (m + 1) * u) h
-  simp only [e, zero_add, pow_one] at this
-  exact this
+  apply _root_.GlobalTheory.Sieg.Per.qp_shift <;> assumption
 
 theorem rel_geomProd (hh : 0 < h) {M : ℕ} (hM : 0 < M) (w : ℂ) (j : ℤ) :
     Rel σ h (fun τ => geomProd (𝕢 h τ ^ M) (𝕢 h τ ^ j * w)) fun τ => geomProd (𝕢 h τ ^ M) (𝕢 h τ ^ j * σ w) := by

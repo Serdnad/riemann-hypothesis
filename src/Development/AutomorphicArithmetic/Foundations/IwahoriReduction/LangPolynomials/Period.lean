@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FrobSubMulSurjective
 public import Mathlib.LinearAlgebra.Matrix.Defs
 public import Mathlib.Algebra.CharP.Defs
 public import Mathlib.Algebra.Field.Defs
@@ -111,25 +112,8 @@ end UpperTheory.Kd.C7.LangPolynomialRoots
 
 private theorem exists_pow_char_sub_mul_eq {K : Type} [Field K] [IsAlgClosed K] (p : ℕ) [hp : Fact p.Prime]
     (lam c : K) : ∃ e : K, e ^ p - lam * e = c := by
-  have h2 : 2 ≤ p := hp.out.two_le
-  have hdeg : (Polynomial.X ^ p - Polynomial.C lam * Polynomial.X - Polynomial.C c : Polynomial K).natDegree = p := by
-    rw [Polynomial.natDegree_sub_C, Polynomial.natDegree_sub_eq_left_of_natDegree_lt,
-      Polynomial.natDegree_X_pow]
-    rw [Polynomial.natDegree_X_pow]
-    exact lt_of_le_of_lt ((Polynomial.natDegree_C_mul_le _ _).trans Polynomial.natDegree_X_le) (by omega)
-  obtain ⟨e, he⟩ := IsAlgClosed.exists_root
-    (Polynomial.X ^ p - Polynomial.C lam * Polynomial.X - Polynomial.C c : Polynomial K)
-    (by
-      have hne : (Polynomial.X ^ p - Polynomial.C lam * Polynomial.X - Polynomial.C c : Polynomial K) ≠ 0 := by
-        intro h
-        rw [h, Polynomial.natDegree_zero] at hdeg
-        omega
-      rw [Polynomial.degree_eq_natDegree hne, hdeg]
-      exact_mod_cast hp.out.ne_zero)
-  refine ⟨e, ?_⟩
-  simp only [Polynomial.IsRoot, Polynomial.eval_sub, Polynomial.eval_pow, Polynomial.eval_X,
-    Polynomial.eval_mul, Polynomial.eval_C] at he
-  exact sub_eq_zero.mp he
+  intros
+  apply _root_.GlobalTheory.ArtinSchreierWitt.exists_root_field <;> assumption
 
 private theorem exists_mem_span_fixed_sub_smul_eq {K E : Type} [Field K] [IsAlgClosed K] (p : ℕ) [hp : Fact p.Prime]
     [AddCommGroup E] [Module K E] (ψ : E →+ E)

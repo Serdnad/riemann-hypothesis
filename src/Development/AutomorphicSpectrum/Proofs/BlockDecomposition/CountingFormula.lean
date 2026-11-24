@@ -56,6 +56,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateBijectionTraceForm
 
 @[expose] public section
 
@@ -72,14 +73,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem hE_self_fixed (hcm : IsCMExt F E σ) {M : ℕ} {J : Matrix (Fin M) (Fin M) E} (hJ : IsHermND σ J) (x : Fin M → E) :
     σ (hE σ J x x) = hE σ J x x := by
-
-  simp only [hE, hform, map_sum, map_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  have h1 : σ ((σ : E →+* E) (x j)) = x j := _root_.GlobalTheory.CompanionTheory.SW.HermTop.sigma_sigma hcm _
-  have h2 : (σ : E →+* E) (x i) = σ (x i) := rfl
-  rw [h1, hJ.1 i j, h2]
-  ring
+  apply _root_.GlobalTheory.CompanionTheory.SW.BB.RatCoord.sigma_hE_self <;> assumption
 
 theorem exists_len (hcm : IsCMExt F E σ) {J : Matrix (Fin 2) (Fin 2) E} (hJ : IsHermND σ J) (hA : Aniso σ J)
     {X : Fin 1 → Fin 2 → E} (hX : X ≠ 0) : ∃ β : F, β ≠ 0 ∧ X ∈ sph σ J β := by

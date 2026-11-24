@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.PowEqPowIffModEqOfIsPrimitiveRoot
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.FiniteDimensionalOfSz
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
 import Mathlib.Algebra.Order.Floor.Extended
@@ -190,15 +191,7 @@ variable {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] [Algeb
 private theorem heckeIdeal_asIdeal_eq_heckeVal {F R : Type} [Field F] [NumberField F]
     [Field R] [NumberField R] [Algebra F R] (χ : Gal(R/F) →* ℂˣ) (𝔭 : HeightOneSpectrum (𝓞 F)) :
     _root_.GlobalTheory.NT.heckeIdeal R χ 𝔭.asIdeal = _root_.GlobalTheory.NT.heckeVal R χ 𝔭 := by
-  unfold _root_.GlobalTheory.NT.heckeIdeal
-  have hirr : ∀ 𝔮 : HeightOneSpectrum (𝓞 F), Irreducible (Associates.mk 𝔮.asIdeal) := fun 𝔮 =>
-    Associates.irreducible_mk.mpr (Ideal.prime_of_isPrime 𝔮.ne_bot 𝔮.isPrime).irreducible
-  rw [finprod_eq_single _ 𝔭]
-  · rw [Associates.count_self (hirr 𝔭), pow_one]
-  · intro 𝔮 h𝔮
-    rw [Associates.count_eq_zero_of_ne (hirr 𝔮) (hirr 𝔭), pow_zero]
-    intro h
-    exact h𝔮 (HeightOneSpectrum.ext (associated_iff_eq.mp (Associates.mk_eq_mk_iff_associated.mp h)))
+  apply _root_.GlobalTheory.NT.Model.heckeIdeal_prime <;> assumption
 
 set_option autoImplicit false in
 open NumberField IsDedekindDomain Polynomial in

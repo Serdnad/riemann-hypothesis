@@ -114,17 +114,7 @@ theorem wQ_iff {k : ℕ} (hk : Odd k) (p : N.QT k) (w : Oˣ) :
 
 theorem dbl_mul (x y : N.A) :
     dbl N.θ N.σ (x * y) * (N.θ (x * y) x y * N.θ x x y * N.θ y x y) = dbl N.θ N.σ x * dbl N.θ N.σ y := by
-  have a := (_root_.GlobalTheory.Ex.mulq_laws O N.toNumB 2 0 x y).2.1
-  have c := N.cub.coc x y y x
-  rw [N.cub.s12 (x * y), N.cub.s12 x y x, N.cub.s12 x (y * y), N.cub.s12 y y x] at c
-  simp only [mulq, cubN, Finset.prod_range_succ, Finset.prod_range_zero, pow_zero, pow_one, one_mul, mul_one,
-    N.cub.face, div_one, sq] at a
-  rw [N.cub.s12 y y x] at a
-  replace a := congrArg Additive.ofMul a
-  replace c := congrArg Additive.ofMul c
-  apply Additive.ofMul.injective
-  simp only [ofMul_mul, ofMul_div, ofMul_one] at a c ⊢
-  linear_combination (norm := abel) c - a
+  apply _root_.GlobalTheory.Ex.NumB.dbl_mul <;> assumption
 
 theorem wQ_mul {k : ℕ} (hk : Odd k) (p p' : N.QT k) :
     N.wQ p * N.wQ p' * N.tk p p' = N.wp p p' ^ ((k + 1) / 2) * N.wQ (p * p') := by

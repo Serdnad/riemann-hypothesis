@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsThBSuccCoeffCong
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OpLDOneSubMemTriv
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HtCoIOfEq
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
@@ -1262,17 +1263,7 @@ theorem cgA_mul {Ω : Type} [Field Ω] [Algebra ℚ Ω] {A : ValuationSubring Ω
 
 theorem gamma1_le_of_dvd {N M : ℕ} (h : N ∣ M) :
     CongruenceSubgroup.Gamma1 M ≤ CongruenceSubgroup.Gamma1 N := by
-  intro γ hγ
-  rw [CongruenceSubgroup.Gamma1_mem] at hγ ⊢
-  obtain ⟨h1, h2, h3⟩ := hγ
-  have key : ∀ x y : ℤ, ((x : ZMod M)) = (y : ZMod M) → (x : ZMod N) = (y : ZMod N) := by
-    intro x y hxy
-    have := congrArg (ZMod.castHom h (ZMod N)) hxy
-    simpa using this
-  refine ⟨?_, ?_, ?_⟩
-  · simpa using key _ 1 (by simpa using h1)
-  · simpa using key _ 1 (by simpa using h2)
-  · simpa using key _ 0 (by simpa using h3)
+  apply _root_.GlobalTheory.ThBCompat.gamma1_le <;> assumption
 
 theorem isThB_level_mul {Ω : Type} [Field Ω] [Algebra ℚ Ω] {ε : Ω →+* ℂ} (X : Tower Ω ε) (A : ValuationSubring Ω)
     (N M l n : ℕ) [Fact l.Prime] (b : X.Fn l) (φ : HahnSeries ℚ Ω) (h : IsThB X A N l n b φ) :
@@ -1755,17 +1746,7 @@ theorem apply_poly_of_stable (X : Tower Ω ε) (N : ℕ) (B' : Submodule ℤ_[l]
 
 theorem act_sgD_one (X : Tower Ω ε) {N w : ℕ} (hN : N ≠ 0) {b : X.Fn l} (hb : b ∈ X.B N l w) :
     X.act l (sgD N l 1 : Matrix (Fin 2) (Fin 2) ℤ) b = b := by
-  obtain ⟨⟨h0, h1⟩, h2⟩ := Betti.isDiam_sgD (d := 1) hN (Fact.out : l.Prime).ne_zero (Nat.coprime_one_left N)
-  have h3 : (⟨sgD N l 1, h0⟩ : CongruenceSubgroup.Gamma0 N) ∈ CongruenceSubgroup.Gamma1' N := by
-    rw [CongruenceSubgroup.Gamma1_mem']
-    simpa [en, CongruenceSubgroup.Gamma0Map] using h2
-  have hγ : sgD N l 1 ∈ Gam N l :=
-    ⟨(CongruenceSubgroup.Gamma1_mem N _).2 ((CongruenceSubgroup.Gamma1_to_Gamma0_mem _).1 h3), h1⟩
-  induction hb using Submodule.span_induction with
-  | mem x hx => exact hx.2 _ hγ
-  | zero => simp
-  | add x y _ _ hx hy => rw [map_add (f := _), hx, hy]
-  | smul a x _ hx => rw [map_smul, hx]
+  apply _root_.GlobalTheory.LamPr.act_sgD_one <;> assumption
 
 theorem mem_Ine_of_restrict {A : ValuationSubring Ω} {j : Ω →+* Qbar l} (hj : ∀ x, x ∈ A ↔ ‖j x‖ ≤ 1)
     (τ : Qbar l ≃ₐ[ℚ_[l]] Qbar l) (hτ : ∀ z : Qbar l, ‖z‖ ≤ 1 → ‖τ z - z‖ < 1) (s : Ω ≃ₐ[ℚ] Ω)

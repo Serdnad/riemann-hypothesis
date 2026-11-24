@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemHatMxHomLatIff
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselToJacobiFirstStepFlatMapSupportAll
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ContinuousCharacterFiniteOrderIntegralUnits
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
@@ -117,21 +119,7 @@ theorem intAE_one {D : D7} : (1 : Af D.host.F ⊗[D.host.F] D.host.E) ∈ intAE 
 
 theorem intAE_mul {D : D7} {x y : Af D.host.F ⊗[D.host.F] D.host.E} (hx : x ∈ intAE D) (hy : y ∈ intAE D) :
     x * y ∈ intAE D := by
-  induction hx using AddSubgroup.closure_induction with
-  | mem x h =>
-    obtain ⟨a, ha, s, rfl⟩ := h
-    induction hy using AddSubgroup.closure_induction with
-    | mem y h' =>
-      obtain ⟨b, hb, t, rfl⟩ := h'
-      refine AddSubgroup.subset_closure ⟨a * b, fun w => ?_, s * t, ?_⟩
-      · rw [map_mul]; exact mul_mem (ha w) (hb w)
-      · rw [Algebra.TensorProduct.tmul_mul_tmul]; push_cast; rfl
-    | zero => rw [mul_zero]; exact zero_mem _
-    | add y z _ _ h1 h2 => rw [mul_add]; exact add_mem h1 h2
-    | neg y _ h1 => rw [mul_neg]; exact neg_mem h1
-  | zero => rw [zero_mul]; exact zero_mem _
-  | add x z _ _ h1 h2 => rw [add_mul]; exact add_mem h1 h2
-  | neg x _ h1 => rw [neg_mul]; exact neg_mem h1
+  apply _root_.GlobalTheory.FinPl.DiagInt.finMul <;> assumption
 
 theorem unr_off : ∀ (D : D7) (c : (AE D)ˣ →* Circle), Continuous c →
     ∃ S : Finset ℕ, (∀ q ∈ S, q.Prime) ∧ ∀ w : Pl D.host.E, Off S w → ∀ e, Formalism.L2.NTheta.IsIdemAt e w → UnrIdem c e := by
@@ -876,17 +864,8 @@ local notation "ιf" => inclE (F := F) (E := E) (Formalism.L2.Herm.Af F)
 theorem hat_mulVec {p q : ℕ} (N : Matrix (Fin p) (Fin q) E) {Λ : Submodule (𝓞 E) (Fin q → E)}
     {Λ' : Submodule (𝓞 E) (Fin p → E)} (h : ∀ y ∈ Λ, N *ᵥ y ∈ Λ') {v} (hv : v ∈ hat Λ) :
     N.map ιf *ᵥ v ∈ hat Λ' := by
-  refine Submodule.span_induction (p := fun v _ => N.map ιf *ᵥ v ∈ hat Λ') ?_ ?_ ?_ ?_ hv
-  · rintro _ ⟨x, hx, rfl⟩
-    refine Submodule.subset_span ⟨N *ᵥ x, h x hx, ?_⟩
-    funext i
-    exact RingHom.map_mulVec ιf N x i
-  · rw [Matrix.mulVec_zero]; exact zero_mem _
-  · intro x y _ _ hx hy
-    rw [Matrix.mulVec_add]; exact add_mem hx hy
-  · intro s x _ hx
-    rw [Matrix.mulVec_smul]
-    exact Submodule.smul_mem _ s hx
+  intros
+  apply _root_.GlobalTheory.FunObj.HatFrame.map_mulVec_hat <;> assumption
 
 variable {n k c : ℕ} {M : Matrix (Fin n) (Fin k) E} {a : Matrix (Fin n) (Fin c) E} {Q : Matrix (Fin k) (Fin n) E}
   {C : Matrix (Fin c) (Fin n) E}

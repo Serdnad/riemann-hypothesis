@@ -1321,25 +1321,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 theorem xiL_scal {V : Type} [AddCommGroup V] [Module ℂ V] (H : Formalism.L2.Th1.H.Sesq V) (α : V → ℂ) (vol : ℝ)
     (SX SA SB : Finset V) (k : ℂ) (Φ e : V → ℂ) (z : V) :
     xiL H α vol SX SA SB (fun v => k * Φ v) e z = k * xiL H α vol SX SA SB Φ e z := by
-  have hS : ∀ x, xiS H α vol SA SB (fun s => k * Φ (s - x)) e = fun w => k * xiS H α vol SA SB (fun s => Φ (s - x)) e w := by
-    intro x
-    funext w
-    unfold xiS Formalism.L2.Th1.H.sumU
-    rw [Finset.mul_sum]
-    refine Finset.sum_congr rfl fun y _ => ?_
-    have : hatS H vol SA (fun s => k * Φ (s - x)) y = k * hatS H vol SA (fun s => Φ (s - x)) y := by
-      unfold hatS
-      simp only [mul_assoc, ← Finset.mul_sum]
-      ring
-    beta_reduce
-    rw [this]
-    ring
-  unfold xiL
-  rw [Finset.mul_sum]
-  refine Finset.sum_congr rfl fun x _ => ?_
-  rw [hS x]
-  simp only [Formalism.L2.Th1.H.opU]
-  ring
+  apply _root_.GlobalTheory.TwU.LawAll.xiL_const_mul' <;> assumption
 
 theorem kerTh_scal {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} (B : Base D cc δ) (χ : TaylorLogMetric.IdE D → ℂ) {a b : ℕ}
     (SS : Finset (HeightOneSpectrum (𝓞 D.host.E))) (cl : ℕ) (N : Submodule (𝓞 D.host.E) (Fin a → D.host.E))
@@ -1568,17 +1550,7 @@ namespace GlobalTheory.TwV.SerMap
 theorem iteratedFDeriv_smul_of_ne {E F : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] [NormedAddCommGroup F]
     [NormedSpace ℂ F] (c : ℂ) (hc : c ≠ 0) (f : E → F) (n : ℕ) :
     iteratedFDeriv ℂ n (fun y => c • f y) = c • iteratedFDeriv ℂ n f := by
-  let _ : Invertible c := invertibleOfNonzero hc
-  induction n with
-  | zero =>
-    ext x m
-    simp [iteratedFDeriv_zero_apply]
-  | succ n ih =>
-    rw [iteratedFDeriv_succ_eq_comp_left, iteratedFDeriv_succ_eq_comp_left, ih]
-    funext x
-    simp only [Function.comp_apply]
-    rw [fderiv_const_smul_of_invertible c, map_smul]
-    rfl
+  apply _root_.GlobalTheory.TwU.LawAll.iteratedFDeriv_const_smul_of_ne <;> assumption
 
 theorem taylor_mul (D : D7) {N N' : ℕ} (c : ℂ) (G : TaylorLogMetric.VC D N N' → ℂ) (α : TaylorLogMetric.Mono D N N') :
     TaylorLogMetric.taylor D (fun z => c * G z) α = c * TaylorLogMetric.taylor D G α := by

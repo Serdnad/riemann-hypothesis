@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.T2SpaceLocalLatticeRepresentationSpace
 import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HausdorffOfModuleTopologyFiniteDimensional
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalSituation
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
@@ -429,19 +430,7 @@ theorem chi_res (g : ↥(GK K)) (k : ℕ) :
   rw [map_pow, map_pow, W.χΓ_res, P.PD_χ]
 
 theorem res_pow_eq_one_iff (g : ↥(GK K)) (k : ℕ) : W.resΓ g ^ k = 1 ↔ P.χQ g ^ k = 1 := by
-  have h := chi_res P W g k
-  constructor
-  · intro h1
-    rw [← Units.val_pow_eq_pow_val, ← map_pow W.χΓ, h1, map_one, Units.val_one, map_one, eq_comm,
-      map_eq_one_iff _ (algebraMap ℚ_[l] ↥LL.1).injective] at h
-    exact Units.ext (by simpa using h)
-  · intro h1
-    rw [← Units.val_pow_eq_pow_val (P.χQ g), h1, Units.val_one, map_one] at h
-    apply W.χΓ_inj
-    rw [map_one, map_pow]
-    apply Units.ext
-    apply Subtype.ext
-    exact h
+  apply _root_.GlobalTheory.HerrClass.res_pow_eq_one_iff <;> assumption
 
 theorem res_mem_DelF_iff (g : ↥(GK K)) :
     W.resΓ g ∈ W.DelF ↔ ∃ k, 0 < k ∧ P.χQ g ^ k = 1 := by

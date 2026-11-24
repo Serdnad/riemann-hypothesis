@@ -180,15 +180,7 @@ lemma measMu_val_zero (B : ℕ) (c : ℕ → ℂ) (l : ℕ) (α : ℂ) (r : ℕ)
 
 lemma measMu_zm_congr (k l : ℕ) (u v : ℤ → ℂ) (F G : ℕ → ℕ → ℂ)
     (h : ∀ x y, ¬ l ∣ x → ¬ l ∣ y → F x y = G x y) : Zm k l u v F = Zm k l u v G := by
-  funext n
-  unfold Zm
-  refine Finset.sum_congr rfl fun p _ => Finset.sum_congr rfl fun x hx => Finset.sum_congr rfl fun y hy => ?_
-  split_ifs with h1
-  · rfl
-  · push_neg at h1
-    have hx1 : x.1 ∣ p.1 := Dvd.intro _ (Nat.mem_divisorsAntidiagonal.mp hx).1
-    have hy2 : y.2 ∣ p.2 := Dvd.intro_left _ (Nat.mem_divisorsAntidiagonal.mp hy).1
-    rw [h x.1 y.2 (fun hd => h1.1 (hd.trans hx1)) (fun hd => h1.2 (hd.trans hy2))]
+  apply _root_.GlobalTheory.EisM.zmf_congr_cop <;> assumption
 
 lemma measMu_quo_succ {l : ℕ} (hp : l.Prime) (m : ℕ) (f : ZMod (l ^ m) → ℂ) (f' : ZMod (l ^ (m + 1)) → ℂ)
     (h : ∀ x : ℕ, f' x = f x) (x y : ℕ) (hy : ¬ l ∣ y) :

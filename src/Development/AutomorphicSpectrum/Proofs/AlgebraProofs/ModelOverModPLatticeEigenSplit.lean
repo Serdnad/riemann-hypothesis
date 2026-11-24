@@ -1061,21 +1061,7 @@ variable {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 omit [Fintype K] [∀ k, Fintype (ι k)] in
 theorem isVerticalDivisor_swap {P : Ideal (MRing ι O)} {ϖ : O} {b : K → ℤ} {f g : MRing ι O}
     (hD : IsVerticalDivisor P ϖ b f g) : IsVerticalDivisor P ϖ (-b) g f := by
-  refine ⟨?_, hD.den_not_mem, hD.num_not_mem, ?_, ?_⟩
-  · obtain ⟨bf, bg, hf, hg, hb⟩ := hD.degrees
-    refine ⟨bg, bf, hg, hf, ?_⟩
-    rw [← hb]
-    funext k
-    simp
-  · intro W hW
-    apply hD.vertical W
-    unfold ratDiv at hW ⊢
-    exact fun h => hW (sub_eq_zero.mpr (sub_eq_zero.mp h).symm)
-  · intro W hW hPW hrel hϖ
-    obtain ⟨u, v, hu, hv, h⟩ := hD.unit_off_special W hW hPW hrel hϖ
-    refine ⟨v, u, hv, hu, ?_⟩
-    rw [← neg_sub]
-    exact P.neg_mem h
+  apply _root_.GlobalTheory.CompanionTheory.Ar.CkLinePow.isVerticalDivisor_swap <;> assumption
 
 theorem pairNum_dual {ϖ : O} (hϖ : Irreducible ϖ) {P : Ideal (MRing ι O)} {d : ℕ}
     (hP : IsModelOver P d) {N : ℕ} {b b' : Fin N → K → ℤ} {f g : Fin N → MRing ι O}

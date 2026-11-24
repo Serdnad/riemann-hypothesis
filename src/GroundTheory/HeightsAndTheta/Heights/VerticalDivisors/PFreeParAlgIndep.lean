@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowNormFormGeneric
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsFreeParAlgIndep
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -20,15 +21,7 @@ namespace FreeParAlgIndep
 
 theorem genPar_algIndep (k : Type*) [Field k] (e n : ℕ) :
     AlgebraicIndependent k (genPar k e n) := by
-  have hinj : Function.Injective (IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k)
-      (GenParField k e n)) :=
-    IsFractionRing.injective (MvPolynomial (Par e n) k) (GenParField k e n)
-  have h := (MvPolynomial.algebraicIndependent_X (Par e n) k).map' hinj
-  have hc : (⇑(IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k) (GenParField k e n)) ∘ X) =
-      genPar k e n := by
-    funext p
-    simp only [Function.comp_apply, IsScalarTower.coe_toAlgHom', genPar]
-  rwa [hc] at h
+  apply _root_.GroundTheory.Heights₂.Heights.Vertical.genPar_algebraicIndependent <;> assumption
 
 theorem algebraicIndependent_of_trdeg {k L : Type} [Field k] [Field L] [Algebra k L]
     (A₀ : Subalgebra k L) {ι : Type} [Finite ι] (w : ι → L)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LinearLatticeCountDescentProof
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
 public import Mathlib.RingTheory.Henselian
 import Mathlib.Algebra.Order.Floor.Extended
@@ -67,21 +68,7 @@ namespace GlobalTheory.FiniteLocalCompleteness
 
 theorem precomplete_of_finite {R : Type} [CommRing R] (I : Ideal R) [IsPrecomplete I R] (M : Type) [AddCommGroup M]
     [Module R M] [Module.Finite R M] : IsPrecomplete I M := by
-  rw [← AdicCompletion.of_surjective_iff]
-  intro y
-  obtain ⟨t, rfl⟩ := AdicCompletion.ofTensorProduct_surjective_of_finite I M y
-  induction t using TensorProduct.induction_on with
-  | zero => exact ⟨0, by simp⟩
-  | tmul r x =>
-    obtain ⟨a, rfl⟩ := AdicCompletion.of_surjective I R r
-    refine ⟨a • x, ?_⟩
-    rw [AdicCompletion.ofTensorProduct_tmul, map_smul]
-    have : AdicCompletion.of I R a = algebraMap R (AdicCompletion I R) a := rfl
-    rw [this, algebraMap_smul]
-  | add s t hs ht =>
-    obtain ⟨a, ha⟩ := hs
-    obtain ⟨b, hb⟩ := ht
-    exact ⟨a + b, by rw [map_add (f := _), map_add (f := _), ha, hb]⟩
+  apply _root_.GlobalTheory.LocalFiniteOddFixed.precomplete_of_finite <;> assumption
 
 theorem precomplete_of_pow_le {S : Type} [CommRing S] (I J : Ideal S) [hI : IsPrecomplete I S] (hIJ : I ≤ J) (k : ℕ)
     (hk : J ^ (k + 1) ≤ I) : IsPrecomplete J S := by

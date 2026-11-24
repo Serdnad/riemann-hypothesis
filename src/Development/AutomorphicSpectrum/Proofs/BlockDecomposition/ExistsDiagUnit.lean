@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeA
 
 @[expose] public section
 
@@ -72,14 +73,7 @@ theorem ordL_of_eq {x : L} {u : Multiplicative ℤ}
 
 theorem ordL_mul_of_ne {a b : L} (ha : a ≠ 0) (hb : b ≠ 0) :
     ordL (a * b) = ordL a + ordL b := by
-  have ha' : Valued.v a ≠ 0 := (Valuation.ne_zero_iff _).2 ha
-  have hb' : Valued.v b ≠ 0 := (Valuation.ne_zero_iff _).2 hb
-  obtain ⟨u, hu⟩ := WithZero.ne_zero_iff_exists.1 ha'
-  obtain ⟨w, hw⟩ := WithZero.ne_zero_iff_exists.1 hb'
-  have hab : Valued.v (a * b) = ((u * w : Multiplicative ℤ) : WithZero (Multiplicative ℤ)) := by
-    rw [map_mul, ← hu, ← hw, WithZero.coe_mul]
-  rw [ordL_of_eq hab, ordL_of_eq hu.symm, ordL_of_eq hw.symm, toAdd_mul]
-  ring
+  apply _root_.Formalism.UG.P.fSatake_ord_mul <;> assumption
 
 theorem ordL_congr {a b : L} (h : Valued.v a = Valued.v b) : ordL a = ordL b := by
   unfold ordL

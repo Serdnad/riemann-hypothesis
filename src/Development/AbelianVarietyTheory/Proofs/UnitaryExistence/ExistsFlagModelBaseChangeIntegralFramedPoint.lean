@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TorsionIsoOfGroupPullbackGeneric
 public import Formalism.LocalToGlobal.ProjectiveLattices.LiesOverBaseChange
 public import Formalism.LocalToGlobal.ProjectiveLattices.NonnegIffOfLiesTotal
 public import Development.AbelianVarietyTheory.Proofs.TorusSplitting.DegenerationDataAtModelPointOfUniformisation
@@ -68,17 +69,8 @@ variable {S S' : Scheme.{0}} {G : Over S} {G' : Over S'} [GrpObj G] [GrpObj G'] 
 
 theorem exists_pointEquiv (h : IsGrpPullback G' G f φ) {T : Scheme.{0}} (t : T ⟶ S') (x : T ⟶ S) (hx : t ≫ f = x) :
     ∃ B : (Over.mk t ⟶ G') ≃* (Over.mk x ⟶ G), ∀ v, (B v).left = v.left ≫ φ := by
-  subst hx
-  have hl : ∀ v, (pushHom h (Over.mk t) v).left = v.left ≫ φ := fun v => rfl
-  refine ⟨MulEquiv.ofBijective (pushHom h (Over.mk t)) ⟨fun v w e => ?_, fun w => ?_⟩, hl⟩
-  · apply Over.OverMorphism.ext
-    apply h.1.hom_ext
-    · rw [← hl, ← hl, e]
-    · rw [Over.w v, Over.w w]
-  · refine ⟨Over.homMk (h.1.lift w.left t (Over.w w)) (h.1.lift_snd _ _ _), ?_⟩
-    apply Over.OverMorphism.ext
-    rw [hl]
-    exact h.1.lift_fst _ _ _
+  intros
+  apply _root_.GlobalTheory.GroupBplus.Aff.exists_mulEquiv_points_of_isGrpPullback <;> assumption
 
 variable {R : Type} [CommRing R]
 

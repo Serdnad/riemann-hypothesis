@@ -610,24 +610,15 @@ theorem partialDerivIdealIterate_succ (h : ι) (l : ℕ) (J : Ideal S) :
     partialDerivIdealIterate k ι S h (l + 1) J =
       partialDerivIdeal k ι S h (partialDerivIdealIterate k ι S h l J) := rfl
 
-private def evalDerivationAddHom (g : S) : Derivation k S S →+ S where
-  toFun D := D g
-  map_zero' := rfl
-  map_add' _ _ := rfl
-
-omit [Algebra (MvPolynomial ι k) S] [IsScalarTower k (MvPolynomial ι k) S]
-  [Algebra.FormallyEtale (MvPolynomial ι k) S] in
-private theorem derivation_sum_apply (s : Finset ι) (f : ι → Derivation k S S) (g : S) :
-    (∑ i ∈ s, f i) g = ∑ i ∈ s, f i g :=
-  map_sum (evalDerivationAddHom k S g) f s
-
 theorem derivation_apply_eq_sum_partialDeriv [Fintype ι] (D : Derivation k S S) (g : S) :
     D g = ∑ i, D (coord k ι S i) * partialDeriv k ι S i g := by
   have h1 : D g = (∑ i, D (coord k ι S i) • partialDeriv k ι S i : Derivation k S S) g :=
     congrArg (fun E : Derivation k S S => E g) (eq_sum_smul_partialDeriv k ι S D)
   have h2 : (∑ i, D (coord k ι S i) • partialDeriv k ι S i : Derivation k S S) g
-      = ∑ i, D (coord k ι S i) * partialDeriv k ι S i g :=
-    derivation_sum_apply k ι S Finset.univ (fun i => D (coord k ι S i) • partialDeriv k ι S i) g
+      = ∑ i, D (coord k ι S i) * partialDeriv k ι S i g := by
+    change ((↑(∑ i, D (coord k ι S i) • partialDeriv k ι S i : Derivation k S S) : S →ₗ[k] S) g) = _
+    rw [Derivation.coe_sum_linearMap, LinearMap.sum_apply]
+    rfl
   exact h1.trans h2
 
 private theorem derivIdeal_le_logDerivIdeal_sup_partialDerivIdeal [Fintype ι] (h : ι) (I : Ideal S) :

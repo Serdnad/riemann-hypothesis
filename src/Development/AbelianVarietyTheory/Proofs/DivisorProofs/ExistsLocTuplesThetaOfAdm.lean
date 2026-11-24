@@ -285,15 +285,7 @@ namespace GlobalTheory
 
 theorem relabel_cong {N r : ℕ} (e : (Fin r → ℤ) →ₗ[ℤ] (Fin r → ℤ)) (x y : Fin r → ℤ)
     (h : ∀ i, ((x i : ℤ) : ZMod N) = y i) : ∀ i, ((e x i : ℤ) : ZMod N) = e y i := by
-  have hd : ∀ i, (N : ℤ) ∣ x i - y i := fun i => (ZMod.intCast_eq_intCast_iff_dvd_sub _ _ _).1 (h i).symm
-  choose w hw using hd
-  have hxy : x - y = (N : ℤ) • w := by ext i; simp [hw i]
-  have he : e x - e y = (N : ℤ) • e w := by rw [← map_sub, hxy, map_smul]
-  intro i
-  rw [ZMod.intCast_eq_intCast_iff_dvd_sub]
-  have := congrFun he i
-  simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul] at this
-  exact ⟨-(e w i), by linarith⟩
+  apply _root_.GlobalTheory.Poinc.Cells.cong_map <;> assumption
 
 theorem qW_pull {s r : ℕ} (W : Matrix (Fin s) (Fin s) ℤ) (f : (Fin r → ℤ) →ₗ[ℤ] (Fin r → ℤ))
     (b : LinearMap.BilinForm ℤ (Fin r → ℤ)) (y : Fin s → Fin r → ℤ) :

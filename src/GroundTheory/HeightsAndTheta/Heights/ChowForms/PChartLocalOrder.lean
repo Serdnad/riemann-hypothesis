@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.MemRangeOfForallHeightEqOneOfIsReflexive
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.ImportsBis
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsChartIncOrd
 public import GroundTheory.HeightsAndTheta.Heights.ChowForms.StatementsDehomogOrd
@@ -20,21 +21,8 @@ open MvPolynomial
 
 theorem ord_ringEquiv {R S : Type*} [CommRing R] [CommRing S] (e : R ≃+* S) (x : R) :
     Ring.ord S (e x) = Ring.ord R x := by
-  have : RingHomSurjective (e : R →+* S) := ⟨e.surjective⟩
-  let g := Ideal.quotientEquiv (Ideal.span {x}) (Ideal.span {e x}) e
-    (by rw [Ideal.map_span, Set.image_singleton]; rfl)
-  let f : (R ⧸ Ideal.span {x}) →ₛₗ[(e : R →+* S)] (S ⧸ Ideal.span {e x}) :=
-    { toFun := g
-      map_add' := map_add g
-      map_smul' := fun r a => by
-        obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-        simp only [Algebra.smul_def, Ideal.Quotient.algebraMap_eq, ← map_mul, g,
-          Ideal.quotientEquiv_mk, RingHom.coe_coe] }
-  unfold Ring.ord
-  apply WithBot.coe_injective
-  rw [Module.coe_length, Module.coe_length]
-  exact (Order.krullDim_eq_of_orderIso
-    (Submodule.orderIsoMapComapOfBijective f (by exact g.bijective))).symm
+  intros
+  apply _root_.GlobalTheory.ord_map_ringEquiv <;> assumption
 
 theorem ord_atPrime_congr {R : Type*} [CommRing R] {P₁ P₂ : Ideal R} [P₁.IsPrime] [P₂.IsPrime]
     (h : P₁ = P₂) (x : R) :

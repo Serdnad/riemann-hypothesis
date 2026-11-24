@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.StabCardOfStabTie
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.UnderEqIffConjPl
@@ -161,21 +162,8 @@ theorem good_of_mem_QE {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu 
 
 theorem notMem_of_mem_QE (hsel : IsSel X sel) {P : HeightOneSpectrum (𝓞 X.E)} (h : P ∈ QE sel (mu : Chr X.F X.E X.K))
     {l : ℕ} (hl : l.Prime) (hS : l ∈ S) : (l : 𝓞 X.E) ∉ P.asIdeal := by
-  intro hm
-  obtain ⟨v, hgood, e⟩ := good_of_mem_QE h
-  have h5 : (l : 𝓞 X.F) ∈ v.asIdeal := by
-    rw [← hsel v, e, Ideal.under_def, Ideal.mem_comap, map_natCast]
-    exact hm
-  apply hgood.2.2
-  have h6 : ringChar (𝓞 X.F ⧸ v.asIdeal) ∣ l := by
-    rw [← ringChar.spec, ← map_natCast (Ideal.Quotient.mk v.asIdeal), Ideal.Quotient.eq_zero_iff_mem]
-    exact h5
-  haveI := v.isPrime
-  rcases (Nat.dvd_prime hl).1 h6 with h7 | h7
-  · exact absurd h7 CharP.ringChar_ne_one
-  · change ringChar (𝓞 X.F ⧸ v.asIdeal) ∈ S
-    rw [h7]
-    exact hS
+  intros
+  apply _root_.GlobalTheory.KFormsCmp.notMem_of_QE <;> assumption
 
 theorem mem_vGs_iff {P : HeightOneSpectrum (𝓞 X.E)} : P ∈ Pr.vGs ↔ ∃ i, P ∈ Pr.vG i := by
   classical

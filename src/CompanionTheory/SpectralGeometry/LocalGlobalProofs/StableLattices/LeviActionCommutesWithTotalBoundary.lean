@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.InjUOfInjR
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.FarRegularity.LKTExists
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.CreApply
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.DifferentialBoundedSupport
@@ -380,29 +381,7 @@ theorem ann_supp {P : Pos n → Prop} {x : Cn n V} (hx : SuppIn P x) (i : Pos n)
 theorem lF_bd : ∀ (n : ℕ) (lev : Fin n → ℕ) (V : Type) [AddCommGroup V] [Module ℂ V]
     (E : Fin n → Fin n → Module.End ℂ V), Monotone lev → GlRel E → ∀ (x : Cn n V), SuppIn (inU lev) x →
     ∀ p q, lev p = lev q → lF E p q (bd (allT n) E x) = bd (allT n) E (lF E p q x) := by
-  intro n lev V _ _ E hm hE x hx p q hpq
-  have h1 : (lF E p q * S1 E - S1 E * lF E p q : Module.End ℂ (Cn n V)) x = 0 := by
-    rw [levi_commutator_linear_part, LinearMap.sum_apply]
-    refine Finset.sum_eq_zero fun l _ => ?_
-    by_cases hl : inU lev l
-    · rw [lin_zero hm hpq hE hl]
-      refine funext fun A => ?_
-      simp
-    · rw [Module.End.mul_apply, ann_eq_zero hx hl, map_zero]
-  have h2 : (lF E p q * S2 n V - S2 n V * lF E p q : Module.End ℂ (Cn n V)) x = 0 := by
-    rw [levi_commutator_bracket_part]
-    simp only [LinearMap.sum_apply, LinearMap.smul_apply]
-    refine Finset.sum_eq_zero fun a _ => Finset.sum_eq_zero fun b _ => Finset.sum_eq_zero fun m _ => ?_
-    by_cases ha : inU lev a
-    · by_cases hb : inU lev b
-      · rw [Dc_eq_zero hm hpq ha hb, zero_smul]
-      · simp only [Wt3, Module.End.mul_apply]
-        rw [ann_eq_zero (ann_supp hx a) hb, map_zero, smul_zero]
-    · simp only [Wt3, Module.End.mul_apply]
-      rw [ann_eq_zero hx ha, map_zero, map_zero, smul_zero]
-  rw [bd_eq]
-  simp only [LinearMap.sub_apply, Module.End.mul_apply] at h1 h2
-  simp only [LinearMap.add_apply, map_add (f := _)]
-  rw [sub_eq_zero.1 h1, sub_eq_zero.1 h2]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.LeviChain.lF_bd_comm <;> assumption
 
 end GlobalTheory.CompanionTheory.RgCOBlock.LeviBd

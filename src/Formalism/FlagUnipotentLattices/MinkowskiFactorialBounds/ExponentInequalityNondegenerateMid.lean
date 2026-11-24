@@ -327,22 +327,16 @@ lemma parameterRange_bounds (C : ℝ) (hC : 1 ≤ C) (k m f : ℕ) (b g v NT Gam
   have hfk' : (f : ℝ) ≤ k := by exact_mod_cast hfk
   have hb0 : 0 < b := by linarith
   have hl2b : Real.log 2 ≤ Real.log b := Real.log_le_log (by norm_num) hb
-  have hlb : 0.69 ≤ Real.log b := by
-    have := Real.log_two_gt_d9
-    linarith
+  have hlb : 0.69 ≤ Real.log b := by linarith [Real.log_two_gt_d9, hl2b]
   have hC0 : 0 < C := by linarith
-  have a1 : (1 : ℝ) ≤ C ^ 32 := one_le_pow₀ hC
   have a2 : (1 : ℝ) ≤ (m : ℝ) ^ 5 := one_le_pow₀ (by linarith)
   have a3 : (1 : ℝ) ≤ (m : ℝ) ^ 5 * f := one_le_mul_of_one_le_of_one_le a2 (by linarith)
   have a4 : 1 * 0.69 ≤ (m : ℝ) ^ 5 * f * Real.log b := mul_le_mul a3 hlb (by norm_num) (by linarith)
-  have a5 : (m : ℝ) ^ 5 * f * Real.log b ≤ C ^ 32 * ((m : ℝ) ^ 5 * f * Real.log b) :=
-    le_mul_of_one_le_left (by linarith) a1
   have hKk : 16 * C ^ 32 * ((m : ℝ) ^ 5 * f * Real.log b) ≤ k := by linarith
   have hk0 : (0 : ℝ) < k := by linarith
   have hlk : 1 ≤ Real.log k := by
-    have he := Real.exp_one_lt_d9
     calc (1 : ℝ) = Real.log (Real.exp 1) := (Real.log_exp 1).symm
-      _ ≤ Real.log k := Real.log_le_log (Real.exp_pos 1) (by linarith)
+      _ ≤ Real.log k := Real.log_le_log (Real.exp_pos 1) (by linarith [Real.exp_one_lt_d9])
   have a6 : C ^ 32 * 1 ≤ C ^ 32 * (16 * ((m : ℝ) ^ 5 * f * Real.log b)) :=
     mul_le_mul_of_nonneg_left (by linarith) (by positivity)
   have hC32k : C ^ 32 ≤ (k : ℝ) := by linarith

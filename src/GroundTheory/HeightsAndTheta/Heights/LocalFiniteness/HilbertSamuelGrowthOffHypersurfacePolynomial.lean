@@ -40,6 +40,7 @@ public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHom
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PHomLocRingNoetherian
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PLocalQuotPrimes
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PLocalizedQuotLength
+import all GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PLocalizedQuotLength
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSegreFlagClosureTrdeg
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSegreFlagConeAlg
 public import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.PConeVarNumerator
@@ -1076,16 +1077,7 @@ private theorem length_localizedModule_quot {R : Type*} [CommRing R] (J W : Idea
     Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (R ⧸ J)) =
       Module.length (Localization.AtPrime W ⧸ J.map (algebraMap R (Localization.AtPrime W)))
         (Localization.AtPrime W ⧸ J.map (algebraMap R (Localization.AtPrime W))) := by
-  let S := Localization.AtPrime W
-  have hJ : (J : Submodule R R).localized' S W.primeCompl (Algebra.linearMap R S) =
-      J.map (algebraMap R S) := by
-    rw [Submodule.localized'_eq_span, Ideal.map]
-    rfl
-  let e := (IsLocalizedModule.linearEquiv W.primeCompl
-    ((J : Submodule R R).toLocalizedQuotient' S W.primeCompl (Algebra.linearMap R S))
-    (LocalizedModule.mkLinearMap W.primeCompl (R ⧸ J))).extendScalarsOfIsLocalization W.primeCompl S
-  rw [← e.length_eq, (Submodule.quotEquivOfEq _ _ hJ).length_eq]
-  exact Module.length_eq_of_surjective Ideal.Quotient.mk_surjective
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.length_localizedModule_quot' <;> assumption
 
 theorem LocCycleLocalQuot.proof (h₂ : LocalQuotPrimes.Statement.{u}) : LocCycleLocalQuot.Statement.{u} := by
   intro R _ P U _ J W hPJ hW hPW hWU

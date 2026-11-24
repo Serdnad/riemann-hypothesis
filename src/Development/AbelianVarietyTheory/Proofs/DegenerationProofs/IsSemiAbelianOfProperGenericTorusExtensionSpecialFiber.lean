@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SABBaseChangeSt
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.MulAFiniteFlatSurjectiveEtale
 
 @[expose] public section
 
@@ -56,14 +57,7 @@ namespace GlobalTheory.SS
 
 theorem isPullback_overPullback_map_left {S S' : Scheme.{0}} (f : S' ⟶ S) {X Y : Over S} (q : X ⟶ Y) :
     IsPullback (pullback.fst X.hom f) ((Over.pullback f).map q).left q.left (pullback.fst Y.hom f) := by
-  refine IsPullback.of_bot (h₃₁ := f) (v₂₁ := pullback.snd Y.hom f) (v₂₂ := Y.hom) ?_ ?_
-    (IsPullback.of_hasPullback Y.hom f)
-  · have h₁ : ((Over.pullback f).map q).left ≫ pullback.snd Y.hom f = pullback.snd X.hom f :=
-      Over.w ((Over.pullback f).map q)
-    have h₂ : q.left ≫ Y.hom = X.hom := Over.w q
-    rw [h₁, h₂]
-    exact IsPullback.of_hasPullback X.hom f
-  · exact (pullback.lift_fst _ _ _).symm
+  apply _root_.GlobalTheory.AbLaw.MulN.isPullback_baseChange <;> assumption
 
 theorem nonempty_torusExtension_pullback {k Ω : Type} [Field k] [Field Ω] (f : Sp Ω ⟶ Sp k)
     (G : Over (Sp k)) [GrpObj G] (h : Nonempty (TorusExtension G)) :

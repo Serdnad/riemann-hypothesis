@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageMetrics
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockSectionsRank
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockImageChi
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockGraphImage
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageTop
@@ -189,36 +191,11 @@ theorem weight_wB (c : (Σ k, ι k) →₀ ℕ) : Finsupp.weight wB c = fun k =>
 
 theorem isMultiHomog_iff_wB (f : MRing ι) (a : K → ℕ) :
     IsMultiHomog f a ↔ IsWeightedHomogeneous wB f a := by
-  constructor
-  · intro h c hc
-    rw [weight_wB]
-    funext k
-    exact h c (mem_support_iff.mpr hc) k
-  · intro h c hc k
-    have := h (mem_support_iff.mp hc)
-    rw [weight_wB] at this
-    exact congrFun this k
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockSectionsRank.isMultiHomog_iff_wB <;> assumption
 
 theorem isMultiHomog_back (k₀ : K) (M : Matrix (Ix (Fin r)) (ι k₀) ℤ) {g : MvPolynomial (Ix (Fin r)) ℤ} {n : ℕ}
     (hg : g.IsHomogeneous n) : IsMultiHomog (back k₀ M g) (blockDeg k₀ n) := by
-  have hbf : ∀ j, IsWeightedHomogeneous wB (blockForms k₀ M j) (Pi.single k₀ 1) := fun j =>
-    IsWeightedHomogeneous.sum _ _ _ fun i _ => (isWeightedHomogeneous_X ℤ wB (⟨k₀, i⟩ : Σ k, ι k)).C_mul _
-  rw [isMultiHomog_iff_wB, show blockDeg k₀ n = n • Pi.single k₀ 1 by
-    funext k; by_cases hk : k = k₀ <;> simp [blockDeg, hk]]
-  rw [back, ← aeval_eq_bind₁, aeval_def]
-  apply IsWeightedHomogeneous.sum
-  intro d hd
-  rw [← zero_add (n • Pi.single k₀ 1)]
-  apply IsWeightedHomogeneous.mul (by rw [MvPolynomial.algebraMap_eq]; exact isWeightedHomogeneous_C _ _)
-  rw [Finsupp.mem_support_iff] at hd
-  have hn : ∑ j ∈ d.support, d j = n := by
-    have := hg hd
-    rw [Finsupp.weight_apply] at this
-    simpa [Finsupp.sum] using this
-  have hp := IsWeightedHomogeneous.prod d.support (fun j => blockForms k₀ M j ^ d j)
-    (fun j => d j • Pi.single k₀ 1) fun j _ => (hbf j).pow (d j)
-  rw [← Finset.sum_smul, hn] at hp
-  exact hp
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockSectionsRank.isMultiHomog_back <;> assumption
 
 end Forms
 
@@ -298,19 +275,7 @@ theorem eval_fwd (h : IsBlockImage y k₀ M N x) {f : MRing ι} {n : ℕ} (hf : 
 
 theorem secM_eq (h : IsBlockImage y k₀ M N x) (n : ℕ) :
     secM y (blockDeg k₀ n) = (sec ℤ x n).toAddSubgroup := by
-  unfold secM
-  congr 1
-  have hset : {s | ∃ g : MRing ι, IsMultiHomog g (blockDeg k₀ n) ∧ aeval y g = s} =
-      ((sec ℤ x n : Submodule ℤ Ω) : Set Ω) := by
-    ext s
-    simp only [Set.mem_ofPred_eq, sec, Submodule.map_coe, Set.mem_image, SetLike.mem_coe,
-      mem_homogeneousSubmodule, AlgHom.toLinearMap_apply]
-    constructor
-    · rintro ⟨g, hg, rfl⟩
-      exact ⟨fwd k₀ N g, isHomogeneous_fwd k₀ N hg, aeval_fwd h hg⟩
-    · rintro ⟨g, hg, rfl⟩
-      exact ⟨back k₀ M g, isMultiHomog_back k₀ M hg, aeval_back h g⟩
-  rw [hset, Submodule.span_eq]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockSectionsRank.secM_eq <;> assumption
 
 theorem isSecBasis_fwd (h : IsBlockImage y k₀ M N x) {n s : ℕ} {b : Fin s → MvPolynomial (Σ k, ι k) ℚ}
     (hb : IsSecBasisM y k₀ n b) : IsSecBasis x n fun j => fwdQ k₀ N (b j) := by
@@ -551,29 +516,8 @@ namespace PullFSExtension
 theorem leviForm_comp_clm {E F : Type} [Fintype E] [Fintype F] (L : (E → ℂ) →L[ℂ] (F → ℂ))
     (φ : (F → ℂ) → ℝ) (z w : E → ℂ) (hφ : ContDiffAt ℝ 2 φ (L z)) :
     leviForm (fun y => φ (L y)) z w = leviForm φ (L z) (L w) := by
-  set Lr : (E → ℂ) →L[ℝ] (F → ℂ) := L.restrictScalars ℝ with hLr
-  have hLr' : ∀ y, Lr y = L y := fun _ => rfl
-  have hev : ∀ᶠ y in 𝓝 z, ContDiffAt ℝ 2 φ (L y) :=
-    (L.continuous.tendsto z).eventually (hφ.eventually (by simp))
-  have hfd : fderiv ℝ (fun y => φ (L y)) =ᶠ[𝓝 z]
-      fun y => (ContinuousLinearMap.compL ℝ (E → ℂ) (F → ℂ) ℝ).flip Lr (fderiv ℝ φ (Lr y)) := by
-    filter_upwards [hev] with y hy
-    have h := (hy.differentiableAt (by norm_num)).hasFDerivAt.comp y Lr.hasFDerivAt
-    exact h.fderiv
-  have hd2 : DifferentiableAt ℝ (fderiv ℝ φ) (Lr z) :=
-    (hφ.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)
-  have hD : HasFDerivAt
-      (fun y => (ContinuousLinearMap.compL ℝ (E → ℂ) (F → ℂ) ℝ).flip Lr (fderiv ℝ φ (Lr y)))
-      (((ContinuousLinearMap.compL ℝ (E → ℂ) (F → ℂ) ℝ).flip Lr).comp
-        ((fderiv ℝ (fderiv ℝ φ) (Lr z)).comp Lr)) z :=
-    ((ContinuousLinearMap.compL ℝ (E → ℂ) (F → ℂ) ℝ).flip Lr).hasFDerivAt.comp z
-      (hd2.hasFDerivAt.comp z Lr.hasFDerivAt)
-  unfold leviForm
-  rw [hfd.fderiv_eq, hD.fderiv]
-  have hI : Lr (Complex.I • w) = Complex.I • L w := by rw [hLr']; exact L.map_smul _ _
-  simp only [ContinuousLinearMap.comp_apply, ContinuousLinearMap.flip_apply,
-    ContinuousLinearMap.compL_apply, hI]
-  rfl
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockImageMetrics.leviForm_comp_clm <;> assumption
 
 theorem leviForm_congr {E : Type} [Fintype E] {φ ψ : (E → ℂ) → ℝ} {z : E → ℂ} (h : φ =ᶠ[𝓝 z] ψ)
     (w : E → ℂ) : leviForm φ z w = leviForm ψ z w := by

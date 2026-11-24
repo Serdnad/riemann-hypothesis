@@ -136,12 +136,7 @@ open scoped CategoryTheory.Obj in
 variable {R K : Type} [CommRing R] [Field K] [Algebra R K] {A A' : Over (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp K)} in
 private lemma isPullback_model_j_spMap_algebraMap (M : _root_.GlobalTheory.SS.Model R A) :
     IsPullback M.j A.hom M.Y.hom (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (algebraMap R K)) := by
-  have h := IsPullback.of_hasPullback M.Y.hom (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (algebraMap R K))
-  refine IsPullback.of_iso h ((Over.forget _).mapIso M.e) (Iso.refl _)
-    (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
-  · simp [_root_.GlobalTheory.SS.Model.j, ← Over.comp_left_assoc]
-  · have := Over.w M.e.hom
-    simpa using this.symm
+  apply _root_.GlobalTheory.SS.Model.isPullback_j <;> assumption
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry in
 open scoped CategoryTheory.Obj in

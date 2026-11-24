@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IndexZeroLevelGeneratedByLocalUnipotentsStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ReductionEqOneOffSplitPlace
@@ -187,19 +188,7 @@ theorem eq_idempotent_mul_add_of_mul_sub_eq {R : Type*} [CommRing R] (ε m o : R
 
 theorem suppAt_conj {D : D7} {e : AE D} {V : HSp D} {g : GA D V} (h : Formalism.L2.Theta.SuppAt e V g) (b : GA D V) :
     Formalism.L2.Theta.SuppAt e V (b⁻¹ * g * b) := by
-  have hmul : ∀ x y : GA D V, Formalism.L2.Theta.mt V (x * y) = Formalism.L2.Theta.mt V x * Formalism.L2.Theta.mt V y := fun x y => by
-    simp [Formalism.L2.Theta.mt, map_mul]
-  have hAB : Formalism.L2.Theta.mt V b⁻¹ * Formalism.L2.Theta.mt V b = 1 := by
-    rw [← hmul, inv_mul_cancel]; simp [Formalism.L2.Theta.mt]
-  have hm : Formalism.L2.Theta.mt V (b⁻¹ * g * b) - 1 =
-      Formalism.L2.Theta.mt V b⁻¹ * (Formalism.L2.Theta.mt V g - 1) * Formalism.L2.Theta.mt V b := by
-    rw [hmul, hmul, Matrix.mul_sub, Matrix.sub_mul, Matrix.mul_one, hAB]
-  have hg : Formalism.L2.Theta.mt V g - 1 = (e + cA D e) • (Formalism.L2.Theta.mt V g - 1) := by
-    ext i j; exact (h i j).symm
-  intro i j
-  rw [hm]
-  conv_rhs => rw [hg, Matrix.mul_smul, Matrix.smul_mul]
-  rfl
+  first | exact _root_.GlobalTheory.PlaceMatch.suppAt_conj' | exact @_root_.GlobalTheory.PlaceMatch.suppAt_conj' | apply _root_.GlobalTheory.PlaceMatch.suppAt_conj' <;> assumption
 
 end GlobalTheory.SplitStabConj
 

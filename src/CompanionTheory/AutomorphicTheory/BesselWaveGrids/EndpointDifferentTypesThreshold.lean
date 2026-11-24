@@ -59,6 +59,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.VectorVanishesBigCell
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGaugeCut
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.OpApplyContinuousOn
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutSERDIdentSpec
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.ModelLoc, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.EvQTrJBFF, CompanionTheory.AutomorphicTheory.NumberFieldModels.ModelPt, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NFFinal, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.Vander, CompanionTheory.AutomorphicTheory.NumberFieldModels.StepCpt, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NfTieHatSOf, CompanionTheory.AutomorphicTheory.JacobiDiagonalBounds.NormalFormHatCompact, CompanionTheory.AutomorphicTheory.CompactTopologicalForms.NormalFormTopDomination, CompanionTheory.AutomorphicTheory.BesselWaveGrids.EndpointDifferentTypesThreshold
@@ -167,17 +168,7 @@ theorem loc_fns (hM : MA.IsModelLevel P (MA.DQ P) L) {f : MA.A P (MA.DQ P)} (hf 
 
 theorem mat_prod_mem {A : Type} [Ring A] [Algebra ℂ A] (B : Subalgebra ℂ A) (l : List (Matrix (Fin 2) (Fin 2) A))
     (h : ∀ X ∈ l, ∀ i j, X i j ∈ B) : ∀ i j, l.prod i j ∈ B := by
-  induction l with
-  | nil =>
-    intro i j
-    rw [List.prod_nil, Matrix.one_apply]
-    split_ifs
-    exacts [B.one_mem, B.zero_mem]
-  | cons X l ih =>
-    intro i j
-    rw [List.prod_cons, Matrix.mul_apply]
-    exact B.sum_mem fun k _ => B.mul_mem (h X List.mem_cons_self i k)
-      (ih (fun Y hY => h Y (List.mem_cons_of_mem _ hY)) k j)
+  apply _root_.Formalism.FourierDecayAlt.P.CutSE.rds_mat_prod_mem <;> assumption
 
 theorem loc_hat (hM : MA.IsModelLevel P (MA.DQ P) L) {X : MA.A P (MA.DQ P)} (hX : X ∈ hats L) : X ∈ locAlg P := by
   have hp : ∀ l, L.p l ∈ locAlg P := fun l => by rw [hM.1]; exact loc_ev _ _

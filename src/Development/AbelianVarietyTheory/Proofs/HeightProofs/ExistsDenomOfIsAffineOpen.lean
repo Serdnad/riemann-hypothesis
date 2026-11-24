@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExistsUniqueLbIsoPullEqOfCoheightLeOne
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.IsIsoAppTopOfIsPullbackOfSurjective
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.IsReducedSchemeOfSmoothOfIsIntegrallyClosed
@@ -209,15 +210,8 @@ theorem exists_spread (H : IsPullback φ π p (spMap (algebraMap R K))) [Flat p]
 
 theorem res_mem_secOn {L : LB X} (θ : L.Sec) (V : X.Opens) :
     (fun i => resG X (inf_le_right : V ⊓ L.U i ≤ L.U i) (θ.f i)) ∈ secOn L V := by
-  intro i j
-  refine fn_ext fun x hx => ?_
-  have hx' : (𝟙 X : X ⟶ X) x ∈ V ⊓ L.U i ⊓ L.U j := hx
-  have hm : (𝟙 X : X ⟶ X) x ∈ L.U i ⊓ L.U j := ⟨hx.1.2, hx.2⟩
-  have e := congrArg (gs (𝟙 X) x _) (θ.compat i j)
-  rw [gs_mul _ x _ hm, gs_res _ x _ hm, gs_res _ x _ hm] at e
-  rw [gs_mul _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx', gs_res _ x _ hx'.1,
-    gs_res _ x (V := V ⊓ L.U j) _ ⟨hx.1.1, hx.2⟩]
-  exact e
+  intros
+  apply _root_.GlobalTheory.res_sec_mem_secOn <;> assumption
 
 theorem main : ∀ (R : Type) [CommRing R] [IsDomain R] (G : Over (Sp R)) [GrpObj G], IsSemiAbelian G → ∀ (L : LB G.left), L.IsLB → ∀ (K : Type) [Field K] [Algebra R K] [IsFractionRing R K] (G' : Scheme.{0}) (φ : G' ⟶ G.left) (π : G' ⟶ Sp K), IsPullback φ π G.hom (spMap (algebraMap R K)) → (∃ (s : (L.pull φ).Sec) (j : (L.pull φ).ι), s.f j ≠ 0) → ∃ h : R, h ≠ 0 ∧ ∃ θ ∈ secOn L (G.hom ⁻¹ᵁ PrimeSpectrum.basicOpen h), ∀ y : Sp R, y ∈ PrimeSpectrum.basicOpen h → ∃ (g : G.left) (i : L.ι), G.hom g = y ∧ g ∈ G.left.basicOpen (θ i) := by
   intro R _ _ G _ hG L hL K _ _ _ G' φ π H ⟨s, j, hj⟩

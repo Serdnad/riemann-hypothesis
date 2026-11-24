@@ -50,6 +50,7 @@ import Mathlib.RingTheory.TotallySplit
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.SumFundCoMulSumIic
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsSideRest, Development.WeilBound.CoreStatements.PlurisubharmonicCones.AevalZeroOfMem
@@ -90,17 +91,7 @@ variable {K : Type} [Fintype K] {J : K → Type} [∀ k, Fintype (J k)]
 
 theorem aeval_zero_of_mem {Ω : Type} [Field Ω] {x : (Σ k, J k) → Ω} {f : MRing J} (hf : f ∈ mCoordIdeal x) :
     aeval x f = 0 := by
-  have h0 : mConeMap x f = 0 := hf
-  have e : ((MvPolynomial.eval fun _ : K => (1 : Ω)).comp (mConeMap x).toRingHom) =
-      (aeval x : MRing J →ₐ[ℤ] Ω).toRingHom := by
-    apply MvPolynomial.ringHom_ext
-    · intro r
-      simp
-    · intro p
-      simp [mConeMap]
-  have h1 : (aeval x : MRing J →ₐ[ℤ] Ω) f = (MvPolynomial.eval fun _ : K => (1 : Ω)) ((mConeMap x) f) :=
-    (congrArg (fun g => g f) e).symm
-  rw [h1, h0, map_zero]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Small.Fund.aeval_eq_zero_of_mem <;> assumption
 
 theorem hom_X (p : Σ k, J k) : ∃ d, IsMultiHomog (X p : MRing J) d := by
   classical

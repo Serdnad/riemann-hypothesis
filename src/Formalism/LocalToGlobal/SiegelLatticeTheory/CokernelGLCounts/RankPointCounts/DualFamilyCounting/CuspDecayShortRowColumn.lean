@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.InvMemLocROfUnimod
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsOrthTuple
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.JordanExists
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsBasisLocF
@@ -334,18 +335,7 @@ variable {K F : Type} [Field K] [NumberField K] [StarRing K] [Field F] [NumberFi
 
 theorem exists_over (𝔭 : Ideal (𝓞 F)) (h𝔭 : 𝔭.IsMaximal) :
     ∃ P : Ideal (𝓞 K), P.IsMaximal ∧ P.comap (algebraMap (𝓞 F) (𝓞 K)) = 𝔭 := by
-  haveI := h𝔭
-  refine Ideal.exists_ideal_over_maximal_of_isIntegral 𝔭 ?_
-  intro t ht
-  rw [RingHom.mem_ker] at ht
-  have h1 : algebraMap F K (t : F) = 0 := by
-    have h2 := congrArg (algebraMap (𝓞 K) K) ht
-    rw [map_zero] at h2
-    exact h2
-  have h3 : (t : F) = 0 := (algebraMap F K).injective (by rw [h1, map_zero])
-  have h4 : t = 0 := by exact_mod_cast h3
-  rw [h4]
-  exact 𝔭.zero_mem
+  apply _root_.Formalism.HermitianLattices.Ext.L3.LocalizedFibreSets.exists_max_over <;> assumption
 
 variable {V : Type} [AddCommGroup V] [Module K V] [FiniteDimensional K V] [Module (𝓞 K) V]
   [IsScalarTower (𝓞 K) K V]

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.DensFibV
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.VolStabFromSWS
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.AdeleLC
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
@@ -79,11 +80,7 @@ theorem locallyCompact_Fv : LocallyCompactSpace (Fv F v) := by
   exact hK.locallyCompactSpace_of_mem_nhds_of_addGroup hN
 
 theorem isOpen_units_Fv : IsOpen {r : Fv F v | IsUnit r} := by
-  have h : {r : Fv F v | IsUnit r} = {0}ᶜ := by
-    ext r
-    simp [isUnit_iff_ne_zero]
-  rw [h]
-  exact isOpen_compl_singleton
+  apply _root_.PI.VolStabSW.isOpen_units_Fv <;> assumption
 
 end Local
 

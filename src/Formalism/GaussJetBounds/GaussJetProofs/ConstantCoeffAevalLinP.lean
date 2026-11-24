@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ConstantCoeffSubstSame
 public import Formalism.GaussJetBounds.StatementJ
 public import Formalism.GaussJetBounds.GaussJetProofs.ThmAOp
 import Mathlib.Algebra.Order.Floor.Extended
@@ -132,31 +133,7 @@ lemma jetPair_C_left (c : K) (F : MvPowerSeries ι K) :
 
 lemma mfact_add_single (κ : ι →₀ ℕ) (i : ι) :
     mfact (κ + Finsupp.single i 1) = mfact κ * (κ i + 1) := by
-  classical
-  unfold mfact
-  have key : ∀ (μ : ι →₀ ℕ) (s : Finset ι), μ.support ⊆ s →
-      (μ.prod fun _ k => k.factorial) = ∏ j ∈ s, (μ j).factorial :=
-    fun μ s h => Finsupp.prod_of_support_subset μ h (fun _ k => k.factorial)
-      (fun _ _ => Nat.factorial_zero)
-  have h1 : κ.support ⊆ insert i (κ.support.erase i) :=
-    Finset.subset_insert_iff.mpr (Finset.Subset.refl _)
-  have hsub : (κ + Finsupp.single i 1).support ⊆ insert i (κ.support.erase i) := by
-    intro j hj
-    rw [Finsupp.mem_support_iff, Finsupp.add_apply, Finsupp.single_apply] at hj
-    by_cases h : i = j
-    · rw [← h]; exact Finset.mem_insert_self _ _
-    · rw [if_neg h, add_zero] at hj
-      exact Finset.mem_insert_of_mem
-        (Finset.mem_erase.mpr ⟨Ne.symm h, Finsupp.mem_support_iff.mpr hj⟩)
-  have hnot : i ∉ κ.support.erase i := by simp
-  rw [key κ _ h1, key _ _ hsub, Finset.prod_insert hnot, Finset.prod_insert hnot]
-  have hrest : ∏ j ∈ κ.support.erase i, ((κ + Finsupp.single i 1 : ι →₀ ℕ) j).factorial =
-      ∏ j ∈ κ.support.erase i, (κ j).factorial := by
-    refine Finset.prod_congr rfl (fun j hj => ?_)
-    rw [Finsupp.add_apply, Finsupp.single_apply,
-      if_neg (fun h => (Finset.ne_of_mem_erase hj) h.symm), add_zero]
-  rw [hrest, Finsupp.add_apply, Finsupp.single_eq_same, Nat.factorial_succ]
-  ring
+  apply _root_.GlobalTheory.MinorShiftJet.mfact_add_single <;> assumption
 
 lemma jetPair_mul_X (P : MvPolynomial ι K) (i : ι) (F : MvPowerSeries ι K) :
     jetPair (P * MvPolynomial.X i) F = jetPair P (MvPowerSeries.pderiv (R := K) i F) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IntSOfMulEqOne
 public import Formalism.LocalToGlobal.CharacterGerms.RankMaximalOfNondegenerateOfUnitSeriesIntegral
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 import Mathlib.Algebra.Order.Star.Rat
@@ -85,32 +86,8 @@ theorem ev_ex {m n dd : ℕ} {a : Fin m → Pt C n dd} (ha : Z0 a) (f : PS C m d
 
 theorem intS_of_mul_eq_one {σ : Type} {V : VF C} {u v : MvPowerSeries σ C} (huv : u * v = 1)
     (hu0 : constantCoeff u = 1) (hu : IntS V u) : IntS V v := by
-  have main : ∀ (m : ℕ) (d : σ →₀ ℕ), d.degree = m → V.Ge 0 (coeff d v) := by
-    intro m
-    induction m using Nat.strong_induction_on with
-    | _ m ih =>
-      intro d hd
-      have h1 := congrArg (coeff d) huv
-      rw [coeff_mul,
-        ← Finset.add_sum_erase _ _ (show ((0 : σ →₀ ℕ), d) ∈ Finset.HasAntidiagonal.antidiagonal d by simp)] at h1
-      simp only [coeff_zero_eq_constantCoeff_apply, hu0, one_mul] at h1
-      have h2 : coeff d v = coeff d (1 : MvPowerSeries σ C) +
-          - ∑ p ∈ (Finset.HasAntidiagonal.antidiagonal d).erase ((0 : σ →₀ ℕ), d), coeff p.1 u * coeff p.2 v := by
-        rw [← h1]; ring
-      rw [h2]
-      refine VF.Ge.add (intS_one d) (VF.Ge.neg (VF.Ge.sum fun p hp => ?_))
-      have hp1 : p.1 + p.2 = d := by simpa using (Finset.mem_erase.mp hp).2
-      have hp2 : p ≠ (0, d) := (Finset.mem_erase.mp hp).1
-      have hdeg : p.1.degree + p.2.degree = d.degree := by rw [← map_add (f := _), hp1]
-      have hne : p.1 ≠ 0 := by
-        intro h0
-        apply hp2
-        ext1
-        · exact h0
-        · simpa [h0] using hp1
-      have hpos : p.1.degree ≠ 0 := fun h => hne ((Finsupp.degree_eq_zero_iff _).mp h)
-      exact (hu _).mul_int (ih p.2.degree (by omega) p.2 rfl)
-  exact fun d => main _ d rfl
+  intros
+  apply _root_.GlobalTheory.RowVal.intS_of_mul_eq_one <;> assumption
 
 variable {dd : ℕ}
 

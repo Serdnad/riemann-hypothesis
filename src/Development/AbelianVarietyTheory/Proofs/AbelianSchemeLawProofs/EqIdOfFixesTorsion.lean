@@ -56,6 +56,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.SabPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsIsGenOfInvariant
 
 @[expose] public section
 
@@ -146,19 +147,7 @@ theorem exists_twist_gen (hL : L.IsLB) (hc : c.IsGen) {φ' : K → (Y' ⟶ X)} (
 
 theorem exists_gen_pull (M : LB X) (t : LB.Gen M) (ht : t.IsGen) (f : Y ⟶ X) :
     ∃ u : LB.Gen (M.pull f), u.IsGen := by
-  refine ⟨⟨fun j => res (LB.wchart_le M (fun _ : PUnit => f) j PUnit.unit) (pullU f _ (t.s (j PUnit.unit)))⟩,
-    isGen_of_germs _ fun y j j' hj hj' => ?_⟩
-  have v : ∀ j : PUnit → M.ι, y ∈ LB.wchart M (fun _ : PUnit => f) j →
-      gm (𝟙 Y) y (LB.wchart M (fun _ : PUnit => f) j)
-        (res (LB.wchart_le M (fun _ : PUnit => f) j PUnit.unit) (pullU f _ (t.s (j PUnit.unit)))) =
-      gm (𝟙 Y ≫ f) y _ (t.s (j PUnit.unit)) := fun j hj =>
-    (gm_res _ y _ hj _).trans (gm_pull _ f y _ (Set.mem_iInter.1 hj PUnit.unit) _)
-  refine (v j hj).trans (Eq.trans ?_ (congrArg _ (v j' hj')).symm)
-  have hm : (𝟙 Y ≫ f) y ∈ M.U (j PUnit.unit) ⊓ M.U (j' PUnit.unit) :=
-    ⟨Set.mem_iInter.1 hj PUnit.unit, Set.mem_iInter.1 hj' PUnit.unit⟩
-  rw [trF, Fintype.prod_unique, zpow_one]
-  exact (gm_res _ y _ hm _).symm.trans ((congrArg (gm _ y _) (ht _ _)).trans ((map_mul _ _ _).trans
-    (congrArg _ (gm_res _ y _ hm _))))
+  apply _root_.GlobalTheory.exists_isGen_pull <;> assumption
 
 theorem isUnit_gs_iff {Z : Scheme.{0}} (r : Z ⟶ Y) (z : Z) (U : Y.Opens) (h : r z ∈ U) (a : Γ(Y, U)) :
     IsUnit (gs r z U a) ↔ r z ∈ Y.basicOpen a := by

@@ -3,7 +3,7 @@ module
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AcrisEqZeroOfForallDvd
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
-import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLogAExtends
+import all Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLogAExtends
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,13 +60,7 @@ theorem acris_lim_pt (s : ℕ → Per.Acris0 l)
     (hs : ∀ r n, l ^ r ≤ n → ∃ z : Per.Acris0 l, s n - s (l ^ r) = ((l : ℕ) : Per.Acris0 l) ^ r * z) :
     ∃ y : Per.Acris l, ∀ r n, l ^ r ≤ n → ∃ z : Per.Acris l,
       y - algebraMap (Per.Acris0 l) (Per.Acris l) (s n) = ((l : ℕ) : Per.Acris l) ^ r * z := by
-  obtain ⟨e, he⟩ := GlobalTheory.AdicMaps.exists_acris_completion l
-  obtain ⟨y, hy⟩ := Model.pc_lim (l := l) (Per.Acris0 l) s hs
-  refine ⟨e.symm y, fun r n hn => ?_⟩
-  obtain ⟨z, hz⟩ := hy r n hn
-  refine ⟨e.symm z, e.injective ?_⟩
-  rw [map_sub, map_mul, map_pow, map_natCast, e.apply_symm_apply, e.apply_symm_apply, he]
-  exact hz
+  apply _root_.GlobalTheory.MemLoc.Model.acris_lim <;> assumption
 
 theorem frobenius_surjective_modP : Function.Surjective (frobenius (ModP (Per.OC l) l) l) := by
   apply _root_.GlobalTheory.MemLoc.ThetaD.frob_surj

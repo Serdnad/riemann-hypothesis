@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Divisibility.FramesLemmas
 public import Formalism.LocalToGlobal.Divisibility.GoodPartHermitianSpec
 public import Formalism.HermitianLattices.HermitianLatticesProofs.DualBasic
 public import Formalism.LocalToGlobal.Divisibility.ClassSumLemmas
@@ -1015,24 +1016,7 @@ private theorem exists_mul_lemma {K : Type} [Field K] {m n p : ℕ} {A : Matrix 
 
 theorem map_injective_of_injective {K : Type} [Field K] {n d : ℕ} (E : Matrix (Fin n) (Fin d) K)
     (hE : Function.Injective E.mulVec) (σ : K →+* ℂ) : Function.Injective (E.map σ).mulVec := by
-  have hE' : Function.Injective E.mulVecLin := hE
-  have hrk : E.rank = d := by
-    rw [← Matrix.finrank_range_mulVecLin, LinearMap.finrank_range_of_inj hE', Module.finrank_fin_fun]
-  have hrkT : Eᵀ.rank = d := by rw [Matrix.rank_transpose, hrk]
-  have htop : LinearMap.range Eᵀ.mulVecLin = ⊤ := by
-    apply Submodule.eq_top_of_finrank_eq
-    rw [Module.finrank_fin_fun]
-    simpa only [Matrix.finrank_range_mulVecLin] using hrkT
-  obtain ⟨C, hC⟩ := exists_mul_lemma (A := Eᵀ) (B := (1 : Matrix (Fin d) (Fin d) K))
-    (by rw [htop]; exact le_top)
-  have hL : Cᵀ * E = 1 := by
-    have := congrArg Matrix.transpose hC
-    rwa [Matrix.transpose_one, Matrix.transpose_mul, Matrix.transpose_transpose, eq_comm] at this
-  have hLσ : Cᵀ.map σ * E.map σ = 1 := by rw [← Matrix.map_mul, hL, Matrix.map_one _ σ.map_zero σ.map_one]
-  intro x y hxy
-  have := congrArg (fun z => (Cᵀ.map σ).mulVec z) hxy
-  simp only [Matrix.mulVec_mulVec, hLσ, Matrix.one_mulVec] at this
-  exact this
+  apply _root_.Formalism.L2.DIV.map_inj <;> assumption
 
 theorem cut_posDef {K : Type} [Field K] [NumberField K] [StarRing K] {n d : ℕ}
     (H : Matrix (Fin n) (Fin n) K) (E : Matrix (Fin n) (Fin d) K)

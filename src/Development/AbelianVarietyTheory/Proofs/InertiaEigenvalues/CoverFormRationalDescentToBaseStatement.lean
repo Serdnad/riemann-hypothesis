@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ScaledThetaLatticeGeneratorsNoCommonZero
 public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFDOf
 public import Formalism.LocalToGlobal.ProjectiveLattices.FamilyUniformisationBasePointOrthogonalBis
 public import Formalism.LocalToGlobal.ProjectiveLattices.CuspFormsFiniteDimensionalOf
@@ -478,18 +479,7 @@ namespace GlobalTheory.BpfUniform
 
 theorem exists_complex_zero {K A : Type} [Field K] [CommRing A] [Algebra K A] [Algebra.FiniteType K A]
     (σ : K →+* ℂ) (I : Ideal A) (hI : I ≠ ⊤) : ∃ ψ : A →ₐ[K] CAt σ, ∀ x ∈ I, ψ x = 0 := by
-  obtain ⟨M, hMmax, hle⟩ := Ideal.exists_le_maximal _ hI
-  let _ : Field (A ⧸ M) := Ideal.Quotient.field M
-  have : Module.Finite K (A ⧸ M) := finite_of_finite_type_of_isJacobsonRing K (A ⧸ M)
-  let _ : Algebra K ℂ := σ.toAlgebra
-  let κ : (A ⧸ M) →ₐ[K] ℂ := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
-  refine ⟨κ.comp (Ideal.Quotient.mkₐ K M), fun x hx => ?_⟩
-  show κ (Ideal.Quotient.mk M x) = 0
-  rw [Ideal.Quotient.eq_zero_iff_mem.2 (hle hx), map_zero]
+  first | exact _root_.GlobalTheory.FrameZero.exists_complex_point | exact @_root_.GlobalTheory.FrameZero.exists_complex_point | apply _root_.GlobalTheory.FrameZero.exists_complex_point <;> assumption
 
 theorem exists_finset_span_eq_top {A ι : Type} [CommRing A] (v : ι → A) (h : Ideal.span (Set.range v) = ⊤) :
     ∃ s : Finset ι, Ideal.span (v '' (s : Set ι)) = ⊤ := by

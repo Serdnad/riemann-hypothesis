@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EventuallyLocalDensityStandardLatticeBound
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnramifiedQuadraticConditionFive
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCovolOne
 public import Mathlib.Order.CompletePartialOrder
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.EulerProductMeasureZero
@@ -693,17 +695,7 @@ theorem maximal_ideals : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [N
     apply τ.injective
     rw [h.2.2.2, h.2.2.2, star_star]
   have hne : ∃ x, σ x ≠ x := by
-    by_contra hc
-    push_neg at hc
-    obtain ⟨w⟩ := (inferInstance : Nonempty (NumberField.InfinitePlace E))
-    have hreal : w.IsReal := by
-      rw [← NumberField.InfinitePlace.mk_embedding w, NumberField.InfinitePlace.isReal_mk_iff,
-        NumberField.ComplexEmbedding.isReal_iff]
-      refine RingHom.ext fun x ↦ ?_
-      rw [NumberField.ComplexEmbedding.conjugate_coe_eq]
-      change star (w.embedding x) = w.embedding x
-      rw [← h.2.2.2, hc]
-    exact NumberField.InfinitePlace.not_isReal_iff_isComplex.2 (h.2.1.isComplex w) hreal
+    apply _root_.GlobalTheory.CompanionTheory.GunrInert.sig_moves <;> assumption
   obtain ⟨D, b₂, hsq, hb0, hσ1, hD⟩ := GlobalTheory.QuadNormBase.exists_basis F E σ h.2.2.1 hinv hne
   have hD0 : D ≠ 0 := fun h0 => hsq (h0 ▸ IsSquare.zero)
   have I := _root_.GlobalTheory.CompanionTheory.SW.GoodInt.rational_integral_units F E σ h
@@ -913,19 +905,7 @@ theorem fibre_zero_image_mul (F E : Type) [Field F] [NumberField F] [Field E] [N
 
 theorem val_eq_one_eventually {F : Type} [Field F] [NumberField F] (a : F) (ha : a ≠ 0) :
     ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, Valued.v (algebraMap F (Fv F v) a) = 1 := by
-  have h1 := HeightOneSpectrum.Support.finite (𝓞 F) a
-  have h2 := HeightOneSpectrum.Support.finite (𝓞 F) a⁻¹
-  refine Filter.eventually_cofinite.2 ((h1.union h2).subset ?_)
-  intro v hv
-  by_contra hc
-  have hc1 : ¬ 1 < v.valuation F a := fun h => hc (Or.inl h)
-  have hc2 : ¬ 1 < v.valuation F a⁻¹ := fun h => hc (Or.inr h)
-  apply hv
-  rw [_root_.GlobalTheory.CompanionTheory.SW.GoodInt.valued_algebraMap]
-  have hne : v.valuation F a ≠ 0 := (Valuation.ne_zero_iff _).2 ha
-  rw [not_lt] at hc1 hc2
-  rw [map_inv₀] at hc2
-  exact le_antisymm hc1 ((inv_le_one₀ (zero_lt_iff.2 hne)).1 hc2)
+  apply _root_.GlobalTheory.GaugeDensity.eventually_valued_eq_one <;> assumption
 
 theorem norm_le_of_nonunit (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E) (hσ : IsCMExt F E σ) (d : ℕ) (b : Module.Basis (Fin d) F E) :

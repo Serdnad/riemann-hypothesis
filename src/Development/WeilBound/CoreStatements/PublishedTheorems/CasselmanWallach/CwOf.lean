@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.HilbertSchmidtDecay.RightKTypes.KrDom
 public import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.SmoothSeminormAndSobolevBounds
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.BochnerInequality.IsKUnitaryOfIsInfUnitary
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Smooth
@@ -1275,19 +1276,8 @@ theorem actM_smul (A : Fin n → Fin n → Module.End ℂ M) (c : ℂ) (X : Mx n
   unfold actM
   simp only [Matrix.smul_apply, smul_eq_mul, mul_smul, Finset.smul_sum]
 
-theorem actM_single (A : Fin n → Fin n → Module.End ℂ M) (a b : Fin n) : actM A (Matrix.single a b 1) = A a b := by
-  classical
-  unfold actM
-  rw [Finset.sum_eq_single a]
-  · rw [Finset.sum_eq_single b]
-    · simp
-    · intro d _ hd
-      simp [Ne.symm hd]
-    · simp
-  · intro c _ hc
-    refine Finset.sum_eq_zero fun d _ => ?_
-    simp [Ne.symm hc]
-  · simp
+theorem actM_single (A : Fin n → Fin n → Module.End ℂ M) (a b : Fin n) : actM A (Matrix.single a b 1) = A a b :=
+  _root_.CompanionTheory.RgExh.Dec.L.WyKR.ba_actM_single A a b
 
 end PositivityTheory.CW.MatrixActionLinear
 
@@ -1481,11 +1471,7 @@ variable {n : ℕ} {ε : Fin n → Bool} {V : Type} [NormedAddCommGroup V] [Inne
 
 theorem casK_symm (hU : IsInfUnitary ε E) (x y : V) :
     ⟪casimirK ε E x, y⟫_ℂ = ⟪x, casimirK ε E y⟫_ℂ := by
-  simp only [casimirK, LinearMap.sum_apply, Module.End.mul_apply, sum_inner, inner_sum]
-  refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b hb => ?_
-  have hab : ε b = ε a := (Finset.mem_filter.1 hb).2
-  rw [hU a b (E b a x) y, hU b a x (E b a y)]
-  simp [adjSign, hab]
+  apply _root_.PositivityTheory.CW.CasimirNonnegative.casK_symm <;> assumption
 
 theorem re_inner_casK_nonneg (hU : IsInfUnitary ε E) (x : V) : 0 ≤ (⟪x, casimirK ε E x⟫_ℂ).re := by
   simp only [ReciprocityTheory.ChartRestriction.DS.casimirK, LinearMap.sum_apply, Module.End.mul_apply,
@@ -1572,12 +1558,7 @@ variable {n : ℕ} {ε : Fin n → Bool} {V : Type} [NormedAddCommGroup V] [Inne
 
 theorem cas_symm (hu : IsInfUnitary ε E) (x y : V) :
     ⟪casimirK ε E x, y⟫_ℂ = ⟪x, casimirK ε E y⟫_ℂ := by
-  unfold casimirK
-  simp only [LinearMap.sum_apply, Module.End.mul_apply, sum_inner, inner_sum]
-  refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b hb => ?_
-  have hab : ε b = ε a := (Finset.mem_filter.1 hb).2
-  rw [hu a b, hu b a]
-  simp [adjSign, hab]
+  apply _root_.PositivityTheory.CW.CasimirNonnegative.casK_symm <;> assumption
 
 theorem inner_eq_zero_of_eig (hu : IsInfUnitary ε E) {μ μ' : ℝ} (hne : μ ≠ μ') {v y : V}
     (hv : casimirK ε E v = (μ : ℂ) • v) (hy : casimirK ε E y = (μ' : ℂ) • y) : ⟪v, y⟫_ℂ = 0 := by

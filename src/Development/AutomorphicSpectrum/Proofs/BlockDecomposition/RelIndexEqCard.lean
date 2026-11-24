@@ -108,18 +108,7 @@ theorem hint_mul_const {H : Type} [Group H] (K : Subgroup H) (v : H → ℂ) (c 
 
 theorem relIndex_eq_card {G : Type} [Group G] (K K' : Subgroup G) (X : Finset G) (hXK : ∀ x ∈ X, x ∈ K)
     (hX : ∀ k ∈ K, ∃! x ∈ X, x⁻¹ * k ∈ K') : K'.relIndex K = X.card := by
-  let φ : {x // x ∈ X} → K ⧸ K'.subgroupOf K := fun x => ((⟨x.1, hXK _ x.2⟩ : K) : K ⧸ K'.subgroupOf K)
-  have hφ : Function.Bijective φ := by
-    constructor
-    · intro x y hxy
-      have h1 : (x.1)⁻¹ * y.1 ∈ K' := Subgroup.mem_subgroupOf.1 (QuotientGroup.eq.1 hxy)
-      exact Subtype.ext ((hX y.1 (hXK _ y.2)).unique ⟨x.2, h1⟩ ⟨y.2, by simp [K'.one_mem]⟩)
-    · intro q
-      obtain ⟨k, rfl⟩ := QuotientGroup.mk_surjective q
-      obtain ⟨x, ⟨hxX, hxk⟩, -⟩ := hX k.1 k.2
-      exact ⟨⟨x, hxX⟩, QuotientGroup.eq.2 (Subgroup.mem_subgroupOf.2 hxk)⟩
-  show Nat.card (K ⧸ K'.subgroupOf K) = _
-  rw [← Nat.card_congr (Equiv.ofBijective φ hφ), Nat.card_eq_fintype_card, Fintype.card_coe]
+  apply _root_.GlobalTheory.CompanionTheory.IntDec.relIndex_eq_card <;> assumption
 
 theorem finsum_left {G : Type} [Group G] (K' : Subgroup G) (φ : G → ℂ) (hφ : ∀ g, ∀ k ∈ K', φ (g * k) = φ g) (x : G) :
     ∑ᶠ q : G ⧸ K', φ (x * q.out) = ∑ᶠ q : G ⧸ K', φ q.out := by

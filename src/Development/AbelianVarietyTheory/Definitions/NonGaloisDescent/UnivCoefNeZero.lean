@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SelfDualVectorPairsIntegralFrameColumns
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsDualFamilySelfDualHermitianSpace
@@ -69,26 +70,7 @@ theorem pair_int {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E
     (hu : ∀ y ∈ Λ, ∃ c : 𝓞 E, algebraMap (𝓞 E) E c = ∑ k, u k * y k)
     (z : Fin n → E ⊗[F] Formalism.L2.Herm.Af F) (hz : z ∈ Formalism.L2.Herm.hatL (F := F) Λ) :
     ∑ k, (u k ⊗ₜ[F] (1 : Formalism.L2.Herm.Af F)) * z k ∈ Formalism.L2.Herm.intAf F E := by
-  induction hz using Submodule.span_induction with
-  | mem z hz =>
-    obtain ⟨y, hy, rfl⟩ := hz
-    obtain ⟨c, hc⟩ := hu y hy
-    have hm : (algebraMap (𝓞 E) E c) ⊗ₜ[F] (1 : Formalism.L2.Herm.Af F) ∈ Formalism.L2.Herm.intAf F E :=
-      Subring.subset_closure (Or.inl ⟨⟨_, c, rfl⟩, rfl⟩)
-    convert hm using 1
-    rw [hc, TensorProduct.sum_tmul]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    change (u k ⊗ₜ[F] (1 : Formalism.L2.Herm.Af F)) * (y k ⊗ₜ[F] 1) = _
-    rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one]
-  | zero => simp only [Pi.zero_apply, mul_zero, Finset.sum_const_zero]; exact zero_mem _
-  | add x y _ _ hx hy => simp only [Pi.add_apply, mul_add, Finset.sum_add_distrib]; exact add_mem hx hy
-  | smul c x _ hx =>
-    have := mul_mem c.2 hx
-    convert this using 1
-    rw [Finset.mul_sum]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    change _ * (c.1 * x k) = _
-    ring
+  first | exact _root_.GlobalTheory.PairIntegral.sum_mem_intAf | exact @_root_.GlobalTheory.PairIntegral.sum_mem_intAf | apply _root_.GlobalTheory.PairIntegral.sum_mem_intAf <;> assumption
 
 def ct {a b : ℕ} (A : Matrix (Fin a) (Fin b) (EAf D)) : Matrix (Fin b) (Fin a) (EAf D) := (A.map (cF D))ᵀ
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.MatchingSecondBlockOf
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.LeviMatchingWords.SplitPlaceGeneratorPowers
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermLocallyConstant
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ConstantTermMultiplicative
@@ -391,16 +392,7 @@ abbrev xx (d : LocData E n) (w : Pl E) : ↥(d.c w).support → Fin n → ℤ :=
 theorem qT_eq (s : Finset (Fin (n / 2))) :
     d.qT a w s = fun y => (((Tail.I2 a (n - a) w).relIndex (K2 a (n - a) w) : ℕ) : ℂ) *
       MT.entT n w (d.ϖ w) a (cc d w) (xx d w) s y := by
-  funext y
-  unfold LocData.qT MT.entT
-  by_cases h : LocData.admitted n a s
-  · have h' : MT.admitted n a s := ⟨h.1.1, h.1.2.1, h.1.2.2, h.2.1, h.2.2⟩
-    rw [dite_eq_left h, dite_eq_left h', Finsupp.sum, Finset.mul_sum, ← Finset.sum_coe_sort (d.c w).support]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    unfold Tail.dc2
-    ring
-  · have h' : ¬ MT.admitted n a s := fun h' => h ⟨⟨h'.1, h'.2.1, h'.2.2.1⟩, h'.2.2.2.1, h'.2.2.2.2⟩
-    rw [dite_eq_right h, dite_eq_right h', mul_zero]
+  apply _root_.GlobalTheory.CompanionTheory.MatchLMPlaces.qT_eq <;> assumption
 
 theorem mpow_scale {b : ℕ} (r : ℂ) (u : GLw a w × GLw b w → ℂ) (k : ℕ) :
     MT.mpow w (fun y => r * u y) k = fun y => r ^ k * MT.mpow w u k y :=
@@ -420,56 +412,16 @@ theorem beta_m_alt (hT : w ∈ d.T) : (d.betaL a ha).m w = d.diag (fun x => d.qT
 
 theorem powers_diagonal_at_T (hT : w ∈ d.T) (k : ℕ) (x y : d.kap w) :
     (pw (d.betaL a ha) k).m w x y = d.diag (fun x => MT.mpow w (d.qT a w x.1.1) (k + 1)) x y := by
-  induction k generalizing x y with
-  | zero =>
-    have h1 : ∀ s, MT.mpow w (d.qT a w s) 1 = d.qT a w s := fun s =>
-      GlobalTheory.CompanionTheory.FmPowP.mconv_idem_right (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_open a (n - a) w) (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_le_maximal a (n - a) w) _
-        fun u hu g => ((qT_hecke d s).2 u hu g).2
-    show (d.betaL a ha).m w x y = _
-    rw [beta_m_alt d ha hT]
-    simp only [zero_add, h1]
-  | succ k ih =>
-    show ∑ z, mconv ((d.betaL a ha).m w x z) ((pw (d.betaL a ha) k).m w z y) = _
-    rw [beta_m_alt d ha hT, sum_diag d _ (fun z => (pw (d.betaL a ha) k).m w z y), ih]
-    by_cases h : x = y
-    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = f x := fun f => if_pos h
-      rw [e1, e1]
-      rfl
-    · have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x y = 0 := fun f => if_neg h
-      rw [e1, e1]
-      exact GlobalTheory.CompanionTheory.FmPowP.mconv_zero_right _
+  apply _root_.GlobalTheory.CompanionTheory.MatchLMB2.powers_diagonal_at_T_block <;> assumption
 
 theorem trace_test_function_eq (hT : w ∈ d.T) (m : ℕ)
     (hH : ∀ s, ∀ u ∈ Tail.I2 a (n - a) w, ∀ g, MT.mpow w (d.qT a w s) (m + 1) (u * g) = MT.mpow w (d.qT a w s) (m + 1) g) :
     ((d.fixL a).mul (pw (d.betaL a ha) m)).tr d.P d.one w = fun y => ∑ s, MT.mpow w (d.qT a w s) (m + 1) y := by
-  have hP : w ∈ d.P := by simp [LocData.P, hT]
-  have hl : d.lev a w = Tail.I2 a (n - a) w := by simp [LocData.lev, hT]
-  have hf : (d.fixL a).m w = d.diag (fun _ => idem (Tail.I2 a (n - a) w)) := by
-    show d.diag (fun _ => if w ∈ d.T then idem (d.lev a w) else d.sgn a w • idem (d.lev a w)) = _
-    simp only [if_pos hT, hl]
-  have hent : ∀ x : d.kap w, ((d.fixL a).mul (pw (d.betaL a ha) m)).m w x x = MT.mpow w (d.qT a w x.1.1) (m + 1) := fun x => by
-    show ∑ z, mconv ((d.fixL a).m w x z) ((pw (d.betaL a ha) m).m w z x) = _
-    rw [hf, sum_diag d _ (fun z => (pw (d.betaL a ha) m).m w z x), powers_diagonal_at_T d ha hT]
-    have e1 : ∀ f : d.kap w → LF a (n - a) w, d.diag f x x = f x := fun f => if_pos rfl
-    rw [e1]
-    exact GlobalTheory.CompanionTheory.FmPowP.mconv_idem_left (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_open a (n - a) w) (GlobalTheory.CompanionTheory.MatchPow.iwahori_pair_le_maximal a (n - a) w) _ (hH _)
-  rw [tr_one d _ hP]
-  funext y
-  rw [Finset.sum_apply]
-  simp only [hent]
-  exact sum_kap_alt d hT (fun s => MT.mpow w (d.qT a w s) (m + 1) y)
+  apply _root_.GlobalTheory.CompanionTheory.MatchLMB2.trace_test_function_eq <;> assumption
 
 theorem unitary_function_at_T (hT : w ∈ d.T) : d.g₀ w = fun y => (((iwU n w (d.b w)).relIndex (KL n w) : ℕ) : ℂ) *
     ∑ j, cc d w j * fU n w (d.b w) (d.ϖ w) (lOf (xx d w j)) y := by
-  have h : d.g₀ w = fun y => (d.c w).sum fun x t =>
-      t * (((iwU n w (d.b w)).relIndex (KL n w) : ℕ) : ℂ) * fU n w (d.b w) (d.ϖ w) (lOf x) y := by
-    unfold LocData.g₀
-    rw [if_pos hT]
-  rw [h]
-  funext y
-  rw [Finsupp.sum, Finset.mul_sum, ← Finset.sum_coe_sort (d.c w).support]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  ring
+  apply _root_.GlobalTheory.CompanionTheory.MatchLMPlaces.unitary_function_at_T <;> assumption
 
 theorem matching_at_T (hMT : MT.MatchT) (hU : Unr E) (hm : MOk d) (hT : w ∈ d.T) (m : ℕ) :
     Match n a (n - a) w 1 (d.gU (m + 1) w) (((d.fixL a).mul (pw (d.betaL a ha) m)).tr d.P d.one w) := by

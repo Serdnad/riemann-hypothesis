@@ -7,6 +7,7 @@ import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Separation.CompletelyRegular
+import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 
 @[expose] public section
 
@@ -719,22 +720,7 @@ namespace Formalism.L2.SG.Pf.IdBlocks2.Geo
 attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 theorem uS_ne {D : D7} {u u' : D.what₂.Word} (hu : u ≠ u') (τ : D.what₂.Tau) : uS D u τ ≠ uS D u' τ := by
-  obtain ⟨l, hl⟩ : ∃ l, D.s.letter u l ≠ D.s.letter u' l := by
-    by_contra h
-    push_neg at h
-    exact hu (D.s.letter_inj (funext h))
-  intro heq
-  have he := congrFun heq ⟨l.1 + 1, by omega⟩
-  have he' : (D.hcW u τ).u ⟨l.1 + 1, by omega⟩ = (D.hcW u' τ).u ⟨l.1 + 1, by omega⟩ := by
-    simp only [uS] at he
-    exact_mod_cast he
-  rw [D.s.u_letter u τ l.1 l.2, D.s.u_letter u' τ l.1 l.2,
-    (D.hcW_v u τ).trans (D.hcW_v u' τ).symm] at he'
-  have hD := D.s.Del_pos
-  have hl' : D.s.letter u ⟨l.1, l.2⟩ ≠ D.s.letter u' ⟨l.1, l.2⟩ := hl
-  by_cases ha : D.s.letter u ⟨l.1, l.2⟩ = true <;> by_cases hb : D.s.letter u' ⟨l.1, l.2⟩ = true <;>
-    simp only [ha, hb, ite_true, ite_false, Bool.false_eq_true] at he' hl' <;> first | exact hl' rfl | linarith |
-      (simp only [Bool.not_eq_true] at ha hb; exact hl' (ha.trans hb.symm))
+  apply _root_.Formalism.MainNotions.S.data8 <;> assumption
 
 theorem ro_of (hN : Formalism.L2.SG.TermOp.Vanish.NLamNinf) {D : D7} (X : HidaSetting D) {u u' : D.what₂.Word} {what₂ rows' : Finset (Submodule (𝓞 D.host.E) (VS D).V)}
     (t : GTerm X u u' (X.Fu u) (X.Fu u') what₂ rows') :

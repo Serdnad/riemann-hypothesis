@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.CovMain
+import Development.AutomorphicArithmetic.CommutativeAlgebra.TraceIdentityOfTjElement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.PrimeProj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,20 +91,8 @@ theorem mulF_one (v) : mulF D 1 v = v := by
   rw [map_one, one_smul]
 
 theorem actG_mulF (g : G.GAf) (x : 𝓞 D.F) (v) : L.actG g (mulF D x v) = mulF D x (L.actG g v) := by
-  have key : ∀ c : AfP p ⊗[ℚ] G.C, actOn L.rep (AfP p) c * mulF D x = mulF D x * actOn L.rep (AfP p) c := by
-    intro c
-    induction c using TensorProduct.inductionOn with
-    | add a b ha hb => rw [map_add (f := _), add_mul, mul_add, ha, hb]
-    | tmul a y =>
-      have h := (L.rep_range (L.rep y)).1 ⟨y, rfl⟩ (algebraMap (𝓞 D.F) D.O x)
-      have h2 : (L.rep y).baseChange (AfP p) * mulF D x = mulF D x * (L.rep y).baseChange (AfP p) := by
-        unfold mulF
-        rw [← LinearMap.baseChange_mul, ← LinearMap.baseChange_mul, h]
-      have h3 : actOn L.rep (AfP p) (a ⊗ₜ y) = a • (L.rep y).baseChange (AfP p) := by
-        rw [Algebra.smul_def]
-        rfl
-      rw [h3, smul_mul_assoc, mul_smul_comm, h2]
-  exact LinearMap.congr_fun (key _) v
+ intros
+ apply @_root_.UpperTheory.TorsionCardinalitySetup.actG_mulF <;> assumption
 
 theorem mem_idHat_nat (N : ℕ) (z) : z ∈ idHat D (Ideal.span {(N : 𝓞 D.F)}) ↔ ∃ w ∈ LaHat D, z = N • w := by
   constructor
@@ -125,13 +115,7 @@ theorem mem_idHat_nat (N : ℕ) (z) : z ∈ idHat D (Ideal.span {(N : 𝓞 D.F)}
     rw [mulF_nat_mul, mulF_one]
 
 theorem Integ_idHat {g : G.GAf} (hg : Integ L g) {𝔟 : Ideal (𝓞 D.F)} {z} (hz : z ∈ idHat D 𝔟) : L.actG g z ∈ idHat D 𝔟 := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨x, hx, v, hv, rfl⟩ := hz
-    exact AddSubgroup.subset_closure ⟨x, hx, _, hg v hv, actG_mulF L g x v⟩
-  | zero => rw [map_zero]; exact zero_mem _
-  | add a b _ _ ha hb => rw [map_add (f := _)]; exact add_mem ha hb
-  | neg a _ ha => rw [map_neg]; exact neg_mem ha
+  apply _root_.UpperTheory.Gal.Int.Geo.actG_idHat <;> assumption
 
 theorem actG_mul (g h : G.GAf) (v) : L.actG (g * h) v = L.actG g (L.actG h v) := by
   rw [map_mul, mul_apply_eq_comp]

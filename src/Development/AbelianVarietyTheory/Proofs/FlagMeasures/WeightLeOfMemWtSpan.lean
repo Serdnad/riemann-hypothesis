@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.LevEAddTwo
 public import Formalism.RealPlaceAnalysis.StatementU
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.SumOfSquaresIdentityHolds
@@ -69,23 +70,7 @@ variable {V : Type} [AddCommGroup V] [Module ℂ V] {n : ℕ} {E : Fin n → Fin
 
 theorem isWeight_step (hE : GlRel E) {ν : Fin n → ℝ} {z : V} (hz : IsWeight E ν z) (a b : Fin n) :
     IsWeight E (fun c => ν c + (if c = a then 1 else 0) - (if c = b then 1 else 0)) (E a b z) := by
-  intro c
-  have h := congrArg (fun T : Module.End ℂ V => T z) (hE c c a b)
-  simp only [LinearMap.sub_apply, Module.End.mul_apply, hz c, map_smul] at h
-  rw [sub_eq_iff_eq_add] at h
-  rw [h]
-  by_cases h1 : c = a
-  · subst h1
-    by_cases h2 : b = c
-    · subst h2; simp
-    · have h3 : ¬ c = b := fun h => h2 h.symm
-      simp [h2, h3, add_smul, add_comm]
-  · by_cases h2 : b = c
-    · subst h2
-      simp [h1, sub_smul]
-      abel
-    · have h3 : ¬ c = b := fun h => h2 h.symm
-      simp [h1, h2, h3]
+  apply _root_.GlobalTheory.isWeight_shift_of_glRel <;> assumption
 
 theorem exists_isWeight_word (hE : GlRel E) {ν : Fin n → ℝ} {z : V} (hz : IsWeight E ν z)
     (w : List (Fin n × Fin n)) : ∃ ν' : Fin n → ℝ, IsWeight E ν' (ew E w z) := by

@@ -5,6 +5,7 @@ public import Mathlib.AlgebraicGeometry.EllipticCurve.Affine.Point
 import GroundTheory.GlobalFields.ComplexMultiplication.EllipticRational
 public import GroundTheory.GlobalFields.ComplexMultiplication.UniformizationAddition
 import Mathlib.Tactic.Lemma
+import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.WeierstrassPAddOfNeOfDerivNeZero
 
 @[expose] public section
 
@@ -21,30 +22,7 @@ open WeierstrassCurve.Affine
 variable {L : PeriodPair}
 
 theorem exists_weierstrassP_eq (c : ℂ) : ∃ z, z ∉ L.lattice ∧ ℘[L] z = c := by
-  by_contra hcon
-  push Not at hcon
-  have h2 := finsum_toNat_torusOrder_weierstrassP_sub (L := L) c
-  have h0 : ∀ x : Torus L, (torusOrder L (fun w ↦ ℘[L] w - c) x).toNat = 0 := by
-    intro x
-    obtain ⟨z, rfl⟩ := Torus.mk_surjective L x
-    rw [torusOrder_mk (isEllipticFunction_weierstrassP_sub c)]
-    by_cases hz : z ∈ L.lattice
-    · have hc : MeromorphicAt (fun _ : ℂ ↦ -c) z := analyticAt_const.meromorphicAt
-      have e : (fun w ↦ ℘[L] w - c) = ℘[L] + fun _ ↦ -c := by
-        funext w
-        simp [sub_eq_add_neg]
-      have hlt : meromorphicOrderAt ℘[L] z < meromorphicOrderAt (fun _ : ℂ ↦ -c) z := by
-        rw [L.order_weierstrassP z hz]
-        exact lt_of_lt_of_le (by decide) analyticAt_const.meromorphicOrderAt_nonneg
-      rw [e, meromorphicOrderAt_add_eq_left_of_lt hc hlt, L.order_weierstrassP z hz]
-      rfl
-    · have ha : AnalyticAt ℂ (fun w ↦ ℘[L] w - c) z :=
-        (L.analyticOnNhd_weierstrassP z hz).sub analyticAt_const
-      have h0 : analyticOrderAt (fun w ↦ ℘[L] w - c) z = 0 :=
-        ha.analyticOrderAt_eq_zero.2 (sub_ne_zero.2 (hcon z hz))
-      rw [ha.meromorphicOrderAt_eq, h0]
-      rfl
-  simp [h0] at h2
+  apply _root_.GlobalTheory.exists_weierstrassP_eq <;> assumption
 
 
 variable (L) in

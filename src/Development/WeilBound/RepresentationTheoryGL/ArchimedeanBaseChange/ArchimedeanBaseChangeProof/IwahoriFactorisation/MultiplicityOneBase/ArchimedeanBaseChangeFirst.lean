@@ -161,14 +161,7 @@ namespace GlobalTheory.InertUnitOrb
 theorem stdH_mulVec_eq_of_unitary {K : UQ} {n : ℕ} (u : Matrix (Fin n) (Fin n) K.E)
     (hu : (u.map K.c)ᵀ * u = 1) (a b : Fin n → K.E) :
     stdH K n (u *ᵥ a) (u *ᵥ b) = stdH K n a b := by
-  have hu' : uᵀ * u.map K.c = 1 := by
-    have := congrArg Matrix.transpose hu
-    rwa [transpose_mul, transpose_transpose, transpose_one] at this
-  have hS : ∀ y z : Fin n → K.E, stdH K n y z = y ⬝ᵥ (fun k => K.c (z k)) := fun _ _ => rfl
-  have hc : (fun k => K.c ((u *ᵥ b) k)) = u.map K.c *ᵥ (fun k => K.c (b k)) := by
-    funext k
-    exact RingHom.map_mulVec (K.c : K.E →+* K.E) u b k
-  rw [hS, hS, hc, dotProduct_mulVec, ← vecMul_transpose, vecMul_vecMul, hu', vecMul_one]
+  apply _root_.GlobalTheory.InertUnitOrb.stdH_mulVec_of_unitary <;> assumption
 
 theorem class_eq_of_conj :
     ∀ (K : GlobalTheory.UnitLemma.UQ) (B : GlobalTheory.UnitLemma.InvAlg K) (n : ℕ) (γ γ' u : Matrix (Fin n) (Fin n) K.E)

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarmonicPolynomialEqZeroOfFunction
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsHolRepOfIsTau
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialActionOneMulAdjointStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -134,19 +135,7 @@ theorem CoeffDiff.fock {σ : Type} {F : E → MvPolynomial σ ℂ} (hF : CoeffDi
 end Diff
 
 theorem fockL_aniso {σ : Type} (f : MvPolynomial σ ℂ) (h : Formalism.L2.DIV.fockL f f = 0) : f = 0 := by
-  by_contra hf
-  have e : Formalism.L2.DIV.fockL f f =
-      ((∑ m ∈ f.support, ‖f.coeff m‖ ^ 2 * (Formalism.L2.DIV.mfact m : ℝ) : ℝ) : ℂ) := by
-    rw [Formalism.L2.DIV.fockL_apply]
-    unfold Formalism.L2.DIV.fockS
-    push_cast
-    refine Finset.sum_congr rfl fun m _ => ?_
-    rw [← Complex.conj_mul']
-    rfl
-  rw [e, Complex.ofReal_eq_zero] at h
-  refine ne_of_gt (Finset.sum_pos (fun m hm => mul_pos (pow_pos (norm_pos_iff.mpr
-    (MvPolynomial.mem_support_iff.mp hm)) 2) ?_) (MvPolynomial.support_nonempty.mpr hf)) h
-  exact_mod_cast Finset.prod_pos fun k _ => Nat.factorial_pos _
+  first | exact _root_.GlobalTheory.ExportSeries.HarmInj.fock_pos | exact @_root_.GlobalTheory.ExportSeries.HarmInj.fock_pos | apply _root_.GlobalTheory.ExportSeries.HarmInj.fock_pos <;> assumption
 
 section KC
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.RightDerivativeZeroOutsideSupport
 public import Formalism.SharpRestriction.CuspSpanNormBounds.GlobAut
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IpLEqZeroOfMemSpan
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.DefClassNum
@@ -421,23 +422,6 @@ private theorem hs_eq_ipL (X : Matrix (Fin n) (Fin n) ℂ) : hs X = ipL X X := b
   refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
   rw [Complex.star_def, Complex.mul_conj, Complex.ofReal_re, Complex.normSq_eq_norm_sq]
 
-private theorem hs_mul_le (A B : Matrix (Fin n) (Fin n) ℂ) : hs (A * B) ≤ hs A * hs B := by
-
-  have key : ∀ i j, ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 := by
-    intro i j
-    calc ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ * ‖B k j‖) ^ 2 := by
-          gcongr
-          exact (norm_sum_le _ _).trans (le_of_eq (by simp only [norm_mul]))
-      _ ≤ (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 := Finset.sum_mul_sq_le_sq_mul_sq _ _ _
-  simp only [Formalism.REAL.hs, Matrix.mul_apply]
-  calc ∑ i, ∑ j, ‖∑ k, A i k * B k j‖ ^ 2
-        ≤ ∑ i, ∑ j, (∑ k, ‖A i k‖ ^ 2) * ∑ k, ‖B k j‖ ^ 2 :=
-          Finset.sum_le_sum fun i _ => Finset.sum_le_sum fun j _ => key i j
-    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * ∑ j, ∑ k, ‖B k j‖ ^ 2 := by
-          rw [Finset.sum_mul]
-          exact Finset.sum_congr rfl fun i _ => (Finset.mul_sum _ _ _).symm
-    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * ∑ k, ∑ j, ‖B k j‖ ^ 2 := by congr 1; exact Finset.sum_comm
-
 private theorem hs_neg' (X : Matrix (Fin n) (Fin n) ℂ) : hs (-X) = hs X := by
   simp only [Formalism.REAL.hs, Matrix.neg_apply, norm_neg]
 
@@ -487,7 +471,7 @@ theorem sum_coord_sq_le_hs_and_hs_le (n d : ℕ) (ε : Fin n → Bool) (E : Fin 
     have hYX : X + Y = -(Y * X) := add_inv_eq g
     have hYn : hs Y = hs X := hs_inv_eq X
     rw [hYX, hs_neg', sq]
-    calc hs (Y * X) ≤ hs Y * hs X := hs_mul_le Y X
+    calc hs (Y * X) ≤ hs Y * hs X := _root_.Formalism.REAL.frobenius_mul_le Y X
       _ = hs X * hs X := by rw [hYn]
   have hpara := hs_sub_add_hs_add_eq_parallelogram X Y
   have hYn : hs Y = hs X := hs_inv_eq X

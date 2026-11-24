@@ -126,20 +126,23 @@ theorem gramE_gact (σ : E →ₐ[F] E) {M n : ℕ} {J : Matrix (Fin M) (Fin M) 
     (g : UJ (σ : E →+* E) J) (X : Fin n → Fin M → E) : gramE σ J (gact σ g X) = gramE σ J X :=
   gramE_act σ J g X
 
+theorem tsum_gact_of_mem (σ : E →ₐ[F] E) {M n : ℕ} {J : Matrix (Fin M) (Fin M) E}
+    (g : UJ (σ : E →+* E) J) (S : Set (Fin n → Fin M → E))
+    (hS : ∀ g : UJ (σ : E →+* E) J, ∀ X ∈ S, gact σ g X ∈ S) (f : (Fin n → Fin M → E) → ℝ≥0∞) :
+    ∑' X : S, f (gact σ g X.1) =
+      ∑' X : S, f X.1 := by
+  let e : S ≃ S :=
+    { toFun := fun X => ⟨gact σ g X.1, hS g X.1 X.2⟩
+      invFun := fun X => ⟨gact σ g⁻¹ X.1, hS g⁻¹ X.1 X.2⟩
+      left_inv := fun X => Subtype.ext (gact_inv_gact σ g X.1)
+      right_inv := fun X => Subtype.ext (gact_gact_inv σ g X.1) }
+  exact e.tsum_eq (fun X => f X.1)
+
 theorem tsum_gact (σ : E →ₐ[F] E) {M n : ℕ} {J : Matrix (Fin M) (Fin M) E}
     (g : UJ (σ : E →+* E) J) (T : Matrix (Fin n) (Fin n) E) (f : (Fin n → Fin M → E) → ℝ≥0∞) :
     ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T}, f (gact σ g X.1) =
       ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T}, f X.1 := by
-  let e : {X : Fin n → Fin M → E | gramE σ J X = T} ≃ {X : Fin n → Fin M → E | gramE σ J X = T} :=
-    { toFun := fun X => ⟨gact σ g X.1, by
-        change gramE σ J _ = T
-        rw [gramE_gact]; exact X.2⟩
-      invFun := fun X => ⟨gact σ g⁻¹ X.1, by
-        change gramE σ J _ = T
-        rw [gramE_gact]; exact X.2⟩
-      left_inv := fun X => Subtype.ext (gact_inv_gact σ g X.1)
-      right_inv := fun X => Subtype.ext (gact_gact_inv σ g X.1) }
-  exact e.tsum_eq (fun X => f X.1)
+  exact tsum_gact_of_mem σ g _ (fun u X hX => (gramE_gact σ u X).trans hX) f
 
 theorem consTup_injective {K : Type} [Zero K] [One K] {M n : ℕ} :
     Function.Injective (consTup : (Fin n → Fin M → K) → Fin (n + 1) → Fin (M + 1) → K) := by
@@ -165,15 +168,20 @@ theorem gram_first (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)
   rw [BlockAlg.hE_blockOne_cons, hz, BlockAlg.hE_zero_left]
   simp
 
-theorem tsum_block (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) {t : E} (ht : t ≠ 0)
+theorem tsum_block_of_sets (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) {t : E} (ht : t ≠ 0)
     (T : Matrix (Fin n) (Fin n) E)
     (rr : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t} →
       UJ (σ : E →+* E) (blockOne t J))
     (hrr : ∀ q, gact σ (rr q) q.1 = fun _ => Fin.cons 1 (fun _ => 0))
+    (S : Set (Fin n → Fin M → E)) (U : Set (Fin (n + 1) → Fin (M + 1) → E))
+    (hS : ∀ X ∈ S, gramE σ J X = T)
+    (hU : ∀ Y ∈ U, gramE σ (blockOne t J) Y = blockOne t T)
+    (hSU : ∀ (g : UJ (σ : E →+* E) (blockOne t J)) X, gramE σ J X = T →
+      (gact σ g (consTup X) ∈ U ↔ X ∈ S))
     (f : (Fin (n + 1) → Fin (M + 1) → E) → ℝ≥0∞) :
-    ∑' Y : {Y : Fin (n + 1) → Fin (M + 1) → E | gramE σ (blockOne t J) Y = blockOne t T}, f Y.1 =
+    ∑' Y : U, f Y.1 =
       ∑' q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t},
-        ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T}, f (gact σ (rr q)⁻¹ (consTup X.1)) := by
+        ∑' X : S, f (gact σ (rr q)⁻¹ (consTup X.1)) := by
   have hrow : ∀ (q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t})
       (X : Fin n → Fin M → E), gact σ (rr q)⁻¹ (consTup X) 0 = q.1 0 := by
     intro q X
@@ -181,12 +189,9 @@ theorem tsum_block (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) 
     rw [gact_inv_gact] at h
     exact (congrFun h 0).symm
   let m : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t} ×
-      {X : Fin n → Fin M → E | gramE σ J X = T} →
-      {Y : Fin (n + 1) → Fin (M + 1) → E | gramE σ (blockOne t J) Y = blockOne t T} :=
-    fun p => ⟨gact σ (rr p.1)⁻¹ (consTup p.2.1), by
-      change gramE σ (blockOne t J) _ = _
-      rw [gramE_gact, BlockAlg.gramE_consTup]
-      exact congrArg (blockOne t) p.2.2⟩
+      S →
+      U :=
+    fun p => ⟨gact σ (rr p.1)⁻¹ (consTup p.2.1), (hSU _ _ (hS _ p.2.2)).2 p.2.2⟩
   have hinj : Function.Injective m := by
     rintro ⟨q, X⟩ ⟨q', X'⟩ h
     have h1 : gact σ (rr q)⁻¹ (consTup X.1) = gact σ (rr q')⁻¹ (consTup X'.1) :=
@@ -203,7 +208,7 @@ theorem tsum_block (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) 
     exact Prod.ext rfl (Subtype.ext (consTup_injective h2))
   have hsurj : Function.Surjective m := by
     rintro ⟨Y, hY⟩
-    have hY' : gramE σ (blockOne t J) Y = blockOne t T := hY
+    have hY' : gramE σ (blockOne t J) Y = blockOne t T := hU Y hY
     have hy : gramE σ (blockOne t J) (fun _ : Fin 1 => Y 0) = fun _ _ => t := by
       funext a b
       exact congrFun (congrFun hY' 0) 0
@@ -212,12 +217,25 @@ theorem tsum_block (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) 
     have hG : gramE σ (blockOne t J) (gact σ (rr q) Y) = blockOne t T := by
       rw [gramE_gact]; exact hY'
     obtain ⟨X, hX, hYX⟩ := BlockAlg.exists_consTup_of_gramE σ J ht T _ h0 hG
-    refine ⟨(q, ⟨X, hX⟩), Subtype.ext ?_⟩
-    change gact σ (rr q)⁻¹ (consTup X) = Y
-    rw [← hYX, gact_inv_gact]
+    have hYX' : gact σ (rr q)⁻¹ (consTup X) = Y := by rw [← hYX, gact_inv_gact]
+    have hXS : X ∈ S := (hSU _ _ hX).1 (hYX'.symm ▸ hY)
+    exact ⟨(q, ⟨X, hXS⟩), Subtype.ext hYX'⟩
   let e := Equiv.ofBijective m ⟨hinj, hsurj⟩
   rw [← e.tsum_eq (fun Y => f Y.1), ENNReal.tsum_prod']
   rfl
+
+theorem tsum_block (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) {t : E} (ht : t ≠ 0)
+    (T : Matrix (Fin n) (Fin n) E)
+    (rr : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t} →
+      UJ (σ : E →+* E) (blockOne t J))
+    (hrr : ∀ q, gact σ (rr q) q.1 = fun _ => Fin.cons 1 (fun _ => 0))
+    (f : (Fin (n + 1) → Fin (M + 1) → E) → ℝ≥0∞) :
+    ∑' Y : {Y : Fin (n + 1) → Fin (M + 1) → E | gramE σ (blockOne t J) Y = blockOne t T}, f Y.1 =
+      ∑' q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t},
+        ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T}, f (gact σ (rr q)⁻¹ (consTup X.1)) := by
+  refine tsum_block_of_sets σ J ht T rr hrr _ _ (fun _ hX => hX) (fun _ hY => hY) ?_ f
+  intro g X hX
+  simp only [Set.mem_setOf_eq, gramE_gact, BlockAlg.gramE_consTup, hX]
 
 end Tuples
 
@@ -255,8 +273,16 @@ theorem ratTup_adele_injective {F E : Type} [Field F] [NumberField F] [Field E] 
 
 
 
-theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (μ : Measure (HA (AF F) σ (blockOne (algebraMap F E t) J))) 𝓕, IsHaarH F E σ (M + 1) _ μ → IsFDH F E σ (M + 1) _ μ 𝓕 → ∀ (μ₁ : Measure (HA (AF F) σ J)) 𝓕₁, IsHaarH F E σ M J μ₁ → IsFDH F E σ M J μ₁ 𝓕₁ → ∀ (Φ : (Fin (n + 1) → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞) (Ψ : (Fin 1 → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞), Measurable Φ → Measurable Ψ → (∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J), Ψ (actW (AF F) σ _ h (fun _ => Fin.cons 1 (fun _ => 0))) = ∫⁻ X, Φ (actW (AF F) σ _ h (consTup X)) ∂(thetaMeas σ J μ₁ 𝓕₁ {X | gramE σ J X = T})) → ∫⁻ X, Φ X ∂(thetaMeas σ _ μ 𝓕 {X | gramE σ (blockOne (algebraMap F E t) J) X = blockOne (algebraMap F E t) T}) = ∫⁻ y, Ψ y ∂(thetaMeas σ _ μ 𝓕 {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t}) := by
-  intro F E _ _ _ _ _ σ hσ M J hJ t ht n T μ 𝓕 hμ h𝓕 μ₁ 𝓕₁ hμ₁ h𝓕₁ Φ Ψ hΦ hΨ hyp
+theorem theta_stage_of_sums : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (S : Set (Fin n → Fin M → E)) (U : Set (Fin (n + 1) → Fin (M + 1) → E)),
+    (∀ (g : UJ (σ : E →+* E) J) (f : (Fin n → Fin M → E) → ℝ≥0∞),
+      ∑' X : S, f (gact σ g X.1) = ∑' X : S, f X.1) →
+    (∀ (rr : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t} →
+        UJ (σ : E →+* E) (blockOne (algebraMap F E t) J)),
+      (∀ q, gact σ (rr q) q.1 = fun _ => Fin.cons 1 (fun _ => 0)) →
+      ∀ f : (Fin (n + 1) → Fin (M + 1) → E) → ℝ≥0∞,
+        ∑' Y : U, f Y.1 = ∑' q, ∑' X : S, f (gact σ (rr q)⁻¹ (consTup X.1))) →
+    ∀ (μ : Measure (HA (AF F) σ (blockOne (algebraMap F E t) J))) 𝓕, IsHaarH F E σ (M + 1) _ μ → IsFDH F E σ (M + 1) _ μ 𝓕 → ∀ (μ₁ : Measure (HA (AF F) σ J)) 𝓕₁, IsHaarH F E σ M J μ₁ → IsFDH F E σ M J μ₁ 𝓕₁ → ∀ (Φ : (Fin (n + 1) → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞) (Ψ : (Fin 1 → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞), Measurable Φ → Measurable Ψ → (∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J), Ψ (actW (AF F) σ _ h (fun _ => Fin.cons 1 (fun _ => 0))) = ∫⁻ X, Φ (actW (AF F) σ _ h (consTup X)) ∂(thetaMeas σ J μ₁ 𝓕₁ S)) → ∫⁻ X, Φ X ∂(thetaMeas σ _ μ 𝓕 U) = ∫⁻ y, Ψ y ∂(thetaMeas σ _ μ 𝓕 {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t}) := by
+  intro F E _ _ _ _ _ σ hσ M J hJ t ht n S U hsum hblock μ 𝓕 hμ h𝓕 μ₁ 𝓕₁ hμ₁ h𝓕₁ Φ Ψ hΦ hΨ hyp
   obtain ⟨⟨i1, i2, i3⟩, -⟩ := GlobalTheory.CompanionTheory.AdeleTop.adele_top F
   haveI := i1
   haveI := i2
@@ -312,7 +338,7 @@ theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
   choose rr hrr using hW
   let r := fun q => ratH (AF F) σ (blockOne (algebraMap F E t) J) (rr q)
   let φ : HA (AF F) σ (blockOne (algebraMap F E t) J) → ℝ≥0∞ := fun g =>
-    ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T},
+    ∑' X : S,
       Φ (actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X.1)))
   have hφ : Measurable φ := by
     refine Measurable.tsum fun X => hΦ.comp ?_
@@ -328,10 +354,10 @@ theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
           actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) (gact σ w⁻¹ X))) := by
       intro X
       rw [mul_inv_rev, hmul, ← map_inv ι, hιcons, ratH_inv, actW_ratH']
-    change ∑' X : {X : Fin n → Fin M → E | gramE σ J X = T},
+    change ∑' X : S,
         Φ (actW (AF F) σ _ (ι (ratH (AF F) σ J w) * g)⁻¹ (consTup (ratTup (AF F) X.1))) = φ g
     simp only [e]
-    exact tsum_gact σ w⁻¹ T (fun X => Φ (actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X))))
+    exact hsum w⁻¹ (fun X => Φ (actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X))))
   have hΓ : ∀ u ∈ HFinIn (AF F) σ J, ι u ∈ HFinIn (AF F) σ (blockOne (algebraMap F E t) J) :=
     fun u hu => (mem_HFinIn_iff _ σ _ _).2 ((hιF u).2 ((mem_HFinIn_iff _ σ _ _).1 hu))
   have hfix : ∀ (g : UJ (σ : E →+* E) (blockOne (algebraMap F E t) J)),
@@ -387,12 +413,11 @@ theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
     rw [← e1, ← e2]
   have key := _root_.GlobalTheory.CompanionTheory.SW.Averaging.lintegral_sum_cosets_average _ _ ι hιc μ μ₁ Γ Γ₁ 𝓕 𝓕₁ h𝓕 h𝓕₁ hfin hΓ _ r (fun q => ratH_mem _ σ _ _) huniq φ hφ hinv
   have hA : ∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J),
-      ∑' Y : {Y : Fin (n + 1) → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) Y =
-          blockOne (algebraMap F E t) T},
+      ∑' Y : U,
         Φ (actW (AF F) σ _ h⁻¹ (ratTup (AF F) Y.1)) =
       ∑' q, φ (r q * h) := by
     intro h
-    rw [tsum_block σ J ht' T rr hrr (fun Y => Φ (actW (AF F) σ _ h⁻¹ (ratTup (AF F) Y)))]
+    rw [hblock rr hrr (fun Y => Φ (actW (AF F) σ _ h⁻¹ (ratTup (AF F) Y)))]
     refine tsum_congr fun q => tsum_congr fun X => ?_
     have e3 : (r q)⁻¹ = ratH (AF F) σ _ (rr q)⁻¹ := ratH_inv _ σ _ _
     rw [mul_inv_rev, hmul, e3, ← ratTup_consTup, actW_ratH']
@@ -420,5 +445,11 @@ theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [Numb
       refine lintegral_congr fun h => tsum_congr fun q => ?_
       have e3 : (r q)⁻¹ = ratH (AF F) σ _ (rr q)⁻¹ := ratH_inv _ σ _ _
       rw [hC, mul_inv_rev, hmul, e3, hfix, hrinv]
+
+theorem theta_stage : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (μ : Measure (HA (AF F) σ (blockOne (algebraMap F E t) J))) 𝓕, IsHaarH F E σ (M + 1) _ μ → IsFDH F E σ (M + 1) _ μ 𝓕 → ∀ (μ₁ : Measure (HA (AF F) σ J)) 𝓕₁, IsHaarH F E σ M J μ₁ → IsFDH F E σ M J μ₁ 𝓕₁ → ∀ (Φ : (Fin (n + 1) → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞) (Ψ : (Fin 1 → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞), Measurable Φ → Measurable Ψ → (∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J), Ψ (actW (AF F) σ _ h (fun _ => Fin.cons 1 (fun _ => 0))) = ∫⁻ X, Φ (actW (AF F) σ _ h (consTup X)) ∂(thetaMeas σ J μ₁ 𝓕₁ {X | gramE σ J X = T})) → ∫⁻ X, Φ X ∂(thetaMeas σ _ μ 𝓕 {X | gramE σ (blockOne (algebraMap F E t) J) X = blockOne (algebraMap F E t) T}) = ∫⁻ y, Ψ y ∂(thetaMeas σ _ μ 𝓕 {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t}) := by
+  intro F E _ _ _ _ _ σ hσ M J hJ t ht n T
+  have ht' : algebraMap F E t ≠ 0 := (map_ne_zero_iff _ (algebraMap F E).injective).2 ht
+  exact theta_stage_of_sums F E σ hσ M J hJ t ht n _ _
+    (fun g => tsum_gact σ g T) (tsum_block σ J ht' T)
 
 end GlobalTheory.CompanionTheory.SW.ThetaStage

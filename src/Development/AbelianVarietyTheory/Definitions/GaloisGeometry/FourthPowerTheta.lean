@@ -75,6 +75,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussianEigenFrames.GramFrameComposition.IntOpTwoFreeOf
 
 @[expose] public section
 
@@ -298,14 +299,7 @@ theorem fourth_power_theta : TensZ := by
 
 open Formalism.L2.Th1.G JL Formalism.G in
 theorem jets_linear : JetsLinZ := by
-  intro K _ _ _ n _ T γ hT ν _ M Cm hC hM
-  have k1 : JetsIn (unitBall K) (linSub γ (Formalism.L2.Th1.G.tens4 T)) := (jets_in_norm_holds K _ _).1 hT
-  have k2 : JetsIn (unitBall K) (linSub Cm (linSub γ (Formalism.L2.Th1.G.tens4 T))) := jetsIn_linSub hC k1
-  have e : (fun (w : Fin 4 × n) (x : Fin 4 × ν) => ∑ w', γ w w' * Cm w' x) = four M := by
-    funext w x
-    exact hM w.1 w.2 x.1 x.2
-  rw [linSub_linSub, e, linSub_tens4] at k2
-  exact jets_fourth_holds K (unitBall K) ν (linSub M T) fourth_root_mem k2
+  apply _root_.Formalism.L2.Th1.GD.JetsLinZ_proof
 
 theorem jets_two_of (hT : TensZ) (hG : GramTransfer) (hF : FrameCompose) (hJ : JetsLinZ) : IntOpTwoLoc := by
   intro a₀ b₀ c₀ dK ha hdK lam hlam hcmok n _ _ h Λ hsd hst θ hθ ι W hU hW ha1 hLN κx _ r t N hr hN hpN ht

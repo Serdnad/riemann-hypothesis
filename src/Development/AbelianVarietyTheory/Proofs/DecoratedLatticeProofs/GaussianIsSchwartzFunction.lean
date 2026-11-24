@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
 public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.SiegelWeilUnitarySchrodinger
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolyMulGaussianBounded
 import Mathlib.Algebra.Order.Floor.Extended
@@ -76,22 +77,7 @@ theorem norm_iteratedFDeriv_id_le_one_add (j : ℕ) (x : E) :
 
 theorem norm_iteratedFDeriv_diag_le (B : E →L[ℝ] E →L[ℝ] ℝ) (n : ℕ) (x : E) :
     ‖iteratedFDeriv ℝ n (fun y => B y y) x‖ ≤ ‖B‖ * (2 ^ n * (1 + ‖x‖) ^ 2) := by
-  have h := B.norm_iteratedFDeriv_le_of_bilinear (f := id) (g := id) (N := (n : WithTop ℕ∞))
-    contDiff_id contDiff_id x le_rfl
-  simp only [id] at h
-  refine h.trans (mul_le_mul_of_nonneg_left ?_ (norm_nonneg _))
-  calc ∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ) * ‖iteratedFDeriv ℝ i (fun y : E => y) x‖ *
-        ‖iteratedFDeriv ℝ (n - i) (fun y : E => y) x‖
-      ≤ ∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ) * (1 + ‖x‖) ^ 2 := by
-        refine Finset.sum_le_sum fun i _ => ?_
-        rw [mul_assoc, sq]
-        gcongr
-        · exact norm_iteratedFDeriv_id_le_one_add i x
-        · exact norm_iteratedFDeriv_id_le_one_add (n - i) x
-    _ = 2 ^ n * (1 + ‖x‖) ^ 2 := by
-        rw [← Finset.sum_mul]
-        congr 1
-        exact_mod_cast Nat.sum_range_choose n
+  first | exact _root_.PositivityTheory.ThKF0.Lib.norm_iteratedFDeriv_diag_le | exact @_root_.PositivityTheory.ThKF0.Lib.norm_iteratedFDeriv_diag_le | apply _root_.PositivityTheory.ThKF0.Lib.norm_iteratedFDeriv_diag_le <;> assumption
 
 theorem norm_iteratedFDeriv_rexp (i : ℕ) (y : ℝ) : ‖iteratedFDeriv ℝ i Real.exp y‖ = Real.exp y := by
   rw [norm_iteratedFDeriv_eq_norm_iteratedDeriv]
@@ -102,67 +88,12 @@ theorem norm_iteratedFDeriv_rexp (i : ℕ) (y : ℝ) : ‖iteratedFDeriv ℝ i R
 
 theorem exists_coercive [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ) (hB : ∀ x, x ≠ 0 → B x x < 0) :
     ∃ c > 0, ∀ x, B x x ≤ -(c * ‖x‖ ^ 2) := by
-  rcases subsingleton_or_nontrivial E with hE | hE
-  · refine ⟨1, one_pos, fun x => ?_⟩
-    rw [Subsingleton.elim x 0]; simp
-  · have hcont : Continuous fun y : E => B y y := (B.continuous.clm_apply continuous_id)
-    obtain ⟨x0, hx0, hmax⟩ := (isCompact_sphere (0 : E) 1).exists_isMaxOn
-      (NormedSpace.sphere_nonempty.2 zero_le_one) hcont.continuousOn
-    have hx0n : ‖x0‖ = 1 := by simpa using hx0
-    have hx0ne : x0 ≠ 0 := by intro h; rw [h, norm_zero] at hx0n; exact zero_ne_one hx0n
-    refine ⟨-(B x0 x0), by linarith [hB x0 hx0ne], fun x => ?_⟩
-    by_cases hx : x = 0
-    · subst hx; simp
-    · have hxn : 0 < ‖x‖ := norm_pos_iff.2 hx
-      set u : E := ‖x‖⁻¹ • x with hu
-      have hun : u ∈ Metric.sphere (0 : E) 1 := by
-        rw [mem_sphere_zero_iff_norm, hu, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hxn.ne']
-      have hxu : x = ‖x‖ • u := by rw [hu, smul_smul, mul_inv_cancel₀ hxn.ne', one_smul]
-      have h1 : B u u ≤ B x0 x0 := hmax hun
-      have h2 : B x x = ‖x‖ ^ 2 * B u u := by
-        conv_lhs => rw [hxu]
-        simp only [map_smul, ContinuousLinearMap.smul_apply, smul_eq_mul]; ring
-      rw [h2]
-      nlinarith [sq_nonneg ‖x‖]
+  first | exact _root_.PositivityTheory.ThKF0.Lib.exists_coercive | exact @_root_.PositivityTheory.ThKF0.Lib.exists_coercive | apply _root_.PositivityTheory.ThKF0.Lib.exists_coercive <;> assumption
 
 theorem exists_schwartz_exp_diag [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ)
     (hB : ∀ x, x ≠ 0 → B x x < 0) :
     ∃ f : SchwartzMap E ℂ, ∀ x, f x = ((Real.exp (B x x) : ℝ) : ℂ) := by
-  obtain ⟨c, hc, hBc⟩ := exists_coercive B hB
-  have hq : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun y : E => B y y) := B.contDiff.clm_apply contDiff_id
-  have hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Real.exp ∘ fun y : E => B y y) := Real.contDiff_exp.comp hq
-  refine ⟨⟨Complex.ofRealLI ∘ (Real.exp ∘ fun y : E => B y y),
-    Complex.ofRealLI.toContinuousLinearMap.contDiff.comp hg, ?_⟩, fun x => rfl⟩
-  intro k n
-  obtain ⟨C, hC⟩ := _root_.GlobalTheory.PolynomialGaussianBounded.poly_mul_gaussian_bounded c hc (k + 2 * n)
-  refine ⟨n ! * (2 * (‖B‖ + 1)) ^ n * C, fun x => ?_⟩
-  have hn : ((n : ℕ∞) : WithTop ℕ∞) ≤ ((⊤ : ℕ∞) : WithTop ℕ∞) := by exact_mod_cast le_top
-  rw [LinearIsometry.norm_iteratedFDeriv_comp_left _ hg.contDiffAt hn]
-  have hfb := norm_iteratedFDeriv_comp_le (g := Real.exp) (f := fun y : E => B y y)
-    Real.contDiff_exp hq hn x (C := Real.exp (B x x)) (D := 2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2)
-    (fun i _ => (norm_iteratedFDeriv_rexp i _).le) (fun i hi _ => by
-      have hB0 := norm_nonneg B
-      have hx0 := norm_nonneg x
-      have a1 : ‖B‖ ≤ (‖B‖ + 1) ^ i :=
-        le_trans (by linarith) (le_self_pow₀ (by linarith) (by omega))
-      have a2 : (1 + ‖x‖) ^ 2 ≤ ((1 + ‖x‖) ^ 2) ^ i :=
-        le_self_pow₀ (by nlinarith) (by omega)
-      calc ‖iteratedFDeriv ℝ i (fun y : E => B y y) x‖ ≤ ‖B‖ * (2 ^ i * (1 + ‖x‖) ^ 2) :=
-            norm_iteratedFDeriv_diag_le B i x
-        _ = 2 ^ i * ‖B‖ * (1 + ‖x‖) ^ 2 := by ring
-        _ ≤ 2 ^ i * (‖B‖ + 1) ^ i * ((1 + ‖x‖) ^ 2) ^ i := by gcongr
-        _ = (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ i := by rw [mul_pow, mul_pow])
-  have hx0 := norm_nonneg x
-  have hB0 := norm_nonneg B
-  calc ‖x‖ ^ k * ‖iteratedFDeriv ℝ n (Real.exp ∘ fun y : E => B y y) x‖
-      ≤ (1 + ‖x‖) ^ k * (n ! * Real.exp (-(c * ‖x‖ ^ 2)) * (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ n) := by
-        gcongr
-        · linarith
-        · exact hfb.trans (by gcongr; exact hBc x)
-    _ = n ! * (2 * (‖B‖ + 1)) ^ n * ((1 + ‖x‖) ^ (k + 2 * n) * Real.exp (-(c * ‖x‖ ^ 2))) := by
-        rw [show (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ n = (2 * (‖B‖ + 1)) ^ n * (1 + ‖x‖) ^ (2 * n) by
-          rw [mul_pow, pow_mul], pow_add]; ring
-    _ ≤ n ! * (2 * (‖B‖ + 1)) ^ n * C := by gcongr; exact hC ‖x‖ hx0
+  apply _root_.PositivityTheory.ThKF0.Lib.exists_schwartz_exp_diag <;> assumption
 
 end GlobalTheory.GaussSchwartz
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionSchrodingerModelFiniteIdempotent
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ProdDat
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.CombAtSingleZero
@@ -671,16 +672,8 @@ theorem isHalf_mul {D : D7} {S T : HSp D} (e : AE D) (A : Matrix (Fin T.rank) (F
 
 theorem isHalf_actO_iff {D : D7} (S T : HSp D) (g : GA D S) (h : GA D T) (e : AE D) (x : WO S T) :
     IsHalf e (actO S T g h x) ↔ IsHalf e x := by
-  constructor
-  · intro hx
-    have e1 : x = actO S T g⁻¹ h⁻¹ (actO S T g h x) := by
-      unfold actO
-      rw [inv_inv, ← Matrix.mul_assoc, ← Matrix.mul_assoc, _root_.GlobalTheory.MixModel.mt_inv_mul, Matrix.one_mul, Matrix.mul_assoc,
-        _root_.GlobalTheory.MixModel.mt_inv_mul, Matrix.mul_one]
-    rw [e1]
-    exact isHalf_mul e _ _ _ hx
-  · intro hx
-    exact isHalf_mul e _ _ _ hx
+  intros
+  apply _root_.GlobalTheory.SchrMove.isHalf_actO_iff <;> assumption
 
 variable {D : D7} {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 variable {Y Y' : Type} [Fintype Y] [DecidableEq Y] [Fintype Y'] [DecidableEq Y'] {S T : HSp D}

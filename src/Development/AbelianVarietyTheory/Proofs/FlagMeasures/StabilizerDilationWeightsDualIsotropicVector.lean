@@ -51,6 +51,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.BesselLine.ConvGrp
 
 @[expose] public section
 
@@ -240,17 +241,7 @@ private theorem inv_eq_Hpk_mul_conjTranspose_mul_Hpk_of_mem_Nset {n : Mat k r} (
 
 private theorem Hpk_eI_apply (b : Fin r) (p : Fin (2 * r + k + 1)) :
     Hpk k r (eI k r b) p = if p = esI k r b then 1 else 0 := by
-  refine Rad.cases3 (P := fun p => Hpk k r (eI k r b) p = if p = esI k r b then 1 else 0) ?_ ?_ ?_ p
-  · intro a
-    rw [Rad.H_ee, if_neg (Rad.eI_ne_esI a b)]
-  · intro j
-    rw [Rad.H_ew, if_neg (Rad.wI_ne_esI j b)]
-  · intro c
-    rw [Rad.H_es]
-    by_cases h : b = c
-    · subst h; simp
-    · have h' : esI k r c ≠ esI k r b := fun e => h ((Rad.esI_inj c b).1 e).symm
-      rw [if_neg h, if_neg h']
+  apply _root_.PI.WBL.Cv.hpk_row_eI <;> assumption
 
 private theorem Hpk_apply_eI (a : Fin r) (q : Fin (2 * r + k + 1)) :
     Hpk k r q (eI k r a) = if q = esI k r a then 1 else 0 := by

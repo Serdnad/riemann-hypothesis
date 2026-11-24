@@ -61,6 +61,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.DivCalc
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.GeometryProofs.RegularAtTranslate, Development.AutomorphicSpectrum.Proofs.GeometryProofs.TranslateIntoSmallerOpen, Development.AutomorphicSpectrum.Proofs.GeometryProofs.BtOrderEqOfLe, Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsFinOpenSubBaseChange, Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfReg, Development.WeilBound.CoreStatements.HodgeTatePoints.HtatHopfTop
@@ -405,15 +406,7 @@ theorem app_constSec {R' : Type} [CommRing R'] (p : X ⟶ Spec (CommRingCat.of R
 
 theorem dvd_of_stalkMap_dvd (r : Y ⟶ X) [Flat r] (z : Y) {a b : X.presheaf.stalk (r z)}
     (h : (r.stalkMap z).hom a ∣ (r.stalkMap z).hom b) : a ∣ b := by
-  let _ := (r.stalkMap z).hom.toAlgebra
-  have : Module.Flat (X.presheaf.stalk (r z)) (Y.presheaf.stalk z) := Flat.stalkMap r z
-  have : IsLocalHom (algebraMap (X.presheaf.stalk (r z)) (Y.presheaf.stalk z)) :=
-    inferInstanceAs (IsLocalHom (r.stalkMap z).hom)
-  have : Module.FaithfullyFlat (X.presheaf.stalk (r z)) (Y.presheaf.stalk z) :=
-    Module.FaithfullyFlat.of_flat_of_isLocalHom
-  rw [← Ideal.mem_span_singleton, ← Ideal.comap_map_eq_self_of_faithfullyFlat (B := Y.presheaf.stalk z) (Ideal.span {a}),
-    Ideal.mem_comap, Ideal.map_span, Set.image_singleton, Ideal.mem_span_singleton]
-  exact h
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.dvd_descend <;> assumption
 
 theorem top_le_of_spec_comp {K L : Type} [Field K] [Field L] (κ : K →+* L) (x : Spec (CommRingCat.of K) ⟶ X) (U : X.Opens)
     (h : ⊤ ≤ (Spec.map (CommRingCat.ofHom κ) ≫ x) ⁻¹ᵁ U) : ⊤ ≤ x ⁻¹ᵁ U := by

@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.StandardHermitianFormHostFieldInhabitant
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DeterminantBlockProductRenameTorusPolynomial
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HermitianFormAtFrameLaws
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
@@ -70,7 +73,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AnalyticFibreIsotropicPointsInjectiveRoots, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.AnalyticFibreIsotropicPointsInjectiveRootsStatement, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsEvenRepsTensorLatticeAndSumStatement, Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ShortThetaValueComplexPointEqClassicalTheta
 
@@ -391,17 +393,7 @@ theorem polyDeriv_eq_sum {θ : W → ℂ} {x : W} (hθ : ContDiffAt ℂ ω θ x)
     (P : MvPolynomial T ℂ) (u : T → W) :
     I2.polyDeriv P u θ x =
       ∑ m ∈ P.support, P.coeff m * mD θ x ((Finsupp.toMultiset m).map u) := by
-  unfold I2.polyDeriv
-  refine Finset.sum_congr rfl fun m _ => ?_
-  congr 1
-  have hL : (((Finsupp.toMultiset m).toList.map u : List W) : Multiset W) =
-      (Finsupp.toMultiset m).map u := by
-    rw [← Multiset.map_coe, Multiset.coe_toList]
-  rw [← hL, mD_coe hθ, lD_eq θ x _ (n := Multiset.card (Finsupp.toMultiset m))
-    (by rw [List.length_map, Multiset.length_toList])]
-  congr 1
-  funext k
-  simp [List.get_eq_getElem]
+  first | exact _root_.GlobalTheory.BlockRen.polyDeriv_eq_sum | exact @_root_.GlobalTheory.BlockRen.polyDeriv_eq_sum | apply _root_.GlobalTheory.BlockRen.polyDeriv_eq_sum <;> assumption
 
 theorem polyDeriv_rename {θ : W → ℂ} {x : W} (hθ : ContDiffAt ℂ ω θ x) {T κ : Type} (ρ : T → κ)
     (hρ : Function.Injective ρ) (P : MvPolynomial T ℂ) (v : κ → W) :
@@ -431,19 +423,7 @@ theorem isHomogeneous_of_rowDeg {T k : Type} [Fintype T] [Field k] {m : T → �
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g n : ℕ}
 
 theorem stdLat_eq : stdLat E n = stdL E n := by
-  refine le_antisymm (fun v hv => ?_) (Submodule.span_le.2 ?_)
-  · have h : ∀ i, ∃ a : 𝓞 E, algebraMap (𝓞 E) E a = v i := fun i =>
-      Submodule.mem_one.1 (hv i (Set.mem_univ i))
-    choose a ha using h
-    have e : v = ∑ i, a i • (Pi.single i 1 : Fin n → E) := by
-      funext j
-      simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, ha]
-    rw [e]
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  · rintro _ ⟨i, rfl⟩ j -
-    by_cases h : j = i
-    · subst h; simpa using Submodule.mem_one.2 ⟨1, map_one _⟩
-    · simp [h]
+  apply _root_.GlobalTheory.UnRep.StdInhab.stdLat_eq_span <;> assumption
 
 theorem unimod_trivAt {M : ℕ} {Λ : Lt E n} (h : Λ ∈ Vset E n M) :
     (⟨Λ⟩ : GenLat E n).Unimod ∧ (⟨Λ⟩ : GenLat E n).TrivAt M := by

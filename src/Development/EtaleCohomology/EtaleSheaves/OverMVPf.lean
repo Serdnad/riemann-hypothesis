@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.SurjStepPf
 public import Development.EtaleCohomology.EtaleSheaves.InjStepPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -70,20 +71,7 @@ theorem range_sub {T : Scheme.{0}} (U : S.Opens) (a : T ⟶ U) :
 
 theorem cover (p : X ⟶ S) (V W : S.Opens) :
     Set.range (resO p (le_sup_left : V ≤ V ⊔ W)) ∪ Set.range (resO p (le_sup_right : W ≤ V ⊔ W)) = Set.univ := by
-  refine Set.eq_univ_of_forall fun y => ?_
-  have hy : p (pullback.fst p (V ⊔ W).ι y) ∈ ((V ⊔ W : S.Opens) : Set S) := by
-    have := range_sub (V ⊔ W) (pullback.snd p (V ⊔ W).ι) ⟨y, rfl⟩
-    rwa [← pullback.condition, Scheme.Hom.comp_apply] at this
-  have inj := (pullback.fst p (V ⊔ W).ι).isOpenEmbedding.injective
-  rcases hy with hV | hW
-  · obtain ⟨s, hs⟩ : p (pullback.fst p (V ⊔ W).ι y) ∈ Set.range V.ι := by rwa [Scheme.Opens.range_ι]
-    obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback (f := p) (g := V.ι) _ s hs.symm
-    left; refine ⟨z, inj ?_⟩
-    rw [← Scheme.Hom.comp_apply, resO_fst, hz]
-  · obtain ⟨s, hs⟩ : p (pullback.fst p (V ⊔ W).ι y) ∈ Set.range W.ι := by rwa [Scheme.Opens.range_ι]
-    obtain ⟨z, hz, -⟩ := Scheme.Pullback.exists_preimage_pullback (f := p) (g := W.ι) _ s hs.symm
-    right; refine ⟨z, inj ?_⟩
-    rw [← Scheme.Hom.comp_apply, resO_fst, hz]
+  apply @LateralTheory.E.SurjStepPf.cover <;> assumption
 
 abbrev PP (p : X ⟶ S) (V W : S.Opens) : Scheme.{0} :=
   pullback (resO p (le_sup_left : V ≤ V ⊔ W)) (resO p (le_sup_right : W ≤ V ⊔ W))

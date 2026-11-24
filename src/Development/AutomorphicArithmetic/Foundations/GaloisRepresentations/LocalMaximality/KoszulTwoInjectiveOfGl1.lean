@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.KoszulTwoExactOfGl2
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.LiftFactorization
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,23 +58,7 @@ private lemma exists_of_mem_sm_range {S E : Type} [CommRing S] [Algebra ℂ S] [
     (act : S →ₐ[ℂ] Module.End ℂ E) (M : Submodule ℂ E) {d : ℕ} (f : Fin d → S) (x : E)
     (hx : x ∈ sm act M (Set.range f)) :
     ∃ m : Fin d → E, (∀ j, m j ∈ M) ∧ x = ∑ j, act (f j) (m j) := by
-  classical
-  let L : (Fin d → M) →ₗ[ℂ] E :=
-    ∑ j, ((act (f j) : E →ₗ[ℂ] E) ∘ₗ M.subtype ∘ₗ (LinearMap.proj j : (Fin d → M) →ₗ[ℂ] M))
-  have hL : ∀ v, L v = ∑ j, act (f j) (v j : E) := by
-    intro v
-    simp [L, LinearMap.sum_apply]
-  have hle : sm act M (Set.range f) ≤ LinearMap.range L := by
-    refine iSup₂_le ?_
-    rintro _ ⟨j, rfl⟩ _ ⟨m, hm, rfl⟩
-    refine ⟨Pi.single j ⟨m, hm⟩, ?_⟩
-    rw [hL, Finset.sum_eq_single j]
-    · simp
-    · intro b _ hb
-      simp [Pi.single_eq_of_ne hb]
-    · simp
-  obtain ⟨v, rfl⟩ := hle hx
-  exact ⟨fun j => (v j : E), fun j => (v j).2, hL v⟩
+  apply _root_.UpperTheory.Gal.productCup_of_system.sm_dec <;> assumption
 
 theorem UpperTheory.Gal.productCup_of_system.koszulTwoInjective_of_gl1 :
     FiltrationBoundaryCriterion → SubQEx → KoszulBoundaryOfComponentMemIdeal := by

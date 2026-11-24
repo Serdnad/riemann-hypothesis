@@ -10,6 +10,7 @@ public import Mathlib.MeasureTheory.Measure.Haar.Unique
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalTwistEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.CommProj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
+import all Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.GalEquiv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -109,12 +110,7 @@ private theorem norm_algebraMap_inf {K : Type} [Field K] (u : InfinitePlace K) (
 
 private theorem norm_infEquiv {K : Type} [Field K] [NumberField K] (σ : K ≃+* K) (u : InfinitePlace K)
     (y : (u.comap σ.toRingHom).Completion) : ‖CT.infEquiv σ u y‖ = ‖y‖ := by
-  have h := (infDense (u.comap σ.toRingHom)).equalizer (continuous_norm.comp (CT.continuous_infEquiv σ u))
-    continuous_norm (funext fun x => ?_)
-  · exact congrFun h y
-  simp only [Function.comp_apply]
-  rw [CT.infEquiv_algebraMap, norm_algebraMap_inf, norm_algebraMap_inf]
-  rfl
+  apply _root_.norm_infEquiv <;> assumption
 
 private theorem mult_comap_equiv {K : Type} [Field K] [NumberField K] (σ : K ≃+* K) (u : InfinitePlace K) :
     (u.comap σ.toRingHom).mult = u.mult := by

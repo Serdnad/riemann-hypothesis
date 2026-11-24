@@ -683,13 +683,7 @@ theorem _root_.UpperTheory.Lit.Tam.slopeMax_sq_latW_le_pow_mul (h6 : True) {PP A
 theorem _root_.UpperTheory.Lit.Tam.integral_cusp_slope_power_bound :
     Hypotheses2 → Gram → Lifts fun Fm x _ ι p i _ A =>
       slopeMax_sq (nrmK p.fw i) (latW (p.T.U ((i : ℕ) + 1)) (Gk p i)) ≤ (Fm.L x ι).sc.x ^ A * (Fm.L x ι).sc.b := by
-  intro hP hG
-  refine Closed.imp (Closed.and hG (Closed.and (GlobalTheory.CovTop.Sizes.hostN 1) _root_.GlobalTheory.CovTop.WtShape.wtN)) ?_
-  rintro eps Fm CH - ⟨⟨_, -, h1⟩, ⟨A, hA, h2⟩, ⟨_, -, h3⟩⟩
-  obtain ⟨x0, h⟩ := h1.and (h2.and h3)
-  refine ⟨2 * A + 4, by linarith, x0, fun x hx hle ι p hp i => ?_⟩
-  obtain ⟨a, b, c⟩ := h x hx hle ι p hp
-  exact UpperTheory.Lit.Tam.slopeMax_sq_latW_le_pow_mul p i trivial hp.2 (a i) (b i) (c i)
+  apply _root_.GlobalTheory.CovTop.LamCore.lamCore <;> assumption
 
 end GlobalTheory.CovTop.LamCore
 end

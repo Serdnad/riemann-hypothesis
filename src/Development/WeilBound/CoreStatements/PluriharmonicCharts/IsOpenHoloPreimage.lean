@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.BaseMetricExistsOfGiven
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsBlkCover
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsImg
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.GenericBlockMatrixIsBlockDiag
@@ -160,27 +161,7 @@ theorem log_smul (A : HermLine ι) (c : K → ℂ) (hc : ∀ k, c k ≠ 0) {z : 
 
 theorem sum_dy (M : FlagModel y Ψ N j) (p : Ψ × Fin N) (L : K → ℝ) :
     ∑ k, (M.dy p k : ℝ) * L k = (M.blk p).elim 0 L - ∑ kb : NonPluckerBlocks M.blk, (M.b p kb : ℝ) * L kb.1 := by
-  rw [← Fintype.sum_subtype_add_sum_subtype (fun k => ∀ p', M.blk p' ≠ some k), add_comm, sub_eq_add_neg,
-    ← Finset.sum_neg_distrib]
-  congr 1
-  · have e : ∀ k : {k // ¬ ∀ p', M.blk p' ≠ some k}, (M.dy p k.1 : ℝ) * L k.1 = if M.blk p = some k.1 then L k.1 else 0 :=
-      fun k => by
-        rw [FlagModel.dy, dite_eq_right k.2]
-        split_ifs <;> simp
-    simp only [e]
-    cases hp : M.blk p with
-    | none => simp
-    | some k₁ =>
-      rw [Finset.sum_eq_single (⟨k₁, fun h => h p hp⟩ : {k // ¬ ∀ p', M.blk p' ≠ some k})]
-      · simp
-      · intro k _ hk
-        rw [if_neg]
-        intro h
-        exact hk (Subtype.ext (Option.some.inj h).symm)
-      · simp
-  · refine Finset.sum_congr (by congr; exact Subsingleton.elim _ _) fun k _ => ?_
-    rw [FlagModel.dy, dif_pos k.2]
-    simp
+  apply _root_.PositivityTheory.Xgp.c_bm_exists_hom.sum_dy <;> assumption
 
 theorem exists_exact (M : FlagModel y Ψ N j) {F : FrameData ι Ψ N M.Ω M.blk} {z : (Σ k, ι k) → ℂ}
     {h : Ψ → Matrix (Fin N) (Fin N) ℂ} (H : M.IsFlagOf F z h) :

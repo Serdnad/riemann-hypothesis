@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SatakeParameterOfSpherical
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RepresentationTheory.Basic
 public import Mathlib.Topology.Algebra.Group.Defs
@@ -370,39 +371,8 @@ variable {E : Type} [Field E] [NumberField E] {w : HeightOneSpectrum (𝓞 E)} {
 theorem exists_hasSatGL_of_scalar {π : Representation ℂ (GL (Fin n) (w.adicCompletion E)) V}
     (hsc : ∀ h ∈ Hecke ℂ (KGL w (n := n)), ∃ c : ℂ, ∀ x ∈ fixed π (KGL w (n := n)), heckeVec π (KGL w (n := n)) h x = c • x)
     (hs : GlobalTheory.LGrp.IsSpherical π (KGL w (n := n))) : ∃ B, HasSatGL w π B := by
-  have hK : IsCommensurated (KGL w (n := n)) := Final.GLintComm E w n
-  obtain ⟨ϖ, hu⟩ := exists_isUnifV w
-  have h0 := ne_zero_of_isUnifV hu
-  obtain ⟨x, hx, hx0⟩ := (Submodule.ne_bot_iff _).1 hs
-  choose c hc using fun j => hsc _ (Tj_mem_hecke (n := n) hu j)
-  have c0 : c 0 = 1 := by
-    have e : Tj ℂ n (Ov E w) ϖ 0 = dosetInd ℂ (KGL w (n := n)) 1 := by
-      rw [Tj_eq h0]
-      congr 1
-    refine smul_left_injective ℂ hx0 ?_
-    simp only [← hc 0 x hx, e, heckeVec_one hK hx, one_smul]
-  have cn : c n ≠ 0 := by
-    intro e
-    have h1 := hc n x hx
-    have hTn : Tj ℂ n (Ov E w) ϖ n = dosetInd ℂ (KGL w (n := n)) (tor h0 fun _ => 1) := by
-      rw [Tj_eq h0]; simp
-    rw [e, zero_smul, hTn, heckeVec_dosetInd (R := {tor h0 fun _ => 1}) hx, Finset.sum_singleton] at h1
-    · exact hx0 (by simpa [← Module.End.mul_apply, ← map_mul] using congrArg (π (tor h0 fun _ => 1)⁻¹) h1)
-    · intro γ hγ
-      exact mem_doset.2 ⟨1, one_mem _, 1, one_mem _, by simpa using hγ⟩
-    · intro g hg
-      obtain ⟨a, ha, b, hb, rfl⟩ := mem_doset.1 hg
-      refine ⟨_, ⟨Finset.mem_singleton_self _, ?_⟩, fun γ hγ => Finset.mem_singleton.1 hγ.1⟩
-      rw [← tor_const_comm, mul_assoc, inv_mul_cancel_left]
-      exact mul_mem ha hb
-  obtain ⟨B, hB, hBc⟩ := _root_.GlobalTheory.LFun.exists_satEig_eq (qV E w) n (qV_ne_zero w) c c0 cn
-  refine ⟨B, hs, fun y hy hy0 => ⟨hy0, hy, hB, fun ϖ' hu' j hj => ?_⟩⟩
-  have hv : Valued.v (ϖ' / ϖ) = 1 := by
-    rw [map_div₀, hu, hu', div_self WithZero.coe_ne_zero]
-  have e := Final.TjIndep _ (Ov E w) ϖ (ϖ' / ϖ) ℂ n j hv.le
-    (show Valued.v (ϖ' / ϖ)⁻¹ ≤ 1 by rw [map_inv₀, hv, inv_one]) (div_ne_zero (ne_zero_of_isUnifV hu') h0)
-  rw [div_mul_cancel₀ _ h0] at e
-  rw [e, hc j y hy, hBc j hj]
+  intros
+  apply _root_.GlobalTheory.LFun.ExSatGL.exists_hasSatGL <;> assumption
 
 variable [_root_.NumberField.IsTotallyComplex E] {a : ℕ}
 

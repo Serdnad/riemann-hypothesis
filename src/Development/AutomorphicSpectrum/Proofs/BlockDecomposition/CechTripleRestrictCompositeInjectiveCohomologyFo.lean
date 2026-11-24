@@ -51,6 +51,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StructureSheafPullbackRelationsBasicStatement
 
 @[expose] public section
 
@@ -163,16 +164,7 @@ theorem cechTripleRestrictComposite_comp_pairRestrict (ψ : X'' ⟶ X') (φ : X'
 
 theorem cechTripleRestrictComposite_injective_cohomology_forms (ψ : X'' ⟶ X') (φ : X' ⟶ X) (s'' : X'' ⟶ Sp R'') :
     Function.Injective (cechTripleRestrictComposite ψ φ s'').pull1 := by
-  intro x y e
-  obtain ⟨x0, rfl⟩ := (pairRes_bijective (ψ ≫ φ) s'').1.2 x
-  obtain ⟨y0, rfl⟩ := (pairRes_bijective (ψ ≫ φ) s'').1.2 y
-  rw [cechTripleRestrictComposite_comp_pairRestrict, cechTripleRestrictComposite_comp_pairRestrict] at e
-  have H := _root_.GlobalTheory.CechDR.hasLoc_OAff s''
-  have hcov := triple_cover_affine ψ φ s''
-  have hdir := exists_triple_below_two ψ φ s''
-  have hs := _root_.GlobalTheory.sep_of_factoring_cover (OAff s'') _ H hcov
-  have hg := _root_.GlobalTheory.CatCoh.Desc.glue_comma_of_basis (OAff s'') _ H hcov hdir
-  rw [_root_.GlobalTheory.CatCoh.CoefMap.restrict_pull1_injective_of_sep_glue _ _ hs hg e]
+  apply _root_.GlobalTheory.Obs.triResO_injective <;> assumption
 
 theorem isPullO_comp (h : φ ≫ s = s' ≫ spMap σ) (h' : ψ ≫ s' = s'' ≫ spMap τ)
     (h'' : (ψ ≫ φ) ≫ s = s'' ≫ spMap (τ.comp σ)) {a : HO1 s} {a' : HO1 s'} {a'' : HO1 s''}

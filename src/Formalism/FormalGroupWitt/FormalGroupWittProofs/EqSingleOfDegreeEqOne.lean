@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.AltInv
 public import Formalism.FormalGroupWitt.SubstInjectiveV
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -123,25 +124,7 @@ theorem good_prod {N : ℕ} {ι : Type*} (s : Finset ι) (k : ι → ℕ)
 
 theorem eq_single_of_degree_eq_one {ι : Type*} [Fintype ι] (e : ι →₀ ℕ)
     (he : e.degree = 1) : ∃ i, e = Finsupp.single i 1 := by
-  classical
-  rw [Finsupp.degree_eq_sum] at he
-  obtain ⟨i, hi⟩ : ∃ i, e i ≠ 0 := by
-    by_contra hc
-    simp only [not_exists, not_not] at hc
-    rw [Finset.sum_eq_zero (fun k _ => hc k)] at he
-    exact zero_ne_one he
-  have hsplit := Finset.add_sum_erase Finset.univ (fun k => e k) (Finset.mem_univ i)
-  rw [he] at hsplit
-  have hei : e i = 1 := by omega
-  refine ⟨i, ?_⟩
-  ext k
-  by_cases hk : k = i
-  · subst hk; simp [hei]
-  · rw [Finsupp.single_apply, if_neg (Ne.symm hk)]
-    have : e k ≤ ∑ x ∈ Finset.univ.erase i, e x :=
-      Finset.single_le_sum (f := fun x => e x) (fun _ _ => Nat.zero_le _)
-        (Finset.mem_erase.2 ⟨hk, Finset.mem_univ k⟩)
-    omega
+  apply _root_.Formalism.L2.FormalSeriesBounds.AltInv.deg_one_single <;> assumption
 
 theorem hasOrd_one_of_cc {z : MvPowerSeries τ R} (hz : constantCoeff z = 0) : HasOrd 1 z := by
   intro d hd

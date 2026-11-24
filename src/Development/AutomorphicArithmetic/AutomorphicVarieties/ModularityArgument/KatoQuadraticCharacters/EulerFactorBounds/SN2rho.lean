@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CoefficientCongruenceOfTwistedValues
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.EulerFactorBounds.SPushPsi
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OpLDOneSubMemTriv
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.KatoQuadraticCharacters.EulerFactorBounds.DiamEx
@@ -76,35 +77,7 @@ private theorem Sm.sum {l : ℕ} [Fact l.Prime] {n : ℕ} {T : Type} (S : Finset
   | insert a S ha ih => rw [Finset.sum_insert ha]; exact (h a).add ih
 
 private theorem nle {l : ℕ} [Fact l.Prime] (c : Coef l) {a : Qbar l} (ha : a ∈ c.O) : ‖a‖ ≤ 1 := by
-  classical
-  obtain ⟨s, hs⟩ := (Module.Finite.fg_top : (⊤ : Submodule ℤ_[l] c.O).FG)
-  have hB : ∀ x : c.O, ‖(x : PadicAlgCl l)‖ ≤ ∑ g ∈ s, ‖(g : PadicAlgCl l)‖ := by
-    intro x
-    have hx : x ∈ Submodule.span ℤ_[l] (s : Set c.O) := by
-      rw [hs]
-      exact Submodule.mem_top
-    induction hx using Submodule.span_induction with
-    | mem g hg =>
-      exact Finset.single_le_sum (f := fun g : c.O => ‖(g : PadicAlgCl l)‖)
-        (fun _ _ => norm_nonneg _) hg
-    | zero =>
-      simp only [ZeroMemClass.coe_zero, norm_zero]
-      exact Finset.sum_nonneg (fun _ _ => norm_nonneg _)
-    | add x y _ _ hx hy =>
-      rw [AddMemClass.coe_add]
-      exact (PadicAlgCl.isNonarchimedean l _ _).trans (max_le hx hy)
-    | smul r x _ hx =>
-      rw [SetLike.val_smul, Algebra.smul_def, norm_mul]
-      have hr : ‖algebraMap ℤ_[l] (PadicAlgCl l) r‖ ≤ 1 := by
-        rw [IsScalarTower.algebraMap_apply ℤ_[l] ℚ_[l] (PadicAlgCl l)]
-        exact (PadicAlgCl.norm_extends l _).trans_le (PadicInt.norm_le_one r)
-      exact (mul_le_of_le_one_left (norm_nonneg _) hr).trans hx
-  by_contra hlt
-  push_neg at hlt
-  obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt (∑ g ∈ s, ‖(g : PadicAlgCl l)‖) hlt
-  have hle : ‖a ^ n‖ ≤ ∑ g ∈ s, ‖(g : PadicAlgCl l)‖ := hB ⟨a ^ n, c.O.pow_mem ha n⟩
-  rw [norm_pow] at hle
-  linarith
+  apply _root_.GlobalTheory.KZ.CoefVal.norm_le_one_of_mem <;> assumption
 
 end UpperTheory.V.Z.Kato.Nb.SquareNormRepresentation
 

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PSectionCountDropFiltStep
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.SectionMulInjSt
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PStepThreeAway
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.PStepThreeOnWGen
@@ -25,21 +26,7 @@ variable {S : Type u} [CommRing S] {Ω : Type w} [Field Ω] [Algebra S Ω] {N : 
 theorem exists_of_mem_idealMod (J : Ideal (Poly S N)) (I : Chart x) {z : Ω} (hz : z ∈ idealMod (x := x) J I) :
     ∃ (G m : Poly S N) (e : ℕ), G ∈ J ∧ m ∈ monos I.1 ∧ G.IsHomogeneous e ∧ m.IsHomogeneous e ∧
       z = aeval x G / aeval x m := by
-  induction hz using Submodule.span_induction with
-  | mem z hz => exact hz
-  | zero => exact ⟨0, 1, 0, J.zero_mem, one_mem _, isHomogeneous_zero _ _ _, isHomogeneous_one _ _, by simp⟩
-  | add a b _ _ ha hb =>
-    obtain ⟨G, m, e, hG, hm, hGe, hme, rfl⟩ := ha
-    obtain ⟨G', m', e', hG', hm', hGe', hme', rfl⟩ := hb
-    refine ⟨G * m' + m * G', m * m', e + e', J.add_mem (J.mul_mem_right _ hG) (J.mul_mem_left _ hG'),
-      mul_mem hm hm', (hGe.mul hme').add (hme.mul hGe'), hme.mul hme', ?_⟩
-    rw [div_add_div _ _ (eval_ne_zero_of_mem_monos I hm) (eval_ne_zero_of_mem_monos I hm')]
-    simp only [map_add (f := _), map_mul]
-  | smul r a _ ha =>
-    obtain ⟨F, m₀, e₀, hm₀, hF, hm₀e, hr⟩ := r.2
-    obtain ⟨G, m, e, hG, hm, hGe, hme, rfl⟩ := ha
-    refine ⟨F * G, m₀ * m, e₀ + e, J.mul_mem_left _ hG, mul_mem hm₀ hm, hF.mul hGe, hm₀e.mul hme, ?_⟩
-    rw [chartRing_smul_def, hr, map_mul, map_mul, div_mul_div_comm]
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionCount.Drop.Filt.Step.exists_frac_of_mem_idealMod <;> assumption
 
 
 omit [Algebra S Ω] in

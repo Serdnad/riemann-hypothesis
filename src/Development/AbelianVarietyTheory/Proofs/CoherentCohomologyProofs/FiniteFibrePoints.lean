@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.AbelianVarietyTorsionFiniteEndomorphismDivisible
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThetaVV
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.IsFiniteMulByNatAbelianVarietyAlgClosed
 import Mathlib.Algebra.Order.Floor.Extended
@@ -81,17 +82,7 @@ theorem finite_fibre_points {K : Type} [Field K] [IsAlgClosed K]
     {X Y : Over (Spec (CommRingCat.of K))} [LocallyOfFiniteType X.hom] (f : X ⟶ Y)
     [IsFinite f.left] (y : 𝟙_ (Over (Spec (CommRingCat.of K))) ⟶ Y) :
     Finite {x : 𝟙_ (Over (Spec (CommRingCat.of K))) ⟶ X // x ≫ f = y} := by
-  have hfin : (f.left ⁻¹' {y.left (IsLocalRing.closedPoint K)}).Finite :=
-    f.left.finite_preimage_singleton _
-  have := hfin.to_subtype
-  refine Finite.of_injective
-    (fun x => (⟨x.1.left (IsLocalRing.closedPoint K), by
-      have h := congrArg (fun u => u.left (IsLocalRing.closedPoint K)) x.2
-      exact h⟩ : (f.left ⁻¹' {y.left (IsLocalRing.closedPoint K)}))) ?_
-  intro a b hab
-  refine Subtype.ext (Over.OverMorphism.ext ?_)
-  exact ext_of_apply_closedPoint_eq (K := K) X.hom (Over.w a.1) (Over.w b.1)
-    (congrArg Subtype.val hab)
+  first | exact _root_.GlobalTheory.TorsionDivisible.finite_fibre_points | exact @_root_.GlobalTheory.TorsionDivisible.finite_fibre_points | apply _root_.GlobalTheory.TorsionDivisible.finite_fibre_points <;> assumption
 
 theorem finite_torsion : ∀ (K : Type) [Field K] [IsAlgClosed K] (B : Over (Spec (CommRingCat.of K))) [GrpObj B], IsAbelianScheme B → ∀ n : ℕ, 1 ≤ n → Finite {x : 𝟙_ (Over (Spec (CommRingCat.of K))) ⟶ B // x ^ n = 1} := by
   intro K _ _ B _ hB n hn

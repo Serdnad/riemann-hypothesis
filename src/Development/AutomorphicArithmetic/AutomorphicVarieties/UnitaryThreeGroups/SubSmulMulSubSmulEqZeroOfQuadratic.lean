@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.TorsionOrderFrobenius.QuadMu
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeDeformations.LevelAway
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.RhoKApply
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.ClassFieldRamification.ExistsQuadraticGaussSum
 import Mathlib.Algebra.Order.Floor.Extended
@@ -213,140 +215,11 @@ end
 private theorem sub_smul_mul_sub_smul_eq_zero_of_quadratic {K : Type} [Field K] [NumberField K] (hK : Module.finrank ℚ K = 2) :
     (discr K % 4 = 0 ∨ discr K % 4 = 1) ∧ ∃ δ : K, δ ^ 2 = (discr K : K) ∧
       ∀ x : K, ∃ a b : ℚ, 2 * x * δ = (a : K) * δ + (b : K) := by
-  classical
-  haveI : Algebra.IsQuadraticExtension ℚ K := { finrank_eq_two' := hK }
-  haveI : IsGalois ℚ K := inferInstance
-  have hcard : Fintype.card (K ≃ₐ[ℚ] K) = 2 := by
-    rw [← Nat.card_eq_fintype_card]
-    exact (IsGalois.card_aut_eq_finrank ℚ K).trans hK
-  obtain ⟨σ, hσ1⟩ : ∃ σ : K ≃ₐ[ℚ] K, σ ≠ 1 := by
-    by_contra hcon
-    push_neg at hcon
-    have h1 : Fintype.card (K ≃ₐ[ℚ] K) ≤ 1 :=
-      Fintype.card_le_one_iff.mpr (fun a b => by rw [hcon a, hcon b])
-    omega
-  have hall : ∀ τ : K ≃ₐ[ℚ] K, τ = 1 ∨ τ = σ := by
-    intro τ
-    by_contra hcon
-    push_neg at hcon
-    have h3 : ({1, σ, τ} : Finset (K ≃ₐ[ℚ] K)).card = 3 :=
-      Finset.card_eq_three.mpr ⟨1, σ, τ, hσ1.symm, hcon.1.symm, hcon.2.symm, rfl⟩
-    have h4 := Finset.card_le_univ ({1, σ, τ} : Finset (K ≃ₐ[ℚ] K))
-    omega
-  have hσσ : ∀ x : K, σ (σ x) = x := by
-    have hsq : σ * σ = 1 := by
-      rcases hall (σ * σ) with h | h
-      · exact h
-      · exfalso
-        exact hσ1 (mul_left_cancel (h.trans (mul_one σ).symm))
-    intro x
-    rw [← AlgEquiv.mul_apply, hsq, AlgEquiv.one_apply]
-  have hother : ∀ τ : K ≃ₐ[ℚ] K, ¬ (τ ≠ 1 ∧ τ ≠ σ) := by
-    intro τ hτ
-    rcases hall τ with h | h
-    · exact hτ.1 h
-    · exact hτ.2 h
-  have htr : ∀ x : K, algebraMap ℚ K (Algebra.trace ℚ K x) = x + σ x := by
-    intro x
-    rw [trace_eq_sum_automorphisms, Fintype.sum_eq_add 1 σ (Ne.symm hσ1)]
-    · rw [AlgEquiv.one_apply]
-    · intro τ hτ
-      exact absurd hτ (hother τ)
-  have hnm : ∀ x : K, algebraMap ℚ K (Algebra.norm ℚ x) = x * σ x := by
-    intro x
-    rw [Algebra.norm_eq_prod_automorphisms, Fintype.prod_eq_mul 1 σ (Ne.symm hσ1)]
-    · rw [AlgEquiv.one_apply]
-    · intro τ hτ
-      exact absurd hτ (hother τ)
-  have hcardι : Fintype.card (Module.Free.ChooseBasisIndex ℤ (𝓞 K)) = 2 := by
-    rw [← Module.finrank_eq_card_basis (integralBasis K), hK]
-  let e := Fintype.equivFinOfCardEq hcardι
-  obtain ⟨u, hu_def⟩ : ∃ u, u = integralBasis K (e.symm 0) := ⟨_, rfl⟩
-  obtain ⟨v, hv_def⟩ : ∃ v, v = integralBasis K (e.symm 1) := ⟨_, rfl⟩
-  have hD : ((discr K : ℤ) : ℚ) = Algebra.trace ℚ K (u * u) * Algebra.trace ℚ K (v * v) -
-      Algebra.trace ℚ K (u * v) * Algebra.trace ℚ K (v * u) := by
-    rw [coe_discr, ← Algebra.discr_reindex ℚ (integralBasis K) e, Algebra.discr_def, Matrix.det_fin_two]
-    simp only [Algebra.traceMatrix_apply, Algebra.traceForm_apply, Function.comp_apply, hu_def, hv_def]
-  have hu : IsIntegral ℤ u := by
-    rw [hu_def, integralBasis_apply]
-    exact RingOfIntegers.isIntegral_coe _
-  have hv : IsIntegral ℤ v := by
-    rw [hv_def, integralBasis_apply]
-    exact RingOfIntegers.isIntegral_coe _
-  have hintZ : ∀ q : ℚ, IsIntegral ℤ q → ∃ r : ℤ, (r : ℚ) = q := by
-    intro q hq
-    obtain ⟨r, hr⟩ := IsIntegrallyClosed.isIntegral_iff.1 hq
-    exact ⟨r, by simpa using hr⟩
-  have hP : IsIntegral ℤ (u * σ v) := hu.mul (map_isIntegral_int σ hv)
-  obtain ⟨α, hα⟩ := hintZ _ (Algebra.isIntegral_trace (L := ℚ) hP)
-  obtain ⟨β, hβ⟩ := hintZ _ (Algebra.isIntegral_norm ℚ hP)
-  have hDK : ((discr K : ℤ) : K) = (u * u + σ (u * u)) * (v * v + σ (v * v)) -
-      (u * v + σ (u * v)) * (v * u + σ (v * u)) := by
-    have h := congrArg (algebraMap ℚ K) hD
-    simp only [map_sub, map_mul, htr, map_intCast] at h
-    rw [h]
-    simp only [map_mul]
-  obtain ⟨δ, hδ_def⟩ : ∃ δ : K, δ = u * σ v - σ u * v := ⟨_, rfl⟩
-  have hδ2 : δ ^ 2 = ((discr K : ℤ) : K) := by
-    rw [hDK, hδ_def]
-    simp only [map_mul]
-    ring
-  have hα' : (α : K) = u * σ v + σ u * v := by
-    have h := htr (u * σ v)
-    rw [← hα, map_intCast, map_mul, hσσ] at h
-    exact h
-  have hβ' : (β : K) = u * σ v * (σ u * v) := by
-    have h := hnm (u * σ v)
-    rw [← hβ, map_intCast, map_mul, hσσ] at h
-    exact h
-  have hDK2 : ((discr K : ℤ) : K) = (α : K) ^ 2 - 4 * (β : K) := by
-    rw [← hδ2, hα', hβ', hδ_def]
-    ring
-  have hDZ : discr K = α ^ 2 - 4 * β := by exact_mod_cast hDK2
-  have hmod : discr K % 4 = 0 ∨ discr K % 4 = 1 := by
-    rw [hDZ]
-    rcases Int.even_or_odd α with ⟨k, hk⟩ | ⟨k, hk⟩
-    · left
-      have h' : α ^ 2 - 4 * β = 4 * (k * k - β) := by rw [hk]; ring
-      rw [h']
-      exact Int.mul_emod_right 4 _
-    · right
-      have h' : α ^ 2 - 4 * β = 4 * (k * k + k - β) + 1 := by rw [hk]; ring
-      rw [h']
-      generalize k * k + k - β = X
-      omega
-  have hσδ : σ δ = -δ := by
-    rw [hδ_def, map_sub, map_mul, map_mul, hσσ, hσσ]
-    ring
-  refine ⟨hmod, δ, hδ2, fun x => ⟨Algebra.trace ℚ K x, Algebra.trace ℚ K (x * δ), ?_⟩⟩
-  have h1 : ((Algebra.trace ℚ K x : ℚ) : K) = x + σ x :=
-    (eq_ratCast (algebraMap ℚ K) _).symm.trans (htr x)
-  have h2 : ((Algebra.trace ℚ K (x * δ) : ℚ) : K) = x * δ + σ x * -δ := by
-    rw [← eq_ratCast (algebraMap ℚ K), htr, map_mul, hσδ]
-  rw [h1, h2]
-  ring
+  apply _root_.UpperTheory.V.Sd.Tw.sub_smul_mul_sub_smul_eq_zero_of_quadratic <;> assumption
 
 private theorem cls_eq_one {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosure ℚ Ω] {N : ℕ} [NeZero N] (s : G ℚ Ω)
     (h : ∀ ζ : Ω, ζ ^ N = 1 → s ζ = ζ) : Chr.cls ℚ Ω N s = 1 := by
-  have key : ∀ t ∈ rootsOfUnity N Ω,
-      (MulSemiringAction.toRingAut (G ℚ Ω) Ω s) (t : Ω) = (t : Ω) ^ (1 : ZMod N).val := by
-    intro t ht
-    have htN : (t : Ω) ^ N = 1 := by
-      rw [mem_rootsOfUnity] at ht
-      rw [← Units.val_pow_eq_pow_val, ht, Units.val_one]
-    change s (t : Ω) = _
-    rw [h _ htN, ZMod.val_one_eq_one_mod]
-    rcases Nat.lt_or_ge 1 N with hN | hN
-    · rw [Nat.mod_eq_of_lt hN, pow_one]
-    · have hN1 : N = 1 := by
-        have := NeZero.ne N
-        omega
-      rw [hN1] at htN ⊢
-      rw [Nat.mod_self, pow_zero]
-      simpa using htN
-  apply Units.ext
-  rw [Units.val_one]
-  exact (modularCyclotomicCharacter.unique Ω (Chr.card_roots ℚ Ω N) _ key).symm
+  apply _root_.la_cls <;> assumption
 
 end UpperTheory.V.U3.EtaMu
 

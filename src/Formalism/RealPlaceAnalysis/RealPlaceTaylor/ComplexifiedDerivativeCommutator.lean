@@ -1,5 +1,6 @@
 module
 
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
 public import Formalism.RealPlaceAnalysis.SmoothOnG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -126,11 +127,7 @@ theorem rdBracket_of (h : RdExt) (hs : RdSmooth) : RdBracket := by
 
 lemma lie_algebra_add_mem_matrix {n : ℕ} {ε : Fin n → Bool} {A B : Matrix (Fin n) (Fin n) ℂ}
     (hA : inG ε A) (hB : inG ε B) : inG ε (A + B) := by
-  unfold inG at *
-  rw [conjTranspose_add, Matrix.add_mul, Matrix.mul_add]
-  calc Aᴴ * Jm ε + Bᴴ * Jm ε + (Jm ε * A + Jm ε * B)
-      = (Aᴴ * Jm ε + Jm ε * A) + (Bᴴ * Jm ε + Jm ε * B) := by abel
-    _ = 0 := by rw [hA, hB, add_zero]
+  apply _root_.Formalism.REAL.lie_algebra_add_mem <;> assumption
 
 lemma lie_algebra_neg_mem {n : ℕ} {ε : Fin n → Bool} {A : Matrix (Fin n) (Fin n) ℂ}
     (hA : inG ε A) : inG ε (-A) := by

@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.LevelSubgroupIndexBounded
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PairIntAt
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FrameSignSimple
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsIsConjAtOfEmbedding
@@ -667,15 +669,7 @@ namespace GlobalTheory.SumSize.GamSize
 
 private theorem prod_norm_le {E : Type} [Field E] [NumberField E] (S : Finset (HeightOneSpectrum (𝓞 E))) {n : ℕ} (hn : n ≠ 0)
     (h : ∀ P ∈ S, (n : 𝓞 E) ∈ P.asIdeal) : ∏ P ∈ S, Ideal.absNorm P.asIdeal ≤ n ^ Module.finrank ℚ E := by
-  have hd : ∏ P ∈ S, P.asIdeal ∣ Ideal.span {(n : 𝓞 E)} := by
-    refine Finset.prod_dvd_of_coprime (fun P _ Q _ hPQ => ?_) fun P hP => ?_
-    · exact (Ideal.isCoprime_iff_sup_eq).2
-        (P.isMaximal.coprime_of_ne Q.isMaximal fun e => hPQ (HeightOneSpectrum.ext e))
-    · rw [Ideal.dvd_iff_le, Ideal.span_singleton_le_iff_mem]
-      exact h P hP
-  have h2 := map_dvd Ideal.absNorm hd
-  rw [map_prod, Ideal.absNorm_span_natCast, RingOfIntegers.rank] at h2
-  exact Nat.le_of_dvd (pow_pos (Nat.pos_of_ne_zero hn) _) h2
+  apply _root_.GlobalTheory.CovTop.LevelIndex.prod_absNorm_le <;> assumption
 
 private theorem card_GL_le {E : Type} [Field E] [NumberField E] (P : HeightOneSpectrum (𝓞 E)) (r : ℕ) :
     Nat.card (GL (Fin r) (𝓞 E ⧸ P.asIdeal)) ≤ Ideal.absNorm P.asIdeal ^ (r * r) := by
@@ -866,18 +860,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 namespace GlobalTheory.FormVal
 
 theorem bigC_and {Q Q' : ChQ} (h : BigC Q) (h' : BigC Q') : BigC fun F ch C b => Q F ch C b ∧ Q' F ch C b := by
-  obtain ⟨A0, hA⟩ := h
-  obtain ⟨B0, hB⟩ := h'
-  refine ⟨max A0 B0, fun CF hCF => ?_⟩
-  obtain ⟨C1, hC1⟩ := hA CF (le_trans (le_max_left _ _) hCF)
-  obtain ⟨C2, hC2⟩ := hB CF (le_trans (le_max_right _ _) hCF)
-  refine ⟨max C1 C2, fun ε C hC => ?_⟩
-  obtain ⟨x1, hx1⟩ := hC1 ε C (le_trans (le_max_left _ _) hC)
-  obtain ⟨x2, hx2⟩ := hC2 ε C (le_trans (le_max_right _ _) hC)
-  refine ⟨max x1 x2, ?_⟩
-  intro D large₂ hε hx Γ _ _ Pl0 T A Ks _ _ _ R F hS ch hIs hAt hOK
-  exact ⟨hx1 D large₂ hε (le_trans (le_max_left _ _) hx) Γ Pl0 T A Ks R F hS ch hIs hAt hOK,
-    hx2 D large₂ hε (le_trans (le_max_right _ _) hx) Γ Pl0 T A Ks R F hS ch hIs hAt hOK⟩
+  apply _root_.GlobalTheory.SumSize.BigC.and <;> assumption
 
 theorem bigC_mono {Q Q' : ChQ} (h : BigC Q) (hQ : ∀ {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T : Type}
     {A : FamIn D.what₂.LL Γ Pl0 T D.R.m} {Ks : Type} [Field Ks] [NumberField Ks] [Algebra Ks D.what₂.LL] {R : RealDat D A Ks}

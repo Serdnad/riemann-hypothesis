@@ -9,6 +9,7 @@ import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.RingTheory.TotallySplit
 public import Mathlib.Algebra.Algebra.ZMod
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGoodA
 
 @[expose] public section
 
@@ -19,17 +20,7 @@ namespace GroundTheory.Heights₂.Heights
 open MvPolynomial NumberField ReciprocityTheory.ChartRestriction.G
 
 theorem int_isJacobsonRing : IsJacobsonRing ℤ := by
-  refine isJacobsonRing_iff_prime_eq.mpr fun P hP ↦ ?_
-  by_cases h : P = ⊥
-  · subst h
-    refine le_antisymm (fun a ha ↦ ?_) Ideal.le_jacobson
-    rw [Ideal.mem_jacobson_bot] at ha
-    have h1 := Int.isUnit_iff.mp (ha 1)
-    have h2 := Int.isUnit_iff.mp (ha (-1))
-    rw [Ideal.mem_bot]
-    omega
-  · have := hP.isMaximal h
-    exact Ideal.jacobson_eq_self_of_isMaximal
+  apply _root_.ReciprocityTheory.ChartRestriction.G.Geo.int_isJacobsonRing <;> assumption
 
 theorem natCard_eq_pow_length_of_finiteType (F : Type) [Field F] [Algebra.FiniteType ℤ F]
     (q : ℕ) [CharP F q] :

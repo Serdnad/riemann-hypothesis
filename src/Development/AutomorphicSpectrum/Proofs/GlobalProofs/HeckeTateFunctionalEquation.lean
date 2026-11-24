@@ -269,17 +269,7 @@ theorem exists_norm_one_zpow_ne (m : ℤ) (hm : m ≠ 0) : ∃ ζ : ℂ, ‖ζ�
 
 private theorem exists_inclusion_mul_eq_mul_inclusion_of_normal {L : Type} [Field L] [NumberField L] (φ : L →+* ℂ) :
     ∃ c : (InfinitePlace.mk φ).Completion →+* ℂ, Continuous c ∧ ∀ k : L, c (algebraMap L _ k) = φ k := by
-  rcases InfinitePlace.embedding_mk_eq φ with h | h
-  · refine ⟨InfinitePlace.Completion.extensionEmbedding _,
-      (InfinitePlace.Completion.isometry_extensionEmbedding _).continuous, fun k => ?_⟩
-    rw [InfinitePlace.Completion.algebraMap_apply, InfinitePlace.Completion.extensionEmbedding_coe, h]
-    rfl
-  · refine ⟨(starRingEnd ℂ).comp (InfinitePlace.Completion.extensionEmbedding _),
-      Complex.continuous_conj.comp (InfinitePlace.Completion.isometry_extensionEmbedding _).continuous,
-      fun k => ?_⟩
-    rw [RingHom.comp_apply, InfinitePlace.Completion.algebraMap_apply,
-      InfinitePlace.Completion.extensionEmbedding_coe, h, ComplexEmbedding.conjugate_coe_eq]
-    exact Complex.conj_conj _
+  apply _root_.GlobalTheory.InfTypeLocal.exists_ext <;> assumption
 
 private theorem denseRange_units_map_infiniteAdeleRing (E : Type) [Field E] [NumberField E] :
     DenseRange (Units.map (algebraMap E (InfiniteAdeleRing E)).toMonoidHom) := by

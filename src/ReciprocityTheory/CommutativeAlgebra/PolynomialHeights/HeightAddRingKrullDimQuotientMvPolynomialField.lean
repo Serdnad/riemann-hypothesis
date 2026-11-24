@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.ArithmeticGeometry.AbelianVarieties.JacobianSmoothness.RingKrullDimLeRingKrullDimQuotientAddOne
 public import Mathlib.RingTheory.AlgebraicIndependent.Basic
 public import Mathlib.RingTheory.Henselian
 public import Mathlib.RingTheory.Ideal.Height
@@ -93,24 +94,8 @@ theorem height_add_ringKrullDim_quotient_mvPolynomial_field (K : Type*) [Field K
 theorem exists_dim_trdeg_field {K A : Type u} [Field K] [CommRing A] [IsDomain A]
     [Algebra K A] [Algebra.FiniteType K A] :
     ∃ s : ℕ, ringKrullDim A = s ∧ Algebra.trdeg K A = s := by
-  obtain ⟨s, g, hinj, hfin⟩ := exists_finite_inj_algHom_of_fg K A
-  letI : Algebra (MvPolynomial (Fin s) K) A := g.toRingHom.toAlgebra
-  haveI : Module.Finite (MvPolynomial (Fin s) K) A := hfin
-  haveI : IsScalarTower K (MvPolynomial (Fin s) K) A :=
-    IsScalarTower.of_algebraMap_eq (fun x => (g.commutes x).symm)
-  have hinj' : Function.Injective (algebraMap (MvPolynomial (Fin s) K) A) := hinj
-  haveI : FaithfulSMul (MvPolynomial (Fin s) K) A := (faithfulSMul_iff_algebraMap_injective _ _).2 hinj'
-  haveI : FaithfulSMul K (MvPolynomial (Fin s) K) :=
-    (faithfulSMul_iff_algebraMap_injective _ _).2 (MvPolynomial.C_injective _ _)
-  refine ⟨s, ?_, ?_⟩
-  · rw [ringKrullDim_eq_of_isIntegral_of_injective hinj']
-    have h6 := height_add_ringKrullDim_quotient_mvPolynomial_field K s (⊥ : Ideal (MvPolynomial (Fin s) K))
-    rw [Ideal.height_bot, ringKrullDim_eq_of_ringEquiv (RingEquiv.quotientBot _)] at h6
-    simpa using h6
-  · have h := trdeg_add_eq K (MvPolynomial (Fin s) K) (A := A)
-    rw [trdeg_eq_zero (R := MvPolynomial (Fin s) K) (A := A), add_zero, MvPolynomial.trdeg_of_isDomain] at h
-    rw [← h]
-    simp
+  intros
+  apply _root_.GroundTheory.Arith.Abelian.Jacobian.exists_ringKrullDim_eq_trdeg <;> assumption
 
 theorem ringKrullDim_eq_of_trdeg_eq_field {K A : Type u} [Field K] [CommRing A] [IsDomain A]
     [Algebra K A] [Algebra.FiniteType K A] (n : ℕ) (h : Algebra.trdeg K A = n) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.FieldIsoLatticesFormTaylorCorrespond
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeightedNormSquareRows
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.StandardRankOneLatticeOfLocal
@@ -192,26 +193,7 @@ variable {D : D7} {X : Fields} (s : Seam D X) {χ : TaylorLogMetric.IdE D → �
 
 theorem mem_lat {n : ℕ} (N : Submodule (𝓞 X.E) (Sp X.E n)) (y : Fin n → D.host.E) :
     y ∈ s.lat N ↔ (fun i => s.iE.symm (y i)) ∈ N := by
-  constructor
-  · intro hy
-    induction hy using Submodule.span_induction with
-    | mem y hy =>
-      obtain ⟨x, hx, rfl⟩ := hy
-      simpa using hx
-    | zero =>
-      convert N.zero_mem using 1
-      funext i
-      exact map_zero _
-    | add a b _ _ ha hb =>
-      convert N.add_mem ha hb using 1
-      funext i
-      exact map_add _ _ _
-    | smul c a _ ha =>
-      convert N.smul_mem (RingOfIntegers.mapRingEquiv s.iE.symm c) ha using 1
-      funext i
-      exact map_osmul s.iE.symm c (a i)
-  · intro hy
-    exact Submodule.subset_span ⟨_, hy, funext fun i => s.iE.apply_symm_apply _⟩
+  first | exact _root_.GlobalTheory.SeamTransport.mem_lat | exact @_root_.GlobalTheory.SeamTransport.mem_lat | apply _root_.GlobalTheory.SeamTransport.mem_lat <;> assumption
 
 theorem detId_lat {n : ℕ} (N : Submodule (𝓞 X.E) (Sp X.E n)) :
     TaylorLogMetric.detId D (StandardLatticesGL3.stdL D n) (s.lat N) = pull s.iE.symm (detI N) := by

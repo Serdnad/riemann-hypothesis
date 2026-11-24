@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsometryMatchesParahoricLevels
 public import Formalism.LocalToGlobal.IndefiniteReal.ScalarOnPartsFull
 public import Formalism.LocalToGlobal.IndefiniteReal.SubgroupCharExtensionOneApply
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotentsStatement
@@ -371,18 +372,7 @@ theorem finSw_cA (z : Formalism.L2.Theta.AE D) :
   | add a b ha hb => rw [RingHom.map_add (f := _), RingHom.map_add (f := _), ha, hb, RingHom.map_add (f := _), RingHom.map_add (f := _)]
 
 theorem finE_mem_UA (V : HSp D) (g : GA D V) : finE V g ∈ UA D.sp.cm V.gram := by
-  have h : Formalism.UG.cT (cA D) (Formalism.L2.Theta.mt V g) * V.gram.map (incA D) * Formalism.L2.Theta.mt V g =
-      V.gram.map (incA D) := (show HR (AF D.host.F) D.sp.cm.sig V.gram from g).2
-  have h2 := congrArg (fun M => Matrix.map M (finSw D)) h
-  simp only [Matrix.map_mul] at h2
-  show Formalism.UG.cT _ (finE V g).1 * _ * (finE V g).1 = _
-  rw [finE_val]
-  have e1 : (Formalism.UG.cT (cA D) (Formalism.L2.Theta.mt V g)).map (finSw D) =
-      Formalism.UG.cT (Formalism.UG.sigR D.sp.cm.sig (Formalism.L2.Herm.Af D.host.F)) ((Formalism.L2.Theta.mt V g).map (finSw D)) := by
-    ext i j
-    exact finSw_cA _
-  rw [e1] at h2
-  exact h2
+  first | exact _root_.GlobalTheory.LevTrans.finE_unitary | exact @_root_.GlobalTheory.LevTrans.finE_unitary | apply _root_.GlobalTheory.LevTrans.finE_unitary <;> assumption
 
 theorem exists_conj (y : 𝓞 D.host.E) : ∃ y' : 𝓞 D.host.E, (y' : D.host.E) = star (y : D.host.E) :=
   ⟨⟨D.sp.cm.sig (y : D.host.E), (y.isIntegral_coe).map ((D.sp.cm.sig : D.host.E →+* D.host.E).toIntAlgHom)⟩, rfl⟩

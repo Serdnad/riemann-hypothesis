@@ -387,16 +387,7 @@ lemma real_theta {K : Type*} [Field K] {m : ℕ} (hm : m ≠ 0) {ζ : K} (hζ : 
 
 lemma not_real_zeta {K : Type*} [Field K] {m : ℕ} (hm : m ≠ 0) (h2 : ¬ m ∣ 2) {ζ : K}
     (hζ : IsPrimitiveRoot ζ m) (ψ : K →+* ℂ) : starRingEnd ℂ (ψ ζ) ≠ ψ ζ := by
-  intro h
-  have hp : IsPrimitiveRoot (ψ ζ) m := hζ.map_of_injective ψ.injective
-  have hc := conj_root hm hp.pow_eq_one
-  have h0 : ψ ζ ≠ 0 := hp.ne_zero hm
-  have h1 : ψ ζ = (ψ ζ)⁻¹ := h.symm.trans hc
-  have hsq : (ψ ζ) ^ 2 = 1 := by
-    rw [sq]
-    calc ψ ζ * ψ ζ = ψ ζ * (ψ ζ)⁻¹ := congrArg (HMul.hMul (ψ ζ)) h1
-      _ = 1 := mul_inv_cancel₀ h0
-  exact h2 (hp.dvd_of_pow_eq_one 2 hsq)
+  apply _root_.Formalism.FrobeniusOrbits.RealCyclotomicSubfield.not_real_zeta <;> assumption
 
 lemma real_on_adjoin {K : Type*} [Field K] [Algebra ℚ K] (t : K) (φ : K →+* ℂ)
     (ht : starRingEnd ℂ (φ t) = φ t) : ∀ x ∈ ℚ⟮t⟯, starRingEnd ℂ (φ x) = φ x := by

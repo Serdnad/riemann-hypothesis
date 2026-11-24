@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DerivativeAsRightWords
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.Rr
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.WaveSt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DifferentiableAtOfSmooth
@@ -104,16 +105,7 @@ section Bracket
 def cf (M : Mat n) (p : Ix n) : ℝ := if p.1 then (M p.2.1 p.2.2).re else (M p.2.1 p.2.2).im
 
 theorem sum_cf (M : Mat n) : ∑ p : Ix n, cf M p • bs p = M := by
-  rw [OmDec.sum_Ix]
-  conv_rhs => rw [Matrix.matrix_eq_sum_single M]
-  refine Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-  ext i j
-  simp only [cf, bs, if_true, Bool.false_eq_true, if_false, Matrix.add_apply, Matrix.smul_apply, Matrix.single_apply]
-  by_cases h : a = i ∧ b = j
-  · simp only [h, and_self, if_true]
-    obtain ⟨rfl, rfl⟩ := h
-    simp [Complex.real_smul, Complex.re_add_im]
-  · simp [h]
+  apply _root_.GlobalTheory.CompanionTheory.SobGL.Expand.sum_co_smul <;> assumption
 
 variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℂ V]
 

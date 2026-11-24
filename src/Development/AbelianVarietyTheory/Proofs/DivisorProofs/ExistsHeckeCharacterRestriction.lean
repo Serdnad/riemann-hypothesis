@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DisjointSpanPerpLat
 public import Formalism.UnipotentAdelicQuotients.ThmBInHecke
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -60,7 +62,6 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.IdeleCharacterTrivialOnCongruence, Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntAEMulMem, Development.AbelianVarietyTheory.Proofs.DivisorProofs.OpenSigmaStableUnitNeighborhood, Development.AbelianVarietyTheory.Proofs.DivisorProofs.QuadraticCharacterExtendsToIdeleClass, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsHeckeCharacterRestriction
 
@@ -588,34 +589,7 @@ namespace GlobalTheory.CMHeckeEta
 
 theorem mem_range_of_fixed : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ k : E, σ k = k → ∃ k₀ : F, algebraMap F E k₀ = k := by
-  intro F E _ _ _ _ _ σ hcm k hk
-  obtain ⟨-, htc, h2, hconj⟩ := hcm
-  haveI : Module.Finite F E := Module.Finite.of_restrictScalars_finite ℚ _ _
-  obtain ⟨x, hx⟩ : ∃ x : E, σ x ≠ x := by
-    by_contra hc
-    push_neg at hc
-    obtain ⟨w⟩ : Nonempty (InfinitePlace E) := inferInstance
-    refine (InfinitePlace.not_isReal_iff_isComplex.2 (htc.isComplex w)) ?_
-    rw [InfinitePlace.isReal_iff, ComplexEmbedding.isReal_iff]
-    ext y
-    change star (w.embedding y) = w.embedding y
-    rw [← hconj, hc]
-  let f : E →ₗ[F] E := σ.toLinearMap - LinearMap.id
-  have hV : LinearMap.ker f ≠ ⊤ := fun h => hx (by
-    have : x ∈ LinearMap.ker f := h ▸ Submodule.mem_top
-    rw [LinearMap.mem_ker] at this
-    simpa [f, sub_eq_zero] using this)
-  have hlt : Module.finrank F (LinearMap.ker f) < 2 := h2 ▸ Submodule.finrank_lt hV
-  have hle : (F ∙ (1 : E)) ≤ LinearMap.ker f := by
-    rw [Submodule.span_singleton_le_iff_mem, LinearMap.mem_ker]
-    simp [f]
-  have h1 : Module.finrank F (F ∙ (1 : E)) = 1 := finrank_span_singleton one_ne_zero
-  have heq : (F ∙ (1 : E)) = LinearMap.ker f := Submodule.eq_of_le_of_finrank_le hle (by omega)
-  have hk' : k ∈ F ∙ (1 : E) := by
-    rw [heq, LinearMap.mem_ker]
-    simp [f, hk]
-  obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 hk'
-  exact ⟨a, by rw [← ha, Algebra.smul_def, mul_one]⟩
+  apply _root_.GlobalTheory.SelfDualLatticeCompare.exists_of_conj_eq <;> assumption
 
 theorem isIntegral_of_finPart_mem : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (x : E), HeckeCharacterZeroLocus.ThmBIn.finPart F E (HeckeCharacterZeroLocus.ThmBIn.incA F E x) ∈ HeckeCharacterZeroLocus.ThmBIn.intAE F E → IsIntegral ℤ x := by
@@ -716,10 +690,7 @@ theorem norm_algebraMap_sq (F E : Type) [Field F] [NumberField F] [Field E] [Num
   rw [Algebra.norm_algebraMap, Module.finrank_baseChange, h2, pow_two]
 
 theorem sq_eq_one_circle (z : Circle) (h : z * z = 1) : z = 1 ∨ z = -1 := by
-  have h3 : (z : ℂ) * z = 1 := by exact_mod_cast congrArg (fun w : Circle => (w : ℂ)) h
-  rcases mul_self_eq_one_iff.1 h3 with h4 | h4
-  · exact Or.inl (Circle.ext h4)
-  · exact Or.inr (Circle.ext (by rw [h4]; simp))
+  apply _root_.GlobalTheory.ArchSignChar.sq_eq_one <;> assumption
 
 theorem continuous_toUnits : Continuous (Circle.toUnits : Circle → ℂˣ) :=
   Units.continuous_iff.2 ⟨continuous_subtype_val, (continuous_subtype_val.comp (continuous_inv : Continuous fun x : Circle => x⁻¹)).congr fun x => Circle.coe_inv x⟩

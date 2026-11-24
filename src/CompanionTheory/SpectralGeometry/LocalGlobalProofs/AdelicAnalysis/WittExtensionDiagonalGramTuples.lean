@@ -54,6 +54,7 @@ import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.CoordinateBijectionTraceForm
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.ThetaDilations.HfSubSmul, CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ExistsNormOneUnitShift, CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.WittExtensionDiagonalGramTuples
@@ -197,15 +198,7 @@ namespace GlobalTheory.CompanionTheory.SW.LamUnit
 
 theorem conj_ne_id {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {σ : E →ₐ[F] E} (h : IsCMExt F E σ) : σ ≠ AlgHom.id F E := by
-  intro hσ
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have := h.2.1
-  apply IsTotallyComplex.complexEmbedding_not_isReal τ
-  rw [ComplexEmbedding.isReal_iff]
-  ext x
-  have := h.2.2.2 τ x
-  rw [hσ] at this
-  simpa [ComplexEmbedding.conjugate_coe_eq] using this.symm
+  apply _root_.GlobalTheory.CompanionTheory.SW.BB.RatCoord.sigma_ne_id <;> assumption
 
 theorem fixed_iff {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (a : E) : σ a = a ↔ a ∈ (algebraMap F E).range := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumTransportAdelicSchwartzThetaTrans
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HasInfExpDiv
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsReading
@@ -360,18 +361,7 @@ section Theta
 open scoped Classical in
 theorem rename_mem_schA {F : Type} [Field F] [NumberField F] {κ κ' : Type} [Fintype κ] [Fintype κ'] (σ : κ ≃ κ')
     {Φ : (κ → AF F) → ℂ} (hΦ : Φ ∈ GlobalTheory.WeilM.schA F κ) : (fun x : κ' → AF F => Φ (x ∘ σ)) ∈ GlobalTheory.WeilM.schA F κ' := by
-  induction hΦ using Submodule.span_induction with
-  | mem Φ h =>
-    obtain ⟨f, g, hg, rfl⟩ := h
-    let A : (κ' → mixedEmbedding.mixedSpace F) ≃L[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
-      (LinearEquiv.funCongrLeft ℝ (mixedEmbedding.mixedSpace F) σ).toContinuousLinearEquiv
-    let B : (κ' → Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F) ≃ₜ (κ → Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F) := (Homeomorph.piCongrLeft (Y := fun _ => Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af F) σ).symm
-    refine Submodule.subset_span ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℂ A f, g ∘ B,
-      ⟨hg.1.comp_continuous B.continuous, hg.2.comp_homeomorph B⟩, ?_⟩
-    rfl
-  | zero => exact Submodule.zero_mem _
-  | add Φ Ψ _ _ h1 h2 => exact Submodule.add_mem _ h1 h2
-  | smul c Φ _ h => exact Submodule.smul_mem _ c h
+  first | exact _root_.GlobalTheory.ThetaTransform.comp_mem_schA | exact @_root_.GlobalTheory.ThetaTransform.comp_mem_schA | apply _root_.GlobalTheory.ThetaTransform.comp_mem_schA <;> assumption
 
 theorem eq_of_theta_schr {F : Type} [Field F] [NumberField F] [Invertible (2 : AF F)] {ψ : AddChar (AF F) ℂ}
     (hR : IsTotallyReal F) (hψ : IsCharAF F ψ) {κ : Type} [Fintype κ] {Φ Φ' : (κ → AF F) → ℂ}

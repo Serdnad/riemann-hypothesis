@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.IsHorizontalImageZ
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsFurtherTail
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiHomogFirstCoordinate
@@ -97,17 +98,7 @@ theorem isMultiHomog_prod_X_pow [DecidableEq K] {J : Type*} [Fintype J] (q : J �
 
 theorem krullDim_quot_add_one_le {R : Type*} [CommRing R] {Q Q₂ : Ideal R} [Q.IsPrime] (hle : Q ≤ Q₂)
     {x : R} (hx : x ∈ Q₂) (hxQ : x ∉ Q) : ringKrullDim (R ⧸ Q₂) + 1 ≤ ringKrullDim (R ⧸ Q) := by
-  have hr : Ideal.Quotient.mk Q x ∈ nonZeroDivisors (R ⧸ Q) :=
-    mem_nonZeroDivisors_of_ne_zero (by rwa [Ne, Ideal.Quotient.eq_zero_iff_mem])
-  refine le_trans ?_ (ringKrullDim_quotient_succ_le_of_nonZeroDivisor hr)
-  gcongr
-  refine ringKrullDim_le_of_surjective (Ideal.Quotient.lift _ (Ideal.Quotient.factor hle) ?_)
-    (Ideal.Quotient.lift_surjective_of_surjective _ _ (Ideal.Quotient.factor_surjective hle))
-  intro y hy
-  obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.1 hy
-  rw [map_mul]
-  obtain ⟨c', rfl⟩ := Ideal.Quotient.mk_surjective c
-  simp only [Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem.2 hx, mul_zero]
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.ArithmeticIntersectionHorizontal.dim_add_one_le <;> assumption
 
 end Algebra
 

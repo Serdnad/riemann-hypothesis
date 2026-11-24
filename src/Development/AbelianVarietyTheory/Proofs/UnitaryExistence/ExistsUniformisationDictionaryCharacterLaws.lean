@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUnitaryOfTraceEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsPrincipalLevelSubgroupOpenStatement
@@ -227,19 +228,6 @@ private theorem fib_gram_eq {E : Type} [Field E] {r : ℕ} (τ : E →+* ℂ) (G
   ext a b
   simp [ReciprocityTheory.ChartRestriction.G.FD.gram, hermC, ReciprocityTheory.ChartRestriction.G.FD.col, Matrix.mul_apply, Finset.mul_sum, mul_assoc]
 
-private theorem fib_cancel {R G : Type} [CommRing R] [Group G] {n : ℕ} (f : G →* GL (Fin n) R) (g g' : G) (N : ℕ)
-    (p v w w' y : Fin n → R) (e : p - (f g).1 *ᵥ v = N • w) (e' : p - (f g').1 *ᵥ v = N • w')
-    (ey : (f g).1 *ᵥ y = w - w') : (f (g⁻¹ * g')).1 *ᵥ v - v = N • y := by
-  have e2 : (f g').1 *ᵥ v - (f g).1 *ᵥ v = N • ((f g).1 *ᵥ y) := by
-    rw [ey, smul_sub, ← e, ← e']; abel
-  have hi : ∀ z, (f g⁻¹).1 *ᵥ ((f g).1 *ᵥ z) = z := fun z => by
-    rw [Matrix.mulVec_mulVec, ← Units.val_mul, ← map_mul, inv_mul_cancel, map_one, Units.val_one,
-      Matrix.one_mulVec]
-  have e3 := congrArg (fun z => (f g⁻¹).1 *ᵥ z) e2
-  simp only [Matrix.mulVec_sub, Matrix.mulVec_smul, hi] at e3
-  rw [map_mul, Units.val_mul, ← Matrix.mulVec_mulVec]
-  exact e3
-
 theorem mem_level_of_mark_of_frame_eq : ∀ (D : D7) (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (V : HSp D) (r : ℕ) (C : Ctx Xo c σ V r), C.OK → ∀ (Kf : Subgroup (GA D V)), IsLevelK V l.M Kf → ∀ h h' k γ γ', C.Mark h k γ → C.Mark h' k γ' → C.fr (γ * h) k = C.fr (γ' * h') k → (γ * h)⁻¹ * (γ' * h') ∈ Kf := by
   intro D H Dw l Xo c σ V r C hC Kf hK h h' k γ γ' hm hm' hfr
   obtain rfl : V.rank = r := C.hr
@@ -282,7 +270,7 @@ theorem mem_level_of_mark_of_frame_eq : ∀ (D : D7) (H : ReciprocityTheory.Char
     have hd : w - w' ∈ (latGHat V g : Set _) := sub_mem hw hw'
     rw [himg] at hd
     obtain ⟨y, hy, ey⟩ := hd
-    exact ⟨y, hy, fib_cancel (finHom V) g g' l.M _ _ w w' y e e' ey⟩
+    exact ⟨y, hy, _root_.GlobalTheory.CharRead.cancel_left (finHom V) g g' l.M _ _ w w' y e e' ey⟩
 
 end GlobalTheory.Member
 end -- clump:auto

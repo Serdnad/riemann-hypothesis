@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ConstantCoeffSubstSame
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
 import Mathlib.Algebra.Order.Floor.Extended
@@ -204,25 +206,6 @@ theorem pderiv_comm (u v : τ) (g : MvPowerSeries τ k) : pderiv u (pderiv v g) 
 
 theorem eq_C_of_pderiv_zero [Algebra ℚ k] {g : MvPowerSeries τ k} (h : ∀ v, pderiv v g = 0) :
     g = C (constantCoeff g) := by
-  classical
-  ext n
-  rw [MvPowerSeries.coeff_C]
-  split_ifs with hn
-  · subst hn
-    simp
-  · obtain ⟨v, hv⟩ : ∃ v, n v ≠ 0 := by
-      by_contra hcon
-      push_neg at hcon
-      exact hn (Finsupp.ext fun i => by simpa using hcon i)
-    set m := n - Finsupp.single v 1 with hm
-    have hnm : n = m + Finsupp.single v 1 :=
-      (tsub_add_cancel_of_le (Finsupp.single_le_iff.mpr (Nat.one_le_iff_ne_zero.mpr hv))).symm
-    have h0 := congrArg (MvPowerSeries.coeff m) (h v)
-    rw [MvPowerSeries.coeff_pderiv, ← hnm, map_zero] at h0
-    have hu : IsUnit ((m v : k) + 1) := by
-      have e : ((m v : k) + 1) = algebraMap ℚ k ((m v : ℚ) + 1) := by simp
-      rw [e]
-      exact (IsUnit.mk0 _ (by positivity)).map _
-    exact (hu.mul_left_eq_zero).mp h0
+  apply GlobalTheory.FormalLog.eq_C_of_pderiv_zero <;> assumption
 
 end ReciprocityTheory.ChartRestriction.G.TB.LogPf

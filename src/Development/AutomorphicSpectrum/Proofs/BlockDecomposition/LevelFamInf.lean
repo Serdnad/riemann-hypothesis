@@ -39,6 +39,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FinConv
 import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ThetaNormCommutation.IsTransl
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.PFinConv
 
 @[expose] public section
 
@@ -68,19 +69,7 @@ theorem rStab_left (u : H → ℂ) (k : H) : rStab (fun z => u (k * z)) = rStab 
 
 theorem hint_left (K : Subgroup H) (u : H → ℂ) (k : H) :
     hint K (fun z => u (k * z)) = hint K u := by
-  unfold hint
-  rw [rStab_left]
-  congr 1
-  refine Eq.trans ?_ (finsum_comp_equiv (MulAction.toPerm k : H ⧸ (rStab u ⊓ K) ≃ H ⧸ (rStab u ⊓ K)))
-  refine finsum_congr fun q => ?_
-  have hq : (MulAction.toPerm k : H ⧸ (rStab u ⊓ K) ≃ H ⧸ (rStab u ⊓ K)) q =
-      ((k * q.out : H) : H ⧸ (rStab u ⊓ K)) := by
-    conv_lhs => rw [← QuotientGroup.out_eq' q]
-    rfl
-  rw [hq]
-  obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul (rStab u ⊓ K) (k * q.out)
-  rw [hh]
-  exact (h.2.1 _).symm
+  apply _root_.PositivityTheory.Rg.BcB.F.FinConv.hint_left <;> assumption
 
 theorem rStab_ind (K : Subgroup H) : rStab ((K : Set H).indicator (1 : H → ℂ)) = K := by
   ext r
@@ -98,21 +87,7 @@ theorem rStab_ind (K : Subgroup H) : rStab ((K : Set H).indicator (1 : H → ℂ
       simp [Set.indicator, hx, hxr]
 
 theorem hint_ind (K : Subgroup H) : hint K ((K : Set H).indicator (1 : H → ℂ)) = 1 := by
-  unfold hint
-  rw [rStab_ind, inf_idem, Subgroup.relIndex_self]
-  rw [finsum_eq_single _ ((1 : H) : H ⧸ K)]
-  · obtain ⟨h, hh⟩ := QuotientGroup.mk_out_eq_mul K (1 : H)
-    have hm : (((1 : H) : H ⧸ K)).out ∈ K := by
-      rw [hh]
-      simpa using h.2
-    simp [Set.indicator, hm]
-  · intro q hq
-    have hn : q.out ∉ K := by
-      intro hm
-      apply hq
-      rw [← QuotientGroup.out_eq' q]
-      exact QuotientGroup.eq.2 (by simpa using inv_mem hm)
-    simp [Set.indicator, hn]
+  apply _root_.PositivityTheory.Rg.BcB.F.FinConv.hint_ind <;> assumption
 
 variable [TopologicalSpace H]
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.UnitaryDense
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StUnitaryZariskiDense
 public import Mathlib.Analysis.Complex.Norm
 import Mathlib.Analysis.CStarAlgebra.Classes
@@ -40,16 +41,7 @@ theorem polyEval_aeval_subst {σ : Type*} (F : σ → Polynomial ℂ) (p : MvPol
   | mul_X p i hp => simp [hp]
 
 theorem unit_circle_infinite : {z : ℂ | ‖z‖ = 1}.Infinite := by
-  intro hfin
-  have hsub : Polynomial.nthRootsFinset (hfin.toFinset.card + 1) (1 : ℂ) ⊆ hfin.toFinset := by
-    intro z hz
-    rw [Polynomial.mem_nthRootsFinset (Nat.succ_pos _)] at hz
-    rw [Set.Finite.mem_toFinset]
-    exact Complex.norm_eq_one_of_pow_eq_one hz (Nat.succ_ne_zero _)
-  have hc := Finset.card_le_card hsub
-  rw [(Complex.isPrimitiveRoot_exp (hfin.toFinset.card + 1) (Nat.succ_ne_zero _)).card_nthRootsFinset]
-    at hc
-  omega
+  apply _root_.PI.UD.circle_infinite <;> assumption
 
 theorem conj_diagonal_mem {n : ℕ} {V : Matrix (Fin n) (Fin n) ℂ} (hV : V ∈ unitaryGroup (Fin n) ℂ)
     {d : Fin n → ℂ} (hd : ∀ k, ‖d k‖ = 1) : V * diagonal d * star V ∈ unitaryGroup (Fin n) ℂ := by

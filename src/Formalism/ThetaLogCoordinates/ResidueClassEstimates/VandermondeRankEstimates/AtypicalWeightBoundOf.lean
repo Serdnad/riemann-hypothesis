@@ -569,6 +569,32 @@ theorem pathWeightBound_of :
   have hk'R : (0 : ℝ) ≤ D.k' := Nat.cast_nonneg _
   have hm1 := min_le_left (La * D.k' / (16 * D.k)) ((D.k' : ℝ) / 12)
   have hm2 := min_le_right (La * D.k' / (16 * D.k)) ((D.k' : ℝ) / 12)
+  have hXT (i : ℕ) (hir : D.r < i) (hiN : i ≤ D.Ns) : 0 < D.XT p La b i :=
+    div_pos (mul_pos hLa (hTDb i hir hiN).1) (mul_pos hpR hkR)
+  have hdeficit (q : ℕ → Bool) (la : ℕ → ℤ)
+      (h4 : ∀ l, l + 1 < (TTyp.lat q D.B D.n0).length →
+        4 * (TTyp.lat q D.B D.n0).getD (l + 1) 0 ≤ (TTyp.lat q D.B D.n0).getD l 0)
+      (ht : ∀ u, tailPos D.K la u ≤ ((TTyp.lat q D.B D.n0).drop u).sum)
+      (i : ℕ) (hir : D.r < i) (hiN : i ≤ D.Ns) (hqi : q i = false)
+      (hd : ((tailPos D.K la (((Icc (i + 1) D.n0).filter fun l => q l = true).card) : ℤ) : ℝ) ≤
+        ((((TTyp.lat q D.B D.n0).drop (((Icc (i + 1) D.n0).filter fun l => q l = true).card)).sum : ℕ) : ℝ) -
+          D.XT p La b i) :
+      (∑ m ∈ range D.K, fT D.k' ((max (la m) 0 : ℤ) : ℝ)) -
+        (∑ l ∈ range (TTyp.lat q D.B D.n0).length, fT D.k' (((TTyp.lat q D.B D.n0).getD l 0 : ℕ) : ℝ)) ≤
+          -(La * D.k' / (16 * D.k)) := by
+    have td := TTyp.key h31 h34 D.k' D.K la q D.B D.n0 hk'1 (hLk q) h4 ht i 0 _ (hXT i hir hiN)
+      (by simpa only [Nat.zero_add] using hd)
+    obtain ⟨l, hl1, hl2, hql, hgx⟩ := TTyp.mem_lat (TTyp.getD_mem td.1)
+    have hli : l ≠ i := fun h => by subst l; simp [hqi] at hql
+    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := (hTDb i hir hiN).2 l hl1 (by omega) (by omega)
+    have hg0 : (0 : ℝ) < D.B l := by
+      have := (hBi l hl1 (by omega)).1
+      exact_mod_cast (by omega : 0 < D.B l)
+    have hthr := TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
+    have hkey := td.2
+    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
+    rw [hgx, hX] at hkey
+    linarith
   rcases not_and_or.mp hnt with hc1 | hc23
   · push_neg at hc1
     obtain ⟨i, hi1, hiN, hvi, hgt⟩ := hc1
@@ -582,12 +608,7 @@ theorem pathWeightBound_of :
       push_neg at h
       have := hvn i h hiN
       simp [this] at hvi
-    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
-    have hbpos := (hTDb i hir hiN).1
-    have hB4 := (hTDb i hir hiN).2
-    have hXpos : 0 < D.XT p La b i := by
-      rw [hX]
-      exact div_pos (mul_pos hLa hbpos) (mul_pos hpR hkR)
+    have hXpos := hXT i hir hiN
     have t1 := ((h35 D mu hW hP).1 (i - 1) 0 (by omega)).1
     have heqv : D.SPos 0 (i - 1) = D.SPos 0 i := by
       unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SPos
@@ -603,32 +624,13 @@ theorem pathWeightBound_of :
     rw [hSL, hstage] at t2
     unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SPos at t2
     rw [hRV, min_self] at t2
-    have td := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.key h31 h34 D.k' D.K (Formalism.InvariantFactorPaths.BranchingDimensions.Letters.kaRows mu D.Ns) (fun l => D.vec l) D.B D.n0 hk'1
-      (hLk _) hL4v hTv i 0 _ hXpos t2
-    obtain ⟨l, hl1, hl2, hql, hgx⟩ := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.mem_lat (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.getD_mem td.1)
-    have hli : l ≠ i := by
-      rintro rfl
-      simp [hql] at hvi
-    have hlmin := min_le_left i D.n0
-    have hlmin' := min_le_right i D.n0
-    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := hB4 l hl1 (by omega) (by omega)
-    have hg0 : (0 : ℝ) < D.B l := by
-      have := (hBi l hl1 (by omega)).1
-      have : 0 < D.B l := by omega
-      exact_mod_cast this
-    have hthr := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
-    have td2 := td.2
-    rw [hgx, hX] at td2
-    linarith [hBv.1, hBc.1]
+    have hd := hdeficit (fun l => D.vec l) _ hL4v hTv i hir hiN hvi
+      (by rw [Nat.zero_add] at t2; exact t2)
+    linarith [hBc.1]
   rcases not_and_or.mp hc23 with hc2 | hc3
   · push_neg at hc2
     obtain ⟨i, hir, hiN, hvi, hgt⟩ := hc2
-    have hX : D.XT p La b i = La * b i / (p * D.k) := rfl
-    have hbpos := (hTDb i hir hiN).1
-    have hB4 := (hTDb i hir hiN).2
-    have hXpos : 0 < D.XT p La b i := by
-      rw [hX]
-      exact div_pos (mul_pos hLa hbpos) (mul_pos hpR hkR)
+    have hXpos := hXT i hir hiN
     have t1 := ((h35 D mu hW hP).1 (i - 1) 0 (by omega)).2
     have heqc : D.SNeg 0 (i - 1) = D.SNeg 0 i := by
       unfold Formalism.InvariantFactorPaths.BranchingDimensions.Letters.SNeg
@@ -651,23 +653,9 @@ theorem pathWeightBound_of :
         ((Icc (i + 1) D.n0).filter (fun l => (!D.vec l) = true)) :=
       Finset.filter_congr (fun x _ => by simp)
     rw [hfc] at t2
-    have td := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.key h31 h34 D.k' D.K (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.revW D.K (Formalism.InvariantFactorPaths.BranchingDimensions.Letters.kaRows mu D.Ns))
-      (fun l => !D.vec l) D.B D.n0 hk'1 (hLk _) hL4c hTc i 0 _ hXpos t2
-    obtain ⟨l, hl1, hl2, hql, hgx⟩ := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.mem_lat (Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.getD_mem td.1)
-    have hli : l ≠ i := by
-      rintro rfl
-      simp [hvi] at hql
-    have hlmin := min_le_left i D.n0
-    have hlmin' := min_le_right i D.n0
-    have hgle : (D.B l : ℝ) ≤ 4 * b i / p := hB4 l hl1 (by omega) (by omega)
-    have hg0 : (0 : ℝ) < D.B l := by
-      have := (hBi l hl1 (by omega)).1
-      have : 0 < D.B l := by omega
-      exact_mod_cast this
-    have hthr := Formalism.InvariantFactorPaths.BranchingDimensions.TTyp.a_fin hLa hpR hkR hk'R hg0 hgle
-    have td2 := td.2
-    rw [hgx, hX] at td2
-    linarith [hBv.1, hBc.1]
+    have hd := hdeficit (fun l => !D.vec l) _ hL4c hTc i hir hiN (by simp [hvi])
+      (by rw [Nat.zero_add] at t2; exact t2)
+    linarith [hBv.1]
   · push_neg at hc3
     obtain ⟨i, hir, hiN, hgt⟩ := hc3
     have hh : D.Bo i =

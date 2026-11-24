@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinStable
 import Mathlib.RingTheory.PicardGroup
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LimitBlockTypes
 
 @[expose] public section
 
@@ -59,49 +60,7 @@ theorem mem_of_separating {κ V Y : Type} [AddCommGroup V] [Module ℂ V] (D : S
     (hD : FiniteDimensional ℂ D) (s : κ → V) (ev : Y → V →ₗ[ℂ] ℂ)
     (hsep : ∀ v, (∀ y, ev y v = 0) → v = 0) (hs : ∀ y, (fun k => ev y (s k)) ∈ D) (L : V →ₗ[ℂ] ℂ) :
     (fun k => L (s k)) ∈ D := by
-  classical
-  by_contra hl
-  let l : κ → ℂ := fun k => L (s k)
-  let D' : Submodule ℂ (κ → ℂ) := D ⊔ Submodule.span ℂ {l}
-  have : FiniteDimensional ℂ D' := Submodule.finiteDimensional_sup _ _
-  have hlD' : l ∈ D' := Submodule.mem_sup_right (Submodule.mem_span_singleton_self l)
-  have hDD' : ∀ w ∈ D, w ∈ D' := fun w hw => Submodule.mem_sup_left hw
-  let D0 : Submodule ℂ D' := D.comap D'.subtype
-  have hnot : (⟨l, hlD'⟩ : D') ∉ D0 := hl
-  obtain ⟨f, hfl, hf0⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hnot inferInstance
-  have hf0' : ∀ w (hw : w ∈ D), f ⟨w, hDD' w hw⟩ = 0 := fun w hw => by
-    have : f ⟨w, hDD' w hw⟩ ∈ D0.map f := Submodule.mem_map_of_mem (show (⟨w, hDD' w hw⟩ : D') ∈ D0 from hw)
-    rw [hf0] at this
-    exact (Submodule.mem_bot ℂ).1 this
-  let e : κ → Module.Dual ℂ D' := fun k => (LinearMap.proj k).comp D'.subtype
-  have hspan : Submodule.span ℂ (Set.range e) = ⊤ := by
-    have hco : (Submodule.span ℂ (Set.range e)).dualCoannihilator = ⊥ := by
-      rw [Submodule.eq_bot_iff]
-      intro w hw
-      rw [Submodule.mem_dualCoannihilator] at hw
-      refine Subtype.ext (funext fun k => ?_)
-      exact hw (e k) (Submodule.subset_span ⟨k, rfl⟩)
-    have := Subspace.dualCoannihilator_dualAnnihilator_eq (W := Submodule.span ℂ (Set.range e))
-    rw [hco] at this
-    rw [← this]
-    simp
-  have hfm : f ∈ Submodule.span ℂ (Set.range e) := by rw [hspan]; trivial
-  obtain ⟨c, hc⟩ := Finsupp.mem_span_range_iff_exists_finsupp.1 hfm
-  have hval : ∀ w : D', f w = ∑ k ∈ c.support, c k * w.1 k := fun w => by
-    rw [← hc]
-    simp [Finsupp.sum, e, LinearMap.sum_apply]
-  let A : V := ∑ k ∈ c.support, c k • s k
-  have hA : A = 0 := hsep A fun y => by
-    have := hf0' _ (hs y)
-    rw [hval] at this
-
-    simpa [A, map_sum] using this
-  apply hfl
-  have : f ⟨l, hlD'⟩ = L A := by
-    rw [hval]
-
-    simp [A, map_sum, l]
-  rw [this, hA, map_zero]
+  apply _root_.GlobalTheory.CompanionTheory.LimV.BlockTy.mem_of_separating <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {a b : ℕ}
 

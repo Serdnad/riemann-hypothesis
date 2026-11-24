@@ -40,6 +40,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.AbsoluteConvergence.SecZeroA
 
 @[expose] public section
 
@@ -68,16 +69,7 @@ theorem JJ_conjTranspose : (JJ n)ᴴ = -JJ n := by
   simp [JJ, fromBlocks_conjTranspose, fromBlocks_neg]
 
 theorem flip_of_inG {M : M2 n} (h : InG M) : M * JJ n * Mᴴ = JJ n := by
-  have h' : Mᴴ * JJ n * M = JJ n := h
-  have h1 : (Mᴴ * JJ n) * (-(M * JJ n)) = 1 := by
-    rw [mul_neg, ← mul_assoc, h', JJ_sq, neg_neg]
-  have h2 := mul_eq_one_comm.mp h1
-  have h3 : M * JJ n * (Mᴴ * JJ n) = -1 := by
-    rw [neg_mul] at h2
-    exact neg_eq_iff_eq_neg.mp h2
-  calc M * JJ n * Mᴴ = -(M * JJ n * (Mᴴ * JJ n) * JJ n) := by
-        simp only [mul_assoc, JJ_sq, mul_neg, mul_one, neg_neg]
-    _ = JJ n := by rw [h3]; simp
+  apply _root_.PositivityTheory.Rg.Sw.AbsSt.SZ.yJyH <;> assumption
 
 theorem lagr (g : GR n) :
     (mR g).toBlocks₂₁ * ((mR g).toBlocks₂₂)ᴴ = (mR g).toBlocks₂₂ * ((mR g).toBlocks₂₁)ᴴ := by

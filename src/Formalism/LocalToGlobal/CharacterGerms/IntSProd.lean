@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GaugeDerivEqPairingOfIntegralGaugedLaw
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
 import Mathlib.Data.Finsupp.WellFounded
 import Mathlib.Topology.Sheaves.Presheaf
@@ -55,31 +56,7 @@ theorem intInv {U : MvPowerSeries σ C} (hU : IntS V U) (h0 : V.v (MvPowerSeries
 
 theorem IntS_prod {ι : Type} (s : Finset ι) {F : ι → MvPowerSeries σ C} (h : ∀ i ∈ s, IntS V (F i)) :
     IntS V (∏ i ∈ s, F i) := by
-  classical
-  have hge : ∀ c : C, (c = 0 ∨ c = 1) → V.Ge 0 c := by
-    rintro c (rfl | rfl)
-    · simp [VF.Ge]
-    · simp [VF.Ge]
-  have hone : IntS V (1 : MvPowerSeries σ C) := by
-    intro μ
-    rw [MvPowerSeries.coeff_one]
-    split_ifs
-    · exact hge 1 (Or.inr rfl)
-    · exact hge 0 (Or.inl rfl)
-  have hmul : ∀ F G : MvPowerSeries σ C, IntS V F → IntS V G → IntS V (F * G) := by
-    intro F G hF hG μ
-    rw [MvPowerSeries.coeff_mul]
-    refine Finset.sum_induction _ (V.Ge 0) (fun a b ha hb => ?_) (hge 0 (Or.inl rfl)) (fun q _ => ?_)
-    · exact le_trans (le_min ha hb) (V.v.map_add a b)
-    · have h1 := add_le_add (hF q.1) (hG q.2)
-      unfold VF.Ge
-      rw [AddValuation.map_mul]
-      simpa using h1
-  induction s using Finset.induction_on with
-  | empty => simpa using hone
-  | insert a s ha ih =>
-    rw [Finset.prod_insert ha]
-    exact hmul _ _ (h a (Finset.mem_insert_self _ _)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  apply _root_.GlobalTheory.RowLaw.GaugeDeriv.int_prod <;> assumption
 
 theorem IntS_X (s : σ) : IntS V (MvPowerSeries.X s : MvPowerSeries σ C) := by
   intro μ

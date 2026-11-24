@@ -755,15 +755,7 @@ variable {v : HeightOneSpectrum (𝓞 F)}
 
 theorem exists_entry_ge {p q : ℕ} {x : Fin p → Fin q → Fv F v ⊗[F] E} (h : 0 < nM v x) :
     ∃ i j, nM v x ≤ nA v (x i j) := by
-  by_contra hne
-  push Not at hne
-  have h' : ‖(fun i j => crd v (x i j))‖ < nM v x := by
-    rw [pi_norm_lt_iff h]
-    intro i
-    rw [pi_norm_lt_iff h]
-    intro j
-    exact hne i j
-  exact lt_irrefl _ h'
+  apply _root_.PositivityTheory.SiegelWeilFormula.SwLocFin.LatticeCovolumeGrowth.exists_entry_ge <;> assumption
 
 section Inv
 

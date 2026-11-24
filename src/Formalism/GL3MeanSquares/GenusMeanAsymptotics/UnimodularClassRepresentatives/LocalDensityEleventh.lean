@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.FinitePrimesOfMem
 public import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsNotMemOfSol
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -84,13 +85,7 @@ theorem card_sub_le (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) {𝔭 :
   exact Finite.card_subtype_le p
 
 theorem two_le_absNorm {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal) : 2 ≤ Ideal.absNorm 𝔭 := by
-  have h5 : Ideal.absNorm 𝔭 ≠ 0 := by
-    rw [Ne, Ideal.absNorm_eq_zero_iff]
-    exact idealPowerSpanBounds.ne_bot h𝔭
-  have h6 : Ideal.absNorm 𝔭 ≠ 1 := by
-    rw [Ne, Ideal.absNorm_eq_one_iff]
-    exact h𝔭.ne_top
-  omega
+  apply _root_.Formalism.HermitianLattices.Ext.L3.A5.two_le_absNorm <;> assumption
 
 theorem nkQ_le (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) {𝔭 : Ideal (𝓞 F)} (h𝔭 : 𝔭.IsMaximal)
     {H : Matrix m m (𝓞 K)} (hH : Hᴴ = H) (n : 𝓞 F) (c : ℕ) (hm : 1 ≤ Fintype.card m) (k : ℕ) :

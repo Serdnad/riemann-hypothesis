@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IdempotentSumSelfDualFramesBound
 public import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IdempotentMulEqZeroOfOrthogonal
@@ -58,16 +59,7 @@ namespace GlobalTheory.IdemIntegral
 
 theorem toEAf_mem_of_finPart_mem {D : D7} {w : AE D} (hw : finPart D w ∈ intAE D) :
     toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  show (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E) (finPart D w) ∈ _
-  generalize finPart D w = z at hw
-  induction hw using AddSubgroup.closure_induction with
-  | mem y hy =>
-    obtain ⟨a, ha, x, rfl⟩ := hy
-    rw [Algebra.TensorProduct.comm_tmul]
-    exact GlobalTheory.PlaceDatum.tmul_mem_int ⟨x, rfl⟩ ha
-  | zero => rw [map_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-  | neg x _ hx => rw [map_neg]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.HalfAdjLattice.toEAf_int | exact @_root_.GlobalTheory.HalfAdjLattice.toEAf_int | apply _root_.GlobalTheory.HalfAdjLattice.toEAf_int <;> assumption
 
 theorem finPart_incA_mem {D : D7} (r : 𝓞 D.host.E) : finPart D (incA D (r : D.host.E)) ∈ intAE D := by
   have : finPart D (incA D (r : D.host.E)) = (1 : Af D.host.F) ⊗ₜ[D.host.F] (r : D.host.E) := rfl

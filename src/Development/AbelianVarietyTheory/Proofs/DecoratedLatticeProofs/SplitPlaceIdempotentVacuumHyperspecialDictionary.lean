@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjPlNeOfIsSplit
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHyperspecialSubgroupAtPlaceIffLocalStabilizer
@@ -354,15 +355,7 @@ open GlobalTheory.Hk3 (hyp IsVacAt UnrPl)
 namespace GlobalTheory.PlaceDict
 
 theorem conjP_eq_conjPl (D : D7) (P : HeightOneSpectrum (𝓞 D.host.E)) : Formalism.L2.Col.conjPrime₂ P = Formalism.DivisionValues.conjPl P := by
-  apply HeightOneSpectrum.ext
-  ext x
-  show Formalism.L2.Col.cO _ x ∈ P.asIdeal ↔ x ∈ Ideal.map (Formalism.DivisionValues.cO D.host.E) P.asIdeal
-  rw [← Ideal.comap_symm, Ideal.mem_comap]
-  have : (Formalism.DivisionValues.cO D.host.E).symm x = Formalism.L2.Col.cO _ x := by
-    apply RingOfIntegers.ext
-    simp [Formalism.DivisionValues.cO, Formalism.L2.Col.cO]
-    rfl
-  rw [this]
+  apply _root_.GlobalTheory.ChainInv.conjP_eq_conjPl <;> assumption
 
 theorem isSplit_iff_conjPl_ne (D : D7) (v : HeightOneSpectrum (𝓞 D.host.F)) (w : HeightOneSpectrum (𝓞 D.host.E))
     (hvw : w.under (𝓞 D.host.F) = v) : IsSplit (E := D.host.E) v ↔ Formalism.DivisionValues.conjPl w ≠ w := by

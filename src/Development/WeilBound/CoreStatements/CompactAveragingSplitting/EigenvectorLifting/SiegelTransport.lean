@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchroedingerOperatorHeisenbergLawApplyStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.LocalDef
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.SiegelTransportAlg
@@ -66,20 +67,7 @@ open Matrix GlobalTheory.WeilM Topology Filter
 
 theorem norm_psi {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {ψ : AddChar k ℂ}
     (hψ : Continuous ψ) (x : k) : ‖ψ x‖ = 1 := by
-  have hle : ∀ y : k, ‖ψ y‖ ≤ 1 := fun y => by
-    by_contra hlt
-    push Not at hlt
-    obtain ⟨B, hB⟩ := (IsNonarchimedeanLocalField.isCompact_closedBall k (ValuativeRel.valuation k y)).exists_bound_of_continuousOn
-      hψ.continuousOn
-    obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt B hlt
-    have := hB (n • y) (by
-      rw [Set.mem_ofPred_eq, nsmul_eq_mul, map_mul]
-      exact mul_le_of_le_one_left' (natCast_mem (ValuativeRel.valuation k).integer n))
-    rw [AddChar.map_nsmul_eq_pow, norm_pow] at this
-    exact absurd hn (not_lt.mpr this)
-  have h1 : ‖ψ x‖ * ‖ψ (-x)‖ = 1 := by rw [← norm_mul, ← AddChar.map_add_eq_mul, add_neg_cancel, AddChar.map_zero_eq_one, norm_one]
-  refine le_antisymm (hle x) ?_
-  nlinarith [hle x, hle (-x), norm_nonneg (ψ x), norm_nonneg (ψ (-x))]
+  apply _root_.GlobalTheory.CharSep.norm_eq_one <;> assumption
 
 theorem conj_psi {k : Type} [AddCommGroup k] {ψ : AddChar k ℂ} (h : ∀ x, ‖ψ x‖ = 1) (x : k) : star (ψ x) = ψ (-x) := by
   have h0 : ψ x ≠ 0 := fun e => by simpa [e] using h x

@@ -52,6 +52,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousActP
 
 @[expose] public section
 
@@ -97,14 +98,7 @@ theorem blk_roundAct (lam : ι → DomWeight n) (g : ι → GL (Fin n) ℂ) :
 
 theorem map_actP {K : Type} [Field K] (σ : K →+* ℂ) (lam : ι → DomWeight n) (g : ι → GL (Fin n) K) (F : Pol K ι n) :
     MvPolynomial.map σ (actP lam g F) = actP lam (fun τ => Formalism.UG.bc σ (g τ)) (MvPolynomial.map σ F) := by
-  have e2 : σ (detTwK lam g) = detTwK lam (fun τ => Formalism.UG.bc σ (g τ)) := by
-    rw [detTwK, detTwK, map_prod]
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    simp only [detPow, Units.val_zpow_eq_zpow_val, map_zpow₀, Matrix.GeneralLinearGroup.val_det_apply, RingHom.map_det]
-    rfl
-  simp only [actP, trAct, LinearMap.smul_apply, AlgHom.toLinearMap_apply, MvPolynomial.smul_eq_C_mul, map_mul,
-    MvPolynomial.map_C, map_blockAct, transpose_map, e2]
-  rfl
+  apply _root_.GlobalTheory.CoefSpace.map_actP <;> assumption
 
 theorem map_ten_int {K : Type} [Field K] (σ : K →+* ℂ) (f : ι → MvPolynomial (Fin n × Fin n) ℤ) :
     MvPolynomial.map σ (ten fun τ => MvPolynomial.map (Int.castRingHom K) (f τ)) =

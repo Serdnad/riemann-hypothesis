@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicAutomorphismUnique
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,29 +61,8 @@ variable {l : ℕ} [Fact l.Prime]
 
 theorem denseRange_of_isAlgClosed {Ω : Type} [Field Ω] [CharZero Ω] [IsAlgClosed Ω] (j : Ω →+* PadicAlgCl l) :
     DenseRange j := by
-  rw [Metric.denseRange_iff]
-  intro x δ hδ
-  have hx : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
-  set f := minpoly ℚ_[l] x with hf
-  have hn : f.natDegree ≠ 0 := (minpoly.natDegree_pos hx).ne'
-  have hM : 0 < max ‖x‖ 1 := lt_max_of_lt_right one_pos
-  have hq : 0 < δ / max ‖x‖ 1 := div_pos hδ hM
-  have hε : 0 < (δ / max ‖x‖ 1) ^ f.natDegree / (f.natDegree + 1) := by positivity
-  have hd : DenseRange (algebraMap ℚ ℚ_[l]) := Padic.denseRange_ratCast l
-  obtain ⟨g, hg, hdeg, hc⟩ := Polynomial.exists_monic_and_natDegree_eq_and_norm_map_algebraMap_coeff_sub_lt hd
-    (minpoly.monic hx) hε
-  obtain ⟨b, hb, hlt⟩ := Polynomial.exists_aroots_norm_sub_lt_of_norm_coeff_sub_lt (L := PadicAlgCl l) hε
-    (minpoly.aeval ℚ_[l] x) (minpoly.monic hx) (hg.map _) (by rw [hg.natDegree_map]; exact hdeg.symm) hc
-    (IsAlgClosed.splits _)
-  rw [← hf, mul_div_cancel₀ _ (by positivity), Real.pow_rpow_inv_natCast hq.le hn, div_mul_cancel₀ _ hM.ne'] at hlt
-  have hs : (g.map (algebraMap ℚ Ω)).Splits := IsAlgClosed.splits _
-  have e : (g.map (algebraMap ℚ ℚ_[l])).map (algebraMap ℚ_[l] (PadicAlgCl l)) = (g.map (algebraMap ℚ Ω)).map j := by
-    rw [Polynomial.map_map, Polynomial.map_map]
-    congr 1
-    exact Subsingleton.elim _ _
-  rw [Polynomial.aroots_def, e, hs.roots_map] at hb
-  obtain ⟨y, -, rfl⟩ := Multiset.mem_map.1 hb
-  exact ⟨y, by rwa [dist_eq_norm]⟩
+  intros
+  apply _root_.GlobalTheory.denseRange_of_isAlgClosed_padicAlgCl <;> assumption
 
 theorem continuous_aut (σ : PadicAlgCl l ≃ₐ[ℚ_[l]] PadicAlgCl l) : Continuous σ :=
   (AddMonoidHomClass.isometry_of_norm σ (_root_.GlobalTheory.PlaceBridge.norm_algEquiv σ)).continuous

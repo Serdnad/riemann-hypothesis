@@ -127,21 +127,6 @@ private lemma sepG {U : Scheme.{0}} (S : Sieve U) (hS : S ∈ Scheme.etaleTopolo
   have h3 : phi a = phi b := (yo_sheaf S hS).isSeparatedFor x _ _ h1 h2
   rw [← psi_phi a, h3, psi_phi]
 
-private lemma glueU {U : Scheme.{0}} (S : Sieve U) (hS : S ∈ Scheme.etaleTopology U)
-    (v : ∀ (V : Scheme.{0}) (g : V ⟶ U), S.arrows g → (Γ(V, ⊤))ˣ)
-    (hv : ∀ (V W : Scheme.{0}) (g : V ⟶ U) (k : W ⟶ V) (hg : S.arrows g),
-      Units.map k.appTop.hom.toMonoidHom (v V g hg) = v W (k ≫ g) (S.downward_closed hg k)) :
-    ∃ u : (Γ(U, ⊤))ˣ, ∀ V g hg, Units.map g.appTop.hom.toMonoidHom u = v V g hg := by
-  obtain ⟨a, ha⟩ := glueG S hS (fun V g hg => (v V g hg : Γ(V, ⊤))) (fun V W g k hg => by
-    have := congrArg Units.val (hv V W g k hg)
-    simpa using this)
-  obtain ⟨b, hb⟩ := glueG S hS (fun V g hg => ((v V g hg)⁻¹ : (Γ(V, ⊤))ˣ)) (fun V W g k hg => by
-    have := congrArg (fun w => ((w⁻¹ : (Γ(W, ⊤))ˣ) : Γ(W, ⊤))) (hv V W g k hg)
-    simpa using this)
-  have hab : a * b = 1 := sepG S hS _ _ fun V g hg => by
-    rw [map_mul, ha V g hg, hb V g hg, map_one, Units.mul_inv]
-  refine ⟨⟨a, b, hab, by rw [mul_comm]; exact hab⟩, fun V g hg => Units.ext ?_⟩
-  simpa using ha V g hg
 
 private lemma sepU {U : Scheme.{0}} (S : Sieve U) (hS : S ∈ Scheme.etaleTopology U) (u v : (Γ(U, ⊤))ˣ)
     (h : ∀ (V : Scheme.{0}) (g : V ⟶ U), S.arrows g →
@@ -160,20 +145,6 @@ private lemma unitSec_mul {U : Scheme.{0}} (u v : (Γ(U, ⊤))ˣ) :
   map_add ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ unitsF)).app (op U)).hom
     (ULift.up (Additive.ofMul u) : ULift (Additive (Γ(U, ⊤))ˣ)) (ULift.up (Additive.ofMul v))
 
-private lemma unitSec_inj {U : Scheme.{0}} (u v : (Γ(U, ⊤))ˣ) (h : unitSec u = unitSec v) : u = v := by
-  have h0 : unitSec (u * v⁻¹) = 0 := by
-    have h1 := unitSec_mul (u * v⁻¹) v
-    rw [inv_mul_cancel_right, h] at h1
-    exact (right_eq_add.mp h1)
-  obtain ⟨S, hS, hl⟩ := (_root_.GlobalTheory.EtC.toSheafify_loc_bij_lift ℤ (Scheme.Γ ⋙ unitsF)).2.1 U
-    (ULift.up (Additive.ofMul (u * v⁻¹)) : ULift (Additive (Γ(U, ⊤))ˣ)) h0
-  have h1 : u * v⁻¹ = 1 := sepU S hS _ _ fun V g hg => by
-    have h2 := hl V g hg
-    have h3 : Additive.ofMul (Units.map g.appTop.hom.toMonoidHom (u * v⁻¹)) = 0 :=
-      congrArg ULift.down h2
-    rw [map_one]
-    exact h3
-  exact mul_inv_eq_one.mp h1
 
 end UpperTheory
 

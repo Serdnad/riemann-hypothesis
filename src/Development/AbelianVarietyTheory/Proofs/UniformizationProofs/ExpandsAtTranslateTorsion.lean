@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFamOfIsPullDeg
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PhiGenPf
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ExistsRatioPoints
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ComparisonTorusInvariant
@@ -286,16 +287,7 @@ end Square
 theorem prod_famB (D : DegPre R) {T : Over (Spec (CommRingCat.of R))} (ρ : T ⟶ D.P.A) (α : D.X) (k : ℕ) {V : Type}
     [CommGroup V] (h : (T.left ⟶ D.P.A.left) → V) : ∏ i, h (ρ.left ≫ D.famφB α i) ^ DegPre.famε k i =
       h ρ.left ^ ((k : ℤ) - 1) * h (DVR.cP D T α * ρ).left * (h (DVR.cP D T α).left)⁻¹ * h (1 : T ⟶ D.P.A).left := by
-  have e₀ : ρ.left ≫ D.famφB α 0 = ρ.left := Category.comp_id _
-  have e₁ : ρ.left ≫ D.famφB α 1 = (DVR.cP D T α * ρ).left :=
-    congrArg (fun q => q.left) ((MonObj.comp_mul ρ (𝟙 _) (DVR.cP D _ α)).trans
-      (by rw [DVR.comp_cP, mul_comm, Category.comp_id]))
-  have e₂ : ρ.left ≫ D.famφB α 2 = (DVR.cP D T α).left := congrArg (fun q => q.left) (DVR.comp_cP D ρ α)
-  have e₃ : ρ.left ≫ D.famφB α 3 = (1 : T ⟶ D.P.A).left :=
-    congrArg (fun q : T ⟶ D.P.A => q.left) (MonObj.comp_one (M := D.P.A) ρ)
-  rw [Fin.prod_univ_four, e₀, e₁, e₂, e₃]
-  show _ ^ ((k : ℤ) - 1) * _ ^ (1 : ℤ) * _ ^ (-1 : ℤ) * _ ^ (1 : ℤ) = _
-  rw [zpow_one, zpow_one, zpow_neg_one]
+  apply _root_.GlobalTheory.FamPull.prod_famB <;> assumption
 
 theorem exists_coeff_gen (D : DegPre R) (k : ℕ) (gp : GtPt D (𝟙_ (Over (Spec (CommRingCat.of R)))))
     (hb : gp.b ^ k = 1) (ν : LB.Gen (LB.LinComb D.P.L (K := Fin 2) ![eSec D.P.A, gp.b.left] (DegPre.lineε k)))

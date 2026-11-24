@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjZpowersEntriesValuedBoundedOfCompactClosure
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNeZeroOfTwOrbNeZero
 public import Mathlib.Algebra.BigOperators.Finprod
@@ -388,16 +389,7 @@ theorem continuous_coeff {K : Type} [CommRing K] [TopologicalSpace K] [IsTopolog
 variable {E : Type} [Field E] [NumberField E]
 
 theorem isOpen_vle (w : Pl E) (m : ℤ) : IsOpen {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp m} := by
-  obtain ⟨c, hc⟩ := HeightOneSpectrum.valuedAdicCompletion_surjective E w (WithZero.exp m)
-  have hc0 : c ≠ 0 := by
-    rintro rfl
-    rw [map_zero] at hc
-    exact WithZero.exp_ne_zero hc.symm
-  have : {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp m} = {y | Valued.v.restrict y ≤ Valued.v.restrict c} := by
-    ext y
-    simp only [Set.mem_ofPred_eq, Valuation.restrict_le_iff, hc]
-  rw [this]
-  exact Valued.isOpen_closedBall _ (by simp [hc0])
+  apply _root_.GlobalTheory.PowBdd.isOpen_le_exp <;> assumption
 
 theorem exists_bound {X : Type} [TopologicalSpace X] (w : Pl E) {f : X → w.adicCompletion E} (hf : Continuous f)
     {C : Set X} (hC : IsCompact C) : ∃ B : WithZero (Multiplicative ℤ), ∀ x ∈ C, Valued.v (f x) ≤ B := by

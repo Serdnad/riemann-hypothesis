@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.ZetaMain
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.PrimeLevelLocalization.CongruenceReduction.LevLocAlt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocEqOneOfMemGam
 public import GroundTheory.GlobalFields.LocalAtPlace
@@ -1104,20 +1105,7 @@ private theorem fN_sgl (K L : Type) [Field K] [NumberField K] [Field L] [NumberF
       ((fN K L (sgl w y) : (Af K)ˣ) : Af K) = finiteAdeleSingle (below K w) (n : (below K w).adicCompletion K) ∧
       ∀ f : ℕ, Ideal.absNorm w.asIdeal = Ideal.absNorm (below K w).asIdeal ^ f →
         Valued.v (n : (below K w).adicCompletion K) = Valued.v (y : w.adicCompletion L) ^ f := by
-  have h := GroundTheory.Global.ideleNorm_finiteEmbedding (K := K) w y
-  have hm := GroundTheory.Automorphic.EllipticTorus.ideleModule_ideleNorm (K := K)
-    (GroundTheory.Global.IdeleGroup.finiteEmbedding w y)
-  rw [h] at hm
-  have hm' := congrArg Subtype.val hm
-  rw [GroundTheory.Global.IdeleGroup.ideleModule_finiteEmbedding, GroundTheory.Global.IdeleGroup.ideleModule_finiteEmbedding] at hm'
-  refine ⟨_, ?_, fun f hf => GlobalTheory.LiftPolar.val_of_norm _ w _ y hm' f (by
-    simpa [Formalism.ConjugateSelfDual.normV, Ideal.absNorm_apply, Submodule.cardQuot_apply] using hf)⟩
-  have h0 : Units.map (MonoidHom.inr (InfiniteAdeleRing L) (FiniteAdeleRing (𝓞 L) L)) (sgl w y) = finiteEmbedding w y := by
-    apply Units.ext
-    rfl
-  show (Units.val (GroundTheory.Global.ideleNorm K L (Units.map (MonoidHom.inr (InfiniteAdeleRing L) (FiniteAdeleRing (𝓞 L) L)) (sgl w y)))).2 = _
-  rw [h0, h]
-  rfl
+  apply _root_.fN_sgl <;> assumption
 
 private theorem v_single {K : Type} [Field K] [NumberField K] {v p : Plc K} (h : p = v) (n : v.adicCompletion K) :
     Valued.v (finiteAdeleSingle v n p) = Valued.v n := by

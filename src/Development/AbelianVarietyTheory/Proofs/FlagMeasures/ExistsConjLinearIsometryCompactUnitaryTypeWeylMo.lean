@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CoefficientSpaceLeSpanUnitaryOrbitExtremalStatement
 public import Formalism.LocalRingCardinality.DataCoeff
 public import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LClosedeqLemmas
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
@@ -339,22 +340,6 @@ private theorem fockF_smul_right' {σ : Type} (c : ℂ) (f g : MvPolynomial σ �
   rw [MvPolynomial.coeff_smul, smul_eq_mul, star_mul']
   ring
 
-private theorem rowAct_rowAct' {r n : ℕ} (A B : Matrix (Fin r) (Fin r) ℂ)
-    (q : MvPolynomial (Fin r × Fin n) ℂ) :
-    Formalism.GradedWeylDivisibility.rowAct ℂ A (Formalism.GradedWeylDivisibility.rowAct ℂ B q) = Formalism.GradedWeylDivisibility.rowAct ℂ (B * A) q := by
-  have h : (Formalism.GradedWeylDivisibility.rowAct ℂ (n := n) A).comp (Formalism.GradedWeylDivisibility.rowAct ℂ B) =
-      Formalism.GradedWeylDivisibility.rowAct ℂ (n := n) (B * A) := by
-    apply MvPolynomial.algHom_ext
-    intro v
-
-    simp only [AlgHom.comp_apply, Formalism.GradedWeylDivisibility.rowAct, MvPolynomial.aeval_X, map_sum, map_mul,
-    MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq, Matrix.mul_apply,
-    Finset.mul_sum, Finset.sum_mul]
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun c _ => ?_
-    ring
-  exact congrArg (fun φ => φ q) h
-
 private theorem rowAct_one_flag_measures {r n : ℕ} (q : MvPolynomial (Fin r × Fin n) ℂ) :
     Formalism.GradedWeylDivisibility.rowAct ℂ (1 : Matrix (Fin r) (Fin r) ℂ) q = q := by
   have h : Formalism.GradedWeylDivisibility.rowAct ℂ (n := n) (1 : Matrix (Fin r) (Fin r) ℂ) = AlgHom.id ℂ _ := by
@@ -373,7 +358,7 @@ theorem normFock_unitary {k : ℕ} (lam : DomWeight k) {g : Matrix (Fin k) (Fin 
   have hT := mem_unitaryGroup_iff.mp (_root_.GlobalTheory.DualWeyl.transpose_mem_unitaryGroup hg)
   rw [Matrix.star_eq_conjTranspose] at hT
   obtain ⟨hs, h0⟩ := star_det_of_unitary hg
-  rw [fockF_smul_left_eq_mul, fockF_smul_right', Formalism.GradedWeylDivisibility.fockRowAdj k k gᵀ p, rowAct_rowAct', hT,
+  rw [fockF_smul_left_eq_mul, fockF_smul_right', Formalism.GradedWeylDivisibility.fockRowAdj k k gᵀ p, _root_.GlobalTheory.JointHarm.cyc_rowAct_rowAct, hT,
     rowAct_one_flag_measures]
   have h1 : g.det ^ s * star (g.det ^ s) = 1 := by
     rw [star_zpow₀, hs, _root_.inv_zpow', ← zpow_add₀ h0, add_neg_cancel, zpow_zero]

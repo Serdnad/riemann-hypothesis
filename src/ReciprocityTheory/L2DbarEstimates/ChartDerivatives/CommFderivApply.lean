@@ -75,16 +75,9 @@ theorem comm_wd_wdb {n : ℕ} (g : V n → ℂ) (y : V n) (hg : ContDiffAt ℝ 2
 private theorem chart_symm_eventuallyEq_symm {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
     (e e' : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) (he' : IsChart n z e') (y : M)
     (hy : y ∈ e.source) (hy' : y ∈ e'.source) : (e'.symm : V n → M) =ᶠ[𝓝 (z y)] e.symm := by
-  have hzy : z y = e' y := he' hy'
-  have ht : z y ∈ e'.target := by rw [hzy]; exact e'.map_source hy'
-  have hc : ContinuousAt e'.symm (z y) := e'.continuousAt_symm ht
-  have hs : e.source ∈ 𝓝 (e'.symm (z y)) := by
-    rw [hzy, e'.left_inv hy']; exact e.open_source.mem_nhds hy
-  filter_upwards [e'.open_target.mem_nhds ht, hc hs] with w hw hw2
-  have h1 : e (e'.symm w) = w := by
-    rw [← he hw2, he' (e'.map_target hw), e'.right_inv hw]
-  calc e'.symm w = e.symm (e (e'.symm w)) := (e.left_inv hw2).symm
-    _ = e.symm w := by rw [h1]
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq <;> first | assumption | rfl | infer_instance
 
 private theorem d_apply_eq_wd_comp_chart_symm {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (j : Fin n)
     (f : M → ℂ) (e : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) (y : M)

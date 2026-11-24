@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LevelExistsBis
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SphericalOneOfLocalAlgebra
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SimpleTwistedTraceFormulaStable
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PlaceConjugationPropertiesCmField
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HasSatakeGLOfIsSatVecGL
@@ -65,15 +67,7 @@ theorem isIrreducible_comp_of_surjective {H H' X : Type} [Group H] [Group H'] [A
   exact hW g' v hv
 
 theorem isClosed_UL (hU : Unr E) (n : ℕ) (w : Pl E) : IsClosed (UL n w : Set (GLw n w)) := by
-  unfold UL
-  split_ifs
-  · exact isClosed_univ
-  · have hc := (GlobalTheory.ConjAtPlace.main E hU w).1
-    have : Continuous fun g : GLw n w =>
-        cT (cj w) (g : Matrix (Fin n) (Fin n) _) * 1 * (g : Matrix (Fin n) (Fin n) _) := by
-      refine Continuous.mul (Continuous.mul ?_ continuous_const) Units.continuous_val
-      exact continuous_matrix fun i j => hc.comp (Units.continuous_val.matrix_elem _ _)
-    exact isClosed_singleton.preimage this
+  apply _root_.GlobalTheory.CompanionTheory.SphLine.isClosed_UL <;> assumption
 
 theorem isOpen_isCompact_KL (hU : Unr E) (n : ℕ) (w : Pl E) :
     IsOpen (KL n w : Set (UL n w)) ∧ IsCompact (KL n w : Set (UL n w)) := by
@@ -84,22 +78,7 @@ theorem isOpen_isCompact_KL (hU : Unr E) (n : ℕ) (w : Pl E) :
 
 theorem exists_equiv (hU : Unr E) (n : ℕ) (w : Pl E) :
     ∃ e : locU n w ≃ₜ* UL n w, ∀ x : locU n w, ((e x : UL n w) : GLw n w) = cLoc w (x : UA E n) := by
-  by_cases hs : IsSplitAt w
-  · obtain ⟨e, he⟩ := GlobalTheory.locU_equiv_GL E n w hs
-    have h : UL n w = ⊤ := if_pos hs
-    have hm : ∀ g : GLw n w, g ∈ UL n w := fun g => by rw [h]; exact Subgroup.mem_top _
-    refine ⟨{ toFun := fun x => ⟨e x, hm _⟩
-              invFun := fun g => e.symm g.1
-              left_inv := fun x => by simp
-              right_inv := fun g => Subtype.ext (by simp)
-              map_mul' := fun x y => Subtype.ext (by simp)
-              continuous_toFun := e.continuous.subtype_mk _
-              continuous_invFun := e.symm.continuous.comp continuous_subtype_val }, fun x => he x⟩
-  · obtain ⟨-, -, hv, hns, -⟩ := GlobalTheory.ConjAtPlace.main E hU w
-    obtain ⟨e, he⟩ := GlobalTheory.DefU.Inert.locU_equiv E n w (cj w) (hns hs).1 hv
-    have h : UL n w = UJ (cj w) 1 := if_neg hs
-    rw [h]
-    exact ⟨e, he⟩
+  apply _root_.GlobalTheory.CompanionTheory.LevelU.exists_equiv <;> assumption
 
 theorem exists_unique_locComp : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E], Unr E → ∀ n : ℕ, 1 ≤ n →
     ∀ π : Submodule ℂ (UA E n → ℂ), IsAutRepU π → ∀ w : Pl E,

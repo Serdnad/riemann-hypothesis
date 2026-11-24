@@ -1,5 +1,7 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeOperatorExists
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsPrincipalCongruence
@@ -62,7 +64,6 @@ import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinea
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Topology.Algebra.Nonarchimedean.TotallyDisconnected
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IwahoriBlockUpperLeviLower, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HeckeOperatorJacquetEigenRight
 
@@ -372,17 +373,7 @@ section
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem totallyDisconnected_GL (N : ℕ) : TotallyDisconnectedSpace (GL (Fin N) k) := by
-  haveI : T2Space k := GlobalTheory.SplitWeil.t2Space k
-  haveI : NonarchimedeanAddGroup k := ⟨fun V hV => by
-    obtain ⟨s, hs⟩ := GlobalTheory.SplitWeil.exists_cball_subset hV
-    exact ⟨⟨⟨⟨⟨GlobalTheory.SplitWeil.cball s, GlobalTheory.SplitWeil.add_mem_cball⟩, by simp [GlobalTheory.SplitWeil.cball]⟩,
-      GlobalTheory.SplitWeil.neg_mem_cball⟩, GlobalTheory.SplitWeil.isOpen_cball s⟩, hs⟩⟩
-  haveI : TotallyDisconnectedSpace k := inferInstance
-  haveI : TotallyDisconnectedSpace (Matrix (Fin N) (Fin N) k) :=
-    inferInstanceAs (TotallyDisconnectedSpace (Fin N → Fin N → k))
-  exact ⟨isTotallyDisconnected_of_image (f := fun g : GL (Fin N) k => (g : Matrix (Fin N) (Fin N) k))
-    Units.continuous_val.continuousOn Units.val_injective
-    (isTotallyDisconnected_of_totallyDisconnectedSpace _)⟩
+  apply _root_.GlobalTheory.CompanionTheory.HeckeKm.totallyDisconnected_GL <;> assumption
 
 
 variable (k) in

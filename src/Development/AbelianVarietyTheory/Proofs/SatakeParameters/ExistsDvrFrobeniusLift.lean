@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MaxVSpanSingleton
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TameEisensteinExtensionUniqueTotallyRamifiedPlac
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsRationalUnitaryDeterminantMapRationalUnitaryTo
 public import Formalism.LocalToGlobal.Columns.StdLatUnimodular
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfValuedEq
@@ -52,15 +54,7 @@ variable {E : Type} [Field E] [NumberField E] (Q : HeightOneSpectrum (𝓞 E))
 
 theorem intValuation_eq_of_notMem_sq {a : 𝓞 E} (h1 : a ∈ Q.asIdeal) (h2 : a ∉ Q.asIdeal ^ 2) :
     Q.intValuation a = exp (-1 : ℤ) := by
-  have ha : a ≠ 0 := by rintro rfl; exact h2 (zero_mem _)
-  have e1 := (Q.intValuation_le_pow_iff_mem a 1).2 (by simpa using h1)
-  have e2 := mt (Q.intValuation_le_pow_iff_mem a 2).1 h2
-  have h0 : Q.intValuation a ≠ 0 := Q.intValuation_ne_zero a ha
-  rw [← exp_log h0] at e1 e2 ⊢
-  rw [exp_le_exp] at e1 e2
-  congr 1
-  push_cast at e1 e2
-  omega
+  first | exact _root_.GlobalTheory.TameRecPlace.intValuation_exp_neg_one | exact @_root_.GlobalTheory.TameRecPlace.intValuation_exp_neg_one | apply _root_.GlobalTheory.TameRecPlace.intValuation_exp_neg_one <;> assumption
 
 theorem ringHom_ext_of_continuous {f g : Q.adicCompletion E → Q.adicCompletion E}
     (hf : Continuous f) (hg : Continuous g)
@@ -79,15 +73,7 @@ theorem exists_ringEquiv (c : E ≃+* E) (hc : Mem.Chr.ConjPl c Q Q) :
       simp [s2, t2])
 
 theorem intAt_iff (x : E) : Formalism.L2.Col.IntAt Q x ↔ Q.valuation E x ≤ 1 := by
-  constructor
-  · rintro ⟨r, s, hs, h⟩
-    have h1 := congrArg (Q.valuation E) h
-    rw [map_mul, (valuation_eq_one_iff_notMem Q).2 hs, one_mul] at h1
-    rw [h1]
-    exact Q.valuation_le_one r
-  · intro hx
-    obtain ⟨n, d, h⟩ := Q.exists_primeCompl_mul_eq_of_integer x hx
-    exact ⟨n, d, d.2, by rw [mul_comm]; exact h⟩
+  first | exact _root_.GlobalTheory.CharVal.intAt_iff | exact @_root_.GlobalTheory.CharVal.intAt_iff | apply _root_.GlobalTheory.CharVal.intAt_iff <;> assumption
 
 end GlobalTheory.UnramCompletion
 

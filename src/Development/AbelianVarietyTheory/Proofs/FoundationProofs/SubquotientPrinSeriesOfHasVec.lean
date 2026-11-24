@@ -817,11 +817,7 @@ theorem triv_congr (χ : kˣ →* ℂˣ) {x y : k} (h : valuation k x = valuatio
   unfold Triv; rw [h]
 
 theorem triv_zero (χ : kˣ →* ℂˣ) : Triv χ 0 := by
-  intro u _ h
-  have h0 : valuation k ((u : k) - 1) = 0 := le_antisymm (by simpa using h) zero_le'
-  rw [Valuation.zero_iff, sub_eq_zero] at h0
-  have : u = 1 := Units.ext h0
-  simp [this]
+  apply _root_.GlobalTheory.PsType.triv_zero' <;> assumption
 
 theorem res_zero_iff (x : 𝒪[k]) : IsLocalRing.residue 𝒪[k] x = 0 ↔ valuation k (x : k) < 1 := by
   rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]

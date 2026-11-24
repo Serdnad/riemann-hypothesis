@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLabel
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsSatVecUOfIsSphericalU
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormEulerPolySubOneLe
 public import Formalism.LocalToGlobal.Columns.HeckeSp
@@ -74,17 +75,7 @@ theorem esymm_cons_succ_C (a : ℂ) (s : Multiset ℂ) (n : ℕ) :
 
 theorem coeff_prod_one_add_C (s : Multiset ℂ) (n : ℕ) :
     ((s.map fun a => (1 + Polynomial.C a * Polynomial.X : Polynomial ℂ)).prod).coeff n = s.esymm n := by
-  induction s using Multiset.induction_on generalizing n with
-  | empty =>
-    cases n with
-    | zero => simp [Multiset.esymm]
-    | succ n => simp [Multiset.esymm, Polynomial.coeff_one, Multiset.powersetCard_zero_right]
-  | cons a s ih =>
-    rw [Multiset.map_cons, Multiset.prod_cons, add_mul, one_mul, mul_assoc, Polynomial.coeff_add,
-      Polynomial.coeff_C_mul]
-    cases n with
-    | zero => simp [ih, Multiset.esymm]
-    | succ n => rw [Polynomial.coeff_X_mul, ih, ih, esymm_cons_succ_C]
+  apply _root_.GlobalTheory.EsymmVirt.coeff_prod_one_add <;> assumption
 
 theorem esymm_add_C (s t : Multiset ℂ) (n : ℕ) :
     (s + t).esymm n = ∑ i ∈ Finset.range (n + 1), s.esymm i * t.esymm (n - i) := by

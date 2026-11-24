@@ -1,5 +1,6 @@
 module
 
+import Formalism.GaussJetBounds.GaussJetProofs.GField
 public import Formalism.GaussJetBounds.FrameJetEval
 public import Formalism.GaussJetBounds.GaussJetProofs.NormDetLeOneOfEntries
 import Mathlib.Algebra.Order.Floor.Extended
@@ -53,17 +54,7 @@ open Formalism.IncomingBounds
 
 theorem bddAbove_norm_coeff {R : Type} [NormedField R] {σ : Type} (Q : MvPolynomial σ R) :
     BddAbove (Set.range fun n : σ →₀ ℕ => ‖AddMonoidAlgebra.coeff Q n‖) := by
-  classical
-  have hfin : (Set.range fun n : σ →₀ ℕ => ‖AddMonoidAlgebra.coeff Q n‖).Finite := by
-    refine Set.Finite.subset
-      ((Q.support.image fun n => ‖AddMonoidAlgebra.coeff Q n‖).finite_toSet.insert 0) ?_
-    rintro _ ⟨n, rfl⟩
-    by_cases hn : n ∈ Q.support
-    · right
-      exact Finset.mem_coe.2 (Finset.mem_image_of_mem _ hn)
-    · left
-      simp only [MvPolynomial.notMem_support_iff.1 hn, norm_zero]
-  exact hfin.bddAbove
+  apply _root_.Formalism.DworkPowerSeriesWeights.gN_bdd <;> assumption
 
 theorem gauss_sum_powers : GaussPow := by
   classical

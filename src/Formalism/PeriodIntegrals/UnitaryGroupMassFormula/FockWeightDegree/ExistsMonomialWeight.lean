@@ -130,14 +130,7 @@ theorem sum_diag_of {p q r s : ℕ} (M : Matrix (Ln p q r s) (Ln p q r s) ℂ)
     (g : Ln p q r s → Prop) [DecidablePred g]
     (hM : ∀ l l', M l l' = if l = l' ∧ g l then 1 else 0) :
     ∑ l, ∑ l', M l l' • omE l l' = ∑ l, if g l then omE l l else 0 := by
-  refine Finset.sum_congr rfl fun l _ => ?_
-  rw [Finset.sum_eq_single l]
-  · rw [hM]
-    by_cases h : g l <;> simp [h]
-  · intro l' _ hne
-    rw [hM, if_neg (show ¬ (l = l' ∧ g l) from fun h => hne h.1.symm), zero_smul]
-  · intro h
-    exact absurd (Finset.mem_univ l) h
+  apply _root_.PI.FockOneDegW.Diag.sum_diag_of <;> assumption
 
 theorem fockAct1_diag (p q r s : ℕ) (a : Ix p q) :
     fockAct1 p q r s (Eab a a) = ∑ c : Ix r s, omE ((a, c) : Ln p q r s) (a, c) := by
@@ -189,19 +182,7 @@ theorem coeff_of_diag {σ : Type*} (T : Module.End ℂ (MvPolynomial σ ℂ)) (f
     (hT : ∀ β, T (MvPolynomial.monomial β 1) = f β • MvPolynomial.monomial β 1)
     (P : MvPolynomial σ ℂ) (α : σ →₀ ℕ) :
     AddMonoidAlgebra.coeff (T P) α = f α * AddMonoidAlgebra.coeff P α := by
-  classical
-  induction P using MvPolynomial.induction_on'
-  next u a =>
-    have hm : MvPolynomial.monomial u a = a • MvPolynomial.monomial u (1 : ℂ) := by
-      rw [MvPolynomial.smul_monomial, smul_eq_mul, mul_one]
-    rw [hm, map_smul, hT]
-    simp only [MvPolynomial.coeff_smul, MvPolynomial.coeff_monomial, smul_eq_mul]
-    split_ifs with h
-    · subst h
-      ring
-    · simp
-  next P Q hP hQ =>
-    rw [map_add (f := _), MvPolynomial.coeff_add, MvPolynomial.coeff_add, hP, hQ, mul_add]
+  apply _root_.PI.FockOneDegW.Diag.coeff_of_diag <;> assumption
 
 theorem exists_monomial_weight {σ ι : Type*} [Fintype σ]
     (T : ι → Module.End ℂ (MvPolynomial σ ℂ)) (f : ι → (σ →₀ ℕ) → ℚ)

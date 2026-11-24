@@ -44,6 +44,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.LeibnizOrders.ProdGPn
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeviBlockMemParabolic
 
 @[expose] public section
 
@@ -67,16 +68,7 @@ theorem ePG_true_eq (i t : ℕ) (b : Fin t) :
 
 theorem ePG_false_eq (i t : ℕ) (a : Fin i) :
     ePG i t ⟨false, Fin.castSucc a⟩ = Fin.castSucc (Fin.castAdd t a) := by
-  have h : GlobalTheory.BZMir.Leib.ePG i t ⟨false, Fin.castSucc a⟩ =
-      ((Equiv.sumCongr (finSumFinEquiv.symm : Fin (i + 1) ≃ Fin i ⊕ Fin 1) (Equiv.refl (Fin t))).trans
-        ((Equiv.sumAssoc (Fin i) (Fin 1) (Fin t)).trans
-          ((Equiv.sumCongr (Equiv.refl (Fin i)) (Equiv.sumComm (Fin 1) (Fin t))).trans
-            ((Equiv.sumAssoc (Fin i) (Fin t) (Fin 1)).symm.trans
-              ((Equiv.sumCongr finSumFinEquiv (Equiv.refl (Fin 1))).trans finSumFinEquiv)))))
-        (Sum.inl (Fin.castSucc a)) := rfl
-  rw [h]
-  ext
-  simp [finSumFinEquiv_symm_apply_castSucc]
+  apply _root_.GlobalTheory.CompanionTheory.BZPsiPG.QLevi.ePG_false_eq <;> assumption
 
 theorem ePG_true_ne_last (i t : ℕ) (b : Fin t) : ePG i t ⟨true, b⟩ ≠ Fin.last (i + t) := by
   rw [GlobalTheory.CompanionTheory.BZPsiPG.TopCol.ePG_true_eq]

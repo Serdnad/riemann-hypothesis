@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IotaTmulOneMem
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NotDvdCondN
 public import Development.AbelianVarietyTheory.BlockTheory.ThetaLiftGeometry.CrystallineAtPlaces
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
@@ -840,18 +841,7 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
     {V : Type} [AddCommGroup V] [Module LL V] [Module Qp V] [IsScalarTower Qp LL V]
 
 theorem filV_succ_le (a : ℤ) : FilV PD (LL := LL) (V := V) (a + 1) ≤ FilV PD (LL := LL) (V := V) a := by
-  rintro x ⟨y, rfl⟩
-  have hle : (PD.Fil (a + 1)).restrictScalars Qp ≤ (PD.Fil a).restrictScalars Qp := PD.Fil_anti a
-  have hc : (TensorProduct.AlgebraTensorModule.map (LinearMap.id : V →ₗ[LL] V)
-      ((PD.Fil a).restrictScalars Qp).subtype).comp
-      (TensorProduct.AlgebraTensorModule.map (LinearMap.id : V →ₗ[LL] V) (Submodule.inclusion hle)) =
-      TensorProduct.AlgebraTensorModule.map (LinearMap.id : V →ₗ[LL] V)
-        ((PD.Fil (a + 1)).restrictScalars Qp).subtype := by
-    apply TensorProduct.AlgebraTensorModule.ext
-    intro v b
-    rfl
-  exact ⟨TensorProduct.AlgebraTensorModule.map (LinearMap.id : V →ₗ[LL] V) (Submodule.inclusion hle) y,
-    LinearMap.congr_fun hc y⟩
+  first | exact _root_.GlobalTheory.HfZero.filV_succ_le | exact @_root_.GlobalTheory.HfZero.filV_succ_le | apply _root_.GlobalTheory.HfZero.filV_succ_le <;> assumption
 
 theorem fildR_succ_le (ρ : Representation LL G V) (τ : K →ₐ[Qp] LL) (a : ℤ) :
     FildR PD ρ τ (a + 1) ≤ FildR PD ρ τ a :=

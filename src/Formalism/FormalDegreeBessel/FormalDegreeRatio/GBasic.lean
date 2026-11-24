@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TailIntegrals.UHMulInv
 public import Formalism.FormalDegreeBessel.StatementG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -261,13 +262,7 @@ lemma PJP (k r : ℕ) : (Pk k r)ᴴ * Formalism.REAL.Jm (epsK k r) * Pk k r = Hp
   exact PJP_apply k r i j
 
 lemma Hpk_herm (k r : ℕ) : (Hpk k r)ᴴ = Hpk k r := by
-  ext i j
-  rw [Matrix.conjTranspose_apply, Hpk_eq, Hpk_eq]
-  by_cases h : j = sig k r i
-  · rw [if_pos ((eq_sig_iff k r i j).2 h), if_pos h, h, sgn_sig]
-    unfold sgn
-    split_ifs <;> simp
-  · rw [if_neg (fun e => h ((eq_sig_iff k r i j).1 e)), if_neg h, star_zero]
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Xi.StepA.Hpk_conjT <;> assumption
 
 lemma Hpk_sq (k r : ℕ) : Hpk k r * Hpk k r = 1 := by
   first

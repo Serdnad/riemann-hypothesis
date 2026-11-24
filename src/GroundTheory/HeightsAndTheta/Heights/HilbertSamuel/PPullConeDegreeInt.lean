@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGenFibreHomog
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPullConeDegreeInt
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPullConeDegree
@@ -54,15 +55,8 @@ theorem mConeMap_eq (y : (Σ k, ι k) → Ω) {f : MRing ι} {a : K → ℕ}
 theorem coeff_mConeMap (y : (Σ k, ι k) → Ω) (f : MRing ι) (n : K → ℕ) :
     AddMonoidAlgebra.coeff (mConeMap y f) (Finsupp.equivFunOnFinite.symm n) =
       aeval y (weightedHomogeneousComponent (NumbersDVR.blockWeight ι) n f) := by
-  induction f using MvPolynomial.induction_on' with
-  | monomial m r =>
-    have hm := isWeightedHomogeneous_monomial (NumbersDVR.blockWeight ι) m r rfl
-    rw [mConeMap_eq y hm, PullConeDegree.prod_X_pow_eq_monomial, C_mul_monomial, mul_one, coeff_monomial,
-      weightedHomogeneousComponent_of_mem (n := Finsupp.weight (NumbersDVR.blockWeight ι) m) hm]
-    by_cases h : n = Finsupp.weight (NumbersDVR.blockWeight ι) m
-    · rw [if_pos h, if_pos (by rw [h])]
-    · rw [if_neg h, if_neg (fun h' => h (Finsupp.equivFunOnFinite.symm.injective h').symm), map_zero]
-  | add p q hp hq => rw [map_add (f := _), MvPolynomial.coeff_add, hp, hq, map_add (f := _), map_add (f := _)]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.GenFibreHomog.coeff_mConeMap <;> assumption
 
 
 omit [DecidableEq K] in

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevJCosetsOfFurther
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ReadsMove
 import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.MemStabGLAdeleIff
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdmissibleBasePointUnitaryNormalisesLevelStatement
@@ -65,19 +66,7 @@ theorem exists_one_on (σ : E →ₐ[F] E) {n : ℕ} (J : Matrix (Fin n) (Fin n)
     (g : GL (Fin n) (E ⊗[F] FiniteAdeleRing (𝓞 F) F)) (hg : g ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F)) :
     ∃ g' ∈ UPts σ J (FiniteAdeleRing (𝓞 F) F), (∀ v ∈ S, bc (prV (E := E) v) g' = 1) ∧
       ∀ v ∉ S, bc (prV (E := E) v) g' = bc (prV (E := E) v) g := by
-  classical
-  induction S using Finset.induction_on with
-  | empty => exact ⟨g, hg, fun v hv => absurd hv (Finset.notMem_empty v), fun _ _ => rfl⟩
-  | insert w S hw ih =>
-    obtain ⟨g', hg', h1, h2⟩ := ih
-    have key : ∀ v, v ≠ w → bc (prV (E := E) v) (afsplitU w 1 g') = bc (prV (E := E) v) g' := fun v hne => by
-      apply Units.ext
-      rw [afsplit_coe_bc_prV, afsplit_coe_bc_prV, afsplitU_coe, afsplitC_prV_ne w v hne]
-    refine ⟨afsplitU w 1 g', afsplitU_mem w σ J 1 g' (one_mem _) hg', fun v hv => ?_, fun v hv => ?_⟩
-    · rcases Finset.mem_insert.1 hv with rfl | hv
-      · exact afsplit_right1 v 1 g'
-      · rw [key v (fun e => hw (e ▸ hv)), h1 v hv]
-    · rw [key v (fun e => hv (e ▸ Finset.mem_insert_self _ _)), h2 v (fun h => hv (Finset.mem_insert_of_mem h))]
+  first | exact _root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off | exact @_root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off | apply _root_.GlobalTheory.Mem.Col2.TwistLevel.exists_off <;> assumption
 
 theorem finite_over {T : ℕ} (hT : T ≠ 0) : {v : HeightOneSpectrum (𝓞 F) | ((T : ℕ) : 𝓞 F) ∈ v.asIdeal}.Finite := by
   have h0 : Ideal.span {((T : ℕ) : 𝓞 F)} ≠ ⊥ := by

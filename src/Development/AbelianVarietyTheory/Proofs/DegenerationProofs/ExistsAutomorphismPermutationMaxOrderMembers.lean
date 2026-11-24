@@ -702,12 +702,7 @@ open scoped CategoryTheory.Obj in
 variable {R K : Type} [CommRing R] [Field K] [Algebra R K] {A A' : Over (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Sp K)} in
 private lemma model_isPullback_genericFibre_spMap (M : _root_.GlobalTheory.SS.Model R A) :
     IsPullback M.j A.hom M.Y.hom (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (algebraMap R K)) := by
-  have h := IsPullback.of_hasPullback M.Y.hom (_root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.spMap (algebraMap R K))
-  refine IsPullback.of_iso h ((Over.forget _).mapIso M.e) (Iso.refl _)
-    (Iso.refl _) (Iso.refl _) ?_ ?_ (by simp) (by simp)
-  · simp [_root_.GlobalTheory.SS.Model.j, ← Over.comp_left_assoc]
-  · have := Over.w M.e.hom
-    simpa using this.symm
+  apply _root_.GlobalTheory.SS.WeakNeronDef.isPullback_j <;> assumption
 
 
 open CategoryTheory Limits MonoidalCategory CartesianMonoidalCategory MonObj AlgebraicGeometry in
@@ -1372,17 +1367,7 @@ theorem not_isUnit_cstR [IsLocalRing R] (M : Model R A) (U : M.Y.left.Opens) (h 
 
 theorem j_app_injective [IsDomain R] [IsFractionRing R K] (M : Model R A) (U : M.Y.left.Opens) :
     Function.Injective (M.j.app U).hom := by
-  have := M.smooth
-  have : IsDominant (spMap (algebraMap R K)) :=
-    ⟨PrimeSpectrum.denseRange_comap_iff_ker_le_nilRadical _ |>.2 (by
-      exact ((RingHom.injective_iff_ker_eq_bot _).1 (IsFractionRing.injective R K)).le.trans bot_le)⟩
-  have := IsSchemeTheoreticallyDominant.of_isDominant (spMap (algebraMap R K))
-  have : IsSchemeTheoreticallyDominant (pullback.fst M.Y.hom (spMap (algebraMap R K))) :=
-    IsSchemeTheoreticallyDominant.of_isPullback (IsPullback.of_hasPullback M.Y.hom (spMap (algebraMap R K))).flip
-  have : IsIso M.e.inv.left := inferInstanceAs (IsIso ((Over.forget _).map M.e.inv))
-  have : IsSchemeTheoreticallyDominant M.j := by unfold Model.j; infer_instance
-  have : QuasiCompact M.j := by unfold Model.j; infer_instance
-  exact M.j.app_injective U
+  first | exact _root_.GlobalTheory.SS.Ord.j_app_injective | exact @_root_.GlobalTheory.SS.Ord.j_app_injective | apply _root_.GlobalTheory.SS.Ord.j_app_injective <;> assumption
 
 end
 

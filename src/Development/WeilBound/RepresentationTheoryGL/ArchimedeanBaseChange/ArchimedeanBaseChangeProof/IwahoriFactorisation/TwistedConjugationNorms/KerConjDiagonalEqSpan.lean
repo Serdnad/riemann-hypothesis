@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.CompactOrbits.LocStep
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnifAt
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramDetChangeOfBases
@@ -70,19 +71,7 @@ variable {K : Type} [Field K] {n : ℕ}
 theorem conj_pow (P : GL (Fin n) K) (D : Matrix (Fin n) (Fin n) K) (k : ℕ) :
     ((P : Matrix (Fin n) (Fin n) K) * D * ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) ^ k =
       (P : Matrix (Fin n) (Fin n) K) * D ^ k * ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by
-  have hPP : ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * (P : Matrix (Fin n) (Fin n) K) = 1 := by
-    rw [← Units.val_mul, inv_mul_cancel, Units.val_one]
-  induction k with
-  | zero =>
-    rw [pow_zero, pow_zero, Matrix.mul_one, ← Units.val_mul, mul_inv_cancel, Units.val_one]
-  | succ k ih =>
-    rw [pow_succ, ih, pow_succ]
-    calc (P : Matrix (Fin n) (Fin n) K) * D ^ k * ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) *
-          ((P : Matrix (Fin n) (Fin n) K) * D * ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K))
-        = (P : Matrix (Fin n) (Fin n) K) * D ^ k *
-            (((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) * (P : Matrix (Fin n) (Fin n) K)) * D *
-            ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [hPP, Matrix.mul_one]; simp only [Matrix.mul_assoc]
+  apply _root_.PositivityTheory.RgUd.T.conj_pow_shared <;> assumption
 
 theorem aeval_conj (P : GL (Fin n) K) (D : Matrix (Fin n) (Fin n) K) (Q : K[X]) :
     aeval ((P : Matrix (Fin n) (Fin n) K) * D * ((P⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K)) Q =

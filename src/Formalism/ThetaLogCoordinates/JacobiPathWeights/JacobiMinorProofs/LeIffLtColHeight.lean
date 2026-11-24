@@ -1,5 +1,6 @@
 module
 
+import Lemmata.GeneralBFactLeftFurther.Imports
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementA
 public import Mathlib.Data.Int.Interval
 import Mathlib.Algebra.Order.Floor.Extended
@@ -68,27 +69,7 @@ namespace Paths
 
 theorem le_iff_lt_colHeight {n : ℕ} {μ : Fin n → ℤ} (h : Antitone μ) (c : ℤ) (m : Fin n) :
     c ≤ μ m ↔ m.val < colHeight μ c := by
-  unfold colHeight
-  constructor
-  · intro hm
-    have hsub : Finset.Iic m ⊆ univ.filter fun m => c ≤ μ m := by
-      intro x hx
-      simp only [mem_filter, mem_univ, true_and]
-      exact hm.trans (h (Finset.mem_Iic.1 hx))
-    have := Finset.card_le_card hsub
-    rw [Fin.card_Iic] at this
-    omega
-  · intro hm
-    by_contra hc
-    have hsub : (univ.filter fun m => c ≤ μ m) ⊆ Finset.Iio m := by
-      intro x hx
-      simp only [mem_filter, mem_univ, true_and] at hx
-      rw [Finset.mem_Iio]
-      by_contra hx'
-      exact hc (hx.trans (h (not_lt.1 hx')))
-    have := Finset.card_le_card hsub
-    rw [Fin.card_Iio] at this
-    omega
+  apply _root_.Bl.general_b_fact_left_further.goal1 <;> assumption
 
 theorem colHeight_le {n : ℕ} (μ : Fin n → ℤ) (c : ℤ) : colHeight μ c ≤ n :=
   (Finset.card_le_univ _).trans_eq (Fintype.card_fin n)

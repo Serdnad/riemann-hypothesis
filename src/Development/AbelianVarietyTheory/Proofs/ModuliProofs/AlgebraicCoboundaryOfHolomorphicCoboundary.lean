@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.ModuliProofs.LocDerRegularCoeff
 public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.ExistsSectionRing
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.AppLESurjective
@@ -284,16 +285,7 @@ private theorem valAt'_mul_of_whole_le_preimage {Y : Scheme.{0}} (y : Sp ℂ ⟶
 
 private theorem top_le_comap_basicOpen_of_valAt'_ne_zero {Y : Scheme.{0}} (y : Sp ℂ ⟶ Y) {W : Y.Opens} (hW : ⊤ ≤ y ⁻¹ᵁ W)
     (f : Γ(Y, W)) (hf : valAt' y W f ≠ 0) : ⊤ ≤ y ⁻¹ᵁ Y.basicOpen f := by
-  rw [valAt'_eq_ΓSpecIso_appLE y hW] at hf
-  have hu : IsUnit ((y.appLE W ⊤ hW).hom f) := by
-    have h2 := (IsUnit.mk0 _ hf).map (Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom
-    simpa using h2
-  have h3 : (Sp ℂ).basicOpen ((y.appLE W ⊤ hW).hom f) = ⊤ := Scheme.basicOpen_of_isUnit _ hu
-  have h4 : (Sp ℂ).basicOpen ((y.appLE W ⊤ hW).hom f) ≤ y ⁻¹ᵁ Y.basicOpen f := by
-    rw [Scheme.preimage_basicOpen]
-    rw [Scheme.Hom.appLE, CommRingCat.comp_apply, Scheme.basicOpen_res]
-    exact inf_le_right
-  exact h3.symm.le.trans h4
+  apply _root_.GlobalTheory.KS.VertReg.top_le_preimage_basicOpen_of_valAt'_ne_zero <;> assumption
 
 theorem local_extension (u : HolUnif A L g) (hL : L.IsLB) {I : Type} (O : I → A.left.Opens)
     (c : ∀ i i', Γ(A.left, O i ⊓ O i')) (h : I → (Fin g → ℂ) → ℂ) (hO : ⨆ i, O i = ⊤)

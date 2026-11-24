@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HarrisTaylorObjectMapsComposeCancel
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Clauses
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -68,20 +69,8 @@ theorem lbIso_pull_comp {X Y Y' : Scheme.{0}} {L : LB X} {A : LB Y} {F : Y ⟶ X
 
 theorem exists_isSquare {G : Over S} {G' : Over S'} {φ : G'.left ⟶ G.left} (w : φ ≫ G.hom = G'.hom ≫ f) :
     ∃ φ₂ : (G' ⊗ G').left ⟶ (G ⊗ G).left, IsSquare φ φ₂ := by
-  let T : Over S := Over.mk ((G' ⊗ G').hom ≫ f)
-  have w₁ : ((fst G' G').left ≫ φ) ≫ G.hom = T.hom := by
-    rw [Category.assoc, w, ← Category.assoc, Over.w (fst G' G')]
-    rfl
-  have w₂ : ((snd G' G').left ≫ φ) ≫ G.hom = T.hom := by
-    rw [Category.assoc, w, ← Category.assoc, Over.w (snd G' G')]
-    rfl
-  let x : T ⟶ G := Over.homMk ((fst G' G').left ≫ φ) w₁
-  let y : T ⟶ G := Over.homMk ((snd G' G').left ≫ φ) w₂
-  refine ⟨(lift x y).left, ?_, ?_⟩
-  · rw [← Over.comp_left, lift_fst]
-    rfl
-  · rw [← Over.comp_left, lift_snd]
-    rfl
+  intros
+  apply _root_.GlobalTheory.UPel.HT.MapComp.exists_isSquare <;> assumption
 
 theorem isSquare_tensor {G G' : Over S} (φ : G' ⟶ G) : IsSquare φ.left (φ ⊗ₘ φ).left := by
   constructor

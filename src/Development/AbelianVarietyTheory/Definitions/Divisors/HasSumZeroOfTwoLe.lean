@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinPartEqOneOfLevel
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFinSetSplitPlacesCoprimeConductor
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -79,18 +80,7 @@ theorem modF_princ (k : Eˣ) :
 
 theorem hatO_integral {c : Ideal (OF E)} {y : Af E} (hy : y ∈ hatO c) (v : HeightOneSpectrum (𝓞 E)) :
     Valued.v (y v) ≤ 1 := by
-  have hc : IsClosed {y : Af E | y v ∈ v.adicCompletionIntegers E} :=
-    (Valued.isClosed_valuationSubring (v.adicCompletion E)).preimage (RestrictedProduct.continuous_eval v)
-  have : y ∈ {y : Af E | y v ∈ v.adicCompletionIntegers E} := by
-    refine closure_minimal ?_ hc hy
-    rintro _ ⟨x, hx, rfl⟩
-    obtain ⟨a, b, -, rfl⟩ := mem_orderC.1 hx
-    have : algebraMap (OF E) E a + algebraMap (𝓞 E) E b = algebraMap (𝓞 E) E (algebraMap (OF E) (𝓞 E) a + b) := by
-      rw [map_add (f := _)]; rfl
-    rw [this]
-    refine (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).2 ?_
-    exact (HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v _).trans_le (v.valuation_le_one _)
-  exact this
+  first | exact _root_.GlobalTheory.CMVal.OrderUnits.val_le_one | exact @_root_.GlobalTheory.CMVal.OrderUnits.val_le_one | apply _root_.GlobalTheory.CMVal.OrderUnits.val_le_one <;> assumption
 
 theorem modF_unit {c : Ideal (OF E)} {u : (Af E)ˣ} (hu : u ∈ hatOUnits c) : modF u = 1 := by
   unfold modF

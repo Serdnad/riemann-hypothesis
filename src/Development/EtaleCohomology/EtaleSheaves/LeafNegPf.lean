@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.CechFiltPf
 public import Development.EtaleCohomology.EtaleSheaves.LeafDegCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,11 +50,7 @@ namespace LateralTheory.E.LeafNegPf
 
 theorem chains_isZero (R : Type) [CommRing R] (E : Spc) (n : ℤ) (hn : 0 < n) :
     IsZero (((chains R).obj E).X n) := by
-  change IsZero ((((chainsN R).obj E).extend ComplexShape.embeddingDownNat).X n)
-  apply HomologicalComplex.isZero_extend_X
-  intro i
-  change -(i : ℤ) ≠ n
-  omega
+  apply @LateralTheory.E.CechFiltPf.chains_isZero <;> assumption
 
 theorem res_isZero (R : Type) [CommRing R] (F : Shv R) (n : ℤ) (hn : n < 0) :
     IsZero ((res R F).X n) := by

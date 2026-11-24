@@ -132,9 +132,18 @@ theorem eventually_int (M : Matrix κ κ F) :
 
 
 open scoped Classical in
-theorem hasOp_levi : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), IsStd ψ → (∀ᶠ v in cofinite, PsiUnr ψ v) →
+theorem hasOp_levi_with_global_action : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), IsStd ψ → (∀ᶠ v in cofinite, PsiUnr ψ v) →
     (∀ v : Pl (F := F), ∃ x, psiLoc ψ v x ≠ 1) → ∀ (κ : Type) [Fintype κ] [DecidableEq κ] (A : Matrix κ κ F), IsUnit A.det →
-    GlobalTheory.SympChange.HasOp ψ (GlobalTheory.SympChange.leviM A) := by
+  ∃ (e : ((κ → AF F) → ℂ) →ₗ[ℂ] (κ → AF F) → ℂ) (ei : SInf F κ →L[ℂ] SInf F κ)
+    (ev : ∀ v : Pl (F := F), ((κ → Fv F v) → ℂ) →ₗ[ℂ] (κ → Fv F v) → ℂ),
+    e = LinearMap.funLeft ℂ ℂ (fun x : κ → AF F => A⁻¹.map (algebraMap F (AF F)) *ᵥ x) ∧
+    Function.Surjective ei ∧ (∀ Φ ∈ schA F κ, e Φ ∈ schA F κ) ∧
+    (∀ w, ∀ Φ ∈ schA F κ, e (GlobalTheory.WeilM.schr ψ w Φ) = GlobalTheory.WeilM.schr ψ (GlobalTheory.SympChange.spAct (GlobalTheory.SympChange.leviM A) w) (e Φ)) ∧
+    (∀ v, (SB _).map (ev v) = SB _) ∧ (∀ v, ∀ φ ∈ SB (κ → Fv F v), ev v φ = 0 → φ = 0) ∧
+    (∀ v w, ∀ φ ∈ SB (κ → Fv F v),
+      ev v (GlobalTheory.WeilM.schr (GlobalTheory.LatVac.psiAt ψ v) w φ) = GlobalTheory.WeilM.schr (GlobalTheory.LatVac.psiAt ψ v) (GlobalTheory.SympChange.spAct (GlobalTheory.SympChange.leviM A) w) (ev v φ)) ∧
+    (∀ᶠ v in cofinite, ev v (GlobalTheory.SympChange.indO v) = GlobalTheory.SympChange.indO v) ∧
+    ∀ f φ, (∀ v, φ v ∈ SB _) → (∀ᶠ v in cofinite, φ v = GlobalTheory.SympChange.indO v) → e (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure f φ) = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure (ei f) fun v => ev v (φ v) := by
   intro F _ _ ψ _ _ _ κ _ _ A hA
   let gI : F →+* mixedEmbedding.mixedSpace F := (evIr (F := F)).comp (algebraMap F (AF F))
   let gF : F →+* FiniteAdeleRing (𝓞 F) F := (RingHom.snd _ _).comp (algebraMap F (AF F))
@@ -142,7 +151,7 @@ theorem hasOp_levi : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF 
   refine ⟨LinearMap.funLeft ℂ ℂ (fun x : κ → AF F => A⁻¹.map (algebraMap F (AF F)) *ᵥ x),
     SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L,
     fun v => LinearMap.funLeft ℂ ℂ (fun x : κ → Fv F v => A⁻¹.map (algebraMap F (Fv F v)) *ᵥ x),
-    ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
+    rfl, ?_, ?_, ?_, ?_, ?_, ?_, ?_, ?_⟩
   · intro f
     refine ⟨SchwartzMap.compCLMOfContinuousLinearEquiv ℂ L.symm f, ?_⟩
     refine SchwartzMap.ext fun x => ?_
@@ -219,5 +228,12 @@ theorem hasOp_levi : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF 
       funext i
       exact hom_mulVec (evFin F v).toRingHom (algebraMap F (AF F)) (algebraMap F (Fv F v))
         (RingHom.ext fun c => (evFin F v).commutes c) A⁻¹ x i
+
+theorem hasOp_levi : ∀ (F : Type) [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ), IsStd ψ → (∀ᶠ v in cofinite, PsiUnr ψ v) →
+    (∀ v : Pl (F := F), ∃ x, psiLoc ψ v x ≠ 1) → ∀ (κ : Type) [Fintype κ] [DecidableEq κ] (A : Matrix κ κ F), IsUnit A.det →
+    GlobalTheory.SympChange.HasOp ψ (GlobalTheory.SympChange.leviM A) := by
+  intro F _ _ ψ hStd hUnr hNontrivial κ _ _ A hA
+  obtain ⟨e, ei, ev, -, h⟩ := hasOp_levi_with_global_action F ψ hStd hUnr hNontrivial κ A hA
+  exact ⟨e, ei, ev, h⟩
 
 end GlobalTheory.LeviOp

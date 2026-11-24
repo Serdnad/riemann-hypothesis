@@ -186,16 +186,8 @@ noncomputable section
 namespace GlobalTheory.StageSmallNz
 
 theorem nontrivial_left {Pr Pf Pi : Type} [AddCommGroup Pr] [Module ℂ Pr] [AddCommGroup Pf] [Module ℂ Pf]
-    [AddCommGroup Pi] [Module ℂ Pi] [Nontrivial Pi] (e : Pr ⊗[ℂ] Pf ≃ₗ[ℂ] Pi) : Nontrivial Pr := by
-  by_contra hP0
-  rw [not_nontrivial_iff_subsingleton] at hP0
-  have hz : ∀ z : Pr ⊗[ℂ] Pf, z = 0 := fun z => by
-    induction z using TensorProduct.induction_on with
-    | zero => rfl
-    | tmul x y => rw [Subsingleton.elim x 0, TensorProduct.zero_tmul]
-    | add x y hx hy => rw [hx, hy, add_zero]
-  obtain ⟨u, v, huv⟩ := exists_pair_ne Pi
-  exact huv (by rw [← e.apply_symm_apply u, ← e.apply_symm_apply v, hz (e.symm u), hz (e.symm v)])
+    [AddCommGroup Pi] [Module ℂ Pi] [Nontrivial Pi] (e : Pr ⊗[ℂ] Pf ≃ₗ[ℂ] Pi) : Nontrivial Pr :=
+  _root_.GlobalTheory.StageSmallBig.nontrivial_left e
 
 end GlobalTheory.StageSmallNz
 

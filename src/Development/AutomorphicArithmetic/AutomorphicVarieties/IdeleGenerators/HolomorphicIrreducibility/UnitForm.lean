@@ -2,6 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.UnitFam
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.HolomorphicIrreducibility.UnitFam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -60,13 +61,7 @@ private theorem coe_comb {N : ℕ} {k : ℤ} {I : Type} (s : Finset I) (c : I �
 
 private theorem one_mem_per (N : ℕ) :
     (1 : ℝ) ∈ (Subgroup.map (Matrix.SpecialLinearGroup.mapGL ℝ) (Gamma1 N)).strictPeriods := by
-  rw [Subgroup.mem_strictPeriods_iff, Subgroup.mem_map]
-  refine ⟨ModularGroup.T, ?_, ?_⟩
-  · rw [CongruenceSubgroup.Gamma1_mem]
-    simp [ModularGroup.T]
-  · ext i j
-    fin_cases i <;> fin_cases j <;>
-      simp [Matrix.GeneralLinearGroup.upperRightHom, Matrix.SpecialLinearGroup.mapGL, ModularGroup.coe_T]
+  apply _root_.UpperTheory.V.Sd.one_mem_per <;> assumption
 
 private theorem coef_smul {N : ℕ} {k : ℤ} (c : ℂ) (f : ModularForm (Gamma1 N) k) (n : ℕ) :
     coef (c • (f : ℍ → ℂ)) n = c * coef f n := by

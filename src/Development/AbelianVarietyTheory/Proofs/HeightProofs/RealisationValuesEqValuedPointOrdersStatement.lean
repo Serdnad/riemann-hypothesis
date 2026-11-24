@@ -69,6 +69,7 @@ import Development.AbelianVarietyTheory.Definitions.RegularCharts.BaseNorm
 import Mathlib.RingTheory.PicardGroup
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.LocStructStRecord
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.HeightProofs.MemRangeOfValVLeOne, Development.AbelianVarietyTheory.Proofs.HeightProofs.RealisationValuesEqValuedPointOrders, Development.AbelianVarietyTheory.Proofs.HeightProofs.RealisationValuesEqValuedPointOrdersStatement
@@ -510,14 +511,7 @@ theorem exists_gen_ne_zero {D : D7} {B : WeightFamilies.Prov D} {P : ModuliInteg
     {hM : IntAtExt X E} {ka wL wF : WeightFamilies.Wt D j} {G : GlobalFamilyData (xplus X E hM) ka wL wF}
     {la : HeightOneSpectrum (𝓞 B.KO)} {ζ : PtsG G la} {y : E.Pt' la} (hs : SecPt ζ y) :
     ∃ i, hs.ev (emb (xplus X E hM) la G.N (X.inc wL (G.w i))) ≠ 0 := by
-  by_contra hc
-  push Not at hc
-  apply hs.s0.ne_zero
-
-  rw [Formalism.MainNotions.Gaps.EtaleWeightGaps.sec, map_sum]
-  refine Finset.sum_eq_zero fun k _ => ?_
-  rw [Algebra.smul_def, map_mul]
-  exact mul_eq_zero_of_right _ (hc k)
+  apply _root_.GlobalTheory.Reg.UnitBall.exists_ev_ne <;> assumption
 
 
 

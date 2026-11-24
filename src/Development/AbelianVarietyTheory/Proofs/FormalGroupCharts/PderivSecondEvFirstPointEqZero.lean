@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogClosed
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalEvSecondPointOfXZero
 public import Mathlib.LinearAlgebra.Matrix.NonsingularInverse
 public import Mathlib.RingTheory.MvPowerSeries.Derivative
@@ -134,22 +135,7 @@ theorem cc_om : (Om G).map constantCoeff = 1 := by
   rw [h]; refine Matrix.ext fun i j => ?_; by_cases hij : i = j <;> simp [Matrix.one_apply, hij]
 
 theorem om_Q (i b : Fin d) : ∑ j, ev (n := 2) ![G.F] (Om G i j) * Ar G j b = ev (n := 2) ![pt k d 1] (Om G i b) := by
-  have hJ : (JM G).map (ev (n := 2) ![G.F]) = Matrix.of (Ar G) * (JM G).map (ev (n := 2) ![pt k d 1]) := by
-    refine Matrix.ext fun i b => ?_
-    simp only [Matrix.map_apply, JM, Matrix.of_apply, Matrix.mul_apply]
-    exact jac_F G i b
-  have hy : (JM G).map (ev (n := 2) ![pt k d 1]) * (Om G).map (ev (n := 2) ![pt k d 1]) = 1 := by
-    rw [← map_ev_mul czY, mul_om, map_ev_one czY]
-  have hF : (Om G).map (ev (n := 2) ![G.F]) * (JM G).map (ev (n := 2) ![G.F]) = 1 := by
-    rw [← map_ev_mul (czFF G), om_mul, map_ev_one (czFF G)]
-  have key : (Om G).map (ev (n := 2) ![G.F]) * Matrix.of (Ar G) = (Om G).map (ev (n := 2) ![pt k d 1]) := by
-    calc _ = (Om G).map (ev (n := 2) ![G.F]) * Matrix.of (Ar G) *
-          ((JM G).map (ev (n := 2) ![pt k d 1]) * (Om G).map (ev (n := 2) ![pt k d 1])) := by rw [hy, Matrix.mul_one]
-      _ = (Om G).map (ev (n := 2) ![G.F]) * (JM G).map (ev (n := 2) ![G.F]) *
-          (Om G).map (ev (n := 2) ![pt k d 1]) := by rw [hJ, Matrix.mul_assoc, Matrix.mul_assoc, Matrix.mul_assoc]
-      _ = _ := by rw [hF, Matrix.one_mul]
-  have := congrFun (congrFun key i) b
-  simpa [Matrix.mul_apply] using this
+  first | exact _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.om_Q | exact @_root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.om_Q | apply _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.om_Q <;> assumption
 
 theorem czSw : CZ (![pt k (n := 2) d 1, pt k d 0] : Fin 2 → Pt k 2 d) := CZ.cons (cc_pt 1) (CZ.cons (cc_pt 0) CZ.nil)
 theorem czX : CZ (![pt k (n := 2) d 0] : Fin 1 → Pt k 2 d) := CZ.cons (cc_pt 0) CZ.nil

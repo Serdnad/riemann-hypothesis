@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.SecondCoeffConsistency
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.StatementI
 public import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.ConstantCoeffSig1S
 import Formalism.LocalToGlobal.TorsionIntegrality.FrobeniusFibreCurves.LogarithmicSubstitution.OneAddMulDerivLogSubst
@@ -30,11 +31,7 @@ theorem second_derivative_rescale (a : K) (f : PowerSeries K) :
   ring
 
 theorem rescale_C' (a c : K) : rescale a (C c : PowerSeries K) = C c := by
-  ext n
-  rw [coeff_rescale, coeff_C]
-  split_ifs with h
-  · rw [h, pow_zero, one_mul]
-  · rw [mul_zero]
+  apply _root_.Formalism.L2.Th1.C.rescale_C_eq <;> assumption
 
 theorem dz_nsmul (n : ℕ) (f : PowerSeries K) : dz (n • f) = n • dz f := map_nsmul _ n f
 

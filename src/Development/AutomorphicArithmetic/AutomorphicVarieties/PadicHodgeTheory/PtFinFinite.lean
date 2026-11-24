@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeilGroupCharacters.ExistsAlgebraicPointOfGroupDeterminant
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.FinitelyGeneratedModPow
 public import Mathlib.Algebra.Algebra.Operations
 public import Mathlib.RingTheory.Noetherian.Defs
 public import Mathlib.RingTheory.Ideal.Operations
@@ -67,45 +69,8 @@ theorem UpperTheory.Reformulated.B.PointFinitePower.ptFin_pow :
     ∀ {O S : Type} [inst : CommRing O] [inst_1 : CommRing S]
     [inst_2 : Algebra O S] [IsNoetherianRing S] (m : Ideal S),
     (∀ (x : S), ∃ (a : O), x - (Algebra.algebraMap O S : O → S) a ∈ m) →
-      ∀ (n : ℕ), ∃ (N : Submodule O S), N.FG ∧ ∀ (x : S), ∃ y ∈ N, x - y ∈ m ^ n := by
-  intro O S _ _ _ _ m hm n
-  induction n with
-  | zero =>
-    exact ⟨⊥, Submodule.fg_bot, fun x => ⟨0, Submodule.zero_mem _, by simp⟩⟩
-  | succ n ih =>
-    obtain ⟨N, hN, hx⟩ := ih
-    obtain ⟨s, hs⟩ : (m ^ n).FG := IsNoetherian.noetherian (m ^ n)
-    have key : ∀ z : S, z ∈ Submodule.span S (s : Set S) →
-        ∃ w ∈ Submodule.span O (s : Set S), z - w ∈ m ^ (n + 1) := by
-      intro z hz
-      induction hz using Submodule.span_induction with
-      | mem z hz =>
-        exact ⟨z, Submodule.subset_span hz, by simp⟩
-      | zero =>
-        exact ⟨0, Submodule.zero_mem _, by simp⟩
-      | add z z' _ _ h h' =>
-        obtain ⟨w, hw, h⟩ := h
-        obtain ⟨w', hw', h'⟩ := h'
-        refine ⟨w + w', Submodule.add_mem _ hw hw', ?_⟩
-        simpa only [sub_add_sub_comm] using Submodule.add_mem _ h h'
-      | smul c z hz h =>
-        obtain ⟨w, hw, h⟩ := h
-        obtain ⟨a, ha⟩ := hm c
-        refine ⟨a • w, Submodule.smul_mem _ a hw, ?_⟩
-        have hz' : z ∈ m ^ n := hs ▸ hz
-        have e : c • z - a • w
-            = algebraMap O S a * (z - w) + z * (c - algebraMap O S a) := by
-          rw [Algebra.smul_def a w, smul_eq_mul]
-          ring
-        rw [e, pow_succ]
-        exact Submodule.add_mem _ (Ideal.mul_mem_left _ _ h) (Ideal.mul_mem_mul hz' ha)
-    refine ⟨N ⊔ Submodule.span O (s : Set S), hN.sup ⟨s, rfl⟩, fun x => ?_⟩
-    obtain ⟨y, hy, hxy⟩ := hx x
-    rw [← hs] at hxy
-    obtain ⟨w, hw, h⟩ := key (x - y) hxy
-    refine ⟨y + w, Submodule.add_mem_sup hy hw, ?_⟩
-    rw [← sub_sub]
-    exact h
+      ∀ (n : ℕ), ∃ (N : Submodule O S), N.FG ∧ ∀ (x : S), ∃ y ∈ N, x - y ∈ m ^ n :=
+  _root_.UpperTheory.Reformulated.B.FinitelyGeneratedModPow.fg_mod_pow
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.PointFinitePower =====
@@ -121,35 +86,7 @@ private theorem ptFin_finite {O S : Type} [CommRing O] [IsLocalRing O] [IsAdicCo
     [CommRing S] [Algebra O S] [IsLocalRing S] [IsNoetherianRing S] [Algebra.IsIntegral O S]
     (hloc : ∀ a ∈ maximalIdeal O, algebraMap O S a ∈ maximalIdeal S)
     (hres : ∀ x : S, ∃ a : O, x - algebraMap O S a ∈ maximalIdeal S) : Module.Finite O S := by
-  set J : Ideal S := (maximalIdeal O).map (algebraMap O S) with hJ
-  have hJle : J ≤ maximalIdeal S := Ideal.map_le_iff_le_comap.2 hloc
-  have hJne : J ≠ ⊤ := fun h => (maximalIdeal.isMaximal S).ne_top (top_le_iff.1 (h ▸ hJle))
-  haveI : IsHausdorff (maximalIdeal O) S :=
-    IsHausdorff.map_algebraMap_iff.1 (IsHausdorff.of_isLocalRing J S hJne)
-  have hrad : maximalIdeal S ≤ J.radical := by
-    rw [Ideal.radical_eq_sInf]
-    refine le_sInf ?_
-    rintro P ⟨hJP, hP⟩
-    have h1 : maximalIdeal O ≤ P.comap (algebraMap O S) := Ideal.map_le_iff_le_comap.1 hJP
-    have h2 : P.comap (algebraMap O S) = maximalIdeal O :=
-      ((maximalIdeal.isMaximal O).eq_of_le (Ideal.comap_ne_top _ hP.ne_top) h1).symm
-    have h3 : P.IsMaximal := Ideal.isMaximal_of_isIntegral_of_isMaximal_under (R := O) P
-      (by change (P.comap (algebraMap O S)).IsMaximal; rw [h2]; infer_instance)
-    exact (eq_maximalIdeal h3).ge
-  obtain ⟨n, hn⟩ := Ideal.exists_pow_le_of_le_radical_of_fg hrad (IsNoetherian.noetherian _)
-  obtain ⟨N, hN, h⟩ := _root_.UpperTheory.Reformulated.B.PointFinitePower.ptFin_pow (maximalIdeal S) hres n
-  refine (UpperTheory.V.abelian₂.nakayama O (maximalIdeal O) S).2 ⟨?_⟩
-  have : (⊤ : Submodule O (S ⧸ (maximalIdeal O) • (⊤ : Submodule O S))) = N.map (Submodule.mkQ _) := by
-    symm
-    rw [Submodule.map_mkQ_eq_top, eq_top_iff]
-    intro x _
-    obtain ⟨y, hy, h1⟩ := h x
-    have h2 : x - y ∈ (maximalIdeal O) • (⊤ : Submodule O S) := by
-      rw [Ideal.smul_top_eq_map]
-      exact hn h1
-    simpa using Submodule.add_mem_sup h2 hy
-  rw [this]
-  exact hN.map _
+  apply _root_.algpt_finite <;> assumption
 
 theorem UpperTheory.V.Loc.ptFin :
     ∀ {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [CharZero O] [Algebra ℤ_[l] O] [Module.Finite ℤ_[l] O] [IsAdicComplete (maximalIdeal O) O] [Algebra O (PadicAlgCl l)] [IsScalarTower ℤ_[l] O (PadicAlgCl l)] (R : Type) [CommRing R] [Algebra O R] [IsCO O R] (F : R →ₐ[O] DualNumber (PadicAlgCl l)), IsLocPt (dualFst F) → ∃ E' : FinExt l, ∀ a, (F a).fst ∈ E'.1 ∧ (F a).snd ∈ E'.1 := by

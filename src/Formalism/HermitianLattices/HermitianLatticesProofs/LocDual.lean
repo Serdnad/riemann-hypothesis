@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianLattices.HermitianLatticesProofs.GenusBasic
 public import Formalism.HermitianLattices.HermitianLatticesProofs.LocBasic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -136,19 +137,7 @@ theorem locDual_sigma_mem (hinj : Function.Injective (algebraMap R K))
     (hstar : ∀ r : R, star (algebraMap R K r) ∈ Set.range (algebraMap R K)) (p : Ideal R)
     (s : R) (hs : s ∈ hcompl (K := K) p) :
     locBasic_sigma hinj hstar s ∈ hcompl (K := K) p := by
-  have spec : ∀ r : R, algebraMap R K (locBasic_sigma hinj hstar r) = star (algebraMap R K r) :=
-    fun r => (hstar r).choose_spec
-  unfold hcompl at hs ⊢
-  induction hs using Submonoid.closure_induction with
-  | mem s hs =>
-    apply Submonoid.subset_closure
-    obtain ⟨hs1, hs2⟩ := hs
-    refine ⟨hs2 _ (spec s), fun t ht => ?_⟩
-    rw [spec, star_star] at ht
-    rw [hinj ht]
-    exact hs1
-  | one => rw [map_one]; exact Submonoid.one_mem _
-  | mul a b _ _ ha hb => rw [map_mul]; exact Submonoid.mul_mem _ ha hb
+  apply _root_.Formalism.HermitianLatticesTheory.genusBasic_sigma_mem <;> assumption
 
 theorem locDual_dualAt_loc (h : V →ₗ⋆[K] V →ₗ[K] K) (hinj : Function.Injective (algebraMap R K))
     (hstar : ∀ r : R, star (algebraMap R K r) ∈ Set.range (algebraMap R K))

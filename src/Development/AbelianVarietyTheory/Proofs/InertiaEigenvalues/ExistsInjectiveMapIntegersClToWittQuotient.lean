@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsCompatibleBasis
 public import Mathlib.RingTheory.WittVector.Teichmuller
 public import Mathlib.RingTheory.WittVector.Complete
 public import Mathlib.RingTheory.AdicCompletion.Basic
@@ -153,15 +154,7 @@ theorem wittVector_natCast_mul_coeff_zero (l : ℕ) [Fact l.Prime] (O : Type) [C
 theorem wittVector_eq_teichmuller_add (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O]
     [CharP O l] [PerfectRing O l] (a : WittVector l O) :
     ∃ a₁ : WittVector l O, a = WittVector.teichmuller l (a.coeff 0) + ((l : ℕ) : WittVector l O) * a₁ := by
-  have h0 : (a - WittVector.teichmuller l (a.coeff 0)).coeff 0 = 0 := by
-    have : (a - WittVector.teichmuller l (a.coeff 0)) + WittVector.teichmuller l (a.coeff 0) = a :=
-      sub_add_cancel _ _
-    have h2 := congrArg (fun t => t.coeff 0) this
-    simp only [WittVector.add_coeff_zero, WittVector.teichmuller_coeff_zero] at h2
-    linear_combination h2
-  rw [← WittVector.mem_span_p_iff_coeff_zero_eq_zero, Ideal.mem_span_singleton] at h0
-  obtain ⟨a₁, ha₁⟩ := h0
-  exact ⟨a₁, by rw [← ha₁]; ring⟩
+  apply _root_.GlobalTheory.WittQuot.teich_decomp <;> assumption
 
 section Distinguished
 

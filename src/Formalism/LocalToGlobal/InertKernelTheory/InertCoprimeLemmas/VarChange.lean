@@ -227,18 +227,7 @@ theorem intPS_subst' {f a : K⟦X⟧} (hf : IntPS R' f) (ha : IntPS R' a) (ha0 :
 
 theorem intPS_compInv {f : K⟦X⟧} (hf : IntPS R' f) (h0 : constantCoeff f = 0) {u ui : K} (hui : ui ∈ R')
     (h1 : coeff 1 f = u) (huu : u * ui = 1) : IntPS R' (compInv f) := by
-  let fS : R'⟦X⟧ := PowerSeries.mk fun n => ⟨coeff n f, hf n⟩
-  have e : PowerSeries.map R'.subtype fS = f := by
-    ext n; simp [fS]
-  have h0S : constantCoeff fS = 0 := by
-    apply Subtype.ext
-    rw [← coeff_zero_eq_constantCoeff_apply]
-    simp [fS, h0]
-  have hm : coeff 1 fS * ⟨ui, hui⟩ = 1 := Subtype.ext (by simp [fS, h1, huu])
-  have h1S : IsUnit (coeff 1 fS) := ⟨⟨_, ⟨ui, hui⟩, hm, by rw [mul_comm]; exact hm⟩, rfl⟩
-  intro n
-  rw [← e, ← compInvMap R' K R'.subtype fS h0S h1S, coeff_map]
-  exact SetLike.coe_mem _
+  apply _root_.Formalism.L2.KerInert.MC.intPS_compInv <;> assumption
 
 variable {R'}
 

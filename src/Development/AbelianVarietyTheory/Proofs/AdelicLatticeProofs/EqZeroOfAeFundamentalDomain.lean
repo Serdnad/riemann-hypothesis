@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasDerivAtZeroAndIsTheta
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.CocompactTensor
@@ -223,21 +224,8 @@ theorem actO_add (g : GA D S) (h : GA D T) (x y : WO S T) :
 theorem lineAt_actO (hθ : IsInfFam θ) (τ : D.what₂.Tau) (g : GA D S) (h : GA D T)
     (z : Matrix (Fin T.rank) (Fin S.rank) ℂ) (t : ℝ) :
     lineAt θ τ (compAt θ τ (mt T h) * z * compAt θ τ (mt S g⁻¹)) t = actO S T g h (lineAt θ τ z t) := by
-  obtain ⟨h1, h2, h3⟩ := isLineAt_lineAt hθ τ z
-  let M : ℝ →+ WO S T := AddMonoidHom.mk' (fun t => actO S T g h (lineAt θ τ z t)) fun s t => by
-    rw [map_add (f := _), actO_add]
-  have hM : IsLineAt θ τ (compAt θ τ (mt T h) * z * compAt θ τ (mt S g⁻¹)) M := by
-    refine ⟨(continuous_const.matrix_mul h1).matrix_mul continuous_const, fun t => ?_, fun t τ' => ?_⟩
-    · show (actO S T g h (lineAt θ τ z t)).map (finPart D) = 0
-      unfold actO
-      rw [Matrix.map_mul, Matrix.map_mul, h2, Matrix.mul_zero, Matrix.zero_mul]
-    · show compAt θ τ' (actO S T g h (lineAt θ τ z t)) = _
-      rw [compAt_actO, h3]
-      split_ifs with hτ
-      · rw [hτ, Matrix.mul_smul, Matrix.smul_mul]
-      · rw [Matrix.mul_zero, Matrix.zero_mul]
-  rw [GlobalTheory.RealLineAt.lineAt_unique D θ hθ _ _ τ _ _ _ (isLineAt_lineAt hθ τ _) hM]
-  rfl
+  intros
+  apply _root_.GlobalTheory.OrientedHeis.lineAt_move <;> assumption
 
 theorem om_dRho (hW : IsWeilDatumO ψ S T χS χT om) (hθ : IsInfFam θ) (g : GA D S) (h : GA D T) (τ : D.what₂.Tau)
     (z : Matrix (Fin T.rank) (Fin S.rank) ℂ) {f : WO S T → ℂ} (hf : IsThetaFunO ψ S T f) :

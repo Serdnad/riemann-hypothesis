@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSecEq
 public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.Objects
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
@@ -56,13 +57,7 @@ theorem homog_monPoly {a : K → ℕ} (μ : Mono ι a) : IsMultiHomog (monPoly �
 
 theorem homog_prod {J : Type} (s : Finset J) (f : J → MRing ι) (d : J → K → ℕ)
     (h : ∀ j ∈ s, IsMultiHomog (f j) (d j)) : IsMultiHomog (∏ j ∈ s, f j) (∑ j ∈ s, d j) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simpa using SectionBounded.homog_one (ι := ι)
-  | insert j s hj ih =>
-    rw [Finset.prod_insert hj, Finset.sum_insert hj]
-    exact SectionBounded.homog_mul (h j (Finset.mem_insert_self _ _))
-      (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.prod <;> assumption
 
 theorem homog_bind₁ {a : K → ℕ} {N : ℕ} (φ : Fin (N + 1) → MRing ι) (hφ : ∀ j, IsMultiHomog (φ j) a)
     {f : MvPolynomial (Fin (N + 1)) ℤ} {n : ℕ} (hf : f.IsHomogeneous n) :

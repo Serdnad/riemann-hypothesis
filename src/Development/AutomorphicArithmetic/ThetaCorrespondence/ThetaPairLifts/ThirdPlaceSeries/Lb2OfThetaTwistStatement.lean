@@ -9,6 +9,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodL
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMovedDataLaterStagesWithNewTwistStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNormalisedReadingTransportedNewTwistStatement
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LiftOfMovedTwistStatement
+import all Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LiftOfMovedTwistStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DofOTw
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -424,12 +425,7 @@ private theorem charFrame_heq {D E : D7} (hD : D = E) {a : CharFrame D} {b : Cha
     (hP : HEq a.P b.P) (hW : HEq a.W b.W) (hmu : HEq a.mu0 b.mu0)
     (heta : HEq a.eta b.eta) (hchi : HEq a.chiPsi b.chiPsi)
     (hdel : HEq a.del b.del) (hdel' : HEq a.del' b.del') : HEq a b := by
-  cases hD
-  cases a
-  cases b
-  dsimp only at hP hW hmu heta hchi hdel hdel'
-  subst hP hW hmu heta hchi hdel hdel'
-  rfl
+  apply _root_.GlobalTheory.HeightCounting.Up.LiTw.charFrame_heq <;> assumption
 
 private theorem transport_lam_exists {D E : D7} (hD : D = E) {a : CharFrame D} {b : CharFrame E}
     (hcf : HEq a b)

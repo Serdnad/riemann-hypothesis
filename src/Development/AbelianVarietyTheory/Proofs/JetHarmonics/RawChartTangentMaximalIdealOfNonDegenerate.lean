@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.RowDataAdaptedChainData
 public import Development.AbelianVarietyTheory.Definitions.Jets.IsSelfOf
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PderivCoeffOptionEquivLeft
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
@@ -1215,18 +1216,7 @@ theorem pderiv_map' {R S : Type} [CommRing R] [CommRing S] (φ : R →+* S) (i :
   simp [MvPowerSeries.coeff_pderiv, MvPowerSeries.coeff_map]
 
 theorem ge_of_pow {x : C} {n : ℕ} (hn : n ≠ 0) (h : V.Ge 0 (x ^ n)) : V.Ge 0 x := by
-  unfold VF.Ge at h ⊢
-  rw [V.v.map_pow] at h
-  by_contra hx
-  rw [not_le] at hx
-  induction hv : V.v x using WithTop.recTopCoe with
-  | top => rw [hv] at hx; exact not_top_lt hx
-  | coe t =>
-    rw [hv] at hx h
-    rw [← WithTop.coe_nsmul, WithTop.coe_le_coe, nsmul_eq_mul] at h
-    rw [WithTop.coe_lt_coe] at hx
-    have : (0 : ℝ) < n := by exact_mod_cast Nat.pos_of_ne_zero hn
-    nlinarith
+  first | exact _root_.GlobalTheory.AdaptedChain.int_of_pow | exact @_root_.GlobalTheory.AdaptedChain.int_of_pow | apply _root_.GlobalTheory.AdaptedChain.int_of_pow <;> assumption
 
 theorem main : ∀ (C : Type) [Field C] [IsAlgClosed C] (V : VF C) (σ : Type) [Fintype σ], (∀ b : MvPowerSeries σ C, IntS V b → (∀ i μ, V.MM (MvPowerSeries.coeff μ (MvPowerSeries.pderiv (R := C) i b))) → ∃ b' : MvPowerSeries σ C, IntS V b' ∧ ∀ μ, V.MM (MvPowerSeries.coeff μ (b - b' ^ V.l))) ∧ (∀ f g : MvPowerSeries σ C, IntS V f → IntS V g → (∀ μ, V.MM (MvPowerSeries.coeff μ (f ^ V.l - g ^ V.l))) → ∀ μ, V.MM (MvPowerSeries.coeff μ (f - g))) ∧ ∀ f g : MvPowerSeries σ C, IntS V f → IntS V g → ∀ μ, V.MM (MvPowerSeries.coeff μ ((f + g) ^ V.l - f ^ V.l - g ^ V.l)) ∧ V.MM (MvPowerSeries.coeff μ ((f - g) ^ V.l - (f ^ V.l - g ^ V.l))) := by
   intro C _ _ V σ _

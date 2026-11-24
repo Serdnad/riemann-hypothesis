@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.HodgeIPIffHodgeFormConj
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Valuation
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsGenOfIsVBOne
@@ -754,16 +755,8 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 theorem scale {S : Type} [CommRing S] (t : K → S) (u : (Σ k, ι k) → S) {g : MRing ι} {d : K → ℕ}
     (hg : IsMultiHomog g d) :
     aeval (fun p : Σ k, ι k => t p.1 * u p) g = (∏ k, t k ^ d k) * aeval u g := by
-  classical
-  rw [aeval_def, aeval_def, eval₂_eq', eval₂_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have h : ∏ p : Σ k, ι k, t p.1 ^ m p = ∏ k, t k ^ d k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    rw [← hg m hm k]
-    exact Finset.prod_pow_eq_pow_sum Finset.univ (fun i => m ⟨k, i⟩) (t k)
-  simp only [mul_pow, Finset.prod_mul_distrib, h]
-  ring
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.aeval_blockScale <;> assumption
 
 theorem map_aeval' {S T : Type} [CommRing S] [CommRing T] (j : S →+* T) (u : (Σ k, ι k) → S)
     (g : MRing ι) : j (aeval u g) = aeval (fun p => j (u p)) g := by

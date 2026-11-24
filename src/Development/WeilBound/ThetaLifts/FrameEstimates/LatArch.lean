@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RealScalarArchimedeanAdeleSmulMatrixRealPlace
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,15 +64,8 @@ theorem mul_realAd {u : AF F} (hu : evI F u = 0) (t : ℝ) : u * realAd F t = 0 
 
 theorem emb_realAd (hF : IsTotallyReal F) (w : InfinitePlace F) (t : ℝ) :
     InfinitePlace.Completion.extensionEmbedding w (evInf F w (realAd F t)) = t := by
-  have hw : w.IsReal := IsTotallyReal.isReal w
-  set a := (InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (algebraMap ℝ _ t) with ha
-  have h1 : InfiniteAdeleRing.ringEquiv_mixedSpace F a = algebraMap ℝ _ t := by
-    rw [ha, RingEquiv.apply_symm_apply]
-  have h2 := congrFun (congrArg Prod.fst h1) ⟨w, hw⟩
-  have h3 : InfinitePlace.Completion.extensionEmbeddingOfIsReal hw (a w) = t := h2
-  change InfinitePlace.Completion.extensionEmbedding w (a w) = t
-  rw [← h3]
-  exact (InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply hw (a w)).symm
+  intros
+  apply _root_.GlobalTheory.RealScalar.ext_realAd <;> assumption
 
 theorem piInf_alg {w : InfinitePlace F} (τ : EmbOver E w) (a : AF F) :
     piInf τ (algebraMap (AF F) (AE F E) a) = InfinitePlace.Completion.extensionEmbedding w (evInf F w a) := by

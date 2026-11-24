@@ -6,6 +6,7 @@ public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemFin
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.ConjPurelyImaginaryGenerator
 import Mathlib.Algebra.GroupWithZero.Submonoid.CancelMulZero
 import Mathlib.RingTheory.PicardGroup
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 
 @[expose] public section
 
@@ -25,26 +26,7 @@ variable {D : D7}
 
 
 theorem infPart_splitIdem {e : AE D} (he : IsSplitIdem D e) : infPart D e = 0 := by
-  obtain ⟨h1, -, v, ε, hε, h3⟩ := he
-  obtain ⟨α, hα, -, -⟩ := hε
-  have hsum : infPart D e + infPart D (cA D e) = 0 := by
-    rw [← map_add (f := _), h3, hα]
-    show infPart D (pairA D.host.F 0 α ⊗ₜ[D.host.F] (1 : D.host.E)) = 0
-    rw [Formalism.IndefR.Fock.DRho.infPart_tmul, show fstA D.host.F (pairA D.host.F 0 α) = 0 from rfl,
-      TensorProduct.zero_tmul]
-  have hc := Formalism.IndefR.Fock.DRho.infPart_cA D e
-  have hzz : infPart D e * infPart D e = infPart D e := by rw [← map_mul, h1]
-  have hσ : Algebra.TensorProduct.map (AlgHom.id D.host.F (Ainf D.host.F)) D.sp.cm.sig (infPart D e) =
-      -infPart D e := by
-    rw [← hc]
-    exact eq_neg_of_add_eq_zero_right hsum
-  have h2 := congrArg (Algebra.TensorProduct.map (AlgHom.id D.host.F (Ainf D.host.F)) D.sp.cm.sig) hzz
-  rw [map_mul, hσ, neg_mul_neg, hzz] at h2
-  have h4 : (2 : D.host.F) • infPart D e = 0 := by
-    rw [two_smul]
-    nth_rewrite 1 [h2]
-    exact neg_add_cancel _
-  exact (smul_eq_zero.1 h4).resolve_left two_ne_zero
+  apply _root_.GlobalTheory.SplitScalar.infPart_splitIdem <;> assumption
 
 theorem infPart_idemSum {P : Finset (Formalism.L2.DIV.Pl D.host.E)} {e : AE D} (he : IsIdemSum e P) : infPart D e = 0 := by
   obtain ⟨es, hes, hsum, -⟩ := idemSum_orth P e he

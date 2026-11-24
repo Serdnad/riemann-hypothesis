@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfGe
 
 @[expose] public section
 
@@ -127,17 +128,7 @@ theorem mm_pow_sub {a b : C} (ha : V.Ge 0 a) (hb : V.Ge 0 b) (h : V.MM (a - b)) 
     convert this using 1; ring
 
 theorem eq_zero_of_forall_ge {x : C} (h : ∀ N : ℕ, V.Ge N x) : x = 0 := by
-  rw [← V.v.top_iff]
-  unfold VF.Ge at h
-  induction hv : V.v x using WithTop.recTopCoe with
-  | top => rfl
-  | coe t =>
-    exfalso
-    obtain ⟨N, hN⟩ := exists_nat_gt t
-    have := h N
-    rw [hv] at this
-    have h2 : (N : ℝ) ≤ t := by exact_mod_cast this
-    linarith
+  apply _root_.GlobalTheory.TeichPair.eq_zero_of_ge <;> assumption
 
 theorem exists_ge (x : C) : ∃ w : ℝ, V.Ge w x := by
   unfold VF.Ge

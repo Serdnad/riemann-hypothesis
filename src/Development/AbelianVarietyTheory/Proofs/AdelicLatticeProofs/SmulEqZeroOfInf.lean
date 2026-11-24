@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.RealIdemMulOfReal
 
 @[expose] public section
 
@@ -138,20 +139,7 @@ theorem symplOH_neg_right (x y : WO S T) : symplOH S T x (-y) = -symplOH S T x y
   rwa [neg_smul, one_smul, neg_mul, one_mul] at this
 
 theorem hO_herm (x y : WO S T) : cA D (hO S T x y) = hO S T y x := by
-  have hG : S.gramᴴ = S.gram := by
-    exact Matrix.ext fun i j => gram_star S j i
-  have hI : ∀ a b, star (S.gram⁻¹ a b) = S.gram⁻¹ b a := by
-    intro a b
-    have := Matrix.conjTranspose_nonsing_inv S.gram
-    rw [hG] at this
-    exact congrFun (congrFun this b) a
-  unfold hO
-
-  simp only [map_sum, map_mul, GlobalTheory.DualPairCheck.cA_cA, cA_incA, hI, gram_star]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun _ _ => Finset.sum_congr rfl fun _ _ => by ring
+  apply _root_.GlobalTheory.SplitScalar.hO_herm <;> assumption
 
 theorem symplOH_skew (x y : WO S T) : symplOH S T y x = -symplOH S T x y := by
   unfold symplOH symplO

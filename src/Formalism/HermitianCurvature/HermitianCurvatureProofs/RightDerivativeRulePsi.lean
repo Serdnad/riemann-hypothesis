@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalFormFlagZeroMiddleInverseMinorOrthogonal
 
 @[expose] public section
 
@@ -101,22 +102,7 @@ theorem herm_unitary {k r : ℕ} (g : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r +
 
 theorem herm_bvec_eI {k r : ℕ} (v : Fin (2 * r + k + 1) → ℂ) (b : Fin r) :
     herm (Hpk k r) v (bvec (eI k r b)) = v (esI k r b) := by
-  have h1 : herm (Hpk k r) v (bvec (eI k r b)) = ∑ p, Hpk k r (eI k r b) p * v p := by
-    have hs : star (bvec (eI k r b)) = bvec (eI k r b) := by
-      ext i
-      by_cases h : i = eI k r b <;> simp [bvec, h]
-    unfold herm
-    rw [hs]
-    simp [bvec, Matrix.mulVec, dotProduct, Pi.single_apply]
-  rw [h1]
-  simp_rw [hpk_row_eI]
-  rw [Finset.sum_eq_single (esI k r b)]
-  · simp [esI]
-  · intro p _ hp
-    rw [if_neg, zero_mul]
-    intro h
-    exact hp (Fin.ext (by simp [esI, h]))
-  · simp
+  apply _root_.GlobalTheory.Amp.NfMid.herm_e <;> assumption
 
 theorem xi_Y_zhat_identity : XiYZhat := by
   apply CovecW.covec_entries

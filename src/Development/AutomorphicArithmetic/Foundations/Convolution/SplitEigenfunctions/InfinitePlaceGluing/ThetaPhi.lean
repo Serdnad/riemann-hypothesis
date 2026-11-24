@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HolomorphicPeriodicCocycleCoboundary
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.Entire
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.FDeriv.Defs
@@ -854,17 +855,7 @@ private lemma gen {ι : Type*} (R : Set ι) (f : ι → ℝ) (hf : ∀ x, 0 ≤ 
         exact Summable.tsum_le_tsum_of_inj _ hinj' (fun c _ => hw0 c) (fun _ => le_rfl) hs hw
 
 private lemma wsum1 : Summable (fun l : ℤ => ((1 + |(l : ℝ)|) ^ 2)⁻¹) := by
-  have h0 : Summable (fun m : ℕ => ((1 + (m : ℝ)) ^ 2)⁻¹) := by
-    have h := (Real.summable_one_div_nat_pow (p := 2)).mpr (by norm_num)
-    have h' := (summable_nat_add_iff 1).mpr h
-    refine h'.congr (fun m => ?_)
-    push_cast
-    rw [one_div, add_comm]
-  apply Summable.of_nat_of_neg
-  · refine h0.congr (fun m => ?_)
-    simp
-  · refine h0.congr (fun m => ?_)
-    simp
+  apply _root_.GlobalTheory.RapidFourier.summable_inv_one_add_abs_sq <;> assumption
 
 private lemma wsum : Summable (fun p : ℤ × ℤ => ((1 + |(p.1 : ℝ)|) ^ 2)⁻¹ * ((1 + |(p.2 : ℝ)|) ^ 2)⁻¹) :=
   Summable.mul_of_nonneg wsum1 wsum1 (fun _ => by positivity) (fun _ => by positivity)

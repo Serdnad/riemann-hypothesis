@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EvalSeriesAndDerivUniqueOfCoefficients
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotCoboundaryConstantOne
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LaurentSeriesPadicExistsPthPowerCombination
@@ -437,16 +438,7 @@ theorem zp_eq (z : ℤ_[p]) : zp Ω z = zpHom p Ω z := by
 
 theorem psi_C {T : GlobalTheory.K5.Tower p Ω} {n : ℕ} {ψ : O0 p →+* Ω} (h : IsReb T n ψ) (z : ℤ_[p]) :
     ψ (algebraMap (Lau p) (O0 p) (HahnSeries.C z)) = zp Ω z := by
-  have hpn : ((p : ℤ) ^ n) ≠ 0 := pow_ne_zero _ (by exact_mod_cast (Fact.out : p.Prime).ne_zero)
-  rw [h.sub (HahnSeries.C z) (HahnSeries.C z), zp, HahnSeries.C_apply]
-  · intro i
-    by_cases hi : i = 0
-    · simp [hi, HahnSeries.C_apply]
-    · have : (p : ℤ) ^ n * i ≠ 0 := mul_ne_zero hpn hi
-      simp [hi, this, HahnSeries.C_apply]
-  · intro r hr
-    have : r ≠ 0 := by rintro rfl; exact hr (dvd_zero _)
-    simp [this, HahnSeries.C_apply]
+  apply _root_.GlobalTheory.EvUniq.psi_C <;> assumption
 
 theorem psi_int {T : GlobalTheory.K5.Tower p Ω} {n : ℕ} {ψ : O0 p →+* Ω} (h : IsReb T n ψ) (y : O0 p) :
     IsInt (p := p) (ψ y) := by

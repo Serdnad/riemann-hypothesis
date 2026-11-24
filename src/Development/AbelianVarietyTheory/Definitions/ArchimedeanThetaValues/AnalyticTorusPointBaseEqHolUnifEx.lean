@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.TorusExtensionComplexPointsEqCharacters
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ArcDictExpZeroSection
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsPrimitiveRootArcRoot
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.ExistsChartComplexPoint
@@ -228,42 +229,8 @@ theorem corr_of_genVal {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} 
     {z : K → Fin g → ℂ} {z' : K' → Fin g → ℂ} (hz : IsLift u φ (𝟙 _) z) (hz' : IsLift u φ' (𝟙 _) z')
     (hs : ∀ f : (Fin g → ℂ) → ℂˣ, ∏ k, f (z k) ^ ε k = ∏ k, f (z' k) ^ ε' k)
     (h : genVal u hL t (𝟙 _) z = genVal u hL t' (𝟙 _) z') : LB.Gen.Corr L φ ε φ' ε' t t' := by
-  classical
-  intro j j' c₁ c₂ c₃
-  refine Units.ext (ComplexPoints.eq_of_valAt'_eq (𝟙 (Sp ℂ)) _ _ _ fun x hx hW => ?_)
-  obtain rfl : x = 𝟙 _ := (Category.comp_id _).symm.trans hx
-  have h₁ : ⊤ ≤ 𝟙 (Sp ℂ) ⁻¹ᵁ L.wchart φ j := hW.trans inf_le_left
-  have h₂ : ⊤ ≤ 𝟙 (Sp ℂ) ⁻¹ᵁ L.wchart φ' j' := hW.trans inf_le_right
-  refine (valAt'_res _ inf_le_left _ hW).trans (Eq.trans ?_ (valAt'_res _ inf_le_right _ hW).symm)
-  rw [valAt'_gen hL ht hz h₁, valAt'_gen hL ht' hz' h₂, h]
-  congr 1
-  have hφ : ∀ k, φ k = (u.ex (z k)).left := fun k => (Category.id_comp _).symm.trans (hz k)
-  have hφ' : ∀ k, φ' k = (u.ex (z' k)).left := fun k => (Category.id_comp _).symm.trans (hz' k)
-  let idx : (Sp ℂ ⟶ A.left) → L.ι := fun p =>
-    if h : ∃ k, φ k = p then j h.choose else if h : ∃ k, φ' k = p then j' h.choose else chartAt hL p
-  have i₁ : ∀ k, idx (φ k) = j k := fun k => by
-    have e : ∃ k', φ k' = φ k := ⟨k, rfl⟩
-    simp only [idx, dif_pos e]
-    exact c₁ _ _ e.choose_spec
-  have i₂ : ∀ k, idx (φ' k) = j' k := fun k => by
-    have e : ∃ k', φ' k' = φ' k := ⟨k, rfl⟩
-    by_cases e' : ∃ k', φ k' = φ' k
-    · simp only [idx, dif_pos e']
-      exact c₃ _ _ e'.choose_spec
-    · simp only [idx, dif_neg e', dif_pos e]
-      exact c₂ _ _ e.choose_spec
-  have hi : ∀ w, u.fr (idx (u.ex w).left) w ≠ 0 := fun w => u.fr_ne _ _ (by
-    by_cases e : ∃ k, φ k = (u.ex w).left
-    · obtain ⟨k, hk⟩ := e
-      rw [← hk, i₁, hφ]; exact (hz.le_iff j).1 h₁ k
-    · by_cases e' : ∃ k, φ' k = (u.ex w).left
-      · obtain ⟨k, hk⟩ := e'
-        rw [← hk, i₂, hφ']; exact (hz'.le_iff j').1 h₂ k
-      · simp only [idx, dif_neg e, dif_neg e']
-        exact le_chartAt hL _)
-  have := congrArg (Units.coeHom ℂ) (hs fun w => Units.mk0 _ (hi w))
-  simp only [map_prod, map_zpow, Units.coeHom_apply, Units.val_mk0, ← hφ, ← hφ', i₁, i₂] at this
-  exact this
+  intros
+  apply _root_.GlobalTheory.TorusExtChar.corr_of_genVal <;> assumption
 
 theorem genVal_mul_of {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} {u : HolUnif A L g} {hL : L.IsLB}
     {Y : Scheme.{0}} {K K' : Type} [Fintype K] [Fintype K'] {φ : K → (Y ⟶ A.left)} {ε : K → ℤ}

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.GlobalFields.TateThesis.GlobalZetaInfinite
 public import GroundTheory.AutomorphicForms.ReductionHeight
 public import GroundTheory.GlobalFields.Adele.IntegersLattice
 public import GroundTheory.GlobalFields.TateThesis.IdeleMeasureNormOne
@@ -72,25 +73,7 @@ variable {K : Type*} [Field K] [NumberField K]
 open scoped Classical in
 theorem norm_apply_le_norm_homeomorphMixedSpace (x : InfiniteAdeleRing K) (w : InfinitePlace K) :
     ‖x w‖ ≤ ‖GroundTheory.Global.homeomorphMixedSpace K x‖ := by
-  rw [GroundTheory.Global.homeomorphMixedSpace_apply, InfiniteAdeleRing.ringEquiv_mixedSpace_apply]
-  by_cases hw : w.IsReal
-  · calc ‖x w‖ = ‖InfinitePlace.Completion.extensionEmbeddingOfIsReal hw (x w)‖ :=
-          ((InfinitePlace.Completion.isometry_extensionEmbeddingOfIsReal hw).norm_map_of_map_zero
-            (map_zero _) _).symm
-      _ ≤ ‖fun v : {w : InfinitePlace K // w.IsReal} =>
-            InfinitePlace.Completion.extensionEmbeddingOfIsReal v.2 (x v)‖ :=
-          norm_le_pi_norm (fun v : {w : InfinitePlace K // w.IsReal} =>
-            InfinitePlace.Completion.extensionEmbeddingOfIsReal v.2 (x v)) ⟨w, hw⟩
-      _ ≤ _ := by rw [Prod.norm_def]; exact le_max_left _ _
-  · have hc : w.IsComplex := InfinitePlace.not_isReal_iff_isComplex.1 hw
-    calc ‖x w‖ = ‖InfinitePlace.Completion.extensionEmbedding w (x w)‖ :=
-          ((InfinitePlace.Completion.isometry_extensionEmbedding w).norm_map_of_map_zero
-            (map_zero _) _).symm
-      _ ≤ ‖fun v : {w : InfinitePlace K // w.IsComplex} =>
-            InfinitePlace.Completion.extensionEmbedding v.1 (x v)‖ :=
-          norm_le_pi_norm (fun v : {w : InfinitePlace K // w.IsComplex} =>
-            InfinitePlace.Completion.extensionEmbedding v.1 (x v)) ⟨w, hc⟩
-      _ ≤ _ := by rw [Prod.norm_def]; exact le_max_right _ _
+  apply _root_.GroundTheory.Global.norm_le_norm_homeomorphMixedSpace <;> assumption
 
 theorem abs_sub_lt_one_of_floor_eq {x y : ℝ} (hx : 0 ≤ x) (hy : 0 ≤ y) (h : ⌊x⌋₊ = ⌊y⌋₊) :
     |x - y| < 1 := by

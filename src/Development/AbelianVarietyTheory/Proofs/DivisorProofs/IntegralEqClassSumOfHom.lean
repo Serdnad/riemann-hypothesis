@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EquivariantMultilinearMapsSmoothVectorsIntertwin
 public import Mathlib.Analysis.SpecialFunctions.Log.Basic
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Complex.Exponential
@@ -64,6 +65,7 @@ import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Separation.CompletelyRegular
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ComplexConjugationMapsMultiplicitySpace
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbsLogInvOneSubLeTwoMulAbs, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExpNegLeNormTprodOneSubInv, Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralFundamentalDomainEqSum, Development.AbelianVarietyTheory.Proofs.DivisorProofs.IntegralEqClassSumOfHom
@@ -560,29 +562,10 @@ variable {n : ℕ} {G : Matrix (Fin n) (Fin n) ℂ}
 
 theorem exp_mem_UH {X : Matrix (Fin n) (Fin n) ℂ} (hG : IsUnit G) (hX : Xᴴ * G + G * X = 0) (t : ℝ) :
     NormedSpace.exp (t • X) ∈ UH G := by
-  have hd : IsUnit G.det := (Matrix.isUnit_iff_isUnit_det G).1 hG
-  have h1 : (t • X)ᴴ = G * (-(t • X)) * G⁻¹ := by
-    have h2 : Xᴴ = G * (-X) * G⁻¹ := by
-      rw [Matrix.mul_neg, ← eq_neg_of_add_eq_zero_left hX, Matrix.mul_assoc, Matrix.mul_nonsing_inv _ hd,
-        Matrix.mul_one]
-    rw [conjTranspose_smul, h2]
-    simp
-  show (NormedSpace.exp (t • X))ᴴ * G * NormedSpace.exp (t • X) = G
-  rw [← Matrix.exp_conjTranspose, h1, Matrix.exp_conj _ _ hG, Matrix.exp_neg]
-  have hu : IsUnit (NormedSpace.exp (t • X)).det := (Matrix.isUnit_iff_isUnit_det _).1 (Matrix.isUnit_exp _)
-  rw [Matrix.mul_assoc (G * _), Matrix.nonsing_inv_mul _ hd, Matrix.mul_one, Matrix.mul_assoc,
-    Matrix.nonsing_inv_mul _ hu, Matrix.mul_one]
+  apply _root_.GlobalTheory.SmoothMultilinear.exp_mem <;> assumption
 
 theorem prod_mem_UH (l : List (Matrix (Fin n) (Fin n) ℂ)) (h : ∀ g ∈ l, g ∈ UH G) : l.prod ∈ UH G := by
-  induction l with
-  | nil => show (1 : Matrix (Fin n) (Fin n) ℂ)ᴴ * G * 1 = G; simp
-  | cons a l ih =>
-    have ha : aᴴ * G * a = G := h a (by simp)
-    have hl : l.prodᴴ * G * l.prod = G := ih fun g hg => h g (by simp [hg])
-    show (a * l.prod)ᴴ * G * (a * l.prod) = G
-    calc (a * l.prod)ᴴ * G * (a * l.prod) = l.prodᴴ * (aᴴ * G * a) * l.prod := by
-          simp only [conjTranspose_mul, Matrix.mul_assoc]
-      _ = G := by rw [ha, hl]
+  apply _root_.GlobalTheory.SmoothMultilinear.prod_mem <;> assumption
 
 theorem conj_mem_lie {g X : Matrix (Fin n) (Fin n) ℂ} (hu : IsUnit g) (h : gᴴ * G * g = G) (hX' : Xᴴ * G + G * X = 0) :
     (g⁻¹ * X * g)ᴴ * G + G * (g⁻¹ * X * g) = 0 := by
@@ -644,25 +627,7 @@ theorem conj_mem_UJ {ε : Fin n → Bool} {P : Matrix (Fin n) (Fin n) ℂ} (hP :
 theorem rep_mem_sm {V : HSp D} {S : D.what₂.Tau → SPar} (M : DSModel V S) (τ : D.what₂.Tau)
     (g : Matrix (Fin V.rank) (Fin V.rank) ℂ) (hg : g ∈ UH (gramAt D V τ)) (w : M.H τ) (hw : w ∈ M.sm τ) :
     M.rep τ g w ∈ M.sm τ := by
-  have hP := M.fr_unit τ
-  have hd := (Matrix.isUnit_iff_isUnit_det _).1 hP
-  have hG : IsUnit (gramAt D V τ) := by
-    rw [← M.fr_gram τ]
-    exact (((Matrix.isUnit_conjTranspose _).2 hP).mul (IsUnit.of_mul_eq_one _ (Formalism.REAL.Jm_mul_self _))).mul hP
-  have hπ : ∀ a ∈ UH (gramAt D V τ), ∀ b ∈ UH (gramAt D V τ), ∀ w, M.rep τ (a * b) w = M.rep τ a (M.rep τ b w) := by
-    intro a ha b hb w
-    have h := (M.ds τ).2.2.1.1.2 _ (conj_mem_UJ hP (M.fr_gram τ) ha) _ (conj_mem_UJ hP (M.fr_gram τ) hb)
-    have e : M.fr τ * a * (M.fr τ)⁻¹ * (M.fr τ * b * (M.fr τ)⁻¹) = M.fr τ * (a * b) * (M.fr τ)⁻¹ := by
-      simp only [Matrix.mul_assoc]
-      rw [← Matrix.mul_assoc (M.fr τ)⁻¹, nonsing_inv_mul _ hd, Matrix.one_mul]
-    unfold DSModel.rep
-    rw [← e, h]
-    rfl
-  induction hw using Submodule.span_induction with
-  | mem x hx => exact Submodule.subset_span (smoothVec_rep hG hπ hx hg)
-  | zero => rw [map_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-  | smul a x _ hx => rw [map_smul]; exact Submodule.smul_mem _ a hx
+  apply _root_.GlobalTheory.ConjMult.rep_mem_sm <;> assumption
 
 end Smooth
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SplitPrimeIntegers.ExistsUnitDiff
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasNormGroups
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsParahoricTypeVectorAtConjugatePlace
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.HasExponentZeroIff
@@ -91,15 +92,7 @@ variable {K F : Type} [Field K] [NumberField K] [Field F] [NumberField F]
 
 theorem exists_ne_zero_valued_lt_one (v : HeightOneSpectrum (𝓞 K)) :
     ∃ c : v.adicCompletion K, c ≠ 0 ∧ Valued.v c < 1 := by
-  obtain ⟨x, hx⟩ := v.valuation_surjective K (WithZero.exp (-1))
-  have hxv : Valued.v (algebraMap K (v.adicCompletion K) x) = WithZero.exp (-1) :=
-    (HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v x).trans hx
-  refine ⟨algebraMap K _ x, ?_, ?_⟩
-  · intro h0
-    rw [h0, map_zero] at hxv
-    exact WithZero.exp_ne_zero hxv.symm
-  · rw [hxv, ← WithZero.exp_zero, WithZero.exp_lt_exp]
-    norm_num
+  apply _root_.PI.SplitIntLoc.Proof.exists_small <;> assumption
 
 theorem valued_map_le_one (f : v.adicCompletion K →+* v'.adicCompletion F) (hf : Continuous f)
     {x : v.adicCompletion K} (hx : Valued.v x ≤ 1) : Valued.v (f x) ≤ 1 := by

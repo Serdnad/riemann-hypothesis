@@ -66,6 +66,7 @@ import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLinearEquivLift
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtraTail, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLogPeriodFamily
@@ -114,19 +115,7 @@ variable {V V' : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] [NormedAddComm
 theorem isHolTo_pull {X : Scheme.{0}} {B : Set V} {y : V → (Sp ℂ ⟶ X)} (hy : IsHolTo B y)
     {W : Set V'} (hW : IsOpen W) {φ : V' → V} (hφ : DifferentiableOn ℂ φ W) (hm : Set.MapsTo φ W B) :
     IsHolTo W (fun w => y (φ w)) := by
-  intro U f
-  have hset : {w ∈ W | ⊤ ≤ y (φ w) ⁻¹ᵁ U} = W ∩ φ ⁻¹' {b ∈ B | ⊤ ≤ y b ⁻¹ᵁ U} := by
-    ext w
-    constructor
-    · rintro ⟨h1, h2⟩
-      exact ⟨h1, hm h1, h2⟩
-    · rintro ⟨h1, -, h2⟩
-      exact ⟨h1, h2⟩
-  refine ⟨by rw [hset]; exact hφ.continuousOn.isOpen_inter_preimage hW (hy U f).1, ?_⟩
-  refine DifferentiableOn.comp (g := fun b => valAt' (y b) U f) (t := {b ∈ B | ⊤ ≤ y b ⁻¹ᵁ U})
-    (hy U f).2 (hφ.mono fun w hw => hw.1) ?_
-  intro w hw
-  exact ⟨hm hw.1, hw.2⟩
+  apply _root_.GlobalTheory.LocLift.isHolTo_comp <;> assumption
 
 end Hol
 

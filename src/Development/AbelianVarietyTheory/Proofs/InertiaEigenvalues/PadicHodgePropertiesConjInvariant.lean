@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FinrankDdREqOfEquiv
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.FiniteDimensionalWdSpace
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteDimensionalFilDR
 public import Formalism.AdmissibleDesigns.InvariantsEqBotIff
@@ -70,26 +71,8 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
 include he
 
 theorem finrank_DdR_congr : finrank LL ↥(DdR PD ρ) = finrank LL ↥(DdR PD ρ') := by
-  let E : V ⊗[Qp] BdR ≃ₗ[LL] V' ⊗[Qp] BdR := AlgebraTensorModule.congr e (LinearEquiv.refl Qp BdR)
-  have hE : ∀ g x, E (actVdR PD ρ g x) = actVdR PD ρ' g (E x) := by
-    intro g x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a b => simp [E, actVdR, he]
-    | add a b ha hb => rw [map_add (f := _), map_add (f := _), ha, hb, map_add (f := _), map_add (f := _)]
-  have hD : DdR PD ρ = (DdR PD ρ').comap (E : V ⊗[Qp] BdR →ₗ[LL] V' ⊗[Qp] BdR) := by
-    ext x
-    simp only [DdR, Submodule.mem_iInf, LinearMap.mem_ker, LinearMap.sub_apply,
-      LinearMap.id_apply, Submodule.mem_comap, sub_eq_zero]
-    constructor
-    · intro hx g
-      rw [LinearEquiv.coe_coe, ← hE, hx g]
-    · intro hx g
-      apply E.injective
-      rw [hE]
-      exact hx g
-  rw [hD]
-  exact (E.ofSubmodule' (DdR PD ρ')).finrank_eq
+  intros
+  apply _root_.GlobalTheory.ConjCrys.finrank_ddR_eq_of_equiv <;> assumption
 
 end DdR
 

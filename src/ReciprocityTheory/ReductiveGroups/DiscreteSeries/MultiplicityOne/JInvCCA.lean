@@ -177,15 +177,7 @@ lemma Em_mul_out {X : Type*} (A : Matrix (Fin (k + 1)) X ℂ) (i : Fin (2 * r + 
 
 lemma mul_EmT_mid {X : Type*} [Fintype X] (A : Matrix X (Fin (k + 1)) ℂ) (j : Fin (2 * r + k + 1)) (x : X)
     (hj : mid k r j) : (A * (Em k r)ᵀ) x j = A x (midx hj) := by
-  rw [Matrix.mul_apply, Finset.sum_eq_single (midx hj)]
-  · rw [Matrix.transpose_apply, Em, if_pos (wI_midx hj).symm, mul_one]
-  · intro b _ hb
-    rw [Matrix.transpose_apply, Em, if_neg, mul_zero]
-    intro h
-    apply hb
-    apply wI_inj (r := r)
-    rw [wI_midx hj, h]
-  · intro h; exact absurd (Finset.mem_univ _) h
+  apply _root_.Formalism.FourierDecayAlt.P.B2x3.mul_EmT_mid <;> assumption
 
 lemma mul_EmT_out {X : Type*} [Fintype X] (A : Matrix X (Fin (k + 1)) ℂ) (j : Fin (2 * r + k + 1)) (x : X)
     (hj : ¬ mid k r j) : (A * (Em k r)ᵀ) x j = 0 := by

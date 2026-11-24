@@ -86,6 +86,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.Tactic.Lemma
 import Formalism.ThetaLogCoordinates.TraceIsometryWeights.DischargeHeightBound
 import Formalism.ThetaLogCoordinates.TraceIsometryWeights.FinalP
+import Formalism.PieriBlockIdeals.PieriColumnMinors.ParameterBounds
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.GramBoundPosOfProjSat, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GamIntC, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GammaZeroIntegral, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.NatLogLeOfLe, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.PartnerConditionHolds, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.TheoremMXBOfPoint, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.PartnerMeanProofs.GramHypothesisOfLogBound, Formalism.ThetaLogCoordinates.PartnerMeanCoordinates.LatticeTheoremEps28Valid
@@ -174,22 +175,7 @@ theorem self_lift {K r : ℕ} [NeZero r] (LL : Letters (K + 1)) {q : ℕ} (J : F
 
 theorem pol_le_ycond_total {r N : ℕ} [NeZero r] (LL : Letters N) (j : ℕ) (c : ℤ) (hc : (LL.total : ℤ) ≤ c) :
     Pol p r LL ≤ YCond p LL j ((c : ℤ) : WithTop ℤ) := by
-  refine le_ycond LL j _ _ ?_ (fun a b x hx => Formalism.CountingSumsFrames.glAct_pol LL j a b x hx)
-  intro x hx
-  rw [Pol, mem_restrictSupport_iff] at hx
-  rw [mem_restrictSupport_iff]
-  intro m hm
-  have h1 : MultiDeg LL m := hx hm
-  have h2 := abs_wt_le LL j (0 : Fin r) m
-  have h3 : (∑ v, m v) = LL.total := by
-    rw [Fintype.sum_prod_type]
-    unfold Letters.total
-    exact Finset.sum_congr rfl fun i _ => h1 i
-  show ((wt LL j 0 m : ℤ) : WithTop ℤ) ≤ ((c : ℤ) : WithTop ℤ)
-  rw [WithTop.coe_le_coe]
-  have h4 := le_abs_self (wt LL j (0 : Fin r) m)
-  rw [h3] at h2
-  omega
+  apply _root_.Formalism.InvariantFactorPaths.L4.pol_le_ycond <;> assumption
 
 end Zero
 
@@ -1690,16 +1676,7 @@ theorem natLog_floor_lgSeg (p : ℕ) [Fact p.Prime] (a : ℝ) (r : ℕ) (ha : 0 
   linarith
 
 theorem choose_two_le (r : ℕ) : ((r.choose 2 : ℕ) : ℝ) ≤ (r : ℝ) ^ 2 / 2 := by
-  have h : 2 * r.choose 2 ≤ r ^ 2 := by
-    rw [Nat.choose_two_right]
-    have h1 := Nat.div_mul_le_self (r * (r - 1)) 2
-    have h2 : r * (r - 1) ≤ r ^ 2 := by
-      rw [sq]; exact Nat.mul_le_mul_left r (Nat.sub_le r 1)
-    calc 2 * (r * (r - 1) / 2) = r * (r - 1) / 2 * 2 := mul_comm _ _
-      _ ≤ r * (r - 1) := h1
-      _ ≤ r ^ 2 := h2
-  have h' : (2 : ℝ) * (r.choose 2 : ℝ) ≤ (r : ℝ) ^ 2 := by exact_mod_cast h
-  linarith
+  apply _root_.Formalism.CohomologicalDescent.LogSmallConstantBounds.choose_two_le_sq_div_two <;> assumption
 
 theorem gram_hypothesis_of_log_bound (p : ℕ) [Fact p.Prime] (K r : ℕ) [NeZero r] (LLw : Letters (K + 1)) {q : ℕ} (J : Fin q → ℕ)
     (M : Fin q → WithTop ℤ) (ρ : Fin r) (lgv κ4 : ℝ) (hr : 2 ≤ r) (hρ : (ρ : ℕ) = r - 1)

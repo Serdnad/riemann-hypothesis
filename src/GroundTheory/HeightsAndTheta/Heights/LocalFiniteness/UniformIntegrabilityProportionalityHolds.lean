@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PChartChangeSheetNull
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.StatementsMahler
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.SphereMeanVol
 public import Mathlib.NumberTheory.Harmonic.Int
@@ -1022,33 +1023,8 @@ theorem exists_poly_of_linEval_eq_zero (J : Ideal (MvPolynomial (Fin n) ℂ)) [J
     (A : Matrix (Fin d) (Fin n) ℂ) (hA : IsFiniteProjection J A) (u : Fin n → ℂ) (hu : linForm u ∉ J) :
     ∃ P : MvPolynomial (Fin d) ℂ, P ≠ 0 ∧
       ∀ x ∈ zeroSet J, linEval u x = 0 → eval (A *ᵥ x) P = 0 := by
-  classical
-  let _ : Algebra (MvPolynomial (Fin d) ℂ) (MvPolynomial (Fin n) ℂ ⧸ J) :=
-    (projHom J A).toRingHom.toAlgebra
-  have hs0 : Ideal.Quotient.mk J (linForm u) ≠ 0 := fun h => hu (Ideal.Quotient.eq_zero_iff_mem.mp h)
-  have hex : ∃ m, ∃ g : Polynomial (MvPolynomial (Fin d) ℂ), g.Monic ∧ g.natDegree = m ∧
-      Polynomial.aeval (Ideal.Quotient.mk J (linForm u)) g = 0 := by
-    obtain ⟨g, hgm, -, hg⟩ := FibreBound.exists_monic_aeval_eq_zero J A hA (Ideal.Quotient.mk J (linForm u))
-    exact ⟨_, g, hgm, rfl, hg⟩
-  obtain ⟨g, hgm, hgd, hg⟩ := Nat.find_spec hex
-  have hc : g.coeff 0 ≠ 0 := by
-    intro h0
-    obtain ⟨q, rfl⟩ := Polynomial.X_dvd_iff.mpr h0
-    have hqm : q.Monic := Polynomial.monic_X.of_mul_monic_left hgm
-    rw [map_mul, Polynomial.aeval_X] at hg
-    refine Nat.find_min hex (m := q.natDegree) ?_ ⟨q, hqm, rfl, (mul_eq_zero.mp hg).resolve_left hs0⟩
-    rw [← hgd, Polynomial.natDegree_mul Polynomial.X_ne_zero hqm.ne_zero, Polynomial.natDegree_X]
-    omega
-  refine ⟨g.coeff 0, hc, fun x hx hux => ?_⟩
-  have hmem : Polynomial.eval₂ (pullback A).toRingHom (linForm u) g ∈ J := by
-    rw [← Ideal.Quotient.eq_zero_iff_mem, Polynomial.hom_eval₂]
-    rw [Polynomial.aeval_def] at hg
-    exact hg
-  have h0 := hx _ hmem
-  have hcomp : (eval x).comp (pullback A).toRingHom = eval (A *ᵥ x) :=
-    RingHom.ext fun P => FibreBound.eval_pullback A x P
-  have hl : eval x (linForm u) = linEval u x := by simp [linForm, linEval]
-  rwa [Polynomial.hom_eval₂, hcomp, hl, hux, Polynomial.eval₂_at_zero] at h0
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.ChartChangeSheetNull.exists_poly_of_linForm <;> assumption
 
 theorem measurable_chartDens {J : Ideal (MvPolynomial (Fin n) ℂ)} {A : Matrix (Fin d) (Fin n) ℂ}
     {f : (Fin n → ℂ) → ℝ} {ψ : Fin d → (Fin n → ℂ) → ℝ} (hJ : J.IsPrime)

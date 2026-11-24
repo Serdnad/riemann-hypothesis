@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.ModelSt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.KleimanNefness.TargetSt
 
@@ -66,22 +67,7 @@ theorem coord_ne_zero_of_not_mem {y : (Σ k, ι k) → Ω} {p : Σ k, ι k}
 
 theorem aeval_scale {y : (Σ k, ι k) → Ω} (lam : K → Ω) {G : MRing ι} {d : K → ℕ} (hG : IsMultiHomog G d) :
     aeval (fun p => lam p.1 * y p) G = (∏ k, lam k ^ d k) * aeval y G := by
-  classical
-  conv_lhs => rw [G.as_sum]
-  conv_rhs => rw [G.as_sum]
-
-  rw [map_sum, map_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  rw [aeval_monomial, aeval_monomial, Finsupp.prod_fintype _ _ (fun _ => pow_zero _),
-    Finsupp.prod_fintype _ _ (fun _ => pow_zero _)]
-  simp_rw [mul_pow, Finset.prod_mul_distrib]
-  have hl : ∏ p : Σ k, ι k, lam p.1 ^ m p = ∏ k, lam k ^ d k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ i, lam k ^ m ⟨k, i⟩ = lam k ^ d k
-    rw [Finset.prod_pow_eq_pow_sum, hG m hm k]
-  rw [hl]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.aevalCoordinateScale <;> assumption
 
 end LiftBirationalNef
 

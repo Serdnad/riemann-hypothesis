@@ -612,23 +612,7 @@ open MvPolynomial
 
 theorem colSub_totalDegree_le {ι : Type} [Fintype ι] {d a : ℕ} (g : ι → Matrix (Fin a) (Fin a) ℂ) (P : Pol ι d a) :
     (colSub g P).totalDegree ≤ P.totalDegree := by
-  classical
-  unfold colSub
-  conv_lhs => rw [P.as_sum]
-
-  rw [map_sum]
-  refine totalDegree_finsetSum_le fun s hs => ?_
-  rw [aeval_monomial]
-  refine (totalDegree_mul _ _).trans ?_
-  rw [algebraMap_eq, totalDegree_C, zero_add]
-  refine le_trans ?_ (le_totalDegree hs)
-  unfold Finsupp.prod Finsupp.sum
-  refine (totalDegree_finsetProd _ _).trans (Finset.sum_le_sum fun i _ => ?_)
-  refine (totalDegree_pow _ _).trans ?_
-  have h1 : (∑ j' : Fin a, C (g i.1 j' i.2.2) * (X (i.1, i.2.1, j') : Pol ι d a)).totalDegree ≤ 1 :=
-    totalDegree_finsetSum_le fun j _ => (totalDegree_mul _ _).trans (by rw [totalDegree_C, totalDegree_X])
-  calc s i * _ ≤ s i * 1 := Nat.mul_le_mul_left _ h1
-    _ = s i := mul_one _
+  apply _root_.GlobalTheory.ColLie.totalDegree_colSub_le <;> assumption
 
 theorem star_detChar_mul_detChar {ι : Type} [Fintype ι] {a : ℕ} (n : ι → ℕ) (g : ι → Matrix.unitaryGroup (Fin a) ℂ) :
     starRingEnd ℂ (detChar n (fun τ => (g τ : Matrix (Fin a) (Fin a) ℂ))) *
@@ -1437,10 +1421,7 @@ open GlobalTheory.MinorFrame
 
 theorem minorF_eq_prodMinors (D : D7) {a d : ℕ} {n : D.what₂.Tau → ℕ} (T : Tup D a d n) :
     GlobalTheory.BotFormula.minorF rfl rfl T = prodMinors (ι := D.what₂.Tau) (n := n) T := by
-  unfold GlobalTheory.BotFormula.minorF GlobalTheory.NormSum.minorPol prodMinors minorAt
-  rw [show (fun k : D.what₂.Tau × Fin d × Fin a => (k.1, Fin.cast rfl k.2.1, Fin.cast rfl k.2.2)) = id from
-    funext fun k => rfl, MvPolynomial.rename_id]
-  rfl
+  apply _root_.GlobalTheory.BotMatch.minorF_rfl_eq_prodMinors <;> assumption
 
 theorem quot_minor_eq_const_smul_compl : ∀ (D : D7) {a a' d : ℕ} (had : a + a' = d) (n₀ : D.what₂.Tau → ℕ) (Pr : Type) [AddCommGroup Pr] [Module ℂ Pr]
     (q : PolF D d a →ₗ[ℂ] Pr) (q' : PolF D d a' →ₗ[ℂ] Pr) (σ : (D.what₂.Tau → Matrix (Fin d) (Fin d) ℂ) → Module.End ℂ Pr),

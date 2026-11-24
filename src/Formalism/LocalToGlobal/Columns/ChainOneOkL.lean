@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.XtLamGvSCongr
 public import Formalism.LocalToGlobal.Columns.FirstUnfoldingEqZeroOfNotIntegral
 import Formalism.LocalToGlobal.Columns.ChainInst
 public import Formalism.LocalToGlobal.Columns.ChainInstS
@@ -145,55 +146,7 @@ theorem ookPhiGS_congr (hq : ((q : ℕ) : 𝓞 E) ∈ P.asIdeal) (hq0 : (q : E) 
       LocE.entB q k₀ c' n' c n (fun i => i + 1) (fun i => i + 1) x' p p' =
         LocE.entB q k₀ c' n' c n (fun i => i + 1) (fun i => i + 1) x p p' + q * d) :
     LocE.PhiGS (P := P) q ψ₀ χ k₀ rS r t j c' n' c n x' = LocE.PhiGS (P := P) q ψ₀ χ k₀ rS r t j c' n' c n x := by
-  rw [phiGS_eq, phiGS_eq]
-  set M := LocE.entB q k₀ c' n' c n (fun i => i + 1) (fun i => i + 1) x with hM
-  set M' := LocE.entB q k₀ c' n' c n (fun i => i + 1) (fun i => i + 1) x' with hM'
-  set a := r + (j - 1) * t with ha
-  have hra : r ≤ a := Nat.le_add_right _ _
-  have k1 : ∀ p p', p < n + c → p' < a → (IntAt P (M' p p') ↔ IntAt P (M p p')) := by
-    intro p p' hp hp'
-    obtain ⟨d, hd, he⟩ := hD p p' hp hp'
-    rw [he]
-    exact ciIntAt_add_iff ((ciIntAt_q (q := q)).mul hd)
-  have k2 : ∀ p p', p < n + c → p' < a → (IntAt P (M' p p' / q) ↔ IntAt P (M p p' / q)) := by
-    intro p p' hp hp'
-    obtain ⟨d, hd, he⟩ := hD p p' hp hp'
-    rw [he, add_div, mul_div_cancel_left₀ _ hq0]
-    exact ciIntAt_add_iff hd
-  have k3 : ∀ p p', p < n + c → p' < a → redP P (M' p p') = redP P (M p p') := by
-    intro p p' hp hp'
-    obtain ⟨d, hd, he⟩ := hD p p' hp hp'
-    rw [he]
-    exact redP_add_natCast_mul hq hd
-  have hc : symPhiCond P q k₀ rS r t j c n M' ↔ symPhiCond P q k₀ rS r t j c n M := by
-    unfold symPhiCond
-    constructor
-    · rintro ⟨h1, h2, h3, h4⟩
-      refine ⟨fun p p' hp hp' => (k1 p p' hp hp').1 (h1 p p' hp hp'), fun p p' h0 hp hp' => (k2 p p' hp hp').1 (h2 p p' h0 hp hp'),
-        fun p' hp' => ⟨?_, fun p hp hne hc => ?_⟩, fun p p' h0 hp' hp hpp => ?_⟩
-      · rw [← k3 p' p' (by omega) (by omega)]; exact (h3 p' hp').1
-      · rw [← k3 p p' (by omega) (by omega)]; exact (h3 p' hp').2 p hp hne hc
-      · rw [← k3 p p' (by omega) hp']; exact h4 p p' h0 hp' hp hpp
-    · rintro ⟨h1, h2, h3, h4⟩
-      refine ⟨fun p p' hp hp' => (k1 p p' hp hp').2 (h1 p p' hp hp'), fun p p' h0 hp hp' => (k2 p p' hp hp').2 (h2 p p' h0 hp hp'),
-        fun p' hp' => ⟨?_, fun p hp hne hc => ?_⟩, fun p p' h0 hp' hp hpp => ?_⟩
-      · rw [k3 p' p' (by omega) (by omega)]; exact (h3 p' hp').1
-      · rw [k3 p p' (by omega) (by omega)]; exact (h3 p' hp').2 p hp hne hc
-      · rw [k3 p p' (by omega) hp']; exact h4 p p' h0 hp' hp hpp
-  by_cases hC : symPhiCond P q k₀ rS r t j c n M
-  · rw [if_pos (hc.2 hC), if_pos hC]
-    have htrip : ∀ p p', p < a → p' < a → IntAt P (M p p') ∧ IntAt P (M' p p') ∧ redP P (M' p p') = redP P (M p p') :=
-      fun p p' hp hp' => ⟨hC.1 p p' (by omega) hp', (hc.2 hC).1 p p' (by omega) hp', k3 p p' (by omega) hp'⟩
-    congr 1
-    · exact ookLamGvS_congr ψ₀ χ M M' hkr hra (le_refl _) htrip
-    · congr 1
-      apply ciUnitV_congr
-      rw [redP_det (Matrix.of fun s s' : Fin a => M' s.1 s'.1) (fun s s' => (htrip s.1 s'.1 s.2 s'.2).2.1),
-        redP_det (Matrix.of fun s s' : Fin a => M s.1 s'.1) (fun s s' => (htrip s.1 s'.1 s.2 s'.2).1)]
-      congr 1
-      ext s s'
-      exact (htrip s.1 s'.1 s.2 s'.2).2.2
-  · rw [if_neg (fun h => hC (hc.1 h)), if_neg hC]
+  apply +allowSynthFailures _root_.Formalism.L2.Col.xtPhiGS_congr <;> assumption
 
 theorem ookEntB_joinX (q : ℕ) {k₀ n' c' n c : ℕ} (hc' : c' = 1) (hc : c = 0) (hk : k₀ ≤ n') (x₀ : HomE E n' n) (y' : Sp E n)
     {p s : ℕ} (hp : p < n) (hs : s < n') :

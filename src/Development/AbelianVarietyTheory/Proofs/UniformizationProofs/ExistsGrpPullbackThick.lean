@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.LBPull
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.WeightedChartPullback.CancelSecAct
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.NonemptyCubicalPull
 
 @[expose] public section
 
@@ -103,15 +104,7 @@ theorem exists_pmaps {w : LB.Iso L' (L.pull F)} (hw : PGen w) (hL : L.IsLB) (hL'
     {φ : K → (Y ⟶ X)} {ε : K → ℤ} {h : Y' ⟶ Y} (hψ : ∀ k, φ' k ≫ F = h ≫ φ k)
     (t : LB.Gen (LB.LinComb L φ ε)) (ht : t.IsGen) :
     ∃ a : LB.Gen (LB.LinComb L' φ' ε), a.IsGen ∧ PMaps w φ' φ ε a t h := by
-  obtain ⟨a, ha, hv⟩ := exists_down_val hw hL hL' (φ' := φ') (ψ := fun k => h ≫ φ k)
-    (funext fun k => (hψ k).symm) (LB.pullGen L φ ε t h) (pullGen_isGen _ _ _ _ ht h)
-  refine ⟨a, ha, fun Z r z p q hp hq => ?_⟩
-  have hm : r z ∈ LB.wchart L (fun k => h ≫ φ k) p := Set.mem_iInter.2 fun k => by
-    show (h ≫ φ k) (r z) ∈ L.U (p k)
-    rw [← hψ k]; exact hp k
-  refine Eq.trans ?_ (hv Z r z p q hm (Set.mem_iInter.2 hq))
-  exact ((gm_res r z _ hm _).trans (gm_pull r h z (LB.wchart L φ p)
-    (Set.mem_iInter.2 fun k => Set.mem_iInter.1 hm k) _)).symm
+  apply _root_.GlobalTheory.DegPull.exists_pmaps <;> assumption
 
 def om (w : LB.Iso L' (L.pull F)) (z : Z) (J : (Z ⟶ X) → L.ι) (J' : (Z ⟶ X') → L'.ι) (q : Z ⟶ X') :
     (Z.presheaf.stalk z)ˣ := gw w q z (J (q ≫ F)) (J' q)

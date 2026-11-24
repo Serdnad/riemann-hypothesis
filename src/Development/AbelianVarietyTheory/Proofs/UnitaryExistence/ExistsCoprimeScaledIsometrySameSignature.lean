@@ -54,6 +54,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.ExistsUnitaryOfSelfDual
 
 @[expose] public section
 
@@ -252,14 +253,7 @@ theorem exists_coprime_nsmul_mem {b : ℕ} (L : Submodule (𝓞 E) (Fin n → E)
     (h : ∀ v : HeightOneSpectrum (𝓞 (maximalRealSubfield E)), (b : 𝓞 (maximalRealSubfield E)) ∈ v.asIdeal →
       ∃ s ∉ v.asIdeal, algebraMap (𝓞 (maximalRealSubfield E)) (𝓞 E) s • x ∈ L) :
     ∃ k : ℕ, k.Coprime b ∧ k • x ∈ L := by
-  have hm : ∀ k : ℕ, k • x ∈ L ↔ addOrderOf (L.mkQ x) ∣ k := fun k => by
-    rw [addOrderOf_dvd_iff_nsmul_eq_zero, ← map_nsmul, Submodule.mkQ_apply, Submodule.Quotient.mk_eq_zero]
-  refine ⟨_, Nat.coprime_of_dvd fun p hp hpk hpb => ?_, (hm _).2 dvd_rfl⟩
-  obtain ⟨k, hk, hkx⟩ := exists_nsmul_mem hp L x fun v hv => h v (by
-    obtain ⟨c, rfl⟩ := hpb
-    rw [Nat.cast_mul]
-    exact v.asIdeal.mul_mem_right _ hv)
-  exact hk (hpk.trans ((hm k).1 hkx))
+  apply _root_.GlobalTheory.AdaptUnitary.exists_coprime_nsmul_mem <;> assumption
 
 
 open ReciprocityTheory.ChartRestriction.G.Geo.Tor in

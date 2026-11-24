@@ -119,7 +119,6 @@ theorem discriminant_pow_eight_le_sqrt (P : ParameterChoice' D L) (S : SizesAt L
     exact_mod_cast (by omega : 1 ≤ D.host.d)
   have hQS : (1 : ℝ) ≤ D.host.QS := by exact_mod_cast D.host.QS_pos
   have hqd : (1 : ℝ) ≤ (D.host.q : ℝ) * D.host.d := by nlinarith
-  have hs0 : 0 ≤ Real.sqrt ((D.host.q : ℝ) * D.host.d) := Real.sqrt_nonneg _
   have hsq : Real.sqrt ((D.host.q : ℝ) * D.host.d) ≤ (D.host.q : ℝ) * D.host.d := by
     rw [Real.sqrt_le_iff]
     constructor
@@ -127,8 +126,6 @@ theorem discriminant_pow_eight_le_sqrt (P : ParameterChoice' D L) (S : SizesAt L
     · nlinarith
   have hC1 : (1 : ℝ) ≤ (D.host.QS : ℝ) * D.host.q * D.host.d := by nlinarith
   have hrdC : D.host.rdE ≤ (D.host.QS : ℝ) * D.host.q * D.host.d := by
-    have h1 : (D.host.QS : ℝ) / 2 * Real.sqrt ((D.host.q : ℝ) * D.host.d) ≤
-        (D.host.QS : ℝ) * Real.sqrt ((D.host.q : ℝ) * D.host.d) := by nlinarith
     have h2 : (D.host.QS : ℝ) * Real.sqrt ((D.host.q : ℝ) * D.host.d) ≤
         (D.host.QS : ℝ) * ((D.host.q : ℝ) * D.host.d) := mul_le_mul_of_nonneg_left hsq (by linarith)
     nlinarith
@@ -472,7 +469,6 @@ theorem T_wL_le : (X.T : ℝ) * X.wL.size ≤ X.ka.size + X.T := by
     have h1 : (0 : ℝ) ≤ (c : ℝ) * (((Dm D : ℝ) + 2) * X.Q - 2) := mul_nonneg hc (by linarith)
     have h2 : (0 : ℝ) ≤ ((Dm D : ℝ) + 2) * X.nW := by positivity
     have h3 : (0 : ℝ) ≤ ((Dm D : ℝ) + 2) * X.Q0 := by positivity
-    have h4 : (0 : ℝ) ≤ (D.R.r : ℝ) := Nat.cast_nonneg _
     nlinarith
   have hnV : (D.R.nV : ℝ) = X.nP + X.T * X.nW := by exact_mod_cast X.split
   have hf : (0 : ℝ) ≤ D.R.f := Nat.cast_nonneg _
@@ -490,11 +486,9 @@ theorem wF_size_le : X.wF.size ≤
     intro c _
     simp only [Nat.cast_add, Nat.cast_mul, Nat.cast_ofNat]
     rw [X.gF_cast]
-    have hc : (0 : ℝ) ≤ c := Nat.cast_nonneg _
     nlinarith
   have hf : (0 : ℝ) ≤ D.R.f := Nat.cast_nonneg _
   have k1 := mul_le_mul_of_nonneg_left hlin hf
-  have k2 : (0 : ℝ) ≤ (Dm D : ℝ) + 2 := by positivity
   nlinarith
 
 end RunN
@@ -529,7 +523,6 @@ theorem order_le_modulus (T : ParamsT D L P) (S : SizesAt L) (hZ : 10 ^ 60 ≤ z
   have hT40 := T.TO_40
   have hTpos : (0 : ℝ) < (T.TO : ℝ) := by exact_mod_cast (show 0 < T.TO by omega)
   have hZ' : (1 : ℝ) ≤ zBase L := by
-    have h : (1 : ℝ) ≤ 10 ^ 60 := by norm_num
     linarith
   have hPP : 1 ≤ T.PP := by
     rw [T.PP_eq]
@@ -611,7 +604,6 @@ theorem b_le_kl : L.sc.b ≤ ((runOf T S hZ).kl : ℝ) := by
   have h0 : (0 : ℝ) ≤ (T.Dp : ℝ) := by positivity
   have h1 : (0 : ℝ) ≤ (T.nWn : ℝ) := by positivity
   have h2 : (0 : ℝ) ≤ (q0N T : ℝ) := by positivity
-  have h3 : (0 : ℝ) ≤ (D.R.r : ℝ) := by positivity
   nlinarith [mul_nonneg (add_nonneg h0 (by norm_num : (0 : ℝ) ≤ 2)) h1,
     mul_nonneg (add_nonneg h0 (by norm_num : (0 : ℝ) ≤ 2)) h2]
 

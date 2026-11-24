@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TorsionPointEndomorphismImageEqMovedGtPoint
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.VRatioGtStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.PeriodicValuation
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.AllDV
@@ -167,32 +168,7 @@ theorem exists_value {R : Type} [CommRing R] [IsDomain R] (A : PolAV (Spec (Comm
     (t : SecA A F k) : ∃ c : F, ∀ z J, Good A.L z J → sA t (ptSecT A.A 1).left z J =
       @id ((TFK (R := R) F).left.presheaf.stalk z) (cst (R := R) F z c) *
         (val (rigT A.A A.L ρ (TFK (R := R) F) (k : ℤ)) (𝟙 _) z J).val := by
-  have hr : ∀ (z : (TFK (R := R) F).left) J, Good A.L z J →
-      val (rigT A.A A.L ρ (TFK (R := R) F) (k : ℤ)) (𝟙 _) z J =
-        val (L := A.L) (φ := fun _ : PUnit => eSec A.A) (ε := fun _ => 1) ρ (TFK (R := R) F).hom z J ^ (k : ℤ) := by
-    intro z J hJ
-    have hm := hJ.mem (fun _ : Fin 1 => (TFK (R := R) F).hom ≫ eSec A.A) (𝟙 _)
-    refine (map_zpow _ _ _).trans (congrArg (· ^ (k : ℤ)) ?_)
-    refine (gm_res _ z _ hm _).trans ((gm_pull (𝟙 _) (TFK (R := R) F).hom z _ (rigT_le A.A A.L _ hm) _).trans ?_)
-    rfl
-  obtain ⟨z⟩ := exists_pt (R := R) (F := F)
-  obtain ⟨J', hJ'⟩ := exists_good' A.isLB (Z := (TFK (R := R) F).left) z
-  obtain ⟨c, hc⟩ := cstH_surj z (@id ((TFK (R := R) F).left.presheaf.stalk z) (sA t (ptSecT A.A 1).left z J' *
-    ((val (rigT A.A A.L ρ (TFK (R := R) F) (k : ℤ)) (𝟙 _) z J')⁻¹).val))
-  refine ⟨c, fun z' J hJ => ?_⟩
-  obtain rfl := pt_eq z z'
-  have a₁ := sval_tr (L := A.L) (φ := fun _ : Fin 1 => (snd (TFK (R := R) F) A.A).left) (ε := fun _ => (k : ℤ)) t
-    (ptSecT A.A (1 : TFK (R := R) F ⟶ A.A)).left hJ hJ'
-  have a₂ := val_tr (L := A.L) (φ := fun _ : PUnit => eSec A.A) (ε := fun _ => 1) hρ (TFK (R := R) F).hom hJ hJ'
-  have e : (ptSecT A.A (1 : TFK (R := R) F ⟶ A.A)).left ≫ (snd (TFK (R := R) F) A.A).left =
-      (TFK (R := R) F).hom ≫ eSec A.A := by
-    rw [← Over.comp_left, ptSecT, lift_snd]; rfl
-  rw [Fintype.prod_unique, e] at a₁
-  rw [Fintype.prod_unique, zpow_one] at a₂
-  have hc' : @id ((TFK (R := R) F).left.presheaf.stalk z) (cst (R := R) F z c) = sA t (ptSecT A.A 1).left z J' *
-      ((val (rigT A.A A.L ρ (TFK (R := R) F) (k : ℤ)) (𝟙 _) z J')⁻¹).val := (cst_eq z c).trans hc
-  rw [hc', hr z J hJ, hr z J' hJ', a₂, mul_zpow, _root_.mul_assoc, ← Units.val_mul, inv_mul_cancel_comm_assoc]
-  exact a₁.trans (_root_.mul_comm _ _)
+  first | exact _root_.GlobalTheory.UT.EndTors.exists_value | exact @_root_.GlobalTheory.UT.EndTors.exists_value | apply _root_.GlobalTheory.UT.EndTors.exists_value <;> assumption
 
 theorem exists_comm (hL : Laws) {S : Scheme.{0}} [IsLocallyNoetherian S] (P : PolAV S) {F : Type} [Field F]
     [IsAlgClosed F] (q : Spec (CommRingCat.of F) ⟶ S) {N : ℕ} (hN : (N : F) ≠ 0)

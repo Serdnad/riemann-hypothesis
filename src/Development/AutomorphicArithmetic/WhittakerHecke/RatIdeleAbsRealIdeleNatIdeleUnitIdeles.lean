@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.WhittakerHecke.ExistsFactorizationOfIdeleCongruenceDivisorLevel
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.CharacterNorms.FacDefs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharpolySmulMap
 import Mathlib.Algebra.Order.Floor.Extended
@@ -94,13 +95,7 @@ private theorem normV_surj {p : ℕ} (hp : p.Prime) : ∃ w : H.P ℚ, normV w =
 
 private theorem supp_fin (n : ℕ) :
     (Function.mulSupport fun v : H.P ℚ => pv v ^ (n.factorization (normV v))).Finite := by
-  refine (Set.Finite.preimage GlobalTheory.TwAtt.normV_injective.injOn n.primeFactors.finite_toSet).subset fun v hv => ?_
-  by_contra h
-  apply hv
-  have h0 : n.factorization (normV v) = 0 := by
-    rw [← Finsupp.notMem_support_iff, Nat.support_factorization]
-    exact h
-  simp [h0]
+  apply _root_.fin_supp <;> assumption
 
 private theorem prod_norm {n : ℕ} (hn : 0 < n) :
     ∏ᶠ v : H.P ℚ, (((normV v : ℕ) : ℝ)⁻¹) ^ (n.factorization (normV v)) = (n : ℝ)⁻¹ := by
@@ -140,22 +135,7 @@ private theorem ab_pin {n : ℕ} (hn : 0 < n) : ab (pin n) = (n : ℝ)⁻¹ := b
   exact ab_pv v
 
 private theorem pin_fst (n : ℕ) : ((pin n : (A ℚ)ˣ) : A ℚ).1 = 1 := by
-  refine finprod_induction (p := fun x : (A ℚ)ˣ => (x : A ℚ).1 = 1) rfl ?_ ?_
-  · intro x y hx hy
-    simp [Units.val_mul, hx, hy]
-  · intro v
-    have h : ((pv v : (A ℚ)ˣ) : A ℚ).1 = 1 := by
-      funext w
-      exact (localIdele_isSupportedAt ℚ v _).1 w
-    have hk : ∀ k : ℕ, (((pv v ^ k : (A ℚ)ˣ)) : A ℚ).1 = 1 := by
-      intro k
-      induction k with
-      | zero => rfl
-      | succ k ih =>
-        rw [pow_succ, Units.val_mul]
-        show (((pv v ^ k : (A ℚ)ˣ)) : A ℚ).1 * ((pv v : (A ℚ)ˣ) : A ℚ).1 = 1
-        rw [ih, h, one_mul]
-    exact hk _
+  apply _root_.fst_pin <;> assumption
 
 private theorem re_one_of {x : A ℚ} (h : x.1 = 1) : re x = 1 := by
   show (TR.infEq ℚ).symm x.1 Rat.infinitePlace = 1

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PPLift
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,14 +129,7 @@ private theorem omB_mono' {L : Type} [Field L] [Algebra ℂ L] {B B' : Subalgebr
 
 private theorem omB_smul' {L : Type} [Field L] [Algebra ℂ L] {B : Subalgebra ℂ L} {q : ℕ} {r : L} (hr : r ∈ B)
     {m : DR ℂ L} (hm : m ∈ omB ℂ L B q) : r • m ∈ omB ℂ L B q := by
-  induction hm using Submodule.span_induction with
-  | mem y hy =>
-    obtain ⟨b, hb, v, hv, rfl⟩ := hy
-    rw [smul_smul]
-    exact Submodule.subset_span ⟨r * b, B.mul_mem hr hb, v, hv, rfl⟩
-  | zero => rw [smul_zero]; exact Submodule.zero_mem _
-  | add a c _ _ ha hc => rw [smul_add]; exact Submodule.add_mem _ ha hc
-  | smul z a _ ha => rw [smul_comm]; exact Submodule.smul_mem _ z ha
+  apply _root_.smul_omB' <;> assumption
 
 private theorem mem_acxC' {σ E : Type} [LinearOrder σ] [AddCommGroup E] [Module ℂ E]
     (A : Finset σ → Submodule ℂ E) (w : σ → Module.End ℂ E) (n : ℤ) (c : Finset σ → E) :

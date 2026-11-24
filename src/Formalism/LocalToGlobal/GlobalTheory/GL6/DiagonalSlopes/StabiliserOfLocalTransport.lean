@@ -14,6 +14,7 @@ import Formalism.LocalToGlobal.HermitianColumns.InLocalDiscriminantKernel
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocV
 import Formalism.LocalToGlobal.GlobalTheory.GL6.PRLocW
 import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.CsScale
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GlESymmApply
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.GlobalTheory.GL4.PFrames, Formalism.LocalToGlobal.GlobalTheory.GL6.DiagonalSlopes.StabiliserOfLocalTransport
@@ -103,22 +104,7 @@ variable {D : D7} {u : D.what₂.Word} {i : ℕ} {hi : i ≤ D.R.m}
 
 
 theorem class_lattice_le_dual (K : ClsTied u i hi) (c : (D.mem u).C.cls i) : clsCrd D u i hi c ≤ Ld D u i hi c := by
-  intro x hx
-  apply Submodule.subset_span
-  intro x' hx'
-  have hglob : ∀ z ∈ clsCrd D u i hi c, z ∈ Formalism.UG.CS.globLat (K.y c).1 K.lev.Lb := by
-    intro z hz
-    exact (K.y_lat c _).1 (Submodule.subset_span ⟨z, hz, rfl⟩)
-  have hm : ∀ a ∈ K.lev.Lb, ∀ b ∈ K.lev.Lb,
-      IsIntegral ℤ (((1 : ℤ) : D.host.E) * Formalism.UG.hform (sigD D : D.host.E →+* D.host.E) (gramN D i hi) a b) := by
-    intro a ha b hb
-    refine Exists.elim (K.lev.Lb_int b hb a ha) fun r hr => ?_
-    rw [Int.cast_one, one_mul, ← hr]
-    exact RingOfIntegers.isIntegral_coe r
-  have h := Formalism.UG.P.csScale_glob (sigD D) (gramN D i hi) K.lev.Lb 1 hm (K.y c).1
-    (K.y c).2 (hglob x' hx') (hglob x hx)
-  rw [Int.cast_one, one_mul] at h
-  exact bwL_descent D.host.F D.host.E _ h
+  apply _root_.GlobalTheory.LevelHecke.cls_le_dual <;> assumption
 
 
 

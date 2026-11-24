@@ -55,6 +55,7 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FontaineAinfLocalDomainXiAdicOrder
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsInvariantMatrixLiftOfAdicComplete, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsWittVectorTraceOneFiniteLevel, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Hilbert90MatrixCoboundaryCharPFiniteLevel, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PeriodDataComparisonStatement, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnramifiedIsCrysAndJumpEqZero
@@ -590,14 +591,7 @@ theorem dvd_iff_constantCoeff (x : WittVector p R) :
 omit [IsDomain R] in
 theorem isUnit_of_constantCoeff (x : WittVector p R) (hx : IsUnit (WittVector.constantCoeff x)) :
     IsUnit x := by
-  obtain ⟨y, hy⟩ := hx.exists_right_inv
-  have := WittVector.isAdicCompleteIdealSpanP (p := p) (k := R)
-  have h1 : x * WittVector.teichmuller p y - 1 ∈ Ideal.span {(p : WittVector p R)} := by
-    rw [Ideal.mem_span_singleton, dvd_iff_constantCoeff, map_sub, map_mul, map_one, sub_eq_zero, ← hy]
-    rfl
-  have h2 := Ideal.mem_jacobson_bot.1 (IsAdicComplete.le_jacobson_bot _ h1) 1
-  rw [mul_one, sub_add_cancel] at h2
-  exact isUnit_of_mul_isUnit_left h2
+  apply _root_.GlobalTheory.AinfXi.witt_isUnit <;> assumption
 
 theorem exists_witt_matrix
     (hopen : ∀ (y : R) (m : ℕ), 0 < m → y ^ p ^ m = y → ∀ᶠ g in 𝓝 (1 : G), ρ g y = y)

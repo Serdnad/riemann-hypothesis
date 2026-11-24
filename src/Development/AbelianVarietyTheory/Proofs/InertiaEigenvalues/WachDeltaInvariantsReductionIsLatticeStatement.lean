@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantCoboundaries
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantsReductionIsLattice, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WachDeltaInvariantsReductionIsLatticeStatement
@@ -69,20 +70,7 @@ theorem one_mem_del : (1 : W.Gam) ∈ W.DelF := (_root_.GlobalTheory.WachTie.mem
 
 theorem prod_del {M : Type} [CommMonoid M] (f : W.Gam → M) {d : W.Gam} (hd : d ∈ W.DelF) :
     ∏ δ ∈ W.DelF, f (d * δ) = ∏ δ ∈ W.DelF, f δ := by
-  rw [_root_.GlobalTheory.WachTie.mem_DelF_iff] at hd
-  refine Finset.prod_nbij' (fun δ => d * δ) (fun δ => d⁻¹ * δ) ?_ ?_ ?_ ?_ ?_
-  · intro a ha
-    rw [_root_.GlobalTheory.WachTie.mem_DelF_iff] at ha ⊢
-    exact hd.mul ha
-  · intro a ha
-    rw [_root_.GlobalTheory.WachTie.mem_DelF_iff] at ha ⊢
-    exact hd.inv.mul ha
-  · intro a _
-    simp
-  · intro a _
-    simp
-  · intro a _
-    rfl
+  apply _root_.GlobalTheory.WachTie.prod_DelF_mul <;> assumption
 
 theorem sum_del {M : Type} [AddCommMonoid M] (f : W.Gam → M) {d : W.Gam} (hd : d ∈ W.DelF) :
     ∑ δ ∈ W.DelF, f (d * δ) = ∑ δ ∈ W.DelF, f δ :=

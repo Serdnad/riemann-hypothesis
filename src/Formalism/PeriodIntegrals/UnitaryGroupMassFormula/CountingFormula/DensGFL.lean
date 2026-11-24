@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MoveLatticeIsTermSameDatumWithWitnesses
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -120,19 +121,6 @@ theorem fl_den_F {F : Type} [Field F] [ValuativeRel F] (a : F) :
 theorem fl_den {F E : Type} [Field F] [ValuativeRel F] [TopologicalSpace F] [CommRing E]
     [Algebra F E] [TopologicalSpace E] (L : Loc.LocE F E) (x : E) :
     ∃ c : 𝒪[F], c ≠ 0 ∧ algebraMap F E c * x ∈ L.O := by
-  obtain ⟨t, ht⟩ := (L.3 (x + L.cj x)).1 (by rw [map_add (f := _), L.2, add_comm])
-  obtain ⟨m, hm⟩ := (L.3 (x * L.cj x)).1 (by rw [map_mul, L.2, mul_comm])
-  obtain ⟨c1, hc1, ht1⟩ := fl_den_F t
-  obtain ⟨c2, hc2, hm2⟩ := fl_den_F m
-  refine ⟨c1 * c2, mul_ne_zero hc1 hc2, ?_⟩
-  rw [L.9]
-  have key : ∀ z : 𝒪[F], algebraMap 𝒪[F] E z = algebraMap F E (z : F) :=
-    fun z => IsScalarTower.algebraMap_apply 𝒪[F] F E z
-  have hx2 : x * x = algebraMap F E t * x - algebraMap F E m := by rw [ht, hm]; ring
-  refine ⟨X ^ 2 - C (c2 * ⟨(c1 : F) * t, ht1⟩) * X + C (c1 ^ 2 * c2 * ⟨(c2 : F) * m, hm2⟩), by monicity!, ?_⟩
-  simp only [eval₂_add, eval₂_sub, eval₂_mul, eval₂_X_pow, eval₂_C, eval₂_X, key]
-  push_cast
-  try simp only [map_mul, map_pow]
-  linear_combination (algebraMap F E c1 * algebraMap F E c2) ^ 2 * hx2
+  apply _root_.GlobalTheory.CommonDenominator.exists_den <;> assumption
 
 end PI.UnitaryGroupMassFormula.CntFormula

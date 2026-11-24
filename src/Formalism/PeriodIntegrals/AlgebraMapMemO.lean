@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.ThetaModuleTransport.HeadColumnCoordinates.SharpSpanCounting.SharpEquivApply
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FractionFieldToGenericStalkAlgebraMapEq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -93,16 +94,7 @@ theorem mem_OF_of_mem_O [Nontrivial E] (L : LocE F E) (a : F) (h : algebraMap F 
   exact (Valuation.integer.integers _).mem_of_integral hF
 
 theorem cj_mem_O (L : LocE F E) (x : E) (h : x ∈ L.O) : L.cj x ∈ L.O := by
-  rw [L.O_def] at h ⊢
-  obtain ⟨p, hp, he⟩ := h
-  refine ⟨p, hp, ?_⟩
-  have hc : L.cj.toRingEquiv.toRingHom.comp (algebraMap 𝒪[F] E) = algebraMap 𝒪[F] E := by
-    ext r
-    show L.cj (algebraMap F E (r : F)) = algebraMap F E (r : F)
-    exact L.cj.commutes _
-  have h2 := congrArg L.cj.toRingEquiv.toRingHom he
-  rw [Polynomial.hom_eval₂, map_zero, hc] at h2
-  exact h2
+  apply _root_.Formalism.L2.SG.LocalCountModules.LocCntCommon.cj_mem_O <;> assumption
 
 end Top
 

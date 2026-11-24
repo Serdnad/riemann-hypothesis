@@ -606,10 +606,7 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.MainNotions F
 attribute [local instance] GlobalTheory.Mem.Col2.starE Formalism.BasicNotions.Host.cmStar
 
 theorem _root_.GlobalTheory.T.not_twistPlace_referenceTuple : ∀ {B : Base} {X : PreX B.toPre} (I : TC B X), ColIn.Ok I → ∀ v : HeightOneSpectrum (𝓞 B.host.F), ¬ I.UnderQ I.mu0 v := by
-  intro B X I _ v ⟨P, hP, _⟩
-  have hEmpty : P ∈ (∅ : Finset (HeightOneSpectrum (𝓞 B.fields.E))) :=
-    I.twistPrimes_reference_tuple_eq_empty ▸ hP
-  simp at hEmpty
+  apply _root_.GlobalTheory.Mem.Col2.TC.not_underQ_mu0 <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NotTwistPlaceReferenceTupleStatement =====
@@ -1220,18 +1217,7 @@ structure TwPack (H : Formalism.L2.Herm.HermColsCh (I.rec7 l Z)) (F : ∀ u, For
     (∀ v ∈ Q, bc (prV (E := (I.rec7 l Z).host.E) v) κ.1 = 1) → J.chiJ κ = (F u).levJ.chi κ'
 
 theorem twBefore_cl_nonempty (hOk : I.Ok) (u : B.Word) (a : I.ι) : Nonempty (I.stp u a (B.R.m - 1)).Cl := by
-  classical
-  have hm2 := B.R.two_le_m
-  have hmj : B.R.m - 1 + 1 = B.R.m := by omega
-  have hL := hOk.idx_ok a
-  obtain ⟨b0x, -⟩ := hL.last_uniq
-  let b0 : Idx I.sel (I.tup a) (I.idx a) (B.R.m - 1) := ⟨some (cast (by rw [show B.R.m - 1 = B.R.m - 2 + 1 by omega]) b0x), by simp; omega⟩
-  let q0 : (I.stp u a (B.R.m - 1)).D b0 := ⟨(DecoF.base _ _ _ _ _, {z | z - 0 ∈ locLat (rowSG (B.primes X) I.sel (I.tup a)) (DecoF.base B.fields.E (B.R.N (B.R.m - 1)) ((B.primes X).vT u) (B.primes X).vGs (QE I.sel (I.tup a : Chr B.fields.F B.fields.E B.fields.K))).deco.1.N
-      (fun P => if P.1 ∈ (B.primes X).vGs then 0 else ((I.cst a).M : ℤ))}), by
-    show _ ∈ (ysAt B.R I.sel (I.tup a) (I.cst a) (B.R.m - 1)).ys _
-    rw [ysAt_ys_of_eq _ _ _ hmj]
-    exact ⟨0, zero_mem _, rfl⟩⟩
-  exact ⟨(I.stp u a (B.R.m - 1)).cl b0 q0⟩
+  apply _root_.GlobalTheory.Mem.Col2.TC.stepBefore_cl_nonempty_tup <;> assumption
 
 
 theorem twPack_ex (hok : I.Ok) (pins : TC.Pins B X) {H : Formalism.L2.Herm.HermColsCh (I.rec7 l Z)}

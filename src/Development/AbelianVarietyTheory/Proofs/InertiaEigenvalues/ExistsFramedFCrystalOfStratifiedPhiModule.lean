@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.RelGaloisComparisonMatrix
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.AdIPowLe
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinHomEisensteinSpanAndNonZeroDivisor
@@ -1448,22 +1449,8 @@ theorem piMapMul_apply {R R' n : Type} [CommRing R] [CommRing R'] [Fintype n] (g
 
 theorem mul_eq_smul_comm {R n : Type} [CommRing R] [Fintype n] [DecidableEq n] {X Y : Matrix n n R} {s : R}
     (hs : s ∈ nonZeroDivisors R) (h : X * Y = s • 1) : Y * X = s • 1 := by
-  have hd : X.det * Y.det = s ^ Fintype.card n := by
-    rw [← Matrix.det_mul, h, Matrix.det_smul, Matrix.det_one, mul_one]
-  have h1 : X * (Y * X - s • 1) = 0 := by
-    rw [Matrix.mul_sub, ← Matrix.mul_assoc, h, Matrix.mul_smul, Matrix.mul_one, Matrix.smul_mul, Matrix.one_mul,
-      sub_self]
-  have h2 : X.det • (Y * X - s • 1) = 0 := by
-    have h5 : X.adjugate * (X * (Y * X - s • 1)) = X.det • (Y * X - s • 1) := by
-      rw [← Matrix.mul_assoc, Matrix.adjugate_mul, Matrix.smul_mul, Matrix.one_mul]
-    rw [← h5, h1, Matrix.mul_zero]
-  rw [← sub_eq_zero]
-  ext i j
-  have h3 := congrFun (congrFun h2 i) j
-  simp only [Matrix.smul_apply, smul_eq_mul, Matrix.zero_apply] at h3 ⊢
-  have h4 : s ^ Fintype.card n * (Y * X - s • 1) i j = s ^ Fintype.card n * 0 := by
-    rw [← hd]; linear_combination Y.det * h3
-  exact (mul_cancel_left_mem_nonZeroDivisors (pow_mem hs _)).1 h4
+  intros
+  apply _root_.GlobalTheory.BSP.GalD.mul_eq_smul_comm <;> assumption
 
 theorem descent_identity {R n : Type} [CommRing R] [Fintype n] [DecidableEq n] (Ap A'p Aq A'q ε φε : Matrix n n R)
     (Ep Eq cp cq : R) (a b : ℕ) (w : n → R) (h1 : A'p * Ap = Ep ^ b • 1) (h2 : Aq * A'q = Eq ^ b • 1)

@@ -1,5 +1,7 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemVR
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.PrimitiveHermitianSublatticeDiscriminantGenerato
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MaximalHermitianLatticeBadPrimesIffGramDet
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ChartGen
 public import Formalism.HermitianLattices.StatementMass
@@ -81,16 +83,8 @@ def NormUnit (P : Ideal (𝓞 K)) (x : K) : Prop :=
 
 theorem star_mem_locR {P : Ideal (𝓞 K)} (hP : P.IsMaximal) (hc : conjIdeal (K := K) P = P) {a : K}
     (ha : a ∈ locR (K := K) P) : star a ∈ locR (K := K) P := by
-  have mR : ∀ a : K, a ∈ locR (K := K) P ↔ ∃ s, s ∉ P ∧ ∃ r : 𝓞 K,
-      algebraMap (𝓞 K) K r = algebraMap (𝓞 K) K s * a := fun a =>
-    exists_congr fun s => and_congr (LocWitt.mem_hcompl hP hc s)
-      (by rw [Submodule.mem_one, Algebra.smul_def])
-  obtain ⟨s, hs, r, e⟩ := (mR a).1 ha
-  obtain ⟨s', es⟩ := LocWitt.star_int s
-  obtain ⟨r', er⟩ := LocWitt.star_int r
-  refine (mR _).2 ⟨s', fun a => hs ?_, r', by rw [er, es, e, star_mul']⟩
-  rw [← hc]
-  exact Ideal.subset_span ⟨s', a, by rw [es, star_star]⟩
+  intros
+  apply _root_.Formalism.MainNotions.BridgeLemVR.star_mem_locR <;> assumption
 
 theorem normUnit_iff (v : IsDedekindDomain.HeightOneSpectrum (𝓞 K))
     (hc : conjIdeal (K := K) v.asIdeal = v.asIdeal) {x : K} {m : ℤ}
@@ -142,16 +136,7 @@ section Ext
 variable {K V : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V] [Module K V]
 
 theorem nondeg_of_PD (h : V →ₗ⋆[K] V →ₗ[K] K) (hp : PD h) : h.Nondegenerate := by
-  obtain ⟨τ⟩ : Nonempty (K →+* ℂ) := inferInstance
-  refine ⟨fun x hx => ?_, fun x hx => ?_⟩
-  · by_contra h0
-    have := hp τ x h0
-    rw [hx x] at this
-    simp at this
-  · by_contra h0
-    have := hp τ x h0
-    rw [hx x] at this
-    simp at this
+  apply _root_.GlobalTheory.Mass.PrimDisc.nondeg <;> assumption
 
 def ext (h : V →ₗ⋆[K] V →ₗ[K] K) (β : K) : (V × K) →ₗ⋆[K] (V × K) →ₗ[K] K :=
   LinearMap.mk₂'ₛₗ (starRingEnd K) (RingHom.id K) (fun x y => h x.1 y.1 + β * (star x.2 * y.2))

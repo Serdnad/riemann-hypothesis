@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsSmulApplyEqOfEqOnInvariants
 public import Mathlib.RepresentationTheory.Invariants
 public import Mathlib.RingTheory.Etale.Basic
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
@@ -639,36 +640,13 @@ variable {G : Type*} [Group G] [Finite G] {A k : Type*} [CommRing A] [MulSemirin
 
 theorem exists_apply_eq_apply_smul (φ ψ : A →+* k)
     (h : ∀ a, (∀ g : G, g • a = a) → φ a = ψ a) (a : A) : ∃ g : G, ψ a = φ (g • a) := by
-  cases nonempty_fintype G
-  have e : (MulSemiringAction.charpoly G a).map φ = (MulSemiringAction.charpoly G a).map ψ := by
-    ext n
-    rw [Polynomial.coeff_map, Polynomial.coeff_map]
-    exact h _ fun g ↦ MulSemiringAction.smul_coeff_charpoly a n g
-  have e' : ((MulSemiringAction.charpoly G a).map φ).eval (ψ a) = 0 := by
-    rw [e, Polynomial.eval_map, Polynomial.eval₂_at_apply, MulSemiringAction.eval_charpoly,
-      map_zero]
-  simpa [MulSemiringAction.charpoly_eq, Polynomial.map_prod, Polynomial.eval_prod,
-    Finset.prod_eq_zero_iff, sub_eq_zero] using e'
+  intros
+  apply _root_.GlobalTheory.exists_smul_apply_eq_of_eq_on_invariants <;> assumption
 
 theorem exists_forall_apply_eq_apply_smul (φ ψ : A →+* k)
     (h : ∀ a, (∀ g : G, g • a = a) → φ a = ψ a) : ∃ g : G, ∀ a, ψ a = φ (g • a) := by
-  classical
-  cases nonempty_fintype G
-  by_contra! hcon
-  choose a ha using hcon
-  let n : G → ℕ := fun g ↦ Fintype.equivFin G g
-  have hn : Function.Injective n := Fin.val_injective.comp (Fintype.equivFin G).injective
-  obtain ⟨g, hg⟩ := exists_apply_eq_apply_smul (G := G) (Polynomial.mapRingHom φ)
-    (Polynomial.mapRingHom ψ) (fun p hp ↦ by
-      ext i
-      simp only [Polynomial.coe_mapRingHom, Polynomial.coeff_map]
-      exact h _ fun g ↦ by rw [← AddMonoidAlgebra.coeff_smul_apply, hp])
-    (∑ g, Polynomial.monomial (n g) (a g))
-  have := congrArg (fun p ↦ _root_.AddMonoidAlgebra.coeff (M := ℕ) p (n g)) hg
-  simp only [Polynomial.coe_mapRingHom, Polynomial.coeff_map, AddMonoidAlgebra.coeff_smul_apply,
-    Polynomial.finsetSum_coeff, Polynomial.coeff_monomial_apply, hn.eq_iff, Finset.sum_ite_eq',
-    Finset.mem_univ, ite_true] at this
-  exact ha g this
+  intros
+  apply _root_.GlobalTheory.exists_smul_eq_of_eq_on_invariants <;> assumption
 
 end Ring
 

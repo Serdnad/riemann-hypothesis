@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WhittakerJacquetIdempotentsPropertiesPrimeField
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.StatementsFlagGrassSteps
 
 @[expose] public section
@@ -10,15 +11,7 @@ namespace GroundTheory.Heights₂.Heights.LowerBoundFree
 
 theorem VandCount.card_lt (N : ℕ) :
     (Finset.univ.filter (fun ab : Fin N × Fin N => ab.1 < ab.2)).card = N * (N - 1) / 2 := by
-  rw [Finset.card_filter, Fintype.sum_prod_type, Finset.sum_comm]
-  have h : ∀ b : Fin N, (∑ a : Fin N, if a < b then 1 else 0) = (b : ℕ) := by
-    intro b
-    rw [← Finset.card_filter, ← Fin.card_Iio b]
-    congr 1
-    ext a
-    simp
-  simp only [h]
-  rw [Fin.sum_univ_eq_sum_range (fun i => i) N, Finset.sum_range_id]
+  apply _root_.CompanionTheory.Member.UnipotentColumnData.card_lt <;> assumption
 
 theorem VandCount.card_cross (N j : ℕ) (hj : j ≤ N) :
     (Finset.univ.filter (fun ab : Fin N × Fin N => (ab.1 : ℕ) < j ∧ j ≤ (ab.2 : ℕ))).card = j * (N - j) := by

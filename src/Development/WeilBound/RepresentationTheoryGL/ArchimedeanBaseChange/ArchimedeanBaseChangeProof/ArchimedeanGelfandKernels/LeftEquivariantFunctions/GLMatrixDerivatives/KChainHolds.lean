@@ -527,12 +527,7 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 variable {n : ℕ}
 
 theorem hOf_single (i : Fin n × Fin n) : hOf (Pi.single i (1 : ℝ)) = hb i := by
-  simp only [hOf]
-  rw [Finset.sum_eq_single i]
-  · simp
-  · intro p _ hp
-    simp [hp]
-  · simp
+  apply _root_.PositivityTheory.RgBcC.LfSt.Kchain.KcHalf2.hOf_single <;> assumption
 
 theorem herm_inv_conj {x H : Mat n} (hH : H.IsHermitian) : (x⁻¹ * H * xᴴ⁻¹).IsHermitian := by
   rw [← conjTranspose_nonsing_inv]

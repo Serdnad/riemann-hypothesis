@@ -5,6 +5,7 @@ public import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.TwistAlg
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import GroundTheory.HeightsAndTheta.Heights.KleimanAmpleness.RestrictionPowers
 
 @[expose] public section
 
@@ -25,26 +26,11 @@ variable {S : Type u} [CommRing S] {Ω : Type w} [Field Ω] [Algebra S Ω] {N : 
 
 theorem chartRing_subset_ampleChart (H : SubSystem S x Ω) (h : Ω) (I : Chart x) {a : Ω}
     (ha : a ∈ chartRing S x I) : a ∈ ampleChart H 1 h I := by
-  refine ⟨0, ?_⟩
-  rw [pow_zero, mul_one, mul_zero]
-  change a ∈ twistMod S x 0 I
-  obtain ⟨i, hi⟩ := I.2.1
-  rw [twistMod_eq_span 0 I hi, zpow_zero]
-  have : a = (⟨a, ha⟩ : chartRing S x I) • (1 : Ω) := by rw [chartRing_smul_def, mul_one]
-  rw [this]
-  exact Submodule.smul_mem _ _ (Submodule.subset_span rfl)
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.res_chartRing_sub_ampleChart <;> assumption
 
 theorem ampleChart_mul (H : SubSystem S x Ω) (h : Ω) (I : Chart x) {a b : Ω}
     (ha : a ∈ ampleChart H 1 h I) (hb : b ∈ ampleChart H 1 h I) : a * b ∈ ampleChart H 1 h I := by
-  obtain ⟨n, hn⟩ := ha
-  obtain ⟨m, hm⟩ := hb
-  refine ⟨n + m, ?_⟩
-  rw [one_mul] at hn hm ⊢
-  rw [SubSystem.pow_sub] at hn hm ⊢
-  rw [pow_add, pow_add]
-  have : a * b * (h ^ n * h ^ m) = (a * h ^ n) * (b * h ^ m) := by ring
-  rw [this]
-  exact Submodule.mul_mem_mul hn hm
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.res_ampleChart_mul <;> assumption
 
 theorem ampleChart_pow (H : SubSystem S x Ω) (h : Ω) (I : Chart x) {a : Ω}
     (ha : a ∈ ampleChart H 1 h I) (e : ℕ) : a ^ e ∈ ampleChart H 1 h I := by

@@ -798,13 +798,7 @@ theorem mem_lp {l : ℕ} {M : Type 1} [AddCommGroup M] [Module W M] {n : ℕ} {x
     x ∈ lpow (W := W) l M n ↔ ∃ y : M, ((l : W) ^ n) • y = x := Iff.rfl
 
 theorem B_ker (D : Cx.{1} W) (n : ℕ) (v : D.X n) (hv : v ∈ D.B n) : D.d n v = 0 := by
-  cases n with
-  | zero =>
-    have h : v = 0 := hv
-    rw [h, map_zero]
-  | succ n =>
-    obtain ⟨g, rfl⟩ := hv
-    exact D.dd n g
+  apply _root_.GlobalTheory.CompanionTheory.TowFlat.d_of_B <;> assumption
 
 theorem exact_quo (D : Cx.{1} W) (l m : ℕ) (hF : FlatL l m D)
     (hE : ∀ n (x : D.X n), D.d n x = 0 → x ∈ D.B n) :

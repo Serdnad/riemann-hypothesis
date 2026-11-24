@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContDiffDerivSnoc
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSmoothVecLowKSub
 public import Mathlib.Analysis.Normed.Module.HahnBanach
@@ -84,18 +85,7 @@ theorem sobCont_smul {n : ℕ} {H : Type} [NormedAddCommGroup H] [InnerProductSp
 theorem sobCont_add {n : ℕ} {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H]
     {Lie : Set (Matrix (Fin n) (Fin n) ℂ)} {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {ℓ ℓ' : H →ₗ[ℂ] ℂ}
     (h : Sobolev₂ Lie σ ℓ) (h' : Sobolev₂ Lie σ ℓ') : Sobolev₂ Lie σ (ℓ + ℓ') := by
-  obtain ⟨S, C, h1, h2⟩ := h
-  obtain ⟨S', C', h1', h2'⟩ := h'
-  refine ⟨S ++ S', max C C', fun l hl => (List.mem_append.1 hl).elim (h1 l) (h1' l), fun w hw => ?_⟩
-  have p : ∀ S : List (List (Matrix (Fin n) (Fin n) ℂ)), 0 ≤ (S.map fun l => ‖l.foldr (dRep σ) w‖).sum := by
-    intro S
-    refine List.sum_nonneg fun x hx => ?_
-    obtain ⟨l, -, rfl⟩ := List.mem_map.1 hx
-    exact norm_nonneg _
-  rw [LinearMap.add_apply, List.map_append, List.sum_append, mul_add]
-  refine (norm_add_le _ _).trans (add_le_add ((h2 w hw).trans ?_) ((h2' w hw).trans ?_))
-  · exact mul_le_mul_of_nonneg_right (le_max_left _ _) (p S)
-  · exact mul_le_mul_of_nonneg_right (le_max_right _ _) (p S')
+  first | exact _root_.GlobalTheory.MultMem.sobCont_add | exact @_root_.GlobalTheory.MultMem.sobCont_add | apply _root_.GlobalTheory.MultMem.sobCont_add <;> assumption
 
 variable {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar}
 

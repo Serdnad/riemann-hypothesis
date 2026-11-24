@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.HasFiniteAdelicDoubleCosetsOfBlockDiagPartImage
 public import Development.AbelianVarietyTheory.Definitions.AdelicHermitianForms.AdelicPair
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Span.Defs
@@ -60,15 +61,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 omit [DecidableEq ι] in
 theorem evC_ltr (g y : Matrix ι ι ℂ) (f : MvPolynomial (ι × ι) ℂ) :
     evC (ltr g f) y = evC f (g * y) := by
-  induction f using MvPolynomial.induction_on with
-  | C a => simp [evC, ltr]
-  | add p q hp hq =>
-    simp only [evC, map_add (f := _)] at hp hq ⊢
-    rw [hp, hq]
-  | mul_X p i hp =>
-    simp only [evC, map_mul] at hp ⊢
-    rw [hp]
-    simp [ltr, Matrix.mul_apply]
+  apply _root_.GlobalTheory.ClassFin.FibreDescent.evC_ltr <;> assumption
 
 
 omit [DecidableEq ι] in

@@ -42,6 +42,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.VectorsLinearMapsBoundedDenominatorsAtPrime
 
 @[expose] public section
 
@@ -164,21 +165,7 @@ section Loc
 variable {E : Type} [Field E] [NumberField E] {P : HeightOneSpectrum (𝓞 E)}
 
 theorem volq_exists_pow (a : E) : ∃ b : ℕ, IntAt P ((qOf P : E) ^ b * a) := by
-  have hq : P.valuation E (qOf P : E) < 1 := by
-    have := (P.valuation_lt_one_iff_mem (K := E) _).2 (qOf_mem (P := P))
-    change P.valuation E (algebraMap (𝓞 E) E _) < 1 at this
-    rwa [map_natCast] at this
-  have : ∃ b : ℕ, P.valuation E ((qOf P : E) ^ b * a) ≤ 1 := by
-    rcases eq_or_ne a 0 with rfl | ha
-    · exact ⟨0, by simp⟩
-    have h0 : P.valuation E a ≠ 0 := (map_ne_zero _).2 ha
-    obtain ⟨b, hb⟩ := exists_pow_lt₀ hq (Units.mk0 _ h0)⁻¹
-    refine ⟨b, ?_⟩
-    rw [map_mul, map_pow, ← le_mul_inv_iff₀ (zero_lt_iff.2 h0), one_mul]
-    simpa using hb.le
-  obtain ⟨b, hb⟩ := this
-  obtain ⟨n, d, h⟩ := P.exists_primeCompl_mul_eq_of_integer _ hb
-  exact ⟨b, n, d, d.2, by rw [mul_comm]; exact h⟩
+  apply _root_.GlobalTheory.Proof.vectors_linearMaps_bounded_denominators_atPrime.exists_intAt_pow_mul <;> assumption
 
 variable [StarRing E]
 

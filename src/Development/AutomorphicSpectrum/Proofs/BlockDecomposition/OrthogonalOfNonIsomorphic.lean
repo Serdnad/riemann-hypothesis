@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.ReproOf
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.BaseChangeDefiniteUnitary
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SelfMemSpanK
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdmissibleDiscreteSpaces
@@ -310,20 +311,7 @@ theorem exists_compact_open_level_le (E : Type) [Field E] [NumberField E] [IsCMF
     (S : Subgroup (GL (Fin N) (Af E))) (hS : IsOpen (S : Set (GL (Fin N) (Af E)))) :
     ∃ L : Subgroup (GL (Fin N) (Af E)), L ≤ S ∧ IsOpen (L : Set (GL (Fin N) (Af E))) ∧
       IsCompact (L : Set (GL (Fin N) (Af E))) := by
-  let K : Subgroup (GL (Fin N) (Af E)) := GroundTheory.Automorphic.AdelicGLn.integralFiniteGL E N
-  have hKo : IsOpen (K : Set (GL (Fin N) (Af E))) :=
-    GroundTheory.Automorphic.AdelicGLn.isOpen_integralFiniteGL E N
-  have hKc : IsCompact (K : Set (GL (Fin N) (Af E))) :=
-    GroundTheory.Automorphic.AdelicGLn.isCompact_integralFiniteGL E N
-  have hSc : IsClosed (S : Set (GL (Fin N) (Af E))) := Subgroup.isClosed_of_isOpen S hS
-  refine ⟨S ⊓ K, inf_le_left, ?_, ?_⟩
-  · change IsOpen ((S : Set (GL (Fin N) (Af E))) ∩ (K : Set (GL (Fin N) (Af E))))
-    exact hS.inter hKo
-  · have : ((S ⊓ K : Subgroup _) : Set (GL (Fin N) (Af E))) =
-        (K : Set (GL (Fin N) (Af E))) ∩ (S : Set (GL (Fin N) (Af E))) := by
-      ext x; simp [and_comm]
-    rw [this]
-    exact hKc.inter_right hSc
+  apply _root_.PositivityTheory.Rg.BcB.CG.ReproA.exists_compact_open_le <;> assumption
 
 end GlobalTheory.CompanionTheory.FinDiscOrth
 end -- clump:auto

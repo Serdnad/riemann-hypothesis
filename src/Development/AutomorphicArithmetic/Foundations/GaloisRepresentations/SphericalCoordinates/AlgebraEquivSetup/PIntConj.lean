@@ -3,6 +3,7 @@ module
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.AlgebraEquivSetup.LevRefine
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ProductOfLocalLevelsUnitaryIsOpenIsCompactIsLeve
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.PIntConj
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ProjectiveAutomorphicHecke.PIntConj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -50,12 +51,7 @@ private theorem rel_at {E : Type} [Field E] [NumberField E] [IsCMField E] {n : �
     ((comp (UpperTheory.Gal.CertificateRingHomMap.cj u) k).val.map (conjLoc (GlobalTheory.SplitPts.conjE E) u))ᵀ * (comp u k).val =
       pLoc E u (GroundTheory.Global.AdeleBaseChange.finiteAdeleMap ℚ E ((sim k : AfQˣ) : AfQ)) •
         (1 : Matrix (Fin n) (Fin n) (u.adicCompletion E)) := by
-  have h := congrArg (RingHom.mapMatrix (pLoc E u)) (UpperTheory.Gal.CertificateRingHomMap.mem_Sim.1 k.2)
-  rw [map_mul] at h
-  refine Eq.trans ?_ (h.trans ?_)
-  · rfl
-  · ext i j
-    by_cases hij : i = j <;> simp [hij, sim]
+  apply _root_.comp_rel <;> assumption
 
 private theorem val_le_one {E : Type} [Field E] [NumberField E] [IsCMField E] {n : ℕ} (hn : 0 < n) (k : GUf E n)
     (hk : ∀ u : Plc E, comp u k ∈ GlobalTheory.LFun.KGL u (n := n)) (u : Plc E) :

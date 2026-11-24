@@ -1,6 +1,7 @@
 module
 
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheafOrderDecrease
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtGenericPoint
 import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
@@ -209,14 +210,7 @@ private theorem appLE_top_eq_topIso_inv {X₁ : Scheme.{u}} (V : X₁.Opens)
 private theorem eq_of_ideal_map_topIso_inv_eq {X₁ : Scheme.{u}} (V : X₁.Opens)
     {J₁ J₂ : Ideal Γ(X₁, V)}
     (hJ : Ideal.map V.topIso.inv.hom J₁ = Ideal.map V.topIso.inv.hom J₂) : J₁ = J₂ := by
-  have hid : (V.topIso.hom.hom).comp (V.topIso.inv.hom) = RingHom.id _ := by
-    ext x
-    exact V.topIso.inv_hom_id_apply x
-  have key : ∀ J : Ideal Γ(X₁, V),
-      Ideal.map V.topIso.hom.hom (Ideal.map V.topIso.inv.hom J) = J := by
-    intro J
-    rw [Ideal.map_map, hid, Ideal.map_id]
-  rw [← key J₁, hJ, key J₂]
+  apply _root_.FunctorialResolution.EmbeddedResolution.ideal_map_topIso_inv_injective <;> assumption
 
 theorem ideal_eq_span_image_map_of_le {X : Scheme.{u}} (D : X.IdealSheafData) {U U' : X.Opens}
     (hU : IsAffineOpen U) (hU' : IsAffineOpen U') (h : U' ≤ U) (s : Set Γ(X, U))

@@ -48,6 +48,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.MahlerMeasure.MahlerMeasureProofs.TheoremM
 import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
+import Formalism.ThetaLogCoordinates.TraceIsometryWeights.SchurTraceProofs.LatticeBasisPolynomial
 
 @[expose] public section
 
@@ -58,22 +59,7 @@ open Formalism.GM Formalism.GM.M Formalism.GM.TM Formalism.GM.MeanGammaLemmas Fo
 variable {p : ℕ} [Fact p.Prime] {σ : Type}
 
 theorem intPol_iff_norm (x : MvPolynomial σ ℚ_[p]) : x ∈ IntPol p σ ↔ ∀ m, ‖x.coeff m‖ ≤ 1 := by
-  classical
-  have hrange : x ∈ IntPol p σ ↔ x ∈ Set.range (MvPolynomial.map (algebraMap ℤ_[p] ℚ_[p])) := by
-    rw [IntPol, LinearMap.mem_range, Set.mem_range]
-    rfl
-  rw [hrange, MvPolynomial.mem_range_map_iff_coeffs_subset]
-  constructor
-  · intro h m
-    by_cases hm : x.coeff m = 0
-    · rw [hm, norm_zero]
-      exact zero_le_one
-    · obtain ⟨c, hc⟩ := h (MvPolynomial.coeff_mem_coeffs m hm)
-      rw [← hc]
-      exact c.2
-  · intro h c hc
-    obtain ⟨m, _, rfl⟩ := MvPolynomial.mem_coeffs_iff.mp hc
-    exact ⟨⟨x.coeff m, h m⟩, rfl⟩
+  apply _root_.Formalism.InvariantFactorPaths.PW.LatticeBasis.mem_intPol_iff <;> assumption
 
 noncomputable def resL (p : ℕ) [Fact p.Prime] (v : σ) (e : ℕ) :
     MvPolynomial σ ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial σ ℚ_[p] where

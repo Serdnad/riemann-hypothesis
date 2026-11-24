@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
+import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.CoeffSubstLgFOfDegreeOne
 import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.LcscAdelicUnitaryGroup
 public import Mathlib.NumberTheory.LocalField.Basic
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
@@ -95,13 +97,7 @@ section Ql
 variable (l : ℕ) [hl : Fact l.Prime] (hv : (l : 𝓞 F) ∈ v.asIdeal)
 
 theorem not_dvd_den (q : ℚ) (h : ‖(q : ℚ_[l])‖ ≤ 1) : ¬ l ∣ q.den := by
-  intro hd
-  have hu := PadicInt.isUnit_den q h
-  rw [PadicInt.isUnit_iff] at hu
-  have : ‖((q.den : ℤ) : ℤ_[l])‖ < 1 :=
-    (PadicInt.norm_int_lt_one_iff_dvd _).mpr (Int.natCast_dvd_natCast.mpr hd)
-  rw [Int.cast_natCast] at this
-  exact absurd hu this.ne
+  apply _root_.Formalism.InvariantFactorPaths.G7.FormalGroupLaws.not_dvd_den <;> assumption
 
 theorem norm_nat (n : ℕ) : ‖(n : v.adicCompletion F)‖ =
     ‖FinitePlace.embedding v (algebraMap (𝓞 F) F (n : 𝓞 F))‖ := by
@@ -196,33 +192,7 @@ theorem emb_finite : letI := (emb v l hv).toAlgebra
     exact hd.closure_range)
 
 theorem exists_frac (x : ℚ_[l]) : ∃ a : ℚ, (∃ n : ℕ, a.den = l ^ n) ∧ ‖x - (a : ℚ_[l])‖ ≤ 1 := by
-  have hl1 : ‖(l : ℚ_[l])‖ < 1 := Padic.norm_p_lt_one
-  have hl0 : (l : ℚ_[l]) ≠ 0 := Nat.cast_ne_zero.mpr hl.out.ne_zero
-  obtain ⟨n, hn⟩ := exists_pow_lt_of_lt_one (show 0 < (‖x‖ + 1)⁻¹ by positivity) hl1
-  have hz : ‖(l : ℚ_[l]) ^ n * x‖ ≤ 1 := by
-    rw [norm_mul, norm_pow]
-    have h1 : ‖(l : ℚ_[l])‖ ^ n * (‖x‖ + 1) ≤ 1 := by
-      rw [← le_div_iff₀ (by positivity), one_div]; exact hn.le
-    nlinarith [pow_nonneg (norm_nonneg (l : ℚ_[l])) n]
-  let z : ℤ_[l] := ⟨_, hz⟩
-  obtain ⟨e, he⟩ := Ideal.mem_span_singleton.mp (PadicInt.appr_spec n z)
-  refine ⟨(z.appr n : ℚ) / (l : ℚ) ^ n, ?_, ?_⟩
-  · have : ((z.appr n : ℚ) / (l : ℚ) ^ n).den ∣ l ^ n := by
-      have h := Rat.den_dvd (z.appr n : ℤ) ((l ^ n : ℕ) : ℤ)
-      rw [Rat.divInt_eq_div] at h
-      push_cast at h
-      exact_mod_cast h
-    obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hl.out).mp this
-    exact ⟨k, hk⟩
-  · have h := congrArg (fun t : ℤ_[l] => (t : ℚ_[l])) he
-    have hzc : (z : ℚ_[l]) = (l : ℚ_[l]) ^ n * x := rfl
-    simp only [PadicInt.coe_sub, PadicInt.coe_mul, PadicInt.coe_pow, PadicInt.coe_natCast, hzc] at h
-    push_cast
-    have : x - (z.appr n : ℚ_[l]) / (l : ℚ_[l]) ^ n = (e : ℚ_[l]) := by
-      field_simp
-      linear_combination h
-    rw [this]
-    exact e.2
+  apply _root_.GlobalTheory.LocalData.exists_isPrincipalPart <;> assumption
 
 theorem int_of_frac (b : ℚ) (n : ℕ) (hd : b.den ∣ l ^ n) (h : ‖(b : ℚ_[l])‖ ≤ 1) : ∃ z : ℤ, b = z := by
   obtain ⟨k, -, hk⟩ := (Nat.dvd_prime_pow hl.out).mp hd

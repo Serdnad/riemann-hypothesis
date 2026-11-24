@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AdelicQuotients.NormGaloisSmulAdeleComponentAtSmulPlace
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.SelmerRankBounds.IsNormAlong
 public import GroundTheory.GlobalFields.IdeleGroups.GaloisOnAdeles.Action
 import Mathlib.Algebra.Order.Floor.Extended
@@ -51,20 +52,7 @@ section
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
 
 private theorem galAd_apply (σ : E ≃ₐ[F] E) (y : 𝔸[E]) : galAd σ y = σ • y := by
-  have h : galAd σ = MulSemiringAction.toRingHom (E ≃ₐ[F] E) 𝔸[E] σ := by
-    refine adeleRingHom_ext (K := F) (fun l => ?_) (fun a => ?_)
-    · change adeleTensorEquiv F E (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F 𝔸[F])
-        ((adeleTensorEquiv F E).symm (algebraMap E 𝔸[E] l))) = σ • algebraMap E 𝔸[E] l
-      rw [adeleTensorEquiv_symm_algebraMap, Algebra.TensorProduct.map_tmul, adeleTensorEquiv_tmul,
-        AdeleBaseChange.smul_algebraMap, map_one, map_one, mul_one]
-      rfl
-    · change adeleTensorEquiv F E (Algebra.TensorProduct.map (σ : E →ₐ[F] E) (AlgHom.id F 𝔸[F])
-        ((adeleTensorEquiv F E).symm (adeleMap F E a))) = σ • adeleMap F E a
-      rw [adeleTensorEquiv_symm_adeleMap, Algebra.TensorProduct.map_tmul, adeleTensorEquiv_tmul,
-        smul_adeleMap, map_one, map_one, one_mul]
-      rfl
-  rw [h]
-  rfl
+  apply _root_.galAd_apply <;> assumption
 
 private theorem gal_diag (σ : E ≃ₐ[F] E) (n : ℕ) (h : GL (Fin n) E) :
     mapGL n (galAd σ) (AdelicGLn.diagonal E n h) = AdelicGLn.diagonal E n (sigmaGL σ h) := by

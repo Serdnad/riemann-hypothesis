@@ -1,5 +1,6 @@
 module
 
+public import Formalism.LocalToGlobal.GlobalTheory.GL6.Statement
 public import Formalism.SharpRestriction.Divisibility.LocalQuadraticParts
 public import Formalism.SharpRestriction.GlobalSchurBounds.ProductFirstZerothParts
 public import Formalism.LocalRingCardinality.Lemmas
@@ -105,13 +106,14 @@ def LevelPrimeSizeBounds (D : D7) (L : SizeData₂ D) (C1 : ℝ) : Prop :=
         (D.fm u).bTop ((D.fm u).tauOf w v)) ≤
     C1 * LocalQuadraticParts.nTT D * (L.sc.a / D.R.k + L.sc.b')
 
-theorem levelPrime_summary_of_fifth (D : D7) (L : SizeData₂ D) (C C1 : ℝ) (h2 : ∀ u, product_first_zeroth_parts.Conclusion2 D u)
-    (h5 : ∀ u, product_first_zeroth_parts.Conclusion5 D u C) (hNu : DV.NuDef D L) (hAtT : NuAtTDef D L) (hLoc : LocSpan D)
+theorem levelPrime_summary_of_rank_length (D : D7) (L : SizeData₂ D) (C1 : ℝ)
+    (hRank : Formalism.MainNotions.J.LevelPrimeBasicClauses D)
+    (h5 : ∀ u, Formalism.L2.GlobalTheoryTheory.LocalLatticeBases.CongruenceLatticeLengthBound D u) (hNu : DV.NuDef D L) (hAtT : NuAtTDef D L) (hLoc : LocSpan D)
     (hLen : LenAtT D L) (hS : LevelPrimeSizeBounds D L C1)
     (hSet : ∀ u, product_first_zeroth_parts.HidaSetting D u) (hC1 : 0 ≤ C1) : LocalQuadraticParts.adm26 L (4 * C1) := by
   classical
   intro u
-  obtain ⟨c1, c2, c3⟩ := levelPrimeClauses_of_second D h2 u
+  obtain ⟨c1, c2, c3⟩ := hRank u
   refine ⟨c1, c2, c3, ?_, ?_⟩
   · intro w hw x hx
     have h1 : InLoc (D.plEq w) (L.NuLat u) x :=
@@ -139,7 +141,7 @@ theorem levelPrime_summary_of_fifth (D : D7) (L : SizeData₂ D) (C C1 : ℝ) (h
         (SizeData₂.lwP w * (D.what₂.places.ramIdx w : ℝ)) * (2 * (D.R.m * D.duS u * B)) := by
       intro w hw
       have hwT : D.what₂.places.resChar w = (D.mem u).A.T := hFT w hw
-      obtain ⟨-, -, n, hn, hle⟩ := h5 u w hwT
+      obtain ⟨-, n, hn, hle⟩ := h5 u w hwT
       have hl := hNu.2.2 u w n (by rw [hLen u w hwT, hn])
       have hlw := logWeight_nonneg w
       have he : (0 : ℝ) ≤ D.what₂.places.ramIdx w := Nat.cast_nonneg _
@@ -191,6 +193,13 @@ theorem levelPrime_summary_of_fifth (D : D7) (L : SizeData₂ D) (C C1 : ℝ) (h
         rw [mul_comm]; gcongr
       have hP : 0 ≤ D.R.m * B * Real.log ((D.mem u).A.T : ℝ) := by positivity
       nlinarith
+
+theorem levelPrime_summary_of_fifth (D : D7) (L : SizeData₂ D) (C C1 : ℝ) (h2 : ∀ u, product_first_zeroth_parts.Conclusion2 D u)
+    (h5 : ∀ u, product_first_zeroth_parts.Conclusion5 D u C) (hNu : DV.NuDef D L) (hAtT : NuAtTDef D L) (hLoc : LocSpan D)
+    (hLen : LenAtT D L) (hS : LevelPrimeSizeBounds D L C1)
+    (hSet : ∀ u, product_first_zeroth_parts.HidaSetting D u) (hC1 : 0 ≤ C1) : LocalQuadraticParts.adm26 L (4 * C1) := by
+  exact levelPrime_summary_of_rank_length D L C1 (Formalism.MainNotions.J.levelPrimeClauses_of_second D h2)
+    (fun u w hw => ⟨(h5 u w hw).1, (h5 u w hw).2.2⟩) hNu hAtT hLoc hLen hS hSet hC1
 
 theorem family_levelPrime_summary {eps : ℝ} (Fm : Formalism.MainNotions.FamP eps) (C C1 : ℝ) (hC1 : 0 ≤ C1)
     (hE : ∃ x0 : ℝ, ∀ x ≥ x0, ∀ i : Fm.Ix x,

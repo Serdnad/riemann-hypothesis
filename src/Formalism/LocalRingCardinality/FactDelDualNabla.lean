@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TauPlBijective
 public import Formalism.PeriodIntegrals.LpLower
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 public import Mathlib.Algebra.BigOperators.Group.Finset.Sigma
@@ -51,7 +53,6 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LinearProgramLowerBound.LpFeasibleLe, Formalism.LocalRingCardinality.FactDelDualNabla
 
@@ -150,22 +151,7 @@ theorem posPl_bijective (D : D7) (p e : ℕ) : Function.Bijective (fun z => posP
   exact ⟨hinj, Finite.surjective_of_injective hinj⟩
 
 theorem tauPl_bij (D : D7) : Function.Bijective (tauPl D) := by
-  have hI := D.R.toFrame.iota_bijective.1
-  have hP := factPlaces D.R.toFrame
-  constructor
-  · rintro ⟨β, t⟩ ⟨β', t'⟩ h
-    have h1 : plGG D (β, t) = plGG D (β', t') := congrArg Subtype.val (D.eTau.symm.injective h)
-    cases β <;> cases β'
-    · have h2 : D.R.tau1 t = D.R.tau1 t' := h1
-      rw [hI (Prod.ext_iff.1 h2).2]
-    · exact absurd (show D.R.tau1 t = D.R.tau2 t' from h1) (hP.2 t t')
-    · exact absurd (show D.R.tau1 t' = D.R.tau2 t from h1.symm) (hP.2 t' t)
-    · have h2 : D.R.tau2 t = D.R.tau2 t' := h1
-      rw [hI (Prod.ext_iff.1 h2).2]
-  · intro τ
-    rcases (hP.1 _).1 (D.eTau τ).2 with ⟨t, ht⟩ | ⟨t, ht⟩
-    · exact ⟨(false, t), (Equiv.symm_apply_eq _).2 (Subtype.ext ht.symm)⟩
-    · exact ⟨(true, t), (Equiv.symm_apply_eq _).2 (Subtype.ext ht.symm)⟩
+  apply +allowSynthFailures _root_.GlobalTheory.InertCompare.tauPl_bijective <;> assumption
 
 theorem lpF_ge_sum (l d : ℕ) [NeZero d] (Ds : ZMod d → ℝ) (hl : 2 ≤ l) (hD : ∀ s, 0 ≤ Ds s) :
     (∑ s, Ds s) / ((l : ℝ) ^ 2 - 1) ≤ lpF l d Ds :=

@@ -53,6 +53,7 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValua
 public import ReciprocityTheory.ThetaQuasiPeriods.Transl
 public import Mathlib.Analysis.Calculus.FDeriv.Mul
 public import Mathlib.Analysis.Calculus.FDeriv.Pow
+import Development.AbelianVarietyTheory.Proofs.ToricGeometry.RelAmpleThetaBundleProjectiveModel
 
 @[expose] public section
 
@@ -154,14 +155,7 @@ theorem basicFactor_neg (n : Fin g → ℤ) (z : Fin g → ℂ) : basicFactor τ
 
 theorem exists_int_two_mul {a : Fin g → ℝ} (ha : ∀ i, a i = 0 ∨ a i = 1 / 2) (n : Fin g → ℤ) :
     ∃ k : ℤ, 2 * (ofRealVec a ⬝ᵥ ofIntVec n) = k := by
-  classical
-  refine ⟨∑ i, if a i = 0 then 0 else n i, ?_⟩
-  simp only [dotProduct, ofRealVec, ofIntVec, Finset.mul_sum]
-  push_cast
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rcases ha i with h | h
-  · simp [h]
-  · rw [if_neg (by rw [h]; norm_num), h]; push_cast; ring
+  apply _root_.GlobalTheory.ThetaAmple.two_mul_dot_int <;> assumption
 
 theorem charFactor_sq {a b : Fin g → ℝ} (ha : ∀ i, a i = 0 ∨ a i = 1 / 2) (hb : ∀ i, b i = 0 ∨ b i = 1 / 2)
     (n n' : Fin g → ℤ) : charFactor a b n n' ^ 2 = 1 := by

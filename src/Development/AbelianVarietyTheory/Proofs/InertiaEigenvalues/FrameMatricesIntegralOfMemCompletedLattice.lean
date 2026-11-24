@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPlaceMatrixCoordinateOnHalf
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPlaceModelPlaceMap
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.MemLatOIffExistsActO
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsDenNotMemOfCountEqZero
@@ -63,18 +64,7 @@ variable {D : D7}
 
 theorem toEAf_mem_of_finPart {w : AE D} (hw : finPart D w ∈ intAE D) :
     toEAf D w ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-  have key : ∀ y ∈ intAE D,
-      (Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E) y ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-    intro y hy
-    induction hy using AddSubgroup.closure_induction with
-    | mem y hy =>
-      obtain ⟨a, ha, x, rfl⟩ := hy
-      rw [Algebra.TensorProduct.comm_tmul]
-      exact GlobalTheory.PlaceDatum.tmul_mem_int ⟨x, rfl⟩ ha
-    | zero => rw [map_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-    | neg x _ hx => rw [map_neg]; exact neg_mem hx
-  exact key _ hw
+  first | exact _root_.GlobalTheory.PlaceCoord.toEAf_mem | exact @_root_.GlobalTheory.PlaceCoord.toEAf_mem | apply _root_.GlobalTheory.PlaceCoord.toEAf_mem <;> assumption
 
 theorem mul_int_mem {w : Af D.host.F ⊗[D.host.F] D.host.E} (hw : w ∈ intAE D) (o : 𝓞 D.host.E) :
     w * ((1 : Af D.host.F) ⊗ₜ[D.host.F] (o : D.host.E)) ∈ intAE D := by

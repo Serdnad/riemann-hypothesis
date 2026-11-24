@@ -1,5 +1,7 @@
 module
 
+import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.FirstWeightLeOfSupport
+import Formalism.PolynomialDimension.MultinomialDepth.PartnerM
 public import Formalism.ThetaLogCoordinates.TraceIsometryWeights.StatementC
 public import Formalism.MahlerMeasure.MahlerMeasureProofs.WeightSpaceDimensionMonotone
 import Mathlib.Algebra.Order.Floor.Extended
@@ -66,17 +68,7 @@ theorem hwc_le_isoC (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (la : Fin r
 theorem coeff_glAct_diag (LL : Letters N) (j : ℕ) (c : Fin r) (x : MvPolynomial (Fin N × Fin r) ℚ_[p])
     (m : Fin N × Fin r →₀ ℕ) :
     AddMonoidAlgebra.coeff (glAct p LL j c c x) m = ((wt LL j c m : ℤ) : ℚ_[p]) * AddMonoidAlgebra.coeff x m := by
-  classical
-  conv_lhs => rw [x.as_sum]
-
-  rw [map_sum, coeff_sum]
-  simp only [glAct_diag_monomial, MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
-  rw [Finset.sum_eq_single m]
-  · rw [if_pos rfl]
-  · intro b _ hb
-    rw [if_neg hb, mul_zero]
-  · intro hm
-    rw [if_pos rfl, notMem_support_iff.mp hm, mul_zero]
+  apply _root_.Formalism.CountingSumsFrames.coeff_cartan <;> assumption
 
 theorem wtSpC_iff_eig (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (la : Fin r → ℤ)
     (x : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
@@ -101,31 +93,15 @@ theorem hwc_map_of_comm (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r))
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])
     (hA : ∀ c ∈ Cs, ∀ d ∈ Cs, ∀ x, A (glAct p LL j c d x) = glAct p LL j c d (A x)) (la : Fin r → ℤ) :
     ∀ x ∈ HWC p LL j Cs la, A x ∈ HWC p LL j Cs la := by
-  intro x hx
-  rw [HWC, Submodule.mem_inf] at hx ⊢
-  refine ⟨?_, ?_⟩
-  · rw [wtSpC_iff_eig]
-    intro c hc
-    rw [← hA c hc c hc, (wtSpC_iff_eig LL j Cs la x).mp hx.1 c hc, map_smul]
-  · have h2 := hx.2
-    simp only [Submodule.mem_iInf, LinearMap.mem_ker] at h2 ⊢
-    intro c d hcd
-    rw [← hA c hcd.1 d hcd.2.1, h2 c d hcd, map_zero]
+  intros
+  apply _root_.Formalism.InvariantFactorPaths.L4.hwc_keepC <;> assumption
 
 theorem isoC_map_of_comm (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r))
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])
     (hA : ∀ c ∈ Cs, ∀ d ∈ Cs, ∀ x, A (glAct p LL j c d x) = glAct p LL j c d (A x)) (la : Fin r → ℤ) :
     ∀ x ∈ IsoC p LL j Cs la, A x ∈ IsoC p LL j Cs la := by
-  have hle : IsoC p LL j Cs la ≤ (IsoC p LL j Cs la).comap A := by
-    conv_lhs => rw [IsoC]
-    refine sInf_le ⟨?_, ?_⟩
-    · intro x hx
-      exact hwc_le_isoC LL j Cs la (hwc_map_of_comm LL j Cs A hA la x hx)
-    · intro c hc d hd x hx
-      rw [Submodule.mem_comap] at hx ⊢
-      rw [hA c hc d hd]
-      exact isoC_stable LL j Cs la c hc d hd _ hx
-  exact fun x hx => hle hx
+  intros
+  apply _root_.Formalism.InvariantFactorPaths.L4.isoC_keepC <;> assumption
 
 theorem iSup_isoC_map (LL : Letters N) (j : ℕ) (Cs : Finset (Fin r)) (Q : (Fin r → ℤ) → Prop)
     (A : MvPolynomial (Fin N × Fin r) ℚ_[p] →ₗ[ℚ_[p]] MvPolynomial (Fin N × Fin r) ℚ_[p])

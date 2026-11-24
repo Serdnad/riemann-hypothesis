@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleHypercohomologyIsoOfInjectiveResolution
 public import Development.EtaleCohomology.KummerTheory.BockCut
 public import Development.EtaleCohomology.TateTwists.EtaleCochainSemilinearMapCompCompatible
 public import Development.EtaleCohomology.TateTwists.EtaleInjectiveResolutionBasicProperties
@@ -54,13 +55,7 @@ namespace LateralTheory.KummerTheory.SemiUniqPf
 
 theorem cpush_homotopy {R : Type} [CommRing R] (K : Cx R) {I J : Cx R} {f g : I ⟶ J} (ho : Homotopy f g) (n : ℤ)
     (x : CohomologyClass K I n) : cpush K f n x = cpush K g n x := by
-  obtain ⟨a, rfl⟩ := x.mk_surjective
-  rw [cpost_mk, cpost_mk, ← sub_eq_zero, ← CohomologyClass.mk_sub, CohomologyClass.mk_eq_zero_iff,
-    mem_coboundaries_iff _ (n - 1) (by omega)]
-  refine ⟨a.1.comp (Cochain.ofHomotopy ho) (by omega), ?_⟩
-  rw [δ_comp _ _ _ (n + 1) 0 n (by omega) (by omega) (by omega), δ_ofHomotopy, Cocycle.δ_eq_zero]
-  ext p q hpq
-  simp [zcomp, Cochain.comp_sub]
+  apply @GlobalTheory.EtC.InjResCmp.cpush_homotopy <;> assumption
 
 theorem secMap_comp {R : Type} [CommRing R] {F G M : Shv R} (f : F ⟶ G) (g : G ⟶ M) {U : Scheme.{0}} (a : Sec F U) :
     Sec.map (f ≫ g) a = Sec.map g (Sec.map f a) := rfl

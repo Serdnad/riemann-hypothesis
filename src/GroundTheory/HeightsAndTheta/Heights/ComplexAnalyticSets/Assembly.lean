@@ -1200,19 +1200,7 @@ open scoped ENNReal
 noncomputable section
 
 theorem measurable_sheetJac {n d : ℕ} (s : (Fin d → ℂ) → Fin n → ℂ) : Measurable (sheetJac s) := by
-  let C₁ : (Fin n → ℂ) →L[ℝ] EuclideanSpace ℂ (Fin n) :=
-    LinearMap.toContinuousLinearMap (WithLp.linearEquiv 2 ℝ (Fin n → ℂ)).symm.toLinearMap
-  let C₂ : EuclideanSpace ℂ (Fin d) →L[ℝ] (Fin d → ℂ) :=
-    LinearMap.toContinuousLinearMap (WithLp.linearEquiv 2 ℝ (Fin d → ℂ)).toLinearMap
-  have hΦ : Continuous fun M : (Fin d → ℂ) →L[ℝ] (Fin n → ℂ) => C₁.comp (M.comp C₂) :=
-    continuous_const.clm_comp (continuous_id.clm_comp continuous_const)
-  have h : sheetJac s = (fun M : EuclideanSpace ℂ (Fin d) →L[ℝ] EuclideanSpace ℂ (Fin n) =>
-      areaJacobian (M : EuclideanSpace ℂ (Fin d) →ₗ[ℝ] EuclideanSpace ℂ (Fin n))) ∘
-      (fun M : (Fin d → ℂ) →L[ℝ] (Fin n → ℂ) => C₁.comp (M.comp C₂)) ∘ fderiv ℝ s := by
-    funext y
-    rfl
-  rw [h]
-  exact (continuous_areaJacobian.comp hΦ).measurable.comp (measurable_fderiv ℝ s)
+  apply _root_.GroundTheory.Heights₂.Heights.SheetAreaCompare.measurable_sheetJac <;> assumption
 
 theorem SheetImageArea.proof (h : SheetImageAreaSet.Statement) : SheetImageArea.Statement := by
   classical

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SummableLipschitzLatticeNormPowSummand
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.IteratedDeriv.Defs
 public import Mathlib.Analysis.InnerProductSpace.Basic
@@ -159,16 +160,7 @@ theorem norm_iteratedFDeriv_term_le {n : ℕ} (a : ℂ) (ν : Fin n → ℤ) (m 
     _ = (2 * π) ^ m * (‖a‖ * (1 + ∑ k, |(ν k : ℝ)|) ^ m) := by ring
 
 theorem summable_inv_one_add_abs_sq : Summable fun m : ℤ => ((1 + |(m : ℝ)|) ^ 2)⁻¹ := by
-  have hN : Summable fun k : ℕ => ((1 + (k : ℝ)) ^ 2)⁻¹ := by
-    have h := (summable_nat_add_iff 1).mpr (Real.summable_nat_pow_inv.mpr one_lt_two)
-    refine h.congr fun k => ?_
-    push_cast
-    ring_nf
-  refine Summable.of_nat_of_neg ?_ ?_
-  · refine hN.congr fun k => ?_
-    simp
-  · refine hN.congr fun k => ?_
-    simp
+  apply _root_.GlobalTheory.LipschitzTR.LhsSum.summable_wt <;> assumption
 
 theorem summable_inv_pow (n : ℕ) :
     Summable fun ν : Fin n → ℤ => ((1 + ∑ k, |(ν k : ℝ)|) ^ (2 * n))⁻¹ := by
@@ -276,21 +268,7 @@ private theorem mem_intLattice_iff {n : ℕ} (x : EuclideanSpace ℝ (Fin n)) :
   · rintro ⟨ν, rfl⟩ i
     exact ⟨ν i, by simp⟩
 
-private theorem mem_intLattice_dual_iff {n : ℕ} (x : EuclideanSpace ℝ (Fin n)) :
-    x ∈ LinearMap.BilinForm.dualSubmodule (innerₗ (EuclideanSpace ℝ (Fin n)))
-      (Submodule.span ℤ (Set.range (EuclideanSpace.basisFun (Fin n) ℝ).toBasis)) ↔
-      ∃ ν : Fin n → ℤ, x = WithLp.toLp 2 fun k => (ν k : ℝ) := by
-  simp only [LinearMap.BilinForm.mem_dualSubmodule, Submodule.mem_one, innerₗ_apply_apply]
-  constructor
-  · intro h
-    choose m hm using fun k => h ((EuclideanSpace.basisFun (Fin n) ℝ).toBasis k)
-      (Submodule.subset_span ⟨k, rfl⟩)
-    refine ⟨m, ?_⟩
-    ext k
-    simpa [EuclideanSpace.inner_single_right] using (hm k).symm
-  · rintro ⟨ν, rfl⟩ y hy
-    obtain ⟨μ, rfl⟩ := (mem_intLattice_iff y).1 hy
-    exact ⟨∑ k, μ k * ν k, by simp [PiLp.inner_apply]⟩
+
 
 theorem exists_rapid_fourierSeries_of_int_periodic :
     ∀ (n : ℕ) (w : (Fin n → ℝ) → ℂ), ContDiff ℝ ∞ w →

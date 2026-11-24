@@ -1,5 +1,7 @@
 module
 
+import all Development.AutomorphicSpectrum.Proofs.MetricProofs.ArithmeticIntersectionMultilinearPolar
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsMultiHomogIdealMap
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MultihomogeneousIdeals.IsFieldIntersection
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsLinearIndependentOfGenerates
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PNefAmpleGeneric
@@ -256,42 +258,14 @@ open GlobalTheory.CompanionTheory.Ar.PB.FA.BlockPot
 
 theorem holoMap_comp {e₁ e₂ e₃ : ℕ} {X Y Z : Type} [TopologicalSpace X] [TopologicalSpace Y]
     [TopologicalSpace Z] {C : FinHolAtlas e₁ Z} {B : FinHolAtlas e₂ Y} {A : FinHolAtlas e₃ X}
-    {g : Z → Y} {f : Y → X} (hg : HoloMap C B g) (hf : HoloMap B A f) : HoloMap C A (f ∘ g) := by
-  refine ⟨hf.1.comp hg.1, fun j k t ht => ?_⟩
-  obtain ⟨ht1, ht2⟩ := ht
-  obtain ⟨m, hm⟩ := B.cover (g ((C.chart j).symm t))
-  have h1 : AnalyticAt ℂ (B.chart m ∘ g ∘ (C.chart j).symm) t := hg.2 j m t ⟨ht1, hm⟩
-  have hu : (B.chart m).symm ((B.chart m ∘ g ∘ (C.chart j).symm) t) = g ((C.chart j).symm t) :=
-    (B.chart m).left_inv hm
-  have h2 : AnalyticAt ℂ (A.chart k ∘ f ∘ (B.chart m).symm)
-      ((B.chart m ∘ g ∘ (C.chart j).symm) t) :=
-    hf.2 m k _ ⟨(B.chart m).map_source hm, by
-      rw [Set.mem_preimage, hu]; exact ht2⟩
-  refine (h2.comp h1).congr ?_
-  have hc : ContinuousAt (g ∘ (C.chart j).symm) t :=
-    hg.1.continuousAt.comp ((C.chart j).continuousAt_symm ht1)
-  filter_upwards [hc ((B.chart m).open_source.mem_nhds hm)] with t' ht'
-  have ht'' : g ((C.chart j).symm t') ∈ (B.chart m).source := ht'
-  simp only [Function.comp]
-  rw [(B.chart m).left_inv ht'']
+    {g : Z → Y} {f : Y → X} (hg : HoloMap C B g) (hf : HoloMap B A f) : HoloMap C A (f ∘ g) :=
+  _root_.GlobalTheory.CompanionTheory.Ar.PB.CovMap.holoMap_comp hg hf
 
 variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)]
 
 theorem smooth_comb {σ : Type} [Fintype σ] {A : σ → HermLine ι} (hA : ∀ a, IsSmoothHerm (A a))
     (n : σ → ℤ) : IsSmoothHerm (GlobalTheory.CompanionTheory.Ar.PB.combLine A n) := by
-  refine contDiffOn_prod fun a _ => ?_
-  intro z hz
-  have h0 : (A a).h z ≠ 0 := ((A a).pos z hz).ne'
-  have hf := hA a z hz
-  have key : ∀ m : ℤ, ContDiffWithinAt ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun z => (A a).h z ^ m)
-      {z | ∀ k, ∃ i, z ⟨k, i⟩ ≠ 0} z := by
-    intro m
-    cases m with
-    | ofNat k => simpa only [Int.ofNat_eq_natCast, zpow_natCast] using hf.pow k
-    | negSucc k =>
-      simp only [zpow_negSucc]
-      exact (hf.pow (k + 1)).inv (pow_ne_zero _ h0)
-  exact key _
+  apply _root_.isSmoothHerm_combLine' <;> assumption
 
 theorem samePot_lift {P J P' J' : Ideal (MRing ι)} {e e' : ℕ} (R : AnLogRes P J e) (R' : AnLogRes P' J' e')
     (h : R.X → R'.X) (hh : HoloMap R.A R'.A h) (L : HermLine ι)

@@ -3,6 +3,7 @@ module
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsCN
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.TypeStar
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PSpecialDimBound
 
 @[expose] public section
 
@@ -53,19 +54,7 @@ theorem isMultiHomogIdeal_sup_span {I : Ideal (MRing ι F)} (hI : IsMultiHomogId
     (h := (isHomogeneous_of_isMultiHomogIdeal hI).sup h2) (hp := hf) (m := b)
 
 theorem lt_of_add_one_le_natCast {x : WithBot ℕ∞} {N : ℕ} (h : x + 1 ≤ N) : x < N := by
-  induction x using WithBot.recBotCoe with
-  | bot => exact WithBot.bot_lt_coe _
-  | coe a =>
-    induction a using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have e : ((⊤ : ℕ∞) : WithBot ℕ∞) + 1 = ((⊤ : ℕ∞) : WithBot ℕ∞) := by
-        rw [← WithBot.coe_one, ← WithBot.coe_add, top_add]
-      rw [e, ← WithBot.coe_natCast, WithBot.coe_le_coe] at h
-      exact absurd h (not_le.mpr (ENat.natCast_lt_top N))
-    | coe a =>
-      have : a + 1 ≤ N := by exact_mod_cast h
-      exact_mod_cast (show a < N by omega)
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBotENat_lt_of_add_one_le <;> assumption
 
 theorem le_natCast_of_lt_natCast_succ {x : WithBot ℕ∞} {N : ℕ}
     (h : x < ((N + 1 : ℕ) : WithBot ℕ∞)) : x ≤ N := by

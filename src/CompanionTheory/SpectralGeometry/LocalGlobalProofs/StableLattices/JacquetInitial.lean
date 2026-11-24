@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.SumPlSingle
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CapelliPolynomialCoefficientsIdeal
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ConjQdet
@@ -528,19 +529,8 @@ variable {Z : Type} [AddCommGroup Z] [Module ℂ Z]
 
 theorem aeval_mem (I : Submodule ℂ Z) (T : Module.End ℂ Z) (hI : ∀ x ∈ I, T x ∈ I) (p : ℂ[X]) (x : Z) (hx : x ∈ I) :
     aeval T p x ∈ I := by
-  induction p using Polynomial.induction_on with
-  | C a =>
-    have : aeval T (C a) x = a • x := by simp [Module.algebraMap_end_apply]
-    rw [this]
-    exact I.smul_mem a hx
-  | add p q hp hq =>
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact I.add_mem hp hq
-  | monomial k a ih =>
-    have h1 : aeval T (C a * X ^ (k + 1)) = T * aeval T (C a * X ^ k) := by
-      rw [show (C a * X ^ (k + 1) : ℂ[X]) = X * (C a * X ^ k) by ring, map_mul, aeval_X]
-    rw [h1, Module.End.mul_apply]
-    exact hI _ ih
+  intros
+  apply _root_.PositivityTheory.ThKG.CayleyTransformDarboux.aeval_mem <;> assumption
 
 theorem exists_eig_of_poly (I : Submodule ℂ Z) (T : Module.End ℂ Z) (hI : ∀ x ∈ I, T x ∈ I) :
     ∀ (m : ℕ) (q : ℂ[X]), q.natDegree = m → q ≠ 0 → ∀ x ∈ I, x ≠ 0 → aeval T q x = 0 →

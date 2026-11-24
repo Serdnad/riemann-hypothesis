@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeEtaleSheafExcisionShortExact
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeEtaleModuleSheafMapMonoEpiIsoStatement
 public import Development.AutomorphicArithmetic.BlowupCategories.SpanScale
@@ -88,30 +89,7 @@ private theorem epi_desc (R : Type) [CommRing R] {A B C : PSh} (a : A ⟶ C) (b 
     (h : ∀ (T : Scheme.{0}) (y : C.obj (op T)), Loc T fun W k =>
       (∃ x, a.app (op W) x = C.map k.op y) ∨ (∃ x, b.app (op W) x = C.map k.op y)) :
     Epi (biprod.desc ((free R).map a) ((free R).map b)) := by
-  haveI : Epi ((free R).map (sumD a b)) := by
-    refine (_root_.GlobalTheory.EtC.free_map_mono_epi_iso R (sumD a b)).2.1 fun T y => ?_
-    obtain ⟨S, hS, hP⟩ := h T y
-    refine ⟨S, hS, fun W k hk => ?_⟩
-    rcases hP W k hk with ⟨x, hx⟩ | ⟨x, hx⟩
-    · exact ⟨Sum.inl x, hx⟩
-    · exact ⟨Sum.inr x, hx⟩
-  constructor
-  intro M p q hpq
-  have h1 : (free R).map a ≫ p = (free R).map a ≫ q := by
-    simpa using biprod.inl ≫= hpq
-  have h2 : (free R).map b ≫ p = (free R).map b ≫ q := by
-    simpa using biprod.inr ≫= hpq
-  apply (cancel_epi ((free R).map (sumD a b))).1
-  apply (_root_.GlobalTheory.EtC.free_hom_sections R (sumP A B) M).2.1
-  intro T x
-  rw [map_comp_gen, map_comp_gen]
-  cases x with
-  | inl x =>
-    show Sec.map p (freeGen R C T (a.app (op T) x)) = Sec.map q (freeGen R C T (a.app (op T) x))
-    rw [← map_comp_gen, ← map_comp_gen, h1]
-  | inr x =>
-    show Sec.map p (freeGen R C T (b.app (op T) x)) = Sec.map q (freeGen R C T (b.app (op T) x))
-    rw [← map_comp_gen, ← map_comp_gen, h2]
+  apply _root_.GlobalTheory.EtC.MVEpi.epi_of_loc <;> assumption
 
 end UpperTheory.Cover2Loc
 

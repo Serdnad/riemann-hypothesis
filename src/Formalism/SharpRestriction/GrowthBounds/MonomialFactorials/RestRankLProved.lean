@@ -136,8 +136,10 @@ theorem xi_mem_span (n : ℕ) (g : MvPolynomial (Formalism.GM.M.BVar N r G.T.t) 
     intro h
     exact hv ⟨c, h.symm⟩
 
-theorem finrank_Ljj_le (j : Fin G.T.t → ℕ) (jp : ℕ) :
-    Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
+theorem exists_fd_Ljj_with_finrank_bound (j : Fin G.T.t → ℕ) (jp : ℕ) :
+    ∃ W : Submodule ℚ_[p] (MvPolynomial (Formalism.GM.M.BVar N r G.T.t) ℚ_[p]),
+      FiniteDimensional ℚ_[p] W ∧ (∀ x ∈ Ljj p (r := r) G j jp, x ∈ W) ∧
+      Module.finrank ℚ_[p] W ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
   classical
   set Yq := Formalism.GM.M.Y p (r := r) (G.lettersAt j jp) G.T.J G.T.thr with hYq
   haveI : FiniteDimensional ℚ_[p] (Formalism.GM.M.Pol p r (G.lettersAt j jp)) := Formalism.CountingSumsFrames.pol_finiteDimensional _
@@ -175,12 +177,16 @@ theorem finrank_Ljj_le (j : Fin G.T.t → ℕ) (jp : ℕ) :
       exact ⟨(a, ⟨m, hm⟩), rfl⟩
     exact hle hx
   haveI : FiniteDimensional ℚ_[p] W := FiniteDimensional.span_of_finite ℚ_[p] (Set.finite_range fam)
-  have h1 := finrank_zp_le (Ljj p (r := r) G j jp) W hsub
   have h2 : Module.finrank ℚ_[p] W ≤ Fintype.card (Fin (Module.finrank ℚ_[p] Yq) × Ms) := finrank_range_le_card fam
   rw [Fintype.card_prod, Fintype.card_fin, Fintype.card_coe] at h2
   have h3 := card_xiMons (r := r) G (G.B - jp)
-  calc Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ Module.finrank ℚ_[p] Yq * Ms.card := h1.trans h2
-    _ ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := Nat.mul_le_mul le_rfl h3
+  exact ⟨W, inferInstance, hsub, h2.trans (Nat.mul_le_mul le_rfl h3)⟩
+
+theorem finrank_Ljj_le (j : Fin G.T.t → ℕ) (jp : ℕ) :
+    Module.finrank ℤ_[p] (Ljj p (r := r) G j jp) ≤ dimY p (r := r) G j jp * dXi r (G.B - jp) := by
+  obtain ⟨W, hfd, hsub, hbound⟩ := exists_fd_Ljj_with_finrank_bound p (r := r) G j jp
+  letI := hfd
+  exact (finrank_zp_le (Ljj p (r := r) G j jp) W hsub).trans hbound
 
 end Level
 

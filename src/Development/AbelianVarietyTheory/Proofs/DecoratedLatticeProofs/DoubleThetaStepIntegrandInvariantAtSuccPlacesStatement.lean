@@ -72,6 +72,7 @@ import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeisOFinse
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LocalSchrodingerModelUniqTransportExists
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.InfPartOfSplitIdem
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IteratedInnerIntegralAtFirstOfSplitPlacesStatement
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsAvgForm, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DoubleThetaStepSplitPlaceValuePeriodGroupInvaria, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DoubleThetaStepSplitPlaceValuePeriodGroupInvariaStatement, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DoubleThetaStepIntegrandInvariantAtSuccPlaces, Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DoubleThetaStepIntegrandInvariantAtSuccPlacesStatement
@@ -512,21 +513,7 @@ variable {ψ : AddChar (AF D.host.F) ℂ} {S T : HSp D}
 
 theorem support_aconv {G : Type} [AddMonoid G] (p : G → Prop) (h0 : p 0) (hadd : ∀ x y, p x → p y → p (x + y))
     (l : List (G →₀ ℂ)) (hl : ∀ e ∈ l, ∀ u ∈ e.support, p u) : ∀ u ∈ (aconv l).support, p u := by
-  classical
-  induction l with
-  | nil =>
-    intro u hu
-    have h3 := Finsupp.support_single_subset hu
-    rw [Finset.mem_singleton] at h3
-    exact h3 ▸ h0
-  | cons e l ih =>
-    intro w hw
-    rw [_root_.GlobalTheory.TriStep.IdempotentCombination.aconv_cons] at hw
-    obtain ⟨x, hx, hw2⟩ := Finset.mem_biUnion.1 (Finsupp.support_finsetSum hw)
-    obtain ⟨y, hy, hw3⟩ := Finset.mem_biUnion.1 (Finsupp.support_finsetSum hw2)
-    have h3 := Finsupp.support_single_subset hw3
-    rw [Finset.mem_singleton] at h3
-    exact h3 ▸ hadd x y (hl e List.mem_cons_self x hx) (ih (fun e' he' => hl e' (List.mem_cons_of_mem _ he')) y hy)
+  apply _root_.GlobalTheory.QVal.InnerSupp.support_aconv <;> assumption
 
 theorem half_compl {e e' : AE D} (h : e * e' = 0) {x : WO S T} (hx : IsHalf e' x) : IsHalf (1 - e) x := fun i j => by
   rw [sub_mul, one_mul, ← hx i j, ← mul_assoc, h, zero_mul, sub_zero]

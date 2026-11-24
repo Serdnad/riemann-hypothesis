@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.GenPiecesK
 public import Development.WeilBound.RepresentationTheoryGL.TwistedFactors.AffineCharacterGenerators.AffChar
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PolynomialCoefficientBounds.MatrixEntryAbsSumUnitaryLieCoordinatesSplit
 public import Mathlib.RingTheory.Polynomial.Vieta
@@ -153,21 +154,7 @@ private theorem vieta (n : ℕ) (j : Fin n) :
     (X j : MvPolynomial (Fin n) ℂ) ^ n =
       ∑ i : Fin n, C (-(-1) ^ n * (-1) ^ (n - (i + 1)) : ℂ) * esymm (Fin n) ℂ (i + 1) *
         X j ^ (n - (i + 1)) := by
-  have h := congrArg (Polynomial.eval (-(X j : MvPolynomial (Fin n) ℂ)))
-    (MvPolynomial.prod_C_add_X_eq_sum_esymm ℂ (Fin n))
-  rw [Polynomial.eval_prod, Finset.prod_eq_zero (Finset.mem_univ j) (by simp),
-    Polynomial.eval_finsetSum, Fintype.card_fin, Finset.sum_range_succ',
-    Finset.sum_range] at h
-  simp only [Polynomial.eval_mul, Polynomial.eval_C, Polynomial.eval_pow, Polynomial.eval_X,
-    esymm_zero, one_mul, Nat.sub_zero] at h
-  have h2 : (X j : MvPolynomial (Fin n) ℂ) ^ n = (-1) ^ n * (-X j) ^ n := by
-    rw [← mul_pow]; simp
-  have h3 := eq_neg_of_add_eq_zero_right h.symm
-  rw [h2, h3, mul_neg, ← neg_mul, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [neg_pow (X j : MvPolynomial (Fin n) ℂ)]
-  simp only [map_mul, map_neg, map_pow, map_one]
-  ring
+  apply _root_.vieta <;> assumption
 
 private theorem prod_update {ι : Type} [Fintype ι] [DecidableEq ι] {n : ℕ} (β : ι → Fin n)
     (u : ι) (k : Fin n) :

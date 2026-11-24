@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EmbedsOfLowestType
 public import Formalism.LocalRingCardinality.DataTheta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,17 +129,7 @@ theorem isKC_sub {X Y : Mat p q} (hX : IsKC X) (hY : IsKC Y) : IsKC (X - Y) := b
   simp [hX a b hab, hY a b hab]
 
 theorem sameBlock_cases {a b : Ix p q} (h : sameBlock a b) : a = b ∨ posC a b ∨ posC b a := by
-  rcases a with a | a <;> rcases b with b | b
-  · rcases lt_trichotomy a b with x | x | x
-    · exact .inr (.inl x)
-    · exact .inl (by rw [x])
-    · exact .inr (.inr x)
-  · exact h.elim
-  · exact h.elim
-  · rcases lt_trichotomy a b with x | x | x
-    · exact .inr (.inl x)
-    · exact .inl (by rw [x])
-    · exact .inr (.inr x)
+  first | exact _root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri | exact @_root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri | apply _root_.GlobalTheory.FiltrationEquivalenceRelation.sb_tri <;> assumption
 
 theorem bracket_diag (x a b : Ix p q) :
     Eab x x * Eab b a - Eab b a * Eab x x =

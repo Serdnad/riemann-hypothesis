@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.CasimirAlgebra.TensorRelationsGL.PTransAllA
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.HeckeAlgebraActions.BackStable
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HeckeRankOne
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.OmegaMinor
@@ -21,17 +22,8 @@ open _root_.CompanionTheory.RgExh.Hk
 
 theorem commute_qdet_of {A : Type*} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A) (T : A)
     (h : ∀ a b, Commute (E a b) T) (u : ℂ) : Commute (qdet E u) T := by
-  unfold Formalism.REAL.qdet Formalism.REAL.qminor
-  refine Commute.sum_left _ _ _ fun σ _ => ?_
-  refine Commute.mul_left (Int.cast_commute _ _) ?_
-  refine Commute.list_prod_left _ _ fun x hx => ?_
-  rw [List.mem_ofFn] at hx
-  obtain ⟨k, rfl⟩ := hx
-  unfold Formalism.REAL.Tm
-  refine Commute.add_left ?_ (h _ _)
-  split_ifs
-  · exact Algebra.commute_algebraMap_left _ _
-  · exact Commute.zero_left _
+  intros
+  apply _root_.PositivityTheory.Rg.Cz.TA.qdet_commute <;> assumption
 
 theorem commute_compLeft_om {n : ℕ} (X : GMod n) (u : ℂ) :
     Commute ((qdet X.E u).compLeft (Fin n)) (om X) := by

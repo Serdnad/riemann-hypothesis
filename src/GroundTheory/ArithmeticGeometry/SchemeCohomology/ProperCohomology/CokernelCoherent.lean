@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.ExactAndSurjectiveAppOfExactOfEpi
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.TwistingSheaf
 public import Mathlib.AlgebraicGeometry.Modules.Tilde
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.QcohLocal
@@ -104,17 +105,8 @@ instance isQuasicoherent_cokernel [F.IsQuasicoherent] [G.IsQuasicoherent] :
 
 lemma surjective_cokernel_π_app [F.IsQuasicoherent] [G.IsQuasicoherent] {U : X.Opens}
     (hU : IsAffineOpen U) : Function.Surjective ((cokernel.π φ).app U) := by
-  let Rf := Scheme.Modules.restrictFunctor hU.fromSpec
-  have : (Rf.obj F).IsQuasicoherent := Scheme.Modules.isQuasicoherent_restrictFunctor _ _
-  have : (Rf.obj G).IsQuasicoherent := Scheme.Modules.isQuasicoherent_restrictFunctor _ _
-  have h1 := surjective_cokernel_π_app_top (R := Γ(X, U)) (Rf.map φ)
-  have h2 : Rf.map (cokernel.π φ) = cokernel.π (Rf.map φ) ≫ (PreservesCokernel.iso Rf φ).inv := by
-    rw [PreservesCokernel.iso_inv, π_comp_cokernelComparison]
-  have h3 : Function.Surjective ((Rf.map (cokernel.π φ)).app ⊤) := by
-    rw [h2]
-    exact (bijective_app_of_iso (PreservesCokernel.iso Rf φ).symm ⊤).2.comp h1
-  rw [← fromSpec_image_top hU]
-  exact h3
+  intros
+  apply _root_.GlobalTheory.QCoh.surjective_cokernel_π_app <;> assumption
 
 theorem isCoherent_cokernel [F.IsQuasicoherent] (hG : IsCoherent G) :
     IsCoherent (cokernel φ) := by

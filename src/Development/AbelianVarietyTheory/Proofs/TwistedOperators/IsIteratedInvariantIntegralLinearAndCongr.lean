@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SeeSawPeriodsLinearRelationsDoubleStep
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsRealFam
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,20 +55,7 @@ variable {G : Type} [Group G] [MeasurableSpace G] {R : Subgroup G} {μR : Measur
 theorem quot_sum {I : Type} (S : Finset I) (x : I → ℂ) (F : I → G → ℂ) (z : I → ℂ)
     (hF : ∀ n ∈ S, IsQuotIntL1 μR μG (F n) (z n)) :
     IsQuotIntL1 μR μG (fun g => ∑ n ∈ S, x n * F n g) (∑ n ∈ S, x n * z n) := by
-  classical
-  induction S using Finset.induction_on with
-  | empty =>
-    have e : (fun g : G => ∑ n ∈ (∅ : Finset I), x n * F n g) = 0 := by funext g; simp
-    rw [e, Finset.sum_empty]
-    exact IsQuotIntL1.zero
-  | insert a s ha ih =>
-    have h1 := (hF a (Finset.mem_insert_self _ _)).smul (x a)
-    have h2 := ih (fun n hn => hF n (Finset.mem_insert_of_mem hn))
-    have h3 := h1.add h2
-    rw [Finset.sum_insert ha]
-    convert h3 using 1
-    funext g
-    simp [Finset.sum_insert ha]
+  first | exact _root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul | exact @_root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul | apply _root_.GlobalTheory.SeeSaw.Assemble.quotient_integral_finset_sum_smul <;> assumption
 end
 
 variable {ι : Type} [DecidableEq ι] {H : ι → Type} [∀ i, Group (H i)] [∀ i, MeasurableSpace (H i)]

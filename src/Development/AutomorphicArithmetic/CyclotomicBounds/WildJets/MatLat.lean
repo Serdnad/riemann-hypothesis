@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteSumDenominatorBoundOfFactorClaims
+import Formalism.LocalToGlobal.Columns.CoefficientsModP.LatticeBasisExistsHolds
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.InfClassAt
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsMapEqOfMemNabStd
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.StdWeylLatticesFgAndSpanCoeffSpace
@@ -244,27 +246,7 @@ variable {E K : Type} [Field E] [NumberField E] [Field K] [NumberField K] {ι : 
 
 private theorem lcb_mem_colLat_one (x : Fin n → K) :
     x ∈ colLat (1 : GL (Fin n) K) ↔ ∀ a, x a ∈ (1 : Submodule (𝓞 K) K) := by
-  constructor
-  · intro hx
-    induction hx using Submodule.span_induction with
-    | mem z hz =>
-      obtain ⟨j, rfl⟩ := hz
-      intro a
-      simp only [Units.val_one, Matrix.one_apply]
-      split_ifs
-      · exact Submodule.mem_one.2 ⟨1, map_one _⟩
-      · exact zero_mem _
-    | zero => intro a; exact zero_mem _
-    | add y z _ _ hy hz => intro a; exact add_mem (hy a) (hz a)
-    | smul c y _ hy => intro a; exact Submodule.smul_mem _ c (hy a)
-  · intro hx
-    choose r hr using fun a => Submodule.mem_one.1 (hx a)
-    have : x = ∑ j, r j • fun a => ((1 : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) a j := by
-      funext a
-      simp only [Finset.sum_apply, Pi.smul_apply, Units.val_one, Matrix.one_apply, Algebra.smul_def, mul_ite, mul_zero,
-        mul_one, Finset.sum_ite_eq, Finset.mem_univ, if_true, hr]
-    rw [this]
-    exact Submodule.sum_mem _ fun j _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨j, rfl⟩)
+  apply _root_.Formalism.L2.DIV.lc_mem_colLat_one <;> assumption
 
 private theorem lcb_emb_int (φ : E →+* K) {x : E} (hx : x ∈ (1 : Submodule (𝓞 E) E)) :
     φ x ∈ (1 : Submodule (𝓞 K) K) := by
@@ -473,39 +455,10 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 
 private theorem lossLe_mul_wild_jets {D : D7} (w : PlL D) {x y : ℂ} {a b : ℝ}
     (hx : LossLe w x a) (hy : LossLe w y b) : LossLe w (x * y) (a + b) := by
-  obtain ⟨s, hs, hs'⟩ := hx
-  obtain ⟨t, ht, ht'⟩ := hy
-  refine ⟨s * t, by rw [map_mul, hs, ht], ?_⟩
-  rcases hs' with h0 | h1
-  · left; simp [h0]
-  rcases ht' with h0 | h2
-  · left; simp [h0]
-  by_cases hs0 : s = 0
-  · left; simp [hs0]
-  by_cases ht0 : t = 0
-  · left; simp [ht0]
-  right
-  rw [Formalism.DivisionValues.ValuationRepresentative.vw_mul w s t hs0 ht0]
-  push_cast
-  linarith
+  apply _root_.DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_mul <;> assumption
 private theorem lossLe_add {D : D7} (w : PlL D) {x y : ℂ} {a : ℝ}
     (hx : LossLe w x a) (hy : LossLe w y a) : LossLe w (x + y) a := by
-  obtain ⟨s, hs, hs'⟩ := hx
-  obtain ⟨t, ht, ht'⟩ := hy
-  refine ⟨s + t, by rw [map_add (f := _), hs, ht], ?_⟩
-  by_cases hs0 : s = 0
-  · subst hs0; simpa using ht'
-  by_cases ht0 : t = 0
-  · subst ht0; simpa using hs'
-  by_cases hst : s + t = 0
-  · left; exact hst
-  right
-  have h1 : -a ≤ (vw w s : ℝ) := hs'.resolve_left hs0
-  have h2 : -a ≤ (vw w t : ℝ) := ht'.resolve_left ht0
-  have h3 := Formalism.PairingDivisionLocalBalance.vw_add w s t hs0 ht0 hst
-  have h4 : ((min (vw w s) (vw w t) : ℤ) : ℝ) ≤ (vw w (s + t) : ℝ) := by exact_mod_cast h3
-  rw [Int.cast_min] at h4
-  exact le_trans (le_min h1 h2) h4
+  apply _root_.DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_add <;> assumption
 private theorem lossLe_finset_sum {D : D7} (w : PlL D) {ι : Type*} (S : Finset ι) (g : ι → ℂ) {a : ℝ}
     (hg : ∀ i ∈ S, LossLe w (g i) a) : LossLe w (∑ i ∈ S, g i) a := by
   classical

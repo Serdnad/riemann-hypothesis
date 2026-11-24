@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ThickenedPointToTorusExtensionGenerator
 
 @[expose] public section
 
@@ -252,69 +253,7 @@ private theorem gtCoord_point_ext' {e : ℕ} {G : Over (Spec (CommRingCat.of R))
     (g : GtCoord I D e G) {W : Scheme.{0}} {x y : W ⟶ (thickObj R I e G).left}
     (hA : x ≫ g.pG.left = y ≫ g.pG.left)
     (hV : ∀ (χ : D.X) (w : W) J, Good D.P.L w J → val (g.t χ) x w J = val (g.t χ) y w J) : x = y := by
-  have hq : x ≫ g.q.left = y ≫ g.q.left := by
-    have : Mono (DegPre.prBe I D e).left := GlobalTheory.LevelCompat.mono_fstG I e D.P.A
-    rw [← cancel_mono (DegPre.prBe I D e).left]
-    simpa [GtCoord.pG, Category.assoc] using hA
-  have hxy : x ≫ (thickObj R I e G).hom = y ≫ (thickObj R I e G).hom := by
-    rw [← Over.w g.q]
-    simp only [← Category.assoc, hq]
-  let Z : Over (Spec (CommRingCat.of (R ⧸ I ^ (e + 1)))) := Over.mk (y ≫ (thickObj R I e G).hom)
-  let a : Z ⟶ thickObj R I e G := Over.homMk x hxy
-  let b : Z ⟶ thickObj R I e G := Over.homMk y
-  obtain ⟨τ, hτ⟩ := exists_torus g a b (by ext; exact hq)
-  have := g.i_hom
-  have h1i : (1 : Z ⟶ WeightPf.Te D I e) ≫ g.i = 1 := by simp
-  have hc : ∀ (χ : D.X) (z : W),
-      gm τ.left z ⊤ (charUnit _ D.X χ) = gm (1 : Z ⟶ WeightPf.Te D I e).left z ⊤ (charUnit _ D.X χ) := by
-    intro χ z
-    obtain ⟨J, hJ⟩ := TorusCoordPull.exists_good' D.P.isLB z
-    have e1 := val_torus g χ hJ τ b
-    have e0 := val_torus g χ hJ 1 b
-    rw [← hτ] at e1
-    rw [h1i, _root_.one_mul] at e0
-    have ex : val (g.t χ) a.left z J = val (g.t χ) b.left z J := hV χ z J hJ
-    rw [ex] at e1
-    exact (mul_eq_right.mp e1.symm).trans (mul_eq_right.mp e0.symm).symm
-  have hc' : ∀ χ : D.X, τ.left.appTop.hom (charUnit _ D.X χ).val =
-      (1 : Z ⟶ WeightPf.Te D I e).left.appTop.hom (charUnit _ D.X χ).val := fun χ =>
-    appTop_eq_of_gm _ _ _ (hc χ)
-  have hτ1 : τ = 1 := by
-    ext1
-    apply pullback.hom_ext
-    · have key : ∀ χ : D.X, (τ.left ≫ pullback.fst _ _).appTop.hom
-            ((Scheme.ΓSpecIso (torusRing ZU D.X)).inv.hom (AddMonoidAlgebra.single χ 1)) =
-          ((1 : Z ⟶ WeightPf.Te D I e).left ≫ pullback.fst _ _).appTop.hom
-            ((Scheme.ΓSpecIso (torusRing ZU D.X)).inv.hom (AddMonoidAlgebra.single χ 1)) := by
-        intro χ
-        have hz := appTop_eq_of_gm (τ.left ≫ pullback.fst _ _) ((1 : Z ⟶ WeightPf.Te D I e).left ≫ pullback.fst _ _)
-          (Units.map (Scheme.ΓSpecIso (torusRing ZU D.X)).inv.hom.toMonoidHom
-            (Units.map (AddMonoidAlgebra.of ZU D.X) (toUnits (Multiplicative.ofAdd χ)))) (fun z => by
-            have h := hc χ z
-            unfold charUnit at h
-            erw [gm_res, gm_res, gm_pull, gm_pull] at h
-            · exact h
-            all_goals simp)
-        simpa using hz
-      have : IsAffine (splitTorusAff ZU D.X).left := by
-        unfold splitTorusAff
-        exact inferInstanceAs (IsAffine (Spec _))
-      apply ext_of_isAffine
-      refine (cancel_epi (Scheme.ΓSpecIso (torusRing ZU D.X)).inv).mp ?_
-      apply CommRingCat.hom_ext
-      apply AddMonoidAlgebra.ringHom_ext
-      · intro b
-        obtain ⟨n⟩ := b
-        have hn : (AddMonoidAlgebra.single 0 (ULift.up n) : AddMonoidAlgebra (ULift.{0} ℤ) D.X) =
-            ((n : ℤ) : AddMonoidAlgebra (ULift.{0} ℤ) D.X) := by
-          rw [AddMonoidAlgebra.intCast_def]
-          rfl
-        simp only [hn, map_intCast]
-      · intro χ
-        exact key χ
-    · exact (Over.w τ).trans (Over.w (1 : Z ⟶ WeightPf.Te D I e)).symm
-  have hab : a = b := by rw [hτ, hτ1, h1i, _root_.one_mul]
-  exact congrArg Over.Hom.left hab
+  apply _root_.GlobalTheory.TorusCoord.ext_of_val <;> assumption
 
 section Level
 

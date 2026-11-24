@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.GaussianProducts.GaussSchwartz
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.SpecialLinearCosets.GoodU
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.SpecialLinearCosets.CompCoordMem
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.SpecialLinearCosets.GenSL
@@ -240,26 +241,7 @@ private theorem poly_temperate {F : Type} [Field F] [NumberField F] [IsTotallyRe
     {p : V4 F → ℂ} (hp : p ∈ polyFn (F := F)) :
     ∃ f : (Fin 4 → NumberField.mixedEmbedding.mixedSpace F) → ℂ, f.HasTemperateGrowth ∧
       ∀ X, p X = f (infPartPi X) := by
-  induction hp using Algebra.adjoin_induction with
-  | mem p hp =>
-    obtain ⟨i, w, rfl⟩ := hp
-    let l : (Fin 4 → NumberField.mixedEmbedding.mixedSpace F) →L[ℝ] ℝ :=
-      (ContinuousLinearMap.proj (R := ℝ) (φ := fun _ : {w : InfinitePlace F // w.IsReal} => ℝ)
-        ⟨w, IsTotallyReal.isReal w⟩).comp
-      ((ContinuousLinearMap.fst ℝ _ _).comp (ContinuousLinearMap.proj (R := ℝ) i))
-    refine ⟨fun x => ((l x : ℝ) : ℂ), Complex.ofRealCLM.hasTemperateGrowth.comp l.hasTemperateGrowth, fun X => ?_⟩
-    change _ = (((infPartPi X i).1 ⟨w, IsTotallyReal.isReal w⟩ : ℝ) : ℂ)
-    rw [coord_infPart]
-  | algebraMap r =>
-    exact ⟨fun _ => r, Function.HasTemperateGrowth.const r, fun X => rfl⟩
-  | add p q _ _ hp hq =>
-    obtain ⟨f, hf, hfp⟩ := hp
-    obtain ⟨g, hg, hgq⟩ := hq
-    exact ⟨fun x => f x + g x, hf.add hg, fun X => by simp [hfp, hgq]⟩
-  | mul p q _ _ hp hq =>
-    obtain ⟨f, hf, hfp⟩ := hp
-    obtain ⟨g, hg, hgq⟩ := hq
-    exact ⟨fun x => f x * g x, hf.mul hg, fun X => by simp [hfp, hgq]⟩
+  apply _root_.poly_temperate <;> assumption
 
 private theorem gauss_schwartz {F : Type} [Field F] [NumberField F] [IsTotallyReal F] (δ : F)
     (hδ : ∀ φ : F →+* ℝ, φ δ < 0) :

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.BetaModuloX.IotaSurjectiveHolds
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.NuInRange
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -277,33 +278,7 @@ def subLat (A : HLat K) (S : Submodule K A.V)
 theorem exists_smul_mem {K : Type} [Field K] [NumberField K] {V : Type} [AddCommGroup V] [Module K V]
     [Module (𝓞 K) V] [IsScalarTower (𝓞 K) K V] (L : Submodule (𝓞 K) V)
     (hL : Submodule.span K (L : Set V) = ⊤) (x : V) : ∃ c : 𝓞 K, c ≠ 0 ∧ c • x ∈ L := by
-  have hx : x ∈ Submodule.span K (L : Set V) := hL ▸ Submodule.mem_top
-  induction hx using Submodule.span_induction with
-  | mem y hy => exact ⟨1, one_ne_zero, by simpa using hy⟩
-  | zero => exact ⟨1, one_ne_zero, by simp⟩
-  | add y z _ _ hy hz =>
-    obtain ⟨a, ha, hya⟩ := hy
-    obtain ⟨b, hb, hzb⟩ := hz
-    refine ⟨a * b, mul_ne_zero ha hb, ?_⟩
-    rw [smul_add]
-    refine L.add_mem ?_ ?_
-    · rw [mul_comm, mul_smul]; exact L.smul_mem b hya
-    · rw [mul_smul]; exact L.smul_mem a hzb
-  | smul k y _ hy =>
-    obtain ⟨c, hc, hyc⟩ := hy
-    obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 K) k
-    have hb0 : algebraMap (𝓞 K) K b ≠ 0 := IsFractionRing.to_map_ne_zero_of_mem_nonZeroDivisors hb
-    refine ⟨b * c, mul_ne_zero (nonZeroDivisors.ne_zero hb) hc, ?_⟩
-    have e1 : (b * c) • ((algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b) • y)
-        = (algebraMap (𝓞 K) K (b * c) * (algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b)) • y := by
-      simp only [map_mul, mul_smul, algebraMap_smul]
-    have e2 : a • (c • y) = (algebraMap (𝓞 K) K a * algebraMap (𝓞 K) K c) • y := by
-      simp only [mul_smul, algebraMap_smul]
-    have e3 : algebraMap (𝓞 K) K (b * c) * (algebraMap (𝓞 K) K a / algebraMap (𝓞 K) K b)
-        = algebraMap (𝓞 K) K a * algebraMap (𝓞 K) K c := by
-      rw [map_mul]; field_simp
-    rw [e1, e3, ← e2]
-    exact L.smul_mem a hyc
+  first | exact _root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem | exact @_root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem | apply _root_.PI.UnitaryGroupMassFormula.BetaModX.Iota.exists_smul_mem <;> assumption
 
 theorem subLat_good (A : HLat K) (hA : A.Good) (S : Submodule K A.V) (X) (hX : ∀ v, IsUnit (X v).det) :
     (subLat A S X).Good := by

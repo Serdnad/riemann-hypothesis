@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.ArithmeticGapBounds.SGapOf
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.EisensteinGrowthForms.GrowForms
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousDerivFamily
 public import Development.WeilBound.ThetaLifts.LatticeBasics.HypothesesE
@@ -641,15 +642,7 @@ variable {G : Type} [Group G]
 theorem cos_mk_eq_iff {P Γ : Subgroup G} (a b : Γ) :
     (Quotient.mk (QuotientGroup.rightRel (P.subgroupOf Γ)) a : Cos P Γ) = Quotient.mk _ b ↔
       (b : G) * (a : G)⁻¹ ∈ P := by
-  constructor
-  · intro h
-    have h1 : b * a⁻¹ ∈ P.subgroupOf Γ := QuotientGroup.rightRel_apply.mp (Quotient.exact h)
-    simpa using Subgroup.mem_subgroupOf.mp h1
-  · intro h
-    apply Quotient.sound
-    apply QuotientGroup.rightRel_apply.mpr
-    apply Subgroup.mem_subgroupOf.mpr
-    simpa using h
+  apply _root_.PositivityTheory.KB.SpectralGap.UnfoldA.mk_eq_iff <;> assumption
 
 theorem cos_eq_of_rep {P Γ : Subgroup G} {q q' : Cos P Γ} (h : rep q' * (rep q)⁻¹ ∈ P) : q = q' := by
   have h' := (cos_mk_eq_iff (P := P) (Γ := Γ) (Quotient.out q) (Quotient.out q')).mpr h
@@ -1015,18 +1008,7 @@ variable {G : Type} [Group G]
 theorem ext_mul {K P : Subgroup G} {f : G → ℝ} (hadd : ∀ p ∈ P, ∀ q ∈ P, f (p * q) = f p + f q)
     (hfK : ∀ p ∈ P, p ∈ K → f p = 0) {p k : G} (hp : p ∈ P) (hk : k ∈ K) :
     PositivityTheory.RgEis.ext K P f (p * k) = f p := by
-  have hex : ∃ c : K, p * k * (c : G)⁻¹ ∈ P := ⟨⟨k, hk⟩, by simpa using hp⟩
-  rw [PositivityTheory.RgEis.ext, dite_eq_left hex]
-  have hcP : p * k * (hex.choose : G)⁻¹ ∈ P := hex.choose_spec
-  have hq : p⁻¹ * (p * k * (hex.choose : G)⁻¹) ∈ P := P.mul_mem (P.inv_mem hp) hcP
-  have hqK : p⁻¹ * (p * k * (hex.choose : G)⁻¹) ∈ K := by
-    have he : p⁻¹ * (p * k * (hex.choose : G)⁻¹) = k * (hex.choose : G)⁻¹ := by group
-    rw [he]
-    exact K.mul_mem hk (K.inv_mem hex.choose.2)
-  have h0 := hfK _ hq hqK
-  have hsplit := hadd p hp _ hq
-  rw [mul_inv_cancel_left] at hsplit
-  rw [hsplit, h0, add_zero]
+  apply _root_.GlobalTheory.CompanionTheory.SiegelFrame.ext_mul <;> assumption
 
 theorem extLaw : ExtLaw := by
   intro G _ _ _ _ Γ K P f hK hP hIwa hadd hfc hfK hfΓ
@@ -1642,12 +1624,7 @@ def cosMul {G : Type} [Group G] (P Γ : Subgroup G) (γ : Γ) : Cos P Γ ≃ Cos
 
 theorem rep_mk {G : Type} [Group G] {P Γ : Subgroup G} (x : Γ) :
     ∃ δ : G, δ ∈ Γ ∧ δ ∈ P ∧ rep (Quotient.mk _ x : Cos P Γ) = δ * x := by
-  have h : QuotientGroup.rightRel (P.subgroupOf Γ) (Quotient.out (Quotient.mk _ x : Cos P Γ)) x :=
-    Quotient.mk_out (s := QuotientGroup.rightRel (P.subgroupOf Γ)) x
-  rw [QuotientGroup.rightRel_apply] at h
-  refine ⟨((x * (Quotient.out (Quotient.mk _ x : Cos P Γ))⁻¹)⁻¹ : Γ), Subtype.property _, ?_, ?_⟩
-  · exact (Subgroup.mem_subgroupOf.mp (inv_mem h))
-  · simp [rep]
+  apply _root_.GlobalTheory.CompanionTheory.RgEis.UnitaryConv.rep_mk <;> assumption
 
 theorem tsum_rep_mul {G : Type} [Group G] {X : Type} [AddCommMonoid X] [TopologicalSpace X]
     {P Γ : Subgroup G} (F : G → X) (hF : ∀ δ ∈ Γ, δ ∈ P → ∀ x, F (δ * x) = F x) {γ : G} (hγ : γ ∈ Γ) (g : G) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsColIntertwiner
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CmHostImaginaryGeneratorNeZero
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.HermitianOrthogonalExtensionData
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.NodeAgree
@@ -414,22 +415,7 @@ namespace GlobalTheory.GridHC
 open GlobalTheory.SignedHC Finset
 
 theorem inCoset_weightX (D : D7) (τ : D.what₂.Tau) (j : ℕ) : InCoset (1 / 2) ((GlobalTheory.Grid.grid D τ).weightX j) := by
-  induction j with
-  | zero => exact GlobalTheory.ChiGrid.inCoset_weightX_zero (GlobalTheory.ChiGrid.odd_sLen D)
-  | succ j ih =>
-    rw [(GlobalTheory.Grid.grid D τ).weightX_succ]
-    intro x hx
-    rcases mem_union.1 hx with h | h
-    · exact ih x h
-    · obtain ⟨a, -, rfl⟩ := GlobalTheory.SignedHC.mem_block.1 h
-      obtain ⟨u, hu⟩ := D.R.t_odd
-      have e : ((GlobalTheory.Grid.grid D τ).t : ℚ) = 2 * u + 1 := by
-        have : ((GlobalTheory.Grid.grid D τ).t : ℚ) = D.R.t := rfl
-        rw [this, hu]; push_cast; ring
-      refine ⟨-(GlobalTheory.Grid.grid D τ).e (j + 1) + u - a, ?_⟩
-      push_cast
-      rw [e]
-      ring
+  first | exact _root_.GlobalTheory.ColParam.inCoset_weightX | exact @_root_.GlobalTheory.ColParam.inCoset_weightX | apply _root_.GlobalTheory.ColParam.inCoset_weightX <;> assumption
 
 theorem even_rkX (D : D7) (j : ℕ) : Even (GlobalTheory.Grid.rkX D j) := GlobalTheory.ChiGrid.even_rankX D j
 

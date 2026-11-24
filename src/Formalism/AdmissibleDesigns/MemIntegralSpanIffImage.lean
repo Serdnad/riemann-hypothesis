@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FiniteOfNotLinearIndependent
 public import Formalism.AdmissibleDesigns.MemImageOfTensorSum
 public import Formalism.AdmissibleDesigns.CohomZeroEquivContinuous
 public import Formalism.AdmissibleDesigns.CoboundaryMemFiniteClasses
@@ -207,21 +208,8 @@ end Lat
 
 theorem finite_compHom {R S M : Type} [CommRing R] [CommRing S] [AddCommGroup M] [Module S M] (σ : R ≃+* S)
     [hM : Module.Finite S M] : @Module.Finite R M _ _ (Module.compHom M σ.toRingHom) := by
-  letI : Module R M := Module.compHom M σ.toRingHom
-  obtain ⟨s, hs⟩ := hM.fg_top
-  refine ⟨⟨s, eq_top_iff.2 fun x hx0 => ?_⟩⟩
-  clear hx0
-  have hx : x ∈ Submodule.span S (s : Set M) := by rw [hs]; trivial
-  induction hx using Submodule.span_induction with
-  | mem y hy => exact Submodule.subset_span hy
-  | zero => exact Submodule.zero_mem _
-  | add y z _ _ hy hz => exact Submodule.add_mem _ hy hz
-  | smul c y _ hy =>
-    have h : c • y = σ.symm c • y := by
-      show c • y = σ (σ.symm c) • y
-      rw [RingEquiv.apply_symm_apply]
-    rw [h]
-    exact Submodule.smul_mem _ _ hy
+  intros
+  apply _root_.GlobalTheory.SecGrowth.finite_compHom <;> assumption
 
 section FinFf
 

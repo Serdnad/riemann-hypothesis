@@ -1,5 +1,7 @@
 module
 
+import all Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsPureTypicalCurveWithIntegralTangent
 public import Formalism.LocalToGlobal.CharacterGerms.FirstStepSecondHalfCondition
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePGerm
 public import Mathlib.Data.Nat.Choose.Dvd
@@ -52,11 +54,7 @@ theorem mm_natCast_of_dvd {n : ℕ} (h : V.l ∣ n) : V.MM (n : C) := by
   exact mm_l_mul (ge_natCast k)
 
 theorem ge_intCast (z : ℤ) : V.Ge 0 (z : C) := by
-  rcases Int.eq_nat_or_neg z with ⟨n, rfl | rfl⟩
-  · rw [Int.cast_natCast]
-    exact ge_natCast n
-  · rw [Int.cast_neg, Int.cast_natCast]
-    exact VF.Ge.neg (ge_natCast n)
+  apply _root_.GlobalTheory.RowLaw.TypPart.ge_intCast <;> assumption
 
 theorem mm_of_natCast_mul {n : ℕ} (h : ¬ V.l ∣ n) {x : C} (hx : V.Ge 0 x) (hm : V.MM ((n : C) * x)) :
     V.MM x := by
@@ -76,13 +74,7 @@ theorem mm_of_natCast_mul {n : ℕ} (h : ¬ V.l ∣ n) {x : C} (hx : V.Ge 0 x) (
   exact mm_add (mm_l_mul (VF.Ge.mul_int (ge_intCast _) hx)) (mm_mul_ge' (ge_intCast _) hm)
 
 private theorem ge_pow_lemma {x : C} (hx : V.Ge 0 x) (k : ℕ) : V.Ge 0 (x ^ k) := by
-  induction k with
-  | zero =>
-    rw [pow_zero]
-    exact VF.Ge.one
-  | succ k ih =>
-    rw [pow_succ]
-    exact VF.Ge.mul_int ih hx
+  apply _root_.Formalism.L2.FormalSeriesBounds.RawChart.ge_zero_pow' <;> assumption
 
 theorem mm_pow {x : C} (hx : V.MM x) {n : ℕ} (hn : n ≠ 0) : V.MM (x ^ n) := by
   obtain ⟨k, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn

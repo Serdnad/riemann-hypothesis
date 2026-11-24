@@ -114,30 +114,8 @@ theorem partialSum_period {l : ℕ} {i : Fin r} {v : (Fin r → ℕ) → ℚ} (h
 theorem partialSum_bound {l : ℕ} {i : Fin r} {v : (Fin r → ℕ) → ℚ} (hl : 0 < l)
     (h : GoodAt l i v) {C : ℝ} (hC0 : 0 ≤ C) (hC : ∀ m, |(v m : ℝ)| ≤ C) :
     ∀ m, |(partialSum i v m : ℝ)| ≤ l * C := by
-  have key : ∀ n, ∀ m : Fin r → ℕ, m i = n → |(partialSum i v m : ℝ)| ≤ l * C := by
-    intro n
-    induction n using Nat.strong_induction_on with
-    | _ n ih =>
-      intro m hm
-      by_cases hn : n < l
-      · simp only [partialSum, hm]
-        push_cast
-        calc |∑ k ∈ Finset.range n, (v (Function.update m i k) : ℝ)|
-            ≤ ∑ k ∈ Finset.range n, |(v (Function.update m i k) : ℝ)| := Finset.abs_sum_le_sum_abs _ _
-          _ ≤ ∑ k ∈ Finset.range n, C := Finset.sum_le_sum fun k _ => hC _
-          _ = n * C := by simp
-          _ ≤ l * C := mul_le_mul_of_nonneg_right (by exact_mod_cast hn.le) hC0
-      · rw [not_lt] at hn
-        have hmm : m = Function.update m i (n - l) + Pi.single i l := by
-          funext j
-          by_cases hj : j = i
-          · subst hj
-            simp only [Pi.add_apply, Function.update_self, Pi.single_eq_same]
-            omega
-          · simp [hj]
-        rw [hmm, partialSum_period h]
-        exact ih (n - l) (by omega) _ (by simp)
-  exact fun m => key (m i) m rfl
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Hypotheses₂.Shintani.Abel.AopProps.partialSum_bound <;> assumption
 
 theorem abs_partialSumMean_le {l : ℕ} {i : Fin r} {v : (Fin r → ℕ) → ℚ} (hl : 0 < l)
     {K : ℝ} (hK : ∀ m, |(partialSum i v m : ℝ)| ≤ K) (m : Fin r → ℕ) :

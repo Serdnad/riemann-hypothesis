@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.LeviForms.TailCutA
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.Partition
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.IsOpenKappaOpenNeighbourhood
 public import ReciprocityTheory.AnalyticForms.PotentialTheory.IntegrableOnTargetOfTsupport
@@ -866,28 +867,8 @@ theorem zeroSet_analytic {A : FinHolAtlas e X} {L : LocPot X} {s : X → X → �
 theorem interior_zeroSet {A : FinHolAtlas e X} {L : LocPot X} {s : X → X → ℂ}
     (hS : IsSection A L s) {r : ℕ} {m : Fin r → ℕ} {W : Fin r → Set X}
     (hsnc : IsSNC A L s m W) : interior (zeroSet s) = ∅ := by
-  rw [Set.eq_empty_iff_forall_notMem]
-  intro x hx
-  obtain ⟨ψ, -, hxψ, hψL, σ, -, -, u, -, hu0, hprod⟩ := hsnc x
-  have hOimg : IsOpen (ψ '' (ψ.source ∩ interior (zeroSet s))) :=
-    ψ.isOpen_image_source_inter isOpen_interior
-  have hne : (ψ '' (ψ.source ∩ interior (zeroSet s))).Nonempty := ⟨ψ x, x, ⟨hxψ, hx⟩, rfl⟩
-  have hsub : ψ '' (ψ.source ∩ interior (zeroSet s)) ⊆ ⋃ i, {z : Fin e → ℂ | z i = 0} := by
-    rintro _ ⟨y, ⟨hyψ, hyZ⟩, rfl⟩
-    have hz : y ∈ zeroSet s := interior_subset hyZ
-    have h0 : s x y = 0 := (zero_iff_local hS (hψL hyψ)).1 hz
-    rw [hprod y hyψ] at h0
-    rcases mul_eq_zero.1 h0 with h | h
-    · exact absurd h (hu0 y hyψ)
-    · obtain ⟨k, -, hk⟩ := Finset.prod_eq_zero_iff.1 h
-      revert hk
-      cases hσ : σ k with
-      | none => intro hk; exact absurd hk one_ne_zero
-      | some i => intro hk; exact Set.mem_iUnion.2 ⟨i, eq_zero_of_pow_eq_zero hk⟩
-  have hpos := hOimg.measure_pos volume hne
-  have hnull : volume (⋃ i, {z : Fin e → ℂ | z i = 0}) = 0 :=
-    measure_iUnion_null fun i => ReciprocityTheory.AnForm.M.PLAux.volume_coord_eq_zero i
-  exact hpos.ne' (measure_mono_null hsub hnull)
+  intros
+  apply _root_.ReciprocityTheory.AnForm.P.LeviFormBoundaryTopology.interior_bdry_eq_empty <;> assumption
 
 theorem greenEp_eq_off (L : LocPot X) (s : X → X → ℂ) {ε : ℝ} (hε : 0 < ε) {y : X}
     (hy : y ∉ zeroSet s) :

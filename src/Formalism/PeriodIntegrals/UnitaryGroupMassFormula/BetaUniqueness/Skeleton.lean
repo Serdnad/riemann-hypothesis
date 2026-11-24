@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 public import Formalism.PeriodIntegrals.BetaLUniq
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -89,11 +90,7 @@ def EigenvalueLastLineOne : Prop :=
       EigenOne Λ F F' β₁ β₂
 
 theorem finrank_hS (D : D7) : finrank D.host.E (hS D).V = D.R.k + 2 * D.R.rS + 1 := by
-  rw [(hS D).rank_eq, D.sp.Y_rank 0 (Nat.zero_le _)]
-  obtain ⟨j, hj⟩ := D.R.m_even
-  have h2 := D.R.two_le_m
-  simp only [Ranks.rankY, Ranks.r, Ranks.rS, zero_mul, add_zero]
-  omega
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.p_rankV <;> assumption
 
 end D7
 

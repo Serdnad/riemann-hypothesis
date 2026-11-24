@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.MemPrimesOverOfMem
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.BoundAtTwoThreeFamily
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -78,22 +79,7 @@ theorem hB_nonneg {D : D7} (L : SizeData₂ D) : 0 ≤ Formalism.MainNotions.Twi
   linarith
 
 theorem GP_nonneg {D : D7} (L : SizeData₂ D) : 0 ≤ Formalism.MainNotions.TwistedPlaces.GP L := by
-  have hb : 0 < L.sc.b' := by
-    unfold Scale.b' Scale.a Scale.X'
-    have := x_pos' L
-    have := one_le_b' L
-    positivity
-  have h1 : 0 ≤ L.sc.w'' D.R.n := by
-    unfold Scale.w''
-    have := x_pos' L
-    positivity
-  unfold Formalism.MainNotions.TwistedPlaces.GP Formalism.MainNotions.TwistedPlaces.wP Formalism.MainNotions.TwistedPlaces.eta₃ Formalism.MainNotions.TwistedPlaces.wB
-  have h2 := L.etaSz_pos
-  have h3 := L.Sc_pos
-  have h4 : L.sc.w'' D.R.n + L.etaSz ≤ max (L.sc.w'' D.R.n + L.etaSz)
-      ((⨆ t : D.host.TT, (L.bT t : ℝ)) + L.sc.b' / L.sc.x + L.etaSz) := le_max_left _ _
-  have h5 : (0:ℝ) ≤ D.R.t := by positivity
-  linarith
+  first | exact _root_.Formalism.MainNotions.TwistedPlaces.GP_nonneg | exact @_root_.Formalism.MainNotions.TwistedPlaces.GP_nonneg | apply _root_.Formalism.MainNotions.TwistedPlaces.GP_nonneg <;> assumption
 
 theorem coreB_pos {D : D7} (L : SizeData₂ D) {l : ℕ} (hl : 2 ≤ l) (lam : HeightOneSpectrum (𝓞 D.host.E)) :
     0 < Formalism.MainNotions.N.coreB L l lam := by

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.CartanFactorisation.ArchimedeanEvaluationVector
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Topology.ContinuousMap.Algebra
 public import Mathlib.Topology.ContinuousMap.StoneWeierstrass
@@ -315,24 +316,7 @@ theorem continuous_ofMixed : Continuous (InfiniteAdeleRing.ringEquiv_mixedSpace 
 open scoped Classical in
 theorem exists_trace_mul_ne_zero (u : mixedEmbedding.mixedSpace F) (hu : u ≠ 0) :
     ∃ w, Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (u * w) ≠ 0 := by
-  let w : mixedEmbedding.mixedSpace F := (fun v => (u.1 v)⁻¹, fun v => (u.2 v)⁻¹)
-  have h1 : u * w * u = u := by
-    refine Prod.ext (funext fun v => ?_) (funext fun v => ?_)
-    · change u.1 v * (u.1 v)⁻¹ * u.1 v = u.1 v
-      exact mul_inv_mul_cancel _
-    · change u.2 v * (u.2 v)⁻¹ * u.2 v = u.2 v
-      exact mul_inv_mul_cancel _
-  have h2 : IsIdempotentElem (u * w) := by
-    change u * w * (u * w) = u * w
-    rw [← mul_assoc, h1]
-  refine ⟨w, fun h => hu ?_⟩
-  rw [Algebra.trace_apply] at h
-  have h3 := (LinearMap.IsIdempotentElem.trace_eq_zero_iff
-    (h2.map (Algebra.lmul ℝ (mixedEmbedding.mixedSpace F)))).1 h
-  have h4 := LinearMap.congr_fun h3 u
-  simp only [LinearMap.zero_apply] at h4
-  rw [← h1]
-  exact h4
+  apply _root_.PositivityTheory.ThKF.A.trace_nondeg <;> assumption
 
 
 open scoped Classical in

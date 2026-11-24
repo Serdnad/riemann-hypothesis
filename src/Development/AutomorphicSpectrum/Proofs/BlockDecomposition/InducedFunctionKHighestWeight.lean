@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionKFiniteStatement
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.InducedFunctionDerivativeAtOneStatement
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.IsMultZero
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.EventuallyLineUnit
@@ -147,17 +149,7 @@ theorem sum_range_ite (w : ℕ → ℤ) (a : ℕ) (N : ℕ) (h : a ≤ N) :
     ring
 
 theorem sum_dif (v : Fin n → ℤ) (a : Fin n) : ∑ j, (if a ≤ j then dif v j else 0) = v a := by
-  set w : ℕ → ℤ := fun i => if h : i < n then v ⟨i, h⟩ else 0 with hw
-  have e : ∀ j : Fin n, (if a ≤ j then dif v j else 0) =
-      (fun i : ℕ => if (a : ℕ) ≤ i then w i - w (i + 1) else 0) j := by
-    intro j
-    have : dif v j = w j - w (j + 1) := by
-      delta dif
-      simp [hw]
-    simp only [Fin.le_def, this]
-  rw [Finset.sum_congr rfl fun j _ => e j, Fin.sum_univ_eq_sum_range
-    (fun i : ℕ => if (a : ℕ) ≤ i then w i - w (i + 1) else 0) n, sum_range_ite w a n a.isLt.le]
-  simp [hw]
+  apply _root_.GlobalTheory.CompanionTheory.ModelS.FDer.sum_dif <;> assumption
 
 theorem zpow_sum {u : ℂ} (hu : u ≠ 0) {ι : Type*} (s : Finset ι) (f : ι → ℤ) :
     u ^ (∑ i ∈ s, f i) = ∏ i ∈ s, u ^ f i := by
@@ -168,27 +160,8 @@ theorem zpow_sum {u : ℂ} (hu : u ≠ 0) {ι : Type*} (s : Finset ι) (f : ι �
 
 open scoped ComplexOrder in
 theorem gm_ne {g : Mat n} (hg : g ∈ GLs n) (j : Fin n) : gm j g ≠ 0 := by
-  have hu : IsUnit g := (Matrix.isUnit_iff_isUnit_det g).2 (isUnit_iff_ne_zero.2 hg)
-  have key : ∀ v : Fin (j + 1) → ℂ, Function.extend (ini j) v 0 ᵥ* g = v ᵥ* g.submatrix (ini j) id := by
-    intro v
-    funext c
-    simp only [Matrix.vecMul, dotProduct, submatrix_apply, id]
-    symm
-    refine Finset.sum_of_injOn (ini j) (ini_injective j).injOn (fun _ _ => Finset.mem_coe.2 (Finset.mem_univ _)) ?_ ?_
-    · intro i _ hi
-      rw [Function.extend_apply', Pi.zero_apply, zero_mul]
-      rintro ⟨r, rfl⟩
-      exact hi ⟨r, by simp, rfl⟩
-    · intro i _
-      rw [(ini_injective j).extend_apply]
-  have inj : Function.Injective fun v : Fin (j + 1) → ℂ => v ᵥ* g.submatrix (ini j) id := by
-    intro v w h
-    simp only [← key] at h
-    have := Matrix.vecMul_injective_of_isUnit hu h
-    funext r
-    have h2 := congrFun this (ini j r)
-    rwa [(ini_injective j).extend_apply, (ini_injective j).extend_apply] at h2
-  exact (PosDef.mul_conjTranspose_self _ inj).det_pos.ne'
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.ModelS.FFin.gm_ne_zero <;> assumption
 
 theorem diffAt_prod {𝕜 E ι : Type} [NontriviallyNormedField 𝕜] [NormedAlgebra 𝕜 ℂ] [NormedAddCommGroup E]
     [NormedSpace 𝕜 E] (u : Finset ι) (f : ι → E → ℂ) {x : E} (h : ∀ i ∈ u, DifferentiableAt 𝕜 (f i) x) :

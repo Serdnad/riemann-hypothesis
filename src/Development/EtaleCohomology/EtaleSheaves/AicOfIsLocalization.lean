@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.AlgebraicIntegralClosure
 public import Development.EtaleCohomology.EtaleSheaves.NormACPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -75,32 +76,8 @@ theorem root_mem_range {A K : Type} [CommRing A] [CommRing K] [IsDomain K] (hA :
     · exact ih _ hdeg hq a h
 
 theorem aic_of_isLocalization {A B : Type} [CommRing A] [CommRing B] [Algebra A B] (M : Submonoid A)
-    [IsLocalization M B] (hA : GlobalTheory.EtC.AIC A) : GlobalTheory.EtC.AIC B := by
-  intro p hp hd
-  obtain ⟨b, hb⟩ := IsLocalization.exist_integer_multiples_of_finite M (fun i : Fin (p.natDegree + 1) => p.coeff i)
-  set t := algebraMap A B b with ht
-  have hlift : p.scaleRoots t ∈ lifts (algebraMap A B) := by
-    rw [lifts_iff_coeff_lifts]
-    intro i
-    rw [coeff_scaleRoots]
-    rcases lt_trichotomy i p.natDegree with h | h | h
-    · obtain ⟨c, hc⟩ := hb ⟨i, by omega⟩
-      refine ⟨c * (b : A) ^ (p.natDegree - i - 1), ?_⟩
-      rw [map_mul, map_pow, hc, Algebra.smul_def, ← ht]
-      rw [show t ^ (p.natDegree - i) = t * t ^ (p.natDegree - i - 1) by rw [← pow_succ']; congr 1; omega]
-      ring
-    · subst h; rw [hp.coeff_natDegree]; exact ⟨1, by simp⟩
-    · rw [coeff_eq_zero_of_natDegree_lt h]; exact ⟨0, by simp⟩
-  obtain ⟨q, hqm, hqd, hq⟩ := lifts_and_natDegree_eq_and_monic hlift ((monic_scaleRoots_iff t).mpr hp)
-  obtain ⟨c, hc⟩ := hA q hq (by rw [hqd, natDegree_scaleRoots]; exact hd)
-  obtain ⟨u, hu⟩ := (IsLocalization.map_units B b).exists_right_inv
-  refine ⟨u * algebraMap A B c, ?_⟩
-  have h1 : p = (p.scaleRoots t).scaleRoots u := by
-    rw [← scaleRoots_mul, ht, hu, scaleRoots_one]
-  have h2 : (p.scaleRoots t).eval (algebraMap A B c) = 0 := by
-    rw [← hqm, Polynomial.eval_map, eval₂_at_apply, hc, map_zero]
-  conv_lhs => rw [h1]
-  rw [scaleRoots_eval_mul, h2, mul_zero]
+    [IsLocalization M B] (hA : GlobalTheory.EtC.AIC A) : GlobalTheory.EtC.AIC B :=
+  LateralTheory.E.BaseAICPf.Loc.aic_loc M hA
 
 theorem germ_comp (Z : Scheme.{0}) {W U : Z.Opens} (i : W ≤ U) (x : Z) (hx : x ∈ W) :
     (Z.presheaf.germ W x hx).hom.comp (Z.presheaf.map (homOfLE i).op).hom = (Z.presheaf.germ U x (i hx)).hom := by

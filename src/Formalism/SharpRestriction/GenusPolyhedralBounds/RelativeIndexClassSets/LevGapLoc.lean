@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.ValuedAlgebraMapEqOne
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapFacts
 public import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LevGapLat
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Adelic
@@ -164,11 +165,7 @@ theorem sc_emb_int (v : HeightOneSpectrum (𝓞 F)) (ψ : E →ₐ[F] v.adicComp
 
 theorem sc_val_one (v : HeightOneSpectrum (𝓞 F)) (x : 𝓞 F) (hx : x ∉ v.asIdeal) :
     Valued.v (algebraMap F (v.adicCompletion F) (algebraMap (𝓞 F) F x)) = 1 := by
-  have h := Formalism.UG.P.csApprox_val_int v x
-  rw [IsScalarTower.algebraMap_apply (𝓞 F) F (v.adicCompletion F)] at h
-  rw [h]
-  exact le_antisymm (v.intValuation_le_one x)
-    (not_lt.mp fun h' => hx ((HeightOneSpectrum.intValuation_lt_one_iff_mem v x).mp h'))
+  apply _root_.GlobalTheory.Mem.Chr.valued_algebraMap_eq_one <;> assumption
 
 theorem sc_val_lt_one (v : HeightOneSpectrum (𝓞 F)) (x : 𝓞 F) (hx : x ∈ v.asIdeal) :
     Valued.v (algebraMap F (v.adicCompletion F) (algebraMap (𝓞 F) F x)) < 1 := by

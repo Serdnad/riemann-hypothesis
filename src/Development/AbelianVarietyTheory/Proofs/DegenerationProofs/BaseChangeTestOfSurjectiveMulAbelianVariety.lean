@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.PolarizedAbelianEmbeddingBySections
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.CompanionTheory
 public import Mathlib.AlgebraicGeometry.Geometrically.Integral
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.IsIntegralOfSmoothFieldOfConnectedSpace
@@ -145,15 +146,7 @@ theorem isUnit_gs_iff {X Z : Scheme.{0}} (r : Z ⟶ X) (z : Z) (U : X.Opens) (h 
 
 theorem mem_nonzeroLocus_iff {X Z : Scheme.{0}} {L : LB X} (θ : LB.Sec L) (r : Z ⟶ X) (z : Z) {k : L.ι}
     (hk : r z ∈ L.U k) : r z ∈ Out.nonzeroLocus θ ↔ IsUnit (gs r z _ (θ.f k)) := by
-  rw [isUnit_gs_iff r z _ hk]
-  refine ⟨fun h => ?_, fun h => Opens.mem_iSup.2 ⟨k, h⟩⟩
-  obtain ⟨j, hj⟩ := Opens.mem_iSup.1 h
-  have hj' : r z ∈ L.U j := X.basicOpen_le _ hj
-  have hm : r z ∈ L.U k ⊓ L.U j := ⟨hk, hj'⟩
-  have e := congrArg (gs r z _) (θ.compat k j)
-  rw [gs_res _ z _ hm, gs_mul _ z _ hm, gs_res _ z _ hm, gs_unit _ z _ hm] at e
-  rw [← isUnit_gs_iff r z _ hk, e]
-  exact (Units.isUnit _).mul ((isUnit_gs_iff r z _ hj' _).2 hj)
+  apply _root_.GlobalTheory.AmpleSpan.mem_nonzeroLocus_iff_gs <;> assumption
 
 theorem exists_dvd_pow_mul {X : Scheme.{0}} {W : X.Opens} (hW : IsAffineOpen W) (π a b : Γ(X, W))
     (h : ∀ z ∈ X.basicOpen π, gs (𝟙 X) z W b ∣ gs (𝟙 X) z W a) : ∃ n : ℕ, b ∣ π ^ n * a := by

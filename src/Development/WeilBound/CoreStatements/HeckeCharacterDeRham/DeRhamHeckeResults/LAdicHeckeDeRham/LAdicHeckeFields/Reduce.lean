@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.BaseChangePreservesUnitaryOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HasPeriods
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ValuationLtOneOfEq
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.ExistsUniqueHcharOfFiniteOrder
@@ -306,27 +307,7 @@ theorem eq_inv_arithmetic_artin_map : ∀ {E Ω : Type} [Field E] [NumberField E
   intro E Ω _ _ _ _ _ art ha
   ext x
   have ha0 : IsGlobalArtin (art0 E Ω)⁻¹ := by
-    refine ⟨(Homeomorph.inv (Gab E Ω)).isOpenQuotientMap.comp (isOpenQuotientMap_art0 E Ω),
-      ?_, ?_, ?_, ?_⟩
-    · rw [← ker_art0 E Ω]
-      ext x
-      simp only [MonoidHom.mem_ker, MonoidHom.inv_apply, inv_eq_one]
-    · intro v A hA g
-      simp only [MonoidHom.inv_apply, inv_eq_iff_eq_inv]
-      rw [art0_unit_iff hA, Subgroup.inv_mem_iff]
-      rfl
-    · intro v A hA g
-      simp only [MonoidHom.inv_apply, map_inv, inv_eq_iff_eq_inv]
-      exact art0_unif_iff hA _
-    · intro v A hA
-      rw [← closure_range_eq hA]
-      congr 1
-      ext g
-      constructor
-      · rintro ⟨x, rfl⟩
-        exact ⟨x⁻¹, by simp⟩
-      · rintro ⟨x, rfl⟩
-        exact ⟨x⁻¹, by simp⟩
+    apply _root_.CompanionTheory.FamInh.isGlobalArtin_inv <;> assumption
   have h : art x * ((art0 E Ω)⁻¹ x)⁻¹ ∈ (⊥ : Subgroup (Gab E Ω)) :=
     mem_of_forall_res (H := ⊥) isClosed_singleton fun L _ _ _ => by
       rw [map_mul, map_inv, res_eq ha ha0 L x, mul_inv_cancel]
@@ -894,17 +875,8 @@ theorem mem_filV_coord (hOm : ∀ x : Om, algebraMap Om BdR x ∈ PD.Fil 0) (a :
     exact ⟨(fun _ => embBasis Qp Om LL i) ⊗ₜ[Qp] ⟨_, hr⟩, rfl⟩
 
 theorem one_notMem_fil_one [Nontrivial BdR] : (1 : BdR) ∉ PD.Fil 1 := by
-  intro h
-  have hn : ∀ n : ℕ, (1 : BdR) ∈ PD.Fil n := fun n => by
-    induction n with
-    | zero => simpa using PD.one_mem
-    | succ n ih =>
-      have := PD.Fil_mul n 1 1 1 ih h
-      simpa using this
-  have hA : Antitone PD.Fil := antitone_int_of_succ_le PD.Fil_anti
-  refine one_ne_zero (PD.Fil_sep 1 fun a => ?_)
-  have h2 : a ≤ (a.toNat : ℤ) := Int.self_le_toNat a
-  exact hA h2 (hn _)
+  intros
+  apply _root_.Formalism.MainNotions.LiftingTheory.lone_one_notMem <;> assumption
 
 theorem block_of_ne [IsDomain BdR] {τ : K →ₐ[Qp] LL} {κ : K →ₐ[Qp] Om}
     (hK : ∀ c : K, algebraMap K BdR c = algebraMap Om BdR (κ c))

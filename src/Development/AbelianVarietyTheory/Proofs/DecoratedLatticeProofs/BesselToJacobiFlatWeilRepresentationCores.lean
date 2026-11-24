@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.UnfoldedTermBasePointEqFlatMapPairing
 
 @[expose] public section
 
@@ -72,14 +73,7 @@ theorem sFinite_of_haar {G : Type} [Group G] [TopologicalSpace G] [MeasurableSpa
 
 theorem continuous_psiUni (ψ : AddChar (AF D.host.F) ℂ) (hψ : Continuous ψ) (ρ : ℕ) :
     Continuous fun u : UX D ρ => psiUni ψ u.1 := by
-  have ht : Continuous (Algebra.trace (AF D.host.F) (AE D)) := IsModuleTopology.continuous_of_linearMap _
-  have hv : Continuous fun u : UX D ρ => u.1.1 := Units.continuous_val.comp continuous_subtype_val
-  unfold psiUni psiE upSum
-  refine hψ.comp (ht.comp ?_)
-  refine continuous_finsetSum _ fun i _ => continuous_finsetSum _ fun j _ => ?_
-  split_ifs
-  · exact (continuous_apply j).comp ((continuous_apply i).comp hv)
-  · exact continuous_const
+  apply _root_.GlobalTheory.FlatBase.continuous_psiUni <;> assumption
 
 theorem jacT_integral (ψ : AddChar (AF D.host.F) ℂ) {T T₀ : HSp D} {ρ : ℕ} (d : HypDec T T₀ ρ) (S : HSp D)
     (y : Mx D S.rank ρ) (n : GA D T) {U : Type} [MeasurableSpace U] (m : Measure U) (G : U → WO S T₀ → ℂ)
@@ -96,80 +90,82 @@ theorem jacT_smul (ψ : AddChar (AF D.host.F) ℂ) {T T₀ : HSp D} {ρ : ℕ} (
 
 
 
-theorem flatBF_om : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → ∀ h₀, ∀ n ∈ radX J.d, ∀ h', flatBF s (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) = s.om₀ (B.o.emb (h₀, 1), 1) (opA ψ J.d B.o B.ζ s.om₀ n h' (flatBF s Ψ)) := by
-  intro D ψ ρ B J s om' hom' Ψ hΨ h₀ n hn h'
+theorem flat_om_of_decompositions : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ)
+    (V V₀ W W₀ A L : HSp D) (dV : HypDec V V₀ ρ) (dW : HypDec W W₀ ρ)
+    (o : OrthDec V₀ A L) (ζ : Fin L.rank → D.host.E) (s : Step ψ V V₀ W W₀ ρ ρ) (om' : Om V₀ W), IsWeilDatumO ψ V₀ W s.χV s.χW om' → ∀ (Ψ : WO V W → ℂ), IsThetaFunO ψ V W Ψ → ∀ h₀, ∀ n ∈ radX dW, ∀ h', (flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) (s.om (embA dV o h₀, n * dW.emb0 h') Ψ) = s.om₀ (o.emb (h₀, 1), 1) (opA ψ dW o ζ s.om₀ n h' ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) Ψ)) := by
+  intro D ψ ρ V V₀ W W₀ A L dV dW o ζ s om' hom' Ψ hΨ h₀ n hn h'
   have hstd : IsStdChar D ψ (-1) := s.weil.std
   obtain ⟨hloc, hsc, -⟩ := GlobalTheory.UnitU.topology D ρ
   haveI := hloc
   haveI := hsc
   haveI : BorelSpace (UX D ρ) := ⟨rfl⟩
   haveI : SFinite s.vU.ν := @sFinite_of_haar (UX D ρ) _ _ _ hloc hsc s.vU.ν s.vU.unit.1
-  obtain ⟨hbase, -, hx0, -⟩ := GlobalTheory.Unf.base_point D J.W J.W₀ ρ J.d
-  have hlin : LinearIndependent D.host.E J.d.e.transpose := hbase.1
-  have hev := GlobalTheory.Unf.evalAt_xZero_yZero D ψ ρ B J s om' hom' Ψ hΨ
+  obtain ⟨hbase, -, hx0, -⟩ := GlobalTheory.Unf.base_point D W W₀ ρ dW
+  have hlin : LinearIndependent D.host.E dW.e.transpose := hbase.1
+  have hev := GlobalTheory.Unf.evalAt_xZero_yZero_rad_of_decompositions D ψ ρ V V₀ W W₀ A L dV dW o ζ s om' hom' Ψ hΨ
   have hom1 : s.om 1 Ψ = Ψ := by rw [map_one]; rfl
 
-  have e3 : ∀ u : UX D ρ, evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1)
-      (yZero B.V₀ ρ (vecB B.o B.ζ)) = s.om₀ (1, h') (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ u.1.1)
-      (yZero B.V₀ ρ (vecB B.o B.ζ))) := by
+  have e3 : ∀ u : UX D ρ, evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1)
+      (yZero V₀ ρ (vecB o ζ)) = s.om₀ (1, h') (evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero dW ⬝ u.1.1)
+      (yZero V₀ ρ (vecB o ζ))) := by
     intro u
-    have h := hev.1 u 1 1 (one_mem _) h'
+    have h := hev u 1 1 (one_mem _) h'
     rw [map_one, one_mul, ← Prod.one_eq_mk, map_one, ← Prod.one_eq_mk, map_one] at h
     rw [h]
     simp only [opA, jacT_one]
     rfl
-  have e2 : ∀ u : UX D ρ, evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1)
-      (yZero B.V₀ ρ (vecB B.o B.ζ)) = opA ψ J.d B.o B.ζ s.om₀ n h' (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ
-      (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ))) := by
+  have e2 : ∀ u : UX D ρ, evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1)
+      (yZero V₀ ρ (vecB o ζ)) = opA ψ dW o ζ s.om₀ n h' (evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ
+      (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ))) := by
     intro u
-    have h := hev.1 u 1 n hn h'
+    have h := hev u 1 n hn h'
     rw [map_one, ← Prod.one_eq_mk, map_one, ← Prod.one_eq_mk, map_one] at h
     exact h
 
   have hmix := GlobalTheory.MixValues.mixed_values D ψ hstd
-  have thev : ∀ Φ, IsThetaFunO ψ B.V J.W Φ → ∀ u : UX D ρ, IsThetaFunO ψ B.V₀ J.W₀
-      (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Φ (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ))) :=
-    fun Φ hΦ u => hmix.2 B.V₀ J.W J.W₀ ρ J.d s.vT.μ s.vT.𝓕 s.vT.covol _
-      (hmix.1 B.V B.V₀ J.W ρ B.d s.vS.μ s.vS.𝓕 s.vS.covol Φ hΦ _) _
-  have thom : ∀ p, IsThetaFunO ψ B.V J.W (s.om p Ψ) := fun p => s.weil.om_pres p Ψ hΨ
-  have hFL := GlobalTheory.Unf.Flat.flatLaw D ψ hstd B.V B.V₀ J.W J.W₀ ρ ρ B.d J.d s.vS s.vT s.vU J.d.e hlin
-    (yZero B.V₀ ρ (vecB B.o B.ζ))
-  have thflat : ∀ p, IsThetaFunO ψ B.V₀ J.W₀ (flatBF s (s.om p Ψ)) := fun p => by
+  have thev : ∀ Φ, IsThetaFunO ψ V W Φ → ∀ u : UX D ρ, IsThetaFunO ψ V₀ W₀
+      (evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Φ (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ))) :=
+    fun Φ hΦ u => hmix.2 V₀ W W₀ ρ dW s.vT.μ s.vT.𝓕 s.vT.covol _
+      (hmix.1 V V₀ W ρ dV s.vS.μ s.vS.𝓕 s.vS.covol Φ hΦ _) _
+  have thom : ∀ p, IsThetaFunO ψ V W (s.om p Ψ) := fun p => s.weil.om_pres p Ψ hΨ
+  have hFL := GlobalTheory.Unf.Flat.flatLaw D ψ hstd V V₀ W W₀ ρ ρ dV dW s.vS s.vT s.vU dW.e hlin
+    (yZero V₀ ρ (vecB o ζ))
+  have thflat : ∀ p, IsThetaFunO ψ V₀ W₀ ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) (s.om p Ψ)) := fun p => by
     have h := (hFL _ (thom p)).2
     rw [← hx0] at h
     exact h
-  obtain ⟨M, hMi, hM⟩ := GlobalTheory.Unf.flatFun_majorant D ψ B.V B.V₀ J.W J.W₀ ρ ρ B.d J.d s.vS s.vT s.χV s.χW s.om s.weil s.vU J.d.e hlin
-    Ψ hΨ {1, (1, J.d.emb0 h'), (1, n * J.d.emb0 h'), (embA B.d B.o h₀, n * J.d.emb0 h')} (Set.toFinite _).isCompact
+  obtain ⟨M, hMi, hM⟩ := GlobalTheory.Unf.flatFun_majorant D ψ V V₀ W W₀ ρ ρ dV dW s.vS s.vT s.χV s.χW s.om s.weil s.vU dW.e hlin
+    Ψ hΨ {1, (1, dW.emb0 h'), (1, n * dW.emb0 h'), (embA dV o h₀, n * dW.emb0 h')} (Set.toFinite _).isCompact
   simp only [← hx0] at hM
-  have bound : ∀ p ∈ ({1, (1, J.d.emb0 h'), (1, n * J.d.emb0 h'), (embA B.d B.o h₀, n * J.d.emb0 h')} :
-      Set (GA D B.V × GA D J.W)), ∀ (u : UX D ρ) w, ‖star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕
-      (s.om p Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w‖ ≤ M u :=
+  have bound : ∀ p ∈ ({1, (1, dW.emb0 h'), (1, n * dW.emb0 h'), (embA dV o h₀, n * dW.emb0 h')} :
+      Set (GA D V × GA D W)), ∀ (u : UX D ρ) w, ‖star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕
+      (s.om p Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w‖ ≤ M u :=
     fun p hp u w => hM p hp _ w u
-  have hmc := GlobalTheory.MixCont.mixed_coords_continuous D ψ B.V B.V₀ J.W J.W₀ ρ ρ B.d J.d s.vS s.vT s.χV s.χW s.om s.weil Ψ hΨ
-  have hxu : Continuous fun u : UX D ρ => xZero J.d ⬝ u.1.1 :=
+  have hmc := GlobalTheory.MixCont.mixed_coords_continuous D ψ V V₀ W W₀ ρ ρ dV dW s.vS s.vT s.χV s.χW s.om s.weil Ψ hΨ
+  have hxu : Continuous fun u : UX D ρ => xZero dW ⬝ u.1.1 :=
     continuous_const.matrix_mul (Units.continuous_val.comp continuous_subtype_val)
-  have cont : ∀ p, Continuous fun q : UX D ρ × WO B.V₀ J.W₀ => star (psiUni ψ q.1.1) *
-      evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om p Ψ) (xZero J.d ⬝ q.1.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) q.2 := by
+  have cont : ∀ p, Continuous fun q : UX D ρ × WO V₀ W₀ => star (psiUni ψ q.1.1) *
+      evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om p Ψ) (xZero dW ⬝ q.1.1.1) (yZero V₀ ρ (vecB o ζ)) q.2 := by
     intro p
-    have h1 : Continuous fun q : UX D ρ × WO B.V₀ J.W₀ => ((p, xZero J.d ⬝ q.1.1.1, yZero B.V₀ ρ (vecB B.o B.ζ), q.2) :
-        (GA D B.V × GA D J.W) × Mx D J.W.rank ρ × Mx D B.V₀.rank ρ × WO B.V₀ J.W₀) :=
+    have h1 : Continuous fun q : UX D ρ × WO V₀ W₀ => ((p, xZero dW ⬝ q.1.1.1, yZero V₀ ρ (vecB o ζ), q.2) :
+        (GA D V × GA D W) × Mx D W.rank ρ × Mx D V₀.rank ρ × WO V₀ W₀) :=
       continuous_const.prodMk ((hxu.comp continuous_fst).prodMk (continuous_const.prodMk continuous_snd))
     have h2 := hmc.2.comp h1
-    have h3 : Continuous fun q : UX D ρ × WO B.V₀ J.W₀ => star (psiUni ψ q.1.1) :=
+    have h3 : Continuous fun q : UX D ρ × WO V₀ W₀ => star (psiUni ψ q.1.1) :=
       ((continuous_psiUni ψ hstd.1.1 ρ).comp continuous_fst).star
     exact h3.mul h2
-  have hci := GlobalTheory.CommInt.om_integral_comm D ψ B.V₀ J.W₀ s.χV s.χW s.om₀ s.weil₀ (UX D ρ) s.vU.ν
+  have hci := GlobalTheory.CommInt.om_integral_comm D ψ V₀ W₀ s.χV s.χW s.om₀ s.weil₀ (UX D ρ) s.vU.ν
 
-  have hF : ∀ u : UX D ρ, (fun w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) = star (psiUni ψ u.1) • evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) :=
+  have hF : ∀ u : UX D ρ, (fun w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) = star (psiUni ψ u.1) • evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) :=
     fun u => rfl
-  have hG : ∀ (u : UX D ρ) w, s.om₀ (1, h') (fun w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) w =
-      star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w := by
+  have hG : ∀ (u : UX D ρ) w, s.om₀ (1, h') (fun w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) w =
+      star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w := by
     intro u w
     rw [hF, map_smul, e3]
     rfl
-  have step1 : ∀ w, s.om₀ (1, h') (flatBF s Ψ) w = ∫ u, star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w ∂s.vU.ν := by
+  have step1 : ∀ w, s.om₀ (1, h') ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) Ψ) w = ∫ u, star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w ∂s.vU.ν := by
     intro w
-    have h := hci (fun u w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) (1, h') M
+    have h := hci (fun u w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) (1, h') M
       (fun u => by rw [hF]; exact GlobalTheory.OrientedHeis.theta_smul _ (thev Ψ hΨ u))
       (by have h := cont 1; rw [hom1] at h; exact h)
       (by simp only [hG]; exact cont _)
@@ -178,17 +174,17 @@ theorem flatBF_om : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B 
       (by have h := thflat 1; rw [hom1] at h; exact h) w
     exact h.trans (integral_congr_ae (Filter.Eventually.of_forall fun u => hG u w))
 
-  have hF2 : ∀ u : UX D ρ, (fun w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) =
-      star (psiUni ψ u.1) • evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) := fun u => rfl
-  have hG2 : ∀ (u : UX D ρ) w, s.om₀ (B.o.emb (h₀, 1), 1) (fun w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) w =
-      star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w := by
+  have hF2 : ∀ u : UX D ρ, (fun w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) =
+      star (psiUni ψ u.1) • evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) := fun u => rfl
+  have hG2 : ∀ (u : UX D ρ) w, s.om₀ (o.emb (h₀, 1), 1) (fun w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) w =
+      star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA dV o h₀, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w := by
     intro u w
-    rw [hF2, map_smul, e2, hev.1 u h₀ n hn h']
+    rw [hF2, map_smul, e2, hev u h₀ n hn h']
     rfl
-  have step2 : ∀ w, s.om₀ (B.o.emb (h₀, 1), 1) (fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w ∂s.vU.ν) w =
-      ∫ u, star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w ∂s.vU.ν := by
+  have step2 : ∀ w, s.om₀ (o.emb (h₀, 1), 1) (fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w ∂s.vU.ν) w =
+      ∫ u, star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA dV o h₀, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w ∂s.vU.ν := by
     intro w
-    have h := hci (fun u w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) (B.o.emb (h₀, 1), 1) M
+    have h := hci (fun u w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) (o.emb (h₀, 1), 1) M
       (fun u => by rw [hF2]; exact GlobalTheory.OrientedHeis.theta_smul _ (thev _ (thom _) u))
       (cont _)
       (by simp only [hG2]; exact cont _)
@@ -197,16 +193,16 @@ theorem flatBF_om : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B 
       (thflat _) w
     exact h.trans (integral_congr_ae (Filter.Eventually.of_forall fun u => hG2 u w))
 
-  have hopa : opA ψ J.d B.o B.ζ s.om₀ n h' (flatBF s Ψ) =
-      fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w ∂s.vU.ν := by
+  have hopa : opA ψ dW o ζ s.om₀ n h' ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) Ψ) =
+      fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w ∂s.vU.ν := by
     funext w
-    have h1 : s.om₀ (1, h') (flatBF s Ψ) = fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w ∂s.vU.ν :=
+    have h1 : s.om₀ (1, h') ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) Ψ) = fun w => ∫ u, star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w ∂s.vU.ν :=
       funext step1
-    show jacT ψ J.d B.V₀ (yZero B.V₀ ρ (vecB B.o B.ζ)) n (s.om₀ (1, h') (flatBF s Ψ)) w = _
+    show jacT ψ dW V₀ (yZero V₀ ρ (vecB o ζ)) n (s.om₀ (1, h') ((flat ψ dV o ζ dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 s.vU.ν) Ψ)) w = _
     rw [h1, jacT_integral]
     refine integral_congr_ae (Filter.Eventually.of_forall fun u => ?_)
-    have h2 : (fun w => star (psiUni ψ u.1) * evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) w) =
-        star (psiUni ψ u.1) • s.om₀ (1, h') (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ))) := by
+    have h2 : (fun w => star (psiUni ψ u.1) * evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) w) =
+        star (psiUni ψ u.1) • s.om₀ (1, h') (evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ))) := by
       rw [e3]; rfl
     dsimp only
     rw [h2, jacT_smul, e2]
@@ -214,5 +210,9 @@ theorem flatBF_om : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B 
   rw [hopa]
   funext w
   exact (step2 w).symm
+
+theorem flatBF_om : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → ∀ h₀, ∀ n ∈ radX J.d, ∀ h', flatBF s (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) = s.om₀ (B.o.emb (h₀, 1), 1) (opA ψ J.d B.o B.ζ s.om₀ n h' (flatBF s Ψ)) := by
+  intro D ψ ρ B J s om' hom' Ψ hΨ
+  exact flat_om_of_decompositions D ψ ρ B.V B.V₀ J.W J.W₀ B.A B.L B.d J.d B.o B.ζ s om' hom' Ψ hΨ
 
 end GlobalTheory.Unf.FlatCommBF

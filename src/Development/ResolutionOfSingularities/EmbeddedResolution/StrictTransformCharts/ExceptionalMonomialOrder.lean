@@ -7,6 +7,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTra
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.StrictNormalCrossings
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.IdealSheafOrder
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.PowerContainmentAndOrderLocus
+import all Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.PowerContainmentAndOrderLocus
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.SmoothCenterChart
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,6 +55,7 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
+import GroundTheory.HeightsAndTheta.Heights.FieldsOfNumbers.StatementsConePolyLocalization
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ExceptionalDivisorChart, Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ExceptionalMonomialOrder
@@ -663,23 +665,7 @@ private theorem map_C_eq_ker_map_quotientMk {R : Type*} [CommRing R] (P : Ideal 
 
 theorem isPrime_map_C {R : Type*} [CommRing R] (P : Ideal R) [P.IsPrime] (σ : Type*) :
     (Ideal.map (MvPolynomial.C : R →+* MvPolynomial σ R) P).IsPrime := by
-  have hdom : IsDomain (R ⧸ P) := inferInstance
-  have hdom2 : IsDomain (MvPolynomial σ (R ⧸ P)) := inferInstance
-  rw [map_C_eq_ker_map_quotientMk P σ]
-  refine ⟨?_, ?_⟩
-  · rw [Ideal.ne_top_iff_one]
-    intro hmem
-    have h1 : (MvPolynomial.map (Ideal.Quotient.mk P) :
-        MvPolynomial σ R →+* MvPolynomial σ (R ⧸ P)) 1 = 0 := RingHom.mem_ker.mp hmem
-    rw [map_one] at h1
-    have h2 := congrArg (fun f : MvPolynomial σ (R ⧸ P) => MvPolynomial.constantCoeff f) h1
-    simp only [map_one, map_zero] at h2
-    exact one_ne_zero h2
-  · intro x y hxy
-    rw [RingHom.mem_ker, map_mul] at hxy
-    rcases mul_eq_zero.mp hxy with h | h
-    · exact Or.inl (RingHom.mem_ker.mpr h)
-    · exact Or.inr (RingHom.mem_ker.mpr h)
+  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.isPrime_map_C_mvPolynomial <;> assumption
 
 private theorem C_coeff_mem_of_minimal_prime {R : Type*} [CommRing R] {σ : Type*}
     (Pp : Ideal (MvPolynomial σ R)) [Pp.IsPrime]
@@ -918,12 +904,7 @@ private theorem map_germ_primeIdealOf_le_maximalIdeal {X : Scheme.{u}} {U : X.Op
 private theorem mem_support_iff_ideal_le_primeIdealOf {X : Scheme.{u}} (I : X.IdealSheafData)
     {U : X.Opens} (hU : IsAffineOpen U) (x : ↥U) :
     (x : X) ∈ I.support ↔ I.ideal ⟨U, hU⟩ ≤ (hU.primeIdealOf x).asIdeal := by
-  constructor
-  · intro hx
-    exact ideal_le_primeIdealOf I hU x.2 hx
-  · intro hx
-    rw [mem_support_iff_stalkIdeal_le_maximalIdeal, stalkIdeal_eq_map_germ I (x : X) ⟨U, hU⟩ x.2]
-    exact le_trans (Ideal.map_mono hx) (map_germ_primeIdealOf_le_maximalIdeal hU x)
+  apply _root_.FunctorialResolution.EmbeddedResolution.mem_support_iff_ideal_le_primeIdealOf_of_isAffineOpen <;> assumption
 
 private theorem le_orderAt_of_ideal_le_pow {X : Scheme.{u}} (J : X.IdealSheafData) {U : X.Opens}
     (hU : IsAffineOpen U) (x : ↥U) (n : ℕ)

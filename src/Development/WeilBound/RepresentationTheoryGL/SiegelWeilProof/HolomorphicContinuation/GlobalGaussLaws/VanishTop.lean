@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.DilationDecomposition.Bridge
+import CompanionTheory.RealGroups.UnitaryAdmissibility.ArchimedeanUnitaryDual.ArchimedeanDenseStabilizers.DenseRangeOfNotIsReal
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.ConvRight
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WeilSchrodingerRealParameter
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.DenseD
@@ -207,20 +209,8 @@ theorem blocks_of_inG {a b c d : Matrix (Fin n) (Fin n) ℂ} (h : InG (fromBlock
     exact neg_inj.mp k
   · rw [← sub_eq_zero, ← e22]; noncomm_ring
 
-theorem cross_of_inG {a b c d : Matrix (Fin n) (Fin n) ℂ} (h : InG (fromBlocks a b c d)) : c * dᴴ = d * cᴴ := by
-  obtain ⟨h11, h12, h21, h22⟩ := blocks_of_inG h
-  have hl : fromBlocks dᴴ (-bᴴ) (-cᴴ) aᴴ * fromBlocks a b c d = 1 := by
-    rw [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one]
-    refine Matrix.fromBlocks_inj.2 ⟨?_, ?_, ?_, ?_⟩
-    · rw [← h21]; noncomm_ring
-    · rw [Matrix.neg_mul, h22]; abel
-    · rw [Matrix.neg_mul, ← h11]; abel
-    · rw [← h12]; noncomm_ring
-  have hr : fromBlocks a b c d * fromBlocks dᴴ (-bᴴ) (-cᴴ) aᴴ = 1 := mul_eq_one_comm.mp hl
-  rw [Matrix.fromBlocks_multiply, ← Matrix.fromBlocks_one] at hr
-  have e := congrArg Matrix.toBlocks₂₁ hr
-  simp only [Matrix.toBlocks_fromBlocks₂₁] at e
-  rw [← sub_eq_zero, ← e]; noncomm_ring
+theorem cross_of_inG {a b c d : Matrix (Fin n) (Fin n) ℂ} (h : InG (fromBlocks a b c d)) : c * dᴴ = d * cᴴ :=
+  _root_.GlobalTheory.CompanionTheory.BigCell.lower_symm h
 
 theorem det_ne (g : GR n) : ((mR g).toBlocks₂₂ - Complex.I • (mR g).toBlocks₂₁).det ≠ 0 := by
   set a := (mR g).toBlocks₁₁
@@ -434,12 +424,7 @@ theorem inG_nUh {b : Matrix (Fin n) (Fin n) ℂ} (hb : bᴴ = b) : InG (nU b) :=
   simp
 
 theorem inG_mL {A : Matrix (Fin n) (Fin n) ℂ} (hA : IsUnit A.det) : InG (fromBlocks A 0 0 (A⁻¹)ᴴ) := by
-  have h1 : Aᴴ * (A⁻¹)ᴴ = 1 := by
-    rw [← Matrix.conjTranspose_mul, Matrix.nonsing_inv_mul _ hA, Matrix.conjTranspose_one]
-  have h2 : A⁻¹ * A = 1 := Matrix.nonsing_inv_mul _ hA
-  simp only [InG, JJ, Matrix.fromBlocks_conjTranspose, Matrix.fromBlocks_multiply, Matrix.conjTranspose_conjTranspose,
-    Matrix.conjTranspose_zero]
-  simp [h1, h2]
+  apply _root_.PositivityTheory.Rg.Sw.Glob.DenseP.inG_lev <;> assumption
 
 def hpart (A : Matrix (Fin n) (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ := (1 / 2 : ℂ) • (A + Aᴴ)
 
@@ -578,23 +563,8 @@ open Formalism.IndefR.Eqv (psiT psiT_inclR)
 variable {D : D7} {n : ℕ}
 
 theorem denseRange_of_not_isReal' {K : Type} [Field K] (σ : K →+* ℂ)
-    (h : ¬ NumberField.ComplexEmbedding.IsReal σ) : DenseRange σ := by
-  have hc : IsClosed (σ.fieldRange.topologicalClosure : Set ℂ) :=
-    Subfield.isClosed_topologicalClosure _
-  rcases Complex.subfield_eq_of_closed hc with h1 | h1
-  · exfalso
-    apply h
-    rw [NumberField.ComplexEmbedding.isReal_iff]
-    ext x
-    have hx : σ x ∈ σ.fieldRange.topologicalClosure := Subfield.le_topologicalClosure _ ⟨x, rfl⟩
-    rw [h1] at hx
-    obtain ⟨r, hr⟩ := hx
-    rw [NumberField.ComplexEmbedding.conjugate_coe_eq, ← hr]
-    exact Complex.conj_ofReal r
-  · have : closure (Set.range σ) = Set.univ := by
-      have := congrArg (fun S : Subfield ℂ => (S : Set ℂ)) h1
-      exact this
-    exact dense_iff_closure_eq.2 this
+    (h : ¬ NumberField.ComplexEmbedding.IsReal σ) : DenseRange σ :=
+  _root_.CompanionTheory.Rg.FlCls.denseRange_of_not_isReal σ h
 
 theorem tauE_not_real (τ : D.what₂.Tau) : ¬ NumberField.ComplexEmbedding.IsReal (tauE D τ) := by
   intro h
@@ -1227,10 +1197,7 @@ theorem continuous_reidx : Continuous (fun a : M2 n => reidx a) :=
   continuous_id.matrix_submatrix _ _
 
 theorem Jst_map (τ : D.what₂.Tau) : (Jst D n).map (tauE D τ) = reidx (JJ n) := by
-  ext i j
-  simp only [Jst, blk4, reidx, JJ, Matrix.map_apply, Matrix.submatrix_apply]
-  rcases finSumFinEquiv.symm i with a | a <;> rcases finSumFinEquiv.symm j with b | b <;>
-    simp [Matrix.fromBlocks, Matrix.one_apply]
+  apply _root_.PositivityTheory.Rg.Sw.Glob.DenseP.Jst_map <;> assumption
 
 theorem mR_mul (a b : GR n) : mR (a * b) = mR a * mR b := rfl
 

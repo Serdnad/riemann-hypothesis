@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsPsiTieOfValues
 public import Development.AbelianVarietyTheory.Definitions.HeightFunctions.XiValIffXiAt
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 public import Formalism.LocalToGlobal.ProjectiveLattices.CompHt
@@ -116,30 +117,11 @@ theorem evR_ne_zero_of_pow {E : Type} [Field E] [NumberField E] [IsCMField E] {H
 variable {D : D7}
 
 theorem normOne_det (V : HSp D) (h : GA D V) : NormOne (D := D) (Matrix.GeneralLinearGroup.det (finHom V h)) := by
-  have h1 := GlobalTheory.RecDict.det_finHom_norm V h
-  have h2 : ∀ z : AfE D, barF D z = sigR (Af D.host.F) D.sp.cm.sig z := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp only [map_zero]
-    | tmul a b => rfl
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-  unfold NormOne
-  rw [h2, Matrix.GeneralLinearGroup.val_det_apply]
-  exact h1
+  apply _root_.GlobalTheory.TwistTie.normOne_det <;> assumption
 
 theorem det_rat (V : HSp D) (γ : GA D V) (hγ : γ ∈ GQ V) :
     ∃ a : D.host.E, ((Matrix.GeneralLinearGroup.det (finHom V γ) : (AfE D)ˣ) : AfE D) = 1 ⊗ₜ a := by
-  obtain ⟨γ', h⟩ := exists_isRat_of_mem_GQ V hγ
-  refine ⟨γ'.1.det, ?_⟩
-  unfold IsRat at h
-  have : (finHom V γ).1 = ((Algebra.TensorProduct.map (sndA D.host.F) (AlgHom.id D.host.F D.host.E)).toRingHom.comp
-      (incA D)).mapMatrix γ'.1 := by
-    unfold finHom
-    rw [MonoidHom.comp_apply, h]
-    rfl
-  change (finHom V γ).1.det = _
-  rw [this, ← RingHom.map_det]
-  rfl
+  apply _root_.GlobalTheory.TwistTie.det_rational <;> assumption
 
 theorem FO_le_of_pins (Q : Par D) (h : Q.Pins) : FO D ≤ Q.c.F := by
   rw [FO, IntermediateField.adjoin_le_iff]

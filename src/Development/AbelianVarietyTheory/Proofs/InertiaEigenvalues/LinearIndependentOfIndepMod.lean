@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIndependentAdmissibleCocyclesResidue
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.PowerSeriesOneAddConstMulXMulInv
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubIdBijOfContracting
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.TwistedModelAdmissibleCocycles
@@ -713,27 +714,8 @@ theorem linearIndependent_of_indepMod {N : Type} [AddCommGroup N] [Module O N] (
     (A : Ob k G) (q : N ≃ₗ[O] (Fin A.m → k)) (hq : ∀ g x, q (π g x) = A.ρ g (q x)) {s : ℕ}
     (z : Fin s → ↥(Z1 π ⊤)) (h : IndepMod lam (fun a => (Submodule.Quotient.mk (z a) : H1 π ⊤))) :
     LinearIndependent k (fun a => (cob A).mkQ (fun g => q ((z a : G → N) g))) := by
-  rw [Fintype.linearIndependent_iff]
-  intro y hy a
-  choose x hx using fun a => hs (y a)
-  rw [← hx, hk]
-  refine h x ?_ a
-
-  simp only [← map_smul, ← map_sum] at hy
-  obtain ⟨b, hb⟩ := (Submodule.Quotient.mk_eq_zero _).mp hy
-  have e1 : ∑ a, x a • (Submodule.Quotient.mk (z a) : H1 π ⊤) = Submodule.mkQ _ (∑ a, x a • z a) := by
-
-    rw [map_sum]; rfl
-  rw [e1]
-  refine (Submodule.Quotient.mk_eq_zero _).mpr ⟨q.symm b, Submodule.mem_top, ?_⟩
-  funext g
-  apply q.injective
-  have := congrFun hb g
-  simp only [LinearMap.pi_apply, LinearMap.sub_apply, LinearMap.id_apply, Finset.sum_apply, Pi.smul_apply,
-    ← hx, algebraMap_smul] at this
-  change q (π g (q.symm b) - q.symm b) = _
-  rw [map_sub, hq, q.apply_symm_apply, this]
-  simp
+  intros
+  apply _root_.GlobalTheory.ResidueBound.linearIndependent_of_indepMod <;> assumption
 end
 
 theorem exists_charEquiv {G : Type} [Group G] [TopologicalSpace G] {Qp LL O k : Type} [Field Qp] [Field LL]

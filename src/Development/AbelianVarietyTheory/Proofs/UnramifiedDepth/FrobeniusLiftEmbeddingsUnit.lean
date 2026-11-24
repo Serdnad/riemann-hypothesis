@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfGe
 public import Mathlib.Algebra.Ring.Hom.Defs
 public import Mathlib.Algebra.BigOperators.Group.Finset.Basic
 public import Mathlib.Algebra.Ring.GeomSum
@@ -54,7 +56,6 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 import Formalism.LocalToGlobal.ProjectiveLattices.SubConstMemOrig
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.CocycleRightZeroThd
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqOfMapEqOfPowEqOne, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FrobeniusLiftEmbeddingsUnit
 
@@ -198,18 +199,7 @@ instance : (maxId V).IsPrime where
     exact absurd h (not_lt.2 (add_nonpos h1 h2))
 
 theorem eq_zero_of_ge {x : C} (h : ∀ n : ℕ, V.Ge n x) : x = 0 := by
-  by_contra hx
-  have h1 : V.v x ≠ ⊤ := by
-    intro ht
-    have := V.v.map_mul x x⁻¹
-    rw [mul_inv_cancel₀ hx, V.v.map_one, ht, top_add] at this
-    exact WithTop.zero_ne_top this
-  obtain ⟨t, ht⟩ := WithTop.ne_top_iff_exists.1 h1
-  obtain ⟨n, hn⟩ := exists_nat_gt t
-  have := h n
-  unfold VF.Ge at this
-  rw [← ht, WithTop.coe_le_coe] at this
-  linarith
+  first | exact _root_.GlobalTheory.TeichPair.eq_zero_of_ge | exact @_root_.GlobalTheory.TeichPair.eq_zero_of_ge | apply _root_.GlobalTheory.TeichPair.eq_zero_of_ge <;> assumption
 
 theorem ge_l_pow (n : ℕ) : V.Ge n ((V.l : C) ^ n) := by
   induction n with

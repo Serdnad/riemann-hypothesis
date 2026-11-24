@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCIsHermitian
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.PartsSt
 public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
@@ -90,21 +91,7 @@ theorem leviC_smul_snd (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] 
 
 theorem sum_leviC_mul (H : (Fin e → ℂ) →L[ℝ] (Fin e → ℂ) →L[ℝ] ℝ) (a x : Fin e → ℂ) :
     ∑ j, leviC H a (Pi.single j 1) * x j = leviC H a (star x) := by
-  have hx : star x = ∑ j, star (x j) • (Pi.single j 1 : Fin e → ℂ) := by
-    conv_lhs => rw [← Finset.univ_sum_single (star x)]
-    refine Finset.sum_congr rfl fun j _ => ?_
-    ext k
-    by_cases h : k = j
-    · subst h; simp
-    · simp [h]
-  let ℓ : (Fin e → ℂ) →+ ℂ := AddMonoidHom.mk' (fun b => leviC H a b) (leviC_add_snd H a)
-  rw [hx]
-  show _ = ℓ _
-
-  rw [map_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  simp only [ℓ, AddMonoidHom.mk'_apply, leviC_smul_snd, star_star]
-  ring
+  apply ReciprocityTheory.AnForm.M.sum_leviC_right <;> assumption
 
 theorem hessC_isHermitian_of_symm (φ : (Fin e → ℂ) → ℝ) (z : Fin e → ℂ)
     (h : IsSymmSndFDerivAt ℝ φ z) : (hessC φ z).IsHermitian := by
@@ -116,19 +103,7 @@ theorem hessC_isHermitian_of_symm (φ : (Fin e → ℂ) → ℝ) (z : Fin e → 
 
 theorem hessC_posSemidef_of_levi (φ : (Fin e → ℂ) → ℝ) (z : Fin e → ℂ) (h2 : ContDiffAt ℝ 2 φ z)
     (hl : ∀ ξ, 0 ≤ levi φ z ξ) : (hessC φ z).PosSemidef := by
-  have hs : IsSymmSndFDerivAt ℝ φ z := h2.isSymmSndFDerivAt (by simp)
-  refine PosSemidef.of_dotProduct_mulVec_nonneg (hessC_isHermitian_of_symm φ z hs) fun x => ?_
-  have key : star x ⬝ᵥ (hessC φ z *ᵥ x) =
-      leviC (fderiv ℝ (fderiv ℝ φ) z) (star x) (star x) := by
-    simp only [dotProduct, mulVec, hessC_eq_leviC, sum_leviC_mul]
-    exact sum_mul_leviC _ (star x) (star x)
-  rw [key, Complex.nonneg_iff]
-  constructor
-  · have := hl (star x)
-    simpa [leviC, levi] using this
-  · simp only [leviC]
-    rw [hs (star x) (Complex.I • star x)]
-    simp
+  apply ReciprocityTheory.AnForm.M.hessC_posSemidef <;> assumption
 
 end Levi
 

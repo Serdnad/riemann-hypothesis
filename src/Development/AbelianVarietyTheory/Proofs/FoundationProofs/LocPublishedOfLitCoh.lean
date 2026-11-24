@@ -1676,22 +1676,8 @@ theorem dual_representation_integral_entries (c : Coef l) (W : R2 Ω l) (hW : �
   exact mul_mem (mul_mem (eps_mem c s) (det_mem c (hW s))) (hW s i j)
 
 theorem cont_dual1 (W : R2 Ω l) (hW : Continuous W) (h2 : dt W ^ 2 = 1) : Continuous (dual1 W) := by
-  have he : Continuous (fun s : G ℚ Ω => eps l s) := by
-    have hz : Continuous (fun s : G ℚ Ω => ((cycZ ℚ Ω l s : ℤ_[l]ˣ) : ℤ_[l])) :=
-      Units.continuous_val.comp (continuous_cycZ ℚ Ω l)
-    exact (continuous_algebraMap ℚ_[l] (Qbar l)).comp (continuous_subtype_val.comp hz)
-  have hdv : Continuous (fun s => ((dt W s : (Qbar l)ˣ) : Qbar l)) := by
-    simp only [val_dt]
-    exact (Units.continuous_val.comp hW).matrix_det
-  have hm : Continuous (fun s => mat (dual1 W) s) := by
-    have : (fun s => mat (dual1 W) s) = fun s => (eps l s * ((dt W s : (Qbar l)ˣ) : Qbar l)) • mat W s := by
-      funext s; rw [mat_dual1, dt_inv W h2]
-    rw [this]; exact (he.mul hdv).smul (Units.continuous_val.comp hW)
-  refine Units.continuous_iff.2 ⟨hm, ?_⟩
-  have : (fun s => (((dual1 W s)⁻¹ : GL (Fin 2) (Qbar l)) : Matrix (Fin 2) (Fin 2) (Qbar l))) =
-      fun s => mat (dual1 W) s⁻¹ := by
-    funext s; simp [mat, map_inv]
-  rw [this]; exact hm.comp continuous_inv
+  intros
+  apply _root_.GlobalTheory.Ord2.Upgrade.continuous_galoisRepRankTwoTateDual <;> assumption
 
 variable [IsAlgClosure ℚ Ω]
 

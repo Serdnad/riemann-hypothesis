@@ -1,5 +1,6 @@
 module
 
+import Formalism.RealPlaceAnalysis.RealPlaceTaylor.LieOperatorConjHolds
 public import Formalism.RealPlaceAnalysis.SmoothVectorGrowthBound
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 public import Mathlib.Analysis.SpecialFunctions.SmoothTransition
@@ -251,14 +252,7 @@ lemma lie_derivative_const_zero (a b : Fin n) (g : Matrix (Fin n) (Fin n) ℂ) :
 
 lemma signature_conj_single (ε : Fin n → Bool) (a b : Fin n) :
     Jm ε * (Matrix.single a b (1 : ℂ))ᴴ * Jm ε = ((sgn ε a b : ℝ) : ℂ) • Matrix.single b a 1 := by
-  rw [Matrix.conjTranspose_single, star_one]
-  ext i j
-  simp only [Jm, Matrix.diagonal_mul, Matrix.mul_diagonal, Matrix.smul_apply, Matrix.single_apply,
-    smul_eq_mul, sgn]
-  by_cases hi : b = i <;> by_cases hj : a = j
-  · subst hi; subst hj
-    by_cases ha : ε a = true <;> by_cases hb : ε b = true <;> simp [ha, hb]
-  all_goals simp [hi, hj]
+  apply _root_.Formalism.REAL.p0auxiliary_theta_single <;> assumption
 
 lemma signature_sign_mul_self (ε : Fin n → Bool) (a b : Fin n) :
     ((sgn ε a b : ℝ) : ℂ) * ((sgn ε a b : ℝ) : ℂ) = 1 := by

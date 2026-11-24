@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.HyperbolicEntryBounds.CasInfOfIm
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.QuotientVanishing.NonEllFlag
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.QuotientVanishing.QuotVanish
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IntegralNonnegNormaliserEq
@@ -245,15 +246,7 @@ theorem continuous_mapGL {R S : Type} [CommRing R] [CommRing S] [TopologicalSpac
 open Classical in
 theorem cV_embInf (v w : InfinitePlace E) (y : GL (Fin n) ℂ) :
     GeneralLinearGroup.map (cV w) (embInf n v y) = if w = v then y else 1 := by
-  ext i j
-  change (GeneralLinearGroup.map (pInf E) (embInf n v y)) i j w = _
-  unfold embInf
-  rw [MonoidHom.comp_apply, pInf_infGL]
-  change (MonoidHom.mulSingle (fun _ : InfinitePlace E => GL (Fin n) ℂ) v y w).val i j = _
-  by_cases h : w = v
-  · subst h
-    simp
-  · simp [h]
+  apply _root_.PositivityTheory.Rg.BcB.CV.LocalPlacePositivity.cV_embInf <;> assumption
 
 theorem pFin_embInf (v : InfinitePlace E) (y : GL (Fin n) ℂ) :
     GeneralLinearGroup.map (pFin E) (embInf n v y) = 1 := by
@@ -1565,17 +1558,7 @@ theorem aeval_diagonal (lam : Fin n → ℂ) (q : ℂ[X]) :
 
 theorem isCompact_entryBall (n : ℕ) (B : ℝ) :
     IsCompact {k : GL (Fin n) ℂ | (∀ i j, ‖k.val i j‖ ≤ B) ∧ ∀ i j, ‖(k⁻¹).val i j‖ ≤ B} := by
-  set S : Set (Matrix (Fin n) (Fin n) ℂ) := {M | ∀ i j, ‖M i j‖ ≤ B} with hS
-  have hSc : IsCompact S := by
-    have : S = Set.pi Set.univ fun _ : Fin n => Set.pi Set.univ fun _ : Fin n => Metric.closedBall (0 : ℂ) B := by
-      ext M
-      exact ⟨fun h i _ j _ => by simpa using h i j,
-        fun h i j => by simpa using h i (Set.mem_univ _) j (Set.mem_univ _)⟩
-    rw [this]
-    exact isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => isCompact_closedBall _ _
-  have h := (Units.isClosedEmbedding_embedProduct (α := Matrix (Fin n) (Fin n) ℂ)).isCompact_preimage
-    (hSc.prod ((MulOpposite.opHomeomorph.symm.isCompact_preimage).2 hSc))
-  exact h
+  apply _root_.PositivityTheory.Rg.BcB.F.F0.isCompact_entries <;> assumption
 
 theorem diag_proper (lam : Fin n → ℂ) (hl : Function.Injective lam)
     (C : Set (Matrix (Fin n) (Fin n) ℂ)) (hC : IsCompact C) :

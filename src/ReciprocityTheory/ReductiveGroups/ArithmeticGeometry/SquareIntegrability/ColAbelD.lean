@@ -49,6 +49,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.SplitA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.MemOfProjTwoEqZero
 
 @[expose] public section
 
@@ -130,15 +131,9 @@ theorem columnVector_ne_zero {I : Submodule ℤ (Vsp X.dim)} {c : Col.Qc X I} (h
   exact h3
 
 private theorem isU_uc' {I : Submodule ℤ (Vsp X.dim)} (x : Vsp X.dim) : IsU I x (Col.uc (IR I) x) := by
-  refine ⟨?_, fun a ha => ?_⟩
-  · simp only [Col.uc]
-    exact Submodule.sum_mem _ fun k _ => Submodule.smul_mem _ _ (Col.ob (IR I) k).2
-  · conv_rhs => rw [← sum_inner_ob_smul_e (IR I) a ha]
-    rw [im_Hf_sum_real_smul]
-    simp only [Col.uc, sum_inner, real_inner_smul_left]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    simp only [Submodule.coe_inner, Col.z, Col.e]
-    ring
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.G.I2.Col.isU_uc
+    | apply _root_.ReciprocityTheory.ChartRestriction.G.I2.Col.isU_uc <;> first | assumption | rfl | infer_instance
 
 private theorem uc_mem_IR {I : Submodule ℤ (Vsp X.dim)} (x : Vsp X.dim) : Col.uc (IR I) x ∈ IR I :=
   (isU_uc' x).1

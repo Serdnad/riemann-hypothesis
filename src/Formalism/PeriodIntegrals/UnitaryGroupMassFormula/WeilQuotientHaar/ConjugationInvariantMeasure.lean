@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MeasureInverseContraction.Development
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeilQuotientHaar.HaarExist
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeilQuotientHaar.HaarMeasureUniqueness
 import Mathlib.Algebra.Order.Floor.Extended
@@ -63,15 +64,7 @@ theorem ennreal_eq_one_of_mul {a b : ℝ≥0∞} (h0 : b ≠ 0) (ht : b ≠ ⊤)
 
 theorem ennreal_le_one_of_pow_le {d M : ℝ≥0∞} (hdt : d ≠ ⊤) (hM : M ≠ ⊤)
     (h : ∀ k : ℕ, d ^ k ≤ M) : d ≤ 1 := by
-  by_contra hlt
-  push_neg at hlt
-  lift d to NNReal using hdt
-  lift M to NNReal using hM
-  have h1 : (1 : NNReal) < d := by exact_mod_cast hlt
-  obtain ⟨k, hk⟩ := ((tendsto_pow_atTop_atTop_of_one_lt h1).eventually_gt_atTop M).exists
-  have h2 := h k
-  rw [← ENNReal.coe_pow, ENNReal.coe_le_coe] at h2
-  exact absurd h2 (not_le.mpr hk)
+  apply _root_.PI.NMeasInv.UnitaryGroupMassFormula.le_one_of_pow_le <;> assumption
 
 section
 variable {G : Type} [TopologicalSpace G] [Group G] [IsTopologicalGroup G] [LocallyCompactSpace G]

@@ -1,5 +1,8 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyEig2
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePPTSelf
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MatrixCommuteOfCommuteSeparableCharpoly
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePKeyDef
 public import Formalism.LocalToGlobal.CharacterGerms.CoeffSubstEqSum
 public import Formalism.LocalToGlobal.CharacterGerms.RowTiePProjFB
@@ -38,13 +41,7 @@ section Val
 variable {C : Type} [Field C] {V : VF C}
 
 theorem mm_exists {a : C} (h : V.MM a) : ∃ r : ℝ, 0 < r ∧ V.Ge r a := by
-  unfold VF.MM at h
-  unfold VF.Ge
-  cases hva : V.v a with
-  | top => exact ⟨1, one_pos, le_top⟩
-  | coe x =>
-    rw [hva] at h
-    exact ⟨x, by exact_mod_cast h, le_rfl⟩
+  apply _root_.Formalism.L2.FormalSeriesBounds.IndAr.exists_ge_of_mm <;> assumption
 
 theorem mm_of_ge {a : C} {r : ℝ} (hr : 0 < r) (h : V.Ge r a) : V.MM a := by
   unfold VF.MM
@@ -171,20 +168,8 @@ private lemma mm_pow_l_pow_sub_of_mm_sub {C : Type} [Field C] {V : VF C} {s t : 
 private lemma mm_em_add_sub_em_pow_l_pow {C : Type} [Field C] {V : VF C} {O : Type} [CommRing O] {n d : ℕ} [NeZero d]
     (K : KeyData C V O n d) (a : ZMod d) (y : O) (k : ℕ) :
     V.MM ((K.em (a + k)) y - (K.em a) y ^ V.l ^ k) := by
-  induction k with
-  | zero =>
-    simp only [Nat.cast_zero, add_zero, pow_zero, pow_one, sub_self]
-    unfold VF.MM
-    rw [AddValuation.map_zero]
-    simp
-  | succ k ih =>
-    have h1 := K.6 (a + k) y
-    have h2 := mm_pow_l_pow_sub_of_mm_sub (K.5 (a + k) y) (ge_zero_pow_of_ge_zero (K.5 a y) _) ih 1
-    simp only [pow_one] at h2
-    have h3 := mm_add h1 h2
-    rw [sub_add_sub_cancel] at h3
-    rw [Nat.cast_succ, ← add_assoc, pow_succ, pow_mul]
-    exact h3
+  intros
+  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePKeyEig.em_iter <;> assumption
 
 theorem keyDelta_holds : KeyDeltaSt := by
   intro C _ _ V O _ n d _ K χ c hχ hcong
@@ -767,16 +752,7 @@ theorem alg_mulVec1 (a : K) (w : Fin n → K) :
   rw [Algebra.algebraMap_eq_smul_one, Matrix.smul_mulVec, Matrix.one_mulVec]
 
 theorem commute_aeval {A B : Matrix (Fin n) (Fin n) K} (h : Commute A B) (f : K[X]) : Commute A (aeval B f) := by
-  induction f using Polynomial.induction_on with
-  | C a =>
-    rw [aeval_C]
-    exact (Algebra.commutes a A).symm
-  | add p q hp hq =>
-    rw [map_add (f := _)]
-    exact hp.add_right hq
-  | monomial k a ih =>
-    rw [pow_succ, ← mul_assoc, map_mul, aeval_X]
-    exact ih.mul_right h
+  apply _root_.GlobalTheory.CommSep.commute_aeval_of_commute <;> assumption
 
 theorem pow_shift (N B : Matrix (Fin n) (Fin n) K) (hNB : Commute N B) (lam : K) (w : Fin n → K)
     (hw : N *ᵥ w = lam • w) (k : ℕ) :

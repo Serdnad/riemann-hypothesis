@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CharInOfIsCharLab
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.DetCharacterMemPrincipalCongruenceFixedVectors
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemChainVecsDet
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LabelEqOfSuppAdds
@@ -64,20 +65,7 @@ private theorem entN_eq_apply_of_lt {A : Type} [Zero A] {N : ℕ} (M : Matrix (F
   simp [entN, hi, hj]
 
 theorem blk_eq_par (x : Gn g a) (y : Gn g b) : blk a b (a + b) x y = par finSumFinEquiv x 0 y := by
-  have hM : (fun i j : Fin (a + b) =>
-      if (i : ℕ) < a ∧ (j : ℕ) < a then entN (x : Mt g a) i j
-      else if a ≤ (i : ℕ) ∧ a ≤ (j : ℕ) then entN (y : Mt g b) (i - a) (j - a) else 0) =
-      ((par finSumFinEquiv x 0 y : Gn g (a + b)) : Mt g (a + b)) := by
-    funext i j
-    obtain ⟨i, rfl⟩ := finSumFinEquiv.surjective i
-    obtain ⟨j, rfl⟩ := finSumFinEquiv.surjective j
-    rw [par_apply]
-    rcases i with i | i <;> rcases j with j | j <;> simp [entN]
-  show toG _ = _
-  rw [hM]
-  unfold toG
-  rw [dite_eq_left (Units.isUnit _)]
-  exact Units.ext (IsUnit.unit_spec _)
+  apply _root_.GlobalTheory.SerSys.OfLabel.blk_eq_par <;> assumption
 
 theorem exists_eq_par (u : Gn g (a + b)) (h0 : InPar a (u : Mt g (a + b))) (h1 : tl a (u : Mt g (a + b)) = 1)
     (h2 : br a b (u : Mt g (a + b)) = 1) : ∃ B, u = par finSumFinEquiv (1 : Gn g a) B (1 : Gn g b) := by

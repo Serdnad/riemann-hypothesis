@@ -59,6 +59,7 @@ import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftLeftFst
 import Mathlib.AlgebraicGeometry.ZariskisMainTheorem
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SurjRestrictSnd
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.ProductFormulaTheory.AbelianDeRham.FreeAbelianDeRham.H1StructureDimLe, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.AddAcyclic, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.FewEqBridge, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.TrivLocusA, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.TrivLocusB, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.TrivLocus, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CechFlatComplex, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CechFlatComplexStatement, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExistsPointOfIsAffine, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.IsIsoOfClosedImmersion, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.SpecMapAppFromSpec, CompanionTheory.AutomorphicTheory.ProductFormulaTheory.DualAbelianSchemes.TrivLocusFlat
@@ -900,16 +901,7 @@ theorem isAdditive_ev {M : LB (A ⊗ T).left} (hM : M.IsLB) (h : IsAdditive M) (
 
 theorem surjective_snd (hA : IsAbelianScheme A) (V : T.left.Opens) :
     Function.Surjective ((snd A T).left ∣_ V).appTop.hom := by
-  have hG := GlobalTheory.PolPull.isAbelianScheme_of_isGrpPullback hA (isGrpPullback_pullback A T.hom)
-  have hV := GlobalTheory.PolPull.isAbelianScheme_of_isGrpPullback hG (isGrpPullback_pullback _ V.ι)
-  have h1 : Function.Surjective (pullback.snd (pullback.snd A.hom T.hom) V.ι).appTop.hom :=
-    (GlobalTheory.globalFns_holds _ _ hV).2
-  have e : (snd A T).left ∣_ V =
-      (pullbackRestrictIsoRestrict (pullback.snd A.hom T.hom) V).inv ≫ pullback.snd (pullback.snd A.hom T.hom) V.ι := rfl
-  have h2 := (ConcreteCategory.bijective_of_isIso
-    ((pullbackRestrictIsoRestrict (pullback.snd A.hom T.hom) V).inv.app ⊤)).2.comp h1
-  rw [e, Scheme.Hom.comp_appTop]
-  exact h2
+  apply _root_.GlobalTheory.DualCon.surj_restrict_snd <;> assumption
 
 end Pull
 

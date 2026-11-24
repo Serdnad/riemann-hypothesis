@@ -1351,23 +1351,8 @@ open PositivityTheory.KB.SplitAffineSpectral
 variable {Y : Type}
 
 theorem dc_cons {m : ℕ} (G : (Fin (m + 2) → Y) → ℝ) (a : Y) (t : Fin (m + 2) → Y) :
-    dc G (Fin.cons a t) = G t - dc (fun z => G (Fin.cons a z)) t := by
-  unfold dc
-  rw [Fin.sum_univ_succ]
-  have h0 : (fun j => (Fin.cons a t : Fin (m + 3) → Y) ((0 : Fin (m + 3)).succAbove j)) = t := by
-    funext j; simp
-  have hs : ∀ i : Fin (m + 2), (fun j => (Fin.cons a t : Fin (m + 3) → Y) (i.succ.succAbove j)) =
-      Fin.cons a (fun j => t (i.succAbove j)) := by
-    intro i; funext j
-    refine Fin.cases ?_ (fun j => ?_) j
-    · simp
-    · simp [Fin.succ_succAbove_succ]
-  rw [h0]
-  simp only [hs, Fin.val_zero, pow_zero, one_mul, Fin.val_succ, pow_succ]
-  rw [sub_eq_add_neg, ← Finset.sum_neg_distrib]
-  congr 1
-  refine Finset.sum_congr rfl fun i _ => ?_
-  ring
+    dc G (Fin.cons a t) = G t - dc (fun z => G (Fin.cons a z)) t :=
+  _root_.PositivityTheory.KB.SplitAffineSpectral.PrismSpan.dc_cons G a t
 
 theorem dc_sub {m : ℕ} (G H : (Fin (m + 1) → Y) → ℝ) (x : Fin (m + 2) → Y) :
     dc (fun z => G z - H z) x = dc G x - dc H x := by

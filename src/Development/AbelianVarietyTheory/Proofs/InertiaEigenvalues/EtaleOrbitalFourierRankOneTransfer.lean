@@ -162,12 +162,7 @@ namespace GlobalTheory.JHypEquiv
 variable {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E]
 
 theorem secondCountable_K [Unram F E] (A : Et F E) : SecondCountableTopology A.K := by
-  haveI : LocallyCompactSpace F := Unram.lcF E
-  haveI : ProperSpace F := ProperSpace.of_locallyCompactSpace F
-  let e : A.K ≃ₗ[F] (Fin (Module.finrank F A.K) → F) := (Module.finBasis F A.K).equivFun
-  have h1 : Continuous e := IsModuleTopology.continuous_of_linearMap e.toLinearMap
-  have h2 : Continuous e.symm := IsModuleTopology.continuous_of_linearMap e.symm.toLinearMap
-  exact (Homeomorph.mk e.toEquiv h1 h2).secondCountableTopology
+  apply _root_.GlobalTheory.FourKTest.secondCountable <;> assumption
 
 theorem t2Space_K (A : Et F E) : T2Space A.K := by
   let e : A.K ≃ₗ[F] (Fin (Module.finrank F A.K) → F) := (Module.finBasis F A.K).equivFun
@@ -769,14 +764,7 @@ namespace GlobalTheory.LatVol
 
 theorem stdChar_continuous {F : Type} [NontriviallyNormedField F] (ψ : AddChar F ℂ) (hψ : IsStdChar ψ) :
     Continuous ψ := by
-  refine continuous_iff_continuousAt.2 fun x => ?_
-  have h : ∀ᶠ y in 𝓝 x, ψ y = ψ x := by
-    filter_upwards [Metric.ball_mem_nhds x one_pos] with y hy
-    have h1 : ψ (y - x) = 1 := hψ.1 _ (by rw [Metric.mem_ball, dist_eq_norm] at hy; exact hy.le)
-    calc ψ y = ψ (x + (y - x)) := by rw [add_sub_cancel]
-      _ = ψ x * ψ (y - x) := AddChar.map_add_eq_mul ψ _ _
-      _ = ψ x := by rw [h1, mul_one]
-  exact (continuousAt_const).congr (h.mono fun y hy => hy.symm)
+  apply _root_.GlobalTheory.FourKTest.psi_continuous <;> assumption
 
 theorem main : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E] [StarRing E] [Unram F E] (A : Et F E) (ψ : AddChar F ℂ), IsStdChar ψ → ∀ (μK : Measure A.K), SelfDual μK (A.kerK ψ) → ∀ c : F, c ≠ 0 → MeasurableSet {y : A.K | ∀ x : A.K, c • x ∈ A.OK → A.psiK ψ (x * y) = 1} ∧ (((μK {z : A.K | c • z ∈ A.OK}).toReal : ℝ) : ℂ) * (((μK {y : A.K | ∀ x : A.K, c • x ∈ A.OK → A.psiK ψ (x * y) = 1}).toReal : ℝ) : ℂ) = 1 := by
   intro F E _ _ _ _ _ A ψ hψ μK hsd c hc

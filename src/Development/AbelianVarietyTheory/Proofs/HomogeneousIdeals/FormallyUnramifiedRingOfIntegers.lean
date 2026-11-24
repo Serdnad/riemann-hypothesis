@@ -26,6 +26,7 @@ import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.Radical.NatInt
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import Mathlib.RingTheory.Unramified.Finite
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Echelon.Zsqrtd
 import Mathlib.Tactic.Inclusion.Extension.Core.Core
@@ -76,19 +77,16 @@ def mulChar : R ⊗[O] O' →ₐ[R] R :=
 @[simp] theorem mulChar_tmul (r : R) (x : O') :
     mulChar (R := R) (O := O) (O' := O') (r ⊗ₜ x) = r * algebraMap O' R x := rfl
 
+open Algebra.FormallyUnramified in
 theorem exists_elem_of_unramified {A : Type*} [CommRing A] [Algebra R A]
     [Algebra.FormallyUnramified R A] [Algebra.EssFiniteType R A] (χ : A →ₐ[R] R) :
     ∃ e : A, χ e = 1 ∧ ∀ x, x * e = χ x • e := by
-  let f : A ⊗[R] A →ₐ[R] A :=
-    Algebra.TensorProduct.lift ((Algebra.ofId R A).comp χ) (AlgHom.id R A) fun _ _ ↦ .all _ _
-  refine ⟨f (Algebra.FormallyUnramified.elem R A), ?_, fun x ↦ ?_⟩
-  · have : ∀ z, χ (f z) = χ (Algebra.TensorProduct.lmul' R z) := fun z ↦ by
-      induction z with
-      | tmul x y => simp [f]
-      | add z w hz hw => simp only [map_add (f := _), hz, hw]
-    rw [this, Algebra.FormallyUnramified.lmul_elem, map_one]
-  · simpa [f, Algebra.smul_def] using
-      congrArg f (Algebra.FormallyUnramified.one_tmul_mul_elem (R := R) x)
+  let f := (Algebra.ofId R A).comp χ
+  refine ⟨equalizerIdempotent (AlgHom.id R A) f, ?_, fun x ↦ ?_⟩
+  · rw [map_equalizerIdempotent, equalizerIdempotent_eq_one_iff]
+    ext x
+    simp [f]
+  · simpa [f, Algebra.smul_def] using apply_mul_equalizerIdempotent (AlgHom.id R A) f x
 
 variable {M : Type*} [AddCommGroup M] [Module O M] [Module O' M] [IsScalarTower O O' M]
 

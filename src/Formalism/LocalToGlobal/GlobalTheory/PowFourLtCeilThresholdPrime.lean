@@ -1363,15 +1363,7 @@ theorem pe_log_a (s : Scale) : 0 ≤ Real.log s.a := by
   exact one_le_mul_of_one_le_of_one_le s.one_lt_alt.le this
 
 theorem pe_rho_nonneg (K : G.Consts) (hK : K.Nonneg) : 0 ≤ G.rhoB D K L.sc := by
-  have hx := scale_pos_alt L.sc
-  have h1 : 0 ≤ K.La := hK.1
-  have h2 : 0 ≤ K.rho := hK.2.1
-  have h2' : 0 ≤ K.CN := hK.2.2.2.2.2.2.2.2.2.2.2.2.2.2
-  have hlx : 0 ≤ Real.log L.sc.x := Real.log_nonneg L.sc.one_lt_alt.le
-  have h3 := pe_log_a L.sc
-  have h4 : 0 ≤ L.sc.delta1 := by unfold Scale.delta1; positivity
-  unfold G.rhoB G.Nstar G.La
-  positivity
+  apply _root_.Formalism.L2.GlobalTheoryTheory.Loss.pc_rho_nonneg <;> assumption
 
 theorem pe_th : 0 ≤ 1 / ((D.R.k : ℝ) * L.sc.x ^ (Scale.A / 2)) ∧
     1 / ((D.R.k : ℝ) * L.sc.x ^ (Scale.A / 2)) ≤ L.sc.x⁻¹ := by

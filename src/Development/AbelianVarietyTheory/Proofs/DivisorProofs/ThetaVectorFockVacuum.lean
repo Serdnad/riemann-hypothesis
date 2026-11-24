@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.LiftFormsMainTerm
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramNegTransposeDiag
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -93,22 +95,6 @@ theorem isCartanInv_cart (M : Formalism.IndefR.Mult.DSModel V S) (τ : D.what₂
 
 theorem isONBasis_onb (M : Formalism.IndefR.Mult.DSModel V S) (τ : D.what₂.Tau) (p : ℕ)
     (h : ∀ a, M.ε τ a = decide ((a : ℕ) < p)) : IsONBasis (gramAt D V τ) (cart M τ) (onb M τ) p := by
-  have hu := (Matrix.isUnit_iff_isUnit_det _).1 (M.fr_unit τ)
-  have h1 := Matrix.mul_nonsing_inv _ hu
-  have c2 : ∀ X : Matrix (Fin V.rank) (Fin V.rank) ℂ, ((M.fr τ)⁻¹)ᴴ * ((M.fr τ)ᴴ * X) = X := fun X => by
-    rw [← Matrix.mul_assoc, ← Matrix.conjTranspose_mul, h1, Matrix.conjTranspose_one, Matrix.one_mul]
-  have hJ : (Matrix.diagonal fun a => (((if M.ε τ a then 1 else -1 : ℝ)) : ℂ)) = Formalism.REAL.Jm (M.ε τ) := by
-    unfold Formalism.REAL.Jm
-    congr 1
-    funext a
-    cases M.ε τ a <;> simp
-  refine ⟨fun a => if M.ε τ a then 1 else -1, fun a => ?_, ?_, ?_⟩
-  · by_cases ha : (a : ℕ) < p
-    · left; simp [h, ha]
-    · right; simp [h, ha, not_lt.1 ha]
-  · rw [hJ, ← M.fr_gram τ]
-    simp only [onb, Matrix.mul_assoc, c2, h1, Matrix.mul_one]
-  · rw [hJ]
-    simp only [onb, cart, Matrix.mul_assoc, h1, Matrix.mul_one]
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.LiftFormsMainTerm.isONBasis_onb <;> assumption
 
 end GlobalTheory.AdTh.VecFock

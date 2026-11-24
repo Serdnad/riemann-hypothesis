@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.MixedFieldContraction.GenericFibreKerTarget
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsFibreIncomp
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.IsMultiProjPrimeImageZ
@@ -37,18 +38,7 @@ variable {S : Type} [CommRing S]
 theorem aeval_scale {A : Type} [CommRing A] [Algebra S A] {g : MRingOver S ι'} {a : K' → ℕ}
     (hg : IsMultiHomog g a) (c : K' → A) (z : (Σ k, ι' k) → A) :
     aeval (fun p => c p.1 * z p) g = (∏ k, c k ^ a k) * aeval z g := by
-  simp only [aeval_def, eval₂_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun d hd => ?_
-  have h1 : ∏ p, (c p.1 * z p) ^ d p = (∏ p, c p.1 ^ d p) * ∏ p, z p ^ d p := by
-    rw [← Finset.prod_mul_distrib]
-    simp_rw [mul_pow]
-  have h2 : ∏ p : (Σ k, ι' k), c p.1 ^ d p = ∏ k, c k ^ a k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ y, c k ^ d ⟨k, y⟩ = _
-    rw [Finset.prod_pow_eq_pow_sum, hg d hd k]
-  rw [h1, h2]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.aevalCoordinateScale <;> assumption
 
 theorem coeff_eval₂_scale {σ R A : Type} [Fintype σ] [CommRing R] [CommRing A] (f : R →+* A) (b : σ → A)
     (P : MvPolynomial σ R) (m : σ →₀ ℕ) :

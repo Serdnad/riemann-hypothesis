@@ -64,55 +64,12 @@ namespace BE
 theorem exists_gen {R : Type*} [CommRing R] [IsDedekindDomain R] {I P Q : Ideal R} (hI : I ≠ ⊥)
     (hP : P.IsPrime) (hQ : Q.IsPrime) :
     ∃ r ∈ I, r ≠ 0 ∧ ∃ s : R, s ∉ P ∧ s ∉ Q ∧ ∀ x ∈ I, ∃ y : R, s * x = r * y := by
-  have key : ∀ P : Ideal R, P.IsPrime → ¬ I ≤ I * P := by
-    intro P hP hle
-    have h1 : I * P = I * ⊤ := by
-      rw [Ideal.mul_top]; exact le_antisymm Ideal.mul_le_left hle
-    exact hP.ne_top (mul_left_cancel₀ hI h1)
-  have h1 : ¬ ((I : Set R) ⊆ (I * P : Ideal R) ∪ (I * Q : Ideal R)) := by
-    intro h
-    rcases Ideal.subset_union.1 h with h | h
-    · exact key P hP h
-    · exact key Q hQ h
-  obtain ⟨r, hrI, hr⟩ := Set.not_subset.1 h1
-  have hrP : r ∉ I * P := fun h => hr (Or.inl h)
-  have hrQ : r ∉ I * Q := fun h => hr (Or.inr h)
-  have hr0 : r ≠ 0 := fun h => hrP (h ▸ Ideal.zero_mem _)
-  have hle : Ideal.span {r} ≤ I := (Ideal.span_singleton_le_iff_mem I).2 hrI
-  obtain ⟨J, hJ⟩ := Ideal.dvd_iff_le.2 hle
-  have hmem : r ∈ I * J := hJ ▸ Ideal.mem_span_singleton_self r
-  have h2 : ¬ ((J : Set R) ⊆ (P : Ideal R) ∪ (Q : Ideal R)) := by
-    intro h
-    rcases Ideal.subset_union.1 h with h | h
-    · exact hrP (Ideal.mul_mono_right h hmem)
-    · exact hrQ (Ideal.mul_mono_right h hmem)
-  obtain ⟨s, hsJ, hs⟩ := Set.not_subset.1 h2
-  refine ⟨r, hrI, hr0, s, fun h => hs (Or.inl h), fun h => hs (Or.inr h), fun x hx => ?_⟩
-  have h3 : x * s ∈ Ideal.span {r} := hJ ▸ Ideal.mul_mem_mul hx hsJ
-  obtain ⟨y, hy⟩ := Ideal.mem_span_singleton'.1 h3
-  exact ⟨y, by rw [mul_comm s x, ← hy, mul_comm]⟩
+  apply _root_.Formalism.HermitianLattices.Ext.L3.WA.BE.exists_gen <;> assumption
 
 theorem avoid_two {R : Type*} [CommRing R] {P Q : Ideal R} (hQ : Q.IsPrime) {a s m : R} (k : R)
     (ha : a ∈ P) (hsP : s ∉ P) (hsQ : s ∉ Q) (hm : m ∉ Q) :
     (s - k * a ∉ P ∧ s - k * a ∉ Q) ∨ (s - (k + m) * a ∉ P ∧ s - (k + m) * a ∉ Q) := by
-  have hP : ∀ c : R, s - c * a ∉ P := by
-    intro c h
-    apply hsP
-    have := P.add_mem h (P.mul_mem_left c ha)
-    simpa using this
-  by_cases h1 : s - k * a ∈ Q
-  · right
-    refine ⟨hP _, fun h2 => ?_⟩
-    have h3 : m * a ∈ Q := by
-      have := Q.sub_mem h1 h2
-      have e : s - k * a - (s - (k + m) * a) = m * a := by ring
-      rwa [e] at this
-    rcases hQ.mem_or_mem h3 with h | h
-    · exact hm h
-    · apply hsQ
-      have := Q.add_mem h1 (Q.mul_mem_left k h)
-      simpa using this
-  · exact Or.inl ⟨hP _, h1⟩
+  apply _root_.Formalism.HermitianLattices.Ext.L3.WA.BE.avoid_two <;> assumption
 
 end BE
 

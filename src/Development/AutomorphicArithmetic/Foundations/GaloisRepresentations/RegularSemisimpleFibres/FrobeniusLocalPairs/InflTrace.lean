@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.DoubleSumFinprodFactor
+import all Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.LocGalEx
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.FrobFactsAlt
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.RegularSemisimpleFibres.FrobeniusLocalPairs.LiftFactorization
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BoundedOfIsIntegral
@@ -117,14 +119,7 @@ private lemma galOf_mul' {F E : Type} [Field F] [NumberField F] [Field E] [Numbe
 private lemma galOf_one' {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {A B : Type*} [CommRing A] [Algebra F A] [CommRing B] [Algebra E B] (e : TensorProduct F E A ≃ₐ[E] B)
     (y : B) : PositivityTheory.Rg.Tf.Geo.galOf e (1 : E ≃ₐ[F] E) y = y := by
-  have h : ∀ z : TensorProduct F E A,
-      Algebra.TensorProduct.map ((1 : E ≃ₐ[F] E) : E →ₐ[F] E) (AlgHom.id F A) z = z := by
-    intro z
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | tmul x c => simp
-    | add x c hx hc => simp only [map_add (f := _), hx, hc]
-  simp [PositivityTheory.Rg.Tf.Geo.galOf, h]
+  apply _root_.galOf_one' <;> assumption
 
 private lemma galFin_mul' {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     (a b : E ≃ₐ[F] E) (v : Pl F) (y : CompletionsOver E v) :
@@ -897,16 +892,8 @@ open PositivityTheory.Rg.Tf.Loc UpperTheory.V.Z.Tf.Orb
 private theorem continuous_of_rightInv {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     (U : Subgroup G) (hU : IsOpen (U : Set G)) (F : G → ℂ) (h : ∀ u ∈ U, ∀ x, F (x * u) = F x) :
     Continuous F := by
-  refine continuous_iff_continuousAt.2 fun x => ?_
-  have hev : F =ᶠ[nhds x] fun _ => F x := by
-    have hop : IsOpen ((fun y => x⁻¹ * y) ⁻¹' (U : Set G)) :=
-      hU.preimage (continuous_const.mul continuous_id)
-    have hx : x ∈ (fun y => x⁻¹ * y) ⁻¹' (U : Set G) := by
-      simp [U.one_mem]
-    filter_upwards [hop.mem_nhds hx] with y hy
-    have h1 := h (x⁻¹ * y) hy x
-    simpa using h1
-  exact continuousAt_const.congr hev.symm
+  intros
+  apply _root_.PositivityTheory.Rg.BcB.F.Fm.cont_of_level <;> assumption
 
 private theorem cptPart_le {G : Type} [Group G] [TopologicalSpace G] (T : Subgroup G) :
     GlobalTheory.BCT.cptPart T ≤ T :=

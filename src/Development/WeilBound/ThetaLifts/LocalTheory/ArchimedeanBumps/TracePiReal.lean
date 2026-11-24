@@ -1,5 +1,9 @@
 module
 
+
+import Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.ContinuousOnRationalWeight
+import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
+import Development.WeilBound.ThetaLifts.LocalTheory.ConeShifts.ExtendByZeroOnSubsetApplyCoe
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.LinearAlgebra.Complex.FiniteDimensional
 public import Mathlib.MeasureTheory.Integral.Bochner.Basic
@@ -60,7 +64,6 @@ import Mathlib.RingTheory.TotallySplit
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.DictHaar, Development.WeilBound.ThetaLifts.LocalTheory.ArchimedeanBumps.TracePiReal
 
@@ -80,17 +83,7 @@ variable {ι : Type} [Fintype ι]
 
 theorem map_mul_vol (s : ι → ℂ) (hs : ∀ w, s w ≠ 0) :
     Measure.map (fun c : ι → ℂ => s * c) volume = ENNReal.ofReal (∏ w, ‖s w‖ ^ 2)⁻¹ • volume := by
-  let f : (ι → ℂ) →ₗ[ℝ] (ι → ℂ) := LinearMap.pi fun i => (LinearMap.mul ℝ ℂ (s i)).comp (LinearMap.proj i)
-  have hd : LinearMap.det f = ∏ w, ‖s w‖ ^ 2 := by
-    rw [LinearMap.det_pi]
-    refine Finset.prod_congr rfl fun i _ => ?_
-    have := Algebra.norm_apply ℝ (s i)
-    rw [Algebra.norm_complex_apply, Complex.normSq_eq_norm_sq] at this
-    exact this.symm
-  have hp : 0 < ∏ w, ‖s w‖ ^ 2 := Finset.prod_pos fun w _ => pow_pos (norm_pos_iff.2 (hs w)) 2
-  have := Measure.map_linearMap_addHaar_eq_smul_addHaar (volume : Measure (ι → ℂ)) (f := f) (by rw [hd]; exact hp.ne')
-  rw [hd, abs_of_pos (inv_pos.2 hp)] at this
-  exact this
+  apply _root_.PositivityTheory.ThKG.Loc.Bump.map_mul_volume_pi_complex <;> assumption
 
 def dens (c : ι → ℂ) : ℝ≥0 := ⟨(∏ w, ‖c w‖ ^ 2)⁻¹, by positivity⟩
 
@@ -213,20 +206,8 @@ theorem eps_snd : (realAd F 1).2 = 0 := rfl
 
 theorem evI_eq_zero {u : AF F} : evI F u = 0 ↔ u.1 = 0 := (InfiniteAdeleRing.ringEquiv_mixedSpace F).map_eq_zero_iff
 
-theorem at_iff {M : Type} [AddCommGroup M] [Module (AF F) M] {z : M} : At (evI F) z ↔ realAd F 1 • z = z := by
-  constructor
-  · intro h
-    have := h (1 - realAd F 1) (evI_eq_zero.2 (by
-      change (1 : Ainf F) - (realAd F 1).1 = 0
-      rw [eps_fst, sub_self]))
-    rw [sub_smul, one_smul] at this
-    exact (sub_eq_zero.1 this).symm
-  · intro h u hu
-    rw [← h, smul_smul]
-    have : u * realAd F 1 = 0 := Prod.ext (by
-      change u.1 * (realAd F 1).1 = 0
-      rw [evI_eq_zero.1 hu, zero_mul]) (mul_zero u.2)
-    rw [this, zero_smul]
+theorem at_iff {M : Type} [AddCommGroup M] [Module (AF F) M] {z : M} : At (evI F) z ↔ realAd F 1 • z = z :=
+  _root_.PositivityTheory.ThKG.Loc.Cone.at_inf_iff
 
 theorem compInf_eps (w : InfinitePlace F) (x : AE F E) : compInf F E w (realAd F 1 • x) = compInf F E w x := by
   rw [Algebra.smul_def, map_mul]
@@ -307,21 +288,8 @@ theorem pi_conj (h : IsCMExt F E σ) {w : InfinitePlace F} (τ : EmbOver E w) (a
     change piInf τ (c ⊗ₜ[F] σ x) = _
     rw [pi_tmul, pi_tmul, map_mul, emb_real h, h.2.2.2]; rfl
 
-theorem trace_E (h : IsCMExt F E σ) (x : E) : algebraMap F E (Algebra.trace F E x) = x + σ x := by
-  classical
-  haveI : Algebra.IsQuadraticExtension F E := ⟨h.2.2.1⟩
-  let s := AlgEquiv.ofBijective σ (Algebra.IsAlgebraic.algHom_bijective σ)
-  have hs : (1 : E ≃ₐ[F] E) ≠ s := fun e => by
-    have := h.2.1
-    obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    exact InfinitePlace.not_isReal_iff_isComplex.2 (IsTotallyComplex.isComplex (InfinitePlace.mk τ))
-      (InfinitePlace.isReal_mk_iff.2 (ComplexEmbedding.isReal_iff.2 (RingHom.ext fun y =>
-        (h.2.2.2 τ y).symm.trans (congrArg τ (AlgEquiv.congr_fun e y).symm))))
-  have hu : (Finset.univ : Finset (E ≃ₐ[F] E)) = {1, s} :=
-    (Finset.eq_univ_of_card _ (by
-      rw [Finset.card_pair hs, ← Nat.card_eq_fintype_card, IsGalois.card_aut_eq_finrank, h.2.2.1])).symm
-  rw [trace_eq_sum_automorphisms, hu, Finset.sum_pair hs]
-  rfl
+theorem trace_E (h : IsCMExt F E σ) (x : E) : algebraMap F E (Algebra.trace F E x) = x + σ x :=
+  _root_.GlobalTheory.ThK.Dbl.Dense.trace_cm h x
 
 theorem trace_tmul (a : AF F) (x : E) :
     Algebra.trace (AF F) (AE F E) (a ⊗ₜ[F] x) = a * algebraMap F (AF F) (Algebra.trace F E x) := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WittCoefficients.CoeffEqOfSubMem
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.KummerCupProducts.MapUgCToUg
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -57,15 +58,7 @@ variable {p : ℕ} [Fact p.Prime] {R : Type} [CommRing R] [CharP R p]
 
 theorem coeff_iterate_verschiebung (m : ℕ) (y : WittVector p R) (i : ℕ) (h : i < m) :
     (WittVector.verschiebung^[m] y).coeff i = 0 := by
-  induction m generalizing i with
-  | zero => omega
-  | succ m ih =>
-    rw [Function.iterate_succ_apply']
-    cases i with
-    | zero => exact WittVector.verschiebung_coeff_zero _
-    | succ i =>
-      rw [WittVector.verschiebung_coeff_succ]
-      exact ih i (by omega)
+  apply _root_.PI.ArtSch.WittLiftWork.iter_coeff_lt <;> assumption
 
 theorem idem_eq_zero (u : WittVector p R) (hu : u * u = u) (h0 : u.coeff 0 = 0) : u = 0 := by
   have key : ∀ n, ∀ i < n + 1, u.coeff i = 0 := by

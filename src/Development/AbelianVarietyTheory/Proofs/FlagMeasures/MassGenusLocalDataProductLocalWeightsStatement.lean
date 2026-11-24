@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.TransversalityLocal.FramePairFixatorUnitaryAndFixesFrame
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatticeLocalGlobalPrinciple
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LocalTermLatticeOverInnerDatumFgSpanStatement
@@ -9,6 +10,7 @@ public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianLatt
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalAutomorphismLocalExtensionMovesLattices
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalAutomorphismLocalExtensionMovesLatticesStatement
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalLatticeClassesFiniteLocalOrbitsStatement
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalLatticeClassesFiniteLocalOrbitsStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.PlacesOf
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FrameFixingIsometriesEmbedProdLocalUnitary
 public import Formalism.SharpRestriction.CuspSpanNormBounds.KappaEndpoints
@@ -265,15 +267,7 @@ theorem img_key' (p : PlF D) (M : ∀ p : PlF D, Loc.Model (D.s.atP p).Fp (D.s.a
 private theorem latP_fg_and_span_eq_top (Z : LocDat D) (Λ : LV D) (hΛ : Submodule.IsFullLattice D.host.E Λ)
     (p : PlF D) :
     (lattice₂ D Z.M p Λ).FG ∧ Submodule.span (D.s.atP p).Ep (lattice₂ D Z.M p Λ : Set (Vp D p)) = ⊤ := by
-  haveI : Submodule.IsLattice D.host.E (GlobalTheory.Unfold.LatLoc.cL Λ) :=
-    GlobalTheory.Unfold.LatLoc.isLattice_map (GlobalTheory.Unfold.LatLoc.cE D) Λ hΛ.toIsLattice
-  have hc : Submodule.IsFullLattice D.host.E (GlobalTheory.Unfold.LatLoc.cL Λ) := by
-    refine { span_eq_top := ?_ }
-    change Submodule.span D.host.E ((GlobalTheory.Unfold.LatLoc.cE D).toLinearMap '' (Λ : Set (VS D).V)) = ⊤
-    rw [← Submodule.map_span, hΛ.span_eq_top, Submodule.map_top, LinearEquiv.range]
-  have h := (_root_.GlobalTheory.HL.PlacesRec.lattice_local (GlobalTheory.HL.placesOf Z) (nV D) (GlobalTheory.Unfold.LatLoc.cL Λ) hc).2.1 p
-  rw [GlobalTheory.Unfold.LatLoc.localLattice_eq]
-  exact h
+  apply _root_.GlobalTheory.FrameProj.localLattice_fg_span <;> assumption
 
 private theorem isFullLattice_of_local_span {D : D7} (Z : LocDat D) (p : PlF D) (Λ : LV D)
     (hΛ : Submodule.IsLattice D.host.E Λ)
@@ -486,14 +480,7 @@ variable {D : D7}
 
 theorem localLattice_fg_span (Z : LocDat D) (Λ : LV D) (h : Submodule.IsFullLattice D.host.E Λ) (p : PlF D) :
     (lattice₂ D Z.M p Λ).FG ∧ Submodule.span (D.s.atP p).Ep (lattice₂ D Z.M p Λ : Set (Vp D p)) = ⊤ := by
-  have hc : Submodule.IsFullLattice D.host.E (LatLoc.cL Λ) := by
-    refine { toIsLattice := LatLoc.isLattice_map _ _ h.toIsLattice, span_eq_top := ?_ }
-    change Submodule.span D.host.E ((LatLoc.cE D).toLinearMap '' (Λ : Set (VS D).V)) = ⊤
-    rw [Submodule.span_image, h.span_eq_top, Submodule.map_top, LinearMap.range_eq_top]
-    exact (LatLoc.cE D).surjective
-  have := (_root_.GlobalTheory.HL.PlacesRec.lattice_local (GlobalTheory.HL.placesOf Z) (nV D) (LatLoc.cL Λ) hc).2.1 p
-  rw [LatLoc.localLattice_eq]
-  exact this
+  apply _root_.GlobalTheory.FrameProj.localLattice_fg_span <;> assumption
 
 private theorem isFullLattice_of_local_span {D : D7} (Z : LocDat D) (p : PlF D) (Λ : LV D)
     (hΛ : Submodule.IsLattice D.host.E Λ)
@@ -861,26 +848,7 @@ theorem mem_of_cls (hP : P.PrimeTo) {d : Datum P} {t : Term V M r} (ht : IsTermO
 
 theorem complementUnitary_isUnitary_fixes_frames {g : V ≃ₗ[E] V} (hg : g ∈ P.UW0) :
     IsUnitary H g ∧ ∀ b, g (P.A.f b) = P.A.f b ∧ g (P.B.f b) = P.B.f b := by
-  unfold FPair.UW0 at hg
-  induction hg using Subgroup.closure_induction with
-  | mem x hx => exact hx
-  | one => exact ⟨fun x y => rfl, fun b => ⟨rfl, rfl⟩⟩
-  | mul x y _ _ hx hy =>
-    refine ⟨fun u v => ?_, fun b => ⟨?_, ?_⟩⟩
-    · show H.h (x (y u)) (x (y v)) = H.h u v
-      rw [hx.1, hy.1]
-    · show x (y (P.A.f b)) = P.A.f b
-      rw [(hy.2 b).1, (hx.2 b).1]
-    · show x (y (P.B.f b)) = P.B.f b
-      rw [(hy.2 b).2, (hx.2 b).2]
-  | inv x _ hx =>
-    have e : ∀ u, x ((x⁻¹ : V ≃ₗ[E] V) u) = u := fun u => LinearEquiv.apply_symm_apply x u
-    refine ⟨fun u v => ?_, fun b => ⟨?_, ?_⟩⟩
-    · rw [← hx.1, e, e]
-    · conv_lhs => rw [← (hx.2 b).1]
-      exact LinearEquiv.symm_apply_apply x _
-    · conv_lhs => rw [← (hx.2 b).2]
-      exact LinearEquiv.symm_apply_apply x _
+  first | exact _root_.GlobalTheory.NonGenericLocalCheck.framePairFixator_unitary_and_fixes_frame | exact @_root_.GlobalTheory.NonGenericLocalCheck.framePairFixator_unitary_and_fixes_frame | apply _root_.GlobalTheory.NonGenericLocalCheck.framePairFixator_unitary_and_fixes_frame <;> assumption
 
 theorem img_le (hP : P.PrimeTo) {d : Datum P} {t : Term V M r} (ht : IsTermOver P d t) {g : V ≃ₗ[E] V}
     (hU : IsUnitary H g) (hfix : ∀ b, g (P.A.f b) = P.A.f b ∧ g (P.B.f b) = P.B.f b)

@@ -148,10 +148,6 @@ theorem card_torsion_lt : Nat.card {P : E.toAffine.Point // (p : ℤ) • P = 0}
     have hp3 : 3 ≤ p := by
       have := hp.out.two_le
       omega
-    have hodd : p ^ 2 % 2 = 1 := by
-      have : Odd p := hp.out.odd_of_ne_two h2
-      have : Odd (p ^ 2) := this.pow
-      exact Nat.odd_iff.mp this
     have h9 : 9 ≤ p ^ 2 := by nlinarith
     omega
 

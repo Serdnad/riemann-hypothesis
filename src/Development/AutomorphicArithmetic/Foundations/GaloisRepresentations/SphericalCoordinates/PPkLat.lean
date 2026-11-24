@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormNatCastOfCoprime
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PFrameEx
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormLeOneOfIsIntegral
 import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
@@ -53,20 +54,6 @@ private theorem norm_nat_le {p : ℕ} [Fact p.Prime] (n : ℕ) : ‖(n : PadicAl
   have h : (n : PadicAlgCl p) = algebraMap ℚ_[p] (PadicAlgCl p) (n : ℚ_[p]) := by simp
   rw [h, PadicAlgCl.norm_extends]
   exact_mod_cast Padic.norm_int_le_one (n : ℤ)
-
-private theorem norm_nat_cop {p : ℕ} [hp : Fact p.Prime] {m : ℕ} (hm : m.Coprime p) : ‖(m : PadicAlgCl p)‖ = 1 := by
-  have h : (m : PadicAlgCl p) = algebraMap ℚ_[p] (PadicAlgCl p) (m : ℚ_[p]) := by simp
-  rw [h, PadicAlgCl.norm_extends]
-  have h1 : ¬ ‖((m : ℤ) : ℚ_[p])‖ < 1 := by
-    intro hd0
-    have hd : (p : ℤ) ∣ (m : ℤ) := by
-      rw [← PadicInt.norm_int_lt_one_iff_dvd]
-      simpa [PadicInt.norm_def] using hd0
-    have : p ∣ m := Int.natCast_dvd_natCast.1 hd
-    exact hp.out.one_lt.ne' (Nat.eq_one_of_dvd_coprimes hm this dvd_rfl)
-  have h2 : ‖((m : ℤ) : ℚ_[p])‖ ≤ 1 := Padic.norm_int_le_one _
-  have := le_antisymm h2 (not_lt.1 h1)
-  exact_mod_cast this
 
 private theorem norm_p_lt {p : ℕ} [hp : Fact p.Prime] : ‖(p : PadicAlgCl p)‖ < 1 := by
   have h : (p : PadicAlgCl p) = algebraMap ℚ_[p] (PadicAlgCl p) (p : ℚ_[p]) := by simp
@@ -128,7 +115,7 @@ private theorem intL_nsmul (N : ℕ) {a : Loc G} (ha : IntL a) : IntL (N • a) 
 
 private theorem intL_of_nsmul {m : ℕ} (hm : m.Coprime p) {a : Loc G} (h : IntL (m • a)) : IntL a := fun w i => by
   have := h w i
-  rwa [coe_nsmul, norm_mul, norm_nat_cop hm, _root_.one_mul] at this
+  rwa [coe_nsmul, norm_mul, _root_.GlobalTheory.PadicNormCastBounds.norm_natCast_of_coprime hm, _root_.one_mul] at this
 
 private theorem intL_le {j k : ℕ} (hjk : j ≤ k) {a : Loc G} (h : IntL (p ^ j • a)) : IntL (p ^ k • a) := by
   obtain ⟨r, rfl⟩ := Nat.exists_eq_add_of_le hjk

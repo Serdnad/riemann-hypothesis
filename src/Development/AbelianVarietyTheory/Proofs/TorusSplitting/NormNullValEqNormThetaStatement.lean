@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsFramesOnUniformisedModelFibre
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.AppellHumbertTrivialOfNowhereVanishing
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.CubeTrivialisationOnUniformisingSpace
@@ -295,16 +296,8 @@ theorem value_val {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} {a : 
     (h : Out.IsValueAt A L a s y τ v) {Z : Scheme.{0}} (r : Z ⟶ T.left) (z : Z) {J} (hJ : Good L z J) :
     sval (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s (r ≫ (Out.ptSecT A y).left) z J =
       gs r z ⊤ v * (val τ r z J).val := by
-  let j : Fin 1 → L.ι := fun _ => J (r ≫ y.left)
-  have hz : r z ∈ LB.wchart L (fun _ : Fin 1 => y.left) j := hJ.mem _ r
-  have e := congrArg (gs r z (LB.wchart L (fun _ : Fin 1 => y.left) j)) (h j)
-  have a₂ := (gs_res r z (Out.val_le A L y j) hz (((Out.ptSecT A y).left.app _).hom (s.f j))).trans
-    (gs_pull r (Out.ptSecT A y).left z (LB.wchart L (fun _ : Fin 1 => (snd T A).left) j) (Out.val_le A L y j hz) _)
-  have a₃ := sval_of (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s
-    (r ≫ (Out.ptSecT A y).left) z J j
-    (fun _ => congrArg J (by rw [Category.assoc, ← Over.comp_left, Out.ptSecT, lift_snd]))
-  exact a₃.trans (a₂.symm.trans (e.trans ((gs_mul r z _ hz _ _).trans
-    (congrArg₂ (· * ·) (gs_res r z le_top hz _) (gs_unit r z _ hz _)))))
+  intros
+  apply _root_.GlobalTheory.FrameMove.sval_valueAt <;> assumption
 
 theorem val_rigT {S : Scheme.{0}} {A : Over S} [GrpObj A] {L : LB A.left} (rig : LB.Gen (L.pull (eSec A)))
     (T : Over S) (k : ℤ) {Z : Scheme.{0}} (r : Z ⟶ T.left) (z : Z) {J} (hJ : Good L z J) :

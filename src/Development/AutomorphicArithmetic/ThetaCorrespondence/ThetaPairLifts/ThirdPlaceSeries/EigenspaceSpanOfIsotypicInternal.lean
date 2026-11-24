@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowestVectorEvaluationIdentifiesLevelRowsConjStatement
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LowSetFinite
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsGoodRowHeckeOfOcc
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesUpqUniqueOfClassification
@@ -581,21 +582,7 @@ theorem herm_of_equiv {n : ℕ} {ε : Fin n → Bool} {lam : Fin n → ℝ} {J P
 
 theorem npq_lt {n : ℕ} (ε : Fin n → Bool) (hn : 1 ≤ n) :
     (n : ℝ) * (ReciprocityTheory.ChartRestriction.DS.pOf ε : ℝ) * (ReciprocityTheory.ChartRestriction.DS.qOf ε : ℝ) + 1 < 16 * (n : ℝ) ^ 19 := by
-  have hp : ReciprocityTheory.ChartRestriction.DS.pOf ε ≤ n := by
-    unfold ReciprocityTheory.ChartRestriction.DS.pOf
-    exact (Finset.card_filter_le _ _).trans (by simp)
-  have hq : ReciprocityTheory.ChartRestriction.DS.qOf ε ≤ n := by
-    unfold ReciprocityTheory.ChartRestriction.DS.qOf
-    exact (Finset.card_filter_le _ _).trans (by simp)
-  have hn' : (1 : ℝ) ≤ n := by exact_mod_cast hn
-  have hp' : (ReciprocityTheory.ChartRestriction.DS.pOf ε : ℝ) ≤ n := by exact_mod_cast hp
-  have hq' : (ReciprocityTheory.ChartRestriction.DS.qOf ε : ℝ) ≤ n := by exact_mod_cast hq
-  have h3 : (n : ℝ) * (ReciprocityTheory.ChartRestriction.DS.pOf ε : ℝ) * (ReciprocityTheory.ChartRestriction.DS.qOf ε : ℝ) ≤ (n : ℝ) ^ 3 := by
-    have := mul_le_mul (mul_le_mul_of_nonneg_left hp' (by positivity)) hq' (by positivity) (by positivity)
-    nlinarith
-  have h19 : (n : ℝ) ^ 3 ≤ (n : ℝ) ^ 19 := pow_le_pow_right₀ hn' (by norm_num)
-  have h1 : (1 : ℝ) ≤ (n : ℝ) ^ 19 := one_le_pow₀ hn'
-  linarith
+  first | exact _root_.GlobalTheory.ConjVecLow.npq_lt | exact @_root_.GlobalTheory.ConjVecLow.npq_lt | apply _root_.GlobalTheory.ConjVecLow.npq_lt <;> assumption
 
 end GlobalTheory.HeckeField.Gap
 

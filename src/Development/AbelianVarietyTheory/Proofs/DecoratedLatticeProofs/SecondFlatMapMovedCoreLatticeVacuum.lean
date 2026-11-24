@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.DescentDataStepLattice
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.PlacesToAdeles
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.FlatMapsSatisfyFlatLawsFinitePlacesStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
@@ -62,17 +63,7 @@ variable {D : D7}
 theorem smul_mem_latA {S : HSp D} {L : Lat S} {P : Pl D → Prop} {a : D.host.E} (ha : a ∈ D.host.AA)
     {y : Fin S.rank → AE D} (hy : y ∈ latV S L P) :
     ((1 : AF D.host.F) ⊗ₜ[D.host.F] a) • y ∈ latA S L P := by
-  induction hy using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨β, hβi, hβ, c, hc, x, hx, rfl⟩ := hz
-    rw [Set.mem_singleton_iff] at hc
-    subst hc
-    refine AddSubgroup.subset_closure ⟨β, hβi, hβ, a, ha, x, hx, ?_⟩
-    funext i
-    simp only [Pi.smul_apply, smul_eq_mul, Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add z z' _ _ hz hz' => rw [smul_add]; exact add_mem hz hz'
-  | neg z _ hz => rw [smul_neg]; exact neg_mem hz
+  first | exact _root_.GlobalTheory.MidVacLat.smul_mem_latA | exact @_root_.GlobalTheory.MidVacLat.smul_mem_latA | apply _root_.GlobalTheory.MidVacLat.smul_mem_latA <;> assumption
 
 theorem wittCoreInclusion_mem_latticeCompletionAAScaledAtPlace {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) {L : Lat S} {L₀ : Lat S₀} {v : Pl D}
     (hm : MonoAt d L L₀ v) {z : Fin S₀.rank → AE D} (hz : z ∈ latA S₀ L₀ (· = v)) :

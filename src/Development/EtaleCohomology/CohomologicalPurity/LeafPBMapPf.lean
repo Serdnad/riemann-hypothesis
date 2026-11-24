@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.UnimodularBlockEqToHomValEqOne
 public import Development.EtaleCohomology.CohomologicalPurity.LeafPBPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -54,35 +55,12 @@ abbrev evNU (n : ℕ) (U : Scheme.{0}) : Spc ⥤ Type :=
 theorem pb_ext {X Y Z : Spc} (f : X ⟶ Z) (g : Y ⟶ Z) {n : ℕ} {U : Scheme.{0}} (x y : Sx (pullback f g) n U)
     (h1 : ((pullback.fst f g).app _).app _ x = ((pullback.fst f g).app _).app _ y)
     (h2 : ((pullback.snd f g).app _).app _ x = ((pullback.snd f g).app _).app _ y) : x = y := by
-  let G := evNU n U
-  let I := PreservesPullback.iso G f g ≪≫ Types.pullbackIsoPullback (G.map f) (G.map g)
-  have hi : Function.Injective I.hom := (isIso_iff_bijective I.hom).1 inferInstance |>.1
-  apply hi
-  apply Subtype.ext
-  have a1 := (ConcreteCategory.congr_hom (PreservesPullback.iso_hom_fst G f g))
-  have a2 := (ConcreteCategory.congr_hom (PreservesPullback.iso_hom_snd G f g))
-  refine Prod.ext ?_ ?_
-  · simp only [I, Iso.trans_hom]
-    rw [types_comp_apply, types_comp_apply, Types.pullbackIsoPullback_hom_fst, Types.pullbackIsoPullback_hom_fst]
-    exact (a1 x).trans (h1.trans (a1 y).symm)
-  · simp only [I, Iso.trans_hom]
-    rw [types_comp_apply, types_comp_apply, Types.pullbackIsoPullback_hom_snd, Types.pullbackIsoPullback_hom_snd]
-    exact (a2 x).trans (h2.trans (a2 y).symm)
+  apply @LateralTheory.E.LeafHalf1Pf.pb_ext <;> assumption
 
 theorem pb_mk {X Y Z : Spc} (f : X ⟶ Z) (g : Y ⟶ Z) {n : ℕ} {U : Scheme.{0}} (a : Sx X n U) (b : Sx Y n U)
     (h : (f.app _).app _ a = (g.app _).app _ b) : ∃ x : Sx (pullback f g) n U,
     ((pullback.fst f g).app _).app _ x = a ∧ ((pullback.snd f g).app _).app _ x = b := by
-  let G := evNU n U
-  let z : Types.PullbackObj (G.map f) (G.map g) := ⟨(a, b), h⟩
-  refine ⟨(PreservesPullback.iso G f g).inv ((Types.pullbackIsoPullback (G.map f) (G.map g)).inv z), ?_, ?_⟩
-  · have := (ConcreteCategory.congr_hom (PreservesPullback.iso_inv_fst G f g))
-      ((Types.pullbackIsoPullback (G.map f) (G.map g)).inv z)
-    refine this.trans ?_
-    exact (ConcreteCategory.congr_hom (Types.pullbackIsoPullback_inv_fst (G.map f) (G.map g))) z
-  · have := (ConcreteCategory.congr_hom (PreservesPullback.iso_inv_snd G f g))
-      ((Types.pullbackIsoPullback (G.map f) (G.map g)).inv z)
-    refine this.trans ?_
-    exact (ConcreteCategory.congr_hom (Types.pullbackIsoPullback_inv_snd (G.map f) (G.map g))) z
+  apply @LateralTheory.E.LeafHalf1Pf.pb_exists <;> assumption
 
 theorem pr_ext {X Y : Spc} {n : ℕ} {U : Scheme.{0}} (x y : Sx (X ⨯ Y) n U)
     (h1 : ((prod.fst : X ⨯ Y ⟶ X).app _).app _ x = ((prod.fst : X ⨯ Y ⟶ X).app _).app _ y)

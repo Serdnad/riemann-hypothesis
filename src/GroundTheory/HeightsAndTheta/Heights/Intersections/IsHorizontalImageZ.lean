@@ -5,6 +5,7 @@ public import GroundTheory.HeightsAndTheta.Heights.Intersections.StatementsArith
 import Mathlib.Order.CompletePartialOrder
 public import Mathlib.RingTheory.KrullDimension.NonZeroDivisors
 import Mathlib.Tactic.TypeStar
+import Lemmata.FirstBlockLemmaB.Imports
 
 @[expose] public section
 
@@ -38,17 +39,7 @@ theorem dim_eq {P : Ideal (MRing ι)} {d d' : ℕ} (h : IsArithVar P d) (h' : Is
 
 theorem dim_add_one_le {R : Type*} [CommRing R] {Q Q₂ : Ideal R} [Q.IsPrime] (hle : Q ≤ Q₂)
     {x : R} (hx : x ∈ Q₂) (hxQ : x ∉ Q) : ringKrullDim (R ⧸ Q₂) + 1 ≤ ringKrullDim (R ⧸ Q) := by
-  have hr : Ideal.Quotient.mk Q x ∈ nonZeroDivisors (R ⧸ Q) :=
-    mem_nonZeroDivisors_of_ne_zero (by rwa [Ne, Ideal.Quotient.eq_zero_iff_mem])
-  refine le_trans ?_ (ringKrullDim_quotient_succ_le_of_nonZeroDivisor hr)
-  gcongr
-  refine ringKrullDim_le_of_surjective (Ideal.Quotient.lift _ (Ideal.Quotient.factor hle) ?_)
-    (Ideal.Quotient.lift_surjective_of_surjective _ _ (Ideal.Quotient.factor_surjective hle))
-  intro y hy
-  obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.1 hy
-  rw [map_mul]
-  obtain ⟨c', rfl⟩ := Ideal.Quotient.mk_surjective c
-  simp only [Ideal.Quotient.factor_mk, Ideal.Quotient.eq_zero_iff_mem.2 hx, mul_zero]
+  apply _root_.Bl.FirstBlockLemmaB.goal1 <;> assumption
 
 
 omit [Fintype K] [∀ k, Fintype (ι k)] in

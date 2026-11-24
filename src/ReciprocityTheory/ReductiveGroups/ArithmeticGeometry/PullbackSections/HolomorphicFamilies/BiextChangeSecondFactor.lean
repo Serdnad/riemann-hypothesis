@@ -2,6 +2,7 @@ module
 
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.ConstantCoeffEv
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogChain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.LogClosed
 
 @[expose] public section
 
@@ -64,18 +65,7 @@ theorem cc_pt' {n : ℕ} (j : Fin n) (i : Fin d) : constantCoeff (pt R d j i) = 
 
 private theorem cc_ev_lemma {m n : ℕ} {a : Fin m → Pt R n d} (ha : CZ a) (f : PS R m d) :
     constantCoeff (ev a f) = constantCoeff f := by
-  have hs := MvPowerSeries.hasSubst_of_constantCoeff_zero
-    (a := fun p : Fin m × Fin d => a p.1 p.2) (fun p => ha p.1 p.2)
-  unfold ev
-  rw [MvPowerSeries.constantCoeff_subst hs, finsum_eq_single _ 0]
-  · simp
-  · intro e he
-    obtain ⟨p, hp⟩ : ∃ p, e p ≠ 0 := by
-      by_contra hc
-      push_neg at hc
-      exact he (Finsupp.ext hc)
-    rw [Finsupp.prod, map_prod, Finset.prod_eq_zero (Finsupp.mem_support_iff.2 hp), smul_zero]
-    simp [ha p.1 p.2, hp]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.LogPf.cc_ev <;> assumption
 
 theorem cc_comp1' {n : ℕ} {ψ : Pt R 1 d} {x : Pt R n d} (hψ : ∀ i, constantCoeff (ψ i) = 0)
     (hx : ∀ i, constantCoeff (x i) = 0) (i : Fin d) : constantCoeff (comp1 ψ x i) = 0 := by

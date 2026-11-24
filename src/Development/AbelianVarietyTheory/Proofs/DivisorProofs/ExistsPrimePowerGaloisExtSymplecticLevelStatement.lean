@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.GoodReduction.CMGood
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.BaseOver
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ThickTransComp
@@ -82,28 +83,7 @@ namespace GlobalTheory.LevelPrimePower
 
 theorem iterate_fixes {A : Type} [CommGroup A] (f : A →* A) (ℓ : ℕ) (hf : ∀ x, x ^ ℓ = 1 → f x = x) (e : ℕ) :
     ∀ x : A, x ^ ℓ ^ (e + 1) = 1 → f^[ℓ ^ e] x = x := by
-  induction e with
-  | zero => intro x hx; simpa using hf x (by simpa using hx)
-  | succ e ih =>
-    intro x hx
-    let h : A →* A := ((show Monoid.End A from f) ^ ℓ ^ e : Monoid.End A)
-    have hh : ∀ a, h a = f^[ℓ ^ e] a := fun a => congrFun (Monoid.End.coe_pow A f _) a
-    have h1 : h x ^ ℓ = x ^ ℓ := by
-      rw [← map_pow, hh]
-      exact ih _ (by rw [← pow_mul, ← pow_succ', hx])
-    have hy : (h x / x) ^ ℓ = 1 := by rw [div_pow, h1, div_self']
-    have h2 : h (h x / x) = h x / x := by
-      rw [hh]
-      exact ih _ (by rw [pow_succ', pow_mul, hy, one_pow])
-    have h3 : ∀ n : ℕ, h^[n] x = x * (h x / x) ^ n := by
-      intro n
-      induction n with
-      | zero => simp
-      | succ n ihn =>
-        rw [Function.iterate_succ_apply', ihn, map_mul, map_pow, h2, pow_succ', ← _root_.mul_assoc,
-          mul_div_cancel]
-    have h4 : (h : A → A) = f^[ℓ ^ e] := funext hh
-    rw [pow_succ, Function.iterate_mul, ← h4, h3, hy, _root_.mul_one]
+  apply _root_.GlobalTheory.InertiaTate.pow_fix_of_fix <;> assumption
 
 theorem exists_normal {G A : Type} [Group G] [CommGroup A] (ρ : G → A →* A) (h1 : ∀ x, ρ 1 x = x)
     (hm : ∀ σ τ x, ρ (σ * τ) x = ρ σ (ρ τ x)) (ℓ e : ℕ) (hf : ∀ σ x, x ^ ℓ = 1 → ρ σ x = x) :

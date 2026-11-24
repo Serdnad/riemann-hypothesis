@@ -52,6 +52,8 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.ResidueForm
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.ScalarCommuteTransposedRMatrixEntry
 
 @[expose] public section
 
@@ -71,22 +73,7 @@ section Frame
 variable {A S : Type} [Ring A] [StarRing A] [Algebra ℂ A] [StarModule ℂ A] [Fintype S] [DecidableEq S] {r : ℕ}
 
 private theorem eU_zero_zero_add_eU_one_one (a : S) : (eU a 0 0 : SlopeTestRemainingChoices S A) + eU a 1 1 = 1 := by
-  refine Matrix.ext fun x y => ?_
-  simp only [eU, Matrix.add_apply, Matrix.of_apply, Matrix.one_apply]
-  by_cases hxy : x = y
-  · subst hxy
-    rw [if_pos rfl]
-    generalize x a = v
-    fin_cases v <;> simp
-  · rw [if_neg hxy]
-    have h : ∀ i : Fin 2, ¬ (x a = i ∧ y a = i ∧ ∀ b, b ≠ a → x b = y b) := by
-      rintro i ⟨h1, h2, h3⟩
-      apply hxy
-      funext b
-      by_cases hb : b = a
-      · subst hb; rw [h1, h2]
-      · exact h3 b hb
-    rw [if_neg (h 0), if_neg (h 1), add_zero]
+  apply _root_.Formalism.FourierDecayAlt.P.Fr11.eU_sum <;> assumption
 
 private theorem commute_io_eU (g : A) (a : S) (i j : Fin 2) : Commute (io g : SlopeTestRemainingChoices S A) (eU a i j) := by
   show (io g : SlopeTestRemainingChoices S A) * eU a i j = eU a i j * io g
@@ -123,18 +110,6 @@ private theorem cj_sub' (f fi : A) (x y : SlopeTestRemainingChoices S A) : cj f 
 
 private theorem cj_add' (f fi : A) (x y : SlopeTestRemainingChoices S A) : cj f fi (x + y) = cj f fi x + cj f fi y := by
   unfold cj; rw [mul_add, add_mul]
-
-private theorem star_eU_apply_swap (a : S) (i j : Fin 2) : star (eU a i j : SlopeTestRemainingChoices S A) = eU a j i := by
-  refine Matrix.ext fun x y => ?_
-  rw [Matrix.star_apply]
-  simp only [eU, Matrix.of_apply]
-  have hiff : (y a = i ∧ x a = j ∧ ∀ b, b ≠ a → y b = x b) ↔ (x a = j ∧ y a = i ∧ ∀ b, b ≠ a → x b = y b) := by
-    constructor
-    · rintro ⟨h1, h2, h3⟩; exact ⟨h2, h1, fun b hb => (h3 b hb).symm⟩
-    · rintro ⟨h1, h2, h3⟩; exact ⟨h2, h1, fun b hb => (h3 b hb).symm⟩
-  by_cases h : x a = j ∧ y a = i ∧ ∀ b, b ≠ a → x b = y b
-  · rw [if_pos (hiff.2 h), if_pos h, star_one]
-  · rw [if_neg (mt hiff.1 h), if_neg h, star_zero]
 
 theorem ins_combine (a : S) (p k : SlopeTestRemainingChoices S A) (hk : FreeOf a k) (M : M2 (SlopeTestRemainingChoices S A)) :
     p + k * ins a M = ins a !![p + k * M 0 0, k * M 0 1; k * M 1 0, p + k * M 1 1] := by
@@ -414,7 +389,7 @@ theorem minus_F (hfree : fw.Free a) (ihc : Commute (io f : SlopeTestRemainingCho
   have hfm : FreeOf a (fw.m L Ya) := fun i j => by
     have hs : Commute (eU a i j) (star (fw.l L (Ya - 1))) := by
       have h := (hfl j i).star_star
-      rwa [star_eU_apply_swap] at h
+      rwa [_root_.Formalism.FourierDecayAlt.P.Wd7.star_eU] at h
     unfold Formalism.FourierDecayAlt.Fr.FrameData.m Formalism.FourierDecayAlt.Fr.FrameData.di Formalism.FourierDecayAlt.Fr.FrameData.d Fr.wti Fr.wt
     exact (((hfree.2.2.2.2.2.2.2.1 i j).mul_right ((commute_io_eU _ a i j).symm.pow_right _)).mul_right hs).mul_right
       (((commute_io_eU _ a i j).symm.pow_right _).mul_right (hfree.2.2.2.2.2.2.1 i j))

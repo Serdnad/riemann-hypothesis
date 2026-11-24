@@ -1,10 +1,12 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.LNotMemBasePrime
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LinkedUnramifiedChains.TeichmullerParts.UnramifiedTrivialInertialType
 import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.PredMemGamRanks
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SplitPlaceUnitaryLocalPointsEquivGL
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.IsSplitAtOfDecompositionLeRestrictionRange
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.CLocConjAlt
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.CLocConjAlt
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -90,15 +92,7 @@ private theorem l_under {u : Plc L} :
 
 private theorem cLoc_over {w u : Plc L} (hw : IsSplitAt w) (x : UA L n) (h1 : cLoc w x = 1)
     (hu : u.under (𝓞 (Lp L)) = w.under (𝓞 (Lp L))) : cLoc u x = 1 := by
-  have hw1 : ∀ v, v = w → cLoc v x = 1 := by
-    rintro v rfl
-    exact h1
-  rcases (GlobalTheory.SplitPts.over_split hw).2.2 u hu with rfl | rfl
-  · exact h1
-  · have hce := GlobalTheory.SplitPts.comp_eq x (conjSrc (GlobalTheory.SplitPts.conjE L) w)
-    rw [hw1 _ (GlobalTheory.SplitPts.conjSrc_conjSrc_cm w), Units.val_one, Matrix.map_one _ (map_zero _) (map_one _),
-      Matrix.transpose_one, Matrix.one_mul] at hce
-    exact Units.ext hce
+  apply _root_.cLoc_conj <;> assumption
 
 private theorem cmp_over {w u : Plc L} (hw : IsSplitAt w) (x : Ga l L n) (h1 : cmp n w x = 1)
     (hu : u.under (𝓞 (Lp L)) = w.under (𝓞 (Lp L))) : cmp n u x = 1 := by
@@ -124,26 +118,7 @@ private theorem split_of {v : Plc (Lp L)} (h : v ∈ s.St ∨ v = s.v0) : IsSpli
   UpperTheory.isSplitAt_of_decomposition_le_restriction_range L Ω _ _ (s.hA v) (s.split v (Or.inr h)) _ (under_w s v)
 
 private theorem SectionSplitPlaces : ((l : ℕ) : 𝓞 (Lp L)) ∉ s.v0.asIdeal := by
-  intro h
-  have hp := s.p_prime
-  have hcard : Nat.card (𝓞 (Lp L) ⧸ s.v0.asIdeal) = s.p := s.norm_v0_eq_one
-  have hl0 : ((l : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
-    exact (Ideal.Quotient.eq_zero_iff_mem.2 h : _) |> fun e => by simpa using e
-  have hp0 : ((s.p : ℕ) : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
-    have := card_nsmul_eq_zero' (G := 𝓞 (Lp L) ⧸ s.v0.asIdeal) (x := 1)
-    rw [hcard] at this
-    simpa using this
-  have hco : Nat.Coprime l s.p := (Nat.coprime_primes (Fact.out : l.Prime) hp).2 (Ne.symm s.p_ne)
-  have h1 : (1 : 𝓞 (Lp L) ⧸ s.v0.asIdeal) = 0 := by
-    have := Nat.Coprime.isCoprime hco
-    obtain ⟨a, b, e⟩ := this
-    have e' := congrArg (Int.cast : ℤ → 𝓞 (Lp L) ⧸ s.v0.asIdeal) e
-    push_cast at e'
-    rw [hl0, hp0] at e'
-    simpa using e'.symm
-  have hsub : Subsingleton (𝓞 (Lp L) ⧸ s.v0.asIdeal) := subsingleton_of_zero_eq_one h1.symm
-  rw [Nat.card_of_subsingleton (0 : 𝓞 (Lp L) ⧸ s.v0.asIdeal)] at hcard
-  exact hp.one_lt.ne hcard
+  apply _root_.l_not_mem_base_prime <;> assumption
 
 private theorem away_of {v : Plc (Lp L)} (h : v ∈ s.St ∨ v = s.v0) : ((l : ℕ) : 𝓞 L) ∉ (s.w v).asIdeal := by
   intro e

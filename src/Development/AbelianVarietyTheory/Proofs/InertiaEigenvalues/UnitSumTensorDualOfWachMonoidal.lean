@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankDcrisLetterDeRhamComponentEqDim
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.CrystallineSubrepresentation
 import Mathlib.Algebra.Order.Floor.Extended
@@ -167,18 +168,7 @@ theorem isCrys_of_equiv {ρ : Representation LL G V} {ρ' : Representation LL G 
 
 theorem finite_Dcris [FiniteDimensional LL V] {ρ : Representation LL G V} (h : IsCrys PD ρ) :
     Module.Finite LL ↥(Dcris PD ρ) := by
-  rcases Nat.eq_zero_or_pos (finrank LL ↥(Dcris PD ρ)) with h0 | h0
-  · have := PD.finK₀
-    have hK : 0 < finrank Qp K₀ := Module.finrank_pos
-    unfold IsCrys at h
-    have hV : finrank LL V = 0 := by
-      rw [h0] at h
-      rcases Nat.mul_eq_zero.mp h.symm with h | h
-      · omega
-      · exact h
-    have : Subsingleton V := Module.finrank_zero_iff.mp hV
-    infer_instance
-  · exact Module.finite_of_finrank_pos h0
+  apply _root_.GlobalTheory.Per.LetterDim.finite_Dcris <;> assumption
 
 theorem isCrys_prod [FiniteDimensional LL V] [FiniteDimensional LL V']
     {ρ : Representation LL G V} {ρ' : Representation LL G V'}

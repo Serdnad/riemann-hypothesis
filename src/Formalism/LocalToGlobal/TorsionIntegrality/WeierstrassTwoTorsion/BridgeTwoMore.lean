@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.LocalFields.FormalGroups.Basics
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementQ
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.TwoTorsionU
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.WeierstrassSubstitution.XPowSuccDvdOfDerivative
@@ -292,11 +293,7 @@ variable {R : Type u} [CommRing R]
 
 theorem subst_XX (G : MvPowerSeries (Fin 2) R) :
     G.subst ![(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) R), MvPowerSeries.X 1] = G := by
-  have h : (![(MvPowerSeries.X 0 : MvPowerSeries (Fin 2) R), MvPowerSeries.X 1])
-      = (MvPowerSeries.X : Fin 2 → MvPowerSeries (Fin 2) R) := by
-    funext i
-    fin_cases i <;> rfl
-  simp only [h, MvPowerSeries.subst_self, id_eq]
+  apply _root_.GroundTheory.LocalField.FormalGroup.subst_X_X <;> assumption
 
 theorem eq_single0 (e : Fin 2 →₀ ℕ) (he : e 1 = 0) : e = Finsupp.single 0 (e 0) := by
   ext i

@@ -81,6 +81,9 @@ import Mathlib.Algebra.Order.Star.Real
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.RankOneTensors
 import Mathlib.MeasureTheory.Integral.Pi
+import Development.WeilBound.CoreStatements.OrbitDecayEstimates.CurveDerivativeDecay.HasDerivAtCurve
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.SpanPreservation
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.WFLStepsLocHNProps
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsQuotientMeasureUnipotentStabilisers, Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsQuotientMeasureUnipotentStabilisersStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalisedMeasureEqProdBesselRootMeasures, Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalisedMeasureEqProdBesselRootMeasuresStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.RealPlaceFlagUnipotentRadicalIsUnipotent, Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryJHaarEntryBoundedPolynomialGrowth, Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnipotentSubgroupUJHaarRightInvariant, Development.AbelianVarietyTheory.Proofs.FlagMeasures.RealOrbitalIntegralHsNormEqProdLocal, Development.AbelianVarietyTheory.Proofs.FlagMeasures.RealOrbitalIntegralHsNormEqProdLocalStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalisedLiftAmplitudeEqCovolumeMulLocal, Development.AbelianVarietyTheory.Proofs.FlagMeasures.NormalisedLiftAmplitudeEqCovolumeMulLocalStatement
@@ -412,24 +415,6 @@ section Loc
 
 variable {D : D7} (X : HidaSetting D) (u : D.what₂.Word)
 
-private lemma mulVec_mem_spanLt' {n r : ℕ} {e : Fin r → Fin n → ℂ} {A : Matrix (Fin n) (Fin n) ℂ}
-    (hA : ∀ b : Fin r, (A - 1) *ᵥ e b ∈ spanLt e b.1) (a : ℕ) :
-    ∀ y ∈ spanLt e a, A *ᵥ y ∈ spanLt e a := by
-  have hle : spanLt e a ≤ (spanLt e a).comap (Matrix.toLin' A) := by
-    unfold spanLt
-    rw [Submodule.span_le]
-    rintro _ ⟨b, hb, rfl⟩
-    simp only [SetLike.mem_coe, Submodule.mem_comap, Matrix.toLin'_apply]
-    have hsplit : A *ᵥ e b = e b + (A - 1) *ᵥ e b := by
-      rw [Matrix.sub_mulVec, Matrix.one_mulVec]; abel
-    rw [hsplit]
-    refine add_mem (Submodule.subset_span ⟨b, hb, rfl⟩) ?_
-    refine Submodule.span_mono (Set.image_mono ?_) (hA b)
-    intro c hc
-    exact lt_trans (show c.1 < b.1 from hc) (show b.1 < a from hb)
-  intro y hy
-  exact hle hy
-
 theorem ninf_mul {a b : X.B.I.Ginf} (ha : a ∈ X.NinfU u) (hb : b ∈ X.NinfU u) : a * b ∈ X.NinfU u := by
   intro v
   exact _root_.Formalism.L2.SG.Pf.WFL.HNL.inN_mul (ha v) (hb v)
@@ -438,7 +423,7 @@ private lemma mulVec_mem_spanLt_of_left_inv {n r : ℕ} {e : Fin r → Fin n →
     (hA : ∀ b : Fin r, (A - 1) *ᵥ e b ∈ spanLt e b.1) (h2 : Ai * A = 1) (a : ℕ) :
     ∀ y ∈ spanLt e a, Ai *ᵥ y ∈ spanLt e a := by
   intro y hy
-  let f : spanLt e a →ₗ[ℂ] spanLt e a := (Matrix.toLin' A).restrict (fun x hx => mulVec_mem_spanLt' hA a x hx)
+  let f : spanLt e a →ₗ[ℂ] spanLt e a := (Matrix.toLin' A).restrict (fun x hx => _root_.Formalism.L2.SG.Pf.WFL.HNL.mulVec_mem_of hA a hx)
   have hinj : Function.Injective f := by
     intro x x' hxx
     have h := congrArg (fun w : spanLt e a => Ai *ᵥ (w : Fin n → ℂ)) hxx
@@ -452,20 +437,10 @@ private lemma mulVec_mem_spanLt_of_left_inv {n r : ℕ} {e : Fin r → Fin n →
   rw [← hw']
   exact w.2
 
-private lemma inN_of_left_inv {n r : ℕ} {ε : Fin n → Bool} {e : Fin r → Fin n → ℂ} {z : Fin n → ℂ}
-    {A Ai : Matrix (Fin n) (Fin n) ℂ} (h2 : Ai * A = 1) (hA : InN ε e z A) : InN ε e z Ai := by
-  have key : ∀ x : Fin n → ℂ, (Ai - 1) *ᵥ x = -(Ai *ᵥ ((A - 1) *ᵥ x)) := by
-    intro x
-    simp only [Matrix.sub_mulVec, Matrix.one_mulVec, Matrix.mulVec_sub, Matrix.mulVec_mulVec, h2]
-    abel
-  refine ⟨⟨fun a => ?_, ?_⟩, fun y hy => ?_⟩
-  · rw [key]; exact neg_mem (mulVec_mem_spanLt_of_left_inv hA.1.1 h2 _ _ (hA.1.1 a))
-  · rw [key]; exact neg_mem (mulVec_mem_spanLt_of_left_inv hA.1.1 h2 _ _ hA.1.2)
-  · rw [key]; exact neg_mem (mulVec_mem_spanLt_of_left_inv hA.1.1 h2 _ _ (hA.2 y hy))
-
 theorem ninf_inv {a : X.B.I.Ginf} (ha : a ∈ X.NinfU u) : a⁻¹ ∈ X.NinfU u := by
   intro v
-  exact inN_of_left_inv (_root_.Formalism.L2.SG.PoincareInHH.Cut.uMat_inv_mul (a v)) (ha v)
+  exact _root_.Formalism.L2.SG.RealObj.SpanPreservation.inN_inv _ _ _ _ _
+      (_root_.Formalism.L2.SG.PoincareInHH.Cut.uMat_inv_mul (a v)) (ha v)
 
 theorem sinf_conj {a : X.B.I.Ginf} (ha : a ∈ X.SinfU u) {n : X.B.I.Ginf} (hn : n ∈ X.NinfU u) :
     a * n * a⁻¹ ∈ X.NinfU u := by
@@ -1183,14 +1158,7 @@ theorem uMat_mul_inv' (g : Formalism.REAL.UJ ε) : Formalism.MainNotions.S.uMat 
 
 theorem uMat_inv_eq (g : Formalism.REAL.UJ ε) :
     Formalism.MainNotions.S.uMat g⁻¹ = Formalism.REAL.Jm ε * (Formalism.MainNotions.S.uMat g)ᴴ * Formalism.REAL.Jm ε := by
-  have hf : (Formalism.MainNotions.S.uMat g)ᴴ * Formalism.REAL.Jm ε * Formalism.MainNotions.S.uMat g = Formalism.REAL.Jm ε := g.2
-  have h1 : (Formalism.REAL.Jm ε * (Formalism.MainNotions.S.uMat g)ᴴ * Formalism.REAL.Jm ε) * Formalism.MainNotions.S.uMat g = 1 := by
-    rw [Matrix.mul_assoc, Matrix.mul_assoc, ← Matrix.mul_assoc (Formalism.MainNotions.S.uMat g)ᴴ, hf,
-      Formalism.REAL.Jm_mul_self]
-  calc Formalism.MainNotions.S.uMat g⁻¹
-      = ((Formalism.REAL.Jm ε * (Formalism.MainNotions.S.uMat g)ᴴ * Formalism.REAL.Jm ε) * Formalism.MainNotions.S.uMat g) * Formalism.MainNotions.S.uMat g⁻¹ := by
-        rw [h1, Matrix.one_mul]
-    _ = _ := by rw [Matrix.mul_assoc, uMat_mul_inv', Matrix.mul_one]
+  apply _root_.CompanionTheory.Lime.T3.uMat_inv <;> assumption
 
 theorem norm_inv_entry (g : Formalism.REAL.UJ ε) (i j : Fin n) :
     ‖Formalism.MainNotions.S.uMat g⁻¹ i j‖ = ‖Formalism.MainNotions.S.uMat g j i‖ := by

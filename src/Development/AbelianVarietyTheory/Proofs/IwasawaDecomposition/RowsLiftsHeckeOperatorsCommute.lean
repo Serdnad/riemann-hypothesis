@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.IsIsoNearNormalPointOfFiniteBirational
 public import Formalism.LocalRingCardinality.SpanPowerMembership.Places
 public import Formalism.LocalToGlobal.Columns.HeckeInert
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
@@ -76,6 +77,7 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.Stable
 import Formalism.LocalToGlobal.HilbertRowConditions.CenterIdempotentAction
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 import Formalism.LocalToGlobal.IndefiniteReal.RecTie
+import Formalism.LocalToGlobal.Columns.HeckeSpCount
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CartanExchangeUnimodularInertPrime, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSmulMemOfIsLattice, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsPrimePowSmulLeOfLocalizationsEqAway, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalizationHermitianDualEq, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocalizationHermitianDualEqStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SubmodulePatchAtPrimeIsLatticeLocP, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SubmodulePatchAtPrimeIsLatticeLocPStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLocalUnitaryExchangeUnimodularLatticesIner, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InertPathCardCommLatticePaths, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.RowsLiftsHeckeOperatorsCommute
@@ -406,27 +408,8 @@ open NumberField IsDedekindDomain Formalism.HermitianLatticesTheory Formalism.L2
 theorem exists_smul_mem_of_fg {R M : Type*} [CommRing R] [AddCommGroup M] [Module R M]
     (S : Submonoid R) (A B : Submodule R M) (hA : A.FG)
     (h : ∀ x ∈ A, ∃ s ∈ S, s • x ∈ B) : ∃ s ∈ S, ∀ x ∈ A, s • x ∈ B := by
-  classical
-  obtain ⟨G, rfl⟩ := hA
-  have key : ∀ G' : Finset M, (G' : Set M) ⊆ G → ∃ s ∈ S, ∀ x ∈ Submodule.span R (G' : Set M), s • x ∈ B := by
-    intro G'
-    induction G' using Finset.induction_on with
-    | empty => exact fun _ => ⟨1, S.one_mem, fun x hx => by
-        simp only [Finset.coe_empty, Submodule.span_empty, Submodule.mem_bot] at hx
-        simp [hx]⟩
-    | insert a G' _ ih =>
-      intro hsub
-      simp only [Finset.coe_insert, Set.insert_subset_iff] at hsub
-      obtain ⟨t, ht, hta⟩ := h a (Submodule.subset_span hsub.1)
-      obtain ⟨s, hs, hsG⟩ := ih hsub.2
-      refine ⟨t * s, S.mul_mem ht hs, fun x hx => ?_⟩
-      rw [Finset.coe_insert, Submodule.mem_span_insert] at hx
-      obtain ⟨r, y, hy, rfl⟩ := hx
-      have e : (t * s) • (r • a + y) = (r * s) • (t • a) + t • (s • y) := by
-        simp only [smul_add, smul_smul, mul_comm, mul_left_comm]
-      rw [e]
-      exact B.add_mem (B.smul_mem _ hta) (B.smul_mem _ (hsG y hy))
-  exact key G subset_rfl
+  intros
+  apply _root_.GlobalTheory.FiniteBirationalNear.exists_common_smul_mem <;> assumption
 
 private theorem infinite_places (E : Type) [Field E] [NumberField E] :
     Infinite (HeightOneSpectrum (𝓞 E)) := by
@@ -693,34 +676,7 @@ variable {E : Type} [Field E] [NumberField E] [StarRing E] {n : ℕ}
 private theorem isFullLattice_of_unimodular {L : Submodule (𝓞 E) (Sp E n)}
     (hL : Submodule.IsLattice E L) (hu : IsUnimodular (hStd E n) L) :
     Submodule.IsFullLattice E L := by
-  let := hL
-  refine { span_eq_top := ?_ }
-  let W := Submodule.span E (L : Set (Sp E n))
-  change W = ⊤
-  by_contra h
-  let e : Sp E n ≃ₗ⋆[E] Sp E n := starLinearEquiv E
-  let g : Sp E n →ₗ[E] Module.Dual E W :=
-    (LinearMap.domRestrict' W).comp ((hStd E n).comp e.toLinearMap)
-  have hdim : finrank E (Module.Dual E W) < finrank E (Sp E n) := by
-    rw [Subspace.dual_finrank_eq]
-    exact Submodule.finrank_lt h
-  obtain ⟨x, hx, hx₀⟩ :=
-    Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-  -- Every multiple of the orthogonal vector lies in the self-dual lattice.
-  have hsmul (a : E) : a • e x ∈ L := by
-    rw [← hu, dualBasic_mem_dual]
-    intro y hy
-    apply hStd_mem_one_symm
-    have hxy : hStd E n (e x) y = 0 :=
-      congrArg (fun f : Module.Dual E W => f ⟨y, Submodule.subset_span hy⟩) (LinearMap.mem_ker.mp hx)
-    simp [LinearMap.map_smulₛₗ, LinearMap.smul_apply, hxy]
-  let i : E →ₗ[𝓞 E] L :=
-    ((LinearMap.toSpanSingleton E _ (e x)).restrictScalars (𝓞 E)).codRestrict L hsmul
-  let : Module.Finite (𝓞 E) L := Module.Finite.iff_fg.mpr hL.fg
-  let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-    smul_left_injective E (fun hzero => hx₀ (e.map_eq_zero_iff.mp hzero)) (congrArg Subtype.val hab)
-  exact RingOfIntegers.not_isField E
-    (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  apply _root_.Formalism.L2.Col.hcnt_isFullLattice_of_unimodular <;> assumption
 
 
 theorem exchange : ∀ {E : Type} [Field E] [NumberField E] [StarRing E] {n : ℕ} (P : HeightOneSpectrum (𝓞 E)),

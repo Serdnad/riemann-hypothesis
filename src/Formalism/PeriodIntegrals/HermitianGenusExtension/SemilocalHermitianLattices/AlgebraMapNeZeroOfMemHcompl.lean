@@ -1,5 +1,6 @@
 module
 
+import Formalism.GL3MeanSquares.GenusMeanAsymptotics.UnimodularClassRepresentatives.ExistsSqAbsNormOfInert
 public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.MassSt
 public import Formalism.HermitianLattices.StatementMass
 public import Formalism.PeriodIntegrals.HermitianGenusExtension.SemilocalHermitianLattices.ExistsNormOneOfPair
@@ -75,34 +76,11 @@ theorem conjO_conjO (x : 𝓞 K) : conjO K (conjO K x) = x := by
 
 theorem conjIdeal_eq_comap (P : Ideal (𝓞 K)) :
     Formalism.HermitianLatticesTheory.conjIdeal (K := K) P = P.comap (conjO K) := by
-  apply le_antisymm
-  · rw [Formalism.HermitianLatticesTheory.conjIdeal, Ideal.span_le]
-    rintro r ⟨s, hs, h⟩
-    show conjO K r ∈ P
-    have hrs : conjO K r = s := by
-      apply RingOfIntegers.ext
-      rw [conjO_coe]
-      exact (congrArg star h).trans (star_star _)
-    rw [hrs]
-    exact hs
-  · intro r hr
-    rw [Formalism.HermitianLatticesTheory.conjIdeal]
-    apply Ideal.subset_span
-    refine ⟨conjO K r, hr, ?_⟩
-    show (r : K) = star ((conjO K r : 𝓞 K) : K)
-    rw [conjO_coe, star_star]
+  apply _root_.Formalism.HermitianLattices.Ext.L3.conjIdeal_eq_comap <;> assumption
 
 theorem exists_sub_conjO_notMem (hK : Formalism.HermitianLatticesTheory.IsCMUnram K) {P : Ideal (𝓞 K)} (hP : P.IsMaximal) :
     ∃ θ : 𝓞 K, θ - conjO K θ ∉ P := by
-  obtain ⟨-, -, h3⟩ := hK
-  obtain ⟨θ, t, ht, hθ⟩ := h3 P hP
-  refine ⟨θ, ?_⟩
-  have htθ : conjO K θ = t := by
-    apply RingOfIntegers.ext
-    rw [conjO_coe]
-    exact ht.symm
-  rw [htθ]
-  exact hθ
+  apply _root_.Formalism.HermitianLattices.Ext.L3.exists_sub_conjO_notMem <;> assumption
 
 end NoF
 
@@ -182,16 +160,7 @@ theorem mem_locR_iff {p : Ideal (𝓞 K)} (hp : p.IsPrime) (a : K) :
     a ∈ Formalism.HermitianLatticesTheory.locR (K := K) p ↔
       ∃ r : 𝓞 K, ∃ s ∈ Formalism.HermitianLatticesTheory.hcompl (K := K) p,
         a = algebraMap (𝓞 K) K r / algebraMap (𝓞 K) K s := by
-  rw [Formalism.HermitianLatticesTheory.locDual_mem_locR]
-  constructor
-  · rintro ⟨s, hs, hr⟩
-    obtain ⟨r, hr⟩ := Submodule.mem_one.1 hr
-    refine ⟨r, s, hs, ?_⟩
-    rw [eq_div_iff (algebraMap_ne_zero_of_mem_hcompl hp hs), hr, mul_comm]
-  · rintro ⟨r, s, hs, rfl⟩
-    have hne := algebraMap_ne_zero_of_mem_hcompl hp hs
-    refine ⟨s, hs, Submodule.mem_one.2 ⟨r, ?_⟩⟩
-    field_simp
+  apply _root_.Formalism.HermitianLattices.Ext.L3.WA.mem_locR_iff <;> assumption
 
 def locRing (p : Ideal (𝓞 K)) : Subring K where
   carrier := {a | a ∈ Formalism.HermitianLatticesTheory.locR (K := K) p}

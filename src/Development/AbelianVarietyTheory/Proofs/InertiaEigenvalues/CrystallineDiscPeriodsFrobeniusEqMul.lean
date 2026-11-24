@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.SplitPairGen
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AinfAdicTopologicalBasisOverBreuilKisin
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinAinfDiscIsDomainNormBounds
@@ -59,25 +60,8 @@ namespace GlobalTheory.BSP
 theorem mul_comm_of_mul_eq_smul_one {R : Type} [CommRing R] [IsDomain R] {n : Type} [Fintype n] [DecidableEq n]
     (A B : Matrix n n R) (c : R) (hc : c ≠ 0) (h : A * B = c • (1 : Matrix n n R)) :
     B * A = c • (1 : Matrix n n R) := by
-  have hdet : B.det ≠ 0 := by
-    intro h0
-    have h1 := congrArg Matrix.det h
-    rw [Matrix.det_mul, h0, mul_zero, Matrix.det_smul, Matrix.det_one, mul_one] at h1
-    exact pow_ne_zero _ hc h1.symm
-  have h2 : (B * A - c • (1 : Matrix n n R)) * B = 0 := by
-    rw [Matrix.sub_mul, Matrix.mul_assoc, h, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul,
-      sub_self]
-  have h3 : B.det • (B * A - c • (1 : Matrix n n R)) = 0 := by
-    have := congrArg (· * B.adjugate) h2
-    simp only [Matrix.zero_mul] at this
-    rw [Matrix.mul_assoc, Matrix.mul_adjugate, Matrix.mul_smul, Matrix.mul_one] at this
-    exact this
-  have h4 : B * A - c • (1 : Matrix n n R) = 0 := by
-    ext i j
-    have := congrFun (congrFun h3 i) j
-    simp only [Matrix.smul_apply, smul_eq_mul, Matrix.zero_apply] at this
-    simpa using (mul_eq_zero.1 this).resolve_left hdet
-  exact sub_eq_zero.1 h4
+  intros
+  apply _root_.PI.SqPair.LCP.sel_comm <;> assumption
 
 variable {l : ℕ} [hl : Fact l.Prime]
 

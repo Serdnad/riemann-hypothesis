@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.FrobeniusRelationCombination
 public import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.ArcGamLiftCore
 public import Formalism.SharpRestriction.LevelLetterCocycles.ArcCoordinatesOfMembership
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocalizationQuotientSeparatedDvd
@@ -91,16 +92,8 @@ theorem tmul_mem_filtration (x : V) {y : BdR} {a : ℤ} (hy : y ∈ PD.Fil a) :
     simp [TensorProduct.AlgebraTensorModule.map_tmul]⟩
 
 theorem filtration_exhaustive (z : V ⊗[Qp] BdR) : ∃ a, z ∈ FilV PD (LL := LL) (V := V) a := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨0, Submodule.zero_mem _⟩
-  | tmul x y =>
-    obtain ⟨a, ha⟩ := PD.Fil_exh y
-    exact ⟨a, tmul_mem_filtration x ha⟩
-  | add x y hx hy =>
-    obtain ⟨a, ha⟩ := hx
-    obtain ⟨b, hb⟩ := hy
-    exact ⟨min a b, Submodule.add_mem _ (Formalism.MainNotions.UnusedSlot80.LevR.filV_anti (min_le_left a b) ha)
-      (Formalism.MainNotions.UnusedSlot80.LevR.filV_anti (min_le_right a b) hb)⟩
+  intros
+  apply _root_.Formalism.MainNotions.UnusedSlot80.UnivF.filV_exh <;> assumption
 
 end Gen
 
@@ -118,15 +111,7 @@ variable {G : Type} [Group G] [TopologicalSpace G] {Qp K₀ K : Type} [Field Qp]
 theorem exists_horizontal_solutions (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hA : Formalism.MainNotions.LiftingTheory.CaseA W) (T : LocLat G Qp LL O)
     (hT : IsCrys PD T.ρ) (i : ZMod n) {d : ℕ} (b : Fin d → W.DD T)
     (hb : Formalism.MainNotions.LiftingTheory.IsFrameΔ W T i b) : ∃ sol, IsHor W T i b sol := by
-  have h3 := (hH hA T hT i).2.2.1 d b hb 0
-    ⟨0, Formalism.MainNotions.UnusedSlot80.Relay2.InNΔi_zero W T i, (smul_zero _).symm⟩
-  choose sol hsol using fun k : Fin d => (h3 (Pi.single k 1)).1
-  refine ⟨sol, hb, fun k => ⟨(hsol k).1, ?_⟩⟩
-  rw [(hsol k).2]
-  funext m
-  by_cases h : m = k
-  · subst h; simp
-  · simp [h]
+  apply _root_.Formalism.MainNotions.UnusedSlot80.UnivF.hor_exists <;> assumption
 
 theorem horizontal_frame_structure (hH : Formalism.MainNotions.LiftingTheory.coreH W) (hP9 : Formalism.MainNotions.DeltaInvariantLattices.P9W W) :
     Formalism.MainNotions.N.FrobeniusPowerSeries.HorFrameCore W := by
@@ -875,17 +860,7 @@ theorem frameVector_single (T : LocLat G Qp LL O) (hinj : Function.Injective (al
   · simp
 
 theorem exists_l_pow_integral (hvl : v (PD.p : LL) = 1) (x : LL) : ∃ t : ℕ, ∀ t', t ≤ t' → 0 ≤ v ((PD.p : LL) ^ t' * x) := by
-  by_cases hx : x = 0
-  · exact ⟨0, fun t' _ => by rw [hx, mul_zero, AddValuation.map_zero]; exact le_top⟩
-  · have hne : v x ≠ ⊤ := by rwa [Ne, AddValuation.top_iff]
-    obtain ⟨q, hq⟩ := WithTop.ne_top_iff_exists.1 hne
-    refine ⟨⌈-q⌉₊, fun t' ht' => ?_⟩
-    rw [AddValuation.map_mul, AddValuation.map_pow, hvl, ← hq, ← WithTop.coe_one,
-      ← WithTop.coe_nsmul, ← WithTop.coe_add, ← WithTop.coe_zero, WithTop.coe_le_coe]
-    have h1 := Nat.le_ceil (-q)
-    have h2 : (⌈-q⌉₊ : ℚ) ≤ t' := by exact_mod_cast ht'
-    rw [nsmul_eq_mul, mul_one]
-    linarith
+  apply _root_.Formalism.MainNotions.N.FrobeniusPowerSeries.DFE.intpow <;> assumption
 
 theorem frobenius_pow_mem_pullback (T : LocLat G Qp LL O) (c : ZMod n) (j k : ℕ) :
     ∀ y ∈ Pp W T c j, ((W.φD T) ^ k) y ∈ Pp W T c (k + j) := by

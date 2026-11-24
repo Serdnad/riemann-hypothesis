@@ -78,16 +78,7 @@ variable {p : ℕ} [hp : Fact p.Prime]
 
 theorem sx_dual_even {n' : ℕ} (B : OmBasis p n') (i i' : Fin (n' / 2)) :
     ∑ r, (sigW p)^[2 * i.val] (B.omS r) * (sigW p)^[2 * i'.val] (B.om r) = if i = i' then 1 else 0 := by
-  classical
-  have hAB : (Matrix.of fun (r j : Fin (n' / 2)) => (sigW p)^[2 * j.val] (B.om r)) *
-      (Matrix.of fun (j r' : Fin (n' / 2)) => (sigW p)^[2 * j.val] (B.omS r')) = 1 := by
-    refine Matrix.ext fun r r' => ?_
-    rw [Matrix.mul_apply, Matrix.one_apply, ← B.dual r r']
-    exact Finset.sum_congr rfl fun j _ => by rw [Matrix.of_apply, Matrix.of_apply, iterate_map_mul]
-  have hBA := mul_eq_one_comm.mp hAB
-  have h := congrFun (congrFun hBA i) i'
-  rw [Matrix.mul_apply, Matrix.one_apply] at h
-  simpa using h
+  apply _root_.Formalism.L2.G.Pend.dual' <;> assumption
 
 theorem sx_dual {n' : ℕ} (B : OmBasis p n') (hev : Even n') (a b : Fin n') (hab : a.val % 2 = b.val % 2) :
     ∑ r, (sigW p)^[a.val] (B.omS r) * (sigW p)^[b.val] (B.om r) = if a = b then 1 else 0 := by
@@ -923,10 +914,6 @@ private theorem intR_sum' {ι F α : Type} [Field F] (R : Subring F) (s : Finset
   rw [map_sum]
   exact R.sum_mem fun i hi => h i hi n
 
-private theorem cg_of_eq' {ι F : Type} [Field F] (R : Subring F) (pp : F)
-    {f g : MvPowerSeries ι F} (h : f = g) : Cg R pp f g :=
-  ⟨0, fun n => by rw [map_zero]; exact R.zero_mem, by rw [h, mul_zero, add_zero]⟩
-
 private theorem cg_sub_multiset_valuation {ι F : Type} [Field F] (R : Subring F) (pp : F)
     {f g f' g' : MvPowerSeries ι F} (h : Cg R pp f g) (h' : Cg R pp f' g') :
     Cg R pp (f - f') (g - g') := by
@@ -954,7 +941,7 @@ private theorem cg_pow' {ι F : Type} [Field F] (R : Subring F) (pp : F) (hpp : 
     {f g : MvPowerSeries ι F} (h : Cg R pp f g) (hf : IntR R f) (hg : IntR R g) (k : ℕ) :
     Cg R pp (f ^ k) (g ^ k) := by
   induction k with
-  | zero => exact cg_of_eq' R pp (by rw [pow_zero, pow_zero])
+  | zero => exact ⟨0, fun n => by rw [map_zero]; exact R.zero_mem, by simp⟩
   | succ k ih =>
     rw [pow_succ, pow_succ]
     exact cg_mul' R pp hpp ih h (intR_pow R hg k) hf

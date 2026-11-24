@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TprodNeZeroOfNe
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsSubquotientDetRepParInd
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.NontrivialOfIrreducible
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -205,16 +206,7 @@ section Tensor
 
 theorem tprod_ne_zero {ι : Type} [Fintype ι] {X : ι → Type} [∀ i, AddCommGroup (X i)]
     [∀ i, Module ℂ (X i)] (x : ∀ i, X i) (hx : ∀ i, x i ≠ 0) : PiTensorProduct.tprod ℂ x ≠ 0 := by
-  have : ∀ i, ∃ φ : Module.Dual ℂ (X i), φ (x i) ≠ 0 := fun i => by
-    by_contra h
-    push_neg at h
-    exact hx i ((Module.forall_dual_apply_eq_zero_iff ℂ (x i)).1 h)
-  choose φ hφ using this
-  intro h0
-  have := congrArg (PiTensorProduct.lift ((MultilinearMap.mkPiAlgebra ℂ ι ℂ).compLinearMap φ)) h0
-  rw [PiTensorProduct.lift.tprod, map_zero, MultilinearMap.compLinearMap_apply,
-    MultilinearMap.mkPiAlgebra_apply] at this
-  exact Finset.prod_ne_zero_iff.2 (fun i _ => hφ i) this
+  apply _root_.GlobalTheory.Contr.tprod_ne_zero_of_ne <;> assumption
 
 end Tensor
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.IsIntegralGaugedFormalGroupLawSelfConjugateSquar
 public import Formalism.LocalToGlobal.CharacterGerms.NegMem
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
@@ -85,16 +86,8 @@ theorem intS_pow {V : VF C} {τ : Type} {f : MvPowerSeries τ C} (hf : IntS V f)
 theorem intS_subst {V : VF C} {σ τ : Type} [Finite σ] {a : σ → MvPowerSeries τ C}
     (ha0 : ∀ s, constantCoeff (a s) = 0) (ha : ∀ s, IntS V (a s)) {F : MvPowerSeries σ C} (hF : IntS V F) :
     IntS V (subst a F) := by
-  intro μ
-  have hS := hasSubst_of_constantCoeff_zero ha0
-  rw [coeff_subst hS, finsum_eq_sum _ (coeff_subst_finite hS F μ)]
-  refine VF.Ge.sum fun e _ => ?_
-  rw [smul_eq_mul]
-  refine (hF e).mul_int ?_
-  have : IntS V (e.prod fun s m => a s ^ m) := by
-    unfold Finsupp.prod
-    exact Finset.prod_induction _ (IntS V) (fun _ _ => intS_mul) intS_one fun s _ => intS_pow (ha s) _
-  exact this μ
+  intros
+  apply _root_.GlobalTheory.RowLawSquare.intS_subst <;> assumption
 
 theorem intS_pderiv {V : VF C} {τ : Type} {f : MvPowerSeries τ C} (hf : IntS V f) (t : τ) :
     IntS V (pderiv (R := C) t f) := by

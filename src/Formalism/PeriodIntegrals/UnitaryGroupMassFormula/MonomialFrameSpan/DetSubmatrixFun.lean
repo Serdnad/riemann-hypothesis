@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PCauchyBinet
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -55,12 +56,7 @@ namespace GenFrameSpan
 theorem det_mul_rect {R : Type*} [CommRing R] {k n : ℕ}
     (A : Matrix (Fin k) (Fin n) R) (B : Matrix (Fin n) (Fin k) R) :
     (A * B).det = ∑ f : Fin k → Fin n, (∏ i, B (f i) i) * (A.submatrix id f).det := by
-  simp only [Matrix.det_apply, Matrix.mul_apply, Finset.prod_univ_sum, Fintype.piFinset_univ,
-    Matrix.submatrix_apply, id, Finset.smul_sum, Finset.mul_sum, Finset.prod_mul_distrib]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun f _ => Finset.sum_congr rfl fun σ _ => ?_
-  simp only [Units.smul_def, zsmul_eq_mul]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.CauchyBinetAlt.det_mul_eq_sum <;> assumption
 
 theorem det_submatrix_fun {R : Type*} [CommRing R] {p n : ℕ} (M : Matrix (Fin p) (Fin n) R)
     (f : Fin p → Fin n) :

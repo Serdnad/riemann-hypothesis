@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.MemNonzeroLocusIffMemBasicOpenChart
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.PrecompleteBases.PsbLb
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Functorial
@@ -309,15 +310,7 @@ theorem existsUnique_secMaps {A B : LB X} {a : A.Sec} {b : B.Sec} (ha : IsRegula
 
 theorem mem_nonzeroLocus_iff {L : LB X} (s : L.Sec) (i : L.ι) {x : X} (hx : x ∈ L.U i) :
     x ∈ Out.nonzeroLocus s ↔ x ∈ X.basicOpen (s.f i) := by
-  refine ⟨fun h => ?_, fun h => Opens.mem_iSup.2 ⟨i, h⟩⟩
-  obtain ⟨j, hj⟩ := Opens.mem_iSup.1 h
-  have hxj : x ∈ L.U j := X.basicOpen_le _ hj
-  have hm : x ∈ L.U i ⊓ L.U j := ⟨hx, hxj⟩
-  have e := congrArg (X.presheaf.germ (L.U i ⊓ L.U j) x hm).hom (s.compat i j)
-  rw [map_mul, germ_resG, germ_resG] at e
-  rw [X.mem_basicOpen _ x hx]
-  rw [X.mem_basicOpen _ x hxj] at hj
-  exact (congrArg IsUnit e).mpr (((L.g i j).isUnit.map _).mul hj)
+  apply _root_.GlobalTheory.mem_nonzeroLocus_iff_mem_basicOpen_chart <;> assumption
 
 theorem SecMaps.nonzeroLocus_eq {A B : LB X} (hA : A.IsLB) (hB : B.IsLB) {w : LB.Iso A B}
     {a : A.Sec} {b : B.Sec} (h : SecMaps w a b) : Out.nonzeroLocus a = Out.nonzeroLocus b := by

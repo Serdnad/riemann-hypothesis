@@ -39,6 +39,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsHomRangeSubset
 
 @[expose] public section
 
@@ -89,18 +90,7 @@ theorem IsNm.isNormalScheme {J : Type} {t : J → Ω} (h : M.IsNm t) : IsNormalS
 
 theorem div_prod_iff {J J' : Type} {t : J → Ω} {t' : J' → Ω} {i : J} {i' : J'} {z : M.Z} :
     M.Div (fun q : J × J' => t q.1 * t' q.2) (i, i') z ↔ M.Div t i z ∧ M.Div t' i' z := by
-  simp only [RatModel.Div]
-  constructor
-  · rintro ⟨h0, h⟩
-    have hi : t i ≠ 0 := left_ne_zero_of_mul h0
-    have hi' : t' i' ≠ 0 := right_ne_zero_of_mul h0
-    refine ⟨⟨hi, fun j => ?_⟩, ⟨hi', fun j' => ?_⟩⟩
-    · simpa [mul_div_mul_right _ _ hi'] using h (j, i')
-    · simpa [mul_div_mul_left _ _ hi] using h (i, j')
-  · rintro ⟨⟨hi, h⟩, ⟨hi', h'⟩⟩
-    refine ⟨mul_ne_zero hi hi', fun q => ?_⟩
-    rw [mul_div_mul_comm]
-    exact mul_mem (h q.1) (h' q.2)
+  apply _root_.GlobalTheory.ZH.RatModel.div_mul_prod_iff <;> assumption
 
 theorem div_finprod_iff {A : Type} [Fintype A] {JJ : A → Type} {tt : ∀ a, JJ a → Ω} {q : ∀ a, JJ a} {z : M.Z} :
     M.Div (fun q : ∀ a, JJ a => ∏ a, tt a (q a)) q z ↔ ∀ a, M.Div (tt a) (q a) z := by

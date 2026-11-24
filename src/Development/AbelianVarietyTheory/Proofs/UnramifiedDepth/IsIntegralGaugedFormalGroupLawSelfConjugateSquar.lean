@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieSelf
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieAxes
@@ -137,17 +138,8 @@ variable {dd : ℕ}
 
 theorem subst_singlePointUncurry {a : Fin dd → MvPowerSeries τ C} (ha : ∀ i, constantCoeff (a i) = 0) (f : PS C 1 dd) :
     subst a (un1 f) = subst (fun p : Fin 1 × Fin dd => a p.2) f := by
-  ext μ
-  let e : Fin dd ≃ Fin 1 × Fin dd :=
-    ⟨fun x => (0, x), fun p => p.2, fun _ => rfl, fun p => Prod.ext (Subsingleton.elim _ _) rfl⟩
-  rw [coeff_subst (hasSubst_of_constantCoeff_zero ha),
-    coeff_subst (hasSubst_of_constantCoeff_zero fun p : Fin 1 × Fin dd => ha p.2),
-    ← finsum_comp_equiv (Finsupp.domCongr (M := ℕ) e).toEquiv]
-  refine finsum_congr fun ν => ?_
-  have h1 : (Finsupp.domCongr (M := ℕ) e).toEquiv ν = ν.mapDomain fun x : Fin dd => ((0 : Fin 1), x) :=
-    Finsupp.equivMapDomain_eq_mapDomain e ν
-  rw [h1, Finsupp.prod_mapDomain_index (by simp) (fun _ _ _ => pow_add _ _ _)]
-  rfl
+  intros
+  apply _root_.Formalism.L2.FormalSeriesBounds.subst_singlePointUncurry <;> assumption
 
 def sb {n : ℕ} (a : Fin n → Fin dd → MvPowerSeries τ C) (f : PS C n dd) : MvPowerSeries τ C :=
   subst (fun p : Fin n × Fin dd => a p.1 p.2) f

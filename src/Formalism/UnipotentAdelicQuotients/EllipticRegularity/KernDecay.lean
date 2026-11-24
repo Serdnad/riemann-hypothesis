@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.DixmierMalliavinLine
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Calculus.ContDiff.Defs
 public import Mathlib.Analysis.Fourier.FourierTransform
@@ -86,16 +87,7 @@ lemma pow_mul_norm_fourier_le {f : V → ℂ} (hf : ContDiff ℝ ∞ f) (hfc : H
   exact h
 
 lemma one_add_pow_le (t : ℝ) (ht : 0 ≤ t) (n : ℕ) : (1 + t) ^ n ≤ 2 ^ n * (1 + t ^ n) := by
-  have htn : 0 ≤ t ^ n := pow_nonneg ht n
-  have h2 : (0 : ℝ) ≤ 2 ^ n := by positivity
-  rcases le_total t 1 with h | h
-  · have h1 : (1 + t) ^ n ≤ 2 ^ n := pow_le_pow_left₀ (by linarith) (by linarith) n
-    have h3 : (2 : ℝ) ^ n ≤ 2 ^ n * (1 + t ^ n) := le_mul_of_one_le_right h2 (by linarith)
-    linarith
-  · have h1 : (1 + t) ^ n ≤ (2 * t) ^ n := pow_le_pow_left₀ (by linarith) (by linarith) n
-    have h3 : (2 : ℝ) ^ n * t ^ n ≤ 2 ^ n * (1 + t ^ n) := mul_le_mul_of_nonneg_left (by linarith) h2
-    rw [mul_pow] at h1
-    linarith
+  apply _root_.GroundTheory.Automorphic.LineKernel.one_add_pow_le <;> assumption
 
 lemma one_add_pow_mul_norm_fourier_le {f : V → ℂ} (hf : ContDiff ℝ ∞ f) (hfc : HasCompactSupport f)
     (n : ℕ) (w : V) :

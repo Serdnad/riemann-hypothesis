@@ -46,8 +46,12 @@ theorem kernel_eq_of_maximal {k d r : ℕ} (A : (Fin k → ℂ) →L[ℂ] (Fin d
     rw [hfun]
     exact hv.finCons hs
 
-theorem proof : HolomorphicFibreInfinite.Statement := by
-  intro k d U f hdk hU hUne hf
+/-- A holomorphic map with noninjective derivatives on a nonempty open set has an infinite fibre. -/
+theorem exists_infinite_fibre_of_derivative_not_injective
+    {k d : ℕ} {U : Set (Fin k → ℂ)} {f : (Fin k → ℂ) → Fin d → ℂ}
+    (hU : IsOpen U) (hUne : U.Nonempty) (hf : DifferentiableOn ℂ f U)
+    (hninj : ∀ t ∈ U, ¬ Function.Injective (fderiv ℂ f t)) :
+    ∃ y : Fin d → ℂ, {t | t ∈ U ∧ f t = y}.Infinite := by
   classical
   have hfa : AnalyticOnNhd ℂ f U :=
     GroundTheory.Heights₂.Heights.ImplicitCurve.analyticOnNhd_of_differentiableOn hU hf
@@ -59,8 +63,7 @@ theorem proof : HolomorphicFibreInfinite.Statement := by
     exact ⟨t, ht, Fin.elim0, linearIndependent_empty_type⟩
   have hspec : Q (Nat.findGreatest Q d) := Nat.findGreatest_spec (Nat.zero_le d) hQ0
   have hle : ∀ m, m ≤ d → Q m → m ≤ Nat.findGreatest Q d := fun m hmd hm => Nat.le_findGreatest hmd hm
-  have hrd : Nat.findGreatest Q d ≤ d := Nat.findGreatest_le d
-  generalize Nat.findGreatest Q d = r at hspec hle hrd
+  generalize Nat.findGreatest Q d = r at hspec hle
   obtain ⟨s, hs, v, hv⟩ := hspec
   have hmax : ∀ t ∈ U, ∀ u : Fin (r + 1) → Fin k → ℂ,
       ¬ LinearIndependent ℂ (fun j => fderiv ℂ f t (u j)) := by
@@ -99,9 +102,11 @@ theorem proof : HolomorphicFibreInfinite.Statement := by
       exact (Pi.basisFun ℂ (Fin r)).linearIndependent
     exact hc.eventually h0.eventually
 
-  obtain ⟨w, hw, hw0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot
-    (LinearMap.ker_ne_bot_of_finrank_lt (f := Λ ∘ₗ (fderiv ℂ f s : (Fin k → ℂ) →ₗ[ℂ] (Fin d → ℂ)))
-      (by simp; omega))
+  obtain ⟨w, hw, hw0⟩ : ∃ w ∈ LinearMap.ker
+      (Λ ∘ₗ (fderiv ℂ f s : (Fin k → ℂ) →ₗ[ℂ] (Fin d → ℂ))), w ≠ 0 := by
+    obtain ⟨x, y, hxy, hne⟩ := Function.not_injective_iff.1 (hninj s hs)
+    refine ⟨x - y, ?_, sub_ne_zero.2 hne⟩
+    simp [map_sub, hxy]
   have hw' : Λ (fderiv ℂ f s w) = 0 := by simpa using hw
 
   let A' : ℂ × (Fin r → ℂ) →L[ℂ] (Fin k → ℂ) :=
@@ -205,6 +210,13 @@ theorem proof : HolomorphicFibreInfinite.Statement := by
   refine (hinf.image hPinj.injOn).mono ?_
   rintro _ ⟨z, hz, rfl⟩
   exact ⟨hPU z hz, hconst z hz⟩
+
+theorem proof : HolomorphicFibreInfinite.Statement := by
+  intro k d U f hdk hU hUne hf
+  refine exists_infinite_fibre_of_derivative_not_injective hU hUne hf fun t _ h => ?_
+  exact (not_le_of_gt hdk) (by
+    simpa using LinearMap.finrank_le_finrank_of_injective
+      (f := (fderiv ℂ f t).toLinearMap) h)
 
 end HolomorphicFibreInfinite
 

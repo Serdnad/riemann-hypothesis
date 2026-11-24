@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.GradedModulesLength.MainCotSpan
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.OrbitVanishingLocal
 public import Formalism.FormalGroupWitt.FormalGroupWittProofs.SolveV
 public import Mathlib.LinearAlgebra.Matrix.Rank
@@ -84,20 +85,6 @@ open MvPowerSeries Formalism.FG.SolveVAux
 
 variable {E σ τ Y : Type} [CommRing E] [AddCommGroup Y]
 
-private theorem cc_P_mem {w : σ → Y} {w' : τ → Y} {k : σ → MvPowerSeries τ E}
-    (hw : ∀ i, k i ∈ wtPart E w' (w i)) (e : σ →₀ ℕ) : P k e ∈ wtPart E w' (Finsupp.weight w e) := by
-  induction e using Finsupp.induction with
-  | zero => simpa [P_zero] using one_mem_wtPart E w'
-  | single_add i n f _ hn ih =>
-    rw [P_add, P_single, map_add (f := _), Finsupp.weight_single]
-    refine mul_mem_wtPart E w' ?_ ih
-    clear hn
-    induction n with
-    | zero => simpa using one_mem_wtPart E w'
-    | succ m ihm =>
-      rw [pow_succ, succ_nsmul]
-      exact mul_mem_wtPart E w' ihm (hw i)
-
 private theorem cc_subst_mem [Finite σ] {w : σ → Y} {w' : τ → Y} {k : σ → MvPowerSeries τ E}
     (hk : ∀ i, Low 1 (k i)) (hw : ∀ i, k i ∈ wtPart E w' (w i)) {j : Y} {g : MvPowerSeries σ E}
     (hg : g ∈ wtPart E w j) : subst k g ∈ wtPart E w' j := by
@@ -105,7 +92,7 @@ private theorem cc_subst_mem [Finite σ] {w : σ → Y} {w' : τ → Y} {k : σ 
   rw [coeff_subst (hasSubst_of_low hk)]
   refine finsum_eq_zero_of_forall_eq_zero fun e => ?_
   by_cases he : Finsupp.weight w e = j
-  · have := cc_P_mem hw e n (he ▸ hn)
+  · have := _root_.ift_P_mem hw e n (he ▸ hn)
     simp only [P] at this
     rw [this, smul_zero]
   · rw [hg e he, zero_smul]
@@ -120,24 +107,6 @@ private theorem cc_subst_low [Finite σ] {k : σ → MvPowerSeries τ E} (hk : �
   · have := low_P hk e d (by omega)
     simp only [P] at this
     rw [this, smul_zero]
-
-private theorem cc_lim_mem [Finite σ] {w : σ → Y} {w' : τ → Y} {G : σ → MvPowerSeries τ E}
-    {g : σ → MvPowerSeries σ E} (hG : ∀ j, Low 1 (G j)) (hg : ∀ j, Low 2 (g j))
-    (hGw : ∀ i, G i ∈ wtPart E w' (w i)) (hgw : ∀ i, g i ∈ wtPart E w (w i)) (i : σ) :
-    Formalism.FG.SolveVAux.lim G g i ∈ wtPart E w' (w i) := by
-  have key : ∀ n, ∀ i, Formalism.FG.SolveVAux.seq G g n i ∈ wtPart E w' (w i) := by
-    intro n
-    induction n with
-    | zero =>
-      intro i
-      simp [Formalism.FG.SolveVAux.seq]
-    | succ m ih =>
-      intro i
-      rw [seq_succ]
-      exact Submodule.sub_mem _ (hGw i) (cc_subst_mem (seq_low hG hg m) ih (hgw i))
-  intro d hd
-  rw [coeff_lim]
-  exact key _ i d hd
 
 private theorem cc_low_two {p : MvPowerSeries σ E} (h0 : constantCoeff p = 0)
     (h1 : ∀ i, coeff (Finsupp.single i 1) p = 0) : Low 2 p := by
@@ -199,7 +168,7 @@ private theorem cc_fix [Fintype σ] {w : σ → Y} {w' : τ → Y} {G : σ → M
   refine ⟨ψ, ?_, ?_, ?_, ?_⟩
   · intro j f hf
     rw [hψ]
-    exact cc_subst_mem hk (cc_lim_mem hG hg hGw hgw) hf
+    exact cc_subst_mem hk (_root_.ift_lim_mem hG hg hGw hgw) hf
   · intro i
     rw [hψ, subst_X ha]
     exact (lim_fixed hG hg i).symm

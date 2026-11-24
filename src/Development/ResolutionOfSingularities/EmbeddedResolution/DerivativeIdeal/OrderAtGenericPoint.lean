@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinatePolynomialRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorRadical
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.ChartRing
@@ -51,6 +52,7 @@ import Mathlib.RingTheory.PiTensorProduct
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
+import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisibility, Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.OrderAtGenericPoint
@@ -108,13 +110,7 @@ private theorem span_eq_top_of_forall_mem_basicOpen {X : Scheme.{u}} {U : X.Open
     (hU : IsAffineOpen U) (s : Set Γ(X, U))
     (hcov : ∀ x : X, x ∈ U → ∃ t ∈ s, x ∈ X.basicOpen t) :
     Ideal.span s = ⊤ := by
-  have hUeq : (⨆ f : s, X.basicOpen (f : Γ(X, U))) = U := by
-    refine le_antisymm (iSup_le fun f => Scheme.basicOpen_le (X := X) (f : Γ(X, U)))
-      (SetLike.le_def.mpr ?_)
-    intro x hx
-    obtain ⟨t, hts, hxt⟩ := hcov x hx
-    exact TopologicalSpace.Opens.mem_iSup.mpr ⟨⟨t, hts⟩, hxt⟩
-  exact (IsAffineOpen.iSup_basicOpen_eq_self_iff hU).mp hUeq
+  apply _root_.FunctorialResolution.EmbeddedResolution.span_eq_top_of_basicOpen_cover <;> assumption
 
 private theorem exists_mul_mem_of_map_mem_map {R S : Type*} [CommRing R] [CommRing S]
     (g : R →+* S) (M : Submonoid R) (hlocal : @IsLocalization R _ M S _ g.toAlgebra)
@@ -191,20 +187,7 @@ theorem le_iff_forall_stalkIdeal_le {X : Scheme.{u}} (I J : X.IdealSheafData) :
 
 theorem notMem_support_of_mem_opens_of_restrictIdeal_eq_top {X : Scheme.{u}} (Z : X.IdealSheafData)
     (U : X.Opens) (h : restrictIdeal Z U = ⊤) (x : X) (hx : x ∈ U) : x ∉ Z.support := by
-  intro hxZ
-  obtain ⟨y, hy⟩ : x ∈ Set.range (⇑U.ι) := by
-    rw [Scheme.Opens.range_ι]
-    exact hx
-  have h' : Z.comap U.ι = ⊤ := h
-  have h2 := Scheme.IdealSheafData.support_comap Z U.ι
-  have h3 : (⇑U.ι) y ∈ Z.support := by
-    rw [hy]
-    exact hxZ
-  have h4 : y ∈ (Z.comap U.ι).support := by
-    rw [h2]
-    exact h3
-  rw [h', Scheme.IdealSheafData.support_top] at h4
-  exact h4
+  apply _root_.AlgebraicGeometry.Scheme.IdealSheafData.notMem_support_of_comap_ι_eq_top <;> assumption
 
 theorem isClosed_of_maximal_irreducible_subset_support {X : Scheme.{u}} (D : X.IdealSheafData)
     {C : Set X} (hC : IsIrreducible C) (hCsub : C ⊆ (D.support : Set X))

@@ -487,19 +487,8 @@ private theorem sortSign_eq_sortSign_erase_mul {α β : Type} [LinearOrder α] [
 private theorem sortSign_mul_cubeSign_image {α β : Type} [LinearOrder α] [LinearOrder β] (τ : β → α) {s : Finset β}
     {j : β} (hj : j ∈ s) (hinj : Set.InjOn τ s) :
     sortSign τ s * cubeSign (s.image τ) (τ j) = cubeSign s j * sortSign τ (s.erase j) := by
-  rw [sortSign_eq_sortSign_erase_mul τ hj, _root_.GlobalTheory.PD.PullMap.cubeSign_eq_prod, _root_.GlobalTheory.PD.PullMap.cubeSign_eq_prod,
-    Finset.prod_image (fun x hx y hy h => hinj hx hy h)]
-  have key : ∀ y ∈ s, ((if j < y ∧ τ y < τ j then (-1 : ℤ) else 1) *
-      (if y < j ∧ τ j < τ y then -1 else 1)) * (if τ y < τ j then -1 else 1) =
-      if y < j then -1 else 1 := by
-    intro y hy
-    by_cases hyj : y = j
-    · subst hyj
-      simp
-    have hne : τ y ≠ τ j := fun e => hyj (hinj hy hj e)
-    split_ifs <;> simp_all <;> order
-  rw [mul_assoc, ← Finset.prod_mul_distrib, ← Finset.prod_mul_distrib, Finset.prod_congr rfl key]
-  ring
+  intros
+  apply _root_.GlobalTheory.PD.PullMap.sign_inj <;> assumption
 
 private theorem prod_mul_prod_eq_one_of_sq_one {β : Type} {s : Finset β} (f : β → ℤ) (hf : ∀ y, f y * f y = 1) :
     (∏ y ∈ s, f y) * ∏ y ∈ s, f y = 1 := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.OFRepGood
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Mathlib.Algebra.AffineMonoid.Basic
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FrameFactorsLocalUnitsAlmostAll
@@ -83,22 +84,7 @@ namespace GlobalTheory.Unfold.RowFrame
 
 theorem one_mem_ddS_zpow (D : D7) (n : ℕ) :
     (1 : D.host.E) ∈ (ddS D ^ (-(n : ℤ)) : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) := by
-  have hI0 : ddS D ≠ 0 := by
-    unfold ddS
-    rw [Ne, FractionalIdeal.coeIdeal_eq_zero]
-    rw [Ideal.map_eq_bot_iff_of_injective]
-    · exact differentIdeal_ne_bot
-    · exact FaithfulSMul.algebraMap_injective _ _
-  have hI1 : ddS D ≤ 1 := FractionalIdeal.coeIdeal_le_one
-  have hJ0 : ddS D ^ n ≠ 0 := pow_ne_zero _ hI0
-  have hJ1 : ddS D ^ n ≤ 1 := pow_le_one' hI1 n
-  rw [zpow_neg, zpow_natCast]
-  have h1 : (1 : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) ≤ (ddS D ^ n)⁻¹ := by
-    calc (1 : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) = ddS D ^ n * (ddS D ^ n)⁻¹ :=
-          (mul_inv_cancel₀ hJ0).symm
-      _ ≤ 1 * (ddS D ^ n)⁻¹ := by gcongr
-      _ = (ddS D ^ n)⁻¹ := one_mul _
-  exact h1 ((FractionalIdeal.mem_one_iff _).2 ⟨1, map_one _⟩)
+  first | exact _root_.PI.UnitaryGroupMassFormula.CntFormula.one_mem_ddS_zpow | exact @_root_.PI.UnitaryGroupMassFormula.CntFormula.one_mem_ddS_zpow | apply _root_.PI.UnitaryGroupMassFormula.CntFormula.one_mem_ddS_zpow <;> assumption
 
 theorem frame_mem (D : D7) {T : D.host.E} (F0 : FlagG (VS D) D.R.rS T) (Λ : LV D) :
     IsRowLat D F0 Λ → ∀ a, frame (lf D F0) a ∈ Λ := by

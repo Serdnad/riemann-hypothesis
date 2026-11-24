@@ -1,5 +1,8 @@
 module
 
+
+import Development.EtaleCohomology.KummerTheory.CupAWCut
+import Development.EtaleCohomology.EtaleSheaves.FiltPf
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
 public import Development.EtaleCohomology.EtaleSheaves.CupProductRingLaws
 import Mathlib.Algebra.Order.Floor.Extended
@@ -41,7 +44,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.AlgebraicGeometry.Modules.Sheaf
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.TateTwists.EtaleCochainEvaluationNaturalInRestriction, Development.EtaleCohomology.EtaleSheaves.LeafOneSpecPf
 
@@ -62,14 +64,7 @@ def EtaleCochainEvaluationNaturalInRestriction : Prop :=
 
 theorem freeGen_nat {R : Type} [CommRing R] (P : PSh) {V U : Scheme.{0}} (g : V ⟶ U) (x : P.obj (op U)) :
     (((free R).obj P).obj.map g.op).hom (freeGen R P U x) = freeGen R P V (P.map g.op x) := by
-  unfold freeGen
-  have h := congrArg (fun f => f.hom (ModuleCat.freeMk (R := ULift.{1} R) (ULift.up x)))
-    ((toSheafify Scheme.etaleTopology ((freeP R).obj P)).naturality g.op)
-  simp only [ModuleCat.hom_comp, LinearMap.coe_comp] at h
-  have hm : (((freeP R).obj P).map g.op).hom (ModuleCat.freeMk (R := ULift.{1} R) (ULift.up x)) =
-      ModuleCat.freeMk (R := ULift.{1} R) (ULift.up (P.map g.op x)) := by
-    simp only [freeP, Functor.whiskeringRight_obj_obj, Functor.comp_map]; erw [ModuleCat.free_map_apply]; rfl
-  exact h.symm.trans (congrArg (toSheafify Scheme.etaleTopology ((freeP R).obj P) |>.app (op V)).hom hm)
+  apply @LateralTheory.EtaleFoundations.freeGen_res <;> assumption
 
 theorem ev_nat_pf : EtaleCochainEvaluationNaturalInRestriction := by
   intro R _ E I n α p s h V U g x
@@ -105,12 +100,7 @@ theorem res_neg_zero (R : Type) [CommRing R] (F : Shv R) (n : ℤ) (hn : n < 0) 
   change ((i : ℤ)) < 0 at hn
   omega
 theorem chains_pos_zero (R : Type) [CommRing R] (E : Spc) (n : ℤ) (hn : 0 < n) : IsZero (((chains R).obj E).X n) := by
-  unfold chains
-  simp only [Functor.comp_obj, ComplexShape.Embedding.extendFunctor_obj]
-  apply HomologicalComplex.isZero_extend_X
-  rintro i rfl
-  change 0 < -((i : ℤ)) at hn
-  omega
+  apply @LateralTheory.E.FiltPf.chains_X_isZero <;> assumption
 theorem free_hom_ext (R : Type) [CommRing R] (P : PSh) (G : Shv R) (f g : (free R).obj P ⟶ G)
     (h : ∀ (U : Scheme.{0}) (x : P.obj (op U)), (f.hom.app (op U)).hom (freeGen R P U x) = (g.hom.app (op U)).hom (freeGen R P U x)) :
     f = g := by

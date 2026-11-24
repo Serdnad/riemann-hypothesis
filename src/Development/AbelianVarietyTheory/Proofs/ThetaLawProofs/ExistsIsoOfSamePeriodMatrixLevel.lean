@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CubeLineBundleAdjointIffHermFormAdjoint
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
@@ -74,18 +75,7 @@ namespace GlobalTheory.KeyFam.SamePeriod
 theorem int_eq_of_exp {m m' : ℤ} (h : ∀ n : ℕ, 0 < n →
     Complex.exp (-(2 * Real.pi * Complex.I) * (m : ℂ) / n) = Complex.exp (-(2 * Real.pi * Complex.I) * (m' : ℂ) / n)) :
     m = m' := by
-  obtain ⟨k, hk⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h ((m' - m).natAbs + 1) (Nat.succ_pos _))
-  have hn : (((m' - m).natAbs + 1 : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.succ_ne_zero _)
-  have h2 : (2 * Real.pi * Complex.I : ℂ) ≠ 0 := Complex.two_pi_I_ne_zero
-  have e : ((m' - m : ℤ) : ℂ) = ((((m' - m).natAbs + 1 : ℕ) : ℤ) * k : ℤ) := by
-    rw [Int.cast_mul, Int.cast_natCast, Int.cast_sub]
-    generalize (((m' - m).natAbs + 1 : ℕ) : ℂ) = N at hk hn
-    apply mul_left_cancel₀ h2
-    field_simp at hk
-    linear_combination (2 * Real.pi * Complex.I) * hk
-  have e' : ((((m' - m).natAbs + 1 : ℕ) : ℤ)) ∣ m' - m := ⟨k, by exact_mod_cast e⟩
-  have := Int.eq_zero_of_dvd_of_natAbs_lt_natAbs e' (by rw [Int.natAbs_natCast]; exact Nat.lt_succ_self _)
-  omega
+  first | exact _root_.GlobalTheory.HermAdjoint.int_eq_of_exp | exact @_root_.GlobalTheory.HermAdjoint.int_eq_of_exp | apply _root_.GlobalTheory.HermAdjoint.int_eq_of_exp <;> assumption
 
 noncomputable def imForm {g m : ℕ} (Hm : Matrix (Fin m) (Fin m) ℂ) (F : (Fin g → ℂ) →ₗ[ℂ] (Fin m → ℂ)) :
     (Fin g → ℂ) →ₗ[ℝ] (Fin g → ℂ) →ₗ[ℝ] ℝ :=

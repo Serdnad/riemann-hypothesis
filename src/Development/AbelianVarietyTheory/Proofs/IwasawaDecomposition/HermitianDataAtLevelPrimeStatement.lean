@@ -74,6 +74,7 @@ import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BaseFieldsDe
 import Mathlib.RingTheory.Coalgebra.CoassocSimps
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValNatCastLtOne
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsDiamondElementsStepLevels, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsDiamondElementsStepLevelsStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiamondOperatorHermitianSideLevelPrime, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DiamondOperatorHermitianSideLevelPrimeStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DualModClassLatticeEquivQuotient, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DualModClassLatticeEquivQuotientStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHermitianDownMoveAtLevelPrimePlace, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsHermitianDownMoveAtLevelPrimePlaceStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianSeenPrimeConditionHermitianSideStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianSideClassesEqFormClasses, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianSideClassesEqFormClassesStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianUpMoveAtLevelPrimePlace, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianUpMoveAtLevelPrimePlaceStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StabiliserMapHyperplaneEqConjClassMap, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StabiliserMapHyperplaneEqConjClassMapStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianDataAtLevelPrime, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HermitianDataAtLevelPrimeStatement
@@ -837,53 +838,7 @@ theorem mem_Uloc_of_princ {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin n) (Fi
       ∃ z ∈ latS (F := F) (v.adicCompletion F) (intV E v) S.Lb,
         (x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) *ᵥ y - y = (gp i : E ⊗[F] v.adicCompletion F) • z) :
     x ∈ S.Uloc v := by
-  have hint : ∀ z ∈ latS (F := F) (v.adicCompletion F) (intV E v) S.Lb, ∀ a,
-      G.phi i v h (z a) ∈ v.adicCompletionIntegers F := by
-    intro z hz a
-    have := (V.fr_lat i v h (fun b => G.phi i v h (z b))).1 ⟨z, hz, fun _ => rfl⟩ a
-    rw [hfr] at this
-    simpa using this
-  have hcol : ∀ b : Fin n, ∃ z ∈ latS (F := F) (v.adicCompletion F) (intV E v) S.Lb, ∀ a,
-      (x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) a b =
-        (1 : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) a b + (gp i : E ⊗[F] v.adicCompletion F) * z a := by
-    intro b
-    have e1 : (fun j => inclE (F := F) (v.adicCompletion F) ((Pi.single b 1 : Fin n → E) j)) =
-        (Pi.single b 1 : Fin n → E ⊗[F] v.adicCompletion F) := by
-      funext j
-      by_cases e : j = b
-      · subst e
-        simp
-      · simp [e]
-    have hb : (Pi.single b 1 : Fin n → E ⊗[F] v.adicCompletion F) ∈
-        latS (F := F) (v.adicCompletion F) (intV E v) S.Lb := by
-      rw [← e1]
-      exact Submodule.subset_span ⟨_, hLb b, rfl⟩
-    obtain ⟨z, hz, e⟩ := hc _ hb
-    refine ⟨z, hz, fun a => ?_⟩
-    have := congrFun e a
-    rw [Matrix.mulVec_single_one] at this
-    simp only [Pi.sub_apply, Pi.smul_apply, smul_eq_mul, Matrix.col_apply] at this
-    rw [← this]
-    by_cases ab : a = b
-    · subst ab
-      simp
-    · simp [ab]
-  choose Z hZ hZe using hcol
-  refine (V.mem i v h x hx).2 ⟨1, one_mem _, ?_⟩
-  have key : redM F v (G.mat i v h (V.fr i v h) x) = 1 := by
-    rw [hfr]
-    refine redM_eq_one v (gp i : v.adicCompletion F) (val_nat_lt_one v (gp i) h) _
-      (fun a b => G.phi i v h (Z b a)) (fun a b => hint _ (hZ b) a) fun a b => ?_
-    have e2 : G.mat i v h 1 x a b = G.phi i v h ((x : Matrix (Fin n) (Fin n) (E ⊗[F] v.adicCompletion F)) a b) := by
-      simp [GLoc.mat, bc]
-    rw [e2, hZe b a, map_add (f := _), map_mul, map_natCast]
-    congr 1
-    by_cases ab : a = b
-    · subst ab
-      simp
-    · simp [ab]
-  rw [key]
-  rfl
+  apply _root_.GlobalTheory.Mem.LevCong.mem_Uloc_of_cong <;> assumption
 
 end GenP
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.IntegOfMem
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.HeckeFixedPointCMCycleClass
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.DetOfCharpoly
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
@@ -51,15 +52,7 @@ open UpperTheory.Gal.W2
 
 private theorem kn_anti {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G) {N N' : ℕ}
     (hd : N ∣ N') : L.KN N' ≤ L.KN N := by
-  obtain ⟨k, rfl⟩ := hd
-  intro u hu
-  have hu' : L.CongOne (N * k) u ∧ L.CongOne (N * k) u⁻¹ := hu
-  show L.CongOne N u ∧ L.CongOne N u⁻¹
-  refine ⟨fun v hv => ?_, fun v hv => ?_⟩
-  · obtain ⟨w, hw, e⟩ := hu'.1 v hv
-    exact ⟨k • w, (LaHat D).nsmul_mem hw k, by rw [e, smul_smul]⟩
-  · obtain ⟨w, hw, e⟩ := hu'.2 v hv
-    exact ⟨k • w, (LaHat D).nsmul_mem hw k, by rw [e, smul_smul]⟩
+  apply _root_.UpperTheory.Gal.Int.Geo.KN_anti <;> assumption
 
 private theorem s_inv {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G) {N N' : ℕ} {h : G.GAf}
     (hd : N ∣ N') (hc : ∀ u ∈ L.KN N', h * u * h⁻¹ ∈ L.KN N) :

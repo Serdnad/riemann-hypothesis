@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.LatticeSystems
 public import Formalism.SharpRestriction.GrowthBounds.DataG
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -71,14 +72,7 @@ theorem gPos_one (v : Fin P.nV) (s : Fin (P.n' v)) : P.gPos v s 1 = 1 := by
   · simp [Places.gPos, Matrix.one_apply_ne h]
 
 theorem subst_one : P.subst (fun _ _ => 1) = AlgHom.id Kf P.Xsp := by
-  apply MvPolynomial.algHom_ext
-  rintro ⟨v, s, a, t⟩
-  simp only [Places.subst, aeval_X, AlgHom.id_apply]
-  rw [Finset.sum_eq_single a]
-  · simp
-  · intro b _ hb
-    rw [Matrix.one_apply_ne (Ne.symm hb)]; simp
-  · intro h; exact absurd (Finset.mem_univ _) h
+  apply _root_.Formalism.MainNotions.G.LatticeSystems.jd_subst_one <;> assumption
 
 theorem natAct_one : P.natAct (fun _ => 1) = LinearMap.id := by
   simp [Places.natAct, gPos_one, subst_one]

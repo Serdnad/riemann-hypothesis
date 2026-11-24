@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CharPolLpCharOfUnr
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsReadingLaws
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -50,16 +51,7 @@ namespace GlobalTheory.SplitPairLift
 
 theorem isIrreducible_twist {G V : Type} [Group G] [AddCommGroup V] [Module ℂ V]
     {ρ : Representation ℂ G V} (h : ρ.IsIrreducible) (χ : G →* ℂˣ) : (twist ρ χ).IsIrreducible := by
-  let e : Subrepresentation (twist ρ χ) ≃o Subrepresentation ρ :=
-    { toFun := fun S => ⟨S.toSubmodule, fun g v hv => by
-        have h1 := S.toSubmodule.smul_mem (((χ g)⁻¹ : ℂˣ) : ℂ) (S.apply_mem_toSubmodule g hv)
-        rwa [twist_apply, smul_smul, Units.inv_mul, one_smul] at h1⟩
-      invFun := fun S => ⟨S.toSubmodule, fun g v hv =>
-        S.toSubmodule.smul_mem _ (S.apply_mem_toSubmodule g hv)⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl
-      map_rel_iff' := Iff.rfl }
-  exact e.isSimpleOrder_iff.2 h
+  first | exact _root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist | exact @_root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist | apply _root_.GlobalTheory.SplitRead.BlockParam.irreducible_twist <;> assumption
 
 section Local
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ForallFieldIffForallSubgroup
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.LenCob
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ActDEqOfEqOne
 import Mathlib.Algebra.Module.StablyFree.Basic
@@ -215,21 +216,7 @@ theorem conj_mem_Dec {A : ValuationSubring Ω} {g σ : G F Ω} (hσ : σ ∈ Dec
 
 theorem conj_mem_Ine' {A : ValuationSubring Ω} {g σ : G F Ω} (hσ : σ ∈ Ine (F := F) (g • A)) :
     g⁻¹ * σ * g ∈ Ine (F := F) A := by
-  refine ⟨conj_mem_Dec hσ.1, fun x hx => ?_⟩
-  have hx' : (g • A).valuation (g x) ≤ 1 := by
-    rw [ValuationSubring.valuation_le_one_iff, mem_smul_iff]
-    have : (g⁻¹ : G F Ω) (g x) = x := by
-      show (g⁻¹ * g) x = x
-      simp
-    rw [this]
-    exact (A.valuation_le_one_iff x).1 hx
-  have h := (valuation_smul_lt_one_iff A g _).1 (hσ.2 _ hx')
-  have e : (g⁻¹ : G F Ω) (σ (g x) - g x) = (g⁻¹ * σ * g) x - x := by
-    rw [map_sub]
-    congr 1
-    show (g⁻¹ * g) x = x
-    simp
-  rwa [e] at h
+  first | exact _root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul | exact @_root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul | apply _root_.GlobalTheory.PointIrredCompare.conj_mem_Ine_of_smul <;> assumption
 
 theorem coc_conj {R Γ M : Type} [CommRing R] [Group Γ] [AddCommGroup M] [Module R M] (ρ : Representation R Γ M)
     (f : Γ → M) (hf : ∀ g h, f (g * h) = f g + ρ g (f h)) (g h : Γ) (m : M) (hm : f h = ρ h m - m) :

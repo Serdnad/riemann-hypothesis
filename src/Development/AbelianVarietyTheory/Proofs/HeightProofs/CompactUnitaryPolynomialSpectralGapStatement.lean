@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneParameterConjugationBound
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.FiniteDimensionalPolyV
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.ContDiffMatrixRightInvariantDerivative
 public import Formalism.RealPlaceAnalysis.SmoothOnGVIff
@@ -1230,21 +1231,7 @@ namespace GlobalTheory.KFourier
 
 theorem sq_intervalIntegral_unit_le (h : ℝ → ℝ) (hc : Continuous h) :
     (∫ s in (0:ℝ)..1, h s) ^ 2 ≤ ∫ s in (0:ℝ)..1, h s ^ 2 := by
-  set c := ∫ s in (0:ℝ)..1, h s with hcdef
-  have hnn : 0 ≤ ∫ s in (0:ℝ)..1, (h s - c) ^ 2 :=
-    intervalIntegral.integral_nonneg zero_le_one (fun s _ => sq_nonneg _)
-  have hexp : ∫ s in (0:ℝ)..1, (h s - c) ^ 2 = (∫ s in (0:ℝ)..1, h s ^ 2) - 2 * c * c + c ^ 2 := by
-    have e1 : (fun s => (h s - c) ^ 2) = fun s => (h s ^ 2 - (2 * c) * h s) + c ^ 2 := by
-      funext s; ring
-    rw [e1, intervalIntegral.integral_add, intervalIntegral.integral_sub, intervalIntegral.integral_const_mul,
-      intervalIntegral.integral_const]
-    · simp
-      exact Or.inl rfl
-    · exact (hc.pow 2).intervalIntegrable _ _
-    · exact (continuous_const.mul hc).intervalIntegrable _ _
-    · exact ((hc.pow 2).sub (continuous_const.mul hc)).intervalIntegrable _ _
-    · exact continuous_const.intervalIntegrable _ _
-  nlinarith
+  first | exact _root_.GlobalTheory.TorusLip.sq_integral_le | exact @_root_.GlobalTheory.TorusLip.sq_integral_le | apply _root_.GlobalTheory.TorusLip.sq_integral_le <;> assumption
 
 theorem norm_sub_expK_sq_le : ∀ {n : ℕ} (ε : Fin n → Bool) (d : ℕ) (φ : KG ε → ℂ), φ ∈ polyV ε d → ∀ Y : Mx n, inK ε Y → ∫ x, ‖φ x - φ (x * expK ε Y 1)‖ ^ 2 ∂(muK ε) ≤ ∫ x, ‖rder ε [Y] φ x‖ ^ 2 ∂(muK ε) := by
   intro n ε d φ hφ Y hY

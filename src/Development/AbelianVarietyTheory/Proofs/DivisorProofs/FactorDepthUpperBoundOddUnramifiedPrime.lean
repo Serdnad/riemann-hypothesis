@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CmTypeFrobeniusOrbitsLabelAtSplitPrime
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TypedPartSplitPrimes
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsCmTypeEmbeddingsIntoValuationRing
@@ -58,7 +60,6 @@ import Mathlib.Tactic.ReduceModChar
 import Development.AbelianVarietyTheory.Definitions.Divisors.EightDvdNCol
 import Development.AbelianVarietyTheory.Proofs.JetHarmonics.NonemptyClosedValuedExtensionOfCDVR
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConjEqNegOfSqEqNegNat, Development.AbelianVarietyTheory.Proofs.DivisorProofs.FrobeniusOrbitOfUnramifiedPrime, Development.AbelianVarietyTheory.Proofs.DivisorProofs.FactorDepthUpperBoundOddUnramifiedPrime
 
@@ -423,35 +424,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem inPsi_conj_iff (H : Host E) (τ : E →+* ℂ) :
     InPsi H (ComplexEmbedding.conjugate τ) ↔ ¬ InPsi H τ := by
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have hre := congrArg Complex.re H.sqrt_neg_disc_sq
-  have him := congrArg Complex.im H.sqrt_neg_disc_sq
-  simp [pow_two] at hre him
-  have hre0 : H.rt0.re = 0 := by
-    by_contra hne
-    have : H.rt0.im = 0 := by
-      have : H.rt0.re * H.rt0.im = 0 := by linarith
-      exact (mul_eq_zero.1 this).resolve_left hne
-    rw [this] at hre
-    nlinarith [mul_self_nonneg H.rt0.re]
-  have hc : starRingEnd ℂ H.rt0 = -H.rt0 := Complex.ext (by simp [hre0]) (by simp)
-  have h0 : H.rt0 ≠ 0 := by
-    intro h0
-    rw [h0] at hre
-    simp at hre
-    exact H.d_prime.ne_zero (by exact_mod_cast hre)
-  have h3 : ¬ (-H.rt0 = H.rt0) := fun h => h0 (by linear_combination (-1/2 : ℂ) * h)
-  have hsq : (τ (H.rt : E)) ^ 2 = H.rt0 ^ 2 := by
-    rw [H.sqrt_neg_disc_sq, ← map_pow]
-    have : ((H.rt : E)) ^ 2 = -(H.d : E) := by
-      have := congrArg (algebraMap (𝓞 E) E) H.rt_sq
-      simpa using this
-    rw [this]; simp
-  unfold InPsi
-  rw [ComplexEmbedding.conjugate_coe_eq]
-  rcases sq_eq_sq_iff_eq_or_eq_neg.1 hsq with h | h
-  · rw [h, hc]; simp [h3]
-  · rw [h, map_neg, hc, neg_neg]; simp [h3]
+  apply _root_.GlobalTheory.LabSplit.inPsi_conj_iff <;> assumption
 
 theorem mult_of_inPsi {H : Host E} (Dw : Datum H) {τ : E →+* ℂ} (h : InPsi H τ) : Dw.mult τ = Dw.p := by
   unfold Datum.mult; rw [if_pos (show τ (H.rt : E) = H.rt0 from h)]

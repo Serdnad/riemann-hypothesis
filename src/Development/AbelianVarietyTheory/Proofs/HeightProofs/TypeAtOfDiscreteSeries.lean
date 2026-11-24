@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.PageTheorem
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.FinitePartTypes
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesUpqExistsIffDsExists
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.DiscreteSeriesUpqUniqueOfClassification
@@ -87,15 +88,8 @@ theorem sob_add (hσ : IsURepOn (UJset ε) σ) (hS : Words (lieSet ε) S) {x y :
 
 theorem sob_smul (hσ : IsURepOn (UJset ε) σ) (hS : Words (lieSet ε) S) (c : ℂ) {x : H} (hx : Sm ε σ x) :
     sobNorm σ S (c • x) = ‖c‖ * sobNorm σ S x := by
-  induction S with
-  | nil => simp [sobNorm]
-  | cons l S ih =>
-    have h1 := ih fun l' h => hS l' (List.mem_cons_of_mem _ h)
-    have h2 := norm_smul c (Dw σ l x)
-    rw [← Dw_smul hσ (hS l List.mem_cons_self) c hx] at h2
-    simp only [sobNorm, List.map_cons, List.sum_cons] at h1 ⊢
-    rw [h1, mul_add]
-    exact congrArg (· + _) h2
+  intros
+  apply _root_.PositivityTheory.CW.PageTheorem.sob_smul <;> assumption
 
 theorem sob_sum (hσ : IsURepOn (UJset ε) σ) (hS : Words (lieSet ε) S) {ι : Type} (s : Finset ι) (z : ι → ℂ) {a : ι → H}
     (ha : ∀ j, Sm ε σ (a j)) : sobNorm σ S (∑ j ∈ s, z j • a j) ≤ ∑ j ∈ s, ‖z j‖ * sobNorm σ S (a j) := by

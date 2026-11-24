@@ -94,16 +94,7 @@ theorem tens_top_heis {ι : Type} [Fintype ι] [DecidableEq ι] {P Q R S : ℕ}
     (N : Submodule ℂ (⨂[ℂ] _ : ι, Formalism.BasicNotions.TH.Pol P Q R S))
     (h1 : PiTensorProduct.tprod ℂ (fun _ => (1 : Formalism.BasicNotions.TH.Pol P Q R S)) ∈ N)
     (hN : ∀ w c, ∀ T ∈ N, atPl w (heisOp (P := P) (Q := Q) (R := R) (S := S) c) T ∈ N) : N = ⊤ := by
-  refine _root_.GlobalTheory.RealLift.tensor_submodule_eq_top N h1 fun w l T hT => ?_
-  let K : Submodule ℂ (Module.End ℂ (Formalism.BasicNotions.TH.Pol P Q R S)) :=
-    { carrier := {L | ∀ T ∈ N, atPl w L T ∈ N}
-      add_mem' := fun {a b} ha hb T hT => by
-        rw [atPl_add', LinearMap.add_apply]; exact N.add_mem (ha T hT) (hb T hT)
-      zero_mem' := fun T _ => by rw [atPl_zero']; exact N.zero_mem
-      smul_mem' := fun c a ha T hT => by rw [atPl_smul', LinearMap.smul_apply]; exact N.smul_mem c (ha T hT) }
-  have hK : Submodule.span ℂ (Set.range (heisOp (P := P) (Q := Q) (R := R) (S := S))) ≤ K :=
-    Submodule.span_le.2 (by rintro _ ⟨c, rfl⟩; exact hN w c)
-  exact hK (_root_.GlobalTheory.MulVarSpan.mulX_mem_span l) T hT
+  apply _root_.GlobalTheory.RealLift.PolRangePf.tens_top_heis <;> assumption
 
 theorem sumPl_twist_one {ι : Type} [Fintype ι] [DecidableEq ι] {P Q R S : ℕ} (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) :
     sumPl (fun w => heisOp (Complex.I • (Jm P Q * c w * Jm R S))) (PiTensorProduct.tprod ℂ (fun _ => (1 : Formalism.BasicNotions.TH.Pol P Q R S)))

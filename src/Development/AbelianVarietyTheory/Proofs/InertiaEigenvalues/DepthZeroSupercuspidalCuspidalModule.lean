@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsCuspidalOfIsSupercuspidal
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.PrincipalCongruenceFixedVectorsLeSmoothVectors
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MatrixRegular
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
@@ -64,28 +65,7 @@ open scoped Classical
 
 theorem exists_dual_frequently {M : Type} [AddCommGroup M] [Module ℂ M] (u : ℕ → M) (hu : ∀ m, u m ≠ 0) :
     ∃ l : Module.Dual ℂ M, {m | l (u m) ≠ 0}.Infinite := by
-  obtain ⟨b, hb, hs, hl⟩ := exists_linearIndependent ℂ (Set.range u)
-  by_cases hf : b.Finite
-  · let W := Submodule.span ℂ b
-    haveI : FiniteDimensional ℂ W := FiniteDimensional.span_of_finite ℂ hf
-    have hm : ∀ m, u m ∈ W := fun m => hs.ge (Submodule.subset_span ⟨m, rfl⟩)
-    let β := Module.finBasis ℂ W
-    have : ∀ m, ∃ i, β.coord i ⟨u m, hm m⟩ ≠ 0 := fun m => by
-      by_contra h
-      push Not at h
-      exact hu m (congrArg Subtype.val (β.forall_coord_eq_zero_iff.1 h))
-    choose i hi using this
-    obtain ⟨j, hj⟩ := Finite.exists_infinite_fiber i
-    obtain ⟨l, hl⟩ := LinearMap.exists_extend (β.coord j)
-    refine ⟨l, (Set.infinite_coe_iff.1 hj).mono ?_⟩
-    intro m h
-    change i m = j at h
-    have := LinearMap.congr_fun hl ⟨u m, hm m⟩
-    exact fun e => hi m (h ▸ this.symm.trans e)
-  · obtain ⟨l, hl⟩ := Module.exists_dual_forall_apply_eq_one (K := ℂ) (s := b) (v := id) hl
-    refine ⟨l, Set.Infinite.of_image u (Set.Infinite.mono (fun x hx => ?_) hf)⟩
-    obtain ⟨m, rfl⟩ := hb hx
-    exact ⟨m, by simpa using (hl _ hx).trans_ne one_ne_zero, rfl⟩
+  first | exact _root_.GlobalTheory.SuperCusp.exists_dual_infinite | exact @_root_.GlobalTheory.SuperCusp.exists_dual_infinite | apply _root_.GlobalTheory.SuperCusp.exists_dual_infinite <;> assumption
 
 variable {g : ℕ} [Fact g.Prime] {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
 

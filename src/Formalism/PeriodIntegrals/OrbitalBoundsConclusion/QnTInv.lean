@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.MinorSmoothness.ExpSecondHermitianMemLevel
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TorusInvariance.Development
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.TorusInvariance.TransferInvarianceRestriction
@@ -125,44 +126,7 @@ lemma exp_mem_UH (Y : Mx k r) (hY : Yᴴ = -(Hpk k r * Y * Hpk k r)) :
 
 lemma exp_fix (Y : Mx k r) (c : Fin (2 * r + k + 1)) (hY : ∀ x, Y x c = 0) :
     NormedSpace.exp Y *ᵥ bvec c = bvec c := by
-  set P : Mx k r := Matrix.single c c 1 with hPdef
-  have hYP : Y * P = 0 := by
-    ext x y
-    simp only [hPdef, Matrix.mul_apply, Matrix.single_apply, Matrix.zero_apply]
-    refine Finset.sum_eq_zero (fun j _ => ?_)
-    split_ifs with h
-    · rw [← h.1, hY, mul_one]
-    · exact mul_zero _
-  have hne : NormedSpace.exp Y ≠ 0 := by
-    intro h0
-    have hc : NormedSpace.exp (-Y) * NormedSpace.exp Y = 1 := by
-      rw [← Matrix.exp_add_of_commute _ _ (Commute.neg_left (Commute.refl Y)), neg_add_cancel,
-        NormedSpace.exp_zero]
-    rw [h0, Matrix.mul_zero] at hc
-    have := congrFun (congrFun hc ⟨0, by omega⟩) ⟨0, by omega⟩
-    simp at this
-  have hsum : Summable (fun n : ℕ => ((n.factorial : ℂ)⁻¹) • Y ^ n) := by
-    by_contra hns
-    apply hne
-    rw [congrFun (NormedSpace.exp_eq_tsum ℂ) Y]
-    exact tsum_eq_zero_of_not_summable hns
-  have hhas : HasSum (fun n : ℕ => ((n.factorial : ℂ)⁻¹) • Y ^ n) (NormedSpace.exp Y) := by
-    have := hsum.hasSum
-    rwa [← congrFun (NormedSpace.exp_eq_tsum ℂ) Y] at this
-  have h1 := hhas.mul_right P
-  have h2 : HasSum (fun n : ℕ => ((n.factorial : ℂ)⁻¹) • Y ^ n * P) P := by
-    have := hasSum_single (f := fun n : ℕ => ((n.factorial : ℂ)⁻¹) • Y ^ n * P) 0 (by
-      intro m hm
-      obtain ⟨m', rfl⟩ := Nat.exists_eq_succ_of_ne_zero hm
-      rw [Matrix.smul_mul, pow_succ, Matrix.mul_assoc, hYP, Matrix.mul_zero, smul_zero])
-    simpa using this
-  have hEP : NormedSpace.exp Y * P = P := h1.unique h2
-  have hPv : P *ᵥ bvec c = bvec c := by
-    ext x
-    by_cases h : x = c
-    · subst h; simp [hPdef, bvec, Matrix.mulVec, dotProduct, Matrix.single_apply, Pi.single_apply]
-    · simp [hPdef, bvec, Matrix.mulVec, dotProduct, Pi.single_apply, h, Ne.symm h]
-  rw [← hPv, Matrix.mulVec_mulVec, hEP]
+  apply _root_.Formalism.FourierDecayAlt.Q.EabLie.exp_fix <;> assumption
 
 lemma exp_mem_glev (i : Fin (r + 1)) (X : Mx k r) (hX : Xᴴ = -(Hpk k r * X * Hpk k r))
     (hc : ∀ a : Fin r, a.val < i.val → ∀ x, X x (eI k r a) = 0 ∧ X x (esI k r a) = 0) (t : ℝ) :
@@ -230,21 +194,7 @@ theorem rdV_ext {E : Type*} [NormedAddCommGroup E] [NormedSpace ℂ E]
     (hgG : g ∈ Glev k r i) (hF : ContDiffOn ℝ ∞ F U)
     (hfF : ∀ x ∈ U, x ∈ Glev k r i → f x = F x) :
     RdV X f g = fderiv ℝ F g (g * X) := by
-  have hγ := hasDerivAt_mul_exp_smul_zero g X
-  have hγ0 : g * NormedSpace.exp (((0 : ℝ) : ℂ) • X) = g := by
-    simp [NormedSpace.exp_zero]
-  have hFd : DifferentiableAt ℝ F g :=
-    (hF.differentiableOn (by simp)).differentiableAt (hU.mem_nhds hg)
-  have hcomp : HasDerivAt (fun t : ℝ => F (g * NormedSpace.exp ((t : ℂ) • X)))
-      (fderiv ℝ F g (g * X)) 0 :=
-    hFd.hasFDerivAt.comp_hasDerivAt_of_eq (0 : ℝ) hγ hγ0.symm
-  have hev : (fun t : ℝ => f (g * NormedSpace.exp ((t : ℂ) • X))) =ᶠ[𝓝 0]
-      (fun t : ℝ => F (g * NormedSpace.exp ((t : ℂ) • X))) := by
-    have hmem : ∀ᶠ t : ℝ in 𝓝 0, g * NormedSpace.exp ((t : ℂ) • X) ∈ U :=
-      hγ.continuousAt.preimage_mem_nhds (by rw [hγ0]; exact hU.mem_nhds hg)
-    filter_upwards [hmem] with t ht
-    exact hfF _ ht (glev_mul' hgG (hX t))
-  exact (hcomp.congr_of_eventuallyEq hev).deriv
+  apply _root_.Formalism.FourierDecayAlt.Q.TPresLie.rdV_ext <;> assumption
 
 theorem transfer_invariance_congruence : StepCongr := by
   intro E _ _ k r i D a b f f' g hD hg hff

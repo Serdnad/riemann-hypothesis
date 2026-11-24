@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IwahoriEigenvaluesOfNewton
 public import Development.AutomorphicArithmetic.Foundations.Convolution.OrbitNormCounting.NormCount
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyBezoutSeparableDerivativeAdicIntegers
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EventuallyDefiniteUnitaryLocalPointMemMaxCompact
@@ -303,19 +304,7 @@ private lemma mem_GLint {n : ℕ} {L : Type} [Field L] (O : Subring L) (g : GL (
 theorem UpperTheory.eventually_map_mem_maximalCompactGL :
     ∀ (E : Type) [Field E] [NumberField E] (n : ℕ) (δ : GL (Fin n) E), ∀ᶠ w : Pl E in cofinite,
         GeneralLinearGroup.map (algebraMap E (w.adicCompletion E)) δ ∈ GlobalTheory.LFun.KGL w (n := n) := by
-  intro E _ _ n δ
-  have h₁ : ∀ᶠ w : Pl E in cofinite, ∀ i j,
-      Valued.v (algebraMap E (w.adicCompletion E) ((δ : Matrix (Fin n) (Fin n) E) i j)) ≤ 1 :=
-    eventually_all.2 fun i => eventually_all.2 fun j => val_le_one_ae E _
-  have h₂ : ∀ᶠ w : Pl E in cofinite, ∀ i j,
-      Valued.v (algebraMap E (w.adicCompletion E)
-        (((δ⁻¹ : GL (Fin n) E) : Matrix (Fin n) (Fin n) E) i j)) ≤ 1 :=
-    eventually_all.2 fun i => eventually_all.2 fun j => val_le_one_ae E _
-  filter_upwards [h₁, h₂] with w hw₁ hw₂
-  refine mem_GLint (Ov E w) _ (fun i j => ?_) (fun i j => ?_)
-  · exact hw₁ i j
-  · rw [← map_inv]
-    exact hw₂ i j
+  apply _root_.GlobalTheory.BCT.GoodInt.eventually_mem_KGL <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.UnitaryInvolutions.EventuallyMapMemMaximalCompactGL =====
@@ -483,26 +472,7 @@ private theorem exists_limit [CompleteSpace L] {a : L} (ha0 : a ≠ 0) (ha : Val
   exact hmem
 
 private theorem isUnit_int_iff (x : intL L) : IsUnit x ↔ Valued.v (x : L) = 1 := by
-  constructor
-  · intro h
-    obtain ⟨b, hb⟩ := isUnit_iff_exists_inv.1 h
-    have h1 : Valued.v (x : L) * Valued.v (b : L) = 1 := by
-      rw [← map_mul, ← Subring.coe_mul, hb]
-      simp
-    have hx : Valued.v (x : L) ≤ 1 := x.2
-    have hb' : Valued.v (b : L) ≤ 1 := b.2
-    by_contra hne
-    have hlt : Valued.v (x : L) < 1 := lt_of_le_of_ne hx hne
-    exact absurd h1 (ne_of_lt (lt_of_le_of_lt (mul_le_of_le_one_right' hb') hlt))
-  · intro h
-    have hne : (x : L) ≠ 0 := by
-      intro h0
-      rw [h0, map_zero] at h
-      exact zero_ne_one h
-    refine isUnit_iff_exists_inv.2 ⟨⟨(x : L)⁻¹, ?_⟩, Subtype.ext ?_⟩
-    · show Valued.v (x : L)⁻¹ ≤ 1
-      rw [map_inv₀, h, inv_one]
-    · simp [hne]
+  apply _root_.GlobalTheory.IwahoriEigen.isUnit_iff <;> assumption
 
 private theorem isUnit_or (x : intL L) : IsUnit x ∨ IsUnit (1 - x) := by
   by_cases h : Valued.v (x : L) = 1

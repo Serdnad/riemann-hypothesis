@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.AlphaFormHarmonicValueAtFramedPoint
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.IsBlockProd
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsBlockProductMemIntegralHarmonic
 public import Development.AbelianVarietyTheory.Definitions.TorusSections.IsTorusOf
@@ -417,16 +418,8 @@ theorem totalDegree_eq_sum_rows {E : Type} [Field E] [NumberField E] [IsCMField 
     {l : Geo.Tor.Level H} (c : Coeff l) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ) (P : MvPolynomial (LtN Dw n) c.F)
     (hP : P ∈ harmA c a n) (h0 : P ≠ 0) (hh : P.IsHomogeneous P.totalDegree) :
     P.totalDegree = ∑ τ : E →+* ℂ, ∑ i : Fin (Dw.mult τ), a (τ, i) := by
-  classical
-  obtain ⟨m, hm⟩ := MvPolynomial.support_nonempty.2 h0
-  have hr := hP.1.2.2 m hm
-  have h1 := hh (MvPolynomial.mem_support_iff.1 hm)
-  have h2 : m.degree = P.totalDegree := by rw [Finsupp.degree_eq_weight_one]; exact h1
-  rw [← h2, Finsupp.degree_eq_sum]
-  rw [Fintype.sum_sigma]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [Fintype.sum_prod_type]
-  exact Finset.sum_congr rfl fun i _ => hr τ i
+  intros
+  apply _root_.GlobalTheory.AlphaForm.totalDegree_harm <;> assumption
 
 theorem lieFac_sq {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (Dw : Datum H) (x : ℝ) (hx : 0 < x)
     (a : (E →+* ℂ) × ℕ → ℕ) (d : ℕ) (hd : d = ∑ τ : E →+* ℂ, ∑ i : Fin (Dw.mult τ), a (τ, i)) :

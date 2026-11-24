@@ -1,5 +1,7 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.CharacterAdmissibility.AdelicCoordinatesEvalZeroFormMemAdmissible
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdaptC
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicStoneVonNeumannLagrangianUniqueness
@@ -62,18 +64,7 @@ variable {R S : Type} [CommRing R] [CommRing S] [Algebra R S] (c : S →ₐ[R] S
 
 theorem hTens_eq_trace (J : Matrix α α S) (J' : Matrix β β S) (x y : Matrix α β S) :
     hTens c J J' x y = Matrix.trace (xᵀ * J * y.map c * J'ᵀ) := by
-  simp only [hTens, Matrix.trace, Matrix.diag_apply, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply,
-    Finset.sum_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  have h1 : ∀ i, ∑ k, ∑ l, x i j * J i k * J' j l * c (y k l) = ∑ l, ∑ k, x i j * J i k * J' j l * c (y k l) :=
-    fun i => Finset.sum_comm
-  simp only [h1]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun l _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun i _ => ?_
-  ring
+  apply _root_.PositivityTheory.Mix.Adapt.hTens_eq_trace <;> assumption
 
 theorem hTens_mul (J : Matrix α α S) (J' : Matrix β β S) (A : Matrix α γ S) (B : Matrix α δ S) (x : Matrix γ β S)
     (y : Matrix δ β S) :
@@ -321,17 +312,7 @@ abbrev ev0 (F : Type) [Field F] [NumberField F] (κ : Type) [Fintype κ] : ((κ 
   LinearMap.proj (R := ℂ) (φ := fun _ : (κ → AF F) => ℂ) 0
 
 theorem adelicCoordinatesEvalZeroForm_mem_admissible (κ : Type) [Fintype κ] : ev0 F κ ∈ (adeleClass F).adm κ := by
-  intro g _
-  refine ⟨g 0 • (BoundedContinuousFunction.evalCLM ℂ 0).comp
-    (SchwartzMap.toBoundedContinuousFunctionCLM ℂ (κ → mixedEmbedding.mixedSpace F) ℂ), fun f => ?_⟩
-  simp only [ev0, LinearMap.proj_apply, pureA, ContinuousLinearMap.coe_smul', ContinuousLinearMap.coe_comp',
-    Function.comp_apply, Pi.smul_apply, SchwartzMap.toBoundedContinuousFunctionCLM_apply,
-    BoundedContinuousFunction.evalCLM_apply, smul_eq_mul]
-  have h1 : (fun i : κ => InfiniteAdeleRing.ringEquiv_mixedSpace F ((0 : κ → AdeleRing (𝓞 F) F) i).1) = 0 := by
-    funext i; exact map_zero (InfiniteAdeleRing.ringEquiv_mixedSpace F)
-  have h2 : (fun i : κ => ((0 : κ → AdeleRing (𝓞 F) F) i).2) = 0 := by
-    funext i; rfl
-  rw [h1, h2, mul_comm]
+  apply _root_.PositivityTheory.ThKF0.Chr.adelicCoordinatesEvalZeroForm_mem_admissible <;> assumption
 
 theorem mul_transpose_incM_one (A : Matrix (Fin n) (Fin d) (AE F E)) : A * (incM F (1 : Matrix (Fin d) (Fin d) E))ᵀ = A := by
   rw [incM, Matrix.map_one _ (map_zero _) (map_one _), Matrix.transpose_one, Matrix.mul_one]

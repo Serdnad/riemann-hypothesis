@@ -749,14 +749,7 @@ def harmSub {T : Type} (r : T → ℕ) (n : ℕ) (k : Type) [Field k] (cc : T �
       fun m hm => h3 m (support_smul hm)⟩
 
 theorem det_gen_ne_zero (K : Type) [Field K] {Ix : Type} (n : ℕ) (t : Ix) : (gen K n t).det ≠ 0 := by
-  intro h
-  have h1 := congrArg (eval (fun v : Ix × Fin n × Fin n => if v.2.1 = v.2.2 then (1 : K) else 0)) h
-  rw [RingHom.map_det, map_zero] at h1
-  have h2 : (eval (fun v : Ix × Fin n × Fin n => if v.2.1 = v.2.2 then (1 : K) else 0)).mapMatrix (gen K n t) = 1 := by
-    ext p q
-    simp [gen, Matrix.one_apply]
-  rw [h2, Matrix.det_one] at h1
-  exact one_ne_zero h1
+  apply _root_.GlobalTheory.FrameRead.det_gen_ne_zero <;> assumption
 
 theorem map_gen {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) {Ix : Type} (n : ℕ) (t : Ix) :
     (MvPolynomial.map f).mapMatrix (gen R n t) = gen S n t := by

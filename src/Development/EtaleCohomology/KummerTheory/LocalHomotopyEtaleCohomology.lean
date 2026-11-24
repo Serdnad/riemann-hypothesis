@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.TateTwists.TtTwistSidePf
 public import Development.EtaleCohomology.KummerTheory.FinalTheorems
 public import Development.EtaleCohomology.KummerTheory.LHCutGlue
 public import Development.EtaleCohomology.KummerTheory.LocCokPf
@@ -404,13 +405,7 @@ def shvHomOf {Λ : Type} [CommRing Λ] {S : Scheme.{0}} (F G : SlShv Λ S)
      naturality := by intro U V g; ext x; exact hf V.unop U.unop g.unop x }⟩
 
 lemma sec_sub {Λ : Type} [CommRing Λ] {F : Shv Λ} (hF : IsZero F) (U : Scheme.{0}) : Subsingleton (Sec F U) := by
-  constructor
-  intro a b
-  have h := hF.eq_of_src (𝟙 F) 0
-  have ha : a = Sec.map (𝟙 F) a := rfl
-  have hb : b = Sec.map (𝟙 F) b := rfl
-  rw [ha, hb, h]
-  rfl
+  apply @LateralTheory.EtaleFoundations.TwSide.sec_sub <;> assumption
 
 lemma isZero_of_sub {Λ : Type} [CommRing Λ] {S : Scheme.{0}} (F : SlShv Λ S)
     (h : ∀ U : Over S, Subsingleton (F.obj.obj (op U))) : IsZero F := by

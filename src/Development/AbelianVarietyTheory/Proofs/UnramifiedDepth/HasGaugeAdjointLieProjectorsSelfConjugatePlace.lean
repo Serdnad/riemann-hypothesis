@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfGe
 public import Formalism.LocalToGlobal.CharacterGerms.GeNatCast
 public import Mathlib.Data.Matrix.Mul
 public import Mathlib.Algebra.Order.Archimedean.Defs
@@ -477,17 +478,7 @@ theorem pow_sub_pow_factor {a b : C} (ha : V.Ge 0 a) (hb : V.Ge 0 b) (hab : V.MM
     push_cast; ring
 
 theorem eq_zero_of_ge_all {a : C} (h : ∀ n : ℕ, V.Ge n a) : a = 0 := by
-  apply (AddValuation.top_iff V.v).1
-  induction hv : V.v a using WithTop.recTopCoe with
-  | top => rfl
-  | coe t =>
-    exfalso
-    obtain ⟨n, hn⟩ := exists_nat_gt t
-    have := h n
-    unfold VF.Ge at this
-    rw [hv] at this
-    have h' : (n : ℝ) ≤ t := WithTop.coe_le_coe.1 this
-    linarith
+  first | exact _root_.GlobalTheory.TeichPair.eq_zero_of_ge | exact @_root_.GlobalTheory.TeichPair.eq_zero_of_ge | apply _root_.GlobalTheory.TeichPair.eq_zero_of_ge <;> assumption
 
 theorem eq_of_congruent : ∀ (C : Type) [Field C] (V : VF C) (O : Type) [CommRing O] (d : ℕ), 0 < d → ∀ ε : O, (∃ y, ε * ε - ε = (V.l : O) * y) → (∀ x : O, ∃ y, ε * (x ^ (V.l ^ d) - x) = (V.l : O) * y) → ∀ ψ φ : O →+* C, (∀ x, V.Ge 0 (ψ x)) → (∀ x, V.Ge 0 (φ x)) → V.MM (ψ ε - 1) → (∀ x, V.MM (ψ x - φ x)) → ψ = φ := by
   intro C _ V O _ d hd ε ⟨y, hy⟩ hx ψ φ hψ hφ hε hc
@@ -1088,12 +1079,7 @@ theorem subst_hAt {τ ρ : Type} [Finite τ] {a b : κ → MvPowerSeries τ C}
     (ha : ∀ s, constantCoeff (a s) = 0) (hb : ∀ s, constantCoeff (b s) = 0)
     {c : τ → MvPowerSeries ρ C} (hc : ∀ s, constantCoeff (c s) = 0) :
     subst c (hAt X a b) = hAt X (fun y => subst c (a y)) (fun y => subst c (b y)) := by
-  have hS := hasSubst_of_constantCoeff_zero hc
-  unfold hAt
-  rw [subst_comp_subst_apply (hasSubst_of_constantCoeff_zero (pair_cc ha hb)) hS]
-  congr 1
-  funext p
-  split_ifs <;> rfl
+  apply _root_.GlobalTheory.RowLaw.EndBlock.subst_hAt <;> assumption
 
 theorem subst_endP_X (h : RLaw X V) (M : Matrix κ κ C) {ρ : Type}
     {c : κ → MvPowerSeries ρ C} (hc : ∀ s, constantCoeff (c s) = 0) (x : κ) :

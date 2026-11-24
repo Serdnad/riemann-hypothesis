@@ -8,7 +8,7 @@ public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.Adeli
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DatumJetsTranslate
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.LocalizedLatticeEqOfAdelicMatricesAgreeAtPlace
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TypePrimeFramesRightTranslateDifferIntegralGL
-import Formalism.LocalToGlobal.Columns.AdelicLemmas
+import all Formalism.LocalToGlobal.Columns.AdelicLemmas
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -251,17 +251,7 @@ theorem mvL_mulVec_mem_iff (R : GL (Fin N) E) (X : Submodule (𝓞 E) (Fin N →
     exact ⟨v, hv, rfl⟩
 
 theorem span_std : Submodule.span E ((Formalism.L2.Col.stdLat E N : Submodule (𝓞 E) (Fin N → E)) : Set (Fin N → E)) = ⊤ := by
-  rw [eq_top_iff]
-  intro x _
-  rw [pi_eq_sum_univ x]
-  refine Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ?_)
-  show _ ∈ Submodule.pi Set.univ _
-  rw [Submodule.mem_pi]
-  intro j _
-  rw [Submodule.mem_one]
-  by_cases h : i = j
-  · exact ⟨1, by simp [h]⟩
-  · exact ⟨0, by simp [h]⟩
+  apply _root_.Formalism.L2.Col.stdLat_span <;> assumption
 
 theorem key_iff (y : GL (Fin N) (E ⊗[F] 𝔸)) (R : GL (Fin N) E) (M : Submodule (𝓞 E) (Fin N → E))
     (h : Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (latAd y M) = mvL R (stdAt E N P)) (v : Fin N → E) :

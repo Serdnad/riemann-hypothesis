@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LowestKTypeMultiplicityOneLargeGaps
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.HilbertSpaceModels.StepFormulaF
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Bridge
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.ExistsKhwGenSubOfKType
@@ -69,16 +70,7 @@ theorem hloweq_transfer {n : ℕ} {ε : Fin n → Bool} {Λ : Fin n → ℝ} (A 
 theorem hloweq_brIdx {n : ℕ} (c : Fin n → Fin n → ℕ) :
     brIdxSum (∑ a, ∑ b, (c a b : ℝ) • Formalism.REAL.root a b) =
       ∑ a, ∑ b, (c a b : ℝ) * ((a : ℕ) - (b : ℕ) : ℝ) := by
-  unfold brIdxSum
-  simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun a _ => ?_
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun b _ => ?_
-  have := brIdxSum_root a b
-  unfold brIdxSum at this
-  rw [← this, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun i _ => by ring
+  apply _root_.GlobalTheory.LowHW.height_sum <;> assumption
 
 theorem hloweq_eq_of_cone {n : ℕ} {ε : Fin n → Bool} {ν Λ : Fin n → ℝ} (h1 : InCone Λ ν)
     (h2 : Formalism.MainNotions.S.CDom ε ν Λ) : ν = Λ := by

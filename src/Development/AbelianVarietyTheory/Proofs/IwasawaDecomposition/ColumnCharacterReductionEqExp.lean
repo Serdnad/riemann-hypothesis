@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.Columns.TiedGlLoc
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedWeil
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.SelfDualAt
@@ -133,16 +134,7 @@ theorem lowIdeal_isPrime : (lowIdeal v f).IsPrime := by
 
 theorem residue_eq_zero_of_val (x : v.adicCompletionIntegers F) (h : Valued.v (x : v.adicCompletion F) < 1) :
     IsLocalRing.residue _ x = 0 := by
-  rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  rintro ⟨u, rfl⟩
-  have h1 : Valued.v (((u⁻¹ : (v.adicCompletionIntegers F)ˣ) : v.adicCompletionIntegers F) : v.adicCompletion F) ≤ 1 :=
-    ((u⁻¹ : (v.adicCompletionIntegers F)ˣ) : v.adicCompletionIntegers F).2
-  have h2 : ((u : v.adicCompletionIntegers F) : v.adicCompletion F) *
-      (((u⁻¹ : (v.adicCompletionIntegers F)ˣ) : v.adicCompletionIntegers F) : v.adicCompletion F) = 1 := by
-    rw [← MulMemClass.coe_mul, Units.mul_inv]; rfl
-  have h3 := congrArg Valued.v h2
-  rw [map_mul, map_one] at h3
-  exact absurd h3 (ne_of_lt (lt_of_le_of_lt (by simpa using mul_le_mul' (le_refl _) h1) h))
+  apply _root_.Formalism.L2.Col.glo_res_zero <;> assumption
 
 end Low
 

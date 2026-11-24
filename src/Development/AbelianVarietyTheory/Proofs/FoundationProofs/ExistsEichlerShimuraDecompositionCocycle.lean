@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PeriodMapEquivariant
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsDCReps
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MemTwInv
@@ -724,22 +725,7 @@ theorem isHomogeneous_lin (a b : ℂ) :
   ((MvPolynomial.isHomogeneous_X ℂ (0 : Fin 2)).C_mul a).add
     ((MvPolynomial.isHomogeneous_X ℂ (1 : Fin 2)).C_mul b)
 
-theorem homogenize_slP (w : ℕ) (g : Matrix (Fin 2) (Fin 2) ℤ) (p : ℂ[X]) :
-    (slP w g p).homogenize w = ∑ i ∈ Finset.range (w + 1), MvPolynomial.C (p.coeff i) *
-      ((MvPolynomial.C ((g 0 0 : ℤ) : ℂ) * MvPolynomial.X 0 + MvPolynomial.C ((g 0 1 : ℤ) : ℂ) * MvPolynomial.X 1) ^ i *
-        (MvPolynomial.C ((g 1 0 : ℤ) : ℂ) * MvPolynomial.X 0 +
-          MvPolynomial.C ((g 1 1 : ℤ) : ℂ) * MvPolynomial.X 1) ^ (w - i)) := by
-  apply homogenize_eq_of_isHomogeneous
-  · refine MvPolynomial.IsHomogeneous.sum _ _ _ fun i hi => ?_
-    have hi' : i ≤ w := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-    have h := (((isHomogeneous_lin ((g 0 0 : ℤ) : ℂ) ((g 0 1 : ℤ) : ℂ)).pow i).mul
-      ((isHomogeneous_lin ((g 1 0 : ℤ) : ℂ) ((g 1 1 : ℤ) : ℂ)).pow (w - i))).C_mul (p.coeff i)
-    rwa [one_mul, one_mul, Nat.add_sub_of_le hi'] at h
-
-  · rw [polySlash_apply, map_sum]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    simp only [map_mul, map_pow, map_add (f := _), MvPolynomial.aeval_C, MvPolynomial.aeval_X, Matrix.cons_val_zero,
-      Matrix.cons_val_one, mul_one, ← C_eq_algebraMap, smul_eq_C_mul]
+alias homogenize_slP := _root_.GlobalTheory.HeckeFamilyMatrices.PerCoc.homogenize_slP
 
 theorem polySlash_polySlash (w : ℕ) (g h : Matrix (Fin 2) (Fin 2) ℤ) (p : ℂ[X]) :
     slP w h (slP w g p) = slP w (g * h) p := by
@@ -753,26 +739,10 @@ theorem polySlash_polySlash (w : ℕ) (g h : Matrix (Fin 2) (Fin 2) ℤ) (p : �
 
 theorem polySlash_mem_degreeLT (w : ℕ) (g : Matrix (Fin 2) (Fin 2) ℤ) (p : ℂ[X]) :
     slP w g p ∈ degreeLT ℂ (w + 1) := by
-  rw [polySlash_apply]
-  refine Submodule.sum_mem _ fun i hi => Submodule.smul_mem _ _ ?_
-  have hi' : i ≤ w := Nat.lt_succ_iff.mp (Finset.mem_range.mp hi)
-  rw [mem_degreeLT]
-  refine lt_of_le_of_lt degree_le_natDegree ?_
-  have h1 : ∀ a b : ℂ, (C a * X + C b).natDegree ≤ 1 := fun a b => natDegree_linear_le
-  have h2 := natDegree_mul_le_of_le (natDegree_pow_le_of_le i (h1 ((g 0 0 : ℤ) : ℂ) ((g 0 1 : ℤ) : ℂ)))
-    (natDegree_pow_le_of_le (w - i) (h1 ((g 1 0 : ℤ) : ℂ) ((g 1 1 : ℤ) : ℂ)))
-  rw [mul_one, mul_one, Nat.add_sub_of_le hi'] at h2
-  exact_mod_cast Nat.lt_succ_of_le h2
+  apply _root_.GlobalTheory.HeckeFamilyMatrices.SlPAct.polySlash_mem <;> assumption
 
 theorem polySlash_one (w : ℕ) (p : ℂ[X]) (hp : p ∈ degreeLT ℂ (w + 1)) : slP w 1 p = p := by
-  rw [polySlash_apply]
-  have h : p.natDegree < w + 1 := by
-    by_cases h0 : p = 0
-    · simp [h0]
-    · exact (natDegree_lt_iff_degree_lt h0).2 (mem_degreeLT.1 hp)
-  conv_rhs => rw [p.as_sum_range' (w + 1) h]
-  refine Finset.sum_congr rfl fun i _ => ?_
-  simp [smul_X_eq_monomial]
+  apply _root_.GlobalTheory.HeckeFamilyMatrices.SlPAct.polySlash_one <;> assumption
 
 theorem polySlash_action (w : ℕ) :
     (∀ (g : Matrix (Fin 2) (Fin 2) ℤ) (p : ℂ[X]), slP w g p ∈ degreeLT ℂ (w + 1)) ∧
@@ -983,25 +953,8 @@ theorem coboundaries_le_cocycles (Γ : Subgroup SL(2, ℤ)) (w : ℕ) : B1 Γ w 
 theorem integrable_seg {f : ℍ → ℂ} (hf : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) f) (n : ℕ) (τ : ℍ) :
     IntervalIntegrable (fun t : ℝ => (f ∘ UpperHalfPlane.ofComplex) (Complex.I + t * ((τ : ℂ) - Complex.I)) *
       (-(Complex.I + t * ((τ : ℂ) - Complex.I))) ^ n * ((τ : ℂ) - Complex.I)) MeasureTheory.volume 0 1 := by
-  have hd := UpperHalfPlane.mdifferentiable_iff.1 hf
-  have him : ∀ t ∈ Set.uIcc (0 : ℝ) 1, 0 < (Complex.I + t * ((τ : ℂ) - Complex.I)).im := by
-    intro t ht
-    rw [Set.uIcc_of_le zero_le_one] at ht
-    obtain ⟨h0, h1⟩ := ht
-    have hτ := τ.im_pos
-    have e : (Complex.I + t * ((τ : ℂ) - Complex.I)).im = (1 - t) + t * τ.im := by
-      simp [Complex.mul_im]
-      ring
-    rw [e]
-    rcases h1.lt_or_eq with h1 | rfl
-    · nlinarith [mul_nonneg h0 hτ.le]
-    · simpa using hτ
-  have hpath : Continuous fun t : ℝ => Complex.I + t * ((τ : ℂ) - Complex.I) := by fun_prop
-  have hc : ContinuousOn (fun t : ℝ => (f ∘ UpperHalfPlane.ofComplex) (Complex.I + t * ((τ : ℂ) - Complex.I)))
-      (Set.uIcc 0 1) :=
-    hd.continuousOn.comp hpath.continuousOn fun t ht => him t ht
-  have hpow : Continuous fun t : ℝ => (-(Complex.I + t * ((τ : ℂ) - Complex.I))) ^ n := by fun_prop
-  exact ((hc.mul hpow.continuousOn).mul continuousOn_const).intervalIntegrable
+  intros
+  apply _root_.GlobalTheory.EichlerSum.eichler_integrand_intervalIntegrable <;> assumption
 
 theorem per_add (Γ : Subgroup SL(2, ℤ)) (w : ℕ) {f g : ℍ → ℂ} (hf : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) f)
     (hg : MDifferentiable 𝓘(ℂ) 𝓘(ℂ) g) : per Γ w (f + g) = per Γ w f + per Γ w g := by

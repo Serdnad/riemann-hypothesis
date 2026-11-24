@@ -68,14 +68,7 @@ open scoped nonZeroDivisors
 
 theorem mem_twLat (E : Type) [Field E] [NumberField E] [IsCMField E] (A B : FI E) (s : ℕ) (t : E) :
     t ∈ twLat E A B s ↔ t ∈ A ∧ t - (-1) ^ s * complexConj E t ∈ B := by
-  unfold twLat
-  rw [Submodule.mem_inf, Submodule.mem_comap]
-  have : ((LinearMap.id : E →ₗ[ℤ] E) - ((-1 : ℤ) ^ s) • conjZ E) t
-      = t - (-1) ^ s * complexConj E t := by
-    rw [LinearMap.sub_apply, LinearMap.smul_apply, LinearMap.id_apply, zsmul_eq_mul]
-    push_cast
-    rfl
-  rw [this]; rfl
+  apply _root_.Formalism.FourierDecayAlt.P.S6x3.mem_twLat <;> assumption
 
 theorem mem_idl (E : Type) [Field E] [NumberField E] (g : ℕ) (k ν : ℤ) (t : E) (hg : 0 < g) :
     t ∈ idl E g k ν ↔ t / (g : E) ^ k ∈ dd E ^ ν := by
@@ -95,15 +88,7 @@ theorem trace_conj (E : Type) [Field E] [NumberField E] [IsCMField E] (x : E) :
 theorem trace_rel (E : Type) [Field E] [NumberField E] [IsCMField E] (x : E) :
     algebraMap (maximalRealSubfield E) E (Algebra.trace (maximalRealSubfield E) E x)
       = x + complexConj E x := by
-  classical
-  rw [trace_eq_sum_automorphisms]
-  have hu : (Finset.univ : Finset (E ≃ₐ[maximalRealSubfield E] E)) = {1, complexConj E} := by
-    symm
-    apply Finset.eq_univ_of_card
-    rw [Finset.card_pair (complexConj_ne_one E).symm, ← Nat.card_eq_fintype_card,
-      IsGalois.card_aut_eq_finrank, Algebra.IsQuadraticExtension.finrank_eq_two]
-  rw [hu, Finset.sum_pair (complexConj_ne_one E).symm]
-  rfl
+  apply _root_.Formalism.FourierDecayAlt.P.S6x3.trace_eq <;> assumption
 
 theorem exists_theta (E : Type) [Field E] [NumberField E] [IsCMField E]
     (h1 : differentIdeal (𝓞 (maximalRealSubfield E)) (𝓞 E) = ⊤) :

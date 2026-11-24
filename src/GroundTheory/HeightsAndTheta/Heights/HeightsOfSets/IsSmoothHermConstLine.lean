@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemOfAevalEqZero
 public import GroundTheory.HeightsAndTheta.Heights.HeightsOfSets.Imports
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
@@ -114,16 +115,10 @@ theorem powLine_a (A : Geo.HermLine ι) (m : ℕ) (k : K) : (powLine A m).a k = 
 
 theorem isMultiHomog_mul {p q : MRing ι} {a b : K → ℕ} (hp : IsMultiHomog p a)
     (hq : IsMultiHomog q b) : IsMultiHomog (p * q) (a + b) := by
-  classical
-  intro m hm k
-  obtain ⟨m₁, hm₁, m₂, hm₂, rfl⟩ := Finset.mem_add.mp (support_mul p q hm)
-  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hp m₁ hm₁ k, hq m₂ hm₂ k]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
 
 theorem isMultiHomog_one : IsMultiHomog (1 : MRing ι) 0 := by
-  intro m hm k
-  rw [← C_1, support_C, if_neg one_ne_zero, Finset.mem_singleton] at hm
-  subst hm
-  simp
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.one <;> assumption
 
 theorem isMultiHomog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι) (Pi.single p.1 1) := by
   apply GlobalTheory.CompanionTheory.Ar.Flat.UnitChart.homog_X

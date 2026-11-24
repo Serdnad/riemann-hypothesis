@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CanonicalAcrisToBdRPlusUniqueEquivariantApprox
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsCrisP
 public import Development.AbelianVarietyTheory.CrystallinePeriods.CrisLoc
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BdRPlusFiltrationEqFontaineXiPow
@@ -129,17 +130,7 @@ theorem general {R S : Type} [CommRing R] [CommRing S] [Algebra R S] [Nontrivial
     rw [← map_pow, hc, map_mul, map_mul, ← mul_assoc, hy]
 
 theorem exists_isEps (l : ℕ) [Fact l.Prime] : ∃ e : Per.Fl l, IsEps e := by
-  obtain ⟨ζ, ε, h0, -, h1, h⟩ := _root_.GlobalTheory.MemLoc.exists_zeta_eps l
-  refine ⟨ε, ?_, ?_⟩
-  · have := h 0
-    rw [h0, map_one] at this
-    exact Subtype.ext this
-  · intro e
-    have := h 1
-    apply h1
-    apply (algebraMap (Om l) ℂ_[l]).injective
-    rw [← this, map_one]
-    exact congrArg Subtype.val e
+  apply _root_.GlobalTheory.MemLoc.CrisUnique.exists_isEps <;> assumption
 
 theorem of_isEps (l : ℕ) [Fact l.Prime] (e : Per.Fl l) (he : IsEps e) :
     IsDomain (Per.BdRp l) ∧ Function.Injective (algebraMap (Per.BdRp l) (Per.BdR l)) ∧ IsField (Per.BdR l) ∧

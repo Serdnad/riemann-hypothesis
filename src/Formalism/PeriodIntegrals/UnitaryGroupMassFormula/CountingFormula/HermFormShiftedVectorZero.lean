@@ -1,5 +1,7 @@
 module
 
+import all Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.RowSurjective
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.StabilizerSymmMapsOrthogonal
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.ZMemPerp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -93,21 +95,11 @@ theorem stabF_symm_mem_X {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈
 
 theorem stabF_mem_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) {y : (VS D).V}
     (hy : y ∈ perpS (VS D) F0.X) : γ y ∈ perpS (VS D) F0.X := by
-  show ∀ x ∈ F0.X, (VS D).hT x (γ y) = 0
-  intro x hx
-  have h1 := stabF_isom hγ (γ.symm x) y
-  rw [LinearEquiv.apply_symm_apply] at h1
-  rw [h1]
-  exact hy _ (stabF_symm_mem_X hγ hx)
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.RowWeightPf.stabilizer_maps_orthogonal <;> assumption
 
 theorem stabF_symm_mem_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) {y : (VS D).V}
     (hy : y ∈ perpS (VS D) F0.X) : γ.symm y ∈ perpS (VS D) F0.X := by
-  show ∀ x ∈ F0.X, (VS D).hT x (γ.symm y) = 0
-  intro x hx
-  have h1 := stabF_isom hγ x (γ.symm y)
-  rw [LinearEquiv.apply_symm_apply] at h1
-  rw [← h1]
-  exact hy _ (stabF_mem_X hγ hx)
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.RowWeightPf.stabilizer_symm_maps_orthogonal <;> assumption
 
 theorem stabF_map_perp {γ : (VS D).V ≃ₗ[D.host.E] (VS D).V} (hγ : γ ∈ stabF D F0) :
     (perpS (VS D) F0.X).map (γ : (VS D).V →ₗ[D.host.E] (VS D).V) = perpS (VS D) F0.X := by
@@ -263,26 +255,10 @@ def IsDualF (f : Fin D.R.rS → (VS D).V) : Prop :=
 theorem e_mem_X (a : Fin D.R.rS) : F0.e a ∈ F0.X := Submodule.subset_span ⟨a, rfl⟩
 
 theorem mem_perp_of {y : (VS D).V} (hy : ∀ a, (VS D).hT (F0.e a) y = 0) : y ∈ perpS (VS D) F0.X := by
-  intro x hx
-  induction hx using Submodule.span_induction with
-  | mem w hw =>
-    obtain ⟨a, rfl⟩ := hw
-    exact hy a
-  | zero => simp
-  | add w w' _ _ h1 h2 => simp [h1, h2]
-  | smul c w _ h => simp [h]
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.mem_perpS_X_of_hT_e_eq_zero <;> assumption
 
 theorem X_le_perp : F0.X ≤ perpS (VS D) F0.X := by
-  intro y hy
-  apply mem_perp_of F0
-  intro a
-  induction hy using Submodule.span_induction with
-  | mem w hw =>
-    obtain ⟨b, rfl⟩ := hw
-    exact F0.e_iso a b
-  | zero => simp
-  | add w w' _ _ h1 h2 => simp [h1, h2]
-  | smul c w _ h => simp [h]
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.RowsMassW.rs_X_le_perp <;> assumption
 
 theorem hX_X {x y : (VS D).V} (hx : x ∈ F0.X) (hy : y ∈ F0.X) : (VS D).hT x y = 0 :=
   X_le_perp F0 hy x hx

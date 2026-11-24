@@ -236,10 +236,7 @@ private theorem ngl_ind_nonneg (q : Prop) : 0 ≤ ind q := by
   unfold ind
   split_ifs <;> norm_num
 private theorem ngl_ind_le {q : Prop} {x : ℝ} (h0 : 0 ≤ x) (h1 : q → 1 ≤ x) : ind q ≤ x := by
-  unfold ind
-  split_ifs with hq
-  · exact h1 hq
-  · exact h0
+  apply _root_.ind_le' <;> assumption
 
 private theorem ngl_windows_le (p : ℕ → ℝ) (hp : ∀ a, 0 ≤ p a ∧ p a ≤ 1) (n i₀ L K K' : ℕ)
     (hK : K' ≤ K) (b : ℝ)

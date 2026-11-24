@@ -1,5 +1,8 @@
 module
 
+
+import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
+import ReciprocityTheory.L2DbarEstimates.Localization.UnweightRel
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.ChartSymmEventuallyEq
 public import ReciprocityTheory.L2DbarEstimates.ChartDerivatives.TsupportDbSubset
@@ -7,7 +10,6 @@ import ReciprocityTheory.L2DbarEstimates.Localization.LocalizeA
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.Tactic.Lemma
 import Mathlib.Tactic.TypeStar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.L2DbarEstimates.Localization.CutoffA, ReciprocityTheory.L2DbarEstimates.Localization.Cutoff
 
@@ -145,27 +147,8 @@ theorem cut_norm_d_eq {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
 
 theorem SmoothR.cut_continuous {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
     (hz : IsLocalHomeomorph z) (f : M → ℝ) (hf : SmoothR n z f) : Continuous f := by
-  unfold SmoothR Smooth at hf
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hxe, hze⟩ := hz x
-  have hch : IsChart n z e := by
-    unfold IsChart
-    rw [hze]
-    exact Set.eqOn_refl _ _
-  have hco : ContinuousOn ((fun x => (f x : ℂ)) ∘ e.symm) e.target := (hf e hch).continuousOn
-  have h1 : ContinuousAt ((fun x => (f x : ℂ)) ∘ e.symm) (e x) :=
-    hco.continuousAt (e.open_target.mem_nhds (e.map_source hxe))
-  have h2 : ContinuousAt (((fun x => (f x : ℂ)) ∘ e.symm) ∘ e) x :=
-    ContinuousAt.comp (f := e) h1 (e.continuousAt hxe)
-  have hev : ((fun x => (f x : ℂ)) ∘ e.symm) ∘ e =ᶠ[𝓝 x] (fun x => (f x : ℂ)) := by
-    filter_upwards [e.open_source.mem_nhds hxe] with y hy
-    simp [e.left_inv hy]
-  have h3 : ContinuousAt (fun x => (f x : ℂ)) x := by
-    first
-    | exact h2.congr hev
-  have h4 : ContinuousAt (fun y => ((f y : ℂ)).re) x := Complex.continuous_re.continuousAt.comp h3
-  simpa using h4
+  intros
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothR <;> assumption
 
 theorem locL2_of_weighted_bound {M E : Type*} [TopologicalSpace M] [T2Space M] [MeasurableSpace M]
     [BorelSpace M] [NormedAddCommGroup E]
@@ -402,22 +385,7 @@ open scoped ENNReal InnerProductSpace ComplexConjugate ContDiff
 noncomputable section
 
 theorem norm_sq_le_two_form_sq (n : ℕ) (σx : Fin n → Fin n → ℂ) : ‖σx‖ ^ 2 ≤ 2 * sq2 n σx := by
-  set S := ∑ j, ∑ k, ‖σx j k‖ ^ 2 with hS
-  have hS0 : 0 ≤ S := by positivity
-  have h1 : ‖σx‖ ≤ Real.sqrt S := by
-    refine (pi_norm_le_iff_of_nonneg (Real.sqrt_nonneg _)).mpr fun j => ?_
-    refine (pi_norm_le_iff_of_nonneg (Real.sqrt_nonneg _)).mpr fun k => ?_
-    apply (Real.le_sqrt (norm_nonneg _) hS0).mpr
-    calc ‖σx j k‖ ^ 2 ≤ ∑ k', ‖σx j k'‖ ^ 2 :=
-          Finset.single_le_sum (f := fun k' => ‖σx j k'‖ ^ 2) (fun _ _ => by positivity) (Finset.mem_univ k)
-      _ ≤ S := Finset.single_le_sum (f := fun j' => ∑ k', ‖σx j' k'‖ ^ 2) (fun _ _ => by positivity)
-          (Finset.mem_univ j)
-  have h2 : 2 * sq2 n σx = S := by
-    unfold sq2
-    ring
-  rw [h2]
-  calc ‖σx‖ ^ 2 ≤ (Real.sqrt S) ^ 2 := pow_le_pow_left₀ (norm_nonneg _) h1 2
-    _ = S := Real.sq_sqrt hS0
+  apply ReciprocityTheory.L2DbarEstimates.F.norm_sq_le_two_mul_sqNorm <;> assumption
 
 theorem cut_pt_tri {E : Type*} [SeminormedAddCommGroup E] (a b : E) (X : ℝ) (hX : 0 ≤ X) :
     ENNReal.ofReal (‖a + b‖ ^ 2 * X) ≤

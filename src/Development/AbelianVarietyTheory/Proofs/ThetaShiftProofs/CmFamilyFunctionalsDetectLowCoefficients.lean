@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CmArcDatumFamilyFunctionalBoundedLinearOnCuspFor
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.CarchAt
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.GamAt
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.NumericalConsequencesOfPins
@@ -81,36 +82,12 @@ theorem sum_extendByZero_fin_eq_sum {p m : ℕ} (f : Fin p → ℕ) (h : m = p) 
 
 theorem conjugateEmbedding_not_in_cmType {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Geo.Tor.Host E) (τ : E →+* ℂ)
     (h : τ (H.rt : E) = H.rt0) : conjEmb τ (H.rt : E) ≠ H.rt0 := by
-  intro h'
-  have h1 : starRingEnd ℂ H.rt0 = H.rt0 := by
-    have h0 : starRingEnd ℂ (τ (H.rt : E)) = H.rt0 := h'
-    rwa [h] at h0
-  have h2 : H.rt0.im = 0 := Complex.conj_eq_iff_im.1 h1
-  have h3 := congrArg Complex.re H.sqrt_neg_disc_sq
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  simp [pow_two, h2] at h3
-  nlinarith [mul_self_nonneg H.rt0.re]
+  apply _root_.GlobalTheory.ArcCM.RunNum.conj_rt_ne <;> assumption
 
 theorem absA_wtA_eq {D : D7} (T : Core D) (j : ℕ) (hD : IsDatW D j (T.Q.Dw j)) (hH : T.Q.PinHost)
     (w : WeightFamilies.Wt D j) :
     GlobalTheory.ArcCM.absA (T.Q.Dw j) (wtA w) = ∑ τ, ((∑ i, w.aP τ i) + ∑ i, w.aM τ i) := by
-  classical
-  simp only [GlobalTheory.ArcCM.absA, wtA]
-  rw [Finset.sum_congr rfl fun σ _ => Finset.sum_comm, Finset.sum_comm]
-  refine Finset.sum_congr rfl fun t _ => ?_
-  simp only [Finset.sum_add_distrib]
-  have ht := hH.2.2.2 t
-  refine congrArg₂ (· + ·) ?_ ?_
-  · rw [Finset.sum_eq_single (DV.tauEmb D t)]
-    · simp only [if_true]
-      exact sum_extendByZero_fin_eq_sum _ (by rw [← hD.1]; simp [Datum.mult, ht])
-    · intro b _ hb; simp [hb]
-    · simp
-  · rw [Finset.sum_eq_single (conjEmb (DV.tauEmb D t))]
-    · simp only [if_true]
-      exact sum_extendByZero_fin_eq_sum _ (by rw [← hD.2.1]; simp [Datum.mult, conjugateEmbedding_not_in_cmType _ _ ht])
-    · intro b _ hb; simp [hb]
-    · simp
+  apply _root_.GlobalTheory.ArcCM.RunNum.absA_wtA <;> assumption
 
 theorem absA_add_le_size {D : D7} (T : Core D) (hp : T.Q.Pins) {j : ℕ} (hj : InR D j) (ka : WeightFamilies.Wt D j) :
     (GlobalTheory.ArcCM.absA (T.Q.Dw j) (wtA ka) : ℝ) + (fdeg D.host.E : ℝ) * ka.n ≤ ka.size := by

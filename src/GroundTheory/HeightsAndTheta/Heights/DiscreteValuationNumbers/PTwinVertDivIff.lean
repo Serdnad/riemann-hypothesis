@@ -1,5 +1,7 @@
 module
 
+
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PAddBlockIsometric
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.InstFintypeSumElim
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Objects
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ClassListMapDomainPerm
@@ -11,7 +13,6 @@ import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsVerticalD
 import Mathlib.Algebra.Order.Sub.Prod
 import Mathlib.RingTheory.GradedAlgebra.Radical
 import Mathlib.Tactic.TypeStar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.ImportsMoreFurther, GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinVertDivIff
 
@@ -61,29 +62,7 @@ theorem length_localizedQuot_eq_of_mul_le {I J W : Ideal A} [W.IsPrime] (hIJ : I
     (hs : s ∉ W) (hsJ : ∀ x ∈ J, s * x ∈ I) :
     Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ I)) =
       Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J)) := by
-  let q : (A ⧸ I) →ₗ[A] A ⧸ J := Submodule.mapQ _ _ LinearMap.id (fun a ha => hIJ ha)
-  have hq : Function.Surjective q := by
-    intro y
-    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ y
-    exact ⟨Submodule.Quotient.mk x, rfl⟩
-  let f₁ := LocalizedModule.mkLinearMap W.primeCompl (A ⧸ I)
-  let f₂ := LocalizedModule.mkLinearMap W.primeCompl (A ⧸ J)
-  let φ := IsLocalizedModule.map W.primeCompl f₁ f₂ q
-  have hinj : Function.Injective φ := by
-    rw [← LinearMap.ker_eq_bot, LinearMap.ker_localizedMap_eq_localized₀_ker, eq_bot_iff]
-    intro z hz
-    rw [Submodule.mem_localized₀] at hz
-    obtain ⟨m, hm, t, ht, rfl⟩ := hz
-    rw [Submodule.mem_bot, IsLocalizedModule.mk'_eq_zero']
-    refine ⟨⟨s, hs⟩, ?_⟩
-    obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ m
-    rw [LinearMap.mem_ker] at hm
-    have hxJ : x ∈ J := (Submodule.Quotient.mk_eq_zero _).mp hm
-    change Submodule.Quotient.mk (s • x) = 0
-    exact (Submodule.Quotient.mk_eq_zero _).mpr (hsJ x hxJ)
-  let e : LocalizedModule W.primeCompl (A ⧸ I) ≃ₗ[A] LocalizedModule W.primeCompl (A ⧸ J) :=
-    LinearEquiv.ofBijective φ ⟨hinj, IsLocalizedModule.map_surjective _ _ _ q hq⟩
-  exact (e.extendScalarsOfIsLocalization W.primeCompl (Localization.AtPrime W)).length_eq
+  apply _root_.GroundTheory.Heights₂.Heights.SectionCycle.length_localized_eq <;> assumption
 
 theorem mul_mem_sup_span_of_sub_mem {P : Ideal A} {f g u v : A} (h : u * f - v * g ∈ P) {x : A}
     (hx : x ∈ P ⊔ Ideal.span {f}) : u * x ∈ P ⊔ Ideal.span {g} := by

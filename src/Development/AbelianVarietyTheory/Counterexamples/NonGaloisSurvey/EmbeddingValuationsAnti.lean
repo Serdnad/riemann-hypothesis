@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.GoodParParBLast
 public import Development.AbelianVarietyTheory.BlockTheory.NonGaloisCusps.CMTypeEmbeddings
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -53,39 +54,10 @@ namespace GlobalTheory.Survey.EmbeddingValuationsAnti
 open Formalism.BasicNotions Formalism.MainNotions.N Formalism.L2.Host NumberField IsDedekindDomain GlobalTheory.IndefiniteRowSideFullHecke.CMTypeEmbeddings GlobalTheory.HeightCounting
 
 theorem v_strictAnti {R : Ranks} (P : HCParam R) : StrictAnti P.v := by
-  have hk := R.m_add_three_le_k
-  have step : ∀ (n : ℕ) (h : n + 1 < R.k - 1), P.v ⟨n + 1, h⟩ < P.v ⟨n, by omega⟩ := fun n h =>
-    (P.u_gt_v ⟨n + 1, h⟩).trans (P.v_gt_u ⟨n, by omega⟩)
-  have key : ∀ (d n : ℕ) (h : n + d + 1 < R.k - 1), P.v ⟨n + d + 1, h⟩ < P.v ⟨n, by omega⟩ := by
-    intro d
-    induction d with
-    | zero => intro n h; exact step n h
-    | succ d ih => intro n h; exact (step (n + d + 1) (by omega)).trans (ih n (by omega))
-  intro a b hab
-  obtain ⟨a, ha⟩ := a
-  obtain ⟨b, hb⟩ := b
-  have : a < b := hab
-  obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_lt this
-  exact key d a hb
+  apply _root_.GlobalTheory.ContragredientPar.v_strictAnti <;> assumption
 
 theorem b_strictMono {R : Ranks} (P : HCParam R) : StrictMono P.b := by
-  have ht : (0 : ℚ) < ((R.t : ℚ) + 3) / 2 := by positivity
-  have step : ∀ (n : ℕ) (h : n + 1 < R.m), P.b ⟨n, by omega⟩ < P.b ⟨n + 1, h⟩ := fun n h => by
-    have h1 := P.gap_be ⟨n, by omega⟩
-    have h2 := P.gap_eb ⟨n, by omega⟩ h
-    simp only at h2
-    linarith
-  have key : ∀ (d n : ℕ) (h : n + d + 1 < R.m), P.b ⟨n, by omega⟩ < P.b ⟨n + d + 1, h⟩ := by
-    intro d
-    induction d with
-    | zero => intro n h; exact step n h
-    | succ d ih => intro n h; exact (ih n (by omega)).trans (step (n + d + 1) (by omega))
-  intro a b hab
-  obtain ⟨a, ha⟩ := a
-  obtain ⟨b, hb⟩ := b
-  have : a < b := hab
-  obtain ⟨d, rfl⟩ := Nat.exists_eq_add_of_lt this
-  exact key d a hb
+  apply _root_.GlobalTheory.ContragredientPar.b_strictMono <;> assumption
 
 theorem neg_b_lt_v {R : Ranks} (P : HCParam R) (i : Fin (R.k - 1)) (j : Fin R.m) : -P.b j < P.v i := by
   have hk := R.m_add_three_le_k

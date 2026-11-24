@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamRepresentationTensorComparison
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.ExpStar
 public import Mathlib.Analysis.Normed.Field.Basic
@@ -699,15 +700,7 @@ theorem tmul_mem_FilV (a : ℤ) (v : V) {z : BdR} (hz : z ∈ PD.Fil a) :
 
 theorem mul_mem_FilV (a : ℤ) (c : K) {x : V ⊗[Qp] BdR} (hx : x ∈ FilV PD (LL := LL) (V := V) a) :
     mulVdR (K := K) (LL := LL) c x ∈ FilV PD (LL := LL) (V := V) a := by
-  obtain ⟨w, rfl⟩ := hx
-  induction w using TensorProduct.induction_on with
-  | zero => simp
-  | add x y hx hy => simp only [map_add (f := _)]; exact Submodule.add_mem _ hx hy
-  | tmul v z =>
-    simp only [TensorProduct.AlgebraTensorModule.map_tmul, LinearMap.id_apply,
-      Submodule.subtype_apply]
-    rw [mulVdR_tmul, ← Algebra.smul_def]
-    exact tmul_mem_FilV PD a v ((PD.Fil a).smul_mem c z.2)
+  apply _root_.GlobalTheory.Per.ExactMult.mul_mem_filV <;> assumption
 
 theorem mul_mul (c c' : K) (x : V ⊗[Qp] BdR) :
     mulVdR (K := K) (LL := LL) c (mulVdR (K := K) (LL := LL) c' x) =
@@ -1161,18 +1154,8 @@ private theorem twistedAction_mul_lemma_2 (hact : _root_.GlobalTheory.Cyc.IsActC
     (v : Fin r → ℂ_[l]) :
     _root_.GlobalTheory.Cyc.twAct act χ i U (σ * τ) v =
       _root_.GlobalTheory.Cyc.twAct act χ i U σ (_root_.GlobalTheory.Cyc.twAct act χ i U τ v) := by
-  have hfix : ∀ a b, act σ (U τ a b) = U τ a b := fun a b =>
-    _root_.GlobalTheory.Cyc.TateS.act_fix hact K hσ (hF.2.2.1 τ hτ a b).1
-  have hc : act σ (_root_.GlobalTheory.Cyc.chiC χ i τ) = _root_.GlobalTheory.Cyc.chiC χ i τ := by
-    unfold _root_.GlobalTheory.Cyc.chiC
-    exact _root_.GlobalTheory.Cyc.FrameTorsion.act_algebraMap hact σ _
-  unfold _root_.GlobalTheory.Cyc.twAct
-  rw [hF.2.2.2.1 σ hσ τ hτ, _root_.GlobalTheory.Cyc.FrameTorsion.chiC_mul, ← Matrix.mulVec_mulVec, mul_smul,
-    ← Matrix.mulVec_smul]
-  congr 2
-  funext a
-
-  simp [Matrix.mulVec, dotProduct, map_sum, map_mul, hfix, hc, Finset.mul_sum]
+  intros
+  apply _root_.GlobalTheory.Cyc.FrameTorsion.tw_mul <;> assumption
 
 open scoped Matrix in
 variable {l : ℕ} [Fact l.Prime] in

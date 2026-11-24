@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.HermFormSwapOfIsHermitian
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.RosatiAdj
 public import Development.AbelianVarietyTheory.Proofs.ToricGeometry.CubeTrivialisationOnUniformisingSpace
@@ -313,16 +314,8 @@ theorem ahFactor_add (hL : L.IsLB) (h : u.IsAH Hm χ) (l m : u.Λ) (z : Fin g �
 
 theorem chi_add (hL : L.IsLB) (h : u.IsAH Hm χ) (l m : u.Λ) :
     χ (l + m) = χ l * χ m * Complex.exp (Real.pi * Complex.I * (hermForm Hm l m).im) := by
-  have e := ahFactor_add hL h l m 0
-  have e' := Complex.sub_conj (hermForm Hm l m)
-  rw [← hermForm_conj Hm h.1] at e'
-  push_cast at e'
-  simp only [ahFactor, hermForm_zero_left, zero_add, mul_zero, Submodule.coe_add, hermForm_add_left,
-    hermForm_add_right] at e
-  refine mul_right_cancel₀ (Complex.exp_ne_zero _) (e.trans ?_)
-  rw [_root_.mul_mul_mul_comm, ← Complex.exp_add, _root_.mul_assoc (χ l * χ m), ← Complex.exp_add]
-  congr 2
-  linear_combination (Real.pi / 2 : ℂ) * e'
+  intros
+  apply _root_.GlobalTheory.LatticeHom.semicharacter_add <;> assumption
 
 theorem chi_zero (hL : L.IsLB) (h : u.IsAH Hm χ) : χ 0 = 1 := by
   have e := chi_add hL h 0 0

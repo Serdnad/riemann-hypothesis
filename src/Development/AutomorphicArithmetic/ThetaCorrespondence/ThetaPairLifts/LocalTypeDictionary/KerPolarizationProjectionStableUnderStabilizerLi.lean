@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.LineKernelProjectionWeyl
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EigenIntertwinerSkewPlaneUniqueDual
@@ -354,15 +355,8 @@ theorem exists_sum_pure {F E : Type} [Field F] [NumberField F] [Field E] [Number
     (hΦ : Φ ∈ algD M ψ emb) :
     ∃ (m : ℕ) (f : Fin m → SInf F (Fin n × Fin d)) (φ : Fin m → ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F), (Fin n × Fin d → Fv F v) → ℂ),
       (∀ i, f i ∈ M.Pol ψ emb ∧ (∀ v, φ i v ∈ GlobalTheory.WeilM.SB _) ∧ ∀ᶠ v in Filter.cofinite, φ i v = M.vac v) ∧
-      Φ = ∑ i, pure (f i) (φ i) := by
-  rw [algD, Submodule.mem_span_set'] at hΦ
-  obtain ⟨m, c, g, rfl⟩ := hΦ
-  choose f φ hf hφ hv hg using fun i => (g i).2
-  refine ⟨m, fun i => c i • f i, φ, fun i => ⟨Submodule.smul_mem _ _ (hf i), hφ i, hv i⟩, ?_⟩
-  refine Finset.sum_congr rfl fun i _ => ?_
-  rw [hg i]
-  funext x
-  simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.pure, SchwartzMap.smul_apply, smul_eq_mul, Pi.smul_apply, mul_assoc]
+      Φ = ∑ i, pure (f i) (φ i) :=
+  _root_.GlobalTheory.SquareAgree.LineDerFun.algebraicDatum_eq_sum_pureTensors_vacua M ψ emb hΦ
 
 theorem conjU_one {D : D7} (V : HSp D) {J : Matrix (Fin V.rank) (Fin V.rank) D.host.E} (c : D.host.E)
     (h : J = c • V.gram) : GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.conjU V c h 1 = 1 := by

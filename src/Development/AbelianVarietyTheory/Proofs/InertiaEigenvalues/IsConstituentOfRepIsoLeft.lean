@@ -107,14 +107,7 @@ theorem invariant_eq_bot_or_top_of_simple {Γ : Type} [Group Γ] [Fintype Γ] (�
 
 theorem zIdem_eq_of_linearEquiv {Γ : Type} [Group Γ] [Fintype Γ] (τ τ' : FDRep ℂ Γ)
     (φ : τ ≃ₗ[ℂ] τ') (hφ : ∀ g x, φ (τ.ρ g x) = τ'.ρ g (φ x)) : zIdem τ = zIdem τ' := by
-  apply MonoidAlgebra.ext
-  ext γ
-  rw [zIdem_coeff, zIdem_coeff, φ.finrank_eq]
-  have h : τ'.ρ γ⁻¹ = φ.conj (τ.ρ γ⁻¹) := by
-    ext x
-    rw [LinearEquiv.conj_apply]
-    simp [hφ]
-  rw [h, LinearMap.trace_conj']
+  apply _root_.GlobalTheory.SerOSys.ZSum.zIdem_eq_of_equiv <;> assumption
 
 theorem zIdem_eq_centralIdem {Γ : Type} [Group Γ] [Fintype Γ] (τ : FDRep ℂ Γ) :
     zIdem τ = Formalism.IrreducibleCountingLemmas.GaloisIrreducibility.centralIdem τ.ρ := by

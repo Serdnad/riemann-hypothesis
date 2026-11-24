@@ -1494,10 +1494,7 @@ alias gs_zero := _root_.GlobalTheory.UU.SchurComp.gs_zero
 theorem sec_zero_of_val {X Y : Scheme.{0}} {L : LB X} (hL : L.IsLB) {K : Type} [Fintype K] {φ : K → (Y ⟶ X)}
     {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (h : ∀ y J, Good L y J → sval s (𝟙 Y) y J = 0)
     (j : K → L.ι) : s.f j = 0 := by
-  refine fn_ext fun y hy => ?_
-  obtain ⟨J, hJ, e⟩ := sval_trans hL s y j hy
-  rw [h y J hJ, mul_zero] at e
-  exact e.trans (gs_zero _ _ _).symm
+  apply _root_.GlobalTheory.UU.IntWit.eq_zero_of_sval <;> assumption
 
 theorem sec_zero_of_pull {X Y Y' : Scheme.{0}} {L : LB X} (hL : L.IsLB) {K K₃ : Type} [Fintype K] [Fintype K₃]
     {φ : K → (Y ⟶ X)} {ε : K → ℤ} (s : LB.Sec (LB.LinComb L φ ε)) (τ : Y' ⟶ Y) (σ : Y ⟶ Y') (hστ : σ ≫ τ = 𝟙 Y)

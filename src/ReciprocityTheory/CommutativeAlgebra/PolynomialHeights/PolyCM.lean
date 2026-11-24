@@ -22,6 +22,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.TotallySplit
 import Mathlib.Order.CompletePartialOrder
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSerreSFlatAscent
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyMax, ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyStep, ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolySeq, ReciprocityTheory.CommutativeAlgebra.PolynomialHeights.PolyCM
@@ -138,16 +139,9 @@ theorem isWeaklyRegular_map_C_append_monic {S : Type*} [CommRing S] {rs : List S
 
 theorem isWeaklyRegular_map_ringEquiv {S T : Type*} [CommRing S] [CommRing T] (e : S ≃+* T)
     {rs : List S} (hrs : IsWeaklyRegular S rs) : IsWeaklyRegular T (rs.map e) := by
-  letI : Algebra S T := e.toRingHom.toAlgebra
-
-  let l : T ≃ₗ[S] S :=
-    { e.symm.toAddEquiv with
-      map_smul' := fun c t => by
-        change e.symm (algebraMap S T c * t) = c * e.symm t
-        rw [RingHom.algebraMap_toAlgebra, map_mul]
-        simp }
-  haveI : Module.Flat S T := Module.Flat.of_linearEquiv l
-  exact hrs.of_flat
+  first
+    | exact _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.isWeaklyRegular_map_ringEquiv
+    | apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.isWeaklyRegular_map_ringEquiv <;> first | assumption | rfl | infer_instance
 
 end ReciprocityTheory.CA
 end -- clump:auto

@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.LiteratureResults.KTheoryStability.ReductionBoundsTorsion.CompactLocalSets.SLocOf
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FourierZeroHolds
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.CoefDataExists
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CosetCell
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.BigCellCosetsHermitianParam
@@ -204,21 +206,7 @@ theorem continuous_blk4_right : Continuous fun b : Mx D n n => (blk4 1 b 0 1 : M
   · exact continuous_const
 
 theorem nb_continuous {nb : hermA D n → G D n} (h : IsNMap nb) : Continuous nb := by
-  have hn : ∀ b, (nb b)⁻¹ = nb (-b) := fun b => by
-    rw [eq_comm, eq_inv_iff_mul_eq_one, ← nb_add h]
-    apply mat_inj
-    rw [neg_add_cancel, h, mat_one]
-    simp [block_matrix_one]
-  rw [(isEmbedding_matHom (AF D.host.F) D.sp.cm.sig (Jst D n)).continuous_iff, Units.continuous_iff]
-  constructor
-  · have : Continuous fun b : hermA D n => (blk4 1 b.1 0 1 : Mx D (n + n) (n + n)) :=
-      continuous_blk4_right.comp continuous_subtype_val
-    exact this.congr fun b => (h b).symm
-  · have : Continuous fun b : hermA D n => (blk4 1 (-b).1 0 1 : Mx D (n + n) (n + n)) :=
-      continuous_blk4_right.comp (continuous_subtype_val.comp continuous_neg)
-    refine this.congr fun b => ?_
-    rw [← h, ← hn]
-    simp [mat, map_inv]
+  apply _root_.GlobalTheory.CompanionTheory.FourierN.continuous_nb <;> assumption
 
 theorem nb_mem_GF {nb : hermA D n → G D n} (h : IsNMap nb) (l : ratHerm D n) : ∃ b : Matrix (Fin n) (Fin n) D.host.E,
     nb l.1 ∈ GF D n ∧ mat (nb l.1) = blk4 1 (b.map (incA D)) 0 1 := by

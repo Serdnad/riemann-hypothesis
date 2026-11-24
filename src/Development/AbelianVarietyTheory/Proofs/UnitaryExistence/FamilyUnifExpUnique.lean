@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.FamilyUniformisationFibreTheta
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHolLinearLift
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsHolPeriods
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.HeckeKer
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsUniqueLinearLiftUniformisedFibres
@@ -76,20 +78,7 @@ theorem eq_iff_sub {V Q : Type} [AddCommGroup V] [Group Q] (e : V → Q) (he : �
 theorem int_eq_of_exp (n n' : ℤ)
     (h : ∀ k : ℕ, 0 < k → Complex.exp (-(2 * Real.pi * Complex.I) * (n : ℂ) / k) =
       Complex.exp (-(2 * Real.pi * Complex.I) * (n' : ℂ) / k)) : n = n' := by
-  have hk : 0 < (n' - n).natAbs + 1 := Nat.succ_pos _
-  obtain ⟨m, hm⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h _ hk)
-  generalize hkk : (n' - n).natAbs + 1 = k at hk hm
-  have hk' : (k : ℂ) ≠ 0 := Nat.cast_ne_zero.2 hk.ne'
-  have h2 : (2 * Real.pi * Complex.I : ℂ) ≠ 0 := Complex.two_pi_I_ne_zero
-  have h3 : ((n' - n : ℤ) : ℂ) = ((k * m : ℤ) : ℂ) := by
-    push_cast
-    apply mul_left_cancel₀ h2
-    field_simp at hm ⊢
-    linear_combination hm
-  have h4 : n' - n = k * m := Int.cast_injective h3
-  have h5 : n' - n = 0 := Int.eq_zero_of_abs_lt_dvd (m := k) ⟨m, h4⟩ (by
-    rw [← hkk, Int.abs_eq_natAbs]; push_cast; omega)
-  omega
+  first | exact _root_.GlobalTheory.LocLift.int_eq_of_exp | exact @_root_.GlobalTheory.LocLift.int_eq_of_exp | apply _root_.GlobalTheory.LocLift.int_eq_of_exp <;> assumption
 
 theorem algebraic {O Q L L' : Type} [CommRing O] [Group Q] [AddCommGroup L] [Module O L] [AddCommGroup L']
     [Module O L'] {g : ℕ} (χ : Fin g → O → ℂ) (P : L →+ (Fin g → ℂ)) (P' : L' →+ (Fin g → ℂ))
@@ -142,15 +131,7 @@ theorem algebraic {O Q L L' : Type} [CommRing O] [Group Q] [AddCommGroup L] [Mod
 theorem isHolTo_fibre {V W : Type} [NormedAddCommGroup V] [NormedSpace ℂ V] [NormedAddCommGroup W] [NormedSpace ℂ W]
     {X : Scheme.{0}} (y : V × W → (Sp ℂ ⟶ X)) (h : IsHolTo (Set.univ ×ˢ Set.univ) y) (b : V) :
     IsHolTo Set.univ (fun z => y (b, z)) := by
-  intro U f
-  obtain ⟨h1, h2⟩ := h U f
-  have hd : Differentiable ℂ (fun z : W => (b, z)) := by fun_prop
-  refine ⟨?_, ?_⟩
-  · have := h1.preimage hd.continuous
-    convert this using 1
-    ext z
-    simp
-  · exact h2.comp hd.differentiableOn (fun z hz => ⟨⟨trivial, trivial⟩, hz.2⟩)
+  first | exact _root_.GlobalTheory.FibreUnif.isHolTo_slice | exact @_root_.GlobalTheory.FibreUnif.isHolTo_slice | apply _root_.GlobalTheory.FibreUnif.isHolTo_slice <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E}
 

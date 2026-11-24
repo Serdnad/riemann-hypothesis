@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCharacterPrimeConductorDegreePrimePow
 public import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ToZModPowKummerEqIff
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.ResMapBijective
@@ -186,19 +187,7 @@ theorem exists_zsmul (B : ValuationSubring Ω) {γ : G ℚ Ω} (hγ : Formalism.
   exact this.symm
 
 theorem prime_normV (v : Pl) : (normV v).Prime := by
-  haveI := v.isPrime
-  haveI := v.isMaximal
-  haveI : Finite (𝓞 ℚ ⧸ v.asIdeal) := Ideal.finiteQuotientOfFreeOfNeBot _ v.ne_bot
-  have hp : (ringChar (𝓞 ℚ ⧸ v.asIdeal)).Prime := CharP.char_is_prime (𝓞 ℚ ⧸ v.asIdeal) _
-  haveI : Fact (ringChar (𝓞 ℚ ⧸ v.asIdeal)).Prime := ⟨hp⟩
-  have hs : Function.Surjective (ZMod.castHom (dvd_refl (ringChar (𝓞 ℚ ⧸ v.asIdeal))) (𝓞 ℚ ⧸ v.asIdeal)) := by
-    intro y
-    obtain ⟨x, rfl⟩ := Ideal.Quotient.mk_surjective y
-    obtain ⟨n, rfl⟩ := Rat.ringOfIntegersEquiv.symm.surjective x
-    exact ⟨(n : ZMod _), by simp⟩
-  have hb := Nat.card_eq_of_bijective _ ⟨RingHom.injective _, hs⟩
-  rw [normV, ← hb, Nat.card_zmod]
-  exact hp
+  apply _root_.GlobalTheory.Ord2.PrimeChar.normV_prime <;> assumption
 
 theorem not_mem_of_dvd (l : ℕ) [Fact l.Prime] {n : ℕ} {w : Pl} (hn : 1 ≤ n) (hdiv : l ^ n ∣ normV w - 1) :
     ((l : ℕ) : 𝓞 ℚ) ∉ w.asIdeal := by

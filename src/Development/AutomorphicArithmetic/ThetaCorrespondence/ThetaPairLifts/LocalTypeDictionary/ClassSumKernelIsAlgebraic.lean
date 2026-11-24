@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilActionNegPairPureTensorFock
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.BernsteinUnitaryProductIrreducible
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.MemHalfCosetSelf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicFormsFiniteStabilisers
@@ -870,17 +871,8 @@ namespace GlobalTheory.BottomRealChar
 open GlobalTheory.Grid (neg sgn ofSgn)
 
 theorem detPlus_neg_one_one {m n : ℕ} (a : Matrix (Fin n) (Fin n) ℂ) (b : Matrix (Fin m) (Fin m) ℂ) :
-    GlobalTheory.WeilParts.detPlus (-1) 1 a b = 1 := by
-  unfold GlobalTheory.WeilParts.detPlus
-  have e : (1 : Matrix (Fin m) (Fin m) ℂ) ⊗ₖ (-1 : Matrix (Fin n) (Fin n) ℂ)ᵀ = -1 := by
-    ext ⟨i, j⟩ ⟨k, l⟩
-    simp only [Matrix.kroneckerMap_apply, Matrix.transpose_apply, Matrix.neg_apply, Matrix.one_apply]
-    split_ifs <;> simp_all
-  have e2 : (1 / 2 : ℂ) • ((1 + -1 : Matrix (Fin m × Fin n) (Fin m × Fin n) ℂ) * (b ⊗ₖ aᵀ)) +
-      (1 / 2 : ℂ) • (1 - -1 : Matrix (Fin m × Fin n) (Fin m × Fin n) ℂ) = 1 := by
-    rw [add_neg_cancel, Matrix.zero_mul, smul_zero, zero_add, sub_neg_eq_add, ← two_smul ℂ, smul_smul]
-    norm_num
-  rw [e, e2, Matrix.det_one]
+    GlobalTheory.WeilParts.detPlus (-1) 1 a b = 1 :=
+  _root_.GlobalTheory.FockRealNeg.detPlus_neg_one_one a b
 
 theorem commGroup_div_eq_div_mul_ratio {G : Type*} [CommGroup G] (a x y e c : G) :
     c * e / (a * x * e) = c * e / (a * y * e) * (y * x⁻¹) := by

@@ -4,6 +4,7 @@ public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerPr
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
 import Mathlib.RingTheory.SimpleRing.Principal
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.BlockOneScalarPreservesNondegenerate
 
 @[expose] public section
 
@@ -28,14 +29,7 @@ end Entries
 
 theorem det_blockOne {K : Type} [CommRing K] {M : ℕ} (t : K) (A : Matrix (Fin M) (Fin M) K) :
     (blockOne t A).det = t * A.det := by
-  rw [Matrix.det_succ_row_zero, Fin.sum_univ_succ]
-  have h0 : (blockOne t A).submatrix Fin.succ (Fin.succAbove (0 : Fin (M + 1))) = A := by
-    ext i j
-    simp [blockOne_succ_succ]
-  rw [h0, Finset.sum_eq_zero]
-  · simp [blockOne_zero_zero]
-  · intro j _
-    simp [blockOne_zero_succ]
+  apply _root_.GlobalTheory.CompanionTheory.SW.PiLocalization₂.det_blockOne_eq_mul <;> assumption
 
 variable {F E : Type} [Field F] [Field E] [Algebra F E]
 

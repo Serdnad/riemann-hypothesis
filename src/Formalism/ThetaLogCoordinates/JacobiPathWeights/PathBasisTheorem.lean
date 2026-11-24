@@ -104,18 +104,7 @@ theorem highPart_apply (i : ℕ) (e : ℕ × Fin n →₀ ℕ) (j : ℕ) (a : Fi
 
 private theorem weight_indicator_eq_degree (d : ℕ × Fin n →₀ ℕ) (j : ℕ) :
     Finsupp.weight (fun x : ℕ × Fin n => if x.1 = j then 1 else 0) d = ∑ a, d (j, a) := by
-  rw [Finsupp.weight_apply, Finsupp.sum]
-  simp only [smul_eq_mul, mul_ite, mul_one, mul_zero]
-  rw [← Finset.sum_filter]
-  refine Finset.sum_bij_ne_zero (fun x _ _ => x.2) (fun _ _ _ => Finset.mem_univ _) ?_ ?_ ?_
-  · intro x hx _ y hy _ hxy
-    rw [Finset.mem_filter] at hx hy
-    exact Prod.ext (hx.2.trans hy.2.symm) hxy
-  · intro a _ ha
-    exact ⟨(j, a), Finset.mem_filter.mpr ⟨Finsupp.mem_support_iff.mpr ha, rfl⟩, ha, rfl⟩
-  · intro x hx _
-    rw [Finset.mem_filter] at hx
-    rw [← hx.2]
+  apply _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.A3comb.weight_letter <;> assumption
 
 theorem mem_polB {R : Type*} [CommRing R] {N : ℕ} {B : ℕ → ℕ} {f : MvPolynomial (ℕ × Fin n) R} :
     f ∈ polB R n N B ↔ ∀ e ∈ f.support, ∀ j, ∑ a, e (j, a) = if j < N then B j else 0 := by
@@ -501,26 +490,11 @@ theorem psi_map (R : Type) [CommRing R] {n N : ℕ} {isVec : ℕ → Bool} {B : 
   rw [A1hw.map_pathWord]
   simp [map_X]
 
-private theorem weight_indicator_fst_eq_sum {n : ℕ} (i : ℕ) (d : ℕ × Fin n →₀ ℕ) :
-    Finsupp.weight (fun x : ℕ × Fin n => if x.1 = i then 1 else 0) d = ∑ a, d (i, a) := by
-  induction d using Finsupp.induction_linear with
-  | zero => simp
-  | add d₁ d₂ h₁ h₂ =>
-    rw [map_add (f := _), h₁, h₂]
-    simp [Finset.sum_add_distrib]
-  | single x k =>
-    obtain ⟨j, b⟩ := x
-    rw [Finsupp.weight_single]
-    by_cases hj : j = i
-    · subst hj
-      simp [Finsupp.single_apply, Prod.ext_iff]
-    · simp [Prod.ext_iff, hj]
-
 theorem psi_support (hr : PolBRank) {n N : ℕ} {isVec : ℕ → Bool} {B : ℕ → ℕ} {μ : ℕ → Fin n → ℤ}
     {I : ℤ → Finset (Fin n)} (hμ : IsPath n isVec B μ N) (hI : IsIndex (μ N) I) :
     ∀ d ∈ (psiPath ℤ isVec μ N I).support, d ∈ expSet n N B := by
   intro d hd i
-  rw [← weight_indicator_fst_eq_sum]
+  rw [← _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.A3comb.weight_letter]
   exact (pathProductDegrees ℤ n N isVec B μ I hμ hI).2 i (mem_support_iff.mp hd)
 
 end MinorDeterminantBasis

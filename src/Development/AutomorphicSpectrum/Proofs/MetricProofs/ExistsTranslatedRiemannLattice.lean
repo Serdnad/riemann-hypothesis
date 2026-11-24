@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicSpectrum.Proofs.MetricProofs.ExistsAdaptedFrameBis
 public import Development.AutomorphicSpectrum.Proofs.MetricProofs.IntEmbInjective
 public import GroundTheory.HeightsAndTheta.Theta.CMDatum
 import Mathlib.Algebra.Order.Archimedean.Real.Hom
@@ -177,12 +178,7 @@ theorem perExt_bas (R : RiemLat E g Λ) (k : Fin (2 * g)) : C.perExt R (C.bas k)
   simp [LatEmb.perExt]
 
 theorem perExt_vec (R : RiemLat E g Λ) (x : Λ) : C.perExt R (C.vec x) = R.P x := by
-  have h : ((C.perExt R).toAddMonoidHom.comp (vecHom C)).toIntLinearMap = R.P.toIntLinearMap := by
-    apply C.lam.ext
-    intro k
-    show C.perExt R (C.vec (C.lam k)) = R.P (C.lam k)
-    rw [vec_lam, perExt_bas]
-  exact DFunLike.congr_fun h x
+  apply _root_.UpperTheory.Reformulated.B.Gwb8.per_vec <;> assumption
 
 def FmB : (Ψ → Fin (j + j') → ℂ) →ₗ[ℝ] (Ψ → Fin (j + j') → ℂ) →ₗ[ℝ] ℝ :=
   LinearMap.mk₂ ℝ C.Fm

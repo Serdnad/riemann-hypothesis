@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Definitions.Degenerations.IsNormalSchemeSp
 
 @[expose] public section
 
@@ -595,17 +596,7 @@ theorem generic_existsUnique_iso_of_extensions (h : SemiAbelianHomExtension)
 
 theorem isNormalScheme_spec (R : Type) [CommRing R] [IsDomain R] [IsIntegrallyClosed R] :
     ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme (Sp R) := by
-  unfold ReciprocityTheory.ChartRestriction.G.Geo.Tor.IsNormalScheme Sp
-  intro x
-  have _ : x.asIdeal.IsPrime := x.isPrime
-  let _ : Algebra R ((Spec (CommRingCat.of R)).presheaf.stalk x) := StructureSheaf.stalkAlgebra R x
-  have _ : IsLocalization.AtPrime ((Spec (CommRingCat.of R)).presheaf.stalk x) x.asIdeal :=
-    StructureSheaf.IsLocalization.to_stalk R x
-  have hle : x.asIdeal.primeCompl ≤ nonZeroDivisors R := fun r hr =>
-    mem_nonZeroDivisors_of_ne_zero fun h0 => hr (h0 ▸ x.asIdeal.zero_mem)
-  have _ : IsDomain ((Spec (CommRingCat.of R)).presheaf.stalk x) :=
-    IsLocalization.isDomain_of_le_nonZeroDivisors _ hle
-  exact ⟨inferInstance, isIntegrallyClosed_of_isLocalization _ _ hle⟩
+  apply _root_.GlobalTheory.ZJ.isNormalScheme_sp <;> assumption
 
 theorem fractionField_of_isGrpPullback (h : SemiAbelianHomExtension) {R K : Type} [CommRing R] [IsDomain R]
     [IsNoetherianRing R] [IsIntegrallyClosed R] [Field K] [Algebra R K] [IsFractionRing R K] {G H : Over (Sp R)}

@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.EqIdOfIsUnramifiedAt
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ImV
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.FrameLats
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
@@ -113,38 +114,11 @@ theorem algebraMap_mem_inv_map_iff (I : Ideal (𝓞 F)) (hI : I ≠ ⊥) (y : F)
     exact hle hb
 
 theorem cm_sigma_ne_id {σ : E →ₐ[F] E} (h : IsCMExt F E σ) : σ ≠ AlgHom.id F E := by
-  intro hσ
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have := h.2.1
-  apply IsTotallyComplex.complexEmbedding_not_isReal τ
-  rw [ComplexEmbedding.isReal_iff]
-  ext x
-  have := h.2.2.2 τ x
-  rw [hσ] at this
-  simpa [ComplexEmbedding.conjugate_coe_eq] using this.symm
+  apply _root_.GlobalTheory.UnramifiedDiscriminant.isCMExt_conj_ne_id <;> assumption
 
 theorem mem_range_of_cm_fixed {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {x : E} (hx : σ x = x) :
     x ∈ Set.range (algebraMap F E) := by
-  have hne := cm_sigma_ne_id h
-  have hxS : x ∈ AlgHom.equalizer σ (AlgHom.id F E) := hx
-  have hle : Module.finrank F (AlgHom.equalizer σ (AlgHom.id F E)) ≤ 2 := by
-    rw [← Subalgebra.finrank_toSubmodule, ← h.2.2.1]
-    exact Submodule.finrank_le _
-  have hpos : 0 < Module.finrank F (AlgHom.equalizer σ (AlgHom.id F E)) := Module.finrank_pos
-  have hS : AlgHom.equalizer σ (AlgHom.id F E) = ⊥ := by
-    rcases (by omega : Module.finrank F (AlgHom.equalizer σ (AlgHom.id F E)) = 1 ∨
-        Module.finrank F (AlgHom.equalizer σ (AlgHom.id F E)) = 2) with h1 | h2
-    · exact Subalgebra.finrank_eq_one_iff.1 h1
-    · exfalso
-      apply hne
-      have htop : Subalgebra.toSubmodule (AlgHom.equalizer σ (AlgHom.id F E)) = ⊤ :=
-        Submodule.eq_top_of_finrank_eq (by rw [Subalgebra.finrank_toSubmodule, h2, h.2.2.1])
-      ext z
-      have hz : z ∈ Subalgebra.toSubmodule (AlgHom.equalizer σ (AlgHom.id F E)) :=
-        htop ▸ Submodule.mem_top
-      exact hz
-  rw [hS] at hxS
-  exact Algebra.mem_bot.1 hxS
+  apply _root_.GlobalTheory.UnramifiedDiscriminant.isCMExt_mem_range_of_conj_fixed <;> assumption
 
 theorem imV_eq_zero_iff {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (x : E) : imV x = 0 ↔ σ x = x := by
   constructor

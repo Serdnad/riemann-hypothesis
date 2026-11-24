@@ -722,15 +722,7 @@ section Gen
 variable {K : Type} [Field K] [CharZero K] (R : Subring K)
 
 theorem coeff_one_lgF {l : ℕ} (hl : 2 ≤ l) : PowerSeries.coeff 1 (lgF K l) = 1 := by
-  unfold lgF
-  rw [PowerSeries.coeff_mk, Finset.sum_eq_single 0]
-  · simp
-  · intro j _ hj
-    rw [if_neg]
-    intro h
-    have h1 : 1 < (l ^ 2) ^ j := Nat.one_lt_pow hj (Nat.one_lt_pow two_ne_zero (by omega))
-    omega
-  · simp
+  apply _root_.Formalism.InvariantFactorPaths.G7.LemTwo.coeff_one_lgF <;> assumption
 
 theorem cc_lgF (l : ℕ) : PowerSeries.constantCoeff (lgF K l) = 0 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply]

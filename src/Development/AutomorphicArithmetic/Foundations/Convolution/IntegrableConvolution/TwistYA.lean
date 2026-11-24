@@ -1,10 +1,12 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LeftEqOfIsLieCombSingle
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensFactor
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.FinTens
 import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.LocEmb
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensFactorAlt
+import all Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensFactorAlt
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.OpBasics
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -173,19 +175,8 @@ theorem ofFn_mul : ∀ (r : ℕ) (T P : Fin r → M), (∀ i j, i ≠ j → Comm
     rw [h3, mul_assoc, mul_assoc, ← mul_assoc (P 0), h4.eq, mul_assoc]
 
 theorem ofFn_single : ∀ (r : ℕ) (T : Fin r → M) (j : Fin r), (∀ i, i ≠ j → T i = 1) → (List.ofFn T).prod = T j := by
-  intro r
-  induction r with
-  | zero => intro T j; exact j.elim0
-  | succ r ih =>
-    intro T j h
-    rw [List.ofFn_succ, List.prod_cons]
-    refine Fin.cases (fun h => ?_) (fun j h => ?_) j h
-    · rw [List.prod_eq_one, mul_one]
-      intro x hx
-      obtain ⟨i, rfl⟩ := (List.mem_ofFn' _ _).1 hx
-      exact h _ (Fin.succ_ne_zero i)
-    · rw [h 0 (Fin.succ_ne_zero j).symm, one_mul]
-      exact ih (fun i => T i.succ) j fun i hi => h _ fun e => hi (Fin.succ_injective _ e)
+ intros
+ apply @_root_.GlobalTheory.LamF.LetterEigen.prod_ofFn_eq_single <;> assumption
 
 end Alg
 
@@ -311,13 +302,7 @@ theorem GA_arch (A : Set (Pl K)) (a : archGroup K n) :
 
 theorem test_ind {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] {J : Subgroup G} (hJ : CO J)
     {χ : G → ℂ} (hχ : IsChr J χ) : Test ((J : Set G).indicator fun x => conj (χ x)) := by
-  refine ⟨(IsLocallyConstant.iff_eventually_eq _).2 fun x => ?_,
-    HasCompactSupport.intro hJ.1 fun x hx => Set.indicator_of_notMem hx _⟩
-  by_cases hx : x ∈ (J : Set G)
-  · filter_upwards [hJ.2.mem_nhds hx, (IsLocallyConstant.iff_eventually_eq _).1 hχ.1 x] with y hy hy2
-    rw [Set.indicator_of_mem hy, Set.indicator_of_mem hx, hy2]
-  · filter_upwards [(Subgroup.isClosed_of_isOpen J hJ.2).isOpen_compl.mem_nhds hx] with y hy
-    rw [Set.indicator_of_notMem hy, Set.indicator_of_notMem hx]
+  apply _root_.UpperTheory.ConvolutionTheory.L1.test_ind <;> assumption
 
 theorem compact_typed (hn : 0 < n) (ν : Measure (archGroup K n)) [ν.IsHaarMeasure] (hco : ∀ w, CO (J w) ∧ IsChr (J w) (χ w))
     (hcof : ∀ᶠ w in Filter.cofinite, J w = GLnLocal.integralGL (w.adicCompletion K) n ∧ χ w = 1) (β : TI K n) :

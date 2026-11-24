@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertLocalMemUnitaryGroupAntidiagonalFormStatement
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertLocalMemIntegralPointsOfLatticeStabilizer
 public import Formalism.AlgebraicWeights.InertDatumExists
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -74,39 +76,12 @@ variable {L : Type} [Field L] [NumberField L] [IsCMField L] {n : ℕ}
 theorem compAt_mem_tensInt (x : AL L) (hx : x ∈ ALint L) :
     compAt L v x ∈ tensInt (F := maximalRealSubfield L) (v.adicCompletion (maximalRealSubfield L))
       (intOE L) (Formalism.UG.Ov (maximalRealSubfield L) v) := by
-  have key : ALint L ≤ (tensInt (F := maximalRealSubfield L) (v.adicCompletion (maximalRealSubfield L))
-      (intOE L) (Formalism.UG.Ov (maximalRealSubfield L) v)).comap (compAt L v) := by
-    rw [ALint, Subring.closure_le]
-    rintro _ (⟨y, rfl⟩ | ⟨a, ha, rfl⟩)
-    · apply Subring.subset_closure
-      left
-      refine ⟨⟨(y : L), y, rfl⟩, ?_⟩
-      show _ = compAt L v ((y : L) ⊗ₜ[maximalRealSubfield L] (1 : AFplus L))
-      rw [GlobalTheory.InertUmax.compAt_tmul]
-      rfl
-    · apply Subring.subset_closure
-      right
-      refine ⟨⟨a v, ha v⟩, ?_⟩
-      show _ = compAt L v ((1 : L) ⊗ₜ[maximalRealSubfield L] a)
-      rw [GlobalTheory.InertUmax.compAt_tmul]
-  exact key hx
+  first | exact _root_.GlobalTheory.InertKU.compAt_mem_tensInt | exact @_root_.GlobalTheory.InertKU.compAt_mem_tensInt | apply _root_.GlobalTheory.InertKU.compAt_mem_tensInt <;> assumption
 
 theorem loc_entries_int (Dv : InertDatum L n v w) (z : GAf L n) (hz : z ∈ Umax L n) (i j : Fin n) :
     ((Dv.loc z : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) i j ∈
       intL (w.adicCompletion L) := by
-  have hP := GlobalTheory.InertUmax.entries_mem_of_range _ _ Dv.Pint
-  have hP' := GlobalTheory.InertUmax.entries_mem_of_range _ _ (inv_mem Dv.Pint)
-  have hm : ∀ k l, ((Formalism.UG.bc (n := Fin n)
-      (Dv.e : L ⊗[maximalRealSubfield L] v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L)
-      (Matrix.GeneralLinearGroup.map (compAt L v) (z : GL (Fin n) (AL L))) : GL (Fin n) _) :
-        Matrix (Fin n) (Fin n) (w.adicCompletion L)) k l ∈ intL (w.adicCompletion L) := by
-    intro k l
-    have hzk : ((z.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) k l ∈ ALint L := hz k l
-    exact (Dv.integ _).1 (compAt_mem_tensInt (v := v) _ hzk)
-  unfold InertDatum.loc
-  simp only [Units.val_mul, Matrix.mul_apply]
-  exact Subring.sum_mem _ fun k _ => Subring.mul_mem _
-    (Subring.sum_mem _ fun l _ => Subring.mul_mem _ (hP' i l) (hm l k)) (hP k j)
+  first | exact _root_.GlobalTheory.InertKU.loc_entries_mem | exact @_root_.GlobalTheory.InertKU.loc_entries_mem | apply _root_.GlobalTheory.InertKU.loc_entries_mem <;> assumption
 
 theorem compAt_conjAL (x : AL L) :
     compAt L v (conjAL L x) =
@@ -118,45 +93,7 @@ theorem compAt_conjAL (x : AL L) :
   | add a b ha hb => simp only [map_add (f := _), ha, hb]
 
 theorem loc_mem_GU (Dv : InertDatum L n v w) (z : GAf L n) : Dv.loc z ∈ Formalism.UG.GU Dv.σw n := by
-  set φ : AL L →+* w.adicCompletion L :=
-    (Dv.e : L ⊗[maximalRealSubfield L] v.adicCompletion (maximalRealSubfield L) →+* w.adicCompletion L).comp
-      (compAt L v) with hφ
-  set Y : Matrix (Fin n) (Fin n) (w.adicCompletion L) :=
-    ((z.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)).map φ with hY
-  have hφc : ∀ x, φ (conjAL L x) = Dv.σw (φ x) := by
-    intro x
-    simp only [hφ, RingHom.comp_apply, compAt_conjAL]
-    exact Dv.comm _
-  have hz : ((z.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) *
-      conjT (conjAL L) ((z.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) = 1 := z.2
-  have hYY : Y * Formalism.UG.cT Dv.σw Y = 1 := by
-    have := congrArg (fun M => M.map φ) hz
-    simp only [Matrix.map_mul, Matrix.map_one _ (map_zero φ) (map_one φ)] at this
-    rw [← this]
-    congr 1
-    ext i j
-    simp [Formalism.UG.cT, conjT, hY, hφc]
-  have hYY' : Formalism.UG.cT Dv.σw Y * Y = 1 := mul_eq_one_comm.1 hYY
-  set P : Matrix (Fin n) (Fin n) (w.adicCompletion L) := (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L))
-  set Pi : Matrix (Fin n) (Fin n) (w.adicCompletion L) :=
-    ((Dv.P⁻¹ : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L))
-  have hPPi : P * Pi = 1 := by simp [P, Pi]
-  have hPi : Formalism.UG.cT Dv.σw Pi * Formalism.UG.cT Dv.σw P = 1 := by
-    rw [← Formalism.UG.cT_mul, hPPi, Formalism.UG.cT_one]
-  have hloc : ((Dv.loc z : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) =
-      Pi * Y * P := rfl
-  show Formalism.UG.cT Dv.σw ((Dv.loc z : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) _) *
-      Formalism.UG.antiJ (w.adicCompletion L) n * ((Dv.loc z : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) _) =
-    Formalism.UG.antiJ (w.adicCompletion L) n
-  rw [hloc, ← Dv.Panti, Formalism.UG.cT_mul, Formalism.UG.cT_mul]
-  change Formalism.UG.cT Dv.σw P * (Formalism.UG.cT Dv.σw Y * Formalism.UG.cT Dv.σw Pi) * (Formalism.UG.cT Dv.σw P * P) * (Pi * Y * P) =
-    Formalism.UG.cT Dv.σw P * P
-  calc Formalism.UG.cT Dv.σw P * (Formalism.UG.cT Dv.σw Y * Formalism.UG.cT Dv.σw Pi) * (Formalism.UG.cT Dv.σw P * P) * (Pi * Y * P)
-      = Formalism.UG.cT Dv.σw P * Formalism.UG.cT Dv.σw Y * (Formalism.UG.cT Dv.σw Pi * Formalism.UG.cT Dv.σw P) * (P * Pi) * Y * P := by
-        simp only [Matrix.mul_assoc]
-    _ = Formalism.UG.cT Dv.σw P * (Formalism.UG.cT Dv.σw Y * Y) * P := by
-        rw [hPi, hPPi]; simp only [Matrix.mul_one, Matrix.mul_assoc]
-    _ = Formalism.UG.cT Dv.σw P * P := by rw [hYY', Matrix.mul_one]
+  first | exact _root_.GlobalTheory.LocalUnitary.loc_mem_GU | exact @_root_.GlobalTheory.LocalUnitary.loc_mem_GU | apply _root_.GlobalTheory.LocalUnitary.loc_mem_GU <;> assumption
 
 theorem loc_mem_KU (Dv : InertDatum L n v w) (z : GAf L n) (hz : z ∈ Umax L n) :
     (⟨Dv.loc z, loc_mem_GU Dv z⟩ : Formalism.UG.GU Dv.σw n) ∈ Formalism.UG.KU Dv.σw n := by

@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.KappaStatementHolds
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MeasurableSetSatFrames
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.ArakelovInstances.PnormInvStatement
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExtFStatementPfA
 public import ReciprocityTheory.L2DbarEstimates.LeviForms.CovDet
@@ -564,39 +566,8 @@ theorem blockDiagonal_mulVec {m o : Type} [Fintype m] [Fintype o] [DecidableEq o
 
 theorem kapGG_of_det :
     (∀ (r : ℕ) (B : Matrix (Fin r) (Fin r) ℂ), B.det ≠ 0 → (∀ a c : Fin r, c < a → B a c = 0) → (Matrix.of fun p q : {p : Fin r × Fin r // p.2 < p.1} => B p.1.1 q.1.1 * B⁻¹ q.1.2 p.1.2).det = ∏ a : Fin r, B a a ^ (2 * (a : ℤ) - ((r : ℤ) - 1))) → (∀ (r : ℕ) (N : Matrix (Fin r) (Fin r) ℂ), (∀ a c : Fin r, a < c → N a c = 0) → (∀ a, N a a = 1) → (Matrix.of fun p q : {p : Fin r × Fin r // p.2 < p.1} => if p.1.2 = q.1.2 then N p.1.1 q.1.1 else 0).det = 1) → (KapGGStatement (E := E)) := by
-  classical
-  intro hAd hL r X x0 x1 γ U Φ bf hU hΦ h z hz
-  let e : Low r × X.Ψ ≃ Fin (nd X) := (Equiv.prodComm _ _).trans (Fintype.equivFin (Ent X))
-  let β : Module.Basis (Low r × X.Ψ) ℂ (V (nd X)) :=
-    (EuclideanSpace.basisFun (Fin (nd X)) ℂ).toBasis.reindex e.symm
-  have hβ : ∀ (v : V (nd X)) (τ : X.Ψ), (fun q => β.repr v (q, τ)) = crd X v τ := by
-    intro v τ
-    funext q
-    simp only [β, Module.Basis.repr_reindex_apply, Equiv.symm_symm,
-      OrthonormalBasis.coe_toBasis_repr_apply, EuclideanSpace.basisFun_repr]
-    rfl
-  set D : V (nd X) →ₗ[ℂ] V (nd X) := (fderiv ℂ Φ z).toLinearMap with hD
-  have hmat : Matrix.blockDiagonal (fun τ => leftM (mat (nmat X (Φ z)) τ)⁻¹) * LinearMap.toMatrix β β D =
-      Matrix.blockDiagonal (fun τ => adM (mat (bf z) τ) * leftM (mat (nmat X z) τ)⁻¹) := by
-    apply Matrix.toLin'.injective
-    refine LinearMap.ext fun u => ?_
-    obtain ⟨v, rfl⟩ : ∃ v, (β.repr v : Low r × X.Ψ → ℂ) = u := ⟨β.equivFun.symm u, by
-      rw [← Module.Basis.equivFun_apply, LinearEquiv.apply_symm_apply]⟩
-    simp only [Matrix.toLin'_apply]
-    rw [← Matrix.mulVec_mulVec, LinearMap.toMatrix_mulVec_repr]
-    funext ⟨p, τ⟩
-    rw [blockDiagonal_mulVec, blockDiagonal_mulVec, hβ, hβ]
-    exact congrFun (fderiv_rel X x0 x1 γ U Φ bf hU hΦ h z hz v τ) p
-  have hdet := congrArg Matrix.det hmat
-  have hL' : ∀ (y : V (nd X)) (τ : X.Ψ), (leftM (mat (nmat X y) τ)⁻¹).det = 1 := fun y τ => by
-    have := hL r _ (nmat_lowU X y τ).inv.1 (nmat_lowU X y τ).inv.2
-    exact this
-  have hA' : ∀ τ : X.Ψ, (adM (mat (bf z) τ)).det = ∏ a : Fin r, bf z τ a a ^ kapW X τ a := fun τ => by
-    have := hAd r (mat (bf z) τ) ((h z hz).2.1 τ).1 ((h z hz).2.1 τ).2
-    exact this
-  rw [Matrix.det_mul, Matrix.det_blockDiagonal, Matrix.det_blockDiagonal, LinearMap.det_toMatrix] at hdet
-  simp only [Matrix.det_mul, hL', hA', Finset.prod_const_one, one_mul, mul_one] at hdet
-  exact hdet
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Inst.KapPf.kappa_statement_holds <;> assumption
 
 end
 
@@ -700,15 +671,7 @@ theorem contDiff_theta (x1 : Frame X.Ψ r) : ContDiff ℝ 1 (theta X x1) := by
     (contDiff_lowPart X))
 
 theorem measurableSet_Bor : MeasurableSet (Bor X.Ψ r) := by
-  have : Bor X.Ψ r = ⋂ τ, ({b : Frame X.Ψ r | (mat b τ).det ≠ 0} ∩
-      ⋂ a, ⋂ c, ⋂ (_ : c < a), {b : Frame X.Ψ r | b τ a c = 0}) := by
-    ext b; simp [Bor]
-  rw [this]
-  refine MeasurableSet.iInter fun τ => MeasurableSet.inter ?_ ?_
-  · have hM : Continuous fun b : Frame X.Ψ r => mat b τ := continuous_apply τ
-    exact (isOpen_ne_fun hM.matrix_det continuous_const).measurableSet
-  · refine MeasurableSet.iInter fun a => MeasurableSet.iInter fun c => MeasurableSet.iInter fun _ => ?_
-    exact (isClosed_eq (by fun_prop) continuous_const).measurableSet
+  apply _root_.GlobalTheory.Unfold.measurableSet_Bor <;> assumption
 
 end
 

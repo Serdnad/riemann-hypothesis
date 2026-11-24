@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.DpZeroRight
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsCrystallineLift
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DividedPowerLogMultiplicative, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CrystallineCocycleClosed
@@ -299,19 +300,7 @@ end Ring
 section Nil
 
 theorem thick_nil {b : Base} {L : b.Fun} (T : Thick L) : ∀ x ∈ T.J, IsNilpotent x := by
-  intro x hx
-  by_cases hp : b.p = 0
-  · obtain ⟨n, hn⟩ := T.adm.2 hp
-    refine ⟨n, ?_⟩
-    have h : x ^ n ∈ T.J ^ n := Ideal.pow_mem_pow hx n
-    rw [hn] at h
-    exact h
-  · obtain ⟨n, hn⟩ : IsNilpotent ((b.p : ℕ) : T.B) := T.adm.1 hp
-    refine ⟨b.p * n, ?_⟩
-    have h1 : x ^ b.p = (b.p.factorial : T.B) * T.δ.dpow b.p x := (T.δ.factorial_mul_dpow_eq_pow hx).symm
-    have h2 : (b.p.factorial : T.B) = (b.p : T.B) * ((b.p - 1).factorial : T.B) := by
-      rw [← Nat.cast_mul, Nat.mul_factorial_pred hp]
-    rw [pow_mul, h1, h2, mul_assoc, mul_pow, hn, zero_mul]
+  apply _root_.GlobalTheory.CompanionTheory.CLiftEx.thick_isNilpotent <;> assumption
 
 end Nil
 

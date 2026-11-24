@@ -1,5 +1,6 @@
 module
 
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SlopeIneqMean
 public import Formalism.MeanHeightDescent.MuMaxMinkowski
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
@@ -67,21 +68,7 @@ variable {K V ι : Type} [Field K] [NumberField K] [StarRing K] [AddCommGroup V]
 
 theorem mink_norm_sq_realize (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ) (x : V) :
     ‖Formalism.HermitianLatticesTheory.realize b X x‖ ^ 2 = ∑ v, Formalism.HermitianLatticesTheory.normAt b X v x ^ 2 := by
-  have h1 : ∀ v, Formalism.HermitianLatticesTheory.normAt b X v x ^ 2 = ∑ i, ‖Formalism.HermitianLatticesTheory.fcoord b X v x i‖ ^ 2 := by
-    intro v
-    unfold Formalism.HermitianLatticesTheory.normAt Formalism.HermitianLatticesTheory.cnorm
-    exact Real.sq_sqrt (Finset.sum_nonneg (fun i _ => by positivity))
-  simp only [h1]
-  unfold Formalism.HermitianLatticesTheory.realize Formalism.HermitianLatticesTheory.realizeRaw
-  rw [PiLp.norm_sq_eq_of_L2, Fintype.sum_prod_type]
-  apply Finset.sum_congr rfl
-  intro v _
-  rw [Fintype.sum_prod_type]
-  apply Finset.sum_congr rfl
-  intro i _
-  rw [Fin.sum_univ_two]
-  simp [Real.norm_eq_abs, sq_abs, Complex.sq_norm, Complex.normSq_apply]
-  ring
+  apply _root_.Formalism.HN.PlaceOperatorNorms.norm_sq_realize <;> assumption
 
 theorem mink_normAt_pos (b : Basis ι K V) (X : InfinitePlace K → Matrix ι ι ℂ)
     (hX : ∀ v, IsUnit (X v).det) (v : InfinitePlace K) (x : V) (hx : x ≠ 0) :

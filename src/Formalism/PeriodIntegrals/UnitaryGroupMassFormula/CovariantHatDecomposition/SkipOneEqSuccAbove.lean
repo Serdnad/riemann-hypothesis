@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianHaarMeasure.NestedMinorExpansionOneZero
 public import Mathlib.Algebra.Module.Defs
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.Data.Fintype.Pi
@@ -53,7 +55,6 @@ import Mathlib.Topology.Sheaves.Init
 import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CovariantHatDecomposition.InjDecomp, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CovariantHatDecomposition.SkipOneEqSuccAbove
 
@@ -144,13 +145,7 @@ open Finset Matrix Formalism.REAL Formalism.FourierDecayAlt.Q
 namespace PI.QnCovHatW
 
 theorem skip_one_eq_succAbove {m : ℕ} (i : Fin (m + 1)) (j : Fin m) : skip1 (t := m + 1) i j = i.succAbove j := by
-  apply Fin.ext
-  unfold skip1
-  by_cases h : (j : ℕ) < (i : ℕ)
-  · rw [if_pos h, Fin.succAbove_of_castSucc_lt _ _ (by rw [Fin.lt_def]; simpa using h)]
-    rfl
-  · rw [if_neg h, Fin.succAbove_of_le_castSucc _ _ (by rw [Fin.le_def]; simp only [Fin.coe_castSucc]; omega)]
-    rfl
+  apply _root_.PI.QnHermHaar.skip1Eq <;> assumption
 
 theorem qminor_skip {A : Type} [Ring A] [Algebra ℂ A] {m : ℕ} (E : Fin (m + 1) → Fin (m + 1) → A)
     (i j : Fin (m + 1)) (u : ℂ) :

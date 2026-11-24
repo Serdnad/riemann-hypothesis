@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.FunEqZeroOfAffine
 public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ThreePointSeriesExponentialOfDefect
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.JetPointZeroEqOne
@@ -315,20 +316,7 @@ theorem sval_twistPull {ψ : T ⊗ A ⟶ T ⊗ A} {m : T ⊗ A ⟶ A} {hm : ψ �
     (H : IsTwistPull A L ψ m hm a b α s s') (r : Z ⟶ (T ⊗ A).left) {z : Z} {J} (hJ : Good L z J) :
     sval (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => a) s' r z J = (val α r z J).val *
       sval (L := L) (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => b) s (r ≫ ψ.left) z J := by
-  have e : ψ.left ≫ (snd T A).left = m.left := by rw [← Over.comp_left, hm]
-  have hz := hJ.mem ![(snd T A).left, m.left] r
-  have key : ∀ j : Fin 2 → L.ι, r z ∈ LB.wchart L ![(snd T A).left, m.left] j →
-      gs r z (LB.wchart L (fun _ : Fin 1 => (snd T A).left) (fun _ => j 0)) (s'.f (fun _ => j 0)) =
-        (gm r z (LB.wchart L ![(snd T A).left, m.left] j) (α.s j)).val *
-          gs (r ≫ ψ.left) z (LB.wchart L (fun _ : Fin 1 => (snd T A).left) (fun _ => j 1))
-            (s.f (fun _ => j 1)) := fun j hz =>
-    (gs_res r z _ hz _).symm.trans ((congrArg (gs r z _) (H j)).trans ((gs_mul r z _ hz _ _).trans
-      (congrArg₂ (· * ·) (gs_unit r z _ hz _) ((gs_res r z _ hz _).trans
-        (gs_pull r ψ.left z (LB.wchart L (fun _ : Fin 1 => (snd T A).left) (fun _ => j 1))
-          (chart_le_pull A L ψ m hm j hz) _)))))
-  have e₁ := sval_of (φ := fun _ : Fin 1 => (snd T A).left) (ε := fun _ => b) s (r ≫ ψ.left) z J
-    (fun _ => J (r ≫ m.left)) (fun _ => by rw [Category.assoc, e])
-  exact (key _ hz).trans (congrArg _ e₁.symm)
+  first | exact _root_.GlobalTheory.VVCompare.sv_of_isTwistPull | exact @_root_.GlobalTheory.VVCompare.sv_of_isTwistPull | apply _root_.GlobalTheory.VVCompare.sv_of_isTwistPull <;> assumption
 
 end Sec
 

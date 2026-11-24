@@ -2,6 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.ConjStableShaFam
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.QoFacts
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.SelmerTransport.QoFacts
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,37 +58,6 @@ section
 variable (l : ℕ) [Fact l.Prime] (O : Type) [CommRing O] [IsDomain O] [IsDiscreteValuationRing O] [Algebra ℤ_[l] O]
   [Module.Finite ℤ_[l] O]
 
-private theorem qoc_inj : Function.Injective (algebraMap ℤ_[l] O) := by
-  have hl : (l : O) ≠ 0 := by
-    intro h0
-    have hz : ∀ t : O ⊗[ℤ_[l]] (ℚ_[l] ⧸ ZlSub l), t = 0 := by
-      intro t
-      induction t using TensorProduct.induction_on with
-      | zero => rfl
-      | tmul o q =>
-        obtain ⟨r, rfl⟩ := Submodule.Quotient.mk_surjective _ q
-        have hlq : (l : ℚ_[l]) ≠ 0 := by exact_mod_cast (Fact.out : l.Prime).ne_zero
-        have hr : (Submodule.Quotient.mk r : ℚ_[l] ⧸ ZlSub l) =
-            (l : ℤ_[l]) • Submodule.Quotient.mk (r / l) := by
-          rw [← Submodule.Quotient.mk_smul]
-          congr 1
-          rw [Algebra.smul_def, map_natCast, mul_div_cancel₀ _ hlq]
-        rw [hr, ← TensorProduct.smul_tmul, Algebra.smul_def, map_natCast, h0, zero_mul,
-          TensorProduct.zero_tmul]
-      | add x y hx hy => rw [hx, hy, add_zero]
-    haveI : Subsingleton (QO l O) := ⟨fun x y => (hz x).trans (hz y).symm⟩
-    obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible O
-    have h4 := (UpperTheory.V.Base.qoFacts l O).2.2.2 ϖ
-    rw [IsDiscreteValuationRing.addVal_uniformizer hϖ, Module.length_eq_zero] at h4
-    exact zero_ne_one h4
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  intro x hx
-  by_contra hne
-  rw [PadicInt.unitCoeff_spec hne, map_mul, map_pow, map_natCast] at hx
-  rcases mul_eq_zero.mp hx with h | h
-  · exact ((PadicInt.unitCoeff hne).isUnit.map (algebraMap ℤ_[l] O)).ne_zero h
-  · exact hl ((pow_eq_zero_iff' (M₀ := O)).mp h).1
-
 private theorem qoc_ann (w : QO l O) : ∃ a : O, a ≠ 0 ∧ ∀ y : O, y • w = 0 ↔ a ∣ y := by
   obtain ⟨n, hn⟩ := (UpperTheory.V.Base.qoFacts l O).2.1 w
   set I : Ideal O := LinearMap.ker (LinearMap.toSpanSingleton O (QO l O) w) with hI
@@ -104,7 +74,7 @@ private theorem qoc_ann (w : QO l O) : ∃ a : O, a ≠ 0 ∧ ∀ y : O, y • w
   have hl : (l : O) ≠ 0 := by
     intro h
     apply (Nat.cast_ne_zero.mpr (Fact.out : l.Prime).ne_zero : (l : ℤ_[l]) ≠ 0)
-    apply qoc_inj l O
+    apply _root_.qo_inj l O
     rw [map_natCast, map_zero]
     exact h
   exact hl ((pow_eq_zero_iff' (M₀ := O)).mp h1).1

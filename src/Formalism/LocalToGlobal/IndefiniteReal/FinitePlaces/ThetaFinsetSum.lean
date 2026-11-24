@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FockPolynomialVectorsOfSmoothThetaStable
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.TwoSplitIdem
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.ConjPurelyImaginaryGenerator
 public import Formalism.LocalToGlobal.IndefiniteReal.FockTheta.RealPlaceImaginaryGeneratorReEqZero
@@ -51,18 +52,7 @@ lemma theta_opPow {ι : Type} (A : ι → (WO S T → ℂ) → (WO S T → ℂ))
   | cons i l ih => exact hA i _ ih
 
 theorem ptStable (D : D7) : PtStable D := by
-  intro ψ θ hψ hθ S T sS sT BS BT f P hf
-  have hA : ∀ (i : FVar D T.rank S.rank) (g : WO S T → ℂ), IsThetaFunO ψ S T g →
-      IsThetaFunO ψ S T (aPlusAll (heisO ψ S T) θ (fun τ => cplxO (sS τ) (sT τ)) BS BT i g) := by
-    intro i g hg
-    unfold aPlusAll aPlus crea
-    exact Formalism.IndefR.Fock.CCR.theta_smul
-      (theta_sub (dRhoStable D ψ θ hψ hθ S T i.1 _ g hg)
-        (Formalism.IndefR.Fock.CCR.theta_smul (dRhoStable D ψ θ hψ hθ S T i.1 _ g hg) _)) _
-  unfold pureTensorO pureTensorL
-  rw [Module.Basis.constr_apply, Finsupp.sum]
-  exact theta_finsetSum _ _ fun k _ =>
-    Formalism.IndefR.Fock.CCR.theta_smul (theta_opPow _ hA k hf) _
+  apply +allowSynthFailures _root_.GlobalTheory.FockTheta.ptStable <;> assumption
 
 end Pt
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqMulProdOfPartial
 public import Development.AbelianVarietyTheory.Statements.HeckeThetaIntegrals.StepUnfold
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousReGLSymm
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.FiniteIntertwining
@@ -371,49 +372,7 @@ variable {ι : Type} [Fintype ι] [DecidableEq ι]
 theorem eq_mul_prod_of_slices {X : ι → Type} (m : ∀ τ, X τ → ℂ) (M : (∀ τ, X τ) → ℂ)
     (h : ∀ τ ω, ∃ c, ∀ x, M (Function.update ω τ x) = c * m τ x) :
     ∃ C, ∀ ω, M ω = C * ∏ τ, m τ (ω τ) := by
-  by_cases hz : ∃ τ, ∀ x, m τ x = 0
-  · obtain ⟨τ, hτ⟩ := hz
-    refine ⟨0, fun ω => ?_⟩
-    obtain ⟨c, hc⟩ := h τ ω
-    have := hc (ω τ)
-    rw [Function.update_eq_self, hτ, mul_zero] at this
-    rw [this, zero_mul]
-  push_neg at hz
-  choose xs hxs using hz
-  have hP : (∏ τ, m τ (xs τ)) ≠ 0 := Finset.prod_ne_zero_iff.2 fun τ _ => hxs τ
-  have hp : ∀ (ω : ∀ τ, X τ) (a : ι) (y : X a),
-      ∏ τ, m τ (Function.update ω a y τ) = m a y * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
-    intro ω a y
-    rw [← Finset.mul_prod_erase Finset.univ _ (Finset.mem_univ a), Function.update_self]
-    congr 1
-    refine Finset.prod_congr rfl fun τ hτ => ?_
-    rw [Function.update_of_ne (Finset.ne_of_mem_erase hτ)]
-  refine ⟨M xs / ∏ τ, m τ (xs τ), ?_⟩
-  suffices H : ∀ s : Finset ι, ∀ ω : (∀ τ, X τ), (∀ τ, τ ∉ s → ω τ = xs τ) →
-      M ω = M xs / (∏ τ, m τ (xs τ)) * ∏ τ, m τ (ω τ) from fun ω => H Finset.univ ω (by simp)
-  intro s
-  refine Finset.induction_on s ?_ ?_
-  · intro ω hω
-    have : ω = xs := funext fun τ => hω τ (by simp)
-    subst this
-    field_simp
-  · intro a s ha ih ω hω
-    have h1 : M (Function.update ω a (xs a)) =
-        M xs / (∏ τ, m τ (xs τ)) * ∏ τ, m τ (Function.update ω a (xs a) τ) := ih _ fun τ hτ => by
-      by_cases e : τ = a
-      · subst e; simp
-      · rw [Function.update_of_ne e]; exact hω τ (by simp [e, hτ])
-    obtain ⟨c, hc⟩ := h a ω
-    have h2 : M ω = c * m a (ω a) := by simpa using hc (ω a)
-    have h3 := hc (xs a)
-    rw [h1, hp] at h3
-    have hω_eq : ∏ τ, m τ (ω τ) = m a (ω a) * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
-      simpa using hp ω a (ω a)
-    have hc' : c = M xs / (∏ τ, m τ (xs τ)) * ∏ τ ∈ Finset.univ.erase a, m τ (ω τ) := by
-      apply mul_right_cancel₀ (hxs a)
-      rw [← h3]; ring
-    rw [h2, hω_eq, hc']
-    ring
+  first | exact _root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial | exact @_root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial | apply _root_.GlobalTheory.Chain.RealLine.eq_mul_prod_of_partial <;> assumption
 
 variable {N n : ℕ}
 

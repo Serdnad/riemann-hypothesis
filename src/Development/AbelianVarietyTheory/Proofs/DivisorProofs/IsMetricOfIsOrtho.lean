@@ -1,5 +1,7 @@
 module
 
+
+import Development.WeilBound.CoreStatements.HomogeneousNonvanishing.LeadMinorSmulOne
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsotropicCoefficientSplitting
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.NonemptyUnitAt
@@ -61,7 +63,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.Hol
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.UnitHmA
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
-
 @[expose] public section
 
 noncomputable section
@@ -74,67 +75,7 @@ open GlobalTheory GlobalTheory.CM GlobalTheory.Frames GlobalTheory.LamT GlobalTh
 namespace GlobalTheory.SupFull
 
 theorem hm_eq_diagonal : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r), GoodEmb c σ → IsUnf U → ∀ (k : U.Comp) (x : (U.X k).dom) (W : PullbackSections.UnfAt U k x) (Wu : PullbackSections.UnitAt W), (U.X k).IsOrtho x.1 → Wu.Hm = Matrix.diagonal fun j => ((2 * ‖relab c σ (W.e j).1 (U.X k).ξ0‖ : ℝ) : ℂ) := by
-  intro E _ _ _ H Dw l Xo c σ r U hσ hU k x W Wu hx
-  obtain ⟨hbij, hrt, -, -⟩ := GlobalTheory.Relab.relab_good E H l c σ hσ
-  obtain ⟨hp0, hty⟩ := hU.2.1 k
-  obtain ⟨f, hf⟩ := GlobalTheory.FrameUnif.exists_letter_equiv (U.X k).Ψ (U.X k).cmType Dw.p Dw.q r hU.1 (relab c σ) hbij
-    Dw.mult
-    (fun τ h => by unfold Datum.mult; rw [if_pos ((hrt τ).1 ((hty _).1 h))])
-    (fun τ h => by unfold Datum.mult; rw [if_neg (fun h' => h ((hty _).2 ((hrt τ).2 h')))])
-  have hper : ∀ (v : Fin r → E) j, perFr (U.X k) x.1 v (relab c σ (W.e j).1) (W.e j).2 =
-      if (((W.e.trans f) j).2 : ℕ) < (U.X k).p0 then
-        FD.hermC ((W.e.trans f) j).1.1 (U.X k).Gm
-          (FD.col (FD.mat x.1 ((W.e.trans f) j).1) ((W.e.trans f) j).2) (FD.Data.emb ((W.e.trans f) j).1.1 v)
-      else ((FD.mat x.1 ((W.e.trans f) j).1)⁻¹.mulVec (FD.Data.emb ((W.e.trans f) j).1.1 v))
-        ((W.e.trans f) j).2 := by
-    intro v j
-    have h := hf (W.e j)
-    rw [Equiv.trans_apply]
-    generalize f (W.e j) = t at h ⊢
-    obtain ⟨⟨τ, hτ⟩, ⟨n, hn⟩⟩ := t
-    generalize ((W.e j).2 : ℕ) = i at h ⊢
-    dsimp only at h ⊢
-    rw [← hp0] at h
-    rcases h with ⟨a, rfl, rfl⟩ | ⟨a, rfl, rfl, d⟩
-    · rw [if_neg (by omega)]
-      unfold perFr
-      rw [dif_pos a, dif_pos hn]
-    · rw [if_pos (by omega)]
-      unfold perFr
-      rw [dite_eq_right a, dif_pos (show conjEmb (relab c σ (W.e j).1) ∈ (U.X k).Ψ from hτ), dif_pos hn]
-      rfl
-  have hcc : FD.cc (-(U.X k).ξ0) = -(-(U.X k).ξ0) := by
-    have h := (U.X k).ξ0_im
-    unfold FD.cc at h ⊢
-    rw [map_neg, h]
-  have key : Wu.Hm = Matrix.diagonal fun j => ((2 * (((W.e.trans f) j).1.1 (-(U.X k).ξ0)).im : ℝ) : ℂ) := by
-    refine PullbackSections.UH.herm_eq_of_im W.Pm W.per.2.2.2.1 _ _ fun a b => ?_
-    rw [Wu.c1, OrthoHerm.im_diag_eq_trace (U.X k).p0 _ (U.X k).Gm (U.X k).Ψ (U.X k).cmType (W.e.trans f) hcc x.1 hx
-      (W.φ k a) (W.φ k b) _ _ (fun j => (W.pm_eq a j).trans (hper _ j)) (fun j => (W.pm_eq b j).trans (hper _ j)),
-      ← W.isom, Rat.cast_intCast]
-  have hd : ∀ j, (((W.e.trans f) j).1.1 (-(U.X k).ξ0)).im = ‖relab c σ (W.e j).1 (U.X k).ξ0‖ := by
-    intro j
-    have hn : ‖relab c σ (W.e j).1 (U.X k).ξ0‖ = ‖((W.e.trans f) j).1.1 (U.X k).ξ0‖ := by
-      rcases hf (W.e j) with ⟨-, h, -⟩ | ⟨-, h, -⟩
-      · rw [Equiv.trans_apply, h]
-      · rw [Equiv.trans_apply, h]
-        exact (Complex.norm_conj _).symm
-    rw [hn]
-    clear hn
-    have hpos := Wu.pos (Pi.single j 1) (by simp)
-    rw [key, hermForm, single_dotProduct, Matrix.mulVec_diagonal, Pi.star_apply, Pi.single_eq_same, star_one,
-      _root_.one_mul, _root_.mul_one, Complex.ofReal_re] at hpos
-    generalize ((W.e.trans f) j).1.1 = τ at hpos ⊢
-    have hre : (τ (-(U.X k).ξ0)).re = 0 := by
-      have h := congrArg τ hcc
-      rw [FD.cc, IsCMField.complexEmbedding_complexConj, map_neg τ (-(U.X k).ξ0)] at h
-      have := congrArg Complex.re h
-      simp only [Complex.conj_re, Complex.neg_re] at this
-      linarith
-    have hp : 0 < (τ (-(U.X k).ξ0)).im := by linarith
-    rw [← norm_neg, ← map_neg, ← Complex.abs_im_eq_norm.mpr hre, abs_of_pos hp]
-  rw [key]
-  simp only [hd]
+  apply _root_.PositivityTheory.UnitarySelfGeneration.GF.hm_diag <;> assumption
 
 theorem isMetric_of_isOrtho : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l) (σ : c.F →+* ℂ) (r : ℕ) (U : Unf Xo c σ r), GoodEmb c σ → IsUnf U → 1 ≤ Dw.p + Dw.q → ∀ (k : U.Comp) (x : (U.X k).dom), (U.X k).IsOrtho x.1 → IsMetric (U.un k x) 1 (fun b => ((2 * Real.pi * ‖relab c σ b (U.X k).ξ0‖ : ℝ) : ℂ) • 1) := by
   intro E _ _ _ H Dw l Xo c σ r U hσ hU hpq k x hx

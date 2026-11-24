@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.KmapOfOkOfVecP
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CardKerSubspacesAndHeckePolyOfConvolution
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SplittingCharactersUnramifiedOffLevelsStatement
@@ -62,17 +63,7 @@ open Formalism.L2.Host Formalism.L2.Col
 theorem locK_eq_val {L : Type} [Field L] [NumberField L] (χ : HChar L) (Q : HeightOneSpectrum (𝓞 L))
     (hu : χ.UnrAt Q) (k : Lˣ) (hk : Q.valuation L (k : L) = WithZero.exp (-1 : ℤ)) :
     χ.locK Q k = χ.val Q := by
-  have h1 : Valued.v ((atFin Q k : (Q.adicCompletion L)ˣ) : Q.adicCompletion L) = WithZero.exp (-1 : ℤ) := by
-    rw [← hk]
-    exact HeightOneSpectrum.valuedAdicCompletion_eq_valuation' Q (k : L)
-  have h2 : Valued.v ((atFin Q (unif Q) : (Q.adicCompletion L)ˣ) : Q.adicCompletion L) = WithZero.exp (-1 : ℤ) :=
-    unif_spec Q
-  have h3 : IsUnitAt Q (atFin Q k * (atFin Q (unif Q))⁻¹) := by
-    show Valued.v _ = _
-    rw [Units.val_mul, Units.val_inv_eq_inv_val, map_mul, map_inv₀, h1, h2, mul_inv_cancel₀ WithZero.exp_ne_zero]
-  have h4 := hu _ h3
-  rw [map_mul, map_inv, mul_inv_eq_one] at h4
-  exact h4
+  first | exact _root_.GlobalTheory.LvT.Built.KMap.locK_eq_val | exact @_root_.GlobalTheory.LvT.Built.KMap.locK_eq_val | apply _root_.GlobalTheory.LvT.Built.KMap.locK_eq_val <;> assumption
 
 theorem exists_unif {L : Type} [Field L] [NumberField L] (Q : HeightOneSpectrum (𝓞 L)) :
     ∃ ϖ : 𝓞 L, ϖ ∈ Q.asIdeal ∧ ϖ ∉ Q.asIdeal ^ 2 ∧ Q.valuation L (ϖ : L) = WithZero.exp (-1 : ℤ) := by

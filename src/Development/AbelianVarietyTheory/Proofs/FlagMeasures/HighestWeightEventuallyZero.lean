@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.GelfandInvariantCommRightTranslation
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -643,12 +644,7 @@ lemma eab_integral {ε : Fin n → Bool} {lam : Fin n → ℝ} {l : Fin n → Fi
 
 lemma conj_single_apply (A B : Mt) (a b c d : Fin n) :
     (A * Matrix.single a b (1 : ℂ) * B) c d = A c a * B b d := by
-  rw [Matrix.mul_apply, Finset.sum_eq_single b]
-  · rw [Matrix.mul_single_apply_same, mul_one]
-  · intro j _ hj
-    simp [hj]
-  · intro hb
-    exact absurd (Finset.mem_univ b) hb
+  apply _root_.GlobalTheory.Dec.GelfAd.mul_single_mul_apply' <;> assumption
 
 lemma sum_comm_four (f : Fin n → Fin n → Fin n → Fin n → ℂ) :
     ∑ a, ∑ b, ∑ c, ∑ d, f a b c d = ∑ c, ∑ d, ∑ a, ∑ b, f a b c d := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsSplitTwistPlaceOverProductCharacterRamifie
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CenLocOfCenReal
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
@@ -104,15 +105,7 @@ theorem projV_eq_one {V : TH.HSp D} {n : ℕ} {hF : D.host.F = maximalRealSubfie
     Matrix.map_one _ (map_zero g) (map_one g)]
 
 theorem split_of_not_conj {Q : PlE D.host} (h : ¬ Formalism.IndefR.Lev.IsConjPl Q Q) : IsSplitPl D.host Q := by
-  unfold Formalism.IndefR.Lev.IsConjPl at h
-  push Not at h
-  obtain ⟨c, hc, h⟩ := h
-  have e : star (c : D.host.E) = D.host.conj c := by
-    apply D.host.φ₀.injective
-    have := D.host.isCMField_hostE
-    exact (IsCMField.complexEmbedding_complexConj _ D.host.φ₀ _).trans
-      (D.host.conjE_apply D.host.φ₀ _).symm
-  exact ⟨c, hc, fun y hy hyQ => h y hyQ (hy.trans e.symm)⟩
+  apply _root_.GlobalTheory.TwistSplitPlace.isSplitPl_of_not_isConjPl <;> assumption
 
 theorem mem_level {V : TH.HSp D} {n : ℕ} {hF : D.host.F = maximalRealSubfield D.host.E} {P : Formalism.IndefR.principalLevelFrame.RowPsi V n}
     (hP : StdFrame hF P) {β : GL (Fin V.rank) (Formalism.IndefR.Lev.EAf D)} {Λ : Submodule (𝓞 D.host.E) (Fin V.rank → D.host.E)}

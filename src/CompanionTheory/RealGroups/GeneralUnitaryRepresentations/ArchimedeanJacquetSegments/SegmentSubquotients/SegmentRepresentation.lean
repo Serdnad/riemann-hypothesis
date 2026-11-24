@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.ComplementarySeries.SegmentJacquetSubquotients.SegmentRepresentation
 public import CompanionTheory.RealGroups.GeneralUnitaryRepresentations.ArchimedeanJacquetSegments.SegmentSubquotients.SegRepOf
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.ZelevinskyJacquet.LSegJacquet
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.AdjacentQuotientOfTwoSegment
@@ -203,29 +204,8 @@ theorem classMain {i q N : ℕ} (t : Fin (i + 2 + q) → IrrGL (k := k)) (ht : �
     (he : Emb z.rep (prodIrr pr hs)) :
     ∃ (n : ℕ) (xx : Fin n → IrrGL (k := k)) (hdx : ∑ a, (xx a).1 = N) (iz : Fin n), xx iz = z ∧
       Emb (prodIrr xx hdx) (prodIrr t ht) := by
-  obtain ⟨A, hA⟩ : ∃ A : Fin i → IrrGL (k := k), ∀ a, A a = t (Fin.castAdd q (Fin.castAdd 2 a)) := ⟨_, fun _ => rfl⟩
-  obtain ⟨B, hB⟩ : ∃ B : Fin q → IrrGL (k := k), ∀ b, B b = t (Fin.natAdd (i + 2) b) := ⟨_, fun _ => rfl⟩
-  have hfun : Fin.append (Fin.append A pr) B = t := by
-    funext a
-    refine Fin.addCases (fun u => ?_) (fun b => ?_) a
-    · rw [Fin.append_left]
-      refine Fin.addCases (fun v => ?_) (fun j => ?_) u
-      · rw [Fin.append_left, hA]
-      · rw [Fin.append_right, hpr]
-    · rw [Fin.append_right, hB]
-  clear hA hB hpr
-  subst hfun
-  have hzs : ∑ _a : Fin 1, z.1 = z.1 := by simp
-  have h1 : ∑ a, (Fin.append A (fun _ : Fin 1 => z) a).1 = ∑ a, (A a).1 + z.1 := by rw [sum_app, hzs]
-  have h2 : ∑ a, (Fin.append A pr a).1 = ∑ a, (A a).1 + z.1 := by rw [sum_app, hs]
-  have hN : ∑ a, (A a).1 + z.1 + ∑ a, (B a).1 = N := by rw [← ht, sum_app, h2]
-  subst hN
-  have h3 : ∑ a, (Fin.append (Fin.append A (fun _ : Fin 1 => z)) B a).1 = ∑ a, (A a).1 + z.1 + ∑ a, (B a).1 := by
-    rw [sum_app, h1]
-  have e0 : Emb (prodIrr (fun _ : Fin 1 => z) hzs) (prodIrr pr hs) :=
-    (Emb.of' (nonempty_equiv_prodIrr_one z hzs)).trans he
-  refine ⟨_, _, h3, Fin.castAdd q (Fin.natAdd i (0 : Fin 1)), by rw [Fin.append_left, Fin.append_right], ?_⟩
-  exact emb_left _ _ B h1 h2 rfl (emb_right A _ pr rfl hzs hs e0 h1 h2) h3 ht
+  intros
+  apply _root_.PositivityTheory.RgGu.SRC.StageC.classMain <;> assumption
 
 
 
@@ -276,46 +256,8 @@ open StageC in
 
 
 theorem stageP : StageP := by
-  intro k _ _ _ _ _ h2 d l hd _ σ hσ i hi
-  obtain ⟨q, rfl⟩ : ∃ q, l = i + 2 + q := ⟨l - (i + 2), by omega⟩
-  have hx : (cls σ).IsCusp := ⟨hd, isCuspidal_of_equiv (IrrGL.equivOf σ.ρ σ.smooth σ.irr) hσ⟩
-  obtain ⟨σ', hσ'c, hcls'⟩ : ∃ σ' : IrrRep (GL (Fin d) k), IsCuspidal σ'.ρ ∧ cls σ' = (cls σ).nu ((i : ℕ) : ℂ) :=
-    ⟨((cls σ).nu ((i : ℕ) : ℂ)).2.rep, (hx.nu _).2, IrrGL.of_rep _⟩
-  have hpr : ∀ j : Fin 2, tcl σ' 2 j = tcl σ (i + 2 + q) (Fin.castAdd q (Fin.natAdd i j)) := by
-    intro j
-    rw [tcl_eq, tcl_eq, hcls', IrrGL.nu_nu]
-    congr 1
-    simp only [Fin.val_castAdd, Fin.val_natAdd]
-    push_cast
-    ring
-  obtain ⟨z, hs, hz, hu⟩ := exists_unit_one_add_generator h2 hd σ' hσ'c
-  have ht : ∑ a, (tcl σ (i + 2 + q) a).1 = (i + 2 + q) * d := sum_const_fin (i + 2 + q) d
-  obtain ⟨n, xx, hdx, iz, hxz, he⟩ := classMain (tcl σ (i + 2 + q)) ht (tcl σ' 2) hpr z hs hz
-  haveI := GlobalTheory.CompanionTheory.AdjQuot.nontrivial_prodIrr xx hdx
-  obtain ⟨T, hT, hTs⟩ := (he.trans (Emb.of' (consec_equiv σ (i + 2 + q) ht))).range
-  refine ⟨T, hT, ?_⟩
-  intro X _ _ π _ hsub w φ
-  have hy : ∑ a, (tcl σ (i + 2 + q) (w a)).1 = (i + 2 + q) * d := sum_const_fin (i + 2 + q) d
-  have hjm := (one_le_jm σ T.toRepresentation π hsub w φ hy).trans
-    (GlobalTheory.CompanionTheory.JmMono.jm_le_of_isSubquotient _ hy _ _ (isSmooth_prodIrr xx hdx) hTs)
-  have hsc : ∀ j, (tcl σ' 2 j).IsCusp := fun j => by
-    rw [tcl_eq, hcls']
-    exact (hx.nu _).nu _
-  obtain ⟨f, hf⟩ := comb xx hdx iz z hxz (tcl σ' 2) hs d (fun _ => rfl) hsc hu _ hy
-    (fun a => by rw [tcl_eq]; exact hx.nu _) hjm
-  have hval : ∀ j : Fin 2, ((w (f j) : Fin (i + 2 + q)) : ℕ) = i + j := by
-    intro j
-    have h3 : tcl σ (i + 2 + q) (w (f j)) = tcl σ (i + 2 + q) (Fin.castAdd q (Fin.natAdd i j)) := (hf j).trans (hpr j)
-    rw [tcl_eq, tcl_eq] at h3
-    exact (IrrGL.nu_natCast_inj hx.1).1 h3
-  have e0 : w.symm ⟨i, by omega⟩ = f 0 := by
-    rw [Equiv.symm_apply_eq]
-    exact Fin.ext (by simpa using (hval 0).symm)
-  have e1 : w.symm ⟨i + 1, hi⟩ = f 1 := by
-    rw [Equiv.symm_apply_eq]
-    exact Fin.ext (by simpa using (hval 1).symm)
-  rw [e0, e1]
-  exact f.strictMono (by decide)
+  intros
+  apply _root_.PositivityTheory.RgGu.SRC.stageP <;> assumption
 
 end CompanionTheory.RgGu.SRC
 

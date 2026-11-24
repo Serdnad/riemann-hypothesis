@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DescEqvPf
 public import Development.EtaleCohomology.EtaleSheaves.SecondDegreeKilling
 public import Development.EtaleCohomology.EtaleSheaves.SecondDegreeKilling.HkpullComp
 public import Development.EtaleCohomology.EtaleSheaves.SecondDegreeKilling.LeafKill2Of
@@ -58,26 +59,11 @@ theorem isZero_sec_empty (R : Type) [CommRing R] (F : Shv R) (X : Scheme.{0}) [I
 
 theorem isZero_free_empty (R : Type) [CommRing R] (X : Scheme.{0}) [IsEmpty X] :
     IsZero ((free R).obj (yoneda.obj X)) := by
-  rw [IsZero.iff_id_eq_zero]
-  apply ((sheafificationAdjunction Scheme.etaleTopology.{0} (ModuleCat.{1} (ULift.{1} R))).homEquiv _ _).injective
-  ext1
-  ext1 U
-  by_cases hU : IsEmpty U.unop
-  · exact (isZero_sec_empty R ((free R).obj (yoneda.obj X)) U.unop).eq_of_tgt _ _
-  · have hE : IsEmpty (ULift.{1} (unop U ⟶ X)) := ⟨fun f => by
-      obtain ⟨x⟩ := not_isEmpty_iff.1 hU; exact IsEmpty.false (f.down.base x)⟩
-    haveI : Subsingleton ↑(((freeP R).obj (yoneda.obj X)).obj U) := by
-      change Subsingleton (ULift.{1} (unop U ⟶ X) →₀ ULift.{1} R); infer_instance
-    exact (ModuleCat.isZero_of_subsingleton _).eq_of_src _ _
+  apply @LateralTheory.E.LeafKunEmptyPf.free_zero <;> assumption
 
 theorem isZero_chains_empty (R : Type) [CommRing R] (X : Scheme.{0}) [IsEmpty X] (n : ℤ) :
     IsZero (((chains R).obj (sch.obj X)).X n) := by
-  obtain ⟨p, rfl | rfl⟩ := Int.eq_nat_or_neg n
-  · rcases p with _ | k
-    · exact (isZero_free_empty R X).of_iso (chainsXIso R (sch.obj X) 0)
-    · exact HomologicalComplex.isZero_extend_X _ _ _ (by
-        intro j; change -(j : ℤ) ≠ (k : ℤ) + 1; omega)
-  · exact (isZero_free_empty R X).of_iso (chainsXIso R (sch.obj X) p)
+  apply @LateralTheory.E.LeafKunEmptyPf.chains_zero <;> assumption
 
 theorem isIso_inr (R : Type) [CommRing R] {K L : Cx R} (φ : K ⟶ L) (hK : ∀ n, IsZero (K.X n)) :
     IsIso (mappingCone.inr φ) := by

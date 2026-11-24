@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.BranchingTraces.BranchingComatrices.RootOfNe
 public import CompanionTheory.RealGroups.DiscreteSeries.DiscreteSeriesClassification.DiscreteSeriesExhaustion.MatrixCoefficientDecay.InfinitesimalCharacterPaths.TensDecomp
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CapelliLowestGelfandConj
 
@@ -88,16 +89,8 @@ theorem ofFn_lin {V V' : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup V']
 theorem qdet_lin {V V' : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V'] (f : V →ₗ[ℂ] V') {m : ℕ}
     (E : Fin m → Fin m → Module.End ℂ V) (E' : Fin m → Fin m → Module.End ℂ V')
     (h : ∀ a b x, f (E a b x) = E' a b (f x)) (u : ℂ) (x : V) : f (qdet E u x) = qdet E' u (f x) := by
-  have hT : ∀ (v : ℂ) (a b : Fin m) (y : V), f (Tm E v a b y) = Tm E' v a b (f y) := by
-    intro v a b y
-    unfold Tm
-    by_cases hab : a = b <;> simp [hab, h]
-  unfold qdet qminor
-
-  simp only [LinearMap.sum_apply, map_sum]
-  refine Finset.sum_congr rfl fun σ _ => ?_
-  simp only [Module.End.mul_apply, Module.End.intCast_apply, map_zsmul]
-  rw [ofFn_lin f _ _ (fun k y => hT _ _ _ y)]
+  intros
+  apply _root_.PositivityTheory.UnitaryDecomposition.Com.qdet_int <;> assumption
 
 theorem pow_lin {V V' : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup V'] [Module ℂ V'] (f : V →ₗ[ℂ] V')
     (T : Module.End ℂ V) (T' : Module.End ℂ V') (h : ∀ x, f (T x) = T' (f x)) (k : ℕ) (x : V) :

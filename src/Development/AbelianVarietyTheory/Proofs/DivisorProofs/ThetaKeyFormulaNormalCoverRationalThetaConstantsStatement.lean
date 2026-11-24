@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaConstantsPrimitivePrincipallyPolarisedTrait
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsIsPolFibreOfKeyPB
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianLocusEqPreimageModuliAndPrincipal
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SymTupOne
@@ -777,18 +779,7 @@ theorem key_unit_unif (κ : Rule) (hR : Rule4 κ) (V : Type) [CommRing V] [IsDom
 theorem dualMapR_eq_of_map {R R' : Type} [CommRing R] [CommRing R'] (f : R →+* R') (F : DualNumber R →+* DualNumber R')
     (h1 : ∀ a, F (algebraMap R _ a) = algebraMap R' _ (f a)) (h2 : F DualNumber.eps = DualNumber.eps) :
     F = Chart.dualMapR f := by
-  refine RingHom.ext fun a => ?_
-  have hx : ∀ (S : Type) [CommRing S] (b : DualNumber S),
-      b = algebraMap S (DualNumber S) (TrivSqZeroExt.fst b) + algebraMap S (DualNumber S) (TrivSqZeroExt.snd b) * DualNumber.eps := by
-    intro S _ b
-    rw [← Algebra.smul_def, ← DualNumber.inr_eq_smul_eps, TrivSqZeroExt.algebraMap_eq_inl,
-      TrivSqZeroExt.inl_fst_add_inr_snd_eq]
-  have hF : F a = algebraMap R' (DualNumber R') (f (TrivSqZeroExt.fst a)) +
-      algebraMap R' (DualNumber R') (f (TrivSqZeroExt.snd a)) * DualNumber.eps := by
-    conv_lhs => rw [hx R a]
-    rw [map_add (f := _), map_mul, h1, h1, h2]
-  rw [hF, ← Algebra.smul_def, ← DualNumber.inr_eq_smul_eps, TrivSqZeroExt.algebraMap_eq_inl]
-  rfl
+  apply _root_.GlobalTheory.KeyFibre.eq_dualMapR_of_algebraMap <;> assumption
 
 
 open Cardinal GlobalTheory.KeyEven in
@@ -1217,21 +1208,7 @@ theorem mem_range_of_small_traits {A : Type} [CommRing A] [IsDomain A] [IsNoethe
 
 theorem polAt_of_fibre {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {S : Scheme.{0}} (t : SAB H S)
     (g : ℕ) {K : Type} [Field K] (x : Sp K ⟶ S) (h : PolFib t.G t.PP.L g x) : GlobalTheory.LN.PolAt t x := by
-  obtain ⟨P, α, -, hc, hL⟩ := h
-  have g₁ := isGrpPullback_pullback t.G x
-  have w : pullback.fst t.G.hom x ≫ t.G.hom = (pullback.snd t.G.hom x ≫ 𝟙 _) ≫ x := by
-    rw [Category.comp_id]; exact pullback.condition
-  obtain ⟨ψ, h₁, h₂⟩ : ∃ ψ : pullback t.G.hom x ⟶ P.A.left,
-      ψ ≫ α = pullback.fst t.G.hom x ∧ ψ ≫ P.A.hom = pullback.snd t.G.hom x ≫ 𝟙 _ :=
-    ⟨_, hc.1.lift_fst _ _ w, hc.1.lift_snd _ _ w⟩
-  have g₂ : IsGrpPullback ((Over.pullback x).obj t.G) P.A (𝟙 _) ψ :=
-    hc.cancel (g₁.congr (Category.id_comp _).symm h₁.symm) h₂
-  have hM := pull_isLB t.PP.isLB (pullback.fst t.G.hom x)
-  have e : LBIso (t.PP.L.pull (pullback.fst t.G.hom x)) (P.L.pull ψ) :=
-    (GlobalTheory.LN.GenericPoint.lbIso_pull hL ψ h₁.symm).symm
-  have hq := amplePt (Sp K) K (𝟙 _) P.A ((Over.pullback x).obj t.G) ψ g₂ P.L
-    (t.PP.L.pull (pullback.fst t.G.hom x)) P.isLB hM e P.ample P.ktriv
-  exact ⟨MorphismProperty.of_isPullback (P := @IsProper) g₂.1 P.isAb.proper, hq.1, hq.2⟩
+  apply _root_.GlobalTheory.UMin.polAt_of_polFib <;> assumption
 
 section Triples
 

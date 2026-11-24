@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.RelIndexNeZeroOfSubsetCpt
 public import Mathlib.FieldTheory.Separable
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AlgebraicRealisationHolomorphicMap
@@ -1294,17 +1295,7 @@ end Top
 theorem relIndex_ne_zero_of_subset_compact {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G]
     [T2Space G] {W S : Subgroup G} (hW : IsOpen (W : Set G)) {Q : Set G} (hQ : IsCompact Q)
     (hS : (S : Set G) ⊆ Q) : W.relIndex S ≠ 0 := by
-  set C := S.topologicalClosure
-  have hCQ : (C : Set G) ⊆ Q := by
-    rw [Subgroup.topologicalClosure_coe]; exact closure_minimal hS hQ.isClosed
-  have hC : IsCompact (C : Set G) := hQ.of_isClosed_subset S.isClosed_topologicalClosure hCQ
-  haveI : CompactSpace C := isCompact_iff_compactSpace.mp hC
-  have hWo : IsOpen ((W.subgroupOf C : Subgroup C) : Set C) := by
-    rw [Subgroup.coe_subgroupOf]; exact hW.preimage continuous_subtype_val
-  haveI := Subgroup.quotient_finite_of_isOpen _ hWo
-  have h1 : W.relIndex C ≠ 0 := Subgroup.index_ne_zero_of_finite
-  intro h
-  exact h1 (Subgroup.relIndex_eq_zero_of_le_right S.le_topologicalClosure h)
+  apply _root_.GlobalTheory.LocFinU.relIndex_ne_zero_of_subset_cpt <;> assumption
 
 theorem relIndex_twCent_inf_ne_zero : ∀ (K : Type) [Field K] [TopologicalSpace K] [IsTopologicalRing K] [LocallyCompactSpace K]
   (ι : Type) [Fintype ι] [DecidableEq ι] (a b : ℕ) (e : ι ≃ Fin a ⊕ Fin b) (γ : GL ι K),

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FinsumOutOfLe
 public import Mathlib.Algebra.BigOperators.Finprod
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.GroupTheory.Index
@@ -151,16 +152,7 @@ theorem finsum_quot_le {H : Type} [Group H] {S T : Subgroup H} (hST : S ≤ T) (
 theorem hinteq {H : Type} [Group H] (K S : Subgroup H) (u : H → ℂ) (hSK : S ≤ K) (hSu : S ≤ rStab u)
     (hrel : S.relIndex K ≠ 0) (hfin : (Function.support fun q : H ⧸ S => u q.out).Finite) :
     hint K u = ((S.relIndex K : ℂ))⁻¹ * ∑ᶠ q : H ⧸ S, u q.out := by
-  have hS0 : S ≤ rStab u ⊓ K := le_inf hSu hSK
-  have hmul := Subgroup.relIndex_mul_relIndex S (rStab u ⊓ K) K hS0 inf_le_right
-  have h1 : S.relIndex (rStab u ⊓ K) ≠ 0 := by
-    intro h; rw [h, zero_mul] at hmul; exact hrel hmul.symm
-  have h2 : (rStab u ⊓ K).relIndex K ≠ 0 := by
-    intro h; rw [h, mul_zero] at hmul; exact hrel hmul.symm
-  have hu : ∀ x, ∀ t ∈ rStab u ⊓ K, u (x * t) = u x := fun x t ht => ht.1 x
-  rw [_root_.UpperTheory.Reformulated.B.P6.r20a.PositivityTheory.Rg.BcN.F2.LocOpPf.finsum_quot_le hS0 u hu h1 hfin, hint, ← hmul]
-  push_cast
-  field_simp
+  apply _root_.GlobalTheory.CompanionTheory.HintLevel.hint_eq_level <;> assumption
 
 end PositivityTheory.Rg.BcN.F2.LocOpPf
 end -- clump:auto

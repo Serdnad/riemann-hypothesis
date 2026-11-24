@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
 public import Formalism.SharpRestriction.GlobalSchurBounds.FlipTwoThree
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 import Formalism.LocalRingCardinality.SpanPowerMembership.ExampleLayerExistsGenerators
@@ -83,43 +84,7 @@ theorem star_mem_range (x : D.host.E) (h : x ∈ (algebraMap (𝓞 D.host.E) D.h
   exact (IsIntegralClosure.isIntegral_iff (A := 𝓞 D.host.E)).1 h2
 
 theorem stdL_isSD (N : ℕ) : (letI := D.host.cmStar; IsSDLat D.host.E N (Formalism.MainNotions.StandardLatticesGL3.stdL D N)) := by
-  let _ := D.host.cmStar
-  refine ⟨?_, ?_, ?_⟩
-  · have : Formalism.MainNotions.StandardLatticesGL3.stdL D N =
-        Submodule.span (𝓞 D.host.E) (Set.range fun a : Fin N => (Pi.single a 1 : Fin N → D.host.E)) := by
-      apply le_antisymm
-      · intro x hx
-        rw [mem_stdL] at hx
-        choose c hc using hx
-        have : x = ∑ a, c a • (Pi.single a 1 : Fin N → D.host.E) := by
-          funext i
-          simp [Finset.sum_apply, Pi.single_apply, Algebra.smul_def, hc]
-        rw [this]
-        exact Submodule.sum_mem _ fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨a, rfl⟩)
-      · rw [Submodule.span_le]
-        rintro _ ⟨a, rfl⟩
-        exact single_mem_stdL D a
-    rw [this]
-    exact Submodule.fg_span (Set.finite_range _)
-  · rw [Submodule.eq_top_iff']
-    intro x
-    have : x = ∑ a, x a • (Pi.single a 1 : Fin N → D.host.E) := by
-      funext i
-      simp [Finset.sum_apply, Pi.single_apply]
-    rw [this]
-    exact Submodule.sum_mem _ fun a _ => Submodule.smul_mem _ _ (Submodule.subset_span (single_mem_stdL D a))
-  · intro y
-    constructor
-    · intro hy x hx
-      rw [mem_stdL] at hx hy
-      unfold stdH
-      exact Subring.sum_mem _ fun i _ => Subring.mul_mem _ (star_mem_range D _ (hx i)) (hy i)
-    · intro h
-      rw [mem_stdL]
-      intro i
-      have := h _ (single_mem_stdL D i)
-      unfold stdH at this
-      simpa [Pi.single_apply, apply_ite star] using this
+  apply +allowSynthFailures _root_.GlobalTheory.FourthRootStd.stdL_isSD <;> assumption
 
 theorem Adm_std (N N' : ℕ) (h : Even N) (h' : Even N') :
     Formalism.MainNotions.TaylorLogMetric.admitted D N N' (Formalism.MainNotions.StandardLatticesGL3.stdL D N) (Formalism.MainNotions.StandardLatticesGL3.stdL D N') :=

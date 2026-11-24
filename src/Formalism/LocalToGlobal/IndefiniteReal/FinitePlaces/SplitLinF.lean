@@ -646,16 +646,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 variable {D : D7} (S T : HSp D)
 
 theorem suppAt_inv_fp {e : AE D} {V : HSp D} {g : GA D V} (hg : SuppAt e V g) : SuppAt e V g⁻¹ := by
-  have hinv : HMul.hMul (mt V g⁻¹) (mt V g) = (1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) := by
-    rw [← Formalism.IndefR.Eqv.mt_mul, inv_mul_cancel, Formalism.IndefR.Eqv.mt_one]
-  have hd : (mt V g⁻¹ : Matrix (Fin V.rank) (Fin V.rank) (AE D)) - 1 =
-      -(HMul.hMul (mt V g⁻¹) ((mt V g : Matrix (Fin V.rank) (Fin V.rank) (AE D)) - 1)) := by
-    rw [Matrix.mul_sub, hinv, Matrix.mul_one, neg_sub]
-  intro i j
-  rw [hd, Matrix.neg_apply, mul_neg, Matrix.mul_apply, Finset.mul_sum]
-  congr 1
-  refine Finset.sum_congr rfl fun k _ => ?_
-  rw [mul_left_comm, hg k j]
+  apply _root_.Formalism.IndefR.Fin.PDB.supp_inv <;> assumption
 
 theorem actO_nsmul (g : GA D S) (h : GA D T) (k : ℕ) (t : WO S T) : actO S T g h (k • t) = k • actO S T g h t := by
   induction k with

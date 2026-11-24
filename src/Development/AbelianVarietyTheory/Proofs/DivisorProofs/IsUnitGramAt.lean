@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ComplexConjugationMapsMultiplicitySpace
 
 @[expose] public section
 
@@ -89,30 +90,7 @@ theorem prod_mul_eq {G : Type} [Monoid G] (h : G) : ∀ (k : ℕ) (u v : Fin k �
 
 theorem rep_mem_sm (M : DSModel V S) (τ : D.what₂.Tau) {g : Matrix (Fin V.rank) (Fin V.rank) ℂ}
     (hg : g ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ)) {v : M.H τ} (hv : v ∈ M.sm τ) : M.rep τ g v ∈ M.sm τ := by
-  have hG := isUnit_gramAt M τ
-  have hgu : IsUnit g.det := by
-    have h1 : IsUnit (gᴴ * gramAt D V τ * g) := by rw [show gᴴ * gramAt D V τ * g = _ from hg]; exact hG
-    rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_mul] at h1
-    exact isUnit_of_mul_isUnit_right h1
-  have hab : g * g⁻¹ = 1 := Matrix.mul_nonsing_inv g hgu
-  induction hv using Submodule.span_induction with
-  | mem w hw =>
-    refine Submodule.subset_span fun k Xs hX => ?_
-    have hX' : ∀ i, g⁻¹ * Xs i * g ∈ lieAt V τ := fun i => GlobalTheory.Mem.RealTranslate.skew_conj hg hab (hX i)
-    have h1 := ((M.rep τ g).restrictScalars ℝ).contDiff.comp (hw k (fun i => g⁻¹ * Xs i * g) hX')
-    have hm : ∀ (Y : Fin k → Matrix (Fin V.rank) (Fin V.rank) ℂ), (∀ i, Y i ∈ lieAt V τ) → ∀ t : Fin k → ℝ,
-        (List.ofFn fun i => NormedSpace.exp (t i • Y i)).prod ∈ Formalism.QuantumDeterminants.UH (gramAt D V τ) := fun Y hY t =>
-      GlobalTheory.GardingVec.list_prod_mem _ fun x hx => by
-        obtain ⟨i, rfl⟩ := List.mem_ofFn.1 hx
-        exact GlobalTheory.GardingVec.exp_mem hG (hY i) (t i)
-    convert h1 using 1
-    funext t
-    show _ = M.rep τ g (M.rep τ _ w)
-    rw [← rep_mul M τ (hm Xs hX t) hg, ← rep_mul M τ hg (hm _ hX' t),
-      prod_mul_eq g k _ _ fun i => GlobalTheory.Mem.RealTranslate.exp_conj_eq hab (Xs i) (t i)]
-  | zero => rw [map_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [map_add]; exact add_mem hx hy
-  | smul a x _ hx => rw [map_smul]; exact Submodule.smul_mem _ a hx
+  apply _root_.GlobalTheory.ConjMult.rep_mem_sm <;> assumption
 
 variable (θ : D.what₂.Tau → (Ainf D.host.F ⊗[D.host.F] D.host.E →+* ℂ))
 

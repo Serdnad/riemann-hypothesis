@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FrameIntegralEqThetaPartNondegenerate
 public import Development.WeilBound.CoreStatements.AutomorphicKernels.UnitarySchrodingerModel.CoefDataExists
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.LeftInvSubtypeSum
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsSelfDualSiegelWeilMeasures
@@ -183,16 +184,7 @@ theorem inner_invPt (V : HSp D) (h : GA D V) (ξ : Matrix (Fin V.rank) (Fin r) D
 
 theorem rank_of_gramQ (V : HSp D) (x : Matrix (Fin V.rank) (Fin r) D.host.E)
     (h : (gramQ V x).det ≠ 0) : x.rank = r := by
-  refine le_antisymm (Matrix.rank_le_width x) ?_
-  have h1 : (gramQ V x).rank = r := by
-    have := Matrix.rank_of_isUnit (gramQ V x) ((Matrix.isUnit_iff_isUnit_det _).2 (isUnit_iff_ne_zero.2 h))
-    simpa using this
-  have h2 : gramQ V x = ((x.map (D.sp.cm.sig : D.host.E → D.host.E)).transpose * HSpace.gram V) * x := by
-    rw [gramQ, Matrix.mul_assoc]
-  calc r = (gramQ V x).rank := h1.symm
-    _ ≤ x.rank := by
-      rw [h2]
-      exact Matrix.rank_mul_le_right _ _
+  apply _root_.GlobalTheory.CompanionTheory.SiegelND.ThetaGlue.rank_eq_of_gramQ <;> assumption
 
 def fibreSum (V : HSp D) (φ : Mx D V.rank r → ℂ) (T : HermE D r) (h : GA D V) : ℂ :=
   ∑' x : {x : Matrix (Fin V.rank) (Fin r) D.host.E // gramQ V x = T.1}, φ (GlobalTheory.SiegelFormula.invPt V h x.1)

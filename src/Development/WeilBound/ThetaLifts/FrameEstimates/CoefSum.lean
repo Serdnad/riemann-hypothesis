@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.ExistsStandardLocalMeasures
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.InnerProductSpace.Basic
 public import Mathlib.MeasureTheory.Group.FundamentalDomain
@@ -513,15 +514,7 @@ theorem continuous_finOf : Continuous (finOf : (κ → AF F) → κ → FiniteAd
 
 private theorem continuous_infiniteAdeleRing_ringEquiv_mixedSpace :
     Continuous (InfiniteAdeleRing.ringEquiv_mixedSpace F) := by
-  first
-  | (rw [show (InfiniteAdeleRing.ringEquiv_mixedSpace F : InfiniteAdeleRing F → mixedEmbedding.mixedSpace F) =
-        fun x => (fun v : {w : InfinitePlace F // w.IsReal} =>
-          InfinitePlace.Completion.extensionEmbeddingOfIsReal v.2 (x v.1),
-          fun v : {w : InfinitePlace F // w.IsComplex} =>
-          InfinitePlace.Completion.extensionEmbedding v.1 (x v.1)) from rfl]
-     exact Continuous.prodMk
-      (continuous_pi fun v => (InfinitePlace.Completion.isometry_extensionEmbeddingOfIsReal v.2).continuous.comp (continuous_apply _))
-      (continuous_pi fun v => (InfinitePlace.Completion.isometry_extensionEmbedding v.1).continuous.comp (continuous_apply _)))
+  apply _root_.GlobalTheory.CompanionTheory.SW.StdEx.continuous_toMixed <;> assumption
 
 theorem continuous_infOf : Continuous (infOf : (κ → AF F) → κ → mixedEmbedding.mixedSpace F) := by
   exact continuous_pi fun i => continuous_infiniteAdeleRing_ringEquiv_mixedSpace.comp (continuous_fst.comp (continuous_apply i))

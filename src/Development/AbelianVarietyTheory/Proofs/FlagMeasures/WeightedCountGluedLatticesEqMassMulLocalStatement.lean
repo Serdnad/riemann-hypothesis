@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalLatticeClassesFiniteLocalOrbitsStatement
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GlobSet
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteIsometriesFixingBothFramesStabilizingLatti
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TotallyPositiveOrthogonalOfTwoFlagExtendedSpaces
@@ -106,6 +107,7 @@ import Mathlib.RingTheory.WittVector.IsPoly
 import Mathlib.Tactic.Lemma
 import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ResiduallyFiniteUnitOff
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteRationalStabiliserGluedLatticeLocalData, Development.AbelianVarietyTheory.Proofs.FlagMeasures.FiniteRationalStabiliserGluedLatticeLocalDataStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.GluedUnimodularLatticeIffLocalCompletionsStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LinearIndependentChangedRationalFramesOfUnitrian, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LinearIndependentChangedRationalFramesOfUnitrianStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalUnitriangularFrameChangeLocalScalingsStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.GluedLatticesLocalDataUnimodular, Development.AbelianVarietyTheory.Proofs.FlagMeasures.GluedLatticesLocalDataUnimodularStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsometryFixingSpanPreservesGluedLattices, Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsometryFixingSpanPreservesGluedLatticesStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.TsumInvStabilizerEqTsumMulFiber, Development.AbelianVarietyTheory.Proofs.FlagMeasures.TsumRationalClassesEqProdLocalSums, Development.AbelianVarietyTheory.Proofs.FlagMeasures.TsumRationalClassesEqProdLocalSumsStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.WeightedCountGluedLatticesEqMassMulLocal, Development.AbelianVarietyTheory.Proofs.FlagMeasures.WeightedCountGluedLatticesEqMassMulLocalStatement
@@ -651,49 +653,11 @@ namespace GlobalTheory.GlueDat
 
 variable {D : D7}
 
-private theorem infinite_finPlaces (K : Type) [Field K] [NumberField K] :
-    Infinite (IsDedekindDomain.HeightOneSpectrum (𝓞 K)) := by
-  have h : ∀ p : Nat.Primes, ∃ la : IsDedekindDomain.HeightOneSpectrum (𝓞 K),
-      la.asIdeal.comap (algebraMap ℤ (𝓞 K)) = Ideal.span {((p : ℕ) : ℤ)} := fun p => by
-    haveI : Fact (p : ℕ).Prime := ⟨p.2⟩
-    haveI : (Ideal.span {((p : ℕ) : ℤ)}).IsMaximal := Int.ideal_span_isMaximal_of_prime p
-    obtain ⟨M, hM, hc⟩ := Ideal.exists_ideal_over_maximal_of_isIntegral (S := 𝓞 K) (Ideal.span {((p : ℕ) : ℤ)})
-      (by rw [(RingHom.injective_iff_ker_eq_bot _).1 (algebraMap ℤ (𝓞 K)).injective_int]; exact bot_le)
-    exact ⟨⟨M, hM.isPrime, Ring.ne_bot_of_isMaximal_of_not_isField hM (RingOfIntegers.not_isField K)⟩, hc⟩
-  choose f hf using h
-  refine Infinite.of_injective f fun p q hpq => ?_
-  have e : Ideal.span {((p : ℕ) : ℤ)} = Ideal.span {((q : ℕ) : ℤ)} := by rw [← hf p, ← hf q, hpq]
-  have := Int.associated_iff_natAbs.1 (Ideal.span_singleton_eq_span_singleton.1 e)
-  exact Subtype.ext (by simpa using this)
-
-
 private theorem isFullLattice_of_local_span {D : D7} (Z : LocDat D) (p : PlF D) (Λ : LV D)
     (hΛ : Submodule.IsLattice D.host.E Λ)
     (hspan : Submodule.span (D.s.atP p).Ep (lattice₂ D Z.M p Λ : Set (Vp D p)) = ⊤) :
     Submodule.IsFullLattice D.host.E Λ := by
-  let U := Submodule.span D.host.E (Λ : Set (VS D).V)
-  let b := Module.finBasis D.host.E U
-  let W := Submodule.span (D.s.atP p).Ep
-    (Set.range fun i => baseChange₂ D p (b i : (VS D).V))
-  have hW (x : U) : baseChange₂ D p (x : (VS D).V) ∈ W := by
-    have hx := congrArg (fun y : U => baseChange₂ D p (y : (VS D).V)) (b.sum_repr x)
-    change baseChange₂ D p (U.subtype (∑ i, b.repr x i • b i)) = _ at hx
-    rw [map_sum, map_sum] at hx
-    rw [← hx]
-    exact W.sum_mem fun i _ => by
-      rw [map_smul, baseChange_smul₂]
-      exact W.smul_mem _ (Submodule.subset_span (Set.mem_range_self i))
-  have htop : W = ⊤ := by
-    apply top_le_iff.mp
-    rw [← hspan, lattice₂, Submodule.span_span_of_tower]
-    refine Submodule.span_le.2 ?_
-    rintro y ⟨x, hx, heq⟩
-    rw [← heq]
-    exact hW ⟨x, Submodule.subset_span hx⟩
-  refine { toIsLattice := hΛ, span_eq_top := Submodule.eq_of_le_of_finrank_le le_top ?_ }
-  rw [finrank_top, Module.finrank_eq_card_basis (VS D).frame, Fintype.card_fin]
-  simpa only [Module.finrank_fin_fun, Fintype.card_fin] using
-    finrank_le_of_span_eq_top (show Submodule.span (D.s.atP p).Ep _ = ⊤ from htop)
+  apply _root_.GlobalTheory.FrameProj.isFullLattice_of_local_span <;> assumption
 
 theorem finrank_loc (p : PlF D) :
     Module.finrank (D.s.atP p).Ep (Vp D p) = D.R.k + 2 * D.R.rS + 1 := by
@@ -775,7 +739,7 @@ theorem GlobalTheory.GlueDat.glued_data : ∀ (D : D7) (Z : LocDat D) (FP : ∀ 
         (d0 p) (hB.2.2.2.1 p) (y p)
       exact this.2 ⟨_, (hy.2 p).1⟩
     · obtain ⟨Λ₀, hΛ₀, hΛ₀p⟩ := hB.2.2.2.2
-      haveI : Infinite (PlF D) := infinite_finPlaces D.host.F
+      haveI : Infinite (PlF D) := _root_.GlobalTheory.LvT.Inh.ResFin.infinite_places D.host.F
       obtain ⟨q, hq⟩ := Infinite.exists_notMem_finset P
       have hfull : Submodule.IsFullLattice D.host.E Λ :=
         isFullLattice_of_local_span Z q Λ hy.1

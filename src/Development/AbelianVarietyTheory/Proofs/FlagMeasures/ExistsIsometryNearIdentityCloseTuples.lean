@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CongruentOneMatricesTransitiveNearHermitian
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermLat
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DualInterSelfDualHermitianLatticeSubspace
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EichlerIsometry
@@ -86,16 +87,7 @@ theorem mem_jac [IsNonarchimedeanLocalField F] (L : LocE F E) {ϖ : 𝒪[F]} (h�
 
 theorem exists_pow_denom [IsNonarchimedeanLocalField F] (L : LocE F E) {ϖ : 𝒪[F]}
     (hϖ : Irreducible ϖ) (x : E) : ∃ k : ℕ, algebraMap F E ϖ ^ k * x ∈ L.O := by
-  have := L.free
-  have : Module.Finite F E := Module.finite_of_finrank_pos (by rw [L.rank]; omega)
-  have hx : IsAlgebraic 𝒪[F] x :=
-    (IsFractionRing.isAlgebraic_iff 𝒪[F] F E).2 (Algebra.IsAlgebraic.isAlgebraic x)
-  obtain ⟨d, hd0, hd⟩ := hx.exists_integral_multiple
-  obtain ⟨k, u, rfl⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hd0 hϖ
-  refine ⟨k, (L.O_def _).2 ?_⟩
-  have h2 := hd.smul ((u⁻¹ : (𝒪[F])ˣ) : 𝒪[F])
-  rw [smul_smul, Units.inv_mul_cancel_left, Algebra.smul_def, map_pow] at h2
-  exact h2
+  first | exact _root_.GlobalTheory.CongTrans.exists_pow_mul_mem | exact @_root_.GlobalTheory.CongTrans.exists_pow_mul_mem | apply _root_.GlobalTheory.CongTrans.exists_pow_mul_mem <;> assumption
 
 theorem one_add_onto {Λ : Submodule L.O (Fin n → E)} (hΛ : IsLat L Λ) (p : L.O)
     (hp : p ∈ Ideal.jacobson (⊥ : Ideal L.O)) (A : (Fin n → E) →ₗ[E] (Fin n → E))

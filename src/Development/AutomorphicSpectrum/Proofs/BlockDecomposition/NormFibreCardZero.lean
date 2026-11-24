@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NormFibreCardNonzero
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ResAlgSplitTwo
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -75,29 +76,7 @@ theorem nontrivial_of_resAlg (h : ResAlg E τ q ε) : Nontrivial E := by
   nlinarith
 
 theorem card_fx (h : ResAlg E τ q ε) : Nat.card (Fx τ) = q := by
-  obtain ⟨u, hu, hb⟩ := h.basis
-  let φ : Fx τ × Fx τ → E := fun p => (p.1 : E) + (p.2 : E) * u
-  have hφ : Function.Bijective φ := by
-    constructor
-    · rintro ⟨⟨x, hx⟩, ⟨y, hy⟩⟩ ⟨⟨x', hx'⟩, ⟨y', hy'⟩⟩ hxy
-      have h1 : x + y * u = x' + y' * u := hxy
-      have h2 : x + y * τ u = x' + y' * τ u := by
-        have := congrArg τ h1
-        simpa [hx, hy, hx', hy'] using this
-      have h3 : (y - y') * (u - τ u) = 0 := by linear_combination h1 - h2
-      have h4 : y = y' := sub_eq_zero.1 (hu.mul_left_eq_zero.1 h3)
-      have h5 : x = x' := by
-        subst h4
-        exact add_right_cancel h1
-      subst h4 h5
-      rfl
-    · intro a
-      obtain ⟨x, y, hx, hy, rfl⟩ := hb a
-      exact ⟨(⟨x, hx⟩, ⟨y, hy⟩), rfl⟩
-  have h1 : Nat.card (Fx τ × Fx τ) = Nat.card E := Nat.card_congr (Equiv.ofBijective φ hφ)
-  rw [Nat.card_prod, h.card] at h1
-  have h2 : Nat.card (Fx τ) ^ 2 = q ^ 2 := by rw [← h1]; ring
-  exact (Nat.pow_left_inj (by norm_num)).1 h2
+  apply _root_.GlobalTheory.CompanionTheory.UnrDens.NormUnit.card_fixed <;> assumption
 
 theorem exists_idem (h : ResAlg E τ q ε) (hf : ¬ IsField E) :
     ∃ e : E, e * e = e ∧ τ e = 1 - e := by

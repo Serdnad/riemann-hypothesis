@@ -320,38 +320,25 @@ private theorem xiW_eq_one {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) 
   change QuotientGroup.mk' _ (ZMod.unitsMap (Nat.dvd_lcm_right (2 ^ (e + 2)) M) u) = 1 ↔ _
   rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, ann_zpowers]
 
-private theorem dvd_QS {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (hχ : χ.IsPrimitive) (e : ℕ) :
-    M ∣ EvenGrp.QS (Subgroup.zpowers χ) e := by
+/-- A primitive character forces the cyclic host modulus to contain its entire conductor. -/
+theorem UpperTheory.Top.QS_eq_lcm_of_isPrimitive {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M)
+    (hχ : χ.IsPrimitive) (e : ℕ) :
+    EvenGrp.QS (Subgroup.zpowers χ) e = Nat.lcm (2 ^ (e + 2)) M := by
   obtain ⟨hQL, h2Q, hgood⟩ := EvenGrp.good_QS (Subgroup.zpowers χ) e
-  set Q := EvenGrp.QS (Subgroup.zpowers χ) e with hQ
-  haveI : NeZero ((2 ^ (e + 2)).lcm M) := ⟨Nat.lcm_ne_zero (by positivity) (NeZero.ne M)⟩
-  have hf : χ.FactorsThrough (Q.gcd M) := by
-    refine (DirichletCharacter.factorsThrough_iff_ker_unitsMap (Nat.gcd_dvd_right Q M)).mpr ?_
-    intro x hx
-    rw [MonoidHom.mem_ker, unitsMap_eq_one_iff] at hx
-    obtain ⟨z, hz1, hz2⟩ := Nat.chineseRemainder' hx.symm
-    have hzM : z.Coprime M := hz2.gcd_eq.trans (ZMod.val_coe_unit_coprime x)
-    have hzQ : z.Coprime Q := hz1.gcd_eq.trans (Nat.gcd_one_left Q)
-    have hz2e : z.Coprime (2 ^ (e + 2)) := hzQ.coprime_dvd_right h2Q
-    have hzL : z.Coprime ((2 ^ (e + 2)).lcm M) :=
-      (Nat.Coprime.mul_right hz2e hzM).coprime_dvd_right (Nat.lcm_dvd_mul _ _)
-    have hw := hgood (ZMod.unitOfCoprime z hzL) (by
-      rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast]
-      exact ((Nat.mod_modEq z _).of_dvd hQL).trans hz1)
-    rw [xiW_eq_one, unitsMap_unitOfCoprime] at hw
-    rw [MonoidHom.mem_ker, Units.ext_iff, MulChar.coe_toUnitHom, Units.val_one]
-    have hx' : ((ZMod.unitOfCoprime z (hzL.coprime_dvd_right (Nat.dvd_lcm_right _ _)) : (ZMod M)ˣ) : ZMod M) = x := by
-      rw [ZMod.coe_unitOfCoprime, ← ZMod.natCast_zmod_val (x : ZMod M)]
-      exact (ZMod.natCast_eq_natCast_iff _ _ _).mpr hz2
-    rw [← hx']
-    exact hw
-  have hc0 : χ.conductor ≤ Q.gcd M := Nat.sInf_le hf
+  let hM := Nat.dvd_lcm_right (2 ^ (e + 2)) M
+  let χL := DirichletCharacter.changeLevel hM χ
+  have hf : χL.FactorsThrough (EvenGrp.QS (Subgroup.zpowers χ) e) := by
+    refine (DirichletCharacter.factorsThrough_iff_ker_unitsMap hQL).2 fun u hu => ?_
+    have hξ := hgood u ((unitsMap_eq_one_iff hQL u).1 hu)
+    change (DirichletCharacter.changeLevel hM χ).toUnitHom u = 1
+    rw [DirichletCharacter.changeLevel_toUnitHom, MonoidHom.comp_apply,
+      Units.ext_iff, MulChar.coe_toUnitHom, Units.val_one]
+    exact (xiW_eq_one χ e u).1 hξ
+  have hcd := (DirichletCharacter.mem_conductorSet_iff_conductor_dvd χL hQL).1 hf
+  change (DirichletCharacter.changeLevel hM χ).conductor ∣ _ at hcd
   have hχ' : χ.conductor = M := hχ
-  rw [hχ'] at hc0
-  have hg : Q.gcd M = M :=
-    le_antisymm (Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne M)) (Nat.gcd_dvd_right _ _)) hc0
-  have h := Nat.gcd_dvd_left Q M
-  rwa [hg] at h
+  rw [DirichletCharacter.conductor_changeLevel, hχ'] at hcd
+  exact Nat.dvd_antisymm hQL (Nat.lcm_dvd h2Q hcd)
 
 private theorem hcl_nat (e a : ℕ) (h : a.Coprime (2 ^ (e + 2))) :
     hcl e (ZMod.unitOfCoprime a h) = 1 ↔ (a ≡ 1 [MOD 2 ^ (e + 2)] ∨ a + 1 ≡ 0 [MOD 2 ^ (e + 2)]) := by
@@ -402,7 +389,9 @@ theorem UpperTheory.Top.kerChiAny :
   intro ψ e q d hH hc he hs
   haveI := ψ.ne
   set D := AnyGrp.data (Subgroup.zpowers ψ.χ) e with hD
-  have hM : ψ.N ∣ D.m := dvd_QS ψ.χ ψ.prim e
+  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m :=
+    dvd_of_eq (QS_eq_lcm_of_isPrimitive ψ.χ ψ.prim e).symm
+  have hM : ψ.N ∣ D.m := (Nat.dvd_lcm_right _ _).trans hL
   refine ⟨hM, fun a h => ?_⟩
   have h' : a.Coprime (D.m * q * d) := h
   change D.art hH (ZMod.unitOfCoprime a h') = 1 ↔
@@ -412,7 +401,6 @@ theorem UpperTheory.Top.kerChiAny :
   have h1 : a.Coprime D.m := h'.coprime_dvd_right (D.m_dvd q d)
   have hT : 2 ^ (e + 2) ∣ D.m := D.tower
   have h2 : a.Coprime (2 ^ (e + 2)) := h1.coprime_dvd_right hT
-  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m := Nat.lcm_dvd hT hM
   have hcL : a.Coprime ((2 ^ (e + 2)).lcm ψ.N) := h1.coprime_dvd_right hL
   have hcl1 : D.cl (ZMod.unitOfCoprime a h1) = hcl e (ZMod.unitOfCoprime a h2) := by
     rw [ModData.cl, MonoidHom.comp_apply, unitsMap_unitOfCoprime]
@@ -610,62 +598,6 @@ private theorem exSign (f : ℤˣ →* ℂˣ) : ∃ i : Fin 2, f (-1) = (-1) ^ (
     · simp
     · simp [h]
 
-private theorem mem_ann_zpowers_iff_apply_eq_one {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (u : (ZMod M)ˣ) :
-    u ∈ EvenGrp.ann (Subgroup.zpowers χ) ↔ χ u = 1 := by
-  rw [EvenGrp.mem_ann]
-  constructor
-  · intro h
-    exact h χ (Subgroup.mem_zpowers χ)
-  · intro h ψ hψ
-    rw [Subgroup.zpowers_eq_closure] at hψ
-    induction hψ using Subgroup.closure_induction with
-    | mem x hx =>
-      rw [Set.mem_singleton_iff] at hx
-      rw [hx]
-      exact h
-    | one => exact MulChar.one_apply_coe u
-    | mul x y _ _ hx hy => rw [MulChar.mul_apply, hx, hy, one_mul]
-    | inv x _ hx => rw [MulChar.inv_apply_eq_inv', hx, inv_one]
-
-private theorem xiW_zpowers_eq_one_iff_apply_unitsMap {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (e : ℕ)
-    (u : (ZMod (Nat.lcm (2 ^ (e + 2)) M))ˣ) :
-    EvenGrp.xiW (Subgroup.zpowers χ) e u = 1 ↔ χ (ZMod.unitsMap (Nat.dvd_lcm_right _ _) u : (ZMod M)ˣ) = 1 := by
-  change QuotientGroup.mk' _ (ZMod.unitsMap (Nat.dvd_lcm_right (2 ^ (e + 2)) M) u) = 1 ↔ _
-  rw [QuotientGroup.mk'_apply, QuotientGroup.eq_one_iff, mem_ann_zpowers_iff_apply_eq_one]
-
-private theorem dvd_lemma_3 {M : ℕ} [NeZero M] (χ : DirichletCharacter ℂ M) (hχ : χ.IsPrimitive) (e : ℕ) :
-    M ∣ EvenGrp.QS (Subgroup.zpowers χ) e := by
-  obtain ⟨hQL, h2Q, hgood⟩ := EvenGrp.good_QS (Subgroup.zpowers χ) e
-  set Q := EvenGrp.QS (Subgroup.zpowers χ) e with hQ
-  haveI : NeZero ((2 ^ (e + 2)).lcm M) := ⟨Nat.lcm_ne_zero (by positivity) (NeZero.ne M)⟩
-  have hf : χ.FactorsThrough (Q.gcd M) := by
-    refine (DirichletCharacter.factorsThrough_iff_ker_unitsMap (Nat.gcd_dvd_right Q M)).mpr ?_
-    intro x hx
-    rw [MonoidHom.mem_ker, unitsMap_eq_one_iff] at hx
-    obtain ⟨z, hz1, hz2⟩ := Nat.chineseRemainder' hx.symm
-    have hzM : z.Coprime M := hz2.gcd_eq.trans (ZMod.val_coe_unit_coprime x)
-    have hzQ : z.Coprime Q := hz1.gcd_eq.trans (Nat.gcd_one_left Q)
-    have hz2e : z.Coprime (2 ^ (e + 2)) := hzQ.coprime_dvd_right h2Q
-    have hzL : z.Coprime ((2 ^ (e + 2)).lcm M) :=
-      (Nat.Coprime.mul_right hz2e hzM).coprime_dvd_right (Nat.lcm_dvd_mul _ _)
-    have hw := hgood (ZMod.unitOfCoprime z hzL) (by
-      rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast]
-      exact ((Nat.mod_modEq z _).of_dvd hQL).trans hz1)
-    rw [xiW_zpowers_eq_one_iff_apply_unitsMap, unitsMap_unitOfCoprime] at hw
-    rw [MonoidHom.mem_ker, Units.ext_iff, MulChar.coe_toUnitHom, Units.val_one]
-    have hx' : ((ZMod.unitOfCoprime z (hzL.coprime_dvd_right (Nat.dvd_lcm_right _ _)) : (ZMod M)ˣ) : ZMod M) = x := by
-      rw [ZMod.coe_unitOfCoprime, ← ZMod.natCast_zmod_val (x : ZMod M)]
-      exact (ZMod.natCast_eq_natCast_iff _ _ _).mpr hz2
-    rw [← hx']
-    exact hw
-  have hc0 : χ.conductor ≤ Q.gcd M := Nat.sInf_le hf
-  have hχ' : χ.conductor = M := hχ
-  rw [hχ'] at hc0
-  have hg : Q.gcd M = M :=
-    le_antisymm (Nat.le_of_dvd (Nat.pos_of_ne_zero (NeZero.ne M)) (Nat.gcd_dvd_right _ _)) hc0
-  have h := Nat.gcd_dvd_left Q M
-  rwa [hg] at h
-
 theorem UpperTheory.Top.twistAny :
     ∀ (ψ : PChar) (e q d : ℕ) (hH : HostHyp q d) (hc : Nat.Coprime ψ.N (q * d)) (he : 2 ≤ e)
       (hs : ∀ l : ℕ, l.Prime → l ≠ 2 → l ∣ ψ.N → jacobiSym (-(d : ℤ)) l = 1),
@@ -680,11 +612,10 @@ theorem UpperTheory.Top.twistAny :
   obtain ⟨j, hj1, hj⟩ := exSign f2
   refine ⟨χ, hχ, i, j, ?_, fun a h => ?_⟩
   · exact hj1
-  have hM : ψ.N ∣ D.m := dvd_lemma_3 ψ.χ ψ.prim e
   have h' : a.Coprime (D.m * q * d) := h
   have h1 : a.Coprime D.m := h'.coprime_dvd_right (D.m_dvd q d)
-  have hT : 2 ^ (e + 2) ∣ D.m := D.tower
-  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m := Nat.lcm_dvd hT hM
+  have hL : (2 ^ (e + 2)).lcm ψ.N ∣ D.m :=
+    dvd_of_eq (QS_eq_lcm_of_isPrimitive ψ.χ ψ.prim e).symm
   have hcL : a.Coprime ((2 ^ (e + 2)).lcm ψ.N) := h1.coprime_dvd_right hL
   have hv : ((ZMod.unitOfCoprime a h' : ZMod (D.m * q * d)).val) ≡ a [MOD D.m * q * d] := by
     rw [ZMod.coe_unitOfCoprime, ZMod.val_natCast]

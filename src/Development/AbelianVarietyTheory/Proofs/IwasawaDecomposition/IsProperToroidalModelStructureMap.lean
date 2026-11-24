@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointNormalCoords
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsNatDiagIffIsDiag
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsDiscreteValuationRingAndFiniteResidueFieldValu
 import Mathlib.Algebra.Order.Floor.Extended
@@ -72,16 +73,8 @@ theorem exists_finite_generic {F : Set X} (hF : IsClosed F) :
 
 theorem mem_of_maximal {x : X} (hx : ∀ x' : X, x' ⤳ x → x' = x) {U : Set X} (hU : IsOpen U) (hd : Dense U) :
     x ∈ U := by
-  obtain ⟨G, hG, -, h⟩ := exists_finite_generic (isClosed_univ (X := X))
-  have hC : IsClosed (⋃ g ∈ G \ {x}, closure ({g} : Set X)) :=
-    (hG.subset Set.diff_subset).isClosed_biUnion fun _ _ => isClosed_closure
-  obtain ⟨y, hy, hyU⟩ := hd.inter_open_nonempty _ hC.isOpen_compl ⟨x, fun hm => by
-    obtain ⟨g, hg, hgx⟩ := Set.mem_iUnion₂.1 hm
-    exact hg.2 (hx g (specializes_iff_mem_closure.2 hgx))⟩
-  obtain ⟨g, hg, hgy⟩ := h y trivial
-  by_cases e : g = x
-  · exact (e ▸ hgy).mem_open hU hyU
-  · exact absurd (Set.mem_iUnion₂.2 ⟨g, ⟨hg, e⟩, specializes_iff_mem_closure.1 hgy⟩) hy
+  intros
+  apply _root_.GenericFibreProof.mem_of_dense_of_max <;> assumption
 
 end Top
 

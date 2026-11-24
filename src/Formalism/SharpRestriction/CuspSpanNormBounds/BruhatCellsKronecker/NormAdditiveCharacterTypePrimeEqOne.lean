@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.DiscreteSeriesExistence.Bridge
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NonGenericAndKTwoTheorems
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CongruenceAtSplitFrobeniusHolds
 public import Formalism.FlagUnipotentLattices.SignaturePreservingEntryNorms
@@ -94,38 +95,7 @@ theorem htF_sum {k : ℕ} (c : Fin k → Fin k → ℕ) :
   rw [← e, hsm, htF_root]
 
 theorem cdom_antisymm {k : ℕ} {ε : Fin k → Bool} {μ Λ : Fin k → ℝ} (h1 : CDom ε μ Λ) (h2 : CDom ε Λ μ) : μ = Λ := by
-  obtain ⟨c, hc, e1⟩ := h1
-  obtain ⟨c', hc', e2⟩ := h2
-  have hs : htF (Λ - μ) + htF (μ - Λ) = 0 := by
-    unfold htF; rw [← Finset.sum_add_distrib]; exact Finset.sum_eq_zero (fun i _ => by simp; ring)
-  rw [e1, e2, htF_sum, htF_sum] at hs
-  have nn : ∀ (d : Fin k → Fin k → ℕ), (∀ a b, d a b ≠ 0 → a < b ∧ ε a = ε b) →
-      ∀ a b, 0 ≤ (d a b : ℝ) * (((b : ℕ) : ℝ) - ((a : ℕ) : ℝ)) := by
-    intro d hd a b
-    by_cases h : d a b = 0
-    · simp [h]
-    · have := (hd a b h).1
-      have h' : ((a : ℕ) : ℝ) < ((b : ℕ) : ℝ) := by exact_mod_cast this
-      exact mul_nonneg (Nat.cast_nonneg _) (by linarith)
-  have s1 : 0 ≤ ∑ a, ∑ b, (c a b : ℝ) * (((b : ℕ) : ℝ) - ((a : ℕ) : ℝ)) :=
-    Finset.sum_nonneg (fun a _ => Finset.sum_nonneg (fun b _ => nn c hc a b))
-  have s2 : 0 ≤ ∑ a, ∑ b, (c' a b : ℝ) * (((b : ℕ) : ℝ) - ((a : ℕ) : ℝ)) :=
-    Finset.sum_nonneg (fun a _ => Finset.sum_nonneg (fun b _ => nn c' hc' a b))
-  have z1 : ∑ a, ∑ b, (c a b : ℝ) * (((b : ℕ) : ℝ) - ((a : ℕ) : ℝ)) = 0 := by linarith
-  have z2 : ∀ a b, c a b = 0 := by
-    intro a b
-    have h3 := (Finset.sum_eq_zero_iff_of_nonneg (fun a _ => Finset.sum_nonneg (fun b _ => nn c hc a b))).1 z1 a
-      (Finset.mem_univ a)
-    have h4 := (Finset.sum_eq_zero_iff_of_nonneg (fun b _ => nn c hc a b)).1 h3 b (Finset.mem_univ b)
-    by_contra h
-    have := (hc a b h).1
-    have h' : ((a : ℕ) : ℝ) < ((b : ℕ) : ℝ) := by exact_mod_cast this
-    rcases mul_eq_zero.1 h4 with h5 | h5
-    · exact h (by exact_mod_cast h5)
-    · linarith
-  have : Λ - μ = 0 := by
-    rw [e1]; exact Finset.sum_eq_zero (fun a _ => Finset.sum_eq_zero (fun b _ => by simp [z2 a b]))
-  exact (sub_eq_zero.1 this).symm
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.cdom_antisymm <;> assumption
 
 theorem schur_lemma_unitary_distinct_params : NonGenericAndKTwoTheorems.adm7 := by
   intro k u u' H H' _ _ _ _ π ρ hπ hρ hne P hP

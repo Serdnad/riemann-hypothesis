@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.IsometryFixFlagAnisotropicVectorOfFixFrame
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.LocClosed
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.RationalIsometryExtendsLocalIsometry
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.StabIntPfLocGlob
@@ -1160,18 +1161,7 @@ theorem witt_flag (D : D7) (T : D.host.E) (hT : T ≠ 0) (F F' : FlagG (VS D) D.
 
 theorem iso_X {D : D7} {T : D.host.E} (G : FlagG (VS D) D.R.rS T) :
     ∀ y ∈ G.X, ∀ x ∈ G.X, (VS D).hT y x = 0 := by
-  intro y hy x hx
-  induction hx using Submodule.span_induction with
-  | mem w hw =>
-    obtain ⟨b, rfl⟩ := hw
-    induction hy using Submodule.span_induction with
-    | mem v hv => obtain ⟨a, rfl⟩ := hv; exact G.e_iso a b
-    | zero => simp
-    | add u v _ _ hu hv => simp [hu, hv]
-    | smul c u _ hu => simp [hu]
-  | zero => simp
-  | add u v _ _ hu hv => simp [hu, hv]
-  | smul c u _ hu => simp [hu]
+  first | exact _root_.Formalism.L2.SG.Pf.Cnt.StabilizerQuotient.iso_X | exact @_root_.Formalism.L2.SG.Pf.Cnt.StabilizerQuotient.iso_X | apply _root_.Formalism.L2.SG.Pf.Cnt.StabilizerQuotient.iso_X <;> assumption
 
 theorem lsub_eq {D : D7} {T T' : D.host.E} (F : LFlag (D.sp.Y 0) D.R.rS T) (F' : LFlag (D.sp.Y 0) D.R.rS T')
     (h : F.fl.X = F'.fl.X) (Λ : LV D) : Lsub Λ F = Lsub Λ F' := by

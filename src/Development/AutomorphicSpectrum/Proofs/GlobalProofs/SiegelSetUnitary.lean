@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLieConditionSummandResidueCharP
 public import Development.AbelianVarietyTheory.Definitions.Divisors.LocallyCompactUnipFlag
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSquareIntegrableIffMemL2
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.GoodConstOfAniso
@@ -778,15 +779,8 @@ def pr (X Y : Matrix (Fin n) (Fin r) R) (X' Y' : Matrix (Fin r) (Fin n) R) : Idx
   | .inr (.inr i) => Y * Matrix.single i i (1 : R) * X'
 
 theorem sum_single (r : ℕ) : ∑ i : Fin r, (Matrix.single i i 1 : Matrix (Fin r) (Fin r) R) = 1 := by
-  ext a b
-  rw [Matrix.sum_apply, Finset.sum_eq_single a]
-  · by_cases h : a = b
-    · subst h; simp
-    · simp [h]
-  · intro k _ hk
-    simp only [Matrix.single_apply]
-    rw [if_neg (fun e => hk e.1)]
-  · simp
+  intros
+  apply _root_.GlobalTheory.HTSummand.Corep.mat_sum <;> assumption
 
 theorem sum_pr (X Y : Matrix (Fin n) (Fin r) R) (X' Y' : Matrix (Fin r) (Fin n) R) :
     ∑ α, pr X Y X' Y' α = 1 := by

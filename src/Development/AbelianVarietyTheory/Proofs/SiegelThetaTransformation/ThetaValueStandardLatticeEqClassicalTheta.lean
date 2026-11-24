@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DeterminantBlockProductRenameTorusPolynomial
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.ThExprUniqOfChartIndep2
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.Taylor
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsStabForm
@@ -75,17 +76,7 @@ open ReciprocityTheory.ChartRestriction.G.PullbackSections (mD mD_coe lD_eq) in
 theorem polyDeriv_eq_mD {θ : V → ℂ} {x : V} (hθ : ContDiffAt ℂ ω θ x) {T₁ : Type} (P : MvPolynomial T₁ ℂ)
     (u : T₁ → V) :
     I2.polyDeriv P u θ x = ∑ m ∈ P.support, P.coeff m * mD θ x ((Finsupp.toMultiset m).map u) := by
-  unfold I2.polyDeriv
-  refine Finset.sum_congr rfl fun m _ => ?_
-  congr 1
-  have hL : (((Finsupp.toMultiset m).toList.map u : List V) : Multiset V) =
-      (Finsupp.toMultiset m).map u := by
-    rw [← Multiset.map_coe, Multiset.coe_toList]
-  rw [← hL, mD_coe hθ, lD_eq θ x _ (n := Multiset.card (Finsupp.toMultiset m))
-    (by rw [List.length_map, Multiset.length_toList])]
-  congr 1
-  funext k
-  simp [List.get_eq_getElem]
+  first | exact _root_.GlobalTheory.BlockRen.polyDeriv_eq_sum | exact @_root_.GlobalTheory.BlockRen.polyDeriv_eq_sum | apply _root_.GlobalTheory.BlockRen.polyDeriv_eq_sum <;> assumption
 
 theorem polyDeriv_rename {θ : V → ℂ} {x : V} (hθ : ContDiffAt ℂ ω θ x) {T₁ κ : Type} (ρ : T₁ → κ)
     (hρ : Function.Injective ρ) (P : MvPolynomial T₁ ℂ) (v : κ → V) :

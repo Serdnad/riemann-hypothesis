@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.RowDataMainTermNormalFormAndLevelOne
 public import Formalism.LocalToGlobal.CharacterGerms.NondegenerateCharts
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
 
@@ -93,20 +94,10 @@ theorem mm_add {a b : C} (ha : V.MM a) (hb : V.MM b) : V.MM (a + b) :=
   lt_of_lt_of_le (lt_min ha hb) (V.v.map_add a b)
 
 theorem mm_mul_ge {a b : C} (ha : V.MM a) (hb : V.Ge 0 b) : V.MM (a * b) := by
-  unfold VF.MM at *
-  unfold VF.Ge at hb
-  rw [V.v.map_mul]
-  have hb' : (0 : WithTop ℝ) ≤ V.v b := by simpa using hb
-  exact lt_of_lt_of_le ha (le_add_of_nonneg_right hb')
+  apply _root_.GlobalTheory.LastStep.mm_mul_int <;> assumption
 
 theorem mm_sum {ι : Type} (s : Finset ι) (f : ι → C) (hf : ∀ i ∈ s, V.MM (f i)) : V.MM (∑ i ∈ s, f i) := by
-  induction s using Finset.induction_on with
-  | empty =>
-    rw [Finset.sum_empty]
-    exact mm_zero
-  | insert i s hi ih =>
-    rw [Finset.sum_insert hi]
-    exact mm_add (hf i (Finset.mem_insert_self i s)) (ih fun j hj => hf j (Finset.mem_insert_of_mem hj))
+  apply _root_.GlobalTheory.LastStep.mm_sum <;> assumption
 
 end MM
 

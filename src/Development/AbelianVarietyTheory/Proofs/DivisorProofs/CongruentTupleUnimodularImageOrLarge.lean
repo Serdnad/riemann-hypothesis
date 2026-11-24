@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Regularisation.PosSemidefOfIntQuadNonneg
 public import Mathlib.LinearAlgebra.Matrix.PosDef
 public import Mathlib.Analysis.Matrix.Order
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.HeightTheory.TransferenceA
@@ -202,41 +203,7 @@ theorem gram_quad {n : ℕ} {Y : Type} [AddCommGroup Y] (β : LinearMap.BilinFor
 
 theorem posSemidef_map_intCast {n : ℕ} (M : Matrix (Fin n) (Fin n) ℤ) (hs : Mᵀ = M)
     (h : ∀ z : Fin n → ℤ, 0 ≤ z ⬝ᵥ M *ᵥ z) : (M.map (Int.cast : ℤ → ℝ)).PosSemidef := by
-  classical
-  refine Matrix.PosSemidef.of_dotProduct_mulVec_nonneg ?_ fun x => ?_
-  · ext i j
-    have := congrFun (congrFun hs i) j
-    simp [Matrix.conjTranspose_apply, Matrix.transpose_apply] at this ⊢
-    rw [this]
-  · simp only [star_trivial]
-    have hcl : IsClosed {x : Fin n → ℝ | 0 ≤ x ⬝ᵥ M.map (Int.cast : ℤ → ℝ) *ᵥ x} :=
-      isClosed_le continuous_const (by fun_prop)
-    refine (DenseRange.piMap fun _ => Rat.denseRange_cast (𝕜 := ℝ)).induction_on x hcl
-      fun q => ?_
-    show 0 ≤ (fun i => ((q i : ℚ) : ℝ)) ⬝ᵥ M.map (Int.cast : ℤ → ℝ) *ᵥ (fun i => ((q i : ℚ) : ℝ))
-    set d : ℕ := ∏ i, (q i).den with hd
-    have hd0 : (0 : ℝ) < d := by
-      rw [hd]; exact_mod_cast Finset.prod_pos fun i _ => (q i).den_pos
-    have hc : ∀ i, ∃ c : ℕ, d = (q i).den * c := fun i =>
-      Finset.dvd_prod_of_mem (fun i => (q i).den) (Finset.mem_univ i)
-    choose c hc using hc
-    let z : Fin n → ℤ := fun i => (q i).num * c i
-    have hz : ∀ i, ((q i : ℚ) : ℝ) = (d : ℝ)⁻¹ * (z i : ℝ) := by
-      intro i
-      have h1 : ((z i : ℤ) : ℚ) = q i * d := by
-        simp only [z, hc i, Int.cast_mul, Int.cast_natCast, Nat.cast_mul]
-        rw [← Rat.mul_den_eq_num]; ring
-      have h2 : ((z i : ℤ) : ℝ) = ((q i : ℚ) : ℝ) * d := by
-        have := congrArg (fun t : ℚ => (t : ℝ)) h1
-        simpa using this
-      rw [h2]; field_simp
-    have hfun : (fun i => ((q i : ℚ) : ℝ)) = (d : ℝ)⁻¹ • (fun i => (z i : ℝ)) := by
-      ext i; simp [hz i]
-    rw [hfun, smul_dotProduct, mulVec_smul, dotProduct_smul, ← cast_quad]
-    have := h z
-    have h3 : (0 : ℝ) ≤ ((z ⬝ᵥ M *ᵥ z : ℤ) : ℝ) := by exact_mod_cast this
-    simp only [smul_eq_mul]
-    positivity
+  apply _root_.GroundTheory.Heights₂.Heights.Regular.posSemidef_of_intQuad_nonneg <;> assumption
 
 theorem det_sq_mul_pow_le_prod :
     ∀ (r : ℕ) (X₀ : Type) [AddCommGroup X₀] [Module.Free ℤ X₀] [Module.Finite ℤ X₀] (X : Type)

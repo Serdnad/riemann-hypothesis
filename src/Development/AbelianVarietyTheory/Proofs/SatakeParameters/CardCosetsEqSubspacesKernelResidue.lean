@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LowerBlockParameterTransferInvariantPairing
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
 public import Formalism.LocalRingCardinality.DataHost
@@ -75,31 +76,7 @@ theorem exists_linearEquiv_map_eq_of_finrank_eq {k V : Type} [Field k] [AddCommG
     [Module k V] [FiniteDimensional k V] (W W' : Submodule k V)
     (h : Module.finrank k W = Module.finrank k W') :
     ∃ e : V ≃ₗ[k] V, W.map e.toLinearMap = W' := by
-  obtain ⟨U, hU⟩ := W.exists_isCompl
-  obtain ⟨U', hU'⟩ := W'.exists_isCompl
-  have h1 := Submodule.finrank_add_eq_of_isCompl hU
-  have h2 := Submodule.finrank_add_eq_of_isCompl hU'
-  have h3 : Module.finrank k U = Module.finrank k U' := by omega
-  let a : W ≃ₗ[k] W' := LinearEquiv.ofFinrankEq _ _ h
-  let b : U ≃ₗ[k] U' := LinearEquiv.ofFinrankEq _ _ h3
-  let e : V ≃ₗ[k] V := (Submodule.prodEquivOfIsCompl W U hU).symm ≪≫ₗ (a.prodCongr b) ≪≫ₗ
-    Submodule.prodEquivOfIsCompl W' U' hU'
-  have he : ∀ w : W, e w = a w := by
-    intro w
-    simp [e]
-  refine ⟨e, ?_⟩
-  apply le_antisymm
-  · rintro _ ⟨w, hw, rfl⟩
-    have := he ⟨w, hw⟩
-    change e w ∈ W'
-    simp only at this
-    rw [this]
-    exact (a ⟨w, hw⟩).2
-  · intro w hw
-    refine ⟨a.symm ⟨w, hw⟩, (a.symm ⟨w, hw⟩).2, ?_⟩
-    change e _ = w
-    rw [he]
-    simp
+  first | exact _root_.GlobalTheory.ParHecke.CosetSubL.exists_equiv_map_eq | exact @_root_.GlobalTheory.ParHecke.CosetSubL.exists_equiv_map_eq | apply _root_.GlobalTheory.ParHecke.CosetSubL.exists_equiv_map_eq <;> assumption
 
 theorem exists_gl_map_residue_eq (O : Type) [CommRing O] [IsLocalRing O] (n : ℕ)
     (W W' : Submodule (IsLocalRing.ResidueField O) (Fin n → IsLocalRing.ResidueField O))

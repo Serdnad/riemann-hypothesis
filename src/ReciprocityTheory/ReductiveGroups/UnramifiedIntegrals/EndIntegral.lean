@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.OneSubTwoOmegaSq
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EndoZInstance
 public import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.StatementK
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.IsogenyFormulaInstance
@@ -935,16 +936,8 @@ theorem end_not_dvd (d : ℕ) (hd : d % 4 = 3) (l : ℕ) [Fact l.Prime]
 
 theorem end_unit (l : ℕ) [Fact l.Prime] (n : ℕ) (hn : ¬ l ∣ n) (a : ℂ_[l]) (ha : ‖a‖ ≤ 1)
     (hq : a ^ 2 - a + (n : ℂ_[l]) = 0) : ‖a‖ = 1 := by
-  have hnn : ‖(n : ℂ_[l])‖ = 1 := by
-    simpa using kq_int_unit l (n : ℤ) (by exact_mod_cast hn)
-  have hprod : a * (1 - a) = n := by linear_combination -hq
-  have hb : ‖1 - a‖ ≤ 1 := by
-    have e : 1 - a = 1 + -a := by ring
-    rw [e]
-    exact kq_add_le l _ _ 1 (by simp) (by rwa [norm_neg])
-  refine le_antisymm ha ?_
-  rw [← hnn, ← hprod, norm_mul]
-  exact mul_le_of_le_one_right (norm_nonneg _) hb
+  intros
+  apply _root_.GlobalTheory.Honda.norm_eq_one_of_quad_root <;> assumption
 
 theorem end_card (d : ℕ) (hd : d % 4 = 3) (L : PeriodPair) (hCM : HasCMBy d L) (S : Finset ℂ)
     (h0 : omegaK d ≠ 0) (hS : Formalism.L2.Th1.F.IsKerReps L (omegaK d) S) :

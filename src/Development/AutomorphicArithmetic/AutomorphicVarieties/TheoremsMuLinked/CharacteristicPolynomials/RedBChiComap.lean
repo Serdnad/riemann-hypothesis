@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CharacteristicPolynomialRoots.RepChi
 import Mathlib
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CurveDVRSpecialization.EveryPointSatisfiesFrameCondition
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.DeterminantRepresentations.RepApi
@@ -53,13 +54,7 @@ private theorem redB_chi_comap {n : ℕ} {A G H : Type} [CommRing A] [Group G] [
 
 private theorem redB_chi_map {n : ℕ} {A B G : Type} [CommRing A] [CommRing B] [Group G] (D : W.GDet n A G) (f : A →+* B)
     (g : G) : (D.map f).chi (MonoidAlgebra.single g 1) = (D.chi (MonoidAlgebra.single g 1)).map f := by
-  letI : Algebra A B[X] := ((algebraMap B B[X]).comp f).toAlgebra
-  have h := D.nat A[X] B[X] { Polynomial.mapRingHom f with commutes' := fun a => by simp; rfl }
-    (MonoidAlgebra.single 1 X - MonoidAlgebra.mapRingHom G C (MonoidAlgebra.single g 1))
-  refine Eq.trans ?_ h
-  change D.D B[X] _ = D.D B[X] _
-  congr 1
-  simp
+  apply _root_.chi_map' <;> assumption
 
 private theorem redB_abs {n : ℕ} {O R K G : Type} [CommRing O] [IsLocalRing O] [CommRing R] [Algebra O R] [IsCO O R]
     [Field K] [Group G] (D : W.GDet n R G) (x : R →+* K) (ρ : G →* GL (Fin n) K)

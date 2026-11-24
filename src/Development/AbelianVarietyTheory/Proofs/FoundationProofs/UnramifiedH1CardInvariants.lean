@@ -54,6 +54,7 @@ import Development.AbelianVarietyTheory.Definitions.Foundations.FinalTheorems
 import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.TrivialOnInertiaOfUnr
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
 import Development.AutomorphicArithmetic.AutomorphicVarieties.HeightAndVanishing.DirichletPrimeToLPartMulLPowerPart
+import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.BlockMatrixPlaces.UrCard
 
 @[expose] public section
 
@@ -271,92 +272,7 @@ theorem card_H1ur (ρ : Representation R D M) (I : Subgroup D) [hI : I.Normal] (
     (hd : ∀ n : ℕ, 0 < n → ∃ d : D →* Multiplicative (ZMod n), IsLocallyConstant d ∧ (∀ s ∈ I, d s = 1) ∧
       d φ = Multiplicative.ofAdd 1) :
     Nat.card (H1ur ρ I) = Nat.card (H0 ρ) := by
-  have hVZ : vanI ρ I ≤ Z1 ρ := fun y hy => hy.1
-  have hBZ : B1 ρ ≤ Z1 ρ := coboundaries_le_cocycles ρ hρ
-  set Q := (B1 ρ).comap (Z1 ρ).subtype with hQ
-  have hmem : ∀ y : vanI ρ I, Q.mkQ (Submodule.inclusion hVZ y) ∈ H1ur ρ I := by
-    intro y
-    show resH1 ρ I.subtype continuous_subtype_val (Q.mkQ (Submodule.inclusion hVZ y)) = 0
-    rw [Submodule.mkQ_apply]
-    change Submodule.mapQ _ _ (restrictCocycles1 ρ I.subtype continuous_subtype_val) _ _ = 0
-    rw [Submodule.mapQ_apply]
-    have : restrictCocycles1 ρ I.subtype continuous_subtype_val (Submodule.inclusion hVZ y) = 0 :=
-      Subtype.ext (funext fun s => y.2.2 s s.2)
-    rw [this]
-    rfl
-  let f : vanI ρ I →ₗ[R] H1ur ρ I :=
-    LinearMap.codRestrict (H1ur ρ I) (Q.mkQ ∘ₗ Submodule.inclusion hVZ) hmem
-  have hf : ∀ y, ((f y : H1ur ρ I) : H1 ρ) = Q.mkQ (Submodule.inclusion hVZ y) := fun _ => rfl
-  have hfs : Function.Surjective f := by
-    rintro ⟨x, hx⟩
-    obtain ⟨z, rfl⟩ := Submodule.Quotient.mk_surjective _ x
-    have hx' : resH1 ρ I.subtype continuous_subtype_val (Submodule.Quotient.mk z) = 0 := hx
-    change Submodule.mapQ _ _ (restrictCocycles1 ρ I.subtype continuous_subtype_val) _ _ = 0 at hx'
-    rw [Submodule.mapQ_apply, Submodule.Quotient.mk_eq_zero] at hx'
-    obtain ⟨m, hm⟩ := (mem_coboundaries1 _ _).1 hx'
-    have hy : z.1 - d0 ρ m ∈ vanI ρ I := by
-      refine ⟨(Z1 ρ).sub_mem z.2 (hBZ ⟨m, rfl⟩), fun s hs => ?_⟩
-      have := hm ⟨s, hs⟩
-      simp only [Submodule.coe_subtype] at this
-      simp only [Pi.sub_apply, amitsur_d0_apply]
-      rw [sub_eq_zero]
-      exact this
-    refine ⟨⟨_, hy⟩, Subtype.ext ?_⟩
-    rw [hf, Submodule.mkQ_apply]
-    apply (Submodule.Quotient.eq _).2
-    show (z.1 - d0 ρ m) - z.1 ∈ B1 ρ
-    rw [sub_sub_cancel_left]
-    exact (B1 ρ).neg_mem ⟨m, rfl⟩
-  have hker : ∀ y : vanI ρ I, y ∈ LinearMap.ker f ↔ y.1 ∈ B1 ρ := by
-    intro y
-    rw [LinearMap.mem_ker, ← Subtype.coe_inj, hf, Submodule.mkQ_apply]
-    show Submodule.Quotient.mk _ = 0 ↔ _
-    rw [Submodule.Quotient.mk_eq_zero]
-    rfl
-  have hgm : ∀ m : invI ρ I, d0 ρ m.1 ∈ vanI ρ I := fun m =>
-    ⟨hBZ ⟨m.1, rfl⟩, fun s hs => by simp [amitsur_d0_apply, m.2 s hs]⟩
-  let g : invI ρ I →ₗ[R] vanI ρ I := LinearMap.codRestrict (vanI ρ I) ((d0 ρ) ∘ₗ (invI ρ I).subtype) hgm
-  have hrange : LinearMap.range g = LinearMap.ker f := by
-    ext y
-    rw [hker, LinearMap.mem_range]
-    constructor
-    · rintro ⟨m, rfl⟩
-      exact ⟨m.1, rfl⟩
-    · intro hy
-      obtain ⟨m, hm⟩ := (mem_coboundaries1 _ _).1 hy
-      have hmI : m ∈ invI ρ I := by
-        intro s hs
-        have h1 := hm s
-        rw [y.2.2 s hs, eq_comm, sub_eq_zero] at h1
-        exact h1
-      refine ⟨⟨m, hmI⟩, Subtype.ext (funext fun s => ?_)⟩
-      exact (hm s).symm
-  have hkg : Nat.card (LinearMap.ker g) = Nat.card (H0 ρ) := by
-    refine Nat.card_congr
-      { toFun := fun m => ⟨m.1.1, fun s => ?_⟩
-        invFun := fun m => ⟨⟨m.1, fun s _ => m.2 s⟩, ?_⟩
-        left_inv := fun m => rfl
-        right_inv := fun m => rfl }
-    · have h := congrArg (fun y : vanI ρ I => y.1 s) (LinearMap.mem_ker.1 m.2)
-      have h' : ρ s m.1.1 - m.1.1 = 0 := h
-      exact sub_eq_zero.1 h'
-    · rw [LinearMap.mem_ker]
-      apply Subtype.ext
-      funext s
-      show ρ s m.1 - m.1 = 0
-      rw [m.2 s, sub_self]
-  have e1 := (LinearMap.ker f).card_eq_card_quotient_mul_card
-  rw [Nat.card_congr (f.quotKerEquivOfSurjective hfs).toEquiv] at e1
-  have e2 := (LinearMap.ker g).card_eq_card_quotient_mul_card
-  rw [Nat.card_congr (g.quotKerEquivRange).toEquiv, hkg,
-    Nat.card_congr (LinearEquiv.ofEq _ _ hrange).toEquiv] at e2
-  have e3 := card_vanI ρ I hρ φ hcl hd
-  have hpos : Nat.card (invI ρ I) ≠ 0 := Nat.card_ne_zero.2 ⟨inferInstance, inferInstance⟩
-  rw [e1, e2] at e3
-  rw [e2] at hpos
-  have hk : Nat.card (LinearMap.ker f) ≠ 0 := fun h => hpos (by rw [h, mul_zero])
-  rw [mul_comm (Nat.card (H0 ρ))] at e3
-  exact Nat.eq_of_mul_eq_mul_left (Nat.pos_of_ne_zero hk) e3
+  exact _root_.UpperTheory.V.Ws.Bl.urCard R D M ρ hρ I φ hcl hd
 
 end GlobalTheory.Ord2.UrCard
 

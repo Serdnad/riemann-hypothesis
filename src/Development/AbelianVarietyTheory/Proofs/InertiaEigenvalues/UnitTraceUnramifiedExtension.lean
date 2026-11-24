@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsLocalRingOfIdem
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MemRangeOfValNonneg
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIntegerSpanningFamilyOfUnramifiedExt
 import Mathlib.Algebra.Order.Floor.Extended
@@ -109,15 +110,7 @@ theorem val_pow_ne (K : UQ) {x : K.E} (hx : x ≠ 0) (n : ℕ) : val K.O (x ^ n)
   | succ n ih => rw [pow_succ, val_mul_ne K (pow_ne_zero _ hx) hx, ih]; push_cast; ring
 
 theorem val_isUnit (K : UQ) {u : K.O} (hu : IsUnit u) : val K.O (algebraMap K.O K.E u) = 0 := by
-  obtain ⟨w, rfl⟩ := hu
-  have h1 : (algebraMap K.O K.E (w : K.O)) ≠ 0 := by simp
-  have h2 : (algebraMap K.O K.E ((w⁻¹ : K.Oˣ) : K.O)) ≠ 0 := by simp
-  have h := val_mul_ne K h1 h2
-  rw [← map_mul, Units.mul_inv, map_one] at h
-  have h3 := val_algebraMap_nonneg K (w : K.O)
-  have h4 := val_algebraMap_nonneg K ((w⁻¹ : K.Oˣ) : K.O)
-  have h5 : val K.O (1 : K.E) = 0 := by simp [val]
-  omega
+  apply _root_.GlobalTheory.UnitLemma.Orbit.val_unit <;> assumption
 
 theorem irreducible_of_val_one (K : UQ) {x : K.O} (hx : val K.O (algebraMap K.O K.E x) = 1) :
     Irreducible x := by

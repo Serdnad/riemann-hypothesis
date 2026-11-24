@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsKeyPBOn
 public import Mathlib.AlgebraicGeometry.Morphisms.Flat
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Grp
@@ -331,32 +332,8 @@ theorem exists_keyPB_on {R R' : Type} [CommRing R] [CommRing R'] (f : R →+* R'
     (φ : Q.A.left ⟶ x.P.A.left) (h : IsGrpPullback Q.A x.P.A (spMap f) φ) (hL : LBIso Q.L (x.P.L.pull φ))
     (hgg : Q.g = x.P.g) (hg : 1 ≤ Q.g) :
     ∃ rig hr th hth v hv, KeyPB ⟨Q, hg, rig, hr, th, hth, v, hv⟩ x f := by
-  obtain ⟨w, hw⟩ := hL
-  have hw' := (isGen_iff _).1 hw
-  have he : eSec Q.A ≫ φ = spMap f ≫ eSec x.P.A := PolBaseChange.eSec_comm h
-  obtain ⟨rig, hr, hm⟩ := H1.exists_gen_move x.P.isLB Q.isLB w hw' (K := PUnit) (fun _ => eSec x.P.A) (fun _ => eSec Q.A)
-    (fun _ => 1) (spMap f) (fun _ => he) x.rig x.rig_gen
-  obtain ⟨th, e'⟩ := sec_pull_down hw' x.P.isLB Q.isLB x.th
-  have c₁ : IsCommMonObj x.P.A := x.P.isAb.comm
-  have c₂ : IsCommMonObj Q.A := Q.isAb.comm
-  obtain ⟨u, hu, huv⟩ := exists_isLieBasis_baseChange R R' f x.P.A Q.A φ h x.P.isAb.smooth x.P.g x.v x.basis
-  have hb : ∀ {n : ℕ} (e : n = x.P.g), IsLieBasis fun i : Fin n => u (i.cast e) := fun e => by
-    subst e
-    exact hu
-  refine ⟨rig, hr, th, fun s => ?_, _, hb hgg, φ, he, w, hgg, Chart.dualMapR f, h, hw,
-    (maps_iff w _ (fun _ => eSec x.P.A) _ rig x.rig (spMap f) _ (rigPull_le φ (spMap f) he x.P.L) (fun _ => rfl)).2 hm,
-    appLE_eq_of_stalk _ x.th th (e' _ (𝟙 _)), fun a => ?_, ?_, fun i => huv _⟩
-  · obtain ⟨z, hz, hz'⟩ := x.th_ne (spMap f s)
-    obtain ⟨y, rfl, hy⟩ := Scheme.exists_preimage_of_isPullback h.1 z s hz
-    obtain ⟨k, hk, u⟩ := (mem_nonzeroLocus _ _).1 hz'
-    obtain ⟨l, hl⟩ := exists_chart Q.isLB y
-    refine ⟨y, hy, (mem_nonzeroLocus _ _).2 ⟨l, hl, ?_⟩⟩
-    have u₁ : IsUnit (gs φ y _ (x.th.f k)) := by rw [gs_stalkMap φ y _ hk]; exact u.map _
-    have e := e' _ (𝟙 _) y k l hk hl
-    rw [Category.id_comp] at e
-    exact isUnit_of_mul_isUnit_right (e ▸ u₁)
-  · ext <;> simp [Chart.dualMapR, TrivSqZeroExt.algebraMap_eq_inl]
-  · ext <;> simp [Chart.dualMapR]
+  intros
+  apply _root_.GlobalTheory.KeyTf.exists_keyPB_on <;> assumption
 
 theorem exists_keyPB_rescale {R R' : Type} [CommRing R] [CommRing R'] (f : R →+* R') (x : KeyIn R) (Q : Out.PolAV (Sp R'))
     (hg rig hr th hth v hv th' hth' v' hv') (H : KeyPB ⟨Q, hg, rig, hr, th, hth, v, hv⟩ x f) (a : R) (ha : IsUnit a)

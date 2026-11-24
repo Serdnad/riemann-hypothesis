@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LatticeBasics.UnfoldB
 public import Development.WeilBound.ThetaLifts.SmallCones.ThetaUniq
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.Unimod
 public import Development.WeilBound.ThetaLifts.EigenvalueEndgame.UnipotentGroups.ContinuousExpG
@@ -65,23 +66,8 @@ theorem sig_val {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} {A : Matrix (Fin 
   simp [Matrix.fromBlocks_mulVec, dotProduct, Matrix.neg_mulVec, Complex.mul_conj, sub_eq_add_neg]
 
 theorem aniso {n r s : ℕ} {M : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) (h0 : min r s = 0) {x : Fin n → ℂ}
-    (hx : x ⬝ᵥ M *ᵥ star x = 0) : x = 0 := by
-  obtain ⟨hn, A, hA⟩ := h
-  obtain ⟨A', -, h1⟩ := PositivityTheory.ThKG.Tow.Pln.frame_inv hn hA
-  have e : x = A *ᵥ (A' *ᵥ x) := by rw [Matrix.mulVec_mulVec, h1, Matrix.one_mulVec]
-  generalize A' *ᵥ x = u at e
-  rw [e, sig_val hA, Complex.ofReal_eq_zero] at hx
-  have : u = 0 := by
-    rcases Nat.min_eq_zero_iff.1 h0 with rfl | rfl
-    · simp only [Finset.univ_eq_empty, Finset.sum_empty, zero_sub, neg_eq_zero] at hx
-      ext (i | i)
-      · exact i.elim0
-      · exact Complex.normSq_eq_zero.1 ((Finset.sum_eq_zero_iff_of_nonneg fun i _ => Complex.normSq_nonneg _).1 hx i (Finset.mem_univ _))
-    · simp only [Finset.univ_eq_empty, Finset.sum_empty, sub_zero] at hx
-      ext (i | i)
-      · exact Complex.normSq_eq_zero.1 ((Finset.sum_eq_zero_iff_of_nonneg fun i _ => Complex.normSq_nonneg _).1 hx i (Finset.mem_univ _))
-      · exact i.elim0
-  rw [e, this, Matrix.mulVec_zero]
+    (hx : x ⬝ᵥ M *ᵥ star x = 0) : x = 0 :=
+  _root_.GlobalTheory.ThK.Dbl.HasSig.aniso h h0 hx
 
 theorem witt_of : Witt := by
   intro F E _ _ _ _ _ σ B n X r s hB hX

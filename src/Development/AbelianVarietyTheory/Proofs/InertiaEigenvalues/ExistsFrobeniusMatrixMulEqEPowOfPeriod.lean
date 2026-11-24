@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AssociatedRootSubOnePow
 
 @[expose] public section
 
@@ -69,14 +70,7 @@ theorem dvd_of_dvd_prime_pow_mul {R : Type} [CommRing R] [IsDomain R] {p a b : R
 
 theorem C_dvd_iff {R : Type} [CommRing R] (p : R) (f : R⟦X⟧) :
     C p ∣ f ↔ ∀ n, p ∣ coeff n f := by
-  constructor
-  · rintro ⟨g, rfl⟩ n
-    rw [coeff_C_mul]; exact dvd_mul_right _ _
-  · intro h
-    refine ⟨mk fun n => (h n).choose, ?_⟩
-    ext n
-    rw [coeff_C_mul, coeff_mk]
-    exact (h n).choose_spec
+  apply _root_.GlobalTheory.NB.LT.EEBasic.C_dvd_iff <;> assumption
 
 theorem prime_C {R : Type} [CommRing R] [IsDomain R] {p : R} (hp : Prime p) : Prime (C p : R⟦X⟧) := by
   haveI : (Ideal.span {p}).IsPrime := (Ideal.span_singleton_prime hp.ne_zero).2 hp

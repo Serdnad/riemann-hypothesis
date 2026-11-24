@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LaurentKummerCupProductBijectiveStrictlyHenseliaStatement
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.NonemptyCyclotomicPrimitiveRootsOfStrictlyHenselStatement
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.MapZeroS
 public import Development.AutomorphicArithmetic.CupPullbacks.ConstCompSingle
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
@@ -588,36 +590,8 @@ open CategoryTheory Limits AlgebraicGeometry Opposite CochainComplex CochainComp
 
 theorem UpperTheory.nonempty_primitive_root_of_strictly_henselian :
     ∀ (q : ℕ) [NeZero q] (O : Type) [CommRing O], SH O → IsUnit (q : O) → Nonempty (Prim q O) := by
-  intro q _ O _ hO hq
-  obtain ⟨hH, hsep⟩ := hO
-  have key : ∀ (p : Polynomial O) (x : O), IsLocalRing.residue O (p.eval x) =
-      (p.map (IsLocalRing.residue O)).eval (IsLocalRing.residue O x) := by
-    intro p x
-    rw [Polynomial.eval_map, Polynomial.eval₂_hom]
-  have hqk : ((q : ℕ) : IsLocalRing.ResidueField O) ≠ 0 := by
-    have := (IsLocalRing.residue_ne_zero_iff_isUnit (q : O)).2 hq
-    simpa using this
-  haveI : NeZero ((q : ℕ) : IsLocalRing.ResidueField O) := ⟨hqk⟩
-  have hdeg : (Polynomial.cyclotomic q (IsLocalRing.ResidueField O)).degree ≠ 0 := by
-    rw [Polynomial.degree_cyclotomic]
-    exact_mod_cast (Nat.totient_pos.2 (Nat.pos_of_ne_zero (NeZero.ne q))).ne'
-  obtain ⟨r, hr⟩ := IsSepClosed.exists_root _ hdeg
-    (Polynomial.separable_cyclotomic q (IsLocalRing.ResidueField O))
-  obtain ⟨a₀, rfl⟩ := IsLocalRing.residue_surjective r
-  have h1 : (Polynomial.cyclotomic q O).eval a₀ ∈ IsLocalRing.maximalIdeal O := by
-    rw [← IsLocalRing.residue_eq_zero_iff, key, Polynomial.map_cyclotomic]
-    exact hr
-  have h2 : IsUnit ((Polynomial.derivative (Polynomial.cyclotomic q O)).eval a₀) := by
-    rw [← IsLocalRing.residue_ne_zero_iff_isUnit, key, ← Polynomial.derivative_map,
-      Polynomial.map_cyclotomic]
-    have h0 := (Polynomial.separable_cyclotomic q (IsLocalRing.ResidueField O)).aeval_derivative_ne_zero
-      (x := IsLocalRing.residue O a₀) (by simpa [Polynomial.coe_aeval_eq_eval] using hr)
-    simpa [Polynomial.coe_aeval_eq_eval] using h0
-  obtain ⟨a, ha, -⟩ := HenselianLocalRing.is_henselian (Polynomial.cyclotomic q O)
-    (Polynomial.cyclotomic.monic q O) a₀ h1 h2
-  refine ⟨⟨a, hq, ?_⟩⟩
-  rw [Polynomial.aeval_def, Polynomial.eval₂_eq_eval_map, Polynomial.map_cyclotomic]
-  exact ha
+ intros
+ apply @_root_.GlobalTheory.EtC.prim_of_strictlyHenselian <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.CommutativeAlgebra.NonemptyPrimitiveRootOfStrictlyHenselian =====
@@ -937,17 +911,8 @@ private theorem tU_zpow (n : ℤ) : (((tU S) ^ n : (LaurentPolynomial S)ˣ) : La
 private theorem lp_hom_ext {R : Type} [CommRing R] {f g : LaurentPolynomial S →+* R}
     (h1 : f.comp LaurentPolynomial.C = g.comp LaurentPolynomial.C)
     (h2 : f (LaurentPolynomial.T 1) = g (LaurentPolynomial.T 1)) : f = g := by
-  have hu : Units.map f.toMonoidHom (tU S) = Units.map g.toMonoidHom (tU S) := Units.ext h2
-  have hT : ∀ n : ℤ, f (LaurentPolynomial.T n) = g (LaurentPolynomial.T n) := by
-    intro n
-    rw [← tU_zpow n]
-    have h : Units.map f.toMonoidHom (tU S ^ n) = Units.map g.toMonoidHom (tU S ^ n) := by
-      rw [map_zpow, map_zpow, hu]
-    exact congrArg (fun v : Rˣ => (v : R)) h
-  refine RingHom.ext fun p => ?_
-  induction p using LaurentPolynomial.induction_on' with
-  | add p q hp hq => rw [map_add (f := _), map_add (f := _), hp, hq]
-  | C_mul_T n a => rw [map_mul, map_mul, hT n]; exact congrArg (· * _) (RingHom.congr_fun h1 a)
+  intros
+  apply _root_.GlobalTheory.EtC.MultiplicativeGroupGlobalSections.laurent_ringHom_ext <;> assumption
 
 private noncomputable def lam (q : ℕ) (hq : IsUnit (q : S)) : Localization.Away (q : ℤ) →+* S :=
   IsLocalization.Away.lift (q : ℤ) (g := Int.castRingHom S) (by simpa using hq)

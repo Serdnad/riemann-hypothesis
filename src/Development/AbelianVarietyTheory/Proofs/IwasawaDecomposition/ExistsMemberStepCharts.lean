@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.InclMulInvMul
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryDiagonalBasePointLevelPrime
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SetStab
@@ -55,7 +57,6 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsUnitaryDiagonalBasePointLevelPrimeStatement, Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsMemberStepCharts
 
@@ -566,18 +567,7 @@ theorem chr_congr (hPr : (B.primes X).Ok) (hI : I.Ok) {u : B.Word} {i : ℕ} (c 
 
 theorem mem_baseLb (hPr : (B.primes X).Ok) (u : B.Word) (n : ℕ) [NeZero n] (x : Fin n → B.host.E) :
     x ∈ baseLb B.fields.E n ((B.primes X).vT u) ↔ x ∈ baseL B n (X.piT u) := by
-  have hB := basePi_of_ok (GlobalTheory.Mem.FieldsLaws.fields_ok B) hPr u
-  have hn := NeZero.ne n
-  rw [rlc_mem_baseLb]
-  constructor
-  · rintro ⟨r, h1, h2⟩ j
-    refine ⟨r j, (h1 j).symm, fun hj => ?_⟩
-    have e : j = lastIdx n := Fin.ext (by simp only [lastIdx]; omega)
-    rw [e]
-    exact (hB.dvd _).1 h2
-  · intro h
-    choose r h1 h2 using h
-    exact ⟨r, fun j => (h1 j).symm, (hB.dvd _).2 (h2 _ (by simp only [lastIdx]; omega))⟩
+  first | exact _root_.GlobalTheory.Mem.Col2.Reside.mem_baseLb | exact @_root_.GlobalTheory.Mem.Col2.Reside.mem_baseLb | apply _root_.GlobalTheory.Mem.Col2.Reside.mem_baseLb <;> assumption
 
 
 

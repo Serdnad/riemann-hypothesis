@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TraitInverseExpansionEquivariantLabelsStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.PAdicWittLattices.TransCancel
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.AbelianSchemeLawsWithoutCohomology
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PrincipalSiegelObjectOddLevelRigid
@@ -66,21 +67,9 @@ section
 variable {G : GDatum} {R : Type} [CommRing R] [Algebra ℚ R] {gb : GBase G R} {N : ℕ} {S S' : Scheme.{0}}
   {s : S ⟶ Sp R} {s' : S' ⟶ Sp R} {o : GObj gb N s} {o' : GObj gb N s'} {f : S' ⟶ S}
 
-private theorem tensor_left_hom_ext_of_fst_snd {S : Scheme.{0}} {X Y : Over S} {W : Scheme.{0}} {u v : W ⟶ (X ⊗ Y).left}
-    (h₁ : u ≫ (fst X Y).left = v ≫ (fst X Y).left) (h₂ : u ≫ (snd X Y).left = v ≫ (snd X Y).left) : u = v := by
-  have hw : u ≫ (X ⊗ Y).hom = v ≫ (X ⊗ Y).hom := by
-    rw [← Over.w (fst X Y), ← Category.assoc, h₁, Category.assoc]
-  let U : Over.mk (u ≫ (X ⊗ Y).hom) ⟶ X ⊗ Y := Over.homMk u
-  let V : Over.mk (u ≫ (X ⊗ Y).hom) ⟶ X ⊗ Y := Over.homMk v hw.symm
-  have hUV : U = V := by
-    apply CartesianMonoidalCategory.hom_ext
-    · exact Over.OverMorphism.ext (by simpa [U, V] using h₁)
-    · exact Over.OverMorphism.ext (by simpa [U, V] using h₂)
-  exact congrArg CommaMorphism.left hUV
-
 private theorem map_diag (m : GObjMap o' o f) :
     (lift (𝟙 o'.A) (𝟙 o'.A)).left ≫ m.φ₂ = m.φ ≫ (lift (𝟙 o.A) (𝟙 o.A)).left := by
-  apply tensor_left_hom_ext_of_fst_snd
+  apply _root_.GlobalTheory.Mum.tensorLeft_hom_ext
   · have key : (lift (𝟙 o'.A) (𝟙 o'.A)).left ≫ (fst o'.A o'.A).left ≫ m.φ = m.φ := by
       rw [← Category.assoc, diag_fst, Category.id_comp]
     rw [Category.assoc, m.sq.1, key, Category.assoc, diag_fst, Category.comp_id]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PadicCoeffDenominatorBoundOfBoundedRootsStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.PFrameEx
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -63,21 +64,7 @@ private def unitBall (p : ℕ) [Fact p.Prime] : Subring (PadicAlgCl p) where
 
 private theorem den_of_norm {p : ℕ} [hp : Fact p.Prime] (q : ℚ) (h : ‖(q : ℚ_[p])‖ ≤ 1) :
     ¬ p ∣ q.den := by
-  intro hd
-  have hnum : ¬ (p : ℤ) ∣ q.num := by
-    intro hn
-    have h1 : p ∣ q.num.natAbs := Int.natCast_dvd.mp hn
-    have h2 := Nat.dvd_gcd h1 hd
-    rw [Nat.Coprime.gcd_eq_one q.reduced] at h2
-    exact hp.out.one_lt.ne' (Nat.dvd_one.mp h2)
-  have hn1 : ‖(q.num : ℚ_[p])‖ = 1 :=
-    le_antisymm (Padic.norm_int_le_one _)
-      (not_lt.mp fun hlt => hnum (Padic.norm_intCast_lt_one_iff.mp hlt))
-  have hd1 : ‖(q.den : ℚ_[p])‖ < 1 := Padic.norm_natCast_lt_one_iff.mpr hd
-  have heq : (q : ℚ_[p]) * q.den = q.num := by exact_mod_cast Rat.mul_den_eq_num q
-  have hn := congrArg norm heq
-  rw [norm_mul, hn1] at hn
-  nlinarith [norm_nonneg (q.den : ℚ_[p]), norm_nonneg (q : ℚ_[p])]
+  apply _root_.GlobalTheory.not_dvd_den_of_padic_norm_le_one <;> assumption
 
 private theorem coeff_den {p : ℕ} [Fact p.Prime] {F : Type} [Field F] [NumberField F] (x : F)
     (h : ∀ τ : F →+* PadicAlgCl p, ‖τ x‖ ≤ 1) (i : ℕ) : ¬ p ∣ ((minpoly ℚ x).coeff i).den := by

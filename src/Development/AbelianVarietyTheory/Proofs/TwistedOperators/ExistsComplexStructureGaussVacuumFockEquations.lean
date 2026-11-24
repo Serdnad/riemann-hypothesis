@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockVacuumEquationsInArchimedeanDarbouxCoordinat
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FockPolynomialSpaceEqFockImageOfArchLaws
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.PairInfApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LinHasTemperateGrowth
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsArchimedeanAdeleCMPrescribedEmbeddingValue
@@ -179,28 +181,13 @@ section Places
 theorem exists_mat_at (hcm : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, GlobalTheory.AdelicU.EmbOver E w)
     {m k : Type} (z : InfinitePlace F → Matrix m k ℂ) :
     ∃ u : Matrix m k (AE F E), At (evI F) u ∧ ∀ w, u.map (piInf (τ w)) = z w := by
-  have hex : ∀ i j, ∃ a, At (evI F) a ∧ ∀ w, piInf (τ w) a = z w i j :=
-    fun i j => GlobalTheory.PolRangeInf.exists_at_inf_values hcm τ (fun w => z w i j)
-  choose a ha using hex
-  refine ⟨Matrix.of a, fun x hx => ?_, fun w => ?_⟩
-  · ext i j
-    simp only [Matrix.smul_apply, Matrix.of_apply, Matrix.zero_apply]
-    exact (ha i j).1 x hx
-  · ext i j
-    simp [(ha i j).2 w]
+  apply _root_.GlobalTheory.RealLift.PolRangePf.exists_mat_at <;> assumption
 
 theorem eq_of_map_piInf (hcm : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, GlobalTheory.AdelicU.EmbOver E w) {m k : Type}
     {u v : Matrix m k (AE F E)} (hu : At (evI F) u) (hv : At (evI F) v)
     (h : ∀ w, u.map (piInf (τ w)) = v.map (piInf (τ w))) : u = v := by
-  ext i j
-  refine sub_eq_zero.1 (GlobalTheory.RealLift.KLineProof.eq_zero_of_piInf hcm τ (u i j - v i j) (fun c hc => ?_) fun w => ?_)
-  · have h1 := congrFun (congrFun (hu c hc) i) j
-    have h2 := congrFun (congrFun (hv c hc) i) j
-    simp only [Matrix.smul_apply, Matrix.zero_apply] at h1 h2
-    rw [smul_sub, h1, h2, sub_zero]
-  · have := congrFun (congrFun (h w) i) j
-    simp only [Matrix.map_apply] at this
-    rw [map_sub, this, sub_self]
+  intros
+  apply _root_.GlobalTheory.VacBridge.eq_of_at_map <;> assumption
 
 theorem map_smul_piInf {w : InfinitePlace F} (τ : GlobalTheory.AdelicU.EmbOver E w) {m k : Type} (c : AF F) (u : Matrix m k (AE F E)) :
     (c • u).map (piInf τ) = piInf τ (algebraMap (AF F) (AE F E) c) • u.map (piInf τ) := by

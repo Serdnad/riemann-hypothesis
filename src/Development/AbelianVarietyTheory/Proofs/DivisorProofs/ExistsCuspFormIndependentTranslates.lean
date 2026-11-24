@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLevelBlockOfEq
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemSpanThetaSeriesOfBoundedHolomorphicStatement
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.PoincarePointwiseStatement
 public import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.TwoLevelLogarithm
 public import Development.AbelianVarietyTheory.BlockTheory.PoincareCuspForms.SmallUnipotentElements
 public import Development.AbelianVarietyTheory.Definitions.UpperBounds.FreeBallIffOfDimXEqZero
@@ -202,70 +205,11 @@ theorem chi_one (X : Data E r) (la : Wt X.Ψ r) : X.χ la 1 = 1 := by
 theorem hermC_mulVec (τ : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E) (P : Matrix (Fin r) (Fin r) ℂ)
     (v w : Fin r → ℂ) :
     hermC τ G (P.mulVec v) (P.mulVec w) = ∑ k, ∑ l, v k * gram τ G P k l * conj (w l) := by
-  have sw : ∀ f : Fin r → Fin r → Fin r → Fin r → ℂ,
-      ∑ a, ∑ b, ∑ k, ∑ l, f a b k l = ∑ k, ∑ l, ∑ a, ∑ b, f a b k l := by
-    intro f
-    calc ∑ a, ∑ b, ∑ k, ∑ l, f a b k l = ∑ a, ∑ k, ∑ b, ∑ l, f a b k l :=
-          Finset.sum_congr rfl fun a _ => Finset.sum_comm
-      _ = ∑ k, ∑ a, ∑ b, ∑ l, f a b k l := Finset.sum_comm
-      _ = ∑ k, ∑ a, ∑ l, ∑ b, f a b k l :=
-          Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun a _ => Finset.sum_comm
-      _ = ∑ k, ∑ l, ∑ a, ∑ b, f a b k l := Finset.sum_congr rfl fun k _ => Finset.sum_comm
-  simp only [hermC, gram, col, Matrix.of_apply, Matrix.mulVec, dotProduct]
-  calc _ = ∑ a, ∑ b, ∑ k, ∑ l, P a k * v k * τ (G a b) * conj (P b l * w l) := by
-
-        simp only [map_sum, Finset.sum_mul, Finset.mul_sum]
-        exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => Finset.sum_comm
-    _ = ∑ k, ∑ l, ∑ a, ∑ b, P a k * v k * τ (G a b) * conj (P b l * w l) := sw _
-    _ = _ := by
-        simp only [Finset.sum_mul, Finset.mul_sum]
-        refine Finset.sum_congr rfl fun k _ => Finset.sum_congr rfl fun l _ =>
-          Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-        rw [map_mul]; ring
+  intros
+  apply _root_.GlobalTheory.FrameDecomp.hermC_mulVec <;> assumption
 
 theorem not_iso (X : Data E r) (hp : X.p0 = 0 ∨ X.p0 = r) (ξ : Fin r → E) : ¬ X.IsIso ξ := by
-  rintro ⟨-, h0, hne⟩
-  obtain ⟨τ, hτ⟩ : ∃ τ : E →+* ℂ, τ ∈ X.Ψ := by
-    let τ0 : E →+* ℂ := (IsAlgClosed.lift : E →ₐ[ℚ] ℂ).toRingHom
-    by_cases h : τ0 ∈ X.Ψ
-    · exact ⟨τ0, h⟩
-    · refine ⟨ComplexEmbedding.conjugate τ0, (X.cmType _).2 ?_⟩
-      simpa using h
-  obtain ⟨P, hP, hg⟩ := X.signature ⟨τ, hτ⟩
-  set u : Fin r → ℂ := fun a => τ (ξ a) with hu_def
-  have hu : hermC τ X.Gm u u = 0 := by
-    have := congrArg τ h0
-
-    simp only [herm, cc, map_sum, map_mul, map_zero, IsCMField.complexEmbedding_complexConj] at this
-    simpa [hermC, u] using this
-  obtain ⟨e, he, hsg⟩ : ∃ e : ℂ, e ≠ 0 ∧ ∀ a : Fin r, ((sgn X.p0 (a : ℕ) : ℝ) : ℂ) = e := by
-    rcases hp with h | h
-    · exact ⟨-1, by norm_num, fun a => by simp [sgn, h]⟩
-    · exact ⟨1, one_ne_zero, fun a => by simp [sgn, h, a.isLt]⟩
-  set v := P⁻¹.mulVec u with hv_def
-  have hPv : P.mulVec v = u := by
-    rw [hv_def, Matrix.mulVec_mulVec, Matrix.mul_nonsing_inv _ (isUnit_iff_ne_zero.mpr hP), Matrix.one_mulVec]
-  have hsum : hermC τ X.Gm u u = e * ∑ a, v a * conj (v a) := by
-    rw [← hPv, hermC_mulVec, hg]
-    simp only [Matrix.diagonal_apply, hsg, mul_ite, ite_mul, mul_zero, zero_mul, Finset.sum_ite_eq,
-      Finset.mem_univ, if_true, Finset.mul_sum]
-    refine Finset.sum_congr rfl fun k _ => ?_
-    ring
-  have hv : v = 0 := by
-    have h1 : ∑ a, (Complex.normSq (v a) : ℂ) = 0 := by
-      have := hsum.symm.trans hu
-      rcases mul_eq_zero.mp this with h | h
-      · exact absurd h he
-      · simpa [Complex.mul_conj] using h
-    have h2 : ∑ a, Complex.normSq (v a) = 0 := by exact_mod_cast h1
-    rw [Finset.sum_eq_zero_iff_of_nonneg (fun a _ => Complex.normSq_nonneg _)] at h2
-    funext a
-    simpa using h2 a (Finset.mem_univ _)
-  have hu0 : u = 0 := by rw [← hPv, hv, Matrix.mulVec_zero]
-  apply hne
-  funext a
-  have := congrFun hu0 a
-  simpa [u] using this
+  apply _root_.GlobalTheory.PoincareSeriesCompare.not_isIso_of_definite <;> assumption
 
 theorem detPow_mem_SS (X : Data E r) (hΓ : ∀ γ ∈ X.Γ, γ = 1) (hdef : ∀ ξ, ¬ X.IsIso ξ) (la : Wt X.Ψ r)
     (a : ℤ) (hla : ∀ τ i, la τ i = a) : detPow X.Ψ a ∈ X.SS la := by
@@ -1005,18 +949,8 @@ theorem lactGG {Ψ : Finset (E →+* ℂ)} {G : Matrix (Fin r) (Fin r) E} {p0 : 
     (h : ∀ v w, herm G (Matrix.mulVec (γ : Matrix (Fin r) (Fin r) E) v)
       (Matrix.mulVec (γ : Matrix (Fin r) (Fin r) E) w) = herm G v w)
     {x : Frame Ψ r} (hx : x ∈ GG Ψ G p0) : lact γ x ∈ GG Ψ G p0 := by
-  intro τ
-  have hm : mat (lact γ x) τ = (γ : Matrix (Fin r) (Fin r) E).map τ.1 * mat x τ := rfl
-  refine ⟨?_, fun i => ?_⟩
-  · rw [hm, Matrix.det_mul]
-    refine mul_ne_zero ?_ (hx τ).1
-    have hd : ((γ : Matrix (Fin r) (Fin r) E).map τ.1).det = τ.1 (γ : Matrix (Fin r) (Fin r) E).det := by
-      rw [RingHom.map_det]; rfl
-    rw [hd]
-    exact (map_ne_zero τ.1).2 (Matrix.GeneralLinearGroup.det_ne_zero γ)
-  · have e : dmin G (lact γ x) τ i = dmin G x τ i := by
-      unfold dmin; rw [hm, gramLact h]
-    rw [e]; exact (hx τ).2 i
+  intros
+  apply _root_.GlobalTheory.FrameFibre.lact_mem_GG <;> assumption
 
 theorem lactMul {Ψ : Finset (E →+* ℂ)} (a b : GL (Fin r) E) (x : Frame Ψ r) :
     lact a (lact b x) = lact (a * b) x := by

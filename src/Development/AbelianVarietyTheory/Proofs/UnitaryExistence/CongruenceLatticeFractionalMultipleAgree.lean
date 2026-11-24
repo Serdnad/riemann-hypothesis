@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsLatticeRationalVectorsInAdelicTranslate
+import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.TwistCoverDesign
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsRationalUnitarySplitDenominator
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.Hat1
 import Mathlib.Algebra.Order.Floor.Extended
@@ -85,31 +88,13 @@ omit [NumberField E] in
 theorem hat_smul_int (L : Submodule (𝓞 E) (Fin n → E)) (b : 𝓞 E) {z : Fin n → RA F E}
     (hz : z ∈ hat F (L : Set (Fin n → E))) :
     ((1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ[F] (b : E) : RA F E) • z ∈ hat F (L : Set (Fin n → E)) := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, ha, x, hx, rfl⟩ := hz
-    refine AddSubgroup.subset_closure ⟨a, ha, b • x, L.smul_mem b hx, ?_⟩
-    funext i
-    change ((1 : FiniteAdeleRing (𝓞 F) F) ⊗ₜ[F] (b : E) : RA F E) * a ⊗ₜ x i = a ⊗ₜ ((b : E) * x i)
-    rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.UnRep.LatForm.smul_mem_hat | exact @_root_.GlobalTheory.UnRep.LatForm.smul_mem_hat | apply _root_.GlobalTheory.UnRep.LatForm.smul_mem_hat <;> assumption
 
 omit [NumberField E] in
 theorem hat_smul_adele (L : Set (Fin n → E)) (c : FiniteAdeleRing (𝓞 F) F)
     (hc : ∀ v, c v ∈ v.adicCompletionIntegers F) {z : Fin n → RA F E} (hz : z ∈ hat F L) :
     (c ⊗ₜ[F] (1 : E) : RA F E) • z ∈ hat F L := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem z hz =>
-    obtain ⟨a, ha, x, hx, rfl⟩ := hz
-    refine AddSubgroup.subset_closure ⟨c * a, fun v => mul_mem (hc v) (ha v), x, hx, ?_⟩
-    funext i
-    change (c ⊗ₜ[F] (1 : E) : RA F E) * a ⊗ₜ x i = (c * a) ⊗ₜ x i
-    rw [Algebra.TensorProduct.tmul_mul_tmul, one_mul]
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [smul_add]; exact add_mem hx hy
-  | neg x _ hx => rw [smul_neg]; exact neg_mem hx
+  first | exact _root_.GlobalTheory.AdLat.Translate.hat_smul_int | exact @_root_.GlobalTheory.AdLat.Translate.hat_smul_int | apply _root_.GlobalTheory.AdLat.Translate.hat_smul_int <;> assumption
 
 theorem inv_smul_mulHat (L : Submodule (𝓞 E) (Fin n → E)) {A : FractionalIdeal (𝓞 E)⁰ E} (hA : A ≠ 0)
     {a' : E} (ha' : a' ∈ A⁻¹) {w : Fin n → RA F E} (hw : w ∈ mulHat A (hat F (L : Set (Fin n → E)))) :
@@ -249,15 +234,7 @@ theorem cong_iff (L : Submodule (𝓞 E) (Fin n → E)) {A : FractionalIdeal (�
 end General
 
 theorem host_AA_ne_zero (D : D7) : D.host.AA ≠ 0 := by
-  refine mul_ne_zero ?_ (inv_ne_zero ?_)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    exact D.host.ccK_ne_bot ((Ideal.map_eq_bot_iff_of_injective (RingOfIntegers.algebraMap.injective _ _)).1 h)
-  · rw [FractionalIdeal.coeIdeal_ne_zero]
-    intro h
-    have h1 := D.host.𝔟_spec.1
-    rw [h, Ideal.bot_mul] at h1
-    exact differentIdeal_ne_bot h1
+  first | exact _root_.GlobalTheory.IndefiniteRowSideFullHecke.TwistCoverDesign.AA_ne_zero | exact @_root_.GlobalTheory.IndefiniteRowSideFullHecke.TwistCoverDesign.AA_ne_zero | apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.TwistCoverDesign.AA_ne_zero <;> assumption
 
 theorem latHat_eq (D : D7) (V : HSp D) :
     latHat V = hat D.host.F (latC V : Set (Fin V.rank → D.host.E)) := by

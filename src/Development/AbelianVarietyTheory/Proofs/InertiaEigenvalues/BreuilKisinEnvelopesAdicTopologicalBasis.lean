@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.TopologicalBasisBasicFacts
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemBallOfGaugeLt
 public import Mathlib.RingTheory.Ideal.BigOperators
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsStratHom
@@ -65,17 +66,8 @@ namespace GlobalTheory.BSP
 
 theorem TopBasis.coeff_mem_of_mem_map {S A : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S}
     {ι : Type} (TB : TopBasis s I ι) (i : ι) (J : Ideal S) {y : A} (hy : y ∈ J.map s) : TB.c i y ∈ J := by
-  have key : ∀ a, TB.c i (a * y) ∈ J := by
-    induction hy using Submodule.span_induction with
-    | mem z hz =>
-      obtain ⟨w, hw, rfl⟩ := hz
-      intro a
-      rw [mul_comm, TB.c_mul]
-      exact J.mul_mem_right _ hw
-    | zero => intro a; rw [mul_zero, map_zero]; exact J.zero_mem
-    | add y z _ _ hy hz => intro a; rw [mul_add, map_add (f := _)]; exact J.add_mem (hy a) (hz a)
-    | smul b y _ hy => intro a; rw [smul_eq_mul, ← mul_assoc]; exact hy (a * b)
-  simpa using key 1
+  intros
+  apply _root_.GlobalTheory.BSP.TopBasis.c_mem_of_mem_map <;> assumption
 
 def TopBasis.comp {S A : Type} [CommRing S] [CommRing A] {s : S →+* A} {I : Ideal S} {ι : Type}
     (TB : TopBasis s I ι) {A' : Type} [CommRing A'] {t : A →+* A'} {κ : Type}

@@ -345,6 +345,7 @@ import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSupBoundBlock
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PTwoBlockFnField
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PUniformBergmanBound
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterFib
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.LeadingCoeffNonnegOfEventuallyEvalNat
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PTubeCollarMass, GroundTheory.HeightsAndTheta.Heights.ElementarySymmetric.PZCombLimit, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.LerpSelfZero, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockGraphImage, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockResolutionFormsIndependent, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PGeneratedProductNonneg, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPointHeightFS, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPolyNonnegAtZero, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PPolySandwich, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameFibreDeg, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameGenPtTransc, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PProjFrameImage, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PResolutionFormsIndependent, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSegrePrime, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PShiftIntersectionPolynomial, GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsBisBis, GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsLast, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AssemblyBase
@@ -875,18 +876,7 @@ open Polynomial Filter
 
 theorem PolySandwich.leadingCoeff_nonneg_of_eventually (f : ℚ[X])
     (hf : ∀ᶠ n : ℕ in atTop, 0 ≤ f.eval (n : ℚ)) : 0 ≤ f.leadingCoeff := by
-  by_contra h
-  push Not at h
-  rcases Nat.eq_zero_or_pos f.natDegree with h0 | hpos
-  · obtain ⟨n, hn⟩ := hf.exists
-    rw [eq_C_of_natDegree_eq_zero h0, eval_C] at hn
-    have : f.leadingCoeff = f.coeff 0 := by rw [leadingCoeff, h0]
-    linarith
-  · have hdeg : 0 < f.degree := natDegree_pos_iff_degree_pos.mp hpos
-    have ht := (f.tendsto_atBot_of_leadingCoeff_nonpos hdeg h.le).comp tendsto_natCast_atTop_atTop
-    obtain ⟨n, hn1, hn2⟩ := (hf.and (ht.eventually (eventually_lt_atBot 0))).exists
-    simp only [Function.comp] at hn2
-    linarith
+  apply _root_.GlobalTheory.leadingCoeff_nonneg_of_eventually_eval_nat <;> assumption
 
 theorem PolySandwich.coeff_nonneg_of_eventually (f : ℚ[X]) (E : ℕ) (hE : f.natDegree ≤ E)
     (hf : ∀ᶠ n : ℕ in atTop, 0 ≤ f.eval (n : ℚ)) : 0 ≤ f.coeff E := by

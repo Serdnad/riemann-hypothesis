@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InertPrimeOrderParitySignRadicalIntegralForm
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IntegralDensEqZero
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.DetIdNormOneMul
@@ -53,33 +54,7 @@ open NumberField IsDedekindDomain Formalism.BasicNotions Formalism.HermitianLatt
 namespace GlobalTheory.ThetaMove.Moved
 
 theorem sd_stdL (D : D7) (N : ℕ) : StandardLatticesGL3.SD D (StandardLatticesGL3.stdL D N) := by
-  letI := D.host.cmStar
-  have hr : ∀ x : D.host.E, x ∈ (algebraMap (𝓞 D.host.E) D.host.E).range ↔ IsIntegral ℤ x := fun x =>
-    ⟨by rintro ⟨a, rfl⟩; exact a.2, fun h => ⟨⟨x, h⟩, rfl⟩⟩
-  have hm : ∀ x : Fin N → D.host.E, x ∈ StandardLatticesGL3.stdL D N ↔ ∀ k, IsIntegral ℤ (x k) := fun x => by
-    simp only [StandardLatticesGL3.stdL, Submodule.mem_pi, Set.mem_univ, forall_true_left, Submodule.mem_one]
-    exact forall_congr' fun k => hr (x k)
-  have hs : ∀ k : Fin N, (Pi.single k 1 : Fin N → D.host.E) ∈ StandardLatticesGL3.stdL D N := fun k => by
-    rw [hm]
-    intro j
-    rw [Pi.single_apply]
-    split_ifs
-    · exact isIntegral_one
-    · exact isIntegral_zero
-  refine ⟨Submodule.fg_pi fun _ => ?_, ?_, fun y => ⟨fun hy x hx => ?_, fun h => ?_⟩⟩
-  · rw [Submodule.one_eq_span]; exact Submodule.fg_span_singleton _
-  · rw [eq_top_iff, ← (Pi.basisFun D.host.E (Fin N)).span_eq]
-    refine Submodule.span_mono ?_
-    rintro _ ⟨k, rfl⟩
-    simpa using hs k
-  · rw [hr]
-    rw [hm] at hx hy
-    exact IsIntegral.sum _ fun i _ => ((hx i).map (starRingEnd D.host.E).toIntAlgHom).mul (hy i)
-  · rw [hm]
-    intro k
-    have := h _ (hs k)
-    rw [hr] at this
-    simpa [Formalism.BasicNotions.stdH, Pi.single_apply, apply_ite] using this
+  first | exact _root_.GlobalTheory.ThetaLatIndex.sd_std | exact @_root_.GlobalTheory.ThetaLatIndex.sd_std | apply _root_.GlobalTheory.ThetaLatIndex.sd_std <;> assumption
 
 theorem isHerm_formV (A : ℝ) (n : Type) [Fintype n] (N N' : ℕ) : IsHerm (formV A n N N') := by
   intro x y

@@ -2136,7 +2136,7 @@ theorem bd_letters_card {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₂ K r' : 
     _ ≤ _ := bd_unfold_card F.TT _ _ hGn
     _ ≤ _ := hg.2.2 _ (bd_toNat_lt _)
 
-theorem bd_oldest_far {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₁ L₂ : ℕ) (hr : 1 ≤ r) (hL : L₁ + 1 ≤ L₂)
+theorem bd_oldest_far_of_le {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₁ L₂ : ℕ) (hr : 1 ≤ r) (hL : L₁ ≤ L₂)
     (hI : ∀ y : ℤ, ((Finset.Ico y (y + L₂)).filter fun t => posOf n' t ∈ F.TT).card ≤ r - 1)
     (j x : ℤ) (hE : r ≤ ((F.letters j).filter fun z => Even z ∧ z < x).card) :
     (L₁ : ℤ) < x - F.oldest j x := by
@@ -2163,7 +2163,7 @@ theorem bd_oldest_far {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₁ L₂ : �
       unfold Frames.letters at hmem
       simp only [Finset.mem_filter, Finset.mem_Icc] at hmem
       simp only [Finset.coe_filter, Finset.mem_Ico, Set.mem_ofPred_eq]
-      have hLz : (L₁ : ℤ) + 1 ≤ L₂ := by exact_mod_cast hL
+      have hLz : (L₁ : ℤ) ≤ L₂ := by exact_mod_cast hL
       exact ⟨⟨hge, by omega⟩, hmem.1.2⟩
     · intro a _ b _ hab
       have := (E.orderEmbOfFin rfl).injective hab
@@ -2173,6 +2173,12 @@ theorem bd_oldest_far {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₁ L₂ : �
   rw [Finset.card_univ, Fintype.card_fin] at hcard
   omega
 
+
+theorem bd_oldest_far {n' r : ℕ} [NeZero n'] (F : Frames n' r) (L₁ L₂ : ℕ) (hr : 1 ≤ r) (hL : L₁ + 1 ≤ L₂)
+    (hI : ∀ y : ℤ, ((Finset.Ico y (y + L₂)).filter fun t => posOf n' t ∈ F.TT).card ≤ r - 1)
+    (j x : ℤ) (hE : r ≤ ((F.letters j).filter fun z => Even z ∧ z < x).card) :
+    (L₁ : ℤ) < x - F.oldest j x := by
+  exact bd_oldest_far_of_le F L₁ L₂ hr (Nat.le_of_succ_le hL) hI j x hE
 theorem bd_fr_strict {n' r : ℕ} (F : Frames n' r) (hs : ∀ j : ℤ, ∀ i, i + 1 < r → F.fr j i < F.fr j (i + 1)) (j : ℤ) :
     ∀ d i, i + (d + 1) < r → F.fr j i < F.fr j (i + (d + 1)) := by
   intro d
@@ -2527,7 +2533,7 @@ def bf_Seq (TT : Finset (Fin n')) (r u M J : ℕ) (B : ℤ → ℤ) (sidx : ℤ 
     ∃ q : ℤ, B j = (n' : ℤ) * q + (sidx j : ℤ) * (((6 * r + 1 : ℕ) : ℤ) * u)) ∧
   (∀ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s → ∃ j, sidx j = s)
 
-theorem bf_frames (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → ℤ) (sidx : ℤ → ℕ) (hr : 2 ≤ r) (hu : 1 ≤ u)
+theorem bf_frames_with_uniform_cell (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → ℤ) (sidx : ℤ → ℕ) (hr : 2 ≤ r) (hu : 1 ≤ u)
     (hL : L₂ < u) (hG : (M + 3) * ((6 * r + 1) * u) ≤ Gp) (hS : bf_Seq TT r u M J B sidx) :
     ∃ F : Frames n' r, F.TT = TT ∧
       1 ≤ F.J ∧
@@ -2539,8 +2545,8 @@ theorem bf_frames (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → �
       (∀ j : ℤ, r ≤ (F.LLset j).card ∧
         ∀ x ∈ F.LLset j, (((F.LLset j).filter (· ≤ x)).card ≤ r ∨
           (F.LLset j).card < ((F.LLset j).filter (· ≤ x)).card + r) → Even x) ∧
-      (∀ j : ℤ, ∀ i < r, ∃ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s ∧
-        (F.fr j i % (n' : ℤ)).toNat ∈ Formalism.G0.cell r u s (2 * r + 2 + 2 * i)) ∧
+      (∀ j : ℤ, ∃ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s ∧
+        ∀ i < r, (F.fr j i % (n' : ℤ)).toNat ∈ Formalism.G0.cell r u s (2 * r + 2 + 2 * i)) ∧
       (∀ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s →
         ∃ j : ℤ, (F.fr j 0 % (n' : ℤ)).toNat ∈ Formalism.G0.cell r u s (2 * r + 2)) ∧
       (∀ j : ℤ, F.fr j (r - 1) - F.fr (j - 1) 0 < Gp) ∧
@@ -2600,9 +2606,9 @@ theorem bf_frames (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → �
     · intro x hx hc
       obtain ⟨b, c, hb, he, h1, h2, rfl⟩ := bf_LL_key hr hu hMT hstep j x hx hc
       exact (bf_tp_spec TT r u hb h1 h2 he).1.2.2.2
-  · intro j i hi
+  · intro j
     obtain ⟨h1, h2, q, hq⟩ := hidx j
-    refine ⟨sidx j, h1, h2, ?_⟩
+    refine ⟨sidx j, h1, h2, fun i hi => ?_⟩
     rw [bf_F_fr TT r u J B _ hi]
     exact bf_cell (hMT j) (sidx j) q hq h1 (by omega) (by omega) (hev i)
   · intro s hs hM
@@ -2629,6 +2635,33 @@ theorem bf_frames (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → �
   · intro j
     rw [bf_F_fr TT r u J B _ (show 0 < r by omega)]
     exact bf_gapGt hL j (hMT j) (by omega) (by omega) (hev 0)
+
+theorem bf_frames (TT : Finset (Fin n')) (r u L₂ Gp M J : ℕ) (B : ℤ → ℤ) (sidx : ℤ → ℕ) (hr : 2 ≤ r) (hu : 1 ≤ u)
+    (hL : L₂ < u) (hG : (M + 3) * ((6 * r + 1) * u) ≤ Gp) (hS : bf_Seq TT r u M J B sidx) :
+    ∃ F : Frames n' r, F.TT = TT ∧
+      1 ≤ F.J ∧
+      (∀ j : ℤ, ∀ i, F.fr (j + F.J) i = F.fr j i + n') ∧
+      (∀ j : ℤ, ∀ i, i + 1 < r → F.fr j i < F.fr j (i + 1)) ∧
+      (∀ j : ℤ, F.fr j (r - 1) < F.fr (j + 1) 0) ∧
+      (∀ j : ℤ, ∀ i, i < r → posOf n' (F.fr j i) ∈ F.TT ∧ Even (F.fr j i)) ∧
+      (∀ j : ℤ, ∀ i, ∀ x : ℤ, i + 1 < r → F.fr j i < x → x < F.fr j (i + 1) → posOf n' x ∉ F.TT) ∧
+      (∀ j : ℤ, r ≤ (F.LLset j).card ∧
+        ∀ x ∈ F.LLset j, (((F.LLset j).filter (· ≤ x)).card ≤ r ∨
+          (F.LLset j).card < ((F.LLset j).filter (· ≤ x)).card + r) → Even x) ∧
+      (∀ j : ℤ, ∀ i < r, ∃ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s ∧
+        (F.fr j i % (n' : ℤ)).toNat ∈ Formalism.G0.cell r u s (2 * r + 2 + 2 * i)) ∧
+      (∀ s < n' / ((6 * r + 1) * u), Formalism.G0.Marked (TT.map Fin.valEmbedding) r u s →
+        ∃ j : ℤ, (F.fr j 0 % (n' : ℤ)).toNat ∈ Formalism.G0.cell r u s (2 * r + 2)) ∧
+      (∀ j : ℤ, F.fr j (r - 1) - F.fr (j - 1) 0 < Gp) ∧
+      (∀ j : ℤ, ∀ x ∈ F.LLset j, (((F.LLset j).filter (· ≤ x)).card ≤ r ∨
+          (F.LLset j).card < ((F.LLset j).filter (· ≤ x)).card + r) → F.GapGt L₂ j x) ∧
+      (∀ j : ℤ, F.GapGt L₂ j (F.fr j 0)) := by
+  obtain ⟨F, hTT, hJ, hper, hinc, hsep, hmem, hbetween, hLL, hcell, hmark, hGp, hgap, hfirst⟩ :=
+    bf_frames_with_uniform_cell TT r u L₂ Gp M J B sidx hr hu hL hG hS
+  refine ⟨F, hTT, hJ, hper, hinc, hsep, hmem, hbetween, hLL, ?_, hmark, hGp, hgap, hfirst⟩
+  intro j i hi
+  obtain ⟨s, hs, hmarked, hall⟩ := hcell j
+  exact ⟨s, hs, hmarked, hall i hi⟩
 
 end Asm
 
@@ -2981,12 +3014,7 @@ section B3pos
 variable {n' : ℕ} [NeZero n']
 
 theorem residue_position_val (a : ℤ) : ((posOf n' a).val : ℤ) = a % (n' : ℤ) := by
-  have hn : (0:ℤ) < (n' : ℤ) := by exact_mod_cast NeZero.pos n'
-  have h0 := Int.emod_nonneg a hn.ne'
-  have h1 := Int.emod_lt_of_pos a hn
-  have h2 : (a % (n':ℤ)).toNat < n' := (Int.toNat_lt h0).mpr h1
-  show (((a % (n' : ℤ)).toNat % n' : ℕ) : ℤ) = _
-  rw [Nat.mod_eq_of_lt h2, Int.toNat_of_nonneg h0]
+  apply _root_.Formalism.MainNotions.G.WittFrameLocaliserOrders.posOf_val <;> assumption
 
 end B3pos
 
@@ -5221,10 +5249,7 @@ theorem slope_bounds_on_letters : ∃ C : ℝ, 1 ≤ C ∧
 
 theorem frame_row_monotone {n' r : ℕ} [NeZero n'] (Fr : Frames n' r) (L₁ N₁ : ℕ) (hV : Fr.Valid L₁ N₁) (j : ℤ) :
     ∀ i, i < r → Fr.fr j 0 ≤ Fr.fr j i := by
-  intro i
-  induction i with
-  | zero => intro _; exact le_rfl
-  | succ i ih => intro hi; exact le_trans (ih (by omega)) (le_of_lt (hV.2.2.1 j i hi))
+  apply _root_.Formalism.MainNotions.G.WittFrameLocaliserOrders.frame_first_entry_le <;> assumption
 
 theorem first_length_le_gap {n' r : ℕ} [NeZero n'] (Fr : Frames n' r) (L₁ N₁ G' : ℕ) (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r)
     (g1 : ∀ j : ℤ, zF Fr j - Fr.fr (j - 1) 0 ≤ G') : L₁ ≤ G' := by

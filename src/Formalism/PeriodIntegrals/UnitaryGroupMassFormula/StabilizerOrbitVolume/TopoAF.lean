@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.T2SpaceNumberFieldInfiniteAdeles
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TensTop
 import Mathlib.Algebra.Order.Floor.Extended
@@ -91,28 +92,7 @@ theorem isOpen_integers (v : HeightOneSpectrum (𝓞 F)) :
   Valued.isOpen_integer _
 
 instance secondCountable_finiteAdeleRing : SecondCountableTopology (FiniteAdeleRing (𝓞 F) F) := by
-  let R := fun v : HeightOneSpectrum (𝓞 F) => v.adicCompletion F
-  let A := fun v : HeightOneSpectrum (𝓞 F) => (v.adicCompletionIntegers F : Set (v.adicCompletion F))
-  have hS : ∀ S : Finset (HeightOneSpectrum (𝓞 F)), cofinite ≤ 𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ) := fun S => by
-    rw [le_principal_iff]; exact S.finite_toSet.compl_mem_cofinite
-  let U : Finset (HeightOneSpectrum (𝓞 F)) → Set (Πʳ v, [R v, A v]) := fun S =>
-    Set.range (RestrictedProduct.inclusion R A (hS S))
-  have hemb : ∀ S, IsOpenEmbedding (RestrictedProduct.inclusion R A (hS S)) := fun S =>
-    RestrictedProduct.isOpenEmbedding_inclusion_principal (isOpen_integers F) (hS S)
-  have hsc : ∀ S, SecondCountableTopology (U S) := fun S => by
-    have h1 : SecondCountableTopology (Πʳ v, [R v, A v]_[𝓟 ((S : Set (HeightOneSpectrum (𝓞 F)))ᶜ)]) :=
-      RestrictedProduct.isEmbedding_coe_of_principal.secondCountableTopology
-    exact (hemb S).toIsEmbedding.toHomeomorph.symm.isEmbedding.secondCountableTopology
-  have hcov : ⋃ S, U S = Set.univ := by
-    refine Set.eq_univ_of_forall fun x => ?_
-    have hx : {v | x v ∉ A v}.Finite := x.eventually
-    refine Set.mem_iUnion.2 ⟨hx.toFinset, ?_⟩
-    show x ∈ Set.range (RestrictedProduct.inclusion R A (hS hx.toFinset))
-    rw [RestrictedProduct.range_inclusion]
-    simp only [Set.mem_ofPred_eq, eventually_principal, Set.mem_compl_iff, Finset.mem_coe,
-      Set.Finite.mem_toFinset, not_not]
-    exact fun v hv => hv
-  exact @secondCountableTopology_of_countable_cover _ _ _ _ U hsc (fun S => (hemb S).isOpen_range) hcov
+  apply _root_.GlobalTheory.GaugeEx.scAf <;> assumption
 
 instance secondCountable_adeleRing : SecondCountableTopology (AdeleRing (𝓞 F) F) :=
   inferInstanceAs (SecondCountableTopology (InfiniteAdeleRing F × FiniteAdeleRing (𝓞 F) F))

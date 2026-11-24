@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ImportsExtraAlt
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormAlgebraMapLeOneBis, Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeightCommutatorInvariance
@@ -70,16 +71,7 @@ theorem norm_algebraMap_le_one (l : ℕ) [Fact (Nat.Prime l)] (a : ℤ_[l]) :
 
 theorem norm_le_one_of_isIntegral (l : ℕ) [inst : Fact (Nat.Prime l)] (x : PadicAlgCl l)
     (hx : IsIntegral ℤ_[l] x) : ‖x‖ ≤ (1 : ℝ) := by
-  let v : Valuation (PadicAlgCl l) NNReal := Valued.v
-  have hle : ∀ y : PadicAlgCl l, v y ≤ 1 ↔ ‖y‖ ≤ 1 := by
-    intro y
-    rw [← NNReal.coe_le_coe, PadicAlgCl.valuation_coe, NNReal.coe_one]
-  let f : ℤ_[l] →+* v.integer := (algebraMap ℤ_[l] (PadicAlgCl l)).codRestrict v.integer
-    fun a => (hle _).mpr (norm_algebraMap_le_one l a)
-  let _ : Algebra ℤ_[l] v.integer := f.toAlgebra
-  have : IsScalarTower ℤ_[l] v.integer (PadicAlgCl l) := IsScalarTower.of_algebraMap_eq fun _ => rfl
-  have hxO : IsIntegral v.integer x := hx.tower_top
-  exact (hle x).mp ((Valuation.Integers.isIntegral_iff_v_le_one (Valuation.integer.integers v)).mp hxO)
+  apply _root_.UpperTheory.Reformulated.B.S6.norm_le_one_of_isIntegral <;> assumption
 
 end GlobalTheory.AlgebraMapNormLeOne
 end -- clump:auto

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTowerHolds
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.IntegralStructures.GeometricFlagBases.FlagBasis
 public import Development.EtaleCohomology.EtaleTrace.LadicH0LocallyConstant
 public import Development.AbelianVarietyTheory.Definitions.ShimuraVarieties.IsOpenOfMemIrreducibleComponentsOfFinite
@@ -1871,23 +1872,7 @@ private theorem exists_eq_pow_smul_of_lev_eq_zero (hA : A11) (l : ℕ) [Fact (Na
   exact (red_pow_apply_eq_of_le hA l E n i x m (b + m) (by omega)).symm
 
 theorem vFin_of (h : KunnethLefschetz.In) : GlobalTheory.GalV.VFin := by
-  intro l _ k _ _ hl X p _ n i
-  have hInv : GlobalTheory.EtC.Inv l (sch.obj X) := by
-    intro U hU
-    obtain ⟨f⟩ := hU
-    have g : U ⟶ X := f
-    have := hl.map ((Scheme.ΓSpecIso (CommRingCat.of k)).inv ≫ (g ≫ p).appTop).hom
-    simpa using this
-  have hl0 : l ≠ 0 := (Fact.out : l.Prime).ne_zero
-  have hfin : ∀ m : ℕ, Finite (Ht (l ^ m) (sch.obj X) n i) := by
-    intro m
-    haveI : NeZero (l ^ m) := ⟨pow_ne_zero _ hl0⟩
-    exact h.e4 (l ^ m) k (by push_cast; exact hl.pow m) p n i
-  have hM : Module.Finite ℤ_[l] (Hl l (sch.obj X) n i) :=
-    LateralTheory.EWeil.AdicFinPf.AdicFin_of l (sch.obj X) n i hfin
-      (fun b x hx => exists_eq_pow_smul_of_lev_eq_zero h.a11 l (sch.obj X) n i hfin
-        (fun b' => LateralTheory.Fin.Bock.etale_bockstein_sequence_adic_finiteness h.a7 h.a8 h.a10 h.a11 l b' (sch.obj X) i hInv) b x hx)
-  exact ⟨hM, Module.Finite.base_change ℤ_[l] ℚ_[l] _⟩
+  apply _root_.UpperTheory.Gal.G3.vFin_holds <;> assumption
 
 end UpperTheory.Gal.Int.Geo
 

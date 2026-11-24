@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockImageArith
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.CoordinateIdeals.MemMCoordIdealOfAevalEqZero
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Metric
@@ -60,27 +61,8 @@ theorem isValueAt_pow {y : (Σ k, ι k) → Ω} {s : Ω} {z : (Σ k, ι k) → �
 
 theorem isMultiHomog_X_single [DecidableEq K] (p : Σ k, ι k) :
     IsMultiHomog (X p : MRing ι) (fun k => if k = p.1 then 1 else 0) := by
-  intro m hm k
-  rw [support_X, Finset.mem_singleton] at hm
-  subst hm
-  obtain ⟨a, i₀⟩ := p
-  show ∑ i, (Finsupp.single (⟨a, i₀⟩ : Σ k, ι k) 1 : (Σ k, ι k) →₀ ℕ) ⟨k, i⟩ = if k = a then 1 else 0
-  by_cases hk : k = a
-  · subst hk
-    rw [if_pos rfl, Finset.sum_eq_single i₀]
-    · simp
-    · intro i _ hi
-      classical
-      rw [Finsupp.single_apply, if_neg]
-      intro h
-      exact hi (eq_of_heq (Sigma.mk.inj_iff.mp h).2).symm
-    · simp
-  · rw [if_neg hk]
-    refine Finset.sum_eq_zero fun i _ => ?_
-    classical
-    rw [Finsupp.single_apply, if_neg]
-    intro h
-    exact hk (congrArg Sigma.fst h).symm
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockImageArithmetic.isMultiHomog_X_single <;> assumption
 
 end Values
 

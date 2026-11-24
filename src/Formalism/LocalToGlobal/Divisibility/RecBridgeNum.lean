@@ -5,6 +5,7 @@ public import Formalism.LocalRingCardinality.KernelPlaceMeanBound
 public import Formalism.LocalToGlobal.Divisibility.NumbersLemmas
 public import Formalism.LocalToGlobal.Divisibility.NumbersLink
 import Mathlib.Algebra.Order.Star.Rat
+import Formalism.SharpRestriction.Divisibility.LocalNonemptiness.LiftErrorLocal
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.Divisibility.HookProducts.HookProd, Formalism.LocalToGlobal.Divisibility.RecBridgeNum
@@ -260,42 +261,7 @@ theorem Lp_eq : (ofRecord D L Del h0).Lp = DV.Lprime D L := by
 
 theorem sigPar_succ (τ : D.what₂.Tau) (i : ℕ) (hi : i + 1 < D.R.k - 1 + D.R.m) :
     DV.sigPar D τ (i + 1) + 1 ≤ DV.sigPar D τ i := by
-  have hk : 5 ≤ D.R.k := by have := D.R.m_add_three_le_k; have := D.R.two_le_m; omega
-  obtain ⟨zi, hzi⟩ := DV.sigPar_int D τ i
-  obtain ⟨zs, hzs⟩ := DV.sigPar_int D τ (i + 1)
-  have hlt : DV.sigPar D τ (i + 1) < DV.sigPar D τ i := by
-    unfold DV.sigPar
-    by_cases h1 : i + 1 < D.R.k - 1
-    · rw [dite_eq_left h1, dite_eq_left (by omega : i < D.R.k - 1)]
-      have a := (D.hc τ).v_gt_u ⟨i, by omega⟩
-      have b := (D.hc τ).u_gt_v ⟨i + 1, h1⟩
-      exact lt_trans b a
-    · by_cases h2 : i + 1 = D.R.k - 1
-      · rw [dite_eq_right h1, dite_eq_left (by omega : i < D.R.k - 1)]
-        have hb : i + 1 - (D.R.k - 1) < D.R.m := by omega
-        rw [dite_eq_left hb]
-        have a := (D.hc τ).v_gt_u ⟨i, by omega⟩
-        have b := (D.hc τ).u_last_gt (by omega) (by have := D.R.two_le_m; omega)
-        have e1 : (⟨i + 1 - (D.R.k - 1), hb⟩ : Fin D.R.m) = ⟨0, by have := D.R.two_le_m; omega⟩ := Fin.ext (by simp; omega)
-        have e2 : (⟨(⟨i, by omega⟩ : Fin (D.R.k - 1)).1 + 1, by omega⟩ : Fin D.R.k) = ⟨D.R.k - 1, by omega⟩ :=
-          Fin.ext (by simp; omega)
-        rw [e1]
-        rw [e2] at a
-        exact lt_trans b a
-      · rw [dite_eq_right h1, dite_eq_right (by omega : ¬ i < D.R.k - 1)]
-        have hb1 : i + 1 - (D.R.k - 1) < D.R.m := by omega
-        have hb0 : i - (D.R.k - 1) < D.R.m := by omega
-        rw [dite_eq_left hb1, dite_eq_left hb0]
-        have g1 := (D.hc τ).gap_be ⟨i - (D.R.k - 1), hb0⟩
-        have g2 := (D.hc τ).gap_eb ⟨i - (D.R.k - 1), hb0⟩ (by show i - (D.R.k - 1) + 1 < D.R.m; omega)
-        have e1 : (⟨i + 1 - (D.R.k - 1), hb1⟩ : Fin D.R.m) = ⟨i - (D.R.k - 1) + 1, by omega⟩ := Fin.ext (by simp; omega)
-        rw [e1]
-        have ht : (0 : ℚ) ≤ D.R.t := by positivity
-        linarith
-  rw [hzi, hzs] at hlt ⊢
-  have : zs < zi := by exact_mod_cast hlt
-  have : zs + 1 ≤ zi := this
-  exact_mod_cast this
+  apply _root_.Formalism.MainNotions.DIV.Inh.sigPar_step <;> assumption
 
 end Formalism.L2.DIV.NumTieH
 

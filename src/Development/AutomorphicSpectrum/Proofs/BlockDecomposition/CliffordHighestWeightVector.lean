@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.WordMonomial
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.IsCliff
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CasKHW
@@ -678,17 +679,8 @@ theorem cas_add (k s : Fin n → Fin n → R) (h : ∀ a b c d, k a b * s c d = 
 
 theorem glRel_add (k s : Fin n → Fin n → R) (hk : Formalism.REAL.GlRel k) (hs : Formalism.REAL.GlRel s)
     (h : ∀ a b c d, k a b * s c d = s c d * k a b) : Formalism.REAL.GlRel (fun a b => k a b + s a b) := by
-  intro a b c d
-  have e : (k a b + s a b) * (k c d + s c d) - (k c d + s c d) * (k a b + s a b) =
-      (k a b * k c d - k c d * k a b) + (s a b * s c d - s c d * s a b) := by
-    have h1 := h a b c d
-    have h2 := h c d a b
-    simp only [add_mul, mul_add]
-    rw [h1, h2]
-    abel
-  simp only []
-  rw [e, hk a b c d, hs a b c d]
-  by_cases h1 : b = c <;> by_cases h2 : d = a <;> simp [h1, h2] <;> abel
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.DSCover.glRel_add <;> assumption
 
 theorem bracket_p (E1 E2 : Fin n → Fin n → R) (h1 : Formalism.REAL.GlRel E1) (h2 : Formalism.REAL.GlRel E2)
     (h : ∀ a b c d, E1 a b * E2 c d = E2 c d * E1 a b) (a b c d : Fin n) :
@@ -756,15 +748,16 @@ theorem infOf_sq {n : ℕ} (lam : Fin n → ℤ) (s : Bool) :
   unfold infOf m0
   cases s <;> simp <;> ring
 
-theorem dirac_ineq : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V]
-    (E1 E2 : Fin n → Fin n → Module.End ℂ V) (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V),
-    IsCoreMod (infOf lam) E1 E2 σ A → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (c : Fin n → Fin n → Matrix ι ι ℂ),
+theorem dirac_ineq_of_pair : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V]
+    (E1 E2 : Fin n → Fin n → Module.End ℂ V), IsPair E1 E2 →
+    (∀ m (x : V), gelA E1 m x = GlobalTheory.Dec.gelfVal (infOf lam true) m • x) →
+    (∀ m (x : V), gelA (barF E2) m x = GlobalTheory.Dec.gelfVal (infOf lam false) m • x) →
+    ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (c : Fin n → Fin n → Matrix ι ι ℂ),
       IsCliff c → ∀ (τ : Fin n → ℝ) (x : ι → V), x ≠ 0 → Formalism.REAL.KHighest (fun _ => true) (yF (kF E1 E2) c) τ x →
         ∑ a, (m0 lam a) ^ 2 ≤ ∑ a, (τ a + rhoV n a) ^ 2 := by
-  intro n lam V _ _ E1 E2 σ A h ι _ _ c hc τ x hx hK
+  intro n lam V _ _ E1 E2 hp hCh1 hCh2 ι _ _ c hc τ x hx hK
   obtain ⟨hc1, hc2⟩ := hc
   have hcl : IsCliff c := ⟨hc1, hc2⟩
-  have hp := h.pair
 
   set L := lft (V := V) ι with hL
   set Rr := rgt (ι := ι) V with hRr
@@ -848,10 +841,10 @@ theorem dirac_ineq : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCo
     rfl
   have hC1 : ∀ v : V, Formalism.REAL.Cas E1 v = ((S - R : ℝ) : ℂ) • v := by
     intro v
-    rw [← gelA_two, h.ch1 2 v, hv]
+    rw [← gelA_two, hCh1 2 v, hv]
   have hC2 : ∀ v : V, Formalism.REAL.Cas E2 v = ((S - R : ℝ) : ℂ) • v := by
     intro v
-    rw [← gelA_bar_two, h.ch2 2 v, hv]
+    rw [← gelA_bar_two, hCh2 2 v, hv]
   have hn : (((n : ℂ) ^ 3 - n) / 4) = ((3 * R : ℝ) : ℂ) := by
     rw [hR, sum_rhoV_sq]
     push_cast
@@ -911,6 +904,14 @@ theorem dirac_ineq : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCo
     ring
   rw [this]
   linarith
+
+theorem dirac_ineq : ∀ {n : ℕ} (lam : Fin n → ℤ) (V : Type) [NormedAddCommGroup V] [InnerProductSpace ℂ V]
+    (E1 E2 : Fin n → Fin n → Module.End ℂ V) (σ : Matrix.unitaryGroup (Fin n) ℂ →* (V →ₗ[ℂ] V)) (A : V →ₗ[ℂ] V),
+    IsCoreMod (infOf lam) E1 E2 σ A → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (c : Fin n → Fin n → Matrix ι ι ℂ),
+      IsCliff c → ∀ (τ : Fin n → ℝ) (x : ι → V), x ≠ 0 → Formalism.REAL.KHighest (fun _ => true) (yF (kF E1 E2) c) τ x →
+        ∑ a, (m0 lam a) ^ 2 ≤ ∑ a, (τ a + rhoV n a) ^ 2 := by
+  intro n lam V _ _ E1 E2 σ A h
+  exact dirac_ineq_of_pair lam V E1 E2 h.pair h.ch1 h.ch2
 
 end GlobalTheory.CompanionTheory.DiracK
 end -- clump:auto

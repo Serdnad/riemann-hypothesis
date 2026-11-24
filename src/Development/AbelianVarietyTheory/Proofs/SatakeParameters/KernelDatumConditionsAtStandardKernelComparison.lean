@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.TrueColumnChoicesKernelDatumAdaptedBasesStatement
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsConstantCoeffOne
 public import Formalism.LocalToGlobal.InertKernelTheory.DefsRepDict
 public import Formalism.LocalToGlobal.InertKernelTheory.GenusOneModelExistsLattice
@@ -625,27 +626,7 @@ variable {D : D7} {cc : Ideal (𝓞 D.host.K)} {δ : ℂ} {N N' : ℕ}
 
 theorem analytic_U (B : Base D cc δ) (t : TaylorLogMetric.VC D N N') {G : TaylorLogMetric.VC D N N' → ℂ} (hG : AnalyticOnNhd ℂ G Set.univ) :
     AnalyticOnNhd ℂ (TaylorLogMetric.U D B.tor t G) Set.univ := by
-  have hadd : AnalyticOnNhd ℂ (fun z : TaylorLogMetric.VC D N N' => z + t) Set.univ := fun z _ => by fun_prop
-  have h1 : AnalyticOnNhd ℂ (fun z : TaylorLogMetric.VC D N N' => G (z + t)) Set.univ :=
-    hG.comp hadd (fun _ _ => Set.mem_univ _)
-  let ℓ : TaylorLogMetric.VC D N N' →ₗ[ℂ] ℂ := (formV (TaylorLogMetric.area (TaylorLogMetric.lamOf D cc δ)) D.what₂.Tau N N').flip t
-  have h2 : AnalyticOnNhd ℂ (fun z : TaylorLogMetric.VC D N N' => ℓ z) Set.univ :=
-    (LinearMap.toContinuousLinearMap ℓ).analyticOnNhd _
-  have h3 : ∀ z : TaylorLogMetric.VC D N N', TaylorLogMetric.Hf D B.tor z t = ℓ z := fun z => by
-    show _ = formV (TaylorLogMetric.area (TaylorLogMetric.lamOf D cc δ)) D.what₂.Tau N N' z t
-    rw [formV_apply]; rfl
-  intro z hz
-  have h4 : AnalyticAt ℂ (fun z : TaylorLogMetric.VC D N N' => Complex.exp (-(Real.pi : ℂ) * ℓ z -
-      (Real.pi : ℂ) * TaylorLogMetric.Hf D B.tor t t / 2)) z := by
-    have := h2 z hz
-    fun_prop
-  have h5 := (h1 z hz).mul h4
-  have e : TaylorLogMetric.U D B.tor t G = (fun z => G (z + t)) * (fun z : TaylorLogMetric.VC D N N' => Complex.exp (-(Real.pi : ℂ) * ℓ z -
-      (Real.pi : ℂ) * TaylorLogMetric.Hf D B.tor t t / 2)) := by
-    funext z
-    simp only [TaylorLogMetric.U, h3, Pi.mul_apply]
-  rw [e]
-  exact h5
+  apply _root_.GlobalTheory.Proof.shape_normalisedThetaCombinations_dualBases_at_d.analytic_U <;> assumption
 
 end GlobalTheory.Proof.integralJets_normalisedThetaCombinations_away_d
 
@@ -1537,45 +1518,7 @@ theorem mtType_of_frame_mul {D : D7} {C : CharFrame D} (Dt : DtTied D C) (ξ : H
     (hord : ξ.OrderDvd n) (mt : ℕ → D.Dt →* ℂˣ)
     (h : ∀ (j : Fin D.R.m) a, IsFinIdele a → mt (j.1 + 1) (Dt.eDt a) = (C.mu0 j * ξ).1 a) (u : D.what₂.Word) :
     MtType u mt := by
-  letI := D.host.cmStar
-  have hcm : IsCMField D.host.E := D.host.isCMField_hostE
-  intro i hi
-  have hun : (C.mu0 ⟨i, hi⟩ * ξ).IsUnitary := fun x => by
-    have e : (C.mu0 ⟨i, hi⟩ * ξ).1 x = (C.mu0 ⟨i, hi⟩).1 x * ξ.1 x := rfl
-    rw [e, Units.val_mul, norm_mul, (C.isMu0 ⟨i, hi⟩).unitary x, CharModel.isUnitary_of_orderDvd hn hord x, one_mul]
-  refine ⟨fun k hk => ?_, ?_⟩
-  · obtain ⟨a, ha, rfl⟩ := (Dt.UO_eq k).1 hk
-    obtain ⟨m, hm, hu⟩ := GlobalTheory.UnUnitCmp.Val.finUnit_pow _ hun
-    refine ⟨m, hm, Units.ext ?_⟩
-    rw [← CharModel.eDt_finPart Dt a, h ⟨i, hi⟩ _ (CharModel.isFin_finPart a), Units.val_pow_eq_pow_val]
-    exact hu _ (CharModel.isFin_finPart a) ha
-  · choose e he using fun τ => (D.hcW u τ).e_int ⟨i, hi⟩
-    refine ⟨e, fun τ => (he τ).symm, fun z => ?_⟩
-    obtain ⟨k, hk⟩ := GlobalTheory.Mem.Col2.exists_eq_div_conj D.host z
-    obtain ⟨m, hm, hinf⟩ := (C.isMu0 ⟨i, hi⟩).inf
-    rw [← Dt.rat k z hk, ← CharModel.eDt_finPart Dt, h ⟨i, hi⟩ _ (CharModel.isFin_finPart _), GlobalTheory.Mem.Chr.DetGroupModel.fin_diag,
-      HChar.inf_mul, GlobalTheory.TypeValues.inf_eq_one _ hn hord, mul_one, Units.val_inv_eq_inv_val, hinf k,
-      ← Finset.prod_inv_distrib, ← D.eTau.prod_comp]
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    have hme : m (D.eTau τ) = 2 * -e τ := by
-      have h1 := hm (D.eTau τ)
-      have h2 : eExp D ⟨i, hi⟩ (D.eTau τ) = e τ := by
-        rw [← he τ, D.hcW_e]; simp [eExp]
-      simp only [h2] at h1
-      exact_mod_cast h1
-    have h1 := congrArg (embPsi D.host (D.eTau τ)) hk
-    rw [map_mul, GlobalTheory.Mem.Chr.DetGroupModel.emb_conj] at h1
-    have h0 : embPsi D.host (D.eTau τ) (k : D.host.E) ≠ 0 := by simp
-    show _ = embPsi D.host (D.eTau τ) z.1 ^ e τ
-    generalize embPsi D.host (D.eTau τ) (k : D.host.E) = a at *
-    generalize embPsi D.host (D.eTau τ) z.1 = b at *
-    have hn' : ((‖a‖ : ℝ) : ℂ) ≠ 0 := by simpa using h0
-    have h2 : a * star a = ((‖a‖ : ℝ) : ℂ) ^ 2 := by
-      rw [Complex.star_def, Complex.mul_conj, Complex.normSq_eq_norm_sq]; push_cast; rfl
-    have h3 : (a / ((‖a‖ : ℝ) : ℂ)) ^ (2 : ℤ) = b := by
-      rw [zpow_ofNat, div_pow, div_eq_iff (pow_ne_zero _ hn'), ← h2]
-      linear_combination (-a) * h1
-    rw [hme, zpow_mul, h3, zpow_neg, inv_inv]
+  apply _root_.GlobalTheory.KerJ.mtType_of_hecke <;> assumption
 
 end GlobalTheory.Pdv.UnStd
 
@@ -1589,21 +1532,7 @@ open Formalism.FrobeniusOrbits Neutral.B1 ReciprocityTheory.Neutral.Bridge.HCFR 
 theorem mtType_stdO {B : Base} {X : PreX B.toPre} (I : TC B X) (hok : I.Ok) (hp : TC.Pins B X) (l : I.Laws)
     (Z : TC.Later B (I.cols l)) {Qp : I.ι → Finset ℕ} {O : ∀ u a, GL3Theta.LiftObj (I.rec7 l Z) ((I.rec7 l Z).chTw u a)}
     (hO : I.StdO l Z Qp O) (u : (I.rec7 l Z).what₂.Word) (a : (I.rec7 l Z).what₂.Tup) : MtType u (O u a).mt := by
-  obtain ⟨T, hT⟩ := TC.dtTied_true I hok hp l Z
-  have ht : IsOfFinOrder (I.tup a : Chr B.fields.F B.fields.E B.fields.K) :=
-    (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 (Subgroup.mem_inf.1 (I.tup a).2).1).1).1).2
-  obtain ⟨n, hn, hpow⟩ := isOfFinOrder_iff_pow_eq_one.1 ht
-  have hk : KDq B.host I.SQ ≤ ((I.xi a).1.comp (finPartI B.host.E)).ker :=
-    (KDq_anti B.host (I.Q_subset_SQ a)).trans ((GlobalTheory.Mem.LevTwist.levOk_twists B X I hok).2.2 a).1
-  refine mtType_of_frame_mul T (I.xi a) hn ((hok.xi_reads a).orderDvd hpow) _ (fun j x hx => ?_) u
-  have hm : 1 ≤ j.1 + 1 ∧ j.1 + 1 ≤ B.R.m := ⟨by omega, j.2⟩
-  have e1 : (O u a).mt (j.1 + 1) = (I.rec7 l Z).muTil (j.1 + 1) * (show (I.rec7 l Z).Dt →* ℂˣ from tildeQ B.host I.SQ (I.xi a)) := by
-    rw [hO.mt u a]
-    exact if_pos hm
-  rw [e1, MonoidHom.mul_apply, T.muTil_eq j x hx, hT x]
-  have e2 : (tildeQ B.host I.SQ (I.xi a)) (QuotientGroup.mk x) = (I.xi a).1 x :=
-    (tildeQ_mk B.host I.SQ hk x).trans (congrArg _ (finPartI_eq_self hx))
-  exact congrArg _ e2
+  apply _root_.GlobalTheory.Mem.Col2.KerEntTrue.mtType_std <;> assumption
 
 end GlobalTheory.Pdv.UnStd
 

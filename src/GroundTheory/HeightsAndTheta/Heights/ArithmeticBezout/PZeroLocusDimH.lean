@@ -76,6 +76,7 @@ import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIsAlgebraicRatFuncFractionRingDedekind
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ZeroLocusDimHGeo, GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.ZeroLocusDimHAlg, GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PZeroLocusDimH
@@ -318,18 +319,7 @@ namespace ZeroLocusDimH
 theorem ringKrullDim_le_of_isIntegral_inj {A R : Type*} [CommRing A] [CommRing R] [Algebra A R]
     [Algebra.IsIntegral A R] (h : Function.Injective (algebraMap A R)) :
     ringKrullDim A ≤ ringKrullDim R := by
-  rcases isEmpty_or_nonempty (PrimeSpectrum A) with hA | hA
-  · rw [ringKrullDim, Order.krullDim_eq_bot]
-    exact bot_le
-  rw [ringKrullDim, Order.krullDim_eq_iSup_length]
-  rw [WithBot.coe_iSup (OrderTop.bddAbove _)]
-  refine iSup_le fun l => ?_
-  obtain ⟨P, -, hP, hPl⟩ := Ideal.exists_ideal_over_prime_of_isIntegral l.head.asIdeal (⊥ : Ideal R)
-    (by rw [Ideal.under_def, ← RingHom.ker_eq_comap_bot, (RingHom.injective_iff_ker_eq_bot _).1 h]; exact bot_le)
-  have : P.LiesOver l.head.asIdeal := ⟨hPl.symm⟩
-  obtain ⟨L, hL, -, -⟩ := Ideal.exists_ltSeries_of_hasGoingUp l P
-  rw [← hL]
-  exact Order.LTSeries.length_le_krullDim L
+  apply _root_.GlobalTheory.FracAlgDedekind.ringKrullDim_le_of_isIntegral <;> assumption
 
 theorem aeval_derivative_minpoly_ne_zero {R A : Type*} [CommRing R] [IsDomain R]
     [IsIntegrallyClosed R] [CharZero R] [CommRing A] [IsDomain A] [Algebra R A]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.UnitaryReductionPolynomialHeightBound
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedSmooth
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Mathlib.NumberTheory.NumberField.House
@@ -67,16 +68,7 @@ namespace GlobalTheory.RatCount
 
 theorem exists_nat_den {E : Type} [Field E] [NumberField E] {κ : Type} [Finite κ] (A : κ → E) :
     ∃ m : ℕ, 0 < m ∧ ∀ i, IsIntegral ℤ ((m : E) * A i) := by
-  classical
-  haveI := Fintype.ofFinite κ
-  obtain ⟨y, hy, h⟩ := exists_integral_multiples ℤ ℚ (Finset.univ.image A)
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy, fun i => ?_⟩
-  have h1 := h (A i) (Finset.mem_image_of_mem _ (Finset.mem_univ i))
-  rw [zsmul_eq_mul] at h1
-  rw [← Int.cast_natCast, Int.natCast_natAbs]
-  rcases abs_choice y with e | e <;> rw [e]
-  · exact h1
-  · rw [Int.cast_neg, neg_mul]; exact h1.neg
+  apply _root_.GlobalTheory.SmoothForms.Reduce.exists_nat_integral <;> assumption
 
 theorem exists_den_of_isCompact {F : Type} [Field F] [NumberField F] {K : Set (FiniteAdeleRing (𝓞 F) F)}
     (hK : IsCompact K) :

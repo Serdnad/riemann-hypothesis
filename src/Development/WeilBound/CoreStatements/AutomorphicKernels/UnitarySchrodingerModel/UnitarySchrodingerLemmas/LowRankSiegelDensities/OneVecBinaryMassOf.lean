@@ -97,13 +97,32 @@ open GlobalTheory.CompanionTheory.SW.LGPrim
 
 variable {F : Type} [Field F] [NumberField F] {v : HeightOneSpectrum (𝓞 F)}
 
-theorem coreSharp (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v lam) (h2 : Valued.v (2 : Fv F v) = 1)
+theorem real_bound_unit (q N : ℝ) (hq : 0 < q) (M : ℕ) (hM : 1 ≤ M)
+    (h : |N - q ^ (2 * M - 1)| ≤ q ^ (M - 1)) :
+    |N * (q⁻¹) ^ (2 * M - 1) - 1| ≤ 1 / q ^ M := by
+  obtain ⟨m, rfl⟩ : ∃ m, M = m + 1 := ⟨M - 1, by omega⟩
+  have e1 : 2 * (m + 1) - 1 = 2 * m + 1 := by omega
+  have e2 : m + 1 - 1 = m := by omega
+  rw [e1] at h ⊢
+  rw [e2] at h
+  have hQ : q ^ (2 * m + 1) = q ^ (m + 1) * q ^ m := by rw [← pow_add]; congr 1; omega
+  have hQpos : 0 < q ^ (2 * m + 1) := by positivity
+  have e3 : N * (q⁻¹) ^ (2 * m + 1) - 1 = (N - q ^ (2 * m + 1)) / q ^ (2 * m + 1) := by
+    rw [inv_pow]; field_simp
+  rw [e3, abs_div, abs_of_pos hQpos, div_le_iff₀ hQpos]
+  have e4 : 1 / q ^ (m + 1) * q ^ (2 * m + 1) = q ^ m := by
+    rw [hQ]
+    have : q ^ (m + 1) ≠ 0 := by positivity
+    field_simp
+  rw [e4]
+  exact h
+
+theorem coreSharp_unit (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v lam) (h2 : Valued.v (2 : Fv F v) = 1)
     (ι : Type) [Fintype ι] [DecidableEq ι] (B : Matrix ι ι (Fv F v)) (hBs : B.IsSymm)
     (hBint : ∀ i j, B i j ∈ v.adicCompletionIntegers F) (hBdet : Valued.v B.det = 1)
     (M : ℕ) (hM : Fintype.card ι = 2 * M) (hM1 : 1 ≤ M) (s : Fv F v)
     (hs : s ∈ v.adicCompletionIntegers F) (hsu : Valued.v s = 1) :
-    ∃ D : ℝ≥0, |(D : ℝ) - 1| ≤ 1 / (Ideal.absNorm v.asIdeal : ℝ) ^ M +
-        1 / (Ideal.absNorm v.asIdeal : ℝ) ^ (2 * M - 1) ∧
+    ∃ D : ℝ≥0, |(D : ℝ) - 1| ≤ 1 / (Ideal.absNorm v.asIdeal : ℝ) ^ M ∧
       ∀ A : Set (Fv F v), MeasurableSet A → A ⊆ {z | Valued.v (z - s) < 1} →
         (Measure.pi fun _ : ι => lam) {x | (∀ i, x i ∈ v.adicCompletionIntegers F) ∧
           (∃ i, Valued.v (x i) = 1) ∧ (2 : Fv F v)⁻¹ * (x ⬝ᵥ (B *ᵥ x)) ∈ A} = (D : ℝ≥0∞) * lam A := by
@@ -174,19 +193,17 @@ theorem coreSharp (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v l
   have hN : Nat.card {x : ι → 𝓴 // (2 : 𝓴)⁻¹ * (x ⬝ᵥ ((BO.map res) *ᵥ x)) = sb} = Fl.card :=
     Nat.subtype_card Fl (fun x => by simp [Fl, qk])
   rw [hN, hcardk] at hcount
-  have hle1 : T.card ≤ Fl.card := Finset.card_filter_le _ _
-  have hle2 : Fl.card ≤ T.card + 1 := by
-    have hsub : Fl ⊆ insert 0 T := by
-      intro y hy
-      by_cases h0 : y = 0
-      · simp [h0]
-      · exact Finset.mem_insert_of_mem (Finset.mem_filter.2 ⟨hy, h0⟩)
-    exact (Finset.card_le_card hsub).trans (Finset.card_insert_le _ _)
+  have hTF : T = Fl := by
+    refine Finset.filter_true_of_mem fun y hy h0 => hsb0 ?_
+    rw [h0] at hy
+    have h3 := (Finset.mem_filter.1 hy).2
+    rw [← h3]
+    simp [qk]
   have hqpos : (0 : ℝ) < (Ideal.absNorm v.asIdeal : ℝ) := by exact_mod_cast Nat.pos_of_ne_zero hq0
   refine ⟨(T.card : ℝ≥0) * ((Ideal.absNorm v.asIdeal : ℝ≥0)⁻¹) ^ (2 * M - 1), ?_, fun A hA hAs => ?_⟩
   · push_cast
-    exact real_bound2 _ _ (Fl.card : ℝ) hqpos M hM1 hcount (by exact_mod_cast hle1)
-      (by exact_mod_cast hle2)
+    rw [hTF]
+    exact real_bound_unit _ _ hqpos M hM1 hcount
   · set Qf : (ι → Fv F v) → Fv F v := fun x => (2 : Fv F v)⁻¹ * (x ⬝ᵥ ((BO.map phi) *ᵥ x)) with hQf
     have hQc : Continuous Qf := by
       refine continuous_const.mul ?_
@@ -263,6 +280,19 @@ theorem coreSharp (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v l
     have hq0' : (Ideal.absNorm v.asIdeal : ℝ≥0) ≠ 0 := by exact_mod_cast hq0
     push_cast [ENNReal.coe_inv hq0']
     rw [mul_assoc]
+
+theorem coreSharp (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v lam) (h2 : Valued.v (2 : Fv F v) = 1)
+    (ι : Type) [Fintype ι] [DecidableEq ι] (B : Matrix ι ι (Fv F v)) (hBs : B.IsSymm)
+    (hBint : ∀ i j, B i j ∈ v.adicCompletionIntegers F) (hBdet : Valued.v B.det = 1)
+    (M : ℕ) (hM : Fintype.card ι = 2 * M) (hM1 : 1 ≤ M) (s : Fv F v)
+    (hs : s ∈ v.adicCompletionIntegers F) (hsu : Valued.v s = 1) :
+    ∃ D : ℝ≥0, |(D : ℝ) - 1| ≤ 1 / (Ideal.absNorm v.asIdeal : ℝ) ^ M +
+        1 / (Ideal.absNorm v.asIdeal : ℝ) ^ (2 * M - 1) ∧
+      ∀ A : Set (Fv F v), MeasurableSet A → A ⊆ {z | Valued.v (z - s) < 1} →
+        (Measure.pi fun _ : ι => lam) {x | (∀ i, x i ∈ v.adicCompletionIntegers F) ∧
+          (∃ i, Valued.v (x i) = 1) ∧ (2 : Fv F v)⁻¹ * (x ⬝ᵥ (B *ᵥ x)) ∈ A} = (D : ℝ≥0∞) * lam A := by
+  obtain ⟨D, hD, hA⟩ := coreSharp_unit hSC lam hlam h2 ι B hBs hBint hBdet M hM hM1 s hs hsu
+  exact ⟨D, hD.trans (le_add_of_nonneg_right (by positivity)), hA⟩
 
 theorem dens_unit (hSC : SharpCount) (lam : Measure (Fv F v)) (hlam : IsStdV v lam)
     (h2 : Valued.v (2 : Fv F v) = 1) (ι : Type) [Fintype ι] [DecidableEq ι] (B : Matrix ι ι (Fv F v))

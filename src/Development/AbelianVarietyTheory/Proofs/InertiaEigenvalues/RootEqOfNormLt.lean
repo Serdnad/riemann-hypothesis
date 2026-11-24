@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EqTeichmullerOfFrobenius
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.InstIsAdicCompleteOCSpanSingletonSetCast
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
@@ -104,26 +105,8 @@ theorem norm_natCast_eq_one {l : ℕ} [Fact l.Prime] {m : ℕ} (h : ¬ l ∣ m) 
 theorem eq_of_pow_eq_one_of_norm_sub_lt_one {l : ℕ} [Fact l.Prime] {m : ℕ} (hm : 0 < m)
     (hl : ¬ l ∣ m) {a b : Formalism.BasicNotions.Loc.Om l} (ha : a ^ m = 1) (hb : b ^ m = 1)
     (hab : ‖a - b‖ < 1) : a = b := by
-  have hb1 : ‖b‖ = 1 := by
-    have h : ‖b‖ ^ m = 1 := by rw [← norm_pow, hb, norm_one]
-    exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) hm.ne').mp h
-  have hb0 : b ≠ 0 := by
-    intro h; rw [h, norm_zero] at hb1; exact zero_ne_one hb1
-  have hz : ‖a / b - 1‖ < 1 := by
-    rw [div_sub_one hb0, norm_div, hb1, div_one]; exact hab
-  have hzm : (a / b) ^ m = 1 := by rw [div_pow, ha, hb, div_one]
-  by_contra hne
-  have hne1 : a / b - 1 ≠ 0 := by
-    rw [sub_ne_zero]
-    intro h
-    exact hne ((div_eq_one_iff_eq hb0).mp h)
-  have hs : (∑ i ∈ Finset.range m, (a / b) ^ i) = 0 := by
-    have h := geom_sum_mul (a / b) m
-    rw [hzm, sub_self] at h
-    exact (mul_eq_zero.mp h).resolve_right hne1
-  have h := (geom_sum_close hz m).2
-  rw [hs, zero_sub, norm_neg, norm_natCast_eq_one hl] at h
-  exact lt_irrefl _ h
+  intros
+  apply _root_.GlobalTheory.HWL.IoLayer.eq_of_norm_sub_lt <;> assumption
 
 end GlobalTheory.RootsOfUnityClose
 end -- clump:auto

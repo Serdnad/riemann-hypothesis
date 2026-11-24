@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertiaThroughOfPoly
 public import Formalism.WeaklyAdmissibleFiltrations.StatementPC
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -97,13 +98,7 @@ theorem pc_mem_Dpcris {x : V ⊗[Qp] B} :
 
 theorem pc_Dpcris_stable (g : G) {x : V ⊗[Qp] B} (hx : x ∈ PC.Dpcris ρ) :
     actVB PC.PD ρ g x ∈ PC.Dpcris ρ := by
-  rw [pc_mem_Dpcris] at hx ⊢
-  intro h
-  have hmem : g⁻¹ * (h : G) * g ∈ PC.H := by
-    have := PC.normal.conj_mem (h : G) h.2 g⁻¹
-    rwa [inv_inv] at this
-  have e : (h : G) * g = g * (g⁻¹ * (h : G) * g) := by group
-  rw [← pc_actVB_mul, e, pc_actVB_mul, hx ⟨_, hmem⟩]
+  apply _root_.GlobalTheory.PassPoly.Dpcris_stable <;> assumption
 
 end Stable
 

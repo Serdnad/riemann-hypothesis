@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnimodularAndLintegralUnfoldOfLattice
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SplitEigenfunctions.OrbitMeasurability.PerCont
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ReductionDomains.ContinuousEntry
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.WtBound
@@ -236,33 +237,7 @@ namespace UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 private theorem invInvariant {H : Type} [Group H] [TopologicalSpace H] [IsTopologicalGroup H] [LocallyCompactSpace H]
     [SecondCountableTopology H] [MeasurableSpace H] [BorelSpace H] (ν : Measure H) [ν.IsHaarMeasure]
     [ν.IsMulRightInvariant] : ν.IsInvInvariant := by
-  constructor
-  obtain ⟨c, hc⟩ : ∃ c : ℝ≥0∞, ν.inv = c • ν :=
-    ⟨haarScalarFactor ν.inv ν, by
-      have := isMulLeftInvariant_eq_smul ν.inv ν
-      rwa [ENNReal.smul_def] at this⟩
-  obtain ⟨K⟩ : Nonempty (TopologicalSpace.PositiveCompacts H) := inferInstance
-  have hpos : ν K ≠ 0 := (measure_pos_of_nonempty_interior _ K.interior_nonempty).ne'
-  have hfin : ν K ≠ ⊤ := K.isCompact.measure_lt_top.ne
-  have hsq : ν = (c * c) • ν := by
-    conv_lhs => rw [← Measure.inv_inv ν, hc]
-    rw [Measure.inv_def (c • ν), Measure.map_smul _ measurable_inv.aemeasurable, ← Measure.inv_def, hc, smul_smul]
-  have h1 : c * c = 1 := by
-    have : (c * c) * ν K = 1 * ν K := by
-      rw [one_mul]; conv_rhs => rw [hsq]
-      simp
-    exact (ENNReal.mul_left_inj hpos hfin).1 this
-  have h2 : c = 1 := by
-    rcases lt_trichotomy c 1 with h | h | h
-    · exact absurd h1 (ne_of_lt (by
-        calc c * c ≤ c * 1 := by gcongr
-          _ < 1 := by simpa using h))
-    · exact h
-    · exact absurd h1 (ne_of_gt (by
-        calc 1 < c := h
-          _ = 1 * c := by simp
-          _ ≤ c * c := by gcongr))
-  rw [hc, h2, one_smul]
+  apply _root_.GlobalTheory.ResLine.RightUnfold.isInvInvariant_of_right <;> assumption
 
 private theorem unf {G H ι : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
     [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] [Group H] [TopologicalSpace H]
@@ -600,10 +575,7 @@ private theorem swap_int {Z X T : Type} [MeasurableSpace Z] [MeasurableSpace X] 
         (norm_integral_le_of_norm_le_const (ae_of_all _ fun g => hB p.1 hp p.2 h0 g)) (norm_nonneg _)
 
 private theorem cont_em {E : Type} [Field E] [NumberField E] : Continuous (em E) := by
-  have hM : Continuous ((AdeleBaseChange.adeleMap ℚ E).mapMatrix.toMonoidHom :
-      Matrix (Fin 2) (Fin 2) (A ℚ) → Matrix (Fin 2) (Fin 2) (A E)) :=
-    continuous_id.matrix_map AdeleBaseChange.continuous_adeleMap
-  exact Continuous.units_map _ hM
+  apply _root_.UpperTheory.ConvolutionTheory.RankTwoDescent.Cp.continuous_em <;> assumption
 
 end UpperTheory.ConvolutionTheory.RankTwoDescent.Cp
 

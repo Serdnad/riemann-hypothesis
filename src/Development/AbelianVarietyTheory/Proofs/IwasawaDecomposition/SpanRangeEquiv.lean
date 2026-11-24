@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCompactDefiniteUnitaryRestrictedProduct
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LevelUniformityOfCmDatum
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.DatVtEq
 public import Formalism.LocalToGlobal.Divisibility.RowSideTie
 public import Formalism.LocalToGlobal.GaloisLevelStructure.TiedLevel
@@ -707,29 +709,8 @@ theorem mem_glint_of_entries {K : Type} [inst : Field K] {n : ℕ} (O : Subring 
     (h : ∀ (i j : Fin n), (↑g : Matrix (Fin n) (Fin n) K) i j ∈ O)
     (h' : ∀ (i j : Fin n), (↑g⁻¹ : Matrix (Fin n) (Fin n) K) i j ∈ O) :
     g ∈ Formalism.UG.GLint (Fin n) O := by
-  let A : Matrix (Fin n) (Fin n) O := Matrix.of fun i j => ⟨_, h i j⟩
-  let B : Matrix (Fin n) (Fin n) O := Matrix.of fun i j => ⟨_, h' i j⟩
-  have hA : O.subtype.mapMatrix A = (↑g : Matrix (Fin n) (Fin n) K) := by
-    ext i j; rfl
-  have hB : O.subtype.mapMatrix B = (↑g⁻¹ : Matrix (Fin n) (Fin n) K) := by
-    ext i j; rfl
-  have hinj : Function.Injective
-      (O.subtype.mapMatrix : Matrix (Fin n) (Fin n) O → Matrix (Fin n) (Fin n) K) := by
-    intro X Y hXY
-    ext i j
-    exact congrFun (congrFun hXY i) j
-  have hAB : A * B = 1 := by
-    apply hinj
-    rw [map_mul, map_one, hA, hB]
-    exact Units.mul_inv g
-  have hBA : B * A = 1 := by
-    apply hinj
-    rw [map_mul, map_one, hA, hB]
-    exact Units.inv_mul g
-  refine ⟨⟨A, B, hAB, hBA⟩, ?_⟩
-  apply Units.ext
-  ext i j
-  rfl
+  intros
+  apply _root_.GlobalTheory.BCT.LocCpt.mem_GLint_of_entries' <;> assumption
 
 end GlobalTheory.MemGlintOfEntries
 end -- clump:auto
@@ -1111,24 +1092,7 @@ def charUnit {A : Type} [AddCommGroup A] (ψ : AddChar A ℂ) (x : A) : ℂˣ :=
 
 theorem addChar_extend {K : Type} [Ring K] (S : Subring K) (ψ : AddChar S ℂ) :
     ∃ ψ₀ : AddChar K ℂ, ∀ x : S, ψ₀ x = ψ x := by
-  let _ := unitsDiv
-  let g : S →ₗ[ℤ] Additive ℂˣ := AddMonoidHom.toIntLinearMap
-    { toFun := fun x => Additive.ofMul (charUnit ψ x)
-      map_zero' := by
-        apply Additive.toMul.injective
-        ext
-        simp [charUnit, AddChar.map_zero_eq_one]
-      map_add' := fun x y => by
-        apply Additive.toMul.injective
-        ext
-        simp [charUnit, AddChar.map_add_eq_mul] }
-  let f : S →ₗ[ℤ] K := (S.subtype : S →+* K).toAddMonoidHom.toIntLinearMap
-  obtain ⟨h, hh⟩ := (Module.Baer.of_divisible (Additive ℂˣ)).extension_property f Subtype.val_injective g
-  refine ⟨{ toFun := fun x => ((Additive.toMul (h x) : ℂˣ) : ℂ)
-            map_zero_eq_one' := by simp
-            map_add_eq_mul' := fun x y => by simp [map_add (f := _)] }, fun x => ?_⟩
-  have e := congrArg (fun φ => ((Additive.toMul (φ x) : ℂˣ) : ℂ)) hh
-  simpa [f, g, charUnit] using e
+  apply _root_.GlobalTheory.ResidueChar.addChar_extend_subring <;> assumption
 
 theorem exists_localAddChar_lifting_residueChar : ∀ (D : D7) (s : ReciprocityTheory.Aut.SplitPlace D.host.E) (φ : s.v.adicCompletionIntegers (maximalRealSubfield D.host.E) →+* kP s.w), Function.Surjective φ → (∀ x, φ x = 0 ↔ Valued.v (x : s.v.adicCompletion (maximalRealSubfield D.host.E)) < 1) → ∀ ψ' : AddChar (kP s.w) ℂ, ψ' ≠ 1 → ∃ ψ₀ : AddChar (s.v.adicCompletion (maximalRealSubfield D.host.E)) ℂ, NG.IsPsi0 s ψ₀ ∧ ∀ x : s.v.adicCompletionIntegers (maximalRealSubfield D.host.E), ψ₀ (x : s.v.adicCompletion (maximalRealSubfield D.host.E)) = ψ' (φ x) := by
   intro D s φ hφs hφ0 ψ' hne

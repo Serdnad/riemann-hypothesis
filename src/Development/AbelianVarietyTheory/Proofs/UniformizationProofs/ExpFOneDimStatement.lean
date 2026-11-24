@@ -47,6 +47,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.FiniteExponentBaseChangeField
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFOneDim, Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExpFOneDimStatement
@@ -88,19 +89,7 @@ theorem expF_zero (U : PreU I D A G) (F : Type) [Field F] [Algebra (FractionRing
 
 theorem appTop_injective (F : Type) [Field F] [Algebra (FractionRing R) F] :
     Function.Injective (toUnit (TF (R := R) F)).left.appTop.hom := by
-  have e₂ : (toUnit (TF (R := R) F)).left =
-      Spec.map (CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R)))) := by
-    have a := Over.w (toUnit (TF (R := R) F))
-    exact ((Category.comp_id _).symm.trans a).trans (Spec.map_comp _ _).symm
-  rw [e₂]
-  have n := Scheme.ΓSpecIso_naturality
-    (CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R))))
-  have i : Function.Injective ((Scheme.ΓSpecIso (CommRingCat.of R)).hom ≫
-      CommRingCat.ofHom ((algebraMap (FractionRing R) F).comp (algebraMap R (FractionRing R)))).hom :=
-    ((algebraMap (FractionRing R) F).injective.comp (IsFractionRing.injective R (FractionRing R))).comp
-      (Scheme.ΓSpecIso (CommRingCat.of R)).commRingCatIsoToRingEquiv.injective
-  rw [← n] at i
-  exact Function.Injective.of_comp (f := (Scheme.ΓSpecIso (CommRingCat.of F)).hom.hom) i
+  apply _root_.GlobalTheory.UU.FEDesc.toUnit_injective <;> assumption
 
 theorem eq_zero_of_pullG (U : PreU I D A G) (F : Type) [Field F] [Algebra (FractionRing R) F] (k : ℕ)
     (σ : U.SecGT (𝟙_ _) k) (t : LB.Sec (LPow A.A A.L (k : ℤ) (TFK (R := R) F)))

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsIntegrallyClosedOfDenomBis
 public import Development.WeilBound.CoreStatements.HodgeTatePoints.WeilfunCore
 public import Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.IsDerAt0
 public import Mathlib.Tactic.ENatToNat
@@ -401,15 +402,8 @@ end Cot
 theorem valAt_spec_map' {B C : Type} [CommRing B] [CommRing C] {X : Scheme.{0}} (ψ : B →+* C)
     (y : Spec (CommRingCat.of B) ⟶ X) (s : Γ(X, ⊤)) :
     valAt (Spec.map (CommRingCat.ofHom ψ) ≫ y) ⊤ le_top s = ψ (valAt y ⊤ le_top s) := by
-  unfold valAt
-  rw [← Scheme.Hom.appLE_comp_appLE (Spec.map (CommRingCat.ofHom ψ)) y ⊤ ⊤ ⊤ le_top le_top]
-  have e1 : (Spec.map (CommRingCat.ofHom ψ)).appLE ⊤ ⊤ le_top = (Spec.map (CommRingCat.ofHom ψ)).appTop := by
-    rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
-    congr 1
-  rw [e1]
-  have e2 := congrArg (fun φ => φ.hom ((y.appLE ⊤ ⊤ le_top).hom s))
-    (Scheme.ΓSpecIso_naturality (CommRingCat.ofHom ψ))
-  exact e2
+  intros
+  apply _root_.PositivityTheory.HtPt.Twpair.valHom_top_comp <;> assumption
 
 private theorem valAt_top_lemma {B : Type} [CommRing B] {X : Scheme} (f : Spec (CommRingCat.of B) ⟶ X)
     (h : ⊤ ≤ f ⁻¹ᵁ ⊤) (s : Γ(X, ⊤)) :
@@ -568,19 +562,7 @@ theorem qhom_surj {E : Type} [Field E] [NumberField E] (N n : ℕ) : Function.Su
 
 theorem qhom_eq_one {E : Type} [Field E] [NumberField E] (N n : ℕ) (y : Fin N → 𝓞 E) :
     qhom N n (Multiplicative.ofAdd y) = 1 ↔ ∃ y', y = n • y' := by
-  constructor
-  · intro h
-    have hi : ∀ i, y i ∈ Ideal.span {(n : 𝓞 E)} := fun i => by
-      rw [← Ideal.Quotient.eq_zero_iff_mem]
-      exact congrFun (congrArg Multiplicative.toAdd h) i
-    choose c hc using fun i => Ideal.mem_span_singleton'.1 (hi i)
-    exact ⟨c, funext fun i => by rw [← hc i, Pi.smul_apply, nsmul_eq_mul, mul_comm]⟩
-  · rintro ⟨y', rfl⟩
-    apply Multiplicative.toAdd.injective
-    funext i
-    show Ideal.Quotient.mk _ ((n • y') i) = 0
-    rw [Ideal.Quotient.eq_zero_iff_mem, Pi.smul_apply, nsmul_eq_mul]
-    exact Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self _)
+  apply _root_.PositivityTheory.Xgn.TestGroupPoint.Par.qhom_eq_one <;> assumption
 
 theorem exists_alpha {E : Type} [Field E] [NumberField E] (N p m : ℕ) (hm : 1 ≤ m) :
     ∃ α : TorsT E N p →* TorsT E N (p ^ m), ∀ x, α (qmk p x) = qmk (p ^ m) (p ^ (m - 1) • x) := by

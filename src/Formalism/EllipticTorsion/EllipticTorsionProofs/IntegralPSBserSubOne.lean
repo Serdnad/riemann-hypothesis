@@ -1,5 +1,6 @@
 module
 
+import Formalism.TorsionNormIteration.InverseIntegralClasses.InvInt
 public import Formalism.EllipticTorsion.Statement
 public import Mathlib.NumberTheory.Padics.MahlerBasis
 import Mathlib.Algebra.Order.Floor.Extended
@@ -69,12 +70,7 @@ theorem integralMv_one {σ : Type*} : IntegralMv (1 : MvPowerSeries σ K) := by
 
 theorem integralMv_mul {σ : Type*} {f g : MvPowerSeries σ K} (hf : IntegralMv f)
     (hg : IntegralMv g) : IntegralMv (f * g) := by
-  classical
-  intro d
-  rw [MvPowerSeries.coeff_mul]
-  refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg zero_le_one (fun i _ => ?_)
-  rw [norm_mul]
-  exact mul_le_one₀ (hf _) (norm_nonneg _) (hg _)
+  apply _root_.Formalism.LT.InvIntP.integral_mul <;> assumption
 
 theorem integralMv_pow {σ : Type*} {f : MvPowerSeries σ K} (hf : IntegralMv f) (n : ℕ) :
     IntegralMv (f ^ n) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.ZetaValueIdeals
 public import Formalism.SharpRestriction.GlobalSchurBounds.ShortIntervalPrimes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -196,16 +197,7 @@ theorem absNorm_span_rat (n : ℕ) : Ideal.absNorm (Ideal.span {(n : 𝓞 ℚ)})
   simp
 
 theorem exists_span_rat (I : Ideal (𝓞 ℚ)) : ∃ n : ℕ, I = Ideal.span {(n : 𝓞 ℚ)} := by
-  have : IsPrincipalIdealRing (𝓞 ℚ) :=
-    IsPrincipalIdealRing.of_surjective Rat.ringOfIntegersEquiv.symm.toRingHom Rat.ringOfIntegersEquiv.symm.surjective
-  obtain ⟨a, rfl⟩ : ∃ a, I = Ideal.span {a} := ⟨_, (IsPrincipalIdealRing.principal I).span_singleton_generator.symm⟩
-  obtain ⟨m, rfl⟩ : ∃ m : ℤ, a = (m : 𝓞 ℚ) := ⟨Rat.ringOfIntegersEquiv a, by
-    apply Rat.ringOfIntegersEquiv.injective; simp⟩
-  refine ⟨m.natAbs, ?_⟩
-  rcases Int.natAbs_eq m with h | h
-  · rw [h]; simp
-  · conv_lhs => rw [h]
-    rw [Int.cast_neg, Ideal.span_singleton_neg, Int.cast_natCast]
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.ZetaValueIdeals.exists_span_rat <;> assumption
 
 theorem coprimeTo_span_rat (N n : ℕ) :
     CoprimeTo ℚ (Ideal.span {(N : 𝓞 ℚ)}) (Ideal.span {(n : 𝓞 ℚ)}) ↔ n ≠ 0 ∧ n.Coprime N := by

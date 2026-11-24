@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.TowerCoveringOfInvariantFiniteEtaleSeparated
 public import Mathlib.AlgebraicGeometry.Morphisms.Etale
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsCompletedStrictHens
 public import Mathlib.AlgebraicGeometry.AlgClosed.Basic
@@ -358,17 +359,7 @@ private theorem fet_lift {I : Type} [Finite I] {ZM ZN Q Pw : Scheme.{0}} (s₁ :
 
 private theorem KN_conj {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G) {n : ℕ} {u v : G.GAf}
     (hu : u ∈ L.KN 1) (hv : v ∈ L.KN n) : u * v * u⁻¹ ∈ L.KN n := by
-  have key : ∀ v, L.CongOne n v → L.CongOne n (u * v * u⁻¹) := fun v hv x hx => by
-    have i1 : L.actG u⁻¹ x ∈ LaHat D := integ_of_mem (inv_mem hu) x hx
-    obtain ⟨y, hy, e⟩ := hv _ i1
-    refine ⟨L.actG u y, integ_of_mem hu y hy, ?_⟩
-    have e2 : L.actG u (L.actG u⁻¹ x) = x := by
-      rw [← Module.End.mul_apply, ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply]
-    rw [map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply, e, map_add (f := _), e2, map_nsmul]
-  refine ⟨key _ hv.1, ?_⟩
-  have : (u * v * u⁻¹)⁻¹ = u * v⁻¹ * u⁻¹ := by group
-  rw [this]
-  exact key _ hv.2
+  apply _root_.UpperTheory.TraceConjugationCover.conj_mem <;> assumption
 
 private theorem wit_of {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} {L : Link D G} {E : Type} [Field E] [NumberField E]
     {gb : GBase D.toG E} {k : ℕ} (T : KS L gb k) (N' N : Lv p) (h : G.GAf) (a) (b) :

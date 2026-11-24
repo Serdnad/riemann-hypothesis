@@ -109,6 +109,7 @@ import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.L
 import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.QuotientParamNonneg
 import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.LiftIndexPowFourLeDegree
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.CoordLetterEquivApplyConjugate
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ConjHalfIntegralGenerator, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsSmulMemLattice, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsThetaRunParametersUniformTorus, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.FirstMinimumSqMulIInfHeightLeCard, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LeviLogThetaSum, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LogThetaSumInvariantSmooth, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.NonemptyTorusAt, Development.AbelianVarietyTheory.Proofs.TorusSplitting.ThetaBound, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.Parity, Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ConjCmHalfIntegralGeneratorEqOneSub, Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.ThetaArchimedeanDataIndefiniteModels
@@ -125,14 +126,7 @@ open scoped ComplexConjugate
 
 theorem conj_eq_neg_of_sq_eq_neg {z : ℂ} {d : ℝ} (hd : 0 < d) (h : z ^ 2 = -(d : ℂ)) :
     conj z = -z := by
-  have hre := congrArg Complex.re h
-  have him := congrArg Complex.im h
-  simp [pow_two] at hre him
-  have hre0 : z.re = 0 := by
-    rcases mul_eq_zero.mp (show z.re * z.im = 0 by linarith) with h0 | h0
-    · exact h0
-    · rw [h0] at hre; nlinarith [mul_self_nonneg z.re]
-  apply Complex.ext <;> simp [hre0]
+  apply _root_.GlobalTheory.ConjugateEmbeddingSquareRoot.conj_eq_neg_of_sq <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 

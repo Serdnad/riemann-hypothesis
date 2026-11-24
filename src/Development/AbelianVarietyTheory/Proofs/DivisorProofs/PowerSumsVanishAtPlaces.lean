@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTateModuleLevelComponentEqOfCardTorsion
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsDimEqOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyDegreePolynomialMapEqCharpolyRatioStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianVarietyEndCharpolySpecStatement
@@ -139,19 +140,7 @@ open GlobalTheory.HTLat in
 theorem tate_lev_surj (M : Type) [CommGroup M] (l : ℕ) [Fact l.Prime] (r : ℕ)
     (hc : ∀ n : ℕ, Nat.card {x : M // x ^ (l ^ n) = 1} = l ^ (r * n)) (j : ℕ) (x : M)
     (hx : x ^ (l ^ j) = 1) : ∃ t : GlobalTheory.HTLat.Tate l M, t.lev j = x := by
-  choose L hL using GlobalTheory.TateFree.exists_pow_eq hc
-  let u : ∀ m : ℕ, {y : M // y ^ l ^ (j + m) = 1} := fun m =>
-    Nat.rec (motive := fun m => {y : M // y ^ l ^ (j + m) = 1}) ⟨x, hx⟩
-      (fun m y => ⟨L (j + m) y.1 y.2, (hL _ _ _).1⟩) m
-  have hu : ∀ m, (u (m + 1)).1 ^ l = (u m).1 := fun m => (hL _ _ _).2
-  have hu' : ∀ m, (u m).1 ^ l ^ m = x := fun m => by
-    induction m with
-    | zero => exact pow_one x
-    | succ m ih => rw [pow_succ', pow_mul, hu, ih]
-  refine ⟨Tate.mk (fun m => (u m).1 ^ l ^ j) fun m => ⟨?_, ?_⟩, hu' j⟩
-  · rw [← pow_mul, ← pow_add]
-    exact (u m).2
-  · rw [← pow_mul, mul_comm, pow_mul, hu]
+  apply _root_.GlobalTheory.exists_tate_lev_eq_of_card_torsion <;> assumption
 
 end GlobalTheory.CharpolyLattice
 

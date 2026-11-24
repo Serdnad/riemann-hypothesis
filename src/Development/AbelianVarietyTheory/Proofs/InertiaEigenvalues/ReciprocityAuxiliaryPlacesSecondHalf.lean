@@ -83,6 +83,7 @@ import Mathlib.FieldTheory.Galois.Profinite
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Algebra.Module.StablyFree.Basic
 import Mathlib.RingTheory.RootsOfUnity.AlgebraicallyClosed
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsElementsSelmerFormsSmallCorank
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ActsTriviallyResidualOfComplexConjugate, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InvCupPairingOfInvCupCharacters, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CupCoboundary, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsZmodPowCoboundaryOfRationalCoboundary, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.MuCocycleCoboundaryLift, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LocalCupPairingReducedCocycles, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ReciprocityAuxiliaryPlacesSecondHalf
@@ -1025,16 +1026,7 @@ theorem red_apply (ρ : GE N →* GL (Fin D.R.r) (X.O0 i)) (g : GE N) (m : Fin D
 omit [TopologicalSpace K] [DiscreteTopology K] in
 theorem red_dot (hρ : IsDual i s ρ) (g : GE N) (a b : Fin D.R.r → K) :
     red i K (Tgl i s) g a ⬝ᵥ red i K ρ g b = algebraMap (X.O0 i) K ((eps0 X i g : (X.O0 i)ˣ) : X.O0 i) * (a ⬝ᵥ b) := by
-  have h3 : IsUnit (Tmat i s g).det := by
-    rw [← Tgl_coe]; exact Matrix.isUnits_det_units _
-  have h4 : ((Tmat i s g)⁻¹).map (algebraMap (X.O0 i) K) * (Tmat i s g).map (algebraMap (X.O0 i) K) = 1 := by
-    rw [← Matrix.map_mul, Matrix.nonsing_inv_mul _ h3, Matrix.map_one _ (map_zero _) (map_one _)]
-  have h5 : (Tdual i s g).map (algebraMap (X.O0 i) K) = algebraMap (X.O0 i) K ((eps0 X i g : (X.O0 i)ˣ) : X.O0 i) •
-      (((Tmat i s g)⁻¹).map (algebraMap (X.O0 i) K)).transpose := by
-    ext a b
-    simp [Tdual]
-  rw [red_apply, red_apply, hρ, Tgl_coe, h5, Matrix.smul_mulVec, dotProduct_smul, smul_eq_mul,
-    Matrix.dotProduct_mulVec, Matrix.vecMul_transpose, Matrix.mulVec_mulVec, h4, Matrix.one_mulVec]
+  apply _root_.GlobalTheory.ChooseForms.pairing <;> assumption
 
 theorem contAction_red (hK : IsRes i K) (hρ : ρ = Tgl i s ∨ IsDual i s ρ) : ContAction (red i K ρ) := by
   have := isLocalHom_of_isRes hK

@@ -136,14 +136,7 @@ variable {y}
 
 theorem aeval_ne_zero_of_mem {I : ∀ k, Finset (ι k)} (hI : Good y I) {t : MRingOver S ι}
     (ht : t ∈ cellMon S I) : aeval y t ≠ 0 := by
-  unfold ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.KH.cellMon at ht
-  induction ht using Submonoid.closure_induction with
-  | mem x hx =>
-    obtain ⟨k, i, hi, rfl⟩ := hx
-    rw [aeval_X]
-    exact hI k i hi
-  | one => simp
-  | mul x z _ _ hx hz => rw [map_mul]; exact mul_ne_zero hx hz
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.aeval_ne_zero_of_mem <;> assumption
 
 variable (y)
 
@@ -213,52 +206,7 @@ theorem exists_rep {T : Submonoid (MRingOver S ι)} {β : K → ℤ}
     ∃ (g : MRingOver S ι) (t : T) (a : K → ℕ), IsMultiHomog (t : MRingOver S ι) a ∧
       IsMultiHomog g (fun k => (β k + a k).toNat) ∧ ((∀ k, 0 ≤ β k + a k) ∨ g = 0) ∧
       x = LocalizedModule.mk (Ideal.Quotient.mk V g) t := by
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨m, t, a, ht, hm, rfl⟩ := hx
-    obtain ⟨g, hg, hd, rfl⟩ := exists_homog_of_mem_quotPart hm
-    exact ⟨g, t, a, ht, hg, hd, rfl⟩
-  | zero =>
-    refine ⟨0, 1, 0, ?_, isMultiHomog_zero _, Or.inr rfl, ?_⟩
-    · simpa using isMultiHomog_C (S := S) (ι := ι) 1
-    · rw [map_zero, LocalizedModule.zero_mk]
-  | add x x' _ _ h h' =>
-    obtain ⟨g, t, a, ht, hg, hd, rfl⟩ := h
-    obtain ⟨g', t', a', ht', hg', hd', rfl⟩ := h'
-    rcases hd with hd | rfl
-    swap
-    · exact ⟨g', t', a', ht', hg', hd', by rw [map_zero, LocalizedModule.zero_mk, zero_add]⟩
-    rcases hd' with hd' | rfl
-    swap
-    · exact ⟨g, t, a, ht, hg, Or.inl hd, by rw [map_zero, LocalizedModule.zero_mk, add_zero]⟩
-    refine ⟨(t' : MRingOver S ι) * g + (t : MRingOver S ι) * g', t * t', a + a', ?_, ?_, Or.inl ?_, ?_⟩
-    · simpa using isMultiHomog_mul ht ht'
-    · have e1 : (fun k => (β k + ((a + a') k : ℕ)).toNat) = a' + (fun k => (β k + a k).toNat) := by
-        funext k
-        have := hd k
-        simp only [Pi.add_apply, Nat.cast_add]
-        omega
-      have e2 : (fun k => (β k + ((a + a') k : ℕ)).toNat) = a + (fun k => (β k + a' k).toNat) := by
-        funext k
-        have := hd' k
-        simp only [Pi.add_apply, Nat.cast_add]
-        omega
-      refine isMultiHomog_add ?_ ?_
-      · rw [e1]; exact isMultiHomog_mul ht' hg
-      · rw [e2]; exact isMultiHomog_mul ht hg'
-    · intro k
-      have := hd k
-      simp only [Pi.add_apply, Nat.cast_add]
-      omega
-    · rw [LocalizedModule.mk_add_mk]
-      congr 1
-  | smul s x _ h =>
-    obtain ⟨g, t, a, ht, hg, hd, rfl⟩ := h
-    refine ⟨s • g, t, a, ht, isMultiHomog_smul s hg, ?_, ?_⟩
-    · rcases hd with hd | rfl
-      · exact Or.inl hd
-      · exact Or.inr (smul_zero s)
-    · rw [LocalizedModule.smul'_mk, ← Ideal.Quotient.mkₐ_eq_mk S, map_smul]
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.exists_rep <;> assumption
 
 end Rep
 
@@ -266,16 +214,7 @@ variable {Ω : Type} [Field Ω] [Algebra S Ω] (y : (Σ k, ι k) → Ω)
 
 theorem evMap_injOn {I : ∀ k, Finset (ι k)} (hI : Good y I) (β : K → ℤ) :
     Set.InjOn (evMap (S := S) y I) (locPart ι (quotPart S (mIdealOver S y)) (cellMon S I) β) := by
-  intro x hx x' hx' hxx'
-  rw [← sub_eq_zero]
-  have hs : x - x' ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I) β := sub_mem hx hx'
-  have h0 : evMap y I (x - x') = 0 := by rw [map_sub, hxx', sub_self]
-  obtain ⟨g, t, a, -, hg, -, he⟩ := exists_rep hs
-  rw [he] at h0 ⊢
-  rw [evMap_mk y hI, div_eq_zero_iff] at h0
-  rcases h0 with h0 | h0
-  · rw [mk_eq_zero_of_aeval y hg h0, LocalizedModule.zero_mk]
-  · exact absurd h0 (aeval_ne_zero_of_mem hI t.2)
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.evMap_injOn <;> assumption
 
 def chart (c : ∀ k, ι k) : ∀ k, Finset (ι k) := fun k => {c k}
 
@@ -381,14 +320,7 @@ theorem cellRes_mem_locPart {J I : ∀ k, Finset (ι k)} (h : cellMon S J ≤ ce
     {x : LocalizedModule (cellMon S J) (MRingOver S ι ⧸ mIdealOver S y)}
     (hx : x ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S J) β) :
     cellRes S _ J I x ∈ locPart ι (quotPart S (mIdealOver S y)) (cellMon S I) β := by
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨m, t, a, ht, hm, rfl⟩ := hx
-    rw [cellRes_mk h]
-    exact Submodule.subset_span ⟨m, ⟨t.1, h t.2⟩, a, ht, hm, rfl⟩
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
-  | add x₁ x₂ _ _ h₁ h₂ => rw [map_add]; exact add_mem h₁ h₂
-  | smul s x _ h' => rw [cellRes_smul]; exact Submodule.smul_mem _ s h'
+  apply _root_.GroundTheory.Heights₂.Heights.Kleiman.SectionsOverLocalization.CellLocEval.cellRes_mem_locPart <;> assumption
 
 theorem cechD_mem_locPart (β : K → ℤ) (n : ℕ) {f : CechC S ι (MRingOver S ι ⧸ mIdealOver S y) n}
     (hf : f ∈ cechCc ι (quotPart S (mIdealOver S y)) β n) (I : Cell K ι (n + 1)) :

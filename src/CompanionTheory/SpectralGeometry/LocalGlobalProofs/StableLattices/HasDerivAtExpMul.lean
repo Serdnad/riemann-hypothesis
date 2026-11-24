@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeylFormulaCompact.TrivKtype
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.CapelliDeterminantBlockProduct
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -97,21 +98,7 @@ lemma tor_mem_UJ (ε : Fin n → Bool) (θ : Fin n → ℝ) : tor θ ∈ UJset �
   rw [Pi.star_apply, mul_right_comm, star_exp_mul, one_mul]
 
 lemma tor_mem_K (ε : Fin n → Bool) (θ : Fin n → ℝ) : tor θ ∈ Kset ε := by
-  show tor θ ∈ Matrix.unitaryGroup (Fin n) ℂ ∧ tor θ * PI.UpqRep.Jm ε = PI.UpqRep.Jm ε * tor θ
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff', Matrix.star_eq_conjTranspose]
-    unfold tor
-    rw [Matrix.diagonal_conjTranspose, Matrix.diagonal_mul_diagonal,
-      show (1 : Matrix (Fin n) (Fin n) ℂ) = Matrix.diagonal (fun _ => 1) from Matrix.diagonal_one.symm]
-    congr 1
-    funext a
-    rw [Pi.star_apply]
-    exact star_exp_mul (θ a)
-  · unfold tor PI.UpqRep.Jm
-    rw [Matrix.diagonal_mul_diagonal, Matrix.diagonal_mul_diagonal]
-    congr 1
-    funext a
-    ring
+  apply _root_.PI.WeylForKInhab.diag_mem <;> assumption
 
 lemma diag_inG (ε : Fin n → Bool) (θ : Fin n → ℝ) :
     inG ε (Matrix.diagonal fun a => (θ a : ℂ) * Complex.I) := by

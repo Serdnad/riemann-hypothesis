@@ -409,30 +409,7 @@ private theorem latAt_rat {T : Type} {L : LevCh D T} {sc : Consts} {G : GlobalTh
     (S : GridChoice W Set.univ) (X : Node) (r : FinPt G X) (U : Matrix.unitaryGroup (Fin (G.V X).rank) D.host.E)
     (h : RatCoord (G.V X) (S.N.fr X) r U) (x : FinPt G X) :
     GlobalTheory.SumSize.latAt S X (r * x) = SDLat.smulLat U.1 (GlobalTheory.SumSize.latAt S X x) := by
-  obtain ⟨γ, -, h2, h3⟩ := h
-  have hg : (finG (G.V X) r).val = ((S.N.fr X).1 * U.1 * ((S.N.fr X)⁻¹ : GL _ _).1).map
-      (Formalism.UG.inclE (F := D.host.F) (E := D.host.E) (FiniteAdeleRing (𝓞 D.host.F) D.host.F)) := by
-    have e : (finG (G.V X) r).val = (Formalism.L2.Theta.mt (G.V X) γ).map (toEAf D) :=
-      Matrix.ext fun i j => congrArg (fun x : GL (Fin (G.V X).rank) _ =>
-        Algebra.TensorProduct.comm D.host.F (Af D.host.F) D.host.E (x.1 i j)) h2.symm
-    rw [e, h3]
-    rfl
-  have key : ∀ y, U.1 *ᵥ y ∈ GlobalTheory.SumSize.latAt S X (r * x) ↔ y ∈ GlobalTheory.SumSize.latAt S X x := fun y => by
-    unfold GlobalTheory.SumSize.latAt
-    rw [Submodule.mem_comap, Submodule.mem_comap, map_mul, LinearMap.restrictScalars_apply,
-      LinearMap.restrictScalars_apply, Matrix.mulVecLin_apply, Matrix.mulVecLin_apply]
-    have e : (S.N.fr X).1 *ᵥ (U.1 *ᵥ y) =
-        ((S.N.fr X).1 * U.1 * ((S.N.fr X)⁻¹ : GL _ _).1) *ᵥ ((S.N.fr X).1 *ᵥ y) := by
-      rw [Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, Matrix.mul_assoc _ _ (S.N.fr X).1, Units.inv_mul, Matrix.mul_one]
-    rw [e]
-    exact mem_globLat_mul _ _ _ hg (G.Λ X) _
-  ext z
-  constructor
-  · intro hz
-    have e : U.1 *ᵥ (star U.1 *ᵥ z) = z := by rw [Matrix.mulVec_mulVec, U.2.2, Matrix.one_mulVec]
-    exact ⟨_, (key _).1 (e.symm ▸ hz), e⟩
-  · rintro ⟨y, hy, rfl⟩
-    exact (key y).2 hy
+  apply _root_.GlobalTheory.RatMoveLat.latAt_rat <;> assumption
 private def NormOne {F : Type} [NormedField F] (lam : Qbar →+* F) (x : ℂ) : Prop := ∃ h : x ∈ Qbar, ‖lam ⟨x, h⟩‖ = 1
 section
 variable {F : Type} [NormedField F] {lam : Qbar →+* F}
@@ -1480,22 +1457,7 @@ private theorem exists_root_of_unity_factor {D : D7} {ψ : AddChar (AF D.host.F)
   exact mul_right_cancel₀ hw (e5.trans (one_mul _).symm)
 private theorem inverse_image_standard_lattice {D : D7} {n : ℕ} (B : GL (Fin n) D.host.E) :
     inV B (stdL D n) = (colLat B : Set (Fin n → D.host.E)) := by
-  ext y
-  simp only [inV, Set.mem_image, SetLike.mem_coe]
-  unfold colLat
-  rw [Submodule.mem_span_range_iff_exists_fun]
-  constructor
-  · rintro ⟨z, hz, rfl⟩
-    have hz' : ∀ i, ∃ c : 𝓞 D.host.E, algebraMap _ D.host.E c = z i := fun i =>
-      Submodule.mem_one.1 (hz i (Set.mem_univ i))
-    choose c hc using hz'
-    refine ⟨c, funext fun a => ?_⟩
-    simp only [Finset.sum_apply, Pi.smul_apply, Algebra.smul_def, hc, Matrix.mulVec, dotProduct]
-    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
-  · rintro ⟨c, rfl⟩
-    refine ⟨fun j => algebraMap _ D.host.E (c j), fun i _ => Submodule.mem_one.2 ⟨c i, rfl⟩, funext fun a => ?_⟩
-    simp only [Finset.sum_apply, Pi.smul_apply, Algebra.smul_def, Matrix.mulVec, dotProduct]
-    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
+  apply _root_.GlobalTheory.MovedKappaNorm.inV_stdL <;> assumption
 
 
 theorem movedVacuum_root_exists_algebraic (hP : _root_.GlobalTheory.FunPr.ThetaLocalInputs) (hI : ∀ D, GlobalTheory.NormSum.Inp D) {D : D7} {Γ : Type} [Group Γ] [Fintype Γ] {Pl0 T : Type}

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.WeylFormulaCompact.TrivKtype
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 public import Formalism.LocalToGlobal.ProjectiveLattices.CuspidalL2Subspace
 import Std.Tactic.BVDecide.Normalize.BitVec
@@ -162,18 +163,7 @@ theorem kset_uj {g : Matrix (Fin n) (Fin n) ℂ} (hg : g ∈ Formalism.REAL.Kset
   rw [Matrix.mul_assoc, ← hg.2, ← Matrix.mul_assoc, h1, Matrix.one_mul]
 
 theorem diag_mem (θ : Fin n → ℝ) : diagonal (fun a => Complex.exp ((θ a : ℂ) * Complex.I)) ∈ Formalism.REAL.Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff, star_eq_conjTranspose, diagonal_conjTranspose, diagonal_mul_diagonal, ← diagonal_one]
-    congr 1
-    funext i
-    change Complex.exp ((θ i : ℂ) * Complex.I) * (starRingEnd ℂ) (Complex.exp ((θ i : ℂ) * Complex.I)) = 1
-    rw [Complex.mul_conj, Complex.normSq_eq_norm_sq, Complex.norm_exp_ofReal_mul_I]
-    simp
-  · unfold Formalism.REAL.Jm
-    rw [diagonal_mul_diagonal, diagonal_mul_diagonal]
-    congr 1
-    funext a
-    exact mul_comm _ _
+  apply _root_.PI.WeylForKInhab.diag_mem <;> assumption
 
 theorem isWtOn_perm (hσ : IsURepOn (UJset ε) σ) (π : Equiv.Perm (Fin n)) (h : ∀ a, ε (π a) = ε a) {μ : Fin n → ℝ} {w : H}
     (hw : IsWtOn (Formalism.REAL.Kset ε) σ μ w) : IsWtOn (Formalism.REAL.Kset ε) σ (fun a => μ (π a)) (σ (pM π) w) := by

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.ProjectiveLattices.SatLeaves
 public import Mathlib.AlgebraicGeometry.Pullbacks
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Mathlib.Order.CompletePartialOrder
@@ -465,17 +466,7 @@ variable {S : Scheme.{0}} {I : Type} {U : I → S.Opens} {A : Over S} [GrpObj A]
 private theorem isGrpPullback_one_left {X' X : Scheme.{0}} {H' : Over X'} [GrpObj H'] {H : Over X} [GrpObj H]
     {g : X' ⟶ X} {φ : H'.left ⟶ H.left} (h : IsGrpPullback H' H g φ) (T : Over X') :
     (1 : Over.mk (T.hom ≫ g) ⟶ H).left = (1 : T ⟶ H').left ≫ φ := by
-  have hw : ((1 : T ⟶ H').left ≫ φ) ≫ H.hom = (Over.mk (T.hom ≫ g)).hom := by
-    rw [Category.assoc, h.1.w, ← Category.assoc, Over.w]
-    rfl
-  let z : Over.mk (T.hom ≫ g) ⟶ H := Over.homMk ((1 : T ⟶ H').left ≫ φ) hw
-  have hz : z * z = z := by
-    apply Over.OverMorphism.ext
-    rw [h.2 T 1 1 z z rfl rfl, _root_.mul_one]
-    rfl
-  have hz1 : z = 1 := _root_.mul_eq_left.mp hz
-  rw [← hz1]
-  rfl
+  apply _root_.Formalism.L2.Pj.grpPull_one <;> assumption
 
 private theorem pow_left_eq_pow_left_comp_of_isGrpPullback {X' X : Scheme.{0}} {H' : Over X'} [GrpObj H'] {H : Over X} [GrpObj H]
     {g : X' ⟶ X} {φ : H'.left ⟶ H.left} (h : IsGrpPullback H' H g φ) {T : Over X'} (y : T ⟶ H')

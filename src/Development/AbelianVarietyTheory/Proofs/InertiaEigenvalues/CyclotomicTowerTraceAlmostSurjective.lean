@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.TorsionBlocks.SelmerWindowSums
 public import Development.AbelianVarietyTheory.Definitions.Foundations.HTBasis
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsDiscreteValuationRingIntegralClosurePadicInt
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicCharacterPadicBasicProperties
@@ -489,19 +490,7 @@ theorem exists_moved (K : FinExt l) {y : Om l} (hy : ‖y‖ ≤ 1) (n : ℕ) {�
   linarith
 
 theorem finite_Ks (K : FinExt l) (i : ℕ) : FiniteDimensional ℚ_[l] (Ks K i) := by
-  classical
-  have hl : l.Prime := Fact.out
-  haveI := K.2
-  haveI : FiniteDimensional ℚ_[l] (K0 K) :=
-    FiniteDimensional.of_injective (IntermediateField.inclusion (inf_le_left : K0 K ≤ K.1)).toLinearMap
-      (IntermediateField.inclusion_injective inf_le_left)
-  haveI : Finite {x : Om l | x ^ (l ^ i) = 1} := by
-    refine ((Polynomial.nthRoots (l ^ i) (1 : Om l)).toFinset.finite_toSet.subset ?_).to_subtype
-    intro x hx
-    simpa [mem_nthRoots (pow_pos hl.pos i)] using hx
-  haveI := IntermediateField.finiteDimensional_adjoin (K := ℚ_[l]) (S := {x : Om l | x ^ (l ^ i) = 1})
-    fun x _ => Algebra.IsIntegral.isIntegral x
-  exact IntermediateField.finiteDimensional_sup _ _
+  first | exact _root_.GlobalTheory.IndefiniteRowSideFullHecke.SelmerFiniteUnramified.finKs | exact @_root_.GlobalTheory.IndefiniteRowSideFullHecke.SelmerFiniteUnramified.finKs | apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.SelmerFiniteUnramified.finKs <;> assumption
 
 theorem exists_primitive (L : FinExt l) : ∃ y ∈ L.1, ‖y‖ ≤ 1 ∧
     ∀ g : GQ l, g y = y → g ∈ L.1.fixingSubgroup := by

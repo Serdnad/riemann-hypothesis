@@ -810,13 +810,7 @@ private theorem iw_compact (w : Pl K) (ν : Fin n → ℤ)
 
 private theorem iw_zero (w : Pl K) :
     iwCoset w (0 : Fin n → ℤ) = (GLnLocal.iwahori (w.adicCompletion K) n : Set (GL (Fin n) (w.adicCompletion K))) := by
-  ext g
-  constructor
-  · rintro ⟨a, ha, b, hb, rfl⟩
-    rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one]
-    exact mul_mem ha hb
-  · intro hg
-    exact ⟨g, hg, 1, one_mem _, by rw [GroundTheory.Automorphic.Parabolic.diagPow_zero, mul_one, mul_one]⟩
+  apply _root_.iwCoset_zero <;> assumption
 
 variable {μ : Measure (normOneGL (K := K) (n := n))} [μ.IsHaarMeasure]
 

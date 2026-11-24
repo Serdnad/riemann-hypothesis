@@ -1465,17 +1465,6 @@ private theorem hof_abs_dlogH_le {R : Ranks} (H : Host R) {x eps C : ℝ} (h : Q
     rw [mul_assoc]; omega))).2
   exact (Complex.abs_re_le_norm _).trans h1
 
-private theorem hof_log_le_rpow (eps C : ℝ) (he : 0 < eps) (hC : 0 < C) :
-    ∃ x0 : ℝ, ∀ x, x0 ≤ x → C * Real.log x ≤ x ^ eps := by
-  have h := (isLittleO_log_rpow_atTop he).bound (inv_pos.2 hC)
-  obtain ⟨x0, h0⟩ := Filter.eventually_atTop.1 h
-  refine ⟨max x0 1, fun x hx => ?_⟩
-  have h1 := h0 x (le_of_max_le_left hx)
-  have hx1 : 1 ≤ x := le_of_max_le_right hx
-  rw [Real.norm_of_nonneg (Real.log_nonneg hx1), Real.norm_of_nonneg (by positivity)] at h1
-  calc C * Real.log x ≤ C * (C⁻¹ * x ^ eps) := by gcongr
-    _ = x ^ eps := by field_simp
-
 private theorem hof_Lwv_le (s : Scale) (hy : 1 ≤ Real.log s.x) :
     (Lwv s : ℝ) ≤ (4084 + 60 / s.eps) * Real.log s.x := by
   have he := s.eps_pos
@@ -1591,7 +1580,7 @@ theorem UpperTheory.T3.hostOfFieldOf :
   obtain ⟨xd, hP⟩ := UpperTheory.Top.pairRows eps C0 he he'
   obtain ⟨CT2, hT⟩ := hof_thick
   obtain ⟨xe, hT⟩ := hT eps C0 he he'
-  obtain ⟨xf, hlog⟩ := hof_log_le_rpow eps 4 he (by norm_num)
+  obtain ⟨xf, hlog⟩ := _root_.mul_log_le_rpow_eventually eps 4 he (by norm_num)
   obtain ⟨xg, hbig⟩ := UpperTheory.T3.qdBig eps C0 he he'
   refine ⟨CT2, max C0 C1, 1, Cb, max (max xa (max xc xd)) (max (max xe xf) xg), le_max_left _ _, one_pos, hCb,
     fun s R H0 M Y hs hx hR hJ ho hQS hM _ hQ hW hG hF hA => ?_⟩

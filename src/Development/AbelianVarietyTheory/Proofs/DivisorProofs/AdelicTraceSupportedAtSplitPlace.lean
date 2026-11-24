@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneVectorCcOfSiegelWeil
 
 @[expose] public section
 
@@ -80,21 +81,7 @@ theorem liftV_one_mul_comp (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTens
 
 theorem add_conj_eq_trace {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (x : E) :
     x + σ x = algebraMap F E (Algebra.trace F E x) := by
-  classical
-  have hc := h.2.1
-  haveI : Algebra.IsQuadraticExtension F E := ⟨h.2.2.1⟩
-  let s : E ≃ₐ[F] E := AlgEquiv.ofAlgHom σ σ (by ext y; simp [GlobalTheory.AdelicU.cm_conj_conj h])
-    (by ext y; simp [GlobalTheory.AdelicU.cm_conj_conj h])
-  have hs : (1 : E ≃ₐ[F] E) ≠ s := by
-    intro h1
-    obtain ⟨y, hy⟩ := GlobalTheory.AdelicU.exists_cm_conj_ne h
-    exact hy (DFunLike.congr_fun h1 y).symm
-  have hu : (Finset.univ : Finset (E ≃ₐ[F] E)) = {1, s} := by
-    symm
-    apply Finset.eq_univ_of_card
-    rw [Finset.card_pair hs, ← Nat.card_eq_fintype_card, IsGalois.card_aut_eq_finrank, h.2.2.1]
-  rw [trace_eq_sum_automorphisms, hu, Finset.sum_pair hs]
-  rfl
+  apply _root_.GlobalTheory.GaussMean.OneVec.add_sigma <;> assumption
 
 theorem trace_at_split : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {σ : E →ₐ[F] E}, Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.IsCMExt F E σ → ∀ (v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F)) (τ : E →ₐ[F] Fv F v)

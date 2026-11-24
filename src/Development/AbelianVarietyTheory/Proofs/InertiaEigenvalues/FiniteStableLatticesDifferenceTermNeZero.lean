@@ -54,6 +54,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AlternatingDifferenceTermWindow
 
 @[expose] public section
 
@@ -69,14 +70,7 @@ theorem trace_mem_of_isIntegral (x : B.A) (hx : IsIntegral K.O x) :
 
 theorem trace_idem_ne_zero (e : B.A) (he : IsIdempotentElem e) (h0 : e ≠ 0) :
     Algebra.trace K.E B.A e ≠ 0 := by
-  rw [Algebra.trace_apply]
-  have hid : IsIdempotentElem (Algebra.lmul K.E B.A e) := by
-    unfold IsIdempotentElem; ext y; simp [← mul_assoc, he.eq]
-  intro h
-  have := (LinearMap.IsIdempotentElem.trace_eq_zero_iff hid).1 h
-  apply h0
-  have h1 := LinearMap.congr_fun this 1
-  simpa using h1
+  apply _root_.GlobalTheory.UnitLemma.Desc.Window.trace_ne_zero_of_idem <;> assumption
 
 theorem exists_lb (a : K.O) (ha : K.Small a) (T : K.E) (hT : T ≠ 0) :
     ∃ L : ℤ, ∀ n : ℤ, al K a ^ n * T ∈ (algebraMap K.O K.E).range → L ≤ n := by

@@ -111,26 +111,6 @@ private theorem isEdge_map_mulVecLin_of_isUnit_det (M : Matrix (Fin k) (Fin k) R
         exact hyz
     exact (Nat.card_congr (Submodule.Quotient.equiv _ _ e0 hPQ).toEquiv).symm
 
-private theorem natCast_p_ne_zero_Qq (j : Fin k) : (p : R.Qq) ≠ 0 := by
-  intro h0
-  obtain ⟨g, hg, hgeq⟩ := (baseEdge R j).1
-  have hker : colSpan R.W (dj j (p : R.Qq)) ≤
-      LinearMap.ker ((LinearMap.proj j : (Fin k → R.Qq) →ₗ[R.Qq] R.Qq).restrictScalars R.W) := by
-    rw [colSpan, Submodule.span_le]
-    rintro _ ⟨c, rfl⟩
-    simp [dj, Matrix.diagonal_apply, h0]
-  obtain ⟨c, hc⟩ : ∃ c, g j c ≠ 0 := by
-    by_contra hall
-    push_neg at hall
-    exact hg.ne_zero (Matrix.det_eq_zero_of_row_eq_zero j hall)
-  have hmem : (fun i => g i c) ∈ colSpan R.W (dj j (p : R.Qq)) := by
-    have hgeq' : colSpan R.W (dj j (p : R.Qq)) = colSpan R.W g := hgeq
-    rw [hgeq']
-    exact Submodule.subset_span ⟨c, rfl⟩
-  have h1 := hker hmem
-  simp at h1
-  exact hc h1
-
 theorem edgeT (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
     IsEdge p n' 1 (⟨colSpan R.W (mapM V * dj j (p : R.Qq)), colSpan R.W (1 : Matrix (Fin k) (Fin k) R.Qq)⟩ :
       Edge R.W R.Qq k) := by
@@ -141,7 +121,7 @@ theorem edgeT (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
 theorem edgeS (V : Matrix (Fin k) (Fin k) R.W) (hV : IsUnit V.det) (j : Fin k) :
     IsEdge p n' 1 (⟨colSpan R.W (1 : Matrix (Fin k) (Fin k) R.Qq), colSpan R.W (mapM V * dj j (p : R.Qq)⁻¹)⟩ :
       Edge R.W R.Qq k) := by
-  have hp := natCast_p_ne_zero_Qq R j
+  have hp := _root_.Formalism.MainNotions.flipOneThree.Pf.RS.pQ_ne R
   have hdet : IsUnit (mapM V * dj j (p : R.Qq)⁻¹).det := by
     rw [Matrix.det_mul, dj_det]
     exact (mapM_det_unit R V hV).mul (isUnit_iff_ne_zero.2 (inv_ne_zero hp))

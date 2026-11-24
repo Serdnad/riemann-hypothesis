@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PotentialTheory.ContDiffOnFubiniStudyProfileInvNormSqFirst
 public import GroundTheory.HeightsAndTheta.Heights.Regularisation.Statements
 import Mathlib.Order.CompletePartialOrder
 import Mathlib.Tactic.TypeStar
@@ -21,16 +22,7 @@ noncomputable section
 
 theorem continuous_of_atlasSmooth {D : ℕ} {X : Type*} [TopologicalSpace X] {A : FinHolAtlas D X}
     {f : X → ℝ} (hf : A.Smooth f) : Continuous f := by
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨j, hj⟩ := A.cover x
-  have h1 : ContinuousOn (f ∘ (A.chart j).symm) (A.chart j).target := by
-    simpa using (hf j).continuousOn
-  have h2 := (h1.continuousAt ((A.chart j).open_target.mem_nhds ((A.chart j).map_source hj))).comp
-    ((A.chart j).continuousAt hj)
-  refine h2.congr ?_
-  filter_upwards [(A.chart j).open_source.mem_nhds hj] with y hy
-  simp [(A.chart j).left_inv hy]
+  apply _root_.ReciprocityTheory.AnForm.M.projLine_continuous_of_smooth <;> assumption
 
 theorem regMax_bounds {ι : Type} [Fintype ι] [Nonempty ι] {η : ℝ} (hη : 0 < η) (t : ι → ℝ) :
     tmax t ≤ regMax η t ∧ regMax η t ≤ tmax t + η / 2 := by

@@ -269,7 +269,6 @@ theorem edgeSum_mul {A B : Matrix (Fin N) (Fin N) K} (hA : IsUT A) (hB : IsUT B)
     · have : j < m := by
         have h2 : (m : ℕ) ≠ i := fun h' => hm.2 (Fin.ext h')
         have h3 : (m : ℕ) ≠ j := fun h' => hm.1 (Fin.ext h')
-        have h4 : (i : ℕ) ≤ m := h1
         show (j : ℕ) < m
         omega
       rw [hB.2 m j this, mul_zero]
@@ -369,8 +368,6 @@ theorem desc_run (τ : Equiv.Perm (Fin N))
       have := τ.injective h'
       have := congrArg Fin.val this
       omega
-    have hlt' : (τ j : ℕ) < τ i := hlt
-    have him' : (i : ℕ) ≤ m := him
     have hmj' : (m : ℕ) ≤ j := hmj
     by_cases hmi : m = i
     · rw [hmi]
@@ -388,7 +385,6 @@ theorem desc_run (τ : Equiv.Perm (Fin N))
         have := ih i' j (by omega) h4 m (by show (i' : ℕ) ≤ m; omega) hmj
         omega
     · exfalso
-      have h1' : (τ i : ℕ) < τ i' := h1
       have h4 : τ j < τ i' := lt_trans hlt h1
       have hall := ih i' j (by omega) h4
       have hjj := hall j (by show (i' : ℕ) ≤ j; omega) le_rfl
@@ -407,7 +403,6 @@ theorem desc_invol (τ : Equiv.Perm (Fin N))
   have run' : ∀ i j : Fin N, i < j → τ j < τ i → ∀ m : Fin N, i ≤ m → m ≤ j →
       (τ m : ℕ) + m = τ i + i := by
     intro i j hij
-    have hij' : (i : ℕ) < j := hij
     exact run (j - i) i j (by omega)
   obtain ⟨j0, hj0⟩ := τ.surjective i
   rcases lt_trichotomy (τ i) i with hc | hc | hc
@@ -485,7 +480,6 @@ theorem desc_const {α : Type} (τ : Equiv.Perm (Fin N))
   have inv := desc_invol τ h
   have main : ∀ i : Fin N, i < τ i → t (τ i) = t i := by
     intro i hi
-    have hi' : (i : ℕ) < τ i := hi
     have hr := desc_run τ h ((τ i : ℕ) - i) i (τ i) (by omega) (by rw [inv]; exact hi)
     have step : ∀ d : ℕ, ∀ m : Fin N, (m : ℕ) = i + d → m ≤ τ i → t m = t i := by
       intro d
@@ -493,7 +487,6 @@ theorem desc_const {α : Type} (τ : Equiv.Perm (Fin N))
       | zero => intro m hm _; rw [show m = i from Fin.ext (by omega)]
       | succ d ih =>
         intro m hm hle
-        have hle' : (m : ℕ) ≤ τ i := hle
         have hm1 : (i : ℕ) + d < N := by have := m.2; omega
         set m1 : Fin N := ⟨i + d, hm1⟩ with hm1def
         have hm1v : (m1 : ℕ) = i + d := rfl

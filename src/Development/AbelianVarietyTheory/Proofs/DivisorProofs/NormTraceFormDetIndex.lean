@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.PublishedTheorems.AdelicLattices₂.AlgebraMapNormOfBasisOneSqrt
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.Signature
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.EmbGLMemRealSU
 public import Mathlib.Basic.Real.Basic
@@ -154,18 +155,7 @@ lemma map_cc_mul {r : ℕ} (A B : Matrix (Fin r) (Fin r) E) :
   Matrix.map_mul (f := ccHom E)
 
 lemma exists_ne_zero_cc_eq_neg : ∃ β : E, β ≠ 0 ∧ cc β = -β := by
-  by_contra h
-  push_neg at h
-  apply IsCMField.complexConj_ne_one E
-  refine AlgEquiv.ext fun x => ?_
-  have h1 : cc (x - cc x) = -(x - cc x) := by
-    simp only [cc, map_sub, IsCMField.complexConj_apply_apply]; ring
-  have h2 := h (x - cc x)
-  have h3 : x - cc x = 0 := by
-    by_contra hne
-    exact h2 hne h1
-  have : cc x = x := by linear_combination -h3
-  simpa [cc] using this
+  apply _root_.GlobalTheory.Published.exists_cc_eq_neg <;> assumption
 
 lemma herm_eq_dot {r : ℕ} (G : Matrix (Fin r) (Fin r) E) (x y : Fin r → E) :
     herm G x y = x ⬝ᵥ (G *ᵥ fun b => cc (y b)) := by

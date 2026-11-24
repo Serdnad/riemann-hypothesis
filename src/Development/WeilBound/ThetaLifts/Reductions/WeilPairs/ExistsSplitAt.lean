@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsAdelicUnitaryComplementRangeStabiliser
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.UnitaryAdelicCharacterTrivialRatAndSplit
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumF
 import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsIntegralSplitIdempotentOverTwo
@@ -130,15 +131,7 @@ theorem idem_eq_sum (e : Af F) (he : e * e = e) (S : Finset (HeightOneSpectrum (
     exact hw ((hS w).2 h)
 
 theorem exists_of_fixed {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {x : E} (hx : σ x = x) : ∃ t : F, algebraMap F E t = x := by
-  obtain ⟨θ, d, hd, h1, h2, h3⟩ := GlobalTheory.SplitDetCharF.exists_int_basis h
-  obtain ⟨u, w, rfl⟩ := h3 x
-  have hθ : θ ≠ 0 := fun h0 => hd ((algebraMap F E).injective (by rw [← h2, h0, mul_zero, map_zero]))
-  simp only [Algebra.smul_def, map_add (f := _), map_mul, AlgHom.commutes, map_one, h1, add_right_inj] at hx
-  rw [← Algebra.smul_def, ← Algebra.smul_def, smul_neg] at hx
-  have hw : w • θ = 0 := by
-    have : (2 : E) * (w • θ) = 0 := by linear_combination -hx
-    exact (mul_eq_zero.1 this).resolve_left two_ne_zero
-  exact ⟨u, by rw [hw, add_zero, Algebra.algebraMap_eq_smul_one]⟩
+  apply _root_.GlobalTheory.StabiliserOfVector.exists_of_conj_fixed <;> assumption
 
 theorem exists_int {σ : E →ₐ[F] E} (h : IsCMExt F E σ) (x : 𝓞 E) (hx : σ (x : E) = x) :
     ∃ t : 𝓞 F, algebraMap (𝓞 F) (𝓞 E) t = x ∧ algebraMap F E (t : F) = x := by

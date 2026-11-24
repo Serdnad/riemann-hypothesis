@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 public import Mathlib.RingTheory.Etale.Basic
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsAcrisLogOneAdd
 
 @[expose] public section
 
@@ -98,16 +99,7 @@ theorem ker_localizedTheta_eq_span_eisenstein : Per.kerP l = RingHom.ker (Per.θ
 alias fontaineTheta_algebraMap₂ := _root_.GlobalTheory.RingIface.fontaineTheta_algebraMap
 
 theorem θ_surjective : Function.Surjective (Per.θ l) := by
-  refine surjective_fontaineTheta fun x => ?_
-  obtain ⟨y, rfl⟩ := Ideal.Quotient.mk_surjective x
-  obtain ⟨z, hz⟩ := IsAlgClosed.exists_pow_nat_eq (y : ℂ_[l]) (Fact.out : l.Prime).pos
-  have hz1 : ‖z‖ ≤ 1 := by
-    have := (GlobalTheory.RingBasics.mem_OC _).1 y.2
-    rw [← hz, norm_pow] at this
-    exact (pow_le_one_iff_of_nonneg (norm_nonneg _) (Fact.out : l.Prime).ne_zero).1 this
-  refine ⟨Ideal.Quotient.mk _ ⟨z, (GlobalTheory.RingBasics.mem_OC _).2 hz1⟩, ?_⟩
-  rw [frobenius_def]
-  exact (map_pow (Ideal.Quotient.mk _) _ _).symm.trans (congrArg _ (Subtype.ext hz))
+  apply _root_.GlobalTheory.LogU.θ_surjective <;> assumption
 
 theorem fontaineTheta_surjective : Function.Surjective (Per.θP l) := by
   intro c

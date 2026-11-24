@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertLocalMemIntegralPointsOfLatticeStabilizer
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.InertLocalMemUnitaryGroupAntidiagonalFormStatement
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsAut
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CongruenceElementDecompose
@@ -290,67 +292,17 @@ theorem compAt_conjAL (z : AL L) :
 theorem compAt_mem_tensInt {z : AL L} (hz : z ∈ ALint L) :
     compAt L v z ∈ tensInt (F := maximalRealSubfield L) (v.adicCompletion (maximalRealSubfield L))
       (intOE L) (Formalism.UG.Ov (maximalRealSubfield L) v) := by
-  have key : ALint L ≤ (tensInt (F := maximalRealSubfield L) (v.adicCompletion (maximalRealSubfield L))
-      (intOE L) (Formalism.UG.Ov (maximalRealSubfield L) v)).comap (compAt L v) := by
-    rw [ALint, Subring.closure_le]
-    rintro _ (⟨y, rfl⟩ | ⟨a, ha, rfl⟩)
-    · apply Subring.subset_closure
-      left
-      exact ⟨⟨(y : L), y, rfl⟩, by rw [GlobalTheory.InertUmax.compAt_tmul]; rfl⟩
-    · apply Subring.subset_closure
-      right
-      exact ⟨⟨a v, ha v⟩, by rw [GlobalTheory.InertUmax.compAt_tmul]⟩
-  exact key hz
+  first | exact _root_.GlobalTheory.InertKU.compAt_mem_tensInt | exact @_root_.GlobalTheory.InertKU.compAt_mem_tensInt | apply _root_.GlobalTheory.InertKU.compAt_mem_tensInt <;> assumption
 
 theorem loc_mem_GU (Dv : InertDatum L n v w) (x : GAf L n) : Dv.loc x ∈ GU Dv.σw n := by
-  set φ : AL L →+* w.adicCompletion L := (Dv.e : _ →+* _).comp (compAt L v) with hφdef
-  have hφ : ∀ z, φ (conjAL L z) = Dv.σw (φ z) := fun z => by
-    simp only [φ, RingHom.comp_apply, compAt_conjAL]
-    exact Dv.comm _
-  have hX : ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) *
-      conjT (conjAL L) ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)) = 1 := x.2
-  have hX' := mul_eq_one_comm.mp hX
-  set A : Matrix (Fin n) (Fin n) (w.adicCompletion L) :=
-    ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L)).map φ with hAdef
-  have hA : cT Dv.σw A * A = 1 := by
-    have : cT Dv.σw A = (conjT (conjAL L) ((x.1 : GL (Fin n) (AL L)) : Matrix (Fin n) (Fin n) (AL L))).map φ := by
-      ext i j; simp [cT, conjT, A, hφ]
-    rw [this, ← Matrix.map_mul, hX', Matrix.map_one _ (map_zero _) (map_one _)]
-  have hloc : ((Dv.loc x : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) =
-      ((Dv.P⁻¹ : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) * A *
-        (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L)) := rfl
-  have hPP : cT Dv.σw ((Dv.P⁻¹ : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) *
-      cT Dv.σw (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L)) = 1 := by
-    rw [← cT_mul, Units.mul_inv, cT_one]
-  have hPP' : (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L)) *
-      ((Dv.P⁻¹ : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) = 1 :=
-    Units.mul_inv _
-  show cT Dv.σw ((Dv.loc x : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) *
-      antiJ (w.adicCompletion L) n *
-      ((Dv.loc x : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) =
-      antiJ (w.adicCompletion L) n
-  rw [← Dv.Panti, hloc, cT_mul, cT_mul]
-  simp only [Matrix.mul_assoc]
-  rw [← Matrix.mul_assoc (cT Dv.σw _) (cT Dv.σw (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L))), hPP,
-    Matrix.one_mul, ← Matrix.mul_assoc (Dv.P : Matrix (Fin n) (Fin n) (w.adicCompletion L)), hPP',
-    Matrix.one_mul, ← Matrix.mul_assoc (cT Dv.σw A) A, hA, Matrix.one_mul]
+  first | exact _root_.GlobalTheory.LocalUnitary.loc_mem_GU | exact @_root_.GlobalTheory.LocalUnitary.loc_mem_GU | apply _root_.GlobalTheory.LocalUnitary.loc_mem_GU <;> assumption
 
 theorem mem_range_of_int {K : Type} [Field K] (S : Subring K) (g : GL (Fin n) K)
     (h1 : ∀ i j, (g : Matrix (Fin n) (Fin n) K) i j ∈ S)
     (h2 : ∀ i j, ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) i j ∈ S) :
     g ∈ (Formalism.UG.bc (n := Fin n) S.subtype).range := by
-  let M : Matrix (Fin n) (Fin n) S := fun i j => ⟨_, h1 i j⟩
-  let N : Matrix (Fin n) (Fin n) S := fun i j => ⟨_, h2 i j⟩
-  have hM : M.map S.subtype = (g : Matrix (Fin n) (Fin n) K) := by ext i j; rfl
-  have hN : N.map S.subtype = ((g⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K) := by ext i j; rfl
-  have inj : Function.Injective (fun A : Matrix (Fin n) (Fin n) S => A.map S.subtype) := by
-    intro A B h; ext i j; exact congrFun (congrFun h i) j
-  have hMN : M * N = 1 := inj (by
-    simp only [Matrix.map_mul, hM, hN, Units.mul_inv, Matrix.map_one _ (map_zero _) (map_one _)])
-  have hNM : N * M = 1 := inj (by
-    simp only [Matrix.map_mul, hM, hN, Units.inv_mul, Matrix.map_one _ (map_zero _) (map_one _)])
-  refine ⟨⟨M, N, hMN, hNM⟩, Units.ext ?_⟩
-  exact hM
+  intros
+  apply _root_.GlobalTheory.InertKU.mem_range_bc_of_entries <;> assumption
 
 theorem loc_entries_int (Dv : InertDatum L n v w) {x : GAf L n} (hx : x ∈ Umax L n) (i j : Fin n) :
     ((Dv.loc x : GL (Fin n) (w.adicCompletion L)) : Matrix (Fin n) (Fin n) (w.adicCompletion L)) i j ∈

@@ -1562,25 +1562,6 @@ theorem glAct_split (LL : Letters N) {J j0 : ℕ} (hJ : J ≤ j0) (c d : Fin r) 
       simp [h1, h2, h3, Formalism.GM.FrozenVariableComponents.top]
     · simp [h1, h2]
 
-private theorem top_comm_lemma (LL : Letters N) (i i' : Fin N) (hne : i ≠ i') (a b c d : Fin r)
-    (F : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
-    Formalism.GM.FrozenVariableComponents.top p LL i a b (Formalism.GM.FrozenVariableComponents.top p LL i' c d F) =
-      Formalism.GM.FrozenVariableComponents.top p LL i' c d (Formalism.GM.FrozenVariableComponents.top p LL i a b F) := by
-  have key : ∀ (x y x' y' : Fin N × Fin r), x.1 = i → y.1 = i → x'.1 = i' → y'.1 = i' →
-      ∀ G : MvPolynomial (Fin N × Fin r) ℚ_[p],
-      X x * pderiv y (X x' * pderiv y' G) = X x' * pderiv y' (X x * pderiv y G) := by
-    intro x y x' y' hx hy hx' hy' G
-    have h := XD_comm x y x' y' G
-    rw [if_neg (fun h' => hne (by rw [← hy, h', hx'])), if_neg (fun h' => hne (by rw [← hx, ← h', hy'])),
-      sub_zero, sub_eq_zero] at h
-    exact h
-  unfold Formalism.GM.FrozenVariableComponents.top
-  by_cases hv : LL.vec i <;> by_cases hv' : LL.vec i' <;>
-    simp only [hv, hv', if_true, if_false, Bool.false_eq_true, LinearMap.neg_apply,
-      LinearMap.comp_apply, LinearMap.mulLeft_apply, map_neg, neg_neg, neg_inj] <;>
-    first
-      | exact key _ _ _ _ rfl rfl rfl rfl F
-
 theorem midAct_comm (LL : Letters N) (J j0 : ℕ) (c d c' d' : Fin r) (F : MvPolynomial (Fin N × Fin r) ℚ_[p]) :
     midAct p LL J j0 c d (glAct p LL J c' d' F) = glAct p LL J c' d' (midAct p LL J j0 c d F) := by
   unfold midAct glAct
@@ -1592,7 +1573,7 @@ theorem midAct_comm (LL : Letters N) (J j0 : ℕ) (c d c' d' : Fin r) (F : MvPol
   · by_cases h2 : (i' : ℕ) < J
     · have hne : i ≠ i' := fun h => by subst h; omega
       rw [if_pos h1, if_pos h2]
-      exact top_comm_lemma LL i i' hne c d c' d' F
+      exact Formalism.GM.FrozenVariableComponents.top_comm p LL i i' hne c d c' d' F
     · simp [h2]
   · simp [h1]
 

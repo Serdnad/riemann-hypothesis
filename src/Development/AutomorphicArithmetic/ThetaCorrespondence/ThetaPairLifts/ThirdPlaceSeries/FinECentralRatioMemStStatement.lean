@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.ContinuousCoB
 public import Development.AbelianVarietyTheory.Definitions.Foundations.OfInfProjInfMulOfFinProjFin
 public import Formalism.LocalToGlobal.BesselHermitianTheta.IsAutFunDef
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCompactAdele
@@ -1434,20 +1435,7 @@ namespace GlobalTheory.CenterLocU
 open Formalism.BasicNotions Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes
 
 theorem exists_anti (D : D7) : ∃ e : D.host.E, D.sp.cm.sig e = -e ∧ e ≠ 0 := by
-  have hx : ∃ x : D.host.E, x ∉ Set.range (algebraMap D.host.F D.host.E) := by
-    by_contra h
-    push_neg at h
-    have htop : (⊥ : Subalgebra D.host.F D.host.E) = ⊤ :=
-      eq_top_iff.2 fun x _ => Algebra.mem_bot.2 (h x)
-    have := Subalgebra.bot_eq_top_iff_finrank_eq_one.1 htop
-    rw [D.sp.cm.deg2] at this
-    norm_num at this
-  obtain ⟨x, hx⟩ := hx
-  refine ⟨x - star x, ?_, ?_⟩
-  · show star (x - star x) = -(x - star x)
-    rw [star_sub, star_star, neg_sub]
-  · intro h0
-    exact hx (RingHom.mem_range.1 ((D.sp.cm.fixed x).1 (sub_eq_zero.1 h0).symm))
+  first | exact _root_.Formalism.IndefR.Fin.U1.exists_delta_D | exact @_root_.Formalism.IndefR.Fin.U1.exists_delta_D | apply _root_.Formalism.IndefR.Fin.U1.exists_delta_D <;> assumption
 
 theorem center_scalar_loc : ∀ (D : D7) (V : Formalism.BasicNotions.TH.HSp D) (v : IsDedekindDomain.HeightOneSpectrum (𝓞 D.host.F)) (g : GlobalTheory.AdelicU.GLoc D.sp.cm.sig V.gram v), g ∈ Subgroup.center (GlobalTheory.AdelicU.GLoc D.sp.cm.sig V.gram v) → ∃ c : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Fv D.host.F v ⊗[D.host.F] D.host.E, (GlobalTheory.AdelicU.matHom (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Fv D.host.F v) D.sp.cm.sig V.gram g).1 = c • (1 : Matrix (Fin V.rank) (Fin V.rank) (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Fv D.host.F v ⊗[D.host.F] D.host.E)) := by
   intro D V v g hg

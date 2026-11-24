@@ -16,6 +16,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.Monotonicity.Lemmas
 import Mathlib.Topology.Separation.CompletelyRegular
 import Mathlib.Topology.Sheaves.Presheaf
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.SumRhoEqTrace
 
 @[expose] public section
 
@@ -188,44 +189,18 @@ theorem mass_multiples : ∀ (F : Type) [Field F] [NumberField F] [MeasurableSpa
   rw [abs_of_pos h6, ENNReal.toReal_ofReal (inv_nonneg.2 h6.le), inv_mul_cancel₀ h6.ne']
 
 theorem sum_places_eq_trace : ∀ (F : Type) [Field F] [NumberField F], IsTotallyReal F → ∀ ρ : InfinitePlace F → (F →+* ℝ), (∀ w x, ((ρ w x : ℝ) : ℂ) = w.embedding x) → ∀ z : F, ∑ w, ρ w z = ((Algebra.trace ℚ F z : ℚ) : ℝ) := by
-  intro F _ _ hTR ρ hρ z
-  have h1 := trace_eq_sum_embeddings (K := ℚ) (L := F) ℂ (x := z)
-  have hreal : ∀ φ : F →+* ℂ, (InfinitePlace.mk φ).embedding = φ := by
-    intro φ
-    have hr : (InfinitePlace.mk φ).IsReal := IsTotallyReal.isReal _
-    exact InfinitePlace.embedding_mk_eq_of_isReal (InfinitePlace.isReal_mk_iff.1 hr)
-  let E : InfinitePlace F ≃ (F →ₐ[ℚ] ℂ) :=
-    { toFun := fun w => w.embedding.toRatAlgHom
-      invFun := fun σ => InfinitePlace.mk (σ : F →+* ℂ)
-      left_inv := fun w => by
-        change InfinitePlace.mk w.embedding = w
-        exact InfinitePlace.mk_embedding w
-      right_inv := fun σ => by
-        ext x
-        change (InfinitePlace.mk (σ : F →+* ℂ)).embedding x = σ x
-        rw [hreal]
-        rfl }
-  have h2 : ((∑ w, ρ w z : ℝ) : ℂ) = ∑ σ : F →ₐ[ℚ] ℂ, σ z := by
-    rw [Complex.ofReal_sum, ← E.sum_comp]
-    refine Finset.sum_congr rfl fun w _ => ?_
-    rw [hρ]
-    rfl
-  rw [← h1] at h2
-  have h3 : ((∑ w, ρ w z : ℝ) : ℂ) = (((Algebra.trace ℚ F z : ℚ) : ℝ) : ℂ) := by
-    rw [h2]
-    simp
-  exact_mod_cast h3
+  intros; apply _root_.GlobalTheory.CompanionTheory.SW.ThW.sum_rho_eq_trace <;> assumption
 
 theorem Oh_mul_mem : ∀ (F : Type) [Field F] [NumberField F] (x y : A F), x ∈ Oh F → y ∈ Oh F → x * y ∈ Oh F := by
   intro F _ _ x y hx hy v
   exact mul_mem (hx v) (hy v)
 
-theorem fourier_coeff_eis : ∀ (F : Type) [Field F] [NumberField F] [MeasurableSpace (A F)] [BorelSpace (A F)] (lf : Measure (A F)), lf.IsAddHaarMeasure → lf (Oh F) = 1 → ∀ ψ : AddChar (A F) ℂ, IsStdChar F ψ → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (M : ℕ) (B : Matrix ι ι F) (ρ : InfinitePlace F → (F →+* ℝ)) (P : InfinitePlace F → Matrix ι ι ℝ), QSetup M B ρ P → 3 ≤ M → ∀ φ : (ι → A F) → ℂ, SB φ → Integrable (fstar ψ (hf F) (Bf B) (muF B lf) φ) lf → Integrable (fun x : InfinitePlace F → ℝ => cG B ρ P (fun w => (x w : ℂ) + Complex.I)) → ∀ β : F, β ≠ 0 → ∀ N : ℕ, 0 < N → (∃ r : 𝓞 F, (r : F) = (N : F) * β) → (∀ x ∈ Oh F, ∀ y : A F, fstar ψ (hf F) (Bf B) (muF B lf) φ (y + (N : A F) * x) = fstar ψ (hf F) (Bf B) (muF B lf) φ y) → ∀ D : Set (InfinitePlace F → ℝ), IsAddFundamentalDomain (latR ρ N) D volume → IntegrableOn (fun x : InfinitePlace F → ℝ => eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ))) D volume ∧ ∫ x in D, eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) = ((N : ℂ) ^ Module.finrank ℚ F * ∫ y, fstar ψ (hf F) (Bf B) (muF B lf) φ y * ψ (-(algebraMap F (A F) β) * y) ∂lf) * ∫ x : InfinitePlace F → ℝ, cG B ρ P (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) := by
-  intro F _ _ _ _ lf hlf h1 ψ hψ ι _ _ M B ρ P hQ hM φ hφ hΦ hc β hβ N hN hNβ hper D hD
+theorem fourier_coeff_eis_any : ∀ (F : Type) [Field F] [NumberField F] [MeasurableSpace (A F)] [BorelSpace (A F)] (lf : Measure (A F)), lf.IsAddHaarMeasure → lf (Oh F) = 1 → ∀ ψ : AddChar (A F) ℂ, IsStdChar F ψ → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (M : ℕ) (B : Matrix ι ι F) (ρ : InfinitePlace F → (F →+* ℝ)) (P : InfinitePlace F → Matrix ι ι ℝ), QSetup M B ρ P → 3 ≤ M → ∀ φ : (ι → A F) → ℂ, SB φ → Integrable (fstar ψ (hf F) (Bf B) (muF B lf) φ) lf → Integrable (fun x : InfinitePlace F → ℝ => cG B ρ P (fun w => (x w : ℂ) + Complex.I)) → ∀ β : F, ∀ N : ℕ, 0 < N → (∃ r : 𝓞 F, (r : F) = (N : F) * β) → (∀ x ∈ Oh F, ∀ y : A F, fstar ψ (hf F) (Bf B) (muF B lf) φ (y + (N : A F) * x) = fstar ψ (hf F) (Bf B) (muF B lf) φ y) → ∀ D : Set (InfinitePlace F → ℝ), IsAddFundamentalDomain (latR ρ N) D volume → IntegrableOn (fun x : InfinitePlace F → ℝ => eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ))) D volume ∧ ∫ x in D, eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) = φ 0 * (∫ x in D, Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ))) + ((N : ℂ) ^ Module.finrank ℚ F * ∫ y, fstar ψ (hf F) (Bf B) (muF B lf) φ y * ψ (-(algebraMap F (A F) β) * y) ∂lf) * ∫ x : InfinitePlace F → ℝ, cG B ρ P (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) := by
+  intro F _ _ _ _ lf hlf h1 ψ hψ ι _ _ M B ρ P hQ hM φ hφ hΦ hc β N hN hNβ hper D hD
   obtain ⟨hTR, -, -, -, hρ, -, -⟩ := id hQ
   have hcount : Countable F := (Module.finBasis ℚ F).equivFun.toEquiv.injective.countable
   obtain ⟨-, hLcount, hLmem, hLD⟩ := _root_.GlobalTheory.CompanionTheory.SW.FD.main F hTR ρ hρ N hN
-  obtain ⟨hvol, horth⟩ := hLD D hD
+  obtain ⟨hvol, -⟩ := hLD D hD
   obtain ⟨-, -, -, -, hOopen, -, hOint, -, -, hWopen⟩ := _root_.GlobalTheory.CompanionTheory.SW.Core.AfTop.finiteAdele_topology F
   obtain ⟨-, hψ'⟩ := _root_.GlobalTheory.CompanionTheory.SW.Core.StdChar.main F
   obtain ⟨hψ1, hψO, -⟩ := hψ' ψ hψ
@@ -353,28 +328,17 @@ theorem fourier_coeff_eis : ∀ (F : Type) [Field F] [NumberField F] [Measurable
       eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * e x = φ 0 * e x + ∑' b, T b x := by
     intro x
     simp only [eis, add_mul, hT, hterm, tsum_mul_right]
-  have he0 : ∫ x in D, e x = 0 := by
-    have h9 := horth (-β) (neg_ne_zero.2 hβ) (by
-      obtain ⟨r0, hr0⟩ := hNβ
-      exact ⟨-r0, by rw [show ((-r0 : 𝓞 F) : F) = -(r0 : F) from map_neg (algebraMap (𝓞 F) F) r0, hr0]; ring⟩)
-    rw [← h9]
-    refine integral_congr_ae (ae_of_all _ fun x => ?_)
-    simp only [hedef]
-    congr 1
-    simp only [map_neg, neg_mul, Finset.sum_neg_distrib]
-    push_cast
-    ring
   refine ⟨?_, ?_⟩
   · have : (fun x : InfinitePlace F → ℝ => eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * e x)
         = fun x => φ 0 * e x + ∑' b, T b x := funext Heisenberg₂
     rw [IntegrableOn, this]
     exact (heInt.const_mul _).add hInt
   · change ∫ x in D, eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * e x =
-      ((N : ℂ) ^ Module.finrank ℚ F * ∫ y, Φ y * ψ (-(al β) * y) ∂lf) * ∫ x, c x * e x
+      φ 0 * (∫ x in D, e x) + ((N : ℂ) ^ Module.finrank ℚ F * ∫ y, Φ y * ψ (-(al β) * y) ∂lf) * ∫ x, c x * e x
     set Ch : ℂ := ∫ x, c x * e x with hCh
     simp only [Heisenberg₂]
-    rw [integral_add (heInt.const_mul _) hInt, integral_const_mul, he0, mul_zero, zero_add, hEq,
-      tsum_cosets F H _ hSum]
+    rw [integral_add (heInt.const_mul _) hInt, integral_const_mul, hEq, tsum_cosets F H _ hSum]
+    congr 1
 
     let eH : H ≃ latR ρ N := Equiv.ofBijective (fun h => ⟨j h, h.2⟩) (by
       constructor
@@ -438,5 +402,23 @@ theorem fourier_coeff_eis : ∀ (F : Type) [Field F] [NumberField F] [Measurable
       rw [mul_comm]
       exact_mod_cast h15
     rw [h16, one_mul]
+
+theorem fourier_coeff_eis : ∀ (F : Type) [Field F] [NumberField F] [MeasurableSpace (A F)] [BorelSpace (A F)] (lf : Measure (A F)), lf.IsAddHaarMeasure → lf (Oh F) = 1 → ∀ ψ : AddChar (A F) ℂ, IsStdChar F ψ → ∀ (ι : Type) [Fintype ι] [DecidableEq ι] (M : ℕ) (B : Matrix ι ι F) (ρ : InfinitePlace F → (F →+* ℝ)) (P : InfinitePlace F → Matrix ι ι ℝ), QSetup M B ρ P → 3 ≤ M → ∀ φ : (ι → A F) → ℂ, SB φ → Integrable (fstar ψ (hf F) (Bf B) (muF B lf) φ) lf → Integrable (fun x : InfinitePlace F → ℝ => cG B ρ P (fun w => (x w : ℂ) + Complex.I)) → ∀ β : F, β ≠ 0 → ∀ N : ℕ, 0 < N → (∃ r : 𝓞 F, (r : F) = (N : F) * β) → (∀ x ∈ Oh F, ∀ y : A F, fstar ψ (hf F) (Bf B) (muF B lf) φ (y + (N : A F) * x) = fstar ψ (hf F) (Bf B) (muF B lf) φ y) → ∀ D : Set (InfinitePlace F → ℝ), IsAddFundamentalDomain (latR ρ N) D volume → IntegrableOn (fun x : InfinitePlace F → ℝ => eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ))) D volume ∧ ∫ x in D, eis ψ lf B ρ P φ (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) = ((N : ℂ) ^ Module.finrank ℚ F * ∫ y, fstar ψ (hf F) (Bf B) (muF B lf) φ y * ψ (-(algebraMap F (A F) β) * y) ∂lf) * ∫ x : InfinitePlace F → ℝ, cG B ρ P (fun w => (x w : ℂ) + Complex.I) * Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) := by
+  intro F _ _ _ _ lf hlf h1 ψ hψ ι _ _ M B ρ P hQ hM φ hφ hΦ hc β hβ N hN hNβ hper D hD
+  obtain ⟨hInt, hEq⟩ := fourier_coeff_eis_any F lf hlf h1 ψ hψ ι M B ρ P hQ hM φ hφ hΦ hc β N hN hNβ hper D hD
+  obtain ⟨hTR, -, -, -, hρ, -, -⟩ := id hQ
+  obtain ⟨-, -, -, hLD⟩ := _root_.GlobalTheory.CompanionTheory.SW.FD.main F hTR ρ hρ N hN
+  obtain ⟨-, horth⟩ := hLD D hD
+  have he0 : ∫ x in D, Complex.exp (-(2 * (Real.pi : ℂ) * Complex.I) * ((∑ w, ρ w β * x w : ℝ) : ℂ)) = 0 := by
+    have h9 := horth (-β) (neg_ne_zero.2 hβ) (by
+      obtain ⟨r, hr⟩ := hNβ
+      exact ⟨-r, by rw [show ((-r : 𝓞 F) : F) = -(r : F) from map_neg (algebraMap (𝓞 F) F) r, hr]; ring⟩)
+    rw [← h9]
+    refine integral_congr_ae (ae_of_all _ fun x => ?_)
+    congr 1
+    simp only [map_neg, neg_mul, Finset.sum_neg_distrib]
+    push_cast
+    ring
+  exact ⟨hInt, by simpa only [he0, mul_zero, zero_add] using hEq⟩
 
 end GlobalTheory.CompanionTheory.SW.CoefEis

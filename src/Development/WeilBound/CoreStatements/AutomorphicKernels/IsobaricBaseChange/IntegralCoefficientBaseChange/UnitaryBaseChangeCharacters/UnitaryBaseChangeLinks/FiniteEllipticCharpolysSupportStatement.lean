@@ -83,20 +83,7 @@ theorem isOpen_le_exp (w : Pl E) (m : ℤ) :
 
 theorem exists_bound_of_isCompact (w : Pl E) {S : Set (w.adicCompletion E)} (hS : IsCompact S) :
     ∃ γ : WithZero (Multiplicative ℤ), ∀ x ∈ S, Valued.v x ≤ γ := by
-  have hcov : S ⊆ ⋃ m : ℕ, {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp (m : ℤ)} := by
-    intro x _
-    simp only [Set.mem_iUnion, Set.mem_setOf_eq]
-    rcases eq_or_ne (Valued.v x) 0 with h | h
-    · exact ⟨0, by rw [h]; exact zero_le'⟩
-    · refine ⟨(WithZero.log (Valued.v x)).toNat, ?_⟩
-      conv_lhs => rw [← WithZero.exp_log h]
-      rw [WithZero.exp_le_exp]
-      exact Int.self_le_toNat _
-  have hdir : Directed (· ⊆ ·) (fun m : ℕ => {y : w.adicCompletion E | Valued.v y ≤ WithZero.exp (m : ℤ)}) :=
-    Monotone.directed_le fun a b hab y (hy : _ ≤ _) =>
-      (show _ ≤ _ from hy.trans (WithZero.exp_le_exp.2 (by exact_mod_cast hab)))
-  obtain ⟨m, hm⟩ := hS.elim_directed_cover _ (fun m => isOpen_le_exp w _) hcov hdir
-  exact ⟨_, fun x hx => hm hx⟩
+  apply _root_.GlobalTheory.PowBdd.exists_bound_of_isCompact <;> assumption
 
 theorem charpoly_coeff_eq {R : Type} [CommRing R] (n : ℕ) (M : Matrix (Fin n) (Fin n) R) (k : ℕ) :
     M.charpoly.coeff k = MvPolynomial.eval (fun ij : Fin n × Fin n => M ij.1 ij.2)

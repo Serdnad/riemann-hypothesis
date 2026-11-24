@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.SigmaFiniteRestrictSubgroup
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RadialGaugeOfGaugeIdentitySlices
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.ConjugationContinuousOnInvertible
 import Formalism.FormalDegreeBessel.FinalG
@@ -101,48 +102,7 @@ theorem hu_smul {U : Set (Mat k r)} {ν : Measure (Mt k r)} (h : Formalism.Fouri
 
 theorem hu_eq_smul {U : Set (Mat k r)} (hU : IsClosedSubgroup U) {ν μ : Measure (Mt k r)}
     (hν : Formalism.FourierDecayAlt.B.IsHaarOn U ν) (hμ : Formalism.MainNotions.S.IsHaarOn U μ) : ∃ c : ℝ≥0∞, c ≠ 0 ∧ c ≠ ∞ ∧ μ = c • ν := by
-  obtain ⟨hσ, h0, hc, hl⟩ := hμ
-  have hc' : μ Uᶜ = 0 := hc
-  have : SigmaFinite ν := Formalism.FourierDecayAlt.P.B5.haar_sigmaFinite hν
-  have i1 : SigmaFinite (pull hU μ) := hu_pull_sigmaFinite hU μ
-  have i2 : SigmaFinite (pull hU ν) := hu_pull_sigmaFinite hU ν
-  have i3 : (pull hU μ).IsMulLeftInvariant := pull_left μ hl
-  have i4 : (pull hU ν).IsMulLeftInvariant := pull_left ν hν.left
-  have i5 : IsFiniteMeasureOnCompacts (pull hU ν) := pull_fin ν hν.finite_compact
-  have hν0 : pull hU ν ≠ 0 := by
-    intro h
-    apply hν.ne_zero
-    rw [← map_pull (hU := hU) ν hν.conc, h, Measure.map_zero]
-  have hμ0 : pull hU μ ≠ 0 := by
-    intro h
-    apply h0
-    rw [← map_pull (hU := hU) μ hc', h, Measure.map_zero]
-  obtain ⟨K, hK, hK0⟩ := exists_pos (pull hU ν) hν0
-  have hKt : pull hU ν K ≠ ∞ := hK.measure_lt_top.ne
-  have key := measure_eq_div_smul (pull hU μ) (pull hU ν) hK0 hKt
-  set c : ℝ≥0∞ := pull hU μ K / pull hU ν K with hcdef
-  have hc0 : c ≠ 0 := by
-    intro h
-    apply hμ0
-    rw [key, h, zero_smul]
-  have hc1 : c ≠ ∞ := by
-    intro h
-    obtain ⟨n, hn⟩ := exists_pos_measure_of_cover (iUnion_spanningSets (pull hU μ)) hμ0
-    have hfin := measure_spanningSets_lt_top (pull hU μ) n
-    have e0 : ∀ s : Set (Gp U hU), pull hU μ s = ∞ * pull hU ν s := by
-      intro s
-      have := congrArg (fun m : Measure (Gp U hU) => m s) key
-      simpa only [smul_apply, smul_eq_mul, h] using this
-    have e := e0 (spanningSets (pull hU μ) n)
-    by_cases hz : pull hU ν (spanningSets (pull hU μ) n) = 0
-    · rw [e, hz, mul_zero] at hn
-      exact lt_irrefl _ hn
-    · rw [e, ENNReal.top_mul hz] at hfin
-      exact lt_irrefl _ hfin
-  refine ⟨c, hc0, hc1, ?_⟩
-  calc μ = (pull hU μ).map inc := (map_pull μ hc').symm
-    _ = (c • pull hU ν).map inc := by rw [← key]
-    _ = c • ν := by rw [Measure.map_smul c inc_memb.measurable.aemeasurable, map_pull ν hν.conc]
+  apply +allowSynthFailures _root_.Formalism.MainNotions.LeviCoordinates.left_haar_eq_smul_biinvariant <;> assumption
 
 theorem hu_general {U : Set (Mat k r)} (hU : IsClosedSubgroup U) {ν μ : Measure (Mt k r)}
     (hν : Formalism.FourierDecayAlt.B.IsHaarOn U ν) (hμ : Formalism.MainNotions.S.IsHaarOn U μ) : Formalism.FourierDecayAlt.B.IsHaarOn U μ := by

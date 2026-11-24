@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsotropicMeanChangesByScalarOfTrivialActionStatement
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TowerEx
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.HeisenbergVacuumCommutantPreservesLatticeVacua
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittSmallGroupEmbeddingMemPointwiseStabilizerIso
@@ -597,23 +598,7 @@ namespace GlobalTheory.LatticeTranslateSum
 
 theorem sum_pow_le {ι : Type*} [Fintype ι] [Nonempty ι] (f : ι → ℝ) (hf : ∀ i, 0 ≤ f i) (N : ℕ) :
     (∑ i, f i) ^ N ≤ (Fintype.card ι : ℝ) ^ N * ∑ i, f i ^ N := by
-  set k : ℝ := (Fintype.card ι : ℝ) with hk_def
-  have hk1 : (1 : ℝ) ≤ k := Nat.one_le_cast.mpr Fintype.card_pos
-  have hk : (0 : ℝ) < k := by linarith
-  have hw : ∑ _i : ι, (1 / k) = 1 := by
-    rw [Finset.sum_const, Finset.card_univ, nsmul_eq_mul, ← hk_def]
-    field_simp
-  have h := Real.pow_arith_mean_le_arith_mean_pow Finset.univ (fun _ => 1 / k) f
-    (fun _ _ => by positivity) hw (fun i _ => hf i) N
-  rw [← Finset.mul_sum, ← Finset.mul_sum, mul_pow] at h
-  have hs : 0 ≤ ∑ i, f i ^ N := Finset.sum_nonneg fun i _ => pow_nonneg (hf i) _
-  calc (∑ i, f i) ^ N = k ^ N * ((1 / k) ^ N * (∑ i, f i) ^ N) := by
-        rw [← mul_assoc, ← mul_pow, mul_one_div_cancel hk.ne', one_pow, one_mul]
-    _ ≤ k ^ N * (1 / k * ∑ i, f i ^ N) := mul_le_mul_of_nonneg_left h (by positivity)
-    _ ≤ k ^ N * ∑ i, f i ^ N := by
-        refine mul_le_mul_of_nonneg_left ?_ (by positivity)
-        have : 1 / k ≤ 1 := by rw [div_le_one hk]; exact hk1
-        nlinarith
+  first | exact _root_.GlobalTheory.DecayCoord.sum_pow_le | exact @_root_.GlobalTheory.DecayCoord.sum_pow_le | apply _root_.GlobalTheory.DecayCoord.sum_pow_le <;> assumption
 
 theorem decay (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (hψ : IsStdChar D ψ (-1)) (θ : InfFam D) (hθ : IsInfFam θ)
     (S T : HSp D) (c : WO S T → ℂ)

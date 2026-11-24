@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DefNodeIsV
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.BotRelTwoStatement
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.DepthPays
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HarishChandraModulesOn
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.CompactUnitaryFiniteInvariantSubspace
@@ -648,27 +650,7 @@ namespace GlobalTheory.SepPer.PerNe
 theorem multT_apply_mul_lev {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} {θ : InfFam D} {M : DSModel V S}
     {J : Set (GA D V)} {χ : GA D V → ℂ} {F : SmT M →ₗ[ℂ] (GA D V → ℂ)} (hF : F ∈ MultT θ M J χ) (v : SmT M) :
     ∀ k ∈ J, ∀ g, F v (g * k) = χ k * F v g := by
-  obtain ⟨T, hT, rfl⟩ := hF
-  induction hT using Submodule.span_induction generalizing v with
-  | mem T hT =>
-    induction v using PiTensorProduct.induction_on with
-    | smul_tprod r w =>
-      intro k hk g
-      simp only [map_smul, LinearEquiv.coe_coe, PiTensorProduct.lift.tprod, Pi.smul_apply, smul_eq_mul]
-      rw [hT.lev w k hk g]; ring
-    | add x y hx hy =>
-      intro k hk g
-      simp only [map_add (f := _), Pi.add_apply]
-      rw [hx k hk g, hy k hk g]; ring
-  | zero => intro k hk g; simp
-  | add T₁ T₂ _ _ h₁ h₂ =>
-    intro k hk g
-    simp only [map_add (f := _), LinearMap.add_apply, Pi.add_apply]
-    rw [h₁ v k hk g, h₂ v k hk g]; ring
-  | smul c T _ h =>
-    intro k hk g
-    simp only [map_smul, LinearMap.smul_apply, Pi.smul_apply, smul_eq_mul]
-    rw [h v k hk g]; ring
+  first | exact _root_.GlobalTheory.MiTop.BotTwo.lev_multT | exact @_root_.GlobalTheory.MiTop.BotTwo.lev_multT | apply _root_.GlobalTheory.MiTop.BotTwo.lev_multT <;> assumption
 
 theorem apply_tprod_eq {ι : Type} [Fintype ι] {E : ι → Type} [∀ i, AddCommGroup (E i)] [∀ i, Module ℂ (E i)]
     {X : Type} [AddCommGroup X] [Module ℂ X] (y : (⨂[ℂ] i, E i) →ₗ[ℂ] X) (a : ∀ i, E i) :
@@ -793,20 +775,7 @@ theorem map_hatL {m n : ℕ} (M : Matrix (Fin m) (Fin n) E) {Λ : Submodule (�
     {Λ' : Submodule (𝓞 E) (Fin m → E)} (hM : ∀ y ∈ Λ, M *ᵥ y ∈ Λ') :
     ∀ x ∈ Formalism.L2.Herm.hatL (F := F) Λ,
       (M.map (Formalism.UG.inclE (F := F) (Formalism.L2.Herm.Af F))) *ᵥ x ∈ Formalism.L2.Herm.hatL (F := F) Λ' := by
-  intro x hx
-  induction hx using Submodule.span_induction with
-  | mem x hx =>
-    obtain ⟨y, hy, rfl⟩ := hx
-    refine Submodule.subset_span ⟨M *ᵥ y, hM y hy, ?_⟩
-    funext i
-    exact RingHom.map_mulVec _ M y i
-  | zero => rw [mulVec_zero]; exact zero_mem _
-  | add x y _ _ hx hy => rw [mulVec_add]; exact add_mem hx hy
-  | smul s x _ hx =>
-    have := Submodule.smul_mem _ s hx
-    rw [Subring.smul_def, ← mulVec_smul] at this
-    rw [Subring.smul_def]
-    exact this
+  first | exact _root_.GlobalTheory.TopExt.hat_mulVec | exact @_root_.GlobalTheory.TopExt.hat_mulVec | apply _root_.GlobalTheory.TopExt.hat_mulVec <;> assumption
 
 theorem map_smul {m n : ℕ} (M : Matrix (Fin m) (Fin n) E) {Λ : Submodule (𝓞 E) (Fin n → E)}
     {Λ' : Submodule (𝓞 E) (Fin m → E)} (hM : ∀ y ∈ Λ, M *ᵥ y ∈ Λ') (𝔪 : Ideal (𝓞 E)) :

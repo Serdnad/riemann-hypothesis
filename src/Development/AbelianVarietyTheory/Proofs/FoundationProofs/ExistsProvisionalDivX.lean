@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.SharpRestriction.Divisibility.WeightDegreeSizes
 public import Formalism.LocalRingCardinality.DataDIV
 public import Formalism.LocalToGlobal.LatticeGeometry.DegFlLApply
 public import Formalism.LocalRingCardinality.DataKap
@@ -43,7 +45,6 @@ import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsProvisionalShimX, Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsProvisionalDivX
 
@@ -153,17 +154,7 @@ structure MjForm (D : D7) (j : ℕ) where
 
 theorem resChar_eq_iff (D : D7) {p : ℕ} (hp : p.Prime) (w : D.what₂.places.Pl) :
     D.what₂.places.resChar w = p ↔ (p : 𝓞 D.what₂.LL) ∈ (D.plEq w).asIdeal := by
-  constructor
-  · intro h; rw [← h]; exact resChar_mem D w
-  · intro hmem
-    by_contra hne
-    have hcop : Nat.Coprime (D.what₂.places.resChar w) p :=
-      (Nat.coprime_primes (D.what₂.places.resChar_prime w) hp).mpr hne
-    obtain ⟨a, b, hab⟩ : IsCoprime ((D.what₂.places.resChar w : ℕ) : 𝓞 D.what₂.LL) (p : 𝓞 D.what₂.LL) :=
-      hcop.cast
-    apply (D.plEq w).isPrime.ne_top
-    rw [Ideal.eq_top_iff_one, ← hab]
-    exact Ideal.add_mem _ (Ideal.mul_mem_left _ _ (resChar_mem D w)) (Ideal.mul_mem_left _ _ hmem)
+  first | exact _root_.Formalism.MainNotions.WeightDegreeSizes.resChar_iff | exact @_root_.Formalism.MainNotions.WeightDegreeSizes.resChar_iff | apply _root_.Formalism.MainNotions.WeightDegreeSizes.resChar_iff <;> assumption
 
 def placeEquiv (D : D7) (p : ℕ) [hp : Fact p.Prime] :
     Formalism.L2.Geo.PlL D p ≃ {w : D.what₂.places.Pl // D.what₂.places.resChar w = p} :=

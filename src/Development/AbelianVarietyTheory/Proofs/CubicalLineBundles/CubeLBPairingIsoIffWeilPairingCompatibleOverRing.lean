@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsUniqueDifferentialMonHomLieBasis
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IsDiffOf
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.LambdaBundleIsoOfWeilPairingCompatible
 public import Mathlib.RingTheory.DedekindDomain.Basic
@@ -71,28 +72,7 @@ variable {S S' : Scheme.{0}} {s : S' ⟶ S}
 theorem exists_hom {G H : Over S} {G' H' : Over S'} [GrpObj G] [GrpObj H] [GrpObj G'] [GrpObj H']
     {φ : G'.left ⟶ G.left} {ψ : H'.left ⟶ H.left} (hG : IsGrpPullback G' G s φ) (hH : IsGrpPullback H' H s ψ)
     (w : G ⟶ H) [IsMonHom w] : ∃ w' : G' ⟶ H', IsMonHom w' ∧ w'.left ≫ ψ = φ ≫ w.left := by
-  let w' : G' ⟶ H' := Over.homMk (hH.1.lift (φ ≫ w.left) G'.hom (by rw [Category.assoc, Over.w, hG.1.w]))
-    (hH.1.lift_snd _ _ _)
-  have hw : w'.left ≫ ψ = φ ≫ w.left := hH.1.lift_fst _ _ _
-  have pa : ∀ {T : Over S'} (x : T ⟶ G'), Geo.Tor.pushPt hH.1.w (x ≫ w') = Geo.Tor.pushPt hG.1.w x ≫ w := fun x =>
-    Over.OverMorphism.ext (by
-      show (x.left ≫ _) ≫ _ = (x.left ≫ _) ≫ _
-      rw [Category.assoc, hw, Category.assoc])
-  have mul : ∀ (T : Over S') (x y : T ⟶ G'), (x * y) ≫ w' = (x ≫ w') * (y ≫ w') := by
-    intro T x y
-    apply SymBaseChange.pushPt_injective hH
-    have a : Geo.Tor.pushPt hG.1.w (x * y) = Geo.Tor.pushPt hG.1.w x * Geo.Tor.pushPt hG.1.w y := map_mul (Geo.Tor.pushHom hG T) x y
-    have b : Geo.Tor.pushPt hH.1.w ((x ≫ w') * (y ≫ w')) = Geo.Tor.pushPt hH.1.w (x ≫ w') * Geo.Tor.pushPt hH.1.w (y ≫ w') :=
-      map_mul (Geo.Tor.pushHom hH T) _ _
-    rw [pa, a, b, pa, pa, MonObj.mul_comp]
-  refine ⟨w', ⟨?_, ?_⟩, hw⟩
-  · have h := mul (𝟙_ _) 1 1
-    rw [_root_.mul_one] at h
-    have h' : (1 : 𝟙_ (Over S') ⟶ G') ≫ w' = 1 := mul_eq_left.1 h.symm
-    simpa [Hom.one_def] using h'
-  · have h := mul (G' ⊗ G') (fst _ _) (snd _ _)
-    rw [Hom.mul_def, Hom.mul_def, lift_fst_snd, Category.id_comp] at h
-    rw [h]; congr 1
+  first | exact _root_.GlobalTheory.DerivZero.exists_lift_isMonHom | exact @_root_.GlobalTheory.DerivZero.exists_lift_isMonHom | apply _root_.GlobalTheory.DerivZero.exists_lift_isMonHom <;> assumption
 
 theorem cube_pull {G : Over S} {G' : Over S'} [GrpObj G] [IsCommMonObj G] [GrpObj G'] [IsCommMonObj G']
     {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G s φ) {L : LB G.left} {L' : LB G'.left} (hL : L.IsLB)

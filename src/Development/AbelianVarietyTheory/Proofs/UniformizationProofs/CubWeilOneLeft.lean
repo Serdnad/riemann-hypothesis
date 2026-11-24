@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationWeilPairingProperties
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -75,12 +76,7 @@ private theorem v_sub_one_add_le_v_pow_l_sub_one {U : Type} [CommGroup U] {P B C
 theorem cubN_mul_left {A U : Type} [CommGroup A] [CommGroup U] {θ : A → A → A → U} (h : IsCub θ) (k : ℕ)
     (x x' y : A) :
     cubN θ k 1 (x * x') y * θ x x' y ^ k = θ (x ^ k) (x' ^ k) y * cubN θ k 1 x y * cubN θ k 1 x' y := by
-  induction k with
-  | zero => simp [cubN, h.face]
-  | succ k ih =>
-    simp only [cubN, Finset.prod_range_succ, _root_.one_mul] at ih ⊢
-    rw [pow_succ x, pow_succ x', mul_pow x x' k]
-    exact v_sub_one_add_le_v_pow_l_sub_one ih (isCub_mul_swap_middle h (x ^ k) (x' ^ k) x x' y)
+  apply _root_.GlobalTheory.Ex.WpPairing.cubN_one_mul_mul_pow_eq <;> assumption
 
 private theorem gm_id_global_mul {X : Scheme.{0}} (z : X) (a b : Γ(X, ⊤)ˣ) :
     gm (𝟙 X) z ⊤ (a * b) = gm (𝟙 X) z ⊤ a * gm (𝟙 X) z ⊤ b :=

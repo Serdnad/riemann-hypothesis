@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.MeasurableSetSatFrames
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.MeasInvStatementPfL
+import all ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.KaUnfoldPfC
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PairUnfoldPfA
 import Mathlib.RingTheory.Henselian
 import Mathlib.RingTheory.RegularLocalRing.Defs
@@ -7,6 +10,8 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.IsIntegralCc
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.ExtFStatementPfA
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovVolumes.UpperBounds.PoinStatementPfA
 
 @[expose] public section
 
@@ -85,111 +90,17 @@ private theorem lact_mem_dom' {γ : GL (Fin r) E} (hγ : γ ∈ X.Γ) {x : Frame
     rw [hd]
     exact hxm i
 
-private theorem submatrix_castLE_transpose_mul_mul_map_conj_of_upper {i : ℕ} (h : i ≤ r) (B M : Matrix (Fin r) (Fin r) ℂ)
-    (hB : ∀ a c : Fin r, c < a → B a c = 0) :
-    (Bᵀ * M * B.map (starRingEnd ℂ)).submatrix (Fin.castLE h) (Fin.castLE h) =
-      (B.submatrix (Fin.castLE h) (Fin.castLE h))ᵀ * M.submatrix (Fin.castLE h) (Fin.castLE h) *
-        (B.submatrix (Fin.castLE h) (Fin.castLE h)).map (starRingEnd ℂ) := by
-  have hout : ∀ d : Fin r, d ∉ Set.range (Fin.castLE h) → i ≤ (d : ℕ) := by
-    intro d hd
-    by_contra hlt
-    push_neg at hlt
-    exact hd (Set.mem_range.2 ⟨⟨d, hlt⟩, Fin.ext rfl⟩)
-  ext a c
-  simp only [Matrix.submatrix_apply, Matrix.mul_apply, Matrix.transpose_apply, Matrix.map_apply]
-  symm
-  refine Fintype.sum_of_injective (Fin.castLE h) (Fin.castLE_injective h) _ _ ?_ ?_
-  · intro d hd
-    try dsimp only
-    have hlt : Fin.castLE h c < d := by
-      show (c : ℕ) < d
-      exact lt_of_lt_of_le c.isLt (hout d hd)
-    rw [hB d (Fin.castLE h c) hlt, map_zero, mul_zero]
-  · intro d'
-    try dsimp only
-    congr 1
-    refine Fintype.sum_of_injective (Fin.castLE h) (Fin.castLE_injective h) _ _ ?_ ?_
-    · intro k hk
-      try dsimp only
-      have hlt : Fin.castLE h a < k := by
-        show (a : ℕ) < k
-        exact lt_of_lt_of_le a.isLt (hout k hk)
-      rw [hB k (Fin.castLE h a) hlt, zero_mul]
-    · intro k'
-      rfl
-
-private theorem exists_pos_lminor_gram_mul_eq (τ' : E →+* ℂ) (G : Matrix (Fin r) (Fin r) E)
-    (Xm Bm : Matrix (Fin r) (Fin r) ℂ) (hB : ∀ a c : Fin r, c < a → Bm a c = 0)
-    (hdiag : ∀ a, Bm a a ≠ 0) (i : Fin (r + 1)) :
-    ∃ t : ℝ, 0 < t ∧ ReciprocityTheory.ChartRestriction.G.FD.lminor (ReciprocityTheory.ChartRestriction.G.FD.gram τ' G (Xm * Bm)) i =
-      (t : ℂ) * ReciprocityTheory.ChartRestriction.G.FD.lminor (ReciprocityTheory.ChartRestriction.G.FD.gram τ' G Xm) i := by
-  have hi : (i : ℕ) ≤ r := Nat.le_of_lt_succ i.isLt
-  have hBs : (Bm.submatrix (Fin.castLE hi) (Fin.castLE hi)).det ≠ 0 := by
-    rw [Matrix.det_of_upperTriangular (M := Bm.submatrix (Fin.castLE hi) (Fin.castLE hi))
-      (fun a c hca => hB (Fin.castLE hi a) (Fin.castLE hi c) hca)]
-    exact Finset.prod_ne_zero_iff.2 fun a _ => hdiag _
-  refine ⟨Complex.normSq (Bm.submatrix (Fin.castLE hi) (Fin.castLE hi)).det,
-    Complex.normSq_pos.2 hBs, ?_⟩
-  have hg : ReciprocityTheory.ChartRestriction.G.FD.gram τ' G (Xm * Bm) =
-      Bmᵀ * ReciprocityTheory.ChartRestriction.G.FD.gram τ' G Xm * Bm.map (starRingEnd ℂ) := by
-    rw [gram_eq_lemma, gram_eq_lemma, Matrix.transpose_mul, Matrix.map_mul]
-    simp only [Matrix.mul_assoc]
-  have hc : ((Bm.submatrix (Fin.castLE hi) (Fin.castLE hi)).map (starRingEnd ℂ)).det =
-      starRingEnd ℂ (Bm.submatrix (Fin.castLE hi) (Fin.castLE hi)).det :=
-    (RingHom.map_det _ _).symm
-  unfold ReciprocityTheory.ChartRestriction.G.FD.lminor
-  rw [hg, submatrix_castLE_transpose_mul_mul_map_conj_of_upper hi _ _ hB, Matrix.det_mul, Matrix.det_mul, Matrix.det_transpose, hc,
-    ← Complex.mul_conj]
-  ring
-
 private theorem rmul_mem_dom_of_mem_dom {b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) {x : Frame X.Ψ r} (hx : x ∈ X.dom) :
     rmul x b ∈ X.dom := by
-  intro τ
-  obtain ⟨hxd, hxm⟩ := hx τ
-  obtain ⟨hbd, hbt⟩ := hb τ
-  have hB : ∀ a c : Fin r, c < a → ReciprocityTheory.ChartRestriction.G.FD.mat b τ a c = 0 := hbt
-  have hdiag : ∀ a : Fin r, ReciprocityTheory.ChartRestriction.G.FD.mat b τ a a ≠ 0 := by
-    have h1 := Matrix.det_of_upperTriangular (M := ReciprocityTheory.ChartRestriction.G.FD.mat b τ) hB
-    rw [h1] at hbd
-    exact fun a => Finset.prod_ne_zero_iff.1 hbd a (Finset.mem_univ a)
-  refine ⟨?_, fun i => ?_⟩
-  · show (ReciprocityTheory.ChartRestriction.G.FD.mat x τ * ReciprocityTheory.ChartRestriction.G.FD.mat b τ).det ≠ 0
-    rw [Matrix.det_mul]
-    exact mul_ne_zero hxd hbd
-  · obtain ⟨t, ht, he⟩ := exists_pos_lminor_gram_mul_eq τ.1 X.Gm (ReciprocityTheory.ChartRestriction.G.FD.mat x τ)
-      (ReciprocityTheory.ChartRestriction.G.FD.mat b τ) hB hdiag i
-    have he' : ReciprocityTheory.ChartRestriction.G.FD.dmin X.Gm (rmul x b) τ i =
-        (t : ℂ) * ReciprocityTheory.ChartRestriction.G.FD.dmin X.Gm x τ i := he
-    rw [he', Complex.re_ofReal_mul, mul_left_comm]
-    exact mul_pos ht (hxm i)
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.PoinPf.rmulDom <;> assumption
 
 private theorem mem_bor_rmul {b b' : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) (hb' : b' ∈ Bor X.Ψ r) :
     rmul b b' ∈ Bor X.Ψ r := by
-  intro τ
-  obtain ⟨hd, ht⟩ := hb τ
-  obtain ⟨hd', ht'⟩ := hb' τ
-  refine ⟨?_, fun a c hca => ?_⟩
-  · show (ReciprocityTheory.ChartRestriction.G.FD.mat b τ * ReciprocityTheory.ChartRestriction.G.FD.mat b' τ).det ≠ 0
-    rw [Matrix.det_mul]
-    exact mul_ne_zero hd hd'
-  · show (ReciprocityTheory.ChartRestriction.G.FD.mat b τ * ReciprocityTheory.ChartRestriction.G.FD.mat b' τ) a c = 0
-    rw [Matrix.mul_apply]
-    refine Finset.sum_eq_zero fun k _ => ?_
-    rcases lt_or_ge k a with hk | hk
-    · rw [show ReciprocityTheory.ChartRestriction.G.FD.mat b τ a k = 0 from ht a k hk, zero_mul]
-    · rw [show ReciprocityTheory.ChartRestriction.G.FD.mat b' τ k c = 0 from ht' k c (lt_of_lt_of_le hca hk), mul_zero]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.ExtFPf.mul_mem <;> assumption
 
 private theorem FD_mat_inv_mem_bor {b : Frame X.Ψ r} (hb : b ∈ Bor X.Ψ r) :
     (fun τ => ((ReciprocityTheory.ChartRestriction.G.FD.mat b τ)⁻¹ : Matrix (Fin r) (Fin r) ℂ) : Frame X.Ψ r) ∈ Bor X.Ψ r := by
-  intro τ
-  obtain ⟨hd, ht⟩ := hb τ
-  refine ⟨?_, fun a c hca => ?_⟩
-  · show ((ReciprocityTheory.ChartRestriction.G.FD.mat b τ)⁻¹).det ≠ 0
-    first
-      | exact (Matrix.isUnit_nonsing_inv_det _ (Ne.isUnit hd)).ne_zero
-  · haveI := (ReciprocityTheory.ChartRestriction.G.FD.mat b τ).invertibleOfIsUnitDet (Ne.isUnit hd)
-    have hT : (ReciprocityTheory.ChartRestriction.G.FD.mat b τ).BlockTriangular id := fun a c h => ht a c h
-    exact Matrix.blockTriangular_inv_of_blockTriangular hT hca
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.KU.inv_mat_mem_bor <;> assumption
 
 private theorem rmul_assoc_frame (u v w : Frame X.Ψ r) : rmul (rmul u v) w = rmul u (rmul v w) := by
   funext τ
@@ -254,17 +165,8 @@ theorem ind_cpt {z : V (nd X)} (hz : z ∈ OmF X x0) {M : Type*} [One M] [Zero M
       | rw [Set.indicator_of_notMem (fun h => hF (hiff.1 h)), Set.indicator_of_notMem hF]
 
 private theorem continuous_cpt_apply (y0 : Frame X.Ψ r) : Continuous fun z => cpt X y0 z := by
-  unfold ReciprocityTheory.ChartRestriction.G.AR.Inst.cpt ReciprocityTheory.ChartRestriction.G.FD.rmul ReciprocityTheory.ChartRestriction.G.AR.Inst.nmat
-    ReciprocityTheory.ChartRestriction.G.FD.mat
-  refine continuous_pi fun τ => ?_
-  refine Continuous.matrix_mul continuous_const ?_
-  refine continuous_pi fun a => continuous_pi fun b => ?_
-  simp only [Matrix.of_apply]
-  split_ifs
-  · first
-      | fun_prop
-  · exact continuous_const
-  · exact continuous_const
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.MI.continuous_cpt <;> assumption
 
 private theorem cpt_lact_upper_bounds (γ : GL (Fin r) E) (y0 : Frame X.Ψ r) (z : V (nd X)) :
     cpt X (lact γ y0) z = lact γ (cpt X y0 z) := by
@@ -277,25 +179,7 @@ private theorem cpt_lact_upper_bounds (γ : GL (Fin r) E) (y0 : Frame X.Ψ r) (z
 private theorem gram_mat_lact_of_mem_Γ {γ : GL (Fin r) E} (hγ : γ ∈ X.Γ) (x : Frame X.Ψ r) (τ : X.Ψ) :
     ReciprocityTheory.ChartRestriction.G.FD.gram τ.1 X.Gm (ReciprocityTheory.ChartRestriction.G.FD.mat (lact γ x) τ) =
       ReciprocityTheory.ChartRestriction.G.FD.gram τ.1 X.Gm (ReciprocityTheory.ChartRestriction.G.FD.mat x τ) := by
-  have hmat : ReciprocityTheory.ChartRestriction.G.FD.mat (lact γ x) τ =
-      (γ : Matrix (Fin r) (Fin r) E).map τ.1 * ReciprocityTheory.ChartRestriction.G.FD.mat x τ := rfl
-  have hU : ((γ : Matrix (Fin r) (Fin r) E).map τ.1)ᵀ * X.Gm.map τ.1 *
-      ((γ : Matrix (Fin r) (Fin r) E).map τ.1).map (starRingEnd ℂ) = X.Gm.map τ.1 := by
-    have h0 := transpose_mul_mul_map_cc_eq_of_herm_mulVec X.Gm γ (X.Γ_stab γ hγ).1
-    have hconj : ((γ : Matrix (Fin r) (Fin r) E).map τ.1).map (starRingEnd ℂ) =
-        ((γ : Matrix (Fin r) (Fin r) E).map ReciprocityTheory.ChartRestriction.G.FD.cc).map τ.1 := by
-      ext a b
-      simp only [Matrix.map_apply]
-      exact (ReciprocityTheory.ChartRestriction.G.FD.emb_cc τ.1 _).symm
-    rw [hconj, ← Matrix.transpose_map, ← Matrix.map_mul, ← Matrix.map_mul, h0]
-  have hU' : ∀ Y : Matrix (Fin r) (Fin r) ℂ, ((γ : Matrix (Fin r) (Fin r) E).map τ.1)ᵀ *
-      (X.Gm.map τ.1 * (((γ : Matrix (Fin r) (Fin r) E).map τ.1).map (starRingEnd ℂ) * Y)) =
-      X.Gm.map τ.1 * Y := by
-    intro Y
-    rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, hU]
-  rw [hmat, gram_eq_lemma, gram_eq_lemma, Matrix.transpose_mul, Matrix.map_mul]
-  simp only [Matrix.mul_assoc]
-  rw [hU']
+  apply _root_.ReciprocityTheory.ChartRestriction.G.AR.Up.PairUnfoldPf.gram_lact <;> assumption
 
 private theorem lact_inv_apply_lact (γ : GL (Fin r) E) (y : Frame X.Ψ r) : lact γ⁻¹ (lact γ y) = y := by
   funext τ
@@ -307,24 +191,8 @@ private theorem lact_inv_apply_lact (γ : GL (Fin r) E) (y : Frame X.Ψ r) : lac
 
 private theorem muF_lact_upper_bounds {γ : GL (Fin r) E} (hγ : γ ∈ X.Γ) (y0 : Frame X.Ψ r) :
     muF X (lact γ y0) = muF X y0 := by
-  have hOm : OmF X (lact γ y0) = OmF X y0 := by
-    ext z
-    show cpt X (lact γ y0) z ∈ X.dom ↔ cpt X y0 z ∈ X.dom
-    rw [cpt_lact_upper_bounds]
-    constructor
-    · intro h
-      have h2 := lact_mem_dom' (X.Γ.inv_mem hγ) h
-      rwa [lact_inv_apply_lact] at h2
-    · intro h
-      exact lact_mem_dom' hγ h
-  have hd : ∀ z, ReciprocityTheory.ChartRestriction.G.AR.Up.densF X (lact γ y0) z = ReciprocityTheory.ChartRestriction.G.AR.Up.densF X y0 z := by
-    intro z
-    unfold ReciprocityTheory.ChartRestriction.G.AR.Up.densF
-    rw [cpt_lact_upper_bounds]
-    simp only [ReciprocityTheory.ChartRestriction.G.FD.dmin, gram_mat_lact_of_mem_Γ hγ]
-  unfold ReciprocityTheory.ChartRestriction.G.AR.Up.muF
-  rw [hOm]
-  simp only [hd]
+  intros
+  apply _root_.GlobalTheory.Unfold.muF_lact <;> assumption
 
 private theorem isOrth_lact' {γ : GL (Fin r) E} (hγ : γ ∈ X.Γ) {y0 : Frame X.Ψ r} (h : IsOrth X y0) :
     IsOrth X (lact γ y0) := by

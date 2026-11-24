@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.DiscLvlPf
 public import Development.EtaleCohomology.CohomologicalPurity.LeafExcLevelPf
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -87,18 +88,10 @@ instance i5 : PreservesColimitsOfShape WalkingSpan (chains R) := by
 
 theorem hkc (R : Type) [CommRing R] {K L M : Cx R} (f : K ⟶ L) (g : L ⟶ M) (F : Shv R) (n : ℤ) (x : HK R M F n) :
     HK.pull R (f ≫ g) F n x = HK.pull R f F n (HK.pull R g F n x) := by
-  obtain ⟨x, rfl⟩ := x.mk_surjective
-  unfold HK.pull HK.pre
-  simp only [cpre]
-  refine congrArg CohomologyClass.mk (Cocycle.ext ?_)
-  simp [zcomp]
+  apply @LateralTheory.E.DiscLvlPf.pull_comp' <;> assumption
 theorem hki (R : Type) [CommRing R] {K : Cx R} (F : Shv R) (n : ℤ) (x : HK R K F n) :
     HK.pull R (𝟙 K) F n x = x := by
-  obtain ⟨x, rfl⟩ := x.mk_surjective
-  unfold HK.pull HK.pre
-  simp only [cpre]
-  refine congrArg CohomologyClass.mk (Cocycle.ext ?_)
-  simp [zcomp]
+  apply @LateralTheory.E.DiscLvlPf.pull_id' <;> assumption
 
 section
 variable {P' P : Arrow Spc} (φ : P' ⟶ P)

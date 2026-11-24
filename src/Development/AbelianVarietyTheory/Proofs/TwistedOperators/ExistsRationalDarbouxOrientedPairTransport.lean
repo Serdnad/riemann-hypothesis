@@ -38,6 +38,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
+import Development.WeilBound.ThetaLifts.LatticeBasics.IsCompactIntV
 
 @[expose] public section
 
@@ -57,20 +58,7 @@ namespace GlobalTheory.SquareAgree
 theorem hTens_eq_trace {R A : Type} [CommRing R] [CommRing A] [Algebra R A] (c : A →ₐ[R] A) {α β : Type} [Fintype α]
     [Fintype β] (JA : Matrix α α A) (JB : Matrix β β A) (x y : Matrix α β A) :
     GlobalTheory.WeilM.hTens c JA JB x y = (xᵀ * JA * y.map c * JBᵀ).trace := by
-  simp only [GlobalTheory.WeilM.hTens, Matrix.trace, Matrix.diag, Matrix.mul_apply, Matrix.transpose_apply,
-    Matrix.map_apply, Finset.sum_mul]
-  conv_lhs => rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  calc ∑ i, ∑ k, ∑ l, x i j * JA i k * JB j l * c (y k l)
-      = ∑ i, ∑ l, ∑ k, x i j * JA i k * JB j l * c (y k l) :=
-        Finset.sum_congr rfl fun i _ => Finset.sum_comm
-    _ = ∑ l, ∑ i, ∑ k, x i j * JA i k * JB j l * c (y k l) := Finset.sum_comm
-    _ = ∑ l, ∑ k, ∑ i, x i j * JA i k * JB j l * c (y k l) :=
-        Finset.sum_congr rfl fun l _ => Finset.sum_comm
-    _ = _ := by
-        refine Finset.sum_congr rfl fun l _ => Finset.sum_congr rfl fun k _ =>
-          Finset.sum_congr rfl fun i _ => ?_
-        ring
+  apply _root_.GlobalTheory.ThK.Dbl.Dense.hTens_tr <;> assumption
 
 theorem hTens_transpose_mul {R A : Type} [CommRing R] [CommRing A] [Algebra R A] (c : A →ₐ[R] A) {α β γ : Type}
     [Fintype α] [Fintype β] [Fintype γ] [DecidableEq β] (e : α ≃ γ) (K : Matrix α α A) {G H : Matrix β β A} (x : A)

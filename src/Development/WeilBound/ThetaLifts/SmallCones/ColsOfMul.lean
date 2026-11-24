@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.TowerModels.LeviAlg
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
 public import Mathlib.LinearAlgebra.Matrix.Determinant.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -123,20 +124,8 @@ omit [DecidableEq d] [DecidableEq e] in
 theorem cols_of_mul {m : Matrix d d R} {g : Matrix e e R} {b : Matrix e (Fin 2) R} {a : Matrix (Fin 2) e R}
     {s : Matrix (Fin 2) (Fin 2) R} (h : m * fr ι x y = fr ι x y * fromBlocks g b a s) :
     m * ι = ι * g + of (fun i j => ![x i, y i] j) * a ∧
-      m *ᵥ x = ι *ᵥ (fun j => b j 0) + s 0 0 • x + s 1 0 • y ∧ m *ᵥ y = ι *ᵥ (fun j => b j 1) + s 0 1 • x + s 1 1 • y := by
-  refine ⟨?_, ?_, ?_⟩
-  · ext i j
-    have := congrFun (congrFun h i) (Sum.inl j)
-    simp [fr, Matrix.mul_apply, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
-      linear_combination this
-  · ext i
-    have := congrFun (congrFun h i) (Sum.inr 0)
-    simp [fr, Matrix.mul_apply, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
-      linear_combination this
-  · ext i
-    have := congrFun (congrFun h i) (Sum.inr 1)
-    simp [fr, Matrix.mul_apply, Matrix.mulVec, dotProduct, Fintype.sum_sum_type, Fin.sum_univ_two] at this ⊢ <;>
-      linear_combination this
+      m *ᵥ x = ι *ᵥ (fun j => b j 0) + s 0 0 • x + s 1 0 • y ∧ m *ᵥ y = ι *ᵥ (fun j => b j 1) + s 0 1 • x + s 1 1 • y :=
+  _root_.PositivityTheory.ThKG.Tow.Levi.cols_of_mul h
 
 theorem IsFr.levi (h : IsFr c ε J J₁ ι x y A') (hcc : ∀ a, c (c a) = a) {t t' : R} (ht : t * t' = 1) {g g' : Matrix e e R}
     (hg' : g * g' = 1) (hg : gᵀ * J₁ * g.map c = J₁) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.TotPairing
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.CxPairing
@@ -66,17 +67,7 @@ namespace GlobalTheory.CompanionTheory.CupdR
 
 theorem dividedPowerFiltration_mul {B : Type} [CommRing B] {J : Ideal B} (δ : DividedPowers J) (r s : ℕ) :
     pdP δ r * pdP δ s ≤ pdP δ (r + s) := by
-  unfold pdP
-  rw [Ideal.span_mul_span']
-  refine Ideal.span_le.2 ?_
-  rintro _ ⟨_, ⟨l, hl, hr, rfl⟩, _, ⟨l', hl', hr', rfl⟩, rfl⟩
-  refine Ideal.subset_span ⟨l ++ l', ?_, ?_, ?_⟩
-  · intro q hq
-    rcases List.mem_append.1 hq with h | h
-    exacts [hl q h, hl' q h]
-  · simp only [List.map_append, List.sum_append]
-    omega
-  · simp [List.map_append, List.prod_append]
+  apply _root_.GlobalTheory.CompanionTheory.DPFil.dividedPowerFiltration_mul_le <;> assumption
 
 theorem term_mem {b : Base} {L : b.Fun} {p n r : ℕ} (t : ComposableArrows (Thick L) n)
     (f : CH.Cn (CH.modF (thA L)) p) (hf : ∀ s, (show (s.obj (Fin.last p)).B from f s) ∈ (s.obj (Fin.last p)).pdPow r)

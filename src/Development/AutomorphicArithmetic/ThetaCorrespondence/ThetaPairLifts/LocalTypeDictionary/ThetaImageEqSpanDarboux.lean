@@ -972,14 +972,8 @@ namespace GlobalTheory.ThetaRealDeriv
 theorem schr_comp_apply {R : Type} [CommRing R] [Invertible (2 : R)] (ψ : AddChar R ℂ) {κ : Type} [Fintype κ]
     (w w' : (κ → R) × (κ → R)) (Φ : (κ → R) → ℂ) (x : κ → R) :
     GlobalTheory.WeilM.schr ψ w (GlobalTheory.WeilM.schr ψ w' Φ) x =
-      ψ (⅟(2 : R) * (w.1 ⬝ᵥ w'.2 - w'.1 ⬝ᵥ w.2)) * GlobalTheory.WeilM.schr ψ (w + w') Φ x := by
-  simp only [GlobalTheory.WeilM.schr, ← mul_assoc, ← AddChar.map_add_eq_mul, add_assoc]
-  congr 2
-  simp only [Prod.fst_add, Prod.snd_add, add_dotProduct, dotProduct_add]
-  rw [dotProduct_comm w'.1 w.2]
-  first
-    | linear_combination (w.1 ⬝ᵥ w'.2) * invOf_mul_self (2 : R)
-    | linear_combination (-(w.1 ⬝ᵥ w'.2)) * invOf_mul_self (2 : R)
+      ψ (⅟(2 : R) * (w.1 ⬝ᵥ w'.2 - w'.1 ⬝ᵥ w.2)) * GlobalTheory.WeilM.schr ψ (w + w') Φ x :=
+  _root_.GlobalTheory.ThetaDer.schr_comp_apply ψ w w' Φ x
 
 theorem exists_transpose_mul_equiv {A : Type} [CommRing A] {α β γ : Type} [Fintype β] [DecidableEq β] (e : γ ≃ α)
     {G H : Matrix β β A} (hHG : H * G = 1) :
@@ -1003,10 +997,7 @@ theorem exists_transpose_mul_equiv {A : Type} [CommRing A] {α β γ : Type} [Fi
 
 theorem finPart_realAd_smul (D : D7) (t : ℝ) (y : AE D) :
     finPart D (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.realAd D.host.F t • y) = 0 := by
-  have h0 : finPart D (algebraMap (AF D.host.F) (AE D) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.realAd D.host.F t)) = 0 := by
-    show ((0 : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F) ⊗ₜ[D.host.F] (1 : D.host.E)) = 0
-    exact TensorProduct.zero_tmul _ _
-  rw [Algebra.smul_def, map_mul, h0, zero_mul]
+  apply _root_.GlobalTheory.ThetaDer.fin_realAd_smul_eq_zero <;> assumption
 
 
 

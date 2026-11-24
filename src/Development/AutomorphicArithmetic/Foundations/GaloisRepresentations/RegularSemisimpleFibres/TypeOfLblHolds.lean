@@ -785,27 +785,11 @@ private theorem ent_one' {F : Type} [Field F] {n : ℕ} (i j : ℕ) (hi : i < n)
 
 private theorem tlG_one' {F : Type} [Field F] (a b : ℕ) :
     tlG a (1 : GL (Fin (a + b)) F) = 1 := by
-  have h : tl a ((1 : GL (Fin (a + b)) F) : Matrix (Fin (a + b)) (Fin (a + b)) F) = 1 := by
-    ext i j
-    rw [Matrix.one_apply]
-    show ent _ (i : ℕ) (j : ℕ) = _
-    rw [Units.val_one, ent_one' _ _ (lt_of_lt_of_le i.isLt (Nat.le_add_right a b))
-      (lt_of_lt_of_le j.isLt (Nat.le_add_right a b))]
-    simp only [Fin.val_inj]
-  unfold tlG
-  rw [h, toG_one']
+  apply _root_.GlobalTheory.ShinBlock.tlG_one <;> assumption
 
 private theorem brG_one' {F : Type} [Field F] (a b : ℕ) :
     brG a b (1 : GL (Fin (a + b)) F) = 1 := by
-  have h : br a b ((1 : GL (Fin (a + b)) F) : Matrix (Fin (a + b)) (Fin (a + b)) F) = 1 := by
-    ext i j
-    rw [Matrix.one_apply]
-    show ent _ (a + (i : ℕ)) (a + (j : ℕ)) = _
-    rw [Units.val_one, ent_one' _ _ (Nat.add_lt_add_left i.isLt a)
-      (Nat.add_lt_add_left j.isLt a)]
-    simp only [Nat.add_left_cancel_iff, Fin.val_inj]
-  unfold brG
-  rw [h, toG_one']
+  apply _root_.GlobalTheory.ShinBlock.brG_one <;> assumption
 
 private theorem inPar_one' {F : Type} [Field F] (a n : ℕ) : InPar a (1 : GL (Fin n) F) := by
   intro i j hj hi

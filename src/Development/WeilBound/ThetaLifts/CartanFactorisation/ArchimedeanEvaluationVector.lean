@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.GrowTr
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.RealMetaplecticRepresentation
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.ArchimedeanUnitIdempotentSmulMixedSpaceVecPairAs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationPreservesSchwartz
@@ -73,29 +74,7 @@ variable {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ]
 
 theorem trace_nondeg {a : mixedEmbedding.mixedSpace F} (ha : a ≠ 0) :
     ∃ b, Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (a * b) ≠ 0 := by
-  classical
-  have ht : ∀ x : mixedEmbedding.mixedSpace F, Algebra.trace ℝ (mixedEmbedding.mixedSpace F) x =
-      ∑ w, x.1 w + ∑ w, 2 * (x.2 w).re := fun x => by
-    rw [Algebra.trace_prod_apply, PI.ProdFormulaE.Tr.trace_pi, PI.ProdFormulaE.Tr.trace_pi]
-    simp [Algebra.trace_complex_apply]
-  by_cases h1 : a.1 = 0
-  · have h2 : a.2 ≠ 0 := fun h => ha (Prod.ext h1 h)
-    obtain ⟨w, hw⟩ := Function.ne_iff.1 h2
-    refine ⟨(0, Pi.single w ((starRingEnd ℂ) (a.2 w))), ?_⟩
-    have e : ∀ u, (a.2 u * (Pi.single w ((starRingEnd ℂ) (a.2 w)) : _ → ℂ) u).re =
-        if u = w then Complex.normSq (a.2 w) else 0 := fun u => by
-      by_cases hu : u = w
-      · subst hu
-        rw [Pi.single_eq_same, Complex.mul_conj, Complex.ofReal_re, if_pos rfl]
-      · rw [Pi.single_eq_of_ne hu, mul_zero, Complex.zero_re, if_neg hu]
-    rw [ht]
-    simp only [Prod.fst_mul, mul_zero, Pi.zero_apply, Finset.sum_const_zero, zero_add, Prod.snd_mul, Pi.mul_apply, e, mul_ite,
-      Finset.sum_ite_eq', Finset.mem_univ, if_true]
-    exact mul_ne_zero two_ne_zero (Complex.normSq_pos.2 hw).ne'
-  · obtain ⟨w, hw⟩ := Function.ne_iff.1 h1
-    refine ⟨(Pi.single w 1, 0), ?_⟩
-    rw [ht, Finset.sum_eq_single w (fun u _ hu => by simp [hu]) (by simp)]
-    simpa using hw
+  apply _root_.PositivityTheory.ThKF0.Grow.exists_trace_ne <;> assumption
 
 def tb (x y : κ → mixedEmbedding.mixedSpace F) : ℝ := -Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (x ⬝ᵥ y)
 

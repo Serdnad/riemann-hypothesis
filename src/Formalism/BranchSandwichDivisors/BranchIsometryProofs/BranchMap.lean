@@ -60,6 +60,8 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.GradedWeylDivisibility.FockSpaceTableaux.LDbasisLemmas
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.LaplaceOperators.CapelliIdentity.ProdOfFnUpdateEq
 
 @[expose] public section
 
@@ -586,15 +588,7 @@ theorem bmA_prod_update_succ {n : ℕ} (g : Fin (n + 1) → A) (k : Fin n) (w : 
 theorem bmA_comm_prod (x : A) : ∀ {n : ℕ} (g : Fin n → A),
     x * (List.ofFn g).prod - (List.ofFn g).prod * x =
       ∑ k, (List.ofFn (Function.update g k (x * g k - g k * x))).prod := by
-  intro n
-  induction n with
-  | zero => intro g; simp
-  | succ n ih =>
-    intro g
-    rw [Fin.sum_univ_succ, bmA_prod_update_zero]
-    simp only [bmA_prod_update_succ]
-    rw [← Finset.mul_sum, ← ih (fun i => g i.succ), List.ofFn_succ, List.prod_cons]
-    noncomm_ring
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.Lap.Capelli.comm_prod_ofFn <;> assumption
 
 theorem bmA_adj : ∀ {n : ℕ} (g : Fin n → A) (p p' : Fin n), p'.val = p.val + 1 →
     ∃ L Rr : A, ∀ a b : A,
@@ -2377,15 +2371,7 @@ theorem bmLift_xi {R : Type} [CommRing R] {n : ℕ} (lam sg : Fin n → ℕ) (hI
 
 theorem bmG_initMinor_rowHom (R : Type*) [CommRing R] {r n s : ℕ} (I : Fin s → Fin r) (hs : s ≤ n) :
     IsWeightedHomogeneous (rowW r n) (initMinor R (n := n) I hs) (∑ p : Fin s, Pi.single (I p) 1) := by
-  unfold initMinor
-  rw [Matrix.det_apply]
-  refine IsWeightedHomogeneous.sum _ _ _ fun σ _ => ?_
-  rw [← mem_weightedHomogeneousSubmodule]
-  refine zsmul_mem ?_ _
-  rw [mem_weightedHomogeneousSubmodule,
-    ← Equiv.sum_comp σ (fun p => (Pi.single (I p) 1 : Fin r → ℕ))]
-  refine IsWeightedHomogeneous.prod _ _ _ fun q _ => ?_
-  exact isWeightedHomogeneous_X R (rowW r n) _
+  apply _root_.Formalism.GradedWeylDivisibility.ldbasis_initMinor_rowHom <;> assumption
 
 theorem bmG_sumA {n : ℕ} (i : Fin n) :
     (∑ p : Fin (i.val + 1), (Pi.single (rowsA i p) 1 : Fin (n + 1) → ℕ)) = initW (n + 1) (i.val + 1) :=

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeElementComponentMemStandardDoubleCoset
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemSum
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.IdemElt
 import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.FinPartPhiE
@@ -94,20 +95,7 @@ theorem intAf_mul {a a' : Af D.host.F} (ha : a ∈ intAf D.host.F) (ha' : a' ∈
 
 theorem intAE_mul {z z' : Af D.host.F ⊗[D.host.F] D.host.E} (hz : z ∈ intAE D) (hz' : z' ∈ intAE D) :
     z * z' ∈ intAE D := by
-  induction hz using AddSubgroup.closure_induction with
-  | mem x hx =>
-    obtain ⟨a, ha, y, rfl⟩ := hx
-    induction hz' using AddSubgroup.closure_induction with
-    | mem x' hx' =>
-      obtain ⟨a', ha', y', rfl⟩ := hx'
-      rw [Algebra.TensorProduct.tmul_mul_tmul]
-      exact AddSubgroup.subset_closure ⟨a * a', intAf_mul ha ha', y * y', by push_cast; rfl⟩
-    | zero => rw [mul_zero]; exact zero_mem _
-    | add x y _ _ hx hy => rw [mul_add]; exact add_mem hx hy
-    | neg x _ hx => rw [mul_neg]; exact neg_mem hx
-  | zero => rw [zero_mul]; exact zero_mem _
-  | add x y _ _ hx hy => rw [add_mul]; exact add_mem hx hy
-  | neg x _ hx => rw [neg_mul]; exact neg_mem hx
+  apply _root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE <;> assumption
 
 
 

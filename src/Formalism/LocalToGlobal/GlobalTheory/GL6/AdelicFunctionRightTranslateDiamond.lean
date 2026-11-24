@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalRingCardinality.IntCastDvdOfDvdIntegers
 public import Formalism.LocalToGlobal.HermitianForms.FormsTied
 
 @[expose] public section
@@ -88,51 +89,7 @@ def DiamondElementsExist (Tf : FormsTied D u) : Prop :=
     ∃ δ, IsDia (Tf.cls i hi).lev (Tf.atT.eV v).1 (Tf.atT.eV v).2 k δ
 
 theorem level_prime_ne_type_prime (A : AtTTied u) (j : Fin 2) : (D.mem u).A.T ≠ D.host.g j := by
-  intro hTg
-  obtain ⟨r, hr⟩ := Ideal.mem_span_singleton'.1 A.piU_cong
-  have hdiv : D.host.g j ∣ D.host.QS * D.host.q * D.host.d * (D.host.g 0 * D.host.g 1) ^ 2 := by
-    apply Dvd.dvd.mul_left
-    fin_cases j
-    · exact Dvd.dvd.pow (Dvd.intro _ rfl) two_ne_zero
-    · exact Dvd.dvd.pow (Dvd.intro_left _ rfl) two_ne_zero
-  obtain ⟨M, hM⟩ := hdiv
-  set N : ℕ := D.host.QS * D.host.q * D.host.d * (D.host.g 0 * D.host.g 1) ^ 2 with hN
-  have hpi : ((A.piU : 𝓞 D.host.E) : D.host.E) = 1 + (r : D.host.E) * (N : D.host.E) := by
-    have := congrArg (fun x : 𝓞 D.host.E => (x : D.host.E)) hr
-    push_cast at this
-    linear_combination -this
-  have hcpi : D.host.conj ((A.piU : 𝓞 D.host.E) : D.host.E) =
-      1 + D.host.conj (r : D.host.E) * (N : D.host.E) := by
-    rw [hpi, map_add (f := _), map_one, map_mul, map_natCast]
-  have hNM : (N : D.host.E) = (D.host.g j : D.host.E) * (M : D.host.E) := by
-    rw [hM]; push_cast; ring
-  have h0 := A.piU_norm
-  rw [hcpi, hpi, hTg] at h0
-  set r' := D.host.conj (r : D.host.E)
-  have key : (D.host.g j : D.host.E) * (1 - (M : D.host.E) * ((r : D.host.E) + r' + (r : D.host.E) * r' * N)) = 1 := by
-    linear_combination (-1 : D.host.E) * h0 + ((r : D.host.E) + r' + (r : D.host.E) * r' * N) * hNM
-  have hr' : IsIntegral ℤ r' := map_isIntegral_int D.host.conj (RingOfIntegers.isIntegral_coe r)
-  have hrI : IsIntegral ℤ (r : D.host.E) := RingOfIntegers.isIntegral_coe r
-  have hint : IsIntegral ℤ (1 - (M : D.host.E) * ((r : D.host.E) + r' + (r : D.host.E) * r' * N)) := by
-    refine isIntegral_one.sub (IsIntegral.mul ?_ ((hrI.add hr').add ((hrI.mul hr').mul ?_)))
-    · simpa using (isIntegral_algebraMap (R := ℤ) (A := D.host.E) (x := (M : ℤ)))
-    · simpa using (isIntegral_algebraMap (R := ℤ) (A := D.host.E) (x := (N : ℤ)))
-  have hg0 : (D.host.g j : D.host.E) ≠ 0 := by
-    exact_mod_cast (D.host.g_prime j).ne_zero
-  have hinv : (1 - (M : D.host.E) * ((r : D.host.E) + r' + (r : D.host.E) * r' * N)) =
-      algebraMap ℚ D.host.E ((D.host.g j : ℚ)⁻¹) := by
-    rw [map_inv₀, map_natCast]
-    exact (eq_inv_of_mul_eq_one_right key)
-  rw [hinv] at hint
-  have hq : IsIntegral ℤ ((D.host.g j : ℚ)⁻¹) :=
-    (isIntegral_algebraMap_iff ).1 hint
-  obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.1 hq
-  have hy' : (y : ℚ) * (D.host.g j : ℚ) = 1 := by
-    rw [show (y : ℚ) = algebraMap ℤ ℚ y from rfl, hy]
-    exact inv_mul_cancel₀ (by exact_mod_cast (D.host.g_prime j).ne_zero)
-  have hyz : y * (D.host.g j : ℤ) = 1 := by exact_mod_cast hy'
-  have hd : ((D.host.g j : ℕ) : ℤ) ∣ ((1 : ℕ) : ℤ) := ⟨y, by rw [Nat.cast_one, ← hyz, mul_comm]⟩
-  exact (D.host.g_prime j).not_dvd_one (Int.natCast_dvd_natCast.1 hd)
+  apply _root_.Formalism.BasicNotions.D7.T_ne_g <;> assumption
 
 theorem level_places_not_bad (A : AtTTied u) (v : (D.mem u).A.vT) : (A.eV v).1 ∉ badG D := by
   have hT := (A.eV v).2

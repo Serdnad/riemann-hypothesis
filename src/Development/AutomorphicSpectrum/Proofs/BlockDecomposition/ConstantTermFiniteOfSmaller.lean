@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AveragePreservesKFiniteness
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.AffineGLForms.GenSpace
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExistsMonicAevalMemOfLeSup
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.OneMemGoodCT
@@ -112,57 +113,12 @@ namespace GlobalTheory.CompanionTheory.CTFin.KType
 
 theorem exists_finset_sep {K : Type} (S : Submodule ℂ (K → ℂ)) [FiniteDimensional ℂ S] :
     ∃ T : Finset K, ∀ s ∈ S, (∀ t ∈ T, s t = 0) → s = 0 := by
-  classical
-  let f : Finset K → Submodule ℂ S := fun T =>
-    ⨅ t ∈ T, LinearMap.ker ((LinearMap.proj (R := ℂ) (φ := fun _ : K => ℂ) t).comp S.subtype)
-  obtain ⟨T, -, hT⟩ := (measure fun T => Module.finrank ℂ (f T)).wf.has_min Set.univ ⟨∅, trivial⟩
-  refine ⟨T, fun s hs h0 => ?_⟩
-  by_contra hne
-  obtain ⟨t, ht⟩ := Function.ne_iff.1 hne
-  have hmem : ∀ T' : Finset K, ∀ u : S, u ∈ f T' ↔ ∀ t ∈ T', (u : K → ℂ) t = 0 := fun T' u => by
-    simp [f, Submodule.mem_iInf]
-  have hle : f (insert t T) ≤ f T := fun u hu =>
-    (hmem T u).2 fun t' ht' => (hmem _ u).1 hu t' (Finset.mem_insert_of_mem ht')
-  have hlt : f (insert t T) < f T := by
-    refine lt_of_le_of_ne hle fun heq => ?_
-    have h1 : (⟨s, hs⟩ : S) ∈ f T := (hmem T _).2 h0
-    rw [← heq] at h1
-    exact ht ((hmem _ _).1 h1 t (Finset.mem_insert_self t T))
-  exact hT (insert t T) trivial (Submodule.finrank_lt_finrank_of_lt hlt)
+  apply _root_.GlobalTheory.AvgCoeff.exists_finset_sep <;> assumption
 
 theorem integral_mem {K K' : Type} [MeasurableSpace K'] (μ : Measure K') (S : Submodule ℂ (K → ℂ))
     [FiniteDimensional ℂ S] (F : K' → K → ℂ) (hF : ∀ k', F k' ∈ S)
     (hi : ∀ k, Integrable (fun k' => F k' k) μ) : (fun k => ∫ k', F k' k ∂μ) ∈ S := by
-  obtain ⟨T, hT⟩ := exists_finset_sep S
-  let R : S →ₗ[ℂ] (T → ℂ) := LinearMap.pi fun t : T => (LinearMap.proj (R := ℂ) (φ := fun _ : K => ℂ) (t : K)).comp S.subtype
-  have hker : LinearMap.ker R = ⊥ := by
-    refine LinearMap.ker_eq_bot'.2 fun u hu => Subtype.ext ?_
-    refine hT u u.2 fun t ht => ?_
-    have := congrFun hu ⟨t, ht⟩
-    simpa [R] using this
-  obtain ⟨L, hL⟩ := LinearMap.exists_leftInverse_of_injective R hker
-  let b := Pi.basisFun ℂ T
-  have hexp : ∀ s ∈ S, s = ∑ t : T, s t • ((L (b t) : S) : K → ℂ) := by
-    intro s hs
-    have h1 : (⟨s, hs⟩ : S) = L (R ⟨s, hs⟩) := by rw [← LinearMap.comp_apply, hL, LinearMap.id_apply]
-    have h2 : R ⟨s, hs⟩ = ∑ t : T, s t • b t := by
-      conv_lhs => rw [← b.sum_repr (R ⟨s, hs⟩)]
-      simp [R, b]
-
-    rw [h2, map_sum] at h1
-    have h3 := congrArg (fun u : S => (u : K → ℂ)) h1
-    simpa [Submodule.coe_sum, map_smul] using h3
-  have : (fun k => ∫ k', F k' k ∂μ) = ∑ t : T, (∫ k', F k' t ∂μ) • ((L (b t) : S) : K → ℂ) := by
-    funext k
-    have hk : ∀ k', F k' k = ∑ t : T, F k' t * ((L (b t) : S) : K → ℂ) k := fun k' => by
-      conv_lhs => rw [hexp (F k') (hF k')]
-      simp [Finset.sum_apply]
-    simp_rw [hk]
-    rw [integral_finsetSum (f := fun (t : T) k' => F k' t * ((L (b t) : S) : K → ℂ) k) Finset.univ
-      fun t _ => (hi t).mul_const _]
-    simp [Finset.sum_apply, integral_mul_const]
-  rw [this]
-  exact Submodule.sum_mem _ fun t _ => Submodule.smul_mem _ _ (L (b t)).2
+  apply _root_.GlobalTheory.AvgCoeff.integral_mem <;> assumption
 
 theorem finiteDimensional_coeffSpan {K W : Type} [Group K] [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (ρ : Representation ℂ K W) : FiniteDimensional ℂ (GlobalTheory.Published.AutFin.coeffSpan ρ) := by
@@ -249,27 +205,8 @@ section -- clump:auto
 private theorem UpperTheory.Reformulated.B.Qp2.aux {X : Type} (n : ℕ) :
     ∀ (V : Submodule ℂ (X → ℂ)) [FiniteDimensional ℂ ↥V], Module.finrank ℂ V = n →
     ∃ (T : Finset X), ∀ v ∈ V, (∀ x ∈ T, v x = (0 : ℂ)) → v = (0 : X → ℂ) := by
-  classical
-  induction n using Nat.strong_induction_on with
-  | _ n ih =>
-    intro V _ hn
-    by_cases hV : ∀ v ∈ V, v = 0
-    · exact ⟨∅, fun v hv _ => hV v hv⟩
-    · obtain ⟨w, hw⟩ := not_forall.mp hV
-      obtain ⟨hwV, hw0⟩ := Classical.not_imp.mp hw
-      obtain ⟨x, hx⟩ := Function.ne_iff.mp hw0
-      let U : Submodule ℂ (X → ℂ) := V ⊓ LinearMap.ker (LinearMap.proj x : (X → ℂ) →ₗ[ℂ] ℂ)
-      have hle : U ≤ V := inf_le_left
-      have hlt : U < V := by
-        refine lt_of_le_of_ne hle ?_
-        intro h
-        have hwU : w ∈ U := h ▸ hwV
-        exact hx (LinearMap.mem_ker.mp (Submodule.mem_inf.mp hwU).2)
-      haveI : FiniteDimensional ℂ U := Submodule.finiteDimensional_of_le hle
-      have hr : Module.finrank ℂ U < n := hn ▸ Submodule.finrank_lt_finrank_of_lt hlt
-      obtain ⟨T, hT⟩ := ih _ hr U rfl
-      refine ⟨insert x T, fun v hv h => hT v ?_ fun y hy => h y (Finset.mem_insert_of_mem hy)⟩
-      exact Submodule.mem_inf.mpr ⟨hv, LinearMap.mem_ker.mpr (h x (Finset.mem_insert_self x T))⟩
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.CTFin.UniSol.exists_finset_separating <;> assumption
 
 theorem UpperTheory.Reformulated.B.Qp2.exists_finset_separating :
     ∀ {X : Type} (V : Submodule ℂ (X → ℂ)) [FiniteDimensional ℂ ↥V],

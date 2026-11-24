@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.EqZeroOfSumEmbeddingSmul
 public import Development.AbelianVarietyTheory.Statements.PrincipalLattices.LogHermFormOfUnitDiscriminant
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -68,17 +69,7 @@ theorem isVecOver_scaleVec {R' : Type} [CommRing R'] {f : R →+* R'} {A : Over 
   ext a <;> simp [Chart.dualMapR, epsScaleR, TrivSqZeroExt.algebraMap_eq_inl]
 
 theorem primeSpectrum_dual_eq (x y : PrimeSpectrum (DualNumber ℂ)) : x = y := by
-  have h : ∀ z : PrimeSpectrum (DualNumber ℂ), ∀ a, a ∈ z.asIdeal ↔ a.fst = 0 := fun z a => by
-    constructor
-    · intro ha
-      by_contra h0
-      exact z.2.ne_top (z.asIdeal.eq_top_of_isUnit_mem ha (TrivSqZeroExt.isUnit_iff_isUnit_fst.2 (Ne.isUnit h0)))
-    · intro ha
-      refine z.2.mem_of_pow_mem 2 ?_
-      rw [show a ^ 2 = 0 by ext <;> simp [pow_two, ha]]
-      exact z.asIdeal.zero_mem
-  ext a
-  rw [h, h]
+  apply _root_.GlobalTheory.CMNormIdentity.primeSpectrum_dualNumber_eq <;> assumption
 
 theorem isDiff_scaleVec {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} (u : HolUnif A L g) {w : Fin g → ℂ}
     {v : epsR ℂ ⟶ A} (h : u.IsDiff w v) (c : ℂ) : u.IsDiff (c • w) (scaleVec c v) := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockGraphDeg
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBlockGraphFibreRatio
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBlockImageTop
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsGraphChangeOfModel
@@ -23,16 +24,7 @@ variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintyp
 
 theorem isMultiHomog_blockForms (k₀ : K) (M : Matrix (Ix κ) (ι k₀) ℤ) (q : Σ k, GlobalTheory κ k) :
     IsMultiHomog (blockForms k₀ M q) (blockDeg k₀ 1) := by
-  classical
-  intro m hm k
-  obtain ⟨t, -, ht⟩ := Finset.mem_biUnion.mp (MvPolynomial.support_sum hm)
-  rw [C_mul_X_eq_monomial] at ht
-  have hmt := Finset.mem_singleton.mp (MvPolynomial.support_monomial_subset ht)
-  subst hmt
-  by_cases hk : k = k₀
-  · subst hk
-    simp [blockDeg, Finsupp.single_apply]
-  · simp [blockDeg, hk, Sigma.ext_iff]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.BlockGraphDeg.isMultiHomog_blockForms <;> assumption
 
 theorem sub_mem_mCoordIdeal {Ω : Type} [Field Ω] {y : (Σ k, ι k) → Ω} {k₀ : K} {M : Matrix (Ix κ) (ι k₀) ℤ}
     {N : Matrix (ι k₀) (Ix κ) ℤ} {x : Ix κ → Ω} (h : IsBlockImage y k₀ M N x) (i : ι k₀) :

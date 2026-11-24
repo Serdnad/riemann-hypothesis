@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.ComplexHessianIsHermitianOfContDiffAt
 public import ReciprocityTheory.AnalyticForms.AnalyticCharts.MaDensCompEqZeroOfRankLt
 public import Mathlib.Analysis.Calculus.FDeriv.Symmetric
 import Mathlib.Order.CompletePartialOrder
@@ -34,20 +35,7 @@ theorem hessC_const_mul' (c : ℝ) (φ : (Fin D → ℂ) → ℝ) (z : Fin D →
 theorem hessC_add' (φ ψ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z)
     (hψ : ContDiffAt ℝ 2 ψ z) :
     hessC (fun w => φ w + ψ w) z = hessC φ z + hessC ψ z := by
-  have e1 : fderiv ℝ (fun w => φ w + ψ w) =ᶠ[𝓝 z] fun w => fderiv ℝ φ w + fderiv ℝ ψ w := by
-    filter_upwards [hφ.eventually (by simp), hψ.eventually (by simp)] with w h1 h2
-    exact fderiv_add (h1.differentiableAt (by norm_num)) (h2.differentiableAt (by norm_num))
-  have d1 : DifferentiableAt ℝ (fderiv ℝ φ) z :=
-    (hφ.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
-  have d2 : DifferentiableAt ℝ (fderiv ℝ ψ) z :=
-    (hψ.fderiv_right (m := 1) (by norm_num)).differentiableAt one_ne_zero
-  have e2 : fderiv ℝ (fderiv ℝ (fun w => φ w + ψ w)) z =
-      fderiv ℝ (fderiv ℝ φ) z + fderiv ℝ (fderiv ℝ ψ) z := by
-    rw [e1.fderiv_eq]; exact fderiv_add d1 d2
-  ext i j
-  simp only [hessC, e2, ContinuousLinearMap.add_apply, Matrix.add_apply]
-  push_cast
-  ring
+  apply ReciprocityTheory.AnForm.A.TraceConjugationCover.complexHessian_add_of_contDiffAt <;> assumption
 
 theorem mdisc_cons_add {e : ℕ} (B C : Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ)
     (F : Fin e → Matrix (Fin (e + 1)) (Fin (e + 1)) ℂ) :

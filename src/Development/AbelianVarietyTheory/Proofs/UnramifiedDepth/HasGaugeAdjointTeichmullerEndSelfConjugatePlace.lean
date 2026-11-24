@@ -1,5 +1,8 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.HasGaugeAdjointLieProjectorsSelfConjugatePlace
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EqZeroOfGe
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieSelf
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Formalism.LocalToGlobal.CharacterGerms.RowTieFB
@@ -51,7 +54,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeTrans
 import Std.Tactic.BVDecide.Normalize.Prop
-
 @[expose] public section
 
 open scoped BigOperators
@@ -118,17 +120,7 @@ theorem teichSelf_subst_mvExp [CharZero C] {σ τ : Type} (b : σ → MvPowerSer
 
 theorem teichSelf_mvExp_add [CharZero C] {τ : Type} {x y : MvPowerSeries τ C} (hx : constantCoeff x = 0)
     (hy : constantCoeff y = 0) : mvExp (x + y) = mvExp x * mvExp y := by
-  have h0 : ∀ s, constantCoeff ((![x, y] : Fin 2 → MvPowerSeries τ C) s) = 0 := by
-    intro s; fin_cases s <;> simp [hx, hy]
-  have hb := hasSubst_of_constantCoeff_zero h0
-  have c01 : constantCoeff (X 0 + X 1 : MvPowerSeries (Fin 2) C) = 0 := by simp
-  have c0 : constantCoeff (X 0 : MvPowerSeries (Fin 2) C) = 0 := by simp
-  have c1 : constantCoeff (X 1 : MvPowerSeries (Fin 2) C) = 0 := by simp
-  have := congrArg (subst (![x, y] : Fin 2 → MvPowerSeries τ C)) (ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.exp_subst_add_two_vars C)
-  rw [← teichSelf_mvExp_eq c01, ← teichSelf_mvExp_eq c0, ← teichSelf_mvExp_eq c1, subst_mul hb,
-    teichSelf_subst_mvExp _ h0 c01, teichSelf_subst_mvExp _ h0 c0, teichSelf_subst_mvExp _ h0 c1,
-    subst_add hb, subst_X hb, subst_X hb] at this
-  simpa using this
+  first | exact _root_.GlobalTheory.RowVal.mvExp_add | exact @_root_.GlobalTheory.RowVal.mvExp_add | apply _root_.GlobalTheory.RowVal.mvExp_add <;> assumption
 
 variable {d d' dd : ℕ} {I I' : Fin 2 → Type}
 
@@ -152,15 +144,8 @@ theorem teichSelf_subst_endP {κ τ υ : Type} [Fintype κ] [Finite τ] (X : Raw
     (M : Matrix κ κ C) (a : κ → MvPowerSeries τ C) (ha : ∀ i, constantCoeff (a i) = 0)
     (b : τ → MvPowerSeries υ C) (hb : ∀ i, constantCoeff (b i) = 0) (x : κ) :
     subst b (endP X M a x) = endP X M (fun y => subst b (a y)) x := by
-  have hB := hasSubst_of_constantCoeff_zero hb
-  unfold endP
-  rw [subst_comp_subst_apply (hasSubst_of_constantCoeff_zero (teichSelf_cc_lin X hlg M a ha)) hB]
-  congr 1
-  funext z
-
-  rw [← coe_substAlgHom hB, map_sum]
-  refine Finset.sum_congr rfl fun y _ => ?_
-  rw [map_smul, coe_substAlgHom hB, subst_comp_subst_apply (hasSubst_of_constantCoeff_zero ha) hB]
+  intros
+  apply _root_.GlobalTheory.RowLaw.EndBlock.subst_endP <;> assumption
 
 theorem teichSelf_cc_pair {κ τ : Type} (a b : κ → MvPowerSeries τ C) (ha : ∀ i, constantCoeff (a i) = 0)
     (hb : ∀ i, constantCoeff (b i) = 0) (p : Fin 2 × κ) :
@@ -292,16 +277,7 @@ theorem teichSelf_double : ∀ (C : Type) [Field C] [CharZero C] (V : VF C) (dd 
     (teichSelf_intS_subst _ (cφ 1) (fun _ => teichSelf_intS_X _) h3)
 
 theorem teichSelf_eq_zero {C : Type} [Field C] {V : VF C} {x : C} (h : ∀ K : ℕ, V.Ge K x) : x = 0 := by
-  by_contra hx
-  have h1 : V.v x ≠ ⊤ := by
-    rw [Ne, AddValuation.top_iff]; exact hx
-  obtain ⟨t, ht⟩ := WithTop.ne_top_iff_exists.1 h1
-  obtain ⟨K, hK⟩ := exists_nat_gt t
-  have := h K
-  unfold VF.Ge at this
-  rw [← ht] at this
-  have : (K : ℝ) ≤ t := by exact_mod_cast this
-  linarith
+  first | exact _root_.GlobalTheory.TeichPair.eq_zero_of_ge | exact @_root_.GlobalTheory.TeichPair.eq_zero_of_ge | apply _root_.GlobalTheory.TeichPair.eq_zero_of_ge <;> assumption
 
 theorem teichSelf_eig {C : Type} [Field C] {V : VF C} {dd : ℕ} (w e : Fin dd → C) (he : ∀ i, V.Ge 0 (e i))
     (z : C) (s : ℕ → C) (hs : ∀ K : ℕ, ∃ n0, ∀ n ≥ n0, V.Ge K (z - s n))

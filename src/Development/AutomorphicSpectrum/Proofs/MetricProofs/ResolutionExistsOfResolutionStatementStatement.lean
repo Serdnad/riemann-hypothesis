@@ -69,6 +69,7 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.RingTheory.Henselian
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsArith
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicSpectrum.Proofs.MetricProofs.MultihomogeneousLiftToJoin, Development.AutomorphicSpectrum.Proofs.MetricProofs.MultihomogeneousNonvanishingOnJoin, Development.AutomorphicSpectrum.Proofs.MetricProofs.ResolutionExistsOfResolutionStatement, Development.AutomorphicSpectrum.Proofs.MetricProofs.ResolutionExistsOfResolutionStatementStatement
@@ -525,18 +526,7 @@ theorem sameOrbit_comp_inl {z z' : (Σ k, joinIdx ι ι₂ k) → ℂ} (h : Same
 
 theorem cone_homog {Ω : Type} [Field Ω] (y : (Σ k, ι k) → Ω) {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) :
     mConeMap y f = C (aeval y f) * ∏ k, X k ^ a k := by
-  unfold mConeMap
-
-  rw [aeval_def, aeval_def, eval₂_eq', eval₂_eq', map_sum, Finset.sum_mul]
-  refine Finset.sum_congr rfl fun d hd => ?_
-  have hc : (∏ i : (Σ k, ι k), (X i.1 : MvPolynomial K Ω) ^ d i) = ∏ k, X k ^ a k := by
-    rw [Fintype.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    show ∏ y, (X k : MvPolynomial K Ω) ^ d ⟨k, y⟩ = _
-    rw [Finset.prod_pow_eq_pow_sum, hf d hd k]
-  simp only [mul_pow, Finset.prod_mul_distrib, hc, map_mul, map_prod, map_pow]
-  rw [mul_assoc]
-  congr 1
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.ProjLine.mConeMap_eq_of_isMultiHomog <;> assumption
 
 theorem evC_smul {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (c : K → ℂ) (z : (Σ k, ι k) → ℂ) :
     evC (fun p => c p.1 * z p) f = (∏ k, c k ^ a k) * evC z f :=

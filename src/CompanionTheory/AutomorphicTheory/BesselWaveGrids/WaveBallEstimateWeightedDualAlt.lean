@@ -1,5 +1,7 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.IntegrableUnipotentRankOne
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.CapelliKFiniteCoefficient
 public import Formalism.HermitianCurvature.StatementB
 public import Development.AbelianVarietyTheory.Definitions.Jets.SumIoPr
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
@@ -125,15 +127,8 @@ namespace GlobalTheory.CoefZero
 
 theorem continuousOn_of_ckOn {k r : ℕ} {E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] {m : ℕ∞}
     {f : B.Mat k r → E} (h : B.CkOn m (B.GV k r) f) : ContinuousOn f (B.GV k r) := by
-  letI : NormedAddCommGroup (B.Mat k r) := Matrix.normedAddCommGroup
-  letI : NormedSpace ℝ (B.Mat k r) := Matrix.normedSpace
-  intro g₀ hg₀
-  obtain ⟨U, f', hU, hgU, hf', he⟩ := h g₀ hg₀
-  have h1 : ContinuousWithinAt f' (B.GV k r) g₀ :=
-    (hf'.continuousOn.continuousAt (hU.mem_nhds hgU)).continuousWithinAt
-  refine h1.congr_of_eventuallyEq ?_ (he g₀ hgU hg₀)
-  filter_upwards [mem_nhdsWithin_of_mem_nhds (hU.mem_nhds hgU), self_mem_nhdsWithin] with g a b
-  exact he g a b
+  intros
+  apply _root_.Formalism.FourierDecayAlt.P.PBH.asm_contOn_of_ckOn <;> assumption
 
 end GlobalTheory.CoefZero
 end Gp91 -- clump:auto
@@ -165,17 +160,7 @@ theorem comp_eq_sum_inner_smul_rankOne {H Wp Wq : Type} [NormedAddCommGroup H] [
     (P : H →L[ℂ] Wp) (A : H →L[ℂ] H) (Q : Wq →L[ℂ] H) :
     P.comp (A.comp Q) = ∑ p : ι × κ, ⟪ContinuousLinearMap.adjoint P (b p.1), A (Q (c p.2))⟫_ℂ •
       (innerSL ℂ (c p.2)).smulRight (b p.1) := by
-  ext x
-  simp only [ContinuousLinearMap.adjoint_inner_left, ContinuousLinearMap.comp_apply,
-    ContinuousLinearMap.sum_apply, ContinuousLinearMap.smul_apply, ContinuousLinearMap.smulRight_apply,
-    innerSL_apply_apply, Fintype.sum_prod_type, smul_smul]
-  conv_lhs => rw [← c.sum_repr' x]
-
-  simp only [map_sum, map_smul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  conv_lhs => rw [← b.sum_repr' (P (A (Q (c j))))]
-  simp only [Finset.smul_sum, smul_smul, mul_comm]
+  apply _root_.GlobalTheory.comp_eq_sum_inner_smul_rankOne <;> assumption
 
 theorem isCoef_of_translate_smul_exists : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r) (Wp : Type) [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [CompleteSpace Wp] [FiniteDimensional ℂ Wp] (Wq : Type) [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq] [CompleteSpace Wq] [FiniteDimensional ℂ Wq] (l : R.H → Wp) (l' : R.H → Wq), R.IsDG ε mu → (∀ f : Mx k r → (Wq →L[ℂ] Wp), PI.CapelliEig.IsKFinCoefT (k := k) (r := r) R.σ f → ∃ s, IsCoef R l l' f s) ∧ (∀ F s (t : ℂ), IsCoef R l l' F s → IsCoef R l l' (fun g => t • F g) (t * s)) ∧ ((∃ x ∈ R.TK, l x ≠ 0) → (∃ y ∈ R.TK, l' y ≠ 0) → ∀ s : ℂ, ∃ F, IsCoef R l l' F s) := by
   intro hK k r ε mu R Wp _ _ _ _ Wq _ _ _ _ l l' hR

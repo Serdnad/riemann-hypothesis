@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.CoreLift
 public import Development.AutomorphicArithmetic.Foundations.Convolution.TraceSplitting.NormCharSplit
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.ParEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.EigBasic
@@ -461,26 +462,8 @@ section Hilb
 
 variable {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] [CompleteSpace H]
 
-private theorem star_zero_of (B : H →L[ℂ] H) (x : H) (h : (B * star B) x = 0) : star B x = 0 := by
-  have e : inner ℂ (star B x) (star B x) = inner ℂ x ((B * star B) x) := by
-    rw [ContinuousLinearMap.star_eq_adjoint, ContinuousLinearMap.adjoint_inner_left]
-    rfl
-  rw [h, inner_zero_right] at e
-  exact inner_self_eq_zero.1 e
-
 private theorem pow_zero_of (B : H →L[ℂ] H) (m : ℕ) : ∀ x : H, ((B * star B) ^ (m + 1)) x = 0 → star B x = 0 := by
-  have hs : star (B * star B) = B * star B := by rw [star_mul, star_star]
-  induction m with
-  | zero => exact fun x h => star_zero_of B x (by simpa using h)
-  | succ m ih =>
-    intro x h
-    rw [pow_succ, ContinuousLinearMap.mul_apply] at h
-    have h1 := ih _ h
-    have h2 : ((B * star B) * star (B * star B)) x = 0 := by
-      rw [hs, ContinuousLinearMap.mul_apply, ContinuousLinearMap.mul_apply, h1, map_zero]
-    have h3 := star_zero_of _ x h2
-    rw [hs] at h3
-    exact star_zero_of B x h3
+  apply _root_.pow_zero_of <;> assumption
 
 private theorem prj_of_mem (V : Submodule ℂ H) {x : H} (h : x ∈ V) : prj V x = x :=
   Submodule.starProjection_eq_self_iff.2 (V.le_topologicalClosure h)

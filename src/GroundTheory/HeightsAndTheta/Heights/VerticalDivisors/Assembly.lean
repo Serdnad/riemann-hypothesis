@@ -1,5 +1,6 @@
 module
 
+import all GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowFormReducedRadical
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.IntToFracInjective
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.LogGaussNormSupportFinite
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChowNorm
@@ -901,15 +902,7 @@ namespace SecAlgField
 
 theorem genPar_algebraicIndependent (k : Type*) [Field k] (e n : ℕ) :
     AlgebraicIndependent k (genPar k e n) := by
-  have hinj : Function.Injective (IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k)
-      (GenParField k e n)) :=
-    IsFractionRing.injective (MvPolynomial (Par e n) k) (GenParField k e n)
-  have h := (MvPolynomial.algebraicIndependent_X (Par e n) k).map' hinj
-  have hc : (⇑(IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k) (GenParField k e n)) ∘ X) =
-      genPar k e n := by
-    funext p
-    simp only [Function.comp_apply, IsScalarTower.coe_toAlgHom', genPar]
-  rwa [hc] at h
+  apply _root_.GroundTheory.Heights₂.Heights.Vertical.genPar_algebraicIndependent <;> assumption
 
 end SecAlgField
 
@@ -1329,20 +1322,7 @@ noncomputable section
 theorem exists_relComps_of_mem_incidence_field {F : Type*} [Field F] {n k : ℕ}
     {J : Ideal (MvPolynomial (Fin n) F)} {v : Fin k × Fin n → AlgebraicClosure F}
     (hv : v ∈ incidence J k) : ∃ W ∈ relComps J, v ∈ incidence W k := by
-  obtain ⟨x, hx0, hxJ, hxv⟩ := hv
-  have hP : (RingHom.ker (aeval x : MvPolynomial (Fin n) F →ₐ[F] AlgebraicClosure F)).IsPrime :=
-    RingHom.ker_isPrime _
-  have hJP : J ≤ RingHom.ker (aeval x : MvPolynomial (Fin n) F →ₐ[F] AlgebraicClosure F) :=
-    fun g hg => RingHom.mem_ker.mpr (hxJ g hg)
-  obtain ⟨W, hW, hWP⟩ := Ideal.exists_minimalPrimes_le hJP
-  refine ⟨W, ⟨hW, ?_⟩, x, hx0, fun g hg => RingHom.mem_ker.mp (hWP hg), hxv⟩
-  by_contra hrel
-  apply hx0
-  funext j
-  have hj : X j ∈ W := by
-    by_contra hj
-    exact hrel ⟨j, hj⟩
-  simpa using RingHom.mem_ker.mp (hWP hj)
+  apply _root_.GroundTheory.Heights₂.Heights.exists_relComps_of_mem_incidence <;> assumption
 
 theorem SpecFirstNeField.proof (h₁ : ConeDimOfChowForm.Statement) (h₂ : ConeDimComponent.Statement)
     (h₃ : ChowFormExists.Statement) (h₄ : IncidenceZeroLocus.Statement) :

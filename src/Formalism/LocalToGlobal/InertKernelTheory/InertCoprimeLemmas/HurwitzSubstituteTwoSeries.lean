@@ -52,6 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Std.Tactic.BVDecide.Normalize.Prop
+import Mathlib.Data.Finsupp.Order
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.InertKernelTheory.StatementZ, Formalism.LocalToGlobal.InertKernelTheory.Adm11OfBeProp, Formalism.LocalToGlobal.InertKernelTheory.InertCoprimeLemmas.HurwitzSubstituteTwoSeries
@@ -182,14 +183,7 @@ theorem hur_cc {f : MvPowerSeries σ K} (hf : Hur R f) : constantCoeff f ∈ R :
 
 private theorem sub_single_one_add_single_one_of_ne_zero (n : σ →₀ ℕ) (i : σ) (hi : n i ≠ 0) :
     n - Finsupp.single i 1 + Finsupp.single i 1 = n := by
-  classical
-  ext k
-  by_cases hk : i = k
-  · subst hk
-    simp only [Finsupp.coe_add, Finsupp.coe_tsub, Pi.add_apply, Pi.sub_apply, Finsupp.single_eq_same]
-    omega
-  · simp only [Finsupp.coe_add, Finsupp.coe_tsub, Pi.add_apply, Pi.sub_apply, Finsupp.single_apply, if_neg hk]
-    omega
+  apply _root_.Finsupp.sub_add_single_one_cancel <;> assumption
 
 private theorem hur_of_closed_under_pderiv [DecidableEq σ] (Q : MvPowerSeries σ K → Prop)
     (h0 : ∀ f, Q f → constantCoeff f ∈ R)

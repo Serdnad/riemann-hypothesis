@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsNeZeroHalfStandardAltFormConstOfExponentOn
 public import Mathlib.Data.ZMod.Defs
 public import Mathlib.GroupTheory.QuotientGroup.Defs
 public import Mathlib.LinearAlgebra.FreeModule.Basic
@@ -66,18 +67,7 @@ namespace GlobalTheory
 
 theorem zmod_pow_exists_eq_nsmul_of_nsmul_eq_zero (n J : ℕ) (hn : n ≠ 0) (hJ : 2 ≤ J)
     (t : ZMod (n ^ J)) (ht : n • t = 0) : ∃ s : ZMod (n ^ J), t = n • s := by
-  have : NeZero (n ^ J) := ⟨pow_ne_zero _ hn⟩
-  have hv : n ^ J ∣ n * t.val := by
-    rw [← ZMod.natCast_eq_zero_iff, Nat.cast_mul, ZMod.natCast_zmod_val, ← nsmul_eq_mul]
-    exact ht
-  obtain ⟨k, hk⟩ := hv
-  have h1 : t.val = n * (n ^ (J - 2) * k) := by
-    apply Nat.eq_of_mul_eq_mul_left (Nat.pos_of_ne_zero hn)
-    rw [hk, show n ^ J = n * (n * n ^ (J - 2)) by
-      rw [← pow_succ', ← pow_succ']; congr 1; omega]
-    ring
-  refine ⟨((n ^ (J - 2) * k : ℕ) : ZMod (n ^ J)), ?_⟩
-  rw [nsmul_eq_mul, ← Nat.cast_mul, ← h1, ZMod.natCast_zmod_val]
+  first | exact _root_.GlobalTheory.exists_eq_nsmul_of_nsmul_eq_zero_zmod | exact @_root_.GlobalTheory.exists_eq_nsmul_of_nsmul_eq_zero_zmod | apply _root_.GlobalTheory.exists_eq_nsmul_of_nsmul_eq_zero_zmod <;> assumption
 
 theorem closure_eq_ker_of_meets_torsion_cosets :
     ∀ (I X : Type) [AddCommGroup X] [Module.Free ℤ X] (n J M : ℕ), n ≠ 0 → 2 ≤ J → M = n ^ J → ∀ (yy : (I → ZMod M) →+ X ⧸ (nsmulAddMonoidHom M : X →+ X).range), Function.Surjective yy → ∀ Z : Set (I → ZMod M), Z ⊆ yy.ker → (∀ a ∈ yy.ker, ∃ b, n • b = 0 ∧ a + b ∈ Z) → AddSubgroup.closure Z = yy.ker := by

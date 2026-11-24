@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.AdjointCoefficients.ThFacts
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.UnipotentIdempotents.TCont
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.AdTransfer
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,37 +55,12 @@ private theorem kill {Γ M : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologic
     Subgroup.topologicalClosure_minimal _ (Abelianization.commutator_subset_ker f) hf
   exact hle hg
 
-private theorem padic_pow_l {l : ℕ} [hl : Fact l.Prime] (h2 : l ≠ 2) (x : ℤ_[l]) (hx : x ^ l = 1) : x = 1 := by
-  have hp := PadicInt.prime_p (p := l)
-  have hodd : Odd l := hl.out.odd_of_ne_two h2
-  have hc : PadicInt.toZMod x = 1 := by
-    have h1 : PadicInt.toZMod x ^ l = 1 := by rw [← map_pow, hx, map_one]
-    rw [ZMod.pow_card] at h1
-    exact h1
-  have hdvd : (l : ℤ_[l]) ∣ x - 1 := by
-    have hs := PadicInt.toZMod_spec x
-    rw [hc, PadicInt.maximalIdeal_eq_span_p, Ideal.mem_span_singleton, ZMod.cast_eq_val, ZMod.val_one,
-      Nat.cast_one] at hs
-    exact hs
-  have hnd : ¬ (l : ℤ_[l]) ∣ x := by
-    intro h
-    have h1 : (l : ℤ_[l]) ∣ x ^ l := dvd_pow h hl.out.ne_zero
-    rw [hx] at h1
-    exact hp.not_dvd_one h1
-  have key := emultiplicity_pow_prime_sub_pow_prime hp hodd hdvd hnd
-  rw [hx, one_pow, sub_self, emultiplicity_zero] at key
-  by_contra hne
-  have hfin : FiniteMultiplicity (l : ℤ_[l]) (x - 1) :=
-    FiniteMultiplicity.of_not_isUnit hp.not_unit (sub_ne_zero.2 hne)
-  rw [hfin.emultiplicity_eq_multiplicity] at key
-  exact ENat.coe_ne_top (multiplicity (l : ℤ_[l]) (x - 1) + 1) (by push_cast; exact key.symm)
-
 private theorem padic_pow {l : ℕ} [Fact l.Prime] (h2 : l ≠ 2) (a : ℕ) (x : ℤ_[l]) (hx : x ^ l ^ a = 1) : x = 1 := by
   induction a generalizing x with
   | zero => simpa using hx
   | succ a ih =>
     apply ih
-    apply padic_pow_l h2
+    apply _root_.no_tors1 h2
     rw [← pow_mul, ← pow_succ]
     exact hx
 

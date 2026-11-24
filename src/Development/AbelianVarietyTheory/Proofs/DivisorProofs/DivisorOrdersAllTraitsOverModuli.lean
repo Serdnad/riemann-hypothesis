@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIdealSheafDescendingDivisorPower
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsNormalModelCartierDivisorThetaSetup
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsGrpPullback
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsRatPointOfFiniteType
@@ -1017,30 +1019,7 @@ theorem form_eq_zero {X I : Type} [AddCommGroup X] (B : LinearMap.BilinForm ℤ 
 
 theorem idlAlong_ne_bot {X : Scheme.{0}} (J : X.IdealSheafData) {R : Type} [CommRing R] [IsDomain R] [IsLocalRing R]
     (ξ : Sp R ⟶ X) (h : (jK R ≫ ξ) (closedPoint (FractionRing R)) ∉ J.support) : idlAlong J ξ ≠ ⊥ := by
-  intro h0
-  have h1 := idlAlong_eq_top_of_notMem_support X J _ _ h
-  have hmap : ∀ {S : Type} [CommRing S] [IsLocalRing S] (χ : Sp S ⟶ X)
-      (U : X.affineOpens) (hle : ⊤ ≤ χ ⁻¹ᵁ U.1),
-      idlAlong J χ = (J.ideal U).map (χ.appLE U.1 ⊤ hle ≫ (Scheme.ΓSpecIso (.of S)).hom).hom := by
-    intro S _ _ χ U hle
-    have hx : χ (closedPoint S) ∈ U.1 := hle trivial
-    unfold idlAlong
-    rw [ds_stalkId_eq_map J U _ hx, Ideal.map_map, ← CommRingCat.hom_comp, Scheme.germ_stalkClosedPointTo]
-    congr 2
-  have h2 : idlAlong J (jK R ≫ ξ) = (idlAlong J ξ).map (algebraMap R (FractionRing R)) := by
-    obtain ⟨U, hU, hx, -⟩ := TopologicalSpace.Opens.isBasis_iff_nbhd.1 X.isBasis_affineOpens
-      (show ξ (closedPoint R) ∈ (⊤ : X.Opens) from trivial)
-    have hle : ⊤ ≤ ξ ⁻¹ᵁ U := (Scheme.preimage_eq_top_of_closedPoint_mem ξ hx).ge
-    have hle' : ⊤ ≤ (jK R ≫ ξ) ⁻¹ᵁ U := fun x _ => hle (show jK R x ∈ (⊤ : (Sp R).Opens) from trivial)
-    rw [hmap ξ ⟨U, hU⟩ hle, hmap _ ⟨U, hU⟩ hle', Ideal.map_map]
-    congr 1
-    have e : (jK R ≫ ξ).appLE U ⊤ hle' = ξ.appLE U ⊤ hle ≫ (jK R).appTop := by
-      rw [Scheme.Hom.appTop, Scheme.Hom.app_eq_appLE]
-      exact (Scheme.Hom.appLE_comp_appLE _ _ _ _ _ _ _).symm
-    rw [e, Category.assoc, Scheme.ΓSpecIso_naturality, ← Category.assoc, CommRingCat.hom_comp]
-    rfl
-  rw [h0, Ideal.map_bot] at h2
-  exact bot_ne_top (h2.symm.trans h1)
+  apply _root_.GlobalTheory.Poinc.Extend.idlAlong_ne_bot <;> assumption
 
 theorem isCpl_props {O R : Type} [CommRing O] [IsLocalRing O] [IsNoetherianRing O] [CommRing R] [IsLocalRing R]
     {j : O →+* R} (hj : GlobalTheory.Poinc.Eq8.IsCpl j) : Function.Injective j ∧ IsLocalHom j ∧
@@ -1069,19 +1048,7 @@ theorem finite_lat (T : UTrait Xo c) : Module.Finite (𝓞 E) T.P.D.toPre.X :=
   Module.Finite.of_restrictScalars_finite ℤ _ _
 
 theorem projective_lat (T : UTrait Xo c) : Module.Projective (𝓞 E) T.P.D.toPre.X := by
-  have : Module.Finite (𝓞 E) T.P.D.toPre.X := finite_lat T
-  have : Module.Flat (𝓞 E) T.P.D.toPre.X := by
-    rw [IsDedekindDomain.flat_iff_torsion_eq_bot, eq_bot_iff]
-    rintro x ⟨a, hx⟩
-    by_contra hx0
-    obtain ⟨n, hn, b, hb⟩ := (Algebra.IsAlgebraic.isAlgebraic (R := ℤ) (a : 𝓞 E)).exists_nonzero_dvd
-      (mem_nonZeroDivisors_of_ne_zero (nonZeroDivisors.coe_ne_zero a))
-    have h : n • x = 0 := by
-      have hx' : (a : 𝓞 E) • x = 0 := hx
-      rw [← algebraMap_smul (𝓞 E) n x, hb, mul_comm, mul_smul, hx', smul_zero]
-    exact hx0 ((smul_eq_zero.1 h).resolve_left hn)
-  have : Module.FinitePresentation (𝓞 E) T.P.D.toPre.X := Module.finitePresentation_of_finite _ _
-  exact Module.Flat.projective_of_finitePresentation
+  apply _root_.GlobalTheory.UPoinc.PreSys.projective_X <;> assumption
 
 theorem be_nonneg (T : UTrait Xo c) (x : T.P.D.toPre.X) : 0 ≤ T.be x x := by
   by_cases hx : x = 0

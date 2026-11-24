@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.CuspidalWhittaker
 public import Mathlib.Algebra.Algebra.Basic
 public import Mathlib.Algebra.Module.LinearMap.Star
 public import Mathlib.Analysis.Complex.Norm
@@ -253,16 +254,8 @@ theorem mem_ball_iff (hjr : j ≤ r) (c : kˣ) (x : Matrix (Fin n) (Fin r) k) :
 
 theorem sumJ (hjr : j ≤ r) (f : Fin r → k) (hf : ∀ l : Fin r, j ≤ l.val → f l = 0) :
     ∑ l, f l = ∑ a : Fin j, f (Fin.castLE hjr a) := by
-  have hm := Finset.sum_map Finset.univ ⟨Fin.castLE hjr, Fin.castLE_injective hjr⟩ f
-  simp only [Function.Embedding.coeFn_mk] at hm
-  rw [← hm]
-  symm
-  apply Finset.sum_subset (Finset.subset_univ _)
-  intro l _ hl
-  apply hf
-  by_contra h
-  push_neg at h
-  exact hl (Finset.mem_map.2 ⟨⟨l.val, h⟩, Finset.mem_univ _, Fin.ext rfl⟩)
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.TyFin.BlockEmbeddingGL.sum_fin_of_ge_zero <;> assumption
 
 def Mr (j : ℕ) (w c : k) (L : 𝓀[k] → 𝒪[k]) (ρ : Fin j → {l : Fin r // j ≤ l.val} → 𝓀[k]) :
     Matrix (Fin r) (Fin r) k :=

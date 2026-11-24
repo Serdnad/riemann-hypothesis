@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.WittDecompSymplInclIsotropicInclAnisotropic
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.WittSourceMixedCoordHeisenbergRestriction
 
 @[expose] public section
 
@@ -217,31 +218,6 @@ theorem surj_core (hZ : Z.rank = 0) (hsH : IsIsoSplit H Z dH.e dH.i₀) (ψ : Ad
     simp only [res, sand_B, sand_A, Pi.smul_apply, smul_eq_mul]
     rw [integral_const_mul, integral_const_mul, hint, inv_mul_cancel₀ hc, mul_one]
 
-private theorem isIsoSplit_of_hypDec {D : D7} {S S₀ : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) (hρ : 0 < ρ) :
-    GlobalTheory.IndefiniteRowSideFullHecke.AdjointIsotropicDecomposition.IsIsoSplit S S₀ d.e d.i₀ := by
-  have hadj : ∀ {m n : ℕ} (A : Matrix (Fin m) (Fin n) D.host.E), GlobalTheory.IndefiniteRowSideFullHecke.AdjointIsotropicDecomposition.adj D A = Aᴴ :=
-    fun A => GlobalTheory.MixModel.cT_sig A
-  refine ⟨⟨hρ, ?_, ?_⟩, ?_, ?_, d.rank_add.symm.trans (Nat.add_comm _ _ ▸ rfl)⟩
-  · apply Fintype.linearIndependent_iff.2
-    intro g hg
-    have h1 : d.e.mulVec g = 0 := by
-      funext k
-      have hk := congrFun hg k
-      simp only [Finset.sum_apply, Pi.smul_apply, Matrix.transpose_apply, smul_eq_mul, Pi.zero_apply] at hk
-      simp only [Matrix.mulVec, dotProduct, Pi.zero_apply]
-      rw [← hk]
-      exact Finset.sum_congr rfl fun i _ => mul_comm _ _
-    have h2 : (d.e'ᴴ * S.gram * d.e).mulVec g = 0 := by
-      rw [← Matrix.mulVec_mulVec, h1, Matrix.mulVec_zero]
-    rw [d.e'e, Matrix.one_mulVec] at h2
-    exact fun i => congrFun h2 i
-  · rw [GlobalTheory.MixModel.cT_sig]
-    exact d.ee
-  · rw [hadj]
-    exact d.iso
-  · rw [hadj, Matrix.mul_assoc]
-    exact ei₀_assoc d
-
 end Res
 
 theorem res_surjective : ∀ (D : D7) (V V' W : HSp D) (r : ℕ) (C : Matrix (Fin V.rank) (Fin r) D.host.E) (B : Matrix (Fin V.rank) (Fin V'.rank) D.host.E), GlobalTheory.IndefiniteRowSideFullHecke.AdjointIsotropicDecomposition.IsIsoSplit V V' C B → ∀ ψ : AddChar (AF D.host.F) ℂ, IsStdChar D ψ (-1) → ∀ (μ : Measure (Mx D W.rank r)) (𝓨 : Set (Mx D W.rank r)), IsCovolOne (GlobalTheory.IndefiniteRowSideFullHecke.AdjointIsotropicDecomposition.ratMx D W.rank r) μ 𝓨 → ∀ f', IsThetaFunO ψ V' W f' → ∃ f, IsThetaFunO ψ V W f ∧ f' = GlobalTheory.IndefiniteRowSideFullHecke.AdjointIsotropicDecomposition.res V V' W C B μ 𝓨 f := by
@@ -249,7 +225,7 @@ theorem res_surjective : ∀ (D : D7) (V V' W : HSp D) (r : ℕ) (C : Matrix (Fi
   obtain ⟨d, hdC, hdB, -⟩ := GlobalTheory.T.exists_wittDecomposition_isotropicSplit_unipotent D V V' r C B hs
   subst hdC hdB
   exact surj_core d (GlobalTheory.Core.Rk.SWLaw.dblDec (Examples₂.posSpace (E := D.host.E) Examples₂.star_isIntegral r)) rfl
-    (isIsoSplit_of_hypDec _ hs.frame.1) ψ hψ μ 𝓨 hμ f' hf'
+    (_root_.GlobalTheory.Bridge.isIsoSplit_hyp _ hs.frame.1) ψ hψ μ 𝓨 hμ f' hf'
 
 end GlobalTheory.TowerSurj
 

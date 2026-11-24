@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsForallEqPowOfPowEqSelf
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.TensorProduct.Basic
 public import Mathlib.CategoryTheory.Monoidal.Cartesian.Over
@@ -149,24 +150,8 @@ open Polynomial
 
 theorem exists_pow_of_finite_field (p : ℕ) [Fact p.Prime] {F k : Type} [Field F] [Finite F]
     [Field k] [CharP k p] (f g : F →+* k) : ∃ i : ℕ, ∀ a : F, g a = f a ^ p ^ i := by
-  haveI : CharP F p := f.charP f.injective p
-  letI : Algebra (ZMod p) F := ZMod.algebra F p
-  letI : Algebra (ZMod p) k := ZMod.algebra k p
-  letI : Algebra F k := f.toAlgebra
-  haveI : IsScalarTower (ZMod p) F k := IsScalarTower.of_algebraMap_eq' (Subsingleton.elim _ _)
-  let g' : F →ₐ[ZMod p] k :=
-    { g with commutes' := fun z =>
-        RingHom.congr_fun (Subsingleton.elim (g.comp (algebraMap (ZMod p) F)) (algebraMap _ k)) z }
-  obtain ⟨n, hn⟩ := (FiniteField.bijective_frobeniusAlgEquivOfAlgebraic_pow (ZMod p) F).2
-    (g'.restrictNormal' F)
-  refine ⟨n, fun a => ?_⟩
-  have h1 : algebraMap F k (g'.restrictNormal' F a) = g' (algebraMap F F a) :=
-    AlgHom.restrictNormal_commutes g' F a
-  have h2 : g'.restrictNormal' F a = a ^ p ^ (n : ℕ) := by
-    rw [← hn]
-    simp [AlgEquiv.coe_pow, FiniteField.coe_frobeniusAlgEquivOfAlgebraic_iterate]
-  rw [h2, map_pow] at h1
-  exact h1.symm
+  intros
+  apply _root_.GlobalTheory.exists_forall_eq_pow_of_finite_field <;> assumption
 
 open GlobalTheory.IndefiniteRowSideFullHecke.SplitUnramifiedPlaces
 

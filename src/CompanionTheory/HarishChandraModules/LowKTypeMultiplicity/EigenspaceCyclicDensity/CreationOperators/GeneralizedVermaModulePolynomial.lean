@@ -54,81 +54,33 @@ theorem generalized_verma_module_polynomial : Verma2 := by
   intro n ε
   let u : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) - dd ε a c
   let v : Fin n → Fin n → Module.End ℂ (MvPolynomial (NC ε) ℂ) := fun a c => (if a = c then 1 else 0) + dd ε a c
-  have hδ : ∀ (a c : Fin n) (T : Module.End ℂ (MvPolynomial (NC ε) ℂ)),
-      Commute (if a = c then 1 else 0) T := by
-    intro a c T
-    split_ifs <;> simp
-  refine ⟨fun c d => ∑ i : NC ε, yy i * (u i.1.1 c * v d i.1.2), ?_, ?_, ?_, ?_⟩
-  · intro c d e f
-    refine glRel_abstract yy u v ?_ ?_ ?_ ?_ ?_ ?_ ?_ c d e f
-    · intro i j
-      refine LinearMap.ext fun f => ?_
-      simp [yy, mul_left_comm]
-    · intro a b c d
-      exact (hδ _ _ _).sub_left ((hδ _ _ _).symm.sub_right (dd_comm _ _ _ _))
-    · intro a b c d
-      exact (hδ _ _ _).sub_left ((hδ _ _ _).symm.add_right (dd_comm _ _ _ _))
-    · intro a b c d
-      exact (hδ _ _ _).add_left ((hδ _ _ _).symm.add_right (dd_comm _ _ _ _))
-    · intro a c j
-      rw [← dd_yy]
-      simp only [u, sub_mul, mul_sub, (hδ a c (yy j)).eq]
-      abel
-    · intro a c j
-      rw [← dd_yy]
-      simp only [v, add_mul, mul_add, (hδ a c (yy j)).eq]
-      abel
-    · intro d e
-      have h0 : ¬(ε d = true ∧ ε e = false) → dd ε d e = 0 := fun h => dif_neg h
-      simp only [u, v]
-      generalize dd ε d e = T at *
-      by_cases hde : d = e
-      · subst hde
-        cases h : ε d <;> simp_all
-      · cases h : ε d <;> cases h' : ε e <;> simp_all
-  · intro i f
-    have hu : ∀ j : NC ε, u j.1.1 i.1.1 = if j.1.1 = i.1.1 then 1 else 0 := by
-      intro j
-      simp [u, dd, i.2.1]
-    have hv : ∀ j : NC ε, v i.1.2 j.1.2 = if i.1.2 = j.1.2 then 1 else 0 := by
-      intro j
-      simp [v, dd, i.2.2]
-    simp only [hu, hv]
-    rw [Finset.sum_eq_single i]
-    · simp [yy]
-    · intro j _ hj
-      split_ifs with h1 h2
-      · exact absurd (Subtype.ext (Prod.ext h1 h2.symm)) hj
-      all_goals simp
+  obtain ⟨hLie, hMul, hConst⟩ := vermaAction_properties n ε
+  refine ⟨vermaAction ε, hLie, hMul, hConst, ?_⟩
+  intro c d f h
+  change ((∑ i : NC ε, yy i * (u i.1.1 c * v d i.1.2)) f).totalDegree ≤ f.totalDegree
+  have hd : ∀ (i : NC ε) (a b : Fin n), (X i * dd ε a b f).totalDegree ≤ f.totalDegree := fun i a b => by
+    unfold dd
+    split_ifs
+    · exact deg_X_pderiv _ _ f
     · simp
-  · intro a b f
-
-    simp [yy, LinearMap.sum_apply, map_sum]
-
-  · intro c d f h
-    have hd : ∀ (i : NC ε) (a b : Fin n), (X i * dd ε a b f).totalDegree ≤ f.totalDegree := fun i a b => by
-      unfold dd
-      split_ifs
-      · exact deg_X_pderiv _ _ f
-      · simp
-    rw [LinearMap.sum_apply]
-    refine totalDegree_finsetSum_le fun i _ => ?_
-    have i1 := i.2.1
-    have i2 := i.2.2
-    cases hc : ε c
-    · have e1 : i.1.1 ≠ c := fun e => by rw [e, hc] at i1; exact Bool.noConfusion i1
-      have e2 : dd ε d i.1.2 = 0 := dif_neg (by simp [← h, hc])
-      simp only [u, v, if_neg e1, e2, yy, Module.End.mul_apply, add_zero, zero_sub, LinearMap.neg_apply,
-        LinearMap.mulLeft_apply]
-      split_ifs
-      · rw [mul_neg, totalDegree_neg]; exact hd _ _ _
-      · simp
-    · have e1 : d ≠ i.1.2 := fun e => by rw [← e, ← h, hc] at i2; exact Bool.noConfusion i2
-      have e2 : dd ε i.1.1 c = 0 := dif_neg (by simp [hc])
-      simp only [u, v, if_neg e1, e2, yy, Module.End.mul_apply, zero_add, sub_zero, LinearMap.mulLeft_apply]
-      split_ifs
-      · exact hd _ _ _
-      · simp
+  rw [LinearMap.sum_apply]
+  refine totalDegree_finsetSum_le fun i _ => ?_
+  have i1 := i.2.1
+  have i2 := i.2.2
+  cases hc : ε c
+  · have e1 : i.1.1 ≠ c := fun e => by rw [e, hc] at i1; exact Bool.noConfusion i1
+    have e2 : dd ε d i.1.2 = 0 := dif_neg (by simp [← h, hc])
+    simp only [u, v, if_neg e1, e2, yy, Module.End.mul_apply, add_zero, zero_sub, LinearMap.neg_apply,
+      LinearMap.mulLeft_apply]
+    split_ifs
+    · rw [mul_neg, totalDegree_neg]; exact hd _ _ _
+    · simp
+  · have e1 : d ≠ i.1.2 := fun e => by rw [← e, ← h, hc] at i2; exact Bool.noConfusion i2
+    have e2 : dd ε i.1.1 c = 0 := dif_neg (by simp [hc])
+    simp only [u, v, if_neg e1, e2, yy, Module.End.mul_apply, zero_add, sub_zero, LinearMap.mulLeft_apply]
+    split_ifs
+    · exact hd _ _ _
+    · simp
 
 theorem kRel_tens {n : ℕ} {ε : Fin n → Bool} {V Z : Type} [AddCommGroup V] [Module ℂ V] [AddCommGroup Z] [Module ℂ Z]
     {E : Fin n → Fin n → Module.End ℂ V} {M : Fin n → Fin n → Module.End ℂ Z} (hE : KRel ε E) (hM : GlRel M) :
@@ -306,8 +258,14 @@ theorem free_all (n m : ℕ) : Free n m := by
       fun _ _ _ _ => trivial, fun _ _ _ => rfl⟩
   | succ m ih => exact free_module_induction n m ih
 
-theorem cover2_of (hA : AcycAbs) : Cover2 := by
-  intro n ε V _ _ E hE
+theorem exists_filtered_tensor_cover {n : ℕ} (ε : Fin n → Bool) (P : Pos n → Prop)
+    {V : Type} [AddCommGroup V] [Module ℂ V]
+    (E : Fin n → Fin n → Module.End ℂ V) (hE : KRel ε E) :
+    ∃ (Y : Type) (_ : AddCommGroup Y) (_ : Module ℂ Y)
+      (EY : Fin n → Fin n → Module.End ℂ Y) (π : Y →ₗ[ℂ] V)
+      (a d : Pos n → Module.End ℂ Y) (F : ℕ → Submodule ℂ Y),
+      KRel ε EY ∧ Function.Surjective π ∧ (∀ c e y, π (EY c e y) = E c e (π y)) ∧
+        Filt P EY a d F := by
   obtain ⟨Z, _, _, M, χ, z₀, a, d, Fil, hM, h1, h0, hF⟩ := free_all n n
   let S : ℕ → Set (V ⊗[ℂ] Z) := fun k => {t | ∃ v z, z ∈ Fil k ∧ t = v ⊗ₜ z}
   have hin : ∀ {k : ℕ} (v : V) {z : Z}, z ∈ Fil k → v ⊗ₜ[ℂ] z ∈ Submodule.span ℂ (S k) :=
@@ -321,9 +279,10 @@ theorem cover2_of (hA : AcycAbs) : Cover2 := by
   have hm : Monotone fun k => Submodule.span ℂ (S k) := fun k l hkl =>
     Submodule.span_mono (by rintro _ ⟨v, z, hz, rfl⟩; exact ⟨v, z, hF.mono hkl hz, rfl⟩)
   refine ⟨V ⊗[ℂ] Z, inferInstance, inferInstance, fun c e => (E c e).rTensor Z + (M c e).lTensor V,
-    (TensorProduct.rid ℂ V).toLinearMap ∘ₗ χ.lTensor V, kRel_tens hE hM, fun v => ⟨v ⊗ₜ z₀, by simp [h1]⟩,
-    fun c e t => ?_, hA n ε _ _ (fun i => (a i).lTensor V) (fun i => (d i).lTensor V)
-      (fun k => Submodule.span ℂ (S k)) (kRel_tens hE hM) ⟨?_, ?_, ?_, hm, ?_, ?_, ?_, ?_, ?_⟩⟩
+    (TensorProduct.rid ℂ V).toLinearMap ∘ₗ χ.lTensor V,
+    (fun i => (a i).lTensor V), (fun i => (d i).lTensor V), (fun k => Submodule.span ℂ (S k)),
+    kRel_tens hE hM, fun v => ⟨v ⊗ₜ z₀, by simp [h1]⟩, fun c e t => ?_,
+    ⟨?_, ?_, ?_, hm, ?_, ?_, ?_, ?_, ?_⟩⟩
   · induction t using TensorProduct.induction_on with
     | zero => simp
     | tmul v f => simp [h0]
@@ -356,5 +315,11 @@ theorem cover2_of (hA : AcycAbs) : Cover2 := by
     exact Submodule.add_mem _ (hin _ hz) (hin _ (hF.r_mem i _ z hz))
   · exact fun i k => hmap _ _ _ fun v z hz => hin v (hF.d_mem i _ z hz)
   · exact fun i => hmap _ _ ⊥ fun v z hz => by simp [hF.d_zero i z hz]
+
+theorem cover2_of (hA : AcycAbs) : Cover2 := by
+  intro n ε V _ _ E hE
+  obtain ⟨Y, _, _, EY, π, a, d, F, hRel, hSurj, hπ, hFilt⟩ :=
+    exists_filtered_tensor_cover ε (cpt ε) E hE
+  exact ⟨Y, inferInstance, inferInstance, EY, π, hRel, hSurj, hπ, hA n ε Y EY a d F hRel hFilt⟩
 
 end CompanionTheory.D.LK

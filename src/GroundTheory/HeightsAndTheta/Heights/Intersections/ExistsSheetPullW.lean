@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.DetRestrictScalarsEqZero
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.AnResBridgeSheetCore
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.ImportsFurtherExtra
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullWMemFibre
 import Mathlib.Analysis.Calculus.FDeriv.OfCompLeft
@@ -37,15 +39,8 @@ omit [Fintype K'] in
 theorem pullQ_eq_local (hv : IsBlockMap κ v) {x z : R.X} (hz : z ∈ R.U x) :
     pullQ R v Ψ z = fun i => Ψ (segre (fun p => R.lift x z (v p))) i.succ /
       Ψ (segre (fun p => R.lift x z (v p))) 0 := by
-  obtain ⟨c, hc, hzc⟩ := R.compat z x z ⟨R.mem_U z, hz⟩
-  have hpt : pullPt R v z = fun p => c (κ p.1) * R.lift x z (v p) := by
-    funext p
-    simp only [pullPt, hzc, hv.2.2.1 p]
-  have hpc : ∏ k, c (κ k) ≠ 0 := Finset.prod_ne_zero_iff.mpr fun k _ => hc (κ k)
-  have hsm := segre_smul (fun k => c (κ k)) (fun p => R.lift x z (v p))
-  funext i
-  simp only [pullQ, hpt, hsm, map_smul, Pi.smul_apply, smul_eq_mul]
-  exact mul_div_mul_left _ _ hpc
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.pullbackBadImage_holds.pullQ_eq_local <;> assumption
 
 theorem exists_sheet_pullW (hv : IsBlockMap κ v) (hP : IsArithVar (imageZ v P') (n + 1))
     (L : Fin n → HermLine ι) (L' : Fin n → HermLine ι') (A : HermLine ι) (A' : HermLine ι') (s : MRing ι)
@@ -78,24 +73,9 @@ theorem exists_sheet_pullW (hv : IsBlockMap κ v) (hP : IsArithVar (imageZ v P')
   set Ce := Df.toContinuousLinearEquivOfDetNeZero hdet with hCe
   have hCe' : (Ce : (Fin n → ℂ) →L[ℂ] (Fin n → ℂ)) = Df :=
     ContinuousLinearMap.coe_toContinuousLinearEquivOfDetNeZero Df hdet
-  have hstrict : HasStrictFDerivAt Q (Ce : (Fin n → ℂ) →L[ℂ] (Fin n → ℂ)) u := by
-    rw [hCe']; exact hQa.hasStrictFDerivAt
-  set F := hstrict.toOpenPartialHomeomorph Q with hF
-  have hFc : (F : (Fin n → ℂ) → (Fin n → ℂ)) = Q := hstrict.toOpenPartialHomeomorph_coe
-  have hus : u ∈ F.source := hstrict.mem_toOpenPartialHomeomorph_source
-  have hyt : Q u ∈ F.target := hstrict.image_mem_toOpenPartialHomeomorph_target
-  have hσu : F.symm (Q u) = u := by
-    have := F.left_inv hus
-    rwa [hFc] at this
+  obtain ⟨F, hFc, hyt, hσu, hσa, hσd⟩ :=
+    GroundTheory.Heights₂.Heights.HilbertSamuel.AnResBridge.exists_analytic_local_inverse Ce hCe' hQa
   have hy0 : Q u = pullQ R v Ψ x := by simp only [hQdef, Function.comp_apply, hsu]
-  have hσa : AnalyticAt ℂ F.symm (Q u) := by
-    refine F.analyticAt_symm (i := Ce) hyt ?_ ?_
-    · rw [hσu, hFc]; exact hQa
-    · rw [hσu, hFc, hCe']
-  have hσd : HasFDerivAt F.symm (Ce.symm : (Fin n → ℂ) →L[ℂ] (Fin n → ℂ)) (Q u) := by
-    refine F.hasFDerivAt_symm hyt ?_
-    rw [hσu, hFc, hCe']
-    exact hQa.differentiableAt.hasFDerivAt
   have hl₀ : AnalyticAt ℂ (fun w => fun p => R.lift x ((R.A.chart j).symm w) (v p)) u :=
     analyticAt_pi_iff.mpr fun p => analyticAt_pi_iff.mp (analyticAt_lift_chart R x j huU) (v p)
   set γ₀ : (Fin n → ℂ) → (Σ k, ι k) → ℂ :=
@@ -173,30 +153,8 @@ theorem exists_sheet_pullW (hv : IsBlockMap κ v) (hP : IsArithVar (imageZ v P')
     have hH : ∀ i, cxHessian (fun y' => pot L i (γ y')) (Q u) =
         cxHessian (fun y' => pot L i (γ₀ y')) (Q u) := by
       intro i
-      set G : (Fin n → ℂ) → ℂ :=
-        fun y' => ((-((L i).a k0 : ℝ) : ℝ) : ℂ) * Complex.log (ψ0 y' / ψ0 (Q u)) with hG
-      set C : ℝ := -(((L i).a k0 : ℝ) * Real.log ‖ψ0 (Q u)‖) with hC
-      have hGa : AnalyticAt ℂ G (Q u) := by
-        refine analyticAt_const.mul ((hψ0a.div analyticAt_const hψ0u).clog ?_)
-        show ψ0 (Q u) / ψ0 (Q u) ∈ Complex.slitPlane
-        rw [div_self hψ0u]
-        exact Complex.one_mem_slitPlane
-      have heq : (fun y' => pot L i (γ y')) =ᶠ[𝓝 (Q u)]
-          fun y' => pot L i (γ₀ y') + (G y').re + C := by
-        filter_upwards [hψ0a.continuousAt.eventually_ne hψ0u,
-          hγ₀a.continuousAt.eventually (isOpen_blockNonzero.mem_nhds hblk)] with y' h0 hb
-        have hpos : 0 < (L i).h (γ₀ y') := (L i).pos _ hb
-        have hn0 : ‖(ψ0 y')⁻¹‖ ^ (L i).a k0 ≠ 0 :=
-          zpow_ne_zero _ (norm_ne_zero_iff.mpr (inv_ne_zero h0))
-        simp only [pot, hγdef]
-        rw [show bsmul (c y') (γ₀ y') = fun p => c y' p.1 * γ₀ y' p from rfl,
-          (L i).smul _ _ (hc_ne y' h0), prod_norm_update_zpow, Real.log_mul hn0 hpos.ne',
-          hG, hC, Complex.re_ofReal_mul, Complex.log_re, norm_div,
-          Real.log_div (norm_ne_zero_iff.mpr h0) (norm_ne_zero_iff.mpr hψ0u), Real.log_zpow,
-          norm_inv, Real.log_inv]
-        ring
-      rw [cxHessian_congr heq, cxHessian_add_re (φ := fun y' => pot L i (γ₀ y')) C
-        (ReciprocityTheory.ChartRestriction.G.Geo.pot_contDiffAt (hL i) hγ₀a hblk) hGa]
+      simpa only [pot, one_mul, hγdef, hcdef] using
+        GroundTheory.Heights₂.Heights.HilbertSamuel.AnResBridge.cxHessian_log_potential_of_block_rescale hγ₀a hψ0a hψ0u hblk k0 (hL i) 1
     have hmd : maDensity (fun i y' => pot L i (γ y')) (Q u) =
         maDensity (fun i y' => pot L i (γ₀ y')) (Q u) := by
       simp only [maDensity, hH]

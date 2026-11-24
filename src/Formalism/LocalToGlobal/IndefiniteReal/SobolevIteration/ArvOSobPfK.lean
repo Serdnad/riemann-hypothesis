@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.PsMInfNhd
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Formalism.LocalToGlobal.IndefiniteReal.SobolevIteration.GlobalThetaOrthogonality
 
@@ -32,44 +33,7 @@ theorem continuous_quad (A : Matrix (Fin n) (Fin n) ℂ) :
 
 theorem posDef_lower (A : Matrix (Fin n) (Fin n) ℂ) (hA : A.PosDef) :
     ∃ c > (0 : ℝ), ∀ x : Fin n → ℂ, c * ‖x‖ ^ 2 ≤ (star x ⬝ᵥ A *ᵥ x).re := by
-
-  have sph : ∀ x : Fin n → ℂ, x ≠ 0 →
-      ((‖x‖⁻¹ : ℝ) : ℂ) • x ∈ Metric.sphere (0 : Fin n → ℂ) 1 ∧
-        x = ((‖x‖ : ℝ) : ℂ) • (((‖x‖⁻¹ : ℝ) : ℂ) • x) := by
-    intro x hx
-    have hnx : 0 < ‖x‖ := norm_pos_iff.2 hx
-    refine ⟨?_, ?_⟩
-    · rw [mem_sphere_zero_iff_norm, norm_smul]
-      simp [hnx.ne']
-    · rw [smul_smul, ← Complex.ofReal_mul, mul_inv_cancel₀ hnx.ne', Complex.ofReal_one, one_smul]
-  by_cases hS : (Metric.sphere (0 : Fin n → ℂ) 1).Nonempty
-  · obtain ⟨x0, hx0, hmin⟩ := (isCompact_sphere (0 : Fin n → ℂ) 1).exists_isMinOn hS
-      (continuous_quad A).continuousOn
-    have hx0ne : x0 ≠ 0 := by
-      intro h
-      rw [h, mem_sphere_zero_iff_norm, norm_zero] at hx0
-      exact zero_ne_one hx0
-    refine ⟨(star x0 ⬝ᵥ A *ᵥ x0).re, ?_, ?_⟩
-    · have h := hA.dotProduct_mulVec_pos hx0ne
-      have h2 := (Complex.lt_def.1 h).1
-      simpa using h2
-    · intro x
-      by_cases hx : x = 0
-      · subst hx; simp
-      · obtain ⟨hu, hxu⟩ := sph x hx
-        set u : Fin n → ℂ := ((‖x‖⁻¹ : ℝ) : ℂ) • x with hu_def
-        have key : (star x ⬝ᵥ A *ᵥ x) = ((‖x‖ : ℝ) : ℂ) ^ 2 * (star u ⬝ᵥ A *ᵥ u) := by
-          conv_lhs => rw [hxu]
-          exact quad_smul A ‖x‖ u
-        have hre : (star x ⬝ᵥ A *ᵥ x).re = ‖x‖ ^ 2 * (star u ⬝ᵥ A *ᵥ u).re := by
-          rw [key, ← Complex.ofReal_pow, Complex.re_ofReal_mul]
-        have hle : (star x0 ⬝ᵥ A *ᵥ x0).re ≤ (star u ⬝ᵥ A *ᵥ u).re := isMinOn_iff.1 hmin u hu
-        rw [hre, mul_comm]
-        exact mul_le_mul_of_nonneg_left hle (sq_nonneg _)
-  · refine ⟨1, one_pos, fun x => ?_⟩
-    by_cases hx : x = 0
-    · subst hx; simp
-    · exact absurd ⟨_, (sph x hx).1⟩ hS
+  apply +allowSynthFailures _root_.ReciprocityTheory.ChartRestriction.DS.S7.IdB.quad_lower <;> assumption
 
 theorem KAt_pres {G s k : Matrix (Fin n) (Fin n) ℂ} (hk : k ∈ KAt G s) : kᴴ * (G * s) * k = G * s := by
 

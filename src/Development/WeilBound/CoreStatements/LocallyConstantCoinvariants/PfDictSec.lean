@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.LocalThetaKernels.LocpairRep
 public import Development.WeilBound.CoreStatements.LocallyConstantCoinvariants.PfDictDef
 public import Development.WeilBound.CoreStatements.TorusUniformisation.SiegelCompactSupport.ExistsRouteDatumTranslationCombinationGoodPlace
 public import GroundTheory.GlobalFields.IdeleGroups.IdeleNorms
@@ -65,20 +66,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E} {v : Pl F}
 
 theorem modu_eq (u : (AF F)ˣ) : ((distribHaarChar (AF F) u : NNReal) : ℝ) = GroundTheory.Global.IdeleGroup.ideleModule F u := by
-  letI : MeasurableSpace (AdeleRing (𝓞 F) F) := GroundTheory.Global.measurableSpace_adeleRing F
-  haveI : BorelSpace (AdeleRing (𝓞 F) F) := inferInstance
-  have : (GroundTheory.Global.adeleMeasure F).Regular := by
-    obtain ⟨K⟩ := (inferInstance : Nonempty (TopologicalSpace.PositiveCompacts (AdeleRing (𝓞 F) F)))
-    exact Measure.regular_of_isAddLeftInvariant K.isCompact K.interior_nonempty K.isCompact.measure_lt_top.ne
-  have h0 := (GroundTheory.Global.IdeleGroup.ideleModule F u).2
-  have key : distribHaarChar (AdeleRing (𝓞 F) F) u = NNReal.mk _ h0.le := by
-    refine distribHaarChar_eq_of_measure_smul_eq_mul (μ := GroundTheory.Global.adeleMeasure F)
-      (s := GroundTheory.Global.fundamentalSet F) ?_ ?_ ?_
-    · rw [GroundTheory.Global.adeleMeasure_fundamentalSet]; exact one_ne_zero
-    · rw [GroundTheory.Global.adeleMeasure_fundamentalSet]; exact ENNReal.one_ne_top
-    · rw [← ENNReal.ofReal_eq_coe_nnreal h0.le]
-      exact GroundTheory.Global.adeleMeasure_smul (K := F) u (GroundTheory.Global.fundamentalSet F)
-  exact congrArg NNReal.toReal key
+  apply _root_.PositivityTheory.ThKH.Locpair.modu_eq <;> assumption
 
 theorem modu_single (u : (AF F)ˣ) (x : (Fv F v)ˣ) (h : (u : AF F) = 1 - sgl v 1 + sgl v x) :
     ((distribHaarChar (AF F) u : NNReal) : ℝ) = GlobalTheory.SplitWeil.nabs (Fv F v) x := by

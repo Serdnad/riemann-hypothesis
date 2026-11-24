@@ -90,16 +90,7 @@ theorem pderiv_mem_lowDeg_of_succ {f : ι → σ} {t : ℕ} (i : ι) {R : MvPoly
 theorem pow_apply_eq_zero_of_lowDeg (D : Module.End K (MvPolynomial σ K)) (f : ι → σ)
     (hD : ∀ t R, R ∈ lowDeg f (t + 1) → D R ∈ lowDeg f t) :
     ∀ n R, R ∈ lowDeg f n → (D ^ n) R = 0 := by
-  intro n
-  induction n with
-  | zero =>
-    intro R hR
-    rw [pow_zero]
-    exact eq_zero_of_mem_lowDeg_zero hR
-  | succ n ih =>
-    intro R hR
-    rw [pow_succ, Module.End.mul_apply]
-    exact ih _ (hD n R hR)
+  apply _root_.PI.WickFormula.Gen.pow_apply_eq_zero_of_lowDeg <;> assumption
 
 end
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CouplingCosetsRightTranslateInFramesTypePrime
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.ExistsMidLevIff
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.Definitions.GlobalTwisting.RedPEqZeroOfDiv
@@ -113,49 +114,7 @@ theorem sameCoset_local {E : Type} [Field E] [NumberField E] [StarRing E] (P : H
     (hk : k ∈ GlobalTheory.TopStep.prinCong n P D) (hck : c⁻¹ = g * k.1) (hD : e + e₀ ≤ D) (y₀ : Sp E n)
     (hy₀ : ∀ l, IntAt P ((qOf P : E) ^ e * y₀ l)) (hgy : ∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (g y₀ - y₀) l)) (y : Sp E n) :
     (∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (c y - y₀) l)) ↔ (∀ l, IntAt P (((qOf P : E) ^ e₀)⁻¹ * (y - y₀) l)) := by
-  have hq : ((qOf P : ℕ) : E) ≠ 0 := by
-    have : qOf P ≠ 0 := fun h0 => P.ne_bot (Ideal.absNorm_eq_zero_iff.1 h0)
-    exact_mod_cast this
-  set q : E := ((qOf P : ℕ) : E) with hqdef
-  have hsm : ∀ (a : E) (v : Sp E n), (∀ l, IntAt P (a * v l)) ↔ a • v ∈ stdAt E n P := by
-    intro a v
-    rw [GlobalTheory.TopStep.mem_stdAt]
-    rfl
-  have hpow : ∀ (m : ℕ) (v : Sp E n), v ∈ stdAt E n P → q ^ m • v ∈ stdAt E n P := by
-    intro m v hv
-    have : q ^ m • v = ((qOf P : 𝓞 E) ^ m) • v := by
-      rw [← algebraMap_smul E ((qOf P : 𝓞 E) ^ m) v]
-      congr 1
-    rw [this]
-    exact Submodule.smul_mem _ _ hv
-  have hw : q ^ e • y₀ ∈ stdAt E n P := (hsm _ _).1 hy₀
-  have hkw := hk _ hw
-  have hky : (q ^ e₀)⁻¹ • (k.1 y₀ - y₀) ∈ stdAt E n P := by
-    obtain ⟨d, hd⟩ : ∃ d, D = d + e + e₀ := ⟨D - e - e₀, by omega⟩
-    have e1 : (q ^ e₀)⁻¹ • (k.1 y₀ - y₀) = q ^ d • ((q ^ D)⁻¹ • (k.1 (q ^ e • y₀) - q ^ e • y₀)) := by
-      rw [map_smul, ← smul_sub, smul_smul, smul_smul]
-      congr 1
-      rw [hd, pow_add, pow_add]
-      field_simp
-    rw [e1]
-    exact hpow _ _ hkw
-  have hcy : (q ^ e₀)⁻¹ • (c⁻¹ y₀ - y₀) ∈ stdAt E n P := by
-    have e2 : c⁻¹ y₀ - y₀ = g (k.1 y₀ - y₀) + (g y₀ - y₀) := by
-      rw [hck, LinearEquiv.mul_apply, map_sub]
-      abel
-    rw [e2, smul_add, ← map_smul]
-    exact add_mem ((hg _).2 hky) ((hsm _ _).1 hgy)
-  have hcc : ∀ x, c (c⁻¹ x) = x := fun x => by
-    rw [← LinearEquiv.mul_apply, mul_inv_cancel]
-    rfl
-  rw [hsm, hsm]
-  have e3 : (q ^ e₀)⁻¹ • (c y - y₀) = c ((q ^ e₀)⁻¹ • (y - y₀) - (q ^ e₀)⁻¹ • (c⁻¹ y₀ - y₀)) := by
-    rw [← smul_sub, map_smul]
-    simp only [map_sub, hcc]
-    congr 1
-    abel
-  rw [e3, hc]
-  exact Submodule.sub_mem_iff_left _ hcy
+  apply _root_.GlobalTheory.CplCosetPt.sameCoset_loc <;> assumption
 
 end GlobalTheory.CplCoset
 
@@ -279,16 +238,7 @@ theorem det_inFrame {P : SB} {κ : GL (Fin (D.R.N i)) (D.host.E ⊗[D.host.F] Fi
     IntAtA (F := D.host.F) (seamP s P.1) (iA D.host.F D.host.E ((qOf (seamP s P.1) : D.host.E))⁻¹ *
       ((((Matrix.GeneralLinearGroup.det κ)⁻¹ : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) *
         iA D.host.F D.host.E (s.iE ((LinearEquiv.det g : X.Eˣ) : X.E)) - 1)) := by
-  have H := det_congAt hd h
-  have e : ((Matrix.GeneralLinearGroup.det (((ratA D.host.F (fb P))⁻¹ * κ * ratA D.host.F (fb P))⁻¹ *
-      ratA D.host.F (seamGL s g)) : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) =
-      (((Matrix.GeneralLinearGroup.det κ)⁻¹ : (AfE D.host.F D.host.E)ˣ) : AfE D.host.F D.host.E) *
-        iA D.host.F D.host.E (s.iE ((LinearEquiv.det g : X.Eˣ) : X.E)) := by
-    rw [map_mul, map_inv, map_mul, map_mul, map_inv, Units.val_mul, det_ratA, det_seamGL]
-    congr 2
-    rw [mul_comm, mul_inv_cancel_left]
-  rw [← e]
-  exact H
+  apply _root_.GlobalTheory.FramesDet.det_inFrame <;> assumption
 
 end Frame
 

@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.CreationOperators.GeneralizedVermaModulePolynomial
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.RaisingLoweringOperators
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -58,24 +59,7 @@ open MvPolynomial
 
 theorem deg_pderiv_succ {σ : Type} (i : σ) (f : MvPolynomial σ ℂ) (k : ℕ) (h : f.totalDegree ≤ k + 1) :
     (pderiv i f).totalDegree ≤ k := by
-  classical
-
-  rw [f.as_sum, map_sum]
-  refine totalDegree_finsetSum_le fun s hs => ?_
-  rw [pderiv_monomial]
-  by_cases h0 : s i = 0
-  · simp [h0]
-  · refine (totalDegree_monomial_le _ _).trans ?_
-    have e : s = (s - Finsupp.single i 1) + Finsupp.single i 1 := by
-      rw [tsub_add_cancel_of_le]
-      rw [Finsupp.single_le_iff]
-      omega
-    have e2 := congrArg Finsupp.degree e
-    rw [map_add (f := _), Finsupp.degree_single] at e2
-    have h3 := (le_totalDegree hs).trans h
-    change s.degree ≤ k + 1 at h3
-    change (s - Finsupp.single i 1).degree ≤ k
-    omega
+  first | exact _root_.CompanionTheory.D.LK.deg_pderiv | exact @_root_.CompanionTheory.D.LK.deg_pderiv | apply _root_.CompanionTheory.D.LK.deg_pderiv <;> assumption
 
 theorem pderiv_of_deg_zero {σ : Type} (i : σ) (f : MvPolynomial σ ℂ) (h : f.totalDegree ≤ 0) : pderiv i f = 0 := by
   rw [totalDegree_eq_zero_iff_eq_C.1 (Nat.le_zero.1 h), pderiv_C]

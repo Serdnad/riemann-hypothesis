@@ -144,8 +144,8 @@ private theorem prod_reorder {ι A : Type} [Monoid A] (Z : Finset ι) (c : ι ×
   intro a b ha hb hab
   exact hc a (Finset.mem_toList.1 ha) b (Finset.mem_toList.1 hb) hab
 
-theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.zTr_pf :
-    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → PfHecke → ProdOp → LocComm → YLoc → ZSimple → YSwap → Isot → SimpleFix → AbsCore → ZTr := by
+theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.zTr_of_absCore {isCoeff : ℂ → Prop} :
+    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → PfHecke → ProdOp → LocComm → YLoc → ZSimple → YSwap → Isot → SimpleFix → AbsCoreWith isCoeff → ZTrWith isCoeff := by
   intro hAdm hPf hPO hLC hYL hZS hYS hIs hSF hAC E _ _ _ n S Z N hS hZ hG π y τ hτ
   have hNo : ∀ w, IsOpen (N w : Set (GLw n w)) := fun w => (hG w).1
   have hNl : ∀ w, N w ≤ KGL w (n := n) := fun w => (hG w).2.1
@@ -254,3 +254,7 @@ theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.zTr_pf :
     hαinv w ⟨_, hFh _ w.2 _⟩ _ (hαinv w ⟨_, hFh _ w.2 _⟩ v hv)
   rw [GlobalTheory.BCT.trOn, dite_eq_left hinv]
   rfl
+
+theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.zTr_pf :
+    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → PfHecke → ProdOp → LocComm → YLoc → ZSimple → YSwap → Isot → SimpleFix → AbsCore → ZTr :=
+  zTr_of_absCore

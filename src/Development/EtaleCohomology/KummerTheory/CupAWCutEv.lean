@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsZeroChains
+import Development.EtaleCohomology.CohomologicalPurity.FreePMapMk
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,19 +54,11 @@ variable {R : Type} [CommRing R]
 
 theorem freeGen_res (P : PSh) {V U : Scheme.{0}} (g : V ⟶ U) (x : P.obj (op U)) :
     Sec.res g (freeGen R P U x) = freeGen R P V (P.map g.op x) := by
-  have h := (toSheafify Scheme.etaleTopology ((freeP R).obj P)).naturality g.op
-  have h2 := congrArg (fun φ => φ.hom (ModuleCat.freeMk (ULift.up x))) h
-  refine h2.symm.trans ?_
-  exact congrArg ((toSheafify Scheme.etaleTopology ((freeP R).obj P)).app (op V)).hom
-    (ModuleCat.free_map_apply (R := ULift.{1} R) (uliftFunctor.{1}.map (P.map g.op)) (ULift.up x))
+  apply @GlobalTheory.EtC.CupSpec.freeGen_res <;> assumption
 
 theorem map_freeGen {P Q : PSh} (f : P ⟶ Q) (U : Scheme.{0}) (x : P.obj (op U)) :
     Sec.map ((free R).map f) (freeGen R P U x) = freeGen R Q U (f.app (op U) x) := by
-  have h := toSheafify_naturality Scheme.etaleTopology ((freeP R).map f)
-  have h2 := congrArg (fun φ => (φ.app (op U)).hom (ModuleCat.freeMk (ULift.up x))) h
-  refine h2.symm.trans ?_
-  exact congrArg ((toSheafify Scheme.etaleTopology ((freeP R).obj Q)).app (op U)).hom
-    (ModuleCat.free_map_apply (R := ULift.{1} R) (uliftFunctor.{1}.map (f.app (op U))) (ULift.up x))
+  apply @LateralTheory.CohomologicalPurity.Bd.GenPf.part2 <;> assumption
 
 theorem free_ext {P : PSh} {F : Shv R} (φ ψ : (free R).obj P ⟶ F)
     (h : ∀ U x, Sec.map φ (freeGen R P U x) = Sec.map ψ (freeGen R P U x)) : φ = ψ := by
@@ -114,21 +108,11 @@ theorem isZero_pos (E : Spc) (i : ℤ) (hi : 0 < i) : IsZero (((chains R).obj E)
 
 theorem ev_ext (α β : Cochain ((chains R).obj E) I n)
     (h : ∀ p s h U x, ev (R := R) α p s h U x = ev (R := R) β p s h U x) : α = β := by
-  ext i j hij : 1
-  by_cases hi : 0 < i
-  · exact (isZero_pos E i hi).eq_of_src _ _
-  · obtain ⟨p, rfl⟩ : ∃ p : ℕ, i = -(p : ℤ) := ⟨(-i).toNat, by omega⟩
-    rw [← cancel_epi (chainsXIso R E p).inv]
-    exact free_ext _ _ (fun U x => h p j hij U x)
+  apply @GlobalTheory.EtC.CupSpec.ev_ext <;> assumption
 
 theorem chains_d (E : Spc) (p : ℕ) : (chainsXIso R E (p + 1)).inv ≫ ((chains R).obj E).d (-((p + 1 : ℕ) : ℤ)) (-(p : ℤ)) =
     (∑ i : Fin (p + 2), (-1 : ℤ) ^ (i : ℕ) • (free R).map (E.δ i)) ≫ (chainsXIso R E p).inv := by
-  have h := HomologicalComplex.extend_d_eq ((chainsN R).obj E) ComplexShape.embeddingDownNat (i := p + 1) (j := p) rfl rfl
-  have h2 : ((chainsN R).obj E).d (p + 1) p = ∑ i : Fin (p + 2), (-1 : ℤ) ^ (i : ℕ) • (free R).map (E.δ i) :=
-    AlgebraicTopology.alternatingFaceMapComplex_obj_d _ p
-  rw [h2] at h
-  rw [Iso.inv_comp_eq]
-  exact h
+  apply @GlobalTheory.EtC.CupSpec.chains_d <;> assumption
 
 theorem ev_delta_zero {m : ℤ} (hm : n + 1 = m) (α : Cochain ((chains R).obj E) I n) (s t : ℤ) (hs : -((0 : ℕ) : ℤ) + n = s)
     (ht : -((0 : ℕ) : ℤ) + m = t) (U : Scheme.{0}) (x : Sx E 0 U) :

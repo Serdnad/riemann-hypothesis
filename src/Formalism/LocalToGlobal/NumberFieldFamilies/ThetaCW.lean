@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.EmbRelExistsUnique
 public import Formalism.LocalRingCardinality.DataTheta
 public import Formalism.LocalToGlobal.NumberFieldFamilies.ThetaCF
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SignatureConjugationInvariant
@@ -200,12 +201,7 @@ theorem basC_unit (V : HSp D) : IsUnit (basC V).det := by
 
 theorem ob_coord (V : HSp D) (x y : V.V) :
     V.hT x y = ∑ i, ∑ j, star (V.frame.repr x i) * V.gram i j * V.frame.repr y j := by
-  conv_lhs => rw [← V.frame.sum_repr x, ← V.frame.sum_repr y]
-
-  simp only [map_sum, map_smulₛₗ, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul, starRingEnd_apply,
-  RingHom.id_apply, HSpace.gram, Finset.mul_sum]
-  rw [Finset.sum_comm]
-  exact Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => by ring
+  apply _root_.GlobalTheory.AutFunCounterexample.hT_coord <;> assumption
 
 theorem basC_gram (V : HSp D) (i j : Fin V.rank) :
     (Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) (basC V) * V.gram * basC V) i j =

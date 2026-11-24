@@ -96,6 +96,7 @@ import Mathlib.RingTheory.SimpleRing.Principal
 import Mathlib.Tactic.ENatToNat
 import ReciprocityTheory.DualLattices.SqZeroOfSpan
 import Mathlib.RingTheory.PiTensorProduct
+import all Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PeriodDatumSignCharactersMemEvalImage
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.DualTowerMapExists, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsEndDifferentialRingHom, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsFormalChart, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FinOfLocalAlgebraMap, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FiniteAlgebraSplitLocal, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.PadicEndApply, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TateBasisGram, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.TeichmullerQuot, Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.ExistsCompatibleBasis
@@ -145,30 +146,9 @@ private lemma dualTowerRing_π {R₀ : Type} [CommRing R₀] {Λ S : LAlg R₀} 
     rw [DualNum.ev_mk, pow_succ Polynomial.X n, ← mul_assoc, map_mul, map_mul, h, map_mul, Dq.π_η]
     simp
 
-private lemma dualTower_map_exists {R₀ : Type} [CommRing R₀] {Λ S : LAlg R₀} (Dq : DualPair S)
-    (ψ : LHom Λ S) :
-    ∃ f : LHom (DualNum.dualPair Λ).D Dq.D,
-      (∀ x, Dq.π.1 (f.1 x) = ψ.1 ((DualNum.dualPair Λ).π.1 x)) ∧
-      (∀ x, f.1 ((DualNum.dualPair Λ).σ.1 x) = Dq.σ.1 (ψ.1 x)) ∧
-      f.1 (DualNum.dualPair Λ).η = Dq.η := by
-  let fA : DualNum.DN Λ →ₐ[R₀] (Dq.D : Type) :=
-    { dualTowerRing Dq ψ with
-      commutes' := fun r => by
-        show dualTowerRing Dq ψ (algebraMap R₀ (DualNum.DN Λ) r) = _
-        rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_apply, dualTowerRing_C,
-          AlgHom.commutes, AlgHom.commutes] }
-  refine ⟨mkLHom (R := (DualNum.dualPair Λ).D) fA fun a ha => ?_, fun x => dualTowerRing_π Dq ψ x,
-    fun x => ?_, dualTowerRing_X Dq ψ⟩
-  · refine (DualNum.dualPair Λ).isUnit_of_π ?_
-    have h1 : IsUnit (Dq.π.1 (dualTowerRing Dq ψ a)) := ha.map Dq.π.1
-    exact ψ.2.map_nonunit _ ((dualTowerRing_π Dq ψ a) ▸ h1)
-  · show dualTowerRing Dq ψ (algebraMap (Λ : Type) (DualNum.DN Λ) x) = _
-    rw [← Ideal.Quotient.mk_algebraMap, Polynomial.algebraMap_apply, dualTowerRing_C]
-    rfl
-
 private lemma dualTower_nonempty {R₀ : Type} [CommRing R₀] {p : ℕ} (Tw : ATowerL R₀ p) :
     Nonempty (DualTower Tw) := by
-  choose d h₁ h₂ h₃ using fun n => dualTower_map_exists (DualNum.dualPair (Tw.R n)) (Tw.r n)
+  choose d h₁ h₂ h₃ using fun n => _root_.GlobalTheory.htDual_exists (DualNum.dualPair (Tw.R n)) (Tw.r n)
   exact ⟨⟨fun n => DualNum.dualPair (Tw.R n), d, h₁, h₂, h₃⟩⟩
 
 end Helpers
@@ -1529,14 +1509,7 @@ private lemma gram_nsmul (N : ℕ) (x y : B.G R) (z : (R : Type)ˣ) (h : B.IsPai
 private lemma gram_sum {κ : Type} (s : Finset κ) (N : ℕ) (x : κ → B.G R) (y : B.G R)
     (z : κ → (R : Type)ˣ) (hy : N • y = 0) (h : ∀ i, B.IsPairing N (x i) y (z i)) :
     B.IsPairing N (∑ i ∈ s, x i) y (∏ i ∈ s, z i) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty =>
-    rw [Finset.sum_empty, Finset.prod_empty]
-    exact gram_zero B N y hy
-  | insert a s ha ih =>
-    rw [Finset.sum_insert ha, Finset.prod_insert ha]
-    exact B.isPairingValue_add_left N _ _ y _ _ (h a) ih
+  apply _root_.GlobalTheory.SignChar.pairing_sum_left <;> assumption
 
 end SlopeTestRemainingChoices
 

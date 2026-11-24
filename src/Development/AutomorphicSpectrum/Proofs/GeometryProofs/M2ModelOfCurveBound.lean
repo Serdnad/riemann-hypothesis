@@ -1,5 +1,8 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenOfUnit
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.CmPointObjectExistsOfLaws
+import GroundTheory.HeightsAndTheta.Heights.WeightedHomogeneous.PConeTrdeg
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsFFCurve
 public import GroundTheory.FunctionField.DivisorDegree
 public import GroundTheory.FunctionField.Divisor
@@ -198,16 +201,8 @@ open Module
 
 theorem injective_of_charZero (E : Type) [Field E] [NumberField E] {L : Type} [Field L] [CharZero L]
     (g : 𝓞 E →+* L) : Function.Injective g := by
-  refine (injective_iff_map_eq_zero g).2 fun x hx => ?_
-  by_contra h
-  have hne := Ideal.comap_ne_bot_of_integral_mem (R := ℤ) (I := RingHom.ker g) h
-    (RingHom.mem_ker.2 hx) (Algebra.IsIntegral.isIntegral x)
-  apply hne
-  rw [eq_bot_iff]
-  intro n hn
-  have h0 : g (algebraMap ℤ (𝓞 E) n) = 0 := RingHom.mem_ker.1 (Ideal.mem_comap.1 hn)
-  have h1 : (n : L) = 0 := by simpa using h0
-  simpa using h1
+  intros
+  apply _root_.GlobalTheory.TensorDet.injective_of_charZero <;> assumption
 
 theorem det_sq_eq_discr (E : Type) [Field E] [NumberField E] (R S : Type) [CommRing R] [IsDomain R] [CharZero R]
     [Fintype S] [DecidableEq S] (σ : S → (𝓞 E →+* R)) (hσ : Function.Injective σ)
@@ -315,15 +310,8 @@ namespace PositivityTheory.HtPt.Ch
 theorem unitAt_div {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Spec (CommRingCat.of Ω) ⟶ X}
     {Λ : Lat ξ Ω} {p : Cpt ξ} {s t : Ω} (hs : Λ.IsGenAt p s) (ht : Λ.IsGenAt p t) :
     unitAt ξ p (s / t) := by
-  have key : ∀ {s t : Ω}, Λ.IsGenAt p s → Λ.IsGenAt p t → s / t ∈ regAt ξ p := by
-    intro s t hs ht
-    have : s ∈ Submodule.span (regAt ξ p) {t} := by
-      rw [← ht.2, hs.2]; exact Submodule.mem_span_singleton_self s
-    obtain ⟨a, ha⟩ := Submodule.mem_span_singleton.1 this
-    have ha' : (a : Ω) * t = s := ha
-    rw [← ha', mul_div_cancel_right₀ _ ht.1]
-    exact a.2
-  exact ⟨div_ne_zero hs.1 ht.1, key hs ht, by rw [inv_div]; exact key ht hs⟩
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.DetNef.gen_unit <;> assumption
 
 theorem isdeg_unique : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ : Spec (CommRingCat.of Ω) ⟶ X) (K : Type) [Field K] (C : ACurve K) (z : Spec (CommRingCat.of K) ⟶ X) (Y : CurveIn C z) (Λ : Lat ξ Ω) (n n' : ℤ), IsCptGen ξ → Y.IsDeg Λ n → Y.IsDeg Λ n' → n = n' := by
   intro X Ω _ ξ K _ C z Y Λ n n' hξ ⟨h₀, h, s₀, s, r, g₀, g, hr, hf, e⟩
@@ -1433,21 +1421,8 @@ open MvPolynomial PositivityTheory.HtPt.Gf
 variable {B : Type} [Fintype B] {J : B → Type} [∀ k, Fintype (J k)] {K : Type} [Field K]
 
 theorem cone_homog (y : (Σ k, J k) → K) {g : MRing J} {d : B → ℕ} (hg : IsMultiHomog g d) :
-    mConeMap y g = C (aeval y g) * ∏ k, X k ^ d k := by
-  classical
-  conv_lhs => rw [g.as_sum]
-  conv_rhs => rw [g.as_sum]
-
-  rw [map_sum, map_sum, map_sum, Finset.sum_mul]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  rw [mConeMap, aeval_monomial, aeval_monomial, Finsupp.prod_fintype _ _ (by simp),
-    Finsupp.prod_fintype _ _ (by simp)]
-  simp only [mul_pow, Finset.prod_mul_distrib, map_mul, map_prod, map_pow, mul_assoc]
-  congr 1
-  congr 1
-  rw [Fintype.prod_sigma]
-  refine Finset.prod_congr rfl fun k _ => ?_
-  simp only [Finset.prod_pow_eq_pow_sum, hg m hm k]
+    mConeMap y g = C (aeval y g) * ∏ k, X k ^ d k :=
+  _root_.GroundTheory.Heights₂.Heights.ConeTrdeg.mConeMap_of_isMultiHomog y hg
 
 theorem exists_homog_val {w : (Σ k, J k) → K} {c : ∀ k, J k} (hc : ∀ k, w ⟨k, c k⟩ = 1) (f : MRing J) :
     ∃ (N : ℕ) (g : MRing J), IsMultiHomog g (fun _ => N) ∧ aeval w g = aeval w f := by

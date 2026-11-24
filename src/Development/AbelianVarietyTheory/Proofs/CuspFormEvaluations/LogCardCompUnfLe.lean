@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.FamilyUniformisationOfAbelianSchemeLaws
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.HolomorphicHomDetermined
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FundamentalDomainPointBound
 public import Development.AbelianVarietyTheory.PublishedTheorems.Landherr₂.ExistsNormTensor
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.TwoWeightEqOneAddRoot
@@ -277,47 +279,12 @@ lemma isPeriod_comp_symm {D' D'' : Datum H} {g : ℕ} {ty : Fin g → (E →+* �
     (gam : D'.La ≃ₗ[𝓞 E] D''.La) (hg : ∀ a b, D''.EF (gam a) (gam b) = D'.EF a b)
     {P : D'.La →+ (Fin g → ℂ)} (hP : IsPeriod D' ty P) :
     IsPeriod D'' ty (P.comp gam.symm.toLinearMap.toAddMonoidHom) := by
-  obtain ⟨h1, h2, h3, h4, Hm, hH, hpos, hE⟩ := hP
-  have hP' : ∀ x, (P.comp gam.symm.toLinearMap.toAddMonoidHom) x = P (gam.symm x) := fun _ => rfl
-  have hr : (P.comp gam.symm.toLinearMap.toAddMonoidHom).range = P.range := by
-    ext z
-    constructor
-    · rintro ⟨x, rfl⟩
-      exact ⟨gam.symm x, rfl⟩
-    · rintro ⟨x, rfl⟩
-      exact ⟨gam x, by rw [hP', LinearEquiv.symm_apply_apply]⟩
-  refine ⟨?_, ?_, ?_, ?_, Hm, hH, hpos, ?_⟩
-  · intro a x k
-    rw [hP', hP', map_smul, h1]
-  · intro x y hxy
-    exact gam.symm.injective (h2 hxy)
-  · rw [hr]; exact h3
-  · have : Set.range (P.comp gam.symm.toLinearMap.toAddMonoidHom) = Set.range P := by
-      have := congrArg (fun s : AddSubgroup (Fin g → ℂ) => (s : Set (Fin g → ℂ))) hr
-      simpa only [AddMonoidHom.coe_range] using this
-    rw [this, h4]
-  · intro x y
-    rw [hP', hP', hE, ← hg, LinearEquiv.apply_symm_apply, LinearEquiv.apply_symm_apply]
+  first | exact _root_.GlobalTheory.UnifParts.isPeriod_transport | exact @_root_.GlobalTheory.UnifParts.isPeriod_transport | apply _root_.GlobalTheory.UnifParts.isPeriod_transport <;> assumption
 
 lemma isHolTo_ex {D : Datum H} {l : Level H} {Xo : Moduli D l} {σ : KA l →+* ℂ} {g : ℕ}
     {ty : Fin g → (E →+* ℂ)} (U : FamilyUnif Xo σ ty) (i : Fin U.n) {P : (U.Di i).La →+ (Fin g → ℂ)}
     (hP : IsPeriod (U.Di i) ty P) : IsHolTo Set.univ (fun z => (U.ex i P z).left) := by
-  have h := (U.hol i 0 Set.univ (fun _ => P) isOpen_univ
-    ⟨fun _ _ => hP, fun _ => differentiableOn_const _⟩).2
-  intro V f
-  obtain ⟨ho, hd⟩ := h V f
-  have hc : Differentiable ℂ (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) := by fun_prop
-  refine ⟨?_, ?_⟩
-  · have h3 := ho.preimage hc.continuous
-    have h4 : {b ∈ Set.univ | ⊤ ≤ (U.ex i P b).left ⁻¹ᵁ V} =
-        (fun z : Fin g → ℂ => ((0, z) : (Fin 0 → ℂ) × (Fin g → ℂ))) ⁻¹'
-          {b ∈ Set.univ ×ˢ Set.univ | ⊤ ≤ (U.ex i P b.2).left ⁻¹ᵁ V} := by
-      ext z
-      exact ⟨fun hz => ⟨⟨trivial, trivial⟩, hz.2⟩, fun hz => ⟨trivial, hz.2⟩⟩
-    exact h4 ▸ h3
-  · refine hd.comp (f := fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) hc.differentiableOn ?_
-    intro z hz
-    exact ⟨⟨trivial, trivial⟩, hz.2⟩
+  first | exact _root_.GlobalTheory.HolHom.isHolTo_ex | exact @_root_.GlobalTheory.HolHom.isHolTo_ex | apply _root_.GlobalTheory.HolHom.isHolTo_ex <;> assumption
 
 theorem index_eq_of_isometry : ThetaUnifAV → Out.Laws → ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (D : Datum H) (l : Level H) (Xo : Moduli D l) (σ : KA l →+* ℂ) (g : ℕ) (ty : Fin g → (E →+* ℂ)), 1 ≤ D.p + D.q → σ (baseKA l).ρ = H.rt0 → IsTypeFn H D.p D.q ty → ∀ U : FamilyUnif Xo σ ty, ∀ (i j : Fin U.n) (gam : (U.Di i).La ≃ₗ[𝓞 E] (U.Di j).La), (∀ a b, (U.Di j).EF (gam a) (gam b) = (U.Di i).EF a b) → (∀ a, ∃ e, gam (U.t i a) = U.t j a + l.M' • e) → i = j := by
   intro hT hL E _ _ _ H D l Xo σ g ty hr hσ hty U i j gam hg ht

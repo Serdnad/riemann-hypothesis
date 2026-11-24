@@ -58,53 +58,7 @@ theorem splitEx_of (hstar : ∀ x : D.host.E, D.host.conj x = IsCMField.complexC
         w'.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) = v₀.asIdeal) →
       ∃ s : SplitPlace D.host.E, s.v = v₀) :
     SplitEx D := by
-  intro v hv
-
-  have hconj : ∀ w : PlE D.host, (∀ x, x ∈ v.asIdeal ↔ cO x ∈ w.asIdeal) → IsConjPl D.host v w := by
-    intro w hw x y hxy
-    have : y = cO x := by
-      apply RingOfIntegers.ext
-      rw [hxy, hstar, IsCMField.coe_ringOfIntegersComplexConj]
-    rw [this]; exact hw x
-
-  obtain ⟨x0, hx0, hx0'⟩ := hv
-  have hc0 : cO x0 ∉ v.asIdeal := hx0' (cO x0) (by rw [hstar, IsCMField.coe_ringOfIntegersComplexConj])
-  have hne : v ≠ conjPlE v := by
-    intro h
-    apply hc0
-    have : x0 ∈ (conjPlE v).asIdeal := by rw [← h]; exact hx0
-    exact this
-
-  let v₀ : HeightOneSpectrum (𝓞 (maximalRealSubfield D.host.E)) :=
-    { asIdeal := v.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E))
-      isPrime := Ideal.comap_isPrime _ _
-      ne_bot := by
-        obtain ⟨y, hy, hy0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot v.ne_bot
-        exact Ideal.comap_ne_bot_of_integral_mem hy0 hy (Algebra.IsIntegral.isIntegral y) }
-  have hover' : (conjPlE v).asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) =
-      v₀.asIdeal := by
-    ext a
-    show cO (algebraMap _ _ a) ∈ v.asIdeal ↔ algebraMap _ _ a ∈ v.asIdeal
-    rw [GlobalTheory.SplitConjPlace.cO_algebraMap]
-  obtain ⟨s, hs⟩ := hsplit v₀ ⟨v, conjPlE v, hne, rfl, hover'⟩
-  have hsw : s.w.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) =
-      v.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) := by
-    rw [s.w_under, hs]
-
-  obtain ⟨π, hπ⟩ := s.v.valuation_exists_uniformizer (maximalRealSubfield D.host.E)
-  have hu : Formalism.AUTREP.IsUnif D.host.E s.v (algebraMap (maximalRealSubfield D.host.E) (s.v.adicCompletion _) π) := by
-    unfold Formalism.AUTREP.IsUnif
-    rw [adic_valued_algebraMap s.v π, hπ]
-  rcases eq_or_eq_conjPlE v s.w hsw with h | h
-  ·
-    refine ⟨conjSplit s, algebraMap (maximalRealSubfield D.host.E) (s.v.adicCompletion _) π, ?_, hu⟩
-    apply hconj
-    intro x
-    rw [mem_conj_w, GlobalTheory.SplitConjPlace.cO_cO, h]
-  · refine ⟨s, algebraMap (maximalRealSubfield D.host.E) (s.v.adicCompletion _) π, ?_, hu⟩
-    apply hconj
-    intro x
-    rw [h, mem_conjPlE, GlobalTheory.SplitConjPlace.cO_cO]
+  apply _root_.GlobalTheory.SplitConjPlace.splitEx_of <;> assumption
 
 end Formalism.L2
 

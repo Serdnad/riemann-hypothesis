@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaFamilyOrigin.IsThetaPtOverOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.WeilIsIffCommIsOfAndLiftSubsingleton
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.PushInvertible
 import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.ExistsUniqueWeilIs
@@ -203,17 +204,8 @@ theorem sym_val' (hG : GlobalFnsSt) (hA : IsAbelianScheme A) (hL : L.IsLB) {θ :
     (hJ : Good L z J) (y : T' ⟶ A) :
     tval θ (lift σ ((σ ≫ x)⁻¹ * y)).left z J * nval ν (lift σ y).left z J *
       (tval θ (lift σ y⁻¹).left z J * (nval ν (lift σ ((σ ≫ x)⁻¹ * y)).left z J)⁻¹) = 1 := by
-  obtain ⟨hpt, -, nu, hnu, hsym⟩ := h
-  have hv := val_corr hJ hsym (lift σ y).left
-  rw [val_symGen θ nu _ hJ, val_one] at hv
-  have hd : nval ν (lift σ y).left z J * (nval nu (lift σ y).left z J)⁻¹ =
-      nval ν ((lift σ y).left ≫ (translT A θ.pt⁻¹).left) z J *
-        (nval nu ((lift σ y).left ≫ (translT A θ.pt⁻¹).left) z J)⁻¹ :=
-    GlobalTheory.CommPairing.val_div_eq hL (fst T A).left (GlobalTheory.CommPairing.surj_fst hG hA T) hν hnu _ _
-      (by rw [Category.assoc, GlobalTheory.CommPairing.translT_fst]) z J hJ
-  rw [lift_translT, lift_negT, comp_inv_cusp_form_evaluations, hpt] at hv
-  rw [lift_translT, comp_inv_cusp_form_evaluations, hpt] at hd
-  exact exp_le_qw_div_le_exp_of_far_letters _ _ _ _ _ _ hv hd
+  intros
+  apply _root_.GlobalTheory.ThetaCoord.sym_tval <;> assumption
 
 theorem tval_trans (θ : ThetaGrp A L k T) (σ : T' ⟶ T) {z : T'.left} {J J'} (hJ : Good L z J) (hJ' : Good L z J')
     (y : T' ⟶ A) : tval θ (lift σ y).left z J =

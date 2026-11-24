@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsCommonLevelSpanMultiple
 public import Mathlib.Algebra.Module.LinearMap.Defs
 public import Mathlib.Algebra.Module.Submodule.Defs
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsRootOne
@@ -131,16 +132,7 @@ namespace GlobalTheory.KZ.H3
 
 theorem gamma_le_of_dvd {M M' : ℕ} (h : M ∣ M') :
     CongruenceSubgroup.Gamma M' ≤ CongruenceSubgroup.Gamma M := by
-  intro δ hδ
-  rw [CongruenceSubgroup.Gamma_mem] at hδ ⊢
-  have key : ∀ x : ℤ, ((x : ZMod M) = ZMod.castHom h (ZMod M) (x : ZMod M')) := fun x => by
-    rw [map_intCast]
-  obtain ⟨h1, h2, h3, h4⟩ := hδ
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · rw [key, h1, map_one]
-  · rw [key, h2, map_zero]
-  · rw [key, h3, map_zero]
-  · rw [key, h4, map_one]
+  first | exact _root_.GlobalTheory.KZ.gamma_le_of_dvd | exact @_root_.GlobalTheory.KZ.gamma_le_of_dvd | apply _root_.GlobalTheory.KZ.gamma_le_of_dvd <;> assumption
 
 theorem unif_level : ∀ (N l : ℕ) (R : Type) [CommRing R] (Φ : SL(2, ℤ) → MvPolynomial (Fin 2) R), 0 < N → 0 < l →
     (∃ M : ℕ, 0 < M ∧ ∀ δ ∈ CongruenceSubgroup.Gamma M, ∀ δ' ∈ CongruenceSubgroup.Gamma M, Φ (δ * δ') = Φ δ + Φ δ') →
@@ -475,13 +467,7 @@ private theorem ent_gamma {K d : ℕ} (hd : d ∣ K) {δ : SL(2, ℤ)} (h : δ �
 
 private theorem gamma_le {K d : ℕ} (hd : d ∣ K) {δ : SL(2, ℤ)} (h : δ ∈ CongruenceSubgroup.Gamma K) :
     δ ∈ CongruenceSubgroup.Gamma d := by
-  rw [CongruenceSubgroup.Gamma_mem]
-  have e := ent_gamma hd h
-  refine ⟨?_, ?_, ?_, ?_⟩
-  · simpa using e 0 0
-  · simpa using e 0 1
-  · simpa using e 1 0
-  · simpa using e 1 1
+  apply _root_.GlobalTheory.KZ.H3.mem_Gamma_of_dvd <;> assumption
 
 theorem adj_of_near : ∀ (N l w n : ℕ), 0 < N → l.Prime → l ≠ 2 → ¬ l ∣ N → Odd w →
     ∀ z z' : SL(2, ℤ) → MvPolynomial (Fin 2) (ZMod (l ^ n)), IsCoc w (Gam N l) z → IsCoc w (Gam N l) z' →

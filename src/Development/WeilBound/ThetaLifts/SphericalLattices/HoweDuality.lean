@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.WeilRepresentationLocalityUnitaryGroupVPairVW
+import Development.WeilBound.CoreStatements.AutomorphicKernels.IsobaricBaseChange.IntegralCoefficientBaseChange.UnitaryBaseChangeCharacters.UnitaryBaseChangeLinks.FiniteEllipticCharpolysSupportStatement
 public import Development.WeilBound.ThetaLifts.SphericalLattices.HoweDefs
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.RhoMemOfMkEq
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
@@ -416,16 +418,7 @@ theorem adjoin_mul_mem {X ι : Type} [AddCommGroup ι] (χ : ι → X → ℂ) (
 variable {F : Type} [Field F] [NumberField F] {v : Pl (F := F)}
 
 theorem isOpen_ball (n : ℤ) : IsOpen {y : Fv F v | Valued.v y ≤ WithZero.exp n} := by
-  obtain ⟨c, hc⟩ := HeightOneSpectrum.valuedAdicCompletion_surjective F v (WithZero.exp n)
-  have hc0 : c ≠ 0 := by
-    rintro rfl
-    rw [map_zero] at hc
-    exact WithZero.exp_ne_zero hc.symm
-  have : {y : Fv F v | Valued.v y ≤ WithZero.exp n} = {y | Valued.v.restrict y ≤ Valued.v.restrict c} := by
-    ext y
-    simp only [Set.mem_ofPred_eq, Valuation.restrict_le_iff, hc]
-  rw [this]
-  exact Valued.isOpen_closedBall _ (by simp [hc0])
+  apply _root_.GlobalTheory.CptBound.isOpen_le_exp <;> assumption
 
 theorem exists_ball_subset {U : Set (Fv F v)} {x : Fv F v} (hU : U ∈ 𝓝 x) :
     ∃ N₀ : ℕ, ∀ N ≥ N₀, ∀ y, Valued.v (y - x) ≤ WithZero.exp (-(N : ℤ)) → y ∈ U := by
@@ -699,78 +692,14 @@ theorem locality_V {F E : Type} [Field F] [NumberField F] [Field E] [NumberField
     (hTr : IsTriple Bs Γ X om om') (v : Pl (F := F)) (x : UA σ Γ.V.J) (hx : x ∈ UAt σ Γ.V (evFin F v)) :
     ∀ φ ∈ GlobalTheory.WeilM.SB (Fin a × Fin (a + a') → Fv F v), ∃ φ₁ ∈ GlobalTheory.WeilM.SB (Fin a × Fin (a + a') → Fv F v),
       Acts (evFin F v) (om (x, 1)) φ φ₁ := by
-  have hW := GlobalTheory.WeilM.IsUWeilPair.isUSplitting hTr.weil
-  set T := om (x, 1) with hTdef
-  have hkeep : ∀ Φ ∈ GlobalTheory.WeilM.schA F (Fin a × Fin (a + a')), T Φ ∈ GlobalTheory.WeilM.schA F _ :=
-    fun Φ hΦ => hW.pres (x, 1) Φ hΦ
-  have hcomm := comm_off_V Bs Γ X om om' hTr v x hx
-  have hfib := GlobalTheory.T.isometry_commuting_heisenberg_acts_fibrewise v Bs.ψ T hTr.base.std (GlobalTheory.T.standardAdelicAddChar_nontrivial_finitePlace Bs.ψ hTr.base.std) hkeep
-    (fun μ hμ Φ hΦ => hW.unit μ hμ (x, 1) Φ hΦ) hcomm
-  have htr : ∀ u : AF F, evFin F v u = 0 → ∀ p : Fin a × Fin (a + a') → AF F,
-      ∀ Φ ∈ GlobalTheory.WeilM.schA F (Fin a × Fin (a + a')), T (fun y => Φ (y + u • p)) = fun y => T Φ (y + u • p) := by
-    intro u hu p Φ hΦ
-    have h := hcomm u hu p 0 Φ hΦ
-    rw [smul_zero, GlobalTheory.WeilLocality.schr_trans, GlobalTheory.WeilLocality.schr_trans] at h
-    exact h
-  obtain ⟨R, hR0, hR⟩ := GlobalTheory.T.exists_complementary_adelicSchwartz_restFunction (Fin a × Fin (a + a')) v
-  intro φ hφ
-  refine ⟨fun t => (R 0)⁻¹ * T (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (evFin F v) φ R) (fun i => GlobalTheory.LatVac.liftV v (t i)), ?_, ?_⟩
-  · have h4 := GlobalTheory.T.adelicSchwartz_restrict_finitePlace_mem_schwartzBruhat v _ (hkeep _ (hR φ hφ).2)
-    exact (GlobalTheory.WeilM.SB _).smul_mem (R 0)⁻¹ h4
-  · intro r hr
-    funext y
-    set u : AF F := 1 - GlobalTheory.LatVac.liftV v 1 with hudef
-    have hu : evFin F v u = 0 := by simp [hudef, GlobalTheory.LatVac.evFin_liftV]
-    set p : Fin a × Fin (a + a') → AF F := fun i => GlobalTheory.LatVac.liftV v (evFin F v (y i)) with hpdef
-    have hyp : y + u • (-y) = p := by
-      funext i
-      simp only [Pi.add_apply, Pi.smul_apply, Pi.neg_apply, smul_eq_mul, hudef, hpdef]
-      rw [← GlobalTheory.WeilLocality.liftV_one_mul]
-      ring
-    have hpat : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (evFin F v) p := by
-      intro u' hu'
-      funext i
-      exact GlobalTheory.LatVac.at_liftV v _ u' hu'
-    set Φ₀ := GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (evFin F v) φ R with hΦ₀
-    set Φ₁ := GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (evFin F v) φ r with hΦ₁
-    set Φ₂ : (Fin a × Fin (a + a') → AF F) → ℂ := (r y / R 0) • (fun w => Φ₀ (w + u • (-y))) with hΦ₂
-    have hm₀ : Φ₀ ∈ GlobalTheory.WeilM.schA F _ := (hR φ hφ).2
-    have hm₂ : Φ₂ ∈ GlobalTheory.WeilM.schA F _ := Submodule.smul_mem _ _ (GlobalTheory.T.adelicSchwartzSpace_translate_mem_of_mem _ _ hm₀)
-    have hfz : ∀ z, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (evFin F v) z → (Φ₁ - Φ₂) (y + z) = 0 := by
-      intro z hz
-      have e1 : r (y + z) = r y := hr.1 y z hz
-      have e2 : y + z + u • (-y) = p + z := by rw [← hyp]; abel
-      have hpz : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (evFin F v) (p + z) := fun u' hu' => by
-        rw [smul_add, hpat u' hu', hz u' hu', add_zero]
-      have e3 : R (p + z) = R 0 := by simpa using (hR φ hφ).1 0 (p + z) hpz
-      have e4 : (fun i => evFin F v ((y + z + u • (-y)) i)) = fun i => evFin F v ((y + z) i) := by
-        funext i
-        simp [hu]
-      simp only [Pi.sub_apply, hΦ₂, hΦ₁, hΦ₀, Pi.smul_apply, smul_eq_mul, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens]
-      rw [e4, e2, e3, e1]
-      field_simp
-      ring
-    have h0 := hfib (Φ₁ - Φ₂) (sub_mem hr.2 hm₂) y hfz
-    rw [map_sub, Pi.sub_apply, sub_eq_zero] at h0
-    have h2 : T Φ₂ y = (r y / R 0) * T Φ₀ p := by
-      rw [hΦ₂, map_smul, htr u hu (-y) Φ₀ hm₀, Pi.smul_apply, smul_eq_mul, hyp]
-    rw [h0, h2]
-    simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens, hpdef]
-    field_simp
+  intros
+  apply _root_.GlobalTheory.WeilLocalityV.locality <;> assumption
 
 theorem read_off {F : Type} [Field F] [NumberField F] {κ : Type} (v : Pl (F := F)) (R : (κ → AF F) → ℂ) (hR0 : R 0 ≠ 0)
     (hRi : ∀ x z, At (evFin F v) z → R (x + z) = R x) (φ₁ φ₂ : (κ → Fv F v) → ℂ)
     (h : tens (evFin F v) φ₁ R = tens (evFin F v) φ₂ R) : φ₁ = φ₂ := by
-  funext t
-  have hz : At (evFin F v) (fun i => GlobalTheory.LatVac.liftV v (t i) : κ → AF F) := by
-    intro u' hu'
-    funext i
-    exact GlobalTheory.LatVac.at_liftV v _ u' hu'
-  have e := congrFun h (fun i => GlobalTheory.LatVac.liftV v (t i))
-  have hR := hRi 0 _ hz
-  rw [zero_add] at hR
-  simp only [tens, GlobalTheory.LatVac.evFin_liftV, hR] at e
-  exact mul_right_cancel₀ hR0 e
+  intros
+  apply _root_.GlobalTheory.InertAvg.tens_inj <;> assumption
 
 theorem acts_unique {F : Type} [Field F] [NumberField F] {κ : Type} [Fintype κ] (v : Pl (F := F))
     (T : ((κ → AF F) → ℂ) → (κ → AF F) → ℂ) {φ : (κ → Fv F v) → ℂ} (hφ : φ ∈ GlobalTheory.WeilM.SB (κ → Fv F v))

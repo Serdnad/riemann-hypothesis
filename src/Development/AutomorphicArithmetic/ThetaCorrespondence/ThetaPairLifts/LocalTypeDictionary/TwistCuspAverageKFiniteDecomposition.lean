@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteDimCoefficientsFiniteDetermining
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.TypeAtOfDiscreteSeries
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.KFinAtZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
@@ -607,28 +608,7 @@ namespace GlobalTheory.ReproKFin
 
 theorem coeffSpan_finDim {K W : Type} [Group K] [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (ρ : Representation ℂ K W) : FiniteDimensional ℂ (GlobalTheory.Published.AutFin.coeffSpan ρ) := by
-  let b := Module.finBasis ℂ W
-  let g : Fin (Module.finrank ℂ W) × Fin (Module.finrank ℂ W) → (K → ℂ) := fun ij k => b.repr (ρ k (b ij.2)) ij.1
-  have hle : GlobalTheory.Published.AutFin.coeffSpan ρ ≤ Submodule.span ℂ (Set.range g) := by
-    refine Submodule.span_le.2 ?_
-    rintro f ⟨ℓ, w, rfl⟩
-    have : (fun k => ℓ (ρ k w)) = ∑ ij : Fin (Module.finrank ℂ W) × Fin (Module.finrank ℂ W),
-        (b.repr w ij.2 * ℓ (b ij.1)) • g ij := by
-      funext k
-      conv_lhs => rw [← b.sum_repr w]
-      rw [Finset.sum_apply, Fintype.sum_prod_type, Finset.sum_comm]
-
-      simp only [map_sum, map_smul, smul_eq_mul, Pi.smul_apply]
-      refine Finset.sum_congr rfl fun j _ => ?_
-      conv_lhs => rw [← b.sum_repr (ρ k (b j))]
-
-      simp only [map_sum, map_smul, smul_eq_mul, Finset.mul_sum, g]
-      exact Finset.sum_congr rfl fun i _ => by ring
-    rw [SetLike.mem_coe, this]
-    exact Submodule.sum_mem _ fun ij _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨ij, rfl⟩)
-  haveI : FiniteDimensional ℂ (Submodule.span ℂ (Set.range g)) :=
-    FiniteDimensional.span_of_finite ℂ (Set.finite_range g)
-  exact Submodule.finiteDimensional_of_le hle
+  first | exact _root_.GlobalTheory.CompanionTheory.CTFin.UniSol.finiteDimensional_coeffSpan | exact @_root_.GlobalTheory.CompanionTheory.CTFin.UniSol.finiteDimensional_coeffSpan | apply _root_.GlobalTheory.CompanionTheory.CTFin.UniSol.finiteDimensional_coeffSpan <;> assumption
 
 end GlobalTheory.ReproKFin
 

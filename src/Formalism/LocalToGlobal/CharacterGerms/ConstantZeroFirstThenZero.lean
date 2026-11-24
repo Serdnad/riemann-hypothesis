@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePLogSt
 public import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
 import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
 import Mathlib.Algebra.Order.Floor.Extended
@@ -63,14 +64,7 @@ open ReciprocityTheory.ChartRestriction.G.Geo.Tor.Germ PartialDerivEval MaximalI
 variable {C : Type} [Field C] [CharZero C] {V : VF C} {dd : ℕ}
 
 theorem eval_identity_point (f : PS C 1 dd) : ev (n := 1) ![pt C dd 0] f = f := by
-  unfold ev
-  have e : (fun p : Fin 1 × Fin dd => (![pt C dd 0] : Fin 1 → Pt C 1 dd) p.1 p.2) = MvPowerSeries.X := by
-    funext p
-    obtain ⟨k, j⟩ := p
-    fin_cases k
-    rfl
-  rw [e, MvPowerSeries.subst_self]
-  rfl
+  apply _root_.Formalism.L2.FormalSeriesBounds.LogEx.ev_self1 <;> assumption
 
 theorem constant_zero_first_then_zero : Z0 (![pt C dd 0, 0] : Fin 2 → Pt C 1 dd) := by
   intro k i

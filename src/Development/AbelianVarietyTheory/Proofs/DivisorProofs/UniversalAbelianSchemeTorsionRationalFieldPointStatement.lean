@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ObjMapUniqueOfIsDominant
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ConstGen
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FirstCohomology.ThetaMove
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsSympLevel
@@ -281,23 +282,7 @@ theorem nsmul_cancel {n : ℕ} (hn : n ≠ 0) {x y : D.La} (h : n • x = n • 
   exact mul_left_cancel₀ (by exact_mod_cast hn) h1
 
 theorem mem_of_dvd {M : ℕ} (hM : M ≠ 0) {x : D.La} (h : ∀ y, (M : ℤ) ∣ D.EF x y) : ∃ u, x = M • u := by
-  have hM' : (M : ℤ) ≠ 0 := by exact_mod_cast hM
-  choose f hf using h
-  let φ : D.La →ₗ[ℤ] ℤ :=
-    { toFun := f
-      map_add' := fun a b => by
-        apply mul_left_cancel₀ hM'
-        rw [mul_add, ← hf, ← hf, ← hf, map_add (f := _)]
-      map_smul' := fun c a => by
-        apply mul_left_cancel₀ hM'
-        rw [← hf, map_smul, hf]
-        simp only [smul_eq_mul, RingHom.id_apply]
-        ring }
-  obtain ⟨u, hu⟩ := D.unimod.2 φ
-  refine ⟨u, D.unimod.1 ?_⟩
-  ext w
-  rw [map_nsmul, LinearMap.smul_apply, hu, hf, nsmul_eq_mul]
-  rfl
+  apply _root_.GlobalTheory.ObjRigid.exists_eq_nsmul <;> assumption
 
 theorem mem_lcm {M A : ℕ} (hM : M ≠ 0) {x u v : D.La} (hu : x = M • u) (hv : x = A • v) :
     ∃ w, x = Nat.lcm M A • w := by

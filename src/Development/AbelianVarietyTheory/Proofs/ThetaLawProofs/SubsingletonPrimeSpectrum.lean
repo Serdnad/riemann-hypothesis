@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FirstOrderPointIffRingHomAffineOpenSections
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsLieBasisOfHolUnif
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.IsLieBasis
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.ChartPullbacks.UniversalCharts.RestrictDiagCompInclFst
 public import Development.AbelianVarietyTheory.Proofs.HomogeneousIdeals.ExistsChartOfMemRedKer
@@ -109,19 +111,8 @@ end Pull
 
 theorem subsingleton_primeSpectrum (K M : Type) [Field K] [AddCommGroup M] [Module K M] [Module Kᵐᵒᵖ M]
     [IsCentralScalar K M] : Subsingleton (PrimeSpectrum (TrivSqZeroExt K M)) := by
-  have h : ∀ z : PrimeSpectrum (TrivSqZeroExt K M), ∀ a, a ∈ z.asIdeal ↔ a.fst = 0 := fun z a => by
-    constructor
-    · intro ha
-      by_contra h0
-      exact z.2.ne_top (z.asIdeal.eq_top_of_isUnit_mem ha
-        (TrivSqZeroExt.isUnit_iff_isUnit_fst.2 (Ne.isUnit h0)))
-    · intro ha
-      refine z.2.mem_of_pow_mem 2 ?_
-      rw [show a ^ 2 = 0 by ext <;> simp [pow_two, ha]]
-      exact z.asIdeal.zero_mem
-  refine ⟨fun x y => ?_⟩
-  ext a
-  rw [h, h]
+  intros
+  apply _root_.GlobalTheory.SchRing.subsingleton_primeSpectrum_trivSqZeroExt <;> assumption
 
 variable {K : Type} [Field K] {A : Over (Spec (CommRingCat.of K))} [GrpObj A]
 
@@ -193,18 +184,7 @@ theorem isDiff_one : u.IsDiff 0 (1 : epsR ℂ ⟶ A) := by
 theorem isDiff_prod : ∀ {n : ℕ} (W : Fin n → Fin g → ℂ) (v : Fin n → (epsR ℂ ⟶ A)),
     (∀ i, IsTan (v i)) → (∀ i, u.IsDiff (W i) (v i)) →
       IsTan (List.ofFn v).prod ∧ u.IsDiff (∑ i, W i) (List.ofFn v).prod := by
-  intro n
-  induction n with
-  | zero =>
-      intro W v _ _
-      rw [List.ofFn_zero, List.prod_nil, Finset.univ_eq_empty, Finset.sum_empty]
-      exact ⟨isTan_one, isDiff_one u⟩
-  | succ n ih =>
-      intro W v hv h
-      obtain ⟨h₁, h₂⟩ := ih (fun i => W i.succ) (fun i => v i.succ)
-        (fun i => hv i.succ) (fun i => h i.succ)
-      rw [List.ofFn_succ, List.prod_cons, Fin.sum_univ_succ]
-      exact ⟨isTan_mul (hv 0) h₁, isDiff_mul u (hv 0) h₁ (h 0) h₂⟩
+  first | exact _root_.GlobalTheory.UnifLieBasis.isDiff_list_prod | exact @_root_.GlobalTheory.UnifLieBasis.isDiff_list_prod | apply _root_.GlobalTheory.UnifLieBasis.isDiff_list_prod <;> assumption
 
 end Unif
 

@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.MultiProdCompCongr
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.PiTensorIrreducibleNontrivial
 
 @[expose] public section
 
@@ -57,19 +58,7 @@ section Linear
 
 theorem nontrivial_piTensorProduct {ι : Type} [Fintype ι] {X : ι → Type} [∀ a, AddCommGroup (X a)]
     [∀ a, Module ℂ (X a)] [∀ a, Nontrivial (X a)] : Nontrivial (PiTensorProduct ℂ X) := by
-  classical
-  choose v hv using fun a => exists_ne (0 : X a)
-  have hex : ∀ a, ∃ φ : Module.Dual ℂ (X a), φ (v a) ≠ 0 := fun a => by
-    by_contra hc
-    push_neg at hc
-    exact hv a ((Module.forall_dual_apply_eq_zero_iff ℂ (v a)).1 hc)
-  choose φ hφ using hex
-  let L := PiTensorProduct.lift ((MultilinearMap.mkPiAlgebra ℂ ι ℂ).compLinearMap φ)
-  have h : L (PiTensorProduct.tprod ℂ v) ≠ 0 := by
-    simp only [L, PiTensorProduct.lift.tprod, MultilinearMap.compLinearMap_apply,
-      MultilinearMap.mkPiAlgebra_apply]
-    exact Finset.prod_ne_zero_iff.2 fun a _ => hφ a
-  exact ⟨PiTensorProduct.tprod ℂ v, 0, fun h0 => h (by rw [h0, map_zero])⟩
+  apply _root_.GlobalTheory.CompanionTheory.TensorIrr.nontrivial_piTensorProduct_of_nontrivial <;> assumption
 
 end Linear
 

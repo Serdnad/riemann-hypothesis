@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SiegelRegionNormBound
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.InterPolyProdSum
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 public import Mathlib.Algebra.MvPolynomial.Rename
@@ -1150,17 +1151,8 @@ theorem EntryLe.conjTranspose (h : EntryLe M x) : EntryLe Mᴴ x := fun i j => b
 
 theorem EntryLe.norm_det_le [DecidableEq K] (h : EntryLe M x) :
     ‖M.det‖ ≤ (Fintype.card K).factorial * x ^ Fintype.card K := by
-  rw [det_apply]
-  calc ‖∑ σ : Equiv.Perm K, Equiv.Perm.sign σ • ∏ i, M (σ i) i‖
-      ≤ ∑ σ : Equiv.Perm K, ‖Equiv.Perm.sign σ • ∏ i, M (σ i) i‖ := norm_sum_le _ _
-    _ ≤ ∑ _σ : Equiv.Perm K, x ^ Fintype.card K := Finset.sum_le_sum fun σ _ => by
-        have hs : ‖Equiv.Perm.sign σ • ∏ i, M (σ i) i‖ = ∏ i, ‖M (σ i) i‖ := by
-          rcases Int.units_eq_one_or (Equiv.Perm.sign σ) with hσ | hσ <;> simp [hσ, norm_prod]
-        rw [hs]
-        calc ∏ i, ‖M (σ i) i‖ ≤ ∏ _i : K, x :=
-              Finset.prod_le_prod₀ (fun i _ => norm_nonneg _) fun i _ => h _ _
-          _ = x ^ Fintype.card K := by rw [Finset.prod_const, Finset.card_univ]
-    _ = _ := by rw [Finset.sum_const, Finset.card_univ, Fintype.card_perm, nsmul_eq_mul]
+  intros
+  apply _root_.GlobalTheory.SgInf.LduBound.norm_det_le <;> assumption
 
 theorem mdel_conn_changeFrame : ∀ (n : ℕ) (K : Type) [Fintype K] [DecidableEq K] (G₀ A : ReciprocityTheory.L2DbarEstimates.V n → Matrix K K ℂ) (v : ReciprocityTheory.L2DbarEstimates.V n), GlobalTheory.HermFrame.MContDiffAt 2 G₀ v → IsUnit (G₀ v).det → GlobalTheory.HermFrame.MContDiffAt 2 A v → IsUnit (A v).det → (∀ᶠ u in nhds v, ∀ η, GlobalTheory.HermFrame.mdbar A u η = 0) → ∀ ξ ζ : ReciprocityTheory.L2DbarEstimates.V n, GlobalTheory.HermFrame.mdel (fun u => GlobalTheory.HermFrame.conn (fun x => (A x)ᵀ * G₀ x * (A x)ᴴᵀ) u ζ) v ξ = (A v)⁻¹ * (GlobalTheory.HermFrame.mdel (fun u => GlobalTheory.HermFrame.conn G₀ u ζ) v ξ * A v + GlobalTheory.HermFrame.conn G₀ v ζ * GlobalTheory.HermFrame.mdel A v ξ + GlobalTheory.HermFrame.mdel (fun u => GlobalTheory.HermFrame.mdel A u ζ) v ξ) - (A v)⁻¹ * GlobalTheory.HermFrame.mdel A v ξ * (A v)⁻¹ * (GlobalTheory.HermFrame.conn G₀ v ζ * A v + GlobalTheory.HermFrame.mdel A v ζ) := by
   intro n K _ _ G₀ A v hG hGu hA hAu hA0 ξ ζ

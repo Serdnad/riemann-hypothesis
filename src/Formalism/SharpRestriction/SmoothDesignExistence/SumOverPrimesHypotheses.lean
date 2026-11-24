@@ -892,22 +892,7 @@ theorem valuation_ge_add_of_le {a1 a2 : D.what₂.LL} {z1 z2 : V} {s : ℝ} (h1 
   rw [Subring.smul_def, smul_add, smul_smul, mul_div_cancel₀ a2 h1]
 
 theorem VGe_add {y1 y2 : V} {s : ℝ} (h1 : VGe D w Λ y1 s) (h2 : VGe D w Λ y2 s) : VGe D w Λ (y1 + y2) s := by
-  obtain ⟨a1, z1, hz1, rfl, ha1⟩ := h1
-  obtain ⟨a2, z2, hz2, rfl, ha2⟩ := h2
-  by_cases e1 : a1 = 0
-  · subst e1
-    rw [zero_smul, zero_add]
-    exact ⟨a2, z2, hz2, rfl, ha2⟩
-  by_cases e2 : a2 = 0
-  · subst e2
-    rw [zero_smul, add_zero]
-    exact ⟨a1, z1, hz1, rfl, ha1⟩
-  have hv1 := ha1.resolve_left e1
-  have hv2 := ha2.resolve_left e2
-  rcases le_total (vAdd (D.plEq w) a1) (vAdd (D.plEq w) a2) with h | h
-  · exact valuation_ge_add_of_le e1 e2 hz1 hz2 hv1 h
-  · rw [add_comm]
-    exact valuation_ge_add_of_le e2 e1 hz2 hz1 hv2 h
+  apply _root_.Formalism.MainNotions.OrbitPlaces.VGe.add <;> assumption
 
 theorem VGe_smul_int {y : V} {s : ℝ} (r : intW D.what₂.places w) (h : VGe D w Λ y s) :
     VGe D w Λ ((r : D.what₂.LL) • y) s := by
@@ -917,19 +902,7 @@ theorem VGe_smul_int {y : V} {s : ℝ} (r : intW D.what₂.places w) (h : VGe D 
 
 theorem VGe_smul {y : V} {s s' : ℝ} {b : D.what₂.LL} (hb : b = 0 ∨ ur D w s' ≤ (vAdd (D.plEq w) b : ℝ))
     (h : VGe D w Λ y s) : VGe D w Λ (b • y) (s' + s) := by
-  obtain ⟨a, z, hz, rfl, ha⟩ := h
-  refine ⟨b * a, z, hz, by rw [smul_smul], ?_⟩
-  by_cases e1 : b = 0
-  · left; rw [e1, zero_mul]
-  by_cases e2 : a = 0
-  · left; rw [e2, mul_zero]
-  right
-  have hv1 := hb.resolve_left e1
-  have hv2 := ha.resolve_left e2
-  rw [vAdd_mul' _ e1 e2]
-  push_cast
-  have h1 : ur D w (s' + s) = ur D w s' + ur D w s := by unfold ur; ring
-  linarith
+  apply _root_.Formalism.MainNotions.OrbitPlaces.VGe.smul <;> assumption
 
 end VGeLemmas
 
@@ -1010,14 +983,7 @@ theorem card_lifts (D : D7) : ((SizeData₂.lifts D).card : ℝ) = (D.R.m : ℝ)
 theorem base_map_mem_local_lattice {D : D7} (T : TwForms D) (u : D.what₂.Word) (μ : D.what₂.Tup) (w : D.what₂.places.Pl)
     (x : ((D.fm u).lat 0).V) (hx : x ∈ locW D.what₂.places w ((D.fm u).lat 0).L) :
     T.e0 u μ x ∈ locW D.what₂.places w ((T.fm u μ).lat 0).L := by
-  unfold BasicNotions.locW at hx
-  induction hx using Submodule.span_induction with
-  | mem x hx => exact Submodule.subset_span ((T.twist_preserves_base_lattice u μ x).1 hx)
-  | zero => rw [map_zero]; exact Submodule.zero_mem _
-  | add a b _ _ ha hb => rw [map_add (f := _)]; exact Submodule.add_mem _ ha hb
-  | smul r a _ ha =>
-    rw [Subring.smul_def, map_smul, ← Subring.smul_def]
-    exact Submodule.smul_mem _ r ha
+  apply _root_.Formalism.MainNotions.OrbitPlaces.base_map_mem_local_lattice <;> assumption
 
 theorem remaining_primes_of_admitted {D : D7} {Dx : DivX D} {T : TwForms D} {sp : ℝ} (hI : IsotypicPartsInternalDirectSum D Dx T sp) (hD : DGamDef D) :
     ∀ u (w : D.what₂.places.Pl), D.what₂.places.resChar w ≠ (D.mem u).A.T →

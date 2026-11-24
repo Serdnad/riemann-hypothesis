@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousSingleV
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.CondStd
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.IsOpenNsmulAdelicCompletionOfVectorSet
@@ -63,16 +65,7 @@ theorem algebraMap_eq_pairA (x : F) :
   rfl
 
 theorem denseRange_fin : DenseRange (algebraMap F (Af F)) := by
-  intro y
-  rw [mem_closure_iff_nhds]
-  intro U hU
-  have hc : Continuous fun z : Af F => y - z := continuous_const.sub continuous_id
-  have hV : (fun z : Af F => y - z) ⁻¹' U ∈ 𝓝 (0 : Af F) :=
-    hc.continuousAt.preimage_mem_nhds (by simpa using hU)
-  obtain ⟨N, hN, hNU⟩ := _root_.GlobalTheory.LocalNormBound.main F _ hV
-  obtain ⟨a, β, hβ, e⟩ := (GlobalTheory.AdLat.strong_approximation_mod_nat F N hN).1 y
-  refine ⟨y - N • β, hNU β hβ, a, ?_⟩
-  rw [e, add_sub_cancel_right]
+  apply _root_.Formalism.L2.SG.Pf.CondStd.dense_F <;> assumption
 
 theorem ext_of_inf {ψ ψ' : AF F → ℂ} (hc : Continuous ψ) (hc' : Continuous ψ')
     (ha : ∀ x y, ψ (x + y) = ψ x * ψ y) (ha' : ∀ x y, ψ' (x + y) = ψ' x * ψ' y)
@@ -270,17 +263,7 @@ theorem exists_inf {ψ : AddChar (AF F) ℂ} (hψ : IsCharAF F ψ) (w : Infinite
 
 open Classical in
 theorem continuous_singleV (v : HeightOneSpectrum (𝓞 F)) : Continuous (singleV F v) := by
-  have hS : Filter.cofinite ≤ Filter.principal ({v}ᶜ : Set (HeightOneSpectrum (𝓞 F))) :=
-    Filter.le_principal_iff.2 (Set.finite_singleton v).compl_mem_cofinite
-  let f : v.adicCompletion F → Πʳ w : HeightOneSpectrum (𝓞 F),
-      [w.adicCompletion F, w.adicCompletionIntegers F]_[Filter.principal ({v}ᶜ : Set _)] :=
-    fun x => ⟨Pi.single (M := fun w : HeightOneSpectrum (𝓞 F) => w.adicCompletion F) v x, by
-      intro w hw
-      have hw' : w ≠ v := hw
-      simp only [Set.mem_ofPred_eq, Pi.single_eq_of_ne hw', SetLike.mem_coe]
-      exact zero_mem _⟩
-  have hf : Continuous f := RestrictedProduct.continuous_rng_of_principal.2 (continuous_single v)
-  exact (RestrictedProduct.continuous_inclusion hS).comp hf
+  apply _root_.GlobalTheory.CompanionTheory.SaGen.continuous_singleV' <;> assumption
 
 theorem exists_mem_only (v : HeightOneSpectrum (𝓞 F)) :
     ∃ t : 𝓞 F, t ≠ 0 ∧ t ∈ v.asIdeal ∧ ∀ w : HeightOneSpectrum (𝓞 F), w ≠ v → t ∉ w.asIdeal := by

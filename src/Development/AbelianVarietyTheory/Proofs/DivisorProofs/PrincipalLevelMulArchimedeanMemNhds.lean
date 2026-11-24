@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsFinPartMat
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.CoeSelfDualLatticeInFrameCoordinatesEq
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsIdempotentComponentOfGroupElement
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsPrincipalLevelSubgroupOpen
@@ -141,16 +142,6 @@ theorem finCong_finPartG_iff {V : HSp D} {N : ℕ} (g : GA D V) :
 theorem level_mul_inf_mem_nhds : ∀ (D : D7) (V : HSp D) (N : ℕ) (Kf : Subgroup (GA D V)), 0 < N →
     IsLevelK V N Kf → ∀ g₀ : GA D V,
       {g : GA D V | ∃ k ∈ Kf, ∃ h ∈ GinfC V, g = g₀ * k * h} ∈ 𝓝 g₀ := by
-  intro D V N Kf hN hK g₀
-  haveI : IsTopologicalGroup (GA D V) := Formalism.L2.GlobalTheoryTheory.GenusMassVolumes.Unfold.topGroupHA _ _
-  have hU := GlobalTheory.Member.PrincLevel.finCong_mem_nhds V hN
-  have ht : Filter.Tendsto (fun x : GA D V => g₀⁻¹ * x) (𝓝 g₀) (𝓝 1) := by
-    have := (continuous_const_mul g₀⁻¹).tendsto g₀
-    rwa [inv_mul_cancel] at this
-  refine Filter.mem_of_superset (ht hU) fun x hx => ?_
-  have hx' : GlobalTheory.Member.FinCong V N (g₀⁻¹ * x) := hx
-  refine ⟨finPartG V (g₀⁻¹ * x), (hK _).2 ⟨finPartG_mem_GfC V _, (finCong_finPartG_iff _).2 hx'⟩,
-    (finPartG V (g₀⁻¹ * x))⁻¹ * (g₀⁻¹ * x), inv_finPartG_mul_mem_GinfC V _, ?_⟩
-  group
+  apply _root_.GlobalTheory.LevelOpen.level_mem_nhds <;> assumption
 
 end GlobalTheory.LevelNbhd

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.OrdinaryHeckeCharacters.GlBridge
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.SignatureIntegrality.UnitaryHyperbolicOrbitCount
 import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 import Development.AbelianVarietyTheory.Definitions.Divisors.T2SpaceGeneralLinearGroup
@@ -53,20 +54,7 @@ section
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k] {n : ℕ}
 
 theorem UpperTheory.V.Z.Sym.Sig.isOpen_Kc (c : ℕ) : IsOpen (Kc k n c : Set (GL (Fin n) k)) := by
-  have ho : IsOpen {x : k | valuation k x ≤ uniformizer k ^ (c : ℤ)} := by
-    have h0 : IsOpen ((valuation k).integer : Set k) := Valuation.isOpen_integer
-    convert h0.preimage (continuous_mul_const ((unif k ^ (-(c : ℤ)) : kˣ) : k)) using 1
-    ext x
-    change _ ↔ valuation k _ ≤ 1
-    rw [map_mul, GlAx.val_zpow, _root_.zpow_neg, mul_inv_le_iff₀ (zpow_pos GlAx.unif_pos _), one_mul]
-    rfl
-  have h : ∀ f : GL (Fin n) k → GL (Fin n) k, Continuous f → IsOpen {g | GlAx.Bd c (f g)} := fun f hf => by
-    simp only [GlAx.Bd, Set.setOf_forall]
-    exact isOpen_iInter_of_finite fun i => isOpen_iInter_of_finite fun j =>
-      ho.preimage (((Units.continuous_val.comp hf).sub continuous_const).matrix_elem i j)
-  have : (Kc k n c : Set (GL (Fin n) k)) = {g | GlAx.Bd c (id g)} ∩ {g | GlAx.Bd c g⁻¹} := Set.ext fun g => GlAx.mem_Kc
-  rw [this]
-  exact (h _ continuous_id).inter (h _ continuous_inv)
+  apply _root_.br_Kc_open <;> assumption
 
 theorem UpperTheory.V.Z.Sym.Sig.kc_sep {g : GL (Fin n) k} (h : ∀ m, g ∈ Kc k n m) : g = 1 := by
   refine Units.ext (sub_eq_zero.1 (Matrix.ext fun i j => ?_))

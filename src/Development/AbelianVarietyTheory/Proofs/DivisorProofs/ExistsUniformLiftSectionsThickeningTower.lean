@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsLineBundleOfThickenings
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ProjectiveNotIsUnit
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsIsAffineOpenPreimageEqOfIsNilpotent
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsProjectiveAlgebraisationFormalCompleteLoca
@@ -181,24 +182,7 @@ section Tower
 variable {R : Type} [CommRing R] {I : Ideal R}
 
 theorem surjective_thickTrans (e : ℕ) : Surjective (thickTrans R I e) := by
-  refine ⟨fun x => ?_⟩
-  have h : I ^ (e + 1 + 1) ≤ I ^ (e + 1) := Ideal.pow_le_pow_right (by omega)
-  have hx : (x : PrimeSpectrum (R ⧸ I ^ (e + 1 + 1))) ∈
-      Set.range (PrimeSpectrum.comap (Ideal.Quotient.factor h)) := by
-    rw [_root_.range_comap_of_surjective _ _ (Ideal.Quotient.factor_surjective h)]
-    intro a ha
-    obtain ⟨a, rfl⟩ := Ideal.Quotient.mk_surjective a
-    have ha' : a ∈ I ^ (e + 1) := by
-      simpa [RingHom.mem_ker, Ideal.Quotient.eq_zero_iff_mem] using ha
-    refine x.2.mem_of_pow_mem 2 ?_
-    have : Ideal.Quotient.mk (I ^ (e + 1 + 1)) a ^ 2 = 0 := by
-      rw [← map_pow, Ideal.Quotient.eq_zero_iff_mem]
-      refine Ideal.pow_le_pow_right (show e + 1 + 1 ≤ (e + 1) * 2 by omega) ?_
-      rw [pow_mul]
-      exact Ideal.pow_mem_pow ha' 2
-    rw [this]
-    exact Ideal.zero_mem _
-  exact hx
+  apply _root_.GlobalTheory.LBAlg.surjective_thickTrans <;> assumption
 
 theorem isNilpotent_ker_factor (e : ℕ) (h : I ^ (e + 1 + 1) ≤ I ^ (e + 1)) :
     IsNilpotent (RingHom.ker (Ideal.Quotient.factor h)) := by

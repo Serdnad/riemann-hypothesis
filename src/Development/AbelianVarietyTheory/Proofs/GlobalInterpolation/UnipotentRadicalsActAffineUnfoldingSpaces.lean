@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnfoldingCharacterArgumentCompUnipotentRadicals
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.UnipotentCharacterArgumentMulStabilizer
 import Mathlib.Algebra.Order.Floor.Extended
@@ -78,50 +79,7 @@ theorem map_Ufl {xj : (Fin n' → F) →ₗ[F] (Fin n → F)} {x : (Fin (n' + c'
     (h1 : ∀ v, x (Loc.inX F n' c' v) = Loc.inX F n c (xj v))
     (h3 : ∀ s : ℕ, x (Loc.eN F (n' + c') (n' + s)) - Loc.eN F (n + c) (n + s) ∈ Loc.Ufl F n c s)
     (s : ℕ) {v : Fin (n' + c') → F} (hv : v ∈ Loc.Ufl F n' c' s) : x v ∈ Loc.Ufl F n c s := by
-  have key : ∀ l : Fin (n' + c'), l.1 < n' + s → x (Pi.single l 1) ∈ Loc.Ufl F n c s := by
-    intro l hl
-    by_cases hln : l.1 < n'
-    · have hsingle : (Pi.single l (1 : F) : Fin (n' + c') → F) =
-          Loc.inX F n' c' (Pi.single (⟨l.1, hln⟩ : Fin n') 1) := by
-        funext m
-        rw [inX_apply]
-        split_ifs with hm
-        · by_cases hml : m = l
-          · subst hml
-            simp
-          · have hne : (⟨m.1, hm⟩ : Fin n') ≠ ⟨l.1, hln⟩ := fun he => hml (Fin.ext (by simpa using he))
-            simp [hml, hne]
-        · have hml : m ≠ l := fun he => hm (he ▸ hln)
-          simp [hml]
-      rw [hsingle, h1]
-      exact inX_mem_Ufl s _
-    · have hle : n' ≤ l.1 := not_lt.1 hln
-      have hsingle : (Pi.single l (1 : F) : Fin (n' + c') → F) = Loc.eN F (n' + c') (n' + (l.1 - n')) := by
-        funext m
-        rw [Nat.add_sub_cancel' hle]
-        by_cases hml : m = l
-        · subst hml
-          simp [Loc.eN]
-        · have hv : m.1 ≠ l.1 := fun he => hml (Fin.ext he)
-          simp [Loc.eN, hml, hv]
-      rw [hsingle, ← sub_add_cancel (x (Loc.eN F (n' + c') (n' + (l.1 - n'))))
-        (Loc.eN F (n + c) (n + (l.1 - n')))]
-      exact Submodule.add_mem _ (Ufl_mono (by omega) (h3 (l.1 - n'))) (eN_mem_Ufl (by omega))
-
-  rw [← Finset.univ_sum_single v, map_sum]
-  refine Submodule.sum_mem _ fun l _ => ?_
-  by_cases hl : l.1 < n' + s
-  · have hsm : (Pi.single l (v l) : Fin (n' + c') → F) = v l • Pi.single l 1 := by
-      funext m
-      by_cases hml : m = l
-      · subst hml
-        simp
-      · simp [hml]
-    rw [hsm, map_smul]
-    exact Submodule.smul_mem _ _ (key l hl)
-  · have hz : v l = 0 := (mem_Ufl.1 hv) l hl
-    rw [hz, Pi.single_zero, map_zero]
-    exact Submodule.zero_mem _
+  first | exact _root_.GlobalTheory.Proof.unfoldingCharacterArgument_comp_unipotentRadicals.map_mem_Ufl | exact @_root_.GlobalTheory.Proof.unfoldingCharacterArgument_comp_unipotentRadicals.map_mem_Ufl | apply _root_.GlobalTheory.Proof.unfoldingCharacterArgument_comp_unipotentRadicals.map_mem_Ufl <;> assumption
 
 theorem affine_action : (∀ (F : Type) [Field F] (n' c' n c : ℕ), 1 ≤ c → c' = c + 1 → ∀ (xj : (Fin n' → F) →ₗ[F] (Fin n → F)) (x : (Fin (n' + c') → F) →ₗ[F] (Fin (n + c) → F)), (∃ t : Loc.FC n' c' n c → F, x = Loc.xx1 xj t) ↔ ((∀ v, x (Loc.inX F n' c' v) = Loc.inX F n c (xj v)) ∧ x (Loc.eN F (n' + c') n') = Loc.eN F (n + c) n ∧ ∀ s : ℕ, x (Loc.eN F (n' + c') (n' + s)) - Loc.eN F (n + c) (n + s) ∈ Loc.Ufl F n c s)) → ∀ (F : Type) [Field F] (n' c' n c : ℕ), 1 ≤ c → c' = c + 1 → ∀ r ∈ Loc.R1 F n c, ∀ r' ∈ Loc.R1 F n' c', ∀ xj' : (Fin n' → F) →ₗ[F] (Fin n → F), ∃ (xj : (Fin n' → F) →ₗ[F] (Fin n → F)) (T : (Loc.FC n' c' n c → F) ≃ₗ[F] (Loc.FC n' c' n c → F)) (b : Loc.FC n' c' n c → F), ∀ t, r.toLinearMap ∘ₗ Loc.xx1 xj t ∘ₗ r'.toLinearMap = Loc.xx1 xj' (T t + b) := by
   intro H F _ n' c' n c hc hc' r hr r' hr' xj'

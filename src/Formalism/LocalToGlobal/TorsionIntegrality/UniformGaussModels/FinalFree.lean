@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.RepArith
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SqrtInUnramifiedCompletion
 public import Formalism.LocalToGlobal.TorsionIntegrality.UniformGaussModels.UniformGaussModelConditionEquivalent
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitDeterminantRoot.IdealPowPrincipal
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnitDeterminantRoot.GlobalLUnit
@@ -843,21 +845,7 @@ open Formalism.L2.Th1.Top.FrP
 
 theorem area_cmL_ne (a₀ : ℕ) (b₀ : ℤ) (dK : ℕ) (ha : 0 < a₀) (hdK : 0 < dK) (lam : ℂ) (hlam : lam ≠ 0) :
     area (cmL a₀ b₀ dK ha hdK lam hlam) ≠ 0 := by
-  unfold area cmL scalePair cmPair
-  simp only
-  have e : conj (lam * (a₀ : ℂ)) * (lam * cmTheta b₀ dK) =
-      (((a₀ : ℝ) * Complex.normSq lam : ℝ) : ℂ) * cmTheta b₀ dK := by
-    rw [map_mul, Complex.conj_natCast]
-    push_cast
-    rw [Complex.normSq_eq_conj_mul_self]
-    ring
-  have hth : (cmTheta b₀ dK).im = Real.sqrt dK / 2 := by
-    simp [cmTheta]
-  rw [e, Complex.im_ofReal_mul, hth]
-  have h1 : (0 : ℝ) < a₀ := by exact_mod_cast ha
-  have h2 : 0 < Complex.normSq lam := Complex.normSq_pos.mpr hlam
-  have h3 : 0 < Real.sqrt dK := Real.sqrt_pos.mpr (by exact_mod_cast hdK)
-  exact abs_ne_zero.mpr (by positivity)
+  apply _root_.PI.UnitaryGroupMassFormula.UnimodLocStd.rep_area_ne <;> assumption
 
 theorem gram_G (L : PeriodPair) {n : Type} [Fintype n] [DecidableEq n] (h : Matrix n n ℂ)
     (g₁ : (Fin 4 × n → ℂ) ≃ₗ[ℂ] (Fin 4 × n → ℂ))
@@ -1090,18 +1078,7 @@ namespace Formalism.L2.Th1.Top.FrP.UnitaryGroupMassFormula.HermFrame
 open Formalism.L2.Th1.Top.FrP
 
 theorem norm_int_Kur (l : ℕ) [Fact l.Prime] (z : ℤ) (hz : ¬ (l : ℤ) ∣ z) : ‖((z : ℤ) : MaximalUnramifiedExtension l)‖ = 1 := by
-  have h2 : ‖(z : ℚ_[l])‖ = 1 := by
-    have h5 : ‖(z : ℤ_[l])‖ = 1 := le_antisymm (PadicInt.norm_le_one _)
-      (not_lt.mp ((PadicInt.norm_int_lt_one_iff_dvd z).not.mpr hz))
-    simpa using h5
-  have h3 : ‖((z : ℚ_[l]) : PadicAlgCl l)‖ = 1 := by rw [PadicAlgCl.norm_extends]; exact h2
-  have h4 : ‖(((z : ℚ_[l]) : PadicAlgCl l) : ℂ_[l])‖ = 1 := by rw [PadicComplex.norm_extends]; exact h3
-  have e1 : (((z : ℚ_[l]) : PadicAlgCl l)) = (z : PadicAlgCl l) := map_intCast _ z
-  have e2 : (((z : PadicAlgCl l)) : ℂ_[l]) = (z : ℂ_[l]) := by
-    exact map_intCast (UniformSpace.Completion.coeRingHom (α := PadicAlgCl l)) z
-  have e3 : ((z : Formalism.L2.Th1.Top.FrP.MaximalUnramifiedExtension l) : ℂ_[l]) = (z : ℂ_[l]) := by simp
-  show ‖((z : Formalism.L2.Th1.Top.FrP.MaximalUnramifiedExtension l) : ℂ_[l])‖ = 1
-  rw [e3, ← e2, ← e1]; exact h4
+  apply _root_.Formalism.L2.Th1.D.GaussNormEstimates.normKZ_one <;> assumption
 
 private theorem norm_add_le_max_maxUnramified_lemma (l : ℕ) [Fact l.Prime] (a b : Formalism.L2.Th1.Top.FrP.MaximalUnramifiedExtension l) :
     ‖a + b‖ ≤ max ‖a‖ ‖b‖ :=

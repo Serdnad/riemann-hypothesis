@@ -1,5 +1,7 @@
 module
 
+import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.ExistsLintegralCompactLe
+import all ReciprocityTheory.L2DbarEstimates.Localization.SplitTest
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import Mathlib.Analysis.Calculus.ContDiff.Basic
 public import Mathlib.Analysis.Calculus.ContDiff.Comp
@@ -150,52 +152,13 @@ theorem sqNorm_wedge_twist_le {n : ℕ} (a : ℂ) (A : Fin n → Fin n → ℂ) 
 
 theorem unwBack_contR {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n)
     (hz : IsLocalHomeomorph z) (ph : M → ℝ) (hph : SmoothR n z ph) : Continuous ph := by
-  unfold SmoothR Smooth at hph
-  rw [continuous_iff_continuousAt]
-  intro x
-  obtain ⟨e, hx, hze⟩ := hz x
-  have hch : IsChart n z e := fun y _ => by rw [hze]
-  have hc : ContinuousAt ((fun y => (ph y : ℂ)) ∘ e.symm) (e x) :=
-    ((hph e hch).continuousOn).continuousAt (e.open_target.mem_nhds (e.map_source hx))
-  have hc2 : ContinuousAt (((fun y => (ph y : ℂ)) ∘ e.symm) ∘ e) x :=
-    hc.comp (e.continuousAt hx)
-  have hc3 : ContinuousAt (fun y => (ph y : ℂ)) x := by
-    refine hc2.congr ?_
-    filter_upwards [e.open_source.mem_nhds hx] with y hy
-    simp [e.left_inv hy]
-  exact (Complex.continuous_re.continuousAt.comp hc3).congr
-    (Filter.Eventually.of_forall fun y => by simp)
+  intros
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.continuous_of_smoothR <;> assumption
 
 theorem unwBack_off {M : Type*} [TopologicalSpace M] [T2Space M] (n : ℕ) (z : M → V n)
     (K0 : Set M) (hK0 : IsCompact K0) (u : M → ℂ) (hu : ∀ x, x ∉ K0 → u x = 0) (x : M)
     (hx : x ∉ K0) (j : Fin n) : d n z j u x = 0 ∧ db n z j u x = 0 := by
-  have key : ∀ h : ∃ e : OpenPartialHomeomorph M (V n), IsChart n z e ∧ x ∈ e.source,
-      fderiv ℝ (u ∘ (Classical.choose h).symm) (z x) = 0 := by
-    intro h
-    obtain ⟨he, hx'⟩ := Classical.choose_spec h
-    set e := Classical.choose h
-    have hzx : z x = e x := he hx'
-    have hev : (u ∘ e.symm) =ᶠ[𝓝 (z x)] fun _ => (0 : ℂ) := by
-      rw [hzx]
-      have hopen : IsOpen K0ᶜ := hK0.isClosed.isOpen_compl
-      have hc : ContinuousAt e.symm (e x) := e.continuousAt_symm (e.map_source hx')
-      have hmem : K0ᶜ ∈ 𝓝 (e.symm (e x)) := by
-        rw [e.left_inv hx']
-        exact hopen.mem_nhds hx
-      filter_upwards [hc.preimage_mem_nhds hmem] with y hy
-      exact hu _ hy
-    rw [hev.fderiv_eq]
-    exact fderiv_const_apply _
-  unfold d db wd wdb
-  constructor
-  · split_ifs with h
-    · rw [key h]
-      simp
-    · rfl
-  · split_ifs with h
-    · rw [key h]
-      simp
-    · rfl
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.d_db_eq_zero_of_not_mem_compact_support <;> assumption
 
 theorem smooth_ofReal_secondWeight {M : Type*} [TopologicalSpace M] (n : ℕ) (z : M → V n) (ph ψ : M → ℝ)
     (hph : SmoothR n z ph) (hψ : SmoothR n z ψ) :

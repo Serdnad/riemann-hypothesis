@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.AnalyticForms.PotentialTheory.HessCIsHermitian
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
 public import Mathlib.Analysis.Calculus.ContDiff.Defs
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -40,24 +41,7 @@ theorem hessC_eq_zero_of_re_bilin (φ : (Fin D → ℂ) → ℝ) (z : Fin D → 
 theorem hessC_add' (φ ψ : (Fin D → ℂ) → ℝ) (z : Fin D → ℂ) (hφ : ContDiffAt ℝ 2 φ z)
     (hψ : ContDiffAt ℝ 2 ψ z) :
     hessC (fun w => φ w + ψ w) z = hessC φ z + hessC ψ z := by
-  have hφ' : ∀ᶠ w in 𝓝 z, DifferentiableAt ℝ φ w :=
-    (hφ.eventually (by simp)).mono fun w hw => hw.differentiableAt (by simp)
-  have hψ' : ∀ᶠ w in 𝓝 z, DifferentiableAt ℝ ψ w :=
-    (hψ.eventually (by simp)).mono fun w hw => hw.differentiableAt (by simp)
-  have hE : fderiv ℝ (fun w => φ w + ψ w) =ᶠ[𝓝 z] fun w => fderiv ℝ φ w + fderiv ℝ ψ w :=
-    (hφ'.and hψ').mono fun w hw => fderiv_add hw.1 hw.2
-  have hdφ : DifferentiableAt ℝ (fderiv ℝ φ) z :=
-    (hφ.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)
-  have hdψ : DifferentiableAt ℝ (fderiv ℝ ψ) z :=
-    (hψ.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)
-  have h2 : fderiv ℝ (fderiv ℝ (fun w => φ w + ψ w)) z =
-      fderiv ℝ (fderiv ℝ φ) z + fderiv ℝ (fderiv ℝ ψ) z := by
-    rw [hE.fderiv_eq]
-    exact fderiv_add hdφ hdψ
-  ext i j
-  simp only [hessC, h2, ContinuousLinearMap.add_apply, Matrix.add_apply]
-  push_cast
-  ring
+  apply ReciprocityTheory.AnForm.M.hessC_add' <;> assumption
 
 private lemma fderiv_re_apply_lemma (g : (Fin D → ℂ) → ℂ) (z : Fin D → ℂ)
     (hg : DifferentiableAt ℂ g z) (v : Fin D → ℂ) :

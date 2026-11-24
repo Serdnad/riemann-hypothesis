@@ -677,19 +677,7 @@ private lemma intCast_five_zmod_two_pow_eq_one_iff (n : ℕ) : ((5:ℤ) : ZMod (
   constructor <;> intro h' <;> simpa using h'
 
 lemma ord5 (m : ℕ) : orderOf (u5 (m + 2)) = 2 ^ m := by
-  have h := twoAdicOrder (m + 2) 5 ⟨2, by norm_num⟩ (by norm_num)
-  rw [pv24] at h
-  rw [← orderOf_units, five_unit_coe_int, h]
-  rcases m with _ | k
-  · rw [if_pos ((intCast_five_zmod_two_pow_eq_one_iff (0 + 2)).2 ⟨1, by norm_num⟩)]
-    rfl
-  · rw [if_neg]
-    · congr 1
-    · intro h1
-      have h2 := (intCast_five_zmod_two_pow_eq_one_iff (k + 1 + 2)).1 h1
-      have h8 : (8:ℤ) ∣ 2 ^ (k + 1 + 2) := ⟨2 ^ k, by ring⟩
-      have h3 := h8.trans h2
-      omega
+  apply _root_.Formalism.TwoAdicCyclotomicDecomposition.AdmissibleUnits.orderOf_five_units_two_pow <;> assumption
 
 lemma unitsMap_five {a b : ℕ} (h : 2 ^ b ∣ 2 ^ a) : ZMod.unitsMap h (u5 a) = u5 b := by
   ext

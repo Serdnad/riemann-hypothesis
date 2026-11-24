@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.HermitianFramePairCoordinatesTransportInnerData
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.GgNone
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SpanToLePerp
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.SpanToZero
@@ -221,64 +222,8 @@ theorem _root_.GlobalTheory.HL.CoordMass.transport :
     rw [hcl]
     rfl
   have hS : ∀ x y, S.h x y = _root_.GlobalTheory.HL.hf M.L S.Hm x y := fun _ _ ↦ rfl
-  have hH0 : ∀ g, c.grp g ∈ S.H0 ↔
-      ((∀ x y, H.h (g x) (g y) = H.h x y) ∧
-        ∀ b, g (P.A.f b) = P.A.f b ∧ g (P.B.f b) = P.B.f b) := by
-    intro g
-    have hfix : (∀ v ∈ S.ME, c.grp g v = v) ↔
-        ∀ b, g (P.A.f b) = P.A.f b ∧ g (P.B.f b) = P.B.f b := by
-      constructor
-      · intro h b
-        have hf : S.f b ∈ S.ME := Submodule.mem_sup_left
-          (_root_.GlobalTheory.HL.FrameOnto.mem_spanTo S S.f (i := b) b.isLt)
-        have hf' : S.f' b ∈ S.ME := Submodule.mem_sup_right
-          (_root_.GlobalTheory.HL.FrameOnto.mem_spanTo S S.f' (i := b) b.isLt)
-        have h1 := h _ hf
-        have h2 := h _ hf'
-        rw [c.f_eq, hconj] at h1
-        rw [c.f'_eq, hconj] at h2
-        exact ⟨c.e.injective h1, c.e.injective h2⟩
-      · intro h v hv
-        have hle : S.ME ≤ LinearMap.eqLocus
-            ((c.grp g : S.V ≃ₗ[E] S.V) : S.V →ₗ[E] S.V)
-            LinearMap.id := by
-          unfold _root_.GlobalTheory.HL.Frames.ME _root_.GlobalTheory.HL.Frames.spanTo
-          refine sup_le (Submodule.span_le.2 ?_) (Submodule.span_le.2 ?_)
-          · rintro _ ⟨b, -, rfl⟩
-            change c.grp g (S.f b) = S.f b
-            rw [c.f_eq, hconj, (h b).1]
-          · rintro _ ⟨b, -, rfl⟩
-            change c.grp g (S.f' b) = S.f' b
-            rw [c.f'_eq, hconj, (h b).2]
-        exact hle hv
-    unfold _root_.GlobalTheory.HL.Frames.H0
-    rw [Subgroup.mem_inf, ← hfix]
-    unfold _root_.GlobalTheory.HL.isomG _root_.GlobalTheory.HL.unipOn
-    simp only [Subgroup.mem_mk, Submodule.mem_bot, sub_eq_zero]
-    constructor
-    · rintro ⟨hiso, -, hfx⟩
-      refine ⟨fun x y ↦ ?_, hfx⟩
-      rw [← c.h_eq, ← hconj, ← hconj, hS, hiso, ← hS, c.h_eq]
-    · rintro ⟨hiso, hfx⟩
-      refine ⟨fun x y ↦ ?_, fun v ↦ ⟨fun hv ↦ ?_, fun hv ↦ ?_⟩, hfx⟩
-      · obtain ⟨x, rfl⟩ := c.e.surjective x
-        obtain ⟨y, rfl⟩ := c.e.surjective y
-        rw [← hS, ← hS, hconj, hconj, c.h_eq, c.h_eq, hiso]
-      · have := hfx _ hv
-        rw [(c.grp g).injective this] at hv
-        exact hv
-      · rw [hfx v hv]
-        exact hv
-  have hUW0 : ∀ g, g ∈ P.UW0 ↔ c.grp g ∈ S.H0 := by
-    intro g
-    have hcl : P.UW0 = S.H0.comap c.grp.toMonoidHom := by
-      unfold _root_.Formalism.MainNotions.S.LocNG.FPair.UW0
-      refine le_antisymm ((Subgroup.closure_le _).2 fun g hg ↦ ?_)
-        (fun g hg ↦ Subgroup.subset_closure ?_)
-      · exact (hH0 g).2 hg
-      · exact (hH0 g).1 hg
-    rw [hcl]
-    rfl
+  have hUW0 : ∀ g, g ∈ P.UW0 ↔ c.grp g ∈ S.H0 :=
+    _root_.GlobalTheory.HL.CoordDatum.mem_UW0_iff_grp_mem_H0 c
   have hK0 : ∀ g, g ∈ P.K0 ↔ c.grp g ∈ S.K0 := by
     have hX : ∀ g, (g ∈ P.St ∧ ∀ (a : Fin r) (b : Fin (r + 1)),
         H.h (g (P.A.f b)) (P.A.es a) ∈ M.L.O ∧ H.h (g (P.B.f b)) (P.B.es a) ∈ M.L.O) ↔

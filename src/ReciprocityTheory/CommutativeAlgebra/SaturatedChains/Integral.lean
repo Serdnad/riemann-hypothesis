@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.ArithmeticGeometry.ToricVarieties.Dimension
 public import Mathlib.RingTheory.IntegralClosure.Algebra.Defs
 public import Mathlib.RingTheory.KrullDimension.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -100,21 +101,7 @@ theorem exists_ltSeries_lift_of_isIntegral {A B : Type*} [CommRing A] [CommRing 
 theorem ringKrullDim_eq_of_isIntegral_of_injective {A B : Type*} [CommRing A] [CommRing B]
     [Algebra A B] [Algebra.IsIntegral A B] (hinj : Function.Injective (algebraMap A B)) :
     ringKrullDim B = ringKrullDim A := by
-  have hmono : StrictMono (fun q : PrimeSpectrum B =>
-      (⟨q.asIdeal.comap (algebraMap A B), inferInstance⟩ : PrimeSpectrum A)) := by
-    intro q q' hqq'
-    rw [← PrimeSpectrum.asIdeal_lt_asIdeal] at hqq' ⊢
-    obtain ⟨x, hx, hx'⟩ := SetLike.exists_of_lt hqq'
-    exact Ideal.comap_lt_comap_of_integral_mem_sdiff (le_of_lt hqq') ⟨hx, hx'⟩
-      (Algebra.IsIntegral.isIntegral x)
-  apply le_antisymm
-  · first
-    | exact Order.krullDim_le_of_strictMono _ hmono
-  · apply iSup_le
-    intro l
-    obtain ⟨l', hlen, -⟩ := exists_ltSeries_lift_of_isIntegral hinj l
-    rw [← hlen]
-    exact le_iSup (fun p : LTSeries (PrimeSpectrum B) => (p.length : WithBot ℕ∞)) l'
+  apply GroundTheory.Arith.Toric.ringKrullDim_eq_of_isIntegral <;> assumption
 
 theorem ringKrullDim_quotient_eq_quotient_comap_of_isIntegral {A B : Type*} [CommRing A]
     [CommRing B] [Algebra A B] [Algebra.IsIntegral A B] (I : Ideal B) :

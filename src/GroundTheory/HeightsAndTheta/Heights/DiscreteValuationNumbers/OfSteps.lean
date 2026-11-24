@@ -87,17 +87,7 @@ variable {O : Type*} [CommRing O] [IsDomain O] [IsDiscreteValuationRing O]
 
 theorem vNum_vecCons_zero (W : Ideal (MRing ι O)) {d : ℕ} (L : Fin d → K → ℤ) :
     vNum W (Matrix.vecCons (0 : K → ℤ) L) = 0 := by
-  unfold vNum intNum
-  have hm : mixedDiff (Matrix.vecCons (0 : K → ℤ) L) (hilbFn (specialIdeal W)) = fun _ => 0 := by
-    funext m
-    simp [mixedDiff, List.ofFn_succ, diffStep]
-  rw [hm]
-  unfold eventualValue
-  have hex : ∃ c, ∀ᶠ m in Filter.atTop, (fun _ : K → ℤ => (0 : ℤ)) m = c :=
-    ⟨0, Filter.Eventually.of_forall fun _ => rfl⟩
-  rw [dite_eq_left hex]
-  obtain ⟨m, hm'⟩ := hex.choose_spec.exists
-  exact hm'.symm
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.vNum_cons_zero <;> assumption
 
 end VNum
 
@@ -371,15 +361,8 @@ universe u
 private lemma mixedDiff_eventually_zero {K : Type*} (h : (K → ℤ) → ℤ)
     (hh : ∀ᶠ m in Filter.atTop, h m = 0) {n : ℕ} (bs : Fin n → K → ℤ) :
     ∀ᶠ m in Filter.atTop, mixedDiff bs h m = 0 := by
-  unfold mixedDiff
-  induction (List.ofFn bs) with
-  | nil => simpa using hh
-  | cons b l ih =>
-    have hs : Filter.Tendsto (fun m : K → ℤ => m - b) Filter.atTop Filter.atTop := by
-      simpa [sub_eq_add_neg] using
-        Filter.tendsto_atTop_add_const_right Filter.atTop (-b) Filter.tendsto_id
-    filter_upwards [ih, hs.eventually ih] with m h1 h2
-    simp [List.foldr, diffStep, h1, h2]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.mixedDiff_eventually_zero <;> assumption
 
 private lemma eventualValue_of_eventually_zero {K : Type*} (f : (K → ℤ) → ℤ)
     (hf : ∀ᶠ m in Filter.atTop, f m = 0) : eventualValue f = 0 := by

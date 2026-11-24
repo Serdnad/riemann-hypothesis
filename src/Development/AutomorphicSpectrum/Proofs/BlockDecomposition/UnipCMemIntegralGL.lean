@@ -46,6 +46,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import GroundTheory.IdeleRoots.TorusPowers.SatakeBoundReps
 
 @[expose] public section
 
@@ -121,16 +122,7 @@ theorem finsum_cosets {W : Type} [AddCommGroup W] [Module ℂ W] (Φ : GL (Fin n
 
 theorem unipC_mem_integralGL (S : Finset (Fin n)) (c : Pairs S → 𝓀[F]) :
     unipC S c ∈ integralGL F n := by
-  refine ((mem_unipotent_inf_integralGL_iff F n).2 ⟨unipC_mem_unipotent S c, ?_⟩).2
-  intro i j
-  rw [coe_unipC, Matrix.add_apply]
-  refine add_mem ?_ (cMat_mem c i j)
-  by_cases h : i = j
-  · subst h
-    rw [Matrix.one_apply_eq]
-    exact one_mem _
-  · rw [Matrix.one_apply_ne h]
-    exact zero_mem _
+  apply _root_.GroundTheory.BlockD.SatakeBound.unipC_mem_integralGL <;> assumption
 
 def revCompl (S : Finset (Fin n)) : Finset (Fin n) :=
   Finset.univ.filter fun i => Fin.rev i ∉ S

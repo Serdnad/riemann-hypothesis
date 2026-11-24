@@ -265,16 +265,7 @@ theorem tens_ind {I J : Cx R} (V : Scheme.{0}) (w : ℤ) (P : Tens I J V w → P
       P (DirectSum.lof (ULift.{1} R) _ (fun p : {p : ℤ × ℤ // p.1 + p.2 = w} =>
         (Sec (I.X p.1.1) V ⊗[ULift.{1} R] Sec (J.X p.1.2) V)) p (a ⊗ₜ b)))
     (x : Tens I J V w) : P x := by
-  classical
-  induction x using DirectSum.induction_on with
-  | zero => exact h0
-  | of p t =>
-    rw [← DirectSum.lof_eq_of (ULift.{1} R)]
-    induction t using TensorProduct.induction_on with
-    | zero => simpa using h0
-    | tmul a b => exact hm p a b
-    | add a b ha hb => rw [map_add (f := _)]; exact hadd _ _ ha hb
-  | add a b ha hb => exact hadd _ _ ha hb
+  apply _root_.LateralTheory.EtaleFoundations.TwSide.tens_ind <;> assumption
 
 theorem res_lof {I J : Cx R} {V U : Scheme.{0}} (g : V ⟶ U) (w : ℤ) (p : {p : ℤ × ℤ // p.1 + p.2 = w})
     (a : Sec (I.X p.1.1) U) (b : Sec (J.X p.1.2) U) :

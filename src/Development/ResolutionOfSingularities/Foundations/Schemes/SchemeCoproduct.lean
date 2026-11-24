@@ -93,58 +93,24 @@ theorem sigmaι_base_ne {i j : ι} (hij : i ≠ j) (x : ↥(X i)) (y : ↥(X j))
   intro h
   exact hij (congrArg Sigma.fst ((sigmaι_eq_iff X i j x y).mp h))
 
-private noncomputable def iSupOpensRangeSigmaι {κ : Type u} (Y : κ → Scheme.{u}) [HasCoproduct Y] : (∐ Y).Opens :=
-  ⟨⋃ i, Set.range ⇑(Sigma.ι Y i).base,
-    isOpen_iUnion fun i => (Sigma.ι Y i).isOpenEmbedding.isOpen_range⟩
-
-private theorem range_sigmaι_subset_iUnion {κ : Type u} (Y : κ → Scheme.{u}) [HasCoproduct Y]
-    (i : κ) : Set.range ⇑(Sigma.ι Y i).base ⊆ Set.range ⇑(iSupOpensRangeSigmaι Y).ι.base := by
-  rw [Scheme.Opens.range_ι]
-  intro z hz
-  show z ∈ ⋃ i, Set.range ⇑(Sigma.ι Y i).base
-  exact Set.mem_iUnion.mpr ⟨i, hz⟩
-
-private theorem surjective_base_of_comp_eq_id {A B : Scheme.{u}} (g : A ⟶ B) (h : B ⟶ A)
-    (hgh : g ≫ h = 𝟙 A) : Function.Surjective ⇑h.base := by
-  intro x
-  refine ⟨g.base x, ?_⟩
-  have h1 := congrArg (fun m : A ⟶ A => m.base x) hgh
-  simpa using h1
-
-private theorem exists_sigmaι_base_eq {κ : Type u} (Y : κ → Scheme.{u}) [HasCoproduct Y]
-    (x : ↥(∐ Y)) : ∃ (i : κ) (y : ↥(Y i)), (Sigma.ι Y i).base y = x := by
-  have hid : (Sigma.desc fun i =>
-      IsOpenImmersion.lift (iSupOpensRangeSigmaι Y).ι (Sigma.ι Y i) (range_sigmaι_subset_iUnion Y i)) ≫
-        (iSupOpensRangeSigmaι Y).ι = 𝟙 (∐ Y) := by
-    apply Sigma.hom_ext
-    intro i
-    have hfac := IsOpenImmersion.lift_fac (iSupOpensRangeSigmaι Y).ι (Sigma.ι Y i)
-      (range_sigmaι_subset_iUnion Y i)
-    simp [hfac]
-  obtain ⟨w, hw⟩ := surjective_base_of_comp_eq_id _ _ hid x
-  have hmem : x ∈ Set.range ⇑(iSupOpensRangeSigmaι Y).ι.base := ⟨w, hw⟩
-  rw [Scheme.Opens.range_ι] at hmem
-  have hmem2 : x ∈ ⋃ i, Set.range ⇑(Sigma.ι Y i).base := hmem
-  obtain ⟨i, y, hy⟩ := Set.mem_iUnion.mp hmem2
-  exact ⟨i, y, hy⟩
-
 theorem isClosed_range_sigmaι (j : ι) : IsClosed (Set.range ⇑(Sigma.ι X j).base) := by
-  rw [← isOpen_compl_iff, isOpen_iff_forall_mem_open]
-  intro x hx
-  rw [Set.mem_compl_iff] at hx
-  obtain ⟨i, y, rfl⟩ := exists_sigmaι_base_eq X x
-  have hij : i ≠ j := by
-    intro h
-    subst h
-    exact hx ⟨y, rfl⟩
-  refine ⟨Set.range ⇑(Sigma.ι X i).base, ?_,
-    (Sigma.ι X i).isOpenEmbedding.isOpen_range, Set.mem_range_self y⟩
-  intro u hu
-  obtain ⟨z, rfl⟩ := hu
-  rw [Set.mem_compl_iff]
-  intro hmem
-  obtain ⟨w, hw⟩ := hmem
-  exact sigmaι_base_ne X hij z w hw.symm
+  have hcompl : (Set.range ⇑(Sigma.ι X j).base)ᶜ =
+      ⋃ i : { i : ι // i ≠ j }, Set.range ⇑(Sigma.ι X i.val).base := by
+    ext x
+    simp only [Set.mem_compl_iff, Set.mem_iUnion]
+    constructor
+    · intro hx
+      obtain ⟨⟨i, y⟩, hxy⟩ := (sigmaMk X).surjective x
+      rw [sigmaMk_mk] at hxy
+      subst x
+      have hi : i ≠ j := fun h => by
+        subst i
+        exact hx (Set.mem_range_self y)
+      exact ⟨⟨i, hi⟩, Set.mem_range_self y⟩
+    · rintro ⟨i, y, rfl⟩ ⟨z, hz⟩
+      exact sigmaι_base_ne X i.property y z hz.symm
+  rw [← isOpen_compl_iff, hcompl]
+  exact isOpen_iUnion fun i => (Sigma.ι X i.val).isOpenEmbedding.isOpen_range
 
 private theorem isClosedEmbedding_sigmaι_base {κ : Type u} (Y : κ → Scheme.{u})
     [HasCoproduct Y] (j : κ) (hc : IsClosed (Set.range ⇑(Sigma.ι Y j).base)) :

@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.TateTwists.EtaleLocalPropertyBasicClosureProperties
 public import Development.EtaleCohomology.TateTwists.EtaleTateTwistGeneratorMapIsIsoOfInjSurj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -85,11 +86,7 @@ theorem loc_and' {U : Scheme.{0}} {P Q : ∀ V : Scheme.{0}, (V ⟶ U) → Prop}
 
 theorem loc_bind' {U : Scheme.{0}} {P : ∀ V : Scheme.{0}, (V ⟶ U) → Prop}
     (h : Loc U fun V g => Loc V fun W k => P W (k ≫ g)) : Loc U P := by
-  obtain ⟨S, hS, h'⟩ := h
-  choose T hT hP using h'
-  refine ⟨Sieve.bind S.arrows fun V g hg => T V g hg, Scheme.etaleTopology.bind_covering hS hT, ?_⟩
-  rintro W f ⟨V, k, g, hg, hk, rfl⟩
-  exact hP V g hg W k hk
+  apply @LateralTheory.EtaleFoundations.LocBasicPf.loc_trans <;> assumption
 
 theorem loc_fin {U : Scheme.{0}} : ∀ (n : ℕ) (P : Fin n → ∀ V : Scheme.{0}, (V ⟶ U) → Prop),
     (∀ m, Loc U (P m)) → Loc U fun V g => ∀ m, P m V g

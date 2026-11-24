@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.FrameOfAdmissibleWord
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CommuteLevelZeroElement
 public import Formalism.HermitianCurvature.StatementFr
 public import Mathlib.CategoryTheory.Category.Basic
@@ -204,23 +205,10 @@ lemma d_star (hL : IsStarLevel L) (hf : IsFrame L f) : star (f.d L) = f.d L := b
   rw [star_mul, star_pow, wt_star hL, hf.c_star, ((c_wt hf).pow_right _).eq]
 
 lemma wti_wt : (wti L : SlopeTestRemainingChoices S A) * wt L = 1 := by
-  have e : L.GG * L.ζi * L.ζbi * (L.ζ * L.ζb * L.GGi) = 1 := by
-    calc L.GG * L.ζi * L.ζbi * (L.ζ * L.ζb * L.GGi)
-        = L.GG * L.ζi * (L.ζbi * L.ζ) * L.ζb * L.GGi := by simp only [mul_assoc]
-      _ = L.GG * L.ζi * (L.ζ * L.ζbi) * L.ζb * L.GGi := by rw [(zc L (mζbi L) (mζ L)).eq]
-      _ = L.GG * (L.ζi * L.ζ) * (L.ζbi * L.ζb) * L.GGi := by simp only [mul_assoc]
-      _ = 1 := by rw [L.ζi_ζ, L.ζbi_ζb, mul_one, mul_one, L.GG_GGi]
-  unfold wti wt
-  rw [← io_mul, e, io_one]
+  apply _root_.Formalism.FourierDecayAlt.P.Fr8.wti_wt <;> assumption
 
 lemma di_d (hf : IsFrame L f) : f.di L * f.d L = 1 := by
-  have p : ∀ n : ℕ, (wti L : SlopeTestRemainingChoices S A) ^ n * wt L ^ n = 1 := by
-    intro n
-    induction n with
-    | zero => simp
-    | succ n ih => rw [pow_succ, pow_succ', mul_assoc, ← mul_assoc (wti L), wti_wt, one_mul, ih]
-  unfold FrameData.di FrameData.d
-  rw [mul_assoc, ← mul_assoc (wti L ^ f.N), p, one_mul, hf.c_ci.2]
+  apply _root_.Formalism.FourierDecayAlt.P.Fr8.di_d <;> assumption
 
 omit [StarRing A] [StarModule ℂ A] [Algebra ℂ A] [Fintype S] [DecidableEq S] in
 lemma cancel2 {B : Type} [Ring B] {P Pi Q Qi X Y : B} (h1 : Pi * P = 1) (h2 : Q * Qi = 1)

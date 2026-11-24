@@ -317,19 +317,11 @@ private theorem ke_ext {n : ℕ} (s t : Multiset ℂ) (hs : s.card = n) (ht : t.
 
 private theorem ke_perm {n : ℕ} (x y : Fin n → ℂ) (h : Finset.univ.val.map x = Finset.univ.val.map y) :
     ∃ w : Equiv.Perm (Fin n), y = x ∘ w := by
-  refine (perm_of_esymm n x y).1 fun i => ?_
-  have e : ∀ z : Fin n → ℂ, eval z (esymm (Fin n) ℂ (i + 1)) = (Finset.univ.val.map z).esymm (i + 1) := fun z =>
-    MvPolynomial.aeval_esymm_eq_multiset_esymm (Fin n) ℂ (i + 1) z
-  rw [e, e, h]
+  apply _root_.UpperTheory.ConvolutionTheory.FX.perm_of_multiset <;> assumption
 
 private theorem ke_evK_ren {ι κ : Type} [Fintype ι] [DecidableEq ι] (δ : ι → ι) (Λ : ι → ℂ) (h : κ → ℂ)
     (G : KF ι κ) : evK Λ h (map (ren δ) G) = evK (Λ ∘ δ) h G := by
-  have : (ev Λ).comp (ren δ) = ev (Λ ∘ δ) := RingHom.ext fun f => by
-    rw [RingHom.comp_apply, ren, (subst ι ι _ _ f).1]
-    congr 2
-    funext i
-    simp [apply_ite]
-  rw [evK, evK, coe_eval₂Hom, coe_eval₂Hom, eval₂_map, this]
+  apply _root_.UpperTheory.ConvolutionTheory.FX.kill_evK_ren <;> assumption
 
 private theorem ke_enum {n r : ℕ} (d : Fin r → ℕ) (hd : ∀ i, 0 < d i) (hs : ∑ i, d i = n) :
     ∃ blk : Fin n → Fin r, Function.Surjective blk ∧ ∀ M : Fin r → Multiset ℂ, (∀ i, (M i).card = d i) →

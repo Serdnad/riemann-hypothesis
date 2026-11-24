@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.DerivedActionDiscreteSeriesPropertiesStatement
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.AnaHpartUnique
 public import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.IsDSOfIsDG
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -175,8 +176,8 @@ theorem dsigW_deriv_eq {R : Rep k r} (hD : DerFacts R) (W : List (Mx k r)) (hW :
     simp only [hw' _ (hc _)] at h1
     rw [inner_sub_right, h1.unique h2, hw' _ hc', sub_self]
 
-theorem dsigW_orbit {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
-    (hR : R.IsDG ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
+theorem dsigW_orbit_of_isDS {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
+    (hR : R.IsDS ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
     (hW : ∀ X ∈ W, InLieHpk k r X)
     (hs : SmoothOnH (Hpk k r) (fun g => dsigW (k := k) (r := r) R.σ W (R.σ g v)))
     (Y : Mx k r) (hY : InLieHpk k r Y) :
@@ -198,8 +199,20 @@ theorem dsigW_orbit {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1
   simp only [e] at hDer
   exact dsigW_deriv_eq hD W hW (fun t => hsm _ hgv _ (hexp t)) ((hD Y hY).1 _ hgv).1 ((hD Y hY).1 _ hgv).2 hDer
 
-theorem dsigW_orbit_smooth {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
+theorem dsigW_orbit {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
     (hR : R.IsDG ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
+    (hW : ∀ X ∈ W, InLieHpk k r X)
+    (hs : SmoothOnH (Hpk k r) (fun g => dsigW (k := k) (r := r) R.σ W (R.σ g v)))
+    (Y : Mx k r) (hY : InLieHpk k r Y) :
+    SmoothOnH (Hpk k r)
+        (fun g => dsigW (k := k) (r := r) R.σ W (dsig (k := k) (r := r) R.σ Y (R.σ g v))) ∧
+      ∀ g, inUH (Hpk k r) g → HasDerivAt
+        (fun t : ℝ => dsigW (k := k) (r := r) R.σ W (R.σ (NormedSpace.exp ((t : ℂ) • Y) * g) v))
+        (dsigW (k := k) (r := r) R.σ W (dsig (k := k) (r := r) R.σ Y (R.σ g v))) 0 := by
+  exact dsigW_orbit_of_isDS (_root_.GlobalTheory.isDS_of_isDG hR) hD hv W hW hs Y hY
+
+theorem dsigW_orbit_smooth_of_isDS {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
+    (hR : R.IsDS ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
     (hW : ∀ X ∈ W, InLieHpk k r X) :
     SmoothOnH (Hpk k r) (fun g => dsigW (k := k) (r := r) R.σ W (R.σ g v)) := by
   induction W using List.reverseRecOn with
@@ -207,7 +220,13 @@ theorem dsigW_orbit_smooth {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r 
   | append_singleton W Y ih =>
     have hW' : ∀ X ∈ W, InLieHpk k r X := fun X hX => hW X (by simp [hX])
     simp only [dsigW_append]
-    exact (dsigW_orbit hR hD hv W hW' (ih hW') Y (hW Y (by simp))).1
+    exact (dsigW_orbit_of_isDS hR hD hv W hW' (ih hW') Y (hW Y (by simp))).1
+
+theorem dsigW_orbit_smooth {ε : Fin (2 * r + k + 1) → Bool} {mu : Fin (2 * r + k + 1) → ℝ} {R : Rep k r}
+    (hR : R.IsDG ε mu) (hD : DerFacts R) {v : R.H} (hv : v ∈ R.sm) (W : List (Mx k r))
+    (hW : ∀ X ∈ W, InLieHpk k r X) :
+    SmoothOnH (Hpk k r) (fun g => dsigW (k := k) (r := r) R.σ W (R.σ g v)) := by
+  exact dsigW_orbit_smooth_of_isDS (_root_.GlobalTheory.isDS_of_isDG hR) hD hv W hW
 
 theorem cw_tendsto {R : Rep k r} {V : Type} [NormedAddCommGroup V] {Bm : R.H → V}
     (hB : PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm) {α : Type} {l : Filter α} {u : α → R.H}
@@ -244,10 +263,10 @@ namespace GlobalTheory
 
 open Filter Topology CWDeriv
 
-theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℂ V] (Bm : R.H → V), (∀ v ∈ R.sm, ∀ w ∈ R.sm, Bm (v + w) = Bm v + Bm w) → (∀ (a : ℂ), ∀ v ∈ R.sm, Bm (a • v) = a • Bm v) → PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm → ∀ v ∈ R.sm, ContinuousOn (fun g => Bm (R.σ g v)) (GG k r) ∧ ∀ X, PI.UpqRep.InLieHpk k r X → HasDerivAt (fun t : ℝ => Bm (R.σ (NormedSpace.exp ((t : ℂ) • X)) v)) (Bm (PI.UpqRep.dsig (k := k) (r := r) R.σ X v)) 0 := by
+theorem cwCont_continuousOn_hasDerivAt_of_isDS : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDS ε mu → ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℂ V] (Bm : R.H → V), (∀ v ∈ R.sm, ∀ w ∈ R.sm, Bm (v + w) = Bm v + Bm w) → (∀ (a : ℂ), ∀ v ∈ R.sm, Bm (a • v) = a • Bm v) → PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm → ∀ v ∈ R.sm, ContinuousOn (fun g => Bm (R.σ g v)) (GG k r) ∧ ∀ X, PI.UpqRep.InLieHpk k r X → HasDerivAt (fun t : ℝ => Bm (R.σ (NormedSpace.exp ((t : ℂ) • X)) v)) (Bm (PI.UpqRep.dsig (k := k) (r := r) R.σ X v)) 0 := by
   intro hK k r ε mu R hR V _ _ Bm ha hs hB v hv
   have hD : DerFacts R := fun X hX =>
-    ⟨(_root_.Gp91.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).1, (_root_.Gp91.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).2.2.2.2⟩
+    ⟨(_root_.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).1, (_root_.GlobalTheory.DerivedAction.derived_action hK k r ε mu R hR X hX).2.2.2.2⟩
   have hsm := PI.UnitaryGroupMassFormula.CapelliEig.smooth_right_action k r ε mu R.H R.σ hR.2 v hv
   have h0 : (0 : R.H) ∈ R.sm := R.smSub.zero_mem
   have hB0 : Bm 0 = 0 := by simpa using hs 0 0 h0
@@ -259,7 +278,7 @@ theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε :
         exact sm_comb 1 (hsm x hx) (hsm g hg) h0)
       (by
         intro W hW
-        have h2 := (smoothOnH_continuousOn (dsigW_orbit_smooth hR hD hv W hW) g hg).tendsto
+        have h2 := (smoothOnH_continuousOn (dsigW_orbit_smooth_of_isDS hR hD hv W hW) g hg).tendsto
         have hW0 : PI.UpqRep.dsigW (k := k) (r := r) R.σ W 0 = 0 := by
           have h := dsigW_comb hD W hW 0 h0 h0 h0
           simp only [zero_smul, zero_sub, neg_zero] at h
@@ -282,7 +301,7 @@ theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε :
       (Eventually.of_forall fun t => sm_comb _ (hexp t) (hexp 0) hd)
       (by
         intro W hW
-        have h2 := (dsigW_orbit hR hD hv W hW (dsigW_orbit_smooth hR hD hv W hW) X hX).2 1
+        have h2 := (dsigW_orbit_of_isDS hR hD hv W hW (dsigW_orbit_smooth_of_isDS hR hD hv W hW) X hX).2 1
           (by simp [PI.UpqRep.inUH])
         simp only [Matrix.mul_one] at h2
         have h3 := dsigW_deriv_eq hD W hW hexp hd ((hD X hX).1 v hv).2 h2
@@ -294,6 +313,10 @@ theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε :
     refine h1.congr fun t => ?_
     rw [lin_comb ha hs _ (hexp t) (hexp 0) hd, Complex.coe_smul]
     rfl
+
+theorem cwCont_continuousOn_hasDerivAt : PI.KFinSmooth → ∀ (k r : ℕ) (ε : Fin (2 * r + k + 1) → Bool) (mu : Fin (2 * r + k + 1) → ℝ) (R : Rep k r), R.IsDG ε mu → ∀ (V : Type) [NormedAddCommGroup V] [NormedSpace ℂ V] (Bm : R.H → V), (∀ v ∈ R.sm, ∀ w ∈ R.sm, Bm (v + w) = Bm v + Bm w) → (∀ (a : ℂ), ∀ v ∈ R.sm, Bm (a • v) = a • Bm v) → PI.BesselMapUniq.IsCWCont (k := k) (r := r) R.σ Bm → ∀ v ∈ R.sm, ContinuousOn (fun g => Bm (R.σ g v)) (GG k r) ∧ ∀ X, PI.UpqRep.InLieHpk k r X → HasDerivAt (fun t : ℝ => Bm (R.σ (NormedSpace.exp ((t : ℂ) • X)) v)) (Bm (PI.UpqRep.dsig (k := k) (r := r) R.σ X v)) 0 := by
+  intro hK k r ε mu R hR
+  exact cwCont_continuousOn_hasDerivAt_of_isDS hK k r ε mu R (_root_.GlobalTheory.isDS_of_isDG hR)
 
 end GlobalTheory
 

@@ -120,13 +120,7 @@ variable [FiniteDimensional F E]
 theorem trace_one_tmul (e : E) :
     Algebra.trace (Fv F v) (Fv F v ⊗[F] E) ((1 : Fv F v) ⊗ₜ[F] e) =
       algebraMap F (Fv F v) (Algebra.trace F E e) := by
-  rw [Algebra.trace_apply, Algebra.trace_apply, ← LinearMap.trace_baseChange]
-  congr 1
-  refine LinearMap.ext fun x => ?_
-  induction x using TensorProduct.induction_on with
-  | zero => simp
-  | tmul k y => simp [Algebra.TensorProduct.tmul_mul_tmul]
-  | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
+  apply _root_.PI.VolStabSW.SdDualW.trace_one_tmul <;> assumption
 
 
 include b in
@@ -304,22 +298,7 @@ theorem smul_mem_latS (σ : E →ₐ[F] E) {s : Fv F v} (hs : s ∈ v.adicComple
 theorem trace_sigR (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) (w : Fv F v ⊗[F] E) :
     Algebra.trace (Fv F v) (Fv F v ⊗[F] E) (sigR (Fv F v) σ w) =
       Algebra.trace (Fv F v) (Fv F v ⊗[F] E) w := by
-  let B := Algebra.TensorProduct.basis (Fv F v) (Module.finBasis F E)
-  have hB : ∀ k, B k = (1 : Fv F v) ⊗ₜ[F] (Module.finBasis F E) k := fun k =>
-    Algebra.TensorProduct.basis_apply _ _
-  let eσ : E ≃ₐ[F] E := AlgEquiv.ofBijective σ
-    ⟨σ.toRingHom.injective, fun x => ⟨σ x, hσ x⟩⟩
-  have htr : ∀ e : E, Algebra.trace F E (σ e) = Algebra.trace F E e := fun e =>
-    Algebra.trace_eq_of_algEquiv eσ e
-  conv_lhs => rw [← B.sum_repr w]
-  conv_rhs => rw [← B.sum_repr w]
-
-  rw [map_sum, map_sum, map_sum]
-  refine Finset.sum_congr rfl fun k _ => ?_
-  rw [sigR_smul, map_smul, map_smul, hB]
-  have : sigR (Fv F v) σ ((1 : Fv F v) ⊗ₜ[F] (Module.finBasis F E) k) =
-      (1 : Fv F v) ⊗ₜ[F] σ ((Module.finBasis F E) k) := by simp [sigR]
-  rw [this, trace_one_tmul, trace_one_tmul, htr]
+  apply _root_.PI.VolStabSW.SdDualW.trace_sigR <;> assumption
 
 def latH (σ : E →ₐ[F] E) (a : ℕ) : AddSubgroup (HermR (Fv F v) σ a) where
   carrier := {S | ∀ p q, (S : Matrix (Fin a) (Fin a) (Fv F v ⊗[F] E)) p q ∈ latS v b σ}

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.ScalarTuples.ClassG
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GlobalUnitaryForms.HodgeTateFromSandwich
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -146,16 +147,7 @@ private theorem fix_sigL [CharZero K] {w : EL Δ τ} (h : sigL w = w) : ∃ u, w
   · linear_combination (-1 / 2 : K) * h2
 
 private theorem trace_nondeg (hτ : τ ^ 2 - 4 ≠ 0) {w : EL Δ τ} (h : ∀ x, QuadraticAlgebra.trace (w * x) = 0) : w = 0 := by
-  have h1 := h 1
-  have h2 := h ω
-  simp [QuadraticAlgebra.trace_def] at h1 h2
-  have hu : IsUnit (algebraMap K (Lsq K Δ) (τ ^ 2 - 4)) := (IsUnit.mk0 _ hτ).map _
-  rw [map_sub, map_pow, map_ofNat] at hu
-  refine QuadraticAlgebra.ext ?_ ?_
-  · refine hu.mul_right_eq_zero.1 ?_
-    linear_combination ((algebraMap K (Lsq K Δ) τ) ^ 2 - 2) * h1 - (algebraMap K (Lsq K Δ) τ) * h2
-  · refine hu.mul_right_eq_zero.1 ?_
-    linear_combination 2 * h2 - (algebraMap K (Lsq K Δ) τ) * h1
+  apply _root_.eq_zero_of_trace <;> assumption
 
 private theorem semi_semi {c : K} {d m : EL Δ τ} (h : IsDat c d m) (x : Sp Δ τ) : semi d (semi d x) = (x.1, ω * x.2) := by
   simp only [semi, star_star, sigL_mul, sigL_sigL, ← mul_assoc, h.d_norm, ofE_omega]

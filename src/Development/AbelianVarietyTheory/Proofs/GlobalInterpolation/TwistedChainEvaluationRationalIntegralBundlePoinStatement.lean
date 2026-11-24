@@ -816,45 +816,7 @@ private theorem coefLast_monomial' {ι : Type} [Fintype ι] {N n : ℕ} (hN : N 
     dsimp only
     rw [if_neg hτ, map_zero]
 
-private theorem ten_brOne_monomial_eq_brStdP {ι : Type} [Fintype ι] {N n : ℕ} (hN : N = n + 1)
-    (lam : ι → DomWeight N) (sg : ι → DomWeight n) (M : ι × Fin N × Fin N →₀ ℕ) :
-    Formalism.MainNotions.product_first_zeroth_parts.ten (fun τ => Formalism.L2.Ker.brOne ℂ hN (lam τ) (sg τ)
-              (MvPolynomial.monomial (M.comapDomain (Prod.mk τ) (Prod.mk_right_injective τ).injOn) 1)) =
-      (Br.brStdP hN lam sg (MvPolynomial.monomial M (1 : ℂ)) : Pol ℂ ι n) := by
-  have hL : ∀ τ, Formalism.L2.Ker.brOne ℂ hN (lam τ) (sg τ)
-        (MvPolynomial.monomial (M.comapDomain (Prod.mk τ) (Prod.mk_right_injective τ).injOn) 1) =
-      Formalism.L2.Col.Br.brConst hN ℂ (fun _ : Unit => lam τ) (fun _ : Unit => sg τ) •
-        (Formalism.L2.Ker.toUnit ℂ n).symm
-          (Formalism.L2.Col.Br.projVV (fun _ : Unit => sg τ)
-            (Formalism.L2.Col.Br.coefLast hN (Formalism.L2.Col.Br.bExp hN (fun _ : Unit => lam τ) (fun _ : Unit => sg τ))
-              (Formalism.L2.Ker.toUnit ℂ N
-                (MvPolynomial.monomial (M.comapDomain (Prod.mk τ) (Prod.mk_right_injective τ).injOn) 1))) :
-            Formalism.L2.DIV.Pol ℂ Unit n) := by
-    intro τ
-    simp only [Formalism.L2.Ker.brOne, LinearMap.coe_comp, Function.comp_apply, AlgEquiv.toLinearMap_apply,
-      Submodule.coe_subtype]
-    rw [Formalism.L2.Col.Br.brStdP, LinearMap.smul_apply, LinearMap.comp_apply, Submodule.coe_smul, map_smul]
-  simp_rw [hL]
-  rw [_root_.Formalism.L2.Ker.tensor_smul_univ, Formalism.L2.Col.Br.brStdP, LinearMap.smul_apply, LinearMap.comp_apply,
-    Submodule.coe_smul, coefLast_monomial']
-  have hc : (∏ τ, Formalism.L2.Col.Br.brConst hN ℂ (fun _ : Unit => lam τ) (fun _ : Unit => sg τ)) =
-      Formalism.L2.Col.Br.brConst hN ℂ lam sg := by
-    unfold Formalism.L2.Col.Br.brConst
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    rw [Fintype.prod_unique]
-  rw [hc]
-  congr 1
-  symm
-  apply proj_unique_of_isUnit_gramB sg (isUnit_gramB sg)
-  · show _ ∈ Formalism.GradedWeylDivisibility.tensorLat ℂ ℂ _
-    exact Submodule.subset_span ⟨_, fun τ => toUnit_symm_mem_nablaSq_of_mem_VV (sg τ) _ (Submodule.coe_mem _), rfl⟩
-  · intro j
-    rw [show Formalism.L2.DIV.bVVfun ℂ sg j = Formalism.MainNotions.product_first_zeroth_parts.ten (fun τ => Formalism.L2.DIV.ssB ℂ (sg τ).natW (j τ)) from rfl,
-      fockB_ten_eq_prod, fockB_ten_eq_prod]
-    refine Finset.prod_congr rfl fun τ _ => ?_
-    rw [← fockB_toUnit_toUnit, ← fockB_toUnit_toUnit (Formalism.L2.DIV.ssB ℂ (sg τ).natW (j τ)),
-      AlgEquiv.apply_symm_apply, AlgEquiv.apply_symm_apply, toUnit_ssB_eq_bVVfun]
-    exact fockB_proj_of_isUnit_gramB (fun _ : Unit => sg τ) (isUnit_gramB _) _ (fun _ => j τ)
+
 
 end GlobalTheory.Proof.FockBlockMonotone
 end -- clump:auto

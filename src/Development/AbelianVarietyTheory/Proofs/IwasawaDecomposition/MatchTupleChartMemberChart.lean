@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ResidueEqZeroIff
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsConjReferenceChartIndex
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteChart
@@ -540,34 +541,11 @@ theorem hasRes_val_le {P : HeightOneSpectrum (𝓞 E)} {a : P.adicCompletion E} 
 
 theorem hasRes_add {P : HeightOneSpectrum (𝓞 E)} {a b : P.adicCompletion E} {c d : 𝓞 E ⧸ P.asIdeal}
     (ha : HasRes P a c) (hb : HasRes P b d) : HasRes P (a + b) (c + d) := by
-  obtain ⟨r, rfl, hr⟩ := ha
-  obtain ⟨s, rfl, hs⟩ := hb
-  refine ⟨r + s, map_add _ _ _, ?_⟩
-  have e : a + b - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E (r + s)) =
-      (a - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E r)) +
-        (b - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E s)) := by
-    rw [map_add (f := _), map_add (f := _)]; ring
-  rw [e]
-  exact (Valuation.map_add _ _ _).trans_lt (max_lt hr hs)
+  first | exact _root_.GlobalTheory.Mem.Col2.LevRead.hasRes_add | exact @_root_.GlobalTheory.Mem.Col2.LevRead.hasRes_add | apply _root_.GlobalTheory.Mem.Col2.LevRead.hasRes_add <;> assumption
 
 theorem hasRes_mul {P : HeightOneSpectrum (𝓞 E)} {a b : P.adicCompletion E} {c d : 𝓞 E ⧸ P.asIdeal}
     (ha : HasRes P a c) (hb : HasRes P b d) : HasRes P (a * b) (c * d) := by
-  have hb1 := hasRes_val_le hb
-  obtain ⟨r, rfl, hr⟩ := ha
-  obtain ⟨s, rfl, hs⟩ := hb
-  refine ⟨r * s, map_mul _ _ _, ?_⟩
-
-  have e : a * b - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E (r * s)) =
-      (a - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E r)) * b +
-        algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E r) *
-          (b - algebraMap E (P.adicCompletion E) (algebraMap (𝓞 E) E s)) := by
-    rw [map_mul, map_mul]; ring
-  rw [e]
-  refine (Valuation.map_add _ _ _).trans_lt (max_lt ?_ ?_)
-  · rw [Valuation.map_mul]
-    exact (mul_le_of_le_one_right' hb1).trans_lt hr
-  · rw [Valuation.map_mul]
-    exact (mul_le_of_le_one_left' (GlobalTheory.Mem.Dil.val_le_one P r)).trans_lt hs
+  first | exact _root_.GlobalTheory.Mem.Col2.LevRead.hasRes_mul | exact @_root_.GlobalTheory.Mem.Col2.LevRead.hasRes_mul | apply _root_.GlobalTheory.Mem.Col2.LevRead.hasRes_mul <;> assumption
 
 theorem hasRes_zero (P : HeightOneSpectrum (𝓞 E)) : HasRes P (0 : P.adicCompletion E) 0 := ⟨0, map_zero _, by simp⟩
 

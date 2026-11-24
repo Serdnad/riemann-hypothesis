@@ -44,6 +44,7 @@ public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLif
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.FieldPairComparison
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.FiniteDataBound
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.FormValueFiniteInfiniteFactorization
+import all Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.FormValueFiniteInfiniteFactorization
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.RowSumOfHyp
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -560,20 +561,7 @@ theorem loss_mono {dl : PlL D → ℝ} {B B' : ℝ} (h : Loss dl B) (hB : B ≤ 
   ⟨h.1, h.2.1, fun s => (h.2.2 s).trans hB⟩
 
 theorem lossLe_mul {w : PlL D} {z z' : ℂ} {a a' : ℝ} (h : LossLe w z a) (h' : LossLe w z' a') : LossLe w (z * z') (a + a') := by
-  obtain ⟨y, rfl, h⟩ := h
-  obtain ⟨y', rfl, h'⟩ := h'
-  refine ⟨y * y', map_mul _ _ _, ?_⟩
-  by_cases hy : y = 0
-  · exact Or.inl (by rw [hy, zero_mul])
-  by_cases hy' : y' = 0
-  · exact Or.inl (by rw [hy', mul_zero])
-  refine Or.inr ?_
-  have e : vw w (y * y') = vw w y + vw w y' := by
-    rw [vw, vw, vw, ← FractionalIdeal.spanSingleton_mul_spanSingleton, FractionalIdeal.count_mul] <;>
-      simpa [FractionalIdeal.spanSingleton_eq_zero_iff]
-  have a1 := h.resolve_left hy
-  have a2 := h'.resolve_left hy'
-  rw [e]; push_cast; linarith
+  first | exact _root_.DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_mul | exact @_root_.DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_mul | apply _root_.DenominatorLossAdditivity.GlobalTheory.CompanionTheory.FinDen.loss_mul <;> assumption
 
 end GlobalTheory.SumSize.Model
 
@@ -595,34 +583,7 @@ variable {E : Type} [Field E] [NumberField E]
 theorem card_dvd_of_inj {N : ℕ} {H : Type} [Group H] [Finite H] (ρ : H →* Matrix (Fin N) (Fin N) E)
     (hρ : Function.Injective ρ) :
     Nat.card H ∣ 8 ^ (Module.finrank ℚ E * N) * (2 * (Module.finrank ℚ E * N)).factorial := by
-  classical
-  let S : Set (Fin N → E) := Set.range fun p : H × Fin N => (ρ p.1).mulVec (Pi.single p.2 1)
-  let L : Submodule (𝓞 E) (Fin N → E) := Submodule.span (𝓞 E) S
-  have hfg : L.FG := ⟨(Set.finite_range _).toFinset, by rw [Set.Finite.coe_toFinset]⟩
-  have hS1 : ∀ i : Fin N, (Pi.single i 1 : Fin N → E) ∈ L := fun i =>
-    Submodule.subset_span ⟨(1, i), by
-      show (ρ 1).mulVec _ = _
-      rw [map_one, Matrix.one_mulVec]⟩
-  have hspan : Submodule.span E (L : Set (Fin N → E)) = ⊤ := by
-    rw [eq_top_iff, ← (Pi.basisFun E (Fin N)).span_eq, Submodule.span_le]
-    rintro _ ⟨i, rfl⟩
-    exact Submodule.subset_span (by simpa using hS1 i)
-  have hL : ∀ h, ∀ x ∈ L, (ρ h).mulVec x ∈ L := by
-    intro h x hx
-    induction hx using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨⟨g, i⟩, rfl⟩ := hx
-      exact Submodule.subset_span ⟨(h * g, i), by
-        show (ρ (h * g)).mulVec _ = (ρ h).mulVec ((ρ g).mulVec _)
-        rw [map_mul, Matrix.mulVec_mulVec]⟩
-    | zero => simp
-    | add x y _ _ hx hy => rw [Matrix.mulVec_add]; exact add_mem hx hy
-    | smul a x _ hx =>
-      rw [Matrix.mulVec_smul]; exact Submodule.smul_mem _ _ hx
-  obtain ⟨ψ, hψ⟩ := GlobalTheory.StabOrder.exists_faithful L hfg hspan ρ hρ hL
-  have e := (MonoidHom.ofInjective hψ).toEquiv
-  have := GlobalTheory.card_finite_subgroup_GL_int_dvd _ ψ.range (Finite.of_equiv _ e)
-  rwa [← Nat.card_congr e] at this
+  apply _root_.GlobalTheory.SumSize.GamSize.card_dvd_of_inj <;> assumption
 
 end GlobalTheory.GamLoss
 

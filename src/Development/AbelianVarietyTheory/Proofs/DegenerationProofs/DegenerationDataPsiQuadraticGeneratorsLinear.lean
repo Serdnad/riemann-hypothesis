@@ -43,6 +43,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.DegenerationWeilPairingProperties
 
 @[expose] public section
 
@@ -65,14 +66,7 @@ theorem τ_self (y : N.X) : N.τ y y = N.ψ y ^ 2 * dbl N.θ N.σ (N.c y) := by
   linear_combination (norm := abel) -a' + b' + c'
 
 theorem s_nsmul (g : N.Gt) (n : ℕ) (y : N.X) : g.s (n • y) * cubN N.θ n 1 (N.c y) g.b = g.s y ^ n := by
-  induction n with
-  | zero => simp [cubN]
-  | succ n ih =>
-    have m := g.mult (n • y) y
-    rw [N.c_nsmul] at m
-    rw [cubN] at ih
-    rw [succ_nsmul, cubN, Finset.prod_range_succ, one_mul, pow_succ, ← ih, mul_right_comm _ _ (g.s y), ← m,
-      ← mul_assoc, mul_right_comm]
+  apply _root_.GlobalTheory.Ex.WpPairing.s_nsmul <;> assumption
 
 theorem ψ_nsmul (n : ℕ) (y : N.X) : N.ψ (n • y) * mulq N.θ N.σ n (N.c y) = N.ψ y ^ (n ^ 2) := by
   induction n with

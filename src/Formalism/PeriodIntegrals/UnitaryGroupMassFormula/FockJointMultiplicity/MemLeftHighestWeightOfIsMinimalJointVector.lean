@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockDegreeOne.OmEDiagMonomial
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.FockJointMultiplicity.CauchyHW
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -71,19 +72,7 @@ variable {σ : Type*}
 theorem coeff_diag (T : Module.End ℂ (MvPolynomial σ ℂ)) (w : (σ →₀ ℕ) → ℂ)
     (hT : ∀ m, T (monomial m 1) = w m • monomial m 1) (P : MvPolynomial σ ℂ) (e : σ →₀ ℕ) :
     AddMonoidAlgebra.coeff (T P) e = w e * AddMonoidAlgebra.coeff P e := by
-  classical
-  refine MvPolynomial.induction_on' P (fun m a => ?_) (fun p q hp hq => ?_)
-  · have h1 : monomial m a = a • monomial m (1 : ℂ) := by
-      rw [smul_monomial, smul_eq_mul, mul_one]
-    rw [h1, map_smul, hT, smul_smul]
-    simp only [MvPolynomial.coeff_smul, coeff_monomial, smul_eq_mul]
-    by_cases h : m = e
-    · subst h
-      rw [if_pos rfl]
-      ring
-    · rw [if_neg h]
-      ring
-  · rw [map_add (f := _), MvPolynomial.coeff_add, MvPolynomial.coeff_add, hp, hq, mul_add]
+  apply +allowSynthFailures _root_.PI.FockOneDegW.Diag.coeff_of_diag <;> assumption
 
 theorem eig_of_mem_support (T : Module.End ℂ (MvPolynomial σ ℂ)) (w : (σ →₀ ℕ) → ℂ)
     (hT : ∀ m, T (monomial m 1) = w m • monomial m 1) (P : MvPolynomial σ ℂ) (c : ℂ) (hP : T P = c • P)

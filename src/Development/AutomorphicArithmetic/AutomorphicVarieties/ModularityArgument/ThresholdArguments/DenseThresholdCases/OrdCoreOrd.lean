@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.HeckeAlgebras.UpOperatorEigenvalues.MemOrdC
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.LitAut
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.OrdinaryJacquetModules.CoreOrdAlt
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsTorusEigenformOfCompactTorusEigenvector
@@ -449,36 +450,7 @@ private theorem uOp_at {σ : Type} [Finite σ] [DecidableEq σ] {G : σ → Type
     {M : Type} [AddCommGroup M] [Module ℂ M] (π : Representation ℂ (∀ v, G v) M) (v : σ) {a : G v} (ha : a ∈ (I v).P) :
     ∀ F ∈ fixd π (piIwa I).N,
       (piIwa I).uOp π (Pi.mulSingle v a) F = (I v).uOp (π.comp (MonoidHom.mulSingle G v)) a F := by
-  classical
-  have hP : Pi.mulSingle v a ∈ (piIwa I).P := fun w _ => by
-    rcases eq_or_ne w v with rfl | h
-    · simpa using ha
-    · simpa [Pi.mulSingle_eq_of_ne h] using (I w).P.one_mem
-  have hN : ∀ u ∈ (I v).N, Pi.mulSingle v u ∈ (piIwa I).N := fun u hu => (Subgroup.mulSingle_mem_pi _ _).2 fun _ => hu
-  have hc : ∀ {H : Type} [Group H] (J : Iwa H) (b y : H), y ∈ J.Nconj b ↔ b⁻¹ * y * b ∈ J.N := fun J b y =>
-    ⟨by rintro ⟨z, hz, rfl⟩; simpa [mul_assoc] using hz, fun h => ⟨_, h, by simp [mul_assoc]⟩⟩
-  intro F hF
-  obtain ⟨⟨s, hs, hs'⟩, hsum⟩ := uOpSum _ (I v) ℂ M (π.comp (MonoidHom.mulSingle G v)) a ha
-  have key : ∀ y ∈ (piIwa I).N, ∀ u : G v, (Pi.mulSingle v u)⁻¹ * y ∈ (piIwa I).Nconj (Pi.mulSingle v a) ↔
-      u⁻¹ * y v ∈ (I v).Nconj a := fun y hy u => by
-    rw [hc, hc]
-    refine ⟨fun h => by simpa using h v trivial, fun h w _ => ?_⟩
-    rcases eq_or_ne w v with rfl | e
-    · simpa using h
-    · simpa [Pi.mulSingle_eq_of_ne e] using hy w trivial
-  rw [(hsum s hs hs').2 F fun u hu => hF _ (hN u hu),
-    ((uOpSum _ (piIwa I) ℂ M π _ hP).2 (s.image (Pi.mulSingle v)) ?_ ?_).2 F hF,
-    Finset.sum_image fun _ _ _ _ e => Pi.mulSingle_injective v e]
-  · exact Finset.sum_congr rfl fun u _ => by rw [← Pi.mulSingle_mul]; rfl
-  · intro u hu
-    obtain ⟨w, hw, rfl⟩ := Finset.mem_image.1 hu
-    exact hN w (hs w hw)
-  · intro y hy
-    obtain ⟨u, ⟨hu, hu'⟩, huq⟩ := hs' (y v) (hy v trivial)
-    refine ⟨_, ⟨Finset.mem_image_of_mem _ hu, (key y hy u).2 hu'⟩, ?_⟩
-    rintro _ ⟨hw, hw'⟩
-    obtain ⟨w, hw₁, rfl⟩ := Finset.mem_image.1 hw
-    rw [huq w ⟨hw₁, (key y hy w).1 hw'⟩]
+  apply _root_.UpperTheory.V.Hi.Up.uOpPi <;> assumption
 private theorem Uc_le (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     {a b : ℕ} (h : a ≤ b) : Uc k b ≤ Uc k a := by
   refine Subgroup.map_mono fun u hu => ?_

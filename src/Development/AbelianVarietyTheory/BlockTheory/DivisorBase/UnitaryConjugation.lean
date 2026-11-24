@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.StdCharAnnihilatorOpenSubgroupFinPartCompact
 public import Development.AbelianVarietyTheory.Definitions.Divisors.BplusOfEquivariant
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.ExistsIsDetRoot
@@ -79,16 +80,7 @@ def conjU (V : HSp D) {J : Matrix (Fin V.rank) (Fin V.rank) D.host.E} (c : D.hos
     rw [e, h, incM_smul, Matrix.mul_smul, Matrix.smul_mul, mt_gram]⟩
 
 theorem continuous_conj (D : D7) : Continuous (cA D) := by
-  let f : AE D →ₗ[AF D.host.F] AE D :=
-    TensorProduct.AlgebraTensorModule.map LinearMap.id D.sp.cm.sig.toLinearMap
-  have hf : ⇑(cA D) = ⇑f := by
-    funext x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a b => simp [cA, sigR, f]
-    | add x y hx hy => simp only [map_add (f := _), hx, hy]
-  rw [hf]
-  exact IsModuleTopology.continuous_of_linearMap f
+  apply _root_.GlobalTheory.ConjAutProps.continuous_conjA <;> assumption
 
 theorem continuous_conjU (V : HSp D) {J : Matrix (Fin V.rank) (Fin V.rank) D.host.E} (c : D.host.E) (h : J = c • V.gram) :
     Continuous (conjU V c h) := by

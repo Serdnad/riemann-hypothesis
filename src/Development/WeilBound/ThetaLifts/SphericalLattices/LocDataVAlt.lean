@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LiftVOneMul
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.InertPlaceLocalFieldDataExists
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsInertLocalUniformizerImports
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodinger
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchrodingerPreservesSchwartzBruhat
@@ -197,16 +199,8 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem trace_tmul (R : Type) [CommRing R] [Algebra F R] [Module.Free F E] [Module.Finite F E] (c : R) (x : E) :
     Algebra.trace R (R ⊗[F] E) (c ⊗ₜ[F] x) = c * algebraMap F R (Algebra.trace F E x) := by
-  have h1 : c ⊗ₜ[F] x = c • ((1 : R) ⊗ₜ[F] x) := by rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-  rw [h1, LinearMap.map_smul, smul_eq_mul]
-  congr 1
-  rw [Algebra.trace_apply, Algebra.trace_apply, ← LinearMap.trace_baseChange]
-  congr 1
-  refine LinearMap.ext fun y => ?_
-  induction y using TensorProduct.induction_on with
-  | zero => simp
-  | tmul a e => simp [LinearMap.baseChange_tmul, Algebra.TensorProduct.tmul_mul_tmul]
-  | add a b ha hb => simp only [map_add (f := _), ha, hb]
+  intros
+  apply _root_.GlobalTheory.InertLocField.trace_tmul_base <;> assumption
 
 theorem trace_singleTens (v : HeightOneSpectrum (𝓞 F)) (y : Fv F v ⊗[F] E) :
     Algebra.trace (AF F) (AF F ⊗[F] E) (Supp.singleTens E v y) =
@@ -234,22 +228,7 @@ theorem trace_mem {v : HeightOneSpectrum (𝓞 F)} {y : Fv F v ⊗[F] E} (hy : y
   first | rfl
 
 theorem odd_absNorm {v : HeightOneSpectrum (𝓞 F)} (h2 : (2 : 𝓞 F) ∉ v.asIdeal) : Odd (Ideal.absNorm v.asIdeal) := by
-  have hc : Nat.card (𝓞 F ⧸ v.asIdeal) = Ideal.absNorm v.asIdeal := by
-    rw [Ideal.absNorm_apply, Submodule.cardQuot_apply]
-  have h0 : Ideal.absNorm v.asIdeal ≠ 0 := by rw [Ne, Ideal.absNorm_eq_zero_iff]; exact v.ne_bot
-  haveI := v.isMaximal
-  letI := Ideal.Quotient.field v.asIdeal
-  haveI : Finite (𝓞 F ⧸ v.asIdeal) := Nat.finite_of_card_ne_zero (hc ▸ h0)
-  letI := Fintype.ofFinite (𝓞 F ⧸ v.asIdeal)
-  by_contra hodd
-  have h1 : ringChar (𝓞 F ⧸ v.asIdeal) = 2 := by
-    rw [FiniteField.even_card_iff_char_two, ← Nat.card_eq_fintype_card, hc]
-    exact Nat.even_iff.1 (Nat.not_odd_iff_even.1 hodd)
-  have h3 : ((2 : ℕ) : 𝓞 F ⧸ v.asIdeal) = 0 := (ringChar.spec _ 2).2 (by rw [h1])
-  apply h2
-  rw [← Ideal.Quotient.eq_zero_iff_mem]
-  rw [map_ofNat]
-  simpa using h3
+  apply _root_.GlobalTheory.InertLocField.odd_absNorm_of_two_notMem <;> assumption
 
 end GlobalTheory.InertPsi
 
@@ -1309,18 +1288,8 @@ namespace GlobalTheory.LocalWeilHom
 theorem tens_cancel {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) {κ : Type} [Fintype κ]
     {R : (κ → AF F) → ℂ} (hR : ∀ x z, At (evFin F v) z → R (x + z) = R x) (hR0 : R 0 ≠ 0)
     {φ₁ φ₂ : (κ → Fv F v) → ℂ} (h : tens (evFin F v) φ₁ R = tens (evFin F v) φ₂ R) : φ₁ = φ₂ := by
-  funext y
-  set z : κ → AF F := fun i => GlobalTheory.LatVac.liftV v (y i) with hz
-  have hza : At (evFin F v) z :=
-    fun u hu => funext fun i => GlobalTheory.LatVac.at_liftV v (y i) u hu
-  have hrx : R (0 + z) = R 0 := hR 0 z hza
-  have hy : (fun i => evFin F v ((0 + z) i)) = y := by
-    funext i
-    simp only [hz, zero_add, GlobalTheory.LatVac.evFin_liftV]
-  have e := congrFun h (0 + z)
-  simp only [tens] at e
-  rw [hrx, hy] at e
-  exact mul_right_cancel₀ hR0 e
+  intros
+  apply _root_.GlobalTheory.InertAvgDual.eq_of_tens_eq <;> assumption
 
 theorem acts_mul {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) {κ : Type} [Fintype κ]
     (T₁ T₂ : Module.End ℂ ((κ → AF F) → ℂ)) (hT₂ : ∀ Φ ∈ schA F κ, T₂ Φ ∈ schA F κ)
@@ -1519,20 +1488,7 @@ theorem darboux_rho_zero {R : Type} [CommRing R] [Invertible (2 : R)] {W : Type}
 theorem eq_of_tens_eq {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) {κ : Type} [Fintype κ] {r : (κ → AF F) → ℂ}
     (hr : ∀ x z, At (evFin F v) z → r (x + z) = r x) (h0 : r 0 ≠ 0) {φ₁ φ₂ : (κ → Fv F v) → ℂ}
     (h : tens (evFin F v) φ₁ r = tens (evFin F v) φ₂ r) : φ₁ = φ₂ := by
-  funext y
-  set z : κ → AF F := fun i => GlobalTheory.LatVac.liftV v (y i) with hz
-  have hza : At (evFin F v) z := by
-    intro u hu
-    funext i
-    exact GlobalTheory.LatVac.at_liftV v _ u hu
-  have hrx : r (0 + z) = r 0 := hr 0 z hza
-  have hy : (fun i => evFin F v ((0 + z) i)) = y := by
-    funext i
-    simp only [hz, zero_add, GlobalTheory.LatVac.evFin_liftV]
-  have e := congrFun h (0 + z)
-  simp only [tens] at e
-  rw [hrx, hy] at e
-  exact mul_right_cancel₀ h0 e
+  apply _root_.GlobalTheory.LocalWeilHom.tens_cancel <;> assumption
 
 end GlobalTheory.InertRhoLaw
 

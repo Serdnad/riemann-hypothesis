@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.PhiDecayCore
 public import Formalism.MirabolicMackeyTheory.StatementC
 public import Formalism.MirabolicMackeyTheory.StatementT
 public import Mathlib.NumberTheory.Chebyshev
@@ -198,11 +199,7 @@ noncomputable def h (n : ℕ) : ℝ := 1 / ((n : ℝ) - 1) + 1 / (n : ℝ)
 
 theorem sum_Ico_tele (f : ℕ → ℝ) (a b : ℕ) (hab : a ≤ b) :
     ∑ n ∈ Ico a b, (f n - f (n + 1)) = f a - f b := by
-  induction b, hab using Nat.le_induction with
-  | base => simp
-  | succ b hab ih =>
-    rw [Finset.sum_Ico_succ_top hab, ih]
-    ring
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.S7.sum_Ico_tele <;> assumption
 
 theorem w_nonneg (n : ℕ) (hn : 2 ≤ n) : 0 ≤ g n - g (n + 1) := by
   unfold g
@@ -1900,15 +1897,7 @@ include h3
 omit h3
 
 theorem lw_pos (w : HeightOneSpectrum (𝓞 K)) : 0 < lw w := by
-  unfold lw
-  have h1 : Ideal.absNorm w.asIdeal ≠ 1 := fun h => w.isPrime.ne_top (Ideal.absNorm_eq_one_iff.mp h)
-  have h0 : Ideal.absNorm w.asIdeal ≠ 0 := fun h => w.ne_bot (Ideal.absNorm_eq_zero_iff.mp h)
-  have h2 : (1 : ℝ) < (Ideal.absNorm w.asIdeal : ℝ) := by
-    have h3 : 1 < Ideal.absNorm w.asIdeal := by omega
-    exact_mod_cast h3
-  apply div_pos (Real.log_pos h2)
-  have h4 : 0 < finrank ℚ K := Module.finrank_pos
-  exact_mod_cast h4
+  apply _root_.Formalism.DivisionValues.PlaceSumConjugation.lw_pos <;> assumption
 
 end Examples₂
 

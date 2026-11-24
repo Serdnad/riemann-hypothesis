@@ -124,36 +124,7 @@ include hχ in
 theorem transform_indicator (hLo : IsOpen (L : Set V)) (y : V) :
     ∫ x, (L : Set V).indicator (fun _ => (1 : ℂ)) x * χ x y ∂μ =
       (ann χ L).indicator (fun _ => ((μ.real (L : Set V) : ℝ) : ℂ)) y := by
-  classical
-  by_cases hy : y ∈ ann χ (L : Set V)
-  · rw [Set.indicator_of_mem hy]
-    have hfun : (fun x => (L : Set V).indicator (fun _ => (1 : ℂ)) x * χ x y) =
-        (L : Set V).indicator (fun _ => (1 : ℂ)) := by
-      funext x
-      by_cases hx : x ∈ L
-      · simp [hx, hy x hx]
-      · simp [hx]
-    rw [hfun, integral_indicator_const _ hLo.measurableSet]
-    simp [Measure.real]
-  · rw [Set.indicator_apply, if_neg hy]
-    simp only [ann, Set.mem_setOf_eq, not_forall] at hy
-    obtain ⟨x0, hx0, hne⟩ := hy
-    set f : V → ℂ := fun x => (L : Set V).indicator (fun _ => (1 : ℂ)) x * χ x y with hf
-    have key : ∫ x, f (x0 + x) ∂μ = ∫ x, f x ∂μ := integral_add_left_eq_self (μ := μ) f x0
-    have hshift : ∀ x, f (x0 + x) = χ x0 y * f x := by
-      intro x
-      simp only [hf]
-      rw [hχ x x0 y]
-      by_cases hx : x ∈ L
-      · have hx' : x0 + x ∈ L := L.add_mem hx0 hx
-        simp [hx, hx']
-      · have hx' : x0 + x ∉ L := fun h => hx (by simpa using L.sub_mem h hx0)
-        simp [hx, hx']
-    simp_rw [hshift, integral_const_mul] at key
-    have h2 : (χ x0 y - 1) * ∫ x, f x ∂μ = 0 := by rw [sub_mul, key, one_mul, sub_self]
-    rcases mul_eq_zero.1 h2 with h | h
-    · exact absurd (sub_eq_zero.1 h) hne
-    · exact h
+  apply _root_.PI.VolStabSW.SdUniqW.transform_indicator <;> assumption
 
 
 include hχ in
@@ -239,20 +210,7 @@ def DualAt {V : Type} [AddCommGroup V] [TopologicalSpace V] (B : V → V → Fv 
 theorem mem_of_psi (ψ0 : Fv F v → ℂ) (r0 t : Fv F v) (h0 : ψ0 r0 ≠ 1)
     (ht : ∀ s ∈ v.adicCompletionIntegers F, ψ0 (s * t) = 1) :
     t ∈ (fun s => r0 * s) '' (v.adicCompletionIntegers F : Set (Fv F v)) := by
-  have hr0 : r0 ≠ 0 := by
-    rintro rfl
-    exact h0 (by simpa using ht 0 (v.adicCompletionIntegers F).zero_mem)
-  by_cases ht0 : t = 0
-  · exact ⟨0, (v.adicCompletionIntegers F).zero_mem, by simp [ht0]⟩
-  rcases (v.adicCompletionIntegers F).mem_or_inv_mem (t / r0) with h | h
-  · refine ⟨t / r0, h, ?_⟩
-    show r0 * (t / r0) = t
-    field_simp
-  · exfalso
-    apply h0
-    have h1 := ht _ h
-    have e : (t / r0)⁻¹ * t = r0 := by field_simp
-    rwa [e] at h1
+  apply _root_.PI.VolStabSW.SdUniqW.mem_of_psi <;> assumption
 
 theorem annAt_of_dual {V : Type} [AddCommGroup V] [TopologicalSpace V] (B : V → V → Fv F v)
     (ψ0 : Fv F v → ℂ) (hψ : Continuous ψ0) (hB : ∀ x, Continuous (B x)) (r0 : Fv F v)
@@ -288,14 +246,7 @@ theorem singleV_add (v : HeightOneSpectrum (𝓞 F)) (r s : Fv F v) :
 
 theorem psiV_add (ψ : AddChar (AF F) ℂ) (v : HeightOneSpectrum (𝓞 F)) (r s : Fv F v) :
     psiV F ψ v (r + s) = psiV F ψ v r * psiV F ψ v s := by
-  have e : pairA F 0 (singleV F v (r + s)) =
-      pairA F 0 (singleV F v r) + pairA F 0 (singleV F v s) := by
-    rw [singleV_add]
-    rw [show (pairA F 0 (singleV F v r) + pairA F 0 (singleV F v s) : AF F) =
-      pairA F (0 + 0) (singleV F v r + singleV F v s) from rfl, add_zero]
-  show ψ (pairA F 0 (singleV F v (r + s))) =
-    ψ (pairA F 0 (singleV F v r)) * ψ (pairA F 0 (singleV F v s))
-  rw [e, AddChar.map_add_eq_mul]
+  apply _root_.PI.VolStabSW.SdUniqW.psiV_add <;> assumption
 
 theorem psiInf_add (ψ : AddChar (AF F) ℂ) (r s : Ainf F) :
     psiInf F ψ (r + s) = psiInf F ψ r * psiInf F ψ s := by

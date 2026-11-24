@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.LatLevel
 public import Formalism.LocalToGlobal.IndefiniteReal.LevelTypeEquivalence.InfFam
 public import ReciprocityTheory.AdeleApproximation.AdeleIntA
 public import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.StdCharExists
@@ -79,32 +80,7 @@ theorem exp_two_pi_int (n : ℤ) : Complex.exp (2 * Real.pi * Complex.I * n) = 1
 theorem exists_nsmul_mem_cpt {X : Type*} [AddCommGroup X] [TopologicalSpace X] [IsTopologicalAddGroup X]
     (K : Set X) (hK : IsCompact K) (hKs : ∀ y ∈ K, ∀ n : ℕ, n • y ∈ K) (H : AddSubgroup X)
     (hH : IsOpen (H : Set X)) : ∃ m : ℕ, 0 < m ∧ ∀ y ∈ K, m • y ∈ H := by
-  classical
-  haveI : DiscreteTopology (X ⧸ H) := QuotientAddGroup.discreteTopology hH
-  have hSfin : ((fun y : X => (y : X ⧸ H)) '' K).Finite :=
-    (hK.image QuotientAddGroup.continuous_mk).finite_of_discrete
-  have hord : ∀ y ∈ K, IsOfFinAddOrder (y : X ⧸ H) := by
-    intro y hy
-    obtain ⟨a, b, hab, he⟩ := Set.Finite.exists_lt_map_eq_of_forall_mem
-      (f := fun n : ℕ => ((n • y : X) : X ⧸ H)) (fun n => Set.mem_image_of_mem _ (hKs y hy n)) hSfin
-    obtain ⟨c, rfl⟩ := Nat.exists_eq_add_of_lt hab
-    refine isOfFinAddOrder_iff_nsmul_eq_zero.mpr ⟨c + 1, Nat.succ_pos c, ?_⟩
-    have h2 : (a + (c + 1)) • (y : X ⧸ H) = a • (y : X ⧸ H) := by
-      rw [← Nat.add_assoc, ← QuotientAddGroup.mk_nsmul, ← QuotientAddGroup.mk_nsmul]
-      exact he.symm
-    rw [add_nsmul] at h2
-    simpa using h2
-  refine ⟨∏ q ∈ hSfin.toFinset, addOrderOf q, ?_, ?_⟩
-  · apply Finset.prod_pos
-    intro q hq
-    obtain ⟨y, hy, rfl⟩ := hSfin.mem_toFinset.mp hq
-    exact (hord y hy).addOrderOf_pos
-  · intro y hy
-    have hmem : (y : X ⧸ H) ∈ hSfin.toFinset := hSfin.mem_toFinset.mpr ⟨y, hy, rfl⟩
-    have h0 : (∏ q ∈ hSfin.toFinset, addOrderOf q) • (y : X ⧸ H) = 0 :=
-      addOrderOf_dvd_iff_nsmul_eq_zero.mp (Finset.dvd_prod_of_mem (fun q => addOrderOf q) hmem)
-    rw [← QuotientAddGroup.mk_nsmul, QuotientAddGroup.eq_zero_iff] at h0
-    exact h0
+  apply +allowSynthFailures _root_.Formalism.IndefR.Fin.exists_nsmul_mem_cpt' <;> assumption
 
 end Gen
 

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EventuallyFinEqOne
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.DepthLatticeGridCoreIffFirstRowExtByZero
 import Formalism.LocalToGlobal.IndefiniteReal.SelfDualFullLattice
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsAuxiliaryVectorWittDec
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BesselToJacobiFlatMapVacuumAtGoodPlace
@@ -760,34 +762,7 @@ theorem mxAt_mul_rat {m n k : ℕ} {a : Mx D m n} (ha : MxAt (fun _ => True) a) 
   exact Ideal.sum_mem _ fun l _ => Ideal.mul_mem_right _ _ (ha i l)
 
 theorem eq_one_of_pow_near (z : ℂ) (hz : ‖z‖ = 1) (h : ∀ n : ℕ, ‖z ^ n - 1‖ < 1) : z = 1 := by
-  have key : ∀ w : ℂ, ‖w‖ = 1 → ‖w - 1‖ < 1 → 3 / 2 ≤ ‖w + 1‖ := by
-    intro w hw h1
-    have hp : ‖w + 1‖ ^ 2 + ‖w - 1‖ ^ 2 = 2 * ‖w‖ ^ 2 + 2 := by
-      simp only [Complex.sq_norm, Complex.normSq_apply, Complex.add_re, Complex.add_im, Complex.sub_re,
-        Complex.sub_im, Complex.one_re, Complex.one_im]
-      ring
-    rw [hw] at hp
-    nlinarith [norm_nonneg (w + 1), norm_nonneg (w - 1)]
-  have ind : ∀ k : ℕ, (3 / 2 : ℝ) ^ k * ‖z - 1‖ ≤ ‖z ^ (2 ^ k) - 1‖ := by
-    intro k
-    induction k with
-    | zero => simp
-    | succ k ih =>
-      have e : z ^ (2 ^ (k + 1)) - 1 = (z ^ (2 ^ k) - 1) * (z ^ (2 ^ k) + 1) := by
-        rw [pow_succ, pow_mul]; ring
-      have hn : ‖z ^ (2 ^ k)‖ = 1 := by rw [norm_pow, hz, one_pow]
-      have h2 := key _ hn (h _)
-      rw [e, norm_mul, pow_succ]
-      have h0 : 0 ≤ (3 / 2 : ℝ) ^ k * ‖z - 1‖ := by positivity
-      nlinarith
-  by_contra hne
-  have hpos : 0 < ‖z - 1‖ := norm_pos_iff.2 (sub_ne_zero.2 hne)
-  obtain ⟨k, hk⟩ := pow_unbounded_of_one_lt (1 / ‖z - 1‖) (by norm_num : (1 : ℝ) < 3 / 2)
-  have h3 := ind k
-  have h4 := h (2 ^ k)
-  have : 1 < (3 / 2 : ℝ) ^ k * ‖z - 1‖ := by
-    rw [div_lt_iff₀ hpos] at hk; linarith
-  linarith
+  first | exact _root_.GlobalTheory.FinTranslate.eq_one_of_pow_near | exact @_root_.GlobalTheory.FinTranslate.eq_one_of_pow_near | apply _root_.GlobalTheory.FinTranslate.eq_one_of_pow_near <;> assumption
 
 section Ann
 
@@ -1109,20 +1084,7 @@ variable {D : D7}
 
 theorem latO_negSp (S T : HSp D) (LS : Set (Fin S.rank → D.host.E)) (LT : Set (Fin T.rank → D.host.E))
     (P : HeightOneSpectrum (𝓞 D.host.F) → Prop) : latO (negSp S) T LS LT P = latO S T LS LT P := by
-  unfold latO
-  apply le_antisymm
-  · rw [AddSubgroup.closure_le]
-    rintro w ⟨α, hα, hP, a, ha, s, hs, t, ht, rfl⟩
-    rw [← neg_neg (Matrix.of _)]
-    refine neg_mem (AddSubgroup.subset_closure ⟨α, hα, hP, a, ha, s, hs, t, ht, ?_⟩)
-    funext i j
-    simp [negSp_gram, Finset.sum_neg_distrib, TensorProduct.tmul_neg]
-  · rw [AddSubgroup.closure_le]
-    rintro w ⟨α, hα, hP, a, ha, s, hs, t, ht, rfl⟩
-    rw [← neg_neg (Matrix.of _)]
-    refine neg_mem (AddSubgroup.subset_closure ⟨α, hα, hP, a, ha, s, hs, t, ht, ?_⟩)
-    funext i j
-    simp [negSp_gram, Finset.sum_neg_distrib, TensorProduct.tmul_neg]
+  first | exact _root_.GlobalTheory.CoreRowLat.latO_negSp | exact @_root_.GlobalTheory.CoreRowLat.latO_negSp | apply _root_.GlobalTheory.CoreRowLat.latO_negSp <;> assumption
 
 theorem extY_jY_mem {S S₀ T : HSp D} {ρ : ℕ} (d : HypDec S S₀ ρ) {LS : Lat S} {L₀ : Lat S₀} {LT : Lat T}
     (hS : IsSelfDualC S LS) (hT : IsSelfDualC T LT) (hm : ∀ v, MonoAt d LS L₀ v) {u : WO S T}

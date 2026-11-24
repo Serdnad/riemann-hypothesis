@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.FrobeniusMemTypicalCurveSet
 public import Development.AbelianVarietyTheory.Definitions.TeichmullerDepth.HasTeich
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.AdjointEndPairMemGaugedCurveLogarithms
 public import Mathlib.RingTheory.RootsOfUnity.PrimitiveRoots
@@ -119,19 +120,7 @@ theorem v_prime_eq_zero (V : VF C) {p : ℕ} (hp : p.Prime) (hpl : p ≠ V.l) : 
   exact lt_irrefl _ this
 
 theorem ge_of_pow_eq_one (V : VF C) {ζ : C} {p : ℕ} (hp : 0 < p) (h : ζ ^ p = 1) : V.Ge 0 ζ := by
-  have h1 : p • V.v ζ = 0 := by rw [← V.v.map_pow, h, V.v.map_one]
-  unfold VF.Ge
-  induction hv : V.v ζ using WithTop.recTopCoe with
-  | top => exact le_top
-  | coe t =>
-    rw [hv, ← WithTop.coe_nsmul] at h1
-    have h2 : p • t = 0 := by exact_mod_cast h1
-    have h3 : t = 0 := by
-      rw [nsmul_eq_mul] at h2
-      rcases mul_eq_zero.1 h2 with h | h
-      · exact absurd (by exact_mod_cast h) hp.ne'
-      · exact h
-    rw [h3]
+  first | exact _root_.GlobalTheory.RowLaw.FrobCurve.ge_zero_of_pow_eq_one | exact @_root_.GlobalTheory.RowLaw.FrobCurve.ge_zero_of_pow_eq_one | apply _root_.GlobalTheory.RowLaw.FrobCurve.ge_zero_of_pow_eq_one <;> assumption
 
 theorem sum_pow_root {ζ : C} {p : ℕ} (hζ : IsPrimitiveRoot ζ p) (m : ℕ) :
     ∑ j ∈ Finset.range p, (ζ ^ j) ^ m = if p ∣ m then (p : C) else 0 := by

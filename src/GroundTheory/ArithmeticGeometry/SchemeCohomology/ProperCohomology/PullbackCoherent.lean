@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.RestrictPullbackIsoHomAppPullbackSections
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProperCohomology.Support
 public import GroundTheory.ArithmeticGeometry.SchemeCohomology.ProjectiveCohomology.QcohLocal
 public import Mathlib.AlgebraicGeometry.IdealSheaf.Basic
@@ -170,24 +171,8 @@ variable {T U : Scheme.{u}}
 
 theorem isQuasicoherent_pullback_of_isAffine (g : T ⟶ U) [IsAffine T] [IsAffine U]
     (N : U.Modules) [N.IsQuasicoherent] : ((Scheme.Modules.pullback g).obj N).IsQuasicoherent := by
-  obtain ⟨φ, hφ⟩ : ∃ φ, Spec.map φ = T.isoSpec.inv ≫ g ≫ U.isoSpec.hom :=
-    ⟨Spec.preimage _, Spec.map_preimage _⟩
-  have hg : g = T.isoSpec.hom ≫ Spec.map φ ≫ U.isoSpec.inv := by simp [hφ]
-  rw [hg]
-  let N₁ := (Scheme.Modules.pullback U.isoSpec.inv).obj N
-  have : N₁.IsQuasicoherent := Etale.isQuasicoherent_pullback_of_isIso _ N
-  have : IsIso N₁.fromTildeΓ := (isQuasicoherent_iff_isIso_fromTildeΓ N₁).mp inferInstance
-  let N₂ := (Scheme.Modules.pullback (Spec.map φ)).obj N₁
-  have : N₂.IsQuasicoherent :=
-    (isQuasicoherent_iff_isIso_fromTildeΓ N₂).mpr (Etale.isIso_fromTildeΓ_pullback φ N₁)
-  have : ((Scheme.Modules.pullback T.isoSpec.hom).obj N₂).IsQuasicoherent :=
-    Etale.isQuasicoherent_pullback_of_isIso _ N₂
-  let e : (Scheme.Modules.pullback T.isoSpec.hom).obj N₂ ≅
-      (Scheme.Modules.pullback (T.isoSpec.hom ≫ Spec.map φ ≫ U.isoSpec.inv)).obj N :=
-    (Scheme.Modules.pullback T.isoSpec.hom).mapIso
-        ((Scheme.Modules.pullbackComp (Spec.map φ) U.isoSpec.inv).app N) ≪≫
-      (Scheme.Modules.pullbackComp T.isoSpec.hom (Spec.map φ ≫ U.isoSpec.inv)).app N
-  exact (SheafOfModules.isQuasicoherent T.ringCatSheaf).prop_of_iso e inferInstance
+  intros
+  apply _root_.GlobalTheory.QCoh.isQuasicoherent_pullback <;> assumption
 
 theorem finite_pullback_of_isAffine (g : T ⟶ U) [IsAffine T] [IsAffine U] (N : U.Modules)
     [N.IsQuasicoherent] [Module.Finite Γ(U, ⊤) Γ(N, ⊤)] :

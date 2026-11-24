@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.SmoothGaloisGeometry.NormLtOneOfIrreducible
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTower
 import GroundTheory.PAdicHodge.LocalBridge
 import Mathlib.Algebra.Order.Floor.Extended
@@ -144,28 +145,7 @@ private theorem mem_OK_iff {l : ℕ} [Fact l.Prime] {K : IntermediateField ℚ_[
 
 private theorem isUnit_OK_iff {l : ℕ} [Fact l.Prime] {K : IntermediateField ℚ_[l] (PadicAlgCl l)} (y : ↥(OK l K)) :
     IsUnit y ↔ ‖((y : ↥K) : PadicAlgCl l)‖ = 1 := by
-  have hmul : ∀ a b : ↥(OK l K), ‖(((a * b : ↥(OK l K)) : ↥K) : PadicAlgCl l)‖ =
-      ‖((a : ↥K) : PadicAlgCl l)‖ * ‖((b : ↥K) : PadicAlgCl l)‖ := fun a b => norm_mul _ _
-  have hle : ∀ a : ↥(OK l K), ‖((a : ↥K) : PadicAlgCl l)‖ ≤ 1 := fun a => (mem_OK_iff _).1 a.2
-  constructor
-  · rintro ⟨u, rfl⟩
-    have h := hmul u (↑u⁻¹ : ↥(OK l K))
-    rw [Units.mul_inv] at h
-    have h1 : ‖(((1 : ↥(OK l K)) : ↥K) : PadicAlgCl l)‖ = 1 := norm_one
-    rw [h1] at h
-    have h2 := hle u
-    have h3 := hle (↑u⁻¹ : ↥(OK l K))
-    have h4 := norm_nonneg (((u : ↥(OK l K)) : ↥K) : PadicAlgCl l)
-    nlinarith
-  · intro h
-    have hy0 : (y : ↥K) ≠ 0 := fun h0 => by
-      rw [h0] at h
-      simp at h
-    have hinv : (y : ↥K)⁻¹ ∈ OK l K := by
-      rw [mem_OK_iff]
-      change ‖((y : ↥K) : PadicAlgCl l)⁻¹‖ ≤ 1
-      rw [norm_inv, h, inv_one]
-    exact IsUnit.of_mul_eq_one ⟨_, hinv⟩ (Subtype.ext (mul_inv_cancel₀ hy0))
+  apply _root_.CrystallineSemistableComparison.isUnit_OK_iff <;> assumption
 
 theorem intMap : IntMap := by
   intro E Ω _ _ _ _ _ l _ w A hA O _ _ _ Bw hj

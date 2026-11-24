@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.AMixSt
 public import ReciprocityTheory.AnalyticForms.MaIntEmpty
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.IsIntersectionFamily
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.MdiscSt
@@ -40,23 +41,7 @@ theorem cxHessian_lin {D : ℕ} {f g ψ : (Fin D → ℂ) → ℝ} {y : Fin D �
     (hf : ∀ᶠ y' in 𝓝 y, ContDiffAt ℝ 2 f y') (hg : ∀ᶠ y' in 𝓝 y, ContDiffAt ℝ 2 g y')
     (hψ : ψ =ᶠ[𝓝 y] fun y' => a * f y' + b * g y') :
     cxHessian ψ y = (a : ℂ) • cxHessian f y + (b : ℂ) • cxHessian g y := by
-  have h1 : fderiv ℝ ψ =ᶠ[𝓝 y] fun y' => a • fderiv ℝ f y' + b • fderiv ℝ g y' := by
-    filter_upwards [hψ.fderiv (𝕜 := ℝ), hf, hg] with y' h1 h2 h3
-    rw [h1]
-    exact (((h2.differentiableAt (by norm_num)).hasFDerivAt.const_mul a).add
-      ((h3.differentiableAt (by norm_num)).hasFDerivAt.const_mul b)).fderiv
-  have df : DifferentiableAt ℝ (fderiv ℝ f) y :=
-    (hf.self_of_nhds.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)
-  have dg : DifferentiableAt ℝ (fderiv ℝ g) y :=
-    (hg.self_of_nhds.fderiv_right (m := 1) (by norm_num)).differentiableAt (by norm_num)
-  have hH : fderiv ℝ (fderiv ℝ ψ) y = a • fderiv ℝ (fderiv ℝ f) y + b • fderiv ℝ (fderiv ℝ g) y := by
-    rw [h1.fderiv_eq]
-    exact ((df.hasFDerivAt.const_smul a).add (dg.hasFDerivAt.const_smul b)).fderiv
-  ext i j
-  simp only [cxHessian, hH, Matrix.add_apply, Matrix.smul_apply, ContinuousLinearMap.add_apply,
-    ContinuousLinearMap.smul_apply, smul_eq_mul]
-  push_cast
-  ring
+  apply _root_.ReciprocityTheory.ChartRestriction.G.ArakelovGeometry.gaamix_cxHessian_comb <;> assumption
 
 def IsC2AlongSheets {e : ℕ} (Q : Ideal (MRing ι)) (Ψ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (e + 1) → ℂ))
     (f : ((Σ k, ι k) → ℂ) → ℝ) : Prop :=

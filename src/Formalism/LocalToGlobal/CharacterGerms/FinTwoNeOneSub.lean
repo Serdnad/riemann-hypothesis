@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.OrbitalBoundsConclusion.EntAtD
 public import Formalism.LocalToGlobal.CharacterGerms.ContentZeroAt
 public import Formalism.LocalToGlobal.CharacterGerms.MemVarsProdAll
 public import Formalism.LocalToGlobal.ProjectiveLattices.RowDeg
@@ -19,18 +20,7 @@ open Formalism.IncomingBounds Formalism.L2.Pj
 
 theorem pderiv_comm' {σ R : Type} [CommRing R] (i j : σ) (p : MvPolynomial σ R) :
     MvPolynomial.pderiv i (MvPolynomial.pderiv j p) = MvPolynomial.pderiv j (MvPolynomial.pderiv i p) := by
-  induction p using MvPolynomial.induction_on' with
-  | monomial s a =>
-    simp only [MvPolynomial.pderiv_monomial]
-    by_cases hij : i = j
-    · subst hij
-      rfl
-    · congr 1
-      · rw [tsub_right_comm]
-      · simp only [Finsupp.coe_tsub, Pi.sub_apply, Finsupp.single_apply, if_neg hij, if_neg (Ne.symm hij),
-          tsub_zero]
-        ring
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
+  apply _root_.PI.EntAtD.W.pderiv_pderiv_comm <;> assumption
 
 section One
 

@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GlobalSchurBounds.GlobalRankLatticeProofs.UnitTraceSumBounds.AdditionIdentityOfSigmaFormulaUnit
 public import Formalism.PeriodIntegrals.JetsPhW
 public import Mathlib.Analysis.Normed.Field.Instances
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.JetIntegrality.CoeffSubstOfDegreeEqOne
@@ -78,12 +79,7 @@ theorem coeff_truncatedExp_of_degree_eq_one {σ : Type*} (F : MvPowerSeries σ �
   simp
 
 theorem norm_two (hp : p ≠ 2) : ‖(2 : ℂ_[p])‖ = 1 := by
-  have h : ‖((2 : ℕ) : ℚ_[p])‖ = 1 :=
-    Padic.norm_natCast_eq_one_iff.2 ((Nat.coprime_primes (Fact.out) Nat.prime_two).2 hp)
-  have e : (2 : ℂ_[p]) = ((algebraMap ℚ_[p] (PadicAlgCl p) ((2 : ℕ) : ℚ_[p]) : PadicAlgCl p) : ℂ_[p]) := by
-    rw [map_natCast, PadicComplex.coe_natCast]
-    norm_num
-  rw [e, PadicComplex.norm_extends, PadicAlgCl.norm_extends, h]
+  apply _root_.Formalism.MainNotions.Ext.CutA.norm_two_cp <;> assumption
 
 end PI.JetsPhW.Low
 end -- clump:auto

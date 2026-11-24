@@ -1109,10 +1109,7 @@ lemma card_filter_Icc_succ (p : ℕ → Prop) [DecidablePred p] (a i : ℕ) (h :
   rw [Finset.card_filter, Finset.card_filter, Finset.sum_Icc_succ_top h]
 
 lemma Dom.anti {n : ℕ} {la : ℕ → ℤ} (h : Dom n la) : ∀ a b, a ≤ b → b < n → la b ≤ la a := by
-  intro a b hab hb
-  induction b, hab using Nat.le_induction with
-  | base => exact le_rfl
-  | succ b hab ih => exact (h b hb).trans (ih (by omega))
+  apply _root_.Formalism.InvariantFactorPaths.BranchingDimensions.TDim.dom_anti <;> assumption
 
 lemma HStrip.diff_le {n : ℕ} {a b : ℕ → ℤ} (h : HStrip n a b) (m : ℕ) (hm : m < n) :
     b m - a m ≤ wsize n b - wsize n a := by

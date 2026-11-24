@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.ProfiniteCohomology.RestrictedRamification.ValuationTransport
 public import Formalism.LocalToGlobal.UnitaryNorms.IsUnitaryNormOf
 import ReciprocityTheory.NeutralLocalFields.LocalFieldComparison.HCFFromRecipA
 
@@ -67,20 +68,7 @@ theorem mem_plMap_pow (j : E ≃+* L) (w : HeightOneSpectrum (𝓞 E)) (n : ℕ)
 
 theorem eq_of_forall_le_exp {a b : WithZero (Multiplicative ℤ)} (ha : a ≠ 0) (hb : b ≠ 0) (ha1 : a ≤ 1)
     (hb1 : b ≤ 1) (h : ∀ n : ℕ, a ≤ WithZero.exp (-(n : ℤ)) ↔ b ≤ WithZero.exp (-(n : ℤ))) : a = b := by
-  obtain ⟨m, rfl⟩ : ∃ m : ℤ, WithZero.exp m = a := ⟨_, WithZero.exp_log ha⟩
-  obtain ⟨k, rfl⟩ : ∃ k : ℤ, WithZero.exp k = b := ⟨_, WithZero.exp_log hb⟩
-  have hm : m ≤ 0 := by rwa [← WithZero.exp_zero, WithZero.exp_le_exp] at ha1
-  have hk : k ≤ 0 := by rwa [← WithZero.exp_zero, WithZero.exp_le_exp] at hb1
-  have e1 : (((-m).toNat : ℕ) : ℤ) = -m := Int.toNat_of_nonneg (by omega)
-  have e2 : (((-k).toNat : ℕ) : ℤ) = -k := Int.toNat_of_nonneg (by omega)
-  have h1 := h (-m).toNat
-  have h2 := h (-k).toNat
-  rw [WithZero.exp_le_exp, WithZero.exp_le_exp, e1] at h1
-  rw [WithZero.exp_le_exp, WithZero.exp_le_exp, e2] at h2
-  have i1 := h1.1 (by omega)
-  have i2 := h2.2 (by omega)
-  congr 1
-  omega
+  apply _root_.GroundTheory.ProfCoh.eq_of_forall_le_exp_iff <;> assumption
 
 theorem intValuation_plMap (j : E ≃+* L) (w : HeightOneSpectrum (𝓞 E)) (x : 𝓞 E) :
     (plMap j w).intValuation (RingOfIntegers.mapRingEquiv j x) = w.intValuation x := by

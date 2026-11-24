@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.CentralIdemCoeff
 import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.GlobalCore
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationApplyOfWild
 
 @[expose] public section
 
@@ -169,32 +170,10 @@ private theorem valuation_apply_eq_of_valuation_div_sub_one_lt {E Ω : Type} [Fi
       simpa using this
     rw [← div_mul_cancel₀ (σ y) hy, map_mul, h1, one_mul]
 
-private theorem mem_ine_of_valuation_div_sub_one_lt_one {E Ω : Type} [Field E] [NumberField E] [Field Ω] [Algebra E Ω]
-    (A : ValuationSubring Ω) (σ : G E Ω)
-    (hσ : ∀ y : Ω, y ≠ 0 → A.valuation (σ y / y - 1) < 1) : σ ∈ Ine (F := E) A := by
-  rw [mem_Ine]
-  let : MulAction (G E Ω) (ValuationSubring Ω) := ValuationSubring.pointwiseMulAction
-  refine ⟨MulAction.mem_stabilizer_iff.mpr ?_, ?_⟩
-  · ext x
-    rw [ValuationSubring.mem_pointwise_smul_iff_inv_smul_mem, ← ValuationSubring.valuation_le_one_iff,
-      ← ValuationSubring.valuation_le_one_iff]
-    have key : A.valuation x = A.valuation (σ⁻¹ • x) := by
-      have h := valuation_apply_eq_of_valuation_div_sub_one_lt A σ hσ (σ⁻¹ • x)
-      rwa [← AlgEquiv.smul_def, smul_inv_smul] at h
-    rw [key]
-  · intro x hx
-    by_cases h0 : x = 0
-    · simp [h0]
-    · have h3 : σ x - x = x * (σ x / x - 1) := by
-        rw [mul_sub, mul_div_cancel₀ _ h0, mul_one]
-      rw [h3, map_mul]
-      calc _ ≤ 1 * A.valuation (σ x / x - 1) := by gcongr
-        _ < 1 := by rw [one_mul]; exact hσ x h0
-
 theorem main : ∀ (D : D7) (i : D.nd.Loc) (v : HeightOneSpectrum (𝓞 D.host.E)), v ∉ placesOver D.host.E (D.nd.l i) → ∀ f : GE D.nd → KOG (D.nd.O i) 1, IsLocallyConstant f → (∀ a ∈ Ine (F := D.host.E) (D.nd.plOm.1 v), ∀ b ∈ Ine (F := D.host.E) (D.nd.plOm.1 v), f (a * b) = f a + f b) → ∀ σ ∈ wildSet D.nd (D.nd.plOm.1 v), f σ = 0 := by
   intro D i v hv f hf hadd σ hσ
   exact eq_zero_of_wild D.host.E D.nd.Om v (D.nd.plOm.1 v) (D.nd.l i) (D.nd.lPrime i).out hv
     (D.nd.plOm.2 v) (KOG (D.nd.O i) 1) f hf (Ine (F := D.host.E) (D.nd.plOm.1 v)) hadd
-    (exists_pow_nsmul_eq_zero (D.nd.l i) (D.nd.O i)) σ (mem_ine_of_valuation_div_sub_one_lt_one _ σ hσ) hσ
+    (exists_pow_nsmul_eq_zero (D.nd.l i) (D.nd.O i)) σ (_root_.GlobalTheory.TameCharUnique.mem_Ine_of_wild (σ := σ) hσ) hσ
 
 end GlobalTheory.WildAdditive

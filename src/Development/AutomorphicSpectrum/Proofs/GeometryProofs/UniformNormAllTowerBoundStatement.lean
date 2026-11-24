@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PLocalRep
 public import Development.AutomorphicSpectrum.Definitions.MetricPeriods.HasMultiplier
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LabelSigBijective
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
@@ -219,24 +220,7 @@ variable {K : Type} [Fintype K] {ι : K → Type} [∀ k, Fintype (ι k)] {Ω : 
 
 theorem isMultiHomog_X_single [DecidableEq K] (k : K) (i : ι k) :
     IsMultiHomog (X ⟨k, i⟩ : MRing ι) (Pi.single k 1) := by
-  classical
-  intro m hm b
-  rw [support_X, Finset.mem_singleton] at hm
-  subst hm
-  by_cases hb : b = k
-  · subst hb
-    rw [Finset.sum_eq_single i]
-    · simp
-    · intro j _ hj
-      rw [Finsupp.single_apply, if_neg]
-      intro h
-      exact hj (by simpa using h.symm)
-    · simp
-  · rw [Pi.single_eq_of_ne hb]
-    refine Finset.sum_eq_zero fun j _ => ?_
-    rw [Finsupp.single_apply, if_neg]
-    intro h
-    exact hb (congrArg Sigma.fst h).symm
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.LocalRep.isMultiHomog_X <;> assumption
 
 theorem hasVal_coord [DecidableEq K] (k : K) (i : ι k) :
     Small.HasVal y (Pi.single k 1) (y ⟨k, i⟩) z (z ⟨k, i⟩) := by

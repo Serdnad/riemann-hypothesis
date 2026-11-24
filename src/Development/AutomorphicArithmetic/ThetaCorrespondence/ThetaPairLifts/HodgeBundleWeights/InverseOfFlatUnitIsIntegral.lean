@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatSectionConstValuationEigenLatticeAtPrime
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.UnivFrame
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFlatSecRankZero
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsLocalRingTrivSqZeroExt
@@ -128,33 +129,7 @@ open Classical in
 theorem exOf_flatWt_some (τ : Psi H) (σ : E →+* ℂ) (i : Fin (Dw.mult σ)) :
     exOf Dw (flatWt Dw τ) 0 (some ⟨σ, i⟩) =
       if σ = τ.1 then -1 else if σ = conjEmb τ.1 then 1 else 0 := by
-  by_cases h1 : σ = τ.1
-  · subst h1
-    have hi : (i : ℕ) < Dw.p := by
-      have := i.2; simp only [Datum.mult, if_pos τ.2] at this; exact this
-    rw [if_pos rfl]
-    show (wtOf Dw (flatWt Dw τ) 0).1 (τ.1, i) = -1
-    rw [wtOf_big _ _ τ i hi]; simp [flatWt, parWt]
-  · rw [if_neg h1]
-    by_cases h2 : σ = conjEmb τ.1
-    · subst h2
-      have hi : (i : ℕ) < Dw.q := by
-        have := i.2; simp only [Datum.mult, if_neg (conj_not_mem τ)] at this; exact this
-      rw [if_pos rfl]
-      show (wtOf Dw (flatWt Dw τ) 0).1 (conjEmb τ.1, i) = 1
-      rw [wtOf_small _ _ τ i hi]; simp [flatWt, parWt]
-    · rw [if_neg h2]
-      show (wtOf Dw (flatWt Dw τ) 0).1 (σ, i) = 0
-      simp only [wtOf]
-      split_ifs with h h' h''
-      · have hne : (⟨σ, h⟩ : Psi H) ≠ τ := fun e => h1 (congrArg Subtype.val e)
-        simp [flatWt, parWt, hne]
-      · rfl
-      · have hne : (⟨conjEmb σ, h''⟩ : Psi H) ≠ τ := fun e => h2 (by
-          rw [← congrArg Subtype.val e, GlobalTheory.AllWt.conjEmb_conjEmb])
-        simp [flatWt, parWt, hne]
-      · rfl
-      · rfl
+  apply _root_.GlobalTheory.FlatChar.exOf_flatWt_some <;> assumption
 
 theorem exOf_flatWt_none (τ : Psi H) : exOf Dw (flatWt Dw τ) 0 none = 0 := by
   simp [exOf, exZ, wtOf]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SameBlockOfPosC
 public import Development.WeilBound.ThetaLifts.LocalTheory.ToralCohomology.SumPlSingle
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreComb
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.CoreLie
@@ -83,21 +84,7 @@ theorem Jm_star (r s : ℕ) : (Jm r s)ᴴ = Jm r s := by
   congr 1; funext a; cases a <;> simp
 
 theorem upq_split {r s : ℕ} (Y : Mat r s) : ∃ Y₁ ∈ upq r s, ∃ Y₂ ∈ upq r s, Y = Y₁ + Complex.I • Y₂ := by
-  have e1 : ∀ Z : Mat r s, Z * Jm r s * Jm r s = Z := fun Z => by rw [Matrix.mul_assoc, Jm_sq, Matrix.mul_one]
-  have e2 : ∀ Z : Mat r s, Jm r s * (Jm r s * Z) = Z := fun Z => by rw [← Matrix.mul_assoc, Jm_sq, Matrix.one_mul]
-  refine ⟨(1 / 2 : ℂ) • (Y - Jm r s * Yᴴ * Jm r s), ?_, (-Complex.I / 2) • (Y + Jm r s * Yᴴ * Jm r s), ?_, ?_⟩
-  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_sub, Matrix.conjTranspose_mul, Jm_star,
-      Matrix.conjTranspose_conjTranspose, Matrix.smul_mul, Matrix.mul_smul, Matrix.sub_mul, Matrix.mul_sub,
-      Matrix.mul_assoc, Jm_sq, Matrix.mul_one, e2]
-    rw [show star (1 / 2 : ℂ) = 1 / 2 by simp]
-    module
-  · simp only [upq, Set.mem_ofPred_eq, Matrix.conjTranspose_smul, Matrix.conjTranspose_add, Matrix.conjTranspose_mul, Jm_star,
-      Matrix.conjTranspose_conjTranspose, Matrix.smul_mul, Matrix.mul_smul, Matrix.add_mul, Matrix.mul_add,
-      Matrix.mul_assoc, Jm_sq, Matrix.mul_one, e2]
-    rw [show star (-Complex.I / 2 : ℂ) = Complex.I / 2 by simp]
-    module
-  · rw [smul_smul, show Complex.I * (-Complex.I / 2) = 1 / 2 by linear_combination (-1 / 2 : ℂ) * Complex.I_mul_I]
-    module
+  apply _root_.GlobalTheory.FockTensor.exists_upq_add <;> assumption
 
 theorem zero_upq (r s : ℕ) : (0 : Mat r s) ∈ upq r s := by simp [upq]
 

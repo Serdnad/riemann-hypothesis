@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.ReproOf
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.CompatFub
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.PSplit
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.HeckeFubiniCompatibility.EntryLeOfLg
@@ -1291,20 +1292,8 @@ theorem eq_of_defect (m : ℕ) (t t' : ℕ → ℂ) (Q : ℂ[X]) (hQ : Q.natDegr
   exact mul_left_cancel₀ hu e
 
 theorem exists_enum (s : Multiset ℂ) : ∀ n, Multiset.card s = n → ∃ r : Fin n → ℂ, Multiset.map r univ.val = s := by
-  induction s using Multiset.induction_on with
-  | empty =>
-    intro n hn
-    simp only [Multiset.card_zero] at hn
-    subst hn
-    exact ⟨Fin.elim0, by simp⟩
-  | cons a s ih =>
-    intro n hn
-    rw [Multiset.card_cons] at hn
-    subst hn
-    obtain ⟨r, hr⟩ := ih _ rfl
-    refine ⟨Fin.cons a r, ?_⟩
-    conv_rhs => rw [← hr]
-    simp [Fin.univ_succ, Function.comp_def]
+  intros
+  apply _root_.PositivityTheory.Rg.BcB.CG.ReproL.exists_enum <;> assumption
 
 theorem exists_gelf (V : Type) [AddCommGroup V] [Module ℂ V] (m : ℕ) (M : Fin (m + 1) → Fin (m + 1) → Module.End ℂ V)
     (hM : Formalism.REAL.GlRel M) (v : V) (hv : v ≠ 0) (t : ℕ → ℂ) (ht : ∀ k, Formalism.REAL.etr M k v = t k • v) :

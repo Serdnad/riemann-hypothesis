@@ -1362,46 +1362,7 @@ variable {K : Type} [Field K] [NumberField K] [StarRing K] {G : Type} [Group G] 
 private lemma exists_toF_bot_eq_toF (B : BlockDat K G Pl0) (Xs : Finset (G → K)) (P : Subgroup G) (ψ : P →* Kˣ)
     (Z : Submodule K B.S.Forms) (x : Fin (B.dZ ⟨Xs, P, ψ⟩ Z) → K) :
     ∃ y : Fin (B.dZ ⟨Xs, ⊥, 1⟩ Z) → K, B.toF ⟨Xs, ⊥, 1⟩ Z y = B.toF ⟨Xs, P, ψ⟩ Z x := by
-  classical
-  have hS := fun n (W : Submodule K (Fin n → K)) => Formalism.L2.DIV.subspace_image_spec K n W
-  obtain ⟨-, hmul⟩ := Formalism.L2.DIV.group_action_matrix_hom K B.S G B.r
-  have hbot : lvlIdem (⊥ : Subgroup G) (1 : (⊥ : Subgroup G) →* Kˣ) = 1 := Formalism.L2.DIV.level_idempotent_bot K G 1
-  have hu : B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x ∈ B.Z0 ⟨Xs, P, ψ⟩ Z := by
-    rw [← (hS _ (B.Z0 ⟨Xs, P, ψ⟩ Z)).2]
-    exact ⟨x, rfl⟩
-  have hw : B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) ∈ B.coord Z := hu
-  have hr1 : B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) ∈
-      LinearMap.range (B.S.gaMat B.r (idemOf Xs)).mulVecLin := by
-    have h0 : B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) ∈
-        LinearMap.range (B.S.gaMat B.r (goodAt Xs P ψ)).mulVecLin := by
-      rw [← (hS _ (LinearMap.range (B.S.gaMat B.r (goodAt Xs P ψ)).mulVecLin)).2]
-      exact ⟨_, rfl⟩
-    obtain ⟨v, hv⟩ := h0
-    refine ⟨B.S.gaMat B.r (lvlIdem P ψ) *ᵥ v, ?_⟩
-    simp only [Matrix.mulVecLin_apply] at hv ⊢
-    rw [Matrix.mulVec_mulVec, ← hmul]
-    exact hv
-  obtain ⟨u1, hu1⟩ : ∃ u1, B.vE ⟨Xs, ⊥, 1⟩ *ᵥ u1 = B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) := by
-    have e : B.S.gaMat B.r (goodAt Xs ⊥ 1) = B.S.gaMat B.r (idemOf Xs) := by rw [goodAt, hbot, mul_one]
-    have h1 : B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) ∈
-        LinearMap.range (B.S.gaMat B.r (goodAt Xs ⊥ 1)).mulVecLin := by
-      rw [e]
-      exact hr1
-    rw [← (hS _ (LinearMap.range (B.S.gaMat B.r (goodAt Xs ⊥ 1)).mulVecLin)).2] at h1
-    obtain ⟨u1, hu1⟩ := h1
-    exact ⟨u1, hu1⟩
-  have hu1Z : u1 ∈ B.Z0 ⟨Xs, ⊥, 1⟩ Z := by
-    show B.vE ⟨Xs, ⊥, 1⟩ *ᵥ u1 ∈ B.coord Z
-    rw [hu1]
-    exact hw
-  rw [← (hS _ (B.Z0 ⟨Xs, ⊥, 1⟩ Z)).2] at hu1Z
-  obtain ⟨y, hy⟩ := hu1Z
-  refine ⟨y, ?_⟩
-  have hy' : B.zE ⟨Xs, ⊥, 1⟩ Z *ᵥ y = u1 := hy
-  have hin : B.vE ⟨Xs, ⊥, 1⟩ *ᵥ (B.zE ⟨Xs, ⊥, 1⟩ Z *ᵥ y) =
-      B.vE ⟨Xs, P, ψ⟩ *ᵥ (B.zE ⟨Xs, P, ψ⟩ Z *ᵥ x) := by
-    rw [hy', hu1]
-  rw [BlockDat.toF_apply, BlockDat.toF_apply, hin]
+  apply _root_.Formalism.IndefR.CxPass.PassRep.toF_sub <;> assumption
 
 theorem sub_lvl (b : Bool) (t : I.A3.fam3.base3.Tup)
     (x : Fin ((lv (faceOf3 I.A3 I.P0 I.ψ0 I.P1 I.ψ1 I.Dc I.Sp I.Zsc I.X.zs) b).dQ t) → K) :

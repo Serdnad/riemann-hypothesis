@@ -1,5 +1,6 @@
 module
 
+import Formalism.FormalGroupWitt.WeightInvariance
 public import Formalism.GaussJetBounds.GenLogInverse
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.WtGeProd
 import Mathlib.Algebra.Order.Floor.Extended
@@ -137,12 +138,7 @@ end General
 
 theorem norm_finsum_le_of {K : Type u} [NormedField K] [IsUltrametricDist K] {α : Type v}
     {g : α → K} {C : ℝ} (hC : 0 ≤ C) (hg : ∀ n, ‖g n‖ ≤ C) : ‖∑ᶠ n, g n‖ ≤ C := by
-  classical
-  by_cases hfin : (Function.support g).Finite
-  · rw [finsum_eq_sum g hfin]
-    exact IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg hC (fun i _ => hg i)
-  · rw [finsum_of_infinite_support hfin]
-    simpa using hC
+  apply _root_.Formalism.FG.KeyVAux.norm_finsum_le <;> assumption
 
 theorem substitution_weight_bound : SubstWt.{u, v, w} := by
   intro K _ _ pi h0 h1 σ τ _ a r r' wt f ha0 ha hf

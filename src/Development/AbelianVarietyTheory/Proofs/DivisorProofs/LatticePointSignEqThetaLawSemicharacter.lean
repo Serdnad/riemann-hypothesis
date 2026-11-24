@@ -109,71 +109,8 @@ theorem exists_abstract_value {G R : Type} [AddCommGroup G] [AddCommGroup R] (ψ
     ∃ χ : G → ℂ, (∀ x, (¬ ∃ l ∈ L, K (x - l)) → χ x = 0) ∧ (∀ x, ‖χ x‖ ≤ 1) ∧ χ 0 = 1 ∧
       (∀ x y, K y → χ (x + y) = χ x) ∧ (∀ u ∈ L, ∀ x, ψ (B x (2 • u)) * χ (x + 2 • u) = χ x) ∧
       (∀ u ∈ L, B (p u) u = 0 → ∀ x, ψ (B x u) * χ (x + u) = χ x) ∧
-      ∀ l ∈ L, χ l = ψ (B (p l) l) := by
-  classical
-  have Kadd : ∀ x y, K x → K y → K (x + y) := fun x y hx hy => by
-    have := Ksub x (0 - y) hx (Ksub 0 y K0 hy)
-    rwa [zero_sub, sub_neg_eq_add] at this
-  have skew : ∀ x y, B x y + B y x = 0 := fun x y => by
-    have := ha (x + y)
-    rwa [hl, hr, hr, ha, ha, zero_add, add_zero] at this
-  let χ : G → ℂ := fun x => if h : ∃ l ∈ L, K (x - l) then ψ (B (p h.choose) h.choose) else 0
-  have hn : ∀ x, (¬ ∃ l ∈ L, K (x - l)) → χ x = 0 := fun x h => dif_neg h
-  have hy : ∀ x, ∀ l ∈ L, K (x - l) → χ x = ψ (B (p l) l) := fun x l hl' hk => by
-    have h : ∃ l ∈ L, K (x - l) := ⟨l, hl', hk⟩
-    have e : h.choose = l := by
-      have h1 := Ksub _ _ hk h.choose_spec.2
-      rw [sub_sub_sub_cancel_left] at h1
-      exact sub_eq_zero.1 (hKL _ (L.sub_mem h.choose_spec.1 hl') h1)
-    show dite _ _ _ = _
-    rw [dite_eq_left h, e]
-  have gen : ∀ u ∈ L, (∀ l ∈ L, ψ (B l u) * ψ (B (p (l + u)) (l + u)) = ψ (B (p l) l)) →
-      ∀ x, ψ (B x u) * χ (x + u) = χ x := fun u hu H x => by
-    by_cases h : ∃ l ∈ L, K (x - l)
-    · obtain ⟨l, hl', hk⟩ := h
-      have e : B x u = B l u := by
-        have := hl (x - l) l u
-        rwa [sub_add_cancel, hB _ hk u hu, zero_add] at this
-      rw [hy x l hl' hk, hy (x + u) (l + u) (L.add_mem hl' hu) (by rwa [add_sub_add_right_eq_sub]), e, H l hl']
-    · rw [hn x h, hn (x + u), mul_zero]
-      rintro ⟨l, hl', hk⟩
-      exact h ⟨l - u, L.sub_mem hl' hu, by rwa [← sub_add, sub_add_eq_add_sub]⟩
-  refine ⟨χ, hn, fun x => ?_, ?_, fun x y hk => ?_, fun u hu => ?_, fun u hu h0 => ?_,
-    fun l hl' => hy l l hl' (by rwa [sub_self])⟩
-  · by_cases h : ∃ l ∈ L, K (x - l)
-    · obtain ⟨l, hl', hk⟩ := h
-      rw [hy x l hl' hk]; exact hψ _
-    · rw [hn x h]; simp
-  · rw [hy 0 0 L.zero_mem (by rwa [sub_zero])]
-    have : B (p 0) 0 = 0 := by
-      have := hr (p 0) 0 0
-      rw [add_zero] at this
-      exact left_eq_add.1 this
-    rw [this, AddChar.map_zero_eq_one]
-  · by_cases h : ∃ l ∈ L, K (x - l)
-    · obtain ⟨l, hl', hk⟩ := h
-      rw [hy x l hl' hk, hy (x + y) l hl' (by rw [← sub_add_eq_add_sub]; exact Kadd _ _ hk ‹_›)]
-    · rw [hn x h, hn (x + y)]
-      rintro ⟨l, hl', hk'⟩
-      refine h ⟨l, hl', ?_⟩
-      have := Ksub _ _ hk' hk
-      rwa [show x + y - l - y = x - l by abel] at this
-  · refine gen _ (L.nsmul_mem hu 2) fun l hl' => ?_
-    have e : B (p (l + 2 • u)) (l + 2 • u) = B (p l) l + (B (p l) u + B (p l) u) +
-        (B (p u) (l + 2 • u) + B (p u) (l + 2 • u)) := by
-      conv_lhs => rw [padd, hl, hr, two_nsmul, hr, padd, hl]
-      rw [two_nsmul]
-    rw [e, two_nsmul, hr, h2 l hl' u hu, one_mul, AddChar.map_add_eq_mul, AddChar.map_add_eq_mul,
-      h2 _ (pL l hl') u hu, h2 _ (pL u hu) _ (L.add_mem hl' (L.add_mem hu hu)), mul_one, mul_one]
-  · refine gen _ hu fun l hl' => ?_
-    have e : B l u + B (p (l + u)) (l + u) = B (p l) l + (B (p l) u + B (p l) u) := by
-      have e1 : B l u = B (p l) u + B (q l) u := by rw [← hl, pq]
-      have e2 := skew u (q l)
-      rw [padd, hl, hr, hr, h0, adj u l, e1]
-      rw [← sub_eq_zero]
-      refine Eq.trans ?_ e2
-      abel
-    rw [← AddChar.map_add_eq_mul, e, AddChar.map_add_eq_mul, h2 _ (pL l hl') u hu, mul_one]
+      ∀ l ∈ L, χ l = ψ (B (p l) l) :=
+  GlobalTheory.SemiChar.exists_abstract_with_values ψ hψ B hl hr ha L K K0 Ksub hKL hB h2 p q padd pq adj pL
 
 theorem exists_semichar_value : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank → D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), IsStdChar D ψ (-1) → IsSelfDualC S ΛS → IsSelfDualC T ΛT → ∀ b : 𝓞 D.host.E, (b : D.host.E) + star (b : D.host.E) = 1 → ∃ χ : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) fun _ => True) χ ∧ ∀ l ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True), χ l = ψ (symplOH S T (l.map fun z => incA D (b : D.host.E) * z) l) := by
   intro D ψ S T ΛS ΛT hψ hS hT b hb
@@ -420,12 +357,23 @@ theorem coord_entry (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fi
   rw [hinv, Matrix.map_mul, Matrix.map_mul]
   rfl
 
-theorem sign_eq_alpha : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → IsStdChar D ψ (-1) → ∀ δ : ℂ, δ ≠ 0 → ∀ v : Matrix (Fin T.rank) (Fin S.rank) D.host.E, GlobalTheory.VacUnique.finRat S T v ∈ latO S T (colLat frS : Set (Fin S.rank → D.host.E)) (colLat frT : Set (Fin T.rank → D.host.E)) (fun _ => True) → ∀ ε : ℂ, (∀ g : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (colLat frS : Set (Fin S.rank → D.host.E)) (colLat frT : Set (Fin T.rank → D.host.E)) (fun _ => True)) g → heisO ψ S T (GlobalTheory.VacUnique.finRat S T (-v)) g = ε • g) → ψ (-symplOH S T (ratW T S v) (GlobalTheory.VacUnique.finRat S T (-v))) * ε = Formalism.MainNotions.TaylorLogMetric.al D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) (δ • (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) * GlobalTheory.FockPos.frAt frS τ) a b)) := by
-  intro D ψ S T frS frT hS hT hψ δ hδ v hv ε hε
-  set L := latO S T (colLat frS : Set (Fin S.rank → D.host.E)) (colLat frT : Set (Fin T.rank → D.host.E))
+theorem sign_eq_alpha_of_selfDual :
+    ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E)
+    (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E)
+    frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E)
+    frT.1 * T.gram * frT.1 = 1 → IsStdChar D ψ (-1) → ∀ (ΛS : Submodule (𝓞 D.host.E) (Fin S.rank →
+    D.host.E)) (ΛT : Submodule (𝓞 D.host.E) (Fin T.rank → D.host.E)), IsSelfDualC S ΛS
+    → IsSelfDualC T ΛT → ∀ δ : ℂ, δ ≠ 0 → ∀ v : Matrix (Fin T.rank) (Fin S.rank) D.host.E,
+    GlobalTheory.VacUnique.finRat S T v ∈ latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set
+    (Fin T.rank → D.host.E)) (fun _ => True) → ∀ ε : ℂ, (∀ g : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (ΛS : Set
+    (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E)) (fun _ => True)) g → heisO ψ S T (GlobalTheory.VacUnique.finRat S T (-v)) g =
+    ε • g) → ψ (-symplOH S T (ratW T S v) (GlobalTheory.VacUnique.finRat S T (-v))) * ε
+    = Formalism.MainNotions.TaylorLogMetric.al D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ)
+    (δ • (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) * GlobalTheory.FockPos.frAt frS τ) a b))
+    := by
+  intro D ψ S T frS frT hS hT hψ ΛS ΛT hSd hTd δ hδ v hv ε hε
+  set L := latO S T (ΛS : Set (Fin S.rank → D.host.E)) (ΛT : Set (Fin T.rank → D.host.E))
     (fun _ => True) with hL
-  have hSd := GlobalTheory.FunObj.VecEx.isSelfDualC_colLat S frS hS
-  have hTd := GlobalTheory.FunObj.VecEx.isSelfDualC_colLat T frT hT
   set u : WO S T := GlobalTheory.VacUnique.finRat S T (-v) with hu
   have huL : u ∈ L := by
     rw [hu, map_neg]; exact L.neg_mem hv
@@ -441,7 +389,7 @@ theorem sign_eq_alpha : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp
     rw [hbv, star_div₀, star_add, star_one, h2s, GlobalTheory.FockCompare.RealChart.star_sqrtMinusD]
     ring
   have hb : (b : D.host.E) + star (b : D.host.E) = 1 := by rw [hbs]; ring
-  obtain ⟨χ, hχ, hval⟩ := GlobalTheory.ThetaSignLat.semichar_value ψ S T (colLat frS) (colLat frT) hψ hSd hTd b hb
+  obtain ⟨χ, hχ, hval⟩ := GlobalTheory.ThetaSignLat.semichar_value ψ S T ΛS ΛT hψ hSd hTd b hb
   obtain ⟨f1, -, f3, -⟩ := GlobalTheory.T.homSymplecticHalfForm_algebraic_laws_continuous D S T
   have hz : ∀ w : WO S T, symplOH S T 0 w = 0 := fun w => by
     have := f1 0 0 w
@@ -460,7 +408,7 @@ theorem sign_eq_alpha : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp
     rw [e1] at this
     rw [this, Pi.smul_apply, e0, smul_eq_mul, mul_one]
   have hpm : ε = 1 ∨ ε = -1 := by
-    obtain ⟨ε', h1, h2⟩ := (GlobalTheory.T.self_dual_lattice_pairing_dual D ψ S T (colLat frS) (colLat frT) hψ hSd hTd).2.2 χ hχ u huL
+    obtain ⟨ε', h1, h2⟩ := (GlobalTheory.T.self_dual_lattice_pairing_dual D ψ S T ΛS ΛT hψ hSd hTd).2.2 χ hχ u huL
     have := congrFun (h2 χ hχ) 0
     rw [e1, Pi.smul_apply, e0, smul_eq_mul, mul_one] at this
     rw [hεu, this]; exact h1
@@ -546,6 +494,12 @@ theorem sign_eq_alpha : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp
     field_simp
   rw [hre, hεt]
   exact (GlobalTheory.ThetaSignLat.sign_of_exp _ (by rw [← hεt]; exact hpm)).symm
+
+theorem sign_eq_alpha : ∀ {D : D7} (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D) (frS : GL (Fin S.rank) D.host.E) (frT : GL (Fin T.rank) D.host.E), Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frS.1 * S.gram * frS.1 = 1 → Formalism.UG.cT (D.sp.cm.sig : D.host.E →+* D.host.E) frT.1 * T.gram * frT.1 = 1 → IsStdChar D ψ (-1) → ∀ δ : ℂ, δ ≠ 0 → ∀ v : Matrix (Fin T.rank) (Fin S.rank) D.host.E, GlobalTheory.VacUnique.finRat S T v ∈ latO S T (colLat frS : Set (Fin S.rank → D.host.E)) (colLat frT : Set (Fin T.rank → D.host.E)) (fun _ => True) → ∀ ε : ℂ, (∀ g : WO S T → ℂ, IsLatVac (heisO ψ S T) (latO S T (colLat frS : Set (Fin S.rank → D.host.E)) (colLat frT : Set (Fin T.rank → D.host.E)) (fun _ => True)) g → heisO ψ S T (GlobalTheory.VacUnique.finRat S T (-v)) g = ε • g) → ψ (-symplOH S T (ratW T S v) (GlobalTheory.VacUnique.finRat S T (-v))) * ε = Formalism.MainNotions.TaylorLogMetric.al D (Formalism.MainNotions.TaylorLogMetric.tor0 D D.host.ccK δ) (δ • (fun τ a b => ((GlobalTheory.FockPos.frAt frT τ)⁻¹ * Matrix.of (GlobalTheory.VacUnique.infRat S T v τ) * GlobalTheory.FockPos.frAt frS τ) a b)) := by
+  intro D ψ S T frS frT hS hT hψ
+  exact sign_eq_alpha_of_selfDual ψ S T frS frT hS hT hψ (colLat frS) (colLat frT)
+    (GlobalTheory.FunObj.VecEx.isSelfDualC_colLat S frS hS)
+    (GlobalTheory.FunObj.VecEx.isSelfDualC_colLat T frT hT)
 
 end GlobalTheory.ThetaSignLat
 end -- clump:auto

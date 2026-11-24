@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.CountingFormula.OFRepGood
 public import Formalism.SharpRestriction.CuspSpanNormBounds.FlagEEqHyperbolic
 public import Mathlib.Algebra.AffineMonoid.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,19 +62,7 @@ theorem diffIdeal_ne_bot (D : D7) :
 
 theorem one_mem_ddS_neg (D : D7) (m : ℕ) :
     (1 : D.host.E) ∈ (ddS D ^ (-(m : ℤ)) : FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) := by
-  have hpow : ddS D ^ m = ((Ideal.map (algebraMap (𝓞 D.host.F) (𝓞 D.host.E))
-      (differentIdeal ℤ (𝓞 D.host.F)) ^ m : Ideal (𝓞 D.host.E)) :
-        FractionalIdeal (nonZeroDivisors (𝓞 D.host.E)) D.host.E) := by
-    rw [ddS, FractionalIdeal.coeIdeal_pow]
-  have hI : ddS D ^ m ≠ 0 := by
-    rw [hpow, Ne, FractionalIdeal.coeIdeal_eq_zero]
-    exact pow_ne_zero _ (diffIdeal_ne_bot D)
-  have hle : ddS D ^ m ≤ 1 := by
-    rw [hpow]
-    exact FractionalIdeal.coeIdeal_le_one
-  rw [zpow_neg, zpow_natCast, ← FractionalIdeal.one_le]
-  have h1 := FractionalIdeal.inv_anti_mono hI hle
-  rwa [inv_one] at h1
+  apply _root_.PI.UnitaryGroupMassFormula.CntFormula.one_mem_ddS_zpow <;> assumption
 
 theorem e_mem_lam (D : D7) {T : D.host.E} (F0 : FlagG (VS D) D.R.rS T) (Λ : Submodule (𝓞 D.host.E) (VS D).V)
     (hΛ : IsRowLat D F0 Λ) (a : Fin D.R.rS) : F0.e a ∈ Λ := by

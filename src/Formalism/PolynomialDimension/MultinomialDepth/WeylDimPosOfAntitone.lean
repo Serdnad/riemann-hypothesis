@@ -1,5 +1,6 @@
 module
 
+import Formalism.PolynomialDimension.MultinomialDepth.FrameMultinomialBoundHolds
 public import Formalism.PolynomialDimension.DigitClassSize
 public import Formalism.PolynomialDimension.WeylDim
 import Mathlib.Algebra.Order.Floor.Extended
@@ -87,16 +88,7 @@ theorem weylDim_zero (m : ℕ) : weylDim m (fun _ => (0 : ℤ)) = 1 := by
   · rfl
 
 theorem weylDim_pos_of_antitone (m : ℕ) (μ : Fin m → ℤ) (hμ : Antitone μ) : 0 < weylDim m μ := by
-  unfold weylDim
-  apply Finset.prod_pos; intro i _
-  apply Finset.prod_pos; intro j _
-  split_ifs with h
-  · have h1 : ((i : ℕ) : ℚ) < ((j : ℕ) : ℚ) := by exact_mod_cast (show (i : ℕ) < (j : ℕ) from h)
-    have h2 : μ j ≤ μ i := hμ h.le
-    have h3 : ((μ j : ℤ) : ℚ) ≤ ((μ i : ℤ) : ℚ) := by exact_mod_cast h2
-    push_cast
-    apply div_pos <;> linarith
-  · exact one_pos
+  apply _root_.Formalism.CountingSumsFrames.gram_weylDim_pos <;> assumption
 
 theorem weylDim_hwt (m A B : ℕ) : (weylDim (m + 2) (hwt m A B) : ℝ) =
     (∏ j : Fin m, ((A : ℝ) + ((j : ℕ) : ℝ) + 1) / (((j : ℕ) : ℝ) + 1)) *

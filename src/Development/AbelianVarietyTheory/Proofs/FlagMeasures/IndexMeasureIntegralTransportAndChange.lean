@@ -149,18 +149,7 @@ private lemma Fine_of_le_and_finsum_eq_relIndex_mul {A B C : AddSubgroup W} {φ 
 
 open scoped Pointwise Classical in
 variable {W : Type} [AddCommGroup W] {W' : Type} [AddCommGroup W'] in
-private lemma finsum_out_div_relIndex_eq_inf_of_fine {A B₁ B₂ : AddSubgroup W} {φ : W → ℂ}
-    (h₁ : _root_.GlobalTheory.IdxInt.Fine A φ B₁) (h₂ : _root_.GlobalTheory.IdxInt.Fine A φ B₂) :
-    (∑ᶠ c : W ⧸ B₁, φ (Quotient.out c)) / (B₁.relIndex A : ℂ) =
-      (∑ᶠ c : W ⧸ (B₁ ⊓ B₂), φ (Quotient.out c)) / ((B₁ ⊓ B₂).relIndex A : ℂ) := by
-  have hle : B₁ ⊓ B₂ ≤ B₁ := inf_le_left
-  have hprod := AddSubgroup.relIndex_mul_relIndex (B₁ ⊓ B₂) B₁ A hle h₁.1
-  have hA : (B₁ ⊓ B₂).relIndex A ≠ 0 := AddSubgroup.relIndex_inf_ne_zero h₁.2.1 h₂.2.1
-  have hi : (B₁ ⊓ B₂).relIndex B₁ ≠ 0 := by
-    rw [← hprod] at hA
-    exact left_ne_zero_of_mul hA
-  rw [(Fine_of_le_and_finsum_eq_relIndex_mul h₁ hle hi).2, ← hprod, Nat.cast_mul,
-    mul_div_mul_left _ _ (Nat.cast_ne_zero.mpr hi)]
+
 
 open scoped Pointwise Classical in
 variable {W : Type} [AddCommGroup W] {W' : Type} [AddCommGroup W'] in

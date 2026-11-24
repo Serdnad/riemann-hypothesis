@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.PlaneAd
 public import Development.WeilBound.ThetaLifts.TowerModels.LeviAlg
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EqPlaceIdemOfIsPrimeIdem
@@ -204,44 +205,10 @@ theorem form_skew (hs : ∀ x, σ (σ x) = x) {J : Matrix (Fin d) (Fin d) E} (hJ
 theorem isFr (hB : B.IsGood σ) (hW : W.IsSkew σ B r s) (hH : H.IsAdapted σ B W W₁ i₀ i₁) :
     IsFr (σ : E →+* E) W.J W₁.J H.ι H.x H.y := by
   have hsk := form_skew (sig_sig hB.cm) hW.skew
-  have hFull : W.L.IsFullLattice E := by
-    let := hW.lat
-    refine { span_eq_top := ?_ }
-    let U := Submodule.span E (W.L : Set (Fin d → E))
-    change U = ⊤
-    by_contra hU
-    let g : (Fin d → E) →ₗ[E] Module.Dual E U :=
-      ((dotProductBilin E E).compl₂ (Matrix.mulVecLin W.Jᵀ)).domRestrict₂ U
-    have hdim : Module.finrank E (Module.Dual E U) < Module.finrank E (Fin d → E) := by
-      rw [Subspace.dual_finrank_eq]
-      exact Submodule.finrank_lt hU
-    obtain ⟨z, hz, hz₀⟩ :=
-      Submodule.exists_mem_ne_zero_of_ne_bot (LinearMap.ker_ne_bot_of_finrank_lt (f := g) hdim)
-    let y : Fin d → E := fun i => σ (z i)
-    have hy₀ : y ≠ 0 := by
-      intro hy
-      apply hz₀
-      exact funext fun i => σ.injective ((congrFun hy i).trans (map_zero σ).symm)
-    have horth (x : Fin d → E) (hx : x ∈ W.L) : form σ W.J y x = 0 := by
-      have hz' : z ⬝ᵥ W.Jᵀ *ᵥ x = 0 :=
-        congrArg (fun f : Module.Dual E U => f ⟨x, Submodule.subset_span hx⟩)
-          (LinearMap.mem_ker.mp hz)
-      have hzero : form σ W.J x y = 0 := by
-        rw [Matrix.dotProduct_transpose_mulVec] at hz'
-        simpa only [form, y, sig_sig hB.cm] using hz'
-      rw [hsk, hzero, map_zero, neg_zero]
-    have hline (a : E) : a • y ∈ W.L := by
-      have hzform (x : Fin d → E) (hx : x ∈ W.L) : form σ W.J (a • y) x = 0 := by
-        simpa only [form, smul_dotProduct, smul_eq_mul] using
-          (show a * form σ W.J y x = 0 by rw [horth x hx, mul_zero])
-      exact (hW.dual _).2 fun x hx o => by rw [hzform x hx, mul_zero, map_zero]; exact isIntegral_zero
-    let i : E →ₗ[𝓞 E] W.L :=
-      ((LinearMap.toSpanSingleton E _ y).restrictScalars (𝓞 E)).codRestrict W.L hline
-    let : Module.Finite (𝓞 E) W.L := Module.Finite.iff_fg.mpr hW.lat.fg
-    let : Module.Finite (𝓞 E) E := Module.Finite.of_injective i fun a b hab =>
-      smul_left_injective E hy₀ (congrArg Subtype.val hab)
-    exact RingOfIntegers.not_isField E
-      (isField_of_isIntegral_of_isField (IsFractionRing.injective (𝓞 E) E) (Field.toIsField E))
+  have hFull : W.L.IsFullLattice E :=
+    PositivityTheory.Mix.full_of_dual_zero hB (-1) (by simpa using hW.skew)
+      hW.lat.toIsLattice (fun y hy =>
+        (hW.dual y).2 fun x hx o => by rw [hy x hx, mul_zero, map_zero]; exact isIntegral_zero)
   have ent : ∀ a b, ((fr H.ι H.x H.y)ᵀ * W.J * (fr H.ι H.x H.y).map (σ : E →+* E)) a b =
       form σ W.J (fun i => fr H.ι H.x H.y i a) (fun i => fr H.ι H.x H.y i b) := fun a b => by
     rw [Matrix.mul_assoc]; rfl

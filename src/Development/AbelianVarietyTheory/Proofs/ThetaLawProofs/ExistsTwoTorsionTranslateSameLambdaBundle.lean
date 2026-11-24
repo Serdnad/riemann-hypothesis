@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.AdditionGraphThetaObjectCutOutBoundedDegree
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.GeomIntSelf
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ClsLinCombSingle
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
@@ -64,28 +65,7 @@ open GlobalTheory.CechPic GlobalTheory.PrimitiveOverField
 
 theorem pull_inv_cls {K : Type} [Field K] {A : Over (Sp K)} [GrpObj A] {L : LB A.left}
     (hL : L.IsLB) (hs : Out.Sym A L) : pull (GrpObj.inv : A ⟶ A).left (cls L hL) = cls L hL := by
-  obtain ⟨s⟩ : Nonempty (Sp K) := inferInstance
-  obtain ⟨U, hU, t, ht⟩ := hs s
-  have hV : ∀ z : A.left, z ∈ A.hom ⁻¹ᵁ U := fun z => by
-    show A.hom.base z ∈ U
-    rw [Subsingleton.elim (A.hom.base z) s]
-    exact hU
-  have hι : IsIso (A.hom ⁻¹ᵁ U).ι := by
-    rw [isIso_iff_isOpenImmersion_and_surjective]
-    refine ⟨inferInstance, ⟨fun z => ?_⟩⟩
-    have hz : z ∈ Set.range (A.hom ⁻¹ᵁ U).ι.base := by
-      rw [Scheme.Opens.range_ι]
-      exact hV z
-    exact hz
-  have hc := (cls_eq_zero_iff (LB.isLB_linComb hL _ _)).2 ⟨t, ht⟩
-  rw [cls_linComb hL] at hc
-  simp only [Fin.sum_univ_two, Matrix.cons_val_zero, Matrix.cons_val_one, one_smul,
-    neg_smul, pull_comp] at hc
-  have key : pull (A.hom ⁻¹ᵁ U).ι (pull (GrpObj.inv : A ⟶ A).left (cls L hL) - cls L hL) = 0 := by
-    rw [map_sub, ← hc, sub_eq_add_neg]
-  have h2 := congrArg (pull (inv (A.hom ⁻¹ᵁ U).ι)) key
-  rw [← pull_comp, IsIso.inv_hom_id, pull_id, map_zero] at h2
-  exact sub_eq_zero.1 h2
+  first | exact _root_.GlobalTheory.AddGraph.pull_inv_cls | exact @_root_.GlobalTheory.AddGraph.pull_inv_cls | apply _root_.GlobalTheory.AddGraph.pull_inv_cls <;> assumption
 
 theorem exists_two_torsion_translate : Out.Laws → ∀ (K : Type) [Field K] [IsAlgClosed K] (P P' : Out.PolAV (Sp K)) (e : P'.A ≅ P.A), IsMonHom e.hom → LamIs P'.A P'.L P.A (abelian₂ P.A P.L) e.hom.left → ∃ t : 𝟙_ (Over (Sp K)) ⟶ P.A, t ^ 2 = 1 ∧ LBIso P'.L (P.L.pull (e.hom ≫ ((toUnit P.A ≫ t) * 𝟙 P.A)).left) := by
   intro hLaws K _ _ P P' e he hLam

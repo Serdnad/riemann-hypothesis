@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AdelicConjugateCharacterStandardForms
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.UnderTie
 public import Development.AbelianVarietyTheory.BlockTheory.GlobalSignature.SplittingProjection
@@ -273,50 +274,7 @@ theorem incl_smul (v : HeightOneSpectrum (𝓞 F)) (s : 𝓞 E) (x : Fin n → E
   rw [Pi.smul_apply, Pi.smul_apply, Algebra.smul_def, map_mul, smul_eq_mul]
 
 theorem mem_localization_of_mem_localLattice : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (n : ℕ) (v : HeightOneSpectrum (𝓞 F)) (B : Submodule (𝓞 E) (Fin n → E)), Module.Finite (𝓞 E) B → Submodule.span E (B : Set (Fin n → E)) = ⊤ → ∀ (x : Fin n → E), (fun i => Formalism.UG.inclE (F := F) (v.adicCompletion F) (x i)) ∈ GlobalTheory.IndefiniteRowSideFullHecke.SplittingProjection.locLat v B → ∀ q : HeightOneSpectrum (𝓞 E), q.under (𝓞 F) = v → x ∈ Formalism.HermitianLatticesTheory.localization₂ q.asIdeal B := by
-  intro F E _ _ _ _ _ n v B hB hs x hx q hq
-  classical
-  obtain ⟨ν, hν, hνx⟩ := _root_.GlobalTheory.FiniteIndexSubgroup.target B hs x
-  let J : Ideal (𝓞 E) := B.comap (LinearMap.toSpanSingleton (𝓞 E) _ x)
-  have hJ : ∀ s, s ∈ J ↔ s • x ∈ B := fun s => Iff.rfl
-  have hJ0 : J.comap (algebraMap (𝓞 F) (𝓞 E)) ≠ ⊥ := by
-    intro h
-    have := Ideal.eq_bot_of_comap_eq_bot h
-    have h2 : ν ∈ J := hνx
-    rw [this] at h2
-    exact hν h2
-  haveI := v.isMaximal
-  obtain ⟨Q, hQ, hI⟩ := Ideal.eq_prime_pow_mul_coprime hJ0 v.asIdeal
-  obtain ⟨d, hdQ, hdv⟩ : ∃ d ∈ Q, d ∉ v.asIdeal := by
-    by_contra h
-    push_neg at h
-    rw [sup_eq_left.2 (show Q ≤ v.asIdeal from h)] at hQ
-    exact v.isPrime.ne_top hQ
-  refine ⟨algebraMap (𝓞 F) (𝓞 E) d, fun h => hdv (by rw [← hq]; exact h), ?_⟩
-  refine (GlobalTheory.LatLocGlob.latS_local_global F E n B hB).2.1 hs _ fun w => ?_
-  by_cases hw : w = v
-  · subst hw
-    rw [incl_smul]
-    exact Submodule.smul_mem (GlobalTheory.IndefiniteRowSideFullHecke.SplittingProjection.locLat w B)
-      (⟨_, Subring.subset_closure (Or.inl ⟨⟨_, ⟨algebraMap (𝓞 F) (𝓞 E) d, rfl⟩⟩, rfl⟩)⟩ : intV E w) hx
-  · obtain ⟨π, hπ, hπw⟩ : ∃ π ∈ v.asIdeal ^ (UniqueFactorizationMonoid.normalizedFactors (J.comap (algebraMap (𝓞 F) (𝓞 E)))).count v.asIdeal, π ∉ w.asIdeal := by
-      by_contra h
-      push_neg at h
-      haveI := w.isPrime
-      have h1 : v.asIdeal ≤ w.asIdeal := Ideal.IsPrime.le_of_pow_le h
-      exact hw (HeightOneSpectrum.ext (v.isMaximal.eq_of_le w.isPrime.ne_top h1).symm)
-    have h1 : π * d ∈ J.comap (algebraMap (𝓞 F) (𝓞 E)) := by
-      rw [hI]; exact Ideal.mul_mem_mul hπ hdQ
-    have h2 : algebraMap (𝓞 F) (𝓞 E) π • algebraMap (𝓞 F) (𝓞 E) d • x ∈ B := by
-      rw [← mul_smul, ← map_mul]; exact h1
-    obtain ⟨t, ht, e⟩ := GlobalTheory.OverCompare.exists_intV_mul_inclE_eq_one (E := E) w π hπw
-    have h3 : (fun i => Formalism.UG.inclE (F := F) (w.adicCompletion F) ((algebraMap (𝓞 F) (𝓞 E) π • algebraMap (𝓞 F) (𝓞 E) d • x) i)) ∈
-        GlobalTheory.IndefiniteRowSideFullHecke.SplittingProjection.locLat w B := Submodule.subset_span ⟨_, h2, rfl⟩
-    have h4 := Submodule.smul_mem (GlobalTheory.IndefiniteRowSideFullHecke.SplittingProjection.locLat w B) (⟨t, ht⟩ : intV E w) h3
-    rw [incl_smul] at h4
-    have e2 : algebraMap (𝓞 E) E (algebraMap (𝓞 F) (𝓞 E) π) = algebraMap F E (π : F) := by
-      rw [← IsScalarTower.algebraMap_apply, IsScalarTower.algebraMap_apply (𝓞 F) F E]
-    rw [e2, Subring.smul_def, smul_smul] at h4
-    rwa [show ((⟨t, ht⟩ : intV E w) : E ⊗[F] w.adicCompletion F) * _ = 1 from e, one_smul] at h4
+  exact _root_.GlobalTheory.Mem.Col2.SameOff.mem_localization_of_mem_localLattice
 
 end Loc
 
@@ -326,19 +284,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem mem_locLat_iff_adelic (w : HeightOneSpectrum (𝓞 F)) (L : Submodule (𝓞 E) (Fin n → E)) (hL : Module.Finite (𝓞 E) L)
     (z : Fin n → E ⊗[F] w.adicCompletion F) :
     z ∈ GlobalTheory.IndefiniteRowSideFullHecke.SplittingProjection.locLat w L ↔ (fun i => Formalism.UG.P.afsplitIE w (z i)) ∈ Formalism.UG.latS (F := F) (FiniteAdeleRing (𝓞 F) F) (Formalism.UG.tensInt (F := F) (FiniteAdeleRing (𝓞 F) F) (Formalism.UG.intOE E) (Formalism.UG.intAd F)) L := by
-  rw [GlobalTheory.LatticeStabLocal.mem_latS_adele_iff]
-  have h1 : (fun i => prV (E := E) w (Formalism.UG.P.afsplitIE w (z i))) = z :=
-    funext fun i => Formalism.UG.P.afsplit_prV_IE w _
-  constructor
-  · intro hz v
-    by_cases hv : v = w
-    · subst hv; rw [h1]; exact hz
-    · rw [show (fun i => prV (E := E) v (Formalism.UG.P.afsplitIE w (z i))) = 0 from
-        funext fun i => Formalism.UG.P.afsplit_prV_IE_ne w v hv _]
-      exact zero_mem _
-  · intro h
-    have := h w
-    rwa [h1] at this
+  first | exact _root_.GlobalTheory.Mem.Col2.SameOff.mem_locLat_iff_adelic | exact @_root_.GlobalTheory.Mem.Col2.SameOff.mem_locLat_iff_adelic | apply _root_.GlobalTheory.Mem.Col2.SameOff.mem_locLat_iff_adelic <;> assumption
 
 end Adel
 

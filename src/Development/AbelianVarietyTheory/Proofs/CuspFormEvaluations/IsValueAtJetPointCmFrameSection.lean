@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsGeneratorJetReadingStatement
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.ThConst
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ValCalc
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsHolFamPullbackLiftOfCommonBase
@@ -69,17 +70,7 @@ section Pt
 variable {K : Type} [Field K] {σ : Type} {m : ℕ}
 
 theorem jet_pt_eq (p : PrimeSpectrum (Jet K σ m)) : p = IsLocalRing.closedPoint (Jet K σ m) := by
-  apply PrimeSpectrum.ext
-  refine le_antisymm (IsLocalRing.le_maximalIdeal p.isPrime.ne_top) fun a ha => ?_
-  have hn : IsNilpotent a := by
-    obtain ⟨q, rfl⟩ := Ideal.Quotient.mk_surjective a
-    have h0 : MvPolynomial.constantCoeff q = 0 := by
-      by_contra hne
-      exact (IsLocalRing.mem_maximalIdeal _).mp ha (isUnit_of_jetAug _ (by rwa [jetAug_mk]))
-    have := jet_nilpotent_of_orig K σ m (sub_const_mem_orig (R := K) q)
-    rwa [h0, map_zero, sub_zero] at this
-  obtain ⟨n, hn⟩ := hn
-  exact p.isPrime.mem_of_pow_mem n (hn ▸ p.asIdeal.zero_mem)
+  first | exact _root_.GlobalTheory.AnValJetEx.jet_point_eq | exact @_root_.GlobalTheory.AnValJetEx.jet_point_eq | apply _root_.GlobalTheory.AnValJetEx.jet_point_eq <;> assumption
 
 end Pt
 

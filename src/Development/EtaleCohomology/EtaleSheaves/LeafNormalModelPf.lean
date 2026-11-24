@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FunctionFieldFiniteSupportSumOrderEqZero
 public import Development.EtaleCohomology.EtaleSheaves.LeafModelCurveCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -82,11 +83,7 @@ theorem transcendental_inv {Ω L : Type} [Field Ω] [Field L] [Algebra Ω L] {u 
 
 theorem adjoin_inv_eq {Ω L : Type} [Field Ω] [Field L] [Algebra Ω L] (u : L) :
     IntermediateField.adjoin Ω {u⁻¹} = IntermediateField.adjoin Ω {u} := by
-  apply le_antisymm
-  · rw [IntermediateField.adjoin_simple_le_iff]
-    exact inv_mem (IntermediateField.mem_adjoin_simple_self Ω u)
-  · rw [IntermediateField.adjoin_simple_le_iff]
-    simpa using inv_mem (IntermediateField.mem_adjoin_simple_self Ω u⁻¹)
+  apply @GlobalTheory.Nef.adjoin_simple_inv_eq <;> assumption
 
 theorem ne_zero_of_transcendental {Ω L : Type} [Field Ω] [Field L] [Algebra Ω L] {u : L}
     (hu : Transcendental Ω u) : u ≠ 0 := by

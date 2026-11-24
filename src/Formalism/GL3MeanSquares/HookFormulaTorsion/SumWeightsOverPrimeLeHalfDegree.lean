@@ -81,10 +81,6 @@ private lemma residue_characteristic_prime (P : Ideal (𝓞 K)) (hP : P.IsMaxima
   exact (CharP.char_is_prime_or_zero (𝓞 K ⧸ P) (ringChar (𝓞 K ⧸ P))).resolve_right
     (CharP.char_ne_zero_of_finite (𝓞 K ⧸ P) (ringChar (𝓞 K ⧸ P)))
 
-private lemma residue_characteristic_mem (P : Ideal (𝓞 K)) : ((residueCharacteristic K P : ℕ) : 𝓞 K) ∈ P := by
-  rw [← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
-  exact ringChar.Nat.cast_ringChar
-
 private lemma prod_norm_dvd_prime_pow_degree (p : ℕ) (T : Finset (Ideal (𝓞 K)))
     (hT : ∀ P ∈ T, P.IsMaximal ∧ (p : 𝓞 K) ∈ P) :
     ∏ P ∈ T, Ideal.absNorm P ∣ p ^ Module.finrank ℚ K := by
@@ -181,12 +177,6 @@ private noncomputable def invPowMonoidHomReal (M : ℕ) : ℕ →* ℝ where
 private lemma summable_inv_pow_real (M : ℕ) (hM : 2 ≤ M) : Summable (fun n : ℕ => ((n : ℝ)⁻¹) ^ M) := by
   simpa [inv_pow] using Real.summable_nat_pow_inv.mpr (by omega : 1 < M)
 
-private lemma tsum_inv_pow_eq_zeta_real (M : ℕ) (hM : 2 ≤ M) : ∑' n : ℕ, ((n : ℝ)⁻¹) ^ M = zetaR M := by
-  rw [(summable_inv_pow_real M hM).tsum_eq_zero_add]
-  rw [Nat.cast_zero, inv_zero, zero_pow (by omega), zero_add]
-  show _ = ∑' n : ℕ, 1 / ((n : ℝ) + 1) ^ M
-  simp only [Nat.cast_add, Nat.cast_one, one_div, inv_pow]
-
 private lemma inv_prime_pow_lt_one' (M : ℕ) (hM : 1 ≤ M) (p : ℕ) (hp : p.Prime) :
     ((p : ℝ)⁻¹) ^ M < 1 := by
   exact pow_lt_one₀ (by positivity) (inv_lt_one_of_one_lt₀ (by exact_mod_cast hp.one_lt)) (by omega)
@@ -228,7 +218,11 @@ private lemma euler_product_le_zeta (M : ℕ) (hM : 2 ≤ M) (S : Finset ℕ) (h
         le_mul_of_one_le_left hSpos hrest
     _ = ∏ p ∈ N.primesBelow, (1 - invPowMonoidHomReal M p)⁻¹ := hsplit
     _ ≤ ∑' n : ℕ, invPowMonoidHomReal M n := key
-    _ = zetaR M := by simp only [hfv]; exact tsum_inv_pow_eq_zeta_real M hM
+    _ = zetaR M := by
+      simp only [hfv]
+      rw [(summable_inv_pow_real M hM).tsum_eq_zero_add, Nat.cast_zero, inv_zero,
+        zero_pow (by omega), zero_add]
+      simp only [zetaR, Nat.cast_add, Nat.cast_one, one_div, inv_pow]
 
 private noncomputable def negLogOneSubInvPow (M p : ℕ) : ℝ := -Real.log (1 - ((p : ℝ)⁻¹) ^ M)
 
@@ -324,8 +318,8 @@ private lemma sum_weights_over_prime_le_half_degree (p : ℕ) (T : Finset {P : I
       intro P hP
       obtain ⟨Q, hQ, rfl⟩ := Finset.mem_map.mp hP
       refine ⟨Q.2, ?_⟩
-      have := residue_characteristic_mem K Q.1
-      rwa [hT Q hQ] at this)
+      rw [← hT Q hQ, ← Ideal.Quotient.eq_zero_iff_mem, map_natCast]
+      exact ringChar.Nat.cast_ringChar)
     simpa [Finset.prod_map] using this
   have hpos : ∀ P ∈ T, 0 < Ideal.absNorm P.1 := fun P _ => Nat.pos_of_ne_zero (by
     rw [Ne, Ideal.absNorm_eq_zero_iff]; exact maximal_ideal_ne_bot K P.1 P.2)
@@ -417,9 +411,13 @@ private lemma partial_sums_log_euler_factor_le (hK : Formalism.HermitianLattices
 
 end main
 
-theorem log_l_value_field_bound : LogLFunctionEulerBound := by
-  intro K _ _ _ hK M hM
-  have hM2 : 2 ≤ M := by omega
+theorem log_l_value_field_bound_of_two_le :
+  ∀ (K : Type) [Field K] [NumberField K] [StarRing K], Formalism.HermitianLatticesTheory.IsCMUnram K → ∀ M : ℕ, 2 ≤ M →
+    Multipliable (fun P : {P : Ideal (NumberField.RingOfIntegers K) // P.IsMaximal} =>
+      Formalism.HermitianLatticesTheory.eulerFac K M P.1) ∧
+    0 < Formalism.HermitianLatticesTheory.lValEta K M ∧
+    |Real.log (Formalism.HermitianLatticesTheory.lValEta K M)| ≤ (Formalism.HermitianLatticesTheory.fDeg K : ℝ) * Real.log (zetaR M) := by
+  intro K _ _ _ hK M hM2
   have hpos : ∀ P : {P : Ideal (𝓞 K) // P.IsMaximal}, 0 < Formalism.HermitianLatticesTheory.eulerFac K M P.1 :=
     fun P => (euler_factor_log_bound K hK M (by omega) P.1 P.2).1
   have habs : Summable
@@ -439,5 +437,9 @@ theorem log_l_value_field_bound : LogLFunctionEulerBound := by
       (by simpa [Real.norm_eq_abs] using habs)
     simp only [Real.norm_eq_abs] at hn
     exact hn.trans (habs.tsum_le_of_sum_le (partial_sums_log_euler_factor_le K hK M hM2))
+
+theorem log_l_value_field_bound : LogLFunctionEulerBound := by
+  intro K _ _ _ hK M hM
+  exact log_l_value_field_bound_of_two_le K hK M (by omega)
 
 end Formalism.HermitianLattices.GenusMassVolumes

@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.TypeStar
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CoefficientReductionFirstChernClassTateTwistAltI
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.TateTwists.TensorVanishing.TensZero, Development.EtaleCohomology.TateTwists.TensorVanishing
@@ -66,14 +67,7 @@ theorem loc_all {U : Scheme.{0}} {P : ∀ V : Scheme.{0}, (V ⟶ U) → Prop} (h
 
 theorem loc_bind {U : Scheme.{0}} {P Q : ∀ V : Scheme.{0}, (V ⟶ U) → Prop}
     (h : Loc U P) (hPQ : ∀ V g, P V g → Loc V fun W k => Q W (k ≫ g)) : Loc U Q := by
-  obtain ⟨S, hS, hP⟩ := h
-  have H : ∀ (V : Scheme.{0}) (g : V ⟶ U), S.arrows g → ∃ T : Sieve V, T ∈ Scheme.etaleTopology V ∧
-      ∀ (W : Scheme.{0}) (k : W ⟶ V), T.arrows k → Q W (k ≫ g) := fun V g hg => hPQ V g (hP V g hg)
-  choose T hT hQ using H
-  refine ⟨Sieve.bind S.arrows (fun V g hg => T V g hg),
-    Scheme.etaleTopology.bind_covering hS (fun V g hg => hT V g hg), ?_⟩
-  rintro W f ⟨V, k, g, hg, hk, rfl⟩
-  exact hQ V g hg W k hk
+  apply _root_.GlobalTheory.EtC.RedChern.loc_bind <;> assumption
 
 theorem res_comp {F : Shv R} {W V U : Scheme.{0}} (k : W ⟶ V) (g : V ⟶ U) (x : Sec F U) :
     Sec.res (k ≫ g) x = Sec.res k (Sec.res g x) := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.DetRestrictScalarsEqZero
 public import GroundTheory.HeightsAndTheta.Heights.Intersections.PullBad
 public import Mathlib.Analysis.Calculus.InverseFunctionTheorem.FDeriv
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -104,22 +105,8 @@ theorem analyticAt_pullQ (hv : IsBlockMap κ v) (Φ : (((k : K) → ι k) → �
     (x : R.X) (j : Fin R.A.n) (hj : x ∈ (R.A.chart j).source)
     (h0 : Φ (segre (pullPt R v x)) 0 ≠ 0) :
     AnalyticAt ℂ (pullQ R v Φ ∘ (R.A.chart j).symm) (R.A.chart j x) := by
-  set u := R.A.chart j x
-  have hsu : (R.A.chart j).symm u = x := (R.A.chart j).left_inv hj
-  have hu : u ∈ (R.A.chart j).target ∩ (R.A.chart j).symm ⁻¹' R.U x :=
-    ⟨(R.A.chart j).map_source hj, by rw [Set.mem_preimage, hsu]; exact R.mem_U x⟩
-  have hH := analyticAt_segre_pull R (v := v) Φ x j hu
-  have hH0 : AnalyticAt ℂ (fun w => Φ (segre (fun p => R.lift x ((R.A.chart j).symm w) (v p))) 0) u :=
-    analyticAt_pi_iff.mp hH 0
-  have hne : Φ (segre (fun p => R.lift x ((R.A.chart j).symm u) (v p))) 0 ≠ 0 := by
-    rw [hsu]; exact h0
-  have hF : AnalyticAt ℂ (fun w => fun i : Fin n =>
-      Φ (segre (fun p => R.lift x ((R.A.chart j).symm w) (v p))) i.succ /
-        Φ (segre (fun p => R.lift x ((R.A.chart j).symm w) (v p))) 0) u :=
-    analyticAt_pi_iff.mpr fun i => (analyticAt_pi_iff.mp hH i.succ).div hH0 hne
-  refine hF.congr ?_
-  filter_upwards [((R.A.chart j).isOpen_inter_preimage_symm (R.isOpen_U x)).mem_nhds hu] with w hw
-  exact (pullQ_eq_local R hv Φ hw.2).symm
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.pullbackBadImage_holds.analyticAt_pullQ <;> assumption
 
 theorem det_pullQ_chart (hv : IsBlockMap κ v) (Φ : (((k : K) → ι k) → ℂ) →ₗ[ℂ] (Fin (n + 1) → ℂ))
     {x : R.X} {j k : Fin R.A.n} (hj : x ∈ (R.A.chart j).source) (hk : x ∈ (R.A.chart k).source)

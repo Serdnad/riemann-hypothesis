@@ -95,31 +95,21 @@ theorem dvd_iff (a b : ↥(OL LL)) : a ∣ b ↔ nrm LL b ≤ nrm LL a := by
     · subst ha
       have h0 : nrm LL b = 0 := le_antisymm (by simpa [nrm] using h) (norm_nonneg _)
       rw [(nrm_eq_zero LL b).mp h0]
-    · have ha' : ((a : ↥LL.1) : PadicAlgCl l) ≠ 0 := by
-        intro h0
-        apply ha
-        exact (nrm_eq_zero LL a).mp (by simp [nrm, h0])
-      have ha'' : (a : ↥LL.1) ≠ 0 := fun h0 => ha' (by simp [h0])
+    · have ha0 : (a : ↥LL.1) ≠ 0 := fun h0 => ha (Subtype.ext h0)
+      have ha' : ((a : ↥LL.1) : PadicAlgCl l) ≠ 0 := fun h0 => ha0 (Subtype.ext h0)
       have hc : (b : ↥LL.1) / (a : ↥LL.1) ∈ OL LL := by
         rw [mem_OL]
         have hpos : 0 < ‖((a : ↥LL.1) : PadicAlgCl l)‖ := norm_pos_iff.mpr ha'
         simp only [IntermediateField.coe_div, norm_div]
         rw [div_le_one hpos]
         exact h
-      refine ⟨⟨_, hc⟩, ?_⟩
-      apply Subtype.ext
+      refine ⟨⟨_, hc⟩, Subtype.ext ?_⟩
       simp only [MulMemClass.coe_mul]
       field_simp
 
 theorem isUnit_iff (a : ↥(OL LL)) : IsUnit a ↔ nrm LL a = 1 := by
   rw [isUnit_iff_dvd_one, dvd_iff]
-  have h1 : nrm LL 1 = 1 := by simp [nrm]
-  rw [h1]
-  constructor
-  · intro h
-    exact le_antisymm (nrm_le LL a) h
-  · intro h
-    rw [h]
+  exact ⟨fun h => le_antisymm (nrm_le LL a) (by simpa [nrm] using h), fun h => by rw [h]; simp [nrm]⟩
 
 instance : IsLocalRing ↥(OL LL) := .of_nonunits_add fun a b ha hb => by
   rw [mem_nonunits_iff, isUnit_iff] at *
@@ -144,9 +134,7 @@ instance OL_finite : Module.Finite ℤ_[l] ↥(OL LL) :=
 theorem l_mem_max : ((l : ℕ) : ↥(OL LL)) ∈ maximalIdeal ↥(OL LL) := by
   rw [mem_max]
   show ‖(((l : ↥(OL LL)) : ↥LL.1) : PadicAlgCl l)‖ < 1
-  have h1 : (((l : ↥(OL LL)) : ↥LL.1) : PadicAlgCl l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) := by
-    simp
-  rw [h1, norm_eq_spectralValue, minpoly.eq_X_sub_C (PadicAlgCl l) (l : ℚ_[l]), spectralValue_X_sub_C]
+  rw [show (((l : ↥(OL LL)) : ↥LL.1) : PadicAlgCl l) = algebraMap ℚ_[l] (PadicAlgCl l) (l : ℚ_[l]) by simp, norm_eq_spectralValue, minpoly.eq_X_sub_C (PadicAlgCl l) (l : ℚ_[l]), spectralValue_X_sub_C]
   exact Padic.norm_p_lt_one
 
 instance OL_dvr : IsDiscreteValuationRing ↥(OL LL) := by

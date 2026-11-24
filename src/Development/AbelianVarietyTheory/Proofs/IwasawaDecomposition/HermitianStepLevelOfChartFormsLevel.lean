@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsAdelicCorrectionLevelCharacter
 public import Formalism.LocalToGlobal.Columns.RecLevelLocT
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
 public import Formalism.LocalRingCardinality.DataLevel
@@ -83,20 +84,7 @@ theorem sigR_inclE_adic (σ : E →ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) (a
 
 theorem sigR_mem_intV_adic (σ : E →ₐ[F] E) (v : HeightOneSpectrum (𝓞 F)) {s : E ⊗[F] v.adicCompletion F}
     (hs : s ∈ intV E v) : sigR σ (v.adicCompletion F) s ∈ intV E v := by
-  have key : intV E v ≤ (intV E v).comap (sigR σ (v.adicCompletion F)) := by
-    refine Subring.closure_le.2 ?_
-    rintro _ (⟨⟨x, b, rfl⟩, rfl⟩ | ⟨⟨y, hy⟩, rfl⟩)
-    · show sigR σ (v.adicCompletion F) (inclE (F := F) (v.adicCompletion F) (algebraMap (𝓞 E) E b)) ∈ intV E v
-      rw [sigR_inclE_adic]
-      have h : IsIntegral ℤ ((σ : E →+* E) (algebraMap (𝓞 E) E b)) :=
-        (RingOfIntegers.isIntegral_coe b).map ((σ : E →+* E).toIntAlgHom)
-      exact Formalism.UG.P.easyc_inclE_mem (F := F) (v.adicCompletion F) (v.adicCompletionIntegers F).toSubring _
-        ⟨IsIntegralClosure.mk' (𝓞 E) _ h, IsIntegralClosure.algebraMap_mk' _ _ _⟩
-    · show sigR σ (v.adicCompletion F) ((1 : E) ⊗ₜ[F] y) ∈ intV E v
-      simp only [sigR, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.map_tmul,
-        map_one, AlgHom.coe_id, id_eq]
-      exact Subring.subset_closure (Or.inr ⟨⟨y, hy⟩, rfl⟩)
-  exact key hs
+  first | exact _root_.GlobalTheory.St.G.FunFix.sigR_mem | exact @_root_.GlobalTheory.St.G.FunFix.sigR_mem | apply _root_.GlobalTheory.St.G.FunFix.sigR_mem <;> assumption
 
 theorem mul_eq_unit_mul_of_triple_product_one {A : Type} [CommRing A] (a b P Q T : A) (h : P * Q * T = 1) :
     a * b = T * ((a * P) * (b * Q)) := by linear_combination (-(a * b)) * h

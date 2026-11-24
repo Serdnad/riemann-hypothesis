@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.RangeOfIsPullback
 public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,18 +65,8 @@ namespace GlobalTheory.PtTie
 theorem exists_mulEquiv_of_isGrpPullback {S S' : Scheme.{0}} {G' : Over S'} {G : Over S} [GrpObj G'] [GrpObj G]
     {f : S' ⟶ S} {φ : G'.left ⟶ G.left} (h : IsGrpPullback G' G f φ) (Z : Over S') :
     ∃ e : (Z ⟶ G') ≃* (Over.mk (Z.hom ≫ f) ⟶ G), ∀ x, (e x).left = x.left ≫ φ := by
-  let Φ₀ : (Z ⟶ G') → (Over.mk (Z.hom ≫ f) ⟶ G) := fun x =>
-    Over.homMk (x.left ≫ φ) (by
-      show (x.left ≫ φ) ≫ G.hom = Z.hom ≫ f
-      rw [Category.assoc, h.1.w, ← Category.assoc, Over.w x])
-  let Φ : (Z ⟶ G') →ₙ* (Over.mk (Z.hom ≫ f) ⟶ G) :=
-    ⟨Φ₀, fun x y => Over.OverMorphism.ext (h.2 Z x y (Φ₀ x) (Φ₀ y) rfl rfl).symm⟩
-  have hinj : Function.Injective Φ := fun x y hxy =>
-    Over.OverMorphism.ext (h.1.hom_ext (congrArg CommaMorphism.left hxy) (by rw [Over.w x, Over.w y]))
-  have hsurj : Function.Surjective Φ := fun x₀ =>
-    ⟨Over.homMk (h.1.lift x₀.left Z.hom (Over.w x₀)) (h.1.lift_snd _ _ _),
-      Over.OverMorphism.ext (h.1.lift_fst _ _ _)⟩
-  exact ⟨MulEquiv.ofBijective Φ ⟨hinj, hsurj⟩, fun x => rfl⟩
+  intros
+  apply _root_.GlobalTheory.HkSetPull.exists_equiv <;> assumption
 
 
 open scoped CategoryTheory.Obj in

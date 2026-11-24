@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertAtLeCongN
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.IsometryCarriesCharacter
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotents
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeCompatFiniteIsometry
@@ -263,15 +264,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem inv_nat_mem (v : HeightOneSpectrum (𝓞 F)) {N : ℕ} (hN : (N : 𝓞 F) ∉ v.asIdeal) :
     (N : v.adicCompletion F) ≠ 0 ∧ (N : v.adicCompletion F)⁻¹ ∈ v.adicCompletionIntegers F := by
-  have h1 : Valued.v (N : v.adicCompletion F) = 1 := by
-    rw [← map_natCast (algebraMap F (v.adicCompletion F)), Formalism.UG.P.levelaf_valued_algebraMap,
-      ← map_natCast (algebraMap (𝓞 F) F)]
-    refine le_antisymm (v.valuation_le_one _) (not_lt.1 fun h => hN ?_)
-    exact (HeightOneSpectrum.valuation_lt_one_iff_mem (K := F) v _).1 h
-  refine ⟨fun h => ?_, ?_⟩
-  · rw [h, map_zero] at h1
-    exact zero_ne_one h1
-  · rw [HeightOneSpectrum.mem_adicCompletionIntegers, map_inv₀, h1, inv_one]
+  apply _root_.GlobalTheory.OpenChrRam.inv_natCast_mem <;> assumption
 
 theorem exists_away (S : Finset (HeightOneSpectrum (𝓞 F))) (N : ℕ) (hS : ∀ v : HeightOneSpectrum (𝓞 F), (N : 𝓞 F) ∈ v.asIdeal → v ∈ S) :
     ∃ f u : Af F, u ∈ Formalism.MainNotions.StandardLattice.intAf F ∧ u * N = f ∧ f * f = f ∧ ∀ v ∉ S, evalV F v f = 1 := by

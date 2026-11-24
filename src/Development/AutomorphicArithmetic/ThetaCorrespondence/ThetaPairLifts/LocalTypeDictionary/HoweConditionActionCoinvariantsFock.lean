@@ -1,5 +1,8 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsPlacewiseSeesawTripleOverHermitianStatement
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsWeilRepOrientedPairRationalSchrodingerStatement
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.WeilProjectionKInftyInvariant
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsPairReading
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramHspOf
 public import Formalism.LocalToGlobal.Columns.BrpStarLatLattice
@@ -155,16 +158,8 @@ theorem actE_eq_of_conj_related {R : Type} [CommRing R] {n m k : ℕ} (e : Fin k
   rw [hu]
 
 theorem unit_aux {R : Type} [CommRing R] {n : ℕ} (c : R →+* R) (P P' K G : Matrix (Fin n) (Fin n) R)
-    (hPP : P * P' = 1) (hK : Kᵀ = -G) (h : (P.map c)ᵀ * K * P = K) : Pᵀ * G = G * P'.map c := by
-  have h' := congrArg Matrix.transpose h
-  rw [Matrix.transpose_mul, Matrix.transpose_mul, Matrix.transpose_transpose, ← Matrix.mul_assoc, hK,
-    Matrix.mul_neg, Matrix.neg_mul, neg_inj] at h'
-  have hc : P.map c * P'.map c = 1 := by
-    rw [← Matrix.map_mul, hPP]
-    exact Matrix.map_one _ (map_zero _) (map_one _)
-  calc Pᵀ * G = Pᵀ * G * (P.map c * P'.map c) := by rw [hc, Matrix.mul_one]
-    _ = (Pᵀ * G * P.map c) * P'.map c := by simp only [Matrix.mul_assoc]
-    _ = G * P'.map c := by rw [h']
+    (hPP : P * P' = 1) (hK : Kᵀ = -G) (h : (P.map c)ᵀ * K * P = K) : Pᵀ * G = G * P'.map c :=
+  _root_.GlobalTheory.SquareAgree.unit_aux c P P' K G hPP hK h
 
 theorem eq_submatrix_symm {α : Type} {a b : ℕ} (f : Fin a ≃ Fin b) (M : Matrix (Fin b) (Fin b) α)
     (N : Matrix (Fin a) (Fin a) α) (h : M.submatrix f f = N) : M = N.submatrix f.symm f.symm := by
@@ -243,29 +238,8 @@ theorem conj_herm {D : D7} (V : HSp D) :
 
 theorem isCartan_conj {n : ℕ} {G S : Matrix (Fin n) (Fin n) ℂ} {κ : ℝ} (hκ : 0 < κ) (h : IsCartanInv G S) :
     GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.IsCartan ((κ : ℂ) • G) (S.map (starRingEnd ℂ)) := by
-  obtain ⟨hSS, hSGS, hGS⟩ := h
-  have hSG : Sᴴ * G = G * S := by
-    calc Sᴴ * G = Sᴴ * G * (S * S) := by rw [hSS, Matrix.mul_one]
-      _ = (Sᴴ * G * S) * S := by simp only [Matrix.mul_assoc]
-      _ = G * S := by rw [hSGS]
-  have hT : (S.map (starRingEnd ℂ))ᵀ = Sᴴ := by
-    ext i j; simp [Matrix.conjTranspose_apply]
-  have hMM : (S.map (starRingEnd ℂ)).map star = S := by
-    ext i j; simp
-  refine ⟨?_, ?_, ?_⟩
-  · rw [← Matrix.map_mul, hSS, Matrix.map_one _ (map_zero _) (map_one _)]
-  · rw [hT, hMM, Matrix.mul_smul, Matrix.smul_mul, hSGS]
-  · intro x hx
-    have hy : star x ≠ 0 := by simpa using hx
-    have hv : S.map (starRingEnd ℂ) *ᵥ x = star (S *ᵥ star x) := by
-      ext i; simp [Matrix.mulVec, dotProduct, star_sum, Pi.star_apply, mul_comm]
-    have hpos : ((κ : ℂ) • (G * S)).PosDef := hGS.smul (by exact_mod_cast hκ)
-    have key : (S.map (starRingEnd ℂ) *ᵥ x) ⬝ᵥ ((κ : ℂ) • G) *ᵥ star x =
-        star (star x) ⬝ᵥ (((κ : ℂ) • (G * S)) *ᵥ star x) := by
-      rw [hv, Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, Matrix.mul_smul, hSG]
-    rw [key]
-    have := hpos.dotProduct_mulVec_pos hy
-    exact (Complex.lt_def.1 this).1
+  intros
+  apply _root_.GlobalTheory.PlaceSpaces.isCartan_smul_conj <;> assumption
 
 theorem isVac_of_bot {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
     {n d : ℕ} {Y : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc F E n} {Z : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Spc F E d} (Mo : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Model σ Y Z)
@@ -885,18 +859,8 @@ namespace GlobalTheory.CompactStable
 
 theorem hasDerivAt_linear {X E : Type} [NormedAddCommGroup E] [NormedSpace ℂ E] (U : Submodule ℂ (X → ℂ))
     [FiniteDimensional ℂ U] (φ : (X → ℂ) →ₗ[ℂ] E) {u : ℝ → X → ℂ} {u' : X → ℂ} {t : ℝ} (hu : ∀ s, u s ∈ U) (hu' : u' ∈ U)
-    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t := by
-  rw [hasDerivAt_iff_tendsto_slope]
-  have h1 : Filter.Tendsto (slope u t) (nhdsWithin t {t}ᶜ) (nhds u') := by
-    rw [tendsto_pi_nhds]
-    intro z
-    exact hasDerivAt_iff_tendsto_slope.1 (hd z)
-  have hm : ∀ s, slope u t s ∈ U := fun s => U.smul_of_tower_mem _ (U.sub_mem (hu s) (hu t))
-  have h2 : Filter.Tendsto (fun s => (⟨slope u t s, hm s⟩ : U)) (nhdsWithin t {t}ᶜ) (nhds ⟨u', hu'⟩) :=
-    tendsto_subtype_rng.2 h1
-  have h3 := ((φ ∘ₗ U.subtype).continuous_of_finiteDimensional.tendsto _).comp h2
-  refine h3.congr fun s => ?_
-  simp [slope, LinearMap.map_smul_of_tower]
+    (hd : ∀ z, HasDerivAt (fun s => u s z) (u' z) t) : HasDerivAt (fun s => φ (u s)) (φ u') t :=
+  _root_.GlobalTheory.KInvData.hasDerivAt_linear U φ hu hu' hd
 
 theorem oneParam_stable {X Q : Type} [AddCommGroup Q] [Module ℂ Q] (ι : Q →ₗ[ℂ] (X → ℂ)) (hι : Function.Injective ι)
     (V N : Submodule ℂ Q) [FiniteDimensional ℂ V] (ρ : ℝ → Module.End ℂ (X → ℂ)) (h0 : ρ 0 = 1)
@@ -1165,26 +1129,8 @@ theorem tens_inj {F : Type} [Field F] [NumberField F] {κ : Type} {r : (κ → A
     (hr : ∀ x z, GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) z → r (x + z) = r x) (h0 : r ≠ 0)
     {f g : (κ → mixedEmbedding.mixedSpace F) → ℂ}
     (h : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) f r = GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) g r) : f = g := by
-  obtain ⟨x, hx⟩ := Function.ne_iff.1 h0
-  funext y
-  let z : κ → AF F := fun i => ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (y i) - (x i).1, 0)
-  have hz : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.At (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F) z := by
-    intro u hu
-    have hu1 : u.1 = 0 := (map_eq_zero_iff _ (InfiniteAdeleRing.ringEquiv_mixedSpace F).injective).1 hu
-    funext i
-    refine Prod.ext ?_ ?_
-    · show u.1 * _ = 0
-      rw [hu1, zero_mul]
-    · show u.2 * 0 = 0
-      rw [mul_zero]
-  have he : (fun i => GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.evI F ((x + z) i)) = y := by
-    funext i
-    show InfiniteAdeleRing.ringEquiv_mixedSpace F ((x i).1 + ((InfiniteAdeleRing.ringEquiv_mixedSpace F).symm (y i) - (x i).1)) = _
-    rw [add_sub_cancel, RingEquiv.apply_symm_apply]
-  have := congrFun h (x + z)
-  simp only [GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.tens] at this
-  rw [he, hr x z hz] at this
-  exact mul_right_cancel₀ hx this
+  intros
+  apply _root_.GlobalTheory.RealDict.CompactCoinv.eq_of_tens <;> assumption
 
 end GlobalTheory.CompactStable
 

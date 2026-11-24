@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ThkTowModel
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.HalfIndexLattices.SplitStab
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.StandardAddCharSymplecticLocalLatticeEqOne
@@ -22,6 +23,7 @@ public import Development.WeilBound.CoreStatements.LocalThetaKernels.IwasMain
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.LocRepExK
 public import Development.WeilBound.CoreStatements.CompactAveragingSplitting.EigenvectorLifting.Inertof
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ExistsIsotropicSplittingOfTwoMulLe
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.ExistsIsotropicSplittingOfTwoMulLe
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.ThetaParseval.ThetaKernels.GalTPDefs
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AdelicHeisenbergActsByLocalSchrodinger
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EqOfComponentTensorAdelicFunctionEq
@@ -127,30 +129,7 @@ theorem psi_symp_latAtV_k : ∀ {F E : Type} [Field F] [NumberField F] [Field E]
     GlobalTheory.AdelicU.evFin F v b ∈ v.adicCompletionIntegers F →
     ∀ γ ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v, ∀ γ' ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v,
       B.ψ (b * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (inclR (F := F) (AF F) (θ : E))
-        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ γ') = 1 := by
-  intro F E _ _ _ _ _ σ B n d X Y r s r' s' hB hX hY v θ b hb γ hγ γ' hγ'
-  have step : ∀ z' ∈ {z | ∃ a : AF F, At (GlobalTheory.AdelicU.evFin F v) a ∧ GlobalTheory.AdelicU.evFin F v a ∈ v.adicCompletionIntegers F ∧
-      ∃ x ∈ X.L, ∃ y ∈ Y.L, z = a • GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F (Matrix.vecMulVec x y)},
-      ∀ γ ∈ GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.latAtV X Y v, B.ψ (b * GlobalTheory.WeilM.symp (R := AF F) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.cA σ) (inclR (F := F) (AF F) (θ : E))
-        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ z') = 1 := by
-    intro z' hz' γ hγ
-    obtain ⟨a', -, ha', x', hx', y', hy', rfl⟩ := hz'
-    induction hγ using AddSubgroup.closure_induction with
-    | mem z hz =>
-      obtain ⟨a, ha, hav, x, hx, y, hy, rfl⟩ := hz
-      exact psi_gen σ B X Y hX hY hB.std v θ b hb ha hav ha' hx hx' hy hy'
-    | zero => rw [symp_zero_left, mul_zero, AddChar.map_zero_eq_one]
-    | add x y _ _ hx hy =>
-      rw [symp_add_left, mul_add, AddChar.map_add_eq_mul, hx, hy, one_mul]
-    | neg x _ hx =>
-      rw [symp_neg_left, mul_neg, AddChar.map_neg_eq_inv, hx, inv_one]
-  induction hγ' using AddSubgroup.closure_induction with
-  | mem z hz => exact step z hz γ hγ
-  | zero => rw [symp_zero_right, mul_zero, AddChar.map_zero_eq_one]
-  | add x y _ _ hx hy =>
-    rw [symp_add_right, mul_add, AddChar.map_add_eq_mul, hx, hy, one_mul]
-  | neg x _ hx =>
-    rw [symp_neg_right, mul_neg, AddChar.map_neg_eq_inv, hx, inv_one]
+        (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F X.J) (GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.incM F Y.J) γ γ') = 1 := @_root_.Tw.LatVacArith.psi_symp_latAtV_k
 end Final
 end GlobalTheory.LatVacArith
 end
@@ -1228,14 +1207,7 @@ open PositivityTheory.ThKH.Iwas GlobalTheory.LFun GlobalTheory.LFun.InertChart F
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {v : Pl F}
   {w : HeightOneSpectrum (𝓞 E)}
 private theorem sgE_mem_Oh_pk {y : TensorProduct F (Fv F v) E} (hy : y ∈ intLoc F E v) : sgE E v y ∈ Oh E v := by
-  refine intLoc_induction (p := fun y => sgE E v y ∈ Oh E v) (fun a ha x => ?_) ?_ (fun y z hy hz => ?_)
-    (fun y hy => ?_) hy
-  · refine AddSubgroup.subset_closure ⟨PositivityTheory.ThKH.Iwas.sg v a, at_sg a, by rwa [ev_sg], x, ?_⟩
-    change TensorProduct.tmul F (PositivityTheory.ThKH.Iwas.sg v a) (x : E) = TensorProduct.tmul F (PositivityTheory.ThKH.Iwas.sg v a * 1) (x : E)
-    rw [mul_one]
-  · rw [map_zero]; exact zero_mem _
-  · rw [map_add]; exact add_mem hy hz
-  · rw [map_neg]; exact neg_mem hy
+  apply _root_.sgE_mem_Oh_pk <;> assumption
 private theorem sg_one_smul_pk {x : AE F E} (hx : At (evFin F v) x) : PositivityTheory.ThKH.Iwas.sg v 1 • x = x := by
   have h1 := hx (1 - PositivityTheory.ThKH.Iwas.sg v 1) (by rw [map_sub, map_one, ev_sg, sub_self])
   rw [sub_smul, one_smul, sub_eq_zero] at h1

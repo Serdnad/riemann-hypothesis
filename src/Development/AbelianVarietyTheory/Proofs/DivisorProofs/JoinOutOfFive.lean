@@ -133,20 +133,7 @@ theorem natAbs_discr_of_finrank_one (F : Type) [Field F] [NumberField F] (h : Mo
 
 theorem two_le_finrank {E : Type} [Field E] [NumberField E] [IsCMField E] (h : UnramFin E) :
     2 ≤ Module.finrank ℚ (maximalRealSubfield E) := by
-  by_contra hlt
-  have h1 : Module.finrank ℚ (maximalRealSubfield E) = 1 := by
-    have := Module.finrank_pos (R := ℚ) (M := maximalRealSubfield E)
-    omega
-  have hE := NumberField.natAbs_discr_eq_absNorm_differentIdeal_mul_natAbs_discr_pow (maximalRealSubfield E)
-    (𝓞 (maximalRealSubfield E)) E (𝓞 E)
-  have hU : differentIdeal (𝓞 (maximalRealSubfield E)) (𝓞 E) = ⊤ := h
-  rw [hU, Ideal.absNorm_top, one_mul, natAbs_discr_of_finrank_one _ h1, one_pow] at hE
-  have h2 : Module.finrank ℚ E = 2 := by
-    rw [← (letI : Module.Free (maximalRealSubfield E) E := Module.Free.of_divisionRing _ _; Module.finrank_mul_finrank ℚ (maximalRealSubfield E) E),
-      Algebra.IsQuadraticExtension.finrank_eq_two (maximalRealSubfield E) E, h1]
-  have h3 := NumberField.abs_discr_gt_two (K := E) (by omega)
-  have h4 : |(discr E : ℤ)| = 1 := by rw [Int.abs_eq_natAbs, hE]; rfl
-  omega
+  apply _root_.GlobalTheory.LatConjOne.two_le_finrank_of_unramFin <;> assumption
 
 theorem card_eq_finrank {E : Type} [Field E] [NumberField E] [IsCMField E] {I : Type} [Fintype I]
     {φ : I → E →+* ℂ} (h : IsCMType φ) : Fintype.card I = Module.finrank ℚ (maximalRealSubfield E) := by
@@ -896,22 +883,13 @@ theorem gamma_nat_add (k n : ℕ) (hk : 1 ≤ k) :
 
 theorem exists_list_count {I : Type} [Fintype I] [DecidableEq I] (κ : I → ℕ) :
     ∃ u : List I, ∀ i, u.count i = κ i := by
-  refine ⟨(∑ i, Multiset.replicate (κ i) i).toList, fun i => ?_⟩
-  rw [← Multiset.coe_count, Multiset.coe_toList, Multiset.count_sum', Finset.sum_eq_single i]
-  · simp
-  · intro j _ hj
-    rw [Multiset.count_replicate]
-    simp [hj]
-  · simp
+  apply _root_.GlobalTheory.LatAlgebraic.exists_list_count <;> assumption
 
 theorem cmPeriodConstant_eq_of_card_cmType {E : Type} [Field E] [NumberField E] {I : Type} [Fintype I]
     (hcard : Fintype.card I = Module.finrank ℚ (maximalRealSubfield E)) (d s : ℕ) (hs : 1 ≤ s) (κ : I → ℕ) :
     C0 E d (2 * s) κ = GlobalTheory.IndefiniteRowSideFullHecke.DefiningCoordinates.cWt E (2 * s) *
       (∏ i, ∏ j ∈ Finset.range (κ i), (((2 * s : ℕ) : ℝ) + j)) * (2 * Real.pi / Real.sqrt d) ^ (∑ i, κ i) := by
-  have hk : 1 ≤ 2 * s := by omega
-  rw [cmValueConst_eq, GlobalTheory.IndefiniteRowSideFullHecke.DefiningCoordinates.cWt, Finset.prod_congr rfl (fun i _ => gamma_nat_add (2 * s) (κ i) hk),
-    Finset.prod_mul_distrib, Finset.prod_const, Finset.card_univ, hcard]
-  ring
+  apply _root_.GlobalTheory.LatAlgebraic.cmPeriodConstant_eq_of_card_cmType <;> assumption
 
 theorem risingFactor_eq {I : Type} [Fintype I] (k : ℕ) (κ : I → ℕ) :
     GlobalTheory.IndefiniteRowSideFullHecke.DefiningCoordinates.risingFactor k κ =
@@ -1039,13 +1017,7 @@ namespace GlobalTheory.JetExp
 variable {l : ℕ} [Fact l.Prime] {lam : algebraicClosure ℚ ℂ →+* ℂ_[l]}
 
 theorem sz_mul {r r' : ℝ} {x y : ℂ} (hx : Sz l lam r x) (hy : Sz l lam r' y) : Sz l lam (r + r') (x * y) := by
-  obtain ⟨hx, hx'⟩ := hx
-  obtain ⟨hy, hy'⟩ := hy
-  refine ⟨mul_mem hx hy, ?_⟩
-  have e : (⟨x * y, mul_mem hx hy⟩ : algebraicClosure ℚ ℂ) = ⟨x, hx⟩ * ⟨y, hy⟩ := rfl
-  have hl : (0 : ℝ) < l := by exact_mod_cast (Fact.out : l.Prime).pos
-  rw [e, map_mul, norm_mul, Real.rpow_add hl]
-  exact mul_le_mul hx' hy' (norm_nonneg _) (by positivity)
+  apply _root_.GlobalTheory.LatValUnr.sz_mul <;> assumption
 
 theorem sz_mono {r r' : ℝ} {x : ℂ} (h : r ≤ r') (hx : Sz l lam r x) : Sz l lam r' x :=
   ⟨hx.1, hx.2.trans (Real.rpow_le_rpow_of_exponent_le (by exact_mod_cast (Fact.out : l.Prime).one_lt.le) h)⟩
@@ -1056,12 +1028,7 @@ theorem sz_one : Sz l lam 0 1 := ⟨one_mem _, by
 
 theorem sz_prod {ι : Type} (t : Finset ι) (r : ι → ℝ) (f : ι → ℂ) (h : ∀ i ∈ t, Sz l lam (r i) (f i)) :
     Sz l lam (∑ i ∈ t, r i) (∏ i ∈ t, f i) := by
-  classical
-  induction t using Finset.induction_on with
-  | empty => simpa using (sz_one (l := l) (lam := lam))
-  | insert j t hj ih =>
-    rw [Finset.sum_insert hj, Finset.prod_insert hj]
-    exact sz_mul (h j (Finset.mem_insert_self _ _)) (ih fun i hi => h i (Finset.mem_insert_of_mem hi))
+  apply _root_.GlobalTheory.LatValUnr.sz_prod <;> assumption
 
 theorem norm_factorial_inv_le (n : ℕ) : ‖((n.factorial : ℂ_[l]))‖⁻¹ ≤ (l : ℝ) ^ (n : ℝ) := by
   have hp : l.Prime := Fact.out

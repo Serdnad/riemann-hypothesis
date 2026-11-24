@@ -10,6 +10,7 @@ public import CompanionTheory.AutomorphicTheory.ZuckermanCommutation.CapelliEige
 public import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.SmoothCyc
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.HaarBumpFunctions.PoulsenSmoothVectorsDense
 public import CompanionTheory.HarishChandraModules.KFiniteAnalyticVectors.OrbitDerivatives.EtaleClosedPointLiftsSimpleRootsMonic
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CasimirSplitting
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightUniqueness.HpkMulMulHpkApply
 import Mathlib.Algebra.Order.Star.Real
 
@@ -134,34 +135,11 @@ theorem comm_LR {X Y : Obj k r} {f : M X →ₗ[ℂ] M Y} (hX : X.1.OK) (hY : Y.
   rw [e1] at h1
   exact h1.unique h2
 
-theorem inLie_reH (Y : Mx k r) : InLieHpk k r (reH k r Y) := by
-  have h1 : Formalism.QuantumDeterminants.Hpk k r * Formalism.QuantumDeterminants.Hpk k r = 1 := PI.HwUniqW.Hpk_mul_self
-  have h2 : (Formalism.QuantumDeterminants.Hpk k r)ᴴ = Formalism.QuantumDeterminants.Hpk k r := PI.HwUniqW.Hpk_conjTranspose
-  show (reH k r Y)ᴴ * Formalism.QuantumDeterminants.Hpk k r + Formalism.QuantumDeterminants.Hpk k r * reH k r Y = 0
-  set Hm := Formalism.QuantumDeterminants.Hpk k r
-  have e1 : Hm * Y * Hm * Hm = Hm * Y := by rw [Matrix.mul_assoc, h1, Matrix.mul_one]
-  have e2 : Hm * (Hm * Yᴴ * Hm) = Yᴴ * Hm := by rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h1, Matrix.one_mul]
-  have e3 : (Hm * Yᴴ * Hm)ᴴ = Hm * Y * Hm := by
-    rw [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, h2, Matrix.mul_assoc]
-  have e4 : star (1 / 2 : ℂ) = 1 / 2 := by simp
-  unfold reH
-  rw [conjTranspose_smul, conjTranspose_add, conjTranspose_neg, e3, e4, Matrix.smul_mul, Matrix.mul_smul,
-    Matrix.add_mul, Matrix.mul_add, Matrix.neg_mul, Matrix.mul_neg, e1, e2, ← smul_add]
-  simp
+theorem inLie_reH (Y : Mx k r) : InLieHpk k r (reH k r Y) :=
+  GlobalTheory.CompanionTheory.ZuckCasSplit.reH_lie Y
 
-theorem inLie_imH (Y : Mx k r) : InLieHpk k r (imH k r Y) := by
-  have h1 : Formalism.QuantumDeterminants.Hpk k r * Formalism.QuantumDeterminants.Hpk k r = 1 := PI.HwUniqW.Hpk_mul_self
-  have h2 : (Formalism.QuantumDeterminants.Hpk k r)ᴴ = Formalism.QuantumDeterminants.Hpk k r := PI.HwUniqW.Hpk_conjTranspose
-  show (imH k r Y)ᴴ * Formalism.QuantumDeterminants.Hpk k r + Formalism.QuantumDeterminants.Hpk k r * imH k r Y = 0
-  set Hm := Formalism.QuantumDeterminants.Hpk k r
-  have e1 : Hm * Y * Hm * Hm = Hm * Y := by rw [Matrix.mul_assoc, h1, Matrix.mul_one]
-  have e2 : Hm * (Hm * Yᴴ * Hm) = Yᴴ * Hm := by rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h1, Matrix.one_mul]
-  have e3 : (Hm * Yᴴ * Hm)ᴴ = Hm * Y * Hm := by
-    rw [conjTranspose_mul, conjTranspose_mul, conjTranspose_conjTranspose, h2, Matrix.mul_assoc]
-  have e4 : star (1 / (2 * Complex.I) : ℂ) = -(1 / (2 * Complex.I)) := by simp
-  unfold imH
-  rw [sub_neg_eq_add, conjTranspose_smul, conjTranspose_add, e3, e4, Matrix.smul_mul, Matrix.mul_smul,
-    Matrix.add_mul, Matrix.mul_add, e1, e2, neg_smul, add_comm (Hm * Y), neg_add_cancel]
+theorem inLie_imH (Y : Mx k r) : InLieHpk k r (imH k r Y) :=
+  GlobalTheory.CompanionTheory.ZuckCasSplit.imH_lie Y
 
 theorem L_eq (X : Obj k r) (Z : Mx k r) : L X Z = LR X (reH k r Z) + Complex.I • LR X (imH k r Z) := by
   refine LinearMap.ext fun x => funext fun c => ?_

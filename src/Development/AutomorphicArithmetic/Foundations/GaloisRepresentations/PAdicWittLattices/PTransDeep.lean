@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsTorsionFiniteFlat
 public import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.IsGaloisCover
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CompEqOneOfTransl
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HeckeSubAFiniteFree
@@ -318,16 +319,7 @@ universe u
 
 private theorem oActN_act_natCast_eq_one_pow {S : Scheme} {O : Type} [Ring O] {G : Over S} [GrpObj G]
     (a : GlobalTheory.UPel.HT.OActN O G) (n : ℕ) : a.act (n : O) = 𝟙 G ^ n := by
-  induction n with
-  | zero =>
-    have h := a.add 0 0
-    rw [add_zero] at h
-    have h2 := congrArg (· * (a.act 0)⁻¹) h
-    simp only [mul_inv_cancel, mul_inv_cancel_right] at h2
-    rw [Nat.cast_zero, pow_zero]
-    exact h2.symm
-  | succ n ih =>
-    rw [Nat.cast_succ, a.add, ih, a.one, pow_succ]
+  apply _root_.GlobalTheory.IwLevel.HTTorsionFF.oActN_natCast <;> assumption
 
 theorem UpperTheory.Gal.G3.pTransDeep :
     SysOf → AdmOf → FullOf → RelArith → TransDeep := by

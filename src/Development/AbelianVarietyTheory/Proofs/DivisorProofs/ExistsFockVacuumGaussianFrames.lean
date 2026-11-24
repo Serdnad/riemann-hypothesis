@@ -185,38 +185,38 @@ theorem trPair_apply {κ : Type} [Fintype κ] (x y : κ → mixedEmbedding.mixed
 
 end Adelic
 
-section Sign
-
-variable {ι : Type} {P Q R S : ℕ}
-
-theorem lineSign_cases (a : Ix P Q) (b : Ix R S) : lineSign a b = 1 ∨ lineSign a b = -1 := by
+theorem lineSign_cases {P Q R S : ℕ} (a : Ix P Q) (b : Ix R S) : lineSign a b = 1 ∨ lineSign a b = -1 := by
   rcases a with a | a <;> rcases b with b | b <;> simp [lineSign]
 
-def cplx (ι : Type) (P Q R S : ℕ) : (ι → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (ι → Matrix (Ix P Q) (Ix R S) ℂ) where
+section PlaceSignatures
+
+variable {ι : Type} {P Q R S : ι → ℕ}
+
+def placeComplexStructure (ι : Type) (P Q R S : ι → ℕ) : (∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ] (∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) where
   toFun c w := Matrix.of fun a b => lineSign a b * Complex.I * c w a b
   map_add' c c' := by ext w a b; simp [mul_add]
   map_smul' r c := by ext w a b; simp; ring
 
-theorem cplx_apply (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) (w : ι) (a : Ix P Q) (b : Ix R S) :
-    cplx ι P Q R S c w a b = lineSign a b * Complex.I * c w a b := rfl
+theorem placeComplexStructure_apply (c : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) (w : ι) (a : Ix (P w) (Q w)) (b : Ix (R w) (S w)) :
+    placeComplexStructure ι P Q R S c w a b = lineSign a b * Complex.I * c w a b := rfl
 
-theorem cplx_cplx (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) : cplx ι P Q R S (cplx ι P Q R S c) = -c := by
+theorem placeComplexStructure_sq (c : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) : placeComplexStructure ι P Q R S (placeComplexStructure ι P Q R S c) = -c := by
   ext w a b
-  rcases lineSign_cases a b with h | h <;> simp [cplx_apply, h, ← mul_assoc]
+  rcases lineSign_cases a b with h | h <;> simp [placeComplexStructure_apply, h, ← mul_assoc]
 
-theorem herm_cplx [Fintype ι] (c c' : ι → Matrix (Ix P Q) (Ix R S) ℂ) :
-    ∑ w, ∑ a, ∑ b, lineSign a b * cplx ι P Q R S c w a b * star (cplx ι P Q R S c' w a b) =
+theorem placeComplexStructure_preserves_hermitian [Fintype ι] (c c' : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) :
+    ∑ w, ∑ a, ∑ b, lineSign a b * placeComplexStructure ι P Q R S c w a b * star (placeComplexStructure ι P Q R S c' w a b) =
       ∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b) := by
   refine Finset.sum_congr rfl fun w _ => Finset.sum_congr rfl fun a _ => Finset.sum_congr rfl fun b _ => ?_
-  rcases lineSign_cases a b with h | h <;> simp [cplx_apply, h]
+  rcases lineSign_cases a b with h | h <;> simp [placeComplexStructure_apply, h]
   · linear_combination (-(c w a b * (starRingEnd ℂ) (c' w a b))) * Complex.I_mul_I
   · linear_combination (c w a b * (starRingEnd ℂ) (c' w a b)) * Complex.I_mul_I
 
-theorem herm_cplx_pos [Fintype ι] (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) (hc : c ≠ 0) :
-    0 < -2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (cplx ι P Q R S c w a b)).im := by
-  have h : ∀ w a b, (lineSign a b * c w a b * star (cplx ι P Q R S c w a b)).im = -Complex.normSq (c w a b) := by
+theorem placeComplexStructure_positive [Fintype ι] (c : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) (hc : c ≠ 0) :
+    0 < -2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (placeComplexStructure ι P Q R S c w a b)).im := by
+  have h : ∀ w a b, (lineSign a b * c w a b * star (placeComplexStructure ι P Q R S c w a b)).im = -Complex.normSq (c w a b) := by
     intro w a b
-    rcases lineSign_cases a b with h | h <;> simp [cplx_apply, h, Complex.normSq_apply]
+    rcases lineSign_cases a b with h | h <;> simp [placeComplexStructure_apply, h, Complex.normSq_apply]
   simp only [Complex.im_sum, h, Finset.sum_neg_distrib]
   obtain ⟨w, a, b, hw⟩ : ∃ w a b, c w a b ≠ 0 := by
     by_contra h0
@@ -229,11 +229,11 @@ theorem herm_cplx_pos [Fintype ι] (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) (hc
           ⟨b, Finset.mem_univ _, Complex.normSq_pos.2 hw⟩⟩⟩
   linarith
 
-theorem cplx_single [DecidableEq ι] (w : ι) (a : Ix P Q) (b : Ix R S) :
-    cplx ι P Q R S (Pi.single w (Matrix.single a b 1)) =
-      (lineSign a b).re • (Pi.single w (Matrix.single a b Complex.I) : ι → Matrix (Ix P Q) (Ix R S) ℂ) := by
+theorem placeComplexStructure_single [DecidableEq ι] (w : ι) (a : Ix (P w) (Q w)) (b : Ix (R w) (S w)) :
+    placeComplexStructure ι P Q R S (Pi.single w (Matrix.single a b 1)) =
+      (lineSign a b).re • (Pi.single w (Matrix.single a b Complex.I) : ∀ w : ι, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) := by
   ext w' a' b'
-  rw [cplx_apply]
+  rw [placeComplexStructure_apply]
   by_cases hw : w' = w
   · subst hw
     by_cases hab : a = a' ∧ b = b'
@@ -242,24 +242,57 @@ theorem cplx_single [DecidableEq ι] (w : ι) (a : Ix P Q) (b : Ix R S) :
     · simp [hab]
   · simp [hw]
 
+end PlaceSignatures
+
+section Sign
+
+variable {ι : Type} {P Q R S : ℕ}
+
+def cplx (ι : Type) (P Q R S : ℕ) : (ι → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (ι → Matrix (Ix P Q) (Ix R S) ℂ) :=
+  GlobalTheory.FockVacuum.placeComplexStructure ι (fun _ => P) (fun _ => Q) (fun _ => R) (fun _ => S)
+
+theorem cplx_apply (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) (w : ι) (a : Ix P Q) (b : Ix R S) :
+    cplx ι P Q R S c w a b = lineSign a b * Complex.I * c w a b := rfl
+
+theorem cplx_cplx (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) : cplx ι P Q R S (cplx ι P Q R S c) = -c := by
+  exact GlobalTheory.FockVacuum.placeComplexStructure_sq (P := fun _ => P) (Q := fun _ => Q) (R := fun _ => R) (S := fun _ => S) c
+
+theorem herm_cplx [Fintype ι] (c c' : ι → Matrix (Ix P Q) (Ix R S) ℂ) :
+    ∑ w, ∑ a, ∑ b, lineSign a b * cplx ι P Q R S c w a b * star (cplx ι P Q R S c' w a b) =
+      ∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b) := by
+  exact GlobalTheory.FockVacuum.placeComplexStructure_preserves_hermitian (P := fun _ => P) (Q := fun _ => Q) (R := fun _ => R) (S := fun _ => S) c c'
+
+theorem herm_cplx_pos [Fintype ι] (c : ι → Matrix (Ix P Q) (Ix R S) ℂ) (hc : c ≠ 0) :
+    0 < -2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (cplx ι P Q R S c w a b)).im := by
+  exact GlobalTheory.FockVacuum.placeComplexStructure_positive (P := fun _ => P) (Q := fun _ => Q) (R := fun _ => R) (S := fun _ => S) c hc
+
+theorem cplx_single [DecidableEq ι] (w : ι) (a : Ix P Q) (b : Ix R S) :
+    cplx ι P Q R S (Pi.single w (Matrix.single a b 1)) =
+      (lineSign a b).re • (Pi.single w (Matrix.single a b Complex.I) : ι → Matrix (Ix P Q) (Ix R S) ℂ) := by
+  exact GlobalTheory.FockVacuum.placeComplexStructure_single (P := fun _ => P) (Q := fun _ => Q) (R := fun _ => R) (S := fun _ => S) w a b
+
 end Sign
 
-theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) {α β κ : Type}
-    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] {P Q R S : ℕ}
+theorem exists_vacuum_of_symplectic_frames : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) {α β κ : Type}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] {P Q R S : InfinitePlace F → ℕ}
     (τ : ∀ w : InfinitePlace F, EmbOver E w) (JA : Matrix α α (AE F E)) (JB : Matrix β β (AE F E))
-    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : InfinitePlace F → Matrix α (Ix P Q) ℂ)
-    (C : InfinitePlace F → Matrix β (Ix R S) ℂ) (D : Matrix α β (AE F E) → (SInf F κ →L[ℂ] SInf F κ)),
-    IsCMExt F E σ → Framed τ JA JB a b A C →
+    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : ∀ w : InfinitePlace F, Matrix α (Ix (P w) (Q w)) ℂ)
+    (C : ∀ w : InfinitePlace F, Matrix β (Ix (R w) (S w)) ℂ) (D : Matrix α β (AE F E) → (SInf F κ →L[ℂ] SInf F κ)),
+    IsCMExt F E σ → (a * b = Complex.I ∧ (∀ w, IsFrame (a • JA.map (piInf (τ w))) (A w)) ∧ ∀ w, IsFrame (b • JB.map (piInf (τ w))) (C w)) →
+    (∀ (u u' : Matrix α β (AE F E)) (c c' : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ), At (evI F) u → At (evI F) u' →
+    (∀ w, u.map (piInf (τ w)) = A w * c w * (C w)ᵀ) → (∀ w, u'.map (piInf (τ w)) = A w * c' w * (C w)ᵀ) →
+    Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F (symp (R := AF F) (cA σ) (-1) JA JB u u')) =
+      -2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b)).im) →
     (∀ u, At (evI F) u → ∀ (f : SInf F κ) x, D u f x =
         fderiv ℝ f x (fun i => evI F ((d.e u).1 i)) - 2 * Real.pi * Complex.I *
           (Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (∑ i, x i * evI F ((d.e u).2 i)) : ℝ) * f x) →
-    ∃ f₀ : SInf F κ, f₀ ≠ 0 ∧ ∀ (w : InfinitePlace F) (a : Ix P Q) (b : Ix R S) (u u' : Matrix α β (AE F E)),
+    ∃ f₀ : SInf F κ, f₀ ≠ 0 ∧ ∀ (w : InfinitePlace F) (a : Ix (P w) (Q w)) (b : Ix (R w) (S w)) (u u' : Matrix α β (AE F E)),
       At (evI F) u → At (evI F) u' →
-      (∀ w', u.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b 1) : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) w' * (C w')ᵀ) →
-      (∀ w', u'.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b Complex.I) : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) w' * (C w')ᵀ) →
+      (∀ w', u.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b 1) : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) w' * (C w')ᵀ) →
+      (∀ w', u'.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b Complex.I) : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) w' * (C w')ᵀ) →
       D u f₀ + (lineSign a b * Complex.I) • D u' f₀ = 0 := by
-  intro F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S τ JA JB d a₀ b₀ A C D hCM hFr hD
-  have hU := fun c : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ =>
+  intro F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S τ JA JB d a₀ b₀ A C D hCM hFr hSym hD
+  have hU := fun c : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ =>
     _root_.GlobalTheory.ArchMatCoords.existsUnique_at_map_piInf σ τ hCM (fun w => A w * c w * (C w)ᵀ)
   choose U hU hU' using hU
   have hadd : ∀ c c', U (c + c') = U c + U c' := fun c c' => by
@@ -272,7 +305,7 @@ theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Nu
     · rw [_root_.GlobalTheory.RealScalar.realAd_smul_map σ τ hCM, (hU c).2, Pi.smul_apply, Matrix.mul_smul, Matrix.smul_mul]
       ext i j
       simp
-  let p : (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
+  let p : (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
     { toFun := fun c i => evI F ((d.e (U c)).1 i)
       map_add' := fun c c' => by
         funext i
@@ -282,7 +315,7 @@ theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Nu
         funext i
         rw [hsmul, map_smul]
         exact evI_realAd_mul r _ }
-  let q : (InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
+  let q : (∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ) →ₗ[ℝ] (κ → mixedEmbedding.mixedSpace F) :=
     { toFun := fun c i => evI F ((d.e (U c)).2 i)
       map_add' := fun c c' => by
         funext i
@@ -294,7 +327,7 @@ theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Nu
         exact evI_realAd_mul r _ }
   have hω : ∀ c c', trPair F κ (p c) (q c') - trPair F κ (p c') (q c) =
       -2 * (∑ w, ∑ a, ∑ b, lineSign a b * c w a b * star (c' w a b)).im := fun c c' => by
-    rw [← _root_.GlobalTheory.SympFrames.symp_frames σ τ JA JB a₀ b₀ A C hCM hFr (U c) (U c') c c' (hU c).1 (hU c').1 (hU c).2 (hU c').2, d.form,
+    rw [← hSym (U c) (U c') c c' (hU c).1 (hU c').1 (hU c).2 (hU c').2, d.form,
       trPair_apply, trPair_apply, ← map_sub, ← evR_apply]
 
     simp only [dotProduct, map_sub, map_sum, map_mul]
@@ -318,19 +351,19 @@ theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Nu
       rw [← huc, LinearEquiv.apply_symm_apply, evI_infAd]
     · change evI F ((d.e (U _)).2 i) = v' i
       rw [← huc, LinearEquiv.apply_symm_apply, evI_infAd]
-  obtain ⟨X, Y, hX, hY, hYp, hXY⟩ := exists_siegel (trPair F κ) p q (cplx _ P Q R S) cplx_cplx
-    (fun c c' => by rw [hω, hω, herm_cplx]) (fun c hc => by rw [hω]; exact herm_cplx_pos c hc) hs
+  obtain ⟨X, Y, hX, hY, hYp, hXY⟩ := exists_siegel (trPair F κ) p q (placeComplexStructure _ P Q R S) placeComplexStructure_sq
+    (fun c c' => by rw [hω, hω, placeComplexStructure_preserves_hermitian]) (fun c hc => by rw [hω]; exact placeComplexStructure_positive c hc) hs
   obtain ⟨f, hf0, hf⟩ := exists_gaussian X Y hX hY hYp
   refine ⟨f, hf0, fun w a b u u' hu hu' hc hc' => ?_⟩
   have e1 := hU' _ u ⟨hu, hc⟩
   have e2 := hU' _ u' ⟨hu', hc'⟩
-  set c : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ := Pi.single w (Matrix.single a b 1) with hcdef
-  set c' : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ := Pi.single w (Matrix.single a b Complex.I) with hcdef'
-  have hJ : cplx _ P Q R S c = (lineSign a b).re • c' := cplx_single w a b
+  set c : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ := Pi.single w (Matrix.single a b 1) with hcdef
+  set c' : ∀ w : InfinitePlace F, Matrix (Ix (P w) (Q w)) (Ix (R w) (S w)) ℂ := Pi.single w (Matrix.single a b Complex.I) with hcdef'
+  have hJ : placeComplexStructure _ P Q R S c = (lineSign a b).re • c' := placeComplexStructure_single w a b
   ext x
   have h1 := hXY c x
-  have h2 := hXY (cplx _ P Q R S c) x
-  rw [cplx_cplx] at h2
+  have h2 := hXY (placeComplexStructure _ P Q R S c) x
+  rw [placeComplexStructure_sq] at h2
   rw [hJ] at h1 h2
   simp only [map_smul, map_neg, smul_eq_mul] at h1 h2
   have k1 : D u f x = 2 * Real.pi * Complex.I * ((X x (p c) : ℝ) + Complex.I * (Y x (p c) : ℝ)) * f x -
@@ -349,5 +382,24 @@ theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [Nu
   rw [hl] at h1' h2'
   linear_combination (2 * Real.pi * Complex.I * f x) * h1' + (2 * Real.pi * Complex.I * Complex.I * f x) * h2' +
     (2 * Real.pi * Complex.I * f x * lineSign a b * (Y x (p c') : ℝ)) * Complex.I_mul_I
+
+theorem exists_vacuum : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E) {α β κ : Type}
+    [Fintype α] [DecidableEq α] [Fintype β] [DecidableEq β] [Fintype κ] {P Q R S : ℕ}
+    (τ : ∀ w : InfinitePlace F, EmbOver E w) (JA : Matrix α α (AE F E)) (JB : Matrix β β (AE F E))
+    (d : Darboux (symp (R := AF F) (cA σ) (-1) JA JB) κ) (a b : ℂ) (A : InfinitePlace F → Matrix α (Ix P Q) ℂ)
+    (C : InfinitePlace F → Matrix β (Ix R S) ℂ) (D : Matrix α β (AE F E) → (SInf F κ →L[ℂ] SInf F κ)),
+    IsCMExt F E σ → Framed τ JA JB a b A C →
+    (∀ u, At (evI F) u → ∀ (f : SInf F κ) x, D u f x =
+        fderiv ℝ f x (fun i => evI F ((d.e u).1 i)) - 2 * Real.pi * Complex.I *
+          (Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (∑ i, x i * evI F ((d.e u).2 i)) : ℝ) * f x) →
+    ∃ f₀ : SInf F κ, f₀ ≠ 0 ∧ ∀ (w : InfinitePlace F) (a : Ix P Q) (b : Ix R S) (u u' : Matrix α β (AE F E)),
+      At (evI F) u → At (evI F) u' →
+      (∀ w', u.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b 1) : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) w' * (C w')ᵀ) →
+      (∀ w', u'.map (piInf (τ w')) = A w' * (Pi.single w (Matrix.single a b Complex.I) : InfinitePlace F → Matrix (Ix P Q) (Ix R S) ℂ) w' * (C w')ᵀ) →
+      D u f₀ + (lineSign a b * Complex.I) • D u' f₀ = 0 := by
+  intro F E _ _ _ _ _ σ α β κ _ _ _ _ _ P Q R S τ JA JB d a b A C D hCM hFr
+  exact _root_.GlobalTheory.FockVacuum.exists_vacuum_of_symplectic_frames σ
+    (P := fun _ => P) (Q := fun _ => Q) (R := fun _ => R) (S := fun _ => S)
+    τ JA JB d a b A C D hCM hFr (_root_.GlobalTheory.SympFrames.symp_frames σ τ JA JB a b A C hCM hFr)
 
 end GlobalTheory.FockVacuum

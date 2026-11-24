@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.TwistedDictionaryEventuallyLarge
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RankEqCardIffExistsFrameMatrixFirstColumnBlock
 public import Development.AbelianVarietyTheory.Definitions.Divisors.FlatTensorVacuum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HasCompactSupportFlatIntegrand
@@ -941,15 +942,7 @@ namespace GlobalTheory.RowSingle
 
 theorem locPl_under {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} (G : GridData L sc) (t : T) :
     ∀ w ∈ locPl G t, w.under (𝓞 D.host.F) ∈ G.pl.S0 ∨ ∃ w' ∈ L.Q t, w.under (𝓞 D.host.F) = w'.under (𝓞 D.host.F) := by
-  intro w hw
-  unfold locPl at hw
-  rcases Finset.mem_union.1 hw with h | h
-  · left
-    unfold Places.W0 at h
-    obtain ⟨v, hv, rfl⟩ := by simpa only [Finset.mem_image] using h
-    rw [G.pl.under_w hv]
-    exact hv
-  · exact Or.inr ⟨w, h, rfl⟩
+  apply _root_.GlobalTheory.StdHalfLat.locPl_over <;> assumption
 
 theorem exists_rowData {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GridData L sc} (W : G.Weil)
     {μ₀ : T} (hL : L.Is μ₀) (ρ : RealMatch W) (t : T) (e : AE D) (he : IsIdemSum e (locPl G t))

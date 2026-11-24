@@ -44,6 +44,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SheafFiltrationProperty
 
 @[expose] public section
 
@@ -190,17 +191,7 @@ theorem dividedPowerFiltration_anti {a b : ℕ} (h : a ≤ b) : pdP δ b ≤ pdP
   Ideal.span_mono fun _ ⟨l, hl, hr, e⟩ => ⟨l, hl, h.trans hr, e⟩
 
 theorem dividedPowerFiltration_mul (a b : ℕ) : pdP δ a * pdP δ b ≤ pdP δ (a + b) := by
-  rw [pdP, pdP, Ideal.span_mul_span']
-  refine Ideal.span_le.2 ?_
-  rintro _ ⟨_, ⟨l, hl, hr, rfl⟩, _, ⟨l', hl', hr', rfl⟩, rfl⟩
-  refine Ideal.subset_span ⟨l ++ l', ?_, ?_, ?_⟩
-  · intro q hq
-    rcases List.mem_append.1 hq with h | h
-    · exact hl q h
-    · exact hl' q h
-  · rw [List.map_append, List.sum_append]
-    omega
-  · rw [List.map_append, List.prod_append]
+  apply _root_.GlobalTheory.CompanionTheory.DPFil.dividedPowerFiltration_mul_le <;> assumption
 
 theorem one_mem_pdP_zero : (1 : B) ∈ pdP δ 0 :=
   Ideal.subset_span ⟨[], by simp, by simp, by simp⟩

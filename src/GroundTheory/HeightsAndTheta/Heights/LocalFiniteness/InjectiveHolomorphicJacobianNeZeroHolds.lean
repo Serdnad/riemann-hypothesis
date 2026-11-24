@@ -151,6 +151,7 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
 import Mathlib.Topology.Algebra.MvPolynomial
 import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PRegularLocusDense
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PMultigradedFiltration
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PBranchInCurveComponent, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PBrouwerFixedPoint, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCMHeightAddDim, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PCurveNormalisationFinite, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PGenericFibreTor, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLengthCutGlobal, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLengthCutLocalizedModule, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PLengthLocalizedLocalized, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PProjectionInjectiveOffHypersurface, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PRootSumHolomorphic, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSheetPieceProductAnalytic, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSliceLocalDimGeneral, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PSliceLocalDimUpperZariski, GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.PUnbranchedFibreSections, GroundTheory.HeightsAndTheta.Heights.LocalFiniteness.InjectiveHolomorphicJacobianNeZeroHolds
@@ -650,17 +651,7 @@ theorem length_localized_add {N M Q : Type*} [AddCommGroup N] [Module C N] [AddC
     Module.length (Localization.AtPrime P) (LocalizedModule P.primeCompl M) =
       Module.length (Localization.AtPrime P) (LocalizedModule P.primeCompl N) +
         Module.length (Localization.AtPrime P) (LocalizedModule P.primeCompl Q) := by
-  let fN := LocalizedModule.mkLinearMap P.primeCompl N
-  let fM := LocalizedModule.mkLinearMap P.primeCompl M
-  let fQ := LocalizedModule.mkLinearMap P.primeCompl Q
-  exact Module.length_eq_add_of_exact
-    ((IsLocalizedModule.map P.primeCompl fN fM f).extendScalarsOfIsLocalization P.primeCompl
-      (Localization.AtPrime P))
-    ((IsLocalizedModule.map P.primeCompl fM fQ g).extendScalarsOfIsLocalization P.primeCompl
-      (Localization.AtPrime P))
-    (IsLocalizedModule.map_injective P.primeCompl fN fM f hf)
-    (IsLocalizedModule.map_surjective P.primeCompl fM fQ g hg)
-    (IsLocalizedModule.map_exact P.primeCompl fN fM fQ f g H)
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.HilbertSamuel.length_localized_eq_add <;> assumption
 
 
 omit [P.IsPrime] in
@@ -728,17 +719,7 @@ theorem length_quotSMulTop_quot {y : C} (hmax : (P ⊔ Ideal.span {y}).IsMaximal
 
 theorem length_localized_quot :
     Module.length (Localization.AtPrime P) (LocalizedModule P.primeCompl (C ⧸ P)) = 1 := by
-  let S := Localization.AtPrime P
-  have hJ : (P : Submodule C C).localized' S P.primeCompl (Algebra.linearMap C S) =
-      IsLocalRing.maximalIdeal S := by
-    rw [Submodule.localized'_eq_span, ← Localization.AtPrime.map_eq_maximalIdeal, Ideal.map]
-    rfl
-  let e := (IsLocalizedModule.linearEquiv P.primeCompl
-    ((P : Submodule C C).toLocalizedQuotient' S P.primeCompl (Algebra.linearMap C S))
-    (LocalizedModule.mkLinearMap P.primeCompl (C ⧸ P))).extendScalarsOfIsLocalization P.primeCompl S
-  rw [← e.length_eq, (Submodule.quotEquivOfEq _ _ hJ).length_eq]
-  exact Module.length_eq_one_iff.2 (isSimpleModule_iff_isCoatom.mpr
-    (Ideal.isMaximal_def.1 (IsLocalRing.maximalIdeal.isMaximal S)))
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.HilbertSamuel.length_localized_quotient_self <;> assumption
 
 theorem lengths_pi {y : C} (hy : y ∉ P) (hmax : (P ⊔ Ideal.span {y}).IsMaximal) (n : ℕ) :
     Module.length C (QuotSMulTop y (Fin n → C ⧸ P)) = n ∧

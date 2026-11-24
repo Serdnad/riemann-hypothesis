@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Theta.CMDatum
 public import GroundTheory.AutomorphicForms.HermitianSpaces
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.InfinitePlace.TotallyRealComplex
@@ -22,38 +23,8 @@ variable {F E : Type*} [Field F] [Field E] [Algebra F E] [Algebra.IsQuadraticExt
 
 theorem embedding_conj [NumberField F] [NumberField E] [IsTotallyReal F] [_root_.NumberField.IsTotallyComplex E]
     (σ : E →+* ℂ) (x : E) : σ (conj F E x) = starRingEnd ℂ (σ x) := by
-  have hF : ∀ c : F, starRingEnd ℂ (σ (algebraMap F E c)) = σ (algebraMap F E c) := by
-    intro c
-    have h1 := ComplexEmbedding.isReal_iff.mp
-      (IsTotallyReal.complexEmbedding_isReal (σ.comp (algebraMap F E)))
-    have h2 := congrArg (fun ψ : F →+* ℂ => ψ c) h1
-    simpa [ComplexEmbedding.conjugate_coe_eq] using h2
-  by_cases hx : x ∈ Set.range (algebraMap F E)
-  · obtain ⟨c, rfl⟩ := hx
-    rw [conj_algebraMap, hF]
-  · have hs : σ x + σ (conj F E x) = σ (algebraMap F E (Algebra.trace F E x)) := by
-      rw [← map_add (f := _), add_conj]
-    have hp : σ x * σ (conj F E x) = σ (algebraMap F E (Algebra.norm F x)) := by
-      rw [← map_mul, mul_conj]
-    have e1 : starRingEnd ℂ (σ x) + starRingEnd ℂ (σ (conj F E x)) = σ x + σ (conj F E x) := by
-      rw [← map_add (f := _), hs, hF]
-    have e2 : starRingEnd ℂ (σ x) * starRingEnd ℂ (σ (conj F E x)) =
-        σ x * σ (conj F E x) := by
-      rw [← map_mul, hp, hF]
-    have key : (starRingEnd ℂ (σ x) - σ x) * (starRingEnd ℂ (σ x) - σ (conj F E x)) = 0 := by
-      linear_combination (starRingEnd ℂ (σ x)) * e1 - e2
-    rcases mul_eq_zero.mp key with h1 | h1
-    · exfalso
-      have hz : starRingEnd ℂ (σ x) = σ x := sub_eq_zero.mp h1
-      apply IsTotallyComplex.complexEmbedding_not_isReal σ
-      rw [ComplexEmbedding.isReal_iff]
-      ext y
-      have hy := (basisOneOf hx).sum_repr y
-      rw [Fin.sum_univ_two, basisOneOf_zero, basisOneOf_one] at hy
-      rw [← hy]
-      simp only [ComplexEmbedding.conjugate_coe_eq, Algebra.smul_def,
-        map_add, map_mul, mul_one, hF, hz]
-    · exact (sub_eq_zero.mp h1).symm
+  intros
+  apply _root_.GroundTheory.Heights₂.Theta.embedding_conj <;> assumption
 
 end Conj
 

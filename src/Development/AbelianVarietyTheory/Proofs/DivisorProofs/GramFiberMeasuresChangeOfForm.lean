@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteAdeleAwayFromPEqZeroOfDivisibleCoprimeStatement
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HasDivPlace
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PowEqPowOfModEqSim
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsSimSys
@@ -154,37 +155,7 @@ theorem map_mem (A : Module.End (AfP p) (AfP p ⊗[ℚ] VQ D)) (hA : ∀ x, A (i
   | neg x _ hx => rw [map_neg]; exact neg_mem hx
 
 theorem eq_zero_of_dvd (a : AfP p) (h : ∀ n : ℕ, 0 < n → n.Coprime p → ∃ c, IsIntAf c ∧ a = n • c) : a = 0 := by
-  have key : ∀ v : AwayP p, AfP.eval v a = 0 := by
-    intro v
-    by_contra hne
-    obtain ⟨l, hl0, hlp, hlv⟩ : ∃ l : ℕ, 0 < l ∧ l.Coprime p ∧ (l : ℤ) ∈ v.1.asIdeal := by
-      have hp : Prime (p : ℤ) := Nat.prime_iff_prime_int.1 Fact.out
-      have hmax : v.1.asIdeal.IsMaximal := v.1.isMaximal
-      have hmp : (Ideal.span {(p : ℤ)}).IsPrime := (Ideal.span_singleton_prime hp.ne_zero).2 hp
-      have hnle : ¬ v.1.asIdeal ≤ Ideal.span {(p : ℤ)} := fun hle => v.2 (hmax.eq_of_le hmp.ne_top hle)
-      obtain ⟨x, hx, hxp⟩ := Set.not_subset.1 hnle
-      have hxp' : ¬ (p : ℤ) ∣ x := fun hd => hxp (Ideal.mem_span_singleton.2 hd)
-      refine ⟨x.natAbs, Int.natAbs_pos.2 (fun h0 => hxp' (h0 ▸ dvd_zero _)), ?_, ?_⟩
-      · exact ((Nat.Prime.coprime_iff_not_dvd Fact.out).2 (fun hd => hxp' (Int.natCast_dvd.2 hd))).symm
-      · rcases Int.natAbs_eq x with h1 | h1
-        · rw [← h1]; exact hx
-        · rw [← neg_eq_iff_eq_neg.2 h1]; exact neg_mem hx
-    have hlt : Valued.v ((l : ℕ) : v.1.adicCompletion ℚ) < 1 := by
-      have e : ((l : ℕ) : v.1.adicCompletion ℚ) = algebraMap ℤ (v.1.adicCompletion ℚ) (l : ℤ) := by simp
-      have e2 : Valued.v (algebraMap ℤ (v.1.adicCompletion ℚ) (l : ℤ)) = v.1.valuation ℚ (algebraMap ℤ ℚ (l : ℤ)) := by
-        rw [IsScalarTower.algebraMap_apply ℤ ℚ (v.1.adicCompletion ℚ)]
-        exact HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v.1 _
-      rw [e, e2, HeightOneSpectrum.valuation_lt_one_iff_mem]
-      exact hlv
-    have hv0 : Valued.v (AfP.eval v a) ≠ 0 := (Valuation.ne_zero_iff _).2 hne
-    obtain ⟨j, hj⟩ := exists_pow_lt₀ hlt (Units.mk0 _ hv0)
-    obtain ⟨c, hc, e⟩ := h (l ^ j) (pow_pos hl0 j) (Nat.Coprime.pow_left j hlp)
-    have hc1 : Valued.v (AfP.eval v c) ≤ 1 := hc v
-    have : Valued.v (AfP.eval v a) ≤ Valued.v ((l : ℕ) : v.1.adicCompletion ℚ) ^ j := by
-      rw [e, map_nsmul, nsmul_eq_mul, map_mul, Nat.cast_pow, map_pow]
-      exact mul_le_of_le_one_right' hc1
-    exact absurd hj (not_lt.2 this)
-  exact Subtype.ext (funext key)
+  apply _root_.GlobalTheory.AfPZero.main <;> assumption
 
 def basAf {J : Type} (b : Module.Basis J ℤ D.La) : Module.Basis J (AfP p) (AfP p ⊗[ℚ] VQ D) :=
   (b.baseChange ℚ).baseChange (AfP p)

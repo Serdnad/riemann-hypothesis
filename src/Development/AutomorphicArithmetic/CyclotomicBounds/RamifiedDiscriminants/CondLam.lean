@@ -3,6 +3,7 @@ module
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.ConjEMemHostFIff
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.InertD
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
+import all Development.AutomorphicArithmetic.FrobeniusLocalisation.inertQ
 public import Formalism.SharpRestriction.RamificationFrobenius.TotientGaloisClasses.InertiaGaloisSymmetry.CycBasic
 public import Development.AutomorphicArithmetic.FrobeniusLocalisation.DiffDefs
 public import Formalism.LocalRingCardinality.DataHost
@@ -68,13 +69,7 @@ private theorem ordCompl_eq_self_of_not_dvd {n p : ℕ} (h : ¬p ∣ n) : ordCom
   simp [Nat.factorization_eq_zero_of_not_dvd h]
 
 private theorem ordCompl_q' {φ : Frame} (H : HostRaw φ) : ordCompl[H.q] H.condN = H.QS * H.d := by
-  have hq := H.q_prime
-  have h1 : ¬H.q ∣ H.QS := (Nat.Prime.coprime_iff_not_dvd hq).1 H.coprime_QS_q.symm
-  have h2 : ¬H.q ∣ H.d := (Nat.Prime.coprime_iff_not_dvd hq).1
-    (Nat.Coprime.coprime_dvd_left (dvd_mul_left H.d H.QS) H.coprime_QSd_q).symm
-  have h3 : ordCompl[H.q] H.q = 1 := by
-    simpa using Nat.ordCompl_self_pow (k := 1) hq
-  simp only [HostRaw.condN, Nat.ordCompl_mul, h3, ordCompl_eq_self_of_not_dvd h1, ordCompl_eq_self_of_not_dvd h2, mul_one]
+  apply _root_.ordCompl_q <;> assumption
 
 private theorem crt_unit {φ : Frame} (H : HostRaw φ) {a b : ℕ} (hab : a.Coprime b) (hN : H.condN = a * b)
     (u : (ZMod H.condN)ˣ) : ∃ v : (ZMod H.condN)ˣ, (v : ZMod H.condN).val ≡ 1 [MOD a] ∧

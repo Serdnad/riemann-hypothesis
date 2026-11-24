@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FreeEtaleSheafExcisionShortExact
 public import Development.EtaleCohomology.CohomologicalPurity.LeafBdCut
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -48,13 +49,7 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC
 namespace LateralTheory.CohomologicalPurity.Bd
 
 theorem mono_freeP (R : Type) [CommRing R] {P Q : PSh} (g : P ⟶ Q) [Mono g] : Mono ((freeP R).map g) := by
-  have : ∀ U, Mono (((freeP R).map g).app U) := by
-    intro U
-    have hg : Function.Injective (g.app U) := (mono_iff_injective _).1 inferInstance
-    rw [ModuleCat.mono_iff_injective]
-    dsimp [freeP]
-    exact Finsupp.mapDomain_injective (fun a b h => ULift.ext (hg (congrArg ULift.down h)))
-  exact NatTrans.mono_of_mono_app _
+  apply @GlobalTheory.EtC.MVLeft.mono_freePresheaf_map <;> assumption
 
 theorem mono_free (R : Type) [CommRing R] {P Q : PSh} (g : P ⟶ Q) [Mono g] : Mono ((free R).map g) := by
   have := mono_freeP R g

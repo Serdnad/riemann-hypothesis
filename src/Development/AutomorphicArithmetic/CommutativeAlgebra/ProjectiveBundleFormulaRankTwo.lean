@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsEtaleCocycleFirstChernClassTateTwist
 public import Development.AutomorphicArithmetic.CupPullbacks.ConstCompSingle
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ChosenInjectiveResolutionEtaleSheafSectionsExactStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.EtaleCochainEvalOnSimplexBasicPropertiesStatement
@@ -20,6 +21,7 @@ public import Development.AutomorphicArithmetic.CommutativeAlgebra.MayerVietoris
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.MayerVietorisConnectingExistsUniqueAdditiveExact
 public import Development.AutomorphicArithmetic.CupPullbacks.TwoChart
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.BijectiveCohomologyGmProductKummerCup
+import all Development.AutomorphicArithmetic.CommutativeAlgebra.BijectiveCohomologyGmProductKummerCup
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.ProjectiveBundleFormulaRankOneOfHomotopyInvarian
 public import Development.AutomorphicArithmetic.CommutativeAlgebra.TateTwistAffineLineProjectionEquiv
 import Mathlib.Algebra.Order.Floor.Extended
@@ -177,32 +179,8 @@ theorem unitSec_pow {U : Scheme.{0}} (v : (Γ(U, ⊤))ˣ) (n : ℕ) : ((n : ℤ)
 
 theorem locRoot (q : ℕ) [NeZero q] {U : Scheme.{0}} (hq : IsUnit (q : Γ(U, ⊤))) (u : (Γ(U, ⊤))ˣ) :
     Loc U fun V g => ∃ v : (Γ(V, ⊤))ˣ, v ^ q = um g u := by
-  obtain ⟨κ, -, -, -, -, h⟩ := GlobalTheory.T.kummer_sequence_etale_tateTwist q
-  refine loc_trans U _ (loc_mono U _ _ (h U hq (unitSec u)) ?_)
-  rintro V g ⟨c, hc⟩
-  rw [sec_zsmul] at hc
-  refine loc_trans V _ (loc_mono V _ _ ((GlobalTheory.T.etaleToSheafify_locally_bijective_and_lift ℤ (Scheme.Γ ⋙ unitsF)).1 V c) ?_)
-  rintro W k ⟨x, hx⟩
-  obtain ⟨x⟩ := x
-  obtain ⟨v, hv⟩ : ∃ v : (Γ(W, ⊤))ˣ, x = Additive.ofMul v := ⟨Additive.toMul x, rfl⟩
-  have e1 : unitSec (v ^ q) = unitSec (um k (um g u)) := by
-    rw [← unitSec_pow, ← unitSec_res, ← unitSec_res, ← hc]
-    have hx' : unitSec v = Sec.res k c :=
-      (congrArg (fun z => ((toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ unitsF)).app (op W)).hom (ULift.up z)) hv).symm.trans hx
-    rw [hx']
-    exact (map_zsmul (Gm.obj.map k.op).hom (q : ℤ) c).symm
-  let P : Scheme.{0}ᵒᵖ ⥤ ModuleCat.{1} (ULift.{1} ℤ) := Scheme.Γ ⋙ unitsF
-  let a : P.obj (op W) := ULift.up (Additive.ofMul (v ^ q))
-  let b : P.obj (op W) := ULift.up (Additive.ofMul (um k (um g u)))
-  have hab : ((toSheafify Scheme.etaleTopology P).app (op W)).hom (a - b) = 0 := by
-    rw [map_sub, sub_eq_zero]
-    exact e1
-  refine loc_mono W _ _ ((GlobalTheory.T.etaleToSheafify_locally_bijective_and_lift ℤ P).2.1 W (a - b) hab) ?_
-  intro Y m hm
-  refine ⟨um m v, ?_⟩
-  rw [map_sub, sub_eq_zero] at hm
-  have h2 : um m (v ^ q) = um m (um k (um g u)) := congrArg (fun z : P.obj (op Y) => Additive.toMul z.down) hm
-  exact (map_pow (um m) v q).symm.trans (h2.trans (by rw [← um_comp, ← um_comp]))
+  intros
+  apply _root_.GlobalTheory.EtC.ClsSpec.root_loc <;> assumption
 
 theorem inv_EG (q : ℕ) : Inv q (EG q) := fun _ ⟨x⟩ => x.2
 
@@ -216,15 +194,8 @@ theorem lineUnit_pr {q : ℕ} {U : Scheme.{0}} (x : Sx (EG q) 1 U) : lineUnit (p
 
 theorem lineUnit_res {E : Spc} (L : E ⟶ ofCat (glCat 1)) {V U : Scheme.{0}} (g : V ⟶ U) (x : Sx E 1 U) :
     lineUnit L (x.res g) = um g (lineUnit L x) := by
-  have h : (L.app (op (SimplexCategory.mk 1))).app (op V) (x.res g) =
-      ((ofCat (glCat 1)).obj (op (SimplexCategory.mk 1))).map g.op ((L.app (op (SimplexCategory.mk 1))).app (op U) x) :=
-    ConcreteCategory.congr_hom ((L.app (op (SimplexCategory.mk 1))).naturality g.op) x
-  unfold lineUnit
-  rw [h]
-  have h2 : ∀ y : Sx (ofCat (glCat 1)) 1 U, glMat (y.res g) = Matrix.GeneralLinearGroup.map g.appTop.hom (glMat y) :=
-    fun y => rfl
-  refine (congrArg _ (h2 _)).trans ?_
-  exact Matrix.GeneralLinearGroup.map_det _ _
+  intros
+  apply _root_.GlobalTheory.EtC.ClsSpec.lineUnit_res <;> assumption
 
 theorem sub_res {E : Spc} {N : ℕ} {V U : Scheme.{0}} (g : V ⟶ U) (x : Sx E N U) (j l : ℕ) (h : j + l ≤ N) :
     (x.res g).sub j l h = (x.sub j l h).res g :=
@@ -1136,15 +1107,7 @@ private theorem kun {E : Spc} (hE : Inv q E) (m j : ℤ) :
     Function.Bijective fun p : Ht q E (m + 1) (j + 1) × Ht q E m j =>
       pull _ (prod.snd : sch.obj (Gq q) ⨯ E ⟶ E) _ _ p.1 +
         cup q (pull _ (prod.snd : sch.obj (Gq q) ⨯ E ⟶ E) _ _ p.2) (pull _ (prod.fst : sch.obj (Gq q) ⨯ E ⟶ _) _ _ (kappa q)) := by
-  have key : ∀ (n i m j : ℤ) (hm : n - 1 = m) (hj : i - 1 = j) (h : m + 1 = n) (h' : j + 1 = i),
-      Function.Bijective fun p : Ht q E n i × Ht q E m j =>
-        pull _ (prod.snd : sch.obj (Gq q) ⨯ E ⟶ E) _ _ p.1 +
-          (cup q (pull _ (prod.snd : sch.obj (Gq q) ⨯ E ⟶ E) _ _ p.2)
-            (pull _ (prod.fst : sch.obj (Gq q) ⨯ E ⟶ _) _ _ (kappa q))).cast h h' := by
-    intro n i m j hm hj h h'
-    subst hm hj
-    exact UpperTheory.bijective_cohomology_gm_product_kummer_cup q E hE n i
-  exact key (m + 1) (j + 1) m j (by ring) (by ring) rfl rfl
+  apply _root_.UpperTheory.Kun.main <;> assumption
 
 end UpperTheory.P2
 

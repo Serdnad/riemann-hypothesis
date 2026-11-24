@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.CoupledStepChartLevelAtBadPrimes
 public import Mathlib.LinearAlgebra.Matrix.GeneralLinearGroup.Defs
 public import Mathlib.Topology.Algebra.Valued.ValuationTopology
 public import Formalism.LocalToGlobal.Columns.FiniteSumNonzeroLargeDepth
@@ -54,7 +56,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SatakeParameters.GLInvMulCongrOneModUniformizer, Development.AbelianVarietyTheory.Proofs.SatakeParameters.MemIntegralGLAtPrimeOfCongruentOneModPowStatement, Development.AbelianVarietyTheory.Proofs.SatakeParameters.ChartFramesCongruentOneOfSameBadPlaceComponents
 
@@ -232,33 +233,11 @@ theorem map_expr {E₀ E : Type} [Field E₀] [Field E] (σ : E₀ ≃+* E) (q d
   simp [map_mul, map_inv₀, map_pow, map_natCast, map_sub]
 
 theorem qOf_seamP {D : D7} {X : Fields} (s : Seam D X) (P : HeightOneSpectrum (𝓞 X.E)) : qOf (seamP s P) = qOf P := by
-  have hI : (seamP s P).asIdeal = P.asIdeal.map (RingOfIntegers.mapRingEquiv s.iE) := by
-    ext y
-    rw [← (RingOfIntegers.mapRingEquiv s.iE).apply_symm_apply y, mem_seamP, Ideal.mem_map_of_equiv]
-    constructor
-    · intro hy; exact ⟨_, hy, rfl⟩
-    · rintro ⟨z, hz, e⟩
-      rw [(RingOfIntegers.mapRingEquiv s.iE).injective e] at hz
-      exact hz
-  unfold qOf
-  rw [Ideal.absNorm_apply, Ideal.absNorm_apply, Submodule.cardQuot_apply, Submodule.cardQuot_apply]
-  exact (Nat.card_congr (Ideal.quotientEquiv P.asIdeal (seamP s P).asIdeal (RingOfIntegers.mapRingEquiv s.iE) hI).toEquiv).symm
+  first | exact _root_.GlobalTheory.SeamCong.qOf_seamP | exact @_root_.GlobalTheory.SeamCong.qOf_seamP | apply _root_.GlobalTheory.SeamCong.qOf_seamP <;> assumption
 
 theorem intAt_seamP {D : D7} {X : Fields} (s : Seam D X) (P : HeightOneSpectrum (𝓞 X.E)) (e : X.E) :
     IntAt (seamP s P) (s.iE e) ↔ IntAt P e := by
-  have hc : ∀ y : 𝓞 X.E, algebraMap (𝓞 D.host.E) D.host.E (RingOfIntegers.mapRingEquiv s.iE y) = s.iE (algebraMap (𝓞 X.E) X.E y) :=
-    fun y => rfl
-  constructor
-  · rintro ⟨r, c, hc', h⟩
-    refine ⟨(RingOfIntegers.mapRingEquiv s.iE).symm r, (RingOfIntegers.mapRingEquiv s.iE).symm c, ?_, ?_⟩
-    · rw [← mem_seamP s, RingEquiv.apply_symm_apply]; exact hc'
-    · apply s.iE.injective
-      rw [map_mul, ← hc, ← hc, RingEquiv.apply_symm_apply, RingEquiv.apply_symm_apply]
-      exact h
-  · rintro ⟨r, c, hc', h⟩
-    refine ⟨RingOfIntegers.mapRingEquiv s.iE r, RingOfIntegers.mapRingEquiv s.iE c, ?_, ?_⟩
-    · rw [mem_seamP s]; exact hc'
-    · rw [hc, hc, ← map_mul, h]
+  first | exact _root_.GlobalTheory.SeamCong.intAt_seamP_iff | exact @_root_.GlobalTheory.SeamCong.intAt_seamP_iff | apply _root_.GlobalTheory.SeamCong.intAt_seamP_iff <;> assumption
 
 end GlobalTheory.FrameAgree
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.FiniteClassSetHermitianUnitaryOpenLevel
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.CompletedLatticeStabilizerCompactOpen
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsInverseChart
@@ -64,35 +65,7 @@ theorem exists_compact_of_entries {F E : Type} [Field F] [Field E] [Algebra F E]
     (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (hJ : J.det ≠ 0)
     (C : Set (R ⊗[F] E)) (hC : IsCompact C) :
     ∃ K : Set (HA R σ J), IsCompact K ∧ ∀ h : HA R σ J, (∀ i j, (HA.mat R σ J h).1 i j ∈ C) → h ∈ K := by
-  haveI : IsModuleTopology R (R ⊗[F] E) := ⟨rfl⟩
-  haveI : IsTopologicalRing (R ⊗[F] E) := IsModuleTopology.isTopologicalRing R _
-  obtain ⟨e⟩ := GlobalTheory.AdelicUnitaryTop.nonempty_homeomorph (F := F) (E := E) R
-  haveI : T2Space (R ⊗[F] E) := e.isEmbedding.t2Space
-  have hc : IsClosed (HR R σ J : Set (GL (Fin M) (R ⊗[F] E))) := by
-    have hv : Continuous fun g : GL (Fin M) (R ⊗[F] E) => (g : Matrix (Fin M) (Fin M) (R ⊗[F] E)) :=
-      Units.continuous_val
-    exact isClosed_eq (((hv.matrix_map (GlobalTheory.AdelicUnitaryTop.continuous_sigR R σ)).matrix_transpose.matrix_mul
-      continuous_const).matrix_mul hv) continuous_const
-  let S : Set (Matrix (Fin M) (Fin M) (R ⊗[F] E)) := Set.pi Set.univ fun _ => Set.pi Set.univ fun _ => C
-  have hS : IsCompact S := isCompact_univ_pi fun _ => isCompact_univ_pi fun _ => hC
-  let f : Matrix (Fin M) (Fin M) (R ⊗[F] E) → (Matrix (Fin M) (Fin M) (R ⊗[F] E))ᵐᵒᵖ :=
-    fun A => MulOpposite.op (JR (F := F) R J⁻¹ * (Formalism.UG.cT (sigR R σ) A * JR (F := F) R J))
-  have hf : Continuous f := MulOpposite.continuous_op.comp (continuous_const.matrix_mul
-    ((continuous_id.matrix_map (GlobalTheory.AdelicUnitaryTop.continuous_sigR R σ)).matrix_transpose.matrix_mul
-      continuous_const))
-  have hemb := (Units.isClosedEmbedding_embedProduct (α := Matrix (Fin M) (Fin M) (R ⊗[F] E))).comp
-    hc.isClosedEmbedding_subtypeVal
-  refine ⟨_, hemb.isCompact_preimage (hS.prod (hS.image hf)), fun h hh => ?_⟩
-  have hm : (HA.mat R σ J h).1 ∈ S := fun i _ j _ => hh i j
-  refine ⟨hm, (HA.mat R σ J h).1, hm, ?_⟩
-  have hu : Formalism.UG.cT (sigR R σ) (HA.mat R σ J h).1 * JR (F := F) R J * (HA.mat R σ J h).1 = JR (F := F) R J := h.2
-  have h1 : JR (F := F) R J⁻¹ * JR (F := F) R J = 1 := by
-    unfold JR
-    rw [← Matrix.map_mul, Matrix.nonsing_inv_mul _ (Ne.isUnit hJ), Matrix.map_one _ (map_zero _) (map_one _)]
-  change MulOpposite.op _ = MulOpposite.op ((HA.mat R σ J h)⁻¹).1
-  congr 1
-  refine (Units.inv_eq_of_mul_eq_one_left ?_).symm
-  rw [Matrix.mul_assoc, hu, h1]
+  first | exact _root_.GlobalTheory.Mem.ClassFinite.exists_compact_of_entries | exact @_root_.GlobalTheory.Mem.ClassFinite.exists_compact_of_entries | apply _root_.GlobalTheory.Mem.ClassFinite.exists_compact_of_entries <;> assumption
 
 theorem exists_compact_latHat (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]
     {M : ℕ} (L : Submodule (𝓞 E) (Fin M → E)) (hL : L.FG) :

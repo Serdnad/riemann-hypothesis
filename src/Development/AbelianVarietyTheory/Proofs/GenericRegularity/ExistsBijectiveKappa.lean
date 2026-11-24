@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsSmulOfPreservesFrameOrbits
 public import Formalism.LocalToGlobal.ProjectiveLattices.PetersonNormSubspace
 public import Formalism.LocalToGlobal.ProjectiveLattices.IsGenFrGenFr
 public import Development.AbelianVarietyTheory.Proofs.GenericRegularity.EvaluationLawsGenericFramesAtlasHold
@@ -51,7 +53,6 @@ import Mathlib.Topology.UniformSpace.Uniformizable
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.FundamentalDomains.FourierCoefficientDomain
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.FrMapComp
 import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.ExistsPowSmulMemBall
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.GenericRegularity.CompUniqueOfReading, Development.AbelianVarietyTheory.Proofs.GenericRegularity.ExistsBijectiveKappa
 
@@ -99,22 +100,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
   {l : Level H} {Xo : Moduli Dw l} {c : Coeff l} {σ : c.F →+* ℂ} {r : ℕ}
 
 theorem frames_nonempty (X : Data E r) : X.dom.Nonempty := by
-  classical
-  choose P hP hG using X.signature
-  refine ⟨fun τ => P τ, fun τ => ⟨hP τ, fun i => ?_⟩⟩
-  have h : dmin X.Gm (fun τ => P τ) τ i = ((psgn X.p0 i : ℝ) : ℂ) := by
-    have hm : mat (Ψ := X.Ψ) (fun τ => P τ) τ = P τ := rfl
-    unfold dmin lminor
-    rw [hm, hG τ, Matrix.submatrix_diagonal _ _ (Fin.castLE_injective _), Matrix.det_diagonal]
-    unfold psgn
-    rw [Complex.ofReal_prod, ← Fin.prod_univ_eq_prod_range (fun a => ((sgn X.p0 a : ℝ) : ℂ))]
-    rfl
-  rw [h, Complex.ofReal_re]
-  refine mul_self_pos.2 ?_
-  unfold psgn
-  refine Finset.prod_ne_zero_iff.2 fun a _ => ?_
-  unfold sgn
-  split_ifs <;> norm_num
+  first | exact _root_.GlobalTheory.OrbitScalar.exists_mem_dom | exact @_root_.GlobalTheory.OrbitScalar.exists_mem_dom | apply _root_.GlobalTheory.OrbitScalar.exists_mem_dom <;> assumption
 
 theorem rdU_eq_of_reads (U : Unf Xo c σ r) (h : GenFrEx Xo c) (k : U.Comp)
     (Z : Comp Xo c) (x : (U.X k).dom) (φ : Om Z →ₐ[c.F] CAt σ) (y' : FrPt Xo c (CAt σ)) (t : Ix Dw → (CAt σ)ˣ)

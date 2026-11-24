@@ -1,7 +1,9 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CmRingClassOrderUnitsEqMaxRealSubfieldUnits
 public import Formalism.DistinguishedUnitIdeals.FrobeniusDiffBijective
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.GroundTheory
+import all Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.GroundTheory
 public import Formalism.DistinguishedUnitIdeals.DistinguishedOrderProofs.RhoMapFunctorial
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -442,24 +444,7 @@ theorem sa_sat {O : Type} [CommRing O] [IsDomain O] (ϖ : O) [(Ideal.span {ϖ}).
     (hϖ0 : ϖ ≠ 0) (f : PowerSeries O)
     (hf : PowerSeries.map (Ideal.Quotient.mk (Ideal.span {ϖ})) f ≠ 0) (N : ℕ) :
     ∀ z : PowerSeries O, C (ϖ ^ N) * z ∈ Ideal.span {f} → z ∈ Ideal.span {f} := by
-  have hC0 : (C ϖ : PowerSeries O) ≠ 0 := by
-    intro h0
-    have := congrArg (coeff 0) h0
-    rw [coeff_C, if_pos rfl, map_zero] at this
-    exact hϖ0 this
-  induction N with
-  | zero => intro z hz; simpa using hz
-  | succ N ih =>
-    intro z hz
-    apply ih
-    rw [Ideal.mem_span_singleton] at hz ⊢
-    obtain ⟨w, hw⟩ := hz
-    have hdvd : C ϖ ∣ f * w := ⟨C (ϖ ^ N) * z, by rw [← hw, pow_succ, map_mul]; ring⟩
-    obtain ⟨w', rfl⟩ := Formalism.ExponentWindows.C_dvd_of_C_dvd_mul ϖ f w hf hdvd
-    refine ⟨w', ?_⟩
-    apply mul_left_cancel₀ hC0
-    rw [pow_succ, map_mul] at hw
-    linear_combination hw
+  apply _root_.Formalism.ExponentWindows.mem_span_of_C_pow_mul_mem_span <;> assumption
 
 theorem sa_p_ne {O : Type} [CommRing O] [IsDomain O] (ϖ : O) [(Ideal.span {ϖ}).IsMaximal]
     (B : Base O) (hd : ϖ ∣ (B.ℓ : O)) (hE3 : ∀ s, B.E3it s) (s : ℕ) :
@@ -1117,14 +1102,7 @@ section e4u
 variable {R : Type} [CommRing R]
 
 theorem one_add_pow_expansion (t : R) (i : ℕ) : ∃ c : R, (1 + t) ^ i = 1 + (i : R) * t + t ^ 2 * c := by
-  induction i with
-  | zero => exact ⟨0, by simp⟩
-  | succ i ih =>
-    obtain ⟨c, hc⟩ := ih
-    refine ⟨(i : R) + c + c * t, ?_⟩
-    rw [pow_succ, hc]
-    push_cast
-    ring
+  apply _root_.GlobalTheory.CMVal.OrderUnits.pow_first_order <;> assumption
 
 theorem geom_sum_one_add_expansion (t : R) (n : ℕ) : ∃ c : R, ∑ i ∈ Finset.range n, (1 + t) ^ i =
     (n : R) + ((∑ i ∈ Finset.range n, i : ℕ) : R) * t + t ^ 2 * c := by

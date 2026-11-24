@@ -310,17 +310,7 @@ def SF (S : Set G) (Ω : Set G) : Prop :=
 
 theorem isFD_of_SF (Γ : Subgroup G) [Countable Γ] {Ω : Set G} (hΩ : SF (Γ : Set G) Ω) (μ : Measure G) :
     IsFundamentalDomain Γ Ω μ := by
-  have key : ∀ x : G, ∃! g : Γ, g • x ∈ Ω := by
-    intro x
-    obtain ⟨s, hs, hsx⟩ := hΩ.2.1 x
-    refine ⟨⟨s, hs⟩, hsx, ?_⟩
-    rintro ⟨t, ht⟩ htx
-    have htx' : t * x ∈ Ω := htx
-    have h1 : (t * s⁻¹) * (s * x) ∈ Ω := by simpa [mul_assoc] using htx'
-    have h2 : t * s⁻¹ = 1 := hΩ.2.2 (s * x) hsx (t * s⁻¹) (Γ.mul_mem ht (Γ.inv_mem hs)) h1
-    exact Subtype.ext (mul_inv_eq_one.1 h2)
-  first
-  | exact IsFundamentalDomain.mk' hΩ.1.nullMeasurableSet key
+  apply _root_.Formalism.L2.SG.TermOp.Vanish.isFD_of_SF <;> assumption
 
 private theorem measurableSMul_and_smulInvariantMeasure_subgroup (Γ : Subgroup G) (ν : Measure G)
     (hν : ∀ s ∈ Γ, ν.map (fun x => s * x) = ν) :
@@ -369,15 +359,11 @@ theorem ind_inv_mul {M : Type*} [Zero M] [One M] {A : Set G} (y : G) :
   first
   | rfl
 
-private theorem measurable_one_ennreal : Measurable (1 : G → ℝ≥0∞) := by
-  first
-  | exact measurable_one
-
 theorem lint_eq {A B : Set G} (hA : MeasurableSet A) (hB : MeasurableSet B) (c : ℝ≥0∞)
     (hcB : ∀ x, ν {r | r * x ∈ B} = c) (hcA : ∀ y, ν {r | r⁻¹ * y ∈ A} = c)
     (g : G → ℝ≥0∞) (hg : AEMeasurable g μ) (hinv : ∀ᵐ r ∂ν, ∀ x, g (r⁻¹ * x) = g x) :
     c * ∫⁻ x in A, g x ∂μ = c * ∫⁻ x in B, g x ∂μ := by
-  have h1m := (measurable_one_ennreal (G := G))
+  have h1m : Measurable (1 : G → ℝ≥0∞) := measurable_one
   have hL : c * ∫⁻ x in A, g x ∂μ = ∫⁻ x, ∫⁻ r, A.indicator (1 : G → ℝ≥0∞) x * B.indicator (1 : G → ℝ≥0∞) (r * x) * g x ∂ν ∂μ := by
     first
     | rw [← lintegral_indicator hA]

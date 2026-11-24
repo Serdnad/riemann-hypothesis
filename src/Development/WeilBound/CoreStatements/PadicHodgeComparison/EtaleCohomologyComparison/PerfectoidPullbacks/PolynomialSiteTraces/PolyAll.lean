@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TruncatedEnvelopeFiltrationQuotient
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.PolynomialSiteTraces.AdmissibleMap
 public import Development.AbelianVarietyTheory.Definitions.Divisors.RatBasisLinearIndependentInt
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.DividedPowerPolynomialFiltration
@@ -96,35 +97,8 @@ theorem mem_fil_sup_iff {B : Type} [CommRing B] {J : Ideal B} (δ : DividedPower
     (z : (pq B).P) :
     z ∈ fil (eta δ) r ⊔ Ideal.span {algebraMap B (pq B).P c} ↔
       ∀ k, (pq B).e.repr z k ∈ fil δ (r - k) ⊔ Ideal.span {c} := by
-  have hT := (_root_.GlobalTheory.CompanionTheory.PDFil.fil_pdPoly δ (pq B) (eta δ) (pq_isStd_eta δ)).2.2.2
-  constructor
-  · intro hz k
-    obtain ⟨a, ha, s, hs, rfl⟩ := Submodule.mem_sup.1 hz
-    rw [map_add (f := _), Finsupp.add_apply]
-    exact Submodule.add_mem_sup ((hT r a).1 ha k) ((mem_span_iff c s).1 hs k)
-  · intro h
-    choose a ha s hs hsum using fun k => Submodule.mem_sup.1 (h k)
-    have hF : (∑ i ∈ ((pq B).e.repr z).support, Finsupp.single i (a i)) +
-        (∑ i ∈ ((pq B).e.repr z).support, Finsupp.single i (s i)) = (pq B).e.repr z := by
-      ext k
-      rw [Finsupp.add_apply, sum_finsupp_single_apply_eq_ite, sum_finsupp_single_apply_eq_ite]
-      split_ifs with hk
-      · exact hsum k
-      · rw [add_zero]
-        exact (Finsupp.notMem_support_iff.1 hk).symm
-    have hz : z = (pq B).e.repr.symm (∑ i ∈ ((pq B).e.repr z).support, Finsupp.single i (a i)) +
-        (pq B).e.repr.symm (∑ i ∈ ((pq B).e.repr z).support, Finsupp.single i (s i)) := by
-      rw [← map_add (f := _), hF, LinearEquiv.symm_apply_apply]
-    rw [hz]
-    refine Submodule.add_mem_sup ((hT r _).2 fun k => ?_) ((mem_span_iff c _).2 fun k => ?_)
-    · rw [LinearEquiv.apply_symm_apply, sum_finsupp_single_apply_eq_ite]
-      split_ifs
-      · exact ha k
-      · exact Submodule.zero_mem _
-    · rw [LinearEquiv.apply_symm_apply, sum_finsupp_single_apply_eq_ite]
-      split_ifs
-      · exact hs k
-      · exact Submodule.zero_mem _
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SiteTrCrit.crit_sup <;> assumption
 
 theorem coeff_criteria : ∀ {B : Type} [CommRing B] {J : Ideal B} (δ : DividedPowers J) (b : ℕ →₀ B) (r : ℕ) (c : B), ((b.sum fun k c => algebraMap B (pq B).P c * (eta δ).dpow k ((pq B).e 1)) ∈ fil (eta δ) r ↔ ∀ k, b k ∈ fil δ (r - k)) ∧ ((b.sum fun k c => algebraMap B (pq B).P c * (eta δ).dpow k ((pq B).e 1)) ∈ fil (eta δ) r ⊔ Ideal.span {algebraMap B (pq B).P c} ↔ ∀ k, b k ∈ fil δ (r - k) ⊔ Ideal.span {c}) ∧ ((b.sum fun k c => algebraMap B (pq B).P c * (eta δ).dpow k ((pq B).e 1)) ∈ Ideal.span {algebraMap B (pq B).P c} ↔ ∀ k, b k ∈ Ideal.span {c}) ∧ ((b.sum fun k c => algebraMap B (pq B).P c * (eta δ).dpow k ((pq B).e 1)) = 0 ↔ ∀ k, b k = 0) := by
   intro B _ J δ b r c

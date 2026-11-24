@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SymplecticFormUnitaryPairAction
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 public import Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.StarPurelyImaginaryEqNeg
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EventuallyFinEqOne
@@ -103,19 +104,7 @@ theorem trace_inv {A : Type} [CommRing A] (σ : A →+* A) {a b : ℕ} (G G' k :
 
 theorem symplO_actO (S T : HSp D) (g : GA D S) (h : GA D T) (x y : WO S T) :
     symplO S T (actO S T g h x) (actO S T g h y) = symplO S T x y := by
-  unfold symplO
-  by_cases hS : IsUnit S.gram.det
-  · congr 2
-    rw [hO_trace, hO_trace]
-    have hk : Formalism.UG.cT (cA D) (mt S g⁻¹) * S.gram.map (incA D) * mt S g⁻¹ = S.gram.map (incA D) :=
-      (show HR (AF D.host.F) D.sp.cm.sig S.gram from g⁻¹).2
-    have hm : Formalism.UG.cT (cA D) (mt T h) * T.gram.map (incA D) * mt T h = T.gram.map (incA D) :=
-      (show HR (AF D.host.F) D.sp.cm.sig T.gram from h).2
-    have h1 : (S.gram⁻¹).map (incA D) * S.gram.map (incA D) = 1 := by
-      rw [← Matrix.map_mul, Matrix.nonsing_inv_mul _ hS, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact trace_inv (cA D) _ _ _ _ _ x y h1 hk hm
-  · simp only [hO, Matrix.nonsing_inv_apply_not_isUnit _ hS, Matrix.zero_apply, map_zero, zero_mul,
-      Finset.sum_const_zero]
+  first | exact _root_.GlobalTheory.SymplOInv.symplO_actO | exact @_root_.GlobalTheory.SymplOInv.symplO_actO | apply _root_.GlobalTheory.SymplOInv.symplO_actO <;> assumption
 
 def actAdd (S T : HSp D) (g : GA D S) (h : GA D T) : WO S T →+ WO S T :=
   AddMonoidHom.mk' (actO S T g h) fun x y => by simp only [actO, Matrix.mul_add, Matrix.add_mul]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNsmulMemHomLatticeOfIntegralFrameCoords
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HilbertNinetyQuotientHomEqIff
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SchwartzBruhatMatrixTranslationModulationIrreduc
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNeZeroOfEventually
@@ -150,17 +151,7 @@ end Lin
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem exists_denom {ι : Type} [Fintype ι] (c : ι → k) : ∃ N : ℕ, 0 < N ∧ ∀ i, (N : k) * c i ∈ 𝒪[k] := by
-  classical
-  have h : ∀ i, ∃ N : ℕ, 0 < N ∧ (N : k) * c i ∈ 𝒪[k] := by
-    intro i
-    by_cases hc : c i = 0
-    · exact ⟨1, one_pos, by rw [hc, mul_zero]; exact zero_mem _⟩
-    · obtain ⟨N, hN, h⟩ := GlobalTheory.SBUnif.exists_nat_mem_mul_integer (c i)⁻¹ (inv_ne_zero hc)
-      exact ⟨N, hN, by rwa [inv_inv, mul_comm] at h⟩
-  choose N hN h using h
-  refine ⟨∏ i, N i, Finset.prod_pos fun i _ => hN i, fun i => ?_⟩
-  rw [← Finset.prod_erase_mul _ _ (Finset.mem_univ i), Nat.cast_mul, mul_assoc]
-  exact mul_mem (natCast_mem _ _) (h i)
+  apply _root_.GlobalTheory.FinPl.RdInt.exists_nat_mul_mem_fin <;> assumption
 
 theorem exists_denom_lin {ι Y Y' : Type} [Fintype ι] [Fintype Y] [Fintype Y'] (l : ι → Matrix Y Y' k →+ k)
     (hl : ∀ i (c : k) u, l i (c • u) = c * l i u) :

@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.PowerSeriesNormUnits.NormUnitsSubstitution
 public import Formalism.LocalToGlobal.InertKernelTheory.StatementModel
 public import Formalism.LocalToGlobal.InertKernelTheory.GenusOneModelExistsLattice
 public import Formalism.LocalToGlobal.TorsionIntegrality.SecondCoefficientNorms.CurveEndoAll
@@ -471,20 +472,7 @@ theorem integral_iff' {σ : Type*} (F : MvPowerSeries σ ℂ_[p]) :
 theorem integral_subst' {σ τ : Type*} [Finite σ] (a : σ → MvPowerSeries τ ℂ_[p])
     (ha0 : ∀ i, MvPowerSeries.constantCoeff (a i) = 0) (haI : ∀ i, IntegralMv (a i))
     {f : MvPowerSeries σ ℂ_[p]} (hf : IntegralMv f) : IntegralMv (MvPowerSeries.subst a f) := by
-  choose a' ha' using fun i => (integral_iff' (a i)).1 (haI i)
-  obtain ⟨f', rfl⟩ := (integral_iff' f).1 hf
-  have h0 : ∀ i, MvPowerSeries.constantCoeff (a' i) = 0 := by
-    intro i
-    apply Subtype.ext
-    have e : ((MvPowerSeries.constantCoeff (a' i) : RB p) : ℂ_[p]) =
-        MvPowerSeries.constantCoeff (MvPowerSeries.map (RB p).subtype (a' i)) := by
-      rw [MvPowerSeries.constantCoeff_map]; rfl
-    rw [e, ha', ha0]
-    rfl
-  have hs : MvPowerSeries.HasSubst a' := MvPowerSeries.hasSubst_of_constantCoeff_zero h0
-  refine (integral_iff' _).2 ⟨MvPowerSeries.subst a' f', ?_⟩
-  rw [MvPowerSeries.map_subst hs]
-  simp only [ha']
+  apply _root_.PI.PhNormUnits.UnitaryGroupMassFormula.PAdicPowerSeriesCoefficients.integral_subst <;> assumption
 
 theorem integral_psubst {σ : Type*} {y : MvPowerSeries σ ℂ_[p]} (hy0 : MvPowerSeries.constantCoeff y = 0)
     (hyI : IntegralMv y) {f : PowerSeries ℂ_[p]} (hf : IntegralMv (f : MvPowerSeries Unit ℂ_[p])) :

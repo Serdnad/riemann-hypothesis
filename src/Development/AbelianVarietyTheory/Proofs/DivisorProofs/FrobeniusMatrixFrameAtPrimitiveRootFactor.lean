@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LocalPrimeGaloisActionPeriodT
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.FinrankCyclotomicExtAndCyclotomicCharSurjective
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MkMemAdmissibleAtIffCocycle
@@ -93,17 +94,7 @@ open Formalism.WeaklyAdmissibleFiltrations Formalism.BasicNotions Formalism.Basi
 
 theorem zeta_isPrimitiveRoot {l : ℕ} [Fact l.Prime] (P : LocPrime l) {s : ℕ} (hs : 1 ≤ s) :
     IsPrimitiveRoot (P.ζQ s) (l ^ s) := by
-  obtain ⟨m, rfl⟩ : ∃ m, s = m + 1 := ⟨s - 1, by omega⟩
-  have hpow : ∀ k, P.ζQ (k + 1) ^ l ^ k = P.ζQ 1 := by
-    intro k
-    induction k with
-    | zero => simp
-    | succ j ih => rw [pow_succ', pow_mul, P.ζQ_succ, ih]
-  have h1 : ¬ P.ζQ (m + 1) ^ l ^ m = 1 := by rw [hpow]; exact P.ζQ_one
-  have h2 : P.ζQ (m + 1) ^ l ^ (m + 1) = 1 := by
-    rw [pow_succ, pow_mul, hpow, P.ζQ_succ, P.ζQ_zero]
-  rw [← orderOf_eq_prime_pow h1 h2]
-  exact IsPrimitiveRoot.orderOf _
+  apply _root_.GlobalTheory.Pst.isPrimitiveRoot_zeta <;> assumption
 
 theorem exists_isPt {l : ℕ} [Fact l.Prime] {P : LocPrime l} (H : LocHW l P)
     {K : FinExt l} {s : ℕ} {LL : FinExt l} (h : Good K s LL)

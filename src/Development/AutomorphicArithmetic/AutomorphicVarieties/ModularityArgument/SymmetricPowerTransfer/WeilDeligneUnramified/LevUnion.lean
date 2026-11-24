@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FinitePlaces.SplitChar
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.SymmetricPowerTransfer.GeneralizedEigenspaces.CharacterShapes.HodgeTateFromSandwich
 public import Development.AbelianVarietyTheory.Definitions.Foundations.GLintEqKOAndPrincEqKOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AutomorphicFormGLContinuous
@@ -1093,27 +1094,7 @@ private theorem exOver (v : Pl (Lp L)) : ∃ w : Plc L, un w = v := by
     exact hP.over.symm)⟩
 
 private theorem exTwo : ∃ w : Plc L, (2 : 𝓞 L) ∈ w.asIdeal := by
-  have hu : ¬ IsUnit (2 : 𝓞 L) := fun h => by
-    obtain ⟨u, hu⟩ := h.exists_right_inv
-    have e : ((u : 𝓞 L) : L) = algebraMap ℚ L (1 / 2) := by
-      have e1 : (2 : L) * ((u : 𝓞 L) : L) = 1 := by
-        have := congrArg (algebraMap (𝓞 L) L) hu
-        rwa [map_mul, map_ofNat, map_one] at this
-      rw [map_div₀, map_one, map_ofNat]
-      field_simp
-      linear_combination e1
-    have hi : IsIntegral ℤ (algebraMap ℚ L (1 / 2)) := e ▸ u.2
-    have hi' : IsIntegral ℤ (1 / 2 : ℚ) := (isIntegral_algebraMap_iff ).1 hi
-    obtain ⟨y, hy⟩ := IsIntegrallyClosed.isIntegral_iff.1 hi'
-    have h2 : (2 : ℚ) * (y : ℚ) = 1 := by
-      rw [show (y : ℚ) = 1 / 2 from hy]; norm_num
-    have h3 : (2 : ℤ) * y = 1 := by exact_mod_cast h2
-    omega
-  obtain ⟨P, hPm, hP⟩ := exists_max_ideal_of_mem_nonunits hu
-  have hne : P ≠ ⊥ := fun h => by
-    rw [h, Ideal.mem_bot] at hP
-    exact two_ne_zero hP
-  exact ⟨⟨P, hPm.isPrime, hne⟩, hP⟩
+  apply _root_.Formalism.IndefR.Fin.SplitChar.exists_place_two <;> assumption
 
 private theorem two_under (w : Plc L) (h : (2 : 𝓞 (Lp L)) ∈ (un w).asIdeal) : (2 : 𝓞 L) ∈ w.asIdeal := by
   rw [HeightOneSpectrum.under_asIdeal, Ideal.under_def, Ideal.mem_comap, map_ofNat] at h

@@ -360,20 +360,36 @@ variable (K) in
 theorem tendsto_primeIdealZetaSum_univ_atTop :
     Tendsto (fun s => (univ : Set (HeightOneSpectrum (𝓞 K))).primeIdealZetaSum s)
       (𝓝[>] 1) atTop := by
-  obtain ⟨C, hC⟩ := exists_abs_primeIdealZetaSum_add_log_le (K := K)
-  have h1 : Tendsto (fun s : ℝ => s - 1) (𝓝[>] 1) (𝓝[>] 0) := by
-    refine tendsto_nhdsWithin_iff.mpr
-      ⟨?_, eventually_nhdsWithin_of_forall fun s (hs : 1 < s) => show 0 < s - 1 by linarith⟩
-    have : Tendsto (fun s : ℝ => s - 1) (𝓝 1) (𝓝 0) := by
-      simpa using (continuous_sub_right (1 : ℝ)).tendsto 1
-    exact this.mono_left nhdsWithin_le_nhds
-  have hlog : Tendsto (fun s : ℝ => -Real.log (s - 1) + -C) (𝓝[>] 1) atTop :=
-    tendsto_atTop_add_const_right _ (-C)
-      (tendsto_neg_atBot_atTop.comp (Real.tendsto_log_nhdsGT_zero.comp h1))
-  refine tendsto_atTop_mono' _ ?_ hlog
-  filter_upwards [hC] with s hs
-  have := (abs_le.mp hs).1
-  linarith
+  refine tendsto_atTop.2 fun B => ?_
+  have hpos := dedekindZeta_residue_pos K
+  have hpole := (tendsto_sub_one_mul_dedekindZetaReal K).eventually
+    (lt_mem_nhds (show dedekindZeta_residue K / 2 < dedekindZeta_residue K by linarith))
+  have hscale : Tendsto (fun s : ℝ => (s - 1) * Real.exp (2 * B)) (𝓝[>] 1) (𝓝 0) := by
+    have h : Continuous (fun s : ℝ => (s - 1) * Real.exp (2 * B)) :=
+      (continuous_sub_right (1 : ℝ)).mul continuous_const
+    simpa using (h.tendsto 1).mono_left nhdsWithin_le_nhds
+  have hclose := hscale.eventually
+    (gt_mem_nhds (show 0 < dedekindZeta_residue K / 2 by positivity))
+  filter_upwards [hpole, hclose, self_mem_nhdsWithin] with s hs hc hs1
+  have hσ : 1 < s := hs1
+  by_contra! hB
+  -- The zeta pole rules out any fixed bound for the prime sum.
+  let x := fun w : HeightOneSpectrum (𝓞 K) => (absNorm w.asIdeal : ℝ) ^ (-s)
+  have hx : Summable x := summable_absNorm_rpow_neg hσ
+  have hterm (w : HeightOneSpectrum (𝓞 K)) : x w + 2 * x w ^ 2 ≤ 2 * x w := by
+    have hx₀ : 0 ≤ x w := by positivity
+    have hx₁ : x w ≤ 1 / 2 := rpow_neg_absNorm_le_half w.prime hσ.le
+    nlinarith [mul_nonneg hx₀ (show 0 ≤ 1 - 2 * x w by linarith)]
+  have hdouble := hx.mul_left (2 : ℝ)
+  have hsum : Summable fun w => x w + 2 * x w ^ 2 :=
+    Summable.of_nonneg_of_le (fun _ => by positivity) hterm hdouble
+  have hζ : dedekindZetaReal K s ≤ Real.exp (2 * B) := by
+    refine (dedekindZetaReal_le_exp hσ).trans (Real.exp_le_exp.mpr ?_)
+    refine (Summable.tsum_le_tsum hterm hsum hdouble).trans ?_
+    rw [tsum_mul_left]
+    rw [primeIdealZetaSum_univ] at hB
+    exact mul_le_mul_of_nonneg_left hB.le (by norm_num)
+  exact (not_lt_of_ge (mul_le_mul_of_nonneg_left hζ (sub_nonneg.mpr hσ.le))) (hc.trans hs)
 
 end
 

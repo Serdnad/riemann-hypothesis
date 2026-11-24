@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.LengthCyclotomicBlockCocyclesLeSha
 public import Formalism.AdmissibleDesigns.BlockTwistedCyclotomic
 public import Formalism.AdmissibleDesigns.HigherColumnInvariantsBound
 public import ReciprocityTheory.GaloisValuations.ArithOfA
@@ -521,29 +522,8 @@ theorem smul_eq_zero_of_mem_max (hl : ((l : ℕ) : O) = 0) {a : ℤ_[l]} (ha : a
   rw [Algebra.smul_def, map_mul, map_natCast, hl, mul_zero, zero_mul]
 
 theorem alg_inj : Function.Injective (algebraMap ℤ_[l] O) := by
-  by_contra hni
-  have hl : ((l : ℕ) : O) = 0 := by
-    rw [injective_iff_map_eq_zero] at hni
-    push Not at hni
-    obtain ⟨a, hfa, ha⟩ := hni
-    have h := congrArg (algebraMap ℤ_[l] O) (PadicInt.unitCoeff_spec ha)
-    rw [hfa, map_mul, map_pow, map_natCast] at h
-    have hu : IsUnit (algebraMap ℤ_[l] O (PadicInt.unitCoeff ha : ℤ_[l])) := (Units.isUnit _).map _
-    by_contra hl0
-    exact pow_ne_zero _ hl0 ((hu.mul_right_eq_zero).mp h.symm)
-  have : NeZero l := ⟨(Fact.out : l.Prime).ne_zero⟩
-  obtain ⟨k, s, hs⟩ := Module.Finite.exists_fin (R := ℤ_[l]) (M := O)
-  have hsurj : Function.Surjective (fun v : Fin k → ZMod l => ∑ i, ((v i).cast : ℤ_[l]) • s i) := by
-    intro x
-    have hx : x ∈ Submodule.span ℤ_[l] (Set.range s) := hs ▸ Submodule.mem_top
-    obtain ⟨c, rfl⟩ := (Submodule.mem_span_range_iff_exists_fun ℤ_[l]).mp hx
-    refine ⟨fun i => PadicInt.toZMod (c i), Finset.sum_congr rfl fun i _ => ?_⟩
-    have h := smul_eq_zero_of_mem_max l O hl (PadicInt.toZMod_spec (c i)) (s i)
-    rw [sub_smul, sub_eq_zero] at h
-    exact h.symm
-  have : Finite O := Finite.of_surjective _ hsurj
-  exact IsDiscreteValuationRing.not_a_field O
-    ((IsLocalRing.isField_iff_maximalIdeal_eq).mp (Finite.isField_of_domain O))
+  intros
+  apply _root_.GlobalTheory.Cut.ShaBound.algebraMap_inj <;> assumption
 
 theorem faithful : FaithfulSMul ℤ_[l] O := (faithfulSMul_iff_algebraMap_injective _ _).mpr (alg_inj l O)
 
@@ -565,32 +545,8 @@ theorem dvd_pow_l [IsLocalHom (algebraMap ℤ_[l] O)] {t : O} (ht : t ≠ 0) : �
 
 theorem len_quot_l [Module.Free ℤ_[l] O] :
     Module.length ℤ_[l] (O ⧸ Ideal.span {((l : ℕ) : O)}) = Module.finrank ℤ_[l] O := by
-  let b := Module.finBasis ℤ_[l] O
-  have hmap : (Submodule.restrictScalars ℤ_[l] (Ideal.span {((l : ℕ) : O)})).map b.equivFun.toLinearMap =
-      Submodule.pi Set.univ (fun _ => maximalIdeal ℤ_[l]) := by
-    ext v
-    simp only [Submodule.mem_map, Submodule.restrictScalars_mem, Ideal.mem_span_singleton', Submodule.mem_pi,
-      Set.mem_univ, true_implies, PadicInt.maximalIdeal_eq_span_p]
-    constructor
-    · rintro ⟨x, ⟨y, rfl⟩, rfl⟩ j
-      refine ⟨b.equivFun y j, ?_⟩
-      have : y * ((l : ℕ) : O) = (l : ℤ_[l]) • y := by rw [Algebra.smul_def, map_natCast, mul_comm]
-      rw [LinearEquiv.coe_coe, this, map_smul, Pi.smul_apply, smul_eq_mul, mul_comm]
-    · intro hv
-      choose w hw using hv
-      refine ⟨b.equivFun.symm w * ((l : ℕ) : O), ⟨_, rfl⟩, ?_⟩
-      have : b.equivFun.symm w * ((l : ℕ) : O) = (l : ℤ_[l]) • b.equivFun.symm w := by
-        rw [Algebra.smul_def, map_natCast, mul_comm]
-      rw [LinearEquiv.coe_coe, this, map_smul, LinearEquiv.apply_symm_apply]
-      funext j
-      rw [Pi.smul_apply, smul_eq_mul, mul_comm, hw j]
-  rw [((Submodule.Quotient.restrictScalarsEquiv ℤ_[l] (Ideal.span {((l : ℕ) : O)})).symm.trans
-    ((Submodule.Quotient.equiv _ _ b.equivFun hmap).trans
-      (Submodule.quotientPi (fun _ => maximalIdeal ℤ_[l])))).length_eq, Module.length_pi_of_fintype]
-  have h1 : Module.length ℤ_[l] (ℤ_[l] ⧸ maximalIdeal ℤ_[l]) = 1 := by
-    have := IsDiscreteValuationRing.length_quotient_pow_maximalIdeal ℤ_[l] 1
-    rwa [pow_one, Nat.cast_one] at this
-  simp only [h1, Finset.sum_const, Finset.card_univ, Fintype.card_fin, nsmul_eq_mul, mul_one]
+  intros
+  apply _root_.GlobalTheory.Cut.ShaBound.length_quot <;> assumption
 
 end Ring
 

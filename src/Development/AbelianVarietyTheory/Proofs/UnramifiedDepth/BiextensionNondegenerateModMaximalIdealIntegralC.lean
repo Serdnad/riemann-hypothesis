@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePProjLieSelf
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.DegUnif
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.GlobalFnsHolds
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.ExistsUniqueNormPrim
@@ -867,23 +868,7 @@ def mm : Ideal V.RR where
     exact lt_of_lt_of_le hx (le_add_of_nonneg_left (nonneg V c))
 
 theorem mm_isMaximal : (mm V).IsMaximal := by
-  rw [Ideal.isMaximal_iff]
-  refine ⟨fun h => ?_, fun J x _ hx hxJ => ?_⟩
-  · have h1 : 0 < V.v ((1 : V.RR) : C) := h
-    simp at h1
-  · have hx' : ¬ 0 < V.v (x : C) := hx
-    have hx0 : V.v (x : C) = 0 := le_antisymm (not_lt.mp hx') (nonneg V x)
-    have hne : (x : C) ≠ 0 := by
-      intro h
-      rw [h, AddValuation.map_zero] at hx0
-      exact WithTop.top_ne_zero hx0
-    have hinv : ((0 : ℝ) : WithTop ℝ) ≤ V.v ((x : C)⁻¹) := by
-      rw [AddValuation.map_inv, hx0]
-      simp
-    let y : V.RR := ⟨(x : C)⁻¹, hinv⟩
-    have hyx : y * x = 1 := Subtype.ext (by simp [y, hne])
-    rw [← hyx]
-    exact J.mul_mem_left y hxJ
+  apply _root_.Formalism.L2.FormalSeriesBounds.RowTiePKeyRes.mm_max <;> assumption
 
 theorem integers : (AddValuation.toValuation V.v).Integers V.RR :=
   Valuation.integer.integers (AddValuation.toValuation V.v)

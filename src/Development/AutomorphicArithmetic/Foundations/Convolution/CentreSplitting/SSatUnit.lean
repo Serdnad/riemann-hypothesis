@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.BlockEvaluation.KillEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.DefsObj
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -49,13 +50,7 @@ open UpperTheory.ConvolutionTheory.C UpperTheory.ConvolutionTheory.Dp UpperTheor
 
 private theorem eq_of_esymm {n : ℕ} {B B' : Multiset ℂ} (hB : B.card = n) (hB' : B'.card = n)
     (h : ∀ i : Fin n, B.esymm (i + 1) = B'.esymm (i + 1)) : B = B' := by
-  have h2 : (B.map fun r => Polynomial.X - Polynomial.C r).prod = (B'.map fun r => Polynomial.X - Polynomial.C r).prod := by
-    rw [Multiset.prod_X_sub_X_eq_sum_esymm, Multiset.prod_X_sub_X_eq_sum_esymm, hB, hB']
-    refine Finset.sum_congr rfl fun j hj => ?_
-    rcases j with _ | j
-    · simp [Multiset.esymm]
-    · rw [h ⟨j, by simpa using hj⟩]
-  simpa using congrArg Polynomial.roots h2
+  apply _root_.UpperTheory.ConvolutionTheory.Ci.ke_ext <;> assumption
 
 open UpperTheory.ConvolutionTheory in
 theorem UpperTheory.ConvolutionTheory.Dp.sSatUnit :

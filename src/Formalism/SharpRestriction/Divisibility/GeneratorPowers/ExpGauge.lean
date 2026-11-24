@@ -753,15 +753,7 @@ private theorem subst_rename_lemma {σ τ υ R : Type} [CommRing R] [Finite σ] 
     (q : MvPolynomial τ R) :
     MvPowerSeries.subst a ((MvPolynomial.rename ρ q : MvPolynomial σ R) : MvPowerSeries σ R) =
       MvPowerSeries.subst (fun t => a (ρ t)) (q : MvPowerSeries τ R) := by
-  have h1 : MvPowerSeries.HasSubst a := by
-    first
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero ha
-  have h2 : MvPowerSeries.HasSubst (fun t => a (ρ t)) := by
-    first
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero (fun t => ha (ρ t))
-  rw [← MvPowerSeries.coe_substAlgHom h1, ← MvPowerSeries.coe_substAlgHom h2]
-  erw [MvPowerSeries.substAlgHom_coe, MvPowerSeries.substAlgHom_coe, MvPolynomial.aeval_rename]
-  rfl
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpGJ.subst_rename_lemma <;> assumption
 
 theorem subst_psIn {d n n' : ℕ} {κ : Type} [Fintype κ] [DecidableEq κ] (m : ℕ) (r : Fin n → Fin n')
     (Q : Fin n' × Fin d → MvPowerSeries κ S) (hQ : ∀ p, MvPowerSeries.constantCoeff (Q p) = 0)
@@ -936,15 +928,7 @@ theorem subst_coe_rename {σ τ υ : Type} {R : Type} [CommRing R] [Finite σ] [
     (ha : ∀ s, MvPowerSeries.constantCoeff (a s) = 0) (ρ : τ → σ) (q : MvPolynomial τ R) :
     MvPowerSeries.subst a ((MvPolynomial.rename ρ q : MvPolynomial σ R) : MvPowerSeries σ R) =
       MvPowerSeries.subst (fun t => a (ρ t)) (q : MvPowerSeries τ R) := by
-  have h1 : MvPowerSeries.HasSubst a := by
-    first
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero ha
-  have h2 : MvPowerSeries.HasSubst (fun t => a (ρ t)) := by
-    first
-    | exact MvPowerSeries.hasSubst_of_constantCoeff_zero (fun t => ha (ρ t))
-  rw [← MvPowerSeries.coe_substAlgHom h1, ← MvPowerSeries.coe_substAlgHom h2]
-  erw [MvPowerSeries.substAlgHom_coe, MvPowerSeries.substAlgHom_coe, MvPolynomial.aeval_rename]
-  rfl
+  apply _root_.Formalism.MainNotions.ModuliIntegralCharts.H1.ExpGJ.subst_rename_lemma <;> assumption
 
 section Pair
 

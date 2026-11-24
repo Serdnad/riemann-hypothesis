@@ -144,17 +144,7 @@ theorem star_intOE {a : I.E} (ha : a ∈ Formalism.UG.intOE I.E) : star a ∈ Fo
   exact ⟨⟨star (x : I.E), x.isIntegral_coe.map (starRingEnd I.E).toIntAlgHom⟩, rfl⟩
 
 theorem sigA_mem {a : I.E ⊗[I.F] Af I.F} (ha : a ∈ IntAf I.F I.E) : sigA I a ∈ IntAf I.F I.E := by
-  have h : IntAf I.F I.E ≤ (IntAf I.F I.E).comap (sigA I) := by
-    show Subring.closure _ ≤ _
-    rw [Subring.closure_le]
-    rintro _ (⟨⟨s, hs⟩, rfl⟩ | ⟨⟨y, hy⟩, rfl⟩)
-    · show sigA I (s ⊗ₜ[I.F] (1 : Af I.F)) ∈ IntAf I.F I.E
-      rw [sigA_tmul]
-      exact Subring.subset_closure (Or.inl ⟨⟨star s, star_intOE I hs⟩, rfl⟩)
-    · show sigA I ((1 : I.E) ⊗ₜ[I.F] y) ∈ IntAf I.F I.E
-      rw [sigA_tmul, star_one]
-      exact Subring.subset_closure (Or.inr ⟨⟨y, hy⟩, rfl⟩)
-  exact h ha
+  apply _root_.Formalism.L2.SG.Pf.unitaryCongruence.sigA_mem <;> assumption
 
 theorem inclE_mem {a : I.E} (ha : a ∈ Formalism.UG.intOE I.E) :
     Formalism.UG.inclE (F := I.F) (Af I.F) a ∈ IntAf I.F I.E := by
@@ -189,11 +179,7 @@ theorem hL_apply (u v : VA I) : hL I u v = hA I u v := rfl
 
 theorem hA_incl (x y : Fin I.n → I.E) : hA I (incl I x) (incl I y) =
     Formalism.UG.inclE (F := I.F) (Af I.F) (Formalism.UG.hform (starRingEnd I.E) I.J x y) := by
-  unfold Formalism.L2.SG.HidaSetting.hA Formalism.UG.hform Formalism.L2.SG.HidaSetting.incl
-
-  simp only [Matrix.map_apply, map_sum, map_mul, starRingEnd_apply]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [sigA_inclE]
+  apply _root_.Formalism.L2.SG.Pf.unitaryCongruence.hA_incl <;> assumption
 
 theorem J_conj (i j : Fin I.n) : star (I.J i j) = I.J j i := by
   have h0 : Formalism.UG.cT (starRingEnd I.E) I.J = I.J := I.J_herm
@@ -202,13 +188,7 @@ theorem J_conj (i j : Fin I.n) : star (I.J i j) = I.J j i := by
   exact h
 
 theorem hA_symm (u v : VA I) : hA I v u = sigA I (hA I u v) := by
-  unfold Formalism.L2.SG.HidaSetting.hA Formalism.UG.hform
-
-  simp only [map_sum, map_mul, Matrix.map_apply]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [sigA_sigA, sigA_inclE, J_conj]
-  ring
+  apply _root_.Formalism.L2.SG.Pf.unitaryCongruence.hA_symm <;> assumption
 
 theorem hA_int {u v : VA I} (hu : u ∈ I.Lf) (hv : v ∈ I.Lf) : hA I u v ∈ IntAf I.F I.E := by
   apply Formalism.L2.SG.Pf.unitaryCongruence.hA_int <;> assumption

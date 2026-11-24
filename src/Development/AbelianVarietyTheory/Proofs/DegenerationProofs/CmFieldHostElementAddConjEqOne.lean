@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTorusWithSignUniformisationFrame
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ReframeSt
 import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsCoprimeTwoSubRtTwoAddRt
 import Mathlib.Algebra.AffineMonoid.Basic
@@ -63,30 +64,7 @@ noncomputable section
 namespace GlobalTheory.Ex.Arch.AbVal
 
 theorem cmField_host_element_add_conj_eq_one {E : Type} [Field E] [NumberField E] [IsCMField E] (H : Host E) : H.w0 + H.bar H.w0 = 1 := by
-  have h1 : H.bar H.rt ^ 2 = H.rt ^ 2 := by
-    rw [← map_pow, H.rt_sq, map_neg, map_natCast]
-  have h2 : 2 * H.bar H.w0 = 1 + H.bar H.rt := by
-    have := congrArg H.bar H.two_weight_eq_one_add_root
-    simpa [map_ofNat] using this
-  have h3 : H.bar H.rt = -H.rt := by
-    rcases sq_eq_sq_iff_eq_or_eq_neg.1 h1 with e | e
-    · exfalso
-      have e' : IsCMField.complexConj E (H.rt : E) = H.rt := by rw [← H.bar_eq, e]
-      obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
-      have c := IsCMField.complexEmbedding_complexConj E φ (H.rt : E)
-      rw [e'] at c
-      have r : φ (H.rt : E) ^ 2 = -(H.d : ℂ) := by
-        have := congrArg (fun z : 𝓞 E => φ (z : E)) H.rt_sq
-        simpa using this
-      obtain ⟨x, hx⟩ := Complex.conj_eq_iff_real.1 c.symm
-      rw [hx] at r
-      have r' : x ^ 2 = -(H.d : ℝ) := by exact_mod_cast r
-      have : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-      nlinarith [sq_nonneg x]
-    · exact e
-  have : (2 : 𝓞 E) * (H.w0 + H.bar H.w0) = 2 * 1 := by
-    rw [mul_add, h2, H.two_weight_eq_one_add_root, h3]; ring
-  exact mul_left_cancel₀ two_ne_zero this
+  first | exact _root_.GlobalTheory.TorusSign.cmHostUnit_add_conj_eq_one | exact @_root_.GlobalTheory.TorusSign.cmHostUnit_add_conj_eq_one | apply _root_.GlobalTheory.TorusSign.cmHostUnit_add_conj_eq_one <;> assumption
 
 theorem rg_ne_zero {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {F : Type} [Field F] [Algebra (FractionRing R) F]
     {N : NumD F} (ν : NumOf D F N) : ν.rg ≠ 0 := fun h =>

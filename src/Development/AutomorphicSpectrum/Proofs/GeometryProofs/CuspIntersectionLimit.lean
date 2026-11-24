@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.CuspIntersectionFinite
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.BdryChart
 public import ReciprocityTheory.AnalyticForms.PlurisubharmonicFunctions.IsPshLocallyIntegrableStatement
 public import Mathlib.Analysis.SpecialFunctions.Integrals.PosLog
@@ -1382,17 +1383,7 @@ open GroundTheory.Heights₂.Heights.Regular (logCover expCover)
 
 theorem exists_lift {n a : ℕ} (h : a ≤ n) {z : Fin n → ℂ} (hz : z ∈ Flat.punct n a 1) :
     ∃ w ∈ logCover h, expCover a w = z := by
-  have h1 : ∀ k, ‖z k‖ < 1 := (pi_norm_lt_iff one_pos).1 (mem_ball_zero_iff.1 hz.1)
-  refine ⟨fun k => if k.val < a then Complex.log (z k) else z k, ⟨fun i => ?_, fun k hk => ?_⟩, ?_⟩
-  · have hi : (Fin.castLE h i).val < a := i.isLt
-    simp only [if_pos hi, Complex.log_re]
-    exact Real.log_neg (norm_pos_iff.mpr (hz.2 _ hi)) (h1 _)
-  · simp only [if_neg (not_lt.mpr hk)]
-    exact h1 k
-  · funext k
-    by_cases hk : k.val < a
-    · simp only [expCover, if_pos hk, Complex.exp_log (hz.2 k hk)]
-    · simp only [expCover, if_neg hk]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.GVal.Val.exists_lift <;> assumption
 
 theorem isPsh_comp_aff {n : ℕ} (t₀ : Fin n → ℂ) (ρ : ℝ) (π : Equiv.Perm (Fin n)) {U V : Set (Fin n → ℂ)}
     {f : (Fin n → ℂ) → ℝ} (h : IsPsh V f) (hUV : ∀ u ∈ U, aff t₀ ρ π u ∈ V) :

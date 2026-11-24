@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocE
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -82,26 +83,7 @@ open Polynomial in
 variable {l : ℕ} [Fact l.Prime] in
 theorem _root_.GlobalTheory.Per.Val.mem_OL_iff (LL : _root_.Formalism.BasicNotions.Loc.FinExt l) (x : ↥LL.1) :
     x ∈ _root_.Formalism.BasicNotions.Loc.OL LL ↔ ‖(x : _root_.Formalism.BasicNotions.Loc.Om l)‖ ≤ 1 := by
-  haveI := LL.2
-  unfold _root_.Formalism.BasicNotions.Loc.OL
-  rw [mem_integralClosure_iff]
-  have hK : IsIntegral ℚ_[l] x := Algebra.IsIntegral.isIntegral x
-  have hnorm : ‖(x : _root_.Formalism.BasicNotions.Loc.Om l)‖ = spectralValue (minpoly ℚ_[l] x) := by
-    rw [IntermediateField.minpoly_eq x]; rfl
-  rw [hnorm, spectralValue_le_one_iff (minpoly.monic hK)]
-  constructor
-  · intro hi n
-    rw [minpoly.isIntegrallyClosed_eq_field_fractions' ℚ_[l] hi, coeff_map]
-    simpa using PadicInt.norm_le_one ((minpoly ℤ_[l] x).coeff n)
-  · intro h
-    have hl : minpoly ℚ_[l] x ∈ lifts (algebraMap ℤ_[l] ℚ_[l]) := by
-      rw [lifts_iff_coeff_lifts]
-      intro n
-      exact ⟨⟨_, h n⟩, rfl⟩
-    obtain ⟨q, hq, -, hm⟩ := lifts_and_natDegree_eq_and_monic hl (minpoly.monic hK)
-    refine ⟨q, hm, ?_⟩
-    rw [IsScalarTower.algebraMap_eq ℤ_[l] ℚ_[l] ↥LL.1, ← eval₂_map, hq]
-    exact minpoly.aeval ℚ_[l] x
+  first | exact _root_.Formalism.BasicNotions.Examples₂.LB.mem_OL | exact @_root_.Formalism.BasicNotions.Examples₂.LB.mem_OL | apply _root_.Formalism.BasicNotions.Examples₂.LB.mem_OL <;> assumption
 
 
 open Classical in

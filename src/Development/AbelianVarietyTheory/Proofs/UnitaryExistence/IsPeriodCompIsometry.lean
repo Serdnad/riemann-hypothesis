@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.LogCardCompUnfLe
 public import Development.AbelianVarietyTheory.Definitions.ExistenceOfLattices.NormConst
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.PointEqIffIsometryClosed
@@ -60,29 +61,7 @@ lemma isHolTo_ex {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Recipro
     {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {σ' : KA l →+* ℂ} {g : ℕ} {ty : Fin g → (E →+* ℂ)}
     (F : FamilyUnif Xo σ' ty) (k : Fin F.n) (P : (F.Di k).La →+ (Fin g → ℂ)) (hP : IsPeriod (F.Di k) ty P) :
     IsHolTo Set.univ (fun z => (F.ex k P z).left) := by
-  have h1 := (F.hol k 0 Set.univ (fun _ => P) isOpen_univ
-    ⟨fun _ _ => hP, fun _ => differentiableOn_const _⟩).2
-  unfold IsHolTo at h1 ⊢
-  intro U f
-  obtain ⟨ho, hd⟩ := h1 U f
-  have hj : Continuous (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) := continuous_const.prodMk continuous_id
-  have hjd : Differentiable ℂ (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) :=
-    (differentiable_const _).prodMk differentiable_id
-  have hset : {b | b ∈ (Set.univ : Set (Fin g → ℂ)) ∧ ⊤ ≤ (fun z => (F.ex k P z).left) b ⁻¹ᵁ U} =
-      (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) ⁻¹'
-        {b | b ∈ (Set.univ : Set (Fin 0 → ℂ)) ×ˢ (Set.univ : Set (Fin g → ℂ)) ∧
-          ⊤ ≤ (fun bz : (Fin 0 → ℂ) × (Fin g → ℂ) => (F.ex k P bz.2).left) b ⁻¹ᵁ U} := by
-    ext z
-    simp
-  rw [hset]
-  refine ⟨ho.preimage hj, ?_⟩
-  have h2 := hd.comp (s := (fun z : Fin g → ℂ => ((0 : Fin 0 → ℂ), z)) ⁻¹'
-      {b | b ∈ (Set.univ : Set (Fin 0 → ℂ)) ×ˢ (Set.univ : Set (Fin g → ℂ)) ∧
-        ⊤ ≤ (fun bz : (Fin 0 → ℂ) × (Fin g → ℂ) => (F.ex k P bz.2).left) b ⁻¹ᵁ U})
-    hjd.differentiableOn (fun _ hz => hz)
-  rw [Function.comp_def] at h2
-  dsimp only at h2 ⊢
-  exact h2
+  first | exact _root_.GlobalTheory.UnifMatch.isHolTo_ex | exact @_root_.GlobalTheory.UnifMatch.isHolTo_ex | apply _root_.GlobalTheory.UnifMatch.isHolTo_ex <;> assumption
 
 lemma isPeriod_comp_isometry {E : Type} [Field E] [NumberField E] [IsCMField E]
     {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {D D' : Datum H} {g : ℕ} {ty : Fin g → (E →+* ℂ)}

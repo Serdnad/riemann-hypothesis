@@ -6,6 +6,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGrou
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.FiniteFamilyOfCompact
 import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.Iwa
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.WtBound
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaBounds.WtBound
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
 import Mathlib.Algebra.Order.Interval.Basic
@@ -57,13 +58,7 @@ private theorem wt_nonneg' {F : Type} [Field F] [NumberField F]
 private theorem wt_mono'' {F : Type} [Field F] [NumberField F]
     {S S' : Set (Fin 4 → FiniteAdeleRing (𝓞 F) F)} (h : S ⊆ S') (N : ℕ) (v : V4 F) :
     wt S N v ≤ wt S' N v := by
-  unfold wt
-  by_cases hv : finPartPi v ∈ S
-  · rw [if_pos hv, if_pos (h hv)]
-  · rw [if_neg hv]
-    split_ifs
-    · positivity
-    · exact le_rfl
+  apply _root_.wt_mono' <;> assumption
 
 private noncomputable def sc4 {F : Type} [Field F] [NumberField F] : (A F)ˣ →* GL (Fin 4) (A F) :=
   Units.map (Matrix.scalar (Fin 4) : A F →+* Matrix (Fin 4) (Fin 4) (A F)).toMonoidHom

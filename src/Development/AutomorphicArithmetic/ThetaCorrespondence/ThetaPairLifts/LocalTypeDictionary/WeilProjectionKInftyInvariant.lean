@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MatchedMapsArchimedeanIdentity
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaEqB
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOneP
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConjUInvMemGfC
@@ -256,21 +257,7 @@ theorem exists_tensDeg {F : Type} [Field F] [NumberField F] {P Q R S : ℕ} (T :
 
 theorem exp_stable {V : Type} [AddCommGroup V] [Module ℂ V] {L U : Module.End ℂ V} (hU : GlobalTheory.RealLift.IsExp L U)
     (N : Submodule ℂ V) (hN : ∀ y ∈ N, L y ∈ N) : ∀ y ∈ N, U y ∈ N := by
-  intro y hy
-  by_contra hne
-  obtain ⟨l, hl1, hl2⟩ := Submodule.exists_dual_map_eq_bot_of_notMem hne inferInstance
-  have hpow : ∀ m : ℕ, (L ^ m) y ∈ N := by
-    intro m
-    induction m with
-    | zero => simpa using hy
-    | succ m ih => rw [pow_succ', Module.End.mul_apply]; exact hN _ ih
-  have hz : ∀ m : ℕ, ((m.factorial : ℂ))⁻¹ * l ((L ^ m) y) = 0 := fun m => by
-    have hm : l ((L ^ m) y) ∈ N.map l := Submodule.mem_map_of_mem (hpow m)
-    rw [hl2, Submodule.mem_bot] at hm
-    rw [hm, mul_zero]
-  have h1 := hU y l
-  simp only [hz] at h1
-  exact hl1 (h1.unique hasSum_zero)
+  first | exact _root_.GlobalTheory.KStableLie.mem_of_isExp | exact @_root_.GlobalTheory.KStableLie.mem_of_isExp | apply _root_.GlobalTheory.KStableLie.mem_of_isExp <;> assumption
 
 def pureL {κ : Type} [Fintype κ] {F : Type} [Field F] [NumberField F]
     (φ : ∀ v : GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.Pl (F := F), (κ → Fv F v) → ℂ) :

@@ -49,6 +49,7 @@ import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
+import GroundTheory.AutomorphicForms.CuspidalDiscreteness.CuspFormsSiegel
 
 @[expose] public section
 
@@ -108,17 +109,7 @@ theorem continuous_of_rightInvariant {φ : AdelicGLn.AdelicGL K n → ℂ} (hs :
 theorem conj_unipGL_eq_archExp {r : ℕ} (x : AdelicGLn.AdelicGL K n) (P : UPos n r → 𝔸[K])
     (hP : ∀ p, (P p).2 = 0) :
     x⁻¹ * unipGL P * x = archExp (conjArch K n x P) := by
-  have h1 := infEmb_mul_finEmb (K := K) (n := n) (x⁻¹ * unipGL P * x)
-  rw [prodEquiv_conj_snd x P hP, map_one, mul_one] at h1
-  refine h1.symm.trans ?_
-  rw [archExp]
-  congr 1
-  refine Subtype.ext (Units.ext ?_)
-  rw [coe_expG_top, exp_eq_one_add_of_mul_self_eq_zero (conjArch_mul_conjArch x P P)]
-  change archMat K n ((x⁻¹ * unipGL P * x : AdelicGLn.AdelicGL K n) :
-    Matrix (Fin n) (Fin n) 𝔸[K]) = _
-  rw [coe_conj_unipGL, map_add (f := _), map_one]
-  rfl
+  apply _root_.GroundTheory.Automorphic.CuspidalSpectrum.conj_unipGL_eq_archExp <;> assumption
 
 theorem norm_le_of_altSum_inf {φ : AdelicGLn.AdelicGL K n → ℂ} (hφc : Continuous φ)
     (hφ : IsLeftInvariant φ) {r : ℕ} {M : ℕ} (hM : 0 < M) (x : AdelicGLn.AdelicGL K n)

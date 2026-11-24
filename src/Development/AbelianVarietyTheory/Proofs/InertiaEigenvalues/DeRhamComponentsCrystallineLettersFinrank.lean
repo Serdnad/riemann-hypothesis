@@ -77,21 +77,8 @@ variable {G : Type} [Group G] {Qp K₀ K : Type} [Field Qp] [Field K₀] [Field 
 open GlobalTheory.DRFil in
 theorem finrank_DdRE_le (hF : IsField F) (ρ : Representation LL G V) (τ : K →ₐ[Qp] LL)
     [FiniteDimensional LL ↥(DdRE PD ρ τ)] : finrank LL ↥(DdRE PD ρ τ) ≤ finrank LL V := by
-  haveI := nontrivial_dR PD
-  let b := Module.finBasis LL ↥(DdRE PD ρ τ)
-  let v := Module.finBasis LL V
-  have hli : LinearIndependent LL (fun i => (b i : V ⊗[Qp] F)) :=
-    b.linearIndependent.map' (DdRE PD ρ τ).subtype (Submodule.ker_subtype _)
-  have h := indep_of_linearIndependent_DdRE PD ρ τ _ hF (fun i => (b i).2) hli
-  have := _root_.GlobalTheory.Per.LetterDim.card_le_of_idem (idem_mul_idem (F := F) τ) (idem_ne_zero (F := F) τ)
-    (fun i j => ext Qp F (v.coord j) (b i : V ⊗[Qp] F)) (fun r hr => h r (by
-      rw [eq_sum_basis v (∑ i, sm Qp F LL V (r i) (b i : V ⊗[Qp] F))]
-      refine Finset.sum_eq_zero fun j _ => ?_
-
-      rw [map_sum]
-      simp only [ext_sm, sm_self]
-      rw [hr j, map_zero, LinearMap.zero_apply]))
-  simpa using this
+  intros
+  apply _root_.GlobalTheory.Per.LetterDim.component_le <;> assumption
 
 end Bound
 

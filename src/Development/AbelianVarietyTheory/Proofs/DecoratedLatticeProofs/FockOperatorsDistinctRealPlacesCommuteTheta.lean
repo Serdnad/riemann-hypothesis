@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.FockPolynomialVectorLaws
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ThetaSourceAction
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOnAtTau
@@ -89,21 +90,8 @@ theorem pure_fun_add (hA : ∀ i f, P f → P (A i f)) (hadd : ∀ f f', P f →
     (hsm : ∀ (a : ℂ) f, P f → P (a • f))
     (Aadd : ∀ i f f', P f → P f' → A i (f + f') = A i f + A i f') {f f' : X → ℂ} (hf : P f) (hf' : P f')
     (Q : MvPolynomial ι ℂ) : pureTensorL A (f + f') Q = pureTensorL A f Q + pureTensorL A f' Q := by
-  have hl : ∀ l : List ι, l.foldr (fun i g => A i g) (f + f') =
-      l.foldr (fun i g => A i g) f + l.foldr (fun i g => A i g) f' := fun l => by
-    induction l with
-    | nil => rfl
-    | cons i l ih =>
-      simp only [List.foldr_cons]
-      rw [ih, Aadd _ _ _ (GlobalTheory.FockIndep.foldr_mem hA hf l) (GlobalTheory.FockIndep.foldr_mem hA hf' l)]
-  induction Q using MvPolynomial.induction_on' with
-  | monomial k c =>
-    rw [GlobalTheory.FockIndep.pure_monomial, GlobalTheory.FockIndep.pure_monomial, GlobalTheory.FockIndep.pure_monomial]
-    unfold opPow
-    rw [hl, smul_add]
-  | add p q hp hq =>
-    rw [map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
-    abel
+  intros
+  apply _root_.GlobalTheory.Ker.FockAlg.pure_add <;> assumption
 
 theorem pure_fun_smul (hA : ∀ i f, P f → P (A i f))
     (Asm : ∀ i (a : ℂ) f, P f → A i (a • f) = a • A i f) (a : ℂ) {f : X → ℂ} (hf : P f)

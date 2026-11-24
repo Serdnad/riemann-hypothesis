@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormLePowIffDvd
 public import Formalism.ConjugateSelfDual.Statement
 public import Mathlib.FieldTheory.IsAlgClosed.Basic
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SpanRepMatrixEqTopOfAbsIrreducible
@@ -987,40 +988,8 @@ variable {l : ℕ} [Fact l.Prime]
 
 theorem norm_le_iff_dvd (c : Coef l) (x : c.O) (k : ℕ) :
     ‖(x : PadicAlgCl l)‖ ≤ ‖((l : ℕ) : PadicAlgCl l) ^ k‖ ↔ ((l : ℕ) : c.O) ^ k ∣ x := by
-  constructor
-  · intro hx
-    by_cases hx0 : x = 0
-    · rw [hx0]; exact dvd_zero _
-    obtain ⟨-, -, -, -, -, -, -, hev, -⟩ := UpperTheory.V.Base.dvrFacts l c.O
-    have h := UpperTheory.V.Base.normO l c.O x hx0
-    have he := eO_toNat_pos c
-    set e := (UpperTheory.V.Base.eO l c.O).toNat with he_def
-    set v := (IsDiscreteValuationRing.addVal c.O x).toNat with hv_def
-    have hq0 : (0 : ℝ) < (l : ℝ)⁻¹ := by
-      have := (Fact.out : l.Prime).pos; positivity
-    have hq1 : (l : ℝ)⁻¹ < 1 := inv_lt_one_of_one_lt₀ (by exact_mod_cast (Fact.out : l.Prime).one_lt)
-    rw [norm_pow, _root_.GlobalTheory.CycTrace.norm_l] at hx
-    have h2 : ‖(x : PadicAlgCl l)‖ ^ e ≤ ((l : ℝ)⁻¹ ^ k) ^ e := pow_le_pow_left₀ (norm_nonneg _) hx e
-    rw [h, ← pow_mul] at h2
-    have h3 : k * e ≤ v := (pow_le_pow_iff_right_of_lt_one₀ hq0 hq1).1 h2
-    have hl0 : ((l : ℕ) : c.O) ≠ 0 := by
-      intro h0
-      have h' : (((l : ℕ) : c.O) : PadicAlgCl l) = 0 := by rw [h0]; rfl
-      have : ((l : ℕ) : PadicAlgCl l) = 0 := by simpa using h'
-      exact (Nat.cast_ne_zero.2 (Fact.out : l.Prime).ne_zero) this
-    have htl : IsDiscreteValuationRing.addVal c.O ((l : ℕ) : c.O) ≠ ⊤ := by
-      rw [Ne, IsDiscreteValuationRing.addVal_eq_top_iff]; exact hl0
-    have htx : IsDiscreteValuationRing.addVal c.O x ≠ ⊤ := by
-      rw [Ne, IsDiscreteValuationRing.addVal_eq_top_iff]; exact hx0
-    rw [← IsDiscreteValuationRing.addVal_le_iff_dvd, IsDiscreteValuationRing.addVal_pow,
-      ← ENat.coe_toNat htl, ← ENat.coe_toNat htx, ← hev, ← he_def, ← hv_def]
-    rw [nsmul_eq_mul]
-    exact_mod_cast h3
-  · rintro ⟨y, rfl⟩
-    have : (((l : ℕ) : c.O) ^ k * y : c.O) = ((l : ℕ) : PadicAlgCl l) ^ k * (y : PadicAlgCl l) := by simp
-    rw [this, norm_mul]
-    calc _ ≤ ‖((l : ℕ) : PadicAlgCl l) ^ k‖ * 1 := mul_le_mul_of_nonneg_left (norm_le_one c y) (norm_nonneg _)
-      _ = _ := mul_one _
+  intros
+  apply _root_.GlobalTheory.Coef.norm_le_norm_pow_iff_dvd <;> assumption
 
 end GlobalTheory.DeepLevel
 

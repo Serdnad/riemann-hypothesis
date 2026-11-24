@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EqOfValFGeneric
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.NsmulEqZeroOfCast
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.AdmissiblePadicIntMaximalIdeal
 public import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.HasBasisOfBasis
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.ExistsUniqueCombOfIndependentSpecialFibre
@@ -514,20 +516,7 @@ theorem exists_ample (M : RatModel o Ω) {I : Type} (U : I → M.Z.Opens) (u : I
 
 theorem mem_span_rows_iff (A : Subalgebra o Ω) {J : Type} [Fintype J] [DecidableEq J] {b : Matrix J J Ω} (hb : b.det ≠ 0)
     (v : J → Ω) : v ∈ Submodule.span A (Set.range b) ↔ ∀ i, Matrix.vecMul v b⁻¹ i ∈ A := by
-  have hb' : IsUnit b.det := hb.isUnit
-  have key : ∀ c : J → A, ∑ i, c i • b i = Matrix.vecMul (fun i => (c i : Ω)) b := fun c => by
-    ext j
-    simp [Matrix.vecMul, dotProduct, Finset.sum_apply, Subalgebra.smul_def]
-  refine (Submodule.mem_span_range_iff_exists_fun (v := fun i => b i) A).trans ?_
-  constructor
-  · rintro ⟨c, rfl⟩ i
-    rw [key, Matrix.vecMul_vecMul, Matrix.mul_nonsing_inv _ hb', Matrix.vecMul_one]
-    exact (c i).2
-  · intro h
-    refine ⟨fun i => ⟨_, h i⟩, ?_⟩
-    rw [key]
-    show Matrix.vecMul (Matrix.vecMul v b⁻¹) b = v
-    rw [Matrix.vecMul_vecMul, Matrix.nonsing_inv_mul _ hb', Matrix.vecMul_one]
+  apply _root_.GlobalTheory.ZH.mem_span_rows_iff_vecMul_inv <;> assumption
 
 theorem eq_span_dual (A : Subalgebra o Ω) {J : Type} [Fintype J] [DecidableEq J] {b B : Matrix J J Ω} (hb : b.det ≠ 0)
     (hB : B.det ≠ 0) (h : ∀ w, w ∈ Submodule.span A (Set.range B) ↔ ∀ v ∈ Submodule.span A (Set.range b), w ⬝ᵥ v ∈ A) :
@@ -662,15 +651,7 @@ variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω]
 
 theorem exists_eq_spMap_pt (M : RatModel o Ω) {K : Type} [Field K] (x : Sp K ⟶ M.Z)
     (hx : ∀ w, x w = genericPoint M.Z) : ∃ β : Ω →+* K, x = spMap β ≫ M.pt := by
-  have hs : ∀ w, x w ⤳ genericPoint M.Z := fun w => hx w ▸ specializes_rfl
-  have hm : ∀ a : Ω, a ∈ M.O (genericPoint M.Z) := fun a => by rw [M.O_genericPoint]; trivial
-  let β : Ω →+* K := (RatModel.valHomOf x _ hs).comp ((RingHom.id Ω).codRestrict (M.O (genericPoint M.Z)) hm)
-  obtain ⟨V, hV, hz, -⟩ := exists_isAffineOpen_mem_and_subset (U := ⊤) (x := genericPoint M.Z) trivial
-  have h₁ := top_le_preimage_of_specializes hs hz
-  have h₂ := M.top_le_preimage_pt ⟨_, hz⟩
-  refine ⟨β, Points.ext_of_valR hV h₁ (Points.le_preimage_comp _ _ h₂ (Points.le_preimage_top _)) fun f => ?_⟩
-  rw [Points.valR_spMap_comp β M.pt V h₂]
-  exact (RatModel.val_valF ((top_le_preimage_iff _ _).1 h₁) f).symm
+  apply _root_.GlobalTheory.ZH.RatModel.exists_eq_spMap_pt <;> assumption
 
 variable {S : ThetaSys o Ω} {ρ : S.Real} {M : RatModel o Ω} {U₀ : M.Z.Opens} {EE : M.Lat S.J} (Z : ZHOut ρ M U₀ EE)
 

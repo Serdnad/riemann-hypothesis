@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.MatchIndOf
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.WinUpDown
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIsUnitaryTwistAbsPow
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HeckeCharacterUnramifiedAeAndExistsLevel
@@ -13,6 +14,7 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityA
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.NormLoc
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.PairGOps
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.RegroupBC
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.RegroupBC
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.SecDiff
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.GammaLaurentFactors.LocalEmbeddingNorms.SuppFacts
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.LeviSmoothLocalization.PrincipalSeriesMatching.EulerdShift
@@ -101,13 +103,7 @@ private theorem cnt_zero_of_unr (s : Multiset (IrrGL (k := k))) (a : kˣ →* �
 
 private theorem exists_bad (s : Multiset (IrrGL (k := k))) :
     ∃ T : Finset (kˣ →* ℂˣ), ∀ ξ hξ, IrrGL.ofChar ξ hξ ∈ s → ξ ∈ T := by
-  let g : IrrGL (k := k) → (kˣ →* ℂˣ) := fun y => if h : ∃ ξ hξ, y = IrrGL.ofChar ξ hξ then h.choose else 1
-  refine ⟨s.toFinset.image g, fun ξ hξ hy => Finset.mem_image.2 ⟨_, Multiset.mem_toFinset.2 hy, ?_⟩⟩
-  have h : ∃ ξ' hξ', IrrGL.ofChar ξ hξ = IrrGL.ofChar ξ' hξ' := ⟨ξ, hξ, rfl⟩
-  change (if h : ∃ ξ' hξ', IrrGL.ofChar ξ hξ = IrrGL.ofChar ξ' hξ' then h.choose else 1) = ξ
-  rw [dite_eq_left h]
-  obtain ⟨h1, h2⟩ := h.choose_spec
-  exact (IrrGL.ofChar_inj.1 h2).symm
+  apply _root_.UpperTheory.V.Z.Gam.InductionMatchingPlacesAbove.exists_bad <;> assumption
 
 private theorem pol_one (s : Multiset (IrrGL (k := k))) (h : cnt s 1 = 0) : pol s 1 = 1 := by
   obtain ⟨e0, ed, -, -⟩ := (polFacts k).2.2.2 s 1
@@ -184,14 +180,7 @@ section Core
 variable {K L : Type} [Field K] [NumberField K] [Field L] [NumberField L] [Algebra K L]
 
 private theorem places_nonempty (p : HeightOneSpectrum (𝓞 K)) : Nonempty (PlacesOver L p) := by
-  have := p.isMaximal
-  obtain ⟨Q, hQm, hQl⟩ := Ideal.exists_maximal_ideal_liesOver_of_isIntegral (S := 𝓞 L) p.asIdeal
-  have hQ0 : Q ≠ ⊥ := by
-    rintro rfl
-    apply p.ne_bot
-    rw [hQl.over]
-    exact Ideal.comap_bot_of_injective _ (FaithfulSMul.algebraMap_injective _ _)
-  exact ⟨⟨⟨Q, hQm.isPrime, hQ0⟩, hQl⟩⟩
+  apply _root_.UpperTheory.V.Z.Gam.BaseChangeLocalFactorRegrouping.nonempty_over <;> assumption
 
 private theorem under_eq {p : HeightOneSpectrum (𝓞 K)} (w : PlacesOver L p) : w.1.under (𝓞 K) = p :=
   HeightOneSpectrum.ext w.2.over.symm

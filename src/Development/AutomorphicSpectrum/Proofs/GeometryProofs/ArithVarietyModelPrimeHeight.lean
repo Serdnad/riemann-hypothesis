@@ -1,5 +1,8 @@
 module
 
+
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ModelDescentValuationFibre
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.RingOfIntegersHomInjective
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsLatFamilyCongr
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ExistsLieModel
@@ -80,7 +83,6 @@ import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.FlagMinor
 import Mathlib.Topology.Sheaves.Presheaf
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SemiabelianSchemes.CubicalStructures.CubeSymmetricSwapFirst
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.WeilBound.CoreStatements.TorusUniformisation.ChowMahlerFamilies.SequenceFamilyOverlap, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyPrimeHodgeBound, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyPrimeHodgeFinal, Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.DualIntegralLattice, Development.AutomorphicSpectrum.Proofs.GeometryProofs.HermitianPairingTorsionFree, Development.AutomorphicSpectrum.Proofs.GeometryProofs.ArithVarietyModelPrimeHeight
 
@@ -924,33 +926,8 @@ theorem graph_step {r n : ℕ} (R : Subalgebra o Ω) {w f : Ω} (hf : f ∈ R) (
 
 theorem chart_pow {Kx : Type} (x : Kx → Ω) (s t : Kx) (hs : x s ≠ 0) (ht : x t ≠ 0) :
     ∀ a ∈ chartRing o x s, ∃ m : ℕ, (x s / x t) ^ m * a ∈ chartRing o x t := by
-  intro a ha
-  have hf : x s / x t ∈ chartRing o x t := Algebra.subset_adjoin ⟨s, rfl⟩
-  induction ha using Algebra.adjoin_induction with
-  | mem a ha =>
-    obtain ⟨j, rfl⟩ := ha
-    refine ⟨1, ?_⟩
-    have : (x s / x t) ^ 1 * (x j / x s) = x j / x t := by
-      field_simp
-    rw [this]
-    exact Algebra.subset_adjoin ⟨j, rfl⟩
-  | algebraMap r =>
-    exact ⟨0, by simpa using (chartRing o x t).algebraMap_mem r⟩
-  | add a b _ _ h1 h2 =>
-    obtain ⟨m₁, e₁⟩ := h1
-    obtain ⟨m₂, e₂⟩ := h2
-    refine ⟨m₁ + m₂, ?_⟩
-    have := (chartRing o x t).add_mem ((chartRing o x t).mul_mem ((chartRing o x t).pow_mem hf m₂) e₁)
-      ((chartRing o x t).mul_mem ((chartRing o x t).pow_mem hf m₁) e₂)
-    convert this using 1
-    rw [pow_add]; ring
-  | mul a b _ _ h1 h2 =>
-    obtain ⟨m₁, e₁⟩ := h1
-    obtain ⟨m₂, e₂⟩ := h2
-    refine ⟨m₁ + m₂, ?_⟩
-    have := (chartRing o x t).mul_mem e₁ e₂
-    convert this using 1
-    rw [pow_add]; ring
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Num.FlagPairExt.exists_ratio_pow_mul_mem <;> assumption
 
 theorem chart_pow_std {Kx : Type} (x : Kx → Ω) (s t : Kx) (hs : x s ≠ 0) (ht : x t ≠ 0) {n : ℕ} :
     ∀ v ∈ stdLat (chartRing o x s) (Fin n), ∃ m : ℕ, (x s / x t) ^ m • v ∈ stdLat (chartRing o x t) (Fin n) := by
@@ -966,18 +943,7 @@ namespace GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam
 
 theorem emb_injective {E : Type} [Field E] [NumberField E] {Ω : Type} [Field Ω] [CharZero Ω] (g : 𝓞 E →+* Ω) :
     Function.Injective g := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  intro a ha
-  have hk : RingHom.ker g = ⊥ := by
-    apply Ideal.eq_bot_of_comap_eq_bot (R := ℤ)
-    rw [eq_bot_iff]
-    intro n hn
-    have h1 : g (algebraMap ℤ (𝓞 E) n) = 0 := hn
-    simp only [eq_intCast, map_intCast, Int.cast_eq_zero] at h1
-    simpa using h1
-  have : a ∈ RingHom.ker g := ha
-  rw [hk] at this
-  simpa using this
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.FamEx.ringOfIntegers_hom_injective <;> assumption
 
 end GlobalTheory.CompanionTheory.Ar.Num.FamEx.SeqFam
 

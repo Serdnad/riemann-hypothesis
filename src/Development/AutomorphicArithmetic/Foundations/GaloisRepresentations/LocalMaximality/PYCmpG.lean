@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ExistsInv
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -76,15 +77,7 @@ private theorem pyc_sm_le {κ : Type} [Fintype κ] {R : Subalgebra ℂ S} {M : S
 
 private theorem pyc_kosZ_mono {κ : Type} [LinearOrder κ] {M M' : Submodule ℂ E} (h : M ≤ M') (r : κ → S) (m : ℤ) :
     (kos act M r).Z m ≤ (kos act M' r).Z m := by
-  intro c hc
-  refine ⟨?_, hc.2⟩
-  intro s _
-  have h1 := hc.1 s (Set.mem_univ _)
-  by_cases hs : (s.card : ℤ) = m
-  · simp only [if_pos hs] at h1 ⊢
-    exact h h1
-  · simp only [if_neg hs] at h1 ⊢
-    exact h1
+  apply _root_.kos_Z_mono_of_le <;> assumption
 
 private theorem pyc_kstep (k2 : KoszulBoundaryOfComponentMemIdeal) (k3 : K3) {κ0 : Type} [LinearOrder κ0] [Fintype κ0] (R : Subalgebra ℂ S)
     (M : Submodule ℂ E) {d : ℕ} (ρ : κ0 ⊕ₗ Fin d → S) (e : Fin d ↪o κ0) (N : Matrix (Fin d) (Fin d) S)

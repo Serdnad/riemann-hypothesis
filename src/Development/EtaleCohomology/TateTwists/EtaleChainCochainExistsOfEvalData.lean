@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.CohomologicalPurity.FreePMapMk
 public import Development.EtaleCohomology.TateTwists.EtaleCochainExistsOfNaturalEvaluation
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -62,18 +63,7 @@ noncomputable def psiOf (P : PSh) (F : Shv R) (a : ∀ U : Scheme.{0}, P.obj (op
 theorem free_hom_exists (P : PSh) (F : Shv R) (a : ∀ U : Scheme.{0}, P.obj (op U) → Sec F U)
     (ha : ∀ (V U : Scheme.{0}) (g : V ⟶ U) x, Sec.res g (a U x) = a V (P.map g.op x)) :
     ∃ φ : (free R).obj P ⟶ F, ∀ U x, Sec.map φ (freeGen R P U x) = a U x := by
-  let ψ := psiOf R P F a ha
-  let φ : (presheafToSheaf Scheme.etaleTopology.{0} _).obj ((freeP R).obj P) ⟶ F :=
-    ((sheafificationAdjunction _ _).homEquiv _ _).symm ψ
-  have key : toSheafify _ ((freeP R).obj P) ≫ φ.hom = ψ := by
-    have := ((sheafificationAdjunction _ _).homEquiv _ _).apply_symm_apply ψ
-    rw [Adjunction.homEquiv_unit] at this
-    exact this
-  refine ⟨φ, fun U x => ?_⟩
-  change ((toSheafify _ ((freeP R).obj P)).app (op U) ≫ φ.hom.app (op U)).hom (ModuleCat.freeMk (ULift.up x)) = _
-  rw [← NatTrans.comp_app, key]
-  erw [ModuleCat.freeDesc_apply]
-  rfl
+  apply @LateralTheory.CohomologicalPurity.Bd.GenPf.part4 <;> assumption
 
 end LateralTheory.EtaleFoundations.EvMkPf
 

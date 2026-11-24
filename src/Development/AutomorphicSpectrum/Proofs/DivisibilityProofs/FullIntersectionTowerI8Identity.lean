@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.IsBlockDiagMapGenBlock
 public import Development.WeilBound.CoreStatements.MultihomogeneousSquares.AntisymmetryFibreSquares
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsHodgeLine
 public import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.HodgeComponentFactorPoint
@@ -499,53 +500,7 @@ theorem exists_base' (hRes : ResK.ResKStatement) (E : Type) [Field E] [NumberFie
       (∀ p ∈ S, FullTorsion Y.t.G (M₁.ξ ≫ f₁) (p ^ 4)) ∧ (∀ p ∈ S, ∃ ζ : Ω, IsPrimitiveRoot ζ (p ^ 4)) ∧
       SncPts M₁.ξ D.dim {p | Char0 M₁.ξ p ∧ p.1 ∉ f₁ ⁻¹' abLocus Y.t.G} ∧
       Algebra.trdeg ℤ Ω = ((D.dim : ℕ) : Cardinal) := by
-  haveI : FiniteDimensional ℚ c.F := c.fin
-  haveI : NumberField c.F := {}
-  have hgen₀ := _root_.GlobalTheory.CompanionTheory.Ar.GenPtModel.genPt_mem_genericPoints E H D l Xo c Y Ω₀ ξ₀ hg
-  obtain ⟨w₀, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.ChangeGeo.exists_factor_XF_of_genericPoint E H D l Xo c Y Ω₀ ξ₀ hgen₀
-  obtain ⟨cst, -⟩ := exists_cst (Y := Y) w₀
-  haveI : CharZero Ω₀ := charZero_of_injective_ringHom cst.injective
-  obtain ⟨Ω, _, _, i, hfin, htors, hroot⟩ := ChgField.exists_field E H D l Xo c Y Ω₀ ξ₀ S hgen₀ hS
-  obtain ⟨K₀, _, J₀, _, yc, X₀, ξ', f₀, bd₀, -, hall₀, htie₀, hf₀, -, -⟩ := _root_.GlobalTheory.CompanionTheory.Ar.SncBase.exists_sncBase hRes E H D l Xo c Y Ω₀ ξ₀ hg
-  obtain ⟨K₁, _, J₁, _, y₁, bk, bx, M, h, -, -, hdom, hnorm, hsm⟩ :=
-    _root_.GlobalTheory.CompanionTheory.Ar.ChangeModel.exists_normal_model hRes K₀ J₀ Ω₀ Ω i yc X₀ ξ' hfin hall₀ htie₀
-  have hMξ : M.ξ ≫ h ≫ f₀ = spMap i ≫ ξ₀ := by
-    have e : M.ξ ≫ h = Spec.map (CommRingCat.ofHom i) ≫ ξ' := hdom
-    rw [← Category.assoc, e, Category.assoc, hf₀]
-  have hgenM : GlobalTheory.CompanionTheory.Ar.genPt (M.ξ ≫ h ≫ f₀) ∈ genericPoints Y.X := by
-    rw [hMξ]
-    show GlobalTheory.CompanionTheory.Ar.genPt (Spec.map (CommRingCat.ofHom i) ≫ ξ₀) ∈ _
-    rw [genPt_comp]
-    exact hgen₀
-  obtain ⟨y₀, hy₀⟩ := _root_.GlobalTheory.CompanionTheory.Ar.ChangeGeo.exists_factor_XF_of_genericPoint E H D l Xo c Y Ω _ hgenM
-  have hinj : Function.Injective (algebraMap (𝓞 c.F) c.F) := RingOfIntegers.coe_injective
-  have hA := _root_.GlobalTheory.CompanionTheory.Ar.CptTrdeg.trdeg_eq_dim E H D l Xo c _ _ Y Ω₀ ξ₀ Ω y₀ i hinj hg (hy₀ ▸ hMξ)
-  have htr : Algebra.trdeg ℤ Ω = ((D.dim : ℕ) : Cardinal) := by
-    letI : Algebra Ω₀ Ω := i.toAlgebra
-    haveI : FiniteDimensional Ω₀ Ω := hfin
-    haveI : FaithfulSMul ℤ Ω₀ := (faithfulSMul_iff_algebraMap_injective ℤ Ω₀).mpr Int.cast_injective
-    haveI : FaithfulSMul Ω₀ Ω := (faithfulSMul_iff_algebraMap_injective Ω₀ Ω).mpr i.injective
-    have htow := trdeg_add_eq ℤ Ω₀ (A := Ω)
-    rw [hA, trdeg_eq_zero_iff.2 (Algebra.IsAlgebraic.of_finite Ω₀ Ω), add_zero] at htow
-    exact htow.symm
-  obtain ⟨U, hd, hAb⟩ := _root_.GlobalTheory.CompanionTheory.Ar.GeoModel.OpenLocus.exists_dense_open E H D l Xo c Y Ω _ _ M (h ≫ f₀) y₀ hy₀
-  have hU := _root_.GlobalTheory.CompanionTheory.Ar.GenSmooth.smooth_genericFibre E H D l Xo c Y Ω K₁ J₁ y₁ M (h ≫ f₀) y₀ U hy₀ hsm htr
-  have hnm : Tor.IsNormalScheme M.X := ((_root_.GlobalTheory.CompanionTheory.Ar.XR.component_whole_isIntegral_and_normal _ Ω M.ξ M.tie.gen M.all).2).1 hnorm
-  obtain ⟨N, x, X, ξ, f₂, hall, htie, hf₂, hp⟩ := exists_patches_of_res hRes c.F M.X ((h ≫ f₀) ≫ Y.s)
-    (_root_.GlobalTheory.CompanionTheory.Ar.ProjModel.isProjOver_comp_model E H D l Xo c Y Ω _ _ M (h ≫ f₀)) hnm U hd D.dim hU _ hAb Ω M.ξ M.tie.gen
-  obtain ⟨K, _, J, _, y, M₁, g, hne, hdom₁, hn₁, hp₁⟩ := _root_.GlobalTheory.CompanionTheory.Ar.GeoModel.NormPatch.exists_normal_model Ω X ξ N x D.dim
-    (f₂ ⁻¹' ((h ≫ f₀) ⁻¹' abLocus Y.t.G)) hall htie hp
-  have hg₁ : M₁.ξ ≫ g = ξ := by
-    have e : M₁.ξ ≫ g = Spec.map (CommRingCat.ofHom (RingHom.id Ω)) ≫ ξ := hdom₁
-    rw [e]; simp
-  have hξ₁ : M₁.ξ ≫ g ≫ f₂ ≫ h ≫ f₀ = M.ξ ≫ h ≫ f₀ := by
-    rw [← Category.assoc, hg₁, ← Category.assoc, hf₂]
-  refine ⟨Ω, inferInstance, inferInstance, K, inferInstance, J, inferInstance, y, M₁, g ≫ f₂ ≫ h ≫ f₀, y₀, i, hne, hfin, hn₁,
-    hξ₁.trans hy₀, hξ₁.trans hMξ, fun p hp' => ?_, hroot, ?_, htr⟩
-  · rw [hξ₁, hMξ]
-    exact htors p hp'
-  · convert hp₁ using 4
-    simp
+  apply _root_.GlobalTheory.CompanionTheory.Ar.GeoModel.exists_base <;> assumption
 
 theorem stBase : StBase := by
   intro hRes hW E _ _ _ H D l Xo c Y S Ω₀ _ ξ₀ hξ₀ hS hSd
@@ -629,21 +584,8 @@ def extDeg (b : NonPluckerBlocks blk → ℕ) : K → ℕ := fun k => if h : ∀
 
 theorem isMultiHomog_rename_baseInc {β : MRing (baseIdx ι blk)} {b : NonPluckerBlocks blk → ℕ} (hβ : IsMultiHomog β b) :
     IsMultiHomog (rename (baseInc (ι := ι) blk) β) (extDeg blk b) := by
-  classical
-  intro m hm k
-  rw [support_rename_of_injective (baseInc_injective blk)] at hm
-  obtain ⟨m₀, hm₀, rfl⟩ := Finset.mem_image.1 hm
-  by_cases h : ∀ p, blk p ≠ some k
-  · have e : ∀ i : ι k, (Finsupp.mapDomain (baseInc blk) m₀) ⟨k, i⟩ = m₀ ⟨⟨k, h⟩, i⟩ := fun i =>
-      Finsupp.mapDomain_apply_of_injective (baseInc_injective blk) m₀ (⟨⟨k, h⟩, i⟩ : Σ k, baseIdx ι blk k)
-    simp only [e, extDeg, dif_pos h]
-    exact hβ m₀ hm₀ ⟨k, h⟩
-  · have e : ∀ i : ι k, (Finsupp.mapDomain (baseInc blk) m₀) ⟨k, i⟩ = 0 := fun i =>
-      Finsupp.mapDomain_of_notMem_range _ _ (by
-        rintro ⟨q, hq⟩
-        have : q.1.1 = k := congrArg Sigma.fst hq
-        exact h (this ▸ q.1.2))
-    simp only [e, extDeg, dif_neg h, Finset.sum_const_zero]
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.isMultiHomog_rename_base <;> assumption
 
 omit [Fintype K] [∀ k, Fintype (ι k)] in
 theorem evC_rename_baseInc (z : (Σ k, ι k) → ℂ) (β : MRing (baseIdx ι blk)) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.CmModelCoefficientSubringDedekindCompatibleEmbed
 public import Formalism.LocalToGlobal.KernelLattices.ThDistC
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeckeCharacterTrivialNearOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InducedTypeThetaGenusOnePermutes
@@ -61,20 +62,7 @@ theorem rat_int_of_isIntegral {E : Type} [Field E] [CharZero E] (r : ℚ) (h : I
 
 theorem int_of_prime_mul_sq {d : ℕ} (hd : d.Prime) (c : ℚ) (k : ℤ) (h : (d : ℚ) * c ^ 2 = k) :
     ∃ n : ℤ, (n : ℚ) = c := by
-  have h1 : IsIntegral ℤ (((d : ℚ) * c) ^ 2) := by
-    have : ((d : ℚ) * c) ^ 2 = algebraMap ℤ ℚ (d * k) := by
-      simp only [eq_intCast]; push_cast; rw [← h]; ring
-    rw [this]; exact isIntegral_algebraMap
-  obtain ⟨e, he⟩ := rat_int_of_isIntegral (E := ℚ) ((d : ℚ) * c)
-    (by simpa using IsIntegral.of_pow two_pos h1)
-  have h2 : e ^ 2 = d * k := by
-    have : (e : ℚ) ^ 2 = d * k := by rw [he, ← h]; ring
-    exact_mod_cast this
-  obtain ⟨n, hn⟩ := (Nat.prime_iff_prime_int.1 hd).dvd_of_dvd_pow (n := 2) ⟨k, h2⟩
-  refine ⟨n, ?_⟩
-  have hd0 : (d : ℚ) ≠ 0 := by exact_mod_cast hd.ne_zero
-  apply mul_left_cancel₀ hd0
-  rw [← he, hn]; push_cast; ring
+  first | exact _root_.GlobalTheory.RationalIntegralCoordinates.int_of_prime_mul_sq | exact @_root_.GlobalTheory.RationalIntegralCoordinates.int_of_prime_mul_sq | apply _root_.GlobalTheory.RationalIntegralCoordinates.int_of_prime_mul_sq <;> assumption
 
 theorem jacobi_of_eq {p : ℕ} (hp : p.Prime) (d m n : ℤ) (h : m ^ 2 + d * n ^ 2 = 4 * p)
     (hm : ¬ (p : ℤ) ∣ m) : jacobiSym (-d) p = 1 := by

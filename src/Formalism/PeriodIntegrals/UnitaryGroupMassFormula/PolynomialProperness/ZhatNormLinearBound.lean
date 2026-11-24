@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerFlagSplitting.MulVecColOfMul
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BetaSesquilinearity
 public import Formalism.HermitianCurvature.FiniteOrderIntersectionInSmooth
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
@@ -92,11 +93,7 @@ theorem inv_eq {k r : ℕ} {g : B.Mat k r} (hg : g ∈ B.GV k r) :
 
 theorem herm_mulVec {k r : ℕ} {g : B.Mat k r} (hg : g ∈ B.GV k r) (v w : Fin (2 * r + k + 1) → ℂ) :
     herm (Hpk k r) (g *ᵥ v) (g *ᵥ w) = herm (Hpk k r) v w := by
-  have h : gᴴ * Hpk k r * g = Hpk k r := hg
-  unfold herm
-  rw [star_mulVec, ← dotProduct_mulVec]
-  simp only [mulVec_mulVec]
-  rw [← Matrix.mul_assoc, h]
+  apply _root_.PI.StabSplit.herm_unit <;> assumption
 
 def hs {ι : Type*} [Fintype ι] (M : Matrix ι ι ℂ) : ℝ := ∑ i, ∑ j, Complex.normSq (M i j)
 

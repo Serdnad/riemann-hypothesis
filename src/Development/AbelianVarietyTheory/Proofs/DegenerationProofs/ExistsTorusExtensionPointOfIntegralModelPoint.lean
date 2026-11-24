@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.TorsionPointQk
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.IsMaximalComapMaximalIdealOO
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsBasisB
 public import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.TestFieldFiniteOverPadicStatement
@@ -157,20 +158,8 @@ variable {R : Type} [CommRing R] [IsDomain R] {D : DegPre R} {F : Type} [Field F
 
 theorem exists_gtPtF {T : Over (Spec (CommRingCat.of R))} (ξ : GtPt D T) (σ : TF (R := R) F ⟶ T) :
     ∃ g : GtPtF D F, g.b = σ ≫ ξ.b ∧ ∀ χ y J, Good D.P.L y J → val (g.s χ) (𝟙 _) y J = val (ξ.s χ) σ.left y J := by
-  have e := TorusCoord.comp_eq_of_left ξ.b (σ ≫ ξ.b) σ.left (𝟙 _) (Category.id_comp _).symm
-  have vp : ∀ χ y J, Good D.P.L y J →
-      val (LB.pullGen D.P.L _ _ (ξ.s χ) σ.left) (𝟙 _) y J = val (ξ.s χ) σ.left y J := fun χ y J hJ => by
-    rw [val_pull hJ, Category.id_comp]
-  obtain ⟨g, hb, hv⟩ := exists_gt (σ ≫ ξ.b) (fun χ => LB.pullGen D.P.L _ _ (ξ.s χ) σ.left)
-    (fun χ => DVR.pullGen_isGen _ _ _ _ (ξ.isGen χ) _)
-    (fun χ U _ f => Finset.prod_congr rfl fun k _ => congrArg (fun q => f q ^ DegPre.gtε k)
-      ((e.1 χ k).trans ((Category.id_comp _).trans (congrFun (TorusCoord.gtφT_eq (σ ≫ ξ.b) χ) k).symm)))
-    (fun y J hJ => (vp 0 y J hJ).trans ((val_corr hJ ξ.s_zero _).trans (val_one _)))
-    (fun χ χ' y J hJ => by
-      rw [vp _ y J hJ, vp _ y J hJ, vp _ y J hJ, ← TorusCoord.val_s_mul ξ σ.left χ χ' y J hJ, e.2 χ χ',
-        ← val_cubAt hJ]
-      exact congrArg (_ * ·) (val_pull hJ _ _ _))
-  exact ⟨g, hb, fun χ y J hJ => (hv χ y J hJ).trans (vp χ y J hJ)⟩
+  intros
+  apply _root_.GlobalTheory.TorsionQk.exists_pull <;> assumption
 
 end Pull
 

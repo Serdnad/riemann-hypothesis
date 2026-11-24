@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsStarOfOfCover
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthLeOnCentreCell
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthToFunNonneg
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EllEqOfInRCone
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.StarDepthLeOnCentreCell
@@ -61,29 +63,11 @@ theorem lin_eq_sum {X : Type} [AddCommGroup X] {n : ℕ} {u : Fin n → LinearMa
 theorem inRCone_of_sum {X : Type} [AddCommGroup X] {n m : ℕ} {u : Fin n → LinearMap.BilinForm ℤ X}
     {γ : Fin m → LinearMap.BilinForm ℤ X} {β : LinearMap.BilinForm ℤ X} {t : Fin n → ℝ} (ht : ∀ i, 0 ≤ t i)
     (hsum : toReal β = ∑ i, t i • toReal (u i)) (h : ∀ i, t i ≠ 0 → InRCone γ (u i)) : InRCone γ β := by
-  have h' : ∀ i, ∃ c : Fin m → ℝ, (∀ j, 0 ≤ c j) ∧ t i • toReal (u i) = ∑ j, c j • toReal (γ j) := fun i => by
-    by_cases h0 : t i = 0
-    · exact ⟨0, fun _ => le_rfl, by simp [h0]⟩
-    · obtain ⟨c, hc, e⟩ := h i h0
-      refine ⟨fun j => t i * c j, fun j => mul_nonneg (ht i) (hc j), ?_⟩
-      rw [e, Finset.smul_sum]
-      exact Finset.sum_congr rfl fun j _ => by rw [smul_smul]
-  choose c hc e using h'
-  refine ⟨fun j => ∑ i, c i j, fun j => Finset.sum_nonneg fun i _ => hc i j, ?_⟩
-  rw [hsum, Finset.sum_congr rfl fun i _ => e i, Finset.sum_comm]
-  exact Finset.sum_congr rfl fun j _ => by rw [Finset.sum_smul]
+  first | exact _root_.GlobalTheory.PolFan.StarOnCell.inRCone_of_sum | exact @_root_.GlobalTheory.PolFan.StarOnCell.inRCone_of_sum | apply _root_.GlobalTheory.PolFan.StarOnCell.inRCone_of_sum <;> assumption
 
 theorem inRCone_of_nsmul {X : Type} [AddCommGroup X] {m : ℕ} {γ : Fin m → LinearMap.BilinForm ℤ X}
     {β : LinearMap.BilinForm ℤ X} {k : ℕ} {c : Fin m → ℕ} (hk : 0 < k) (e : k • β = ∑ i, c i • γ i) : InRCone γ β := by
-  have hk' : (0 : ℝ) < k := by exact_mod_cast hk
-  refine ⟨fun i => c i / k, fun i => by positivity, LinearMap.ext₂ fun a b => ?_⟩
-  have h1 := congrArg (fun B : LinearMap.BilinForm ℤ X => ((B a b : ℤ) : ℝ)) e
-  simp only [LinearMap.smul_apply, LinearMap.sum_apply, nsmul_eq_mul] at h1
-  push_cast at h1
-  simp only [toReal_apply, LinearMap.sum_apply, LinearMap.smul_apply, smul_eq_mul]
-  apply mul_left_cancel₀ hk'.ne'
-  rw [h1, Finset.mul_sum]
-  exact Finset.sum_congr rfl fun i _ => by field_simp
+  first | exact _root_.GlobalTheory.PolFan.StarCells.inRCone_of_nsmul | exact @_root_.GlobalTheory.PolFan.StarCells.inRCone_of_nsmul | apply _root_.GlobalTheory.PolFan.StarCells.inRCone_of_nsmul <;> assumption
 
 theorem arith {K N C b h₀ f ps h l p : ℝ} (hN : 0 ≤ N) (hC : 0 ≤ C) (hb : 0 ≤ b) (hh₀ : 1 ≤ h₀) (hf : 1 ≤ f)
     (hfe : f = l - N * p) (hp : p ≤ b) (hps : ps ≤ 1) (hh : -h ≤ C * l) (hK : N + N * C + N ^ 2 * C * b + 1 ≤ K) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ChainTwistPlacesIntegralPeelOfDoublingStatement
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RamificationIdxEqOneOfIsSquare
@@ -96,34 +97,7 @@ theorem exists_int_div {E : Type} [Field E] [NumberField E] (P : HeightOneSpectr
 theorem loc_eq_of_isRes {D : D7} {H₁ H₂ : Formalism.L2.Host.HChar D.host.E} {PP : Pl D.host.E} {ξ : (kP PP)ˣ →* ℂˣ}
     (h₁ : IsRes H₁ PP ξ) (h₂ : IsRes H₂ PP ξ) (x : (PP.adicCompletion D.host.E)ˣ) (hx : IsUnitAt PP x) :
     H₁.loc PP x = H₂.loc PP x := by
-  have hc : IsClopen {x : (PP.adicCompletion D.host.E)ˣ | IsUnitAt PP x} := by
-    have := (Valued.isClopen_sphere (PP.adicCompletion D.host.E) (r := 1) one_ne_zero).preimage
-      (Units.continuous_val (M := PP.adicCompletion D.host.E))
-    convert this using 1
-    ext x
-    simp [IsUnitAt]
-  have hK : ∀ k : D.host.Eˣ, PP.valuation D.host.E (k : D.host.E) = 1 → H₁.locK PP k = H₂.locK PP k := by
-    intro k hk
-    obtain ⟨a, s, ha, hs, hks⟩ := exists_int_div PP (k : D.host.E) hk
-    haveI : PP.asIdeal.IsMaximal := PP.isMaximal
-    have hne : ∀ b : 𝓞 D.host.E, b ∉ PP.asIdeal → algebraMap (𝓞 D.host.E) D.host.E b ≠ 0 := fun b hb h0 =>
-      hb (by rw [(IsFractionRing.injective (𝓞 D.host.E) D.host.E) (h0.trans (map_zero _).symm)]; exact PP.asIdeal.zero_mem)
-    have hq : ∀ b : 𝓞 D.host.E, b ∉ PP.asIdeal → (Ideal.Quotient.mk PP.asIdeal b : kP PP) ≠ 0 := fun b hb h0 =>
-      hb (Ideal.Quotient.eq_zero_iff_mem.1 h0)
-    let A : D.host.Eˣ := Units.mk0 _ (hne a ha)
-    let S : D.host.Eˣ := Units.mk0 _ (hne s hs)
-    let ua : (kP PP)ˣ := Units.mk0 _ (hq a ha)
-    let us : (kP PP)ˣ := Units.mk0 _ (hq s hs)
-    have hkS : k * S = A := Units.ext hks
-    have e1 : H₁.locK PP A = H₂.locK PP A := ((h₁ a A ua rfl rfl).symm.trans (h₂ a A ua rfl rfl))
-    have e2 : H₁.locK PP S = H₂.locK PP S := ((h₁ s S us rfl rfl).symm.trans (h₂ s S us rfl rfl))
-    rw [← hkS, map_mul, map_mul, e2] at e1
-    exact mul_right_cancel e1
-  refine (GlobalTheory.Mem.Chr.Determ.denseRange_atFin PP).induction_on
-    (p := fun x => IsUnitAt PP x → H₁.loc PP x = H₂.loc PP x) x ?_
-    (fun k hk => hK k ((PP.valuedAdicCompletion_eq_valuation' _).symm.trans hk)) hx
-  exact isClosed_imp hc.2 (isClosed_eq (H₁.2.1.comp (GlobalTheory.Mem.Chr.Determ.continuous_localIdele PP))
-    (H₂.2.1.comp (GlobalTheory.Mem.Chr.Determ.continuous_localIdele PP)))
+  first | exact _root_.GlobalTheory.ChainTw.QuotUnr.loc_eq_of_isRes | exact @_root_.GlobalTheory.ChainTw.QuotUnr.loc_eq_of_isRes | apply _root_.GlobalTheory.ChainTw.QuotUnr.loc_eq_of_isRes <;> assumption
 
 theorem unrAt_div_of_isRes : ∀ (D : D7) (c₁ c₂ : (AE D)ˣ →* Circle) (H₁ H₂ : Formalism.L2.Host.HChar D.host.E) (PP : Pl D.host.E) (ξ : (kP PP)ˣ →* ℂˣ), ChrEq c₁ H₁ → ChrEq c₂ H₂ → IsRes H₁ PP ξ → IsRes H₂ PP ξ → GlobalTheory.LFun.UnrAt (F := D.host.F) (c₁ * c₂⁻¹) PP := by
   intro D c₁ c₂ H₁ H₂ PP ξ hc₁ hc₂ h₁ h₂ x hx

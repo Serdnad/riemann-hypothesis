@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.SatakeParameters.SelfDualAntitoneListIffInertPrimeHeckeExponents
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.OneSubMemIdS
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.DivisorsAtInvDualLabelAndStabilizerMul
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
@@ -790,14 +791,7 @@ section Labels
 
 theorem labIn_eq (n : ℕ) (s : List ℕ) : labIn n s = s.map (fun a : ℕ => (a : ℤ)) ++ List.replicate (n - 2 * s.length) 0 ++
     s.reverse.map (fun a : ℕ => -(a : ℤ)) := by
-  have e : ∀ l : List ℕ, (l.flatMap fun a : ℕ => [(a : ℤ)]) = l.map fun a : ℕ => (a : ℤ) := fun l => by
-    induction l with
-    | nil => rfl
-    | cons a l ih => rw [List.flatMap_cons, ih]; rfl
-  show (s.flatMap fun a : ℕ => [(a : ℤ)]).map (fun a => a) ++ _ ++
-    (s.reverse.flatMap fun a : ℕ => [(a : ℤ)]).map (fun a => -a) = _
-  rw [e, e, List.map_map, List.map_map]
-  rfl
+  apply _root_.GlobalTheory.Hk3.label_list_eq_signed <;> assumption
 
 theorem labIn_length {n : ℕ} {s : List ℕ} (h : 2 * s.length ≤ n) : (labIn n s).length = n := by
   simp only [labIn_eq, List.length_append, List.length_map, List.length_replicate, List.length_reverse]

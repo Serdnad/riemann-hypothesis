@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DenBoundCombinePadicPrimeToPStatement
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.SphericalCoordinates.LevelChange
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -72,17 +73,8 @@ private theorem formB_zsmul_right {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HT
   simp only [formB, map_zsmul, zsmul_eq_mul]
 
 private theorem den_dvd_of_mul_eq_int (q : ℚ) (n : ℕ) (z : ℤ) (h : (n : ℚ) * q = z) : q.den ∣ n := by
-  have h1 : (n : ℤ) * q.num = z * q.den := by
-    have h2 : (q.num : ℚ) = q * q.den := (Rat.mul_den_eq_num q).symm
-    have h3 : (((n : ℤ) * q.num : ℤ) : ℚ) = ((z * q.den : ℤ) : ℚ) := by
-      push_cast
-      rw [h2, ← _root_.mul_assoc, h]
-    exact_mod_cast h3
-  have h3 : (q.den : ℤ) ∣ n * q.num := ⟨z, by rw [h1]; ring⟩
-  have h4 : IsCoprime (q.den : ℤ) q.num := by
-    rw [Int.isCoprime_iff_gcd_eq_one, Int.gcd_comm]
-    exact q.reduced
-  exact Int.natCast_dvd_natCast.1 (h4.dvd_of_dvd_mul_right h3)
+  intros
+  apply _root_.GlobalTheory.den_dvd_of_natCast_mul_eq_int <;> assumption
 
 theorem placeLoc_of : PlaceLoc := by
   intro p _ D G L β D' j hP hH

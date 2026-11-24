@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.LevTransportHer
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.UnipotentCoordinatesMeasurePreserving
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.HeisenbergLeviConjugationMeasure
@@ -57,19 +58,7 @@ namespace Formalism.FourierDecayAlt.P.HaarMassHermitianCurvature
 
 theorem haarSmul {k r : ℕ} {U : Set (B.Mat k r)} {μ : Measure (Mt k r)} (h : B.IsHaarOn U μ) {c : ℝ≥0∞}
     (hc0 : c ≠ 0) (hcT : c ≠ ∞) : B.IsHaarOn U (c • μ) := by
-  refine ⟨?_, ?_, ?_, ?_, ?_⟩
-  · rw [smul_apply, h.conc, smul_zero]
-  · intro a ha
-    rw [Measure.map_smul c (B2x5.measurable_lmulM a).aemeasurable, h.left a ha]
-  · intro a ha
-    rw [Measure.map_smul c (B2x5.measurable_rmulF a).aemeasurable, h.right a ha]
-  · intro K hK
-    rw [smul_apply, smul_eq_mul]
-    exact ENNReal.mul_lt_top (lt_top_iff_ne_top.2 hcT) (h.finite_compact K hK)
-  · intro h0
-    apply h.ne_zero
-    have := congrArg (fun ν : Measure (Mt k r) => c⁻¹ • ν) h0
-    simpa [smul_smul, ENNReal.inv_mul_cancel hc0 hcT] using this
+  apply +allowSynthFailures _root_.Formalism.MainNotions.BridgeLemma₃.hu_smul <;> assumption
 
 section norm
 

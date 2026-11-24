@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.FormalGroupLawCompMulNZero
 public import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalEvSecondPointOfXZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeExp
 import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.EqCOfPderivZero
@@ -173,16 +174,7 @@ theorem ez_Ar (j c : Fin d) : ev (n := 1) ![pt k d 0, 0] (Ar G j c) = Jac G j c 
 theorem ez_dF (c b : Fin d) : ev (n := 1) ![pt k d 0, 0] (pderiv ((1 : Fin 2), b) (G.F c)) = Jac G c b := rfl
 
 theorem coeff_F_y (c i : Fin d) : coeff (Finsupp.single ((1 : Fin 2), i) 1) (G.F c) = if c = i then 1 else 0 := by
-  classical
-  have h := congrArg (coeff (Finsupp.single ((0 : Fin 1), i) 1)) (G.unit c)
-  rw [coeff_ev_zero_left, Finsupp.embDomain_single] at h
-  rw [show (eZ d) ((0 : Fin 1), i) = ((1 : Fin 2), i) from rfl] at h
-  rw [h, coeff_X]
-  by_cases hci : c = i
-  · subst hci; simp
-  · rw [if_neg, if_neg hci]
-    intro he
-    exact hci (congrArg Prod.snd (Finsupp.single_left_injective one_ne_zero he)).symm
+  apply _root_.GlobalTheory.FormalMulN.lin_F_right <;> assumption
 
 theorem cc_jac' (c i : Fin d) : constantCoeff (Jac G c i) = if c = i then 1 else 0 := by
   rw [← coeff_zero_eq_constantCoeff_apply, Jac, coeff_ev_zero_right, Finsupp.embDomain_zero, coeff_pderiv]

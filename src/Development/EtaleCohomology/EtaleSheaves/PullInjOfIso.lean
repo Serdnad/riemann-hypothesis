@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.EtaleSheaves.MayerVietorisSequence
 public import Development.EtaleCohomology.EtaleSheaves.EtaleDegreeZeroCohomologyEquivLocallyConstantFun
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,12 +62,7 @@ def StdPB : Prop := ∀ (S : Type) [CommRing S] (f g : S),
 
 theorem pull_inj_of_iso (R : Type) [CommRing R] {E E' : Spc} (e : E ⟶ E') [IsIso e] (F : Shv R) (n : ℤ) :
     Function.Injective (pull R e F n) := by
-  intro x y h
-  have hx : pull R (inv e) F n (pull R e F n x) = x := by
-    rw [← pull_comp, IsIso.inv_hom_id, pull_id]
-  have hy : pull R (inv e) F n (pull R e F n y) = y := by
-    rw [← pull_comp, IsIso.inv_hom_id, pull_id]
-  rw [← hx, ← hy, h]
+  apply @LateralTheory.E.MayerVietorisSequence.pull_inj_of_iso' <;> assumption
 
 end LateralTheory.E.MVPf
 

@@ -1,5 +1,7 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.ScalarCommuteTransposedRMatrixEntry
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.EntryCommuteTransposedRMatrix
 public import Formalism.HermitianCurvature.StatementWd
 public import Mathlib.CategoryTheory.Category.Basic
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.PositionInsertionDiagonalCompat
@@ -81,11 +83,7 @@ theorem io_star [StarRing A] (x : A) : star (io x : SlopeTestRemainingChoices S 
   rfl
 
 theorem eU_io (a : S) (i j : Fin 2) (x : A) : Commute (eU a i j : SlopeTestRemainingChoices S A) (io x) := by
-  show eU a i j * io x = io x * eU a i j
-  ext u v
-  unfold io
-  rw [Matrix.scalar_apply, Matrix.mul_diagonal, Matrix.diagonal_mul, eU_apply]
-  split_ifs <;> simp
+  apply _root_.Formalism.FourierDecayAlt.P.Wd6.eU_io <;> assumption
 
 theorem free_io (a : S) (x : A) : FreeOf a (io x : SlopeTestRemainingChoices S A) := fun i j => eU_io a i j x
 
@@ -406,11 +404,7 @@ theorem vlet_wave (σ : Site A) (f fi : A) (s : K) (l : Letter K S)
 
 theorem free_bT (σ : Site A) (w : List (Letter K S)) (c : S) (hc : c ∉ w.map Letter.intersection_update_fsHerm_neg_one) :
     FreeOf c (bT σ w) := by
-  induction w with
-  | nil => exact free_one c
-  | cons l w ih =>
-    rw [List.map_cons, List.mem_cons, not_or] at hc
-    exact free_mul (free_insL hc.1 _) (ih hc.2)
+  apply _root_.Formalism.FourierDecayAlt.P.Wd6.bT_free <;> assumption
 
 theorem planeWaveVec (σ : Site A) (f fi : A) (s : K) (w : List (Letter K S))
     (hW : IsWave f fi) (hc : f * σ.c = σ.c * f) (hci : f * σ.ci = σ.ci * f)
@@ -445,15 +439,8 @@ theorem freeOf_transfer_word_matrix (QQ : K → M2 A) (w : List (Letter K S)) (c
 
 theorem free_RRw (QQ : K → M2 A) (w : List (Letter K S)) (c : S)
     (hc : c ∉ w.map Letter.intersection_update_fsHerm_neg_one) : FreeOf c (RRw QQ w) := by
-  induction w with
-  | nil => exact free_one c
-  | cons l w ih =>
-    rw [List.map_cons, List.mem_cons, not_or] at hc
-    unfold RRw
-    refine free_mul (ih hc.2) (ins_free hc.1 _ ?_)
-    split_ifs
-    · exact freeOf_transfer_word_matrix QQ w c hc.2 _
-    · exact freeOf2_transpose (freeOf_transfer_word_matrix QQ w c hc.2 _)
+  intros
+  apply _root_.Formalism.FourierDecayAlt.P.Wd7.free_RRw <;> assumption
 
 theorem free_UUw (s : K) (w : List (Letter K S)) (c : S) (hc : c ∉ w.map Letter.intersection_update_fsHerm_neg_one) :
     FreeOf c (UUw s w : SlopeTestRemainingChoices S A) := by

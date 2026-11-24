@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.LowerBlockParameterOfOneNonzeroValueStatement
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsLevMeas
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.HeckeCharTameAtOfFactorsThroughResidue
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocKCongr
@@ -795,18 +796,7 @@ theorem rcoef_eq_coef {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k]
 
 theorem val_type {c : Com D} {s : PiLocalization₂ D} (u : s.CC c) (v : SmT s.M) {κ : GA D s.V} (hκ : κ ∈ Lev.levG s.V s.β s.L)
     (g : GA D s.V) : PiLocalization₂.val u v (g * κ) = Lev.levChi s.V s.β s.L κ * PiLocalization₂.val u v g := by
-  have hT := (GlobalTheory.MultMem.mem_mult_iff ..).1 ((mem_multT ..).1 u.2)
-  induction v using PiTensorProduct.induction_on with
-  | smul_tprod r f =>
-    have e : PiLocalization₂.val u (PiTensorProduct.tprod ℂ f) = PiTensorProduct.lift.symm u.1 f := by
-      rw [PiTensorProduct.lift_symm]; rfl
-    have := hT.lev f κ hκ g
-    rw [← e] at this
-    simp only [PiLocalization₂.val, map_smul, Pi.smul_apply, smul_eq_mul] at this ⊢
-    rw [this]; ring
-  | add a b ha hb =>
-    simp only [PiLocalization₂.val, map_add (f := _), Pi.add_apply] at ha hb ⊢
-    rw [ha, hb]; ring
+  first | exact _root_.GlobalTheory.LowerBlockParam.val_lev | exact @_root_.GlobalTheory.LowerBlockParam.val_lev | apply _root_.GlobalTheory.LowerBlockParam.val_lev <;> assumption
 
 theorem hgt_split {A : HSp D} {L : GlobalTheory.IndefiniteRowSideFullHecke.SphericalVolumeLift.Lat A} {a : GL (Fin A.rank) (AE D)} (hL : IsSelfDualC A L)
     (ha : GlobalTheory.Doubling.IsMaj A a) (Sf : Finset (HeightOneSpectrum (𝓞 D.host.F))) {v : HeightOneSpectrum (𝓞 D.host.F)}

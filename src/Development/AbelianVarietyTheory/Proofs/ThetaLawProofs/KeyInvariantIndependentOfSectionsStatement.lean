@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.ExistsHolomorphicThetaOfLevelBasisStatement
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.IsSquareDeterminantComparison
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.GlobalSectionsRankAlgClosed
 public import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsSecNonzeroLocusEqOfLbIso
@@ -515,15 +516,7 @@ theorem finite_preimage_fibre {X X' S S' : Scheme.{0}} {φ : X' ⟶ X} {π' : X'
 theorem mul_transpose_of_transpose_mul {al : Matrix (Fin 4) (Fin 4) ℤ} {m : ℕ} (hm : 1 ≤ m)
     (h : al.transpose * al = (m : ℤ) • (1 : Matrix (Fin 4) (Fin 4) ℤ)) :
     al * al.transpose = (m : ℤ) • (1 : Matrix (Fin 4) (Fin 4) ℤ) := by
-  have hd : al.det ≠ 0 := fun h0 => by
-    have := congrArg Matrix.det h
-    rw [Matrix.det_mul, h0, mul_zero, Matrix.det_smul, Matrix.det_one, _root_.mul_one] at this
-    exact pow_ne_zero _ (by exact_mod_cast (by omega : m ≠ 0)) this.symm
-  have e : (al * al.transpose - (m : ℤ) • 1) * al = 0 := by
-    rw [Matrix.sub_mul, Matrix.mul_assoc, h, Matrix.mul_smul, Matrix.smul_mul, Matrix.mul_one, Matrix.one_mul, sub_self]
-  have e' := congrArg (· * al.adjugate) e
-  simp only [Matrix.mul_assoc, Matrix.mul_adjugate, Matrix.zero_mul, Matrix.mul_smul, Matrix.mul_one] at e'
-  exact sub_eq_zero.1 ((smul_eq_zero.1 e').resolve_left hd)
+  apply _root_.GlobalTheory.TransposeMulCommute.mul_transpose_eq_of_transpose_mul_eq <;> assumption
 
 theorem pow_eq_one_of_ker {G : Type} [CommGroup G] {al : Matrix (Fin 4) (Fin 4) ℤ} {m : ℕ} (hm : 1 ≤ m)
     (h : al.transpose * al = (m : ℤ) • (1 : Matrix (Fin 4) (Fin 4) ℤ)) (ξ : Fin 4 → G)
@@ -1631,13 +1624,7 @@ theorem eq_of_coords {R : Type} [CommRing R] {x : KeyIn R} {l N : ℕ} {b : Fin 
 
 theorem degProd_ne_zero {g n l l' : ℕ} {al : ℕ → Matrix (Fin 4) (Fin 4) ℤ} (h : admitted g n l l' al) :
     degProd g n l l' ≠ 0 := by
-  obtain ⟨-, hl, hl', -⟩ := h
-  unfold degProd
-  rw [Finset.prod_ne_zero_iff]
-  intro j hj
-  have hj' : j ≤ g := Nat.lt_succ_iff.mp (Finset.mem_range.mp hj)
-  have hjn : j * n ≤ g * n := Nat.mul_le_mul_right n hj'
-  apply mul_ne_zero <;> omega
+  apply _root_.GlobalTheory.KeyGeneric.degProd_ne_zero <;> assumption
 
 variable {K : Type} [Field K] {x : KeyIn K} {n : ℕ}
 

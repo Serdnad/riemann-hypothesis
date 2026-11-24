@@ -280,13 +280,14 @@ private theorem UpperTheory.V.Ws.fib_low {K : Type} [Field K] (E : Subfield K) (
 
 private theorem UpperTheory.V.Ws.fib_gen {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ] {Φ : Fr O Γ} {Λ : Type} [CommRing Λ]
     [IsLocalRing Λ] {a : O →+* Λ} (X : Space Φ a) {K : Type} [Field K] (y : X.A →+* K)
-    (hne : ∀ i j, i ≠ j → y (X.P.r Φ.g0 i i) ≠ y (X.P.r Φ.g0 j j)) (hirr : Irr (mapRep y X.P.r)) :
+    (s t : K) (hst : ∀ E : Subfield K, s ∈ E → t ∈ E → (∀ b, y (algebraMap X.B X.A b) ∈ E) →
+      (∀ g, (mapRep y X.P.r g).trace ∈ E) →
+      (∀ i, mapRep y X.P.r Φ.g0 i i ∈ E) → ∀ g i j, mapRep y X.P.r g i j ∈ E) :
     ∃ T : Finset K, T.card ≤ 2 + 4 * Nat.card Φ.ι ∧ ∀ E : Subfield K, (∀ b, y (algebraMap X.B X.A b) ∈ E) → (∀ t ∈ T, t ∈ E) →
       (∀ (p : K[X]) (x : K), p.Monic → (∀ n, p.coeff n ∈ E) → p.IsRoot x → x ∈ E) → ∀ z, y z ∈ E := by
   classical
   haveI := Fintype.ofFinite Φ.ι
   have hp := X.pair.map y
-  obtain ⟨s, t, hst⟩ := fibTorus (mapRep y X.P.r) _ Φ.g0 hp.mult hp.nrm hne hirr
   let u : Φ.ι × Fin 4 → K := fun x => y (X.P.n x.1 (![1, 2, 3, 2] x.2) (![0, 0, 0, 1] x.2))
   refine ⟨{s, t} ∪ Finset.univ.image u, ?_, fun E hB hT hE z => ?_⟩
   · refine (Finset.card_union_le _ _).trans (add_le_add Finset.card_le_two (Finset.card_image_le.trans ?_))
@@ -297,9 +298,7 @@ private theorem UpperTheory.V.Ws.fib_gen {O Γ : Type} [CommRing O] [Group Γ] [
         rw [Matrix.charpoly_map, ← X.cp_map, coeff_map, coeff_map]
       rw [this]; exact hB _
     have hr := hst E (hT _ (by simp)) (hT _ (by simp))
-      (fun g => by
-        have := hB (algebraMap Λ X.B (a (Φ.ν g)))
-        rwa [← IsScalarTower.algebraMap_apply] at this)
+      hB
       (fun g => by rw [Matrix.trace_eq_neg_charpoly_coeff]; exact neg_mem (hc _ _))
       (fun i => hE _ _ (Matrix.charpoly_monic _) (hc Φ.g0) (by
         have hd : mapRep y X.P.r Φ.g0 = Matrix.diagonal fun i => mapRep y X.P.r Φ.g0 i i := hp.nrm.diagonal_diag.symm
@@ -318,12 +317,18 @@ private theorem UpperTheory.V.Ws.fib_gen {O Γ : Type} [CommRing O] [Group Γ] [
     | add y z _ _ hy hz => rw [map_add]; exact add_mem hy hz
     | mul y z _ _ hy hz => rw [map_mul]; exact mul_mem hy hz
 
-theorem UpperTheory.V.Ws.fib :
+theorem UpperTheory.V.Ws.fib_of_generators :
     ∀ {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] (Φ : Fr O Γ) (l : ℕ) [Fact l.Prime] {Λ : Type} [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)] (a : O →+* Λ), Φ.Std l a → ∀ (X : Space Φ a) (c : PD Φ.ι Γ (ResidueField Λ)), Φ.IsRes ((residue Λ).comp a) c → ∀ (R : Type) [CommRing R] [Algebra Λ R] [IsCO Λ R] (f : X.A →ₐ[Λ] R),
       Φ.IsDef a c (X.P.map (f : X.A →+* R)) → ∀ (q : Ideal R) [q.IsPrime],
-      Irr (mapRep ((algebraMap (R ⧸ q) (FractionRing (R ⧸ q))).comp ((Ideal.Quotient.mk q).comp (f : X.A →+* R))) X.P.r) →
+      let y := (algebraMap (R ⧸ q) (FractionRing (R ⧸ q))).comp
+        ((Ideal.Quotient.mk q).comp (f : X.A →+* R))
+      ((∀ i j, i ≠ j → y (X.P.r Φ.g0 i i) ≠ y (X.P.r Φ.g0 j j)) →
+        ∃ s t : FractionRing (R ⧸ q), ∀ E : Subfield (FractionRing (R ⧸ q)), s ∈ E → t ∈ E →
+          (∀ b, y (algebraMap X.B X.A b) ∈ E) →
+          (∀ g, (mapRep y X.P.r g).trace ∈ E) →
+          (∀ i, mapRep y X.P.r Φ.g0 i i ∈ E) → ∀ g i j, mapRep y X.P.r g i j ∈ E) →
       ringKrullDim (R ⧸ q) ≤ ringKrullDim (X.B ⧸ q.comap ((f : X.A →+* R).comp (algebraMap X.B X.A))) + (2 + 4 * Nat.card Φ.ι : ℕ) := by
-  intro O Γ _ _ _ _ _ _ Φ l _ Λ _ _ _ _ _ a hΦ X c hc R _ _ _ f hf q hq hirr
+  intro O Γ _ _ _ _ _ _ Φ l _ Λ _ _ _ _ _ a hΦ X c hc R _ _ _ f hf q hq y generators
   haveI := X.noeth
   haveI := X.ft
   letI : Algebra X.A R := (f : X.A →+* R).toAlgebra
@@ -342,14 +347,17 @@ theorem UpperTheory.V.Ws.fib :
   haveI hη : (q.comap (algebraMap X.A R)).IsPrime := Ideal.comap_isPrime _ q
   obtain ⟨t, h1, h2⟩ := UpperTheory.V.CA.c3b Λ _ (UpperTheory.V.CA.IsCL.of_isCO Λ X.B) hxB (q.comap (algebraMap X.A R))
     (Ideal.comap_mono (le_maximalIdeal hq.ne_top))
-  obtain ⟨T, hT, hE⟩ := fib_gen X _ (fun i j hij e => by
+  have hne : ∀ i j, i ≠ j → y (X.P.r Φ.g0 i i) ≠ y (X.P.r Φ.g0 j j) := by
+    intro i j hij e
     have e1 : f (X.P.r Φ.g0 i i) - f (X.P.r Φ.g0 j j) ∈ q :=
       Ideal.Quotient.eq.1 (IsFractionRing.injective (R ⧸ q) (FractionRing (R ⧸ q)) e)
     have e2 := (res_eq_zero_iff Λ R _).2 (le_maximalIdeal hq.ne_top e1)
     have e3 : ∀ i, res Λ R (f (X.P.r Φ.g0 i i)) = (residue Λ).comp a (Φ.χ i Φ.g0) := fun i => by
       rw [← hc.res.diag, ← hf.1.red]; rfl
     rw [map_sub, e3, e3] at e2
-    exact (hΦ.ok.dist i j hij).ne_zero e2) hirr
+    exact (hΦ.ok.dist i j hij).ne_zero e2
+  obtain ⟨s, u, hst⟩ := generators hne
+  obtain ⟨T, hT, hE⟩ := fib_gen X y s u hst
   have h3 := fibTrdeg (D := X.B ⧸ (q.comap (algebraMap X.A R)).comap (algebraMap X.B X.A))
     ((algebraMap (R ⧸ q) (FractionRing (R ⧸ q))).comp (Ideal.quotientMap q (algebraMap X.A R) le_rfl)) T
     (by rw [RingHom.coe_comp]; exact (IsFractionRing.injective (R ⧸ q) _).comp Ideal.quotientMap_injective) Ideal.quotientMap_injective
@@ -361,6 +369,22 @@ theorem UpperTheory.V.Ws.fib :
   refine ((UpperTheory.V.CA.c3c _ hR).2 _ q le_rfl).trans ?_
   rw [h2]
   exact add_le_add le_rfl (by exact_mod_cast h4)
+
+theorem UpperTheory.V.Ws.fib :
+    ∀ {O Γ : Type} [CommRing O] [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ] [TotallyDisconnectedSpace Γ] (Φ : Fr O Γ) (l : ℕ) [Fact l.Prime] {Λ : Type} [CommRing Λ] [IsDomain Λ] [IsDiscreteValuationRing Λ] [IsAdicComplete (maximalIdeal Λ) Λ] [Finite (ResidueField Λ)] (a : O →+* Λ), Φ.Std l a → ∀ (X : Space Φ a) (c : PD Φ.ι Γ (ResidueField Λ)), Φ.IsRes ((residue Λ).comp a) c → ∀ (R : Type) [CommRing R] [Algebra Λ R] [IsCO Λ R] (f : X.A →ₐ[Λ] R),
+      Φ.IsDef a c (X.P.map (f : X.A →+* R)) → ∀ (q : Ideal R) [q.IsPrime],
+      Irr (mapRep ((algebraMap (R ⧸ q) (FractionRing (R ⧸ q))).comp ((Ideal.Quotient.mk q).comp (f : X.A →+* R))) X.P.r) →
+      ringKrullDim (R ⧸ q) ≤ ringKrullDim (X.B ⧸ q.comap ((f : X.A →+* R).comp (algebraMap X.B X.A))) + (2 + 4 * Nat.card Φ.ι : ℕ) := by
+  intro O Γ _ _ _ _ _ _ Φ l _ Λ _ _ _ _ _ a hΦ X c hc R _ _ _ f hf q hq hirr
+  refine fib_of_generators Φ l a hΦ X c hc R f hf q fun hne => ?_
+  let y := (algebraMap (R ⧸ q) (FractionRing (R ⧸ q))).comp
+    ((Ideal.Quotient.mk q).comp (f : X.A →+* R))
+  have hp := X.pair.map y
+  obtain ⟨s, t, hst⟩ := fibTorus (mapRep y X.P.r) _ Φ.g0 hp.mult hp.nrm hne hirr
+  refine ⟨s, t, fun E hs ht hB htr hd => hst E hs ht ?_ htr hd⟩
+  intro g
+  have h := hB (algebraMap Λ X.B (a (Φ.ν g)))
+  rwa [← IsScalarTower.algebraMap_apply] at h
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.WeakShimuraTheory.CompactIntegralFields.FibLow =====

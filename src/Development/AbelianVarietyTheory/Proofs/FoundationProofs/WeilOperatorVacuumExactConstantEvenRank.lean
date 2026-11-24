@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.InertPrimeOrderParitySignRadicalIntegralForm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.OddnessConditionHolds
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.CharacterTrivialAtInertPrimes
@@ -61,38 +62,7 @@ theorem exists_scalar (hc : Crv D cc δ) {e0 : VC D N N' → ℂ}
     (he : e0 ∈ Th D (tor0 D cc δ) (stdL D N) (stdL D N')) (W : WeilO D cc δ N N' e0) {g : GA D N} {g' : GA D N'}
     {L L'} (hL : Moves D (g : GL (Fin N) (AE D)) L) (hL' : Moves D (g' : GL (Fin N') (AE D)) L') :
     ∃ c : ℂ, W.Om g g' e0 = c • Iop D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') (La D (tor0 D cc δ) L L') e0 := by
-  have hg1 := (GlobalTheory.InducedType.induced_type D).1
-  have k0 : KLat D (tor0 D cc δ) (La0 D (tor0 D cc δ) N N') :=
-    Or.inr ⟨_, _, sd_of_moves (moves_one D N), sd_of_moves (moves_one D N'), rfl⟩
-  have k1 : KLat D (tor0 D cc δ) (La D (tor0 D cc δ) L L') := Or.inr ⟨_, _, sd_of_moves hL, sd_of_moves hL', rfl⟩
-  obtain ⟨-, hTh, -, -⟩ := _root_.GlobalTheory.theta_translation_intertwiner_unitary D cc δ hc N N' _ _ k0 k1 e0 he
-  obtain ⟨hline, w1, -⟩ := _root_.GlobalTheory.ThetaLine.theta_line D hg1 cc δ hc N N' _ k1
-  obtain ⟨a1, -, a3, a4, -, a6, -⟩ := lattice_facts hc he W.nz hL hL'
-  have heT : e0 ∈ TT D (tor0 D cc δ) N N' := ⟨he.1, 1, one_pos, fun y hy => by rw [one_smul]; exact a6 y hy⟩
-  have hGT := W.maps g g' e0 heT
-  have hinv : ∀ F ∈ TT D (tor0 D cc δ) N N', W.Om g g' (W.Om g⁻¹ g'⁻¹ F) = F := by
-    intro F hF
-    rw [← W.mul _ _ _ _ _ hF, mul_inv_cancel, mul_inv_cancel, W.one F hF]
-  have hinv' : W.Om g⁻¹ g'⁻¹ (W.Om g g' e0) = e0 := by
-    rw [← W.mul _ _ _ _ _ heT, inv_mul_cancel, inv_mul_cancel, W.one e0 heT]
-  refine hline _ ⟨hGT.1, fun x hx z => ?_⟩ _ hTh a1
-  have hWT : Wd D (tor0 D cc δ) x (W.Om g g' e0) ∈ TT D (tor0 D cc δ) N N' := by
-    obtain ⟨hd, m, hm, hfix⟩ := hGT
-    refine ⟨Wd_differentiable _ hd, (La D (tor0 D cc δ) L L').relIndex (La0 D (tor0 D cc δ) N N') * m,
-      Nat.mul_pos (Nat.pos_of_ne_zero a4) hm, fun y hy => ?_⟩
-    have h1 := AddSubgroup.nsmul_relIndex_mem (La D (tor0 D cc δ) L L') hy
-    have h2 := (La D (tor0 D cc δ) L L').nsmul_mem h1 m
-    have h3 := hfix _ ((La0 D (tor0 D cc δ) N N').nsmul_mem hy
-      ((La D (tor0 D cc δ) L L').relIndex (La0 D (tor0 D cc δ) N N')))
-    rw [smul_smul, mul_comm] at h2 h3
-    rw [← Wl_apply, ← Wl_apply, ← Module.End.mul_apply, ← a3 _ h2 _ hx, add_comm, a3 _ hx _ h2,
-      Module.End.mul_apply, Wl_apply _ (W.Om g g' e0), h3]
-  obtain ⟨x0, hx0, hW⟩ := _root_.GlobalTheory.WeilEquiv.om_wd_moved D hg1 cc δ hc.1.1 N N' e0 W g⁻¹ g g'⁻¹ g' L _ L' _ hL hL'
-    (by rw [inv_mul_cancel]; exact moves_one D N) (by rw [inv_mul_cancel]; exact moves_one D N') x hx _ hGT
-  rw [hinv', ← Wl_apply x0, a6 x0 hx0] at hW
-  have h := hinv _ hWT
-  rw [hW, w1 x hx] at h
-  exact (congrFun h z).symm
+  apply _root_.GlobalTheory.VacuumEven.exists_scalar <;> assumption
 
 theorem split_part {e : AE D} (h1 : e * e = e) (h2 : sgA D e = e)
     (h3 : ∀ q : ℕ, q.Prime → (InertQ D q → ZeroAt D q e) ∧ (¬ InertQ D q → ZeroAt D q (1 - e)))

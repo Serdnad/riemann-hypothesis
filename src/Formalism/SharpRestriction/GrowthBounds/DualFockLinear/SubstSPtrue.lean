@@ -1,5 +1,6 @@
 module
 
+import all Formalism.SharpRestriction.GrowthBounds.SegmentDegree.LamMZero
 public import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders
 public import Formalism.SharpRestriction.GrowthBounds.PathWeight.DvDegOtherMono
 public import Formalism.SharpRestriction.GrowthBounds.DualFockLinear.DvdOfCompl
@@ -213,14 +214,7 @@ theorem fr_pos_inj {TT : Finset (Fin n')} {L₁ L₂ N₁ G' : ℕ} {F : Frames 
 
 private theorem emod_eq_of_posOf_eq (n' : ℕ) [NeZero n'] {x y : ℤ} (h : posOf n' x = posOf n' y) :
     x % n' = y % n' := by
-  have hpos : (0:ℤ) < n' := by exact_mod_cast Nat.pos_of_ne_zero (NeZero.ne n')
-  simp only [posOf, Fin.mk.injEq] at h
-  have hx0 := Int.emod_nonneg x hpos.ne'
-  have hx1 := Int.emod_lt_of_pos x hpos
-  have hy0 := Int.emod_nonneg y hpos.ne'
-  have hy1 := Int.emod_lt_of_pos y hpos
-  rw [Nat.mod_eq_of_lt (by omega), Nat.mod_eq_of_lt (by omega)] at h
-  omega
+  apply _root_.Formalism.MainNotions.SelectionLemmas.Pf.emod_eq_of_posOf_eq' <;> assumption
 
 private theorem posOf_sub_mul_eq_and_even_iff (n' : ℕ) [NeZero n'] (hn : Even n') (x q : ℤ) :
     posOf n' (x - n' * q) = posOf n' x ∧ (Even (x - n' * q) ↔ Even x) := by

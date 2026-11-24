@@ -81,7 +81,6 @@ theorem levels_real (A B R δ d D T cg c w G PH Pη L F' fr aδ aF HF Hδ SS Λ'
   have hAB : A + 1 / 2 * B ≤ δ * ((D + 4) * (D + 1) * (3 * G + 9 * PH) * L + 5 * G * fr * T + lδ + 1 / 2 * T * c * Pη) := by
     have p1 : 0 ≤ δ * G * L * D ^ 2 := by positivity
     have p2 : 0 ≤ δ * G * L * D := by positivity
-    have p3 : 0 ≤ δ * G * L := by positivity
     have p4 : 0 ≤ δ * PH * L * D ^ 2 := by positivity
     have p5 : 0 ≤ δ * PH * L * D := by positivity
     have p6 : 0 ≤ δ * PH * L := by positivity
@@ -102,7 +101,6 @@ theorem total_named_real (d D T c G PH Pη Pd PD PQ DivisibilityWeightConstant R
       d * ((60 * G + 180 * PH + 40 * PD) * D ^ 2 * κ / T + (5 * G * fr + Pd) * T + Pη / 2 * T * c
         + DivisibilityWeightConstant * (PD + PQ) * (1 / T + RR ^ 2 * c) * κ / γ) := by
   have hT0 : 0 < T := by linarith
-  have hD0 : 0 ≤ D := by linarith
   have hLT : L ≤ 2 * κ / T := by
     rw [le_div_iff₀ hT0]
     linarith
@@ -137,9 +135,6 @@ theorem total_named_real (d D T c G PH Pη Pd PD PQ DivisibilityWeightConstant R
         + DivisibilityWeightConstant * (PD + PQ) * (1 / T + RR ^ 2 * c) * κ / γ) =
       d * ((60 * G + 180 * PH) * D ^ 2 * κ / T + (5 * G * fr + Pd) * T + Pη / 2 * T * c) + d * (40 * PD * D ^ 2 * κ / T) +
         d * (DivisibilityWeightConstant * (RR ^ 2 * c + 1 / T) / γ) * ((PD + PQ) * κ) := by ring
-  have eq2 : ρ * PD * κ + ρ' * PQ * κ = ρ * (PD * κ) + ρ' * ((PD + PQ) * κ) - ρ' * (PD * κ) := by ring
-  have eq3 : (ρ' + 22 * D ^ 2 * d / T) * (PD * κ) = ρ' * (PD * κ) + 22 * D ^ 2 * d / T * (PD * κ) := by
-    ring
   rw [eq1]
   linarith
 

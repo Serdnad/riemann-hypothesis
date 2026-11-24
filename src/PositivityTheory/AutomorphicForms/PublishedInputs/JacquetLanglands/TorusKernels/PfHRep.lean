@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.NewformCoefficients.AbsExpo
 public import PositivityTheory.AutomorphicForms.PublishedInputs.JacquetLanglands.TorusKernels.IsHolVOf
 public import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.AbsPowOneNotIsAlgRat
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.RTwist
@@ -51,6 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ConstSmall
+import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.CapCentral
 
 @[expose] public section
 
@@ -96,17 +98,7 @@ theorem proj {φ : TR.Sm F a} (h0 : φ ≠ 0) (h : φ ∈ ⨆ π : TR.CuspSub F 
 theorem rt_lie (y : GL (Fin a) (TR.Rinf F)) (X : Matrix (Fin a) (Fin a) (TR.Rinf F)) :
     TR.rt F a (TR.infGL F a y) * TR.lie F a (TR.toL X) =
       TR.lie F a (TR.toL (y.val * X * (y⁻¹).val)) * TR.rt F a (TR.infGL F a y) := by
-  refine LinearMap.ext fun φ => Subtype.ext <| funext fun g => ?_
-  change fderiv ℝ (TR.chart φ.1 (g * TR.infGL F a y)) (TR.oneL F a) (TR.toL X) =
-    fderiv ℝ (TR.chart (fun x => φ.1 (x * TR.infGL F a y)) g) (TR.oneL F a) (TR.toL (y.val * X * (y⁻¹).val))
-  have hd : DifferentiableAt ℝ (TR.chart φ.1 g) (TR.toL y.val) :=
-    (TR.contDiffAt_chart φ.2 g (TR.val_mem_invSet y)).differentiableAt (by simp)
-  have e1 : TR.lmul (TR.toL y.val) (TR.oneL F a) = TR.toL y.val := mul_one y.val
-  have e2 : TR.rmul (TR.toL y.val) (TR.oneL F a) = TR.toL y.val := one_mul y.val
-  rw [TR.chart_mul, TR.chart_rt_inf, fderiv_comp _ (by rw [e1]; exact hd) (TR.lmul (TR.toL y.val)).differentiableAt,
-    fderiv_comp _ (by rw [e2]; exact hd) (TR.rmul (TR.toL y.val)).differentiableAt, e1, e2,
-    ContinuousLinearMap.fderiv, ContinuousLinearMap.fderiv]
-  exact congrArg (fun Z => fderiv ℝ (TR.chart φ.1 g) (TR.toL y.val) (TR.toL Z)) (Units.inv_mul_cancel_right (y.val * X) y).symm
+  apply @_root_.UpperTheory.V.TR.Cen.rt_lie <;> assumption
 
 open Classical in
 theorem lie_eq_sum (X : Matrix (Fin a) (Fin a) (TR.Rinf F)) :
@@ -285,22 +277,7 @@ variable {F : Type} [Field F] [NumberField F] [IsTotallyReal F]
 open GlobalTheory.HeckeGal.Model GlobalTheory.Mem.Chr.CharModel
 
 theorem expo_abs (s : ℝ) (v : InfinitePlace F) : TR.expo (absPow F s) v = s := by
-  classical
-  refine TR.expo_eq_of_exp _ v s fun t => ?_
-  change Complex.exp (s * logNorm F (TR.infId F (TR.expU (Pi.single v t)))) = _
-  have h1 : finPart F (TR.infId F (TR.expU (Pi.single v t))) = 1 := Units.ext (by
-    change (1 : Af F) - 0 + 0 = 1
-    simp)
-  have h2 : ∀ u, ‖(infPart F (TR.infId F (TR.expU (Pi.single v t)))).val u‖ = Real.exp ((Pi.single v t : TR.Rinf F) u) := fun u => by
-    have e : (infPart F (TR.infId F (TR.expU (Pi.single v t)))).val = TR.infEq F (TR.expU (Pi.single v t)).val := by
-      change 1 - TR.infEq F 1 + TR.infEq F _ = _
-      simp
-    rw [e]
-    exact (((InfinitePlace.Completion.isometryEquivRealOfIsReal (IsTotallyReal.isReal u)).symm.isometry.norm_map_of_map_zero
-      (map_zero (InfinitePlace.Completion.ringEquivRealOfIsReal (IsTotallyReal.isReal u)).symm)) _).trans
-      (Real.norm_of_nonneg (Real.exp_pos _).le)
-  rw [logNorm, h1, logFin_one, logInf]
-  simp [h2, Pi.single_apply, InfinitePlace.mult, IsTotallyReal.isReal]
+  apply _root_.UpperTheory.V.Af.Nf.absExpo <;> assumption
 
 omit [IsTotallyReal F] in
 theorem sign_abs (s : ℝ) (v : InfinitePlace F) : (absPow F s).locInf v (-1) = 1 := by

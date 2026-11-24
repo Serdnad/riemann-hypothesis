@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ChosenPlacesAdmissibleGoodSetup
 public import Development.AbelianVarietyTheory.Statements.PlaceShiftStatements.SingleIndexPlacesAreTwisted
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.FiniteDimensionalSpan
@@ -71,17 +72,7 @@ theorem SameBut.symm {ρ ρ' : Setup D.ntw} (h : SameBut ρ ρ') : SameBut ρ' �
   ⟨h.1.symm, h.2.1.symm, h.2.2.1.symm, h.2.2.2.1.symm, h.2.2.2.2.symm⟩
 
 theorem isConjPl_of_lev {P P' : Pl D.host.E} (h : Lev.IsConjPl P P') : Formalism.BasicNotions.IsConjPl D.host P P' := by
-  let f : 𝓞 D.host.E →+* 𝓞 D.host.E := RingOfIntegers.mapRingHom (D.host.conj : D.host.E →+* D.host.E)
-  have h1 : P.asIdeal ≤ P'.asIdeal.comap f := fun c hc => by
-    obtain ⟨c', h2, h3⟩ := h c hc
-    have e : f c = c' := RingOfIntegers.ext (by
-      change D.host.conj (c : D.host.E) = (c' : D.host.E)
-      rw [h3, Formalism.BasicNotions.Examples₂.star_eq_conj])
-    exact Ideal.mem_comap.2 (e ▸ h2)
-  have h2 := P.isMaximal.eq_of_le (Ideal.comap_ne_top f P'.isPrime.ne_top) h1
-  intro x y hxy
-  have e : f x = y := RingOfIntegers.ext hxy.symm
-  rw [h2, Ideal.mem_comap, e]
+  first | exact _root_.GlobalTheory.ChoiceAdm.isConjPl_of_lev | exact @_root_.GlobalTheory.ChoiceAdm.isConjPl_of_lev | apply _root_.GlobalTheory.ChoiceAdm.isConjPl_of_lev <;> assumption
 
 end Sets
 

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasInfExpMulZero
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNonvanishingFiniteDatumDefiniteLift
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsStepWeil
 public import Development.AbelianVarietyTheory.Definitions.Foundations.RootOfUnityEightQMemCoeffGaloisSubfield
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.DifferentiableOfChar
@@ -89,21 +91,7 @@ theorem res_ite {R κ : Type} [CommRing R] [CommRing κ] (A : Subring R) (f : A 
 
 theorem res_idemSum {e : AE D} {P : Finset (Pl D.host.E)} (he : IsIdemSum e P) :
     ∃ h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E, ∀ PP ∈ P, resS D.host.F PP ⟨toEAf D e, h⟩ = 1 := by
-  have hee := idemSum_mul_self he
-  obtain ⟨⟨es, hes, hs⟩, hc⟩ := he
-  choose hi h1 using fun PP hP => GlobalTheory.IdemRes.resS_idem_eq_one D (es PP) PP (hes PP hP)
-  have h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E := by
-    rw [hs]; exact map_sum_mem (toEAf D) _ es P hi
-  refine ⟨h, fun PP hP => ?_⟩
-  have hcross := cross_eq_zero (R := AE D) isUnit_natCast (cA D) es P (fun i hi => (hes i hi).1.1) (hs ▸ hc)
-  have hm : e * es PP = es PP := by
-    rw [hs, Finset.sum_mul, Finset.sum_eq_single PP (fun j hj hji =>
-      idemAt_mul (hes j hj) (hes PP hP) (hcross j hj PP hP) (hcross PP hP j hj) hji.symm) (fun h => absurd hP h)]
-    exact (hes PP hP).1.1
-  have : (⟨toEAf D e, h⟩ : Formalism.L2.Herm.intAf D.host.F D.host.E) * ⟨toEAf D (es PP), hi PP hP⟩ =
-      ⟨toEAf D (es PP), hi PP hP⟩ := Subtype.ext ((RingHom.map_mul _ _ _).symm.trans (congrArg _ hm))
-  have h2 := congrArg (resS D.host.F PP) this
-  rwa [RingHom.map_mul, h1 PP hP, mul_one] at h2
+  first | exact _root_.GlobalTheory.AdjDatumNe.idemSum_res | exact @_root_.GlobalTheory.AdjDatumNe.idemSum_res | apply _root_.GlobalTheory.AdjDatumNe.idemSum_res <;> assumption
 
 def rectOne (κ : Type) [Zero κ] [One κ] (b a : ℕ) : Matrix (Fin b) (Fin a) κ := fun i j => if i.val = j.val then 1 else 0
 
@@ -123,26 +111,7 @@ theorem frame_cancel {A : Type} [CommRing A] {a b : ℕ} (βS : GL (Fin a) A) (�
 theorem exists_point (S T : HSp D) (βS : GL (Fin S.rank) (EAf D)) (βT : GL (Fin T.rank) (EAf D)) {e : AE D}
     {P : Finset (Pl D.host.E)} (he : IsIdemSum e P) : ∃ x : WO S T, IsHalf e x ∧ IsIntM (frMapO S T βS βT x) ∧
       ∀ PP ∈ P, redM PP (frMapO S T βS βT x) = rectOne _ _ _ := by
-  obtain ⟨h, h1⟩ := res_idemSum he
-  choose s hs using toEAf_surjective (D := D)
-  obtain ⟨M, hM⟩ : ∃ M : Matrix (Fin T.rank) (Fin S.rank) (EAf D), ∀ c : EAf D,
-      HMul.hMul (HMul.hMul (βT⁻¹).val (c • M)) βS.val = c • rectOne (EAf D) T.rank S.rank := ⟨_, fun c => frame_cancel βS βT c _⟩
-  let x : WO S T := fun i j => e * s (M i j)
-  have hx : frMapO S T βS βT x = toEAf D e • rectOne (EAf D) T.rank S.rank := by
-    rw [← hM]
-    unfold frMapO
-    congr 2
-    ext i j
-    exact (RingHom.map_mul _ _ _).trans (congrArg _ (hs _))
-  have hx' : ∀ i j, frMapO S T βS βT x i j = if i.val = j.val then toEAf D e else 0 := fun i j => by
-    rw [hx, Matrix.smul_apply, rectOne, smul_eq_mul, mul_ite, mul_one, mul_zero]
-  have hi : IsIntM (frMapO S T βS βT x) := fun i j => by
-    rw [hx']
-    split_ifs
-    exacts [h, zero_mem _]
-  refine ⟨x, fun i j => by rw [← mul_assoc, idemSum_mul_self he], hi, fun PP hP => ?_⟩
-  ext i j
-  exact (dif_pos (hi i j)).trans (res_ite _ (resS D.host.F PP) h (hi i j) (h1 PP hP) _ (hx' i j))
+  apply _root_.GlobalTheory.InnerSteps.exists_rect <;> assumption
 
 theorem omegaG_rectOne {a b : ℕ} (hab : a ≤ b) (L : LevDat D.host.E ℂ a) (χj : ∀ PP : Pl D.host.E, (kP PP)ˣ →* ℂˣ) :
     omegaG L χj (fun PP => rectOne (kP PP) b a) ≠ 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsWeilDatumOOneOfRankZero
 public import Formalism.LocalToGlobal.BesselHermitianTheta.IsAutFunDef
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsIsFundamentalDomain
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LocallyCompactSecondCountableT2
@@ -58,15 +59,6 @@ namespace GlobalTheory.Ker.HypModel
 
 theorem exists_haar_fundDom (D : D7) (V : HSp D) :
     ∃ (ν : Measure (GA D V)) (𝓖 : Set (GA D V)), ν.IsHaarMeasure ∧ IsFundamentalDomain (GQ V) 𝓖 ν := by
-  have := (GlobalTheory.MemberAdelicTop.locallyCompact_secondCountable_t2 D V).1
-  have : BorelSpace (GA D V) := ⟨rfl⟩
-  have : IsModuleTopology (AF D.host.F) (AF D.host.F ⊗[D.host.F] D.host.E) := ⟨rfl⟩
-  have : Module.Finite D.host.F D.host.E := Module.Finite.of_restrictScalars_finite ℚ _ _
-  have : IsTopologicalRing (AF D.host.F ⊗[D.host.F] D.host.E) :=
-    IsModuleTopology.isTopologicalRing (AF D.host.F) _
-  have : IsTopologicalGroup (GA D V) :=
-    inferInstanceAs (IsTopologicalGroup (HR (AF D.host.F) D.sp.cm.sig V.gram))
-  obtain ⟨𝓖, h⟩ := GlobalTheory.FundDomDiscrete.exists_fundDom D V Measure.haar inferInstance
-  exact ⟨Measure.haar, 𝓖, inferInstance, h⟩
+  first | exact _root_.GlobalTheory.RawLift.exists_haar_fundDomain | exact @_root_.GlobalTheory.RawLift.exists_haar_fundDomain | apply _root_.GlobalTheory.RawLift.exists_haar_fundDomain <;> assumption
 
 end GlobalTheory.Ker.HypModel

@@ -539,20 +539,7 @@ private theorem prj_eq_of {V : Submodule ℂ H} (hV : IsClosed (V : Set H)) (x y
 
 private theorem prj_comp_of_commute {E G : Submodule ℂ H} (hE : IsClosed (E : Set H)) (hG : IsClosed (G : Set H))
     (hc : Commute (prj E) (prj G)) : prj E ∘L prj G = prj (E ⊓ G) := by
-  have hEG : IsClosed ((E ⊓ G : Submodule ℂ H) : Set H) := by
-    rw [Submodule.coe_inf]; exact hE.inter hG
-  refine ContinuousLinearMap.ext fun x => ?_
-  symm
-  refine prj_eq_of hEG x _ ⟨prj_mem hE _, ?_⟩ fun w hw => ?_
-  · have : (prj E * prj G) x = (prj G * prj E) x := by rw [hc.eq]
-    show prj E (prj G x) ∈ G
-    have h2 : prj E (prj G x) = prj G (prj E x) := this
-    rw [h2]; exact prj_mem hG _
-  · have h1 := prj_inner hG x w hw.2
-    have h2 := prj_inner hE (prj G x) w hw.1
-    have : x - (prj E ∘L prj G) x = (x - prj G x) + (prj G x - prj E (prj G x)) := by
-      simp
-    rw [this, inner_add_left, h1, h2, add_zero]
+  apply _root_.UpperTheory.ConvolutionTheory.L1.prj_comp_of_commute <;> assumption
 
 private theorem prj_commute {V : Submodule ℂ H} (hV : IsClosed (V : Set H)) (T : H →L[ℂ] H) (h1 : ∀ v ∈ V, T v ∈ V)
     (h2 : ∀ v ∈ V, ContinuousLinearMap.adjoint T v ∈ V) : Commute T (prj V) := by
@@ -782,15 +769,7 @@ private theorem glue_cont {ι : Type} {R : ι → Type} [∀ i, CommRing (R i)] 
 private theorem exists_ext {ι A : Type*} {X : A → Type*} (wi : ι → A) (hw : Function.Injective wi)
     (ψ : ∀ i, X (wi i)) (d : ∀ a, X a) :
     ∃ h : ∀ a, X a, (∀ i, h (wi i) = ψ i) ∧ ∀ a, a ∉ Set.range wi → h a = d a := by
-  refine ⟨fun a => if ha : ∃ i, wi i = a then ha.choose_spec ▸ ψ ha.choose else d a, fun i => ?_,
-    fun a ha => dif_neg ha⟩
-  have key : ∀ j (hj : wi j = wi i), (hj ▸ ψ j : X (wi i)) = ψ i := by
-    intro j hj
-    obtain rfl := hw hj
-    rfl
-  have ha : ∃ j, wi j = wi i := ⟨i, rfl⟩
-  simp only [dif_pos ha]
-  exact key _ _
+  apply _root_.UpperTheory.ConvolutionTheory.L1.dep_extend <;> assumption
 
 private theorem finprod_split {A M : Type*} [CommMonoid M] {r : ℕ} (wi : Fin r → A) (hw : Function.Injective wi)
     (X : A → M) (hX : (Function.mulSupport X).Finite) :

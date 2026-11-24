@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.IsThetaFunOOfThetaAt
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.EqZeroOfLintegralEqZero
@@ -52,6 +53,7 @@ public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.Comple
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ReadingsExistRow
 import Formalism.LocalToGlobal.IndefiniteReal.ExistsChosenExtremalVector
 import Formalism.LocalToGlobal.ProjectiveLattices.ErealAddIInf
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PureTensorOSmul
 
 @[expose] public section
 
@@ -112,26 +114,7 @@ theorem exists_isONBasis {n P Q : ℕ} {G s : Matrix (Fin n) (Fin n) ℂ} (h : I
     exact congrArg (fun M => Matrix.submatrix M id e.symm) h4
 
 theorem isCartanInv_one {k : ℕ} {G B : Matrix (Fin k) (Fin k) ℂ} (h : IsONBasis G 1 B k) : IsCartanInv G 1 := by
-  obtain ⟨e, he, h1, -⟩ := h
-  have h2 : Bᴴ * G * B = 1 := by
-    rw [h1, ← Matrix.diagonal_one]
-    congr 1
-    funext a
-    rcases he a with h | h
-    · simp [h.1]
-    · exact absurd a.2 (not_lt.2 h.2)
-  have hu : IsUnit B := IsUnit.of_mul_eq_one_right _ h2
-  have hd := (Matrix.isUnit_iff_isUnit_det _).1 hu
-  have h3 : B * B⁻¹ = 1 := Matrix.mul_nonsing_inv _ hd
-  have h4 : (B⁻¹)ᴴ * Bᴴ = 1 := by rw [← Matrix.conjTranspose_mul, h3, Matrix.conjTranspose_one]
-  have hG : G = (B⁻¹)ᴴ * B⁻¹ := by
-    calc G = ((B⁻¹)ᴴ * Bᴴ) * G * (B * B⁻¹) := by rw [h3, h4, Matrix.one_mul, Matrix.mul_one]
-      _ = (B⁻¹)ᴴ * (Bᴴ * G * B) * B⁻¹ := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [h2, Matrix.mul_one]
-  refine ⟨by simp, by simp, ?_⟩
-  rw [Matrix.mul_one, hG]
-  exact Matrix.PosDef.conjTranspose_mul_self _
-    (Matrix.mulVec_injective_of_isUnit (Matrix.isUnit_nonsing_inv_iff.2 hu))
+  apply _root_.GlobalTheory.IoExtremal.cartan_one <;> assumption
 
 end Mat
 
@@ -141,44 +124,8 @@ theorem theta_of_thetaAt {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} (hψ :
     (hθ : IsInfFam θ) {S T : HSp D} {e : AE D} {Λ : AddSubgroup (WO S T)} {c : ℂ} {f₀ Φ f : WO S T → ℂ}
     (h : IsThetaAt ψ (symplO S T) (heisO ψ S T) e Λ c f₀ Φ f) (h₀ : IsThetaFunO ψ S T f₀) :
     IsThetaFunO ψ S T f := by
-  let U : Submodule ℂ (WO S T → ℂ) :=
-    { carrier := {g | IsThetaFunO ψ S T g}
-      add_mem' := fun ha hb => GlobalTheory.OrientedHeis.theta_add ha hb
-      zero_mem' := GlobalTheory.OrientedHeis.theta_zero
-      smul_mem' := fun c _ hg => GlobalTheory.OrientedHeis.theta_smul c hg }
-  let H : WO S T → (WO S T → ℂ) →ₗ[ℂ] (WO S T → ℂ) := fun w =>
-    { toFun := heisO ψ S T w
-      map_add' := fun a b => funext fun x => mul_add _ _ _
-      map_smul' := fun a b => funext fun x => mul_left_comm _ _ _ }
-  show f ∈ U
-  rw [← Subspace.forall_mem_dualAnnihilator_apply_eq_zero_iff]
-  intro l hl
-  let A : (WO S T → ℂ) →ₗ[ℂ] (WO S T → ℂ) := LinearMap.pi fun w => l ∘ₗ H w
-  have hA0 : ∀ g w, A g w = l (heisO ψ S T w g) := fun _ _ => rfl
-  have hA : ∀ u g, A (heisO ψ S T u g) = heisO ψ S T u (A g) := fun u g => by
-    funext w
-    rw [hA0, GlobalTheory.OrientedHeis.heisO_heisO, map_smul]
-    rfl
-  have hf0 : A f₀ = 0 := by
-    funext w
-    exact (Submodule.mem_dualAnnihilator l).1 hl _ ((GlobalTheory.ThetaClosed.thetaClosed ψ θ hψ hθ S T f₀ h₀).1 w)
-  obtain ⟨⟨Tm, hT⟩, hall⟩ := h
-  have hT' : IsPlaceModel ψ (symplO S T) (heisO ψ S T) e Λ c f₀ (Tm + A ∘ₗ Tm) :=
-    { trans := fun Φ hΦ x hx => by
-        rw [LinearMap.add_apply, LinearMap.add_apply, LinearMap.comp_apply, LinearMap.comp_apply,
-          hT.trans Φ hΦ x hx, hA x]
-        exact ((H x).map_add _ _).symm
-      modul := fun Φ hΦ y hy => by
-        rw [LinearMap.add_apply, LinearMap.add_apply, LinearMap.comp_apply, LinearMap.comp_apply,
-          hT.modul Φ hΦ y hy, hA y]
-        exact ((H y).map_add _ _).symm
-      vac := by
-        rw [LinearMap.add_apply, LinearMap.comp_apply, hT.vac, hf0, add_zero] }
-  have e1 : f = Tm Φ := hall Tm hT
-  have e2 : f = (Tm + A ∘ₗ Tm) Φ := hall _ hT'
-  rw [LinearMap.add_apply, LinearMap.comp_apply, ← e1] at e2
-  have e3 := congrFun (left_eq_add.1 e2) 0
-  rwa [hA0, GlobalTheory.OrientedHeis.heisO_zero] at e3
+  intros
+  apply _root_.GlobalTheory.VecTheta.isThetaFunO_of_thetaAt <;> assumption
 
 theorem theta_pureTensorO {ψ : AddChar (AF D.host.F) ℂ} {θ : InfFam D} (hψ : IsStdChar D ψ (-1))
     (hθ : IsInfFam θ) {S T : HSp D} (sS BS : D.what₂.Tau → Matrix (Fin S.rank) (Fin S.rank) ℂ)

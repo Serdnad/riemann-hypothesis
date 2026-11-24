@@ -1,5 +1,6 @@
 module
 
+import Formalism.RealPlaceAnalysis.SmoothOnGVIff
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -117,15 +118,7 @@ theorem mem_UJset_of_Kset {n : ℕ} {ε : Fin n → Bool} {k : Matrix (Fin n) (F
 
 private lemma star_mem_Kset {n : ℕ} {ε : Fin n → Bool} {k : Matrix (Fin n) (Fin n) ℂ}
     (hk : k ∈ Kset ε) : star k ∈ Kset ε := by
-  obtain ⟨hu, hc⟩ := hk
-  have h1 : k * star k = 1 := (Matrix.mem_unitaryGroup_iff).1 hu
-  have h2 : star k * k = 1 := (Matrix.mem_unitaryGroup_iff').1 hu
-  refine ⟨(Matrix.mem_unitaryGroup_iff).2 (by rw [star_star]; exact h2), ?_⟩
-  calc star k * Jm ε = star k * Jm ε * (k * star k) := by rw [h1, Matrix.mul_one]
-    _ = star k * (Jm ε * k) * star k := by simp only [Matrix.mul_assoc]
-    _ = star k * (k * Jm ε) * star k := by rw [hc]
-    _ = (star k * k) * Jm ε * star k := by simp only [Matrix.mul_assoc]
-    _ = Jm ε * star k := by rw [h2, Matrix.one_mul]
+  apply _root_.Formalism.REAL.Kset_star <;> assumption
 
 theorem inner_adj {n : ℕ} {ε : Fin n → Bool} {H : Type} [NormedAddCommGroup H]
     [InnerProductSpace ℂ H] {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)}

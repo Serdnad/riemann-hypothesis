@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousCharacterCocycleTrivialNearZero
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,27 +61,7 @@ noncomputable section
 namespace GlobalTheory
 
 theorem eq_one_of_forall_norm_pow_sub_one_lt (w : ℂ) (h : ∀ n : ℕ, ‖w ^ n - 1‖ < 1 / 2) : w = 1 := by
-  by_contra hw
-  have hd : 0 < ‖w - 1‖ := norm_pos_iff.2 (sub_ne_zero.2 hw)
-  obtain ⟨N, hN⟩ := exists_nat_gt (1 / ‖w - 1‖)
-  have hre : ∀ k : ℕ, 1 / 2 < (w ^ k).re := by
-    intro k
-    have h1 := (Complex.abs_re_le_norm (w ^ k - 1)).trans_lt (h k)
-    rw [Complex.sub_re, Complex.one_re] at h1
-    linarith [(abs_lt.1 h1).1]
-  have hsum : (N : ℝ) / 2 ≤ (∑ k ∈ Finset.range N, w ^ k).re := by
-    rw [Complex.re_sum]
-    have := Finset.sum_le_sum (s := Finset.range N) (fun k _ => (hre k).le)
-    simpa [div_eq_mul_inv, mul_comm] using this
-  have hnorm : (N : ℝ) / 2 ≤ ‖∑ k ∈ Finset.range N, w ^ k‖ :=
-    hsum.trans (Complex.re_le_norm _)
-  have hgeom : ‖∑ k ∈ Finset.range N, w ^ k‖ * ‖w - 1‖ < 1 / 2 := by
-    rw [← norm_mul, geom_sum_mul]; exact h N
-  have : (N : ℝ) / 2 * ‖w - 1‖ < 1 / 2 :=
-    lt_of_le_of_lt (mul_le_mul_of_nonneg_right hnorm hd.le) hgeom
-  have h2 : (N : ℝ) * ‖w - 1‖ < 1 := by linarith
-  rw [div_lt_iff₀ hd] at hN
-  linarith
+  apply _root_.GlobalTheory.InductiveNormBound.main <;> assumption
 
 
 open Filter Topology in

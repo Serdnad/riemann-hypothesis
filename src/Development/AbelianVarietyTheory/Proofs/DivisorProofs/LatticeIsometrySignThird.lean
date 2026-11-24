@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.IteratedFDerivSmulAll
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PerCEmb
 public import Formalism.LocalToGlobal.IndefiniteReal.DatumVec
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
@@ -184,16 +185,7 @@ theorem theta_smul₂ (idx : Fin g ≃ X.Ψ × Fin r) (hs : IsSympl X bas) (hn :
     rwa [inv_smul_smul₀ hc] at this
 
 theorem finite_levQ {H : Geo.Tor.Host E} (Dw : Datum H) (l : Geo.Tor.Level H) : Finite (LevQ Dw l) := by
-  have hM : l.Mb ≠ ⊥ := by
-    intro h
-    have h₁ := l.prod
-    rw [h, Ideal.bot_mul, eq_comm, Ideal.span_singleton_eq_bot] at h₁
-    have h₂ : l.M = 0 := by exact_mod_cast h₁
-    have := l.three_le
-    omega
-  have := l.Mb.finiteQuotientOfFreeOfNeBot hM
-  have := Dw.fin
-  exact Submodule.finite_quotient_smul l.Mb (N := (⊤ : Submodule (𝓞 E) Dw.La)) Module.Finite.fg_top
+  apply _root_.GlobalTheory.Dict.GPhi.finite_levQ <;> assumption
 
 theorem cmHost_idempotent_trace_eq_one (H : Geo.Tor.Host E) : (H.w0 : E) + cc (H.w0 : E) = 1 := by
   rw [cc, ← H.bar_eq]

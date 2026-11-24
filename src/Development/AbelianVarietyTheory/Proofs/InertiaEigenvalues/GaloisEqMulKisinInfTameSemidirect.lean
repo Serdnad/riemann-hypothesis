@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CycZBridge
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingBasics
 public import Development.AbelianVarietyTheory.CrystallinePeriods.RingIface
@@ -369,19 +370,7 @@ theorem Kur_stable (g : GQ l) {x : Om l} (hx : x ∈ MaximalUnramifiedExtension 
 
 theorem resid_of_fix (n : GQ l) (hn : ∀ x ∈ MaximalUnramifiedExtension l, n x = x) :
     ∀ x : Om l, ‖x‖ ≤ 1 → ‖n x - x‖ < 1 := by
-  have hmem : Formalism.MainNotions.N.PreambleDegrees.Loc.ofGQ n ∈
-      ReciprocityTheory.DiscreteGroups.LocalClassField.subG l (Formalism.MainNotions.N.PreambleDegrees.Loc.Q0 l)
-        (ReciprocityTheory.DiscreteGroups.LocalClassField.MaximalUnramifiedExtension l (Formalism.MainNotions.N.PreambleDegrees.Loc.Q0 l)) := by
-    rw [ReciprocityTheory.DiscreteGroups.LocalClassField.mem_subG_iff]
-    intro x hx
-    rw [Formalism.MainNotions.N.PreambleDegrees.Loc.Kur_eq] at hx
-    rw [ofGQ_apply]
-    exact hn x hx
-  intro x hx
-  have h := (ReciprocityTheory.DiscreteGroups.LocalClassField.mem_subG_Kur_iff (p := l) (K := Formalism.MainNotions.N.PreambleDegrees.Loc.Q0 l)
-    Formalism.MainNotions.N.PreambleDegrees.Loc.finiteDimensional_Q0_alt _).1 hmem x hx
-  rw [ofGQ_apply] at h
-  exact h
+  apply _root_.GlobalTheory.UnramInertia.norm_sub_lt_one_of_fix <;> assumption
 
 theorem fix_Kur_normal : ((MaximalUnramifiedExtension l).fixingSubgroup : Subgroup (GQ l)).Normal := by
   constructor

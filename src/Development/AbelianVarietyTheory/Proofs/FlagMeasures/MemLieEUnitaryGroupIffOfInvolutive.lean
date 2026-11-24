@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.JetHarmonics.CkOnInCCCongrOnGroup
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -91,29 +92,10 @@ theorem skew_of_mem_lieOf {N : ℕ} (H X : Matrix (Fin N) (Fin N) ℂ) (h : X �
   simp only [zero_smul, NormedSpace.exp_zero, one_mul] at hu
   rw [hu, neg_mul, add_neg_cancel]
 
-private theorem conjTranspose_exp_mul_mul_exp_eq_of_skew {N : ℕ} (H X : Matrix (Fin N) (Fin N) ℂ) (h : Xᴴ * H + H * X = 0)
-    (t : ℝ) : (NormedSpace.exp ((t : ℂ) • X))ᴴ * H * NormedSpace.exp ((t : ℂ) • X) = H := by
-  have hx : H * X = -(Xᴴ * H) := by
-    rw [← sub_eq_zero, sub_neg_eq_add, add_comm]
-    exact h
-  have hs : SemiconjBy H ((t : ℂ) • X) (-((t : ℂ) • Xᴴ)) := by
-    unfold SemiconjBy
-    rw [mul_smul_comm, hx, smul_neg, neg_mul, smul_mul_assoc]
-  have hc : (NormedSpace.exp ((t : ℂ) • X))ᴴ = NormedSpace.exp ((t : ℂ) • Xᴴ) := by
-    rw [← Matrix.exp_conjTranspose, Matrix.conjTranspose_smul, Complex.star_def, Complex.conj_ofReal]
-  let _ : NormedRing (Matrix (Fin N) (Fin N) ℂ) := Matrix.linftyOpNormedRing
-  let _ : NormedAlgebra ℚ (Matrix (Fin N) (Fin N) ℂ) := Matrix.linftyOpNormedAlgebra
-  let _ : NormedAlgebra ℂ (Matrix (Fin N) (Fin N) ℂ) := Matrix.linftyOpNormedAlgebra
-  have _ : CompleteSpace (Matrix (Fin N) (Fin N) ℂ) := FiniteDimensional.complete ℂ _
-  have := hs.exp_neg_mul_mul_exp_eq_self
-  rw [neg_neg] at this
-  rw [hc]
-  exact this
-
 theorem mem_lieOf_of_skew {N : ℕ} (H X : Matrix (Fin N) (Fin N) ℂ) (h : Xᴴ * H + H * X = 0) :
     X ∈ lieOf (UH H) := by
   intro t
-  exact conjTranspose_exp_mul_mul_exp_eq_of_skew H X h t
+  exact _root_.GlobalTheory.exp_real_smul_mem_UJset_of_inG H X h t
 
 private theorem unrealify_equiv_symm_realifyFun {m : ℕ} (X : Matrix (Fin m) (Fin m) ℂ) :
     unrealify ((WithLp.equiv 2 _).symm (realifyFun X)) = X := by

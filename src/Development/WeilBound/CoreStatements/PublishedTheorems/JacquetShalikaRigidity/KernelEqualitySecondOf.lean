@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.PrimePairSetSecond
 
 @[expose] public section
 
@@ -68,19 +69,7 @@ theorem continuous_lastRow : Continuous (lastRow : GA E k → Fin k → Ad E) :=
 
 theorem lastRow_mir (p : GL (Fin k) E) (hp : IsMir (k - 1) p) (g : GA E k) :
     lastRow (ratGL E k p * g) = lastRow g := by
-  funext c
-  unfold lastRow
-  refine Finset.sum_congr rfl fun i _ => ?_
-  split_ifs with hi
-  · have hrow : ∀ j, (ratGL E k p).val i j = (1 : Matrix (Fin k) (Fin k) (Ad E)) i j := by
-      intro j
-      have := hp i j (Or.inl (by omega))
-      simp only [ratGL] at *
-      simp [this, Matrix.one_apply]
-    rw [Units.val_mul, Matrix.mul_apply]
-    simp_rw [hrow]
-    simp [Matrix.one_apply]
-  · rfl
+  apply _root_.PositivityTheory.AdelicQuotientData.primeSetTwoBounds.lastRow_mir <;> assumption
 
 theorem measurable_sumF [Countable (RowT E k k)] {f : GA E k → ℂ} (hf : Continuous f)
     (hfin : ∀ g, {ξ : RowT E k k | f (ratGL E k (gam ξ) * g) ≠ 0}.Finite) : Measurable (sumF f) := by

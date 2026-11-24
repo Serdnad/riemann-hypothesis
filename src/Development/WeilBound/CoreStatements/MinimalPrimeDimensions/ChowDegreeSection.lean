@@ -42,6 +42,7 @@ public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.GenIde
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.RingKrullDimQuotientAddOneOfMemMinimalPrimesSup
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TopologicalKrullDimLeZeroOfSubset
 public import Development.WeilBound.CoreStatements.MinimalPrimeDimensions.FinrankEqOfDimZero
+import all Development.WeilBound.CoreStatements.MinimalPrimeDimensions.FinrankEqOfDimZero
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PChowDegreeSection
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PFundCycleBaseChange
 public import GroundTheory.HeightsAndTheta.Heights.ArithmeticBezout.PMinimalPrimeComap
@@ -662,18 +663,7 @@ namespace ChowFormHeightComparison₂.CF
 private theorem evaluation_genericPoint_eq_zero_iff {Z : Scheme.{0}} [IsIntegral Z] {U : Z.Opens}
     (hU : genericPoint Z ∈ U) (a : Γ(Z, U)) :
     Z.evaluation U (genericPoint Z) hU a = 0 ↔ a = 0 := by
-  rw [Scheme.evaluation_eq_zero_iff_notMem_basicOpen]
-  constructor
-  · intro h
-    by_contra ha
-    apply h
-    have hne : Z.basicOpen a ≠ ⊥ := by
-      rwa [Ne, basicOpen_eq_bot_iff]
-    show genericPoint Z ∈ (Z.basicOpen a : Set Z)
-    rw [(genericPoint_spec Z).mem_open_set_iff (Z.basicOpen a).isOpen, Set.univ_inter]
-    rwa [Ne, ← Opens.not_nonempty_iff_eq_bot, not_not] at hne
-  · rintro rfl
-    simp
+  apply _root_.ChowFormHeightComparison₂.CF.V.evaluation_genericPoint_eq_zero_iff <;> assumption
 
 private theorem C_mem_ptIdeal_genericPoint_iff {R : Type} [CommRing R] {Z : Scheme.{0}} [IsIntegral Z] {B : LB Z} {m : ℕ}
     (p : Z ⟶ Sp R) (s : Fin m → B.Sec) (hB : B.IsLB) (r : R) :

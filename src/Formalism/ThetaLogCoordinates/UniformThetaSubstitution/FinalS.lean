@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.SubstZeroOfConstantCoeff
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FirstDeriv
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.LogarithmEquivalence
 public import Formalism.ThetaLogCoordinates.UniformThetaSubstitution.FrobeniusLiftNorms.TopsChoicePartA
@@ -215,11 +216,7 @@ theorem pderiv_single_of_ne {τ : Type} {x e : τ} (h : x ≠ e) (f : PowerSerie
 
 theorem subst_zero_left {τ : Type} {G : MvPowerSeries (Fin 2) K} (hG : DivAB G)
     {w : MvPowerSeries τ K} (hw : constantCoeff w = 0) : subst ![0, w] G = 0 := by
-  have hd : (X 0 : MvPowerSeries (Fin 2) K) ∣ G := X_dvd_iff.2 fun m hm => hG m (Or.inl hm)
-  obtain ⟨Q, rfl⟩ := hd
-  have h := hs2 (map_zero _) hw
-  rw [subst_mul h, subst_X h]
-  simp
+  apply _root_.Formalism.L2.Th1.D.TorusDerivation.subst_left_zero <;> assumption
 
 theorem subst_zero_pderiv {τ : Type} (G : MvPowerSeries (Fin 2) K)
     {w : MvPowerSeries τ K} (hw : constantCoeff w = 0) :

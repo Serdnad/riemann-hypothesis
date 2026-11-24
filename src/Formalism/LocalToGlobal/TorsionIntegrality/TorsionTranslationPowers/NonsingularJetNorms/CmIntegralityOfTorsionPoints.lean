@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomogeneityOfIsTauOf
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.StatementC
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.StatementA
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.AnalyticIdentityTheorems.LatticeOnly
@@ -17,14 +18,7 @@ open Formalism.L2.Th1
 
 theorem dwp_scale (L : PeriodPair) (c : ℂ) (hc : c ≠ 0) (z : ℂ) :
     (F.scalePair L c hc).derivWeierstrassP (c * z) = (c ^ 3)⁻¹ * L.derivWeierstrassP z := by
-  have h := F.Homog.tsum_scale L c hc (fun w => -2 / (c * z - w) ^ 3)
-  rw [← (PeriodPair.hasSum_derivWeierstrassP _ (c * z)).tsum_eq,
-    ← (PeriodPair.hasSum_derivWeierstrassP L z).tsum_eq, h, ← tsum_mul_left]
-  congr 1
-  funext w
-  rw [← mul_sub, mul_pow]
-  simp only [div_eq_mul_inv, mul_inv]
-  ring
+  apply _root_.GlobalTheory.WpFam.derivWeierstrassP_scalePair <;> assumption
 
 variable (l : ℕ) [Fact l.Prime]
 

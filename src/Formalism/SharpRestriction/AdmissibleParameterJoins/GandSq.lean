@@ -1,6 +1,7 @@
 module
 
 public import Formalism.SharpRestriction.AdmissibleParameterJoins.GandSo
+import all Formalism.SharpRestriction.AdmissibleParameterJoins.GandSo
 public import Formalism.SharpRestriction.GlobalSchurBounds.GL3Theta
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -60,12 +61,7 @@ theorem cc_l : PowerSeries.constantCoeff g.l = 0 := by
 private theorem cc_subst_lemma {R : Type} [CommRing R] {υ : Type} {a : MvPowerSeries υ R}
     (ha : MvPowerSeries.constantCoeff a = 0) {f : PowerSeries R} (hf0 : PowerSeries.constantCoeff f = 0) :
     MvPowerSeries.constantCoeff (PowerSeries.subst a f) = 0 := by
-  have hs : PowerSeries.HasSubst a := PowerSeries.HasSubst.of_constantCoeff_zero ha
-  rw [← MvPowerSeries.coeff_zero_eq_constantCoeff_apply, PowerSeries.coeff_subst hs]
-  refine (finsum_congr fun d => ?_).trans finsum_zero
-  rcases d with _ | d
-  · rw [PowerSeries.coeff_zero_eq_constantCoeff_apply, hf0, zero_smul]
-  · rw [MvPowerSeries.coeff_zero_eq_constantCoeff_apply, map_pow, ha, zero_pow (Nat.succ_ne_zero d), smul_zero]
+  apply _root_.Formalism.MainNotions.J.constantCoeff_powerSeries_subst_eq_zero_admissible_parameter_joins <;> assumption
 
 private theorem comp_lemma_2 {υ ρ : Type} {R : Type} [CommRing R] {a : MvPowerSeries υ R}
     (ha : MvPowerSeries.constantCoeff a = 0) {c : υ → MvPowerSeries ρ R} (hc : HasSubst c)

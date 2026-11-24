@@ -326,28 +326,8 @@ private theorem restrictIdeal_eq_coordIdeal_of_isAffineOpen_ideal_eq_span {X₁ 
     (c : EtaleChart q U m) (hU : IsAffineOpen U) (I : X₁.IdealSheafData) (S : Finset (Fin m))
     (h : I.ideal ⟨U, hU⟩ = Ideal.span (c.coord '' (S : Set (Fin m)))) :
     restrictIdeal I U = c.coordIdeal S := by
-  have hAaff : IsAffine (affineSpaceFin K m) := inferInstance
-  have hcoord : (coordSubspaceIdeal K m S).ideal ⟨⊤, isAffineOpen_top (affineSpaceFin K m)⟩
-      = Ideal.span ((fun i : Fin m =>
-          AffineSpace.coord (Spec (CommRingCat.of K)) (ULift.up i)) '' (S : Set (Fin m))) := by
-    rw [coordSubspaceIdeal_eq_ofIdealTop_span_coord]
-    exact _root_.AlgebraicGeometry.Scheme.IdealSheafData.ofIdealTop_ideal_top _
-  refine Scheme.IdealSheafData.ext (funext ?_)
-  intro W
-  have htop : (⊤ : U.toScheme.Opens) ≤ U.ι ⁻¹ᵁ U := by
-    intro y _
-    exact y.2
-  have eW : (W.1 : U.toScheme.Opens) ≤ U.ι ⁻¹ᵁ U := le_trans le_top htop
-  have eW' : (W.1 : U.toScheme.Opens) ≤ c.map ⁻¹ᵁ (⊤ : (affineSpaceFin K m).Opens) := by
-    intro y _
-    trivial
-  show (I.comap U.ι).ideal W = ((coordSubspaceIdeal K m S).comap c.map).ideal W
-  rw [I.comap_ideal_eq_map_appLE U.ι ⟨U, hU⟩ W eW,
-    (coordSubspaceIdeal K m S).comap_ideal_eq_map_appLE c.map
-      ⟨⊤, isAffineOpen_top (affineSpaceFin K m)⟩ W eW',
-    h, hcoord, Ideal.map_span, Ideal.map_span, ← Set.image_comp, ← Set.image_comp]
-  refine congrArg Ideal.span (Set.image_congr fun j _ => ?_)
-  exact ι_appLE_coord c eW eW' j
+  intros
+  apply _root_.FunctorialResolution.EmbeddedResolution.restrictIdeal_eq_coordIdeal_of_ideal_eq_span <;> assumption
 
 private theorem ideal_ne_top_of_mem_support {Y : Scheme.{u}} (I : Y.IdealSheafData) {V : Y.Opens}
     (hV : IsAffineOpen V) {x : Y} (hxV : x ∈ V) (hx : x ∈ I.support) :
@@ -678,44 +658,6 @@ namespace FunctorialResolution.EmbeddedResolution
 
 section
 
-private theorem algebraMap_mem_nonZeroDivisors_of_flat {R A : Type u} [CommRing R]
-    [CommRing A] [Algebra R A] [Module.Flat R A] {r : R} (hr : r ∈ nonZeroDivisors R) :
-    algebraMap R A r ∈ nonZeroDivisors A := by
-  have key : ∀ x : A, algebraMap R A r * x = 0 → x = 0 := by
-    intro x hx
-    have hsm : r • x = r • (0 : A) := by
-      rw [smul_zero, Algebra.smul_def]
-      exact hx
-    exact Module.Flat.isSMulRegular_of_nonZeroDivisors hr hsm
-  rw [mem_nonZeroDivisors_iff]
-  exact ⟨key, fun x hx => key x (by rw [mul_comm]; exact hx)⟩
-
-private theorem coord_mem_nonZeroDivisors_of_isAffineOpen {X : Scheme.{u}} {k : Type u} [Field k]
-    {p : X ⟶ Spec (CommRingCat.of k)} {U : X.Opens} {m : ℕ} (hU : IsAffineOpen U)
-    (c : EtaleChart p U m) (j : Fin m) :
-    c.coord j ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) := by
-  let _ : Algebra (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) := c.algebra
-  have : Algebra.Etale (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
-    c.algebra_etale hU
-  have : Module.Flat (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)) :=
-    inferInstance
-  have halg : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
-      = c.coordRingHom := c.algebraMap_eq_coordRingHom
-  have hXne : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k) ≠ 0 :=
-    MvPolynomial.X_ne_zero _
-  have hXnzd : (MvPolynomial.X (ULift.up.{u} j) : MvPolynomial (ULift.{u} (Fin m)) k)
-      ∈ nonZeroDivisors (MvPolynomial (ULift.{u} (Fin m)) k) :=
-    mem_nonZeroDivisors_of_ne_zero hXne
-  have key : (algebraMap (MvPolynomial (ULift.{u} (Fin m)) k) ↑(X.presheaf.obj (op U)))
-      (MvPolynomial.X (ULift.up.{u} j)) ∈ nonZeroDivisors ↑(X.presheaf.obj (op U)) :=
-    algebraMap_mem_nonZeroDivisors_of_flat hXnzd
-  rw [halg] at key
-  rwa [c.coordRingHom_X j] at key
-
-end
-
-section
-
 variable {R : Type*} [CommRing R]
 
 theorem exists_unit_mul_of_span_eq {a b : R} (hb : b ∈ nonZeroDivisors R)
@@ -829,7 +771,7 @@ theorem exists_unit_mul_coord_of_span_eq (p : X ⟶ Spec (CommRingCat.of k)) {U 
     (hU : IsAffineOpen U) {n : ℕ} (c : EtaleChart p U n) (j : Fin n) (g : Γ(X, U))
     (h : Ideal.span ({g} : Set Γ(X, U)) = Ideal.span ({c.coord j} : Set Γ(X, U))) :
     ∃ v : (Γ(X, U))ˣ, g = (v : Γ(X, U)) * c.coord j :=
-  exists_unit_mul_of_span_eq (coord_mem_nonZeroDivisors_of_isAffineOpen hU c j) h
+  exists_unit_mul_of_span_eq (coord_mem_nonZeroDivisors hU c j) h
 
 end
 

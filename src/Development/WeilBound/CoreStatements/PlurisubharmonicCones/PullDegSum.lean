@@ -121,21 +121,8 @@ theorem uZpow {a : Ω} (ha : unitAt ξ p a) (n : ℤ) : unitAt ξ p (a ^ n) := b
 theorem gen_unit {Λ : Lat ξ Ω} {s t : Ω} (hs : Λ.IsGenAt p s) (ht : Λ.IsGenAt p t) : unitAt ξ p (s / t) := by
   apply GlobalTheory.CompanionTheory.Ar.Cusp.DetNef.gen_unit <;> assumption
 
-theorem gen_of_unit {Λ : Lat ξ Ω} {s t : Ω} (ht : Λ.IsGenAt p t) (hu : unitAt ξ p (s / t)) : Λ.IsGenAt p s := by
-  obtain ⟨ht0, ht⟩ := ht
-  obtain ⟨hu0, hu1, hu2⟩ := hu
-  have hs0 : s ≠ 0 := by
-    intro h
-    apply hu0
-    rw [h, zero_div]
-  refine ⟨hs0, ?_⟩
-  have hunit : IsUnit (⟨s / t, hu1⟩ : regAt ξ p) :=
-    ⟨⟨⟨s / t, hu1⟩, ⟨(s / t)⁻¹, hu2⟩, Subtype.ext (mul_inv_cancel₀ hu0),
-      Subtype.ext (inv_mul_cancel₀ hu0)⟩, rfl⟩
-  have hst : (⟨s / t, hu1⟩ : regAt ξ p) • t = s := by
-    rw [Subring.smul_def, smul_eq_mul]
-    exact div_mul_cancel₀ s ht0
-  rw [ht, ← hst, Submodule.span_singleton_smul_eq hunit]
+theorem gen_of_unit {Λ : Lat ξ Ω} {s t : Ω} (ht : Λ.IsGenAt p t) (hu : unitAt ξ p (s / t)) : Λ.IsGenAt p s :=
+  _root_.GlobalTheory.CompanionTheory.Ar.Cusp.DetNef.gen_of_unit ht hu
 
 theorem gen_untens {Λ : Lat ξ Ω} {σ : ℤ} (hσ : σ * σ = 1) {t : Ω}
     (h : (Lat.tens (fun _ : Unit => Λ) fun _ => σ).IsGenAt p t) : Λ.IsGenAt p (t ^ σ) := by

@@ -44,6 +44,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.HarishChandraSeriesWeightSquarefreeLabelGelfandG
 
 @[expose] public section
 
@@ -77,16 +78,7 @@ alias isClass_of_isChar := _root_.GlobalTheory.CharDec.isClass_of_isChar
 alias isChar_of_isIrr := _root_.GlobalTheory.CharDec.isChar_of_isIrr
 
 theorem wh_gl_zero (ψ : AddChar (ZMod g) ℂ) : wh ψ (fun _ : Gn g 0 => (1 : ℂ)) = 1 := by
-  have hsub : ∀ x : Gn g 0, x = 1 := fun x => Units.ext (Subsingleton.elim _ _)
-  have huniv : (Finset.univ : Finset (Gn g 0)) = {1} := by
-    ext x
-    simp only [Finset.mem_univ, Finset.mem_singleton, true_iff]
-    exact hsub x
-  have hP : IsUniUp ((1 : Gn g 0) : Mt g 0) := fun a _ => a.elim0
-  unfold wh tr eU eDat
-  rw [huniv, Finset.sum_singleton]
-  rw [Finset.filter_singleton, if_pos hP, Finset.sum_singleton, Finset.card_singleton]
-  simp
+  apply _root_.ProductIntervalSplit.CompanionTheory.Member.UnipotentCardinalityCoefficients.wh_zero <;> assumption
 
 theorem mem_of_sort_map (L : List (Pc g)) (I : Finset (Fin L.length)) {p : Pc g}
     (hp : p ∈ (I.sort (· ≤ ·)).map L.get) : p ∈ L := by

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.WeightZeroPeriodMatrices
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.FiniteCohomology
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.BuildingsResidueChars.FiltrationEntriesOfFrobeniusMatrix
 import Mathlib.Algebra.Order.Floor.Extended
@@ -48,24 +49,7 @@ open Formalism.WeaklyAdmissibleFiltrations Formalism.MainNotions.N Formalism.Bas
 
 private theorem slopeHi_spec {L : Type} [Field L] {d : ℕ} (G : Matrix (Fin d) (Fin d) L) (hG : IsUnit G.det) {a : L}
     (ha : a ∈ spectrum L G) : a ≠ 0 ∧ a⁻¹ ∈ spectrum L (G⁻¹).transpose := by
-  rw [spectrum.mem_iff] at ha
-  have h0 : a ≠ 0 := by
-    rintro rfl
-    apply ha
-    rw [map_zero, zero_sub]
-    exact ((Matrix.isUnit_iff_isUnit_det _).2 hG).neg
-  refine ⟨h0, spectrum.mem_iff.2 fun hu => ha ?_⟩
-  have e : (algebraMap L (Matrix (Fin d) (Fin d) L) a⁻¹ - (G⁻¹).transpose).transpose * ((-a) • G) =
-      algebraMap L (Matrix (Fin d) (Fin d) L) a - G := by
-    rw [Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, Matrix.transpose_sub,
-      Matrix.transpose_smul, Matrix.transpose_one, Matrix.transpose_transpose, Matrix.mul_smul, Matrix.sub_mul,
-      Matrix.smul_mul, Matrix.one_mul, Matrix.nonsing_inv_mul _ hG, smul_sub, smul_smul, neg_mul,
-      mul_inv_cancel₀ h0, neg_smul, neg_smul, one_smul]
-    abel
-  rw [← e]
-  refine ((Matrix.isUnit_transpose _).2 hu).mul ?_
-  rw [Matrix.isUnit_iff_isUnit_det, Matrix.det_smul]
-  exact ((IsUnit.mk0 _ (neg_ne_zero.2 h0)).pow _).mul hG
+  apply _root_.UpperTheory.V.Loc.wt_spec <;> assumption
 
 private theorem slopeHi_inv {R S : Type} [Field R] [CommRing S] [Nontrivial S] (j : R →+* S) (ψ : S →+* S)
     {d : ℕ} (M M' : Matrix (Fin d) (Fin d) S) (F : Matrix (Fin d) (Fin d) R) (hMM : M * M' = 1)

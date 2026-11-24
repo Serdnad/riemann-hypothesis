@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsPowEqOfIsAlgClosed
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.IdealSplit
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.AbelianSchemeMulNFiniteFlatSurjective
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsBirigidifiedKthRootPullbackBundle
@@ -92,24 +93,8 @@ private theorem eq_one_of_killed (o : Obj b N s) {I J : Ideal (𝓞 D.F)} (h : I
 private theorem exists_pow_eq (A : Over S) [GrpObj A] (hA : IsAbelianScheme A) {c : ℕ} (hc : 0 < c)
     {k : Type} [Field k] [IsAlgClosed k] (x : Sp k ⟶ S) (g : Over.mk x ⟶ A) :
     ∃ v : Over.mk x ⟶ A, v ^ c = g := by
-  obtain ⟨hfin, -, hsurj⟩ := GlobalTheory.KthRoot.finite_flat_surjective_mulN_any S A hA c hc
-  obtain ⟨t, ht⟩ := ReciprocityTheory.ChartRestriction.G.H1.SectionDivision.exists_section (pullback.fst g.left (mulN A c).left)
-  have hsq : pullback.fst g.left (mulN A c).left ≫ g.left = pullback.snd g.left (mulN A c).left ≫ (mulN A c).left :=
-    pullback.condition
-  have hw : (t ≫ pullback.snd g.left (mulN A c).left) ≫ A.hom = x := by
-    have e1 := Over.w (mulN A c)
-    have e2 := Over.w g
-    calc (t ≫ pullback.snd g.left (mulN A c).left) ≫ A.hom
-        = t ≫ pullback.snd g.left (mulN A c).left ≫ (mulN A c).left ≫ A.hom := by rw [e1, Category.assoc]
-      _ = t ≫ pullback.fst g.left (mulN A c).left ≫ g.left ≫ A.hom := by
-          rw [← Category.assoc (pullback.snd _ _), ← hsq, Category.assoc]
-      _ = x := by rw [e2, ← Category.assoc, ht, Category.id_comp]; rfl
-  refine ⟨Over.homMk (t ≫ pullback.snd g.left (mulN A c).left) hw, ?_⟩
-  rw [← Category.comp_id (Over.homMk _ hw), ← MonObj.comp_pow, ← GlobalTheory.MulFlatSurj.mulN_eq_pow]
-  ext1
-  simp only [Over.comp_left, Over.homMk_left, Category.assoc]
-  rw [← hsq, ← Category.assoc, ht]
-  exact Category.id_comp _
+  intros
+  apply _root_.GlobalTheory.AbDivPt.exists_pow_eq_of_isAlgClosed <;> assumption
 
 end
 

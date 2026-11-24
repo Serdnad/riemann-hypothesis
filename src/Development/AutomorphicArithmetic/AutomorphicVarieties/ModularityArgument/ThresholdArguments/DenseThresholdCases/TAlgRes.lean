@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.PolarizedPairBaseChangePolarizedSameWeight
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.ThresholdArguments.DenseThresholdCases.AutomorphicFormHyp
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.IdeleGenerators.ShapeFacts
 public import CompanionTheory.AutomorphicTheory.UnitriangularMeasure.AdeleCoordinateMeasure.EllipticTorusNorm
@@ -64,19 +65,7 @@ private theorem val_of_norm
     (v : HeightOneSpectrum (𝓞 K)) (w : HeightOneSpectrum (𝓞 L)) (y : (v.adicCompletion K)ˣ) (x : (w.adicCompletion L)ˣ)
     (h : ‖(y : v.adicCompletion K)‖ = ‖(x : w.adicCompletion L)‖) (f : ℕ) (hf : normV w = normV v ^ f) :
     Valued.v (y : v.adicCompletion K) = Valued.v (x : w.adicCompletion L) ^ f := by
-  have hf' : Ideal.absNorm w.asIdeal = Ideal.absNorm v.asIdeal ^ f := by
-    simpa only [normV, Ideal.absNorm_apply, Submodule.cardQuot_apply] using hf
-  have hy : Valued.v (y : v.adicCompletion K) ≠ 0 := (Valuation.ne_zero_iff _).2 y.ne_zero
-  have hx : Valued.v (x : w.adicCompletion L) ≠ 0 := (Valuation.ne_zero_iff _).2 x.ne_zero
-  rw [FinitePlace.norm_def, FinitePlace.norm_def] at h
-  rw [WithZeroMulInt.toNNReal_neg_apply _ hy, WithZeroMulInt.toNNReal_neg_apply _ hx, NNReal.coe_inj, hf',
-    Nat.cast_pow, ← zpow_natCast, ← zpow_mul] at h
-  have h1 := HeightOneSpectrum.one_lt_absNorm_nnreal v
-  have h2 := zpow_right_injective₀ (zero_lt_one.trans h1) h1.ne' h
-  rw [← WithZero.coe_unzero hy, ← WithZero.coe_unzero hx, ← WithZero.coe_pow]
-  refine congrArg _ (Multiplicative.toAdd.injective ?_)
-  rw [toAdd_pow, nsmul_eq_mul, WithZero.toAdd_unzero_eq_log hy,
-    WithZero.toAdd_unzero_eq_log hx, h2]
+  apply _root_.GlobalTheory.LiftPolar.val_of_norm <;> assumption
 variable [Algebra K L]
 private alias normV_under := _root_.GlobalTheory.DelEps.WeilRes.normV_eq_pow
 private theorem tendsto_under' :

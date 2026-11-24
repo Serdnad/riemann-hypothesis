@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.PrimitiveStatementsWithPassage
 public import Formalism.LocalToGlobal.IndefiniteReal.BaseLiftsPackageOfPrimitiveLinks
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.NormalFam
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
@@ -445,22 +446,8 @@ variable {K V W I : Type} [Field K] [AddCommGroup V] [Module K V] [AddCommGroup 
 theorem map_mem_eigAt (j : V →ₛₗ[σ] W) {op : I → Module.End K V} {opC : I → Module.End ℂ W}
     (hj : ∀ i x, j (op i x) = opC i (j x)) {s : I → K} {v : V} (hv : v ∈ eigAt op s) :
     j v ∈ eigAt opC fun i => σ (s i) := by
-  rw [eigAt, Submodule.mem_iInf]
-  intro i
-  obtain ⟨k, hk⟩ := (Module.End.mem_maxGenEigenspace _ _ _).1 (eigAt_le op s i hv)
-  rw [Module.End.mem_maxGenEigenspace]
-  refine ⟨k, ?_⟩
-  have key : ∀ (k : ℕ) (v : V), ((opC i - σ (s i) • (1 : Module.End ℂ W)) ^ k) (j v) =
-      j (((op i - s i • (1 : Module.End K V)) ^ k) v) := by
-    intro k
-    induction k with
-    | zero => intro v; simp
-    | succ k ih =>
-      intro v
-      rw [pow_succ, Module.End.mul_apply, pow_succ, Module.End.mul_apply, ← ih]
-      congr 1
-      simp only [LinearMap.sub_apply, LinearMap.smul_apply, Module.End.one_apply, map_sub, LinearMap.map_smulₛₗ, hj]
-  rw [key, hk, map_zero]
+  intros
+  apply _root_.Formalism.IndefR.Cx.map_eigAt <;> assumption
 
 theorem span_eigSum_le (j : V →ₛₗ[σ] W) {op : I → Module.End K V} {opC : I → Module.End ℂ W}
     (hj : ∀ i x, j (op i x) = opC i (j x)) (Q : (I → ℂ) → Prop) :

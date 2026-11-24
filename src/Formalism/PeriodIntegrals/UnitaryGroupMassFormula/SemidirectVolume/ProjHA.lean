@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelStructures.LeviInt
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FundamentalEquivalence.LevelIntersectParabolic
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SemidirectVolume.HermitianIsotropicProjComplement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,7 +52,6 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SemidirectVolume.StabilizerFixesFrameVector, Formalism.PeriodIntegrals.UnitaryGroupMassFormula.SemidirectVolume.ProjHA
 
@@ -115,15 +116,7 @@ theorem sigR_inclR (x : E) : sigR R σ (inclR (F := F) R x) = inclR (F := F) R (
 
 theorem hR_ratV (x y : Fin M → E) :
     hR R σ J (ratV (F := F) R x) (ratV (F := F) R y) = inclR (F := F) R (hE σ J x y) := by
-  unfold hR hE Formalism.UG.hform JR ratV
-
-  rw [map_sum]
-  refine Finset.sum_congr rfl (fun i _ => ?_)
-
-  rw [map_sum]
-  refine Finset.sum_congr rfl (fun j _ => ?_)
-  rw [map_mul, map_mul, sigR_inclR, Matrix.map_apply]
-  rfl
+  apply _root_.MassDataLevelSSteps.hermForm_rational_vectors <;> assumption
 
 variable {R σ J P T}
 

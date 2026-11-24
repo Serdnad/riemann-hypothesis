@@ -1,5 +1,6 @@
 module
 
+import Mathlib.Analysis.Calculus.DSlope
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.NumberTheory.NumberField.DedekindZeta
 public import GroundTheory.GlobalFields.TateThesis.HeckeLFunction
@@ -433,34 +434,22 @@ theorem continuation_ne_zero_of_sq_eq_one (t : ℝ)
   set g₁ : ℂ → ℂ := fun s ↦ G (s + t * I) with hg₁_def
   have hg₁ : Differentiable ℂ g₁ := hG.comp (differentiable_id.add_const _)
   have hg₁1 : g₁ 1 = 0 := hG0
-  set ρ : ℂ := (dedekindZeta_residue K : ℂ) with hρ
-  set F : ℂ → ℂ := Function.update (fun s ↦ continuedDedekindZeta K s * g₁ s) 1
-    (ρ * deriv g₁ 1) with hF_def
-  have hFne : ∀ s, s ≠ 1 → DifferentiableAt ℂ F s := fun s hs ↦ by
-    refine ((differentiableAt_continuedDedekindZeta K hs).mul (hg₁ s)).congr_of_eventuallyEq ?_
-    filter_upwards [eventually_ne_nhds hs] with z hz using Function.update_of_ne hz ..
-  have hFdiff : Differentiable ℂ F := by
-    intro s
-    rcases ne_or_eq s 1 with hs | rfl
-    · exact hFne s hs
-    refine (analyticAt_of_differentiable_on_punctured_nhds_of_continuousAt ?_ ?_).differentiableAt
-    · filter_upwards [self_mem_nhdsWithin] with z hz using hFne z hz
-    set Gz : ℂ → ℂ := Function.update (fun s ↦ (s - 1) * continuedDedekindZeta K s) 1 ρ with hGz
-    set H : ℂ → ℂ := Function.update (fun s ↦ (g₁ s - g₁ 1) / (s - 1)) 1 (deriv g₁ 1) with hH
-    have hFGH : F = Gz * H := by
-      ext z
-      rcases eq_or_ne z 1 with rfl | hz
-      · simp only [hF_def, hGz, hH, Pi.mul_apply, Function.update_self]
-      · simp only [hF_def, hGz, hH, Pi.mul_apply, Function.update_of_ne hz, hg₁1, sub_zero]
-        field_simp [sub_ne_zero.2 hz]
-    rw [hFGH]
-    refine ContinuousAt.mul ?_ (hg₁ 1).hasDerivAt.continuousAt_div
-    rw [hGz, continuousAt_update_same]
-    exact tendsto_sub_one_mul_continuedDedekindZeta K
+  -- Cancel the pole by multiplying the regularized zeta by the entire divided difference.
+  let zreg := Function.update (fun s ↦ (s - 1) * continuedDedekindZeta K s) 1
+    (dedekindZeta_residue K : ℂ)
+  let F : ℂ → ℂ := fun s ↦ zreg s * dslope g₁ 1 s
+  have hFdiff : Differentiable ℂ F :=
+    (differentiable_sub_one_mul_continuedDedekindZeta K).mul
+      (fun s ↦ ((hg₁.analyticAt s).dslope 1).differentiableAt)
+  have hFapply {s : ℂ} (hs : s ≠ 1) : F s = continuedDedekindZeta K s * g₁ s := by
+    change zreg s * dslope g₁ 1 s = _
+    dsimp only [zreg]
+    rw [Function.update_of_ne hs, dslope_of_ne _ hs, slope_def_field, hg₁1, sub_zero]
+    field_simp [sub_ne_zero.mpr hs]
 
   have hF2 : F ((-2 : ℝ) : ℂ) = 0 := by
     have h : ((-2 : ℝ) : ℂ) = -2 := by push_cast; ring
-    rw [h, hF_def, Function.update_of_ne (by norm_num), continuedDedekindZeta_neg_two, zero_mul]
+    rw [h, hFapply (by norm_num), continuedDedekindZeta_neg_two, zero_mul]
 
   have hFL : {s : ℂ | (1 : ℝ) < s.re}.EqOn F (LSeries (divisorSumCoeff ψ)) := by
     intro s hs
@@ -468,7 +457,7 @@ theorem continuation_ne_zero_of_sq_eq_one (t : ℝ)
       rw [Set.mem_ofPred_eq, h, one_re] at hs
       exact lt_irrefl _ hs
     have hs' : 1 < (s + t * I).re := by simpa using hs
-    rw [hF_def, Function.update_of_ne hs1, LSeries,
+    rw [hFapply hs1, LSeries,
       (hasSum_LSeries_term_divisorSum hψb hs).tsum_eq, hψL s hs, continuedDedekindZeta_eq K hs]
     simp only [hg₁_def]
     rw [hGL _ hs']

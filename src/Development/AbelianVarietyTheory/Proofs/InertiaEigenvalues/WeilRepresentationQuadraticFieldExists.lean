@@ -77,6 +77,7 @@ import Mathlib.Tactic.Monotonicity.Lemmas
 import Mathlib.Topology.Sheaves.Presheaf
 import Mathlib.Algebra.Order.Star.Real
 import Mathlib.RingTheory.PiTensorProduct
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaleOrbitalFourierRankOneTransfer
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticWeilFOpNOpFOpGauss, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticWeilFourierCompSmul, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.QuadraticWeilTorusMulUnipotentCommute, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.Sl2PresentationRelations, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.EtaleTraceAddCharNormEqOneNearZero, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsLargeCompactOpenSubgroupWithSmallDual, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.GaussIntegralOneMulGaussIntegralNegOneEqOne, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StableQuadraticGaussNegOneEqOne, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.StableQuadraticGaussIntegralSqEqOne, Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WeilRepresentationQuadraticFieldExists
@@ -94,14 +95,7 @@ noncomputable section
 namespace GlobalTheory.JR.WeilQuad.Fnf
 
 theorem continuous_std {F : Type} [NormedField F] (ψ : AddChar F ℂ) (hψ : IsStdChar ψ) : Continuous ψ := by
-  rw [continuous_iff_continuousAt]
-  intro a
-  refine (continuousAt_const (y := ψ a)).congr ?_
-  filter_upwards [Metric.ball_mem_nhds a one_pos] with y hy
-  show ψ a = ψ y
-  have h1 : ψ (y - a) = 1 := hψ.1 _ (by rw [← dist_eq_norm]; exact (Metric.mem_ball.1 hy).le)
-  calc ψ a = ψ a * ψ (y - a) := by rw [h1, mul_one]
-    _ = ψ y := by rw [← AddChar.map_add_eq_mul]; congr 1; abel
+  apply _root_.GlobalTheory.JR.RankOneTransfer.psi_cont <;> assumption
 
 theorem isCompact_sup {V : Type} [AddCommGroup V] [TopologicalSpace V] [ContinuousAdd V]
     (H K : AddSubgroup V) (hH : IsCompact (H : Set V)) (hK : IsCompact (K : Set V)) :
@@ -409,12 +403,7 @@ namespace GlobalTheory.JR.WeilQuad
 theorem NL_smul {F E : Type} [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
     [StarRing E] [hU : Unram F E] (A : Et F E) (s : A.K) (y : A.L) :
     A.NL (s • y) = s ^ 2 * A.NL y := by
-  have hfin : Module.Finite F E := Module.finite_of_finrank_eq_succ hU.finrank_eq
-  let b : Module.Basis (Fin 2) F E := Module.finBasisOfFinrankEq F E hU.finrank_eq
-  have hp := ((Algebra.IsPushout.comm F E A.K A.L).1 A.push).out
-  let c := hp.basis b
-  unfold Et.NL
-  rw [Algebra.smul_def, map_mul, Algebra.norm_algebraMap_of_basis c, Fintype.card_fin]
+  apply _root_.GlobalTheory.JR.WeilQuad.Fnf.NL_smul <;> assumption
 
 theorem mOp_nOp : ∀ (F E : Type) [NontriviallyNormedField F] [NontriviallyNormedField E] [NormedAlgebra F E]
     [StarRing E] [Unram F E] (A : Et F E) (ψ : AddChar F ℂ) (x : A.Kˣ) (μ : Measure A.L) (ω : A.K → ℂ),

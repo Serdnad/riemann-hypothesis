@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.CMDeterminantIdeals.CMIdealValuations.OneLeAbsNormOfLeOne
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.AdelicCharacterFrequenciesAndConductorProduct
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsArchimedeanPairNegativeSymplecticPairing
@@ -546,16 +547,7 @@ open NumberField IsDedekindDomain Formalism.MainNotions.GlobalTheoryTheory.Genus
 
 private theorem le_one_of_count {E : Type} [Field E] [NumberField E] (J : FractionalIdeal (𝓞 E)⁰ E) (hJ : J ≠ 0)
     (h : ∀ w : HeightOneSpectrum (𝓞 E), 0 ≤ FractionalIdeal.count E w J) : J ≤ 1 := by
-  rw [← FractionalIdeal.finprod_heightOneSpectrum_factorization' E hJ]
-  refine finprod_induction (p := fun X : FractionalIdeal (𝓞 E)⁰ E => X ≤ 1) le_rfl ?_ ?_
-  · intro a b ha hb
-    calc a * b ≤ 1 * b := mul_le_mul_left ha b
-      _ ≤ 1 * 1 := mul_le_mul_right hb 1
-      _ = 1 := one_mul 1
-  · intro v
-    obtain ⟨n, hn⟩ := Int.eq_ofNat_of_zero_le (h v)
-    rw [hn, zpow_natCast, ← FractionalIdeal.coeIdeal_pow]
-    exact FractionalIdeal.coeIdeal_le_one
+  apply _root_.Formalism.L2.LamCM.le_one_of_count_nonneg <;> assumption
 
 private theorem mem_iff {E : Type} [Field E] [NumberField E] (I : FractionalIdeal (𝓞 E)⁰ E) (hI : I ≠ 0)
     (y : E) (hy : y ≠ 0) : y ∈ I ↔ ∀ w, FractionalIdeal.count E w I ≤ ordE w y := by

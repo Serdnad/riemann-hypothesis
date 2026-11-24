@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Divisors.NotTwistSumZeroFamily
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IsPosHermOfPositive
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HomExtNormalSt
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsIntegralClosureCompleteNormalFiniteExtensi
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsOverIff
@@ -717,22 +719,8 @@ theorem yK_ne_zero {I : Type} {X₁ : GlobalTheory.GSep.GSet} {z₁ : X₁.M.Z} 
     {ev : X₁.M.Z.presheaf.stalk z₁ →+* V} {X : Type} [AddCommGroup X] {t : X → V}
     {δ : I → X → X} (𝔪 : GlobalTheory.GSep.GMem X₁ z₁ act V ev X t δ) :
     𝔪.yK ⟨X₁.S.th x₀, X₁.S.th_mem x₀⟩ ≠ 0 := by
-  haveI : CharZero V := 𝔪.cn.2.2.2
-  have hL : GlobalTheory.UT.LL := GlobalTheory.firstFiveLaws
-  obtain ⟨a, ha⟩ := GlobalTheory.ThetaGeneric.exists_th_ne_zero hL.1 hL.2.1 _ _ X₁.S X₁.ρ (FractionRing V) 𝔪.yK
-  intro h0
-  apply ha
-  set y := jK V ≫ spMap ev ≫ X₁.M.Z.fromSpecStalk z₁ with hy
-  have hs : y (closedPoint (FractionRing V)) ⤳ z₁ := by
-    have : y (closedPoint (FractionRing V)) ∈ Set.range (X₁.M.Z.fromSpecStalk z₁) := ⟨_, rfl⟩
-    rwa [Scheme.range_fromSpecStalk] at this
-  have hw : ∀ w, y w ⤳ y (closedPoint (FractionRing V)) := fun w => by
-    rw [Subsingleton.elim (α := PrimeSpectrum (FractionRing V)) w (closedPoint _)]
-  have e : X₁.S.th a = X₁.S.th a / X₁.S.th x₀ * X₁.S.th x₀ := (div_mul_cancel₀ _ hd.1).symm
-  rw [𝔪.yK_eq] at h0 ⊢
-  change X₁.M.val y (X₁.S.th a) = 0
-  change X₁.M.val y (X₁.S.th x₀) = 0 at h0
-  rw [e, RatModel.val_mul hw ((hd.of_specializes hs).2 a) (𝔪.reg _ (X₁.S.th_mem x₀)), h0, mul_zero]
+  intros
+  apply _root_.GlobalTheory.GSep.TwistModel.yK_th_ne_zero <;> assumption
 
 theorem isThetaTerms₀_of_terms : ∀ (I : Type) (X₁ : GlobalTheory.GSep.GSet) (z₁ : X₁.M.Z) (act : I → (X₁.ρ.P.A ⟶ X₁.ρ.P.A)) (x₀ : X₁.S.Gam), X₁.M.Div X₁.S.th x₀ z₁ → ∀ (V : Type) [CommRing V] [IsDomain V] [IsLocalRing V] (ev : X₁.M.Z.presheaf.stalk z₁ →+* V) (X : Type) [AddCommGroup X] (t : X → V) (δ : I → X → X) (𝔪 : GlobalTheory.GSep.GMem X₁ z₁ act V ev X t δ) (C : Type) (lab : C → X₁.S.Gam), Set.range lab = X₁.S.HH X₁.M z₁ → ∀ T : X → C → V, 𝔪.Terms x₀ lab T → IsThetaTerms₀ 𝔪.D.toPre (X₁.S.r * X₁.S.N) 𝔪.e₈ T := by
   intro I X₁ z₁ act x₀ hd V _ _ _ ev X _ t δ 𝔪 C lab hlab T hT
@@ -1090,20 +1078,7 @@ theorem posW_one : PosW (!![(1 : ℤ)] : Matrix (Fin 1) (Fin 1) ℤ) := by
 
 theorem projective_of_free (E : Type) [Field E] [NumberField E] (X : Type) [AddCommGroup X] [Module (𝓞 E) X]
     [Module.Free ℤ X] [Module.Finite ℤ X] : Module.Projective (𝓞 E) X := by
-  have : Module.Finite (𝓞 E) X := Module.Finite.of_restrictScalars_finite ℤ _ _
-  have : Module.Flat (𝓞 E) X := by
-    rw [IsDedekindDomain.flat_iff_torsion_eq_bot, eq_bot_iff]
-    rintro x ⟨c, hc⟩
-    by_contra hx
-    have hc0 : (c : 𝓞 E) ≠ 0 := nonZeroDivisors.coe_ne_zero c
-    obtain ⟨r, hr, α, hα⟩ := (Algebra.IsAlgebraic.isAlgebraic (R := ℤ) (c : 𝓞 E)).exists_nonzero_dvd
-      (mem_nonZeroDivisors_of_ne_zero hc0)
-    have h0 : r • x = 0 := by
-      rw [← algebraMap_smul (𝓞 E) r x, hα, mul_comm, mul_smul]
-      rw [← Submonoid.smul_def, hc, smul_zero]
-    exact hx ((smul_eq_zero.1 h0).resolve_left hr)
-  have : Module.FinitePresentation (𝓞 E) X := Module.finitePresentation_of_finite _ _
-  exact Module.Flat.projective_of_finitePresentation
+  apply _root_.GlobalTheory.PointStepCompare.projective_of_free <;> assumption
 
 theorem jK_spMap {V V₁ : Type} [CommRing V] [IsDomain V] [CommRing V₁] [IsDomain V₁] (ρ : V →+* V₁)
     (fK : FractionRing V →+* FractionRing V₁) (h : ∀ a, fK (algebraMap V _ a) = algebraMap V₁ _ (ρ a)) :

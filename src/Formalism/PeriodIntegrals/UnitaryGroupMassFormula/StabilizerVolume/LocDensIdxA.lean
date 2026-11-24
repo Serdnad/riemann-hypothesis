@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.DualFamilyCounting.NcSKfOrb
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -95,11 +96,7 @@ theorem crd_sigR (y : Fv F v ⊗[F] E) (k : Fin d) :
 
 theorem eventually_int (x : F) :
     ∀ᶠ v in cofinite, algebraMap F (Fv F v) x ∈ v.adicCompletionIntegers F := by
-  filter_upwards [(IsDedekindDomain.HeightOneSpectrum.Support.finite (𝓞 F) x).compl_mem_cofinite] with v hv
-  rw [IsDedekindDomain.HeightOneSpectrum.mem_adicCompletionIntegers]
-  have hv' : v.valuation F x ≤ 1 := by
-    simpa [IsDedekindDomain.HeightOneSpectrum.Support] using hv
-  exact (IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v x).le.trans hv'
+  apply _root_.Formalism.L2.SG.Pf.NcS.KfOrbPf.ev_int <;> assumption
 
 end IdxHW
 

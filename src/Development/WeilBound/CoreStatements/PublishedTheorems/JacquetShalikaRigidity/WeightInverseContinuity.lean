@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PublishedTheorems.SmoothVectorEstimates.InverseDerivativeContinuity
 public import Development.WeilBound.CoreStatements.PublishedTheorems.JacquetShalikaRigidity.ColumnConjugationMeasure
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfIsOpenStab
 import Mathlib.Algebra.Order.Floor.Extended
@@ -72,18 +73,7 @@ variable {E : Type} [Field E] [NumberField E] {a : ℕ}
 
 theorem norm_mulL (A B : Lie E a) :
     ‖(toL (Matrix.of A * Matrix.of B) : Lie E a)‖ ≤ a * ‖A‖ * ‖B‖ := by
-  have hA : 0 ≤ ‖A‖ := norm_nonneg _
-  have hB : 0 ≤ ‖B‖ := norm_nonneg _
-  have h0 : (0 : ℝ) ≤ a * ‖A‖ * ‖B‖ := mul_nonneg (mul_nonneg (Nat.cast_nonneg _) hA) hB
-  refine (pi_norm_le_iff_of_nonneg h0).2 fun i => (pi_norm_le_iff_of_nonneg h0).2 fun j => ?_
-  have e : (toL (Matrix.of A * Matrix.of B) : Lie E a) i j = ∑ k, A i k * B k j := by
-    simp only [toL, Matrix.of_symm_apply, Matrix.mul_apply, Matrix.of_apply]
-  rw [e]
-  calc ‖∑ k, A i k * B k j‖ ≤ ∑ k, ‖A i k * B k j‖ := norm_sum_le _ _
-    _ ≤ ∑ _k : Fin a, ‖A‖ * ‖B‖ := Finset.sum_le_sum fun k _ => (norm_mul_le _ _).trans
-        (mul_le_mul ((norm_le_pi_norm (A i) k).trans (norm_le_pi_norm A i))
-          ((norm_le_pi_norm (B k) j).trans (norm_le_pi_norm B k)) (norm_nonneg _) hA)
-    _ = a * ‖A‖ * ‖B‖ := by simp [Finset.sum_const, Finset.card_univ, mul_assoc]
+  apply _root_.PositivityTheory.jumpWindows.InverseDerivativeContinuity.norm_mulL <;> assumption
 
 def invL (z : Lie E a) : Lie E a := toL (Matrix.of z)⁻¹
 

@@ -436,17 +436,7 @@ noncomputable section
 
 namespace GlobalTheory.VacSchurFin
 
-theorem fin_riesz_eigen : ∀ (X : Type) (C : Submodule ℂ (X → ℂ)), FiniteDimensional ℂ C →
-    ∀ (ip Φ : (X → ℂ) → (X → ℂ) → ℂ),
-    (∀ (a : ℂ) (f f' g : X → ℂ), f ∈ C → f' ∈ C → g ∈ C → ip (a • f + f') g = star a * ip f g + ip f' g) →
-    (∀ (a : ℂ) (f g g' : X → ℂ), f ∈ C → g ∈ C → g' ∈ C → ip f (a • g + g') = a * ip f g + ip f g') →
-    (∀ f g : X → ℂ, f ∈ C → g ∈ C → ip g f = star (ip f g)) →
-    (∀ f : X → ℂ, f ∈ C → f ≠ 0 → 0 < (ip f f).re) →
-    (∀ (a : ℂ) (f f' g : X → ℂ), f ∈ C → f' ∈ C → g ∈ C → Φ (a • f + f') g = star a * Φ f g + Φ f' g) →
-    (∀ (a : ℂ) (f g g' : X → ℂ), f ∈ C → g ∈ C → g' ∈ C → Φ f (a • g + g') = a * Φ f g + Φ f g') →
-    (∀ f : X → ℂ, f ∈ C → ∃ h : X → ℂ, h ∈ C ∧ ∀ g : X → ℂ, g ∈ C → ip h g = Φ f g) ∧
-    (C ≠ ⊥ → ∃ c : ℂ, ∃ e : X → ℂ, e ∈ C ∧ e ≠ 0 ∧ ∀ f : X → ℂ, f ∈ C → Φ f e = c * ip f e) :=
-  _root_.GlobalTheory.riesz_and_eigenvector_of_sesq_on_fun_space
+alias fin_riesz_eigen := _root_.GlobalTheory.riesz_and_eigenvector_of_sesq_on_fun_space
 
 theorem irr_theta : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (S T : HSp D), IsStdChar D ψ (-1) →
     ∀ (μ : Measure (WO S T)) (𝓕 : Set (WO S T)), IsCovolOne (ratL T S) μ 𝓕 →

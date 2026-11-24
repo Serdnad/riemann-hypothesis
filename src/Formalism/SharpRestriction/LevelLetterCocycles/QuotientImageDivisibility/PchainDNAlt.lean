@@ -107,9 +107,8 @@ theorem Kc_le [IsDomain O] (i : ZMod n) (k : ℕ) (h3 : Formalism.MainNotions.De
     rw [aself_comm W T, ← hzy, hzl]
     rfl
 
-theorem pchain_DN (i : ZMod n) (k : ℕ) {m : ℕ} {cc : ℝ} {FF : Type} [AddCommGroup FF]
-    [Module O FF] (K : Submodule O ↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i))
-    (hK : K ≤ (Xd W T i k).comap (Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i).subtype) (s : Finset (W.DD T))
+theorem pchain_DN_of_length_bound (i : ZMod n) (k : ℕ) {m : ℕ} {cc : ℝ} {FF : Type} [AddCommGroup FF]
+    [Module O FF] (K : Submodule O ↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i)) (s : Finset (W.DD T))
     (hs : s.card ≤ m) (hsN : (↑s : Set (W.DD T)) ⊆ Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) (L kO : ℕ)
     (hL : Module.length O (↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) ⧸
       (Xd W T i k ⊔ Submodule.span O (↑s : Set (W.DD T))).comap
@@ -122,10 +121,14 @@ theorem pchain_DN (i : ZMod n) (k : ℕ) {m : ℕ} {cc : ℝ} {FF : Type} [AddCo
   set Y := (Xd W T i k ⊔ Submodule.span O (↑s : Set (W.DD T))).comap
     (Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i).subtype with hYdef
   have hXY : X ≤ Y := Submodule.comap_mono le_sup_left
-  have hKY : K ≤ Y := hK.trans hXY
   have hlen : Module.length O ((↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) ⧸ K) ⧸ Y.map K.mkQ) ≤ (L : ℕ∞) := by
-    rw [(Submodule.quotientQuotientEquivQuotient K Y hKY).length_eq]
-    exact hL
+    rw [(Submodule.quotientQuotientEquivQuotientSup K Y).length_eq]
+    refine le_trans ?_ hL
+    exact Module.length_le_of_surjective (Submodule.mapQ Y (K ⊔ Y) LinearMap.id
+      (fun y hy => Submodule.mem_sup_right (by simpa using hy)))
+      (fun z => by
+        obtain ⟨x, rfl⟩ := Submodule.Quotient.mk_surjective _ z
+        exact ⟨Submodule.Quotient.mk x, rfl⟩)
   have h1 := pstep_len (m := m) (c := cc) A ψ (Y.map K.mkQ) L kO hlen hkO hLc
   set A₁ := kerSub A ψ (Y.map K.mkQ) with hA₁def
   have hA₁ : A₁ ≤ A := kerSub_le A ψ _
@@ -180,6 +183,19 @@ theorem pchain_DN (i : ZMod n) (k : ℕ) {m : ℕ} {cc : ℝ} {FF : Type} [AddCo
       exact (mem_kerSub A₁ ψ₁ _ x).2 ⟨hx1', hx2⟩
   rw [heq] at h2
   exact (pchain_of_len h1).trans (pchain_of_gen h2)
+
+theorem pchain_DN (i : ZMod n) (k : ℕ) {m : ℕ} {cc : ℝ} {FF : Type} [AddCommGroup FF]
+    [Module O FF] (K : Submodule O ↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i))
+    (hK : K ≤ (Xd W T i k).comap (Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i).subtype) (s : Finset (W.DD T))
+    (hs : s.card ≤ m) (hsN : (↑s : Set (W.DD T)) ⊆ Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) (L kO : ℕ)
+    (hL : Module.length O (↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) ⧸
+      (Xd W T i k ⊔ Submodule.span O (↑s : Set (W.DD T))).comap
+        (Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i).subtype) ≤ (L : ℕ∞))
+    (hkO : lenOl PD (O := O) = kO) (hLc : (L : ℝ) ≤ cc * kO) (A : Submodule O FF)
+    (ψ : ↥A →ₗ[O] ↥(Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i) ⧸ K) :
+    Formalism.MainNotions.RamifiedCoefficientChains.S9.PChain (lenOl PD (O := O)) m cc A
+      (kerSub A ψ (((Xd W T i k).comap (Formalism.MainNotions.RamifiedCoefficientChains.S9.NDl W T i).subtype).map K.mkQ)) 1 1 := by
+  exact pchain_DN_of_length_bound W T i k K s hs hsN L kO hL hkO hLc A ψ
 
 end Pass
 

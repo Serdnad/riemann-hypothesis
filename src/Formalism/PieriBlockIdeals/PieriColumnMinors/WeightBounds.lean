@@ -324,7 +324,6 @@ theorem depth_nat_le_holds : DepthNatLe := by
 theorem weight_on_block_eq_bot_add (P : Par) (hP : P.Hyp) {ι : Type} (W : Wts ι) (hW : W.Ok P) (τ : ι) (a : ℕ)
     (h1 : kc P + W.j τ ≤ a) (h2 : a < kc P + W.j τ + P.t) :
     W.U P τ a = W.bot P τ + ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℤ) := by
-  have ht := hP.t_ge
   have e1 := hW.block τ a h1 h2
   have e2 := hW.block τ (kc P + W.j τ + P.t - 1) (by omega) (by omega)
   unfold Wts.bot Wts.U UN
@@ -366,7 +365,6 @@ theorem abs_weight_sub_near_translation_le (P : Par) (hP : P.Hyp) {ι : Type} (W
   · have e := weight_on_block_eq_bot_add P hP W hW τ a hb.1 hb.2
     have hc := hW.centre τ
     have ht := hP.t_le
-    have hd0 : (0 : ℝ) ≤ ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℝ) := Nat.cast_nonneg _
     have hd1 : ((kc P + W.j τ + P.t - 1 - a : ℕ) : ℝ) ≤ (P.t : ℝ) - 1 := by
       have : kc P + W.j τ + P.t - 1 - a + 1 ≤ P.t := by omega
       have h3 : ((kc P + W.j τ + P.t - 1 - a + 1 : ℕ) : ℝ) ≤ (P.t : ℝ) := by exact_mod_cast this
@@ -510,7 +508,6 @@ theorem shape_a_real_holds : ShapeAReal := by
 
 theorem weights_have_positive_shape (P : Par) (hP : P.Hyp) {ι : Type} (W : Wts ι) (hW : W.Ok P) (τ : ι) :
     P.Shape (W.Uset P τ) (W.bot P τ) (W.c τ) (W.e τ) 1 := by
-  have hr := rank_fits_block_and_t_ge_six P hP W hW τ
   refine ⟨Or.inl rfl, ?_, ?_⟩
   · have := hW.centre τ
     push_cast
@@ -603,7 +600,6 @@ theorem one_le_h (P : Par) (hH : P.Hyp) : 1 ≤ P.h := by
   have h1 : 0 < P.b := Real.exp_pos _
   have h2 := hH.S_nonneg
   have h3 := hH.t_le
-  have h4 : (0 : ℝ) ≤ (P.t : ℝ) := Nat.cast_nonneg _
   unfold Par.h
   linarith
 
@@ -630,9 +626,7 @@ theorem top_inputs_of_shape_w (hSW : ShapeWReal) : TopInputsReal := by
   intro P hH hL ι _ _ W hW l X hl hu hlJ ϖ n₀ e Λ L _ _ _ _ _ hwt hfin hϖ hA hT hS hI
   have hd := paramsLargePrime_holds P hH hL l hlJ
   have hsq : h0 P < l ^ 2 := by
-    have h1 := hd.2.2.2.2.2.2.2
     have h2 := floor_height_le_height P hH
-    have h3 : (0 : ℝ) ≤ (P.Nr : ℝ) := Nat.cast_nonneg _
     have h4 : (h0 P : ℝ) < (l : ℝ) ^ 2 := by linarith
     exact_mod_cast h4
   have ht : 1 ≤ P.t := by have := hH.t_ge; omega
@@ -682,7 +676,6 @@ theorem weight_in_width_range {ι : Type} {W : Wts ι} {P : Par} (hW : W.Ok P) (
       UN P.Nr (W.lam τ) a ≤ W.U P τ (P.Nr - 1) + ((W.width P τ).toNat : ℤ) := by
   have h1 := hW.anti τ a (P.Nr - 1) (by omega) (by omega)
   have h2 := hW.anti τ 0 a (by omega) ha
-  have h3 := hW.anti τ 0 (P.Nr - 1) (by omega) (by omega)
   unfold Wts.width Wts.U UN
   omega
 

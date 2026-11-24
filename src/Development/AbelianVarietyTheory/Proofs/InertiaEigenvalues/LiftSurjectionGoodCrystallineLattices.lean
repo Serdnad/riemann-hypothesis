@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IntegralConnectionTaylorFormulaTameBreuilKisin
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.IsPotential
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.BreuilKisinBcrisComparisonFrobeniusNaturality
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsMuSemidirectCyclicCoverOfMemGKinfCoeffs
@@ -564,16 +565,7 @@ theorem taylor_iC (t : Wq l a →ₐ[ℤ_[l]] O) (ϖ : PiSys l e) (g : ↥(GK (�
     (r : ℕ) : ∃ M₀, ∀ M ≥ M₀, (l : OCr l O) ^ r ∣ galOCr O g (ϖ.iC t K f) -
       ∑ i ∈ Finset.range M, ϖ.muDiv a O g i *
         ϖ.iC t K (fun τ => ⟨descN K i (f τ), descN_mem_S e i (f τ).2⟩) := by
-  choose N hN using fun τ => ϖ.taylor_S a O K g (f τ) r
-  refine ⟨Finset.univ.sup N, fun M hM => ?_⟩
-  choose z hz using fun τ => hN τ M ((Finset.le_sup (Finset.mem_univ τ)).trans hM)
-  refine ⟨∑ τ, idem (constC t) τ * z τ, ?_⟩
-
-  simp only [PiSys.iC, glue_apply, map_sum, map_mul, galOCr_idem, Finset.mul_sum]
-  rw [Finset.sum_comm, ← Finset.sum_sub_distrib]
-  refine Finset.sum_congr rfl fun τ _ => ?_
-  rw [mul_left_comm, ← hz τ, mul_sub, Finset.mul_sum]
-  simp only [mul_left_comm (idem (constC t) τ)]
+  apply _root_.GlobalTheory.TaylorBasis.galOCr_iC_taylor <;> assumption
 
 theorem toBcris_of_mem (t : Wq l a →ₐ[ℤ_[l]] O) (ϖ : PiSys l e) (P : PhiMod O K l e a ι) {m : Vec K a ι}
     (h : m ∈ P.MM) (h' : m ∈ P.MMl) (k : ι) :

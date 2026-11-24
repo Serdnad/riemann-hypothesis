@@ -1,5 +1,7 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsHolomorphicGeneratorReadingAutomorphy
+import Development.AbelianVarietyTheory.Proofs.ModuliProofs.EqZeroOfFderivEqZero
 public import Development.AbelianVarietyTheory.Definitions.KeyFormula.KeyRuleOneOfKeyFormula
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import Development.AbelianVarietyTheory.Proofs.ThetaLawProofs.IsLieBasisIffIsUnitDet
@@ -366,13 +368,7 @@ theorem valAt'_self (hL : L.IsLB) (x : Sp ℂ ⟶ X) {j : L.ι} (hj : ⊤ ≤ x 
 
 theorem valAt'_app (x : Sp ℂ ⟶ Y) (φ : Y ⟶ X) (U : X.Opens) (f : Γ(X, U)) :
     valAt' x (φ ⁻¹ᵁ U) ((φ.app U).hom f) = valAt' (x ≫ φ) U f := by
-  by_cases h : ⊤ ≤ (x ≫ φ) ⁻¹ᵁ U
-  · have h' : ⊤ ≤ x ⁻¹ᵁ (φ ⁻¹ᵁ U) := h
-    apply toStalk.injective
-    rw [← gs_eq_toStalk _ _ h, ← gs_eq_toStalk _ _ h']
-    exact gs_pull x φ pt U (h trivial) f
-  · have h' : ¬ ⊤ ≤ x ⁻¹ᵁ (φ ⁻¹ᵁ U) := h
-    rw [valAt', valAt', dite_eq_right h, dite_eq_right h']
+  apply _root_.GlobalTheory.AnValGenRd.valAt'_app_hom_eq_valAt'_comp <;> assumption
 
 end Germs
 
@@ -385,21 +381,7 @@ variable {A : Over (Sp ℂ)} [GrpObj A] {L : LB A.left} {g : ℕ} (u : HolUnif A
 theorem frame_law {s : L.Sec} {θ e : (Fin g → ℂ) → ℂ} (hθ : Differentiable ℂ θ) (h0 : θ ≠ 0) (he : Continuous e)
     (hs : u.IsFn s θ) {l : Fin g → ℂ} (hl : l ∈ u.Λ) (h : ∀ z, θ (z + l) = e z * θ z) (i : L.ι) (z : Fin g → ℂ)
     (hz : ⊤ ≤ (u.ex z).left ⁻¹ᵁ L.U i) : u.fr i z = e z * u.fr i (z + l) := by
-  have hper : ∀ z, u.ex (z + l) = u.ex z := fun z => CubeValues.ex_add_period u z l hl
-  have ho := (u.hol (L.U i) 0).1
-  have hc := (u.fr_hol i).continuousOn
-  refine Set.EqOn.of_subset_closure (s := {z | ⊤ ≤ (u.ex z).left ⁻¹ᵁ L.U i} ∩ {z | θ z ≠ 0})
-    (t := {z | ⊤ ≤ (u.ex z).left ⁻¹ᵁ L.U i}) (f := u.fr i) (g := fun z => e z * u.fr i (z + l)) ?_ hc ?_
-    Set.inter_subset_left ((ThetaTangent.dense_ne_zero hθ h0).open_subset_closure_inter ho) hz
-  · rintro w ⟨hw, hw0⟩
-    have h1 := hs i w hw
-    have h2 := hs i (w + l) (by rw [hper]; exact hw)
-    rw [hper, h1, h] at h2
-    apply mul_left_cancel₀ hw0
-    rw [h2]
-    ring
-  · exact he.continuousOn.mul (hc.comp (continuous_add_const l).continuousOn
-      (fun w hw => by rw [Set.mem_setOf_eq, hper]; exact hw))
+  first | exact _root_.GlobalTheory.TorusTransfer.frame_law | exact @_root_.GlobalTheory.TorusTransfer.frame_law | apply _root_.GlobalTheory.TorusTransfer.frame_law <;> assumption
 
 theorem isLift_double (z : Fin g → ℂ) :
     IsLift u (K := Fin 2) ![((𝟙 A) ^ 2).left, 𝟙 A.left] (u.ex z).left ![z + z, z] := fun k => by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SzJetConj
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NormSumPairRankZeroOfCurveCoordNorm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.DefiniteThetaPairTestVectorExpansionStatement
 import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsLatticeOfAdelicPoint
@@ -169,24 +170,7 @@ theorem bd_of_pow_mul_eq_one {p : ℕ} [Fact p.Prime] (lam : Qbar →+* ℂ_[p])
   exact ((pow_eq_one_iff_of_nonneg (norm_nonneg _) hn).1 h2).le
 
 theorem norm_le_one_of_isIntegral {p : ℕ} [Fact p.Prime] {x : ℂ_[p]} (h : IsIntegral ℤ x) : ‖x‖ ≤ 1 := by
-  obtain ⟨f, hf, hx⟩ := h
-  by_contra hlt
-  push Not at hlt
-  rw [Polynomial.eval₂_eq_sum_range, Finset.sum_range_succ, hf.coeff_natDegree, map_one, one_mul] at hx
-  have h1 : ‖∑ i ∈ Finset.range f.natDegree, algebraMap ℤ ℂ_[p] (f.coeff i) * x ^ i‖ < ‖x‖ ^ f.natDegree := by
-    have hpos : 0 < ‖x‖ ^ f.natDegree := pow_pos (by linarith) _
-    by_cases hne : (Finset.range f.natDegree).Nonempty
-    · obtain ⟨i, hi, hle⟩ := IsUltrametricDist.exists_norm_finsetSum_le_of_nonempty hne
-        (fun i => algebraMap ℤ ℂ_[p] (f.coeff i) * x ^ i)
-      refine hle.trans_lt ?_
-      rw [norm_mul, norm_pow]
-      have : ‖algebraMap ℤ ℂ_[p] (f.coeff i)‖ ≤ 1 := by
-        simpa using IsUltrametricDist.norm_intCast_le_one ℂ_[p] (f.coeff i)
-      calc _ ≤ 1 * ‖x‖ ^ i := by gcongr
-        _ < _ := by rw [one_mul]; exact pow_lt_pow_right₀ hlt (Finset.mem_range.1 hi)
-    · rw [Finset.not_nonempty_iff_eq_empty.1 hne]; simpa using hpos
-  rw [eq_neg_of_add_eq_zero_left hx, norm_neg, norm_pow] at h1
-  exact lt_irrefl _ h1
+  apply _root_.GlobalTheory.DiffSize.norm_le_one_of_isIntegral <;> assumption
 
 theorem Hf_nsmul (D : D7) (T : Tor D) {N N' : ℕ} (n : ℕ) (x y : VC D N N') :
     Hf D T (n • x) (n • y) = (n : ℂ) ^ 2 * Hf D T x y := by

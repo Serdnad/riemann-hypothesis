@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.UnifPreCAndCoordCorrespond
 public import Development.AbelianVarietyTheory.Definitions.Uniformization.PointEqOfSubsingleton
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.InvariantFunctionsDescend
 public import Development.AbelianVarietyTheory.Proofs.AbelianSchemeLawProofs.QuotientIsAbelianSchemeOfQuotientScheme
@@ -76,48 +77,8 @@ theorem exists_gen_descend_val {L : LB X} (hL : L.IsLB) (π : Y' ⟶ Y) [Flat π
       val u g₁ z J = val u g₂ z J) :
     ∃ t : LB.Gen (LB.LinComb L φ ε), t.IsGen ∧
       ∀ (Z : Scheme.{0}) (r : Z ⟶ Y') (z : Z) (J), Good L z J → val t (r ≫ π) z J = val u r z J := by
-  have le : ∀ j : K → L.ι, π ⁻¹ᵁ LB.wchart L φ j ≤ LB.wchart L (fun k => π ≫ φ k) j :=
-    fun j y hy => Set.mem_iInter.2 fun k => Set.mem_iInter.1 hy k
-  have desc : ∀ j : K → L.ι, ∃ a : Γ(Y, LB.wchart L φ j),
-      (π.app _).hom a = (res (le j) (u.s j)).val := by
-    intro j
-    refine FunDescent.exists_app_eq π _ _ fun Z g₁ g₂ h₁ h₂ e => fn_ext fun z _ => ?_
-    rw [CubeDescent.gs_appLE, CubeDescent.gs_appLE, gs_unit _ _ _ (h₁ (x := z) trivial),
-      gs_unit _ _ _ (h₂ (x := z) trivial)]
-    choose I hI using fun χ : Z ⟶ X => exists_chart hL (χ z)
-    have c₁ := gen_trans hu g₁ z (le j (h₁ (x := z) trivial)) (Good.mem hI _ g₁)
-    have c₂ := gen_trans hu g₂ z (le j (h₂ (x := z) trivial)) (Good.mem hI _ g₂)
-    have c₃ : trF (fun k => π ≫ φ k) ε g₁ z j (fun k => I (g₁ ≫ π ≫ φ k)) =
-        trF (fun k => π ≫ φ k) ε g₂ z j (fun k => I (g₂ ≫ π ≫ φ k)) := by
-      refine Finset.prod_congr rfl fun k _ => ?_
-      have : g₁ ≫ π ≫ φ k = g₂ ≫ π ≫ φ k := by rw [reassoc_of% e]
-      show gm (g₁ ≫ π ≫ φ k) z (L.U (j k) ⊓ L.U (I (g₁ ≫ π ≫ φ k))) (L.g (j k) (I (g₁ ≫ π ≫ φ k))) ^ _ =
-        gm (g₂ ≫ π ≫ φ k) z (L.U (j k) ⊓ L.U (I (g₂ ≫ π ≫ φ k))) (L.g (j k) (I (g₂ ≫ π ≫ φ k))) ^ _
-      rw [this]
-    exact congrArg Units.val ((gm_res g₁ z (le j) (h₁ (x := z) trivial) _).trans
-      ((c₁.trans ((congrArg₂ (· * ·) c₃ (h Z g₁ g₂ z I hI e)).trans c₂.symm)).trans
-        (gm_res g₂ z (le j) (h₂ (x := z) trivial) _).symm))
-  choose a ha using desc
-  have hun : ∀ j, IsUnit (a j) := fun j =>
-    FunDescent.isUnit_of_isUnit_app π _ _ (ha j ▸ Units.isUnit _)
-  have hv : ∀ j (Z : Scheme.{0}) (r : Z ⟶ Y') (y : Z), π (r y) ∈ LB.wchart L φ j →
-      gm (r ≫ π) y (LB.wchart L φ j) (hun j).unit =
-      gm r y (LB.wchart L (fun k => π ≫ φ k) j) (u.s j) := by
-    intro j Z r y hy
-    have e : pullU π _ (hun j).unit = res (le j) (u.s j) := Units.ext (ha j)
-    exact (gm_pull r π y _ hy _).symm.trans ((congrArg (gm r y _) e).trans (gm_res r y (le j) hy _))
-  refine ⟨⟨fun j => (hun j).unit⟩, fun j j' => Units.ext
-    (FunDescent.app_injective π (LB.wchart L φ j ⊓ LB.wchart L φ j') ?_), fun Z r z J hJ => ?_⟩
-  · refine congrArg Units.val (unit_ext (a := pullU π _ _) (b := pullU π _ _) fun y hy => ?_)
-    have hy' : π y ∈ LB.wchart L φ j ⊓ LB.wchart L φ j' := hy
-    refine (gm_pull (𝟙 Y') π y _ hy' _).trans (Eq.trans ?_ (gm_pull (𝟙 Y') π y _ hy' _).symm)
-    refine ((gm_res (𝟙 Y' ≫ π) y _ hy' _).trans ((hv j _ _ y hy'.1).trans
-      (gen_trans hu (𝟙 Y') y (le j hy'.1) (le j' hy'.2)))).trans (Eq.symm ?_)
-    refine (map_mul _ _ _).trans (congrArg₂ (· * ·) ((gm_linComb L φ ε (𝟙 Y' ≫ π) y j j' hy'.1 hy'.2).trans ?_)
-      ((gm_res (𝟙 Y' ≫ π) y _ hy' _).trans (hv j' _ _ y hy'.2)))
-    simp only [trF, Category.id_comp]
-  · rw [val_of _ (r ≫ π) z J (fun k => J (r ≫ π ≫ φ k)) (fun k => by rw [Category.assoc])]
-    exact hv _ Z r z (Set.mem_iInter.2 fun k => hJ (r ≫ π ≫ φ k))
+  intros
+  apply _root_.GlobalTheory.CoordCompare.exists_gen_of_val_eq <;> assumption
 
 theorem exists_descend_through {M : LB X} {L : LB X'} {F : X' ⟶ X} {w : LB.Iso L (M.pull F)} (hw : PGen w)
     (hM : M.IsLB) (hL : L.IsLB) (π : Y' ⟶ Y) [Flat π] [Surjective π] [QuasiCompact π]

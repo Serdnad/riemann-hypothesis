@@ -667,11 +667,7 @@ variable {X M : Type} [AddCommGroup X] [AddCommGroup M] [Module ℂ M]
 
 theorem rho_comm (S : Sys X M) (x y : X) (v : M) :
     S.rho x (S.rho y v) = S.c x y ^ 2 • S.rho y (S.rho x v) := by
-  rw [S.9 x y v, S.9 y x v, smul_smul, add_comm y x]
-  congr 1
-  have h := _root_.GlobalTheory.CompanionTheory.FinHeis.Sys.c_mul_c_swap S x y
-  calc S.c x y = S.c x y * (S.c x y * S.c y x) := by rw [h, mul_one]
-    _ = S.c x y ^ 2 * S.c y x := by ring
+  apply _root_.GlobalTheory.CompanionTheory.FinHeis.Irred.rho_comm <;> assumption
 
 theorem orth (S : Sys X M) (al : X → ℂ) (Γ : AddSubgroup X) (φ φ' : M) (x : X)
     (hΓ : SelfDual S Γ) (hal : IsSemi S al Γ) (hφ : Law S al Γ φ) (hφ' : Law S al Γ φ')

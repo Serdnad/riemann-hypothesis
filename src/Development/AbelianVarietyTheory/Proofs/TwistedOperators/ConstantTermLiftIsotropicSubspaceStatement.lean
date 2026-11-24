@@ -1009,16 +1009,7 @@ variable {D : D7}
 
 theorem mt_mul_frame (V : HSp D) {r : ℕ} (C : Matrix (Fin V.rank) (Fin r) D.host.E) (g : GA D V) (hg : g ∈ NI V C) :
     mt V g * C.map (incA D) = C.map (incA D) := by
-  induction hg using Subgroup.closure_induction with
-  | mem g hg =>
-    obtain ⟨h, -, -⟩ := hg
-    have h' : (mt V g - 1 : Matrix (Fin V.rank) (Fin V.rank) (AE D)) * (C.map (incA D) : Matrix (Fin V.rank) (Fin r) (AE D)) = 0 := h
-    rwa [Matrix.sub_mul, Matrix.one_mul, sub_eq_zero] at h'
-  | one => rw [GlobalTheory.AdelicLatMove.mt_one, Matrix.one_mul]
-  | mul g h _ _ hg hh => rw [GlobalTheory.AdelicLatMove.mt_mul, Matrix.mul_assoc, hh, hg]
-  | inv g _ hg =>
-    conv_lhs => rw [← hg]
-    rw [← Matrix.mul_assoc, ← GlobalTheory.AdelicLatMove.mt_mul, inv_mul_cancel, GlobalTheory.AdelicLatMove.mt_one, Matrix.one_mul]
+  apply _root_.GlobalTheory.FrameStab.mt_mul_frame <;> assumption
 
 theorem hO_eq_trace (S T : HSp D) (x y : WO S T) :
     hO S T x y = Matrix.trace (S.gram⁻¹.map (incA D) * (y.map (cA D))ᵀ * T.gram.map (incA D) * x) := by

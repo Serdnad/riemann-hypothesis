@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TracedQminorComatrixTruncatedInverse
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.LowKMultOneP
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.RealDescent.RealLeviDescent.IsCoreMod
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.DiscreteSeriesInfinitesimalCharacter
@@ -128,17 +129,8 @@ theorem e_mem (E : Fin n → Fin n → Module.End ℂ V) {p q : Fin n} (h : p < 
 
 theorem epow_left {A : Type} [Ring A] (E : Fin n → Fin n → A) (k : ℕ) (a b : Fin n) :
     Formalism.REAL.epow E (k + 1) a b = ∑ c, E a c * Formalism.REAL.epow E k c b := by
-  induction k generalizing a b with
-  | zero => simp [Formalism.REAL.epow]
-  | succ k ih =>
-    have hs : ∀ (k : ℕ) (a b : Fin n), Formalism.REAL.epow E (k + 1) a b = ∑ c, Formalism.REAL.epow E k a c * E c b :=
-      fun _ _ _ => rfl
-    rw [hs (k + 1)]
-    simp only [ih, Finset.sum_mul]
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun c _ => ?_
-    rw [← ih c b, hs k, Finset.mul_sum]
-    exact Finset.sum_congr rfl fun d _ => mul_assoc _ _ _
+  intros
+  apply _root_.GlobalTheory.TracedComatrix.epow_succ_left <;> assumption
 
 theorem cov_apply {E : Fin n → Fin n → Module.End ℂ V} (hE : GlRel E) (k : ℕ) (p c q : Fin n) (x : V) :
     E p c (Formalism.REAL.epow E k c q x) = Formalism.REAL.epow E k c q (E p c x) + Formalism.REAL.epow E k p q x - (if q = p then Formalism.REAL.epow E k c c x else 0) := by

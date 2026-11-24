@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HighestWeightUniqueness.FrameInvMulVecNegativeVector
 
 @[expose] public section
 
@@ -215,14 +216,7 @@ private lemma sign_mul_sign_piI_eq_one (i : Fin (2 * r + k + 1)) :
 
 lemma inv_fix {a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ} (hU : a ∈ UH (Hpk k r))
     {v : Fin (2 * r + k + 1) → ℂ} (hv : a *ᵥ v = v) : a⁻¹ *ᵥ v = v := by
-  have hU' : aᴴ * Hpk k r * a = Hpk k r := hU
-  have hl : (Hpk k r * aᴴ * Hpk k r) * a = 1 := by
-    calc Hpk k r * aᴴ * Hpk k r * a = Hpk k r * (aᴴ * Hpk k r * a) := by
-          simp only [Matrix.mul_assoc]
-      _ = 1 := by rw [hU', _root_.PI.QuotSetU.UnitaryGroupMassFormula.SW.Hpk_mul_self]
-  rw [Matrix.inv_eq_left_inv hl]
-  calc (Hpk k r * aᴴ * Hpk k r) *ᵥ v = (Hpk k r * aᴴ * Hpk k r) *ᵥ (a *ᵥ v) := by rw [hv]
-    _ = v := by rw [Matrix.mulVec_mulVec, hl, Matrix.one_mulVec]
+  apply _root_.PI.HwUniqW.inv_fix <;> assumption
 
 lemma inv_mem_UW {a : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (ha : a ∈ UWset k r z) : a⁻¹ ∈ UWset k r z := by

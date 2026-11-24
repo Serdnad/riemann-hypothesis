@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.HeightCommutatorInvariance
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.Valuation.Integral
@@ -63,16 +64,7 @@ theorem norm_algebraMap_le_one {l : ℕ} [Fact (Nat.Prime l)] (a : ℤ_[l]) :
 
 theorem norm_le_one_of_isIntegral {l : ℕ} [Fact (Nat.Prime l)] (x : PadicAlgCl l)
     (hx : IsIntegral ℤ_[l] x) : ‖x‖ ≤ (1 : ℝ) := by
-  let v : Valuation (PadicAlgCl l) NNReal := NormedField.valuation
-  have hv : ∀ y : PadicAlgCl l, v y ≤ 1 ↔ ‖y‖ ≤ 1 := fun y => by
-    change ‖y‖₊ ≤ 1 ↔ _
-    exact_mod_cast Iff.rfl
-  let φ : ℤ_[l] →+* v.integer :=
-    (algebraMap ℤ_[l] (PadicAlgCl l)).codRestrict v.integer
-      (fun a => (hv _).2 (norm_algebraMap_le_one a))
-  have h : IsIntegral v.integer x :=
-    IsIntegral.map_of_comp_eq φ (RingHom.id _) (by ext a; rfl) hx
-  exact (hv x).1 (Valuation.Integers.mem_of_integral (Valuation.integer.integers v) h)
+  first | exact _root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral | exact @_root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral | apply _root_.GlobalTheory.AlgebraMapNormLeOne.norm_le_one_of_isIntegral <;> assumption
 
 end GlobalTheory.IntegralNormAlgebraMap
 end -- clump:auto

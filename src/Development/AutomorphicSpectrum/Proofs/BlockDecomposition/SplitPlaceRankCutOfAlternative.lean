@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalJacobianType.ContinuousPsiVOf
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.KvFintype
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.WeilTensorModels
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.LocalMatrixMomentSurjectiveConj
@@ -369,17 +370,8 @@ namespace GlobalTheory.CompanionTheory.Jp.ResChar
 theorem local_component_additive_character_add {F : Type} [Field F] [NumberField F] (ψ : AddChar (AF F) ℂ)
     (v : HeightOneSpectrum (𝓞 F)) (r s : Fv F v) :
     psiV F ψ v (r + s) = psiV F ψ v r * psiV F ψ v s := by
-  have h1 : singleV F v (r + s) = singleV F v r + singleV F v s := by
-    classical
-    unfold singleV
-    first
-    | exact Subtype.ext (Pi.single_add v r s)
-  have h2 : pairA F 0 (singleV F v (r + s)) = pairA F 0 (singleV F v r) + pairA F 0 (singleV F v s) := by
-    rw [h1]
-    show ((0 : Ainf F), singleV F v r + singleV F v s) = ((0 : Ainf F) + 0, singleV F v r + singleV F v s)
-    rw [add_zero]
-  simp only [psiV]
-  rw [h2, AddChar.map_add_eq_mul]
+  intros
+  apply _root_.PI.UnitaryGroupMassFormula.LocJacTyp.Sd.psiV_add' <;> assumption
 
 theorem dvd_of_nonunit {R : Type*} [CommRing R] [IsDomain R] [ValuationRing R] {p x : R}
     (hp : Irreducible p) (hx : ¬ IsUnit x) : p ∣ x := by

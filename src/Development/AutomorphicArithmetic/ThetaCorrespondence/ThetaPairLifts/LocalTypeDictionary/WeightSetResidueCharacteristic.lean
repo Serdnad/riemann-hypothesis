@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftLabelPartFinrankEqRowsPartFinrank
 public import Development.AbelianVarietyTheory.Definitions.Divisors.TwistedPlacesOfCondition
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.TypeIdempotentCoeffAcrossLayers
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisCohomology₂.GreenCuspidalIff
@@ -404,18 +405,8 @@ theorem twSub_iSup {C : Type} (S : C → Prop) (V : C → Submodule ℂ E) :
   exact twSub_map s (V c)
 
 theorem twSub_finrank (V : Submodule ℂ E) : Module.finrank ℂ (Tw.sub s V) = Module.finrank ℂ V := by
-  unfold Module.finrank
-  congr 1
-  symm
-  exact rank_eq_of_equiv_equiv (cj s)
-    (show V ≃+ Tw.sub s V from
-      { toFun := fun x => ⟨Tw.mk s x.1, x.2⟩
-        invFun := fun x => ⟨Tw.out x.1, x.2⟩
-        left_inv := fun _ => rfl
-        right_inv := fun _ => rfl
-        map_add' := fun _ _ => rfl })
-    (Function.Involutive.bijective (cj_cj s))
-    (fun r m => Subtype.ext ((Tw.mkL s E).map_smulₛₗ r m.1))
+  intros
+  apply _root_.GlobalTheory.Mem.R3.LamDim.finrank_twSub <;> assumption
 
 theorem twSub_le {V V' : Submodule ℂ E} (h : V ≤ V') : Tw.sub s V ≤ Tw.sub s V' := fun _ hx => h hx
 

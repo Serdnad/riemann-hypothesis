@@ -50,6 +50,7 @@ import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.SumMul
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsProperToroidalModelStructureMap
 import Development.AbelianVarietyTheory.Definitions.Divisors.IsUnimodMod
 import Development.AbelianVarietyTheory.PublishedTheorems.AutomorphicForms₂.SiegelToroidalIntegral
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.EEContainsStableWeightZero
 
 @[expose] public section
 
@@ -63,22 +64,7 @@ namespace GlobalTheory.ShortVec
 
 theorem nonneg_of_tendsto {X : Type} [AddCommGroup X] (q : QuadraticMap ℤ X ℝ)
     (hq : Filter.Tendsto q Filter.cofinite Filter.atTop) (a : X) : 0 ≤ q a := by
-  by_contra h
-  have h : q a < 0 := not_le.1 h
-  have hfin : {x | ¬ (0 : ℝ) ≤ q x}.Finite := Filter.eventually_cofinite.1 (hq.eventually_ge_atTop 0)
-  have hv : ∀ n : ℕ, q (((n : ℤ) + 1) • a) = ((n : ℝ) + 1) ^ 2 * q a := fun n => by
-    rw [QuadraticMap.map_smul, zsmul_eq_mul]
-    push_cast
-    ring
-  refine Set.infinite_of_injective_forall_mem (f := fun n : ℕ => ((n : ℤ) + 1) • a) (fun m n e => ?_)
-    (fun n => ?_) hfin
-  · have e' := congrArg q e
-    simp only [hv] at e'
-    have e2 := mul_right_cancel₀ h.ne e'
-    have e3 := (pow_left_inj₀ (by positivity) (by positivity) two_ne_zero).1 e2
-    exact_mod_cast add_right_cancel e3
-  · simp only [Set.mem_setOf_eq, hv, not_le]
-    exact mul_neg_of_pos_of_neg (by positivity) h
+  apply _root_.GlobalTheory.ZH.LatticeStable.quadratic_nonneg <;> assumption
 
 variable {o Ω : Type} [CommRing o] [Field Ω] [Algebra o Ω] {S : ThetaSys o Ω} {M : RatModel o Ω}
 

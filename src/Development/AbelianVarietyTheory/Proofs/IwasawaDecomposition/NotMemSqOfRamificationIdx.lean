@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.FlagMeasures.CmFieldSplitCompletelyPlaceStructure
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ValuationPowSubPowLt
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.CmQuadraticFormEqAlternatingForm
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.AbsNormPrimeIffInertiaDegEqOneAndFiniteRamified
@@ -110,22 +111,7 @@ end Roots
 theorem not_mem_sq_of_ramificationIdx {E : Type} [Field E] [NumberField E] {l : ℕ} (hl : l.Prime)
     (v : HeightOneSpectrum (𝓞 E)) (hv : ((l : ℕ) : 𝓞 E) ∈ v.asIdeal) (he : v.asIdeal.ramificationIdx ℤ = 1) :
     ((l : ℕ) : 𝓞 E) ∉ v.asIdeal ^ 2 := by
-  have hp : Prime (l : ℤ) := Nat.prime_iff_prime_int.mp hl
-  have hmax : (Ideal.span {(l : ℤ)}).IsMaximal :=
-    PrincipalIdealRing.isMaximal_of_irreducible hp.irreducible
-  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(l : ℤ)}) = Ideal.span {((l : ℕ) : 𝓞 E)} := by
-    rw [Ideal.map_span]; simp
-  have hle : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {(l : ℤ)}) ≤ v.asIdeal := by
-    rw [hmap, Ideal.span_le]; simpa using hv
-  have := v.isPrime
-  have : v.asIdeal.LiesOver (Ideal.span {(l : ℤ)}) :=
-    ⟨hmax.eq_of_le (Ideal.comap_ne_top _ v.isPrime.ne_top) (Ideal.map_le_iff_le_comap.mp hle)⟩
-  have hb : Ideal.span {(l : ℤ)} ≠ ⊥ := by simpa using hl.ne_zero
-  rw [← Ideal.ramificationIdx'_eq_ramificationIdx (Ideal.span {(l : ℤ)}) v.asIdeal hb] at he
-  intro h
-  refine (Ideal.ramificationIdx'_ne_one_iff hle).2 ?_ he
-  rw [hmap, Ideal.span_le]
-  simpa using h
+  apply _root_.GlobalTheory.St.G.SplitPrime.natCast_not_mem_sq_of_ramificationIdx_eq_one <;> assumption
 
 theorem isPsi_of_isHeckeOf {R : Ranks} {H : Formalism.BasicNotions.Host R} {Ω : Type} [Field Ω] [Algebra H.E Ω] [IsAlgClosure H.E Ω]
     {cc : Ω ≃+* Ω} (hcc : IsCMConjOm H.E Ω cc) {art : Ideles H.E →* Gab H.E Ω} (ha : IsGlobalArtin art)

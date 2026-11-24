@@ -150,84 +150,9 @@ theorem tauZ_exists [IsDomain O] (T : LocLat G Qp LL O) (hC : Ctx W T) (h9 : For
     (h4 : ∀ r : ℕ, ((r + padicValNat PD.p r.factorial : ℕ) : ℚ) ≤ r * PD.p / ((PD.p : ℚ) - 1)) :
     ∃ τ, Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j W.π₀ τ ∧
       GoodZ W T c A.j (2 * A.G₀) (A.M PD.p) (A.σ PD.p) Z τ := by
-  have hl : 2 ≤ PD.p := PD.hp.two_le
-  have hO := SatW.p_nzd_O W hC.inj
-  have hg : ∀ r m, ∃ o : O, algebraMap O LL o = (PD.p : LL) ^ Ex PD.p r * cf r m :=
-    fun r m => int_of_bd W hC.O2 r (h4 r) _ (hbd r m)
-  choose g hg using hg
-  have hg0 : ∀ m, g 0 m = 0 := fun m => hC.inj (by rw [hg, hc0]; simp)
-  have hdec : ∀ r, ∃ a'' ∈ W.AΔ, ∃ B ∈ W.AΔ, ∀ m,
-      ((PD.p : ℕ) : LetA O n) ^ Formalism.NOK.sigNOK PD.p (2 * A.G₀) (A.M PD.p) A.j *
-          ((W.φA ^ A.j) W.π₀) ^ r * algebraMap O (LetA O n) (g r m) =
-        (W.π₀ * a'' * ((PD.p : ℕ) : LetA O n) ^ Ex PD.p r +
-          B * Formalism.MainNotions.LiftingTheory.JJ W A.j (2 * A.G₀) (A.M PD.p)) * algebraMap O (LetA O n) (g r m) := by
-    intro r
-    rcases Nat.eq_zero_or_pos r with rfl | hr
-    · exact ⟨0, W.AΔ.zero_mem, 0, W.AΔ.zero_mem, fun m => by simp [hg0]⟩
-    · obtain ⟨a, ha, B, hB, h⟩ := Formalism.MainNotions.LiftingTheory.tr_trunc_int W h9 hp2 A.j (2 * A.G₀) (A.M PD.p) r hj
-      obtain ⟨a'', ha'', rfl⟩ := frobenius_uniformizer_pow_dvd W h9 hO hC.Tr2 A.j (2 * A.G₀) (A.M PD.p) r _ _ hr
-        (M_pos A _) ha h
-      exact ⟨a'', ha'', B, hB, fun m => by rw [h]; rfl⟩
-  choose a'' ha'' B hB heq using hdec
-  set M := A.M PD.p with hMdef
-  set κ := Ex PD.p M with hκ
-  set σ := A.σ PD.p with hσ
-  set sg := Formalism.NOK.sigNOK PD.p (2 * A.G₀) M A.j with hsg
-  have hsgσ : sg ≤ σ := sig_le A PD.p
-  let y : ℕ → Fin d → O := fun r m => ((PD.p : ℕ) : O) ^ (κ - Ex PD.p r) * g r m
-  have hy : ∀ r < M, ∀ m, algebraMap O LL (y r m) = (PD.p : LL) ^ κ * cf r m := by
-    intro r hr m
-    have hle := Ex_mono PD.p hl hr.le
-    simp only [y, map_mul, map_pow, map_natCast, hg]
-    rw [← mul_assoc, ← pow_add, Nat.sub_add_cancel hle]
-  have hyA : ∀ r m, algebraMap O (LetA O n) (y r m) =
-      Formalism.MainNotions.ArcLiftingSetup.lA W ^ (κ - Ex PD.p r) * algebraMap O (LetA O n) (g r m) := by
-    intro r m; simp only [y, map_mul, map_pow, map_natCast]; rfl
-  let β : Fin d → W.DD T := fun m => ((W.φD T) ^ A.j) (b m)
-  have hβ : ∀ m, β m ∈ Formalism.MainNotions.ArcLiftingSetup.Pp W T c A.j := fun m => Pp_phi W T c A.j (hb.1 m)
-  have hcoefΔ : ∀ r m, Formalism.MainNotions.ArcLiftingSetup.lA W ^ (σ - sg) * algebraMap O (LetA O n) (g r m) * a'' r ∈ W.AΔ :=
-    fun r m => W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _) (W.AΔ.algebraMap_mem _)) (ha'' r)
-  let τ : W.DD T := W.π₀ • ∑ r ∈ Finset.range M, ∑ m,
-    (Formalism.MainNotions.ArcLiftingSetup.lA W ^ (σ - sg) * algebraMap O (LetA O n) (g r m) * a'' r) • β m
-  have hτ : Formalism.MainNotions.ArcLiftingSetup.InFP W T c A.j W.π₀ τ :=
-    ⟨_, AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
-      Pp_smul W T c A.j (hcoefΔ r m) _ (hβ m), rfl⟩
-  have hS := solOK_of_sol W T hC.inj hC.hπ c b hb _ cf hsol hc0 M (M_pos A _) κ y hy
-  set S := ∑ r ∈ Finset.range M, W.π₀ ^ r • Formalism.MainNotions.LiftingTheory.vecB W T b (y r) with hSdef
-  have hφS : ((W.φD T) ^ A.j) S = ∑ r ∈ Finset.range M, ∑ m,
-      (((W.φA ^ A.j) W.π₀) ^ r * algebraMap O (LetA O n) (y r m)) • β m := by
-
-    rw [hSdef, map_sum]
-    refine Finset.sum_congr rfl fun r _ => ?_
-
-    rw [φpow_smul, map_pow, Formalism.MainNotions.LiftingTheory.vecB, map_sum, Finset.smul_sum]
-    refine Finset.sum_congr rfl fun m _ => ?_
-    rw [map_smul, ← algebraMap_smul (LetA O n) (y r m), smul_smul]
-  have key : Formalism.MainNotions.ArcLiftingSetup.lA W ^ 0 • (Formalism.MainNotions.ArcLiftingSetup.lA W ^ κ • τ - Formalism.MainNotions.ArcLiftingSetup.lA W ^ σ • ((W.φD T) ^ A.j) S) =
-      Formalism.MainNotions.LiftingTheory.JJ W A.j (2 * A.G₀) M • ∑ r ∈ Finset.range M, ∑ m,
-        (-(Formalism.MainNotions.ArcLiftingSetup.lA W ^ (σ - sg) * Formalism.MainNotions.ArcLiftingSetup.lA W ^ (κ - Ex PD.p r) *
-          algebraMap O (LetA O n) (g r m) * B r)) • β m := by
-    rw [hφS, pow_zero, one_smul, smul_smul, Finset.smul_sum, Finset.smul_sum, Finset.smul_sum,
-      ← Finset.sum_sub_distrib]
-    refine Finset.sum_congr rfl fun r hr => ?_
-    rw [Finset.smul_sum, Finset.smul_sum, Finset.smul_sum, ← Finset.sum_sub_distrib]
-    refine Finset.sum_congr rfl fun m _ => ?_
-    rw [smul_smul, smul_smul, ← sub_smul, smul_smul]
-    congr 1
-    have hle := Ex_mono PD.p hl (Finset.mem_range.1 hr).le
-    have := termId (Formalism.MainNotions.ArcLiftingSetup.lA W) W.π₀ (((W.φA ^ A.j) W.π₀) ^ r)
-      (algebraMap O (LetA O n) (g r m)) (a'' r) (B r) (Formalism.MainNotions.LiftingTheory.JJ W A.j (2 * A.G₀) M)
-      (σ - sg) sg (κ - Ex PD.p r) (Ex PD.p r) κ σ (by omega) (by omega) (heq r m)
-    rw [hyA]
-    linear_combination this
-  have hGood : GoodZ W T c A.j (2 * A.G₀) M σ Z τ := by
-    refine ⟨κ, 0, S, hS, ?_⟩
-    rw [key]
-    refine inMultiple_of_mem W T c A.j _ (AddSubgroup.sum_mem _ fun r _ => AddSubgroup.sum_mem _ fun m _ =>
-      Pp_smul W T c A.j ?_ _ (hβ m))
-    exact W.AΔ.neg_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.mul_mem (W.AΔ.pow_mem (lA_mem W) _)
-      (W.AΔ.pow_mem (lA_mem W) _)) (W.AΔ.algebraMap_mem _)) (hB r))
-  exact ⟨τ, hτ, hGood⟩
+  obtain ⟨τ, κ, _, S, hτ, _, hS, hRem⟩ :=
+    tau_data_of_solution W T hC h9 hp2 A hj c Z b cf hb hsol hc0 hbd h4
+  exact ⟨τ, hτ, κ, 0, S, hS, hRem⟩
 
 end Formalism.MainNotions.UnusedSlot80.Relay2
 

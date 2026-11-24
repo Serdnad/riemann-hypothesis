@@ -1,5 +1,6 @@
 module
 
+import Development.EtaleCohomology.DivisorCycles.GoalHolds
 public import Formalism.SharpRestriction.LevelLetterCocycles.DataNLoc
 public import Mathlib.FieldTheory.IsAlgClosed.Spectrum
 public import Mathlib.LinearAlgebra.Matrix.Charpoly.Eigs
@@ -81,19 +82,8 @@ private theorem norm_eq_of_aeval_minpoly_eq_zero' {l : ℕ} [Fact l.Prime] (L : 
 private theorem aeval_mul_eq_mul_aeval_of_semiconj {K : Type} [Field K] {d r : ℕ} (F : Matrix (Fin d) (Fin d) K)
     (Y : Matrix (Fin d) (Fin r) K) (F' : Matrix (Fin r) (Fin r) K) (h : F * Y = Y * F')
     (q : Polynomial K) : Polynomial.aeval F q * Y = Y * Polynomial.aeval F' q := by
-  induction q using Polynomial.induction_on' with
-  | add p q hp hq =>
-    rw [map_add (f := _), map_add (f := _), Matrix.add_mul, Matrix.mul_add, hp, hq]
-  | monomial n c =>
-    have hpow : ∀ m : ℕ, F ^ m * Y = Y * F' ^ m := by
-      intro m
-      induction m with
-      | zero => simp
-      | succ m ih =>
-        rw [pow_succ, pow_succ, Matrix.mul_assoc, h, ← Matrix.mul_assoc, ih, Matrix.mul_assoc]
-    rw [Polynomial.aeval_monomial, Polynomial.aeval_monomial, Algebra.algebraMap_eq_smul_one,
-      Algebra.algebraMap_eq_smul_one]
-    simp only [Matrix.smul_mul, Matrix.mul_smul, Matrix.one_mul, hpow]
+  intros
+  apply _root_.LateralTheory.DivDb.FiniteSubrepresentation.aeval_tw <;> assumption
 
 private theorem norm_det_eq_pow_of_aeval_minpoly_eq_zero {l : ℕ} [Fact l.Prime] (L : IntermediateField ℚ_[l] (Om l)) {r : ℕ}
     (A : Matrix (Fin r) (Fin r) ↥L) (a : Om l) (hA : Polynomial.aeval A (minpoly L a) = 0) :

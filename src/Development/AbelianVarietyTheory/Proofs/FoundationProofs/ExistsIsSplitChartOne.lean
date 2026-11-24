@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.EqZeroOfForallLeExp
 public import Mathlib.RingTheory.DedekindDomain.AdicValuation.Completion
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NonemptyAlgHomOfNotIsField
 public import Development.AbelianVarietyTheory.Definitions.Foundations.NotIsSplitOfIsInertAt
@@ -155,17 +156,7 @@ namespace GlobalTheory.SplitCompletion
 theorem continuous_of_valued_eq {A B Γ : Type*} [Ring A] [Ring B] [LinearOrderedCommGroupWithZero Γ]
     [Valued A Γ] [Valued B Γ] (hs : Function.Surjective (Valued.v : A → Γ)) (f : A →+* B)
     (hf : ∀ x, Valued.v (f x) = Valued.v x) : Continuous f := by
-  refine continuous_of_continuousAt_zero f ?_
-  rw [ContinuousAt, map_zero, (Valued.hasBasis_nhds_zero A _).tendsto_iff (Valued.hasBasis_nhds_zero B _)]
-  intro γ _
-  obtain ⟨a, ha⟩ := hs (MonoidWithZeroHom.ValueGroup₀.embedding γ.1)
-  have ha0 : (Valued.v : Valuation A Γ).restrict a ≠ 0 := by
-    simp [ha]
-  refine ⟨Units.mk0 _ ha0, trivial, fun x hx => ?_⟩
-  simp only [Set.mem_setOf_eq, Units.val_mk0, Valuation.restrict_lt_iff] at hx
-  simp only [Set.mem_setOf_eq, Valuation.restrict_lt_iff_lt_embedding]
-  rw [hf, ← ha]
-  exact hx
+  first | exact _root_.GlobalTheory.DenseCompl.continuous_of_valued_eq | exact @_root_.GlobalTheory.DenseCompl.continuous_of_valued_eq | apply _root_.GlobalTheory.DenseCompl.continuous_of_valued_eq <;> assumption
 
 
 theorem exists_ringEquiv_splitPrime : ∀ {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E]

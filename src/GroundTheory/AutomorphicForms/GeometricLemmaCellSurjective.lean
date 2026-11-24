@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.AutomorphicForms.AffineBruhat
 public import GroundTheory.AutomorphicForms.GeometricLemmaJacquetCell
 import GroundTheory.AutomorphicForms.AdmissibleInduction
 import GroundTheory.AutomorphicForms.GeometricLemmaCount
@@ -67,18 +68,8 @@ variable {F : Type*} [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchi
   {n : ℕ}
 
 theorem permGL_mem_integralGL (w : Equiv.Perm (Fin n)) : permGL F w ∈ integralGL F n := by
-  rw [mem_integralGL_iff F n]
-  constructor
-  · intro i j
-    rw [permGL_apply]
-    split_ifs
-    · exact one_mem _
-    · exact zero_mem _
-  · intro i j
-    rw [← map_inv, permGL_apply]
-    split_ifs
-    · exact one_mem _
-    · exact zero_mem _
+  intros
+  apply _root_.GroundTheory.Automorphic.GLnLocal.permGL_mem_integralGL <;> assumption
 
 section Bump
 

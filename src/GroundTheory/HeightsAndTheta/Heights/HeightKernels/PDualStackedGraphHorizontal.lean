@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PTwinVertDivIff
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedGraph
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PDualTopSimpleStacked
 import Mathlib.Tactic.TypeStar
@@ -28,35 +29,7 @@ theorem length_localized_eq {A : Type*} [CommRing A] {I J W : Ideal A} [W.IsPrim
     {s : A} (hs : s ∉ W) (hsJ : ∀ x ∈ J, s * x ∈ I) :
     Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ I)) =
       Module.length (Localization.AtPrime W) (LocalizedModule W.primeCompl (A ⧸ J)) := by
-  let π : (A ⧸ I) →ₗ[A] (A ⧸ J) := Submodule.factor hIJ
-  let φ := IsLocalizedModule.map W.primeCompl (LocalizedModule.mkLinearMap W.primeCompl (A ⧸ I))
-    (LocalizedModule.mkLinearMap W.primeCompl (A ⧸ J)) π
-  have hπ : Function.Surjective π := by
-    intro y
-    obtain ⟨x, rfl⟩ := Submodule.mkQ_surjective J y
-    exact ⟨Submodule.mkQ I x, Submodule.factor_mk hIJ x⟩
-  have hsurj : Function.Surjective φ := IsLocalizedModule.map_surjective _ _ _ π hπ
-  have hinj : Function.Injective φ := by
-    rw [← LinearMap.ker_eq_bot, LinearMap.ker_eq_bot']
-    intro y hy
-    induction y using LocalizedModule.induction_on with
-    | h m t =>
-      obtain ⟨r, rfl⟩ := Submodule.mkQ_surjective I m
-      have hy' : LocalizedModule.mk (π (Submodule.mkQ I r)) t = 0 := by
-        rw [← hy]
-        exact (IsLocalizedModule.map_LocalizedModules W.primeCompl π _ t).symm
-      rw [← LocalizedModule.zero_mk 1, LocalizedModule.mk_eq] at hy' ⊢
-      obtain ⟨u, hu⟩ := hy'
-      refine ⟨⟨s, hs⟩ * u, ?_⟩
-      rw [one_smul, smul_zero, smul_zero] at hu ⊢
-      rw [Submodule.factor_mk, Submodule.mkQ_apply, Submonoid.smul_def, ← Submodule.Quotient.mk_smul,
-        Submodule.Quotient.mk_eq_zero, smul_eq_mul] at hu
-      have hI : s * (u * r) ∈ I := hsJ _ hu
-      rw [Submodule.mkQ_apply, Submonoid.smul_def, ← Submodule.Quotient.mk_smul, Submodule.Quotient.mk_eq_zero,
-        smul_eq_mul]
-      simpa [mul_assoc] using hI
-  exact (LinearEquiv.extendScalarsOfIsLocalization W.primeCompl (Localization.AtPrime W)
-    (LinearEquiv.ofBijective φ ⟨hinj, hsurj⟩)).length_eq
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.length_localizedQuot_eq_of_mul_le <;> assumption
 
 theorem multAt_eq_of_mul_mem {K' : Type} [Fintype K'] {ι : K' → Type} [∀ k, Fintype (ι k)]
     {I J W : Ideal (MRing ι)} (hIJ : I ≤ J) {s : MRing ι} (hs : s ∉ W) (hsJ : ∀ x ∈ J, s * x ∈ I) :

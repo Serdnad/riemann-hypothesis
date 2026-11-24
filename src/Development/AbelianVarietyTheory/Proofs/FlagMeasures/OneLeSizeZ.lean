@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.ClosedLocalOrbits.GaugeLatticeShifts.RatIota
 import Formalism.LocalToGlobal.SubmoduleMembership
 public import Formalism.SharpRestriction.CuspSpanNormBounds.CntPartners
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatDetHMapInjectiveIsometryStatement
@@ -73,6 +74,7 @@ import Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsUniquePlace
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLattice
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.StandardBaseFlagComplementIntegralLatticeStatement
 import Formalism.HermitianLattices.FinalMass
+import Formalism.SharpRestriction.CuspSpanNormBounds.LatticeGluingRadicals
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FlagMeasures.CntPrimLatticeImageIsometry, Development.AbelianVarietyTheory.Proofs.FlagMeasures.CntPrimLatticeImageIsometryStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.EncardSublatticesBoundedDetLeSumStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsCommonSublatticeSmallDet, Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsCommonSublatticeSmallDetStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsPairMoveByIntegralUnipotentStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeSeenInDefiniteSpaceDetRankIndex, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LatticeSeenInDefiniteSpaceDetRankIndexStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LiftedFlagLatticeChainSpans, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LiftedFlagLatticeChainSpansStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.LoopCountExponentBound, Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthTransversalFlagsInfIsotropicEqBot, Development.AbelianVarietyTheory.Proofs.FlagMeasures.OrthTransversalFlagsInfIsotropicEqBotStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.ExistsDenominatorOfFg, Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairIsometryUniqueOnOrthModIsotropic, Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairIsometryUniqueOnOrthModIsotropicStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairLatticeLeLiftedPairLatticeSupIsotropic, Development.AbelianVarietyTheory.Proofs.FlagMeasures.PairLatticeLeLiftedPairLatticeSupIsotropicStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.RowLatticesMeanEqGenusMeanStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.TraceFormPosOnOrthLiftedFlagStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.XLamLeSmulSupXLamAdmissibleFlag, Development.AbelianVarietyTheory.Proofs.FlagMeasures.XLamLeSmulSupXLamAdmissibleFlagStatement, Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneLeSizeZ
@@ -1133,26 +1135,11 @@ theorem IotaRel_zero (F : LFlag S r T) (F' : LFlag S r T') : IotaRel Λ g F F' 0
 
 theorem IotaRel_add {F : LFlag S r T} {F' : LFlag S r T'} {x y : S.V}
     (hx : IotaRel Λ g F F' x) (hy : IotaRel Λ g F F' y) : IotaRel Λ g F F' (x + y) := by
-  obtain ⟨l, hl, h1, l', hl', h2, h3⟩ := hx
-  obtain ⟨m, hm, k1, m', hm', k2, k3⟩ := hy
-  refine ⟨l + m, Submodule.add_mem _ hl hm, ?_, l' + m', Submodule.add_mem _ hl' hm', ?_, ?_⟩
-  · have := (Xsp F).add_mem h1 k1
-    rwa [show x - l + (y - m) = x + y - (l + m) by abel] at this
-  · have := (Xsp F').add_mem h2 k2
-    rwa [show x - l' + (y - m') = x + y - (l' + m') by abel] at this
-  · have := Submodule.add_mem _ h3 k3
-    rwa [show l - l' + (m - m') = l + m - (l' + m') by abel] at this
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.c_IotaRel_add <;> assumption
 
 theorem IotaRel_smul {F : LFlag S r T} {F' : LFlag S r T'} {x : S.V} (o : 𝓞 E)
     (hx : IotaRel Λ g F F' x) : IotaRel Λ g F F' (o • x) := by
-  obtain ⟨l, hl, h1, l', hl', h2, h3⟩ := hx
-  refine ⟨o • l, Submodule.smul_mem _ o hl, ?_, o • l', Submodule.smul_mem _ o hl', ?_, ?_⟩
-  · rw [← smul_sub]
-    exact (toO S (Xsp F)).smul_mem o h1
-  · rw [← smul_sub]
-    exact (toO S (Xsp F')).smul_mem o h2
-  · rw [← smul_sub]
-    exact Submodule.smul_mem _ o h3
+  apply _root_.Formalism.MainNotions.LatticeGluingRadicals.c_IotaRel_smul <;> assumption
 
 theorem La_props {F : LFlag S r T} {F' : LFlag S r T'} {x : S.V} (hx : x ∈ La Λ g F F') :
     x ∈ L0sub Λ F ∧ x ∈ L0sub Λ F' ∧ IotaRel Λ g F F' x := by
@@ -1318,60 +1305,8 @@ theorem xLam_le_smul_sup_xLam :
       (Λ : Submodule (𝓞 E) S.V) (g : ℕ) (F : LFlag S r T) (F' : LFlag S r T'),
       IsFixedConv Λ g F → IsFixedConv Λ g F' → IsAdmissible Λ g F F' →
         XLam Λ F ≤ Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F' := by
-  intro E _ _ _ S r T T' Λ g F F' hF hF' hA x hx
-  obtain ⟨ξ, hξ0, hξ1, hξ⟩ := hA
-  set N : Submodule (𝓞 E) S.V := Ideal.span {(g : 𝓞 E)} • Λ ⊔ XLam Λ F' with hN
-  apply mem_of_forall_locP
-  intro P
-  haveI := P.isPrime
-  by_cases hg : (g : 𝓞 E) ∈ P.asIdeal
-  swap
-  · refine (mem_localization_iff _ _ _).2 ⟨g, hg, Submodule.mem_sup_left ?_⟩
-    exact Submodule.smul_mem_smul (Ideal.subset_span rfl) hx.1
-  obtain ⟨c, -, hc1, hc⟩ := hF.1 P
-  obtain ⟨c', -, hc1', hc'⟩ := hF'.1 P
-  simp only [hc1 hg, one_smul] at hc
-  simp only [hc1' hg, one_smul] at hc'
-  have he' : ∀ b, F'.fl.e b ∈ localization₂ P.asIdeal N := by
-    intro b
-    have h1 : F'.fl.e b ∈ localization₂ P.asIdeal (XLam Λ F') := by
-      rw [hc']
-      exact le_localized_self _ _ (Submodule.subset_span ⟨b, rfl⟩)
-    exact localization_le_of_le_localization₂ _ (le_sup_right.trans (le_localized_self _ _)) h1
-  have hf : ∀ n : ℕ, ∀ b : Fin r, b.1 = n → F.fl.e b ∈ localization₂ P.asIdeal N := by
-    intro n
-    induction n using Nat.strong_induction_on with
-    | _ n ih =>
-      intro b hb
-      have h1 : frame F' b.castSucc - frameAct (frame F) ξ b.castSucc ∈ localization₂ P.asIdeal N :=
-        localization_le_of_le_localization₂ _ (le_sup_left.trans (le_localized_self _ _)) (hξ b.castSucc P hg)
-      have h2 : frame F' b.castSucc = F'.fl.e b := by simp [frame, FlagG.fvec]
-      have h3 : frameAct (frame F) ξ b.castSucc ∈ localization₂ P.asIdeal N := by
-        have := Submodule.sub_mem _ (he' b) h1
-        rw [h2] at this
-        simpa using this
-      have h4 : frameAct (frame F) ξ b.castSucc =
-          F.fl.e b + ∑ a ∈ Finset.univ.erase b, ξ a.castSucc b.castSucc • F.fl.e a := by
-        unfold frameAct
-        rw [Fin.sum_univ_castSucc, hξ0 (Fin.last r) b.castSucc (Fin.castSucc_lt_last b),
-          ← Finset.add_sum_erase _ _ (Finset.mem_univ b), hξ1]
-        simp only [frame, FlagG.fvec, Fin.snoc_castSucc, RingOfIntegers.coe_eq_algebraMap, map_zero,
-          map_one, zero_smul, add_zero, one_smul, algebraMap_smul]
-      have h5 : ∑ a ∈ Finset.univ.erase b, ξ a.castSucc b.castSucc • F.fl.e a ∈
-          localization₂ P.asIdeal N := by
-        refine Submodule.sum_mem _ fun a ha => ?_
-        rcases lt_or_gt_of_ne (Finset.ne_of_mem_erase ha) with hab | hab
-        · exact Submodule.smul_mem _ _ (ih a.1 (hb ▸ hab) a rfl)
-        · rw [hξ0 _ _ (Fin.castSucc_lt_castSucc_iff.2 hab), zero_smul]
-          exact Submodule.zero_mem _
-      rw [h4] at h3
-      simpa using Submodule.sub_mem _ h3 h5
-  have hx' : x ∈ localization₂ P.asIdeal (XLam Λ F) := le_localized_self _ _ hx
-  rw [hc] at hx'
-  refine localization_le_of_le_localization₂ _ ?_ hx'
-  rw [Submodule.span_le]
-  rintro _ ⟨a, rfl⟩
-  exact hf _ a rfl
+  intros
+  apply _root_.Formalism.L2.SG.Pf.Act.xlam_le' <;> assumption
 
 end GlobalTheory.AdmFlagSub
 

@@ -46,6 +46,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 public import Development.AbelianVarietyTheory.PublishedTheorems.GaloisGeometry₂.HoweUnram
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsFiniteClass
 
 @[expose] public section
 
@@ -161,20 +162,7 @@ theorem exists_approx (N : ℕ) (hN : 0 < N) {x : AL L} (hx : x ∈ ALint L) :
 theorem cong_inv_mul {n N : ℕ} {h h' : Formalism.AUTREP.GAf L n} (hh : h ∈ Umax L n) (hh' : h' ∈ Umax L n)
     (hz : ∀ i j, ∃ z ∈ ALint L, (h'.1 : Matrix (Fin n) (Fin n) (AL L)) i j - (h.1 : Matrix (Fin n) (Fin n) (AL L)) i j =
       (N : AL L) * z) : Formalism.L2.NG.Cong L n N (h⁻¹ * h') := by
-  refine ⟨mul_mem (inv_mem hh) hh', fun i j => ?_⟩
-  choose z hz1 hz2 using hz
-  have hinv : ∀ i j, ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) i j ∈ ALint L := inv_mem hh
-  refine ⟨∑ k, ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) i k * z k j,
-    Subring.sum_mem _ fun k _ => Subring.mul_mem _ (hinv i k) (hz1 k j), ?_⟩
-  have h1 : ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) * (h.1 : Matrix (Fin n) (Fin n) (AL L)) = 1 := by
-    have : ((h⁻¹ * h : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) = 1 := by simp
-    exact this
-  have e : (((h⁻¹ * h' : Formalism.AUTREP.GAf L n)).1 : Matrix (Fin n) (Fin n) (AL L)) =
-      ((h⁻¹ : Formalism.AUTREP.GAf L n).1 : Matrix (Fin n) (Fin n) (AL L)) * (h'.1 : Matrix (Fin n) (Fin n) (AL L)) := rfl
-  rw [e, ← h1, Matrix.mul_apply, Matrix.mul_apply, ← Finset.sum_sub_distrib, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun k _ => ?_
-  rw [← mul_sub, hz2 k j]
-  ring
+  apply _root_.GlobalTheory.IsotOrth.cong_inv_mul <;> assumption
 
 theorem finite_quot {n : ℕ} (H : Subgroup (Formalism.AUTREP.GAf L n)) (hH : H ≤ Umax L n) {N : ℕ} (hN : 0 < N)
     (S : Subgroup H) (hS : ∀ s : H, Formalism.L2.NG.Cong L n N (s : Formalism.AUTREP.GAf L n) → s ∈ S) : Finite (H ⧸ S) := by

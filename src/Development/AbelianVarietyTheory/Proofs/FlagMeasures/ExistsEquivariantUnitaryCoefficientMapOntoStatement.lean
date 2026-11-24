@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.SCompact
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.UnitaryGroup
 public import Formalism.LocalToGlobal.HermitianForms.IsLocBasis
@@ -245,21 +246,7 @@ namespace GlobalTheory.St.CFrame
 
 theorem hJ_rv_gen (I : AutInst) (v : InfinitePlace I.F) (x y : Fin I.n → I.E) :
     hJ (I.ε v) (rv I v x) (rv I v y) = I.φ v (Formalism.UG.hform (starRingEnd I.E) I.J x y) := by
-  have hPi : IsUnit (I.P v).det := (Matrix.isUnit_iff_isUnit_det _).1 (I.P_unit v)
-  have hJv : I.J.map (I.φ v) = ((I.P v)⁻¹)ᴴ * Formalism.REAL.Jm (I.ε v) * (I.P v)⁻¹ := by
-    rw [← I.P_spec v]
-    simp only [Matrix.mul_assoc]
-    rw [Matrix.mul_nonsing_inv _ hPi, Matrix.mul_one, ← Matrix.mul_assoc, ← Matrix.conjTranspose_mul,
-      Matrix.mul_nonsing_inv _ hPi, Matrix.conjTranspose_one, Matrix.one_mul]
-  unfold hJ rv
-  rw [Matrix.star_mulVec, ← Matrix.dotProduct_mulVec, Matrix.mulVec_mulVec, Matrix.mulVec_mulVec, ← hJv]
-
-  simp only [dotProduct, mulVec, Pi.star_apply, Matrix.map_apply, Formalism.UG.hform, map_sum, map_mul,
-  starRingEnd_apply, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  rw [I.cm.cmUnram.2.1]
-  simp only [RCLike.star_def]
-  ring
+  apply _root_.Formalism.L2.SG.Pf.hJ_rv_sc <;> assumption
 
 theorem hform_cols {A : Type} [CommRing A] {n ι : Type} [Fintype n] [Fintype ι] (σ : A →+* A)
     (J : Matrix n n A) (Q : Matrix n ι A) (α β : ι) :

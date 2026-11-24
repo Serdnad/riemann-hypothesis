@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TameCharacterValuesEqHeckeCharLocalValues
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ContinuousOfCongSet
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemDivsOfMem
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.CharacterValueAtT
@@ -464,25 +465,7 @@ theorem evP_toRInt (P : HeightOneSpectrum (𝓞 E)) (b : 𝓞 E) :
 
 theorem valued_lt_of_mem {P : HeightOneSpectrum (𝓞 E)} {w : RInt F E} (h : w ∈ P.asIdeal.map (toRInt F E)) :
     Valued.v (evP F P (w : AfE F E)) < 1 := by
-  have key : ∀ z ∈ P.asIdeal.map (toRInt F E), Valued.v (evP F P (z : AfE F E)) < 1 := by
-    intro z hz
-    induction hz using Submodule.span_induction with
-    | mem x hx =>
-      obtain ⟨p, hp, rfl⟩ := hx
-      rw [evP_toRInt, IsDedekindDomain.HeightOneSpectrum.algebraMap_adicCompletion, Function.comp_apply,
-        IsDedekindDomain.HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
-      exact (IsDedekindDomain.HeightOneSpectrum.valuation_lt_one_iff_mem P p).mpr hp
-    | zero => simp
-    | add x y _ _ hx hy =>
-      rw [Subring.coe_add, map_add (f := _)]
-      exact lt_of_le_of_lt (Valued.v.map_add _ _) (max_lt hx hy)
-    | smul r x _ hx =>
-      rw [smul_eq_mul, Subring.coe_mul, map_mul, map_mul]
-      have hr : Valued.v (evP F P (r : AfE F E)) ≤ 1 := (mem_rInt_iff F E _).mp r.2 P
-      calc Valued.v (evP F P (r : AfE F E)) * Valued.v (evP F P (x : AfE F E))
-          ≤ 1 * Valued.v (evP F P (x : AfE F E)) := by gcongr
-        _ < 1 := by rw [one_mul]; exact hx
-  exact key w h
+  first | exact _root_.GlobalTheory.TwistVal.valued_lt_of_mem | exact @_root_.GlobalTheory.TwistVal.valued_lt_of_mem | apply _root_.GlobalTheory.TwistVal.valued_lt_of_mem <;> assumption
 
 theorem val_eq_one {P : HeightOneSpectrum (𝓞 E)} {b : 𝓞 E} (hb : b ∉ P.asIdeal) : P.valuation E (b : E) = 1 := by
   exact (IsDedekindDomain.HeightOneSpectrum.valuation_eq_one_iff_notMem P).mpr hb

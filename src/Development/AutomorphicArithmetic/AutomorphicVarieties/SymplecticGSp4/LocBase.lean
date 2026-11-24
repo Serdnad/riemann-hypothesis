@@ -14,6 +14,7 @@ import Development.AutomorphicArithmetic.AutomorphicVarieties.GaloisLibrary.Selm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.DecEmb
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.PhiCond
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SpChartL
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SpChartL
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PadicHodgeTheory.SpChartP
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.LMemMax
 import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.OnCompMap
@@ -280,15 +281,7 @@ variable {R R' : Type} [CommRing R] [CommRing R']
 private theorem prj_hom {A A' : Type} [CommRing A] [CommRing A'] (f : A →+* A') (F : GradeZeroInterpolatingElement.M4 A →+* GradeZeroInterpolatingElement.M4 A')
     (hF : ∀ (a : A) X, F (a • X) = f a • F X) (c : Fin 4 → A) (X : GradeZeroInterpolatingElement.M4 A) (i : Fin 4) :
     prj (fun a => f (c a)) (F X) i = F (prj c X i) := by
-  have key : ∀ p : Polynomial A, Polynomial.aeval (F X) (p.map f) = F (Polynomial.aeval X p) := fun p => by
-    induction p using Polynomial.induction_on' with
-    | add p q hp hq => rw [Polynomial.map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
-    | monomial n a =>
-      rw [Polynomial.map_monomial, Polynomial.aeval_monomial, Polynomial.aeval_monomial, ← Algebra.smul_def,
-        ← Algebra.smul_def, hF, map_pow]
-  unfold prj
-  rw [← key, Polynomial.map_prod]
-  simp
+  apply _root_.cl_prj <;> assumption
 
 private theorem smul_map' (f : R →+* R') (a : R) (X : GradeZeroInterpolatingElement.M4 R) : f.mapMatrix (a • X) = f a • f.mapMatrix X := by
   ext i j

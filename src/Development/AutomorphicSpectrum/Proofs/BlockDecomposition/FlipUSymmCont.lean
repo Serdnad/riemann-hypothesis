@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNegatedSpaceDiscreteSeriesModelTransport
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -163,20 +164,7 @@ theorem sqInt_flip {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] {
 
 theorem isDS_flip : ∀ (n : ℕ) (H : Type) [NormedAddCommGroup H] [InnerProductSpace ℂ H] (ε : Fin n → Bool) (lam : Fin n → ℝ)
     (σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)), Formalism.MainNotions.S.IsDS ε lam σ → Formalism.MainNotions.S.IsDS (fun a => !ε a) lam σ := by
-  intro n H _ _ ε lam σ h
-  have he : ∀ a, (fun a => !ε a) a = !ε a := fun _ => rfl
-  unfold Formalism.MainNotions.S.IsDS at h ⊢
-  obtain ⟨h1, h2, h3, h4, h5, h6, h7⟩ := h
-  refine ⟨h1, h2, ?_, ?_, sqInt_flip he h5, ?_, ?_⟩
-  · rw [UJset_flip he]
-    exact h3
-  · rw [UJset_flip he]
-    exact h4
-  · obtain ⟨S, hS⟩ := h6
-    exact ⟨S, by rw [lowK_flip he, ktype_flip he]; exact hS⟩
-  · intro μ S hS
-    rw [lowK_flip he, vNormSq_flip he, vNormSq_flip he]
-    exact h7 μ S ((ktype_flip he μ S).1 hS)
+  exact @_root_.GlobalTheory.PairLift.isDS_flip
 
 end GlobalTheory.CompanionTheory.NegDS
 

@@ -1,5 +1,7 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.ExistsFormOfMemChartRingZ
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBounded
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSmallSectionMixed
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BirationalYPt
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsNefPlusAmpleDegree
@@ -98,16 +100,7 @@ theorem isMultiHomog_C (r : ℤ) : IsMultiHomog (C r : MRing ι) 0 := by
   simp [this]
 
 theorem isMultiHomog_X [DecidableEq K] (p : Σ k, ι k) : IsMultiHomog (X p : MRing ι) (Pi.single p.1 1) := by
-  classical
-  intro m hm k
-  rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
-  subst hm
-  obtain ⟨k₀, i₀⟩ := p
-  by_cases h : k = k₀
-  · subst h
-    simp [Finsupp.single_apply]
-  · have : ∀ j : ι k, (⟨k₀, i₀⟩ : Σ k, ι k) ≠ ⟨k, j⟩ := fun j e => h (congrArg Sigma.fst e).symm
-    simp [h]
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBounded.homog_X <;> assumption
 
 theorem isMultiHomog_coordProd (c : ∀ k, ι k) (d : K → ℕ) :
     IsMultiHomog (∏ k, (X ⟨k, c k⟩ : MRing ι) ^ d k) d := by

@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.MollifiedIntegrability.Imports
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.NullSec
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.SpecialFunctions.Gaussian.FourierTransform
@@ -198,16 +199,7 @@ theorem continuous_pt (k : Fin m × Fin n × Bool) : Continuous fun x : Fin m �
   · simp only [pt, if_true]; fun_prop
 
 theorem continuous_evX (P : PX m n) : Continuous (evX P) := by
-  induction P using MvPolynomial.induction_on
-  next c =>
-    have : evX (C c : PX m n) = fun _ => c := by funext x; simp [evX_eq]
-    rw [this]; exact continuous_const
-  next p q hp hq =>
-    have : evX (p + q) = fun x => evX p x + evX q x := by funext x; simp [evX_eq]
-    rw [this]; exact hp.add hq
-  next p k hp =>
-    have : evX (p * X k) = fun x => evX p x * pt x k := by funext x; simp [evX_eq]
-    rw [this]; exact hp.mul (continuous_pt k)
+  apply _root_.PositivityTheory.Rg.Sw.WR.D.continuous_evXD <;> assumption
 
 theorem continuous_gs (c : ℝ) : Continuous (gs (m := m) (n := n) c) := by
   unfold gs; fun_prop

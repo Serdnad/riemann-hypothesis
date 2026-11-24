@@ -373,43 +373,10 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 end
 
 theorem exists_frameShift_ordTies : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (Dw : Datum H) (l : Level H) (Xo : Moduli Dw l) (c : Coeff l), 1 ≤ Dw.p + Dw.q → (∀ p : ℕ, p.Prime → l.GoodAt p) → l.A = 1 → ∀ [Fintype (Comp Xo c)] (h : GenFrEx Xo c), ∃ δ : ∀ Z : Comp Xo c, AddValuation (Om Z) (WithTop ℤ) → Ix Dw → ℤ, OrdTieQ h δ ∧ OrdTieQZ h δ ∧ (∀ (PY : HeightOneSpectrum (𝓞 c.F) → Type) (lies : ∀ la (T' : CDVR) (ι : c.F →+* T'.Fr), IntFr Xo c T' ι → PY la → Prop), LiesTotal Xo c (trivialClassCondition Xo c) PY lies → OrdTieOn h δ (trivialClassCondition Xo c) PY lies ∧ OrdTie h δ (trivialClassCondition Xo c) PY lies) ∧ ∀ d : ReciprocityTheory.ChartRestriction.G.T0.Data c.F (Comp Xo c) (fun Z => Om Z) (WTZ E) (fun Z => AC Z), DivFin d → FrShFin d δ := by
-  intro E _ _ _ H Dw l Xo c hpq hgood hA _ h
-  obtain ⟨δ, hv, hfin⟩ := exists_frameShift_frShFin E H Dw l Xo c hpq hgood hA h
-  have hQZ : OrdTieQZ h δ := by
-    intro Z v hd ht
-    obtain ⟨T, ψ, y, hψ, hy⟩ := hv Z v hd (Or.inr ht)
-    have htriv : trivCls Xo c T _ y := by
-      intro a ha
-      have ha' : algebraMap c.F (Om Z) a ≠ 0 := (map_ne_zero _).2 ha
-      refine GlobalTheory.HeightDefinite.Ties.exists_unit_of_vV_eq_zero T ((map_ne_zero _).2 ha) ?_
-      have := (hψ _ ha').trans (ht a ha)
-      exact_mod_cast this
-    refine ⟨⟨T, _, y, htriv⟩, fun a n f hf h0 => ?_, fun a n f hf h0 => ?_⟩
-    · change _ = nval T.V 1 (evI y f)
-      rw [nval_of_ne (fun hz => h0 ((hy a n f hf).1.1 hz)), (hy a n f hf).2 h0]
-      simp
-    · change nval T.V 1 (evI y f) = ⊤
-      rw [(hy a n f hf).1.2 h0, nval_zero]
-  refine ⟨δ, fun Z v hd ht => ?_, hQZ, fun PY lies hl => ?_, fun d hD => hfin d hD⟩
-  · obtain ⟨q, hq, -⟩ := hQZ Z v hd ht
-    exact ⟨q, hq⟩
-  · have hOn := GlobalTheory.HeightDefinite.Ties.ordTieOn_of_valued hl hv
-    exact ⟨hOn, hOn.ordTie⟩
+  apply _root_.GlobalTheory.HeightDefinite.Ties.exists_frameShift_ordTies <;> assumption
 
 theorem ordTies_of_pins : ∀ (D : D7) (Q : Par D), Q.Pins → ∀ j, InR D j → ∀ [Fintype (Comp (Q.Xo j) Q.c)] (h : GenFrEx (Q.Xo j) Q.c), KapFG (Q.Xo j) Q.c ∧ (∃ d, KapTrdeg (Q.Xo j) Q.c d ∧ d + Nat.card (FlagVar (Q.Dw j)) = WeightFamilies.dimY D j) ∧ FnTrdeg (Q.Xo j) Q.c (WeightFamilies.dimY D j) ∧ CompNe (Q.Xo j) Q.c ∧ ∃ δ : ∀ Z : Comp (Q.Xo j) Q.c, AddValuation (Om Z) (WithTop ℤ) → Ix (Q.Dw j) → ℤ, OrdTieQ h δ ∧ OrdTieQZ h δ ∧ OrdTieOn h δ (trivialClassCondition (Q.Xo j) Q.c) (fun _ => Unit) (fun _ _ _ _ _ => True) ∧ OrdTie h δ (trivialClassCondition (Q.Xo j) Q.c) (fun _ => Unit) (fun _ _ _ _ _ => True) ∧ ∀ d : ReciprocityTheory.ChartRestriction.G.T0.Data Q.c.F (Comp (Q.Xo j) Q.c) (fun Z => Om Z) (WTZ D.host.E) (fun Z => AC Z), DivFin d → FrShFin d δ := by
-  intro D Q hP j hj _ h
-  obtain ⟨hgood, hA, -, -, -, -, hrk⟩ := GlobalTheory.PinNum.numerics_of_pins D Q hP
-  obtain ⟨hr, hr1, hdim⟩ := hrk j hj
-  have h1 : 1 ≤ (Q.Dw j).p + (Q.Dw j).q := hr ▸ hr1
-  obtain ⟨hfg, htr⟩ := kap_fg_trdeg _ _ (Q.Dw j) Q.l (Q.Xo j) Q.c
-  obtain ⟨δ, hq, hqz, hon, hfin⟩ := exists_frameShift_ordTies _ _ (Q.Dw j) Q.l (Q.Xo j) Q.c h1 hgood hA h
-  have hl : LiesTotal (Q.Xo j) Q.c (trivialClassCondition (Q.Xo j) Q.c) (fun _ => Unit) (fun _ _ _ _ _ => True) := by
-    unfold LiesTotal
-    intros
-    exact ⟨(), trivial⟩
-  obtain ⟨ho, ht⟩ := hon _ _ hl
-  exact ⟨hfg, ⟨_, htr, hdim⟩, hdim ▸ fnTrdeg_of _ _ _ htr,
-    (GlobalTheory.GeomIrr.compNe_and_exists_fnAlgClosed _ _ (Q.Dw j) Q.l (Q.Xo j) Q.c h1).1, δ, hq, hqz, ho, ht, hfin⟩
+  apply _root_.GlobalTheory.HeightDefinite.Ties.ordTies_of_pins <;> assumption
 
 end GlobalTheory.HeightTop.Ties
 end -- clump:auto
@@ -533,18 +500,8 @@ theorem conjEmb_invol {E : Type} [Field E] (τ : E →+* ℂ) : conjEmb (conjEmb
 
 theorem wtA_conj_tau (Q : Par D) (hp : Q.PinHost) {j : ℕ} (w : WeightFamilies.Wt D j) (t : D.what₂.Tau) (i : ℕ) :
     wtA w (conjEmb (DV.tauEmb D t), i) = ext0 (w.aM t) i := by
-  classical
-  have h1 : ∀ t', conjEmb (DV.tauEmb D t) ≠ DV.tauEmb D t' := fun t' h =>
-    GlobalTheory.LeafCompare.tauEmb_ne_conj Q hp t' t h.symm
-  unfold wtA
-  rw [Finset.sum_eq_single t]
-  · simp [h1]
-  · intro t' _ ht'
-    have : conjEmb (DV.tauEmb D t) ≠ conjEmb (DV.tauEmb D t') := fun h =>
-      ht' (GlobalTheory.HeightDefinite.tauEmb_inj (by
-        rw [← conjEmb_invol (DV.tauEmb D t'), ← h, conjEmb_invol]))
-    simp [h1, this]
-  · simp
+  intros
+  apply _root_.GlobalTheory.HeightDefinite.wtA_conj_tau <;> assumption
 
 theorem wt_ext (Q : Par D) (hp : Q.PinHost) {j : ℕ} {w w' : WeightFamilies.Wt D j} (hA : wtA w = wtA w') (hn : w.n = w'.n) :
     w = w' := by

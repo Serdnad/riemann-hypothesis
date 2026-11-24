@@ -1,5 +1,6 @@
 module
 
+import Formalism.TorsionNormIteration.InverseIntegralClasses.InvInt
 import Formalism.FormalGroupWitt.FormalGroupWittProofs.EqSingleOfDegreeEqOne
 public import Formalism.FormalGroupWitt.SubstInjectiveV
 public import Formalism.FormalGroupLog.FormalGroupLogProofs.ChainRule
@@ -67,20 +68,7 @@ variable {σ : Type*}
 
 theorem Low.mul {m k : ℕ} {x y : MvPowerSeries σ K} (hx : Low m x) (hy : Low k y) :
     Low (m + k) (x * y) := by
-  classical
-  intro d hd
-  rw [MvPowerSeries.coeff_mul]
-  refine Finset.sum_eq_zero fun p hp => ?_
-  have hp' : p.1 + p.2 = d := by
-    first
-      | exact Finset.HasAntidiagonal.mem_antidiagonal.mp hp
-  have hdeg : p.1.degree + p.2.degree = d.degree := by
-    rw [← hp']
-    first
-      | exact (map_add Finsupp.degree p.1 p.2).symm
-  by_cases h1 : p.1.degree < m
-  · rw [hx _ h1, zero_mul]
-  · rw [hy _ (by omega), mul_zero]
+  apply _root_.Formalism.LT.InvIntP.Low.mul <;> assumption
 
 theorem Low.add {m : ℕ} {x y : MvPowerSeries σ K} (hx : Low m x) (hy : Low m y) :
     Low m (x + y) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.LiftCharactersAgreeOverEnlargedBase
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PeriodSingle
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.MemPrinCongOfSm
 public import Formalism.LocalToGlobal.Columns.RecLevelCls
@@ -1248,15 +1249,7 @@ theorem levFn_congr {F E : Type} [Field F] [NumberField F] [Field E] [NumberFiel
 
 theorem isRes_unique {D : D7} {χ : Formalism.L2.Host.HChar D.host.E} {P : Pl D.host.E} {c c' : (kP P)ˣ →* ℂˣ}
     (h : IsRes χ P c) (h' : IsRes χ P c') : c = c' := by
-  refine MonoidHom.ext fun u => ?_
-  obtain ⟨a, ha⟩ := Ideal.Quotient.mk_surjective (u : kP P)
-  haveI : Nontrivial (kP P) := Ideal.Quotient.nontrivial_iff.2 P.isPrime.ne_top
-  have ha0 : (a : D.host.E) ≠ 0 := by
-    intro h0
-    have h1 : a = 0 := RingOfIntegers.coe_eq_zero_iff.1 h0
-    apply u.ne_zero
-    rw [← ha, h1, map_zero]
-  rw [h a (Units.mk0 _ ha0) u rfl ha.symm, h' a (Units.mk0 _ ha0) u rfl ha.symm]
+  apply _root_.GlobalTheory.Mem.R3.Rw.LevExt.isRes_unique' <;> assumption
 
 variable {B : GlobalTheory.Mem.Base} {X : PreX B.toPre} (I : TC B X) (l : I.Laws) (Z : TC.Later B (I.cols l))
 

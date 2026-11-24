@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SeparableCharpolyOfTestFunctionNeZeroRegularPlac
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ValLeOneOfMemKO
 public import Formalism.LocalToGlobal.GaloisLevelStructure.DefsLevel
 import Mathlib.Algebra.Order.Floor.Extended
@@ -86,15 +87,7 @@ theorem conj_diag_apply {d : GL (Fin n) K} {D : Fin n → K} (hd : d.val = Matri
 
 theorem mem_GLint_of {O : Subring K} {x : GL (Fin n) K} (h1 : ∀ i j, x.1 i j ∈ O) (h2 : ∀ i j, (x⁻¹).1 i j ∈ O) :
     x ∈ GLint (Fin n) O := by
-  refine ⟨⟨Matrix.of fun i j => ⟨_, h1 i j⟩, Matrix.of fun i j => ⟨_, h2 i j⟩, ?_, ?_⟩, rfl⟩
-  · refine Matrix.map_injective O.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.mul_inv
-  · refine Matrix.map_injective O.subtype_injective ?_
-    simp only
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact x.inv_mul
+  apply _root_.GlobalTheory.BCT.RegVan.mem_GLint_of_entries <;> assumption
 
 variable (v : Valuation K (WithZero (Multiplicative ℤ))) {r : ℕ} {ϖ : K}
 

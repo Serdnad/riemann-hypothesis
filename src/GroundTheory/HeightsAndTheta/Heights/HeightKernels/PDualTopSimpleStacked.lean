@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.NotMemOfNonZeroDivisor
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualTopSimpleStacked
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsDualStackedGraph
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.StatementsGrassFibreDegree
@@ -175,15 +176,8 @@ theorem dualLine_h_stacked {F F' : HermLattice K i} {b : Module.Basis T ℤ (dua
 
 theorem isMultiHomog_X_int {K' : Type} [Fintype K'] [DecidableEq K'] {ι : K' → Type} [∀ k, Fintype (ι k)]
     (k : K') (j : ι k) : IsMultiHomog (X ⟨k, j⟩ : MRing ι) (Pi.single k 1) := by
-  classical
-  intro m hm k'
-  rw [MvPolynomial.support_X, Finset.mem_singleton] at hm
-  subst hm
-  by_cases h : k' = k
-  · subst h
-    simp [Finsupp.single_apply]
-  · have : ∀ j' : ι k', (⟨k, j⟩ : Σ k, ι k) ≠ ⟨k', j'⟩ := fun j' e => h (congrArg Sigma.fst e).symm
-    simp [h]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.regularityEmbedding_holds.isMultiHomog_X_single <;> assumption
 
 theorem isMultiHomog_C_mul {K' : Type} [Fintype K'] {ι : K' → Type} [∀ k, Fintype (ι k)] {f : MRing ι}
     {d : K' → ℕ} (hf : IsMultiHomog f d) (c : ℤ) : IsMultiHomog (C c * f) d := by

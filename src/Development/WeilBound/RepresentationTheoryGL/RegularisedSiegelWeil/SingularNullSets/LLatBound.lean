@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.WeilFinitePointPreservesFockVacuum
 public import Development.WeilBound.RepresentationTheoryGL.RegularisedSiegelWeil.SingularNullSets.WeakApproximationFinitePlace
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Distribution.SchwartzSpace.Basic
@@ -525,15 +526,8 @@ theorem den_finL {ι : Type} [Fintype ι] (z : ι → Af D.host.F ⊗[D.host.F] 
 
 theorem compAt_mt_GfC (θ : InfFam D) (V : HSp D) {k : GA D V} (hk : k ∈ GfC V) (τ : D.what₂.Tau) :
     compAt θ τ (mt V k) = 1 := by
-  have h0 : infHom V k = 1 := hk
-  have h : (mt V k).map (infPart D) = 1 := by
-    have h1 : (infHom V k).1 = 1 := by rw [h0]; rfl
-    exact h1
-  ext i j
-  have hij := congrFun (congrFun h i) j
-  simp only [Matrix.map_apply] at hij
-  simp only [compAt, Matrix.map_apply, hij, Matrix.one_apply]
-  split_ifs <;> simp
+  intros
+  apply _root_.GlobalTheory.FockRealMove.compAt_mt_of_mem_GfC <;> assumption
 
 
 

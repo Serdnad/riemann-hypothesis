@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsFiniteProductOrientedBoundedPrisms
 public import Mathlib.RingTheory.PicardGroup
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -67,15 +68,6 @@ theorem invertible_eq_zero_of_smul_eq_zero {A : Type} [CommRing A] {M : Type} [A
 
 theorem mem_nonZeroDivisors_of_invertible_span_singleton : ∀ (A : Type) [CommRing A] (d : A),
     Module.Invertible A ↥(Ideal.span {d}) → d ∈ nonZeroDivisors A := by
-  intro A _ d hinv
-  rw [mem_nonZeroDivisors_iff_right]
-  intro a had
-  apply invertible_eq_zero_of_smul_eq_zero (M := ↥(Ideal.span {d})) a
-  rintro ⟨m, hm⟩
-  obtain ⟨c, rfl⟩ := Ideal.mem_span_singleton'.1 hm
-  ext
-  simp only [Submodule.coe_smul, smul_eq_mul, ZeroMemClass.coe_zero]
-  calc a * (c * d) = c * (a * d) := by ring
-    _ = 0 := by rw [had, mul_zero]
+  apply _root_.GlobalTheory.Prism.mem_nonZeroDivisors_of_invertible_span <;> assumption
 
 end GlobalTheory.BSP

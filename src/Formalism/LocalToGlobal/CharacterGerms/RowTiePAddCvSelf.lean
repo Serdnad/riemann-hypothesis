@@ -7,6 +7,7 @@ public import Formalism.LocalToGlobal.CharacterGerms.RowTieCartAdd
 import Formalism.LocalToGlobal.CharacterGerms.ConstMemTypeSetOfNonneg
 import Formalism.LocalToGlobal.CharacterGerms.RowTieCartFB
 import Formalism.LocalToGlobal.CharacterGerms.RowTiePAxesSelfSt
+import Formalism.LocalToGlobal.CharacterGerms.RowTiePHStabSelf
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.LocalToGlobal.CharacterGerms.RowTieGermI, Formalism.LocalToGlobal.CharacterGerms.RowTiePAddCvSelf
@@ -44,16 +45,7 @@ variable {C : Type} [Field C]
 theorem coeff_rename_zero {σ τ : Type} [Finite σ] (φ : σ → τ) (F : MvPowerSeries σ C) (e : τ →₀ ℕ) (s : τ)
     (hs : e s ≠ 0) (hsr : ∀ a, φ a ≠ s) :
     coeff e (subst (fun a => (X (φ a) : MvPowerSeries τ C)) F) = 0 := by
-  have hA : MvPowerSeries.HasSubst (fun a => (MvPowerSeries.X (φ a) : MvPowerSeries τ C)) :=
-    MvPowerSeries.hasSubst_of_constantCoeff_zero (fun a => by simp)
-  rw [MvPowerSeries.coeff_subst hA]
-  refine finsum_eq_zero_of_forall_eq_zero fun d => ?_
-  rw [prod_X_rename, MvPowerSeries.coeff_monomial, if_neg, smul_zero]
-  intro h
-  apply hs
-  rw [h, Finsupp.mapDomain_notin_range]
-  rintro ⟨a, ha⟩
-  exact hsr a ha
+  apply _root_.Formalism.L2.FormalSeriesBounds.coeff_rename_outside <;> assumption
 
 variable [CharZero C] {V : VF C} {O : Type} [CommRing O] [StarRing O] {dd : ℕ} (Y : FBChart C V O dd)
 

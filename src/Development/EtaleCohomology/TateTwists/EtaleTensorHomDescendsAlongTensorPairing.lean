@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistCupProductAssoc
 public import Development.AbelianVarietyTheory.Definitions.Divisors.SecClass
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -40,7 +42,6 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Linter.Style
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.EtaleCohomology.TateTwists.EtaleTensorComplexDescendsNaturalFamily, Development.EtaleCohomology.TateTwists.EtaleTensorHomDescendsAlongTensorPairing
 
@@ -100,18 +101,7 @@ theorem glue {S : Type} [CommRing S] (M : Shv S) {U : Scheme.{0}} (T : Sieve U) 
 
 theorem lift_res {R : Type} [CommRing R] {I J K : Cx R} (τ : Pair I J K) {V U : Scheme.{0}} (g : V ⟶ U) (w : ℤ)
     (x : Tens I J U w) : Sec.res g (τ.lift U w x) = τ.lift V w (Tens.res g w x) := by
-  classical
-  induction x using DirectSum.induction_on with
-  | zero => simp
-  | add a b ha hb => simp only [Sec.res, map_add (f := _)] at *; rw [ha, hb]
-  | of i z =>
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | add a b ha hb => simp only [Sec.res, map_add (f := _)] at *; rw [ha, hb]
-    | tmul a c =>
-      rw [← DirectSum.lof_eq_of (ULift.{1} R)]
-      simp only [Pair.lift, Tens.res, DirectSum.lmap_lof, DirectSum.toModule_lof, TensorProduct.lift.tmul, TensorProduct.map_tmul]
-      exact τ.nat g _ _ w _ a c
+  apply @GlobalTheory.EtC.TensAssoc.lift_nat <;> assumption
 
 theorem res_add {R : Type} [CommRing R] {F : Shv R} {V U : Scheme.{0}} (g : V ⟶ U) (a c : Sec F U) :
     Sec.res g (a + c) = Sec.res g a + Sec.res g c := map_add _ _ _

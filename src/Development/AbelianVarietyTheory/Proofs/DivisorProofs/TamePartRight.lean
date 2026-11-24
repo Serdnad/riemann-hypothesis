@@ -405,10 +405,7 @@ variable {V : Type} [NormedAddCommGroup V] [NormedSpace ℝ V]
 
 theorem norm_padL_le {κ κ' : Type} [Fintype κ] [Fintype κ'] (h : κ → V) :
     ‖(padL (κ' := κ') h : κ ⊕ κ' → V)‖ ≤ ‖h‖ := by
-  refine (pi_norm_le_iff_of_nonneg (norm_nonneg _)).2 fun i => ?_
-  cases i with
-  | inl i => simpa [padL] using norm_le_pi_norm h i
-  | inr j => simp [padL]
+  apply _root_.GlobalTheory.SliceTaylor.norm_padL_le <;> assumption
 
 theorem sliceR_sub_eq {κ κ' : Type} [Fintype κ] [Fintype κ'] (f : SchwartzMap (κ ⊕ κ' → V) ℂ)
     (x x₀ : κ → V) :

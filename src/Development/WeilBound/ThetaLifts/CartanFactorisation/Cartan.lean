@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MaximalCompactOneParameterLinesOfLieLines
+import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFrame
 public import Development.WeilBound.ThetaLifts.CartanFactorisation.CartanConj
@@ -88,15 +90,8 @@ theorem map_star_one {n : Type} [DecidableEq n] : (1 : Matrix n n ℂ).map star 
 
 theorem frame_inv {M : Matrix β β ℂ} {C : Matrix β (Ix R S) ℂ} (h : IsFrame M C) :
     ∃ C' : Matrix (Ix R S) β ℂ, C * C' = 1 ∧ C' * C = 1 := by
-  obtain ⟨h1, C', h2⟩ := h
-  refine ⟨C', h2, ?_⟩
-  have h3 : (M * C.map star * Jm R S)ᵀ * C = 1 := by
-    have : Cᵀ * (M * C.map star * Jm R S) = 1 := by
-      rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, h1, Jm_mul_self]
-    rw [← Matrix.transpose_one, ← this, Matrix.transpose_mul Cᵀ, Matrix.transpose_transpose]
-  have h4 : C' = (M * C.map star * Jm R S)ᵀ := by
-    rw [← Matrix.one_mul C', ← h3, Matrix.mul_assoc, h2, Matrix.mul_one]
-  rw [h4, h3]
+  intros
+  apply _root_.GlobalTheory.RealLift.KLineProof.frame_inv <;> assumption
 
 theorem conj_mat {n r s : ℕ} {M θ θ₂ : Matrix (Fin n) (Fin n) ℂ} (h : HasSig M r s) (h1 : IsCartan M θ) (h2 : IsCartan M θ₂) :
     ∃ g g' : Matrix (Fin n) (Fin n) ℂ, g * g' = 1 ∧ gᵀ * M * g.map star = M ∧ g * θ₂ = θ * g := by
@@ -143,24 +138,8 @@ theorem im_ne_zero {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ 
   exact Complex.conj_eq_iff_im.2 h0
 
 theorem exists_basis {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ β ≠ β) :
-    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β := by
-  have hfin : FiniteDimensional F E := Module.finite_of_finrank_pos (by rw [h.2.2.1]; omega)
-  have hli : LinearIndependent F ![(1 : E), β] := by
-    rw [LinearIndependent.pair_iff]
-    intro s t hst
-    have ht : t = 0 := by
-      by_contra ht
-      apply hβ
-      have e : β = algebraMap F E (-(s / t)) := by
-        have ht' : algebraMap F E t ≠ 0 := by simpa using ht
-        rw [Algebra.smul_def, Algebra.smul_def, mul_one] at hst
-        rw [map_neg, map_div₀]
-        field_simp
-        linear_combination hst
-      rw [e, AlgHom.commutes]
-    subst ht
-    simpa using hst
-  refine ⟨basisOfLinearIndependentOfCardEqFinrank hli (by simp [h.2.2.1]), ?_, ?_⟩ <;> simp
+    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β :=
+  _root_.GlobalTheory.CompanionTheory.CMAdele.exists_basis h hβ
 
 omit [NumberField E] in
 theorem eq_add_tmul (B : Module.Basis (Fin 2) F E) (x : AF F ⊗[F] E) :

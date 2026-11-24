@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PSheetLift
 public import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.StSegreChartZeroSet
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.InterGood
 
@@ -23,20 +24,7 @@ variable {K : Type} [Fintype K] [DecidableEq K] {ι : K → Type} [∀ k, Fintyp
 
 theorem scaleAll_mem (P : Ideal (MRing ι)) (hP : IsMultiHomogIdeal P) (c : K → ℂ) (hc : ∀ k, c k ≠ 0)
     {z : (Σ k, ι k) → ℂ} (hz : z ∈ mcPts P) : (fun p => c p.1 * z p) ∈ mcPts P := by
-  have key : ∀ s : Finset K,
-      (fun p : Σ k, ι k => (if p.1 ∈ s then c p.1 else 1) * z p) ∈ mcPts P := by
-    intro s
-    induction s using Finset.induction_on with
-    | empty => simpa using hz
-    | insert k s hk ih =>
-      have h := scaleBlock_mem_zeroLocus P hP k (hc k) ih
-      convert h using 1
-      funext ⟨j, a⟩
-      by_cases hpk : j = k
-      · subst j
-        simp [scaleBlock, hk]
-      · simp [scaleBlock, hpk]
-  simpa using key Finset.univ
+  apply _root_.GroundTheory.Heights₂.Heights.SheetLift.bsmul_mem <;> assumption
 
 def liftPoly {m : ℕ} (σ : Fin m ≃ ((k : K) → ι k)) (i : (k : K) → ι k) (f : MRing ι) :
     MvPolynomial (Fin m) ℂ :=

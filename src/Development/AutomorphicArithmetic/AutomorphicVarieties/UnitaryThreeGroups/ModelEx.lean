@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.MopBase
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.IsLocPres
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.UnitaryThreeGroups.ConjStable
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.CommutativeAlgebra.CoQuot
@@ -84,16 +85,8 @@ section -- clump:auto
 open Matrix IsLocalRing UpperTheory.V.U3 UpperTheory.V.Alg UpperTheory.V.HV
 
 private theorem emb_map {R S : Type} [CommRing R] [CommRing S] (f : R →+* S) (x : GG (m := 3) (R := R))
-    (a b : Fin 3 ⊕ Fin 3) : emb (GG.map f x) a b = f (emb x a b) := by
-  have h : (theta (GG.map f x).left : Matrix (Fin 3) (Fin 3) S) =
-      (theta x.left : Matrix (Fin 3) (Fin 3) R).map f :=
-    (congrArg Units.val (map_theta f x.left)).symm
-  show (if (GG.map f x).right = 1 then Matrix.fromBlocks (GG.map f x).mat 0 0 (theta (GG.map f x).left : Matrix (Fin 3) (Fin 3) S)
-    else Matrix.fromBlocks 0 (GG.map f x).mat (theta (GG.map f x).left : Matrix (Fin 3) (Fin 3) S) 0) a b =
-    f ((if x.right = 1 then Matrix.fromBlocks x.mat 0 0 (theta x.left : Matrix (Fin 3) (Fin 3) R)
-    else Matrix.fromBlocks 0 x.mat (theta x.left : Matrix (Fin 3) (Fin 3) R) 0) a b)
-  rw [h, GG.map_mat, GG.map_right]
-  split_ifs <;> rcases a with a | a <;> rcases b with b | b <;> simp
+    (a b : Fin 3 ⊕ Fin 3) : emb (GG.map f x) a b = f (emb x a b) :=
+  _root_.UpperTheory.V.U3.Mop.emb_map f x a b
 
 private theorem mat_eq_emb {R : Type} [CommRing R] (x : GG (m := 3) (R := R)) (a b : Fin 3) :
     x.mat a b = emb x (.inl a) (.inl b) + emb x (.inl a) (.inr b) := by
@@ -123,15 +116,8 @@ private theorem emb_conj {G R : Type} [Group G] [CommRing R] (r : G →* GG (m :
   ring
 
 private theorem unitaryEmbedding_residualRep_eq_zero_of_weight_ne {G R : Type} [Group G] [CommRing R] (η : G →* ℤˣ) (Ψ : G →* Rˣ) (g : G)
-    (a b : Fin 3 ⊕ Fin 3) (h : wt6 a ≠ wt6 b) : emb (r0 η Ψ g) a b = 0 := by
-  show (if (r0 η Ψ g).right = 1 then Matrix.fromBlocks (tor R (Ψ g) : Matrix (Fin 3) (Fin 3) R) 0 0
-    (theta (tor R (Ψ g)) : Matrix (Fin 3) (Fin 3) R) else Matrix.fromBlocks 0 (tor R (Ψ g) : Matrix (Fin 3) (Fin 3) R)
-    (theta (tor R (Ψ g)) : Matrix (Fin 3) (Fin 3) R) 0) a b = 0
-  rw [theta_tor, tor_val]
-  split_ifs <;> rcases a with a | a <;> rcases b with b | b <;>
-    first
-    | rfl
-    | exact Matrix.diagonal_apply_ne (i := a) (j := b) (fun i => ((Ψ g ^ wt1 i : Rˣ) : R)) (by rintro rfl; exact h rfl)
+    (a b : Fin 3 ⊕ Fin 3) (h : wt6 a ≠ wt6 b) : emb (r0 η Ψ g) a b = 0 :=
+  _root_.UpperTheory.V.U3.Mop.unitaryEmbedding_residualRep_eq_zero_of_weight_ne η Ψ g a b h
 
 private theorem map_reducible_three_dim {O : Type} [CommRing O] [IsLocalRing O] {G : Type} [Group G] (η : G →* ℤˣ) (Ψ : G →* Oˣ)
     (g : G) : GG.map (residue O) (r0 η Ψ g) = rbar O η Ψ g := by

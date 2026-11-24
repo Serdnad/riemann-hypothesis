@@ -94,26 +94,7 @@ private theorem w0_sq_sub_w0_add_eq_zero {E : Type} [Field E] [NumberField E] [I
 open NumberField Pointwise in
 private theorem host_bar_rt_of_isCMField {E : Type} [Field E] [NumberField E] [IsCMField E] (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) :
     H.bar H.rt = -H.rt := by
-  have hsq : (H.bar H.rt - H.rt) * (H.bar H.rt + H.rt) = 0 := by
-    have h1 : H.bar H.rt ^ 2 = -(H.d : 𝓞 E) := by
-      rw [← map_pow, H.rt_sq, map_neg, map_natCast]
-    linear_combination h1 - H.rt_sq
-  rcases mul_eq_zero.1 hsq with h | h
-  · exfalso
-    have hfix : H.bar H.rt = H.rt := sub_eq_zero.1 h
-    obtain ⟨φ⟩ : Nonempty (E →+* ℂ) := inferInstance
-    have hreal : starRingEnd ℂ (φ (H.rt : E)) = φ (H.rt : E) := by
-      rw [← IsCMField.complexEmbedding_complexConj, ← H.bar_eq, hfix]
-    obtain ⟨t, ht⟩ := Complex.conj_eq_iff_real.1 hreal
-    have hE : ((H.rt : E)) ^ 2 = -(H.d : E) := by
-      have := congrArg (fun x : 𝓞 E => (x : E)) H.rt_sq
-      simpa using this
-    have hC : (t : ℂ) ^ 2 = -(H.d : ℂ) := by
-      rw [← ht, ← map_pow, hE, map_neg, map_natCast]
-    have hR : t ^ 2 = -(H.d : ℝ) := by exact_mod_cast hC
-    have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-    nlinarith [sq_nonneg t]
-  · exact eq_neg_of_add_eq_zero_left h
+  apply _root_.GlobalTheory.HostModel.bar_rt <;> assumption
 
 open NumberField Pointwise in
 private theorem host_bar_w0_of_isCMField {E : Type} [Field E] [NumberField E] [IsCMField E] (H : _root_.ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) :

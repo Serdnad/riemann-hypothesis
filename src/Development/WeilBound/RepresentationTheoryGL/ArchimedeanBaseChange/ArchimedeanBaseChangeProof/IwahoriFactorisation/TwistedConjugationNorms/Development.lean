@@ -1612,16 +1612,8 @@ theorem asmReg_nv_restr {n m : ℕ} (x : Fin n → ℤ) {S : Finset (Fin n)} (hS
 
 theorem asmReg_F_inj {n : ℕ} {x : Fin n → ℤ} (hx : StrictAnti x) :
     Function.Injective fun k : Fin n => x k - x k.rev := by
-  intro k k' hkk
-  simp only at hkk
-  by_contra hne
-  rcases lt_or_gt_of_ne hne with hlt | hlt
-  · have h1 := hx hlt
-    have h2 := hx (Fin.rev_lt_rev.mpr hlt)
-    omega
-  · have h1 := hx hlt
-    have h2 := hx (Fin.rev_lt_rev.mpr hlt)
-    omega
+  intros
+  apply _root_.PositivityTheory.Rg.Bc.ArchbcB.B.M4.S1.nv_injective <;> assumption
 
 theorem asmReg_sep {w : Pl E} {n a b : ℕ} (x : Fin n → ℤ) (hx : StrictAnti x) (S₁ S₂ : Finset (Fin n))
     (hS₁ : ∀ k ∈ S₁, k.rev ∈ S₁) (hS₂ : ∀ k ∈ S₂, k.rev ∈ S₂) (hdis : Disjoint S₁ S₂) (h₁ : S₁.card = a)

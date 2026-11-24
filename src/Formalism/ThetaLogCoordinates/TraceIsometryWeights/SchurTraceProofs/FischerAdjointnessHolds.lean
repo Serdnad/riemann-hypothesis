@@ -52,6 +52,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Formalism.ThetaLogCoordinates.FockResolutionOnto.FockMonomialProofs.InitPartZeroXMul
 
 @[expose] public section
 
@@ -182,18 +183,7 @@ theorem fock_disjoint (F G : MvPolynomial σ ℚ_[p]) (h : ∀ m ∈ F.support, 
   rw [h0, mul_zero, zero_mul]
 
 theorem intPol_iff_norm (x : MvPolynomial σ ℚ_[p]) : x ∈ IntPol p σ ↔ ∀ m, ‖x.coeff m‖ ≤ 1 := by
-  constructor
-  · rintro ⟨y, rfl⟩ m
-    simp only [AlgHom.toLinearMap_apply, mapAlgHom_apply, coeff_map]
-    exact PadicInt.norm_le_one _
-  · intro h
-    refine ⟨∑ m ∈ x.support, monomial m (⟨x.coeff m, h m⟩ : ℤ_[p]), ?_⟩
-
-    simp only [AlgHom.toLinearMap_apply, map_sum, mapAlgHom_apply]
-    conv_rhs => rw [x.as_sum]
-    refine Finset.sum_congr rfl fun m _ => ?_
-    erw [map_monomial]
-    rfl
+  apply _root_.Formalism.InvariantFactorPaths.L4.intPol_iff_norm <;> assumption
 
 end fockForm
 

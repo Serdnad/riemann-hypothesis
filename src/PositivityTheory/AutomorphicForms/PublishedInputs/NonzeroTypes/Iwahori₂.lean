@@ -1,6 +1,7 @@
 module
 
 public import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.NonzeroLeviEigenvectorExists
+import PositivityTheory.AutomorphicForms.PublishedInputs.NonzeroTypes.ParabolicMaximalCompact
 
 @[expose] public section
 
@@ -151,14 +152,7 @@ theorem Wm_mul (M : Matrix (Fin n) (Fin n) 𝒪[k]) (i j : Fin n) (hij : G.bl j 
 theorem leviProj_mem_KO {s : ℕ} (d : Fin s → ℕ) (hd : ∑ a, d a = n) (p : parab k (stdBlocks d hd))
     (hp : (p : GL (Fin n) k) ∈ KO k (Fin n)) (a : Fin s) :
     leviProj k (stdBlocks d hd) p a ∈ KO k (Fin (d a)) := by
-  rw [GlobalTheory.StepData.mem_KO] at hp ⊢
-  refine ⟨fun i j => ?_, fun i j => ?_⟩
-  · rw [leviProj_apply]
-    exact hp.1 _ _
-  · have hinv : (leviProj k (stdBlocks d hd) p a)⁻¹ = leviProj k (stdBlocks d hd) p⁻¹ a := by
-      rw [map_inv, Pi.inv_apply]
-    rw [hinv, leviProj_apply]
-    exact hp.2 _ _
+  apply _root_.UpperTheory.TNZ.ParabolicMaximalCompact.leviProj_mem_KO <;> assumption
 
 variable (G)
 

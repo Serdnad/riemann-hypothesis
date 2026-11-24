@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.HodgeBundleWeights.ExistsDegreeParametersBound
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsShortIndependentIntegers
 public import Development.AbelianVarietyTheory.Definitions.Foundations.IsProbabilityMeasureMuPart
@@ -725,30 +726,7 @@ theorem eLpNorm_homN_ne_top {E : Type} [Field E] [NumberField E] [IsCMField E] {
     {D : D7} {W : HSp D} (dict : GA D W → Σ k, Frame (V.X k).Ψ r) (μ : MeasureTheory.Measure (AutQ W))
     (hμ : μ Set.univ ≤ 1) (G : WTZ E) (f : Rul Xo c) (hf : rdU V f ∈ holSub V.X (GlobalTheory.AllWt.modelWt V G)) :
     MeasureTheory.eLpNorm' (fun q : AutQ W => GlobalTheory.AllWt.homN V x G f (dict q.out)) 2 μ ≠ ⊤ := by
-  have hb : ∀ q : AutQ W, ‖GlobalTheory.AllWt.homN V x G f (dict q.out)‖ₑ ≤
-      ENNReal.ofReal (GlobalTheory.AllWt.lieFacZ Dw x G) * supE V.X (GlobalTheory.AllWt.modelWt V G) (rdU V f) := by
-    intro q
-    rw [Real.enorm_eq_ofReal (GlobalTheory.AllWt.homN_nonneg _ _ _ _ _), GlobalTheory.AllWt.homN,
-      ENNReal.ofReal_mul (GlobalTheory.AllWt.lieFacZ_pos _ _).le]
-    gcongr
-    by_cases h : (dict q.out).2 ∈ (V.X (dict q.out).1).dom
-    · exact le_iSup (fun p : FPt V.X => ENNReal.ofReal ((V.X p.1).pnorm (GlobalTheory.AllWt.modelWt V G p.1) (rdU V f p.1) p.2))
-        ⟨(dict q.out).1, ⟨(dict q.out).2, h⟩⟩
-    · have h0 : rdU V f (dict q.out).1 (dict q.out).2 = 0 := by simp [rdU, h]
-      have h1 : GlobalTheory.AllWt.ptN (GlobalTheory.AllWt.modelWt V G) (rdU V f) (dict q.out) = 0 := by
-        show ‖rdU V f (dict q.out).1 (dict q.out).2‖ * _ = 0
-        rw [h0, norm_zero, zero_mul]
-      rw [h1, ENNReal.ofReal_zero]; exact bot_le
-  have hbound := MeasureTheory.eLpNorm'_mono_eNorm_ae (μ := μ) (q := 2)
-    (f := fun q : AutQ W => GlobalTheory.AllWt.homN V x G f (dict q.out))
-    (g := fun _ : AutQ W => ENNReal.ofReal (GlobalTheory.AllWt.lieFacZ Dw x G) *
-      supE V.X (GlobalTheory.AllWt.modelWt V G) (rdU V f)) (by norm_num)
-    (Filter.Eventually.of_forall (fun q => by simpa using hb q))
-  rw [MeasureTheory.eLpNorm'_const _ (by norm_num)] at hbound
-  apply ne_top_of_le_ne_top _ hbound
-  simp only [enorm_eq_self]
-  exact ENNReal.mul_ne_top (ENNReal.mul_ne_top ENNReal.ofReal_ne_top (supE_ne_top _ _ hf))
-    (ENNReal.rpow_ne_top_of_nonneg (by positivity) (ne_top_of_le_ne_top ENNReal.one_ne_top hμ))
+  apply _root_.GlobalTheory.HSApp.NormProd.eLpNorm_homN_ne_top <;> assumption
 
 theorem petOn_mul_sig_le {D : D7} {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host D.host.E} {Dw : Datum H} {l : Level H}
     {Xo : Moduli Dw l} {c : Coeff l} {r : ℕ} (U : ∀ σ : c.F →+* ℂ, Unf Xo c σ r) (x : ℝ) (V : (c.F →+* ℂ) → HSp D)

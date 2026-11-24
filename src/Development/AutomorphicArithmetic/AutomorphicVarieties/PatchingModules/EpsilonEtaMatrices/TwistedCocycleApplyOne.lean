@@ -5,8 +5,10 @@ public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingMod
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.DdSumZero
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.FinAm
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.LcOfOpen
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.DegreeCountCohomology.LcOfOpen
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.EpsilonEtaMatrices.FinTwLc
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.SeparableMatrixStability.PlProps
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.SeparableMatrixStability.PlProps
 public import Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.SeparableMatrixStability.PlSub
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -128,28 +130,12 @@ end Abs
 
 private theorem tw_lc {Γ R : Type} [TopologicalSpace Γ] {n : ℕ} (f : Γ → Matrix (Fin n) (Fin n) R)
     (h : ∀ i j, IsLocallyConstant fun g => f g i j) : IsLocallyConstant f := by
-  rw [IsLocallyConstant.iff_eventually_eq]
-  intro x
-  have hx : ∀ᶠ y in nhds x, ∀ i j, f y i j = f x i j := by
-    rw [Filter.eventually_all]
-    intro i
-    rw [Filter.eventually_all]
-    intro j
-    exact (IsLocallyConstant.iff_eventually_eq _).mp (h i j) x
-  filter_upwards [hx] with y hy
-  exact Matrix.ext hy
+  apply _root_.lc_mat <;> assumption
 
 private theorem tw_core {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ]
     (K P : Subgroup Γ) [P.Normal] (hK : IsOpen (K : Set Γ)) (hP : P ≤ K) :
     ∃ U : OpenNormalSubgroup Γ, P ≤ U.toSubgroup ∧ U.toSubgroup ≤ K := by
-  have hKc : IsClosed (K : Set Γ) := K.isClosed_of_isOpen hK
-  haveI : Finite (Γ ⧸ K) := K.quotient_finite_of_isOpen hK
-  haveI : K.FiniteIndex := Subgroup.finiteIndex_of_finite_quotient
-  have hNo : IsOpen (K.normalCore : Set Γ) :=
-    K.normalCore.isOpen_of_isClosed_of_finiteIndex (K.normalCore_isClosed hKc)
-  refine ⟨⟨⟨K.normalCore, hNo⟩, inferInstance⟩, ?_, ?_⟩
-  · exact Subgroup.normal_le_normalCore.mpr hP
-  · exact K.normalCore_le
+  apply _root_.exists_core <;> assumption
 
 private theorem pow_mem_of_PL (l : ℕ) {Γ : Type} [Group Γ] [TopologicalSpace Γ] [IsTopologicalGroup Γ] [CompactSpace Γ]
     (H : Subgroup Γ) (V : Set Γ) (hV : IsOpen V) (hle : (PL l H : Set Γ) ⊆ V) : ∀ h ∈ H, ∃ e : ℕ, h ^ l ^ e ∈ V := by

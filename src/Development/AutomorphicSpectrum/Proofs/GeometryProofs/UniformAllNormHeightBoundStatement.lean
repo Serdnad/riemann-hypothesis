@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.HeightOfSteps
 public import Development.AbelianVarietyTheory.Definitions.Divisors.AevalEqZeroOfMemConeIdeal
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsHomogeneousCompIdeal
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ModelSmall
@@ -818,58 +819,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : ReciprocityTheo
 
 theorem sum_abs_exOf_le (u : GlobalTheory.AllWt.Weight Dw) :
     ∑ s : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)), |((exOf Dw u 0 (some s) : ℤ) : ℝ)| ≤ GlobalTheory.CovHt.l1 u := by
-  classical
-  have hm1 : ∀ {τ : E →+* ℂ}, τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.p := fun h => if_pos h
-  have hm2 : ∀ {τ : E →+* ℂ}, ¬ τ (H.rt : E) = H.rt0 → Dw.mult τ = Dw.q := fun h => if_neg h
-  let φ : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)) → Psi H × Fin (Dw.p + Dw.q) := fun s =>
-    if h : s.1 (H.rt : E) = H.rt0 then
-      (⟨s.1, h⟩, ⟨s.2, by have := lt_of_lt_of_eq s.2.2 (hm1 h); omega⟩)
-    else (⟨conjEmb s.1, conj_mem h⟩, ⟨Dw.p + (Dw.q - 1 - s.2), by have := lt_of_lt_of_eq s.2.2 (hm2 h); omega⟩)
-  have hφ : ∀ s, |((exOf Dw u 0 (some s) : ℤ) : ℝ)| = |((u (φ s).1 (φ s).2 : ℤ) : ℝ)| := by
-    rintro ⟨τ, i⟩
-    by_cases h : τ (H.rt : E) = H.rt0
-    · have hi := lt_of_lt_of_eq i.2 (hm1 h)
-      have e : exOf Dw u 0 (some ⟨τ, i⟩) = (wtOf Dw u 0).1 (τ, i) := rfl
-      rw [e, wtOf_big u 0 ⟨τ, h⟩ i hi]
-      simp [φ, h]
-    · have hi := lt_of_lt_of_eq i.2 (hm2 h)
-      have e : exOf Dw u 0 (some ⟨τ, i⟩) = (wtOf Dw u 0).1 (τ, i) := rfl
-      have key := wtOf_small u 0 ⟨conjEmb τ, conj_mem h⟩ i hi
-      simp only [conjEmb_conjEmb] at key
-      rw [e, key]
-      simp [φ, h, abs_neg]
-  have hinj : Function.Injective φ := by
-    rintro ⟨τ, i⟩ ⟨τ', i'⟩ e
-    by_cases h : τ (H.rt : E) = H.rt0 <;> by_cases h' : τ' (H.rt : E) = H.rt0
-    · simp only [φ, dif_pos h, dif_pos h'] at e
-      have e1 : τ = τ' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => x.1.1) e
-      subst e1
-      have e2 : (i : ℕ) = i' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
-      exact congrArg (Sigma.mk τ) (Fin.ext e2)
-    · simp only [φ, dif_pos h, dif_neg h'] at e
-      have e2 : (i : ℕ) = Dw.p + (Dw.q - 1 - i') := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
-      have hi := lt_of_lt_of_eq i.2 (hm1 h)
-      omega
-    · simp only [φ, dif_neg h, dif_pos h'] at e
-      have e2 : Dw.p + (Dw.q - 1 - i) = (i' : ℕ) := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
-      have hi' := lt_of_lt_of_eq i'.2 (hm1 h')
-      omega
-    · simp only [φ, dif_neg h, dif_neg h'] at e
-      have e1 : conjEmb τ = conjEmb τ' := congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => x.1.1) e
-      have e3 : τ = τ' := by rw [← conjEmb_conjEmb τ, e1, conjEmb_conjEmb]
-      subst e3
-      have e2 : Dw.p + (Dw.q - 1 - i) = Dw.p + (Dw.q - 1 - i') :=
-        congrArg (fun x : Psi H × Fin (Dw.p + Dw.q) => (x.2 : ℕ)) e
-      have hi := lt_of_lt_of_eq i.2 (hm2 h)
-      have hi' := lt_of_lt_of_eq i'.2 (hm2 h)
-      exact congrArg (Sigma.mk τ) (Fin.ext (by omega))
-  calc ∑ s : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)), |((exOf Dw u 0 (some s) : ℤ) : ℝ)|
-      = ∑ s : (Σ τ : E →+* ℂ, Fin (Dw.mult τ)), |((u (φ s).1 (φ s).2 : ℤ) : ℝ)| := Finset.sum_congr rfl fun s _ => hφ s
-    _ = ∑ x ∈ Finset.univ.image φ, |((u x.1 x.2 : ℤ) : ℝ)| :=
-        (Finset.sum_image (f := fun x : Psi H × Fin (Dw.p + Dw.q) => |((u x.1 x.2 : ℤ) : ℝ)|) fun a _ b _ h => hinj h).symm
-    _ ≤ ∑ x : Psi H × Fin (Dw.p + Dw.q), |((u x.1 x.2 : ℤ) : ℝ)| :=
-        Finset.sum_le_sum_of_subset_of_nonneg (Finset.subset_univ _) fun _ _ _ => abs_nonneg _
-    _ = GlobalTheory.CovHt.l1 u := by rw [GlobalTheory.CovHt.l1, Fintype.sum_prod_type]
+  apply _root_.GlobalTheory.CovHt.FrameCmp.sum_abs_exOf_le <;> assumption
 
 end Wt
 

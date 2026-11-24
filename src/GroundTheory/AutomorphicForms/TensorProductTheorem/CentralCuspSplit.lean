@@ -9,6 +9,7 @@ public import GroundTheory.AutomorphicForms.UnitaryAdmissible.CuspCentral
 public import GroundTheory.AutomorphicForms.AutomorphicFormSpaces.GKStableLaplacian
 public import GroundTheory.AutomorphicForms.SmoothRep
 import Mathlib.Tactic.TypeStar
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.TensorRepresentations.DecompA
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.AutomorphicForms.TensorProductTheorem.PeterssonComplement, GroundTheory.AutomorphicForms.TensorProductTheorem.CentralCuspSplit
@@ -33,19 +34,7 @@ variable {ι}
 
 theorem aeval_mem {T : Module.End ℂ V} {Z : Submodule ℂ V} (hZ : ∀ z ∈ Z, T z ∈ Z) (q : ℂ[X]) :
     ∀ z ∈ Z, aeval T q z ∈ Z := by
-  induction q using Polynomial.induction_on with
-  | C a =>
-    intro z hz
-    rw [aeval_C, Module.algebraMap_end_apply]
-    exact Z.smul_mem a hz
-  | add p q hp hq =>
-    intro z hz
-    rw [map_add (f := _), LinearMap.add_apply]
-    exact Z.add_mem (hp z hz) (hq z hz)
-  | monomial k a ih =>
-    intro z hz
-    rw [pow_succ, ← mul_assoc, map_mul, aeval_X, Module.End.mul_apply]
-    exact ih _ (hZ z hz)
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.dc_aeval_mem <;> assumption
 
 theorem apply_aeval_comm (T : Module.End ℂ V) (q : ℂ[X]) (z : V) : T (aeval T q z) = aeval T q (T z) := by
   have h := (Commute.all (X : ℂ[X]) q).map (aeval T)

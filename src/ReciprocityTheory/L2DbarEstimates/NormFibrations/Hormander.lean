@@ -31,6 +31,7 @@ public import Mathlib.MeasureTheory.Function.ContinuousMapDense
 public import ReciprocityTheory.L2DbarEstimates.Localization.UnweightBackStatement
 public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.Closed
 public import ReciprocityTheory.L2DbarEstimates.HormanderEstimate.HStatementOf
+import all ReciprocityTheory.L2DbarEstimates.HormanderEstimate.HStatementOf
 public import ReciprocityTheory.L2DbarEstimates.NormFibrations.Imports
 public import ReciprocityTheory.L2DbarEstimates.SkodaWeights.VolProdFinApply
 public import ReciprocityTheory.L2DbarEstimates.WeakHolomorphy.RegBall
@@ -63,31 +64,14 @@ private lemma chart_symm_eventuallyEq_of_isChart {n : ℕ} {M : Type*} [Topologi
     (e e' : OpenPartialHomeomorph M (V n)) (he : IsChart n z e) (he' : IsChart n z e')
     (p : M) (hp : p ∈ e.source) (hp' : p ∈ e'.source) :
     e.symm =ᶠ[nhds (z p)] e'.symm := by
-  have he0 : Set.EqOn z e e.source := he
-  have he0' : Set.EqOn z e' e'.source := he'
-  have hzp : z p = e' p := he0' hp'
-  have h2 : e'.target ∩ e'.symm ⁻¹' e.source ∈ nhds (z p) := by
-    rw [hzp]
-    refine (e'.isOpen_inter_preimage_symm e.open_source).mem_nhds ⟨e'.map_source hp', ?_⟩
-    rw [Set.mem_preimage, e'.left_inv hp']
-    exact hp
-  filter_upwards [h2] with y hy
-  have hs : e'.symm y ∈ e'.source := e'.map_target hy.1
-  have h3 : e (e'.symm y) = y := by
-    rw [← he0 hy.2, he0' hs, e'.right_inv hy.1]
-  calc e.symm y = e.symm (e (e'.symm y)) := by rw [h3]
-    _ = e'.symm y := e.left_inv hy.2
+  first
+    | exact _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq
+    | apply _root_.ReciprocityTheory.L2DbarEstimates.chart_symm_eventuallyEq <;> first | assumption | rfl | infer_instance
 
 private lemma db_eq_wdb_comp_chart_symm {n : ℕ} {M : Type*} [TopologicalSpace M] (z : M → V n)
     (e0 : OpenPartialHomeomorph M (V n)) (he0 : IsChart n z e0) (k : Fin n) (g : M → ℂ)
     (p : M) (hp : p ∈ e0.source) : db n z k g p = wdb n k (g ∘ e0.symm) (z p) := by
-  have hex : ∃ e : OpenPartialHomeomorph M (V n), IsChart n z e ∧ p ∈ e.source := ⟨e0, he0, hp⟩
-  have hspec := Classical.choose_spec hex
-  have hE : (g ∘ (Classical.choose hex).symm) =ᶠ[nhds (z p)] (g ∘ e0.symm) :=
-    (chart_symm_eventuallyEq_of_isChart z _ e0 hspec.1 he0 p hspec.2 hp).fun_comp g
-  rw [db, dite_eq_left hex]
-  unfold wdb
-  rw [hE.fderiv_eq]
+  apply _root_.ReciprocityTheory.L2DbarEstimates.F.db_eq_wdb_comp_chart_symm <;> assumption
 
 private lemma d_apply_eq_wd_of_mem_source {n : ℕ} {M : Type*} [TopologicalSpace M] (z : M → V n)
     (e0 : OpenPartialHomeomorph M (V n)) (he0 : IsChart n z e0) (k : Fin n) (g : M → ℂ)

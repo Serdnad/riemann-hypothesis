@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.ConstantArcEigenbasisFlatBaseChange
 public import Development.AbelianVarietyTheory.Definitions.CMLattices.IntegralOf
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.CommonEigenvectorsFlatBaseChange
 public import Formalism.LocalToGlobal.ProjectiveLattices.LieFreePf
@@ -149,15 +150,8 @@ theorem univChart_iso {S : Type} [CommRing S] {G G' : Over (Spec (CommRingCat.of
     (e : G' ≅ G) [IsMonHom e.hom] {n : ℕ}
     {x : ∀ m : ℕ, sp (R₀ := S) (JetR S (Fin n) m) ⟶ G} (hx : IsUnivChart G n x) :
     IsUnivChart G' n (fun m => x m ≫ e.inv) := by
-  have one : ∀ T : Over (Spec (CommRingCat.of S)), (1 : T ⟶ G') ≫ e.hom = 1 := fun T =>
-    map_one (IsMonHom.monoidHom e.hom T)
-  have one' : ∀ T : Over (Spec (CommRingCat.of S)), (1 : T ⟶ G) ≫ e.inv = 1 := fun T => by
-    rw [← one, Category.assoc, e.hom_inv_id, Category.comp_id]
-  refine ⟨fun m => ?_, fun m => ?_, fun A _ _ aug m hm y hy => ?_⟩
-  · rw [← Category.assoc, hx.1]
-  · rw [← Category.assoc, hx.2.1, one']
-  · have := hx.2.2 A aug m hm (y ≫ e.hom) (by rw [← Category.assoc, hy, one])
-    simpa only [← Category.assoc, Iso.eq_comp_inv] using this
+  intros
+  apply _root_.GlobalTheory.BasisUniv.isUnivChart_iso <;> assumption
 
 theorem exists_charts {R S : Type} [CommRing R] [IsLocalRing R] [CommRing S] {G₀ : Over (Sp R)} [GrpObj G₀]
     [Smooth G₀.hom] {G : Over (Sp S)} [GrpObj G] (f : R →+* S) {φ : G.left ⟶ G₀.left}

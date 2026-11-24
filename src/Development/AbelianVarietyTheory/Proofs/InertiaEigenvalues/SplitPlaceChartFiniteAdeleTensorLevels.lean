@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.ExistsIdempotentPlaceChartFiniteAdeles
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.UnivOfNotLinearIndependent
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsIntOv
 public import Formalism.LocalToGlobal.Columns.AdelicLemmas
@@ -110,28 +111,7 @@ variable {D : D7} {v : HeightOneSpectrum (𝓞 D.host.F)}
 
 theorem residue_eq_zero_iff (x : GlobalTheory.SplitHecke.Ov D v) :
     IsLocalRing.residue (GlobalTheory.SplitHecke.Ov D v) x = 0 ↔ Valued.v (x : Fv D.host.F v) < 1 := by
-  rw [IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal, mem_nonunits_iff]
-  have hx : Valued.v (x : Fv D.host.F v) ≤ 1 := (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).1 x.2
-  constructor
-  · intro hnu
-    refine lt_of_le_of_ne hx fun h1 => hnu ?_
-    have h0 : (x : Fv D.host.F v) ≠ 0 := fun h => by
-      rw [h, map_zero] at h1
-      exact zero_ne_one h1
-    have hmem : (x : Fv D.host.F v)⁻¹ ∈ v.adicCompletionIntegers D.host.F :=
-      (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).2 (by rw [map_inv₀, h1, inv_one])
-    refine IsUnit.of_mul_eq_one (a := x) ⟨_, hmem⟩ (Subtype.ext ?_)
-    show (x : Fv D.host.F v) * (x : Fv D.host.F v)⁻¹ = 1
-    exact mul_inv_cancel₀ h0
-  · intro hlt hu
-    obtain ⟨w, hw⟩ := hu.exists_right_inv
-    have h2 := congrArg (fun t : GlobalTheory.SplitHecke.Ov D v => Valued.v (t : Fv D.host.F v)) hw
-    have hw1 : Valued.v (w : Fv D.host.F v) ≤ 1 := (HeightOneSpectrum.mem_adicCompletionIntegers _ _ _).1 w.2
-    simp only [MulMemClass.coe_mul, map_mul, OneMemClass.coe_one, map_one] at h2
-    have : Valued.v (x : Fv D.host.F v) * Valued.v (w : Fv D.host.F v) < 1 :=
-      (mul_le_of_le_one_right' hw1).trans_lt hlt
-    rw [h2] at this
-    exact lt_irrefl _ this
+  first | exact _root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt | exact @_root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt | apply _root_.GlobalTheory.DownLift.SplitCoef.residue_eq_zero_iff_val_lt <;> assumption
 
 theorem resS_surjective (PP : Pl D.host.E) : Function.Surjective (resS D.host.F PP) := by
   rw [resS, RingHom.coe_comp]

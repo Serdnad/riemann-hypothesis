@@ -1,5 +1,6 @@
 module
 
+import Formalism.ThetaLogCoordinates.DualWeylCoordinates.DualWeylProofs.QaRowStrictMono
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.IndexWeightsDominance
 public import Mathlib.Data.Int.Interval
 import Mathlib.Algebra.Order.Floor.Extended
@@ -50,6 +51,7 @@ import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Bool
 import Std.Tactic.BVDecide.Normalize.Prop
 public import Mathlib.Data.Sym.Card
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CardFilterValLt
 
 @[expose] public section
 
@@ -294,43 +296,11 @@ theorem sum_idxWeight {n : ℕ} (I : ℤ → Finset (Fin n)) (S : Finset ℤ) (h
 
 private theorem card_lt_lemma (n k : ℕ) (hk : k ≤ n) :
     (univ.filter fun m : Fin n => m.val < k).card = k := by
-  have e : (univ.filter fun m : Fin n => m.val < k).map Fin.valEmbedding = range k := by
-    ext x
-    simp only [Finset.mem_map, Finset.mem_filter, Finset.mem_univ, true_and, Fin.valEmbedding_apply,
-      Finset.mem_range]
-    constructor
-    · rintro ⟨a, ha, rfl⟩
-      exact ha
-    · intro hx
-      exact ⟨⟨x, by omega⟩, hx, rfl⟩
-  rw [← Finset.card_map Fin.valEmbedding, e, Finset.card_range]
+  apply _root_.GlobalTheory.CardFilterLt.card_filter_val_lt <;> assumption
 
 private theorem lt_colHeight_iff_lemma {n : ℕ} {μ : Fin n → ℤ} (h : Antitone μ) (c : ℤ) (m : Fin n) :
     m.val < colHeight μ c ↔ c ≤ μ m := by
-  have hmn := m.isLt
-  unfold colHeight
-  constructor
-  · intro hm
-    by_contra hc
-    have hsub : (univ.filter fun m' : Fin n => c ≤ μ m') ⊆
-        univ.filter fun m' : Fin n => m'.val < m.val := by
-      intro m' hm'
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hm' ⊢
-      by_contra hle
-      have := h (Fin.le_iff_val_le_val.mpr (by omega : m.val ≤ m'.val))
-      omega
-    have h1 := Finset.card_le_card hsub
-    rw [card_lt_lemma n m.val (by omega)] at h1
-    omega
-  · intro hc
-    have hsub : (univ.filter fun m' : Fin n => m'.val < m.val + 1) ⊆
-        univ.filter fun m' : Fin n => c ≤ μ m' := by
-      intro m' hm'
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hm' ⊢
-      exact le_trans hc (h (Fin.le_iff_val_le_val.mpr (by omega : m'.val ≤ m.val)))
-    have h1 := Finset.card_le_card hsub
-    rw [card_lt_lemma n (m.val + 1) (by omega)] at h1
-    omega
+  apply _root_.Formalism.InvariantFactorPaths.ColumnFamilies.qa_lt_colH <;> assumption
 
 theorem idxWeight_can {n : ℕ} {μ : Fin n → ℤ} (h : Antitone μ) : idxWeight (canIdx μ) = μ := by
   funext m

@@ -143,25 +143,7 @@ open Formalism.L2.Host
 
 theorem locK_eq_val_zpow {L : Type} [Field L] [NumberField L] (χ : HChar L) (R : HeightOneSpectrum (𝓞 L))
     (hR : χ.UnrAt R) (m : Lˣ) : χ.locK R m = χ.val R ^ ordF R m := by
-  set N := ordF R m with hN
-  set u : Lˣ := m * (unif R ^ N)⁻¹ with hu
-  have hmu : m = u * unif R ^ N := by rw [hu, inv_mul_cancel_right]
-  have hPv : R.valuation L (m : L) = WithZero.exp (-N) := by
-    have h0 : R.valuation L (m : L) ≠ 0 := by simp
-    rw [hN, ordF, neg_neg]
-    exact (WithZero.exp_log h0).symm
-  have hatFin : ∀ (x : Lˣ), Valued.v ((atFin R x : (R.adicCompletion L)ˣ) : R.adicCompletion L) = R.valuation L (x : L) :=
-    fun x => HeightOneSpectrum.valuedAdicCompletion_eq_valuation' R (x : L)
-  have hunit : IsUnitAt R (atFin R u) := by
-    have h1 := unif_spec R
-    unfold IsUnifAt at h1
-    unfold IsUnitAt
-    rw [hu, map_mul, map_inv, map_zpow, Units.val_mul, Units.val_inv_eq_inv_val, Units.val_zpow_eq_zpow_val, map_mul,
-      map_inv₀, map_zpow₀, h1, hatFin, hPv, ← WithZero.exp_zsmul, ← WithZero.exp_neg, ← WithZero.exp_add]
-    simp
-  have h1 : χ.locK R u = 1 := hR _ hunit
-  calc χ.locK R m = χ.locK R (u * unif R ^ N) := by rw [← hmu]
-    _ = χ.val R ^ N := by rw [map_mul, map_zpow, h1, one_mul]; rfl
+  apply _root_.GlobalTheory.HeckeProduct.locK_unr <;> assumption
 
 
 open Formalism.L2.JoinChr in

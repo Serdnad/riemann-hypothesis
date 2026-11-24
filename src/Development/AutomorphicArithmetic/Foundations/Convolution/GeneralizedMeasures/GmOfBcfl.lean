@@ -18,6 +18,7 @@ public import Development.AutomorphicArithmetic.Foundations.Convolution.Convolut
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TensF
 public import Development.AutomorphicArithmetic.AdelicQuotients.ExistsCompactFundamentalSetOfHeightLe
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.SideE
+import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.SideE
 public import Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.TermEx
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ThickFrames
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.MatchProd
@@ -472,17 +473,7 @@ private theorem smooth_star {K : Type} [Field K] [NumberField K] {n : ℕ} (β �
 
 private theorem iw_zero {K : Type} [Field K] [NumberField K] {n : ℕ} (w : Pl K) :
     iwCoset w (0 : Fin n → ℤ) = (GLnLocal.iwahori (w.adicCompletion K) n : Set (GL (Fin n) (w.adicCompletion K))) := by
-  have h1 : Cartan.diagPow (w.adicCompletion K) n (0 : Fin n → ℤ) = 1 := by
-    apply Units.ext
-    rw [Cartan.coe_diagPow]
-    simp
-  ext g
-  constructor
-  · rintro ⟨a, ha, b, hb, rfl⟩
-    rw [h1, mul_one]
-    exact mul_mem ha hb
-  · intro hg
-    exact ⟨g, hg, 1, one_mem _, by rw [h1]; simp⟩
+  apply _root_.iwCoset_zero' <;> assumption
 
 private theorem dc_test {G : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [T2Space G] (J : Subgroup G)
     (hJo : IsOpen (J : Set G)) (hJc : IsCompact (J : Set G)) (y : G) :

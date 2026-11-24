@@ -363,17 +363,6 @@ theorem UpperTheory.Gal.W2.ballChar_of :
       rw [hNcol m hm, mul_zero]
     · simp
   have hEb : ∀ j, starRingEnd ℂ (ev j) ≠ 0 := fun j => by simpa using hev j
-  set Eb := Matrix.diagonal fun j => starRingEnd ℂ (ev j) with hEbdef
-  have hEbu : IsUnit Eb.det := by
-    rw [hEbdef, Matrix.det_diagonal]
-    exact isUnit_iff_ne_zero.2 (Finset.prod_ne_zero_iff.2 fun j _ => hEb j)
-  haveI : Invertible Eb := Eb.invertibleOfIsUnitDet hEbu
-  have hEinv : Eb⁻¹ = Matrix.diagonal fun j => (starRingEnd ℂ (ev j))⁻¹ := by
-    apply Matrix.inv_eq_left_inv
-    rw [hEbdef, Matrix.diagonal_mul_diagonal, ← Matrix.diagonal_one]
-    congr 1
-    funext j
-    exact inv_mul_cancel₀ (hEb j)
   have hHbu : IsUnit (H.map star).det := by
     have : (H.map star).det = starRingEnd ℂ H.det := by
       rw [RingHom.map_det]
@@ -384,23 +373,28 @@ theorem UpperTheory.Gal.W2.ballChar_of :
   have h1 : Sb⁻¹ * H = Matrix.diagonal ev * Sb⁻¹ := by
     calc Sb⁻¹ * H = Sb⁻¹ * (H * Sb) * Sb⁻¹ := by simp [Matrix.mul_assoc]
       _ = Matrix.diagonal ev * Sb⁻¹ := by rw [hHS]; simp
-  have h2 : H.map star * P = P * Eb := by
+  have h2 : H.map star * P = P * Matrix.diagonal (fun j => starRingEnd ℂ (ev j)) := by
     have := congrArg (fun M : Matrix (Fin g) (Fin g) ℂ => M.map star) hHS
     simp only [hmapmul, hdiagmap] at this
-    rw [hPdef, hEbdef]
+    rw [hPdef]
     exact this
-  have h3 : (H.map star)⁻¹ * P = P * Eb⁻¹ := by
-    calc (H.map star)⁻¹ * P = (H.map star)⁻¹ * (P * Eb) * Eb⁻¹ := by simp [Matrix.mul_assoc]
-      _ = P * Eb⁻¹ := by rw [← h2, ← Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hHbu, Matrix.one_mul]
   have hTrel : ∀ b j, (Sb⁻¹ * co (T b) * P) i₀ j = mu / starRingEnd ℂ (ev j) * (Sb⁻¹ * co b * P) i₀ j := by
     intro b j
-    rw [hT b]
-    have e : Sb⁻¹ * (H * co b * (H.map star)⁻¹) * P = Matrix.diagonal ev * (Sb⁻¹ * co b * P) * Eb⁻¹ := by
-      calc Sb⁻¹ * (H * co b * (H.map star)⁻¹) * P = (Sb⁻¹ * H) * co b * ((H.map star)⁻¹ * P) := by
-            simp only [Matrix.mul_assoc]
-        _ = _ := by rw [h1, h3]; simp only [Matrix.mul_assoc]
-    rw [e, hEinv, Matrix.mul_diagonal, Matrix.diagonal_mul, hmu0]
-    ring
+    have hconj : co (T b) * H.map star = H * co b := by
+      rw [hT b, Matrix.mul_assoc, Matrix.nonsing_inv_mul _ hHbu, Matrix.mul_one]
+    have h :
+        (Sb⁻¹ * co (T b) * P) * Matrix.diagonal (fun j => starRingEnd ℂ (ev j)) =
+          Matrix.diagonal ev * (Sb⁻¹ * co b * P) := by
+      calc
+        _ = Sb⁻¹ * (co (T b) * H.map star) * P := by
+          rw [← Matrix.mul_assoc, Matrix.mul_assoc (Sb⁻¹ * co (T b)) P, ← h2]
+          simp only [Matrix.mul_assoc]
+        _ = (Sb⁻¹ * H) * (co b * P) := by rw [hconj]; simp only [Matrix.mul_assoc]
+        _ = _ := by rw [h1]; simp only [Matrix.mul_assoc]
+    have hj := congrArg (fun M : Matrix (Fin g) (Fin g) ℂ => M i₀ j) h
+    rw [Matrix.mul_diagonal, Matrix.diagonal_mul, hmu0] at hj
+    rw [div_mul_eq_mul_div]
+    exact (eq_div_iff (hEb j)).2 hj
   let ψ : (Fin d → ℂ) →ₗ[ℂ] ({j // ty j = ComplexEmbedding.conjugate t₀} → ℂ) :=
     { toFun := fun b j => (Sb⁻¹ * co b * P) i₀ j.val
       map_add' := by

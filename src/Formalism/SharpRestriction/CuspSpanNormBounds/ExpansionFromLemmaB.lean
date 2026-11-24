@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.FormalDegree.FdegTransfer
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.UnitaryWeylNormalHolds
 public import Formalism.SharpRestriction.CuspSpanNormBounds.UnimodularSchurMeasures.BesselExistenceUniformOfFacts
@@ -75,17 +76,8 @@ theorem inner_self_C {E : Type*} [NormedAddCommGroup E] [InnerProductSpace ℂ E
 
 theorem fdegOf_eq {μ : Measure (Formalism.REAL.UJ ε)} {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {d : ℝ}
     (h : IsFdeg μ σ d) {v : H} (hv : v ≠ 0) : fdegOf μ σ v = d := by
-  obtain ⟨hd, hF⟩ := h
-  have e := (hF v v v v).2
-  rw [integral_normSq_coef, inner_self_C] at e
-  have hn : 0 < ‖v‖ := norm_pos_iff.2 hv
-  have e' : (∫ g, ‖coefOn σ v v g‖ ^ 2 ∂μ) = ‖v‖ ^ 4 / d := by
-    have : (((∫ g, ‖coefOn σ v v g‖ ^ 2 ∂μ : ℝ)) : ℂ) = ((‖v‖ ^ 4 / d : ℝ) : ℂ) := by
-      rw [e]; push_cast; ring_nf
-    exact_mod_cast this
-  unfold fdegOf
-  rw [e']
-  field_simp
+  intros
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.fdegOf_of_isFdeg' <;> assumption
 
 end Fdeg
 

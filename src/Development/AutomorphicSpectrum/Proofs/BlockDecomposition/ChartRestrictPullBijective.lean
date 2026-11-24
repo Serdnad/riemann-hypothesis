@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.GeometricGenericComponents
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.ConeSectionRestriction.ConeSite
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.CapOComp
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.PerfectoidPullbacks.InclStd
@@ -64,19 +65,7 @@ theorem inU_inf {O : Type} [CommRing O] {R : Type} [CommRing R] {I : Ideal R} {�
 theorem irrelevant_le_span (K : Type) [Field K] (N : ℕ) :
     (HomogeneousIdeal.irrelevant (MvPolynomial.homogeneousSubmodule (Fin (N + 1)) K)).toIdeal ≤
       Ideal.span (Set.range (MvPolynomial.X : Fin (N + 1) → MvPolynomial (Fin (N + 1)) K)) := by
-  intro x hx
-  rw [HomogeneousIdeal.mem_iff, HomogeneousIdeal.mem_irrelevant_iff, GradedRing.proj_apply] at hx
-  have h0 : AddMonoidAlgebra.coeff x 0 = 0 := by
-    erw [MvPolynomial.decomposition.decompose'_apply, MvPolynomial.homogeneousComponent_zero] at hx
-    exact MvPolynomial.C_eq_zero.1 hx
-  rw [← Set.image_univ, MvPolynomial.mem_ideal_span_X_image]
-  intro m hm
-  by_contra hne
-  have hm0 : m = 0 := Finsupp.ext fun i => by
-    by_contra hi
-    exact hne ⟨i, Set.mem_univ i, hi⟩
-  subst hm0
-  exact (MvPolynomial.mem_support_iff.1 hm) h0
+  apply _root_.GlobalTheory.CompanionTheory.GeoNetop.irrelevant_le_spanX <;> assumption
 
 theorem iSup_wch {K : Type} [Field K] {X : Scheme.{0}} (N : ℕ) (i : X ⟶ PSpace K N) : (⨆ j, wch i j) = ⊤ := by
   have h := AlgebraicGeometry.Proj.iSup_basicOpen_eq_top (MvPolynomial.homogeneousSubmodule (Fin (N + 1)) K)

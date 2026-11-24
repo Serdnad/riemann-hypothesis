@@ -1,5 +1,8 @@
 module
 
+
+import Formalism.SharpRestriction.CuspSpanNormBounds.SGauge
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.WeylCellConjTransposeMulApply
 public import Formalism.FormalDegreeBessel.StatementBF
 public import Mathlib.Analysis.Normed.Lp.MeasurableSpace
 public import Mathlib.Analysis.Calculus.Deriv.Basic
@@ -59,7 +62,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.PeriodIntegrals.HaarDefs, Formalism.PeriodIntegrals.ContinuousExpLie, Formalism.HermitianCurvature.HermitianCurvatureProofs.StabilizerFixesTailCoords
 
@@ -129,22 +131,11 @@ variable {n : ℕ}
 open scoped Matrix.Norms.Operator in
 theorem exp_entry (X : Matrix (Fin n) (Fin n) ℂ) (i j : Fin n) :
     HasDerivAt (fun t : ℝ => (NormedSpace.exp ((t : ℂ) • X)) i j) (X i j) 0 := by
-  have h := hasDerivAt_exp_smul_const (𝕂 := ℝ) X (0 : ℝ)
-  simp only [zero_smul, NormedSpace.exp_zero, one_mul] at h
-  let L : Matrix (Fin n) (Fin n) ℂ →L[ℝ] ℂ := LinearMap.toContinuousLinearMap (Matrix.entryLinearMap ℝ ℂ i j)
-  have := L.hasFDerivAt.comp_hasDerivAt (0 : ℝ) h
-  simp only [Complex.coe_smul]
-  exact this
+  apply _root_.Formalism.MainNotions.S.Gauge.exp_entry <;> assumption
 
 theorem exp_deriv (X : Matrix (Fin n) (Fin n) ℂ) :
     HasDerivAt (fun t : ℝ => NormedSpace.exp ((t : ℂ) • X)) X 0 := by
-  have : HasDerivAt (fun t : ℝ => (fun i j => (NormedSpace.exp ((t : ℂ) • X)) i j : Fin n → Fin n → ℂ)) (fun i j => X i j) 0 := by
-    rw [hasDerivAt_pi]
-    intro i
-    rw [hasDerivAt_pi]
-    intro j
-    exact exp_entry X i j
-  exact this
+  apply _root_.Formalism.MainNotions.S.Gauge.exp_deriv <;> assumption
 
 def mulL (a : Matrix (Fin n) (Fin n) ℂ) : Matrix (Fin n) (Fin n) ℂ →L[ℝ] Matrix (Fin n) (Fin n) ℂ :=
   LinearMap.toContinuousLinearMap (LinearMap.mulLeft ℝ a)
@@ -309,28 +300,7 @@ theorem mvL_apply (v : Fin (2 * r + k + 1) → ℂ) (M : PI.Mx k r) : mvL v M = 
 
 theorem exp_fix (A : PI.Mx k r) (v : Fin (2 * r + k + 1) → ℂ) (hv : A *ᵥ v = 0) (t : ℝ) :
     NormedSpace.exp ((t : ℂ) • A) *ᵥ v = v := by
-  have hz : ∀ n : ℕ, ((t : ℂ) • A) ^ (n + 1) *ᵥ v = 0 := by
-    intro n
-    have hv' : ((t : ℂ) • A) *ᵥ v = 0 := by
-      funext i
-      have := congrFun hv i
-      simp only [Matrix.mulVec, dotProduct, Matrix.smul_apply, smul_eq_mul, Pi.zero_apply] at this ⊢
-      simp only [mul_assoc, ← Finset.mul_sum, this, mul_zero]
-    rw [pow_succ, ← Matrix.mulVec_mulVec, hv', Matrix.mulVec_zero]
-  have h1 : HasSum (fun n : ℕ => mvL v (((n.factorial : ℂ)⁻¹) • ((t : ℂ) • A) ^ n))
-      (mvL v (NormedSpace.exp ((t : ℂ) • A))) := by
-    open scoped Matrix.Norms.Operator in
-    exact (mvL v).hasSum (NormedSpace.exp_series_hasSum_exp' (𝕂 := ℂ) ((t : ℂ) • A))
-  have h2 : HasSum (fun n : ℕ => mvL v (((n.factorial : ℂ)⁻¹) • ((t : ℂ) • A) ^ n))
-      (mvL v (((Nat.factorial 0 : ℂ)⁻¹) • ((t : ℂ) • A) ^ 0)) := by
-    apply hasSum_single 0
-    intro n hn
-    obtain ⟨m, rfl⟩ := Nat.exists_eq_succ_of_ne_zero hn
-    rw [map_smul, mvL_apply, hz m, smul_zero]
-  have := h1.unique h2
-  rw [mvL_apply, mvL_apply] at this
-  rw [this]
-  simp
+  apply _root_.Formalism.FourierDecayAlt.P.Qx3.exp_fix <;> assumption
 
 theorem hcol {z : Fin (2 * r + k + 1) → ℂ} {h : PI.Mx k r} (hh : h ∈ Formalism.QuantumDeterminants.UWset k r z)
     (i l : Fin (2 * r + k + 1)) (hl : l.val < r) : h i l = if i = l then 1 else 0 := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Divisors.LineOppositeParabolicUnitaryLeviSectionEq
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaB
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -65,19 +66,7 @@ private theorem antiJ_apply_adelic_iwasawa_hecke (i j : Fin n) :
 
 private theorem mul_antiJ_apply' (N : Matrix (Fin n) (Fin n) L) (i j : Fin n) :
     (N * antiJ L n) i j = N i (Fin.rev j) := by
-  have hj := j.isLt
-  rw [Matrix.mul_apply, Finset.sum_eq_single (Fin.rev j)]
-  · rw [antiJ_apply_adelic_iwasawa_hecke, if_pos (by rw [Fin.val_rev]; omega), mul_one]
-  · intro k _ hk
-    have hk' := k.isLt
-    rw [antiJ_apply_adelic_iwasawa_hecke, if_neg, mul_zero]
-    intro h
-    apply hk
-    ext
-    rw [Fin.val_rev]
-    omega
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  apply _root_.GlobalTheory.LGrp.mul_antiJ_apply <;> assumption
 
 private theorem cT_apply_eq_sigma_transpose (N : Matrix (Fin n) (Fin n) L) (i j : Fin n) :
     cT σ N i j = σ (N j i) := rfl

@@ -1142,12 +1142,7 @@ variable {r : ℕ} {k : Type} [CommRing k]
 theorem full_act (g : GL (Fin r) k) (Y : Gl r k) :
     full (act g Y) = embHom r k (g : Matrix (Fin r) (Fin r) k) * full Y *
       embHom r k ((g⁻¹ : GL (Fin r) k) : Matrix (Fin r) (Fin r) k) := by
-  simp only [full, act, embHom, MonoidHom.coe_mk, OneHom.coe_mk, Matrix.reindex_apply,
-    Matrix.submatrix_mul_equiv]
-  rw [Matrix.fromBlocks_multiply, Matrix.fromBlocks_multiply]
-  congr 1
-  congr 1
-  all_goals (ext i j; simp [Matrix.mul_apply, Matrix.mulVec, Matrix.vecMul, dotProduct])
+  apply _root_.GlobalTheory.JR.Step.full_act <;> assumption
 
 theorem last_eq : (Fin.last r) = finSumFinEquiv (Sum.inr (0 : Fin 1)) := by
   ext; simp

@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.KunnethLefschetz.EtaleCharts.PolynomialChartSpans.SqCore
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.CrystallineTowers.LocTower
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.SmoothGaloisGeometry.NormLtOneOfIrreducible
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,17 +61,7 @@ private abbrev chartI : Ideal (MvPolynomial (Fin (n + 1)) O) :=
 private theorem prod_one_branch :
     (∏ i ∈ Finset.univ.filter (fun i : Fin (n + 1) => (i : ℕ) < 1), (MvPolynomial.X i : MvPolynomial (Fin (n + 1)) O)) =
       MvPolynomial.X 0 := by
-  have hs : Finset.univ.filter (fun i : Fin (n + 1) => (i : ℕ) < 1) = {0} := by
-    ext i
-    simp only [Finset.mem_filter, Finset.mem_univ, true_and, Finset.mem_singleton]
-    constructor
-    · intro h
-      ext
-      simp only [Fin.val_zero]
-      omega
-    · rintro rfl
-      simp
-  rw [hs, Finset.prod_singleton]
+  apply _root_.UpperTheory.Gal.KunnethLefschetz.G.prod_first <;> assumption
 
 private def evalFirst : MvPolynomial (Fin (n + 1)) O →+* MvPolynomial (Fin n) O :=
   (MvPolynomial.aeval (Fin.cons (MvPolynomial.C ϖ) MvPolynomial.X : Fin (n + 1) → MvPolynomial (Fin n) O)).toRingHom

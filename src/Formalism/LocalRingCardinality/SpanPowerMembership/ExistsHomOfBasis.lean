@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.InertJacobiLevels.ExtraVal
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Formalism.LocalRingCardinality.SpanPowerMembership.NDLocG
 import Mathlib.Algebra.Order.Floor.Extended
@@ -78,19 +79,7 @@ theorem norm_le_one_iff_val {F C : Type} [Field F] [NumberField F] [NormedField 
 
 theorem resChar_mem' (D : D7) (w : D.what₂.places.Pl) :
     ((D.what₂.places.resChar w : ℕ) : 𝓞 D.what₂.LL) ∈ (D.plEq w).asIdeal := by
-  have hp := D.what₂.places.resChar_prime w
-  have hne : ((D.what₂.places.resChar w : ℕ) : D.what₂.LL) ≠ 0 := Nat.cast_ne_zero.mpr hp.ne_zero
-  have h := D.what₂.places.val_resChar w
-  rw [D.val_eq w _ hne] at h
-  have h1 : vAdd (D.plEq w) ((D.what₂.places.resChar w : ℕ) : D.what₂.LL) = (D.what₂.places.ramIdx w : ℤ) :=
-    WithTop.coe_injective h
-  have h2 : (0 : ℤ) < D.what₂.places.ramIdx w := by exact_mod_cast D.what₂.places.ramIdx_pos w
-  rw [← (D.plEq w).valuation_lt_one_iff_mem (K := D.what₂.LL)]
-  show (D.plEq w).valuation D.what₂.LL (algebraMap (𝓞 D.what₂.LL) D.what₂.LL _) < 1
-  have hv := (Valuation.ne_zero_iff ((D.plEq w).valuation D.what₂.LL)).mpr hne
-  rw [map_natCast, ← WithZero.exp_log hv, ← WithZero.exp_zero, WithZero.exp_lt_exp]
-  unfold vAdd at h1
-  omega
+  apply _root_.Formalism.MainNotions.Inhab.resChar_mem <;> assumption
 
 theorem mem_intW_iff (D : D7) (w : D.what₂.places.Pl) (x : D.what₂.LL) :
     x ∈ intW D.what₂.places w ↔ (D.plEq w).valuation D.what₂.LL x ≤ 1 := by

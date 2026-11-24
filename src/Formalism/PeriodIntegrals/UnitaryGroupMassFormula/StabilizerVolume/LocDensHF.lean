@@ -100,11 +100,7 @@ theorem cos_ratio (μ : Measure V) (ν : Measure X) [μ.IsAddHaarMeasure] [ν.Is
     (hG : ∀ n, ∀ Z ∈ Λ 0, ∀ W ∈ Λ n, G (y + Z + W) - G (y + Z) - D W ∈ H (n + 1))
     (T : X) (hyT : G y - T ∈ H 0) (n : ℕ) :
     μ ({x | x - y ∈ Λ 0} ∩ G ⁻¹' {z | z - T ∈ H n}) * ν (H 0) = μ (Λ 0) * ν (H n) := by
-  rw [cos_inter_eq, measure_preimage_add]
-  have hh : T - G y ∈ H 0 := by
-    have := (H 0).neg_mem hyT
-    rwa [neg_sub] at this
-  exact hensel_main μ ν Λ H hΛo hΛa hHo hHc D hD G y hG T hh n
+  apply _root_.PI.VolStabSW.cos_ratio <;> assumption
 
 end Lat
 

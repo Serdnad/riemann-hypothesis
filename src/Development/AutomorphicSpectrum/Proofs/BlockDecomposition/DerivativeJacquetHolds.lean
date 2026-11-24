@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.NuPairOfAdmissibility
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.SegmentDerivatives.DerivJac
 public import Development.AbelianVarietyTheory.PublishedTheorems.Divisors₂.IrreducibleAdmissibleGL
 public import Development.WeilBound.CoreStatements.TemperedRepresentationTheory.MirabolicDerivatives.UnipotentDerivatives.DerUnipLeUnipB
@@ -128,21 +129,7 @@ theorem exists_proj (ψ : AddChar k Circle) (n : ℕ) : ∀ (j : ℕ) (τ : MRep
 theorem glEmbMat_apply (N : ℕ) (A : Matrix (Fin N) (Fin N) k) (a b : Fin (N + 1)) :
     glEmbMat k N A a b = if h : (a : ℕ) < N ∧ (b : ℕ) < N then A ⟨a, h.1⟩ ⟨b, h.2⟩
       else if (a : ℕ) = b then 1 else 0 := by
-  induction a using Fin.lastCases with
-  | last =>
-    induction b using Fin.lastCases with
-    | last => simp [glEmbMat]
-    | cast b =>
-      have := b.2
-      simp [glEmbMat]
-      omega
-  | cast a =>
-    induction b using Fin.lastCases with
-    | last =>
-      have := a.2
-      simp [glEmbMat]
-      omega
-    | cast b => simp [glEmbMat]
+  apply _root_.GlobalTheory.CompanionTheory.DerivQuot.glEmbMat_apply <;> assumption
 
 theorem embM_levi_apply (n : ℕ) : ∀ (j : ℕ) (g : GL (Fin n) k) (a b : Fin (n + j + 1)),
     (((embM k n j (levi k n g) : Mir k (n + j)) : GL (Fin (n + j + 1)) k) :

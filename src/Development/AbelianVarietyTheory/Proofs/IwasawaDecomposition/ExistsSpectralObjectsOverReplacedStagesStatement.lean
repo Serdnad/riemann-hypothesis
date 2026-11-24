@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.PlacementOfRealisationStatement
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.FlagStabilizerTensors.RowLevelMatch
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnimodularity.NatSmulMulEq
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.ConcreteLevelAdelicSubset
@@ -1006,24 +1007,7 @@ variable {D : D7} {G' : Type} [Group G'] [Fintype G'] {Pl0 T : Type} {A : FamIn 
 
 theorem upperLeftBlock_eq_one_iff_of_full_rank {κ : Type} [CommRing κ] {n r : ℕ} (hr : r ≤ n) (hn : n ≤ r) (g : GL (Fin n) κ) :
     Formalism.L2.DIV.upperLeftBlock hr g = 1 ↔ g = 1 := by
-  have hmem : g ∈ Formalism.L2.DIV.blockTri (Formalism.L2.DIV.blk2 r) := by
-    intro i j hij
-    exfalso
-    have hi := i.2
-    have hj := j.2
-    unfold Formalism.L2.DIV.blk2 at hij
-    split_ifs at hij <;> omega
-  constructor
-  · intro h
-    have h2 := congrArg (fun u : GL (Fin r) κ => (u : Matrix (Fin r) (Fin r) κ)) h
-    rw [Formalism.L2.DIV.upper_block_val_submatrix hr hmem] at h2
-    apply Units.ext
-    ext i j
-    have := congrFun (congrFun h2 ⟨i.1, by omega⟩) ⟨j.1, by omega⟩
-    simpa [Matrix.one_apply, Fin.ext_iff] using this
-  · rintro rfl
-    unfold Formalism.L2.DIV.upperLeftBlock
-    exact Formalism.L2.DIV.blockDiagonalExtendByOnePrimeField_one _ _
+  first | exact _root_.GlobalTheory.KapRed.upperLeftBlock_eq_one_iff_of_mem_blockTri | exact @_root_.GlobalTheory.KapRed.upperLeftBlock_eq_one_iff_of_mem_blockTri | apply _root_.GlobalTheory.KapRed.upperLeftBlock_eq_one_iff_of_mem_blockTri <;> assumption
 
 theorem rank_le_of (X : HidaSetting D) (h : X.B.I = Formalism.L2.SG.InstExistsPf.instOf D) : (Yc D 0).rank ≤ D.R.r := by
   have e : X.B.I.n = D.R.r := X.n_eq

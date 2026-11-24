@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.AutomorphicForms.Newform
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ModularFormCoeffSeqLinearStructure
 
 @[expose] public section
 
@@ -77,20 +78,7 @@ lemma exists_coeffs {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) :
 
 lemma summable_of_polyB {a : ℕ → ℂ} (h : PolyB a) (τ : ℍ) :
     Summable fun n : ℕ => a n * cexp (2 * π * Complex.I * n * τ) := by
-  obtain ⟨C, A, hC⟩ := h
-  set q : ℂ := cexp (2 * π * Complex.I * τ) with hq
-  have hq1 : ‖q‖ < 1 := UpperHalfPlane.norm_exp_two_pi_I_lt_one τ
-  have hq0 : ‖q‖ ≠ 0 := norm_ne_zero_iff.2 (Complex.exp_ne_zero _)
-  have h1 : Summable fun n : ℕ => (n : ℝ) ^ A * ‖q‖ ^ n :=
-    summable_pow_mul_geometric_of_norm_lt_one A (by rwa [norm_norm])
-  have h2 := ((summable_nat_add_iff 1).2 h1).mul_left (C * ‖q‖⁻¹)
-  refine Summable.of_norm_bounded h2 fun n => ?_
-  have e : cexp (2 * π * Complex.I * n * τ) = q ^ n := by
-    rw [hq, ← Complex.exp_nat_mul]; congr 1; ring
-  rw [e, norm_mul, norm_pow]
-  calc ‖a n‖ * ‖q‖ ^ n ≤ C * ((n : ℝ) + 1) ^ A * ‖q‖ ^ n :=
-        mul_le_mul_of_nonneg_right (hC n) (by positivity)
-    _ = _ := by push_cast; field_simp; ring
+  apply _root_.GlobalTheory.EisM.Lin.summ <;> assumption
 
 lemma qs_twist {M : ℕ} [NeZero M] (ψ : DirichletCharacter ℂ M) {c : ZMod M → ℂ}
     (hc : ∀ n : ZMod M, ∑ u, c u * ZMod.stdAddChar (u * n) = ψ n) {g : ℕ → ℂ} (hg : PolyB g) (τ : ℍ) :

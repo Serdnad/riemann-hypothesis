@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.LoopRowsOfRowsFinDim
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.IsWordLetters
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.RowsPtAt
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CntClLeEncardMul
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EquivIntegral
@@ -1370,19 +1372,7 @@ theorem sq_le_two_pow (k : ℕ) (hk : 4 ≤ k) : k ^ 2 ≤ 2 ^ k := by
 
 theorem err_le (D : D7) {δ : ℝ} (hδ : 0 < δ) (h : 8 / Real.log (1 + δ) ≤ D.R.k) :
     Real.exp ((D.R.f : ℝ) * (2 : ℝ) ^ ((3 : ℝ) - D.R.k)) - 1 ≤ δ := by
-  have hk := D.R.m_add_three_le_k
-  have hm := D.R.two_le_m
-  have hkR : (5 : ℝ) ≤ D.R.k := by exact_mod_cast (by omega : 5 ≤ D.R.k)
-  have hl : 0 < Real.log (1 + δ) := Real.log_pos (by linarith)
-  have hf : (D.R.f : ℝ) ≤ D.R.k := by exact_mod_cast (show D.R.f ≤ D.R.k from D.R.f_le_k)
-  have h2 : (D.R.k : ℝ) ^ 2 ≤ 2 ^ D.R.k := by exact_mod_cast sq_le_two_pow D.R.k (by omega)
-  have e2 : (2 : ℝ) ^ ((3 : ℝ) - D.R.k) = 8 / 2 ^ D.R.k := by
-    rw [Real.rpow_sub two_pos, Real.rpow_natCast]; norm_num
-  rw [sub_le_iff_le_add', ← Real.le_log_iff_exp_le (by linarith), e2]
-  rw [div_le_iff₀ hl] at h
-  calc (D.R.f : ℝ) * (8 / 2 ^ D.R.k) ≤ D.R.k * (8 / (D.R.k : ℝ) ^ 2) := by gcongr
-    _ = 8 / D.R.k := by field_simp
-    _ ≤ _ := by rw [div_le_iff₀ (by linarith)]; linarith
+  apply _root_.GlobalTheory.CritLevel.err_le <;> assumption
 
 theorem form_of_ranks (D : D7) (hR : LocalBesselAndTopKernel.FamilyMidVolume D) (u : D.what₂.Word) (h3 : UnitaryVolumeMass.stLem3L0 D u) {C0 : ℝ}
     (hD : StandingNumericalData D C0) : UnitaryVolumeMass.FormAt D u := by

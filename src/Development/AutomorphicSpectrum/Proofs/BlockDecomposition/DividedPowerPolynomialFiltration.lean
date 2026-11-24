@@ -49,6 +49,7 @@ import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.IsDPMorphismB
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.CechPairings.InstAddCommGroup
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.WittExactSequences.IsCompl
 import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.ZariskiEtaleLifting.XSmulSucc
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ExtendedDividedPowers
 
 @[expose] public section
 
@@ -63,18 +64,7 @@ variable {B : Type} [CommRing B] {J : Ideal B}
 
 theorem fil_mul_le (δ : DividedPowers J) (a c : ℕ) :
     GlobalTheory.PDA.fil δ a * GlobalTheory.PDA.fil δ c ≤ GlobalTheory.PDA.fil δ (a + c) := by
-  unfold GlobalTheory.PDA.fil
-  rw [Ideal.span_mul_span']
-  refine Ideal.span_mono ?_
-  rintro _ ⟨_, ⟨l, hl, hn, rfl⟩, _, ⟨m, hm, hk, rfl⟩, rfl⟩
-  refine ⟨l ++ m, ?_, ?_, ?_⟩
-  · intro p hp
-    rcases List.mem_append.1 hp with h | h
-    · exact hl p h
-    · exact hm p h
-  · simp only [List.map_append, List.sum_append]
-    omega
-  · simp only [List.map_append, List.prod_append]
+  apply _root_.GlobalTheory.CompanionTheory.PDMap.fil_mul_le <;> assumption
 
 theorem fil_anti (δ : DividedPowers J) {a c : ℕ} (h : a ≤ c) :
     GlobalTheory.PDA.fil δ c ≤ GlobalTheory.PDA.fil δ a := by

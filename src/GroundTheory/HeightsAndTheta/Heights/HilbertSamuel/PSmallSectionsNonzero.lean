@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionSpanStep
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PSectionBoundedMul
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsSmallSectionsNonzero
 import Mathlib.RingTheory.Henselian
@@ -52,33 +53,13 @@ theorem isMultiHomog_monomial (e : (Σ k, ι k) →₀ ℕ) (r : ℤ) :
 open Classical in
 theorem sum_single_apply (k' : K) (j : ι k') (b : ℕ) (k : K) :
     ∑ i, (Finsupp.single (⟨k', j⟩ : Σ k, ι k) b) ⟨k, i⟩ = if k' = k then b else 0 := by
-  classical
-  by_cases h : k' = k
-  · subst h
-    simp [Finsupp.single_apply]
-  · rw [if_neg h]
-    refine Finset.sum_eq_zero fun i _ => ?_
-    rw [Finsupp.single_apply, if_neg]
-    intro he
-    exact h (Sigma.mk.inj_iff.mp he).1
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBoundedMul.sum_single_apply <;> assumption
 
 def chartMono (c : ∀ k, ι k) (d : K → ℕ) : MRing ι :=
   ∏ k, X ⟨k, c k⟩ ^ d k
 
 theorem isMultiHomog_chartMono (c : ∀ k, ι k) (d : K → ℕ) : IsMultiHomog (chartMono c d) d := by
-  classical
-  have h : chartMono c d = monomial (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ) := by
-    rw [chartMono, monomial_sum_one]
-    exact Finset.prod_congr rfl fun k _ => X_pow_eq_monomial
-  have hd : (fun k => ∑ i, (∑ k', Finsupp.single (⟨k', c k'⟩ : Σ k, ι k) (d k')) ⟨k, i⟩) = d := by
-    funext k
-    simp only [Finsupp.finsetSum_apply]
-    rw [Finset.sum_comm]
-    simp only [sum_single_apply, Finset.sum_ite_eq', Finset.mem_univ, if_true]
-  rw [h]
-  have hm := isMultiHomog_monomial (ι := ι) (∑ k, Finsupp.single (⟨k, c k⟩ : Σ k, ι k) (d k)) (1 : ℤ)
-  rw [hd] at hm
-  exact hm
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBoundedMul.isMultiHomog_chartMono <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in
@@ -112,25 +93,7 @@ theorem exists_chartForm (y : (Σ k, ι k) → Ω) (a : K → ℤ) (n : ℕ) {s 
     (c : ∀ k, ι k) (hc : ∀ k, y ⟨k, c k⟩ ≠ 0) :
     ∃ (N dg : K → ℕ) (g : MRing ι), IsMultiHomog g dg ∧ (∀ k, (dg k : ℤ) = N k + n * a k) ∧
       aeval y g = s * aeval y (chartMono c N) := by
-  have hx : s * ∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k)) ∈ chartRingZ y c := hs c hc
-  obtain ⟨δ, e, he, hv⟩ := exists_form_of_mem_chartRingZ y c hc hx
-  set ex : K → ℕ := fun k => ((n : ℤ) * a k + ((n : ℤ) * a k).natAbs).toNat with hex
-  have hexk : ∀ k, (ex k : ℤ) = (n : ℤ) * a k + ((n : ℤ) * a k).natAbs := fun k => by
-    rw [hex]
-    exact Int.toNat_of_nonneg (by omega)
-  refine ⟨fun k => δ k + ((n : ℤ) * a k).natAbs, δ + ex, e * chartMono c ex,
-    isMultiHomog_mul he (isMultiHomog_chartMono c ex), fun k => ?_, ?_⟩
-  · simp only [Pi.add_apply, Nat.cast_add, hexk k]
-    ring
-  · rw [map_mul, hv, aeval_chartMono, aeval_chartMono, mul_assoc, mul_assoc, ← Finset.prod_mul_distrib,
-      ← Finset.prod_mul_distrib]
-    congr 1
-    refine Finset.prod_congr rfl fun k _ => ?_
-    have h0 := hc k
-    rw [← zpow_natCast, ← zpow_natCast, ← zpow_natCast, ← zpow_add₀ h0, ← zpow_add₀ h0, hexk k]
-    congr 1
-    push_cast
-    ring
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionBoundedMul.exists_chartForm <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in
@@ -143,18 +106,7 @@ theorem one_mem_chartLat (y : (Σ k, ι k) → Ω) (a : K → ℤ) : (1 : Ω) �
 omit [∀ k, Fintype (ι k)] in
 theorem mul_mem_chartLat {y : (Σ k, ι k) → Ω} {a : K → ℤ} {n j : ℕ} {s t : Ω} (hs : s ∈ chartLat y a n)
     (ht : t ∈ chartLat y a j) : s * t ∈ chartLat y a (n + j) := by
-  intro c hc
-  have h : ∏ k, y ⟨k, c k⟩ ^ (-(((n + j : ℕ) : ℤ) * a k)) =
-      (∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k))) * ∏ k, y ⟨k, c k⟩ ^ (-((j : ℤ) * a k)) := by
-    rw [← Finset.prod_mul_distrib]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    rw [← zpow_add₀ (hc k)]
-    congr 1
-    push_cast
-    ring
-  rw [h, show s * t * ((∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k))) * ∏ k, y ⟨k, c k⟩ ^ (-((j : ℤ) * a k))) =
-      (s * ∏ k, y ⟨k, c k⟩ ^ (-((n : ℤ) * a k))) * (t * ∏ k, y ⟨k, c k⟩ ^ (-((j : ℤ) * a k))) by ring]
-  exact mul_mem (hs c hc) (ht c hc)
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SectionSpanStep.mul_mem <;> assumption
 
 
 omit [∀ k, Fintype (ι k)] in

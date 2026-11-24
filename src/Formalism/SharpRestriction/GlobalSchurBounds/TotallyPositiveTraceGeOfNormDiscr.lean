@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.ExistsLinearIndependentNormLeSuccMin
+import Mathlib.Analysis.InnerProductSpace.GramMatrix
 public import Formalism.SharpRestriction.GlobalSchurBounds.SlopeMaxOpenOfHookTwoLeV
 public import Formalism.PeriodIntegrals.Transference
 public import Mathlib.Algebra.AffineMonoid.Basic
@@ -153,21 +155,9 @@ theorem rational_transference_short_basis (hT : PI.TransferenceMinima) (hd : 0 <
     show ⟪WithLp.toLp 2 (fun r => A r i), WithLp.toLp 2 (fun r => A r j)⟫_ℝ = _
     rw [EuclideanSpace.inner_toLp_toLp]
     simp [dotProduct, mul_comm]
-  have hli : LinearIndependent ℝ w := by
-    rw [Fintype.linearIndependent_iff]
-    intro c hc
-    by_contra hne
-    have hc0 : c ≠ 0 := fun h => hne (fun i => congrFun h i)
-    apply hdet
-    apply Matrix.exists_mulVec_eq_zero_iff.mp
-    refine ⟨c, hc0, ?_⟩
-    ext j
-    have h1 : ⟪w j, ∑ i, c i • w i⟫_ℝ = 0 := by rw [hc, inner_zero_right]
-    rw [inner_sum] at h1
-    simp only [real_inner_smul_right, hw] at h1
-    simp only [Matrix.mulVec, dotProduct, Pi.zero_apply]
-    rw [← h1]
-    refine Finset.sum_congr rfl fun i _ => by simp [hG, mul_comm]
+  have hGram : Matrix.gram ℝ w = G := Matrix.ext fun i j => hw i j
+  have hli : LinearIndependent ℝ w :=
+    Matrix.linearIndependent_of_det_gram_ne_zero (hGram.symm ▸ hdet)
   have : Nonempty (Fin d) := ⟨⟨0, hd⟩⟩
   let bE : Basis (Fin d) ℝ (EuclideanSpace ℝ (Fin d)) :=
     basisOfLinearIndependentOfCardEqFinrank hli (by simp)
@@ -177,25 +167,19 @@ theorem rational_transference_short_basis (hT : PI.TransferenceMinima) (hd : 0 <
   have hspan : Submodule.span ℝ (M : Set (EuclideanSpace ℝ (Fin d))) = ⊤ := by
     rw [Submodule.span_span_of_tower]
     exact bE.span_eq
-  let φ : V → EuclideanSpace ℝ (Fin d) := fun x => ∑ i, ((b.repr x i : ℚ) : ℝ) • w i
-  have hφ : ∀ x y, ⟪φ x, φ y⟫_ℝ = ((B x y : ℚ) : ℝ) := by
-    intro x y
+  let φ : V →ₗ[ℚ] EuclideanSpace ℝ (Fin d) := b.constr ℚ w
+  have hφrepr (x : V) : φ x = ∑ i, ((b.repr x i : ℚ) : ℝ) • w i := by
+    change b.constr ℚ w x = _
+    simp only [Basis.constr_apply_fintype, Basis.equivFun_apply, Rat.cast_smul_eq_qsmul]
+  have hφb (i : Fin d) : φ (b i) = w i := b.constr_basis ℚ w i
+  have hφ (x y : V) : ⟪φ x, φ y⟫_ℝ = ((B x y : ℚ) : ℝ) := by
     have h1 : B x y = ∑ i, ∑ j, b.repr x i * b.repr y j * B (b i) (b j) := by
       rw [← bilinear_sum_smul_expand, b.sum_repr, b.sum_repr]
-    rw [h1]
-    simp only [φ, sum_inner, inner_sum, real_inner_smul_left, real_inner_smul_right, hw]
+    rw [h1, hφrepr x, hφrepr y]
+    simp only [sum_inner, inner_sum, real_inner_smul_left, real_inner_smul_right, hw]
     push_cast
     rw [Finset.sum_comm]
     refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => by ring
-  have hφsum : ∀ c : Fin d → ℚ, φ (∑ i, c i • b i) = ∑ i, (c i : ℝ) • w i := by
-    intro c
-    simp only [φ, b.repr_sum_self]
-  have hφb : ∀ i, φ (b i) = w i := by
-    intro i
-    have h1 : b i = ∑ j, (Pi.single i (1 : ℚ) : Fin d → ℚ) j • b j := by
-      simp [Pi.single_apply]
-    rw [h1, hφsum]
-    simp [Pi.single_apply, apply_ite (Rat.cast : ℚ → ℝ)]
   have hsolve : ∀ n : Fin d → ℤ, ∃ x : V, ∀ i, B x (b i) = n i := by
     intro n
     refine ⟨∑ i, (Gq⁻¹ *ᵥ (fun j => (n j : ℚ))) i • b i, fun j => ?_⟩
@@ -230,91 +214,51 @@ theorem rational_transference_short_basis (hT : PI.TransferenceMinima) (hd : 0 <
     by_contra hc
     have hc' : ‖y‖ < κ := not_le.mp hc
     nlinarith [norm_nonneg y]
+  have hmin (P : Submodule ℤ (EuclideanSpace ℝ (Fin d))) (i : ℕ) :
+      PI.succMin P i = GlobalTheory.succMin P i := by
+    unfold PI.succMin GlobalTheory.succMin GlobalTheory.succMinOf
+    congr 1
+    ext t
+    rw [GlobalTheory.mem_succMinRadii_iff]
+    exact and_congr_right (fun _ => ⟨
+      fun ⟨v, hP, hli, hn⟩ => ⟨v, hli, fun j => ⟨hP j, hn j⟩⟩,
+      fun ⟨v, hli, h⟩ => ⟨v, fun j => (h j).1, hli, fun j => (h j).2⟩⟩)
+  have hD : PI.dualZ M = GlobalTheory.dualLattice M := by
+    ext y
+    rw [GlobalTheory.mem_dualLattice]
+    exact ⟨fun h x hx => (h x hx).imp (fun _ hz => ((real_inner_comm y x).trans hz).symm),
+      fun h x hx => (h x hx).imp (fun _ hz => (real_inner_comm x y).trans hz.symm)⟩
+  have hDne : PI.dualZ M ≠ ⊥ := by
+    rw [hD, GlobalTheory.dualLattice_span_basis]
+    exact (Submodule.ne_bot_iff _).mpr ⟨GlobalTheory.innerDualBasis bE ⟨0, hd⟩,
+      Submodule.subset_span (Set.mem_range_self _), (GlobalTheory.innerDualBasis bE).ne_zero _⟩
   have hs1 : κ ≤ PI.succMin (PI.dualZ M) 1 := by
-    unfold PI.succMin
-    apply le_csInf
-    · obtain ⟨x, hx⟩ := hsolve (fun _ => 1)
-      have hx0 : x ≠ 0 := by
-        rintro rfl
-        have := hx ⟨0, hd⟩
-        simp at this
-      have hφx0 : φ x ≠ 0 := by
-        intro h
-        have h1 := hφ x x
-        rw [h, inner_zero_left] at h1
-        have h2 := hpos x hx0
-        have h3 : (0 : ℝ) < ((B x x : ℚ) : ℝ) := by exact_mod_cast h2
-        linarith
-      refine ⟨‖φ x‖, norm_nonneg _, fun _ => φ x, fun _ => ?_, ?_, fun _ => le_rfl⟩
-      · intro y hy
-        refine Submodule.span_induction (p := fun y _ => ∃ z : ℤ, ⟪φ x, y⟫_ℝ = z) ?_ ?_ ?_ ?_ hy
-        · rintro _ ⟨i, rfl⟩
-          exact ⟨1, by rw [hbE, ← hφb, hφ, hx]; simp⟩
-        · exact ⟨0, by simp⟩
-        · rintro a c _ _ ⟨z1, h1⟩ ⟨z2, h2⟩
-          exact ⟨z1 + z2, by rw [inner_add_right, h1, h2]; push_cast; ring⟩
-        · rintro k a _ ⟨z, h⟩
-          exact ⟨k * z, by rw [← Int.cast_smul_eq_zsmul ℝ k a, real_inner_smul_right, h]; push_cast; ring⟩
-      · exact linearIndependent_unique_iff.mpr hφx0
-    · rintro t ⟨_, v, hv, hvli, hvt⟩
-      exact (hlow (v 0) (hv 0) (hvli.ne_zero 0)).trans (hvt 0)
+    rw [hmin]
+    exact GlobalTheory.le_minNorm hDne hlow
   have hmain := hT d M hdisc hspan d hd le_rfl
   rw [show d + 1 - d = 1 by omega] at hmain
   have hs0 : 0 ≤ PI.succMin M d := Real.sInf_nonneg (fun t ht => ht.1)
   have hR : PI.succMin M d ≤ d / κ := by
     rw [le_div_iff₀ hκ]
     exact (mul_le_mul_of_nonneg_left hs1 hs0).trans hmain
-  have hfin : (Metric.closedBall (0 : EuclideanSpace ℝ (Fin d)) (d / κ + 1) ∩
-      (M : Set (EuclideanSpace ℝ (Fin d)))).Finite := ZSpan.setFinite_inter bE Metric.isBounded_closedBall
-  obtain ⟨ε, hε, hgap⟩ := exists_gap_above_finite_set _ (hfin.image norm) (d / κ)
-  have hne : {t : ℝ | 0 ≤ t ∧ ∃ v : Fin d → EuclideanSpace ℝ (Fin d),
-      (∀ j, v j ∈ M) ∧ LinearIndependent ℝ v ∧ ∀ j, ‖v j‖ ≤ t}.Nonempty :=
-    ⟨∑ i, ‖bE i‖, Finset.sum_nonneg (fun _ _ => norm_nonneg _), bE,
-      fun j => Submodule.subset_span ⟨j, rfl⟩, bE.linearIndependent,
-      fun j => Finset.single_le_sum (f := fun i => ‖bE i‖) (fun _ _ => norm_nonneg _) (Finset.mem_univ j)⟩
-  have hlt : PI.succMin M d < d / κ + min ε 1 := by
-    have := lt_min hε one_pos
-    linarith
-  obtain ⟨t, ⟨_, v, hvM, hvli, hvt⟩, htlt⟩ := exists_lt_of_csInf_lt hne hlt
-  have hvR : ∀ j, ‖v j‖ ≤ d / κ := by
-    intro j
-    have h1 := hvt j
-    have h2 := min_le_left ε 1
-    have h3 := min_le_right ε 1
-    refine hgap _ ⟨v j, ⟨?_, hvM j⟩, rfl⟩ (by linarith)
-    rw [Metric.mem_closedBall, dist_zero_right]
-    linarith
+  have hdM : d ≤ finrank ℝ (Submodule.span ℝ (M : Set (EuclideanSpace ℝ (Fin d)))) := by
+    rw [hspan, finrank_top]
+    simp
+  obtain ⟨v, hvli, hv⟩ := GlobalTheory.exists_linearIndependent_norm_le_succMin hdM
+  have hvM (j : Fin d) : v j ∈ M := (hv j).1
+  have hvR (j : Fin d) : ‖v j‖ ≤ d / κ := (hv j).2.trans ((hmin M d).symm ▸ hR)
   have hex : ∀ j, ∃ n : Fin d → ℤ, ∑ i, n i • bE i = v j :=
     fun j => (Submodule.mem_span_range_iff_exists_fun ℤ).mp (hvM j)
   choose n hn using hex
-  have hφy : ∀ j, φ (∑ i, ((n j i : ℤ) : ℚ) • b i) = v j := by
-    intro j
-    rw [hφsum, ← hn j]
-    refine Finset.sum_congr rfl fun i _ => ?_
-    rw [hbE, ← Int.cast_smul_eq_zsmul ℝ]
-    push_cast
-    rfl
-  refine ⟨fun j => ∑ i, ((n j i : ℤ) : ℚ) • b i, fun j => ?_, ?_, fun j => ?_⟩
-  · exact Submodule.sum_mem _ fun i _ => by
-      rw [Int.cast_smul_eq_zsmul]
-      exact Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  · rw [Fintype.linearIndependent_iff]
-    intro q hq
-    have h2 : ∑ j, q j • ∑ i, ((n j i : ℤ) : ℚ) • b i = ∑ i, (∑ j, q j * (n j i : ℚ)) • b i := by
-      simp only [Finset.smul_sum, smul_smul, Finset.sum_smul]
-      exact Finset.sum_comm
-    rw [h2] at hq
-    have h3 := Fintype.linearIndependent_iff.mp b.linearIndependent _ hq
-    have h1 : ∑ j, (q j : ℝ) • v j = 0 := by
-      calc ∑ j, (q j : ℝ) • v j = ∑ i, ((∑ j, q j * (n j i : ℚ) : ℚ) : ℝ) • w i := by
-            simp only [← hφy, hφsum, Finset.smul_sum, smul_smul]
-            push_cast
-            simp only [Finset.sum_smul]
-            exact Finset.sum_comm
-        _ = 0 := by simp [h3]
-    have h4 := Fintype.linearIndependent_iff.mp hvli _ h1
-    intro j
-    exact_mod_cast h4 j
+  have hφy (j : Fin d) : φ (∑ i, n j i • b i) = v j := by
+    simp only [map_sum, map_zsmul, hφb, ← hbE]
+    exact hn j
+  refine ⟨fun j => ∑ i, n j i • b i, fun j => ?_, ?_, fun j => ?_⟩
+  · exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
+  · apply LinearIndependent.of_comp φ
+    have e : φ ∘ (fun j => ∑ i, n j i • b i) = v := funext hφy
+    rw [e]
+    exact hvli.restrict_scalars' ℚ
   · rw [← hφ, hφy, real_inner_self_eq_norm_sq, ← div_pow]
     exact pow_le_pow_left₀ (norm_nonneg _) (hvR j) 2
 

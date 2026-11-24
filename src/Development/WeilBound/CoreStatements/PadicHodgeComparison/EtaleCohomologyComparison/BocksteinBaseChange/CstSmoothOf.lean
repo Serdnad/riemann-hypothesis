@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TateTwistSectionsLocallyGenerated
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.BcrisRegularPeriodRing
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.HodgeTateFromSandwich
 public import Development.WeilBound.CoreStatements.PadicHodgeComparison.EtaleCohomologyComparison.BocksteinBaseChange.EtProps
@@ -232,30 +233,7 @@ theorem loc_bind' {U : Scheme.{0}} {P P' : ∀ V : Scheme.{0}, (V ⟶ U) → Pro
 
 theorem tw_loc (hG : E.InGen) (Q : ℕ) [NeZero Q] (i : ℤ) (U : Scheme.{0}) (y : Sec (tw Q i) U) :
     Loc U fun V g => Sec.res g y = 0 ∨ ∃ (ζ : Prim Q Γ(V, ⊤)) (c : ℕ), Sec.res g y = c • twGen i ζ := by
-  have hsurj : Presheaf.imageSieve (toSheafify Scheme.etaleTopology (Scheme.Γ ⋙ GlobalTheory.EtC.twF Q i)) y ∈ Scheme.etaleTopology U :=
-    Presheaf.imageSieve_mem Scheme.etaleTopology _ (U := op U) y
-  refine loc_bind' ⟨_, hsurj, fun V g hg => hg⟩ ?_
-  rintro V g ⟨t, ht⟩
-  by_cases hP : Nonempty (Prim Q Γ(V, ⊤))
-  · obtain ⟨ζ₀⟩ := hP
-    obtain ⟨S, hS, hS'⟩ := (hG Q i).1 V ζ₀ (Sec.res g y)
-    refine ⟨S, hS, fun W k hk => Or.inr ?_⟩
-    obtain ⟨c, hc⟩ := hS' W k hk
-    exact ⟨ζ₀.map k.appTop.hom, c, (res_comp k g y).trans hc⟩
-  · have : IsEmpty (Prim Q Γ(V, ⊤)) := not_nonempty_iff.mp hP
-    have ht0 : t = 0 := by
-      obtain ⟨f, rfl⟩ := Submodule.Quotient.mk_surjective (twRel Q i Γ(V, ⊤))
-        (show (Prim Q Γ(V, ⊤) →₀ ULift.{1} (ZMod Q)) ⧸ twRel Q i Γ(V, ⊤) from t)
-      have hf : f = 0 := Finsupp.ext fun a => (IsEmpty.false a).elim
-      rw [hf]
-      exact Submodule.Quotient.mk_zero _
-    have hy : Sec.res g y = 0 := by
-      refine ht.symm.trans ?_
-      rw [ht0]
-      exact map_zero _
-    refine ⟨⊤, Scheme.etaleTopology.top_mem V, fun W k _ => Or.inl ?_⟩
-    rw [res_comp, hy]
-    exact map_zero _
+  apply _root_.GlobalTheory.TwSec.loc_gen <;> assumption
 
 end CrystallineSemistableComparison.TwSec
 end -- clump:auto

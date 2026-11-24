@@ -488,15 +488,7 @@ theorem untilt_zero' : (0 : Formalism.Per.Fl l).untilt = 0 := by
   rw [← WittVector.fontaineTheta_teichmuller, WittVector.teichmuller_zero, map_zero]
 
 theorem isGauss_gC {ρ : ℝ} (h1 : (l : ℝ)⁻¹ ≤ ρ) (h2 : ρ < 1) : IsGauss l ρ (gC l ρ) := by
-  have h : ∃ N, IsGauss l ρ N := by
-    obtain ⟨N, hN⟩ := GlobalTheory.GaussExt.exists_gauss_acris l ρ h1 h2
-    exact ⟨N, hN⟩
-  have hfun : gC l ρ = Classical.choose h := by
-    funext x
-    unfold gC
-    rw [dite_eq_left h]
-  rw [hfun]
-  exact Classical.choose_spec h
+  apply _root_.GlobalTheory.PMon.Gauss.isGauss_gC_of_le <;> assumption
 
 theorem gC_sub_le {ρ : ℝ} (hG : IsGauss l ρ (gC l ρ)) (x y : Formalism.Per.Acris l) :
     gC l ρ (x - y) ≤ max (gC l ρ x) (gC l ρ y) := by
@@ -1181,14 +1173,7 @@ namespace GlobalTheory.PMon.Gauss
 
 theorem gC_zero_of_radius (l : ℕ) [Fact l.Prime] {ρ : ℝ} (h0 : (l : ℝ)⁻¹ ≤ ρ) (h1 : ρ < 1) :
     gC l ρ (0 : Formalism.Per.Acris l) = 0 := by
-  have hN := isGauss_gC_of_le l ρ h0 h1
-  have hl : gC l ρ (l : Formalism.Per.Acris l) = ρ := (gC_basic_values l ρ h0 h1).2.1
-  have hm := hN.2.2.2.1 ((l : Formalism.Per.Acris l)) 0
-  rw [mul_zero, hl] at hm
-  have : (1 - ρ) * gC l ρ 0 = 0 := by linarith
-  rcases mul_eq_zero.1 this with h' | h'
-  · linarith
-  · exact h'
+  apply _root_.GlobalTheory.PMon.Gauss.vrlaw_gC_zero <;> assumption
 
 theorem gC_eq_zpow_mul_of_vr (l : ℕ) [Fact l.Prime] (x y : Formalism.Per.Acris l) (hx : x ≠ 0) (hy : y ≠ 0) (n : ℤ)
     (hn : ∀ r ∈ Set.Ioc (0 : ℝ) 1, vr l r x - vr l r y = n * r) (ρ : ℝ) (h0 : (l : ℝ)⁻¹ ≤ ρ) (h1 : ρ < 1) :
@@ -1296,12 +1281,7 @@ theorem iter_lpow (m j : ℕ) (x : Formalism.Per.Acris l) :
     rw [Function.iterate_succ_apply', Function.iterate_succ_apply', ih, map_mul, map_pow, map_natCast]
 
 theorem gC_zero {ρ : ℝ} (h0 : (l : ℝ)⁻¹ ≤ ρ) (h1 : ρ < 1) : gC l ρ 0 = 0 := by
-  have hm := (gauss h0 h1).2.2.2.1 0 (l : Formalism.Per.Acris l)
-  rw [zero_mul, (_root_.GlobalTheory.PMon.Gauss.gC_basic_values l ρ h0 h1).2.1] at hm
-  have e : gC l ρ 0 * (1 - ρ) = 0 := by linear_combination hm
-  rcases mul_eq_zero.1 e with h | h
-  · exact h
-  · exact absurd h (by linarith)
+  apply _root_.GlobalTheory.PMon.Gauss.gC_zero_of_radius <;> assumption
 
 theorem gC_lpow {ρ : ℝ} (h0 : (l : ℝ)⁻¹ ≤ ρ) (h1 : ρ < 1) (m : ℕ) (x : Formalism.Per.Acris l) :
     gC l ρ ((l : Formalism.Per.Acris l) ^ m * x) = ρ ^ m * gC l ρ x := by

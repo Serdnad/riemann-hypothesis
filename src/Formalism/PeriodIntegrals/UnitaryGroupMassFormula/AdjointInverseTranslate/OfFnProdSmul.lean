@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.CasimirCoefficients.TopContDiffOn
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdjointInverseTranslate.CoefLeftAAv
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -69,16 +70,7 @@ theorem ofFn_prod_sum {A : Type*} [Ring A] {ι : Type*} [Fintype ι] :
 theorem ofFn_prod_smul {A : Type*} [Ring A] [Algebra ℂ A] :
     ∀ (t : ℕ) (w : Fin t → ℂ) (X : Fin t → A),
       (List.ofFn fun k => w k • X k).prod = (∏ k, w k) • (List.ofFn X).prod := by
-  intro t
-  induction t with
-  | zero => intro w X; simp
-  | succ t ih =>
-    intro w X
-    rw [List.ofFn_succ, List.prod_cons, ih (fun k => w k.succ) (fun k => X k.succ), Fin.prod_univ_succ,
-      List.ofFn_succ, List.prod_cons]
-    simp only [smul_mul_assoc, mul_smul_comm, smul_smul]
-    congr 1
-    ring
+  apply _root_.ReciprocityTheory.ChartRestriction.DS.S7.CapAd.prod_ofFn_smul <;> assumption
 
 theorem tm_conj {A : Type*} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A)
     (P Q : Matrix (Fin n) (Fin n) ℂ) (hQP : Q * P = 1) (x : ℂ) (i j : Fin n) :

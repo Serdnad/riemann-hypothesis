@@ -1,5 +1,6 @@
 module
 
+import all CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.HermitianUnitFormDiagonalizes
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.OneVectorCcOfSiegelWeil
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.QuadFiniteDimensional
@@ -35,12 +36,7 @@ theorem isUnit_of_forall_notMem {a : B} (h : ∀ m : MaximalSpectrum B, a ∉ m.
 
 theorem exists_crt [Finite (MaximalSpectrum B)] (y : MaximalSpectrum B → B) :
     ∃ c : B, ∀ m : MaximalSpectrum B, c - y m ∈ m.asIdeal := by
-  have hcop : Pairwise (Function.onFun IsCoprime fun m : MaximalSpectrum B => m.asIdeal) := by
-    intro m m' hne
-    refine Ideal.isCoprime_iff_sup_eq.2 (Ideal.IsMaximal.coprime_of_ne m.isMaximal m'.isMaximal ?_)
-    exact fun h => hne (MaximalSpectrum.ext h)
-  obtain ⟨c, hc⟩ := Ideal.pi_quotient_surjective hcop fun m => Ideal.Quotient.mk m.asIdeal (y m)
-  exact ⟨c, fun m => Ideal.Quotient.eq.1 (hc m)⟩
+  apply _root_.GlobalTheory.CompanionTheory.SW.SemilocalColumn.exists_sub_iota_mem_of_sub_involution_mem <;> assumption
 
 variable {ι : Type} [Fintype ι] [DecidableEq ι]
 

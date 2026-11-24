@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsFiniteWeightComplementaryArchimedeanSchwar
 public import Development.AbelianVarietyTheory.Definitions.Divisors.CTSmallCone
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ContinuousAtPlace
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsPairingStdP
@@ -458,19 +459,7 @@ theorem acts_locOpInf {T : ((κ → AF F) → ℂ) → ((κ → AF F) → ℂ)} 
 
 variable (F κ) in
 theorem exists_rest_inf : ∃ r : ((κ → AF F) → ℂ), r 0 ≠ 0 ∧ ∀ f : SInf F κ, Rest (evI F) f r := by
-  let φ : ∀ w : Pl F, (κ → Fv F w) → ℂ := fun w => Set.indicator {x | ∀ i, x i ∈ w.adicCompletionIntegers F} 1
-  refine ⟨fun x => ∏ᶠ w, φ w fun i => evFin F w (x i), ?_, fun f => ⟨fun x z hz => ?_, ?_⟩⟩
-  · beta_reduce
-    rw [finprod_eq_one_of_forall_eq_one fun w => ?_]
-    · exact one_ne_zero
-    · simp only [φ, Pi.zero_apply, map_zero]
-      rw [Set.indicator_of_mem (by intro i; exact zero_mem _)]
-      rfl
-  · have h : ∀ w i, evFin F w (z i) = 0 := fun w i => by
-      rw [← partInf_of_at hz, partInf, Pi.smul_apply, smul_eq_mul, map_mul,
-        show evFin F w (realAd F 1) = 0 from map_zero (evalV F w), zero_mul]
-    simp only [Pi.add_apply, map_add (f := _), h, add_zero]
-  · exact GlobalTheory.TensUniq.pure_mem_schA f φ (fun w => GlobalTheory.StdVacuum.indicator_mem_SB w) (Eventually.of_forall fun _ => rfl)
+  first | exact _root_.GlobalTheory.ArchRest.exists_rest_arch | exact @_root_.GlobalTheory.ArchRest.exists_rest_arch | apply _root_.GlobalTheory.ArchRest.exists_rest_arch <;> assumption
 
 theorem eq_of_tens_inf {r : ((κ → AF F) → ℂ)} (h0 : r 0 ≠ 0) (hr : ∀ x z, At (evI F) z → r (x + z) = r x)
     {f g : (κ → mixedEmbedding.mixedSpace F) → ℂ} (h : tens (evI F) f r = tens (evI F) g r) : f = g := by

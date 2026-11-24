@@ -48,6 +48,7 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.HarmSecond
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Formalism.SharpRestriction.Divisibility.GeneratorPowers.CIndEncPf, Formalism.SharpRestriction.Divisibility.GeneratorPowers.ConstantCoeffPolyAdd
@@ -242,18 +243,7 @@ theorem conj_conj {E : Type} [Field E] (φ : E →+* ℂ) :
 
 theorem pderiv_comm {σ R : Type} [CommRing R] (i j : σ) (P : MvPolynomial σ R) :
     MvPolynomial.pderiv i (MvPolynomial.pderiv j P) = MvPolynomial.pderiv j (MvPolynomial.pderiv i P) := by
-  classical
-  induction P using MvPolynomial.induction_on' with
-  | monomial s a =>
-    simp only [MvPolynomial.pderiv_monomial]
-    by_cases hij : i = j
-    · subst hij
-      rfl
-    · rw [tsub_right_comm]
-      congr 1
-      simp [hij, Ne.symm hij]
-      ring
-  | add p q hp hq => simp only [map_add (f := _), hp, hq]
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.mvpoly_pderiv_comm <;> assumption
 
 theorem colSum_conj {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} {Dw : Datum H} {l : Level H}
     (c : Coeff l) (hPsi : PsiCoverSt H) (a : (E →+* ℂ) × ℕ → ℕ) (n : ℕ) (P : MvPolynomial (LtN Dw n) c.F)

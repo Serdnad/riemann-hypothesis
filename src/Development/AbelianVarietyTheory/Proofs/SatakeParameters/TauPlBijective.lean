@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.ChainOperators.OrbitEntryBounds
 public import Formalism.LocalRingCardinality.DataForced
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 public import Formalism.LocalRingCardinality.RankBoundMonotoneInDimension
@@ -76,26 +77,7 @@ def SamePrime {E : Type} [Field E] {l : ℕ} [Fact l.Prime] (ρ ρ' : E →+* �
   ∀ a : 𝓞 E, ‖ρ (a : E)‖ < 1 ↔ ‖ρ' (a : E)‖ < 1
 
 theorem tauPl_bijective (D : D7) : Function.Bijective (tauPl D) := by
-  have hinj := D.R.toFrame.iota_bijective.1
-  have hP := factPlaces D.R.toFrame
-  constructor
-  · rintro ⟨b, t⟩ ⟨b', t'⟩ h
-    have h1 : plGG D (b, t) = plGG D (b', t') := congrArg Subtype.val (D.eTau.symm.injective h)
-    cases b <;> cases b' <;> simp only [plGG, if_true, if_false, Bool.false_eq_true] at h1
-    · rw [show t = t' from hinj (congrArg Prod.snd h1)]
-    · exact absurd h1 (hP.2 _ _)
-    · exact absurd h1.symm (hP.2 _ _)
-    · rw [show t = t' from hinj (congrArg Prod.snd h1)]
-  · intro τ
-    rcases (hP.1 _).1 (D.eTau τ).2 with ⟨t, ht⟩ | ⟨t, ht⟩
-    · refine ⟨(false, t), ?_⟩
-      unfold tauPl
-      rw [Equiv.symm_apply_eq]
-      exact Subtype.ext (by simp [plGG, ht])
-    · refine ⟨(true, t), ?_⟩
-      unfold tauPl
-      rw [Equiv.symm_apply_eq]
-      exact Subtype.ext (by simp [plGG, ht])
+  first | exact _root_.SumOrbCW.tauPl_bijective | exact @_root_.SumOrbCW.tauPl_bijective | apply _root_.SumOrbCW.tauPl_bijective <;> assumption
 
 def plEquiv (D : D7) : (Bool × HH D) ≃ D.what₂.Tau := Equiv.ofBijective _ (tauPl_bijective D)
 

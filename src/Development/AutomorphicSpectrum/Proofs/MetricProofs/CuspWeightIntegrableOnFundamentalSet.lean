@@ -985,18 +985,7 @@ section Card
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem ringOfIntegers_hom_injective (s : 𝓞 E →+* ℂ) : Function.Injective s := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  have hk : RingHom.ker s = ⊥ := by
-    refine Ideal.eq_bot_of_comap_eq_bot (R := ℤ) ?_
-    rw [eq_bot_iff]
-    intro m hm
-    have h1 : s (algebraMap ℤ (𝓞 E) m) = 0 := hm
-    have h2 : ((m : ℤ) : ℂ) = 0 := by simpa using h1
-    simpa using (Int.cast_eq_zero.1 h2)
-  intro a ha
-  have : a ∈ RingHom.ker s := ha
-  rw [hk] at this
-  simpa using this
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.FamEx.Lin.emb_injective <;> assumption
 
 theorem finrank_real_eq_card {Ψ : Type} [Fintype Ψ] {σ : Ψ → (𝓞 E →+* ℂ)} (hσ : IsCMFam σ) :
     Module.finrank ℚ (maximalRealSubfield E) = Fintype.card Ψ := by
@@ -1728,17 +1717,7 @@ section Dens
 variable {Ψ : Type} [Fintype Ψ] {j j' n : ℕ}
 
 theorem measurable_ballDens (q : Ψ × Fin j × Fin j' ≃ Fin n) : Measurable (ballDens q) := by
-  have hZ : ∀ τ, Continuous fun t : Fin n → ℂ => ballMat q t τ := fun τ =>
-    continuous_matrix fun a b => continuous_apply _
-  have hdet : ∀ τ, Measurable fun t : Fin n → ℂ =>
-      Real.log (1 - (ballMat q t τ)ᴴ * ballMat q t τ).det.re := fun τ =>
-    Real.measurable_log.comp (Complex.continuous_re.comp
-      (continuous_const.sub ((hZ τ).matrix_conjTranspose.matrix_mul (hZ τ))).matrix_det).measurable
-  have hpot : Measurable (ballPot q) := by
-    unfold ballPot
-    exact (Finset.measurable_sum _ fun τ _ => hdet τ).neg
-  unfold ballDens
-  exact Real.measurable_exp.comp (hpot.const_mul _)
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Cusp.measurable_ballDens <;> assumption
 
 theorem ballDens_pos (q : Ψ × Fin j × Fin j' ≃ Fin n) (t : Fin n → ℂ) : 0 < ballDens q t := Real.exp_pos _
 

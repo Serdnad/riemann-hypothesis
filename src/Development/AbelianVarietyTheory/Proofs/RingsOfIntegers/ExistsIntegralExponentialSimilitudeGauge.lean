@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Mathlib.CategoryTheory.Monoidal.Opposite.Mon
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.GaugeThirdDifferenceSymmetryIntegralExponentials
 
 @[expose] public section
 
@@ -240,14 +241,7 @@ variable (B)
 
 theorem act_addOf (a : O) {n : ℕ} {x y : Pt V n d} (hx : GP x) (hy : GP y) :
     comp1 (B.A.act a) (addOf B.G.F x y) = addOf B.G.F (comp1 (B.A.act a) x) (comp1 (B.A.act a) y) := by
-  have p0 : GP (pt V (n := 2) d 0) := gp_pt 0
-  have p1 : GP (pt V (n := 2) d 1) := gp_pt 1
-  have hA := pair_points_zero_constant hx hy
-  have := congrArg (evP ![x, y]) (B.A.hom a)
-  rw [evP_comp1 _ hA _ _ (gp_addOf _ B.G.const _ _ p0 p1), evP_addOf _ hA _ _ _ p0 p1,
-    evP_addOf _ hA _ _ _ (gp_comp1 _ _ (constantCoeff_act_eq_zero B a) p0) (gp_comp1 _ _ (constantCoeff_act_eq_zero B a) p1),
-    evP_comp1 _ hA _ _ p0, evP_comp1 _ hA _ _ p1, evP_pt _ hA, evP_pt _ hA] at this
-  exact this
+  apply _root_.GlobalTheory.PlaceInt.ThetaInt.act_addOf <;> assumption
 
 theorem add_act (a b : O) {n : ℕ} {x : Pt V n d} (hx : GP x) :
     comp1 (B.A.act (a + b)) x = addOf B.G.F (comp1 (B.A.act a) x) (comp1 (B.A.act b) x) := by

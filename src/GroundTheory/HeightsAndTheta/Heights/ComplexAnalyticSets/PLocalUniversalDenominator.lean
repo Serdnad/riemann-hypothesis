@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.Assembly
 import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.IrreducibleConnected.BasicOpenSteps
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StLocalUniversalDenominator
 public import GroundTheory.HeightsAndTheta.Heights.ComplexAnalyticSets.StFiniteProjectionCluster
@@ -46,16 +47,7 @@ theorem differentiable_eval {ι : Type*} [Fintype ι] (q : MvPolynomial ι ℂ) 
 
 theorem exists_eval_ne_zero {d : ℕ} {P : MvPolynomial (Fin d) ℂ} (hP : P ≠ 0) {V : Set (Fin d → ℂ)}
     (hV : IsOpen V) (hne : V.Nonempty) : ∃ t ∈ V, eval t P ≠ 0 := by
-  obtain ⟨t₀, ht₀⟩ := hne
-  obtain ⟨ε, hε, hball⟩ := Metric.isOpen_iff.1 hV t₀ ht₀
-  by_contra hall
-  simp only [not_exists, not_and, not_not] at hall
-  refine hP (MvPolynomial.funext_set (fun i => Metric.ball (t₀ i) ε)
-    (fun i => infinite_of_mem_nhds (t₀ i) (Metric.ball_mem_nhds _ hε)) fun x hx => ?_)
-  rw [map_zero]
-  refine hall x (hball ?_)
-  rw [ball_pi _ hε]
-  exact hx
+  apply _root_.GroundTheory.Heights₂.Heights.IndefiniteRowSideFullHecke.ComplexSets.exists_eval_ne_zero_of_isOpen <;> assumption
 
 theorem exists_dim {n : ℕ} (I : Ideal (MvPolynomial (Fin n) ℂ)) (hI : I.IsPrime) :
     ∃ d : ℕ, ringKrullDim (MvPolynomial (Fin n) ℂ ⧸ I) = d := by

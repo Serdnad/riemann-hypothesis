@@ -391,12 +391,13 @@ private theorem ideal_componentPowerIdeal_eq_top_of_disjoint (I D : X.IdealSheaf
   · rw [componentPowerIdeal_of_not_isIrreducibleComponentOfSupport I D hC]
     exact idealSheafData_ideal_top W
 
-private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalSpace.NoetherianSpace ↥X]
+private theorem exists_nhds_monomialPartAlongDivisor [TopologicalSpace.NoetherianSpace ↥X]
     (p : X ⟶ Spec (CommRingCat.of k)) (I D : X.IdealSheafData)
     (hD : IsEtaleLocallyCoordinateDivisor p D) (x : X) :
-    ∃ Ω : X.Opens, x ∈ Ω ∧ ∀ W : X.affineOpens, (W : X.Opens) ≤ Ω →
+    ∃ Ω : X.Opens, x ∈ Ω ∧ ∃ a : ℕ, ∀ W : X.affineOpens, (W : X.Opens) ≤ Ω →
       ∃ g ∈ nonZeroDivisors Γ(X, (W : X.Opens)),
-        (monomialPartAlongDivisor I D).ideal W = Ideal.span {g} := by
+        (monomialPartAlongDivisor I D).ideal W = (D ^ a).ideal W ∧
+          (D ^ a).ideal W = Ideal.span {g} := by
   classical
   have hmemiff : ∀ C' : Set X, C' ∈ supportComponentsFinset D ↔ IsIrreducibleComponentOfSupport D C' := by
     intro C'
@@ -418,10 +419,8 @@ private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalS
     have hC₀ : IsIrreducibleComponentOfSupport D C₀ := (hmemiff C₀).mp hC₀mem
     obtain ⟨V, hV, hxV, n, c, j, hDV, hVsupp, -, hagree, -⟩ :=
       hC₀.exists_affineOpen_etaleChart_coordIdeal p hD x hxC₀
-    refine ⟨V, hxV, ?_⟩
+    refine ⟨V, hxV, orderAlongComponent I hC₀.isIrreducible, ?_⟩
     intro W hWV
-    refine ⟨(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible,
-      pow_mem (coord_mem_nonZeroDivisors W.2 (c.restrict hWV) j) _, ?_⟩
     have hres : restrictIdeal D (W : X.Opens) = (c.restrict hWV).coordIdeal {j} :=
       restrictIdeal_eq_restrict_coordIdeal_of_le hWV c D {j} hDV
     have hDW : D.ideal W = Ideal.span {(c.restrict hWV).coord j} := by
@@ -431,6 +430,9 @@ private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalS
         = Ideal.span {(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible} := by
       rw [componentPowerIdeal_of_isIrreducibleComponentOfSupport I D hC₀, idealSheafData_ideal_pow,
         hagree W hWV, hDW, Ideal.span_singleton_pow]
+    have hDpow : (D ^ orderAlongComponent I hC₀.isIrreducible).ideal W
+        = Ideal.span {(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible} := by
+      rw [idealSheafData_ideal_pow, hDW, Ideal.span_singleton_pow]
     have hother : ∀ C : Set X, C ∈ (supportComponentsFinset D).toList → C ≠ C₀ →
         (componentPowerIdeal I D C).ideal W = ⊤ := by
       intro C hCmem hne
@@ -452,27 +454,32 @@ private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalS
       show (componentPowerIdeal I D C').ideal W = 1
       rw [Ideal.one_eq_top]
       exact hother C' hC' hne
+    refine ⟨(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible,
+      pow_mem (coord_mem_nonZeroDivisors W.2 (c.restrict hWV) j) _, ?_, hDpow⟩
+    rw [hDpow, ← hcomp0]
     refine le_antisymm ?_ ?_
-    · rw [← hcomp0]
-      have hle : monomialPartAlongDivisor I D ≤ componentPowerIdeal I D C₀ := by
+    · have hle : monomialPartAlongDivisor I D ≤ componentPowerIdeal I D C₀ := by
         rw [monomialPartAlongDivisor_eq_inf_componentPowerIdeal]
         exact Finset.inf_le hC₀mem
       exact hle W
-    · rw [← hcomp0, ← hprodideal]
+    · rw [← hprodideal]
       exact hprodle W
   · push Not at hx
     have hclosed : IsClosed (⋃ C ∈ (supportComponentsFinset D : Set (Set X)), C) := by
       refine Set.Finite.isClosed_biUnion (supportComponentsFinset D).finite_toSet ?_
       intro C hC
       exact ((hmemiff C).mp (Finset.mem_coe.mp hC)).isClosed
-    refine ⟨⟨(⋃ C ∈ (supportComponentsFinset D : Set (Set X)), C)ᶜ, hclosed.isOpen_compl⟩, ?_, ?_⟩
+    refine ⟨⟨(⋃ C ∈ (supportComponentsFinset D : Set (Set X)), C)ᶜ, hclosed.isOpen_compl⟩,
+      ?_, 0, ?_⟩
     · intro hmem
       rw [Set.mem_iUnion₂] at hmem
       obtain ⟨C, hC, hxC⟩ := hmem
       exact hx C (Finset.mem_coe.mp hC) hxC
     · intro W hWΩ
-      refine ⟨1, one_mem _, ?_⟩
-      rw [Ideal.span_singleton_one]
+      have hDpow : (D ^ (0 : ℕ)).ideal W = ⊤ := by
+        rw [pow_zero, idealSheafData_ideal_one, Ideal.one_eq_top]
+      refine ⟨1, one_mem _, ?_, hDpow.trans Ideal.span_singleton_one.symm⟩
+      rw [hDpow]
       have hall : ∀ C ∈ (supportComponentsFinset D).toList,
           (componentPowerIdeal I D C).ideal W = 1 := by
         intro C hC
@@ -490,6 +497,17 @@ private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalS
       refine le_antisymm le_top ?_
       rw [← hprodtop]
       exact hprodle W
+
+private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_span [TopologicalSpace.NoetherianSpace ↥X]
+    (p : X ⟶ Spec (CommRingCat.of k)) (I D : X.IdealSheafData)
+    (hD : IsEtaleLocallyCoordinateDivisor p D) (x : X) :
+    ∃ Ω : X.Opens, x ∈ Ω ∧ ∀ W : X.affineOpens, (W : X.Opens) ≤ Ω →
+      ∃ g ∈ nonZeroDivisors Γ(X, (W : X.Opens)),
+        (monomialPartAlongDivisor I D).ideal W = Ideal.span {g} := by
+  obtain ⟨Ω, hxΩ, a, ha⟩ := exists_nhds_monomialPartAlongDivisor p I D hD x
+  refine ⟨Ω, hxΩ, fun W hW => ?_⟩
+  obtain ⟨g, hg, hpow, hspan⟩ := ha W hW
+  exact ⟨g, hg, hpow.trans hspan⟩
 
 private theorem exists_prod_monomialPartAlongDivisor_eq_span_singleton [TopologicalSpace.NoetherianSpace ↥X]
     (p : X ⟶ Spec (CommRingCat.of k)) (I : X.IdealSheafData) (x : X) :
@@ -1009,100 +1027,10 @@ private theorem exists_nhds_ideal_monomialPartAlongDivisor_eq_pow [TopologicalSp
     (hD : IsEtaleLocallyCoordinateDivisor p D) (x : X) :
     ∃ Ω : X.Opens, x ∈ Ω ∧ ∃ a : ℕ, ∀ W : X.affineOpens, (W : X.Opens) ≤ Ω →
       (monomialPartAlongDivisor I D).ideal W = (D ^ a).ideal W := by
-  classical
-  have hmemiff : ∀ C' : Set X, C' ∈ supportComponentsFinset D ↔ IsIrreducibleComponentOfSupport D C' := by
-    intro C'
-    simp only [supportComponentsFinset, Set.Finite.mem_toFinset, Set.mem_ofPred_eq]
-  have hprodle : ∀ W : X.affineOpens,
-      (((supportComponentsFinset D).toList.map (fun C => componentPowerIdeal I D C)).prod).ideal W
-        ≤ (monomialPartAlongDivisor I D).ideal W := by
-    intro W
-    have hle : ((supportComponentsFinset D).toList.map (fun C => componentPowerIdeal I D C)).prod
-        ≤ monomialPartAlongDivisor I D := by
-      rw [monomialPartAlongDivisor_eq_inf_componentPowerIdeal]
-      refine Finset.le_inf ?_
-      intro C' hC'
-      exact idealSheafData_listProd_le_of_mem _ (componentPowerIdeal I D C')
-        (List.mem_map.mpr ⟨C', Finset.mem_toList.mpr hC', rfl⟩)
-    exact hle W
-  by_cases hx : ∃ C ∈ supportComponentsFinset D, x ∈ C
-  · obtain ⟨C₀, hC₀mem, hxC₀⟩ := hx
-    have hC₀ : IsIrreducibleComponentOfSupport D C₀ := (hmemiff C₀).mp hC₀mem
-    obtain ⟨V, hV, hxV, n, c, j, hDV, hVsupp, -, hagree, -⟩ :=
-      hC₀.exists_affineOpen_etaleChart_coordIdeal p hD x hxC₀
-    refine ⟨V, hxV, orderAlongComponent I hC₀.isIrreducible, ?_⟩
-    intro W hWV
-    have hres : restrictIdeal D (W : X.Opens) = (c.restrict hWV).coordIdeal {j} :=
-      restrictIdeal_eq_restrict_coordIdeal_of_le hWV c D {j} hDV
-    have hDW : D.ideal W = Ideal.span {(c.restrict hWV).coord j} := by
-      have h1 := EtaleChart.ideal_eq_span_coord (c.restrict hWV) W.2 D {j} hres
-      simpa using h1
-    have hcomp0 : (componentPowerIdeal I D C₀).ideal W
-        = Ideal.span {(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible} := by
-      rw [componentPowerIdeal_of_isIrreducibleComponentOfSupport I D hC₀, idealSheafData_ideal_pow,
-        hagree W hWV, hDW, Ideal.span_singleton_pow]
-    have hDpow : (D ^ orderAlongComponent I hC₀.isIrreducible).ideal W
-        = Ideal.span {(c.restrict hWV).coord j ^ orderAlongComponent I hC₀.isIrreducible} := by
-      rw [idealSheafData_ideal_pow, hDW, Ideal.span_singleton_pow]
-    have hother : ∀ C : Set X, C ∈ (supportComponentsFinset D).toList → C ≠ C₀ →
-        (componentPowerIdeal I D C).ideal W = ⊤ := by
-      intro C hCmem hne
-      have hCcomp : IsIrreducibleComponentOfSupport D C := (hmemiff C).mp (Finset.mem_toList.mp hCmem)
-      refine ideal_componentPowerIdeal_eq_top_of_disjoint I D C W ?_
-      intro y hy hyC
-      have hyV : y ∈ V := hWV hy
-      have hyD : y ∈ (D.support : Set X) := hCcomp.subset_support hyC
-      have hyC₀ : y ∈ C₀ := hVsupp y hyV hyD
-      have hdisj : Disjoint C C₀ := hCcomp.disjoint hC₀ p hD hne
-      exact (Set.disjoint_left.mp hdisj hyC) hyC₀
-    have hprodideal : (((supportComponentsFinset D).toList.map
-        (fun C => componentPowerIdeal I D C)).prod).ideal W = (componentPowerIdeal I D C₀).ideal W := by
-      rw [idealSheafData_ideal_listProd, List.map_map]
-      refine prod_map_eq_apply_of_nodup_of_forall_ne (fun C => (componentPowerIdeal I D C).ideal W)
-        ((supportComponentsFinset D).toList) C₀ (Finset.nodup_toList _)
-        (Finset.mem_toList.mpr hC₀mem) ?_
-      intro C' hC' hne
-      show (componentPowerIdeal I D C').ideal W = 1
-      rw [Ideal.one_eq_top]
-      exact hother C' hC' hne
-    rw [hDpow, ← hcomp0]
-    refine le_antisymm ?_ ?_
-    · have hle : monomialPartAlongDivisor I D ≤ componentPowerIdeal I D C₀ := by
-        rw [monomialPartAlongDivisor_eq_inf_componentPowerIdeal]
-        exact Finset.inf_le hC₀mem
-      exact hle W
-    · rw [← hprodideal]
-      exact hprodle W
-  · push Not at hx
-    have hclosed : IsClosed (⋃ C ∈ (supportComponentsFinset D : Set (Set X)), C) := by
-      refine Set.Finite.isClosed_biUnion (supportComponentsFinset D).finite_toSet ?_
-      intro C hC
-      exact ((hmemiff C).mp (Finset.mem_coe.mp hC)).isClosed
-    refine ⟨⟨(⋃ C ∈ (supportComponentsFinset D : Set (Set X)), C)ᶜ, hclosed.isOpen_compl⟩,
-      ?_, 0, ?_⟩
-    · intro hmem
-      rw [Set.mem_iUnion₂] at hmem
-      obtain ⟨C, hC, hxC⟩ := hmem
-      exact hx C (Finset.mem_coe.mp hC) hxC
-    · intro W hWΩ
-      rw [pow_zero, idealSheafData_ideal_one, Ideal.one_eq_top]
-      have hall : ∀ C ∈ (supportComponentsFinset D).toList,
-          (componentPowerIdeal I D C).ideal W = 1 := by
-        intro C hC
-        rw [Ideal.one_eq_top]
-        refine ideal_componentPowerIdeal_eq_top_of_disjoint I D C W ?_
-        intro y hy hyC
-        have hyS : y ∈ (⋃ C' ∈ (supportComponentsFinset D : Set (Set X)), C') :=
-          Set.mem_biUnion (Finset.mem_coe.mpr (Finset.mem_toList.mp hC)) hyC
-        exact absurd hyS (hWΩ hy)
-      have hprodtop : (((supportComponentsFinset D).toList.map
-          (fun C => componentPowerIdeal I D C)).prod).ideal W = ⊤ := by
-        rw [idealSheafData_ideal_listProd, List.map_map, ← Ideal.one_eq_top]
-        exact prod_map_eq_one_of_forall_eq_one (fun C => (componentPowerIdeal I D C).ideal W)
-          ((supportComponentsFinset D).toList) hall
-      refine le_antisymm le_top ?_
-      rw [← hprodtop]
-      exact hprodle W
+  obtain ⟨Ω, hxΩ, a, ha⟩ := exists_nhds_monomialPartAlongDivisor p I D hD x
+  refine ⟨Ω, hxΩ, a, fun W hW => ?_⟩
+  obtain ⟨_, _, hpow, _⟩ := ha W hW
+  exact hpow
 
 private theorem exists_prod_monomialPartAlongDivisor_eq_prod_pow
     [TopologicalSpace.NoetherianSpace ↥X] (p : X ⟶ Spec (CommRingCat.of k))

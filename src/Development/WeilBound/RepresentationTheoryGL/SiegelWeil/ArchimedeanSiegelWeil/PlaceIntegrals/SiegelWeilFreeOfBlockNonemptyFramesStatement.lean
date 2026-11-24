@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.HyperbolicPlaneUnfoldingIntegralStatement
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.TrMMemFramesEIff
 public import CompanionTheory.SpectralGeometry.CountingDefinitions.AdelicEulerProducts.IsEulerProd
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.AdelicTupleProjections
@@ -126,56 +127,11 @@ namespace GlobalTheory.CompanionTheory.SW.StageGoodFree
 
 theorem stage_good_free : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (hT : ∀ a b, σ (T b a) = T a b) (d : ℕ) (b : Module.Basis (Fin d) F E), ∀ᶠ v : HeightOneSpectrum (𝓞 F) in Filter.cofinite, ∀ (μ : Measure (Fin n → Fin M → Fv F v ⊗[F] E)) (ν : Measure (HermR (Fv F v) σ n)) m, μ.IsAddHaarMeasure → ν.IsAddHaarMeasure → IsGramFibFree (Fv F v) σ J n μ ν m → ∀ h : HA (Fv F v) σ (blockOne (algebraMap F E t) J), m (hermOf (Fv F v) σ T hT) {X | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = (latV b v).indicator (fun _ => m (hermOf (Fv F v) σ T hT) (latV b v)) (actW (Fv F v) σ _ h (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0))) := by
   intro F E _ _ _ _ _ σ hCM M J hJ t ht n T hT d b
-  obtain ⟨hdet, hherm, -, -⟩ := BlockAlg.block_alg F E σ hCM M J t
-  have hND : IsHermND σ (blockOne (algebraMap F E t) J) :=
-    ⟨hherm hJ.1, by
-      rw [hdet]
-      exact mul_ne_zero (by simpa using ht) hJ.2⟩
-  filter_upwards [GoodTrans.good_trans F E σ hCM (M + 1) _ hND t ht d b,
-    (LatRat.latV_rational F E σ hCM d b n M).2.2, (LatRat.latV_rational F E σ hCM d b 0 M).2.2]
-    with v hv hv1 hv0
-  intro μ ν m hμ hν hm h
-  have hLoc := LocFv.isLocR_Fv F v
-  obtain ⟨i1, i2, i3, i4, -⟩ := id hLoc
+  filter_upwards [_root_.GlobalTheory.CompanionTheory.SW.StageGood.stage_good_of_invariant F E σ hCM M J hJ t ht n d b] with v hv
+  intro μ ν m hμ hν hm
   have : BorelSpace (Fv F v) := ⟨rfl⟩
-  obtain ⟨-, -, -, -, -, -, -, hBorel, -, -⟩ := TopK.topTens_props F E σ hCM (Fv F v)
-  have := hBorel n M
-  have hOpen := ((_root_.GlobalTheory.CompanionTheory.SW.MeasProj.proj_props F E σ hCM d b n M).2.2.2.1 v).2
-  obtain ⟨-, -, -, -, -, hact⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM (M + 1) _ hND (Fv F v)
-  obtain ⟨-, -, -, -, -, hactJ⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM M J hJ (Fv F v)
-  obtain ⟨-, hone, hmul, hgram⟩ := hact 1
-  by_cases he : actW (Fv F v) σ _ h (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0)) ∈ latV b v
-  · rw [Set.indicator_of_mem he]
-    have he0 : (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → Fv F v ⊗[F] E)) ∈ latV b v := by
-      have h0 := (hv0 (fun a : Fin 0 => a.elim0)).2 (fun a => a.elim0)
-      have hc : consTup (fun a : Fin 0 => a.elim0) =
-          (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → Fv F v ⊗[F] E)) := by
-        funext a
-        exact Fin.cases rfl (fun j => j.elim0) a
-      rwa [hc] at h0
-    obtain ⟨k, hk, hkl⟩ := hv _ _ he0 he (StageGood.gram_first (Fv F v) σ J t) (hgram h _)
-    obtain ⟨ι, -, -, hrange, -, hcons⟩ := StabFirst.stab_first F E σ hCM M J hJ t ht (Fv F v)
-    have hg : actW (Fv F v) σ _ (k⁻¹ * h) (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0)) =
-        (fun _ : Fin 1 => Fin.cons 1 (fun _ => 0)) := by
-      rw [hmul, ← hk, ← hmul, inv_mul_cancel, hone]
-    obtain ⟨u, hu⟩ := (hrange _).2 hg
-    have hh : h = k * ι u := by rw [hu]; group
-    have hset : {X : Fin n → Fin M → Fv F v ⊗[F] E | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} =
-        actW (Fv F v) σ J u ⁻¹' latV b v := by
-      ext X
-      rw [Set.mem_ofPred_eq, Set.mem_preimage, hh]
-      have := (hact (n + 1)).2.2.1 k (ι u) (consTup X)
-      rw [this, hkl, hcons, hv1]
-    have hcont : Continuous (actW (Fv F v) σ J u : (Fin n → Fin M → Fv F v ⊗[F] E) → _) :=
-      (hactJ n).1.comp (Continuous.prodMk continuous_const continuous_id)
-    rw [hset, ← Measure.map_apply hcont.measurable hOpen.measurableSet,
-      _root_.GlobalTheory.CompanionTheory.WeilSiegel.Free.FibreInv.map_actW_fibre_free F E σ hCM M J hJ (Fv F v) hLoc n μ ν m hμ hν hm u]
-  · rw [Set.indicator_of_notMem he]
-    have hempty : {X : Fin n → Fin M → Fv F v ⊗[F] E | actW (Fv F v) σ _ h (consTup X) ∈ latV b v} = ∅ := by
-      ext X
-      simp only [Set.mem_ofPred_eq, Set.mem_empty_iff_false, iff_false]
-      exact fun hX => he (StageGood.first_mem b v σ _ h X hX)
-    rw [hempty, measure_empty]
+  exact hv (m (hermOf (Fv F v) σ T hT))
+    (fun g => _root_.GlobalTheory.CompanionTheory.WeilSiegel.Free.FibreInv.map_actW_fibre_free F E σ hCM M J hJ (Fv F v) (LocFv.isLocR_Fv F v) n μ ν m hμ hν hm g (hermOf (Fv F v) σ T hT))
 
 end GlobalTheory.CompanionTheory.SW.StageGoodFree
 end -- clump:auto
@@ -493,14 +449,7 @@ theorem linearIndependent_consTup {M n : ℕ} (X : Fin n → Fin M → E) :
 theorem tsum_gact_frames (σ : E →ₐ[F] E) {M n : ℕ} {J : Matrix (Fin M) (Fin M) E}
     (g : UJ (σ : E →+* E) J) (T : Matrix (Fin n) (Fin n) E) (f : (Fin n → Fin M → E) → ℝ≥0∞) :
     ∑' X : framesE σ J T, f (gact σ g X.1) = ∑' X : framesE σ J T, f X.1 := by
-  let e : framesE σ J T ≃ framesE σ J T :=
-    { toFun := fun X => ⟨gact σ g X.1, linearIndependent_gact σ g X.2.1, by
-        rw [gramE_gact]; exact X.2.2⟩
-      invFun := fun X => ⟨gact σ g⁻¹ X.1, linearIndependent_gact σ g⁻¹ X.2.1, by
-        rw [gramE_gact]; exact X.2.2⟩
-      left_inv := fun X => Subtype.ext (gact_inv_gact σ g X.1)
-      right_inv := fun X => Subtype.ext (gact_gact_inv σ g X.1) }
-  exact e.tsum_eq (fun X => f X.1)
+  exact tsum_gact_of_mem σ g (framesE σ J T) (fun u X hX => ⟨linearIndependent_gact σ u hX.1, (gramE_gact σ u X).trans hX.2⟩) f
 
 theorem tsum_block_frames (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (Fin M) E) {t : E} (ht : t ≠ 0)
     (T : Matrix (Fin n) (Fin n) E)
@@ -511,218 +460,22 @@ theorem tsum_block_frames (σ : E →ₐ[F] E) {M n : ℕ} (J : Matrix (Fin M) (
     ∑' Y : framesE σ (blockOne t J) (blockOne t T), f Y.1 =
       ∑' q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t},
         ∑' X : framesE σ J T, f (gact σ (rr q)⁻¹ (consTup X.1)) := by
-  have hrow : ∀ (q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t})
-      (X : Fin n → Fin M → E), gact σ (rr q)⁻¹ (consTup X) 0 = q.1 0 := by
-    intro q X
-    have h := congrArg (gact σ (rr q)⁻¹) (hrr q)
-    rw [gact_inv_gact] at h
-    exact (congrFun h 0).symm
-  let m : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t} ×
-      framesE σ J T → framesE σ (blockOne t J) (blockOne t T) :=
-    fun p => ⟨gact σ (rr p.1)⁻¹ (consTup p.2.1),
-      linearIndependent_gact σ _ ((linearIndependent_consTup _).2 p.2.2.1), by
-      rw [gramE_gact, BlockAlg.gramE_consTup]
-      exact congrArg (blockOne t) p.2.2.2⟩
-  have hinj : Function.Injective m := by
-    rintro ⟨q, X⟩ ⟨q', X'⟩ h
-    have h1 : gact σ (rr q)⁻¹ (consTup X.1) = gact σ (rr q')⁻¹ (consTup X'.1) :=
-      congrArg Subtype.val h
-    have hq : q = q' := by
-      apply Subtype.ext
-      funext a
-      have ha : a = 0 := Subsingleton.elim _ _
-      subst ha
-      rw [← hrow q X.1, ← hrow q' X'.1, h1]
-    subst hq
-    have h2 := congrArg (gact σ (rr q)) h1
-    rw [gact_gact_inv, gact_gact_inv] at h2
-    exact Prod.ext rfl (Subtype.ext (consTup_injective h2))
-  have hsurj : Function.Surjective m := by
-    rintro ⟨Y, hYl, hY'⟩
-    have hy : gramE σ (blockOne t J) (fun _ : Fin 1 => Y 0) = fun _ _ => t := by
-      funext a b
-      exact congrFun (congrFun hY' 0) 0
-    let q : {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne t J) y = fun _ _ => t} := ⟨_, hy⟩
-    have h0 : gact σ (rr q) Y 0 = Fin.cons 1 (fun _ => 0) := congrFun (hrr q) 0
-    have hG : gramE σ (blockOne t J) (gact σ (rr q) Y) = blockOne t T := by
-      rw [gramE_gact]; exact hY'
-    obtain ⟨X, hX, hYX⟩ := BlockAlg.exists_consTup_of_gramE σ J ht T _ h0 hG
-    have hXl : LinearIndependent E X := by
-      rw [← linearIndependent_consTup, ← hYX]
-      exact linearIndependent_gact σ _ hYl
-    refine ⟨(q, ⟨X, hXl, hX⟩), Subtype.ext ?_⟩
-    change gact σ (rr q)⁻¹ (consTup X) = Y
-    rw [← hYX, gact_inv_gact]
-  let e := Equiv.ofBijective m ⟨hinj, hsurj⟩
-  rw [← e.tsum_eq (fun Y => f Y.1), ENNReal.tsum_prod']
-  rfl
+  refine tsum_block_of_sets σ J ht T rr hrr (framesE σ J T) (framesE σ (blockOne t J) (blockOne t T))
+    (fun _ hX => hX.2) (fun _ hY => hY.2) ?_ f
+  intro g X hX
+  have hL : LinearIndependent E (gact σ g (consTup X)) ↔ LinearIndependent E X := by
+    rw [← linearIndependent_consTup X]
+    refine ⟨fun h => ?_, linearIndependent_gact σ g⟩
+    simpa only [gact_inv_gact] using linearIndependent_gact σ g⁻¹ h
+  simpa only [framesE, Set.mem_setOf_eq, gramE_gact, BlockAlg.gramE_consTup, hX, and_true] using hL
 
 end Tuples
 
 theorem theta_stage_frames : ∀ (F E : Type) [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] (σ : E →ₐ[F] E), IsCMExt F E σ → ∀ (M : ℕ) (J : Matrix (Fin M) (Fin M) E), IsHermND σ J → ∀ t : F, t ≠ 0 → ∀ (n : ℕ) (T : Matrix (Fin n) (Fin n) E) (μ : Measure (HA (AF F) σ (blockOne (algebraMap F E t) J))) 𝓕, IsHaarH F E σ (M + 1) _ μ → IsFDH F E σ (M + 1) _ μ 𝓕 → ∀ (μ₁ : Measure (HA (AF F) σ J)) 𝓕₁, IsHaarH F E σ M J μ₁ → IsFDH F E σ M J μ₁ 𝓕₁ → ∀ (Φ : (Fin (n + 1) → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞) (Ψ : (Fin 1 → Fin (M + 1) → AF F ⊗[F] E) → ℝ≥0∞), Measurable Φ → Measurable Ψ → (∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J), Ψ (actW (AF F) σ _ h (fun _ => Fin.cons 1 (fun _ => 0))) = ∫⁻ X, Φ (actW (AF F) σ _ h (consTup X)) ∂(thetaMeas σ J μ₁ 𝓕₁ (framesE σ J T))) → ∫⁻ X, Φ X ∂(thetaMeas σ _ μ 𝓕 (framesE σ (blockOne (algebraMap F E t) J) (blockOne (algebraMap F E t) T))) = ∫⁻ y, Ψ y ∂(thetaMeas σ _ μ 𝓕 {y : Fin 1 → Fin (M + 1) → E | gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t}) := by
-  intro F E _ _ _ _ _ σ hσ M J hJ t ht n T μ 𝓕 hμ h𝓕 μ₁ 𝓕₁ hμ₁ h𝓕₁ Φ Ψ hΦ hΨ hyp
-  obtain ⟨⟨i1, i2, i3⟩, -⟩ := GlobalTheory.CompanionTheory.AdeleTop.adele_top F
-  haveI := i1
-  haveI := i2
-  haveI := i3
-  have ht' : algebraMap F E t ≠ 0 := by simpa using ht
-  obtain ⟨b1, b2, -, -⟩ := BlockAlg.block_alg F E σ hσ M J t
-  have hJb : IsHermND σ (blockOne (algebraMap F E t) J) :=
-    ⟨b2 hJ.1, by rw [b1]; exact mul_ne_zero ht' hJ.2⟩
-  obtain ⟨tg, lc, sc, t2, bs, act⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hσ (M + 1) _ hJb (AF F)
-  obtain ⟨tg₁, lc₁, sc₁, t2₁, bs₁, act₁⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hσ M J hJ (AF F)
-  haveI := tg
-  haveI := lc
-  haveI := sc
-  haveI := t2
-  haveI := bs
-  haveI := tg₁
-  haveI := lc₁
-  haveI := sc₁
-  haveI := t2₁
-  haveI := bs₁
-  obtain ⟨-, -, -, -, -, -, -, hB, -, -⟩ := TopK.topTens_props F E σ hσ (AF F)
-  haveI := hB (n + 1) (M + 1)
-  haveI := hB 1 (M + 1)
-  haveI := hB n M
-  haveI := hB n (M + 1)
-  haveI : μ.IsHaarMeasure := hμ
-  haveI : μ₁.IsHaarMeasure := hμ₁
-  haveI : Countable E := (Module.finBasis ℚ E).equivFun.toEquiv.injective.countable
-  haveI hc : Countable (HFinIn (AF F) σ (blockOne (algebraMap F E t) J)) :=
-    (rational_countable_discrete F E σ hσ (M + 1) _ hJb).1
-  haveI hc₁ : Countable (HFinIn (AF F) σ J) := (rational_countable_discrete F E σ hσ M J hJ).1
-  let Γ : Subgroup (HA (AF F) σ (blockOne (algebraMap F E t) J)) :=
-    HFinIn (AF F) σ (blockOne (algebraMap F E t) J)
-  let Γ₁ : Subgroup (HA (AF F) σ J) := HFinIn (AF F) σ J
-  haveI hc' : Countable Γ := hc
-  haveI hc₁' : Countable Γ₁ := hc₁
-  have hfin : μ₁ 𝓕₁ < ⊤ := ((finVol_unitaryGroup F E σ hσ M J hJ).2 μ₁ hμ₁).2 𝓕₁ h𝓕₁
-  obtain ⟨ι, hιc, -, hιrange, hιF, hιcons⟩ :=
-    StabFirst.stab_first F E σ hσ M J hJ t ht (AF F)
-  have hmul : ∀ (g h : HA (AF F) σ (blockOne (algebraMap F E t) J)) {k : ℕ}
-      (X : Fin k → Fin (M + 1) → AF F ⊗[F] E), actW (AF F) σ _ (g * h) X =
-        actW (AF F) σ _ g (actW (AF F) σ _ h X) := fun g h {k} X => (act k).2.2.1 g h X
-  have hW : ∀ q : {y : Fin 1 → Fin (M + 1) → E |
-      gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t},
-      ∃ g : UJ (σ : E →+* E) (blockOne (algebraMap F E t) J),
-        gact σ g q.1 = fun _ => Fin.cons 1 (fun _ => 0) := by
-    intro q
-    have hq : gramE σ (blockOne (algebraMap F E t) J) q.1 = fun _ _ => algebraMap F E t := q.2
-    obtain ⟨g, hg, hgy⟩ := _root_.GlobalTheory.CompanionTheory.SW.WittE.witt_tuple F E σ hσ (M + 1) _ hJb 1 q.1
-      (fun _ => Fin.cons 1 (fun _ => 0)) (by rw [hq, gram_first])
-      (by rw [hq]; intro h; exact ht' ((Matrix.det_fin_one (fun _ _ => algebraMap F E t : Matrix (Fin 1) (Fin 1) E)).symm.trans h))
-    exact ⟨⟨g, hg⟩, funext hgy⟩
-  choose rr hrr using hW
-  let r := fun q => ratH (AF F) σ (blockOne (algebraMap F E t) J) (rr q)
-  let φ : HA (AF F) σ (blockOne (algebraMap F E t) J) → ℝ≥0∞ := fun g =>
-    ∑' X : framesE σ J T,
-      Φ (actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X.1)))
-  have hφ : Measurable φ := by
-    refine Measurable.tsum fun X => hΦ.comp ?_
-    have : Continuous fun g : HA (AF F) σ (blockOne (algebraMap F E t) J) =>
-        actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X.1)) :=
-      (act (n + 1)).1.comp (continuous_inv.prodMk continuous_const)
-    exact this.measurable
-  have hinv : ∀ u ∈ HFinIn (AF F) σ J, ∀ g, φ (ι u * g) = φ g := by
-    intro u hu g
-    obtain ⟨w, rfl⟩ := exists_ratH (AF F) σ J u hu
-    have e : ∀ X : Fin n → Fin M → E,
-        actW (AF F) σ _ (ι (ratH (AF F) σ J w) * g)⁻¹ (consTup (ratTup (AF F) X)) =
-          actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) (gact σ w⁻¹ X))) := by
-      intro X
-      rw [mul_inv_rev, hmul, ← map_inv ι, hιcons, ratH_inv, actW_ratH']
-    change ∑' X : framesE σ J T,
-        Φ (actW (AF F) σ _ (ι (ratH (AF F) σ J w) * g)⁻¹ (consTup (ratTup (AF F) X.1))) = φ g
-    simp only [e]
-    exact tsum_gact_frames σ w⁻¹ T (fun X => Φ (actW (AF F) σ _ g⁻¹ (consTup (ratTup (AF F) X))))
-  have hΓ : ∀ u ∈ HFinIn (AF F) σ J, ι u ∈ HFinIn (AF F) σ (blockOne (algebraMap F E t) J) :=
-    fun u hu => (mem_HFinIn_iff _ σ _ _).2 ((hιF u).2 ((mem_HFinIn_iff _ σ _ _).1 hu))
-  have hfix : ∀ (g : UJ (σ : E →+* E) (blockOne (algebraMap F E t) J)),
-      actW (AF F) σ _ (ratH (AF F) σ _ g)
-        (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → AF F ⊗[F] E)) =
-      ratTup (AF F) (gact σ g (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → E))) := by
-    intro g
-    rw [← ratTup_first, actW_ratH']
-  have hrinv : ∀ q, gact σ (rr q)⁻¹ (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → E)) = q.1 := by
-    intro q
-    rw [← hrr q, gact_inv_gact]
-  have hstab : ∀ u, actW (AF F) σ _ (ι u)
-      (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → AF F ⊗[F] E)) =
-      fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → AF F ⊗[F] E) :=
-    fun u => (hιrange (ι u)).1 ⟨u, rfl⟩
-  have huniq : ∀ γ ∈ HFinIn (AF F) σ (blockOne (algebraMap F E t) J), ∃! q, ∃ u ∈ HFinIn (AF F) σ J,
-      γ = ι u * r q := by
-    intro γ hγ
-    obtain ⟨g, rfl⟩ := exists_ratH (AF F) σ _ γ hγ
-    have hy : gramE σ (blockOne (algebraMap F E t) J)
-        (gact σ g⁻¹ (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → E))) =
-        fun _ _ => algebraMap F E t := by
-      rw [gramE_gact, gram_first]
-    let q : {y : Fin 1 → Fin (M + 1) → E |
-      gramE σ (blockOne (algebraMap F E t) J) y = fun _ _ => algebraMap F E t} := ⟨_, hy⟩
-    have hrange : ratH (AF F) σ _ g * (r q)⁻¹ ∈ ι.range := by
-      refine (hιrange _).2 ?_
-      have e1 : (r q)⁻¹ = ratH (AF F) σ _ (rr q)⁻¹ := ratH_inv _ σ _ _
-      rw [hmul, e1, hfix, hrinv, actW_ratH']
-      change ratTup (AF F) (gact σ g (gact σ g⁻¹ _)) = _
-      rw [gact_gact_inv, ratTup_first]
-    obtain ⟨u, hu⟩ := hrange
-    have hmemu : u ∈ HFinIn (AF F) σ J := by
-      refine (mem_HFinIn_iff _ σ _ _).2 ((hιF u).1 ((mem_HFinIn_iff _ σ _ _).1 ?_))
-      rw [hu]
-      exact Subgroup.mul_mem _ (ratH_mem _ σ _ g) (Subgroup.inv_mem _ (ratH_mem _ σ _ (rr q)))
-    refine ⟨q, ⟨u, hmemu, by rw [hu, inv_mul_cancel_right]⟩, ?_⟩
-    rintro q' ⟨u', -, he⟩
-    apply Subtype.ext
-    apply ratTup_adele_injective (F := F)
-    have e1 : actW (AF F) σ _ (ratH (AF F) σ _ g)⁻¹
-        (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → AF F ⊗[F] E)) =
-        ratTup (AF F) q.1 := by
-      rw [ratH_inv, hfix]
-    have e2 : actW (AF F) σ _ (ratH (AF F) σ _ g)⁻¹
-        (fun _ : Fin 1 => (Fin.cons 1 (fun _ => 0) : Fin (M + 1) → AF F ⊗[F] E)) =
-        ratTup (AF F) q'.1 := by
-      have e3 : (r q')⁻¹ = ratH (AF F) σ _ (rr q')⁻¹ := ratH_inv _ σ _ _
-      have h6 : (ratH (AF F) σ _ g)⁻¹ = (r q')⁻¹ * ι u'⁻¹ := by
-        rw [he, mul_inv_rev]
-        exact congrArg _ (map_inv ι u').symm
-      rw [h6, hmul, hstab, e3, hfix, hrinv]
-    rw [← e1, ← e2]
-  have key := _root_.GlobalTheory.CompanionTheory.SW.Averaging.lintegral_sum_cosets_average _ _ ι hιc μ μ₁ Γ Γ₁ 𝓕 𝓕₁ h𝓕 h𝓕₁ hfin hΓ _ r (fun q => ratH_mem _ σ _ _) huniq φ hφ hinv
-  have hA : ∀ h : HA (AF F) σ (blockOne (algebraMap F E t) J),
-      ∑' Y : framesE σ (blockOne (algebraMap F E t) J) (blockOne (algebraMap F E t) T),
-        Φ (actW (AF F) σ _ h⁻¹ (ratTup (AF F) Y.1)) =
-      ∑' q, φ (r q * h) := by
-    intro h
-    rw [tsum_block_frames σ J ht' T rr hrr (fun Y => Φ (actW (AF F) σ _ h⁻¹ (ratTup (AF F) Y)))]
-    refine tsum_congr fun q => tsum_congr fun X => ?_
-    have e3 : (r q)⁻¹ = ratH (AF F) σ _ (rr q)⁻¹ := ratH_inv _ σ _ _
-    rw [mul_inv_rev, hmul, e3, ← ratTup_consTup, actW_ratH']
-  have hC : ∀ g : HA (AF F) σ (blockOne (algebraMap F E t) J),
-      (μ₁ 𝓕₁)⁻¹ * ∫⁻ u in 𝓕₁, φ (ι u * g) ∂μ₁ =
-        Ψ (actW (AF F) σ _ g⁻¹ (fun _ => Fin.cons 1 (fun _ => 0))) := by
-    intro g
-    have hm : Measurable fun X : Fin n → Fin M → AF F ⊗[F] E =>
-        Φ (actW (AF F) σ _ g⁻¹ (consTup X)) := by
-      refine hΦ.comp ?_
-      have : Continuous fun X : Fin n → Fin M → AF F ⊗[F] E =>
-          actW (AF F) σ _ g⁻¹ (consTup X) :=
-        (act (n + 1)).1.comp (continuous_const.prodMk continuous_consTup)
-      exact this.measurable
-    rw [hyp g⁻¹, _root_.GlobalTheory.CompanionTheory.SW.ThetaLint.theta_lint_eq F E σ hσ M J hJ μ₁ 𝓕₁ hμ₁ h𝓕₁ n _ _ hm]
-    congr 1
-    refine lintegral_congr fun u => tsum_congr fun X => ?_
-    rw [mul_inv_rev, hmul, ← map_inv ι, hιcons]
-  rw [_root_.GlobalTheory.CompanionTheory.SW.ThetaLint.theta_lint_eq F E σ hσ (M + 1) _ hJb μ 𝓕 hμ h𝓕 (n + 1) _ Φ hΦ,
-    _root_.GlobalTheory.CompanionTheory.SW.ThetaLint.theta_lint_eq F E σ hσ (M + 1) _ hJb μ 𝓕 hμ h𝓕 1 _ Ψ hΨ]
-  congr 1
-  calc _ = ∫⁻ h in 𝓕, ∑' q, φ (r q * h) ∂μ := lintegral_congr hA
-    _ = _ := key
-    _ = _ := by
-      refine lintegral_congr fun h => tsum_congr fun q => ?_
-      have e3 : (r q)⁻¹ = ratH (AF F) σ _ (rr q)⁻¹ := ratH_inv _ σ _ _
-      rw [hC, mul_inv_rev, hmul, e3, hfix, hrinv]
+  intro F E _ _ _ _ _ σ hσ M J hJ t ht n T
+  have ht' : algebraMap F E t ≠ 0 := (map_ne_zero_iff _ (algebraMap F E).injective).2 ht
+  exact _root_.GlobalTheory.CompanionTheory.SW.ThetaStage.theta_stage_of_sums F E σ hσ M J hJ t ht n _ _
+    (fun g => tsum_gact_frames σ g T) (tsum_block_frames σ J ht' T)
 
 end GlobalTheory.CompanionTheory.WeilSiegel.Free.FrameTheta
 end -- clump:auto
@@ -1242,47 +995,8 @@ theorem theta_map_frames (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M n : ℕ}
       (framesE σ (cT (σ : E →+* E) (g : Matrix (Fin M) (Fin M) E) * J * (g : Matrix (Fin M) (Fin M) E)) T)).map
         (actTup (AF F) (bc (inclR (AF F)) g)) =
       thetaMeas σ J μ 𝓕 (framesE σ J T) := by
-  have hJ' := isHermND_conj σ hCM J hJ g
-  obtain ⟨tg, -, -, -, bs, hact⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM M J hJ (AF F)
-  obtain ⟨tg', -, -, -, bs', hact'⟩ := _root_.GlobalTheory.CompanionTheory.SW.TopH.topH_props F E σ hCM M _ hJ' (AF F)
-  haveI := tg
-  haveI := tg'
-  haveI := bs
-  haveI := bs'
-  haveI : BorelSpace (Fin n → Fin M → AF F ⊗[F] E) :=
-    (GlobalTheory.CompanionTheory.SW.TopK.topTens_props F E σ hCM (AF F)).2.2.2.2.2.2.2.1 n M
-  set G : GL (Fin M) (AF F ⊗[F] E) := bc (inclR (AF F)) g with hG
-  have hmG := measurable_actTup (n := n) σ hCM (AF F) G
-  have hmf : ∀ Y : Fin n → Fin M → AF F ⊗[F] E,
-      Measurable fun h : HA (AF F) σ J => actW (AF F) σ J h⁻¹ Y := fun Y =>
-    ((hact n).1.comp (continuous_inv.prodMk continuous_const)).measurable
-  have hmf' : ∀ Y : Fin n → Fin M → AF F ⊗[F] E,
-      Measurable fun h : HA (AF F) σ _ => actW (AF F) σ _ h⁻¹ Y := fun Y =>
-    ((hact' n).1.comp (continuous_inv.prodMk continuous_const)).measurable
-  have hmass : (μ.map He.symm) (He ⁻¹' 𝓕) = μ 𝓕 := by
-    rw [He.symm.map_apply]
-    congr 1
-    ext x
-    simp
-  have hrest : ((μ.map He.symm).restrict (He ⁻¹' 𝓕)).map He = μ.restrict 𝓕 := by
-    rw [← He.restrict_map, Measure.map_map He.measurable He.symm.measurable]
-    simp
-  unfold thetaMeas
-  rw [Measure.map_smul _ hmG.aemeasurable, hmass]
-  congr 1
-
-  rw [Measure.map_sum hmG.aemeasurable, ← sum_reindex (framesEquiv σ J g T)]
-  congr 1
-  funext X
-  rw [Measure.map_map hmG (hmf' _)]
-  have hcomp : (actTup (AF F) G ∘ fun h => actW (AF F) σ _ h⁻¹ (ratTup (AF F) (X : Fin n → Fin M → E))) =
-      (fun h => actW (AF F) σ J h⁻¹ (ratTup (AF F) ((framesEquiv σ J g T X : _) : Fin n → Fin M → E))) ∘ He := by
-    funext h
-    have := act_conj (AF F) σ G He hmat h (ratTup (AF F) (X : Fin n → Fin M → E))
-    simp only [Function.comp]
-    rw [this, ← ratTup_ratAct]
-    rfl
-  rw [hcomp, ← Measure.map_map (hmf _) He.measurable, hrest]
+  exact _root_.GlobalTheory.CompanionTheory.SW.SWIsom.theta_map_of_equiv σ hCM J hJ g He hmat μ 𝓕 _ _
+    (framesEquiv σ J g T) (fun _ => rfl)
 
 end Theta
 
@@ -1526,20 +1240,8 @@ theorem exists_value (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {n : ℕ}
 theorem hE_hypOne_cons (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) E) (a b c d : E)
     (x y : Fin M → E) :
     hE σ (hypOne J) (Fin.cons a (Fin.cons b x) : Fin (M + 2) → E)
-        (Fin.cons c (Fin.cons d y) : Fin (M + 2) → E) = σ a * d + σ b * c + hE σ J x y := by
-  simp only [hE, hform, Fin.sum_univ_succ, Fin.cons_zero, Fin.cons_succ]
-  have e00 : hypOne J 0 0 = 0 := rfl
-  have e01 : hypOne J 0 (Fin.succ 0) = 1 := rfl
-  have e10 : hypOne J (Fin.succ 0) 0 = 1 := rfl
-  have e11 : hypOne J (Fin.succ 0) (Fin.succ 0) = 0 := rfl
-  have e0r : ∀ j : Fin M, hypOne J 0 j.succ.succ = 0 := fun _ => rfl
-  have e1r : ∀ j : Fin M, hypOne J (Fin.succ 0) j.succ.succ = 0 := fun _ => rfl
-  have er0 : ∀ i : Fin M, hypOne J i.succ.succ 0 = 0 := fun _ => rfl
-  have er1 : ∀ i : Fin M, hypOne J i.succ.succ (Fin.succ 0) = 0 := fun _ => rfl
-  have err : ∀ i j : Fin M, hypOne J i.succ.succ j.succ.succ = J i j := fun _ _ => rfl
-  simp only [e00, e01, e10, e11, e0r, e1r, er0, er1, err]
-  simp
-  ring
+        (Fin.cons c (Fin.cons d y) : Fin (M + 2) → E) = σ a * d + σ b * c + hE σ J x y :=
+  _root_.GlobalTheory.CompanionTheory.WeilSiegel.HypStep.Unf.FrOne.hE_cons σ J a b c d x y
 
 theorem split_hyp (σ : E →ₐ[F] E) (hCM : IsCMExt F E σ) {M : ℕ}
     (J : Matrix (Fin (M + 2)) (Fin (M + 2)) E) (hJ : IsHermND σ J) (x : Fin (M + 2) → E)

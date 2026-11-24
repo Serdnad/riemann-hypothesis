@@ -1177,64 +1177,16 @@ theorem residue_vVal [IsAdicComplete (maximalIdeal 𝒪) 𝒪] {z : 𝒪} (hz : 
 
 
 omit [DecidableEq (ResidueField 𝒪)] in
-theorem add_of_notMem_range [IsAdicComplete (maximalIdeal 𝒪) 𝒪] [(W.map ι).IsElliptic]
+theorem add_of_notMem_range_of_coords [(W.map ι).IsElliptic]
     {X₁ Y₁ : K} (h₁ : (curveK K W).Nonsingular X₁ Y₁) (hX : X₁ ∉ Set.range ι) {x₂ y₂ : 𝒪}
+    {z' w v : 𝒪} (hzm : z' ∈ maximalIdeal 𝒪) (hz0 : z' ≠ 0) (hwm : w ∈ maximalIdeal 𝒪) (hw0' : w ≠ 0)
+    (hwv : w = z' ^ 3 * v) (hvu : IsUnit v) (hρv' : ρ v = 1)
+    (hX₁ : ι z' / ι w = X₁) (hY₁ : -1 / ι w = Y₁)
     (h₂ : (curveK K W).Nonsingular (ι x₂) (ι y₂)) :
     ∃ (x₃ y₃ : 𝒪) (h₃ : (curveK K W).Nonsingular (ι x₃) (ι y₃)),
       WeierstrassCurve.Affine.Point.some _ _ h₁ + WeierstrassCurve.Affine.Point.some _ _ h₂ =
         WeierstrassCurve.Affine.Point.some _ _ h₃ ∧ ρ x₃ = ρ x₂ ∧ ρ y₃ = ρ y₂ := by
   have hι := IsFractionRing.injective 𝒪 K
-
-  have hcoords : ∃ z ∈ maximalIdeal 𝒪, z ≠ 0 ∧
-      ι z / ι (wVal W z) = X₁ ∧ -1 / ι (wVal W z) = Y₁ := by
-    have hX0 : X₁ ≠ 0 := fun h => hX ⟨0, by rw [h, map_zero]⟩
-    obtain ⟨t, htm, ht⟩ := exists_inv_mem_of_notMem_range K hX
-    have hE := h₁.1
-    rw [WeierstrassCurve.Affine.equation_iff] at hE
-    have hU : Y₁ / X₁ ∉ Set.range ι := by
-      rintro ⟨u, hu⟩
-      have key : ι (u ^ 2 * t + W.a₁ * u * t + W.a₃ * u * t ^ 2 -
-          (1 + W.a₂ * t + W.a₄ * t ^ 2 + W.a₆ * t ^ 3)) = 0 := by
-        simp only [map_sub, map_add (f := _), map_mul, map_pow, map_one, hu, ht]
-        simp only [WeierstrassCurve.map_a₁, WeierstrassCurve.map_a₂, WeierstrassCurve.map_a₃,
-          WeierstrassCurve.map_a₄, WeierstrassCurve.map_a₆] at hE
-        field_simp
-        linear_combination hE
-      have heq := hι (key.trans (map_zero ι).symm)
-      apply one_notMem_maximalIdeal (𝒪 := 𝒪)
-      have h1 : (1 : 𝒪) = u ^ 2 * t + W.a₁ * u * t + W.a₃ * u * t ^ 2 -
-          (W.a₂ * t + W.a₄ * t ^ 2 + W.a₆ * t ^ 3) := by
-        linear_combination -heq
-      rw [h1]
-      refine Ideal.sub_mem _ (Ideal.add_mem _ (Ideal.add_mem _ ?_ ?_) ?_)
-        (Ideal.add_mem _ (Ideal.add_mem _ ?_ ?_) ?_) <;>
-        first
-        | exact Ideal.mul_mem_left _ _ htm
-        | exact Ideal.mul_mem_left _ _ (Ideal.pow_mem_of_mem _ htm _ (by norm_num))
-    have hY0 : Y₁ ≠ 0 := fun h => hU ⟨0, by rw [h, zero_div, map_zero]⟩
-    obtain ⟨s, hsm, hs⟩ := exists_inv_mem_of_notMem_range K hU
-    have hz : -s ∈ maximalIdeal 𝒪 := (Ideal.neg_mem_iff _).2 hsm
-    have hw : -(t * s) ∈ maximalIdeal 𝒪 := (Ideal.neg_mem_iff _).2 (Ideal.mul_mem_right _ _ htm)
-    have hzι : ι (-s) = -X₁ / Y₁ := by rw [map_neg, hs]; field_simp
-    have hwι : ι (-(t * s)) = -1 / Y₁ := by rw [map_neg, map_mul, hs, ht]; field_simp
-    have hzw : zwPoly W (-s) (-(t * s)) = 0 := by
-      apply hι
-      rw [map_zwPoly, hzι, hwι, map_zero]
-      exact zwPoly_of_equation K W h₁.1 hY0
-    have hwv := eq_wVal W hz hw hzw
-    have hz0 : -s ≠ 0 := fun h => by
-      have hzK : ι (-s) = 0 := by rw [h, map_zero]
-      exact (div_ne_zero (neg_ne_zero.2 hX0) hY0) (hzι.symm.trans hzK)
-    refine ⟨-s, hz, hz0, ?_, ?_⟩ <;> rw [← hwv, hwι]
-    · rw [hzι]
-      field_simp
-    · field_simp
-  obtain ⟨z', hzm, hz0, hX₁, hY₁⟩ := hcoords
-  set v := vVal W z' with hv
-  set w := wVal W z' with hw
-  have hwv : w = z' ^ 3 * v := wVal_eq W hzm
-  have hvu : IsUnit v := isUnit_vVal W hzm
-  have hwm : w ∈ maximalIdeal 𝒪 := wVal_mem W hzm
 
   have heu : IsUnit (1 + y₂ * w) := isUnit_of_residue_ne_zero (by
     rw [map_add (f := _), map_one, map_mul, residue_eq_zero_of_mem hwm, mul_zero, add_zero]
@@ -1254,7 +1206,7 @@ theorem add_of_notMem_range [IsAdicComplete (maximalIdeal 𝒪) 𝒪] [(W.map ι
   set u₃ := (Fy - s * Fx) * z' * v * e * d' ^ 2 with hu₃
   set t₃ := -(Fy - s * Fx) * v * e ^ 2 * d' ^ 3 with ht₃
 
-  have hw0 : ι w ≠ 0 := (map_ne_zero_iff _ hι).2 (wVal_ne_zero W hzm hz0)
+  have hw0 : ι w ≠ 0 := (map_ne_zero_iff _ hι).2 hw0'
   have hz0K : ι z' ≠ 0 := (map_ne_zero_iff _ hι).2 hz0
   have hv0 : ι v ≠ 0 := (map_ne_zero_iff _ hι).2 hvu.ne_zero
   have he0 : ι e ≠ 0 := (map_ne_zero_iff _ hι).2 heu.ne_zero
@@ -1356,7 +1308,7 @@ theorem add_of_notMem_range [IsAdicComplete (maximalIdeal 𝒪) 𝒪] [(W.map ι
     have hρd' : ρ d' = 1 := by
       have := congrArg ρ hdd
       rwa [map_mul, hρd, one_mul, map_one] at this
-    have hρv : ρ v = 1 := residue_vVal W hzm
+    have hρv : ρ v = 1 := hρv'
     have hρt : ρ t₃ = -ρ Fy := by
       rw [ht₃]
       simp only [map_mul, map_neg, map_sub, map_pow, residue_eq_zero_of_mem hsm, hρv, hρe, hρd']
@@ -1365,6 +1317,68 @@ theorem add_of_notMem_range [IsAdicComplete (maximalIdeal 𝒪) 𝒪] [(W.map ι
     have h2ρ : ρ (2 : 𝒪) = 2 := map_ofNat _ 2
     simp only [map_add (f := _), map_mul, h2ρ, residue_eq_zero_of_mem hu₃m, add_zero]
     ring
+
+omit [DecidableEq (ResidueField 𝒪)] in
+theorem add_of_notMem_range [IsAdicComplete (maximalIdeal 𝒪) 𝒪] [(W.map ι).IsElliptic]
+    {X₁ Y₁ : K} (h₁ : (curveK K W).Nonsingular X₁ Y₁) (hX : X₁ ∉ Set.range ι) {x₂ y₂ : 𝒪}
+    (h₂ : (curveK K W).Nonsingular (ι x₂) (ι y₂)) :
+    ∃ (x₃ y₃ : 𝒪) (h₃ : (curveK K W).Nonsingular (ι x₃) (ι y₃)),
+      WeierstrassCurve.Affine.Point.some _ _ h₁ + WeierstrassCurve.Affine.Point.some _ _ h₂ =
+        WeierstrassCurve.Affine.Point.some _ _ h₃ ∧ ρ x₃ = ρ x₂ ∧ ρ y₃ = ρ y₂ := by
+  have hι := IsFractionRing.injective 𝒪 K
+
+  have hcoords : ∃ z ∈ maximalIdeal 𝒪, z ≠ 0 ∧
+      ι z / ι (wVal W z) = X₁ ∧ -1 / ι (wVal W z) = Y₁ := by
+    have hX0 : X₁ ≠ 0 := fun h => hX ⟨0, by rw [h, map_zero]⟩
+    obtain ⟨t, htm, ht⟩ := exists_inv_mem_of_notMem_range K hX
+    have hE := h₁.1
+    rw [WeierstrassCurve.Affine.equation_iff] at hE
+    have hU : Y₁ / X₁ ∉ Set.range ι := by
+      rintro ⟨u, hu⟩
+      have key : ι (u ^ 2 * t + W.a₁ * u * t + W.a₃ * u * t ^ 2 -
+          (1 + W.a₂ * t + W.a₄ * t ^ 2 + W.a₆ * t ^ 3)) = 0 := by
+        simp only [map_sub, map_add (f := _), map_mul, map_pow, map_one, hu, ht]
+        simp only [WeierstrassCurve.map_a₁, WeierstrassCurve.map_a₂, WeierstrassCurve.map_a₃,
+          WeierstrassCurve.map_a₄, WeierstrassCurve.map_a₆] at hE
+        field_simp
+        linear_combination hE
+      have heq := hι (key.trans (map_zero ι).symm)
+      apply one_notMem_maximalIdeal (𝒪 := 𝒪)
+      have h1 : (1 : 𝒪) = u ^ 2 * t + W.a₁ * u * t + W.a₃ * u * t ^ 2 -
+          (W.a₂ * t + W.a₄ * t ^ 2 + W.a₆ * t ^ 3) := by
+        linear_combination -heq
+      rw [h1]
+      refine Ideal.sub_mem _ (Ideal.add_mem _ (Ideal.add_mem _ ?_ ?_) ?_)
+        (Ideal.add_mem _ (Ideal.add_mem _ ?_ ?_) ?_) <;>
+        first
+        | exact Ideal.mul_mem_left _ _ htm
+        | exact Ideal.mul_mem_left _ _ (Ideal.pow_mem_of_mem _ htm _ (by norm_num))
+    have hY0 : Y₁ ≠ 0 := fun h => hU ⟨0, by rw [h, zero_div, map_zero]⟩
+    obtain ⟨s, hsm, hs⟩ := exists_inv_mem_of_notMem_range K hU
+    have hz : -s ∈ maximalIdeal 𝒪 := (Ideal.neg_mem_iff _).2 hsm
+    have hw : -(t * s) ∈ maximalIdeal 𝒪 := (Ideal.neg_mem_iff _).2 (Ideal.mul_mem_right _ _ htm)
+    have hzι : ι (-s) = -X₁ / Y₁ := by rw [map_neg, hs]; field_simp
+    have hwι : ι (-(t * s)) = -1 / Y₁ := by rw [map_neg, map_mul, hs, ht]; field_simp
+    have hzw : zwPoly W (-s) (-(t * s)) = 0 := by
+      apply hι
+      rw [map_zwPoly, hzι, hwι, map_zero]
+      exact zwPoly_of_equation K W h₁.1 hY0
+    have hwv := eq_wVal W hz hw hzw
+    have hz0 : -s ≠ 0 := fun h => by
+      have hzK : ι (-s) = 0 := by rw [h, map_zero]
+      exact (div_ne_zero (neg_ne_zero.2 hX0) hY0) (hzι.symm.trans hzK)
+    refine ⟨-s, hz, hz0, ?_, ?_⟩ <;> rw [← hwv, hwι]
+    · rw [hzι]
+      field_simp
+    · field_simp
+  obtain ⟨z', hzm, hz0, hX₁, hY₁⟩ := hcoords
+  set v := vVal W z' with hv
+  set w := wVal W z' with hw
+  have hwv : w = z' ^ 3 * v := wVal_eq W hzm
+  have hvu : IsUnit v := isUnit_vVal W hzm
+  have hwm : w ∈ maximalIdeal 𝒪 := wVal_mem W hzm
+  exact add_of_notMem_range_of_coords K W h₁ hX hzm hz0 hwm
+    (wVal_ne_zero W hzm hz0) hwv hvu (residue_vVal W hzm) hX₁ hY₁ h₂
 
 end Sum
 

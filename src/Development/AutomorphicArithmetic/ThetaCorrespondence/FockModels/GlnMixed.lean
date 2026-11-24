@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IrrParIffCuspidalProduct
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.GeneralLinearGroups.FirstIn
 public import Development.AbelianVarietyTheory.PublishedTheorems.TwistedTraceFormula.HasFiniteLengthOfIsIrreducible
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsCuspProdCharTransport
@@ -431,25 +432,7 @@ private theorem quoMap_not_inj {ν : Representation ℂ G V} {X : Subrepresentat
 
 private theorem irr_of_atom {ν : Representation ℂ G V} {X : Subrepresentation ν} (h : IsAtom X) :
     X.toRepresentation.IsIrreducible := by
-  obtain ⟨v, hv, h0⟩ := exists_ne_of_ne_bot h.1
-  haveI : Nontrivial (Subrepresentation X.toRepresentation) := ⟨⊥, ⊤, fun e => by
-    have h1 : (⟨v, hv⟩ : X.toSubmodule) ∈ (⊥ : Subrepresentation X.toRepresentation).toSubmodule := e ▸ trivial
-    exact h0 (congrArg Subtype.val (show (⟨v, hv⟩ : X.toSubmodule) = 0 from h1))⟩
-  refine ⟨fun S => ?_⟩
-  let T : Subrepresentation ν := ⟨S.toSubmodule.map X.toSubmodule.subtype, by
-    rintro g _ ⟨w, hw, rfl⟩
-    exact ⟨X.toRepresentation g w, S.apply_mem_toSubmodule g hw, rfl⟩⟩
-  have hT : T ≤ X := by
-    rintro _ ⟨w, -, rfl⟩
-    exact w.2
-  rcases h.le_iff.1 hT with e | e
-  · refine Or.inl (le_bot_iff.1 fun w hw => ?_)
-    have h1 : (w : V) ∈ T.toSubmodule := ⟨w, hw, rfl⟩
-    rw [e] at h1
-    exact Subtype.ext h1
-  · refine Or.inr (top_le_iff.1 fun w _ => ?_)
-    obtain ⟨u, hu, h1⟩ : (w : V) ∈ T.toSubmodule := by rw [e]; exact w.2
-    rwa [← Subtype.ext h1]
+  apply _root_.GlobalTheory.CuspFactor.irr_of_atom <;> assumption
 
 private theorem scalar_of_subquot {σ : Representation ℂ G W} {ν : Representation ℂ G V} (h : IsSubquotient σ ν)
     {g : G} {c : ℂ} (hc : ∀ v, ν g v = c • v) (w : W) : σ g w = c • w := by

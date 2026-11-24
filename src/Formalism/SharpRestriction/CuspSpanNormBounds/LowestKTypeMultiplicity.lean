@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.BesselFunctionalStandardSide
+import Formalism.SharpRestriction.CuspSpanNormBounds.BridgeLemma3
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.BesselDecayBounds.BesselUnitNorm.BesselNormSteps.UnitNorm.UnrealifyRealify
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -256,19 +258,8 @@ theorem UH_mul {a b : Mx k r} (ha : a ∈ UH (Hpk k r)) (hb : b ∈ UH (Hpk k r)
   calc bᴴ * aᴴ * Hpk k r * (a * b) = bᴴ * (aᴴ * Hpk k r * a) * b := by simp only [mul_assoc]
     _ = Hpk k r := by rw [ha', hb']
 theorem UH_inv {a : Mx k r} (ha : a ∈ UH (Hpk k r)) : a⁻¹ ∈ UH (Hpk k r) := by
-  have ha' : aᴴ * Hpk k r * a = Hpk k r := ha
-  have hd : IsUnit a.det := by
-    have h := congrArg Matrix.det ha'
-    rw [Matrix.det_mul, Matrix.det_mul] at h
-    have hu := _root_.Formalism.MainNotions.BesselShellMomentBounds.Hpk_det_unit k r
-    rw [isUnit_iff_ne_zero]
-    intro h0
-    rw [h0, mul_zero] at h
-    exact hu.ne_zero h.symm
-  show (a⁻¹)ᴴ * Hpk k r * a⁻¹ = Hpk k r
-  calc (a⁻¹)ᴴ * Hpk k r * a⁻¹ = (a⁻¹)ᴴ * (aᴴ * Hpk k r * a) * a⁻¹ := by rw [ha']
-    _ = (a * a⁻¹)ᴴ * Hpk k r * (a * a⁻¹) := by rw [Matrix.conjTranspose_mul]; simp only [mul_assoc]
-    _ = Hpk k r := by rw [Matrix.mul_nonsing_inv _ hd]; simp
+  intros
+  apply _root_.GlobalTheory.SgInf.KernelRe.GG_inv <;> assumption
 theorem UH_det {a : Mx k r} (ha : a ∈ UH (Hpk k r)) : IsUnit a.det := by
   have ha' : aᴴ * Hpk k r * a = Hpk k r := ha
   have h := congrArg Matrix.det ha'
@@ -484,41 +475,11 @@ theorem rp_ι_inj : Function.Injective (rp_ι k r) := by
 
 theorem rp_eq_blockW (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (h : rp_Std k r m) :
     m = blockW k r (rp_blk k r m) := by
-  ext i j
-  simp only [blockW]
-  by_cases hi : r ≤ i.val ∧ i.val < r + k
-  · rw [dif_pos hi]
-    by_cases hj : r ≤ j.val ∧ j.val < r + k
-    · rw [dif_pos hj]
-      have e1 : rp_ι k r ⟨i.val - r, by omega⟩ = i := Fin.ext (by show r + (i.val - r) = i.val; omega)
-      have e2 : rp_ι k r ⟨j.val - r, by omega⟩ = j := Fin.ext (by show r + (j.val - r) = j.val; omega)
-      show m i j = m (rp_ι k r ⟨i.val - r, by omega⟩) (rp_ι k r ⟨j.val - r, by omega⟩)
-      rw [e1, e2]
-    · rw [dif_neg hj]
-      have h2 := (h j hj).2 i
-      rw [h2, if_neg]
-      intro e
-      apply hj
-      rw [← e]
-      exact hi
-  · rw [dif_neg hi]
-    exact (h i hi).1 j
+  apply _root_.Formalism.MainNotions.BridgeLemma₃.rp_eq_blockW <;> assumption
 
 theorem rp_sum (f : Fin (2 * r + k + 1) → ℂ) (h : ∀ l, ¬ rp_Mid k r l → f l = 0) :
     ∑ l, f l = ∑ i, f (rp_ι k r i) := by
-  classical
-  rw [← Finset.sum_image (s := Finset.univ) (g := rp_ι k r) (fun a _ b _ h => rp_ι_inj h)]
-  symm
-  apply Finset.sum_subset (Finset.subset_univ _)
-  intro l _ hl
-  apply h
-  intro hm
-  have hm' : r ≤ l.val ∧ l.val < r + k := hm
-  apply hl
-  refine Finset.mem_image.mpr ⟨⟨l.val - r, by omega⟩, Finset.mem_univ _, ?_⟩
-  apply Fin.ext
-  show r + (l.val - r) = l.val
-  omega
+  apply _root_.Formalism.MainNotions.BridgeLemma₃.rp_sum <;> assumption
 
 theorem rp_blk_mul (a b : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (ha : rp_Std k r a) :
     rp_blk k r (a * b) = rp_blk k r a * rp_blk k r b := by
@@ -588,53 +549,11 @@ theorem rp_H_mid (i : Fin (2 * r + k + 1)) (hi : rp_Mid k r i) (j : Fin (2 * r +
 theorem rp_std_of_fix (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (hU : m ∈ UH (Hpk k r))
     (hfix : ∀ a : Fin r, m *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ m *ᵥ bvec (esI k r a) = bvec (esI k r a))
     (hw : m *ᵥ bvec (wI k r (Fin.last k)) = bvec (wI k r (Fin.last k))) : rp_Std k r m := by
-  have hm : mᴴ * Hpk k r * m = Hpk k r := hU
-  intro l hl
-  have hl' : ¬ (r ≤ l.val ∧ l.val < r + k) := hl
-  have hlt := l.2
-  by_cases h1 : l.val < r
-  · have e : eI k r ⟨l.val, h1⟩ = l := Fin.ext rfl
-    have hc1 := (hfix ⟨l.val, h1⟩).1
-    have hc2 := (hfix ⟨l.val, h1⟩).2
-    have hH := rp_H_es (k := k) (r := r) ⟨l.val, h1⟩
-    rw [e] at hc1 hH
-    exact ⟨fun j => rp_rowOf m (Hpk k r) hm _ l 1 one_ne_zero hc2 hH j, fun j => rp_col m l hc1 j⟩
-  · by_cases h2 : l.val = r + k
-    · have e : wI k r (Fin.last k) = l := Fin.ext (by show r + (Fin.last k).val = l.val; simp only [Fin.val_last]; omega)
-      have hH := rp_H_w (k := k) (r := r)
-      rw [e] at hw hH
-      exact ⟨fun j => rp_rowOf m (Hpk k r) hm l l (-1) (by norm_num) hw hH j, fun j => rp_col m l hw j⟩
-    · have ha : 2 * r + k - l.val < r := by omega
-      have e : esI k r ⟨2 * r + k - l.val, ha⟩ = l := Fin.ext (by show 2 * r + k - (2 * r + k - l.val) = l.val; omega)
-      have hc1 := (hfix ⟨2 * r + k - l.val, ha⟩).1
-      have hc2 := (hfix ⟨2 * r + k - l.val, ha⟩).2
-      have hH := rp_H_e (k := k) (r := r) ⟨2 * r + k - l.val, ha⟩
-      rw [e] at hc2 hH
-      exact ⟨fun j => rp_rowOf m (Hpk k r) hm _ l 1 one_ne_zero hc1 hH j, fun j => rp_col m l hc2 j⟩
+  apply _root_.Formalism.MainNotions.BridgeLemma₃.rp_std_of_fix <;> assumption
 
 theorem rp_blk_unitary (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (hU : m ∈ UH (Hpk k r))
     (hs : rp_Std k r m) : (rp_blk k r m)ᴴ * rp_blk k r m = 1 := by
-  ext i j
-  have e := congrFun (congrFun (show mᴴ * Hpk k r * m = Hpk k r from hU) (rp_ι k r i)) (rp_ι k r j)
-  rw [Matrix.mul_assoc, Matrix.mul_apply, rp_H_mid _ (rp_mid_ι i)] at e
-  have e2 : ∑ l, mᴴ (rp_ι k r i) l * (Hpk k r * m) l (rp_ι k r j) =
-      ∑ a, mᴴ (rp_ι k r i) (rp_ι k r a) * (Hpk k r * m) (rp_ι k r a) (rp_ι k r j) :=
-    rp_sum _ fun l hl => by
-      rw [Matrix.conjTranspose_apply, (hs l hl).1 (rp_ι k r i), if_neg, star_zero, zero_mul]
-      rintro rfl
-      exact hl (rp_mid_ι i)
-  have e3 : ∀ a, (Hpk k r * m) (rp_ι k r a) (rp_ι k r j) = m (rp_ι k r a) (rp_ι k r j) := by
-    intro a
-    rw [Matrix.mul_apply]
-    simp only [rp_H_mid _ (rp_mid_ι a), ite_mul, one_mul, zero_mul, Finset.sum_ite_eq, Finset.mem_univ, if_true]
-  rw [e2] at e
-  simp only [e3] at e
-  simp only [Matrix.mul_apply, Matrix.conjTranspose_apply, rp_blk, Matrix.one_apply]
-  simp only [Matrix.conjTranspose_apply] at e
-  rw [e]
-  by_cases h : i = j
-  · rw [if_pos h, if_pos (by rw [h])]
-  · rw [if_neg h, if_neg (fun e => h (rp_ι_inj e))]
+  apply _root_.Formalism.MainNotions.BridgeLemma₃.rp_blk_unitary <;> assumption
 
 theorem rp_blk_mem (m : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (hU : m ∈ UH (Hpk k r))
     (hs : rp_Std k r m) : rp_blk k r m ∈ UJset (allPos k) := by
@@ -650,66 +569,7 @@ theorem rp_repOfHC :
       (π : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ → (H →L[ℂ] H)), inWb k r z → 0 < Tz k r z →
       Formalism.MainNotions.S.IsHCTypeW k r z u π →
         IsCRepOn (UWset k r z) π ∧ (∀ h ∈ UWset k r z, ∀ v, ‖π h v‖ = ‖v‖) ∧ ContinuousOn π (UWset k r z) := by
-  intro k r z u H _ _ π _ hT hπ0
-  obtain ⟨g, ⟨hgU, hgfix, hgz⟩, -, hfd, ⟨⟨hσ1, hσm⟩, hσi, hσc⟩, -⟩ := hπ0
-  have hsq : Hpk k r * Hpk k r = 1 := (hpkFacts k r).2.1
-  have hdet : IsUnit (Hpk k r).det := (Matrix.isUnit_iff_isUnit_det _).mp ⟨⟨Hpk k r, Hpk k r, hsq, hsq⟩, rfl⟩
-  obtain ⟨hone, hmul, hinv⟩ := uHGroup _ (Hpk k r) hdet
-  obtain ⟨hgdet, hgi⟩ := hinv g hgU
-  have hgg : g⁻¹ * g = 1 := Matrix.nonsing_inv_mul g hgdet
-  have hgg' : g * g⁻¹ = 1 := Matrix.mul_nonsing_inv g hgdet
-  have hfixv : ∀ (h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) (v : Fin (2 * r + k + 1) → ℂ),
-      h *ᵥ (g *ᵥ v) = g *ᵥ v → (g⁻¹ * h * g) *ᵥ v = v := by
-    intro h v hv
-    rw [← Matrix.mulVec_mulVec, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_mulVec, hgg, Matrix.one_mulVec]
-  have hs0 : ((Real.sqrt (Tz k r z) : ℝ) : ℂ) ≠ 0 := by
-    exact_mod_cast (Real.sqrt_pos.mpr hT).ne'
-  have key : ∀ h ∈ UWset k r z, (g⁻¹ * h * g) ∈ UH (Hpk k r) ∧ rp_Std k r (g⁻¹ * h * g) := by
-    intro h hh
-    obtain ⟨hhU, hhfix, hhz⟩ := hh
-    have hU : (g⁻¹ * h * g) ∈ UH (Hpk k r) := hmul _ (hmul _ hgi _ hhU) _ hgU
-    refine ⟨hU, rp_std_of_fix _ hU (fun a => ⟨?_, ?_⟩) ?_⟩
-    · exact hfixv h _ (by rw [(hgfix a).1]; exact (hhfix a).1)
-    · exact hfixv h _ (by rw [(hgfix a).2]; exact (hhfix a).2)
-    · have h1 := hfixv h _ (by rw [hgz]; exact hhz)
-      rw [Matrix.mulVec_smul] at h1
-      exact smul_right_injective _ hs0 h1
-  have hback : ∀ h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ, g * (g⁻¹ * h * g) * g⁻¹ = h := by
-    intro h
-    rw [← Matrix.mul_assoc, ← Matrix.mul_assoc, hgg', Matrix.one_mul, Matrix.mul_assoc, hgg', Matrix.mul_one]
-  have hπ : ∀ h ∈ UWset k r z, π h = π (g * blockW k r (rp_blk k r (g⁻¹ * h * g)) * g⁻¹) := by
-    intro h hh
-    rw [← rp_eq_blockW _ (key h hh).2, hback]
-  have hmem : ∀ h ∈ UWset k r z, rp_blk k r (g⁻¹ * h * g) ∈ UJset (allPos k) := fun h hh =>
-    rp_blk_mem _ (key h hh).1 (key h hh).2
-  have h1mem : (1 : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ) ∈ UWset k r z :=
-    ⟨hone, fun a => ⟨Matrix.one_mulVec _, Matrix.one_mulVec _⟩, Matrix.one_mulVec _⟩
-  refine ⟨⟨?_, ?_⟩, ?_, ?_⟩
-  · rw [hπ 1 h1mem, Matrix.mul_one, hgg, rp_blk_one]
-    exact hσ1
-  · intro a ha b hb
-    have hab : a * b ∈ UWset k r z := by
-      refine ⟨hmul _ ha.1 _ hb.1, fun c => ⟨?_, ?_⟩, ?_⟩
-      · rw [← Matrix.mulVec_mulVec, (hb.2.1 c).1, (ha.2.1 c).1]
-      · rw [← Matrix.mulVec_mulVec, (hb.2.1 c).2, (ha.2.1 c).2]
-      · rw [← Matrix.mulVec_mulVec, hb.2.2, ha.2.2]
-    have hsplit : g⁻¹ * (a * b) * g = (g⁻¹ * a * g) * (g⁻¹ * b * g) := by
-      have : (g⁻¹ * a * g) * (g⁻¹ * b * g) = g⁻¹ * a * (g * g⁻¹) * b * g := by
-        simp only [Matrix.mul_assoc]
-      rw [this, hgg', Matrix.mul_one]
-      simp only [Matrix.mul_assoc]
-    rw [hπ _ hab, hπ a ha, hπ b hb, hsplit, rp_blk_mul _ _ (key a ha).2]
-    exact hσm _ (hmem a ha) _ (hmem b hb)
-  · intro h hh v
-    rw [hπ h hh]
-    exact hσi _ (hmem h hh) v
-  · have := hfd
-    have hσC : ContinuousOn (fun x => π (g * blockW k r x * g⁻¹)) (UJset (allPos k)) :=
-      continuousOn_clm_apply.2 hσc
-    have hb : Continuous fun h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ => rp_blk k r (g⁻¹ * h * g) := by
-      refine continuous_matrix fun i j => ?_
-      exact ((continuous_const.matrix_mul continuous_id).matrix_mul continuous_const).matrix_elem _ _
-    exact (hσC.comp hb.continuousOn hmem).congr hπ
+  exact _root_.Formalism.MainNotions.BridgeLemma₃.rp_repOfHC
 
 end Formalism.MainNotions.LowestKTypeMultiplicity
 

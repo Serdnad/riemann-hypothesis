@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.LengthCommensurableSpanSpanOfDetNeZero
 public import Mathlib.LinearAlgebra.Determinant
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
 public import Mathlib.RingTheory.OrderOfVanishing.Noetherian
@@ -145,15 +146,7 @@ theorem length_coker_of_injective {M : Type*} [AddCommGroup M] [Module R M]
 
 theorem length_coker (P : Matrix ι ι R) :
     Module.length R ((ι → R) ⧸ LinearMap.range P.mulVecLin) = addVal R P.det := by
-  by_cases h : P.det = 0
-  · rw [length_coker_of_det_eq_zero P h, h, addVal_zero]
-  · have hinj : Function.Injective P.mulVecLin := by
-      set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-      intro x hx
-      by_contra hx0
-      exact h (Matrix.exists_mulVec_eq_zero_iff.mp ⟨x, hx0, hx⟩)
-    rw [length_coker_of_injective (Pi.basisFun R ι) _ hinj, ← Matrix.toLin'_apply',
-      LinearMap.det_toLin']
+  apply _root_.GlobalTheory.length_quotient_range_mulVecLin_eq_addVal_det <;> assumption
 
 end GlobalTheory.RelativeLengthSpanDet
 end -- clump:auto

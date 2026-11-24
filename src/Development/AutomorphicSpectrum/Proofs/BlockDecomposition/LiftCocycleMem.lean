@@ -251,12 +251,7 @@ theorem lift_cocycle_mem {W : Y.Opens} {d : ℕ} {t : Fin d → Γ(Y, W)} {u : F
     (hu : IsLift 𝔭 W t u) {Q : ObjectProperty (Thick L)} (hQ : ∀ T, Q T → InY 𝔭 W T) (i : Fin d)
     {T T' : Q.FullSubcategory} (φ : T ⟶ T') :
     (show (sP Q).A.obj T' from u i T'.obj) - ((sP Q).A.map φ).hom (show (sP Q).A.obj T from u i T.obj) ∈ (sP Q).J.S T' := by
-  have h := hQ _ T.property
-  have h' := hQ _ T'.property
-  change u i T'.obj - φ.hom.φ (u i T.obj) ∈ T'.obj.J
-  refine Ideal.Quotient.eq.1 ?_
-  rw [hu i T'.obj h', ev_nat 𝔭 φ.hom h h' (t i), ← hu i T.obj h]
-  rfl
+  apply _root_.GlobalTheory.CompanionTheory.FibGr.lift_cocycle <;> assumption
 
 theorem lft_res_sub_mem {W W' : Y.Opens} (hW : W' ≤ W) (T : Thick L) (h : InY 𝔭 W T) (h' : InY 𝔭 W' T) (f : Γ(Y, W)) :
     lft 𝔭 W T f - lft 𝔭 W' T (rs hW f) ∈ T.J := by

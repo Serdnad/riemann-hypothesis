@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.SquareIntegrability.TofTorMkCIsQuotientMap
 public import ReciprocityTheory.L2DbarEstimates.PlurisubharmonicCharts.GROWCountStatement
 public import Mathlib.Analysis.Fourier.AddCircleMulti
 
@@ -21,17 +22,7 @@ theorem fsProj_isOpenQuotientMap (f : ℕ) : IsOpenQuotientMap (fsProj f) :=
 
 theorem fsProj_eq {f : ℕ} (s t : Fin f → ℝ) (h : fsProj f s = fsProj f t) :
     ∃ n : Fin f → ℤ, t = s + fun i => (n i : ℝ) := by
-  have hi : ∀ i, ∃ k : ℤ, t i = s i + k := by
-    intro i
-    have h1 : ((s i : ℝ) : UnitAddCircle) = (t i : UnitAddCircle) := congrFun h i
-    have h2 : (((t i - s i : ℝ)) : UnitAddCircle) = 0 := by
-      rw [AddCircle.coe_sub, h1, sub_self]
-    obtain ⟨k, hk⟩ := (AddCircle.coe_eq_zero_iff (p := (1 : ℝ))).1 h2
-    refine ⟨k, ?_⟩
-    simp only [zsmul_eq_mul, mul_one] at hk
-    linarith
-  choose n hn using hi
-  exact ⟨n, funext fun i => by simp [hn i]⟩
+  apply _root_.ReciprocityTheory.ChartRestriction.G.I2.tof_torMk_eq <;> assumption
 
 def fsFun {f : ℕ} (g : (Fin f → ℝ) → ℂ) : UnitAddTorus (Fin f) → ℂ :=
   fun θ => g (Function.surjInv (fsProj_isOpenQuotientMap f).surjective θ)

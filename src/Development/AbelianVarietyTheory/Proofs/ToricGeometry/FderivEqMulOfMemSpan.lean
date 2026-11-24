@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaCore
 import Std.Tactic.BVDecide.Normalize.Prop
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ValAtLem
 
 @[expose] public section
 
@@ -79,14 +80,7 @@ theorem IsHolFamily.differentiableAt (h : IsHolFamily ex) {U : X.Opens} {z : E} 
 private theorem valAt'_resG {Y : Scheme.{0}} (x : Sp ℂ ⟶ Y) {U' V' : Y.Opens} (hle : V' ≤ U')
     (hx : ⊤ ≤ x ⁻¹ᵁ V') (g : Γ(Y, U')) :
     valAt' x V' (Y.presheaf.map (homOfLE hle).op g) = valAt' x U' g := by
-  have hx' : ⊤ ≤ x ⁻¹ᵁ U' := hx.trans (fun p hp => hle hp)
-  unfold valAt'
-  rw [dite_eq_left hx, dite_eq_left hx']
-  unfold valAt
-  have key : Y.presheaf.map (homOfLE hle).op ≫ x.appLE V' ⊤ hx = x.appLE U' ⊤ hx' := by
-    exact Scheme.Hom.map_appLE x _ _
-  rw [← key]
-  rfl
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.ValAt.valAt'_res <;> assumption
 
 theorem IsHolFamily.fderiv_eq_zero (h : IsHolFamily ex) {U V : X.Opens} (hU : IsAffineOpen U) {z ξ : E}
     (hz : ⊤ ≤ ex z ⁻¹ᵁ U) (hV : ⊤ ≤ ex z ⁻¹ᵁ V)
@@ -143,25 +137,8 @@ theorem IsHolFamily.der_mul (h : IsHolFamily ex) {U : X.Opens} {z : E} (hz : ⊤
   simp only [_root_.add_apply, _root_.smul_apply, smul_eq_mul]
 private theorem valAt'_constFn_of_section {Y : Scheme.{0}} (x : Sp ℂ ⟶ Y) (p : Y ⟶ Sp ℂ) (U : Y.Opens) (a : ℂ)
     (hx : ⊤ ≤ x ⁻¹ᵁ U) (hp : x ≫ p = 𝟙 _) : valAt' x U (constFn p U a) = a := by
-  unfold valAt'
-  rw [dite_eq_left hx]
-  unfold valAt constFn
-  have key : p.appLE ⊤ U (fun _ _ => trivial) ≫ x.appLE U ⊤ hx = (x ≫ p).appLE ⊤ ⊤ (by simp) := by
-    exact Scheme.Hom.appLE_comp_appLE x p _ _ _ _ _
-  have e := congrArg (fun φ => (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom.hom
-    (φ.hom ((Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom a))) key
-  simp only [CommRingCat.hom_comp, RingHom.comp_apply] at e
-  rw [e]
-  have gen : ∀ (q : Sp ℂ ⟶ Sp ℂ) (hq : q = 𝟙 _) (e' : ⊤ ≤ q ⁻¹ᵁ ⊤),
-      (Scheme.ΓSpecIso (CommRingCat.of ℂ)).hom.hom ((q.appLE ⊤ ⊤ e').hom
-        ((Scheme.ΓSpecIso (CommRingCat.of ℂ)).inv.hom a)) = a := by
-    rintro q rfl e'
-    have hid : Scheme.Hom.appLE (𝟙 (Sp ℂ)) ⊤ ⊤ e' = 𝟙 _ := by
-      simp [Scheme.Hom.appLE]
-      exact (Sp ℂ).presheaf.map_id _
-    rw [hid]
-    simp
-  exact gen _ hp _
+  intros
+  apply _root_.GlobalTheory.valAt'_constFn <;> assumption
 
 theorem IsHolFamily.der_constFn (h : IsHolFamily ex) {U : X.Opens} {z : E} (hz : ⊤ ≤ ex z ⁻¹ᵁ U) (ξ : E)
     (p : X ⟶ Sp ℂ) (hp : ∀ w, ex w ≫ p = 𝟙 _) (a : ℂ) : h.der hz ξ (constFn p U a) = 0 := by

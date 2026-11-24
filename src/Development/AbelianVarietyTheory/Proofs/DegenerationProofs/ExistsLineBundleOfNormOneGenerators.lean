@@ -71,14 +71,7 @@ theorem valF_spMap_comp_eq {F F' : Type} [Field F] [Field F'] (f : F →+* F') {
     (t : Sp F ⟶ X) (U : X.Opens) (ht : ⊤ ≤ t ⁻¹ᵁ U) (φ : Γ(X, U)) :
     valF (spMap f ≫ t) U φ =
       f ((Scheme.ΓSpecIso (CommRingCat.of F)).hom (t.appLE U ⊤ ht φ)) := by
-  have h' : ⊤ ≤ (spMap f ≫ t) ⁻¹ᵁ U := fun q _ => ht (Set.mem_univ (spMap f q))
-  rw [valF, dite_eq_left h']
-  have e : (spMap f ≫ t).appLE U ⊤ h' ≫ (Scheme.ΓSpecIso (CommRingCat.of F')).hom =
-      t.appLE U ⊤ ht ≫ (Scheme.ΓSpecIso (CommRingCat.of F)).hom ≫ CommRingCat.ofHom f := by
-    rw [← Scheme.ΓSpecIso_naturality, ← Scheme.Hom.appLE_comp_appLE (spMap f) t U ⊤ ⊤ ht le_rfl,
-      Category.assoc]
-    rfl
-  exact congrArg (fun g => g.hom φ) e
+  apply _root_.GlobalTheory.BoundedRegular.valF_spMap_comp_eq <;> assumption
 
 theorem valF_mul_valF_eq_one {F : Type} [Field F] {X : Scheme.{0}} (t : Sp F ⟶ X) (U : X.Opens)
     (ht : Set.range t ⊆ U) {φ φ' : Γ(X, U)} (h : φ * φ' = 1) :

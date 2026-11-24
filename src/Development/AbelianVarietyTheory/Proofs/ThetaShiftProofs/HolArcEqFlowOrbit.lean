@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusSplitting.PeriodTorusIsTorusAtFrameStatement
 public import Development.AbelianVarietyTheory.Definitions.ArchimedeanThetaValues.IsThetaL2NormSquared
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
 public import Development.AbelianVarietyTheory.Proofs.ThetaShiftProofs.EqZeroOfTraceLattice
@@ -83,15 +84,7 @@ variable {r : ℕ} (X : Data E r)
 
 lemma perFr_smul (x : Frame X.Ψ r) (a : E) (v : Fin r → E) (τ : E →+* ℂ) (i : ℕ) :
     perFr X x (a • v) τ i = τ a * perFr X x v τ i := by
-  have hemb : ∀ ρ : E →+* ℂ, Data.emb ρ (a • v) = ρ a • Data.emb ρ v := fun ρ => by
-    funext k; simp [Data.emb]
-  unfold perFr
-  split_ifs
-  · rw [hemb, Matrix.mulVec_smul]; rfl
-  · simp
-  · rw [hemb, hermC_smul_right]; simp [conjEmb]
-  · simp
-  · simp
+  apply _root_.GlobalTheory.PeriodTorus.perFr_smul <;> assumption
 
 lemma eq_of_hermC_lattice (τ : E →+* ℂ) (u u' : Fin r → ℂ)
     (h : ∀ v ∈ X.Λ, hermC τ X.Gm u (Data.emb τ v) = hermC τ X.Gm u' (Data.emb τ v)) : u = u' := by

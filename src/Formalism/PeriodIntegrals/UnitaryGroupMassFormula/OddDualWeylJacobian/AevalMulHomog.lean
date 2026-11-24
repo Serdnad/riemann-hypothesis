@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.AevalEqZeroOfHomogeneousComponent
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OddDualWeylJacobian.JacRev
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -152,18 +153,8 @@ private theorem sum_support_eq_degree_of_isHomogeneous' {σ : Type*} {p : MvPoly
 lemma aeval_mul_homog {σ S : Type*} [CommRing S] [Algebra R S] (b : σ → S) (c : S)
     {p : MvPolynomial σ R} {D : ℕ} (hp : p.IsHomogeneous D) :
     aeval (fun v => c * b v) p = c ^ D * aeval b p := by
-  classical
-  conv_lhs => rw [p.as_sum]
-  conv_rhs => rw [p.as_sum]
-
-  rw [_root_.map_sum, _root_.map_sum, Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have hsum := sum_support_eq_degree_of_isHomogeneous' hp hm
-  have hc : ∏ i ∈ m.support, c ^ m i = c ^ D := by
-    rw [Finset.prod_pow_eq_pow_sum, hsum]
-  rw [aeval_monomial, aeval_monomial]
-  simp only [Finsupp.prod, mul_pow, Finset.prod_mul_distrib, hc]
-  ring
+  intros
+  apply _root_.GlobalTheory.Chow.aeval_smul_of_isHomogeneous <;> assumption
 
 lemma rowAct_homog (g : Matrix (Fin k) (Fin k) R) {p : MvPolynomial (Fin k × Fin k) R} {D : ℕ}
     (hp : p.IsHomogeneous D) : (rowAct R g p).IsHomogeneous D := by

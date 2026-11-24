@@ -1,5 +1,7 @@
 module
 
+
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsHomogeneousGrL
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.IsMultiHomogX
@@ -9,7 +11,6 @@ import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.Pro
 import Mathlib.RingTheory.LocalProperties.Reduced
 import Mathlib.Tactic.TypeStar
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArakelovGeometry.LengthLocQuotEqZero
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBirationalModelExists, GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.PBirationalModelExists
 
@@ -62,10 +63,7 @@ theorem isMultiHomog_zero' (a : K → ℕ) : IsMultiHomog (0 : MRing ι) a := by
 
 theorem isMultiHomog_add' {f g : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
     IsMultiHomog (f + g) a := by
-  classical
-  intro m hm
-  rcases Finset.mem_union.1 (support_add hm) with h | h
-  exacts [hf m h, hg m h]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
 
 theorem isMultiHomog_neg' {f : MRing ι} {a : K → ℕ} (hf : IsMultiHomog f a) : IsMultiHomog (-f) a := by
   intro m hm

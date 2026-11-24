@@ -41,6 +41,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.HermitianFormFiniteZerosOnLineCmExt
 
 @[expose] public section
 
@@ -75,17 +76,6 @@ theorem hform_skew (s : A →+* A) (J Y : Matrix (Fin n) (Fin n) A) (u u' : Fin 
   rw [h1, h2, mulVec_mulVec, ← dotProduct_add, ← add_mulVec]
   rfl
 
-private lemma hform_single_single' (s : A →+* A) (M : Matrix (Fin n) (Fin n) A) (i j : Fin n) :
-    Formalism.UG.hform s M (Pi.single i 1) (Pi.single j 1) = M i j := by
-  rw [hform_eq_dot]
-  have e : (fun a => s ((Pi.single i (1 : A) : Fin n → A) a)) = (Pi.single i 1 : Fin n → A) := by
-    funext a
-    by_cases h : a = i
-    · subst h; simp
-    · simp [h]
-  rw [e]
-  simp
-
 theorem skew_iff (s : A →+* A) (J Y : Matrix (Fin n) (Fin n) A) :
     Formalism.UG.cT s Y * J + J * Y = 0 ↔ GlobalTheory.IndefiniteRowSideFullHecke.CenteredPerpendicularSets.IsSkew s J Y := by
   constructor
@@ -93,7 +83,7 @@ theorem skew_iff (s : A →+* A) (J Y : Matrix (Fin n) (Fin n) A) :
     rw [hform_skew, h, hform_eq_dot, zero_mulVec, dotProduct_zero]
   · intro h
     ext i j
-    rw [Matrix.zero_apply, ← hform_single_single' s (Formalism.UG.cT s Y * J + J * Y) i j, ← hform_skew]
+    rw [Matrix.zero_apply, ← _root_.GlobalTheory.HermLineZeros.hform_single s (Formalism.UG.cT s Y * J + J * Y) i j, ← hform_skew]
     exact h _ _
 
 end Lie

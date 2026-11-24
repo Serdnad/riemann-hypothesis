@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.ConservationDegreeFormOfExistence
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ArithmeticIntersection.RationalSections.IsRatSectionOn
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ArithmeticHilbertSamuelLowerBound
 public import GroundTheory.HeightsAndTheta.Heights.HeightKernels.PTelescope
@@ -87,19 +88,8 @@ theorem ptsIntegral_congr_add_const (P : Ideal (MRing ι)) (φ φ' : Fin e → (
 
 theorem ptsIntegral_const_weight (P : Ideal (MRing ι)) (φ : Fin e → ((Σ k, ι k) → ℂ) → ℝ) (c : ℝ) :
     ptsIntegral P φ (fun _ => c) = c * ptsIntegral P φ (fun _ => 1) := by
-  unfold ptsIntegral
-  split_ifs with hΨ
-  · unfold ptsIntegralAt
-    rw [← integral_const_mul]
-    congr 1
-    funext y
-    rw [mul_finsum_mem]
-    refine finsum_congr fun w => ?_
-    congr 1
-    funext _
-    unfold sheetDensity
-    split_ifs <;> ring
-  · ring
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.Conservation.ptsIntegral_const <;> assumption
 
 theorem ptsIntegral_twist_term (P : Ideal (MRing ι)) (A : HermLine ι) (c : ℝ) (D i : ℕ) :
     ptsIntegral P (pot fun j : Fin D => if (j : ℕ) < i then A.tensor (constLine c) else A) (fun _ => c) =

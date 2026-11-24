@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TorusHaarMeasure.TranscendenceDegreeRatiosCuspFormsComponents
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsSystem
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.DifferentiableOnDetHMat
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IMemSiegel
@@ -68,19 +69,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {r g n : ℕ} {X : D
   {bas : (Fin g ⊕ Fin g → ℤ) ≃ₗ[ℤ] X.Λ} (idx : Fin g ≃ X.Ψ × Fin r)
 
 theorem exists_mem_dom (X : Data E r) : ∃ x, x ∈ X.dom := by
-  choose P hP hg using X.signature
-  have hs : ∀ a : ℕ, sgn X.p0 a ≠ 0 := fun a => by unfold sgn; split_ifs <;> norm_num
-  refine ⟨fun τ => P τ, fun τ => ⟨hP τ, fun i => ?_⟩⟩
-  have e : dmin X.Gm (fun τ => P τ) τ i = ((psgn X.p0 i : ℝ) : ℂ) := by
-    unfold dmin lminor
-    rw [show FD.gram τ.1 X.Gm (mat (fun τ => P τ) τ) = FD.gram τ.1 X.Gm (P τ) from rfl, hg τ,
-      Matrix.submatrix_diagonal _ _ (Fin.castLE_injective _), Matrix.det_diagonal]
-    unfold psgn
-    push_cast
-    exact Fin.prod_univ_eq_prod_range (fun a => ((sgn X.p0 a : ℝ) : ℂ)) (i : ℕ)
-  rw [e, Complex.ofReal_re]
-  have h0 : psgn X.p0 i ≠ 0 := Finset.prod_ne_zero_iff.2 fun a _ => hs a
-  exact mul_self_pos.2 h0
+  apply _root_.GlobalTheory.BigTrdeg.exists_mem_dom <;> assumption
 
 
 omit [NumberField E] [IsCMField E] in

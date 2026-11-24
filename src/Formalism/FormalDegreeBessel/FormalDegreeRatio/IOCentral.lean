@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SmoothAddSmul
 public import Formalism.FormalDegreeBessel.StatementIO
 public import Formalism.RealPlaceAnalysis.StatementE
 public import Formalism.RealPlaceAnalysis.QuotientSettingHolds
@@ -185,13 +186,7 @@ lemma io_eab_smooth {f : Matrix (Fin n) (Fin n) ℂ → E} (hf : SmoothOnGV ε f
 lemma io_eab_lin {f f' : Matrix (Fin n) (Fin n) ℂ → E} (hf : SmoothOnGV ε f)
     (hf' : SmoothOnGV ε f') (c : ℂ) (a b : Fin n) {g : Matrix (Fin n) (Fin n) ℂ} (hg : inUJ ε g) :
     EabV ε a b (fun h => f h + c • f' h) g = EabV ε a b f g + c • EabV ε a b f' g := by
-  have h1 := (rdLinV n ε E f f' (cpart1 ε (Matrix.single a b 1)) (cpart1 ε (Matrix.single a b 1)) 0 c g
-    hf hf' (inG_cpart1_formal_degree_ratio ε _) (inG_cpart1_formal_degree_ratio ε _) hg).2.2
-  have h2 := (rdLinV n ε E f f' (cpart2 ε (Matrix.single a b 1)) (cpart2 ε (Matrix.single a b 1)) 0 c g
-    hf hf' (inG_cpart2_formal_degree_ratio ε _) (inG_cpart2_formal_degree_ratio ε _) hg).2.2
-  simp only [EabV, EcV]
-  rw [h1, h2, smul_add, smul_add, smul_comm Complex.I c]
-  abel
+  apply _root_.GlobalTheory.CapelliCentral.eab_add_smul <;> assumption
 
 lemma io_eab_zero (a b : Fin n) (g : Matrix (Fin n) (Fin n) ℂ) :
     EabV ε a b (fun _ : Matrix (Fin n) (Fin n) ℂ => (0 : E)) g = 0 := by

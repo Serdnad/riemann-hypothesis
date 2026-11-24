@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.UnitaryOfLocalLanglands
 public import Formalism.LocalToGlobal.ProjectiveLattices.HalfOneAddSqrtNegIsIntegral
 public import ReciprocityTheory.Automorphisms.SplitCoeAlgebraMap
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
@@ -57,20 +58,7 @@ namespace GlobalTheory.PairReadPf
 
 theorem exists_splitPlace_w (D : D7) (w : PlE D.host) (hw : IsSplitPl D.host w) :
     ∃ s : SplitPlace D.host.E, s.w = w := by
-  have hstar : ∀ x : D.host.E, D.host.conj x = IsCMField.complexConj D.host.E x := fun _ =>
-    D.host.φ₀.injective (by
-      rw [NumberField.IsCMField.complexEmbedding_complexConj, Formalism.HC.HostAx.conjE_apply])
-  obtain ⟨x0, hx0, hx0'⟩ := hw
-  have hc0 : IsCMField.ringOfIntegersComplexConj D.host.E x0 ∉ w.asIdeal :=
-    hx0' _ (by rw [hstar, IsCMField.coe_ringOfIntegersComplexConj])
-  obtain ⟨s, hs⟩ := GlobalTheory.SplitConjPlace.exists_splitPlace w x0 hx0 hc0
-  have hsw : s.w.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) =
-      w.asIdeal.comap (algebraMap (𝓞 (maximalRealSubfield D.host.E)) (𝓞 D.host.E)) := by
-    rw [s.w_under, hs]; rfl
-  rcases GlobalTheory.SplitConjPlace.eq_or_eq_conjPlE w s.w hsw with h | h
-  · exact ⟨s, h⟩
-  · refine ⟨GlobalTheory.SplitConjPlace.conjSP s, HeightOneSpectrum.ext (Ideal.ext fun x => ?_)⟩
-    rw [GlobalTheory.SplitConjPlace.mem_conj_w, h, GlobalTheory.SplitConjPlace.mem_conjPlE, GlobalTheory.SplitConjPlace.cO_cO]
+  first | exact _root_.GlobalTheory.UnitaryReadTrue.exists_splitPlace_w | exact @_root_.GlobalTheory.UnitaryReadTrue.exists_splitPlace_w | apply _root_.GlobalTheory.UnitaryReadTrue.exists_splitPlace_w <;> assumption
 
 theorem exists_ne_of_mem_iSup {M : Type} [AddCommGroup M] [Module ℂ M] {ι : Sort*} (p : ι → Submodule ℂ M)
     (ℓ : M →+ ℂ) {x : M} (hx : x ∈ ⨆ i, p i) (h : ℓ x ≠ 0) : ∃ i, ∃ y ∈ p i, ℓ y ≠ 0 := by

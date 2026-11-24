@@ -878,18 +878,8 @@ theorem incM_map_piInf {n m : Type} (J : Matrix n m E) {w : InfinitePlace F} (τ
   simp [incM, piInf, compInf, inclR, infEmb_tmul]
 
 theorem hasExp_div (τ : ∀ w : InfinitePlace F, EmbOver E w) {χ χ' : Chr F E} {m m' : InfinitePlace F → ℤ}
-    (h : HasExp τ χ m) (h' : HasExp τ χ' m') : HasExp τ (χ / χ') (fun w => m w - m' w) := by
-  intro z hz
-  rw [MonoidHom.div_apply, Circle.coe_div, h z hz, h' z hz, ← Finset.prod_div_distrib]
-  refine Finset.prod_congr rfl fun w _ => ?_
-  have : piInf (τ w) (z : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) / (‖piInf (τ w) (z : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E))‖ : ℂ) ≠ 0 := by
-    have h0 : piInf (τ w) (z : _root_.GlobalTheory.IndefiniteRowSideFullHecke.WeilTensorModels.AE (F := F) (E := E)) ≠ 0 := by
-      intro e
-      have := congrArg (piInf (τ w)) z.mul_inv
-      rw [map_mul, e, zero_mul, map_one] at this
-      exact zero_ne_one this
-    exact div_ne_zero h0 (by exact_mod_cast norm_ne_zero_iff.2 h0)
-  rw [zpow_sub₀ this]
+    (h : HasExp τ χ m) (h' : HasExp τ χ' m') : HasExp τ (χ / χ') (fun w => m w - m' w) :=
+  _root_.GlobalTheory.RealLift.FockFirst.hasExp_div τ h h'
 
 theorem locFin_fock1 (P Q R S : ℕ) (X : Mat P Q) (hX : IsKC X) (c : ℂ) :
     LocFin (fockAct1 P Q R S X + c • 1) := fun v => by

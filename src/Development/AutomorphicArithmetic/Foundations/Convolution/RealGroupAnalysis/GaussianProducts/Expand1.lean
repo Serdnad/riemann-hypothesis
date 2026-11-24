@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.ThetaReindexing.ActMat
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.GaussianProducts.ExistsRowSec
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.GaussianProducts.CoefBd
 public import Development.AutomorphicArithmetic.Foundations.Convolution.RealGroupAnalysis.GaussianProducts.HatLin
@@ -336,13 +337,6 @@ private theorem mkE_eq (u t : A F) : D.mkE u t = u • BB 0 + t • BB 1 := by
   rw [basis0, basis1, Algebra.smul_def, Algebra.smul_def, AdeleBaseChange.algebraMap_adeleRing, mul_one]
   rfl
 
-private theorem co_mkE (u t : A F) : D.co (D.mkE u t) = ![u, t] := by
-  have h : D.mkE u t = ∑ j, (![u, t] : Fin 2 → A F) j • BB j := by
-    simp [Fin.sum_univ_two, mkE_eq]
-  funext i
-  rw [h]
-  change (BB).repr _ i = _
-  rw [Module.Basis.repr_sum_self]
 
 private theorem coordinate_embedNorm_zero (u t : A F) : D.co (D.mkE u t) 0 = u := by simp
 private theorem coordinate_embedNorm_one (u t : A F) : D.co (D.mkE u t) 1 = t := by simp
@@ -358,15 +352,7 @@ private theorem θ_mul : rt D.θ * rt D.θ = ι (rt D.δ) := by
 
 private theorem norm_mkE (u t : A F) :
     Algebra.norm (A F) (D.mkE u t) = u ^ 2 - rt D.δ * t ^ 2 := by
-  have hm : D.mkE u t * rt D.θ = D.mkE (rt D.δ * t) u := by
-    have h := θ_mul D
-    simp only [Dat.mkE, map_mul]
-    linear_combination (ι t) * h
-  rw [Algebra.norm_eq_matrix_det (BB), Matrix.det_fin_two]
-  simp only [Algebra.leftMulMatrix_eq_repr_mul, basis0, basis1, mul_one, hm]
-  change D.co _ 0 * D.co _ 1 - D.co _ 0 * D.co _ 1 = _
-  simp only [coordinate_embedNorm_zero, coordinate_embedNorm_one]
-  ring
+  apply _root_.UpperTheory.ConvolutionTheory.R2.D.actionMatrixCoordinates.norm_mkE <;> assumption
 
 variable [IsTotallyReal F]
 

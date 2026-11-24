@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Development.AutomorphicSpectrum.Definitions.MetricPeriods.ExistsIntSmulIsAdicIntegralInTensorBasis
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.LatticeTensorPowerLineBundle
 
 @[expose] public section
 
@@ -68,19 +69,7 @@ theorem gen_ratio {Λ : Lat ξ Ω} {p : Cpt ξ} {s t : Ω} (hs : Λ.IsGenAt p s)
 
 theorem tens_gen {I : Type} [Fintype I] {Λ : I → Lat ξ Ω} (a : I → ℤ) {p : Cpt ξ} {s : I → Ω}
     (hs : ∀ i, (Λ i).IsGenAt p (s i)) : (Lat.tens Λ a).IsGenAt p (∏ i, s i ^ a i) := by
-  have h0 : ∏ i, s i ^ a i ≠ 0 := Finset.prod_ne_zero_iff.2 fun i _ => zpow_ne_zero _ (hs i).1
-  refine ⟨h0, le_antisymm (Submodule.span_le.2 ?_) (Submodule.span_le.2
-    (Set.singleton_subset_iff.2 (Submodule.subset_span ⟨s, hs, rfl⟩)))⟩
-  rintro _ ⟨s', hs', rfl⟩
-  have hm : ∏ i, (s' i / s i) ^ a i ∈ regAt ξ p := by
-    refine prod_mem fun i _ => ?_
-    rcases Int.eq_nat_or_neg (a i) with ⟨n, h | h⟩
-    · rw [h, zpow_natCast]; exact pow_mem (gen_ratio (hs' i) (hs i)) n
-    · rw [h, _root_.zpow_neg, ← _root_.inv_zpow, inv_div, zpow_natCast]; exact pow_mem (gen_ratio (hs i) (hs' i)) n
-  refine Submodule.mem_span_singleton.2 ⟨⟨_, hm⟩, ?_⟩
-  show (∏ i, (s' i / s i) ^ a i) * ∏ i, s i ^ a i = _
-  rw [← Finset.prod_mul_distrib]
-  exact Finset.prod_congr rfl fun i _ => by rw [← mul_zpow, div_mul_cancel₀ _ (hs i).1]
+  apply _root_.GlobalTheory.CompanionTheory.Ar.LatTens.isGenAt_tens <;> assumption
 
 end
 

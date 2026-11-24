@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.GlobalProductGramFiberRankOne
 public import Formalism.LocalToGlobal.BesselHermitianTheta.TiedKfin
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -52,21 +53,8 @@ theorem map_trace_tensor {F E A B : Type} [Field F] [Field E] [Algebra F E] [Fin
     [CommRing A] [CommRing B] [Algebra F A] [Algebra F B] (p : A →ₐ[F] B) (z : A ⊗[F] E) :
     p (Algebra.trace A (A ⊗[F] E) z) =
       Algebra.trace B (B ⊗[F] E) (Algebra.TensorProduct.map p (AlgHom.id F E) z) := by
-  have key : ∀ (C : Type) [CommRing C] [Algebra F C] (c : C) (e : E),
-      Algebra.trace C (C ⊗[F] E) (c ⊗ₜ[F] e) = c * algebraMap F C (Algebra.trace F E e) := by
-    intro C _ _ c e
-    have h1 : (c ⊗ₜ[F] e : C ⊗[F] E) = c • ((1 : C) ⊗ₜ[F] e) := by
-      rw [TensorProduct.smul_tmul', smul_eq_mul, mul_one]
-    rw [h1, map_smul, smul_eq_mul]
-    congr 1
-    rw [Algebra.trace_apply, Algebra.trace_apply, ← LinearMap.trace_baseChange]
-    congr 1
-    ext x
-    simp
-  induction z using TensorProduct.induction_on with
-  | zero => simp
-  | add a b ha hb => simp only [map_add (f := _), ha, hb]
-  | tmul a e => rw [Algebra.TensorProduct.map_tmul, key, key, map_mul, AlgHom.commutes]; rfl
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.SW.EulerDens.trace_map <;> assumption
 
 theorem map_sesq_sum_eq_zero {A B : Type} [CommRing A] [CommRing B] {m n : ℕ} (q : A →+* B) (σ : A →+* A)
     (hσ : ∀ z, q z = 0 → q (σ z) = 0) (a : Fin m → Fin m → A) (b : Fin n → Fin n → A)

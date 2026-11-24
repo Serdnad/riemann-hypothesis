@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.UnimodularLocalStandard.SelfDualStd
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.IsDiscriminantTwelfthRootOfIdealLattice
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,24 +53,7 @@ open scoped BigOperators
 namespace GlobalTheory.PlaneLattice
 
 theorem signedArea_ne_zero (L : PeriodPair) : ((starRingEnd ℂ) L.ω₁ * L.ω₂).im ≠ 0 := by
-  intro h0
-  have hind := LinearIndependent.pair_iff.mp L.indep
-  simp only [Complex.mul_im, Complex.conj_re, Complex.conj_im] at h0
-  have hy := hind L.ω₂.im (-L.ω₁.im) (by
-    refine Complex.ext ?_ ?_ <;>
-      simp only [Complex.add_re, Complex.add_im, Complex.smul_re, Complex.smul_im, smul_eq_mul,
-        Complex.zero_re, Complex.zero_im]
-    · linear_combination h0
-    · ring)
-  have hy₁ : L.ω₁.im = 0 := neg_eq_zero.mp hy.2
-  have hx := hind L.ω₂.re (-L.ω₁.re) (by
-    refine Complex.ext ?_ ?_ <;>
-      simp only [Complex.add_re, Complex.add_im, Complex.smul_re, Complex.smul_im, smul_eq_mul,
-        Complex.zero_re, Complex.zero_im]
-    · ring
-    · rw [hy₁, hy.1]; ring)
-  have hω : L.ω₁ = 0 := Complex.ext (by simpa using neg_eq_zero.mp hx.2) (by simpa using hy₁)
-  exact one_ne_zero (hind 1 0 (by simp [hω])).1
+  apply _root_.PI.UnitaryGroupMassFormula.UnimodLocStd.detD_ne <;> assumption
 
 theorem exists_int_mul (L : PeriodPair) {w₁ w₂ : ℂ} (h₁ : w₁ ∈ L.lattice) (h₂ : w₂ ∈ L.lattice) :
     ∃ k : ℤ, ((starRingEnd ℂ) w₁ * w₂).im = k * ((starRingEnd ℂ) L.ω₁ * L.ω₂).im := by

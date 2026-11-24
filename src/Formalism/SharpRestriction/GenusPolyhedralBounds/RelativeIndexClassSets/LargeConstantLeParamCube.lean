@@ -161,7 +161,6 @@ theorem kl_le : D2 * nW + 2 * r + (TO + D2) * q0 ≤ 3 * TO + 2 * b := by
   linarith [h.W, h.q0hi, h.one_le_order_alt]
 
 theorem TQ_le : (TO + D2) * (TO + D2 + 2 * r) ≤ 6 * TO ^ 2 := by
-  have hT1 := h.one_le_order_alt
   have hD2 := h.two_le_degree_alt
   have hr6 := h.r6
   have hDW : D2 * 1 ≤ D2 * nW := mul_le_mul_of_nonneg_left (by linarith [h.forty_le_weight_count]) (by linarith)
@@ -206,17 +205,11 @@ theorem sK {s : ℝ} (hs : s ≤ A * (D2 * nW + 2 * r + (TO + D2) * q0 + r * ((T
   have hTA : TO ≤ A * TO := le_mul_of_one_le_left hT0 hA1
   have p1 : A * TO * 1 ≤ A * TO * (A * TO) := mul_le_mul_of_nonneg_left hATO (by linarith)
   have p2 : A * TO * TO ≤ A * TO * (A * TO) := mul_le_mul_of_nonneg_left hTA (by linarith)
-  have eP : A * TO * (A * TO) = A ^ 2 * TO ^ 2 := by ring
   have hB := h.toBs.ATOb
   have hBA := h.b_le_Ab
   have i1 : A * (D2 * nW + 2 * r + (TO + D2) * q0 + r * ((TO + D2) * (TO + D2 + 2 * r))) ≤
       A * (3 * TO + 2 * b + A * (6 * TO ^ 2)) := mul_le_mul_of_nonneg_left (by linarith) hA0
   have i2 : A * (nP + TO * nW) ≤ A * (TO + TO * TO) := mul_le_mul_of_nonneg_left (by linarith) hA0
-  have f1 : A * (3 * TO + 2 * b + A * (6 * TO ^ 2)) = 2 * (A * b) + 3 * (A * TO) + 6 * (A ^ 2 * TO ^ 2) := by ring
-  have f2 : A * (TO + TO * TO) = A * TO + A * TO * TO := by ring
-  have hP0 : (0 : ℝ) ≤ A ^ 2 * TO ^ 2 := by positivity
-  have f3 : A * b = A * b := rfl
-  have hAb : b ≤ A * b := hBA
   linarith [hD2, hr0]
 
 theorem sL {s : ℝ} (hs : s ≤ A * (q0 + r * (TO + D2 + 2 * r)) + A * nW + 1) : s * TO ≤ 2 * A * b := by
@@ -238,18 +231,11 @@ theorem sL {s : ℝ} (hs : s ≤ A * (q0 + r * (TO + D2 + 2 * r)) + A * nW + 1) 
   have e4 : A * (TO * q0) ≤ A * (b + TO) := mul_le_mul_of_nonneg_left hq hA0
   have e5 : A * (r * (TO + D2 + 2 * r) * TO) ≤ A * (A * (3 * TO) * TO) := mul_le_mul_of_nonneg_left e2 hA0
   have e6 : A * (nW * TO) ≤ A * (TO * TO) := mul_le_mul_of_nonneg_left e3 hA0
-  have eX : (A * (q0 + r * (TO + D2 + 2 * r)) + A * nW + 1) * TO =
-      A * (TO * q0) + A * (r * (TO + D2 + 2 * r) * TO) + A * (nW * TO) + TO := by ring
   have hATO : 1 ≤ A * TO := one_le_mul_of_one_le_of_one_le hA1 hT1
   have hTA : TO ≤ A * TO := le_mul_of_one_le_left hT0 hA1
   have p1 : A * TO * 1 ≤ A * TO * (A * TO) := mul_le_mul_of_nonneg_left hATO (by linarith)
   have p2 : A * TO * TO ≤ A * TO * (A * TO) := mul_le_mul_of_nonneg_left hTA (by linarith)
-  have eA : A * (A * (3 * TO) * TO) = 3 * (A * TO * (A * TO)) := by ring
-  have eB : A * (TO * TO) = A * TO * TO := by ring
-  have eP : A * TO * (A * TO) = A ^ 2 * TO ^ 2 := by ring
-  have eC : A * (b + TO) = A * b + A * TO := by ring
   have hB := h.toBs.ATOb
-  have hP0 : (0 : ℝ) ≤ A ^ 2 * TO ^ 2 := by positivity
   have hAb := h.b_le_Ab
   linarith
 
@@ -272,11 +258,7 @@ theorem dL {d : ℝ} (hd : d ≤ A * (q0 + r * (TO + D2 + 2 * r))) : d ≤ 2 * A
   have p1 : A * TO * 1 ≤ A * TO * (A * TO) := mul_le_mul_of_nonneg_left hATO (by linarith)
   have hTT : A * A * TO ≤ A * A * (TO * TO) :=
     mul_le_mul_of_nonneg_left (le_mul_of_one_le_left hT0 hT1) (by positivity)
-  have eA : A * (b + TO + A * (3 * TO)) = A * b + A * TO + 3 * (A * A * TO) := by ring
-  have eP : A * TO * (A * TO) = A ^ 2 * TO ^ 2 := by ring
-  have eQ : A * A * (TO * TO) = A ^ 2 * TO ^ 2 := by ring
   have hB := h.toBs.ATOb
-  have hP0 : (0 : ℝ) ≤ A ^ 2 * TO ^ 2 := by positivity
   have hAb := h.b_le_Ab
   linarith
 
@@ -358,7 +340,6 @@ theorem h3b {d q : ℝ} (hd0 : 0 ≤ d) (hd : d ≤ 2 * A * b) (hq : (k * b) ^ 8
     mul_le_mul s3 hd2 (sq_nonneg d) n3
   have s5 : 20000 * k ^ 6 * b ^ 5 ≤ (k * b) ^ 8 :=
     absorb h.k1 B.b_ge (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  have s6 : b * (1250 * k ^ 2) * b * b * (16 * k ^ 4 * b ^ 2) = 20000 * k ^ 6 * b ^ 5 := by ring
   linarith
 
 theorem h3e {d q fm : ℝ} (hd0 : 0 ≤ d) (hd : d ≤ 2 * A * b) (hq : (k * b) ^ 8 ≤ q) (hf0 : 0 ≤ fm) (hf : fm ≤ k ^ 4) :
@@ -380,7 +361,6 @@ theorem h3e {d q fm : ℝ} (hd0 : 0 ≤ d) (hd : d ≤ 2 * A * b) (hq : (k * b) 
     mul_le_mul t1 t3 (mul_nonneg (mul_nonneg (sq_nonneg rd) hPP0) (sq_nonneg d)) (mul_nonneg (by positivity) hb0)
   have t5 : 32 * k ^ 8 * b ^ 5 ≤ (k * b) ^ 8 :=
     absorb h.k1 B.b_ge (by norm_num) (by norm_num) (by norm_num) (by norm_num)
-  have t6 : 2 * (k ^ 4 * b * (b * b * (16 * k ^ 4 * b ^ 2))) = 32 * k ^ 8 * b ^ 5 := by ring
   linarith
 
 theorem h3f {d q : ℝ} (hd0 : 0 ≤ d) (hd : d ≤ 2 * A * b) (hq : (k * b) ^ 8 ≤ q) : (D2 + 2) * d ≤ q - 2 := by

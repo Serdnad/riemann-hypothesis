@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.DcoShape
 public import Development.AutomorphicArithmetic.Foundations.Convolution.SphericalHeckeOperators.SymSum
 public import GroundTheory.AutomorphicForms.IwahoriFactorization
 import GroundTheory.LocalFields.LocalFourierHaar
@@ -163,26 +164,7 @@ private theorem conj_mem {F : Type} [Field F] [ValuativeRel F] [TopologicalSpace
     (a : Fin n → ℤ) {g : GL (Fin n) F} (hg : g ∈ iwahori F n)
     (h : ∀ i j, a i < a j → (g : Matrix (Fin n) (Fin n) F) i j = 0) :
     torusPow F n a * g * (torusPow F n a)⁻¹ ∈ iwahori F n := by
-  have he : ∀ i j, ((torusPow F n a * g * (torusPow F n a)⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) i j =
-      (uniformizer F : F) ^ (a i - a j) * (g : Matrix (Fin n) (Fin n) F) i j := by
-    intro i j
-    rw [← torusPow_neg, Units.val_mul, Units.val_mul, coe_torusPow, coe_torusPow, Matrix.mul_diagonal,
-      Matrix.diagonal_mul, sub_eq_add_neg, zpow_add₀ (GLnLocal.uniformizer_ne_zero F), Pi.neg_apply]
-    ring
-  have hle : ∀ i j, ValuativeRel.valuation F
-      (((torusPow F n a * g * (torusPow F n a)⁻¹ : GL (Fin n) F) : Matrix (Fin n) (Fin n) F) i j) ≤
-      ValuativeRel.valuation F ((g : Matrix (Fin n) (Fin n) F) i j) := by
-    intro i j
-    rw [he]
-    rcases lt_or_ge (a i) (a j) with hij | hij
-    · rw [h i j hij, mul_zero]
-    · obtain ⟨d, hd⟩ : ∃ d : ℕ, a i - a j = d := ⟨(a i - a j).toNat, by omega⟩
-      rw [hd, zpow_natCast, map_mul, map_pow]
-      simpa [mul_comm] using mul_le_of_le_one_right' (a := ValuativeRel.valuation F ((g : Matrix (Fin n) (Fin n) F) i j)) (pow_le_one' (GLnLocal.valuation_uniformizer_lt_one F).le d)
-  obtain ⟨h1, h2, h3⟩ := (mem_iwahori_iff F n).1 hg
-  refine (mem_iwahori_iff F n).2 ⟨fun i j => (hle i j).trans (h1 i j),
-    fun i j hij => (hle i j).trans_lt (h2 i j hij), fun i => ?_⟩
-  rw [he, sub_self, zpow_zero, one_mul, h3]
+  apply _root_.conj_mem <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.H.dcoVol :
     ∀ (F : Type) [Field F] [ValuativeRel F] [TopologicalSpace F] [IsNonarchimedeanLocalField F] (n : ℕ)

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.FWCentral
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.TupPrimeEmpty
 public import Formalism.LocalToGlobal.IndefiniteReal.FWTie
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsNormalisedTupleDataOverCoefficientField
@@ -163,24 +164,7 @@ theorem AllRational.twisted {F : Face D A} {ph : Fin D.R.m → ℂ} (h : AllRati
     TwistedRational R F ph := fun w _ i => classSumRational_of_forall hHW hU (h i (R.mu w)) _ _
 
 theorem evaluates (fw : FWTie T R κ v₀) (hU : R.LUnif) : fw.Evaluates := by
-  intro i σ hσ hV
-  refine fw.ev i σ hσ hV (by_contra fun hn => hn ⟨0, fun f => ?_⟩)
-  have h0 := fw.ev0 i σ hσ hV hn
-  have h1 : f = 0 := by
-    by_contra hf
-    have h2 : ((fw.e i f : (R.FW i).WK) : Fin (R.nW i) → D.what₂.LL) ≠ 0 := fun h =>
-      hf ((fw.e i).injective ((Subtype.ext h).trans (fw.e i).map_zero.symm))
-    exact ((hU i σ).1 1 _ (linearIndependent_unique_iff.2 h2 : LinearIndependent _ fun _ : Fin 1 => _)).ne_zero 0
-      (by rw [h0]; rfl)
-  have key : ∀ (σ' : T.Q.c.F →+* ℂ) (W : HSp D) (hV : T.V ((i : ℕ) + 1) σ' = W),
-      phiC T hV (wtA (κ i)) (0 : T.R ((i : ℕ) + 1)) = 0 := by
-    rintro σ' W rfl
-    show (_ : ℂ) • adel _ _ _ (rdU (T.U ((i : ℕ) + 1) σ') (0 : T.R ((i : ℕ) + 1))) = 0
-    rw [map_zero, map_zero, smul_zero]
-  subst h1
-  refine Eq.trans ?_ (key _ _ hV).symm
-  rw [LinearMap.zero_apply, map_zero]
-  rfl
+  apply _root_.Formalism.IndefR.FWT.FWTie.evaluates_of_lUnif <;> assumption
 
 theorem adForm_e (fw : FWTie T R κ v₀) (hU : R.LUnif) (hV : T.V ((i : ℕ) + 1) T.σ₀ = Wc D i) (f : Cu T κ i) :
     adForm R i (fw.e i f) (v₀ i (sg0 D A)) =

@@ -348,18 +348,7 @@ theorem dvd_of_dvd_lpow_mul (n : ℕ) (c : Ainf l) (h : bk.ev bk.E ∣ (l : Ainf
 
 theorem pow_dvd_of_l_mul (m : ℕ) : ∀ a : Ainf l,
     bk.ev bk.E ^ m ∣ (l : Ainf l) * a → bk.ev bk.E ^ m ∣ a := by
-  induction m with
-  | zero => intro a _; simp
-  | succ m ih =>
-    intro a h
-    have h1 : bk.ev bk.E ∣ (l : Ainf l) ^ 1 * a := by
-      rw [pow_one]; exact dvd_trans (dvd_pow_self _ (Nat.succ_ne_zero m)) h
-    obtain ⟨a', rfl⟩ := dvd_of_dvd_lpow_mul bk 1 a h1
-    rw [pow_succ']
-    apply mul_dvd_mul_left
-    apply ih
-    rw [pow_succ', mul_left_comm] at h
-    exact (mul_dvd_mul_iff_left (evE_ne_zero bk)).mp h
+  apply _root_.GlobalTheory.AinfEPow.pow_dvd_of_pow_dvd_l_mul <;> assumption
 
 theorem pow_dvd_of_lpow (i n : ℕ) (a : Ainf l) (h : bk.ev bk.E ^ i ∣ (l : Ainf l) ^ n * a) :
     bk.ev bk.E ^ i ∣ a := by

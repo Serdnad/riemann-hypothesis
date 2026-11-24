@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ThetaFockVacuumProperties
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ConstMemBddAut
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.RealLowestKTypeCoeffSquareIntegrable
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNsmulIntMemLatO
@@ -80,26 +81,7 @@ variable {D : D7}
 open Matrix in
 open scoped ComplexOrder in
 theorem isCartanInv_one_of_onb {k : ℕ} {G B : Matrix (Fin k) (Fin k) ℂ} (h : IsONBasis G 1 B k) : IsCartanInv G 1 := by
-  obtain ⟨e, he, h1, -⟩ := h
-  have h2 : Bᴴ * G * B = 1 := by
-    rw [h1, ← Matrix.diagonal_one]
-    congr 1
-    funext a
-    rcases he a with h | h
-    · simp [h.1]
-    · exact absurd a.2 (not_lt.2 h.2)
-  have hu : IsUnit B := IsUnit.of_mul_eq_one_right _ h2
-  have hd := (Matrix.isUnit_iff_isUnit_det _).1 hu
-  have h3 : B * B⁻¹ = 1 := Matrix.mul_nonsing_inv _ hd
-  have h4 : (B⁻¹)ᴴ * Bᴴ = 1 := by rw [← Matrix.conjTranspose_mul, h3, Matrix.conjTranspose_one]
-  have hG : G = (B⁻¹)ᴴ * B⁻¹ := by
-    calc G = ((B⁻¹)ᴴ * Bᴴ) * G * (B * B⁻¹) := by rw [h3, h4, Matrix.one_mul, Matrix.mul_one]
-      _ = (B⁻¹)ᴴ * (Bᴴ * G * B) * B⁻¹ := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [h2, Matrix.mul_one]
-  refine ⟨by simp, by simp, ?_⟩
-  rw [Matrix.mul_one, hG]
-  exact Matrix.PosDef.conjTranspose_mul_self _
-    (Matrix.mulVec_injective_of_isUnit (Matrix.isUnit_nonsing_inv_iff.2 hu))
+  first | exact _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | exact @_root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb | apply _root_.GlobalTheory.OneMapRef.VecP.isCartanInv_one_of_onb <;> assumption
 
 theorem topL_mul_right {κ : Type} [CommRing κ] {a b : ℕ} (y : Matrix (Fin b) (Fin a) κ) (γ : Matrix (Fin a) (Fin a) κ) :
     topL a (y * γ) = topL a y * γ := by

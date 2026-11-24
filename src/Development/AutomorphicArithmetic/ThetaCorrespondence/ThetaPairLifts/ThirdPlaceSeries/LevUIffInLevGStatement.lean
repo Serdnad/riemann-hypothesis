@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.TwistLevelStabiliserAtLevelPrimeProof
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.FamilyConstants
 public import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.ThirdPlaceSeries.KeepsPairs
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.BcPrVMemLevelVLOfMoves
@@ -206,26 +207,7 @@ theorem intMat_keeps {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] 
     {n : Type} [Fintype n] [DecidableEq n] (M M' : Matrix n n k) (hMM : M * M' = 1) (hM : ∀ r s, M r s ∈ 𝒪[k])
     (hM' : ∀ r s, M' r s ∈ 𝒪[k]) (r₀ : n) (hr : ∀ s, valuation k (M' r₀ s - (1 : Matrix n n k) r₀ s) < 1) (z : n → k) :
     ((∀ r, (M' *ᵥ z) r ∈ 𝒪[k]) ↔ ∀ r, z r ∈ 𝒪[k]) ∧ ((∀ r, z r ∈ 𝒪[k]) → valuation k ((M' *ᵥ z) r₀ - z r₀) < 1) := by
-  have hint : ∀ (N : Matrix n n k), (∀ r s, N r s ∈ 𝒪[k]) → ∀ w : n → k, (∀ r, w r ∈ 𝒪[k]) → ∀ r, (N *ᵥ w) r ∈ 𝒪[k] :=
-    fun N hN w hw r => Subring.sum_mem _ fun s _ => Subring.mul_mem _ (hN r s) (hw s)
-  refine ⟨⟨fun h r => ?_, fun h => hint M' hM' z h⟩, fun h => ?_⟩
-  · have e : M *ᵥ (M' *ᵥ z) = z := by rw [Matrix.mulVec_mulVec, hMM, Matrix.one_mulVec]
-    rw [← e]
-    exact hint M hM _ h r
-  · have e : (M' *ᵥ z) r₀ - z r₀ = ∑ s, (M' r₀ s - (1 : Matrix n n k) r₀ s) * z s := by
-      have : z r₀ = ∑ s, (1 : Matrix n n k) r₀ s * z s := by simp [Matrix.one_apply]
-      rw [this]
-      simp only [Matrix.mulVec, dotProduct]
-      rw [← Finset.sum_sub_distrib]
-      simp_rw [sub_mul]
-    rw [e]
-    refine Valuation.map_sum_lt _ one_ne_zero fun s _ => ?_
-    rw [Valuation.map_mul]
-    have h1 := hr s
-    have h2 : valuation k (z s) ≤ 1 := (Valuation.mem_integer_iff _ _).1 (h s)
-    calc valuation k (M' r₀ s - (1 : Matrix n n k) r₀ s) * valuation k (z s)
-        ≤ valuation k (M' r₀ s - (1 : Matrix n n k) r₀ s) * 1 := mul_le_mul' le_rfl h2
-      _ < 1 := by rw [mul_one]; exact h1
+  first | exact _root_.GlobalTheory.AdForm.CompFix.intMat_keeps | exact @_root_.GlobalTheory.AdForm.CompFix.intMat_keeps | apply _root_.GlobalTheory.AdForm.CompFix.intMat_keeps <;> assumption
 
 theorem smul_pair_eq {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
     {n : ℕ} (Q : GlobalTheory.LatPair.Pair k (Fin n)) (b b' M M' : Matrix (Fin n) (Fin n) k) (hb : b' * b = 1) (c : k) (r₀ : Fin n)
@@ -563,16 +545,7 @@ namespace GlobalTheory.FamTrace.LatFwd
 
 theorem finM_inv_eq {D : D7} (V : HSp D) {n : ℕ} (hn : V.rank = n) (κ : GA D V) (x : GL (Fin n) (GlobalTheory.AdForm.EF D))
     (h : GlobalTheory.AdForm.finM V hn κ = x.1) : GlobalTheory.AdForm.finM V hn κ⁻¹ = (x⁻¹).1 := by
-  subst hn
-  have e : GlobalTheory.AdForm.finM V rfl κ * GlobalTheory.AdForm.finM V rfl κ⁻¹ = 1 := by
-    have e1 : ∀ g, GlobalTheory.AdForm.finM V rfl g = (mt V g).map (toEAf D) := fun g => rfl
-    have e2 : mt V κ * mt V κ⁻¹ = 1 := by
-      simp only [Formalism.L2.Theta.mt]
-      rw [← Units.val_mul, ← map_mul, mul_inv_cancel, map_one, Units.val_one]
-    rw [e1, e1, ← Matrix.map_mul, e2]
-    exact Matrix.map_one _ (map_zero _) (map_one _)
-  rw [h] at e
-  exact (Units.inv_eq_of_mul_eq_one_right e).symm
+  apply _root_.GlobalTheory.FamTrace.PairsFwd.finM_inv <;> assumption
 
 theorem proj_mem_stabLoc_std {D : D7} (V : HSp D) (g : GA D V) (v : HeightOneSpectrum (𝓞 D.host.F))
     (hM : ∀ i j, (GlobalTheory.AdelicU.matHom _ D.sp.cm.sig V.gram (GlobalTheory.AdelicU.proj D.sp.cm.sig V.gram v g)).1 i j ∈ GlobalTheory.AdelicU.intLoc D.host.F D.host.E v)

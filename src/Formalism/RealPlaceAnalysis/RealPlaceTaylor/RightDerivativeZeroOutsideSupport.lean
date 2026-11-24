@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PublishedTheorems.CasselmanWallach.SecondDerivativeHolds
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.IntegrableComplexContinuousBoundedSupport
 public import Formalism.RealPlaceAnalysis.SmoothVectorGrowthBound
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -98,24 +99,7 @@ lemma frobenius_cauchy_schwarz {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) :
   simpa only [Fintype.sum_prod_type] using h
 
 lemma frobenius_mul_le {n : ℕ} (A B : Matrix (Fin n) (Fin n) ℂ) : hs (A * B) ≤ hs A * hs B := by
-  unfold hs
-  have key : ∀ i j, ‖(A * B) i j‖ ^ 2 ≤ (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := by
-    intro i j
-    rw [Matrix.mul_apply]
-    calc ‖∑ k, A i k * B k j‖ ^ 2 ≤ (∑ k, ‖A i k‖ * ‖B k j‖) ^ 2 := by
-          gcongr
-          calc ‖∑ k, A i k * B k j‖ ≤ ∑ k, ‖A i k * B k j‖ := norm_sum_le _ _
-            _ = ∑ k, ‖A i k‖ * ‖B k j‖ := by simp only [norm_mul]
-      _ ≤ (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := Finset.sum_mul_sq_le_sq_mul_sq _ _ _
-  calc ∑ i, ∑ j, ‖(A * B) i j‖ ^ 2
-        ≤ ∑ i, ∑ j, (∑ k, ‖A i k‖ ^ 2) * (∑ k, ‖B k j‖ ^ 2) := by
-          gcongr with i _ j _
-          exact key i j
-    _ = (∑ i, ∑ k, ‖A i k‖ ^ 2) * (∑ j, ∑ k, ‖B k j‖ ^ 2) := by
-          rw [Finset.sum_mul_sum]
-    _ = (∑ i, ∑ j, ‖A i j‖ ^ 2) * ∑ i, ∑ j, ‖B i j‖ ^ 2 := by
-          congr 1
-          exact Finset.sum_comm
+  apply _root_.PositivityTheory.CW.HilbertSchmidtNorm.hilbert_schmidt_mul_le <;> assumption
 
 lemma contDiff_frobenius {n : ℕ} : ContDiff ℝ ∞ (hs : Matrix (Fin n) (Fin n) ℂ → ℝ) := by
   unfold hs
@@ -344,16 +328,7 @@ lemma right_derivative_zero_outside_support {n : ℕ} {ε : Fin n → Bool} {φ 
 
 lemma continuous_smooth_on_group {n : ℕ} {ε : Fin n → Bool} {f : Matrix (Fin n) (Fin n) ℂ → ℂ} (hf : SmoothOnG ε f) :
     Continuous (fun g : UJ ε => f (toM g)) := by
-  have hc : Continuous (toM : UJ ε → Matrix (Fin n) (Fin n) ℂ) := by
-    unfold toM
-    exact Units.continuous_val.comp continuous_subtype_val
-  rw [continuous_iff_continuousAt]
-  intro g
-  obtain ⟨U, F, hU, hgU, hF, hfF⟩ := hf (toM g) g.2
-  have hev : (fun g' : UJ ε => F (toM g')) =ᶠ[𝓝 g] (fun g' => f (toM g')) := by
-    filter_upwards [hc.continuousAt.preimage_mem_nhds (hU.mem_nhds hgU)] with g' hg'
-    exact (hfF _ hg' g'.2).symm
-  exact ContinuousAt.congr ((hF.continuousOn.continuousAt (hU.mem_nhds hgU)).comp hc.continuousAt) hev
+  apply _root_.Formalism.REAL.continuous_smooth_on_group_eval <;> assumption
 
 lemma isCompact_frobenius_sublevel {n : ℕ} (ε : Fin n → Bool) (r : ℝ) : IsCompact {g : UJ ε | hsG g ≤ r} := by
   apply Formalism.REAL.isCompact_frobenius_ball_group

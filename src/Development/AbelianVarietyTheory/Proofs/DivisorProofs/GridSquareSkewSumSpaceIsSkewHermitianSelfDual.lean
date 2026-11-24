@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PluriharmonicCharts.XCBmExistsBlockpos
 public import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.UnitaryConjugation
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsGivenStageEqOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemPairLat
@@ -207,21 +208,8 @@ namespace GlobalTheory.CartanBlocks
 theorem posDef_fromBlocks_diag {m n : Type} [Fintype m] [Fintype n] [DecidableEq m] [DecidableEq n]
     {A : Matrix m m ℂ} {D : Matrix n n ℂ} (hA : A.PosDef) (hD : D.PosDef) :
     (Matrix.fromBlocks A 0 0 D).PosDef := by
-  rw [Matrix.posDef_iff_dotProduct_mulVec]
-  refine ⟨?_, fun x hx => ?_⟩
-  · rw [Matrix.IsHermitian, Matrix.fromBlocks_conjTranspose, hA.1.eq, hD.1.eq, Matrix.conjTranspose_zero, Matrix.conjTranspose_zero]
-  · have key : star x ⬝ᵥ (Matrix.fromBlocks A 0 0 D *ᵥ x) =
-        star (x ∘ Sum.inl) ⬝ᵥ (A *ᵥ (x ∘ Sum.inl)) + star (x ∘ Sum.inr) ⬝ᵥ (D *ᵥ (x ∘ Sum.inr)) := by
-      simp [dotProduct, Fintype.sum_sum_type, Function.comp_def, Matrix.mulVec,
-        Pi.star_apply]
-    rw [key]
-    by_cases h1 : x ∘ Sum.inl = 0
-    · have h2 : x ∘ Sum.inr ≠ 0 := by
-        intro h2; apply hx; funext i; rcases i with i | i
-        · exact congrFun h1 i
-        · exact congrFun h2 i
-      rw [h1]; simpa using hD.dotProduct_mulVec_pos h2
-    · exact add_pos_of_pos_of_nonneg (hA.dotProduct_mulVec_pos h1) (hD.posSemidef.dotProduct_mulVec_nonneg _)
+  intros
+  apply _root_.PositivityTheory.Xgp.c_bm_exists_blockpos.posDef_fromBlocks <;> assumption
 
 theorem posDef_blk {p q d : ℕ} (e : Fin p ⊕ Fin q ≃ Fin d) {A : Matrix (Fin p) (Fin p) ℂ}
     {D : Matrix (Fin q) (Fin q) ℂ} (hA : A.PosDef) (hD : D.PosDef) : (GlobalTheory.IndefiniteRowSideFullHecke.UnitaryConjugation.blk e A D).PosDef := by

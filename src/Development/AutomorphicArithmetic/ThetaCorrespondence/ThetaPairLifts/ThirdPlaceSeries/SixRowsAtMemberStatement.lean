@@ -1277,38 +1277,7 @@ open Formalism.BasicNotions Formalism.BasicNotions.DV Formalism.MainNotions Form
 open scoped BigOperators
 
 theorem exists_orthonormal_frame_twisted (D : D7) : ∃ o : FrP D, o.IsON := by
-  classical
-  let _ := D.host.cmStar
-  have hY : ∀ τ, ∃ Y : Matrix (Fin (D.R.N D.R.m - 1)) (Fin (D.R.N D.R.m - 1)) ℂ,
-      IsUnit Y.det ∧ Yᴴ * (gramP D).map (embT D τ) * Y = 1 := by
-    intro τ
-    have hs := D.sp.X'_sig (embT D τ)
-    rw [D.X'_posDef (embT D τ)] at hs
-    dsimp only at hs
-    obtain ⟨e, P, hP⟩ := hs
-    have hJ : Formalism.UG.Jpq D.sp.X'.rank 0 = 1 := by
-      ext i j
-      rcases i with i | i
-      · rcases j with j | j
-        · simp [Formalism.UG.Jpq, Matrix.one_apply]
-        · exact j.elim0
-      · exact i.elim0
-    have hcT : Formalism.UG.cT (starRingEnd ℂ) P.1 = P.1ᴴ := by
-      ext i j; simp [Formalism.UG.cT, Matrix.conjTranspose_apply]
-    rw [hcT, hJ] at hP
-    let f : Fin D.sp.X'.rank ≃ Fin (D.R.N D.R.m - 1) := finCongr (rankP D)
-    let g : Fin (D.R.N D.R.m - 1) ≃ Fin D.sp.X'.rank ⊕ Fin 0 := f.symm.trans e
-    have hG : ((gramP D).map (embT D τ)).submatrix g.symm g.symm = (D.sp.X'.gram.map (embT D τ)).reindex e e := by
-      ext i j
-      simp [g, f, gramP, Matrix.reindex_apply, Matrix.submatrix_apply]
-    refine ⟨P.1.submatrix g g, ?_, ?_⟩
-    · rw [Matrix.det_submatrix_equiv_self]; exact Matrix.isUnits_det_units P
-    · have h1 : (gramP D).map (embT D τ) = (((gramP D).map (embT D τ)).submatrix g.symm g.symm).submatrix g g := by
-        ext i j; simp
-      rw [Matrix.conjTranspose_submatrix, h1, Matrix.submatrix_mul_equiv, Matrix.submatrix_mul_equiv, hG, hP]
-      exact Matrix.submatrix_one_equiv g
-  choose Y hYu hY using hY
-  exact ⟨⟨Y, hYu⟩, fun τ => Or.inl (hY τ)⟩
+  first | exact _root_.GlobalTheory.PerRed.exists_orthonormal_frame₂ | exact @_root_.GlobalTheory.PerRed.exists_orthonormal_frame₂ | apply _root_.GlobalTheory.PerRed.exists_orthonormal_frame₂ <;> assumption
 
 theorem nfAll_zero_tw {D : D7} (n : ℕ) (lam : D.what₂.Tau → DomWeight n) : nfAll lam 0 0 = 0 := by
   simp [nfAll, Formalism.REAL.fockF]

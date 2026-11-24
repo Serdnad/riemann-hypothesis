@@ -61,6 +61,7 @@ import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.Linter.HaveILetI
 import Std.Tactic.BVDecide.Normalize.BitVec
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypeFunctionConstantTermVanishSplitPlace
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsGlAdaptedBasisMonotoneSubspaceChain, Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemIsotropicFlagUnipotentIffSplitChainTrivial, Development.AbelianVarietyTheory.Proofs.TwistedOperators.TranslatedStandardChainStabilizerRadical, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsParabolicIsotropicFlagStabilizerSplitPlace, Development.AbelianVarietyTheory.Proofs.TwistedOperators.IsParabolicIsotropicFlagStabilizerSplitPlaceStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypeIdempotentUnipotentIntegralVanishSplitPlace, Development.AbelianVarietyTheory.Proofs.TwistedOperators.TypeIdempotentUnipotentIntegralVanishSplitPlaceStatement
@@ -541,14 +542,7 @@ open GlobalTheory.SmGL GlobalTheory.IndefiniteRowSideFullHecke.StandardMaximalPa
 
 theorem blk_two_stdSum {a b r : ℕ} (h : a + b = r) (i : Fin r) :
     blk (two (stdSum h)) i = decide (a ≤ (i : ℕ)) := by
-  obtain ⟨x | x, rfl⟩ := (stdSum h).surjective i
-  · rw [show blk (two (stdSum h)) (stdSum h (Sum.inl x)) = false from blk_apply (two (stdSum h)) false x]
-    have := x.isLt
-    simp only [stdSum_inl]
-    exact (decide_eq_false (by omega)).symm
-  · rw [show blk (two (stdSum h)) (stdSum h (Sum.inr x)) = true from blk_apply (two (stdSum h)) true x]
-    simp only [stdSum_inr]
-    exact (decide_eq_true (by omega)).symm
+  apply _root_.GlobalTheory.TypeConstLoc.blk_two <;> assumption
 
 theorem decide_lt_decide (p q : Prop) [Decidable p] [Decidable q] : decide p < decide q ↔ ¬ p ∧ q := by
   by_cases hp : p <;> by_cases hq : q <;> simp [hp, hq]
@@ -566,16 +560,7 @@ theorem mem_stdMaxRad_iff {R : Type} [CommRing R] {a b r : ℕ} (h : a + b = r) 
 theorem isIrreducible_comp {G H W : Type} [Group G] [Group H] [AddCommGroup W] [Module ℂ W]
     (ρ : Representation ℂ H W) (f : G →* H) (hf : Function.Surjective f) (h : ρ.IsIrreducible) :
     Representation.IsIrreducible (ρ.comp f : Representation ℂ G W) := by
-  let e : Subrepresentation (ρ.comp f : Representation ℂ G W) ≃o Subrepresentation ρ :=
-    { toFun := fun S => ⟨S.toSubmodule, fun g w hw => by
-        obtain ⟨x, rfl⟩ := hf g
-        exact S.apply_mem_toSubmodule x hw⟩
-      invFun := fun S => ⟨S.toSubmodule, fun g w hw => S.apply_mem_toSubmodule (f g) hw⟩
-      left_inv := fun _ => rfl
-      right_inv := fun _ => rfl
-      map_rel_iff' := Iff.rfl }
-  haveI : IsSimpleOrder (Subrepresentation ρ) := h
-  exact e.isSimpleOrder
+  apply _root_.GlobalTheory.TypeConstLoc.isIrreducible_comp <;> assumption
 
 theorem map_map_symm {R S : Type} [CommRing R] [CommRing S] {r : ℕ} (ι : R ≃+* S) (u : GL (Fin r) S) :
     Matrix.GeneralLinearGroup.map (ι : R →+* S) (Matrix.GeneralLinearGroup.map (ι.symm : S →+* R) u) = u :=

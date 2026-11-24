@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.OrbitLabellings.RowBoundLeFnumSumAddError
 public import Development.AbelianVarietyTheory.Definitions.Jets.DepthNumbersThresholdEq
 public import Formalism.LocalToGlobal.CharacterGerms.SelfConjugateRowData
 public import Development.AutomorphicArithmetic.OrbitLabellings.RowLab
@@ -1413,23 +1414,7 @@ private noncomputable def gaT (Dw : Datum H) (a : (E →+* ℂ) × ℕ → ℕ) 
   GlobalTheory.RowAt.gap (Dw.mult τ) fun i => a (τ, i)
 
 private theorem card_reps (P : RF.Par) (Z : Finset P.Pl) (h : RF.IsReps P Z) : Z.card * P.d = Fintype.card P.Pl := by
-  haveI := P.nz
-  have hbij : Function.Bijective (fun x : {z // z ∈ Z} × ZMod P.d => P.pos x.1.1 x.2.val) := by
-    constructor
-    · rintro ⟨⟨z1, hz1⟩, s1⟩ ⟨⟨z2, hz2⟩, s2⟩ heq
-      obtain ⟨q, -, hq⟩ := h (P.pos z1 s1.val)
-      have e1 := hq (z1, s1) ⟨hz1, rfl⟩
-      have e2 := hq (z2, s2) ⟨hz2, by simpa using heq.symm⟩
-      have e := e1.trans e2.symm
-      simp only [Prod.mk.injEq] at e
-      obtain ⟨rfl, rfl⟩ := e
-      rfl
-    · intro w
-      obtain ⟨q, ⟨hq1, hq2⟩, -⟩ := h w
-      exact ⟨(⟨q.1, hq1⟩, q.2), hq2⟩
-  have hc := Fintype.card_of_bijective hbij
-  rw [Fintype.card_prod, Fintype.card_coe, ZMod.card] at hc
-  exact hc
+  apply _root_.UpperTheory.G2.RowPlan.card_reps <;> assumption
 
 private theorem exists_rowFamS (hUp : ∀ (p : ℕ) [Fact p.Prime], ReciprocityTheory.ChartRestriction.G.Pdiv.ChartF.UpFSt p)
     {Dw : Datum H} {lv : Level H} (Xo : Moduli Dw lv) (c : Coeff lv) [StarRing (𝓞 E)] :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SecEqZeroOfLoc
 public import Development.EtaleCohomology.TateTwists.EtaleSheafMonoEpiSectionCriteria
 import Mathlib.Algebra.Category.ModuleCat.FilteredColimits
 import Mathlib.Algebra.Order.Floor.Extended
@@ -52,16 +53,7 @@ variable {R : Type} [CommRing R]
 
 theorem sep {F : Shv R} {U : Scheme.{0}} (a : Sec F U)
     (h : Loc U fun _ g => Sec.res g a = 0) : a = 0 := by
-  obtain ⟨S, hS, hP⟩ := h
-  have key := Presheaf.IsSheaf.hom_ext F.property ⟨S, hS⟩
-    (ModuleCat.ofHom (LinearMap.toSpanSingleton (ULift.{1} R) _ a)) 0 (by
-      intro I
-      ext
-      have := hP _ I.f I.hf
-      simp only [Sec.res] at this
-      simp [LinearMap.toSpanSingleton_apply, this])
-  have := congrArg (fun f => f.hom (1 : ULift.{1} R)) key
-  simpa using this
+  apply @GlobalTheory.EtC.KummerSplit.sec_eq_zero_of_loc <;> assumption
 
 theorem mono_iff_inj {F G : Shv R} (φ : F ⟶ G) :
     Mono φ ↔ ∀ U, Function.Injective (Sec.map φ (U := U)) := by

@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.AbelianVarietyTheory.Proofs.GenericRegularity.IsTriangularReframeExistsAndUnique
 
 @[expose] public section
 
@@ -90,14 +91,7 @@ theorem isCombAt_single_of_isTanAt {E : Type} [Field E] [NumberField E] [IsCMFie
     {H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E} {Dw : Datum H} {l : Level H} {Xo : Moduli Dw l} {S : Type} [CommRing S]
     (x : Sp S ⟶ Xo.X) {m : ℕ} (u : Fin m → (Sp (DualNumber S) ⟶ Xo.univ.t.G.left)) (tan : ∀ j, IsTanAt x (u j))
     (i : Fin m) : IsCombAt x u (Pi.single i 1) (u i) := by
-  obtain ⟨N, _, _, v, ρ, -, h2, h3, -⟩ := TanMod.exists_tangent_module E H Dw l Xo S x
-  choose n hn using fun j => (h2 _).1 (tan j)
-  obtain rfl : u = fun j => v (n j) := funext fun j => (hn j).symm
-  rw [h3]
-  show v (n i) = _
-  congr 1
-  rw [Finset.sum_eq_single i (fun j _ hj => by rw [Pi.single_eq_of_ne hj, zero_smul]) (by simp)]
-  simp
+  apply _root_.GlobalTheory.Reg.ReframeEx.comb_single <;> assumption
 
 theorem appLE_id_apply_self {X : Scheme.{0}} (U : X.Opens) (h : U ≤ (𝟙 X : X ⟶ X) ⁻¹ᵁ U) (f : Γ(X, U)) :
     (Scheme.Hom.appLE (𝟙 X) U U h).hom f = f := by

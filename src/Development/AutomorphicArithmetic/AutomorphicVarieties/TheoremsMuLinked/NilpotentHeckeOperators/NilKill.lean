@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.PatchingModules.NilpotentLevelLowering.NilKill
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Basic
 public import Mathlib.LinearAlgebra.Eigenspace.Pi
@@ -63,7 +64,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Development.AutomorphicArithmetic.AutomorphicVarieties.TheoremsMuLinked.OrdinaryHeckeAlgebraIntegral
 import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
-import Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwThetaEx
+import all Development.AutomorphicArithmetic.AutomorphicVarieties.AlgebraTools.IwThetaEx
 import Mathlib.Tactic.ReduceModChar
 
 -- This file was produced by scripts/clump.py from the modules listed below.
@@ -78,66 +79,7 @@ private theorem absNil_eig {T W : Type} [CommGroup T] [AddCommGroup W] [Module �
     (θ : T →* (Module.End ℂ W)ˣ) (S0 : Submodule ℂ W) (h0 : S0 ≠ ⊥)
     (h1 : ∀ t, ∀ v ∈ S0, (θ t : Module.End ℂ W) v ∈ S0) :
     ∃ χ : T →* ℂˣ, ∃ v ∈ S0, v ≠ 0 ∧ ∀ t, (θ t : Module.End ℂ W) v = (χ t : ℂ) • v := by
-  have hc : ∀ (s u : T) (x : W), (θ s : Module.End ℂ W) ((θ u : Module.End ℂ W) x) = (θ u : Module.End ℂ W) ((θ s : Module.End ℂ W) x) := by
-    intro s u x
-    show ((θ s : Module.End ℂ W) * θ u) x = ((θ u : Module.End ℂ W) * θ s) x
-    rw [← Units.val_mul, ← Units.val_mul, ← map_mul, ← map_mul, mul_comm]
-  have key : ∀ n : ℕ, ∀ S : Submodule ℂ W, Module.finrank ℂ S = n → S ≠ ⊥ →
-      (∀ t, ∀ v ∈ S, (θ t : Module.End ℂ W) v ∈ S) →
-      ∃ v ∈ S, v ≠ 0 ∧ ∀ t, ∃ μ : ℂ, (θ t : Module.End ℂ W) v = μ • v := by
-    intro n
-    induction n using Nat.strong_induction_on with
-    | _ n ih =>
-      intro S hn hS hinv
-      by_cases hsc : ∀ t, ∃ μ : ℂ, ∀ v ∈ S, (θ t : Module.End ℂ W) v = μ • v
-      · obtain ⟨v, hv, hv0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hS
-        exact ⟨v, hv, hv0, fun t => (hsc t).imp fun μ h => h v hv⟩
-      · push_neg at hsc
-        obtain ⟨t0, ht0⟩ := hsc
-        haveI : Nontrivial S := Submodule.nontrivial_iff_ne_bot.2 hS
-        obtain ⟨μ, hμ⟩ := Module.End.exists_eigenvalue ((θ t0 : Module.End ℂ W).restrict (fun v hv => hinv t0 v hv))
-        obtain ⟨w, hw⟩ := hμ.exists_hasEigenvector
-        have hw1 : (θ t0 : Module.End ℂ W) w = μ • (w : W) := by
-          have := congrArg Subtype.val hw.apply_eq_smul
-          simpa [LinearMap.restrict_apply] using this
-        have hw0 : (w : W) ≠ 0 := by
-          intro h
-          exact hw.2 (Subtype.ext h)
-        set S1 := S ⊓ (θ t0 : Module.End ℂ W).eigenspace μ with hS1
-        have hwS1 : (w : W) ∈ S1 := ⟨w.2, Module.End.mem_eigenspace_iff.2 hw1⟩
-        have hS1b : S1 ≠ ⊥ := by
-          intro h
-          rw [h, Submodule.mem_bot] at hwS1
-          exact hw0 hwS1
-        have hlt : S1 < S := by
-          refine lt_of_le_of_ne inf_le_left ?_
-          intro h
-          obtain ⟨v, hv, hv1⟩ := ht0 μ
-          have : v ∈ S1 := h ▸ hv
-          exact hv1 (Module.End.mem_eigenspace_iff.1 (Submodule.mem_inf.1 this).2)
-        have hrank : Module.finrank ℂ S1 < n := hn ▸ Submodule.finrank_lt_finrank_of_lt hlt
-        have hinv1 : ∀ t, ∀ v ∈ S1, (θ t : Module.End ℂ W) v ∈ S1 := by
-          intro t v hv
-          rw [Submodule.mem_inf] at hv ⊢
-          refine ⟨hinv t v hv.1, ?_⟩
-          rw [Module.End.mem_eigenspace_iff, hc t0 t, Module.End.mem_eigenspace_iff.1 hv.2, map_smul]
-        obtain ⟨v, hv, hv0, hμv⟩ := ih _ hrank S1 rfl hS1b hinv1
-        exact ⟨v, (Submodule.mem_inf.1 hv).1, hv0, hμv⟩
-  obtain ⟨v, hv, hv0, hμ⟩ := key _ S0 rfl h0 h1
-  choose μ hμ using hμ
-  have hinj : ∀ a b : ℂ, a • v = b • v → a = b := fun a b h => smul_left_injective ℂ hv0 h
-  have hmul : ∀ s u, μ (s * u) = μ s * μ u := by
-    intro s u
-    apply hinj
-    rw [← hμ, map_mul, Units.val_mul, Module.End.mul_apply, hμ u, map_smul, hμ s, smul_smul, mul_comm]
-  have hone : μ 1 = 1 := hinj _ _ (by rw [← hμ, map_one, Units.val_one, Module.End.one_apply, one_smul])
-  have hne : ∀ s, μ s ≠ 0 := by
-    intro s h
-    have := hmul s s⁻¹
-    rw [mul_inv_cancel, hone, h, zero_mul] at this
-    exact one_ne_zero this
-  refine ⟨{ toFun := fun s => Units.mk0 (μ s) (hne s), map_one' := Units.ext hone, map_mul' := fun s u => Units.ext (hmul s u) }, v, hv, hv0, fun s => ?_⟩
-  simpa using hμ s
+  apply _root_.nilKill_eig <;> assumption
 
 private theorem absNil_fin {W : Type} [AddCommGroup W] [Module ℂ W] [FiniteDimensional ℂ W]
     (u : Module.End ℂ W) (m : ℕ) (hm : 0 < m) (hu : u ^ m = 1) (c : ℂ) (v : W)
@@ -314,29 +256,7 @@ attribute [local instance] GlobalTheory.LocalData.complRel GlobalTheory.LocalDat
 private theorem nilKill_split {k : Type} [Field k] [ValuativeRel k] {n : ℕ} (t : Fin n → kˣ) :
     ∃ c : kˣ, ∀ s : Fin n → kˣ, (s = 1 ∨ s = t) → ∀ i j : Fin n, i ≤ j →
       valuation k ((s i * c ^ (n - i) : kˣ) : k) ≤ valuation k ((s j * c ^ (n - j) : kˣ) : k) := by
-  rcases isEmpty_or_nonempty (Fin n) with h | h
-  · exact ⟨1, fun _ _ i => h.elim i⟩
-  obtain ⟨p, hp⟩ := Finite.exists_min (fun p : Fin n × Fin n => valuation k ((t p.2 * (t p.1)⁻¹ : kˣ) : k))
-  set c : kˣ := t p.2 * (t p.1)⁻¹ with hc
-  have h1 : valuation k (c : k) ≤ 1 := by simpa using hp (p.1, p.1)
-  refine ⟨c, fun s hs i j hij => ?_⟩
-  rcases hij.eq_or_lt with rfl | hlt
-  · exact le_rfl
-  have h2 : valuation k (s i : k) * valuation k (c : k) ≤ valuation k (s j : k) := by
-    rcases hs with rfl | rfl
-    · simpa using h1
-    · have := mul_le_mul_right (hp (i, j)) (valuation k (s i : k))
-      refine this.trans (le_of_eq ?_)
-      rw [← map_mul, ← Units.val_mul]
-      congr 2
-      simp
-  have hj := j.2
-  have hlt' : (i : ℕ) < j := hlt
-  have e : n - (i : ℕ) = 1 + ((n - j) + (j - i - 1)) := by omega
-  rw [e]
-  simp only [Units.val_mul, Units.val_pow_eq_pow_val, map_mul, map_pow, pow_add, pow_one]
-  rw [← mul_assoc]
-  exact mul_le_mul' h2 (mul_le_of_le_one_right' (pow_le_one' h1 _))
+  apply _root_.thetaEx_split <;> assumption
 
 private theorem nilKill_dc {A M A' M' G : Type} [CommRing A] [AddCommGroup M] [Module A M] [CommRing A'] [AddCommGroup M']
     [Module A' M'] [Group G] (ρ : Representation A G M) (ρ' : Representation A' G M') (K K' : Subgroup G) (x : G)

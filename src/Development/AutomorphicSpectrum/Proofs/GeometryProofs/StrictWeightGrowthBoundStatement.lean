@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.OrbitLimits.PCurveVertPointMultChart
 public import Mathlib.Analysis.Analytic.Order
 public import Mathlib.Analysis.CStarAlgebra.Classes
 public import Mathlib.Analysis.Complex.AbsMax
@@ -624,17 +625,8 @@ theorem map_aeval_int {σ R S : Type*} [CommRing R] [Algebra ℤ R] [CommRing S]
 theorem aeval_scale {R : Type*} [CommRing R] [Algebra ℤ R] (z : (Σ k, ι k) → R) (t : K → R)
     {g : MRing ι} {d : K → ℕ} (hg : IsMultiHomog g d) :
     aeval (fun p : Σ k, ι k => z p * t p.1) g = aeval z g * ∏ k, t k ^ d k := by
-  classical
-  rw [aeval_def, aeval_def, eval₂_eq', eval₂_eq', Finset.sum_mul]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  rw [mul_assoc]
-  congr 1
-  simp_rw [mul_pow]
-  rw [Finset.prod_mul_distrib]
-  congr 1
-  rw [Fintype.prod_sigma]
-  refine Finset.prod_congr rfl fun k _ => ?_
-  rw [← hg m hm k, ← Finset.prod_pow_eq_pow_sum]
+  intros
+  apply _root_.GroundTheory.Heights₂.Heights.Targets.CurveVerticalPointMultiplicity.aeval_mul_of_homog <;> assumption
 
 variable {Ω : Type} [Field Ω]
 

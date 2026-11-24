@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.EichlerShimuraKummerFunctionUniformExceptionalPr
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.BCTools
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ToStkAInjective
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.WchartLePreimage
@@ -576,16 +577,7 @@ namespace GlobalTheory.OneBasis.Places
 
 theorem val_eq_one_iff {F : Type} [Field F] (O : ValuationSubring F) (x : F) :
     O.valuation x = 1 ↔ x ≠ 0 ∧ x ∈ O ∧ x⁻¹ ∈ O := by
-  rw [← O.valuation_le_one_iff, ← O.valuation_le_one_iff, map_inv₀]
-  constructor
-  · intro h
-    refine ⟨?_, h.le, by simp [h]⟩
-    rintro rfl
-    simp at h
-  · rintro ⟨h0, h1, h2⟩
-    have : 0 < O.valuation x := by
-      rw [zero_lt_iff]; simpa using h0
-    exact le_antisymm h1 ((inv_le_one₀ this).1 h2)
+  apply _root_.GlobalTheory.KZ.ES.UniqRoot.valuation_eq_one_iff' <;> assumption
 
 theorem val_comap {K F : Type} [Field K] [Field F] (σ : K →+* F) (O : ValuationSubring F) (x : K) :
     (O.comap σ).valuation x = 1 ↔ O.valuation (σ x) = 1 := by

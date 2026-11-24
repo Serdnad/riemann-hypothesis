@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KTypeGeneratedByHighest
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ComplexifiedDerivedActionIsLieActionStatement
 import Mathlib.Algebra.Order.Floor.Extended
@@ -45,7 +47,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.RealPlaceAnalysis.RealPlaceTaylor.CartanInvolutionConjTransposeMul
-
 @[expose] public section
 
 open NumberField IsDedekindDomain MeasureTheory Matrix Formalism.BasicNotions Formalism.MainNotions Formalism.BasicNotions.TH Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes Formalism.MainNotions.StandardLattice Formalism.MainNotions.S Formalism.L2.Theta Formalism.L2.DIV Formalism.IndefR.Links Formalism.IndefR.Mult Formalism.IndefR.Lev Formalism.IndefR.Datum Formalism.L2.Pj Formalism.IndefR.FWT Formalism.IndefR GlobalTheory.HolDict
@@ -136,35 +137,7 @@ private theorem sum_index_mul_root_eq_sub (x y : Fin n) :
 
 theorem not_cdom (Λ : Fin n → ℝ) {a c : Fin n} (h : a < c) :
     ¬ CDom ε (Λ + Formalism.REAL.root a c) Λ := by
-  rintro ⟨k, hk, heq⟩
-  have key := congrArg (fun x : Fin n → ℝ => ∑ i : Fin n, ((i : ℕ) : ℝ) * x i) heq
-  have lhs : ∑ i : Fin n, ((i : ℕ) : ℝ) * (Λ - (Λ + Formalism.REAL.root a c)) i = ((c : ℕ) : ℝ) - ((a : ℕ) : ℝ) := by
-    have e : ∀ i, (Λ - (Λ + Formalism.REAL.root a c)) i = -(Formalism.REAL.root a c i) := fun i => by simp
-    simp only [e, mul_neg, Finset.sum_neg_distrib, sum_index_mul_root_eq_sub]
-    ring
-  have rhs : ∑ i : Fin n, ((i : ℕ) : ℝ) * (∑ x, ∑ y, (k x y : ℝ) • Formalism.REAL.root x y) i =
-      ∑ x, ∑ y, (k x y : ℝ) * (((x : ℕ) : ℝ) - ((y : ℕ) : ℝ)) := by
-    simp only [Finset.sum_apply, Pi.smul_apply, smul_eq_mul, Finset.mul_sum]
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun x _ => ?_
-    rw [Finset.sum_comm]
-    refine Finset.sum_congr rfl fun y _ => ?_
-    rw [← sum_index_mul_root_eq_sub, Finset.mul_sum]
-    exact Finset.sum_congr rfl fun i _ => by ring
-  have hle : ∑ x, ∑ y, (k x y : ℝ) * (((x : ℕ) : ℝ) - ((y : ℕ) : ℝ)) ≤ 0 := by
-    apply Finset.sum_nonpos
-    intro x _
-    apply Finset.sum_nonpos
-    intro y _
-    by_cases h0 : k x y = 0
-    · simp [h0]
-    · have h1 : (x : ℕ) < (y : ℕ) := (hk x y h0).1
-      have h2 : ((x : ℕ) : ℝ) < ((y : ℕ) : ℝ) := by exact_mod_cast h1
-      have h3 : (0 : ℝ) ≤ (k x y : ℝ) := Nat.cast_nonneg _
-      nlinarith
-  have hca : ((a : ℕ) : ℝ) < ((c : ℕ) : ℝ) := by exact_mod_cast (show (a : ℕ) < (c : ℕ) from h)
-  rw [lhs, rhs] at key
-  linarith
+  apply _root_.GlobalTheory.KTypeHighest.not_cdom <;> assumption
 
 theorem exp_mem_kset {X : Mt n} (h1 : Xᴴ = -X) (h2 : Commute X (Formalism.REAL.Jm ε)) (t : ℝ) :
     NormedSpace.exp (t • X) ∈ Formalism.REAL.Kset ε := by

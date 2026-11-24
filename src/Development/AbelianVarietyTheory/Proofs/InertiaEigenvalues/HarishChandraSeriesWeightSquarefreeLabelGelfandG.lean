@@ -50,6 +50,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.WhittakerJacquetIdempotentsPropertiesPrimeField
 
 @[expose] public section
 
@@ -65,14 +66,7 @@ variable {g : ℕ} [Fact g.Prime]
 alias uni_one := _root_.GlobalTheory.GLm.DerClass.isUniUp_one
 
 theorem entN_one {N : ℕ} (i j : ℕ) (h : i < j) : entN (1 : Mt g N) i j = 0 := by
-  unfold entN
-  split_ifs with hij
-  · apply Matrix.one_apply_ne
-    intro he
-    have := congrArg Fin.val he
-    simp only at this
-    omega
-  · rfl
+  apply _root_.CompanionTheory.Member.UnipotentColumnData.entN_one <;> assumption
 
 private theorem card_filter_Gn_eq_card_filter_Mt_of_unipotent {N : ℕ} (P : Mt g N → Prop) (hU : ∀ M, P M → IsUniUp M) :
     (Finset.univ.filter fun u : Gn g N => P (u : Mt g N)).card =

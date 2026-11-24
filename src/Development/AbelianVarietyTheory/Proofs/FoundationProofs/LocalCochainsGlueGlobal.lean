@@ -49,6 +49,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.TypeStar
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.TateDualCocycleCoboundaryOfVanishOnFixing
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.FoundationProofs.NormLeOne, Development.AbelianVarietyTheory.Proofs.FoundationProofs.LocalCochainsGlueGlobal
@@ -88,15 +89,7 @@ theorem exists_bound (O : Subalgebra ℤ_[l] (PadicAlgCl l)) [Module.Finite ℤ_
     exact (norm_smul_le_self a _).trans hx
 
 theorem norm_le_one : ∀ {l : ℕ} [inst : Fact (Nat.Prime l)] (c : UpperTheory.V.HV.Coef l) (x : ↥(UpperTheory.V.HV.Coef.O c)), ‖(↑x : PadicAlgCl l)‖ ≤ (1 : ℝ) := by
-  intro l _ c x
-  obtain ⟨C, hC⟩ := exists_bound (UpperTheory.V.HV.Coef.O c)
-  by_contra h
-  rw [not_le] at h
-  obtain ⟨n, hn⟩ := pow_unbounded_of_one_lt C h
-  have hb := hC (x ^ n)
-  have e : ‖((x ^ n : UpperTheory.V.HV.Coef.O c) : PadicAlgCl l)‖ = ‖(x : PadicAlgCl l)‖ ^ n := by
-    rw [SubmonoidClass.coe_pow, norm_pow]
-  linarith
+  apply _root_.GlobalTheory.DeepLevel.norm_le_one <;> assumption
 
 end GlobalTheory.ScalarNormBound
 end -- clump:auto

@@ -48,6 +48,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Definitions.ThetaMetrics.MemRangeCompIffOfIsClosedImmersion
 
 @[expose] public section
 
@@ -182,14 +183,7 @@ variable {A : Type} [CommRing A] {X : Scheme.{0}}
 
 theorem le_basicOpen_iff_isUnit (x : Sp A ⟶ X) {U : X.Opens} (h : ⊤ ≤ x ⁻¹ᵁ U) (f : Γ(X, U)) :
     ⊤ ≤ x ⁻¹ᵁ X.basicOpen f ↔ IsUnit (valR x U f) := by
-  have h1 := Scheme.basicOpen_appLE x ⊤ U h f
-  rw [top_inf_eq] at h1
-  rw [← h1, valR_eq _ _ h, top_le_iff]
-  have h2 : IsUnit (evalHom x U h f) ↔ IsUnit ((x.appLE U ⊤ h).hom f) :=
-    MulEquiv.isUnit_map (Scheme.ΓSpecIso (CommRingCat.of A)).commRingCatIsoToRingEquiv
-  rw [h2]
-  exact ⟨fun H => (Sp A).toRingedSpace.isUnit_of_isUnit_germ _ _ fun p hp =>
-    ((Sp A).mem_basicOpen _ p hp).1 (H.ge hp), fun H => (Sp A).basicOpen_of_isUnit H⟩
+  apply _root_.GlobalTheory.Points.le_preimage_basicOpen_iff <;> assumption
 
 theorem exists_frac (W : Sp A ⟶ X) (V : X.Opens) (f : Γ(X, V)) {K : Type} [Field K] (φ : A →+* K)
     (h : ⊤ ≤ (spMap φ ≫ W) ⁻¹ᵁ V) : ∃ H r : A, φ H ≠ 0 ∧ ∀ (B : Type) [CommRing B] (ψ : A →+* B), IsUnit (ψ H) →

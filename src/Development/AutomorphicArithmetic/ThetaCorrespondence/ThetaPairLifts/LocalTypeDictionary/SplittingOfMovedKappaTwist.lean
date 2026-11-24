@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.ThetaCorrespondence.ThetaPairLifts.LocalTypeDictionary.JetsDivPeriodIsAlgebraic
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitOff
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.FrT
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TrueColumnChoicesHeckeCharReferenceEqOne
@@ -1352,22 +1353,7 @@ end Mean
 
 theorem inV_stdL {D : D7} {n : ℕ} (B : GL (Fin n) D.host.E) :
     GlobalTheory.MovedDict.inV B (Formalism.MainNotions.StandardLatticesGL3.stdL D n) = (Formalism.L2.DIV.colLat B : Set (Fin n → D.host.E)) := by
-  have hc := GlobalTheory.ColStd.colLat_comap_eq_stdLat B
-  ext x
-  constructor
-  · rintro ⟨y, hy, rfl⟩
-    have hy' : y ∈ Formalism.L2.Pj.stdLat D.host.E n := hy
-    rw [← hc] at hy'
-    exact hy'
-  · intro hx
-    refine ⟨(B⁻¹ : GL (Fin n) D.host.E).1.mulVec x, ?_, ?_⟩
-    · show _ ∈ Formalism.L2.Pj.stdLat D.host.E n
-      rw [← hc, Submodule.mem_comap]
-      simp only [LinearMap.restrictScalars_apply, Matrix.mulVecLin_apply, Matrix.mulVec_mulVec]
-      rw [show (B.1 * (B⁻¹).1) = 1 from B.mul_inv, Matrix.one_mulVec]
-      exact hx
-    · simp only [Matrix.mulVec_mulVec]
-      rw [show (B.1 * (B⁻¹).1) = 1 from B.mul_inv, Matrix.one_mulVec]
+  first | exact _root_.GlobalTheory.FinTransJet.inV_stdL_eq_colLat | exact @_root_.GlobalTheory.FinTransJet.inV_stdL_eq_colLat | apply _root_.GlobalTheory.FinTransJet.inV_stdL_eq_colLat <;> assumption
 
 theorem scal_eq {D : D7} {N N' : ℕ} {G : VC D N N' → ℂ} (hG : Differentiable ℂ G) (hG0 : G ≠ 0)
     (P : (GL3Theta.Idx D N N' →₀ ℕ) → ℂ) (hP : ∀ k, P k ≠ 0) {a b : ℂ}

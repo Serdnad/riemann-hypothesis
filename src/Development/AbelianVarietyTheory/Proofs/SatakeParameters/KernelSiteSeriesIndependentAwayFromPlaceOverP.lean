@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.SplitPrimeAdditiveCharacterUnramified
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.SameOffRefl
 public import Mathlib.NumberTheory.NumberField.FiniteAdeleRing
@@ -139,29 +140,7 @@ theorem exists_common_nat {M : Type} [AddCommMonoid M] {ι : Type} [Fintype ι] 
 
 theorem exists_nat_mul_mem_intAf (z : E ⊗[F] 𝔸ᶠ[F]) :
     ∃ n : ℕ, 0 < n ∧ (n : E ⊗[F] 𝔸ᶠ[F]) * z ∈ Formalism.L2.Herm.intAf F E := by
-  induction z using TensorProduct.induction_on with
-  | zero => exact ⟨1, one_pos, by rw [mul_zero]; exact zero_mem _⟩
-  | tmul e a =>
-    obtain ⟨n, hn, he⟩ := _root_.GlobalTheory.NatMulIsIntegralSatakeParameters.exists_nat_mul_isIntegral e
-    obtain ⟨d, hd, ha⟩ := GlobalTheory.HolDict.ShortVec.exists_denom_adele (F := F) a
-    refine ⟨n * d, Nat.mul_pos hn hd, ?_⟩
-    have e1 : ((n * d : ℕ) : E ⊗[F] 𝔸ᶠ[F]) * (e ⊗ₜ[F] a) =
-        (((n : E) * e) ⊗ₜ[F] (1 : 𝔸ᶠ[F])) * ((1 : E) ⊗ₜ[F] ((d : 𝔸ᶠ[F]) * a)) := by
-      rw [Algebra.TensorProduct.tmul_mul_tmul, mul_one, one_mul, Nat.cast_mul,
-        Algebra.TensorProduct.natCast_def, Algebra.TensorProduct.natCast_def',
-        mul_assoc, Algebra.TensorProduct.tmul_mul_tmul, Algebra.TensorProduct.tmul_mul_tmul, one_mul, one_mul]
-    rw [e1]
-    refine mul_mem (Subring.subset_closure (Or.inl ⟨⟨(n : E) * e, ⟨⟨_, he⟩, rfl⟩⟩, rfl⟩))
-      (Subring.subset_closure (Or.inr ⟨⟨(d : 𝔸ᶠ[F]) * a, fun v => Subring.mem_iInf.1 ha v⟩, rfl⟩))
-  | add x y hx hy =>
-    obtain ⟨n₁, h₁, hx⟩ := hx
-    obtain ⟨n₂, h₂, hy⟩ := hy
-    refine ⟨n₁ * n₂, Nat.mul_pos h₁ h₂, ?_⟩
-    have e1 : ((n₁ * n₂ : ℕ) : E ⊗[F] 𝔸ᶠ[F]) * (x + y) =
-        (n₂ : E ⊗[F] 𝔸ᶠ[F]) * ((n₁ : E ⊗[F] 𝔸ᶠ[F]) * x) + (n₁ : E ⊗[F] 𝔸ᶠ[F]) * ((n₂ : E ⊗[F] 𝔸ᶠ[F]) * y) := by
-      push_cast; ring
-    rw [e1]
-    exact add_mem (mul_mem (natCast_mem _ _) hx) (mul_mem (natCast_mem _ _) hy)
+  apply _root_.PI.WAU.B.exists_nat_R <;> assumption
 
 end GlobalTheory.TwV.Xc
 
@@ -806,32 +785,7 @@ namespace GlobalTheory.TwV.Xc
 theorem not_dvd_absDifferent_of_not_mem_sq {E : Type} [Field E] [NumberField E] (p : ℕ) (hp : p.Prime)
     (P : HeightOneSpectrum (𝓞 E)) (h1 : ((p : ℕ) : 𝓞 E) ∈ P.asIdeal)
     (h2 : ((p : ℕ) : 𝓞 E) ∉ P.asIdeal ^ 2) : ¬ P.asIdeal ∣ differentIdeal ℤ (𝓞 E) := by
-  have hP : P.asIdeal.IsMaximal := P.isMaximal
-  have : Fact p.Prime := ⟨hp⟩
-  have : NeZero p := ⟨hp.ne_zero⟩
-  have : (Ideal.span {((p : ℕ) : ℤ)}).IsMaximal := Int.ideal_span_isMaximal_of_prime _
-  have : Finite (ℤ ⧸ Ideal.span {((p : ℕ) : ℤ)}) :=
-    Finite.of_equiv _ (Int.quotientSpanNatEquivZMod p).toEquiv.symm
-  have hmap : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {((p : ℕ) : ℤ)}) =
-      Ideal.span {((p : ℕ) : 𝓞 E)} := by
-    rw [Ideal.map_span, Set.image_singleton, map_natCast]
-  have hle : Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {((p : ℕ) : ℤ)}) ≤ P.asIdeal := by
-    rw [hmap, Ideal.span_singleton_le_iff_mem]
-    exact h1
-  obtain ⟨Q, hQ⟩ := Ideal.dvd_iff_le.2 hle
-  have hcop : IsCoprime P.asIdeal Q := by
-    rw [Ideal.isCoprime_iff_sup_eq]
-    by_contra hne
-    have heq := hP.eq_of_le hne le_sup_left
-    have hQP : Q ≤ P.asIdeal := heq ▸ le_sup_right
-    apply h2
-    have hmem : ((p : ℕ) : 𝓞 E) ∈
-        Ideal.map (algebraMap ℤ (𝓞 E)) (Ideal.span {((p : ℕ) : ℤ)}) := by
-      rw [hmap]; exact Ideal.subset_span rfl
-    rw [hQ] at hmem
-    rw [pow_two]
-    exact Ideal.mul_mono_right hQP hmem
-  exact not_dvd_differentIdeal_of_isCoprime ℤ P.asIdeal Q hcop hQ.symm
+  first | exact _root_.GlobalTheory.SplitUnram.not_dvd_different | exact @_root_.GlobalTheory.SplitUnram.not_dvd_different | apply _root_.GlobalTheory.SplitUnram.not_dvd_different <;> assumption
 
 theorem inverseHalfDifferent_local_trivial_at_prime_norm : ∀ (D : D7) (p : ℕ), p.Prime → ∀ P : HeightOneSpectrum (𝓞 D.host.E), ((p : ℕ) : 𝓞 D.host.E) ∈ P.asIdeal → ((p : ℕ) : 𝓞 D.host.E) ∉ P.asIdeal ^ 2 → Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (D.host.AA0 : Submodule (𝓞 D.host.E) D.host.E) = Formalism.HermitianLatticesTheory.localization₂ P.asIdeal (1 : Submodule (𝓞 D.host.E) D.host.E) := by
   intro D p hp P h1 h2

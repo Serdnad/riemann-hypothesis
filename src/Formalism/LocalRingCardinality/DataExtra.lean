@@ -74,9 +74,7 @@ theorem EpDef.le {D : D7} {L : SizeData₂ D} {X : Inst D L} {Ce : ℝ} (h : EpD
     (h1 : 1 ≤ (D.R.f : ℝ) * (D.R.k : ℝ) ^ 2 * Real.logb p L.sc.a) :
     (X.ep p : ℝ) ≤ (Ce + 1) * (D.R.f : ℝ) * (D.R.k : ℝ) ^ 2 * Real.logb p L.sc.a := by
   have h0 : 0 ≤ Ce * (D.R.f : ℝ) * (D.R.k : ℝ) ^ 2 * Real.logb p L.sc.a := by
-    have := mul_nonneg hCe (le_trans zero_le_one h1)
-    calc (0 : ℝ) ≤ Ce * ((D.R.f : ℝ) * (D.R.k : ℝ) ^ 2 * Real.logb p L.sc.a) := this
-      _ = _ := by ring
+    simpa only [mul_assoc] using mul_nonneg hCe (le_trans zero_le_one h1)
   have h2 := h.lt p h0
   nlinarith [h2, h1]
 

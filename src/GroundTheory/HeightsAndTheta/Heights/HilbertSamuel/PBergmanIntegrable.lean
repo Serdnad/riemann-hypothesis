@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BergmanNorms
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.BergmanObjects
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsBergmanIntegrable
 public import Mathlib.MeasureTheory.Function.LocallyIntegrable
@@ -122,40 +123,7 @@ theorem ptNormSq_nonneg (W : Weight L) (n : ℕ) (s : Fin A.n → X → ℂ) (x 
 variable [MeasurableSpace X] [BorelSpace X]
 
 theorem isOpenPosMeasure (dV : SmoothVolume A) : dV.μ.IsOpenPosMeasure := by
-  refine ⟨fun U hU hne h0 ↦ ?_⟩
-  obtain ⟨x, hxU⟩ := hne
-  have hx := mem_chartIdx (A := A) x
-  set j := chartIdx A x
-  set T := (A.chart j).target ∩ (A.chart j).symm ⁻¹' U
-  have hTo : IsOpen T := (A.chart j).isOpen_inter_preimage_symm hU
-  have hTx : A.chart j x ∈ T :=
-    ⟨(A.chart j).map_source hx, by simpa [(A.chart j).left_inv hx] using hxU⟩
-  have hlin := dV.chart_lintegral j (U.indicator 1) (measurable_one.indicator hU.measurableSet)
-  have hleft : ∫⁻ x in (A.chart j).source, U.indicator 1 x ∂dV.μ = 0 := by
-    rw [lintegral_indicator_one hU.measurableSet, Measure.restrict_apply hU.measurableSet]
-    exact measure_mono_null inter_subset_left h0
-  have hT : ∫⁻ y in T, ENNReal.ofReal (dV.dens j y) = 0 := by
-    refine le_antisymm ?_ zero_le
-    calc ∫⁻ y in T, ENNReal.ofReal (dV.dens j y)
-        = ∫⁻ y in T, U.indicator 1 ((A.chart j).symm y) * ENNReal.ofReal (dV.dens j y) :=
-          setLIntegral_congr_fun hTo.measurableSet fun y hy ↦ by
-            rw [Set.indicator_of_mem (show (A.chart j).symm y ∈ U from hy.2), Pi.one_apply, one_mul]
-      _ ≤ ∫⁻ y in (A.chart j).target,
-            U.indicator 1 ((A.chart j).symm y) * ENNReal.ofReal (dV.dens j y) :=
-          lintegral_mono_set inter_subset_left
-      _ = 0 := by rw [← hlin, hleft]
-  have hmeas : AEMeasurable (fun y ↦ ENNReal.ofReal (dV.dens j y)) (volume.restrict T) :=
-    (((dV.smooth j).continuousOn.mono inter_subset_left).aemeasurable
-      hTo.measurableSet).ennreal_ofReal
-  have hae := (lintegral_eq_zero_iff' hmeas).1 hT
-  rw [Filter.EventuallyEq, ae_restrict_iff' hTo.measurableSet] at hae
-  have hzero : volume T = 0 := by
-    rw [measure_eq_zero_iff_ae_notMem]
-    filter_upwards [hae] with y hy hyT
-    have := hy hyT
-    simp only [Pi.zero_apply, ENNReal.ofReal_eq_zero] at this
-    exact absurd (dV.pos j y hyT.1) (not_lt.2 this)
-  exact (hTo.measure_pos volume ⟨_, hTx⟩).ne' hzero
+  apply _root_.GroundTheory.Heights₂.Heights.HilbertSamuel.SmoothVolume.isOpenPosMeasure <;> assumption
 
 end SectionPairing
 

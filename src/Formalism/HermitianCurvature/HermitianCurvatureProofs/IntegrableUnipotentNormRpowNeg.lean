@@ -158,17 +158,7 @@ variable {k r : ℕ}
 private theorem gN_nonneg_lemma_2 (g : B.Mat k r) : 0 ≤ B.gN g := Real.sqrt_nonneg _
 
 theorem entry_le_gN (g : B.Mat k r) (i j : Fin (2 * r + k + 1)) : ‖g i j‖ ≤ B.gN g := by
-  have h1 : Complex.normSq (g i j) ≤ ∑ j', Complex.normSq (g i j') :=
-    Finset.single_le_sum (f := fun j' => Complex.normSq (g i j')) (fun j' _ => Complex.normSq_nonneg _)
-      (Finset.mem_univ j)
-  have h2 : ∑ j', Complex.normSq (g i j') ≤ ∑ i', ∑ j', Complex.normSq (g i' j') :=
-    Finset.single_le_sum (f := fun i' => ∑ j', Complex.normSq (g i' j'))
-      (fun i' _ => Finset.sum_nonneg fun j' _ => Complex.normSq_nonneg _) (Finset.mem_univ i)
-  have h3 : ‖g i j‖ ^ 2 ≤ ∑ i', ∑ j', Complex.normSq (g i' j') := by
-    rw [← Complex.normSq_eq_norm_sq]; exact h1.trans h2
-  unfold B.gN
-  rw [← abs_of_nonneg (norm_nonneg (g i j))]
-  exact Real.abs_le_sqrt h3
+  apply _root_.PI.PolynomialProperness.GN.entry_le_gN <;> assumption
 
 theorem a_mv_le {m : ℕ} (M : Matrix (Fin m) (Fin m) ℂ) (u : Fin m → ℂ) (i : Fin m) :
     ‖(M *ᵥ u) i‖ ≤ ∑ j, ‖M i j‖ * ‖u j‖ := by
@@ -608,10 +598,22 @@ theorem geom (D : B.RealPlaceData k r Wp Wq) {γ : B.Mat k r} (hγ : γ ∈ B.GV
 
 end geom
 
-theorem d_orbJConv : Formalism.FourierDecayAlt.D.OrbJConv := by
-  obtain ⟨c₁, hPP⟩ := Formalism.FourierDecayAlt.P.polynomial_map_proper
-  refine ⟨16 * ((c₁ : ℝ) + 1), ?_⟩
-  intro k r Wp Wq _ _ _ _ D γ w d A F hγ _hrel hd hZ hpos hA hF
+theorem orbJConv_of_continuous_bound {k r : ℕ} {Wp Wq : Type} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp]
+    [NormedAddCommGroup Wq] [InnerProductSpace ℂ Wq]
+    (D : B.RealPlaceData k r Wp Wq) (γ : B.Mat k r) (w : Equiv.Perm (Fin (r + 1))) (d : Fin (r + 1) → ℂ)
+    (A : ℝ) (F : B.Mat k r → (Wq →L[ℂ] Wp)) (c₁ : ℕ)
+    (hPP : ∀ (k r : ℕ) (z z' : Fin (2 * r + k + 1) → ℂ) (γ : B.Mat k r), C2.Std k r z z' → C2.PosPt k r z z' γ →
+      C2.IsMonomial (Zhat k r z z' γ) → ∃ C : ℝ,
+        (∀ σ ∈ C2.Sg k r z z' γ, ∀ s' ∈ Sset k r z',
+          B.gN σ + B.gN s' ≤ C * B.gN (σ⁻¹ * γ * s') ^ (c₁ * (r + 1) ^ 2)) ∧
+        (∀ s ∈ Sset k r z, ∀ σ' ∈ C2.Sg' k r z z' γ,
+          B.gN s + B.gN σ' ≤ C * B.gN (s⁻¹ * γ * σ') ^ (c₁ * (r + 1) ^ 2)))
+    (hγ : γ ∈ B.GV k r) (hd : ∀ a, d a ≠ 0) (hZ : Zhat k r D.z D.z' γ = C2.monoP w d)
+    (hpos : 0 < Gf k r D.z D.z' γ)
+    (hA : 16 * ((c₁ : ℝ) + 1) * ((r : ℝ) + 1) ^ 2 * ((r : ℝ) * ((2 * r + k + 1 : ℕ) : ℝ) + 1) ≤ A)
+    (hFc : ContinuousOn F (B.GV k r)) (sharpFunctionalExponent : ℝ) (hb : ∀ g ∈ B.GV k r, B.gN g ^ A * ‖F g‖ ≤ sharpFunctionalExponent) :
+    ∃ θ, Formalism.FourierDecayAlt.D.IsNormCut D γ (Formalism.FourierDecayAlt.D.muR D γ w) θ ∧
+      Integrable (fun p => θ p • Formalism.FourierDecayAlt.D.orbIntegrand D γ F p) D.μSS := by
   set nn : ℝ := ((2 * r + k + 1 : ℕ) : ℝ) with hnn
   set bN : ℝ := 4 * ((r : ℝ) * nn + 1) with hbN
   set c : ℕ := (c₁ + 1) * (r + 1) ^ 2 with hc
@@ -657,22 +659,18 @@ theorem d_orbJConv : Formalism.FourierDecayAlt.D.OrbJConv := by
     exact (P.unitary_group_closed k r).one_mem
   have hcR : 0 < cR := by
     have := om_pos hR hM0 hI hone
-    simpa only [Om, Equiv.apply_symm_apply, Matrix.mul_one, ← hcRdef] using this
+    simpa only [Om, Equiv.apply_symm_apply, Matrix.mul_one] using this
 
-  obtain ⟨sharpFunctionalExponent, hCC⟩ := hF
   set cF := max sharpFunctionalExponent 0 with hcF
   have hFb : ∀ g ∈ B.GV k r, ‖F g‖ ≤ cF * B.gN g ^ (-A) := by
     intro g hg
-    have h0 := hCC.2 [] [] (by simp) (by simp) (by simp) g hg
-    have e : B.dLR [] [] F g = F g := rfl
-    rw [e] at h0
+    have h0 := hb g hg
     have hg1 : 1 ≤ B.gN g := P.BetaSesquilinearity.gN_ge_one hg
     have hpw : 0 < B.gN g ^ A := Real.rpow_pos_of_pos (by linarith) _
     rw [Real.rpow_neg (by linarith), ← div_eq_mul_inv, le_div_iff₀ hpw]
     calc ‖F g‖ * B.gN g ^ A = B.gN g ^ A * ‖F g‖ := by ring
       _ ≤ sharpFunctionalExponent := h0
       _ ≤ cF := le_max_left _ _
-  have hFc : ContinuousOn F (B.GV k r) := P.B5.ckOn_continuousOn hCC.1
 
   obtain ⟨KW, hKW1, hKW⟩ := UW_bound D.z D.z_mem D.T_pos
   obtain ⟨KW', hKW1', hKW'⟩ := UW_bound D.z' D.z'_mem D.T'_pos
@@ -747,6 +745,16 @@ theorem d_orbJConv : Formalism.FourierDecayAlt.D.OrbJConv := by
   unfold Formalism.FourierDecayAlt.D.orbIntegrand
   rw [norm_smul, P.B7.norm_xi, one_mul]
   exact hkey
+
+theorem d_orbJConv : Formalism.FourierDecayAlt.D.OrbJConv := by
+  obtain ⟨c₁, hPP⟩ := Formalism.FourierDecayAlt.P.polynomial_map_proper
+  refine ⟨16 * ((c₁ : ℝ) + 1), ?_⟩
+  intro k r Wp Wq _ _ _ _ D γ w d A F hγ _ hd hZ hpos hA hF
+  obtain ⟨C, hCC⟩ := hF
+  refine orbJConv_of_continuous_bound D γ w d A F c₁ hPP hγ hd hZ hpos hA
+    (P.B5.ckOn_continuousOn hCC.1) C ?_
+  intro g hg
+  exact hCC.2 [] [] (by simp) (by simp) (by simp) g hg
 
 end Formalism.FourierDecayAlt.P.Dx3
 

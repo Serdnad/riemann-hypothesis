@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsLinearIndependentOfRatIndependent
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsHeatZero
 public import Mathlib.Analysis.CStarAlgebra.Module.Constructions
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsLinearIndependentSqrtEqSuccMinQuad
@@ -118,22 +119,8 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {Ψ : Finset (E →+
 
 theorem prod_type {M : Type} [CommMonoid M] (h : IsType Ψ) (f : (E →+* ℂ) → M) :
     ∏ σ, f σ = ∏ τ : Ψ, (f τ.1 * f (ComplexEmbedding.conjugate τ.1)) := by
-  classical
-  rw [Finset.prod_mul_distrib, Finset.prod_coe_sort Ψ f,
-    Finset.prod_coe_sort Ψ fun τ => f (ComplexEmbedding.conjugate τ),
-    ← Finset.prod_mul_prod_compl Ψ f]
-  congr 1
-  symm
-  refine Finset.prod_bij' (fun τ _ => ComplexEmbedding.conjugate τ)
-    (fun τ _ => ComplexEmbedding.conjugate τ) ?_ ?_ ?_ ?_ ?_
-  · intro a ha; simpa using (h a).1 ha
-  · intro a ha
-    have := h a
-    simp only [Finset.mem_compl] at ha
-    tauto
-  · intro a _; exact star_star a
-  · intro a _; exact star_star a
-  · intro a _; rfl
+  intros
+  apply _root_.GlobalTheory.SW.IsType.prod_univ <;> assumption
 
 theorem one_le_prod (h : IsType Ψ) {a : E} (ha : IsIntegral ℤ a) (h0 : a ≠ 0) :
     1 ≤ ∏ τ : Ψ, ‖τ.1 a‖ := by

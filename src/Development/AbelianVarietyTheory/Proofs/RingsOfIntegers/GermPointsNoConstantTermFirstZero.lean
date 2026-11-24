@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FormalGroupCharts.FormalEvSecondPointOfXZero
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.ChartChg
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.NatCastMulCoeffOfPderivEq
 import Mathlib.Algebra.Order.Floor.Extended
@@ -47,6 +48,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.GaugeTrans
 
 @[expose] public section
 
@@ -130,14 +132,7 @@ theorem ev_ev {l m n : ℕ} {a : Fin l → Pt R m d} {b : Fin m → Pt R n d} (h
   rw [subst_comp_subst_apply ha.hasSubst hb.hasSubst]
 
 theorem ev_id (f : PS R 1 d) : ev (n := 1) ![pt R d 0] f = f := by
-  have hX : (fun p : Fin 1 × Fin d => (![pt R d 0] : Fin 1 → Pt R 1 d) p.1 p.2) = X := by
-    funext p
-    rcases p with ⟨j, i⟩
-    rw [Fin.fin_one_eq_zero j]
-    rfl
-  unfold ev
-  rw [hX, subst_self]
-  rfl
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.gt_ev_pt_self <;> assumption
 
 theorem ev_const {m n : ℕ} (f : PS R m d) :
     ev (fun _ _ => (0 : PS R n d)) f = C (constantCoeff f) := by
@@ -160,21 +155,7 @@ theorem germPointsNoConstantTerm_first_zero : NoConst (![pt R (n := 1) d 0, 0] :
 
 theorem formalGroupLaw_ev_second_zero (G : FGLaw R d) (c : Fin d) :
     ev (n := 1) ![pt R d 0, 0] (G.F c) = pt R (n := 1) d 0 c := by
-  have hs : NoConst (![pt R (n := 2) d 1, pt R (n := 2) d 0] : Fin 2 → Pt R 2 d) :=
-    noConst_two (cc_pt 1) (cc_pt 0)
-  have hfam : (fun j i => ev (n := 1) ![pt R d 0, 0]
-      ((![pt R (n := 2) d 1, pt R (n := 2) d 0] : Fin 2 → Pt R 2 d) j i)) =
-        (![0, pt R d 0] : Fin 2 → Pt R 1 d) := by
-    funext j i
-    fin_cases j
-    · show ev (n := 1) ![pt R d 0, 0] (pt R d 1 i) = 0
-      rw [ev_pt germPointsNoConstantTerm_first_zero]
-      rfl
-    · show ev (n := 1) ![pt R d 0, 0] (pt R d 0 i) = pt R d 0 i
-      rw [ev_pt germPointsNoConstantTerm_first_zero]
-      rfl
-  rw [← G.comm c, ev_ev germPointsNoConstantTerm_first_zero hs, hfam]
-  exact G.unit c
+  apply _root_.GlobalTheory.FormalLog.formalGroupLaw_ev_x_zero <;> assumption
 
 private theorem ev_xy_eq (f : PS R 2 d) :
     ev (n := 2) (![pt R (n := 2) d 0, pt R (n := 2) d 1] : Fin 2 → Pt R 2 d) f = f := by

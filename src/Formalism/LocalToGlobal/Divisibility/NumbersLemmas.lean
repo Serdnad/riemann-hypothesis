@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.Divisibility.ChainOperators.OrbitEntryBounds
 public import Formalism.LocalToGlobal.Divisibility.Numbers
 public import Formalism.LocalRingCardinality.DataForced
 public import Formalism.LocalRingCardinality.DataKap
@@ -307,22 +308,7 @@ variable (D : D7) (L : SizeData₂ D) (Del h0 : ℕ)
 abbrev letterOf (u : D.what₂.Word) : Code (ofRecord D L Del h0) := D.s.letter u
 
 theorem tauPl_bijective : Function.Bijective (tauPl D) := by
-  have hI := D.R.iota_bijective.1
-  have hP := factPlaces D.R.toFrame
-  constructor
-  · rintro ⟨β, t⟩ ⟨β', t'⟩ h
-    have h1 : plGG D (β, t) = plGG D (β', t') := congrArg Subtype.val (D.eTau.symm.injective h)
-    cases β <;> cases β'
-    · have h2 : D.R.tau1 t = D.R.tau1 t' := h1
-      rw [hI (Prod.ext_iff.1 h2).2]
-    · exact absurd (show D.R.tau1 t = D.R.tau2 t' from h1) (hP.2 t t')
-    · exact absurd (show D.R.tau1 t' = D.R.tau2 t from h1.symm) (hP.2 t' t)
-    · have h2 : D.R.tau2 t = D.R.tau2 t' := h1
-      rw [hI (Prod.ext_iff.1 h2).2]
-  · intro τ
-    rcases (hP.1 _).1 (D.eTau τ).2 with ⟨t, ht⟩ | ⟨t, ht⟩
-    · exact ⟨(false, t), (Equiv.symm_apply_eq _).2 (Subtype.ext ht.symm)⟩
-    · exact ⟨(true, t), (Equiv.symm_apply_eq _).2 (Subtype.ext ht.symm)⟩
+  apply +allowSynthFailures _root_.SumOrbCW.tauPl_bijective <;> assumption
 
 theorem hP_eq_art {p : ℕ} (hp : p.Prime) (hc : Nat.Coprime p D.host.condN) :
     Formalism.MainNotions.G.hP D p = D.R.iotaInv (D.host.art (ZMod.unitOfCoprime p hc)).2 := by

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.Intersections.PBlockGenFinite
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsPowSubMemSpanOfIsUnitModOfIsAlgClosed
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.MemOfAevalEqZero
 public import Mathlib.Analysis.InnerProductSpace.Calculus
@@ -118,18 +119,7 @@ def nu (f : MRing J) (d : K → ℕ) (w : (Σ k, J k) → ℂ) : ℝ := ‖evC w
 
 private theorem evC_smul_lemma {f : MRing J} {d : K → ℕ} (hf : IsMultiHomog f d) (c : K → ℂ)
     (w : (Σ k, J k) → ℂ) : evC (fun p => c p.1 * w p) f = (∏ k, c k ^ d k) * evC w f := by
-  simp only [evC, MvPolynomial.eval_map]
-  rw [MvPolynomial.eval₂_eq', MvPolynomial.eval₂_eq', Finset.mul_sum]
-  refine Finset.sum_congr rfl fun m hm => ?_
-  have key : ∏ p : (Σ k, J k), (c p.1 * w p) ^ m p = (∏ k, c k ^ d k) * ∏ p, w p ^ m p := by
-    simp_rw [mul_pow, Finset.prod_mul_distrib]
-    congr 1
-    rw [← Finset.univ_sigma_univ, Finset.prod_sigma]
-    refine Finset.prod_congr rfl fun k _ => ?_
-    change ∏ i : J k, c k ^ m ⟨k, i⟩ = c k ^ d k
-    rw [Finset.prod_pow_eq_pow_sum, hf m hm k]
-  rw [key]
-  ring
+  apply _root_.GroundTheory.Heights₂.Heights.Inter.BlockGenFinite.eval_smul_of_isMultiHomog <;> assumption
 
 theorem nu_smul {f : MRing J} {d : K → ℕ} (hf : IsMultiHomog f d) (c : K → ℂ) (hc : ∀ k, c k ≠ 0)
     (w : (Σ k, J k) → ℂ) : nu f d (fun p => c p.1 * w p) = nu f d w := by

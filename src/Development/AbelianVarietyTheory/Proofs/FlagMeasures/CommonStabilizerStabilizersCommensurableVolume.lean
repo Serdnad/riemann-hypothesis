@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.UnitaryGroupOrthogonalComplementUnimodular
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ComplementReferenceCompactSubgroup
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.HermLat
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.CongruenceSubgroupLatticeStabilizer
@@ -221,15 +222,7 @@ namespace GlobalTheory.HL
 
 theorem volSt_conj_self {G : Type} [Group G] (H : Subgroup G) {h : G} (hh : h ∈ H) :
     MulAut.conj h • H = H := by
-  ext x
-  rw [Subgroup.mem_pointwise_smul_iff_inv_smul_mem]
-  simp only [MulAut.smul_def, MulAut.conj_inv_apply]
-  constructor
-  · intro hx
-    have := H.mul_mem (H.mul_mem hh hx) (H.inv_mem hh)
-    simpa [mul_assoc] using this
-  · intro hx
-    exact H.mul_mem (H.mul_mem (H.inv_mem hh) hx) hh
+  apply _root_.GlobalTheory.HL.Unimod.conj_self <;> assumption
 
 theorem volSt_inf_stab_smul {G X : Type} [Group G] [MulAction G X] (H : Subgroup G) {h : G} (hh : h ∈ H)
     (x : X) : H ⊓ MulAction.stabilizer G (h • x) = MulAut.conj h • (H ⊓ MulAction.stabilizer G x) := by

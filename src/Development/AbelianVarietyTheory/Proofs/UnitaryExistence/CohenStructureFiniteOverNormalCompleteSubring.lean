@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SemiabelianGenericFibrePolarizationIso
 public import Mathlib.Data.Nat.Prime.Defs
 public import Mathlib.RingTheory.AdicCompletion.Basic
 public import Mathlib.RingTheory.LocalRing.ResidueField.Defs
@@ -295,17 +296,7 @@ theorem exists_sub_mul_mem (hp : p.Prime) (h0 : (p : S) ∈ maximalIdeal S)
 omit [IsLocalRing S] in
 theorem exists_mem_pow_of_mul_mem [IsDomain S] [IsNoetherianRing S] (I : Ideal S) {r : S}
     (hr : r ≠ 0) : ∃ c : ℕ, ∀ (n : ℕ) (x : S), r * x ∈ I ^ (n + c) → x ∈ I ^ n := by
-  obtain ⟨c, hc⟩ := Ideal.exists_pow_inf_eq_pow_smul I (M := S) (Ideal.span {r})
-  refine ⟨c, fun n x hx => ?_⟩
-  have h := hc (n + c) (Nat.le_add_left _ _)
-  have hm : r * x ∈ I ^ (n + c) • (⊤ : Submodule S S) ⊓ Ideal.span {r} :=
-    ⟨by rw [Ideal.smul_eq_mul, Ideal.mul_top]; exact hx,
-      Ideal.mul_mem_right _ _ (Ideal.mem_span_singleton_self r)⟩
-  rw [h, Nat.add_sub_cancel] at hm
-  have hm' : r * x ∈ I ^ n * Ideal.span {r} := Submodule.smul_mono le_rfl inf_le_right hm
-  obtain ⟨z, hz, hzx⟩ := Ideal.mem_mul_span_singleton.1 hm'
-  rw [mul_comm] at hzx
-  rwa [← mul_left_cancel₀ hr hzx]
+  first | exact _root_.GlobalTheory.ClosingLemmaSecond.main | exact @_root_.GlobalTheory.ClosingLemmaSecond.main | apply _root_.GlobalTheory.ClosingLemmaSecond.main <;> assumption
 
 theorem dvd_of_forall_sub_mul_mem [IsNoetherianRing S] {r a : S}
     (h : ∀ n, ∃ t, a - r * t ∈ maximalIdeal S ^ n) : r ∣ a := by

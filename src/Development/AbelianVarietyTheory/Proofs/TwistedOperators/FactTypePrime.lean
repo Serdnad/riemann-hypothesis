@@ -43,6 +43,7 @@ import Formalism.LocalToGlobal.IndefiniteForms.IndefSide
 import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Formalism.LocalToGlobal.IndefiniteReal.LocalNewformFunction
 import Formalism.LocalToGlobal.IndefiniteReal.PartsOrth
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SignAtBasePlaceEqEmbedding
 
 @[expose] public section
 
@@ -62,31 +63,7 @@ variable {D : D7}
 instance factTypePrime (D : D7) (k : Fin 2) : Fact (D.host.g k).Prime := ⟨D.host.g_prime k⟩
 
 theorem finE_mem (V : HSp D) (h : GA D V) : finE V h ∈ UA D.sp.cm V.gram := by
-  have h0 : matHom V h ∈ HR (AF D.host.F) D.sp.cm.sig V.gram := by
-    let h' : HR (AF D.host.F) D.sp.cm.sig V.gram := h
-    exact h'.2
-  have h1 := Formalism.UG.P.bc_mem _ (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.sigR (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F) D.sp.cm.sig)
-    (Algebra.TensorProduct.map (sndA D.host.F) (AlgHom.id D.host.F D.host.E)).toRingHom ?c1 _ _ h0
-  have h2 := Formalism.UG.P.bc_mem _ (Formalism.UG.sigR D.sp.cm.sig (Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F)) (swapAE D) ?c2 _ _ h1
-  convert h2 using 1
-  case e'_5 => rfl
-  case e'_4 =>
-    unfold UA Formalism.UG.UPts
-    congr 1
-  case c2 =>
-    apply RingHom.ext
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a e => simp [swapAE, sigR, Formalism.UG.sigR]
-    | add x y hx hy => simp only [RingHom.comp_apply, map_add (f := _)] at hx hy ⊢; rw [hx, hy]
-  case c1 =>
-    apply RingHom.ext
-    intro x
-    induction x using TensorProduct.induction_on with
-    | zero => simp
-    | tmul a e => simp [sigR]
-    | add x y hx hy => simp only [RingHom.comp_apply, map_add (f := _)] at hx hy ⊢; rw [hx, hy]
+  apply _root_.GlobalTheory.FiniteRingMultiplication.finE_mem_UA <;> assumption
 
 def finU (V : HSp D) : GA D V →* UA D.sp.cm V.gram := (finE V).codRestrict _ (finE_mem V)
 

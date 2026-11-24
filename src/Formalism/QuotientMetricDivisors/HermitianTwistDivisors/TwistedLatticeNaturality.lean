@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsMapEqOfMemNabStd
+import Formalism.LocalToGlobal.IndefiniteForms.IndefiniteTree.ExampleSatisfiesConditionsAtFive
 public import Formalism.QuotientMetricDivisors.DivIntoDualShift
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DiscreteSpanOfLinIndep
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
@@ -193,18 +195,7 @@ theorem mu_log_conductor :
 
 theorem shift_lw_pos {K : Type} [Field K] [NumberField K] [StarRing K]
     (w : HeightOneSpectrum (𝓞 K)) : 0 < lw w := by
-  unfold lw
-  apply div_pos
-  · apply Real.log_pos
-    have h1 : Ideal.absNorm w.asIdeal ≠ 1 := by
-      rw [Ne, Ideal.absNorm_eq_one_iff]
-      exact w.isPrime.ne_top
-    have h0 : Ideal.absNorm w.asIdeal ≠ 0 := by
-      rw [Ne, Ideal.absNorm_eq_zero_iff]
-      exact w.ne_bot
-    have h2 : 1 < Ideal.absNorm w.asIdeal := by omega
-    exact_mod_cast h2
-  · exact_mod_cast Module.finrank_pos
+  apply _root_.Formalism.L2.Indef.Tree.lw_pos <;> assumption
 
 theorem shift_slope_mu :
     ∀ (K : Type) [Field K] [NumberField K] [StarRing K] [_root_.NumberField.IsTotallyComplex K]
@@ -626,23 +617,7 @@ theorem shift_existence :
 
 private theorem vw_eq_zero_of_not_mem_asIdeal {K : Type} [Field K] [NumberField K] [StarRing K] (w : HeightOneSpectrum (𝓞 K))
     {t : 𝓞 K} (ht : t ∉ w.asIdeal) : vw w (t : K) = 0 := by
-  have ht0 : t ≠ 0 := by
-    rintro rfl
-    exact ht w.asIdeal.zero_mem
-  have hI : Ideal.span {t} ≠ 0 := by
-    rw [Ne, Ideal.zero_eq_bot, Ideal.span_singleton_eq_bot]
-    exact ht0
-  have hv : vw w (t : K) =
-      ((Associates.mk w.asIdeal).count (Associates.mk (Ideal.span {t})).factors : ℤ) := by
-    rw [← FractionalIdeal.count_coe K w hI, FractionalIdeal.coeIdeal_span_singleton]
-    simp [vw]
-  have hnd : ¬ (w.asIdeal ∣ Ideal.span {t}) := by
-    rw [Ideal.dvd_span_singleton]
-    exact ht
-  rw [← Associates.count_ne_zero_iff_dvd hI w.irreducible] at hnd
-  push_neg at hnd
-  rw [hv, hnd]
-  rfl
+  apply _root_.GlobalTheory.LocInt.vw_eq_zero_of_notMem <;> assumption
 
 theorem shift_pairing_formula : ShiftPairing := by
   intro K _ _ _ d w N N' s hsh f hf φ hφ

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.NormalisedPointsSatisfySingleFrame
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FamilyUnifExpUnique
 public import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsUniqueHalfChar
 public import Development.AbelianVarietyTheory.Proofs.CubicalLineBundles.ExistsPolAVPullbackOfIsLocalRing
 import Development.AbelianVarietyTheory.Proofs.ModuliProofs.ExistsHalfOfSqEqOne
@@ -128,15 +130,7 @@ end Transfer
 theorem int_eq_of_exp_div_eq {x y : ℤ} (h : ∀ k : ℕ, 0 < k →
     Complex.exp (-(2 * Real.pi * Complex.I) * (x : ℂ) / k) = Complex.exp (-(2 * Real.pi * Complex.I) * (y : ℂ) / k)) :
     x = y := by
-  obtain ⟨n, hn⟩ := Complex.exp_eq_exp_iff_exists_int.1 (h ((y - x).natAbs + 1) (Nat.succ_pos _))
-  have hk : (((y - x).natAbs + 1 : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.2 (Nat.succ_ne_zero _)
-  have e : ((y - x : ℤ) : ℂ) = ((((y - x).natAbs + 1 : ℕ) : ℤ) * n : ℤ) := by
-    rw [Int.cast_mul, Int.cast_natCast, Int.cast_sub]
-    refine mul_left_cancel₀ Complex.two_pi_I_ne_zero ?_
-    field_simp at hn
-    linear_combination (2 * Real.pi * Complex.I) * hn
-  have := Int.eq_zero_of_abs_lt_dvd ⟨n, Int.cast_injective e⟩ (by rw [Int.abs_eq_natAbs]; omega)
-  omega
+  apply _root_.GlobalTheory.ExpUniqFamily.int_eq_of_exp <;> assumption
 
 theorem exists_hermForm_comp {d g : ℕ} (Φ : (Fin g → ℂ) →ₗ[ℂ] (Fin d → ℂ)) {Hm : Matrix (Fin d) (Fin d) ℂ}
     (hH : Hm.IsHermitian) : ∃ M : Matrix (Fin g) (Fin g) ℂ, M.IsHermitian ∧
@@ -157,15 +151,8 @@ theorem mulVec_period_basis {g : ℕ} {La : Type} [AddCommGroup La] (P : La →+
     (hh : ∀ k, h.mulVec (P (bas (Pi.single (.inl k) 1))) = Pi.single k 1 ∧
       h.mulVec (P (bas (Pi.single (.inr k) 1))) = τ.mulVec (Pi.single k 1)) (v : Fin g ⊕ Fin g → ℤ) :
     h *ᵥ P (bas v) = (fun i => (v (.inl i) : ℂ)) + τ *ᵥ fun i => (v (.inr i) : ℂ) := by
-  have h1 : ∀ m : Fin g → ℤ, (fun i => (m i : ℂ)) = ∑ i, m i • (Pi.single i 1 : Fin g → ℂ) := by
-    intro m; ext k; simp [Finset.sum_apply, Pi.single_apply]
-  have h2 : v = ∑ i, v i • (Pi.single i 1 : Fin g ⊕ Fin g → ℤ) := by
-    ext k; simp only [Finset.sum_apply, Pi.single_apply, Pi.smul_apply, smul_eq_mul, mul_ite, _root_.mul_one, mul_zero, Finset.sum_ite_eq, Finset.mem_univ, if_true]
-  rw [h1 fun i => v (.inl i), h1 fun i => v (.inr i)]
-  conv_lhs => rw [h2]
-
-  simp only [map_sum, map_zsmul, Fintype.sum_sum_type, map_add (f := _), (hh _).1, (hh _).2, Matrix.mulVec_sum,
-  Matrix.mulVec_smul, Matrix.mulVec_add]
+  intros
+  apply _root_.GlobalTheory.NormFrame.period_bas <;> assumption
 
 theorem existsUnique_char_of_triple (hT : ThetaUnifAV) (hmul : Out.MulNSt) {E : Type} [Field E] [NumberField E]
     [IsCMField E] {H : Host E} {S : Scheme.{0}} (t : SAB H S) (hp : IsProper t.G.hom)

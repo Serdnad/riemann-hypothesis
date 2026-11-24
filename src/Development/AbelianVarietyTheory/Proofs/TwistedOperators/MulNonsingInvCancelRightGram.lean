@@ -218,11 +218,12 @@ theorem ccr_of_sign {κ A : Type} [DecidableEq κ] [Ring A] [Algebra ℂ A] (x y
 
 
 open Formalism.IndefR.Datum in
-theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
+theorem exists_lift_for {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
     (a b : ι → Module.End ℂ M) (hA : ∀ i (g : M), A i g = a i g) (haa : ∀ i j, a i * a j = a j * a i)
-    (hba : ∀ i j, b i * a j = a j * b i + (if i = j then (1 : ℂ) else 0) • 1) (f : M) (hf : ∀ i, b i f = 0) :
+    (hba : ∀ i j, b i * a j = a j * b i + (if i = j then (1 : ℂ) else 0) • 1) (f : M) (S : Set ι)
+    (hf : ∀ i ∈ S, b i f = 0) :
     ∃ E : MvPolynomial ι ℂ →ₗ[ℂ] M, (∀ Q, pureTensorL A (f : X → ℂ) Q = E Q) ∧
-      (∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q)) ∧ ∀ v Q, E (MvPolynomial.pderiv v Q) = b v (E Q) := by
+      (∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q)) ∧ ∀ v ∈ S, ∀ Q, E (MvPolynomial.pderiv v Q) = b v (E Q) := by
   have h1 : ∀ i g, g ∈ M → A i g ∈ M := fun i g hg => by rw [hA i ⟨g, hg⟩]; exact Subtype.prop _
   have hm := GlobalTheory.FockIndep.pure_mem (P := (· ∈ M)) (fun _ _ => add_mem) (fun c _ => M.smul_mem c) h1 f.2
   have hX := GlobalTheory.FockIndep.pure_X_mul (P := (· ∈ M)) (fun _ _ => add_mem) (fun c _ => M.smul_mem c) h1
@@ -235,10 +236,10 @@ theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ
   let E : MvPolynomial ι ℂ →ₗ[ℂ] M := (pureTensorL A (f : X → ℂ)).codRestrict M hm
   have hE : ∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q) := fun v Q => Subtype.ext ((hX Q v).trans (hA v (E Q)))
   have h0 : E 1 = f := Subtype.ext (GlobalTheory.FockIndep.pure_one _)
-  refine ⟨E, fun _ => rfl, hE, fun i Q => Eq.symm ?_⟩
+  refine ⟨E, fun _ => rfl, hE, fun i hi Q => Eq.symm ?_⟩
   clear_value E
   induction Q using MvPolynomial.induction_on with
-  | C r => rw [MvPolynomial.pderiv_C, map_zero, MvPolynomial.C_eq_smul_one, map_smul, map_smul, h0, hf, smul_zero]
+  | C r => rw [MvPolynomial.pderiv_C, map_zero, MvPolynomial.C_eq_smul_one, map_smul, map_smul, h0, hf i hi, smul_zero]
   | add p q hp hq => simp only [map_add (f := _), hp, hq]
   | mul_X p j hp =>
     rw [mul_comm, hE, ← Module.End.mul_apply, hba, LinearMap.add_apply, Module.End.mul_apply, hp,
@@ -247,6 +248,15 @@ theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ
     split_ifs with h
     · rw [h, MvPolynomial.pderiv_X_self, one_mul, one_smul, Module.End.one_apply]
     · rw [MvPolynomial.pderiv_X_of_ne (Ne.symm h), zero_mul, map_zero, zero_smul, LinearMap.zero_apply]
+
+open Formalism.IndefR.Datum in
+theorem exists_lift {ι X : Type} [DecidableEq ι] (M : Submodule ℂ (X → ℂ)) (A : ι → (X → ℂ) → (X → ℂ))
+    (a b : ι → Module.End ℂ M) (hA : ∀ i (g : M), A i g = a i g) (haa : ∀ i j, a i * a j = a j * a i)
+    (hba : ∀ i j, b i * a j = a j * b i + (if i = j then (1 : ℂ) else 0) • 1) (f : M) (hf : ∀ i, b i f = 0) :
+    ∃ E : MvPolynomial ι ℂ →ₗ[ℂ] M, (∀ Q, pureTensorL A (f : X → ℂ) Q = E Q) ∧
+      (∀ v Q, E (MvPolynomial.X v * Q) = a v (E Q)) ∧ ∀ v Q, E (MvPolynomial.pderiv v Q) = b v (E Q) := by
+  obtain ⟨E, hf0, hf1, hf2⟩ := exists_lift_for M A a b hA haa hba f Set.univ (fun i _ => hf i)
+  exact ⟨E, hf0, hf1, fun i => hf2 i (Set.mem_univ _)⟩
 
 end Abstract
 
@@ -392,10 +402,10 @@ theorem cplxO_unit (τ : D.what₂.Tau) (i : Fin W.rank) (j : Fin V.rank) :
 
 variable {θ : InfFam D} {ψ : AddChar (AF D.host.F) ℂ} {σ : (D.what₂.Tau → ℂ) →+ Formalism.L2.Theta.AE D}
 
-theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
+theorem exists_raise_lower_at_place (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
     ∃ (R L : Fin W.rank → Fin V.rank → Module.End ℂ (thetaSub ψ V W))
       (w : Ix V W → Ix V W → Module.End ℂ (thetaSub ψ V W)),
-      (∀ f, IsVacF ψ θ A B f → ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
+      (∀ f, IsThetaFunO ψ V W f → IsFockVacAt (heisO ψ V W) θ τ (cplxO (A.cart τ) (B.cart τ)) f → ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
         (∀ i j P, E (raiO τ (A.ε τ) (B.ε τ) i j P) = R i j (E P)) ∧
         ∀ i j P, E (lowO τ (A.ε τ) (B.ε τ) i j P) = L i j (E P)) ∧
       (∀ i j l k, w ((i, j), τ) ((l, k), τ) = (sgn (A.ε τ j) * sgn (A.ε τ k)) • (R i j * L l k)) ∧
@@ -457,8 +467,8 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
     fun i j => (-sgn (B.ε τ i) * (fockScale D τ : ℂ)⁻¹) • y (u (τ, i, j)),
     fun k l => x (uM A B *ᵥ Pi.single k 1) * (-(1 / (4 * π)) : ℂ) • y ((uM A B * diagonal fun k =>
       (cc D k.2)⁻¹ * sgn (B.ε k.2 k.1.1) * sgn (A.ε k.2 k.1.2)) *ᵥ Pi.single l 1),
-    fun f hf => ?_, fun i j l k => ?_, fun X X' hX g => ?_⟩
-  · obtain ⟨E, h1, h2, h3⟩ := exists_lift (thetaSub ψ V W)
+    fun f hf hv => ?_, fun i j l k => ?_, fun X X' hX g => ?_⟩
+  · obtain ⟨E, h1, h2, h3'⟩ := exists_lift_for (thetaSub ψ V W)
       (aPlusAll (heisO ψ V W) θ (fun τ => cplxO (A.cart τ) (B.cart τ)) A.onb B.onb) a b (fun k g => by
         rw [aPlusAll, aPlus, crea, (hdJ k g).1, (hdJ k g).2]
         simp only [a]
@@ -466,9 +476,10 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
         · rw [hx, one_smul]
           rfl
         · rw [hy, neg_one_smul, smul_neg, sub_neg_eq_add]
-          rfl) haa hba ⟨f, hf.1⟩ (fun k => by
-        have e := hf.2 k.1 (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2)
-        rw [annih, (hdJ k ⟨f, hf.1⟩).1, (hdJ k ⟨f, hf.1⟩).2] at e
+          rfl) haa hba ⟨f, hf⟩ {k | k.1 = τ} (fun k hk => by
+        have e := (show IsFockVacAt (heisO ψ V W) θ k.1 (cplxO (A.cart k.1) (B.cart k.1)) f from
+          (show k.1 = τ from hk) ▸ hv) (unitMap (A.onb k.1) (B.onb k.1) k.2.1 k.2.2)
+        rw [annih, (hdJ k ⟨f, hf⟩).1, (hdJ k ⟨f, hf⟩).2] at e
         simp only [b, LinearMap.smul_apply]
         rw [smul_eq_zero]
         refine Or.inr (Subtype.ext ?_)
@@ -479,6 +490,8 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
         · rw [neg_one_smul, smul_neg, ← sub_eq_add_neg] at e
           rw [hx]
           exact e)
+    have h3 : ∀ i j P, E (MvPolynomial.pderiv ((τ, i, j) : FVar D W.rank V.rank) P) = b (τ, i, j) (E P) :=
+      fun i j P => h3' (τ, i, j) rfl P
     refine ⟨E, h1, fun i j P => ?_, fun i j P => ?_⟩
     · unfold raiO
       by_cases hp : B.ε τ i = A.ε τ j
@@ -509,6 +522,18 @@ theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsS
   · beta_reduce
     rw [← quad_basis x y _ hX, ← HM_inv]
     exact (congrArg (fun F : BB ψ V W => (F.1 : WO V W → ℂ)) (hN X g)).trans (hc _)
+
+theorem exists_raise_lower (h : GlobalTheory.FockCompare.Chart θ σ) (hψ : IsStdChar D ψ (-1)) (τ : D.what₂.Tau) :
+    ∃ (R L : Fin W.rank → Fin V.rank → Module.End ℂ (thetaSub ψ V W))
+      (w : Ix V W → Ix V W → Module.End ℂ (thetaSub ψ V W)),
+      (∀ f, IsVacF ψ θ A B f → ∃ E : PolF D W.rank V.rank →ₗ[ℂ] thetaSub ψ V W, (∀ P, ptF ψ θ A B f P = E P) ∧
+        (∀ i j P, E (raiO τ (A.ε τ) (B.ε τ) i j P) = R i j (E P)) ∧
+        ∀ i j P, E (lowO τ (A.ε τ) (B.ε τ) i j P) = L i j (E P)) ∧
+      (∀ i j l k, w ((i, j), τ) ((l, k), τ) = (sgn (A.ε τ j) * sgn (A.ε τ k)) • (R i j * L l k)) ∧
+      ∀ X X' : Matrix (Ix V W) (Ix V W) ℂ, X * uM A B = uM A B * X' → ∀ g : thetaSub ψ V W,
+        ((nOp (rhoV hψ σ V W) (HM V W) X (toB hψ g.1 g.2)).1 : WO V W → ℂ) = ((∑ k, ∑ l, X' k l • w k l) g).1 := by
+  obtain ⟨R, L, w, hF, hrest⟩ := exists_raise_lower_at_place A B h hψ τ
+  exact ⟨R, L, w, fun f hf => hF f hf.1 (hf.2 τ), hrest⟩
 
 theorem blk_single_congr {O : Type} [DecidableEq O] {n : ℕ} (F : O → Matrix (Fin n) (Fin n) ℂ) (hF : ∀ t, IsUnit (F t).det)
     (τ t : O) (X : Matrix (Fin n) (Fin n) ℂ) :

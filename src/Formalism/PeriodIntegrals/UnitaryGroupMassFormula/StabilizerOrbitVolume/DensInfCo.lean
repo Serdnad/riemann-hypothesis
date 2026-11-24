@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerVolume.DensInfCo
 public import Formalism.SharpRestriction.GlobalSchurBounds.GeneralLinearActions.GenusMassVolumes
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicLocalCompactness.T2SpaceTensorProductFiniteExtension
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerOrbitVolume.TensTop
@@ -78,20 +79,7 @@ theorem hR_add_right (σ : E →ₐ[F] E) {M : ℕ} (J : Matrix (Fin M) (Fin M) 
 theorem hR_herm (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {M : ℕ} (J : Matrix (Fin M) (Fin M) E)
     (hJ : ∀ i j, σ (J j i) = J i j) (x y : Fin M → R ⊗[F] E) :
     sigR R σ (hR R σ J x y) = hR R σ J y x := by
-  have hinv : ∀ a : R ⊗[F] E, sigR R σ (sigR R σ a) = a := by
-    intro a
-    induction a using TensorProduct.induction_on with
-    | zero => simp
-    | tmul r e => simp [sigR, hσ]
-    | add x y hx hy => rw [map_add (f := _), map_add (f := _), hx, hy]
-  have hJ' : ∀ i j, sigR R σ (JR R J i j) = JR R J j i := by
-    intro i j
-    simp [JR, inclR, sigR, hJ]
-
-  simp only [hR, Formalism.UG.hform, map_sum, map_mul, hinv, hJ']
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun i _ => Finset.sum_congr rfl fun j _ => ?_
-  ring
+  apply _root_.PI.VolStabS.hR_herm <;> assumption
 
 theorem gramB_mem (σ : E →ₐ[F] E) (hσ : ∀ x, σ (σ x) = x) {M n : ℕ}
     (J : Matrix (Fin M) (Fin M) E) (hJ : ∀ i j, σ (J j i) = J i j)

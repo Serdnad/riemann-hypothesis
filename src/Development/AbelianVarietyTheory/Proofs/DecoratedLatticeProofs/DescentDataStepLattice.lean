@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.ExistsInvariantForm
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MemHomLatticeCompletionIffSupportedMaps
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.SelfDualSplitComponentIsLatticeStabilizerEq
@@ -138,15 +139,8 @@ theorem actO_two_nsmul {S T : HSp D} (g : GA D S) (h : GA D T) (x : WO S T) :
 
 theorem isHalf_actO {S T : HSp D} (g : GA D S) (h : GA D T) {e : AE D} {x : WO S T} (hx : IsHalf e x) :
     IsHalf e (actO S T g h x) := by
-  have hx' : e • x = x := by
-    ext i j
-    simp only [Matrix.smul_apply, smul_eq_mul]
-    exact hx i j
-  intro i j
-  have := congrFun (congrFun (actO_smul_left g h e x) i) j
-  rw [hx'] at this
-  rw [Matrix.smul_apply, smul_eq_mul] at this
-  exact this.symm
+  intros
+  apply _root_.GlobalTheory.SplitHecke.isHalf_actO <;> assumption
 
 theorem actO_actO_inv {S T : HSp D} (g : GA D S) (h : GA D T) (x : WO S T) :
     actO S T g h (actO S T g⁻¹ h⁻¹ x) = x := by

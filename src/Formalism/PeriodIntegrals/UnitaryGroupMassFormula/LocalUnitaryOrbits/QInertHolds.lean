@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MemInverseDifferentIdealPowRealIffUnramifiedCm
 import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.NormOneUnitFixedPoints
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LocalUnitaryOrbits.EtaVCases
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,18 +62,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
   (v : HeightOneSpectrum (𝓞 F))
 
 theorem sig_ne (h : IsCMExt F E σ) : σ ≠ AlgHom.id F E := by
-  intro hs
-  obtain ⟨-, htc, -, h4⟩ := h
-  let τ : E →+* ℂ := (IsAlgClosed.lift (R := ℚ) (M := ℂ) (S := E)).toRingHom
-  have hr : ComplexEmbedding.IsReal τ := by
-    rw [ComplexEmbedding.isReal_iff]
-    ext x
-    rw [ComplexEmbedding.conjugate_coe_eq]
-    have := h4 τ x
-    rw [hs, AlgHom.id_apply] at this
-    rw [starRingEnd_apply]; exact this.symm
-  exact InfinitePlace.not_isReal_iff_isComplex.2 (htc.isComplex (InfinitePlace.mk τ))
-    (InfinitePlace.isReal_mk_iff.2 hr)
+  apply _root_.GlobalTheory.SnMass.SkewVol.cm_sigma_ne_id <;> assumption
 
 theorem fix_range (h : IsCMExt F E σ) {y : E} (hy : σ y = y) : ∃ c : F, algebraMap F E c = y := by
   apply PI.OmLocU.NormOneUnitFixedPoints.gr_fix_range <;> assumption

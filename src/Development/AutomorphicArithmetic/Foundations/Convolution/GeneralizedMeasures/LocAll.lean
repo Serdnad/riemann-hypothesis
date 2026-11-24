@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.GeneralizedMeasures.MatchOne
 public import GroundTheory.AutomorphicForms.SatakeNormalized
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.ThickFrames
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SplitLoc
@@ -270,12 +271,7 @@ namespace UpperTheory.ConvolutionTheory.L1
 private theorem haar_uniq {G : Type*} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [LocallyCompactSpace G]
     [SecondCountableTopology G] [MeasurableSpace G] [BorelSpace G] {K : Set G} {m m' : Measure G}
     (hm : m.IsHaarMeasure) (hm' : m'.IsHaarMeasure) (h : m K = 1) (h' : m' K = 1) : m = m' := by
-  have e := Measure.isMulLeftInvariant_eq_smul m m'
-  have e2 : m K = (Measure.haarScalarFactor m m' • m') K := by rw [← e]
-  rw [h, Measure.smul_apply, h', ENNReal.smul_def, smul_eq_mul, mul_one] at e2
-  have e3 : Measure.haarScalarFactor m m' = 1 := by exact_mod_cast e2.symm
-  rw [e3, one_smul] at e
-  exact e
+  apply _root_.haar_uniq <;> assumption
 
 private theorem gl_sc (R : Type*) [CommRing R] [TopologicalSpace R] [IsTopologicalRing R]
     [SecondCountableTopology R] (n : ℕ) : SecondCountableTopology (GL (Fin n) R) := by

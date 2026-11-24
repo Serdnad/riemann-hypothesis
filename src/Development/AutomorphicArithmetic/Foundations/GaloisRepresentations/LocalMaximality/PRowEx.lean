@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.PPLift
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsFlatLift
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 import Mathlib.Algebra.Order.Floor.Extended
@@ -149,13 +150,7 @@ private def den (B C : Subalgebra ℂ L) (hBC : B ≤ C) (e : B →ₐ[ℂ] ℂ)
 
 private lemma smul_omB (C : Subalgebra ℂ L) (q : ℕ) {c : L} (hc : c ∈ C) {y : DR ℂ L} (hy : y ∈ omB ℂ L C q) :
     c • y ∈ omB ℂ L C q := by
-  induction hy using Submodule.span_induction with
-  | mem y h =>
-    obtain ⟨b, hb, v, hv, rfl⟩ := h
-    exact Submodule.subset_span ⟨c * b, C.mul_mem hc hb, v, hv, by rw [smul_smul]⟩
-  | zero => simp
-  | add a b _ _ ha hb => rw [smul_add]; exact add_mem ha hb
-  | smul r a _ ha => rw [smul_comm]; exact Submodule.smul_mem _ _ ha
+  apply _root_.smul_omB' <;> assumption
 
 private lemma one_mul_omB (C : Subalgebra ℂ L) (q : ℕ) {a v : L} (ha : a ∈ C) (hv : v ∈ C) {y : DR ℂ L}
     (hy : y ∈ omB ℂ L C q) : (a • ExteriorAlgebra.ι L (D ℂ L v)) * y ∈ omB ℂ L C (q + 1) := by

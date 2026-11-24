@@ -1,5 +1,6 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.LevelSplitting.CompVInvMulVec
 public import Mathlib.Topology.Algebra.Module.ModuleTopology
 public import Mathlib.Topology.Instances.Matrix
 public import Mathlib.Topology.Algebra.Group.Units
@@ -430,16 +431,7 @@ theorem compactSpace_adicCompletionIntegers (v : HeightOneSpectrum (𝓞 F)) :
   Valued.integer.properSpace_iff_compactSpace_integer.1 (properSpace_adicCompletion F v)
 
 theorem countable_heightOneSpectrum : Countable (HeightOneSpectrum (𝓞 F)) := by
-  have : Countable (𝓞 F) := by
-    have : Countable F := (Module.finBasis ℚ F).equivFun.injective.countable
-    exact RingOfIntegers.coe_injective.countable
-  have : Countable (Ideal (𝓞 F)) := by
-    refine Function.Surjective.countable
-      (f := fun s : Finset (𝓞 F) => Ideal.span (s : Set (𝓞 F))) ?_
-    intro I
-    exact (IsNoetherian.noetherian I : I.FG)
-  exact Function.Injective.countable (f := fun la : HeightOneSpectrum (𝓞 F) => la.asIdeal)
-      fun a b h => HeightOneSpectrum.ext h
+  apply _root_.PI.LevelKSplit.W.Meas.places_countable <;> assumption
 
 theorem locallyCompact_finiteAdele : LocallyCompactSpace (FiniteAdeleRing (𝓞 F) F) := by
   have : Fact (∀ v : HeightOneSpectrum (𝓞 F),

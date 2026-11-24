@@ -111,6 +111,8 @@ import Formalism.SharpRestriction.GlobalSchurBounds.ThickPlacesCorollaryOfAnyTra
 import Mathlib.RingTheory.Etale.Weakly
 import Mathlib.RingTheory.Finiteness.ModuleFinitePresentation
 import Mathlib.RingTheory.TotallySplit
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.AllPositiveModelFiniteDimensionalCompactType
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MemSmoothVectorsDiscreteSeriesModelIff
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.ExistsCtxBase, Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactTorusActsFockVectorRowHighest, Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactTorusActsFockVectorRowHighestStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsContinuousRealScalarCharacterWeakWeilStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.RightDerivativeMultiplicityMapValueEqStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtremalVectorAnnihilated, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExtremalVectorValuesLoweringAndTorus, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExtremalVectorValuesLoweringAndTorusStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockPolynomialVectorsReframeSource, Development.AbelianVarietyTheory.Proofs.TwistedOperators.FockPolynomialVectorsReframeSourceStatement, Development.AbelianVarietyTheory.Proofs.DivisorProofs.LevelCharacterTrivialOnSubgroup, Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharacterPlacesOddAndPrincipalLevel, Development.AbelianVarietyTheory.Proofs.TwistedOperators.LevelCharacterPlacesOddAndPrincipalLevelStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaSeriesEqThetaLiftDefiniteGroupFormStatement, Development.AbelianVarietyTheory.Proofs.TwistedOperators.ThetaSpanAndGoodRange
@@ -539,14 +541,7 @@ theorem exp_smul_conj (hP : IsUnit P) (X : Matrix (Fin n) (Fin n) ℂ) (t : ℝ)
 
 theorem prod_conj_inv (hP : IsUnit P) (l : List (Matrix (Fin n) (Fin n) ℂ)) :
     (l.map fun g => P⁻¹ * g * P).prod = P⁻¹ * l.prod * P := by
-  have h1 : P * P⁻¹ = 1 := Matrix.mul_nonsing_inv _ ((Matrix.isUnit_iff_isUnit_det _).1 hP)
-  have h2 : P⁻¹ * P = 1 := Matrix.nonsing_inv_mul _ ((Matrix.isUnit_iff_isUnit_det _).1 hP)
-  induction l with
-  | nil => simp [h2]
-  | cons a l ih =>
-    rw [List.map_cons, List.prod_cons, List.prod_cons, ih]
-    calc P⁻¹ * a * P * (P⁻¹ * l.prod * P) = P⁻¹ * a * (P * P⁻¹) * l.prod * P := by simp only [Matrix.mul_assoc]
-      _ = _ := by rw [h1]; simp only [Matrix.mul_assoc, Matrix.one_mul]
+  apply _root_.GlobalTheory.CompactModel.list_prod_conj <;> assumption
 
 variable {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)}
 
@@ -558,19 +553,7 @@ theorem dRep_conj (hP : IsUnit P) (X : Matrix (Fin n) (Fin n) ℂ) (w : H) :
 theorem smoothVec_conj (hP : IsUnit P) (hG : Pᴴ * J * P = G) {w : H}
     (hw : SmoothVec {X | Xᴴ * G + G * X = 0} (fun g => σ (P * g * P⁻¹)) w) :
     SmoothVec {X | Xᴴ * J + J * X = 0} σ w := by
-  intro k Xs hXs
-  have h := hw k (fun i => P⁻¹ * Xs i * P) fun i => lie_conj_inv hP hG (hXs i)
-  have e : ∀ t : Fin k → ℝ, P * (List.ofFn fun i => NormedSpace.exp (t i • (P⁻¹ * Xs i * P))).prod * P⁻¹ =
-      (List.ofFn fun i => NormedSpace.exp (t i • Xs i)).prod := by
-    intro t
-    have : (List.ofFn fun i => NormedSpace.exp (t i • (P⁻¹ * Xs i * P))) =
-        (List.ofFn fun i => NormedSpace.exp (t i • Xs i)).map fun g => P⁻¹ * g * P := by
-      rw [List.map_ofFn]
-      congr 1
-      funext i
-      exact _root_.GlobalTheory.SmVec.exp_conj_inv hP _ _
-    rw [this, prod_conj_inv hP, conj_cancel hP]
-  simpa only [e] using h
+  apply _root_.GlobalTheory.SmVecModel.smoothVec_of_conj <;> assumption
 
 end Conj
 

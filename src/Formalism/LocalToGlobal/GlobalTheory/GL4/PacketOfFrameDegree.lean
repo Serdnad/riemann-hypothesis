@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ColNormExistsImNeZero
+import Formalism.HarderNarasimhan.HarderNarasimhanProofs.DualPl
 public import Formalism.HarderNarasimhan.StatementPl
 public import Formalism.HarderNarasimhan.HarderNarasimhanProofs.SizeMu
 public import Formalism.LocalRingCardinality.Params
@@ -618,31 +620,7 @@ open Formalism.BasicNotions Formalism.MainNotions.flipTwoThree Formalism.HN
 
 theorem trace_re_sum (E : Type) [Field E] [NumberField E] [IsTotallyComplex E] (z : E) :
     ((Algebra.trace ℚ E z : ℚ) : ℝ) = ∑ w : InfinitePlace E, 2 * (w.embedding z).re := by
-  classical
-  have h1 : ((Algebra.trace ℚ E z : ℚ) : ℂ) = ∑ φ : E →+* ℂ, φ z := by
-    have h : algebraMap ℚ ℂ (Algebra.trace ℚ E z) = ∑ σ : E →ₐ[ℚ] ℂ, σ z :=
-      trace_eq_sum_embeddings ℂ (x := z)
-    rw [show ((Algebra.trace ℚ E z : ℚ) : ℂ) = algebraMap ℚ ℂ (Algebra.trace ℚ E z) from
-      (eq_ratCast _ _).symm, h]
-    exact (Fintype.sum_equiv (RingHom.equivRatAlgHom E ℂ) (fun φ : E →+* ℂ => φ z)
-      (fun σ : E →ₐ[ℚ] ℂ => σ z) (fun _ => rfl)).symm
-  have h2 : ((Algebra.trace ℚ E z : ℚ) : ℝ) = ∑ φ : E →+* ℂ, (φ z).re := by
-    rw [← Complex.re_sum, ← h1, Complex.ratCast_re]
-  rw [h2, ← Finset.sum_fiberwise Finset.univ (fun φ : E →+* ℂ => InfinitePlace.mk φ)
-    (fun φ : E →+* ℂ => (φ z).re)]
-  refine Finset.sum_congr rfl fun w _ => ?_
-  have hfib : ∀ φ ∈ Finset.univ.filter (fun φ : E →+* ℂ => InfinitePlace.mk φ = w),
-      (φ z).re = (w.embedding z).re := by
-    intro φ hφ
-    have hw := (Finset.mem_filter.mp hφ).2
-    subst hw
-    rcases InfinitePlace.embedding_mk_eq φ with h | h
-    · rw [h]
-    · rw [h, ComplexEmbedding.conjugate_coe_eq, Complex.conj_re]
-  rw [Finset.sum_congr rfl hfib, Finset.sum_const, InfinitePlace.card_filter_mk_eq, nsmul_eq_mul]
-  have hm : w.mult = 2 := InfinitePlace.mult_isComplex ⟨w, IsTotallyComplex.isComplex w⟩
-  rw [hm]
-  norm_num
+  apply +allowSynthFailures _root_.Formalism.HN.DualPolygon.ident_trace_eq <;> assumption
 
 theorem two_nPl (E : Type) [Field E] [NumberField E] [IsTotallyComplex E] : 2 * nPl E = Module.finrank ℚ E := by
   classical
@@ -1551,15 +1529,7 @@ attribute [local instance] Formalism.BasicNotions.Host.cmStar
 section SlopeTestRemainingChoices
 
 theorem emb_nonreal {E : Type} [Field E] [NumberField E] [_root_.NumberField.IsTotallyComplex E] (φ : E →+* ℂ) : ∃ a : E, (φ a).im ≠ 0 := by
-  by_contra h
-  push Not at h
-  have hr : NumberField.ComplexEmbedding.IsReal φ :=
-    NumberField.ComplexEmbedding.isReal_iff.mpr (RingHom.ext fun x => by
-      rw [NumberField.ComplexEmbedding.conjugate_coe_eq]
-      exact Complex.conj_eq_iff_im.mpr (h x))
-  exact NumberField.InfinitePlace.not_isReal_iff_isComplex.mpr
-    (IsTotallyComplex.isComplex (NumberField.InfinitePlace.mk φ))
-    (NumberField.InfinitePlace.isReal_mk_iff.mpr hr)
+  apply _root_.GlobalTheory.Mem.SJ.colNorm_exists_im_ne_zero <;> assumption
 
 theorem map_mem_VV {ι : Type} [Fintype ι] {n : ℕ} (lam : ι → DomWeight n) {K : Type} [Field K] [CharZero K] (s : K →+* ℂ)
     {F : Pol K ι n} (hF : F ∈ VV K lam) : MvPolynomial.map s F ∈ VV ℂ lam := by

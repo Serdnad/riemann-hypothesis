@@ -293,25 +293,6 @@ theorem simple_add_zero {n : ℕ} {y z : Matrix (Fin n) (Fin n) K} (hy : IsUpUni
         omega
       rw [up_zero hz hkc, mul_zero]
 
-private lemma isUpUni_inv_lower_unipotent_orbits {n : ℕ} {x : Matrix (Fin n) (Fin n) K} (hx : IsUpUni x) :
-    IsUpUni x⁻¹ := by
-  have hd : IsUnit x.det := by
-    rw [Matrix.det_of_isUpperTriangular hx.1]
-    simp [hx.2]
-  letI := Matrix.invertibleOfIsUnitDet x hd
-  have h1 : x⁻¹.IsUpperTriangular := Matrix.blockTriangular_inv_of_blockTriangular hx.1
-  unfold IsUpUni
-  refine ⟨h1, fun a => ?_⟩
-  have h := congrFun (congrFun (mul_inv_one_up hx) a) a
-  rw [Matrix.mul_apply, Finset.sum_eq_single a, hx.2 a, one_mul, Matrix.one_apply_eq] at h
-  · exact h
-  · intro b _ hb
-    rcases lt_or_gt_of_ne hb with h' | h'
-    · rw [up_zero hx h', zero_mul]
-    · have hz : x⁻¹ b a = 0 := h1 (show id a < id b from h')
-      rw [hz, mul_zero]
-  · simp
-
 private lemma sum_superdiagonal_eq_sum_ite {n : ℕ} (M : Matrix (Fin n) (Fin n) K) :
     (∑ j : Fin n, if h : (j : ℕ) + 1 < n then M j ⟨j + 1, h⟩ else 0) =
       ∑ a : Fin n, ∑ c : Fin n, if (c : ℕ) = a + 1 then M a c else 0 := by
@@ -349,7 +330,7 @@ theorem phase_main : PhaseWellDef := by
     apply Matrix.inv_eq_left_inv
     rw [show ptI s t * x * pt s t * y = ptI s t * (x * pt s t * y) by
       simp only [Matrix.mul_assoc], h, ptI_mul_pt]
-  have hzU : IsUpUni y⁻¹ := isUpUni_inv_lower_unipotent_orbits hy
+  have hzU : IsUpUni y⁻¹ := _root_.Formalism.DoubleCosetMeasures.isUpUni_inv _ hy
   have hz : ∀ a c, y⁻¹ (revF s a) (revF s c) =
       ↑(t (blk s a))⁻¹ * x a c * ↑(t (blk s c)) := by
     intro a c

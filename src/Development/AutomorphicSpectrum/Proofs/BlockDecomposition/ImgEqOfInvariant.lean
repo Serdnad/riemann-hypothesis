@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CharacterTheory.EqZeroOfNotPrimary
 public import Mathlib.Algebra.Polynomial.AlgebraMap
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.QuotientVanishing.NonEllFlag
 public import Mathlib.LinearAlgebra.Charpoly.Basic
@@ -71,23 +72,7 @@ theorem UpperTheory.Reformulated.B.AevalIntertwining.aeval_intertwine :
     (∀ (x : M), (φ : M → N) ((f : M → M) x) = (f' : N → N) ((φ : M → N) x)) →
       ∀ (p : Polynomial K) (x : M),
         (φ : M → N) (((Polynomial.aeval f : Polynomial K → Module.End K M) p : M → M) x) =
-          ((Polynomial.aeval f' : Polynomial K → Module.End K N) p : N → N) ((φ : M → N) x) := by
-  intro K _ M N _ _ _ _ φ f f' h p
-  have hpow : ∀ (n : ℕ) (x : M), φ ((f ^ n) x) = (f' ^ n) (φ x) := by
-    intro n
-    induction n with
-    | zero => intro x; simp
-    | succ n ih =>
-      intro x
-      rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih, h]
-  induction p using Polynomial.induction_on' with
-  | add p q hp hq =>
-    intro x
-    simp only [map_add (f := _), LinearMap.add_apply, hp, hq]
-  | monomial n a =>
-    intro x
-    simp only [Polynomial.aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply,
-      map_smul, hpow]
+          ((Polynomial.aeval f' : Polynomial K → Module.End K N) p : N → N) ((φ : M → N) x) := @_root_.GlobalTheory.CuspGL.intertwine_aeval_apply
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalIntertwining =====

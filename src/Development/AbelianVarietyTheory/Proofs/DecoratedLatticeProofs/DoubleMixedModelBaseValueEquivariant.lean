@@ -78,71 +78,84 @@ end GlobalTheory.EvalAtZero
 
 
 open GlobalTheory.EvalAtZero in
-theorem GlobalTheory.Unf.evalAt_xZero_yZero_rad : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → ∀ (u : UX D ρ) h₀, ∀ n ∈ radX J.d, ∀ h', evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) = s.om₀ (B.o.emb (h₀, 1), 1) (opA ψ J.d B.o B.ζ s.om₀ n h' (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)))) := by
-  intro D ψ ρ B J s om' hom' Ψ hΨ
-  have FS := fun f hf => GlobalTheory.T.mixedModelFormulasWittSource_proof D ψ B.V B.V₀ J.W ρ B.d s.χV s.χW s.om om' s.weil hom' s.vS.μ s.vS.𝓕 s.vS.covol f hf
-  have FT := fun f hf => GlobalTheory.T.mixedModelFormulas_wittTarget D ψ B.V₀ J.W J.W₀ ρ J.d s.χV s.χW om' s.om₀ hom' s.weil₀ s.vT.μ s.vT.𝓕 s.vT.covol f hf
-  have MV := fun x => (GlobalTheory.T.mixedCoordinates_of_thetaFunction_are_thetaFunctions D ψ s.weil.std).1 B.V B.V₀ J.W ρ B.d s.vS.μ s.vS.𝓕 s.vS.covol Ψ hΨ x
-  set y₀ := yZero B.V₀ ρ (vecB B.o B.ζ) with hy₀
+theorem GlobalTheory.Unf.evalAt_xZero_yZero_rad_of_decompositions : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ)
+    (V V₀ W W₀ A L : HSp D) (dV : HypDec V V₀ ρ) (dW : HypDec W W₀ ρ)
+    (o : OrthDec V₀ A L) (ζ : Fin L.rank → D.host.E) (s : Step ψ V V₀ W W₀ ρ ρ) (om' : Om V₀ W), IsWeilDatumO ψ V₀ W s.χV s.χW om' → ∀ (Ψ : WO V W → ℂ), IsThetaFunO ψ V W Ψ → ∀ (u : UX D ρ) h₀, ∀ n ∈ radX dW, ∀ h', evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA dV o h₀, n * dW.emb0 h') Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) = s.om₀ (o.emb (h₀, 1), 1) (opA ψ dW o ζ s.om₀ n h' (evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)))) := by
+  intro D ψ ρ V V₀ W W₀ A L dV dW o ζ s om' hom' Ψ hΨ
+  have FS := fun f hf => GlobalTheory.T.mixedModelFormulasWittSource_proof D ψ V V₀ W ρ dV s.χV s.χW s.om om' s.weil hom' s.vS.μ s.vS.𝓕 s.vS.covol f hf
+  have FT := fun f hf => GlobalTheory.T.mixedModelFormulas_wittTarget D ψ V₀ W W₀ ρ dW s.χV s.χW om' s.om₀ hom' s.weil₀ s.vT.μ s.vT.𝓕 s.vT.covol f hf
+  have MV := fun x => (GlobalTheory.T.mixedCoordinates_of_thetaFunction_are_thetaFunctions D ψ s.weil.std).1 V V₀ W ρ dV s.vS.μ s.vS.𝓕 s.vS.covol Ψ hΨ x
+  set y₀ := yZero V₀ ρ (vecB o ζ) with hy₀
   intro u h₀ n hn h'
-  obtain ⟨b, c, rfl⟩ := ((GlobalTheory.MixPer.flag_jacobi_structure D J.W J.W₀ ρ J.d).2.1 n).1 hn
-  set k := J.d.nB b * J.d.nC c * J.d.emb0 h' with hk
-  have hks : k ∈ stabX J.d := mul_mem (radX_le_stabX J.d hn) (wittSmallGroupEmbedding_mem_pointwiseStabilizerIsotropic J.d h')
-  have hkx : mt J.W k⁻¹ ⬝ J.d.jX = J.d.jX := inv_mem hks
+  obtain ⟨b, c, rfl⟩ := ((GlobalTheory.MixPer.flag_jacobi_structure D W W₀ ρ dW).2.1 n).1 hn
+  set k := dW.nB b * dW.nC c * dW.emb0 h' with hk
+  have hks : k ∈ stabX dW := mul_mem (radX_le_stabX dW hn) (wittSmallGroupEmbedding_mem_pointwiseStabilizerIsotropic dW h')
+  have hkx : mt W k⁻¹ ⬝ dW.jX = dW.jX := inv_mem hks
 
-  have e1 : (embA B.d B.o h₀, k) = (embA B.d B.o h₀, 1) * (1, k) := Prod.ext (mul_one _).symm (one_mul _).symm
+  have e1 : (embA dV o h₀, k) = (embA dV o h₀, 1) * (1, k) := Prod.ext (mul_one _).symm (one_mul _).symm
   have hk1 := s.weil.om_pres (1, k) Ψ hΨ
-  have s1 : B.d.mixS J.W ψ s.vS.μ s.vS.𝓕 (s.om (embA B.d B.o h₀, k) Ψ) (xZero J.d ⬝ u.1.1) =
-      om' (B.o.emb (h₀, 1), 1) (om' (1, k) (B.d.mixS J.W ψ s.vS.μ s.vS.𝓕 Ψ (xZero J.d ⬝ u.1.1))) := by
-    have hc := (FS _ hk1).core (B.o.emb (h₀, 1)) (xZero J.d ⬝ u.1.1)
-    have ht := (FS _ hΨ).target k (xZero J.d ⬝ u.1.1)
-    change B.d.mixS _ _ _ _ _ _ = _ at hc
+  have s1 : dV.mixS W ψ s.vS.μ s.vS.𝓕 (s.om (embA dV o h₀, k) Ψ) (xZero dW ⬝ u.1.1) =
+      om' (o.emb (h₀, 1), 1) (om' (1, k) (dV.mixS W ψ s.vS.μ s.vS.𝓕 Ψ (xZero dW ⬝ u.1.1))) := by
+    have hc := (FS _ hk1).core (o.emb (h₀, 1)) (xZero dW ⬝ u.1.1)
+    have ht := (FS _ hΨ).target k (xZero dW ⬝ u.1.1)
+    change dV.mixS _ _ _ _ _ _ = _ at hc
     rw [e1, map_mul, Module.End.mul_apply, embA_apply, hc, ht, ← Matrix.mul_assoc,
       xZero, hkx]
     rfl
-  set G := B.d.mixS J.W ψ s.vS.μ s.vS.𝓕 Ψ (xZero J.d ⬝ u.1.1) with hG
-  have hGt : IsThetaFunO ψ B.V₀ J.W G := MV _
+  set G := dV.mixS W ψ s.vS.μ s.vS.𝓕 Ψ (xZero dW ⬝ u.1.1) with hG
+  have hGt : IsThetaFunO ψ V₀ W G := MV _
 
-  have e2 : ((1 : GA D B.V₀), k) = (1, J.d.nB b) * ((1, J.d.nC c) * (1, J.d.emb0 h')) :=
+  have e2 : ((1 : GA D V₀), k) = (1, dW.nB b) * ((1, dW.nC c) * (1, dW.emb0 h')) :=
     Prod.ext (by rw [Prod.fst_mul, Prod.fst_mul, mul_one, mul_one]) (by rw [Prod.snd_mul, Prod.snd_mul, hk, mul_assoc])
-  have h3 := hom'.om_pres (1, J.d.emb0 h') G hGt
-  have h2 := hom'.om_pres (1, J.d.nC c) _ h3
-  have hy : mt B.V₀ (B.o.emb (h₀, 1))⁻¹ ⬝ y₀ = y₀ := by
-    rw [hy₀, yZero_vecB, ← map_inv, Prod.inv_mk, inv_one, ← Matrix.mul_assoc, B.o.emb_jB, mt_one, Matrix.mul_one]
-  have hpt : ptT J.d B.V₀ y₀ (J.d.nB b * J.d.nC c) = GlobalTheory.IndefiniteRowSideFullHecke.SkewGramHalfModule.ofAdj B.V₀ J.W₀ (y₀ ⬝ b) := by
-    rw [ptT_nB_mul_nC, ← ptT_nB_mul_nC J.d B.V₀ y₀ b 0, J.d.nC_zero, mul_one, ptT,
+  have h3 := hom'.om_pres (1, dW.emb0 h') G hGt
+  have h2 := hom'.om_pres (1, dW.nC c) _ h3
+  have hy : mt V₀ (o.emb (h₀, 1))⁻¹ ⬝ y₀ = y₀ := by
+    rw [hy₀, yZero_vecB, ← map_inv, Prod.inv_mk, inv_one, ← Matrix.mul_assoc, o.emb_jB, mt_one, Matrix.mul_one]
+  have hpt : ptT dW V₀ y₀ (dW.nB b * dW.nC c) = GlobalTheory.IndefiniteRowSideFullHecke.SkewGramHalfModule.ofAdj V₀ W₀ (y₀ ⬝ b) := by
+    rw [ptT_nB_mul_nC, ← ptT_nB_mul_nC dW V₀ y₀ b 0, dW.nC_zero, mul_one, ptT,
       GlobalTheory.IndefiniteRowSideFullHecke.SkewGramHalfModule.wittSmallProjection_wittNB_inv_mul_adjointInclusion]
-  have hcen : cenT J.d B.V₀ y₀ (J.d.nB b * J.d.nC c) = J.d.qT B.V₀ c y₀ :=
-    (GlobalTheory.T.jacobi_action_target_flag_unipotent_hom_equivariant D ψ J.W J.W₀ B.V₀ ρ J.d y₀ (fun v hv => yZero_mul B.V₀ _ hv)).1 b c
+  have hcen : cenT dW V₀ y₀ (dW.nB b * dW.nC c) = dW.qT V₀ c y₀ :=
+    (GlobalTheory.T.jacobi_action_target_flag_unipotent_hom_equivariant D ψ W W₀ V₀ ρ dW y₀ (fun v hv => yZero_mul V₀ _ hv)).1 b c
   have t1 := (FT _ hGt).core h' y₀
   have t2 := (FT _ h3).centre c y₀
   have t3 := (FT _ h2).unip b y₀
-  have t4 := (FT _ (hom'.om_pres (1, k) G hGt)).source (B.o.emb (h₀, 1)) y₀
-  have t5 : om' (1, k) G = om' (1, J.d.nB b) (om' (1, J.d.nC c) (om' (1, J.d.emb0 h') G)) := by
+  have t4 := (FT _ (hom'.om_pres (1, k) G hGt)).source (o.emb (h₀, 1)) y₀
+  have t5 : om' (1, k) G = om' (1, dW.nB b) (om' (1, dW.nC c) (om' (1, dW.emb0 h') G)) := by
     rw [e2, map_mul, map_mul, Module.End.mul_apply, Module.End.mul_apply]
-  change (_root_.I195MixedCoordinates.target J.d) B.V₀ ψ s.vT.μ s.vT.𝓕 (B.d.mixS J.W ψ s.vS.μ s.vS.𝓕 (s.om (embA B.d B.o h₀, k) Ψ) (xZero J.d ⬝ u.1.1)) y₀ = _
+  change (_root_.I195MixedCoordinates.target dW) V₀ ψ s.vT.μ s.vT.𝓕 (dV.mixS W ψ s.vS.μ s.vS.𝓕 (s.om (embA dV o h₀, k) Ψ) (xZero dW ⬝ u.1.1)) y₀ = _
   rw [s1, t4, hy, t5, t3, t2, t1]
-  show _ = s.om₀ (B.o.emb (h₀, 1), 1) (jacT ψ J.d B.V₀ y₀ (J.d.nB b * J.d.nC c) (s.om₀ (1, h') _))
+  show _ = s.om₀ (o.emb (h₀, 1), 1) (jacT ψ dW V₀ y₀ (dW.nB b * dW.nC c) (s.om₀ (1, h') _))
   unfold jacT
   simp only [hpt, hcen, heisO_smul, evalAt, hG]
   rfl
 
+open GlobalTheory.EvalAtZero in
+theorem GlobalTheory.Unf.evalAt_xZero_yZero_rad : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → ∀ (u : UX D ρ) h₀, ∀ n ∈ radX J.d, ∀ h', evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) = s.om₀ (B.o.emb (h₀, 1), 1) (opA ψ J.d B.o B.ζ s.om₀ n h' (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)))) := by
+  intro D ψ ρ B J s om' hom' Ψ hΨ
+  exact _root_.GlobalTheory.Unf.evalAt_xZero_yZero_rad_of_decompositions D ψ ρ B.V B.V₀ J.W J.W₀ B.A B.L B.d J.d B.o B.ζ s om' hom' Ψ hΨ
+
+open GlobalTheory.EvalAtZero in
+theorem GlobalTheory.Unf.evalAt_xZero_yZero_levi_of_decompositions : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ)
+    (V V₀ W W₀ A L : HSp D) (dV : HypDec V V₀ ρ) (dW : HypDec W W₀ ρ)
+    (o : OrthDec V₀ A L) (ζ : Fin L.rank → D.host.E) (s : Step ψ V V₀ W W₀ ρ ρ) (om' : Om V₀ W), IsWeilDatumO ψ V₀ W s.χV s.χW om' → ∀ (Ψ : WO V W → ℂ), IsThetaFunO ψ V W Ψ → ∀ (u γ : UX D ρ), evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, dW.levi γ.1) Ψ) (xZero dW ⬝ u.1.1) (yZero V₀ ρ (vecB o ζ)) = evalAt ψ dV dW s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero dW ⬝ (γ⁻¹ * u).1.1) (yZero V₀ ρ (vecB o ζ)) := by
+  intro D ψ ρ V V₀ W W₀ A L dV dW o ζ s om' hom' Ψ hΨ
+  have FS := fun f hf => GlobalTheory.T.mixedModelFormulasWittSource_proof D ψ V V₀ W ρ dV s.χV s.χW s.om om' s.weil hom' s.vS.μ s.vS.𝓕 s.vS.covol f hf
+  have FT := fun f hf => GlobalTheory.T.mixedModelFormulas_wittTarget D ψ V₀ W W₀ ρ dW s.χV s.χW om' s.om₀ hom' s.weil₀ s.vT.μ s.vT.𝓕 s.vT.covol f hf
+  have MV := fun x => (GlobalTheory.T.mixedCoordinates_of_thetaFunction_are_thetaFunctions D ψ s.weil.std).1 V V₀ W ρ dV s.vS.μ s.vS.𝓕 s.vS.covol Ψ hΨ x
+  set y₀ := yZero V₀ ρ (vecB o ζ) with hy₀
+  intro u γ
+  have e0 : (mt W (dW.levi γ.1)⁻¹ ⬝ (xZero dW ⬝ u.1.1) : Mx D W.rank ρ) = xZero dW ⬝ (γ⁻¹ * u).1.1 := by
+    rw [← map_inv, ← Matrix.mul_assoc, levi_xZero, Matrix.mul_assoc, Subgroup.coe_mul, Subgroup.coe_inv,
+      Units.val_mul]
+  change (_root_.I195MixedCoordinates.target dW) V₀ ψ s.vT.μ s.vT.𝓕 ((_root_.I195MixedCoordinates.source dV) W ψ s.vS.μ s.vS.𝓕 (s.om (1, dW.levi γ.1) Ψ) (xZero dW ⬝ u.1.1)) y₀ = _
+  rw [(FS _ hΨ).target, e0, (FT _ (MV _)).levi, yZero_mul V₀ _ γ.2, det_UX, halfMod_UX, map_one,
+    Circle.coe_one, Complex.ofReal_one, mul_one, one_smul]
+  rfl
 
 open GlobalTheory.EvalAtZero in
 theorem GlobalTheory.Unf.evalAt_xZero_yZero_levi : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → ∀ (u γ : UX D ρ), evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.levi γ.1) Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) = evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ (γ⁻¹ * u).1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) := by
   intro D ψ ρ B J s om' hom' Ψ hΨ
-  have FS := fun f hf => GlobalTheory.T.mixedModelFormulasWittSource_proof D ψ B.V B.V₀ J.W ρ B.d s.χV s.χW s.om om' s.weil hom' s.vS.μ s.vS.𝓕 s.vS.covol f hf
-  have FT := fun f hf => GlobalTheory.T.mixedModelFormulas_wittTarget D ψ B.V₀ J.W J.W₀ ρ J.d s.χV s.χW om' s.om₀ hom' s.weil₀ s.vT.μ s.vT.𝓕 s.vT.covol f hf
-  have MV := fun x => (GlobalTheory.T.mixedCoordinates_of_thetaFunction_are_thetaFunctions D ψ s.weil.std).1 B.V B.V₀ J.W ρ B.d s.vS.μ s.vS.𝓕 s.vS.covol Ψ hΨ x
-  set y₀ := yZero B.V₀ ρ (vecB B.o B.ζ) with hy₀
-  intro u γ
-  have e0 : (mt J.W (J.d.levi γ.1)⁻¹ ⬝ (xZero J.d ⬝ u.1.1) : Mx D J.W.rank ρ) = xZero J.d ⬝ (γ⁻¹ * u).1.1 := by
-    rw [← map_inv, ← Matrix.mul_assoc, levi_xZero, Matrix.mul_assoc, Subgroup.coe_mul, Subgroup.coe_inv,
-      Units.val_mul]
-  change (_root_.I195MixedCoordinates.target J.d) B.V₀ ψ s.vT.μ s.vT.𝓕 ((_root_.I195MixedCoordinates.source B.d) J.W ψ s.vS.μ s.vS.𝓕 (s.om (1, J.d.levi γ.1) Ψ) (xZero J.d ⬝ u.1.1)) y₀ = _
-  rw [(FS _ hΨ).target, e0, (FT _ (MV _)).levi, yZero_mul B.V₀ _ γ.2, det_UX, halfMod_UX, map_one,
-    Circle.coe_one, Complex.ofReal_one, mul_one, one_smul]
-  rfl
+  exact _root_.GlobalTheory.Unf.evalAt_xZero_yZero_levi_of_decompositions D ψ ρ B.V B.V₀ J.W J.W₀ B.A B.L B.d J.d B.o B.ζ s om' hom' Ψ hΨ
 
 theorem GlobalTheory.Unf.evalAt_xZero_yZero : ∀ (D : D7) (ψ : AddChar (AF D.host.F) ℂ) (ρ : ℕ) (B : BesLev D ρ) (J : JacLev D ρ) (s : StepBF ψ B J) (om' : Om B.V₀ J.W), IsWeilDatumO ψ B.V₀ J.W s.χV s.χW om' → ∀ (Ψ : WO B.V J.W → ℂ), IsThetaFunO ψ B.V J.W Ψ → (∀ (u : UX D ρ) h₀, ∀ n ∈ radX J.d, ∀ h', evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (embA B.d B.o h₀, n * J.d.emb0 h') Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) = s.om₀ (B.o.emb (h₀, 1), 1) (opA ψ J.d B.o B.ζ s.om₀ n h' (evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ))))) ∧ ∀ (u γ : UX D ρ), evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 (s.om (1, J.d.levi γ.1) Ψ) (xZero J.d ⬝ u.1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) = evalAt ψ B.d J.d s.vS.μ s.vS.𝓕 s.vT.μ s.vT.𝓕 Ψ (xZero J.d ⬝ (γ⁻¹ * u).1.1) (yZero B.V₀ ρ (vecB B.o B.ζ)) :=
   fun D ψ ρ B J s om' hom' Ψ hΨ => ⟨GlobalTheory.Unf.evalAt_xZero_yZero_rad D ψ ρ B J s om' hom' Ψ hΨ,

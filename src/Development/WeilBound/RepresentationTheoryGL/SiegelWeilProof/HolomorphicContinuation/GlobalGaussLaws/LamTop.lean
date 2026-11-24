@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.ContinuousOnTau
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.UnfoldingHolds
 public import Development.WeilBound.RepresentationTheoryGL.SiegelWeilProof.HolomorphicContinuation.GlobalGaussLaws.ConvRight
 public import Development.AutomorphicSpectrum.Proofs.GlobalProofs.EqZeroOfFourierCoefficientsVanish
 public import Development.AbelianVarietyTheory.PublishedTheorems.SiegelWeil₂.SiegelWeilUnitarySchrodinger
@@ -615,17 +617,7 @@ theorem continuous_blk (f : hermA D n → Mx D n n) (hf : Continuous f) :
   exact (Continuous.matrix_fromBlocks continuous_const hf continuous_const continuous_const).matrix_submatrix _ _
 
 theorem nb_continuous {nb : hermA D n → G D n} (h : IsNMap nb) : Continuous nb := by
-  haveI : IsModuleTopology (AF D.host.F) (AE D) := ⟨rfl⟩
-  haveI : IsTopologicalRing (AE D) := IsModuleTopology.isTopologicalRing (AF D.host.F) _
-  rw [(isEmbedding_matHom (AF D.host.F) D.sp.cm.sig (Jst D n)).continuous_iff]
-  refine Units.continuous_iff.2 ⟨?_, ?_⟩
-  · exact (continuous_blk _ continuous_subtype_val).congr fun b => (h b).symm
-  · refine (continuous_blk (fun b => -b.1) continuous_subtype_val.neg).congr fun b => ?_
-    have e : (matHom (AF D.host.F) D.sp.cm.sig (Jst D n) (nb b))⁻¹ = matHom (AF D.host.F) D.sp.cm.sig (Jst D n) (nb (-b)) := by
-      rw [nb_neg h, map_inv]
-    simp only [Function.comp_apply]
-    rw [e]
-    exact (h (-b)).symm
+  apply _root_.GlobalTheory.CompanionTheory.SwUnf.nb_continuous <;> assumption
 
 theorem nb_rat {nb : hermA D n → G D n} (h : IsNMap nb) {γ : hermA D n} (hγ : γ ∈ ratHerm D n) : nb γ ∈ GF D n := by
   obtain ⟨x, hx⟩ := mem_ratMx.1 hγ
@@ -733,23 +725,8 @@ theorem nb_neg {nb : hermA D n → G D n} (h : PositivityTheory.PfSWUS.IsNMap nb
   exact (eq_inv_of_mul_eq_one_left h').symm
 
 
-theorem nb_continuous {nb : hermA D n → G D n} (h : PositivityTheory.PfSWUS.IsNMap nb) : Continuous nb := by
-  obtain ⟨i1, -⟩ := lattice_Mx D n n
-  haveI : IsTopologicalAddGroup (Mx D n n) := i1
-  have he := GlobalTheory.AdelicU.isEmbedding_matHom (AF D.host.F) D.sp.cm.sig (Jst D n)
-  rw [he.continuous_iff, Units.continuous_iff]
-  have hc : Continuous fun b : hermA D n => blk4 (1 : Mx D n n) b.1 0 1 := by
-    unfold blk4
-    exact (continuous_const.matrix_fromBlocks continuous_subtype_val continuous_const continuous_const).matrix_submatrix _ _
-  refine ⟨?_, ?_⟩
-  · convert hc using 1
-    funext b
-    exact h b
-  · convert hc.comp continuous_neg using 1
-    funext b
-    simp only [Function.comp_apply]
-    rw [← map_inv, nb_neg h]
-    exact h (-b)
+theorem nb_continuous {nb : hermA D n → G D n} (h : PositivityTheory.PfSWUS.IsNMap nb) : Continuous nb :=
+  _root_.GlobalTheory.CompanionTheory.MuC.continuous_nb h
 
 end FZNH
 

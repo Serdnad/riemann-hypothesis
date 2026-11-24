@@ -110,11 +110,6 @@ theorem exists_weil_function : ∀ (C : Type) [Field C] [IsAlgClosed C] [CharZer
     refine ((he k _ s (hmk k z z' hz hz') hs _).1 ?_).symm
     rw [unitOn_mul']
     exact (hW _ A k _).2.1 _ _ _ _ _ (hself k z s hz hs) (hself k z' s hz' hs)
-  have halt : ∀ (k : ℕ) (z : Pts A.A), z ^ k = 1 → e k z z = 1 := by
-    intro k z hz
-    refine ((he k z z hz hz _).1 ?_).symm
-    rw [unitOn_one']
-    exact (hW _ A k _).2.2.1 z hz
   have hskew : ∀ (k : ℕ) (z s : Pts A.A), z ^ k = 1 → s ^ k = 1 → e k z s = (e k s z)⁻¹ := by
     intro k z s hz hs
     refine ((he k z s hz hs _).1 ?_).symm

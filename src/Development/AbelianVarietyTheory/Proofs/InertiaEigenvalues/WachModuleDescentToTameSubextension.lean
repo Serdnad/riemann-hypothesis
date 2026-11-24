@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.LevelLetterCocycles.RepresentationCongruences.LemGBInImgIff
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.MemEurOfTeichmullerSeries
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CyclotomicPowerSeriesAlgHomActionLaws
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CoordApply
@@ -963,22 +964,8 @@ theorem mem_DelF_iff (g : W.Gam) : g ∈ W.DelF ↔ IsOfFinOrder g := by
 
 theorem sum_inv (x : W.DD T) (δ : W.Gam) (hδ : δ ∈ W.DelF) :
     W.γD T δ (∑ d ∈ W.DelF, W.γD T d x) = ∑ d ∈ W.DelF, W.γD T d x := by
-
-  rw [map_sum]
-  rw [mem_DelF_iff] at hδ
-  refine Finset.sum_bij' (fun d _ => δ * d) (fun d _ => δ⁻¹ * d) ?_ ?_ ?_ ?_ ?_
-  · intro d hd
-    rw [mem_DelF_iff] at hd ⊢
-    exact hδ.mul hd
-  · intro d hd
-    rw [mem_DelF_iff] at hd ⊢
-    exact hδ.inv.mul hd
-  · intro d _
-    simp
-  · intro d _
-    simp
-  · intro d _
-    rw [W.γD_mul]
+  intros
+  apply _root_.Formalism.MainNotions.N.FrobeniusPowerSeries.lemGB_sum_inv <;> assumption
 
 theorem exists_avg (hc : IsUnit ((W.DelF.card : ℕ) : O)) (x : ↥(W.N T)) :
     ∃ x' y : ↥(W.N T), (x' : W.DD T) ∈ W.NΔ T ∧ x' = x + (letπ : LetA O n) • y := by

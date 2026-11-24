@@ -353,8 +353,6 @@ theorem eF_nonneg_and_le_exp_neg (C0 C' Cl Cg cb Cu cT CT c7 y : ℝ) (h1 : 1 �
   have hG : FrobeniusProjectedBounds.Gam D = Real.exp (L.CGam * (D.R.m : ℝ) ^ 5 * D.R.f * L.sc.L) := (gamOf_eq L D.u₀).symm
   set Λ : ℝ := L.CGam * (D.R.m : ℝ) ^ 5 * D.R.f * L.sc.L with hΛ
   have hΛ1 : L.CGam * y ^ 8 ≤ Λ := by rw [← hy]; exact logGam_ge L
-  have hy0 : 0 ≤ y := by linarith
-  have hc0 : 0 ≤ L.CGam * y ^ 8 := mul_nonneg L.CGam_pos.le (by positivity)
   have h8 : 8 * L.CGam ≤ C' := hh.2.1.1
   have hk : C' * (D.R.m : ℝ) ^ 5 * D.R.f * L.sc.L ≤ D.R.k := hh.2.1.2.1
   have hmfL : 0 ≤ (D.R.m : ℝ) ^ 5 * D.R.f * L.sc.L := by rw [hy]; positivity
@@ -431,7 +429,6 @@ theorem k_le_rank_product {k r f lr : ℝ} (hk : 5 ≤ k) (hkr : k ≤ r) (hf : 
 theorem four_r_lt_g_of_bounds {k b g r : ℝ} (hk : 5 ≤ k) (hb : 1 ≤ b) (hr : r ≤ 2 * k) (hg : (k * b) ^ 8 ≤ g) : 4 * r < g := by
   have h1 : k ^ 8 ≤ (k * b) ^ 8 := pow_le_pow_left₀ (by linarith) (le_mul_of_one_le_right (by linarith) hb) 8
   have h7 : (5 : ℝ) ^ 7 ≤ k ^ 7 := pow_le_pow_left₀ (by norm_num) hk 7
-  have h8 : k ^ 8 = k * k ^ 7 := by ring
   have h9 : k * (5 : ℝ) ^ 7 ≤ k * k ^ 7 := mul_le_mul_of_nonneg_left h7 (by linarith)
   norm_num at h9
   linarith
@@ -467,7 +464,6 @@ theorem lamS_lo (τ : D.what₂.Tau) (i : Fin D.R.r) (h : i.val < D.R.k - 1) :
 
 theorem lamS_hi (τ : D.what₂.Tau) (i : Fin D.R.r) (h : ¬ i.val < D.R.k - 1) :
     lamS D.R (D.hc τ) i = -bOne D τ (i.val - (D.R.k - 1) + 1) := by
-  have hi := i.isLt
   have hr : D.R.r = D.R.k + D.R.m - 1 := rfl
   have hk := D.R.m_add_three_le_k
   have h' : i.val - (D.R.k - 1) < D.R.m := by omega
@@ -508,7 +504,6 @@ theorem gapAtLeast_of (τ : D.what₂.Tau) (G : ℝ) (hG0 : 0 ≤ G)
       intro h; simp [epsS, h] at hc
     have hc2 : (c.val - (D.R.k - 1)) % 2 ≠ 0 := by
       simpa [epsS, hc1] using hc
-    have hcl := c.isLt
     rw [lamS_hi τ c hc1]
     by_cases ha1 : a.val < D.R.k - 1
     · rw [lamS_lo τ a ha1]
@@ -517,7 +512,6 @@ theorem gapAtLeast_of (τ : D.what₂.Tau) (G : ℝ) (hG0 : 0 ≤ G)
       exact le_trans (by linarith) (le_abs_self _)
     · have ha2 : (a.val - (D.R.k - 1)) % 2 = 0 := by
         simpa [epsS, ha1] using ha
-      have hal := a.isLt
       rw [lamS_hi τ a ha1]
       rcases Nat.lt_or_gt_of_ne (show a.val - (D.R.k - 1) + 1 ≠ c.val - (D.R.k - 1) + 1 by omega) with hlt | hgt
       · have g1 := bOne_gap_lt τ G hG0 hstep _ _ (by omega) hlt (by omega)
@@ -540,7 +534,6 @@ theorem lamS_abs_le (τ : D.what₂.Tau) (B : ℝ)
     obtain ⟨v0, v1⟩ := hv (i.val + 1) (by omega) (by omega)
     rwa [abs_of_nonneg v0]
   · rw [lamS_hi τ i hi, abs_neg]
-    have hi' := i.isLt
     have hr : D.R.r = D.R.k + D.R.m - 1 := rfl
     have hk := D.R.m_add_three_le_k
     obtain ⟨b0, b1⟩ := hb (i.val - (D.R.k - 1) + 1) (by omega) (by omega)
@@ -661,7 +654,6 @@ theorem card_epsS_false : (univ.filter fun a : Fin D.R.r => epsS D.R a = false).
         apply card_le_card_of_injOn (fun a : Fin D.R.r => (a.val - (D.R.k - 1)) / 2)
         · intro a ha
           have ha' := key a (by simpa using ha)
-          have hal := a.isLt
           simp only [coe_range, Set.mem_Iio]
           omega
         · intro a ha c hc hac
@@ -1081,7 +1073,6 @@ theorem permutedRowProductSplitSum {X θ Cl : ℝ} (hθ : 0 < θ) (h2 : 2 ≤ X)
     Cl * (1 + 3 * (X / θ) + X ^ 21) ≤ X ^ 100 := by
   have h1 : 1 ≤ X := by linarith
   have a := pX_div hθ h2 h3
-  have hXθ : 0 ≤ X / θ := by positivity
   have b : X ^ 2 ≤ X ^ 21 := pX_pow h1 (by norm_num)
   have c : (1 : ℝ) ≤ X ^ 21 := one_le_pow₀ h1
   have d : 1 + 3 * (X / θ) + X ^ 21 ≤ 3 * X ^ 21 := by linarith
@@ -1275,7 +1266,6 @@ theorem max_power_le_half_width (SzK : SizeK L) (SzW : SizeW L) (Cl : ℝ) (hCl0
     have f : Real.log (D.R.k : ℝ) * Cl ≤ XX L ^ 2 * XX L :=
       mul_le_mul e hCl hCl0.le (by positivity)
     rw [scL_XX L]
-    have g : XX L ^ 2 * XX L = XX L ^ 3 := by ring
     linarith
   · rw [scb_eq, ← Real.exp_mul]
     apply Real.exp_le_exp.2
@@ -1323,7 +1313,6 @@ theorem first_node_le_b_cubed (SzK : SizeK L) (h2 : 2 ≤ XX L) (h3 : 5 / szTh L
     have d := w''_le_a L
     have hS := L.Sc_pos
     have e : 3 * L.Sc ≤ (D.R.k : ℝ) * L.Sc := mul_le_mul_of_nonneg_right (by linarith) hS.le
-    have hbb : 0 ≤ L.sc.b ^ 2 := by positivity
     linarith
 
 
@@ -1652,7 +1641,6 @@ theorem standing_hypotheses_hold_family (C0 : ℝ) (h1 : 1 ≤ C0) (hR : Residua
   have r3 := tuWin_of (Fm.L x i) Fm.CTu t1 t2
   have hth : szTh (Fm.L x i) = eps / 100 := by unfold szTh; rw [Fm.L_eps]
   have hXX : XX (Fm.L x i) = x ^ (eps / 100) := by unfold XX; rw [hth, Fm.L_x x i hx1]
-  have P := Fm.params x hx1 i
   have hH := standing_hypotheses_of_bounds (Fm.L x i) (Fm.params x hx1 i) (Fm.sizes x hx1 i) (sCl Fm) (1 / 2) Fm.CTu (sCl_pos Fm)
     (by rw [Fm.params_CCount]; exact sCl_le_CCount Fm) (by rw [Fm.params_Cgap]; exact sCl_le_Cgap Fm)
     (by rw [hXX]; exact le_trans (le_max_left _ _) hx4')

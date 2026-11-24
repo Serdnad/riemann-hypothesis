@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GrowthBounds.WittFrameLocaliserOrders
 public import Formalism.SharpRestriction.GrowthBounds.ValuationLowestDegreeRename
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -80,15 +81,7 @@ variable {F} {j}
 
 omit [NeZero r] in
 theorem fr_lt (hV : F.Valid L₁ N₁) (J : ℤ) : ∀ i i', i < i' → i' < r → F.fr J i < F.fr J i' := by
-  obtain ⟨_, _, hinc, _⟩ := id hV
-  intro i i' h hr
-  induction i' with
-  | zero => omega
-  | succ k ih =>
-    rcases Nat.lt_succ_iff_lt_or_eq.mp h with h' | h'
-    · exact lt_trans (ih h' (by omega)) (hinc J k hr)
-    · subst h'
-      exact hinc J i hr
+  apply _root_.Formalism.MainNotions.G.WittFrameLocaliserOrders.frame_entries_strictMono <;> assumption
 
 omit [NeZero r] in
 theorem fr_le (hV : F.Valid L₁ N₁) (J : ℤ) (i i' : ℕ) (h : i ≤ i') (hr : i' < r) : F.fr J i ≤ F.fr J i' := by
@@ -128,9 +121,6 @@ theorem frp_mem (hV : F.Valid L₁ N₁) (j : ℤ) (i' : ℕ) (h : i' < r) : F.f
   have h2 := fr_prev_lt hV j
   have h3 := fr_le hV j 0 (r - 1) (by omega) (by omega)
   linarith
-
-private theorem segE_mem_lemma_6 (J : ℤ) (i : Fin (segN F J)) : segE F J i ∈ F.letters J :=
-  ((F.letters J).orderIsoOfFin rfl i).2
 
 private theorem segE_lt_lemma_7 (J : ℤ) {a b : Fin (segN F J)} : segE F J a < segE F J b ↔ a < b := by
   unfold segE
@@ -307,7 +297,7 @@ theorem mem_LLset_iff (hV : F.Valid L₁ N₁) (x : ℤ) :
 theorem dict_LL (hV : F.Valid L₁ N₁) (i : Fin (segN F j)) :
     segE F j i ∈ F.LLset j ↔ r ≤ i.val ∧ i.val < segN F j - r := by
   rw [mem_LLset_iff hV, dict_w hV, dict_early hV]
-  have hm := segE_mem_lemma_6 j i
+  have hm := ((F.letters j).orderIsoOfFin rfl i).2
   constructor
   · rintro ⟨_, h1, h2⟩
     exact ⟨not_lt.mp h1, h2⟩

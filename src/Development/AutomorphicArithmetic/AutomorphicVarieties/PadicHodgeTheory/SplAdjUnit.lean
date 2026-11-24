@@ -1,5 +1,7 @@
 module
 
+import Development.AutomorphicArithmetic.AutomorphicVarieties.SymplecticGSp4.ExDefs
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteExtensionDegreeDvdCardInvariants
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.RingTheory.Henselian
@@ -316,46 +318,7 @@ private theorem key {B S : Type} [CommRing B] [HenselianLocalRing B] [CommRing S
 private theorem ext_hom {B S C : Type} [CommRing B] [CommRing S] [Algebra B S] [Algebra.IsIntegral B S]
     (hinj : Function.Injective (algebraMap B S)) [Field C] [IsAlgClosed C] (f : B →+* C) :
     ∃ g : S →+* C, g.comp (algebraMap B S) = f := by
-  have hp : (RingHom.ker f).IsPrime := RingHom.ker_isPrime f
-  obtain ⟨P, -, hP, hc⟩ := Ideal.exists_ideal_over_prime_of_isIntegral (RingHom.ker f) (⊥ : Ideal S)
-    (by
-      intro b hb
-      have : algebraMap B S b = 0 := hb
-      have hb0 : b = 0 := hinj (by rw [this, map_zero])
-      rw [hb0]; exact Ideal.zero_mem _)
-  set q := P.comap (algebraMap B S)
-  have hq : q = RingHom.ker f := hc
-  have hqk : ∀ b ∈ q, f b = 0 := by
-    intro b hb
-    rw [hq] at hb
-    exact hb
-  let f1 : B ⧸ q →+* C := Ideal.Quotient.lift q f hqk
-  have hf1 : Function.Injective f1 := by
-    set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-    intro a ha
-    obtain ⟨b, rfl⟩ := Ideal.Quotient.mk_surjective a
-    have : b ∈ q := by rw [hq]; exact ha
-    exact Ideal.Quotient.eq_zero_iff_mem.mpr this
-  letI : Algebra (B ⧸ q) C := f1.toAlgebra
-  have hi : Function.Injective (algebraMap (B ⧸ q) (S ⧸ P)) := by
-    exact Ideal.algebraMap_quotient_injective
-  haveI : Algebra.IsIntegral (B ⧸ q) (S ⧸ P) := .tower_top B
-  haveI : IsDomain (B ⧸ q) := Ideal.Quotient.isDomain q
-  haveI : IsDomain (S ⧸ P) := Ideal.Quotient.isDomain P
-  haveI : Module.IsTorsionFree (B ⧸ q) (S ⧸ P) := Module.isTorsionFree_iff_algebraMap_injective.mpr hi
-  haveI : Module.IsTorsionFree (B ⧸ q) C := Module.isTorsionFree_iff_algebraMap_injective.mpr hf1
-  haveI : Algebra.IsAlgebraic (B ⧸ q) (S ⧸ P) := Algebra.IsIntegral.isAlgebraic
-  let L : (S ⧸ P) →ₐ[B ⧸ q] C := (by
-    refine @_root_.IsAlgClosed.lift _ _ _ _ _ _ _ _ _ _ _ ?_ ?_ ?_
-    solve_by_elim* (maxDepth := 2) only [*,
-      @_root_.DivisionSemiring.to_moduleIsTorsionFree,
-      @_root_.Algebra.IsIntegral.isAlgebraic, @_root_.inferInstance])
-  refine ⟨(L : (S ⧸ P) →+* C).comp (Ideal.Quotient.mk P), ?_⟩
-  ext b
-  have h1 : Ideal.Quotient.mk P (algebraMap B S b) = algebraMap (B ⧸ q) (S ⧸ P) (Ideal.Quotient.mk q b) := rfl
-  simp only [RingHom.comp_apply, RingHom.coe_coe]
-  rw [h1, L.commutes]
-  rfl
+  apply _root_.GlobalTheory.InvariantSpecialisation.exists_extension <;> assumption
 
 private theorem loc_hom {l : ℕ} [Fact (Nat.Prime l)] (κ : PadicAlgCl l) (hκ : 1 ≤ ‖κ‖) :
     ∃ h : Polynomial ℤ_[l], h.eval₂ ((algebraMap ℚ_[l] (PadicAlgCl l)).comp (algebraMap ℤ_[l] ℚ_[l])) κ = 0 ∧
@@ -560,17 +523,7 @@ private theorem spl_gsp {ν : R} {X : M4 R} (h : IsGSp ν X) : IsGSp (f ν) (f.m
 
 private theorem spl_prj (c : Fin 4 → R) (X : M4 R) (i : Fin 4) :
     prj (fun a => f (c a)) (f.mapMatrix X) i = f.mapMatrix (prj c X i) := by
-  unfold prj
-  have h : ∀ p : Polynomial R,
-      Polynomial.aeval (f.mapMatrix X) (p.map f) = f.mapMatrix (Polynomial.aeval X p) := by
-    intro p
-    induction p using Polynomial.induction_on' with
-    | add p q hp hq => rw [Polynomial.map_add (f := _), map_add (f := _), map_add (f := _), map_add (f := _), hp, hq]
-    | monomial n a =>
-      rw [Polynomial.map_monomial, Polynomial.aeval_monomial, Polynomial.aeval_monomial, map_mul, map_pow,
-        Algebra.algebraMap_eq_smul_one, Algebra.algebraMap_eq_smul_one, spl_smul, map_one]
-  rw [← h, Polynomial.map_prod]
-  simp only [Polynomial.map_sub, Polynomial.map_X, Polynomial.map_C]
+  apply _root_.UpperTheory.V.GradeZeroInterpolatingElement.Ex.prj_map <;> assumption
 
 private theorem spl_ord {I : Subgroup H} {ps : Fin 4 → H → R} {s₀ : H} {r : H →* M4 R} (h : Ord I ps s₀ r) :
     Ord I (fun i g => f (ps i g)) s₀ (mapRep f r) := by

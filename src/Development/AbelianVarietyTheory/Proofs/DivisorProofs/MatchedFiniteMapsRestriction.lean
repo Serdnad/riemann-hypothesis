@@ -44,6 +44,7 @@ import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
 import Development.AbelianVarietyTheory.Definitions.Divisors.MatchingOfParts
+import Development.WeilBound.ThetaLifts.LatticeBasics.PairsB
 
 @[expose] public section
 
@@ -55,71 +56,7 @@ namespace GlobalTheory.FinUniq
 
 theorem rank_SB_le (X : Type) [TopologicalSpace X] [SecondCountableTopology X] :
     Module.rank ℂ (SB X) ≤ Cardinal.aleph0 := by
-  classical
-  set 𝓑 := TopologicalSpace.countableBasis X
-  have hB := TopologicalSpace.isBasis_countableBasis X
-  haveI : Countable 𝓑 := (TopologicalSpace.countable_countableBasis X).to_subtype
-  set S : Set (X → ℂ) := Set.range fun s : Finset 𝓑 => Set.indicator (⋃ b ∈ s, (b : Set X)) (1 : X → ℂ)
-  have hS : S.Countable := Set.countable_range _
-
-  have hco : ∀ U : Set X, IsOpen U → IsCompact U → Set.indicator U (1 : X → ℂ) ∈ S := by
-    intro U hU hK
-    have hcov : U ⊆ ⋃ i : {b : 𝓑 // (b : Set X) ⊆ U}, (i.1 : Set X) := by
-      intro x hx
-      obtain ⟨b, hb, hxb, hbU⟩ := hB.exists_subset_of_mem_open hx hU
-      exact Set.mem_iUnion.2 ⟨⟨⟨b, hb⟩, hbU⟩, hxb⟩
-    obtain ⟨t, ht⟩ := hK.elim_finite_subcover (fun i : {b : 𝓑 // (b : Set X) ⊆ U} => (i.1 : Set X))
-      (fun i => hB.isOpen i.1.2) hcov
-    refine ⟨t.image Subtype.val, ?_⟩
-    show Set.indicator _ 1 = _
-    congr 1
-    apply Set.Subset.antisymm
-    · intro x hx
-      simp only [Set.mem_iUnion, Finset.mem_image] at hx
-      obtain ⟨b, ⟨i, -, rfl⟩, hxb⟩ := hx
-      exact i.2 hxb
-    · intro x hx
-      have := ht hx
-      simp only [Set.mem_iUnion] at this ⊢
-      obtain ⟨i, hi, hxi⟩ := this
-      exact ⟨i.1, Finset.mem_image_of_mem _ hi, hxi⟩
-  have hle : SB X ≤ Submodule.span ℂ S := by
-    intro f hf
-    obtain ⟨hlc, hcs⟩ := hf
-    have hK : IsCompact (tsupport f) := hcs
-    haveI : CompactSpace (tsupport f) := isCompact_iff_compactSpace.1 hK
-    have hfin0 : (Set.range fun x : tsupport f => f x).Finite :=
-      (hlc.comp_continuous continuous_subtype_val).range_finite
-    have hfin : (Set.range f).Finite := by
-      refine (hfin0.insert 0).subset ?_
-      rintro _ ⟨x, rfl⟩
-      by_cases hx : f x = 0
-      · exact Or.inl hx
-      · exact Or.inr ⟨⟨x, subset_tsupport _ hx⟩, rfl⟩
-    have heq : f = ∑ c ∈ hfin.toFinset.filter (· ≠ 0), c • Set.indicator (f ⁻¹' {c}) (1 : X → ℂ) := by
-      funext x
-      rw [Finset.sum_apply]
-      by_cases hx : f x = 0
-      · rw [hx]
-        refine (Finset.sum_eq_zero fun c hc => ?_).symm
-        have hc0 : c ≠ 0 := (Finset.mem_filter.1 hc).2
-        simp [Set.indicator, hx, Ne.symm hc0]
-      · rw [Finset.sum_eq_single (f x)]
-        · simp [Set.indicator]
-        · intro c _ hcx
-          simp [Set.indicator, Ne.symm hcx]
-        · intro h
-          exact absurd (Finset.mem_filter.2 ⟨hfin.mem_toFinset.2 ⟨x, rfl⟩, hx⟩) h
-    rw [heq]
-    refine Submodule.sum_mem _ fun c hc => Submodule.smul_mem _ _ (Submodule.subset_span (hco _ ?_ ?_))
-    · exact hlc.isOpen_fiber c
-    · have hc0 : c ≠ 0 := (Finset.mem_filter.1 hc).2
-      refine hK.of_isClosed_subset (hlc.isClosed_fiber c) ?_
-      intro x hx
-      exact subset_tsupport _ (by rw [Set.mem_preimage, Set.mem_singleton_iff] at hx; rw [Function.mem_support, hx]; exact hc0)
-  calc Module.rank ℂ (SB X) ≤ Module.rank ℂ (Submodule.span ℂ S) := Submodule.rank_mono hle
-    _ ≤ Cardinal.mk S := rank_span_le S
-    _ ≤ Cardinal.aleph0 := Cardinal.mk_le_aleph0_iff.2 hS.to_subtype
+  apply _root_.GlobalTheory.ThK.Dbl.Prs.rank_SB_le <;> assumption
 
 theorem sc_Fv {F : Type} [Field F] [NumberField F] (v : Pl (F := F)) : SecondCountableTopology (Fv F v) := by
   have : Countable F := (Module.finBasis ℚ F).equivFun.injective.countable

@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.GroupLattices.PendingLemmas.WittFractionToCpAlgebraMap
 public import Mathlib.NumberTheory.Padics.Complex
 public import Mathlib.NumberTheory.Padics.PadicIntegers
 public import Mathlib.Topology.Algebra.Nonarchimedean.AdicTopology
@@ -75,30 +76,7 @@ open Polynomial in
 private lemma norm_le_one_of_monic_root_lemma {K : Type*} [NormedField K] [IsUltrametricDist K]
     {p : K[X]} (hp : p.Monic) (hc : ∀ i, ‖p.coeff i‖ ≤ 1) {x : K} (hx : p.eval x = 0) :
     ‖x‖ ≤ 1 := by
-  by_contra h
-  push_neg at h
-  rw [hp.as_sum] at hx
-  simp only [eval_add, eval_pow, eval_X, Polynomial.eval_finsetSum, eval_mul, eval_C] at hx
-  set n := p.natDegree
-  have hxn : x ^ n = -∑ i ∈ Finset.range n, p.coeff i * x ^ i := eq_neg_of_add_eq_zero_left hx
-  rcases Nat.eq_zero_or_pos n with hn | hn
-  · rw [hn] at hxn
-    simp at hxn
-  have hle : ‖x ^ n‖ ≤ ‖x‖ ^ (n - 1) := by
-    rw [hxn, norm_neg]
-    refine IsUltrametricDist.norm_sum_le_of_forall_le_of_nonneg (by positivity) fun i hi => ?_
-    rw [norm_mul, norm_pow]
-    have hi' : i ≤ n - 1 := by
-      have := Finset.mem_range.mp hi
-      omega
-    calc ‖p.coeff i‖ * ‖x‖ ^ i ≤ 1 * ‖x‖ ^ (n - 1) := by
-          gcongr
-          · exact hc i
-          · exact h.le
-      _ = ‖x‖ ^ (n - 1) := one_mul _
-  rw [norm_pow] at hle
-  have hlt : ‖x‖ ^ (n - 1) < ‖x‖ ^ n := pow_lt_pow_right₀ h (by omega)
-  linarith
+  apply _root_.Formalism.L2.G.Pend.norm_le_one_of_root <;> assumption
 
 
 open Polynomial in

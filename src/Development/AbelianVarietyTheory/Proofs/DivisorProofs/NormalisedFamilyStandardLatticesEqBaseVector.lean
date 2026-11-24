@@ -46,6 +46,8 @@ import Development.AbelianVarietyTheory.BlockTheory.DivisorBase.TopPlaceLogTheta
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.CosetRefinement
 import Formalism.LocalToGlobal.Columns.AlgebraMapMemMaximalIdealPowIff
 import Formalism.LocalToGlobal.Divisibility.CoefMod
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HermitianLatticeTransportPreservesSelfDual
+import Formalism.LocalToGlobal.KernelLattices.KernelLocalFactors.IsAdmissibleFlagPairOfUnitriangularLeftAutomorph
 
 @[expose] public section
 
@@ -58,56 +60,10 @@ namespace GlobalTheory.NatAtStd
 
 theorem isSD_pi (E : Type) [Field E] [NumberField E] [StarRing E] (N : ℕ) :
     IsSDLat E N (Submodule.pi Set.univ fun _ => (1 : Submodule (𝓞 E) E)) := by
-  have hr : ∀ x : E, x ∈ (algebraMap (𝓞 E) E).range ↔ IsIntegral ℤ x := fun x =>
-    ⟨by rintro ⟨a, rfl⟩; exact a.2, fun h => ⟨⟨x, h⟩, rfl⟩⟩
-  have hm : ∀ x : Fin N → E, x ∈ (Submodule.pi Set.univ fun _ => (1 : Submodule (𝓞 E) E)) ↔
-      ∀ k, IsIntegral ℤ (x k) := fun x => by
-    simp only [Submodule.mem_pi, Set.mem_univ, forall_true_left, Submodule.mem_one]
-    exact forall_congr' fun k => hr (x k)
-  have hs : ∀ k : Fin N, (Pi.single k 1 : Fin N → E) ∈
-      (Submodule.pi Set.univ fun _ => (1 : Submodule (𝓞 E) E)) := fun k => by
-    rw [hm]
-    intro j
-    rw [Pi.single_apply]
-    split_ifs
-    · exact isIntegral_one
-    · exact isIntegral_zero
-  refine ⟨Submodule.fg_pi fun _ => ?_, ?_, fun y => ⟨fun hy x hx => ?_, fun h => ?_⟩⟩
-  · rw [Submodule.one_eq_span]; exact Submodule.fg_span_singleton _
-  · rw [eq_top_iff, ← (Pi.basisFun E (Fin N)).span_eq]
-    refine Submodule.span_mono ?_
-    rintro _ ⟨k, rfl⟩
-    simpa using hs k
-  · rw [hr]
-    rw [hm] at hx hy
-    exact IsIntegral.sum _ fun i _ => ((hx i).map (starRingEnd E).toIntAlgHom).mul (hy i)
-  · rw [hm]
-    intro k
-    have := h _ (hs k)
-    rw [hr] at this
-    simpa [stdH, Pi.single_apply, apply_ite] using this
+  apply _root_.GlobalTheory.SeamSelfDual.isSDLat_pi <;> assumption
 
 theorem detId_std (D : D7) (N : ℕ) : TaylorLogMetric.detId D (StandardLatticesGL3.stdL D N) (StandardLatticesGL3.stdL D N) = 1 := by
-  classical
-  apply le_antisymm
-  · refine Submodule.span_le.2 ?_
-    rintro _ ⟨A, hA, rfl⟩
-    have h : ∀ i j, ∃ b : 𝓞 D.host.E, algebraMap (𝓞 D.host.E) D.host.E b = A i j := fun i j => by
-      have h1 : (Pi.single j 1 : Fin N → D.host.E) ∈ StandardLatticesGL3.stdL D N := fun k _ => by
-        by_cases e : k = j
-        · subst e
-          rw [Pi.single_eq_same]
-          exact Submodule.one_le.1 le_rfl
-        · rw [Pi.single_eq_of_ne e]
-          exact Submodule.zero_mem _
-      have h2 := Submodule.mem_one.1 (hA _ h1 i trivial)
-      simpa using h2
-    choose b hb using h
-    have e : A = (algebraMap (𝓞 D.host.E) D.host.E).mapMatrix (Matrix.of b) :=
-      Matrix.ext fun i j => (hb i j).symm
-    rw [e, ← RingHom.map_det]
-    exact Submodule.mem_one.2 ⟨_, rfl⟩
-  · exact Submodule.one_le.2 (Submodule.subset_span ⟨1, fun v hv => by simpa using hv, Matrix.det_one.symm⟩)
+  apply _root_.Formalism.L2.Ker.detId_std <;> assumption
 
 theorem chi_one (D : D7) (χ : TaylorLogMetric.IdE D → ℂ) (h : TaylorLogMetric.IsChi D χ) : χ 1 = 1 := by
   letI := D.host.cmStar

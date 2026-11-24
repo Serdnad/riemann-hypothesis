@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.GaussianSeminormBounds.RealSeminormFiltration.RLFock
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.MixedModels.AdaptC
 public import Development.WeilBound.ThetaLifts.TowerModels.TwistedSums.EventuallySelfDualLatticeIndicatorIsVacuum
 public import Development.WeilBound.ThetaLifts.LeviDeterminants.EvFrame
@@ -433,53 +434,12 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 
 theorem tr_evI (h : IsTotallyReal F) (a : AF F) : Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F a) =
     ∑ w : InfinitePlace F, (InfinitePlace.Completion.extensionEmbedding w (a.1 w)).re := by
-  classical
-  haveI : IsEmpty {w : InfinitePlace F // w.IsComplex} :=
-    ⟨fun w => InfinitePlace.not_isReal_iff_isComplex.2 w.2 (h.isReal w.1)⟩
-  rw [evI, Algebra.trace_prod_apply, PI.ProdFormulaE.Tr.trace_pi, PI.ProdFormulaE.Tr.trace_pi,
-    InfiniteAdeleRing.ringEquiv_mixedSpace_apply]
-  refine (congrArg₂ HAdd.hAdd ?_ (Finset.sum_of_isEmpty _)).trans (add_zero _)
-  refine Fintype.sum_equiv (Equiv.subtypeUnivEquiv h.isReal) _ _ fun w => ?_
-  rw [Equiv.subtypeUnivEquiv_apply, ← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply w.2, Complex.ofReal_re]
-  simp
+  apply _root_.PositivityTheory.RL.Fock.trace_mixed <;> assumption
 
 theorem tr_tr (h : IsCMExt F E σ) (τ : ∀ w : InfinitePlace F, EmbOver E w) (z : AE F E) :
     Algebra.trace ℝ (mixedEmbedding.mixedSpace F) (evI F (Algebra.trace (AF F) (AE F E) z)) =
       ∑ w, 2 * (piInf (τ w) z).re := by
-  rw [tr_evI h.1]
-  refine Finset.sum_congr rfl fun w _ => ?_
-  have h1 : algebraMap (AF F) (AE F E) (Algebra.trace (AF F) (AE F E) z) = z + cA σ z := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | add a b ha hb => simp only [map_add (f := _), ha, hb]; ring
-    | tmul a e =>
-      rw [← Tw.VacIndic.smul_inclR_eq, map_smul (Algebra.trace _ _), map_smul (cA σ), Tw.VacIndic.trace_inclR, Tw.VacIndic.cA_inclR, ← smul_add,
-        ← map_add, ← GlobalTheory.SelfDualLatticeCompare.trace_field h, smul_eq_mul, map_mul, Algebra.smul_def]
-      congr 1
-      generalize Algebra.trace F E e = t
-      show algebraMap F (AF F) t ⊗ₜ[F] (1 : E) = (1 : AF F) ⊗ₜ[F] algebraMap F E t
-      rw [Algebra.algebraMap_eq_smul_one (A := AF F), Algebra.algebraMap_eq_smul_one (A := E), TensorProduct.smul_tmul]
-  have hconj (τ : EmbOver E w) (z : AE F E) : piInf τ (cA σ z) = star (piInf τ z) := by
-    induction z using TensorProduct.induction_on with
-    | zero => simp
-    | add x y hx hy => simp only [map_add (f := _), hx, hy, star_add]
-    | tmul a e =>
-      have hz : cA σ (a ⊗ₜ[F] e) = a ⊗ₜ[F] σ e := by simp [cA]
-      have hr : star (InfinitePlace.Completion.extensionEmbedding w (a.1 w)) =
-          InfinitePlace.Completion.extensionEmbedding w (a.1 w) := by
-        rw [← InfinitePlace.Completion.extensionEmbeddingOfIsReal_apply (h.1.isReal w)]
-        exact Complex.conj_ofReal _
-      rw [hz]
-      change InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 (σ e) =
-        star (InfinitePlace.Completion.extensionEmbedding w (a.1 w) * τ.1 e)
-      rw [star_mul', hr, h.2.2.2]
-  have h2 := congrArg (piInf (τ w)) h1
-  rw [map_add (f := _), hconj] at h2
-  have h3 : piInf (τ w) (algebraMap (AF F) (AE F E) (Algebra.trace (AF F) (AE F E) z)) =
-      InfinitePlace.Completion.extensionEmbedding w ((Algebra.trace (AF F) (AE F E) z).1 w) * (τ w).1 1 := rfl
-  rw [h3, map_one, mul_one] at h2
-  rw [h2, Complex.add_re, Complex.star_def, Complex.conj_re]
-  ring
+  apply _root_.PositivityTheory.RL.Fock.trace_trace <;> assumption
 
 abbrev cj : ℂ →ₐ[ℝ] ℂ := Complex.conjAe
 

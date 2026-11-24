@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GramFiberMeasuresChangeOfForm
 public import Development.AbelianVarietyTheory.Definitions.Divisors.HxiTZeroComb
 public import Development.AbelianVarietyTheory.Definitions.GaloisGeometry.OmegaPullOmegaTraceOfSecTraceOne
 public import Development.AbelianVarietyTheory.Definitions.Divisors.ExistsIsGHeckeMapForget
@@ -289,15 +290,7 @@ def latMonoid : Submonoid G.GAf where
   mul_mem' := fun {a b} ha hb v hv => by rw [map_mul, Module.End.mul_apply]; exact ha _ (hb v hv)
 
 theorem smul_mem_laHat {a : AfP p} (ha : IsIntAf a) {v : AfP p ⊗[ℚ] VQ D} (hv : v ∈ LaHat D) : a • v ∈ LaHat D := by
-  induction hv using AddSubgroup.closure_induction with
-  | mem u hu =>
-    obtain ⟨a', x, ha', rfl⟩ := hu
-    refine AddSubgroup.subset_closure ⟨a * a', x, fun w => ?_, by rw [TensorProduct.smul_tmul', smul_eq_mul]⟩
-    rw [map_mul]
-    exact mul_mem (ha w) (ha' w)
-  | zero => rw [smul_zero]; exact zero_mem _
-  | add u u' _ _ hu hu' => rw [smul_add]; exact add_mem hu hu'
-  | neg u _ hu => rw [smul_neg]; exact neg_mem hu
+  apply _root_.GlobalTheory.LKGeo.GammaUniq.smul_mem <;> assumption
 
 def scalarAf (G : HTGroup p) (a : (AfP p)ˣ) : G.GAf :=
   ⟨(Units.map (algebraMap (AfP p) (AfP p ⊗[ℚ] G.C)).toMonoidHom a, a * a), by

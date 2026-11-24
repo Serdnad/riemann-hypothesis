@@ -1,5 +1,10 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.GaussianIsSchwartzFunction
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PolyMulGaussianBounded
+import Development.WeilBound.ThetaLifts.LeviDeterminants.NormIteratedFDerivIdLeOneAdd
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.MemOfClosedSubmoduleGaussianConvolution
+import Development.AutomorphicSpectrum.Proofs.TwistedProofs.EqZeroOfPiInf
 public import Mathlib.Analysis.Complex.Exponential
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsFockMap
 public import Mathlib.RingTheory.PiTensorProduct
@@ -68,21 +73,7 @@ section -- clump:auto
 theorem UpperTheory.Reformulated.B.Rc4.exists_bound_poly_mul_exp :
     ∀ (c : ℝ),
     (0 : ℝ) < c →
-      ∀ (N : ℕ), ∃ (C : ℝ), ∀ (r : ℝ), (0 : ℝ) ≤ r → ((1 : ℝ) + r) ^ N * Real.exp (-(c * r ^ (2 : ℕ))) ≤ C := by
-  intro c hc N
-  refine ⟨Real.exp ((N : ℝ) ^ 2 / (4 * c)), fun r hr => ?_⟩
-  have h1 : (1 + r) ^ N ≤ Real.exp r ^ N := by
-    apply pow_le_pow_left₀ (by linarith)
-    linarith [Real.add_one_le_exp r]
-  have h2 : (N : ℝ) * r + -(c * r ^ 2) ≤ (N : ℝ) ^ 2 / (4 * c) := by
-    rw [le_div_iff₀ (by positivity)]
-    nlinarith [sq_nonneg ((N : ℝ) - 2 * c * r)]
-  calc (1 + r) ^ N * Real.exp (-(c * r ^ 2))
-      ≤ Real.exp r ^ N * Real.exp (-(c * r ^ 2)) :=
-        mul_le_mul_of_nonneg_right h1 (Real.exp_pos _).le
-    _ = Real.exp ((N : ℝ) * r + -(c * r ^ 2)) := by
-        rw [Real.exp_add, Real.exp_nat_mul]
-    _ ≤ Real.exp ((N : ℝ) ^ 2 / (4 * c)) := Real.exp_le_exp.mpr h2
+      ∀ (N : ℕ), ∃ (C : ℝ), ∀ (r : ℝ), (0 : ℝ) ≤ r → ((1 : ℝ) + r) ^ N * Real.exp (-(c * r ^ (2 : ℕ))) ≤ C := @_root_.GlobalTheory.PolynomialGaussianBounded.poly_mul_gaussian_bounded
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.ExistsBoundPolyMulExp =====
@@ -119,23 +110,8 @@ theorem norm_iteratedFDeriv_id_le_one_add (j : ℕ) (x : E) :
       positivity
 
 theorem norm_iteratedFDeriv_diag_le (B : E →L[ℝ] E →L[ℝ] ℝ) (n : ℕ) (x : E) :
-    ‖iteratedFDeriv ℝ n (fun y => B y y) x‖ ≤ ‖B‖ * (2 ^ n * (1 + ‖x‖) ^ 2) := by
-  have h := B.norm_iteratedFDeriv_le_of_bilinear (f := id) (g := id) (N := (n : WithTop ℕ∞))
-    contDiff_id contDiff_id x le_rfl
-  simp only [id] at h
-  refine h.trans (mul_le_mul_of_nonneg_left ?_ (norm_nonneg _))
-  calc ∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ) * ‖iteratedFDeriv ℝ i (fun y : E => y) x‖ *
-        ‖iteratedFDeriv ℝ (n - i) (fun y : E => y) x‖
-      ≤ ∑ i ∈ Finset.range (n + 1), (n.choose i : ℝ) * (1 + ‖x‖) ^ 2 := by
-        refine Finset.sum_le_sum fun i _ => ?_
-        rw [mul_assoc, sq]
-        gcongr
-        · exact norm_iteratedFDeriv_id_le_one_add i x
-        · exact norm_iteratedFDeriv_id_le_one_add (n - i) x
-    _ = 2 ^ n * (1 + ‖x‖) ^ 2 := by
-        rw [← Finset.sum_mul]
-        congr 1
-        exact_mod_cast Nat.sum_range_choose n
+    ‖iteratedFDeriv ℝ n (fun y => B y y) x‖ ≤ ‖B‖ * (2 ^ n * (1 + ‖x‖) ^ 2) :=
+  _root_.GlobalTheory.GaussDerivBound.norm_iteratedFDeriv_diag_le' B n x
 
 theorem norm_iteratedFDeriv_rexp (i : ℕ) (y : ℝ) : ‖iteratedFDeriv ℝ i Real.exp y‖ = Real.exp y := by
   rw [norm_iteratedFDeriv_eq_norm_iteratedDeriv]
@@ -145,68 +121,13 @@ theorem norm_iteratedFDeriv_rexp (i : ℕ) (y : ℝ) : ‖iteratedFDeriv ℝ i R
   rw [h, Real.norm_eq_abs, abs_of_pos (Real.exp_pos y)]
 
 theorem exists_coercive [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ) (hB : ∀ x, x ≠ 0 → B x x < 0) :
-    ∃ c > 0, ∀ x, B x x ≤ -(c * ‖x‖ ^ 2) := by
-  rcases subsingleton_or_nontrivial E with hE | hE
-  · refine ⟨1, one_pos, fun x => ?_⟩
-    rw [Subsingleton.elim x 0]; simp
-  · have hcont : Continuous fun y : E => B y y := (B.continuous.clm_apply continuous_id)
-    obtain ⟨x0, hx0, hmax⟩ := (isCompact_sphere (0 : E) 1).exists_isMaxOn
-      (NormedSpace.sphere_nonempty.2 zero_le_one) hcont.continuousOn
-    have hx0n : ‖x0‖ = 1 := by simpa using hx0
-    have hx0ne : x0 ≠ 0 := by intro h; rw [h, norm_zero] at hx0n; exact zero_ne_one hx0n
-    refine ⟨-(B x0 x0), by linarith [hB x0 hx0ne], fun x => ?_⟩
-    by_cases hx : x = 0
-    · subst hx; simp
-    · have hxn : 0 < ‖x‖ := norm_pos_iff.2 hx
-      set u : E := ‖x‖⁻¹ • x with hu
-      have hun : u ∈ Metric.sphere (0 : E) 1 := by
-        rw [mem_sphere_zero_iff_norm, hu, norm_smul, norm_inv, norm_norm, inv_mul_cancel₀ hxn.ne']
-      have hxu : x = ‖x‖ • u := by rw [hu, smul_smul, mul_inv_cancel₀ hxn.ne', one_smul]
-      have h1 : B u u ≤ B x0 x0 := hmax hun
-      have h2 : B x x = ‖x‖ ^ 2 * B u u := by
-        conv_lhs => rw [hxu]
-        simp only [map_smul, ContinuousLinearMap.smul_apply, smul_eq_mul]; ring
-      rw [h2]
-      nlinarith [sq_nonneg ‖x‖]
+    ∃ c > 0, ∀ x, B x x ≤ -(c * ‖x‖ ^ 2) :=
+  _root_.PositivityTheory.ThKF0.Lib.exists_coercive B hB
 
 theorem exists_schwartz_exp_diag [FiniteDimensional ℝ E] (B : E →L[ℝ] E →L[ℝ] ℝ)
     (hB : ∀ x, x ≠ 0 → B x x < 0) :
     ∃ f : SchwartzMap E ℂ, ∀ x, f x = ((Real.exp (B x x) : ℝ) : ℂ) := by
-  obtain ⟨c, hc, hBc⟩ := exists_coercive B hB
-  have hq : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (fun y : E => B y y) := B.contDiff.clm_apply contDiff_id
-  have hg : ContDiff ℝ ((⊤ : ℕ∞) : WithTop ℕ∞) (Real.exp ∘ fun y : E => B y y) := Real.contDiff_exp.comp hq
-  refine ⟨⟨Complex.ofRealLI ∘ (Real.exp ∘ fun y : E => B y y),
-    Complex.ofRealLI.toContinuousLinearMap.contDiff.comp hg, ?_⟩, fun x => rfl⟩
-  intro k n
-  obtain ⟨C, hC⟩ := _root_.UpperTheory.Reformulated.B.Rc4.exists_bound_poly_mul_exp c hc (k + 2 * n)
-  refine ⟨n ! * (2 * (‖B‖ + 1)) ^ n * C, fun x => ?_⟩
-  have hn : ((n : ℕ∞) : WithTop ℕ∞) ≤ ((⊤ : ℕ∞) : WithTop ℕ∞) := by exact_mod_cast le_top
-  rw [LinearIsometry.norm_iteratedFDeriv_comp_left _ hg.contDiffAt hn]
-  have hfb := norm_iteratedFDeriv_comp_le (g := Real.exp) (f := fun y : E => B y y)
-    Real.contDiff_exp hq hn x (C := Real.exp (B x x)) (D := 2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2)
-    (fun i _ => (norm_iteratedFDeriv_rexp i _).le) (fun i hi _ => by
-      have hB0 := norm_nonneg B
-      have hx0 := norm_nonneg x
-      have a1 : ‖B‖ ≤ (‖B‖ + 1) ^ i :=
-        le_trans (by linarith) (le_self_pow₀ (by linarith) (by omega))
-      have a2 : (1 + ‖x‖) ^ 2 ≤ ((1 + ‖x‖) ^ 2) ^ i :=
-        le_self_pow₀ (by nlinarith) (by omega)
-      calc ‖iteratedFDeriv ℝ i (fun y : E => B y y) x‖ ≤ ‖B‖ * (2 ^ i * (1 + ‖x‖) ^ 2) :=
-            norm_iteratedFDeriv_diag_le B i x
-        _ = 2 ^ i * ‖B‖ * (1 + ‖x‖) ^ 2 := by ring
-        _ ≤ 2 ^ i * (‖B‖ + 1) ^ i * ((1 + ‖x‖) ^ 2) ^ i := by gcongr
-        _ = (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ i := by rw [mul_pow, mul_pow])
-  have hx0 := norm_nonneg x
-  have hB0 := norm_nonneg B
-  calc ‖x‖ ^ k * ‖iteratedFDeriv ℝ n (Real.exp ∘ fun y : E => B y y) x‖
-      ≤ (1 + ‖x‖) ^ k * (n ! * Real.exp (-(c * ‖x‖ ^ 2)) * (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ n) := by
-        gcongr
-        · linarith
-        · exact hfb.trans (by gcongr; exact hBc x)
-    _ = n ! * (2 * (‖B‖ + 1)) ^ n * ((1 + ‖x‖) ^ (k + 2 * n) * Real.exp (-(c * ‖x‖ ^ 2))) := by
-        rw [show (2 * (‖B‖ + 1) * (1 + ‖x‖) ^ 2) ^ n = (2 * (‖B‖ + 1)) ^ n * (1 + ‖x‖) ^ (2 * n) by
-          rw [mul_pow, pow_mul], pow_add]; ring
-    _ ≤ n ! * (2 * (‖B‖ + 1)) ^ n * C := by gcongr; exact hC ‖x‖ hx0
+  apply _root_.GlobalTheory.GaussSchwartz.exists_schwartz_exp_diag <;> assumption
 
 theorem cos_temperate : Real.cos.HasTemperateGrowth :=
   ⟨Real.contDiff_cos, fun n => ⟨0, 1, fun t => by
@@ -730,24 +651,8 @@ theorem im_ne_zero {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ 
   exact Complex.conj_eq_iff_im.2 h0
 
 theorem exists_basis {σ : E →ₐ[F] E} (h : IsCMExt F E σ) {β : E} (hβ : σ β ≠ β) :
-    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β := by
-  have hfin : FiniteDimensional F E := Module.finite_of_finrank_pos (by rw [h.2.2.1]; omega)
-  have hli : LinearIndependent F ![(1 : E), β] := by
-    rw [LinearIndependent.pair_iff]
-    intro s t hst
-    have ht : t = 0 := by
-      by_contra ht
-      apply hβ
-      have e : β = algebraMap F E (-(s / t)) := by
-        have ht' : algebraMap F E t ≠ 0 := by simpa using ht
-        rw [Algebra.smul_def, Algebra.smul_def, mul_one] at hst
-        rw [map_neg, map_div₀]
-        field_simp
-        linear_combination hst
-      rw [e, AlgHom.commutes]
-    subst ht
-    simpa using hst
-  refine ⟨basisOfLinearIndependentOfCardEqFinrank hli (by simp [h.2.2.1]), ?_, ?_⟩ <;> simp
+    ∃ B : Module.Basis (Fin 2) F E, B 0 = 1 ∧ B 1 = β :=
+  _root_.GlobalTheory.CompanionTheory.CMAdele.exists_basis h hβ
 
 omit [NumberField E] in
 theorem eq_add_tmul (B : Module.Basis (Fin 2) F E) (x : AF F ⊗[F] E) :

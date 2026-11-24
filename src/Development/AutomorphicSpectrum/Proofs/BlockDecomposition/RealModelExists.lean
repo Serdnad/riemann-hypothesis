@@ -689,40 +689,12 @@ theorem zpow_contDiffOn {f : Mat n → ℂ} {s : Set (Mat n)} (hf : ContDiffOn �
 
 open scoped ComplexOrder in
 theorem gm_ne_zero (j : Fin n) {g : Mat n} (hg : g ∈ GLs n) : gm j g ≠ 0 := by
-  intro h0
-  obtain ⟨v, hv, hAv⟩ := Matrix.exists_mulVec_eq_zero_iff.mpr h0
-  have h1 : (g.submatrix (ini j) id)ᴴ *ᵥ v = 0 :=
-    (Matrix.self_mul_conjTranspose_mulVec_eq_zero _ v).mp hAv
-  have hu : IsUnit g.det := isUnit_iff_ne_zero.mpr hg
-  have hAB : g.submatrix (ini j) id * (g⁻¹).submatrix id (ini j) = 1 := by
-    have h2 := Matrix.submatrix_mul g g⁻¹ (ini j) id (ini j) Function.bijective_id
-    have hi : Function.Injective (ini j) := Fin.castLE_injective _
-    rw [Matrix.mul_nonsing_inv g hu, Matrix.submatrix_one _ hi] at h2
-    exact h2.symm
-  have hBA : ((g⁻¹).submatrix id (ini j))ᴴ * (g.submatrix (ini j) id)ᴴ = 1 := by
-    rw [← Matrix.conjTranspose_mul, hAB, Matrix.conjTranspose_one]
-  apply hv
-  calc v = (((g⁻¹).submatrix id (ini j))ᴴ * (g.submatrix (ini j) id)ᴴ) *ᵥ v := by
-        rw [hBA, Matrix.one_mulVec]
-    _ = ((g⁻¹).submatrix id (ini j))ᴴ *ᵥ ((g.submatrix (ini j) id)ᴴ *ᵥ v) :=
-        (Matrix.mulVec_mulVec _ _ _).symm
-    _ = 0 := by rw [h1, Matrix.mulVec_zero]
+  apply _root_.GlobalTheory.CompanionTheory.ModelS.FFin.gm_ne_zero <;> assumption
 
 theorem muZ_antitone {lam : Fin n → ℤ} {lev : Fin n → ℕ} (hlam : Antitone lam) (hlev : Monotone lev) :
     Antitone (muZ lam lev) := by
-  intro a b hab
-  have h1 := hlam hab
-  have h2 : lev a ≤ lev b := hlev hab
-  have c1 : (univ.filter fun c => lev b < lev c).card ≤ (univ.filter fun c => lev a < lev c).card :=
-    Finset.card_le_card fun c hc => by
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hc ⊢
-      omega
-  have c2 : (univ.filter fun c => lev c < lev a).card ≤ (univ.filter fun c => lev c < lev b).card :=
-    Finset.card_le_card fun c hc => by
-      simp only [Finset.mem_filter, Finset.mem_univ, true_and] at hc ⊢
-      omega
-  simp only [muZ]
-  omega
+  intros
+  apply _root_.GlobalTheory.CompanionTheory.ModelS.FFin.muZ_antitone <;> assumption
 
 theorem dif_nonneg_of_antitone {v : Fin n → ℤ} (h : Antitone v) (j : Fin n) (hj : (j : ℕ) + 1 < n) :
     0 ≤ dif v j := by

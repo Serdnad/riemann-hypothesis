@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.SelfDualCovolume
 import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SpanRangeEmb4EqTop
 public import Formalism.LocalToGlobal.KernelLattices.LateralTheory
 public import Formalism.LocalToGlobal.GlobalTheory.GL3.Statement
@@ -502,16 +503,7 @@ end Base
 
 theorem inter_self {V : Type} [AddCommGroup V] [Module ℂ V] (H : Sesq V) (hH : IsHerm H) (Λ : AddSubgroup V)
     (α : V → ℂ) (hα : IsSemiChar H Λ α) {F : V → ℂ} (hF : F ∈ fixedBy H α Λ) : inter H α Λ Λ F = F := by
-  funext z
-  have hS : IsReps Λ Λ ({0} : Finset V) :=
-    ⟨fun x hx => by rw [Finset.mem_singleton.1 hx]; exact Λ.zero_mem,
-      fun x hx y hy _ => by rw [Finset.mem_singleton.1 hx, Finset.mem_singleton.1 hy],
-      fun y hy => ⟨0, Finset.mem_singleton_self 0, by simpa using hy⟩⟩
-  rw [InterReps_of semicharacterHom V H hH Λ Λ α hα F hF {0} hS z]
-  have h1 : relIdx Λ Λ = 1 := AddSubgroup.relIndex_self Λ
-  rw [h1]
-  simp only [sumU, Finset.sum_singleton, Nat.cast_one, Real.sqrt_one, Complex.ofReal_one, inv_one, one_mul]
-  exact hF 0 Λ.zero_mem z
+  apply _root_.Formalism.L2.Th1.H.UC.inter_self <;> assumption
 
 theorem detId_std (D : D7) (N : ℕ) : TaylorLogMetric.detId D (StandardLatticesGL3.stdL D N) (StandardLatticesGL3.stdL D N) = 1 := by
   apply le_antisymm

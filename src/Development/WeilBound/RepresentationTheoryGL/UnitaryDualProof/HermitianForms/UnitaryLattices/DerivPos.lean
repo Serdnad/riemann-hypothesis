@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.NonemptyEquivOfRangeEq
 public import Development.WeilBound.RepresentationTheoryGL.UnitaryDualProof.BernsteinExponentBounds.IsInvForm
 import Development.AbelianVarietyTheory.Definitions.Foundations.SmoothPartStable
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteDimensionalFixedPiTensor
@@ -46,15 +47,8 @@ theorem mem_fixed_iff_irr (ρ : Representation ℂ G V) (K : Subgroup G) (v : V)
   change (∀ h : K, ρ (h : G) v = ((1 : K →* ℂˣ) h : ℂ) • v) ↔ _; simp
 
 theorem twist_irr (ρ : Representation ℂ G V) (χ : G →* ℂˣ) (h : ρ.IsIrreducible) : (twist ρ χ).IsIrreducible := by
-  let f : Subrepresentation ρ ≃o Subrepresentation (twist ρ χ) :=
-    { toFun := fun W => ⟨W.toSubmodule, fun g _ hv => W.toSubmodule.smul_mem _ (W.apply_mem_toSubmodule g hv)⟩
-      invFun := fun W => ⟨W.toSubmodule, fun g v hv => by
-        have h2 : ρ g v = (((χ g)⁻¹ : ℂˣ) : ℂ) • (twist ρ χ g v) := by
-          show ρ g v = (((χ g)⁻¹ : ℂˣ) : ℂ) • (((χ g : ℂˣ) : ℂ) • ρ g v)
-          rw [smul_smul, ← Units.val_mul, inv_mul_cancel, Units.val_one, one_smul]
-        rw [h2]; exact W.toSubmodule.smul_mem _ (W.apply_mem_toSubmodule g hv)⟩
-      left_inv := fun _ => rfl, right_inv := fun _ => rfl, map_rel_iff' := Iff.rfl }
-  exact (OrderIso.isSimpleOrder_iff f).1 h
+  intros
+  apply _root_.GlobalTheory.LocGL.isIrreducible_twist <;> assumption
 
 theorem exists_orth_of_finset {D : Type} [AddCommGroup D] [Module ℂ D] (B : SForm D)
     (hBp : ∀ x, x ≠ 0 → 0 < (B x x).re) (s : Finset D) :

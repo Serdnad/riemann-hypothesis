@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsNatSmulMem
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicClassFiniteness.DictPlan
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StrongApproximation.DedekindLFunctions
 import Mathlib.Algebra.Order.Floor.Extended
@@ -235,16 +236,7 @@ theorem incl_zero : Formalism.UG.inclE (F := F) (Af F) ((0 : 𝓞 E) : E) = 0 :=
 theorem incl_one : Formalism.UG.inclE (F := F) (Af F) ((1 : 𝓞 E) : E) = 1 := by simp
 
 theorem e_denom (e : E) : ∃ m : ℕ, 0 < m ∧ (m : E) * e ∈ Formalism.UG.intOE E := by
-  obtain ⟨y, hy0, hy⟩ := exists_integral_multiples ℤ ℚ (L := E) {e}
-  have hi := hy e (Finset.mem_singleton_self e)
-  refine ⟨y.natAbs, Int.natAbs_pos.2 hy0, ?_⟩
-  have hi' : IsIntegral ℤ ((y.natAbs : E) * e) := by
-    rcases Int.natAbs_eq y with h | h
-    · rw [h, zsmul_eq_mul] at hi
-      simpa using hi
-    · rw [h, zsmul_eq_mul] at hi
-      simpa using hi.neg
-  exact ⟨⟨_, hi'⟩, rfl⟩
+  apply _root_.GlobalTheory.PrincLat.exists_nat_mul_mem <;> assumption
 
 end DictRing
 

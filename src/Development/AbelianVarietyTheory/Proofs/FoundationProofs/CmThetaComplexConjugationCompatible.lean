@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.MeanSquareEvenThetaConjugateLattice
 public import Formalism.SharpRestriction.GlobalSchurBounds.StandardLatticesGL3
 public import Mathlib.Analysis.SpecialFunctions.Elliptic.Weierstrass
 public import Development.AbelianVarietyTheory.Proofs.CovolumeBounds.ExistsIsFundamentalDomainAndQuotMeasureEq
@@ -89,18 +90,7 @@ theorem g3_lamBar_eq_conj (Λ : AddSubgroup ℂ) : g3 (lamBar Λ) = (starRingEnd
   simp only [g3, eisG_lamBar, map_mul, map_ofNat]
 
 theorem area_lamBar (Λ : AddSubgroup ℂ) : area (lamBar Λ) = area Λ := by
-  unfold area
-  congr 1
-  have key : ∀ w₁ w₂ : ℂ, |((starRingEnd ℂ) ((starRingEnd ℂ) w₁) * (starRingEnd ℂ) w₂).im| =
-      |((starRingEnd ℂ) w₁ * w₂).im| := fun w₁ w₂ => by
-    rw [← map_mul, Complex.conj_im, abs_neg]
-  ext a
-  constructor
-  · rintro ⟨ha, w₁, h₁, w₂, h₂, rfl⟩
-    exact ⟨ha, _, mem_lamBar.1 h₁, _, mem_lamBar.1 h₂, (key _ _).symm⟩
-  · rintro ⟨ha, w₁, h₁, w₂, h₂, rfl⟩
-    exact ⟨ha, (starRingEnd ℂ) w₁, mem_lamBar.2 (by simpa using h₁), (starRingEnd ℂ) w₂,
-      mem_lamBar.2 (by simpa using h₂), (key _ _).symm⟩
+  apply _root_.GlobalTheory.MeanSquareConj.area_conj <;> assumption
 
 variable {D : D7} {N N' : ℕ}
 

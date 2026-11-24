@@ -253,14 +253,7 @@ theorem exists_phi : ∀ (X : Scheme.{0}) (Ω : Type) [Field Ω] (ξ : Sp Ω ⟶
   rw [← hzL] at hw ⊢
   have hp : genPt ξ ⤳ centre zL := hq _
   have hIC : InChart ξ (fun c' : (k : K) → J k => ∏ k, y ⟨k, c' k⟩) c₀ ⟨centre zL, hp⟩ := by
-    have hunit : ∀ k, IsUnit (w ⟨k, c₀ k⟩) := fun k => (hc₀ k).isUnit
-    have hy : ∀ k, y ⟨k, c₀ k⟩ ≠ 0 := fun k => (hw.2 k (c₀ k) (hunit k)).1
-    refine ⟨Finset.prod_ne_zero_iff.2 fun k _ => hy k, fun c' => ?_⟩
-    show (∏ k, y ⟨k, c' k⟩) / (∏ k, y ⟨k, c₀ k⟩) ∈ regAt ξ _
-    rw [← Finset.prod_div_distrib]
-    refine prod_mem fun k _ => ?_
-    obtain ⟨r', hr, -⟩ := (hw.2 k (c₀ k) (hunit k)).2 (c' k)
-    exact reg_of_val hr hp
+    apply _root_.GlobalTheory.CompanionTheory.Ar.RootHt.Pick.inChart_of_coords <;> assumption
   obtain ⟨b, π, κ, hflag, -, hmb, hπ, hreg, hκ0, hκ, hκi, hcls⟩ :=
     _root_.GlobalTheory.CompanionTheory.Ar.RootHt.cls_frame X Ω ξ K J y G Li M V r b₀ m i a e₀ hb₀ hS hD ⟨centre zL, hp⟩ c₀ hIC
   obtain ⟨hmi, hm0⟩ := inv_nat_reg (ξ := ξ) hp hm

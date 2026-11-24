@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformFlatBaseChange
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.BlowupSmoothness
 public import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.ControlledTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheaf
@@ -55,6 +56,7 @@ import Mathlib.Tactic.NormNum.Ordinal
 import Mathlib.Tactic.NormNum.Parity
 import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
+import Development.ResolutionOfSingularities.EmbeddedResolution.StrictTransformCharts.StrictTransformSubscheme
 
 @[expose] public section
 
@@ -88,59 +90,15 @@ private theorem idealSheafData_pow_le_pow_of_le {Y : Scheme.{u}} (A : Y.IdealShe
   calc A ^ (j + d) = A ^ j * A ^ d := by rw [pow_add]
     _ ≤ A ^ j := idealSheafData_mul_le_left _ _
 
-private theorem appLE_ι_bijective {Y : Scheme.{u}} (V : Y.Opens)
-    (e : (⊤ : V.toScheme.Opens) ≤ V.ι ⁻¹ᵁ V) :
-    Function.Bijective (V.ι.appLE V ⊤ e).hom := by
-  have h : V.ι.appLE V ⊤ e = V.topIso.inv := by
-    simp
-    exact presheaf_map_eq _ _
-  rw [h]
-  exact ConcreteCategory.bijective_of_isIso _
-
 private theorem ideal_eq_of_comap_ι_eq {Y : Scheme.{u}} {A B : Y.IdealSheafData}
     (V : Y.affineOpens) (h : A.comap (V : Y.Opens).ι = B.comap (V : Y.Opens).ι) :
     A.ideal V = B.ideal V := by
-  have : IsAffine (V : Y.Opens).toScheme := V.2
-  have e : (⊤ : (V : Y.Opens).toScheme.Opens) ≤ (V : Y.Opens).ι ⁻¹ᵁ (V : Y.Opens) := by simp
-  have h1 := A.comap_ideal_eq_map_appLE (V : Y.Opens).ι V ⟨⊤, isAffineOpen_top _⟩ e
-  have h2 := B.comap_ideal_eq_map_appLE (V : Y.Opens).ι V ⟨⊤, isAffineOpen_top _⟩ e
-  rw [h, h2] at h1
-  have hbij := appLE_ι_bijective (V : Y.Opens) e
-  have hbot : Ideal.comap ((V : Y.Opens).ι.appLE (V : Y.Opens) ⊤ e).hom
-      (⊥ : Ideal Γ((V : Y.Opens).toScheme, ⊤)) = ⊥ :=
-    (RingHom.injective_iff_ker_eq_bot _).mp hbij.1
-  have h3 := congrArg (Ideal.comap ((V : Y.Opens).ι.appLE (V : Y.Opens) ⊤ e).hom) h1
-  rw [Ideal.comap_map_of_surjective _ hbij.2, Ideal.comap_map_of_surjective _ hbij.2, hbot,
-    sup_bot_eq, sup_bot_eq] at h3
-  exact h3.symm
+  apply _root_.FunctorialResolution.EmbeddedResolution.ideal_eq_of_restrictIdeal_eq <;> assumption
 
 private theorem exists_affineOpen_le {X : Scheme.{u}} (x : ↥X) (W : X.Opens)
     (hx : x ∈ W) : ∃ V : X.affineOpens, x ∈ V.1 ∧ V.1 ≤ W := by
   obtain ⟨U, hU, hxU, hUW⟩ := AlgebraicGeometry.exists_isAffineOpen_mem_and_subset hx
   exact ⟨⟨U, hU⟩, hxU, hUW⟩
-
-private theorem exists_pow_mul_mem_of_map_mem_basicOpen {Y : Scheme.{u}} (U : Y.affineOpens)
-    (f : Γ(Y, U.1)) (J : Ideal Γ(Y, U.1)) (x : Γ(Y, U.1))
-    (hx : (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom x ∈
-      J.map (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom) :
-    ∃ n : ℕ, f ^ n * x ∈ J := by
-  have := U.2.isLocalization_basicOpen f
-  have halg : (algebraMap Γ(Y, U.1) Γ(Y, Y.basicOpen f)) =
-      (Y.presheaf.map (homOfLE (Y.basicOpen_le f)).op).hom := rfl
-  rw [← halg] at hx
-  obtain ⟨⟨⟨y, hy⟩, ⟨m, hm⟩⟩, hxy⟩ :=
-    (IsLocalization.mem_map_algebraMap_iff (Submonoid.powers f) Γ(Y, Y.basicOpen f)).mp hx
-  simp only at hxy
-  rw [← map_mul] at hxy
-  obtain ⟨⟨c, hc⟩, hcc⟩ :=
-    (IsLocalization.eq_iff_exists (Submonoid.powers f) Γ(Y, Y.basicOpen f)).mp hxy
-  obtain ⟨a, rfl⟩ := hm
-  obtain ⟨b, rfl⟩ := hc
-  refine ⟨b + a, ?_⟩
-  simp only at hcc
-  have h2 : f ^ (b + a) * x = f ^ b * y := by rw [← hcc]; ring
-  rw [h2]
-  exact J.mul_mem_left _ hy
 
 theorem le_of_forall_exists_affineOpen {Y : Scheme.{u}} {A B : Y.IdealSheafData}
     (h : ∀ y : ↥Y, ∃ U : Y.affineOpens, y ∈ U.1 ∧ A.ideal U ≤ B.ideal U) :
@@ -163,7 +121,7 @@ theorem le_of_forall_exists_affineOpen {Y : Scheme.{u}} {A B : Y.IdealSheafData}
       refine hs ⟨f, Finset.mem_coe.mp hf⟩ ?_
       rw [← A.map_ideal_basicOpen W f]
       exact Ideal.mem_map_of_mem _ hxA
-    obtain ⟨n, hn⟩ := exists_pow_mul_mem_of_map_mem_basicOpen W f (B.ideal W) x hmem
+    obtain ⟨n, hn⟩ := _root_.FunctorialResolution.EmbeddedResolution.exists_pow_mul_mem_of_mem_map_basicOpen W f (B.ideal W) x hmem
     exact ⟨n, by simpa [smul_eq_mul] using hn⟩
   · intro y
     exact (h y).choose_spec.2

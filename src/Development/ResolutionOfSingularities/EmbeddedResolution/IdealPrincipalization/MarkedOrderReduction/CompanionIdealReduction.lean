@@ -1,6 +1,8 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.MonomialInvariantDecrease
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialFactorTransform
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.MonomialFactorTransform
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.OrderAlongBlowupSequence
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedOrderReduction.NonMonomialOrderReduction
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MonomialCase.LocallyMonomial
@@ -435,15 +437,7 @@ private theorem controlledTransform_eq_ofMarkedSequence_controlledTransform {k :
     (s : MarkedSequenceOfBlowups p J μ E) (I : X.IdealSheafData) (m i : ℕ) :
     MarkedSequenceOfBlowups.controlledTransform s I m i
       = ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData).controlledTransform I m i := by
-  induction i with
-  | zero =>
-      exact (BlowupSequenceData.controlledTransform_zero ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData) I m).symm
-  | succ n ih =>
-      have h2 := BlowupSequenceData.controlledTransform_succ ((MarkedBlowupSequenceData.ofMarkedSequence s).toBlowupSequenceData) I m n
-      refine Eq.trans ?_ h2.symm
-      exact congrArg
-        (fun Jj : (s.schemeAt n).IdealSheafData =>
-          residualByPow (Jj.comap (s.transitionMapSucc n)) (s.exceptionalDivisor n) m) ih
+  apply _root_.FunctorialResolution.EmbeddedResolution.controlledTransform_eq_sequenceData <;> assumption
 
 private theorem comap_controlledTransform_eq_comap_ofMarkedSequence {k : Type u} [Field k] {X : Scheme.{u}}
     {p : X ⟶ Spec (CommRingCat.of k)} {J : X.IdealSheafData} {μ : ℕ} {E : List X.IdealSheafData}
@@ -939,13 +933,7 @@ theorem orderAt_lastNonMonomialPart_companionIdealReduction_eq_zero (hG : Princi
 private theorem foldr_ofFn_mul_eq_prod {X : Scheme.{u}} (m : ℕ)
     (g : Fin m → X.IdealSheafData) :
     (List.ofFn g).foldr (· * ·) ⊤ = ∏ i, g i := by
-  induction m with
-  | zero =>
-      have h1 : List.ofFn g = [] := by simp
-      rw [h1, List.foldr_nil, Fin.prod_univ_zero]
-      exact Scheme.IdealSheafData.one_eq_top.symm
-  | succ p ih =>
-      rw [List.ofFn_succ, List.foldr_cons, ih, Fin.prod_univ_succ]
+  apply _root_.FunctorialResolution.EmbeddedResolution.foldr_mul_ofFn_eq_prod <;> assumption
 
 theorem isLocallyMonomialTriple_tripleAtLength_companionIdealReduction (hG : PrincipalizationGeometryHypotheses.{u}) (hinv : ComapIsoInvariance.{u})
     {n : ℕ} {A B : PrincipalizationAssignment.{u}} (hspec : IsOrderReduction (fun d => d ≤ n) A B)

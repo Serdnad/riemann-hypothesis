@@ -71,11 +71,7 @@ def doublyAntisymmetrizedProduct {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (
 theorem term_two_by_two_exchange {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A) (x y : ℂ) (p q c d : Fin n) :
     Tm E x p c * Tm E y q d - Tm E x q c * Tm E y p d - Tm E x p d * Tm E y q c + Tm E x q d * Tm E y p c =
     Tm E y p c * Tm E x q d - Tm E y q c * Tm E x p d - Tm E y p d * Tm E x q c + Tm E y q d * Tm E x p c := by
-  simp only [Tm, Algebra.algebraMap_eq_smul_one]
-  split_ifs <;>
-    simp only [add_mul, mul_add, smul_mul_assoc, mul_smul_comm, one_mul, mul_one, zero_add, zero_mul,
-      mul_zero, add_zero, smul_smul, smul_zero, zero_smul] <;>
-    module
+  apply _root_.LocalQuantumDet.term_two_by_two_exchange <;> assumption
 
 theorem list_prod_ofFn_update_adjacent {A : Type} [Ring A] {t : ℕ} (f g : Fin t → A) (i : ℕ) (hi : i + 1 < t)
     (h : ∀ k : Fin t, (k : ℕ) ≠ i → (k : ℕ) ≠ i + 1 → g k = f k) :
@@ -132,13 +128,7 @@ theorem antisymmetrizedProduct_eq_factorial_smul_qdet {A : Type} [Ring A] [Algeb
 
 theorem term_neg_transpose {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A) (y : ℂ) (a b : Fin n) :
     Tm (fun a b => -E b a) y a b = -Tm E (-y) b a := by
-  simp only [Tm]
-  by_cases h : a = b
-  · subst h
-    rw [if_pos rfl, if_pos rfl, map_neg]
-    abel
-  · rw [if_neg h, if_neg (Ne.symm h)]
-    simp
+  apply _root_.LocalQuantumDet.term_neg_transpose <;> assumption
 
 theorem orderedTermProduct_neg_transpose {A : Type} [Ring A] [Algebra ℂ A] {n : ℕ} (E : Fin n → Fin n → A) (arg : Fin n → ℂ)
     (σ τ : Equiv.Perm (Fin n)) :

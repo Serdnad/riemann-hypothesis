@@ -55,6 +55,7 @@ import Mathlib.LinearAlgebra.Eigenspace.Triangularizable
 import Mathlib.Tactic.Linter.HaveILetI
 import Mathlib.Tactic.Lemma
 import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.SobolevEmbeddingDiscreteSeriesHilbertSchmidt
+import Formalism.LocalToGlobal.SiegelLatticeTheory.CasimirReductionTheory.OneParameterDerivatives.AdmissibleCasimirScalars.SmoothGeneratorAverages.HasDerivAtDS
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Proofs.HeightProofs.ReTraceHermitianOrthonormalBasisMulEqIte, Development.AbelianVarietyTheory.Proofs.HeightProofs.ReTraceSkewHermitianMulHermitianOrthonormalBasis, Development.AbelianVarietyTheory.Proofs.HeightProofs.SignatureLieSetExpandOrthonormalBases, Development.AbelianVarietyTheory.Proofs.HeightProofs.SkewHermitianOrthonormalBasisTraceOrthonormal, Development.AbelianVarietyTheory.Proofs.HeightProofs.CasimirDifferenceOperatorEquivariant, Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsSmoothEigenvectorCasimirDifferenceOperator, Development.AbelianVarietyTheory.Proofs.HeightProofs.CasimirUnitaryGroupActsByScalarSmoothVectors, Development.AbelianVarietyTheory.Proofs.HeightProofs.EllipticEstimateWordLeOnePlusLaplacianPow, Development.AbelianVarietyTheory.Proofs.HeightProofs.IndefiniteUnitaryLieOrthonormalBasesProps, Development.AbelianVarietyTheory.Proofs.HeightProofs.WordsOnWeightedCasimirEigenvectorsBoundedFrame, Development.AbelianVarietyTheory.Proofs.HeightProofs.TraceBound
@@ -1246,14 +1247,7 @@ variable {n : ℕ}
 lemma inG_iff_entry (ε : Fin n → Bool) (X : Matrix (Fin n) (Fin n) ℂ) :
     inG ε X ↔ ∀ i j, star (X j i) * (if ε j = true then (1:ℂ) else -1) +
       (if ε i = true then (1:ℂ) else -1) * X i j = 0 := by
-  unfold inG Jm
-  constructor
-  · intro h i j
-    have := congrFun (congrFun h i) j
-    simpa [mul_diagonal, diagonal_mul, conjTranspose_apply] using this
-  · intro h
-    ext i j
-    simpa [mul_diagonal, diagonal_mul, conjTranspose_apply] using h i j
+  apply _root_.Formalism.L2.SG.Pf.admitted.AdmissibleVectors.inG_iff <;> assumption
 
 lemma i_smul_diag_casimir_unit_mem_indefinite_lie (ε : Fin n → Bool) (a : Fin n) : inG ε (Complex.I • unitE a a) := by
   rw [inG_iff_entry]

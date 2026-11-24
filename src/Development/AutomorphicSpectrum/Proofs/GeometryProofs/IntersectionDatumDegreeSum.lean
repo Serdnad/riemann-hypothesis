@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.MetricProofs.HodgeCptFrameHeightFormula
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.SpecializesOfUnits
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EtaleLocalizationAtPrimeTensorOfLowHeight
 public import GroundTheory.HeightsAndTheta.Heights.HodgeLowerBound.FrameDefinitions.Metric
@@ -144,15 +145,7 @@ theorem le_span_frame {r' : ℕ} {L : Lat ξ V} {U : Submodule Ω V} (hL : L.IsV
 
 theorem span_eq_of_unit {p : Cpt ξ} {a b : Ω} (hb : b ≠ 0) (h : unitAt ξ p (a / b)) :
     Submodule.span (regAt ξ p) {a} = Submodule.span (regAt ξ p) {b} := by
-  obtain ⟨h0, h1, h2⟩ := h
-  have ha : a ≠ 0 := by
-    rintro rfl
-    simp at h0
-  apply le_antisymm
-  · rw [Submodule.span_singleton_le_iff_mem, Submodule.mem_span_singleton]
-    exact ⟨⟨a / b, h1⟩, by show a / b * b = a; field_simp⟩
-  · rw [Submodule.span_singleton_le_iff_mem, Submodule.mem_span_singleton]
-    exact ⟨⟨(a / b)⁻¹, h2⟩, by show (a / b)⁻¹ * a = b; field_simp⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.PB.FMX.Roots.span_eq_of_unit <;> assumption
 
 private theorem isLocalRing_regAt' {p : Cpt ξ} : IsLocalRing (regAt ξ p) :=
   IsLocalRing.of_surjective' (genMap ξ p).rangeRestrict (genMap ξ p).rangeRestrict_surjective

@@ -1,5 +1,7 @@
 module
 
+
+import Formalism.LocalRingCardinality.PosOfIsomEmb
 public import Formalism.LocalToGlobal.BesselHermitianTheta.DefsReal
 public import Development.AbelianVarietyTheory.BlockTheory.HeightDefect.OmegaUpDownForms
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemberDatumOfFlagTie
@@ -53,7 +55,6 @@ import Mathlib.Tactic.Basify
 import Mathlib.Tactic.ENatToNat
 import Mathlib.Tactic.ReduceModChar
 import Std.Tactic.BVDecide.Normalize.Prop
-
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AbelianVarietyTheory.Counterexamples.HeightSurvey.NotHasInfExpThird, Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.AdelicDataRowMeasureScaleTrivialTuple
 
@@ -306,38 +307,7 @@ structure Tow (D : D7) where
   iYXm_rec : HEq (iYXm D.R.t) (D.sp.iX'.comp D.sp.eYm.symm.toLinearMap)
 
 theorem X_posDef (D : D7) : ∀ j, j ≤ D.R.m → (D.sp.X j).IsPosDef := by
-  intro j hj τ
-  have hτ : ∀ a, τ (star a) = starRingEnd ℂ (τ a) := D.sp.cm.cmUnram.2.1 τ
-  have hk := D.R.m_add_three_le_k
-  rcases D.sp.X_def j hj τ with h | h
-  · exact h
-  exfalso
-  have hsX := D.sp.X_sig j τ
-  rw [h] at hsX
-  rcases hj.lt_or_eq with hlt | rfl
-  · have hw : (Matrix.of fun a b => (D.sp.Y j).hT (D.sp.iXY j ((D.sp.X j).frame a))
-        (D.sp.iXY j ((D.sp.X j).frame b))) = (D.sp.X j).gram := by
-      refine Matrix.ext fun a b => ?_
-      exact D.sp.iXY_isom j hlt _ _
-    rw [← hw] at hsX
-    have hsY := D.sp.Y_sig j τ
-    have hsum := sig_sum _ (D.sp.Y_sig j) τ
-    rw [D.Y_sigval j hj τ] at hsY hsum
-    have key := (sig_family (D.sp.Y j) τ hτ _ hsX hsY).2
-    rw [D.sp.X_rank j hj] at key
-    simp only [sigYD, Ranks.N] at key hsum
-    omega
-  · have hsY := D.sp.Y_sig D.R.m τ
-    rw [D.Y_sigval _ hj τ] at hsY
-    have hw : (Matrix.of fun a b => (D.sp.X D.R.m).hT (D.sp.iX' (D.sp.eYm.symm ((D.sp.Y D.R.m).frame a)))
-        (D.sp.iX' (D.sp.eYm.symm ((D.sp.Y D.R.m).frame b)))) = (D.sp.Y D.R.m).gram := by
-      refine Matrix.ext fun a b => ?_
-      rw [Matrix.of_apply, D.sp.iX'_isom, ← D.sp.eYm_isom]
-      simp [HSpace.gram]
-    rw [← hw] at hsY
-    have key := (sig_family (D.sp.X D.R.m) τ hτ _ hsY hsX).1
-    simp only [sigYD, Ranks.rankY, Ranks.r] at key
-    omega
+  first | exact _root_.Formalism.BasicNotions.D7.X_posDef | exact @_root_.Formalism.BasicNotions.D7.X_posDef | apply _root_.Formalism.BasicNotions.D7.X_posDef <;> assumption
 
 def WittLowEx (D : D7) : Prop := ∀ (V : HSp D) (i : ℕ), (∃ C : Matrix (Fin V.rank) (Fin i) D.host.E, IsIsoSub V C) →
   ∃ V' : HSp D, IsWittLower V V' i ∧ V'.SigOK

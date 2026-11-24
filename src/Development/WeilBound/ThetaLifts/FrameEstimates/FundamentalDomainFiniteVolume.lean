@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.AutomorphicKernels.SiegelWeilFormula.AwayActions.SigmaSigma
 public import Development.WeilBound.ThetaLifts.FrameEstimates.SquareIntegrableWeilRange
 public import Formalism.UnipotentAdelicQuotients.SWXSDefs
 public import CompanionTheory.SpectralGeometry.LocalGlobalProofs.AdelicAnalysis.UnitaryGroupFiniteVolume
@@ -54,19 +55,7 @@ open GlobalTheory.WeilM GlobalTheory.AdelicU GlobalTheory.LFun GlobalTheory.Inde
 variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algebra F E] {σ : E →ₐ[F] E}
 
 theorem fv_exists_skew (hσ : IsCMExt F E σ) : ∃ c : E, c ≠ 0 ∧ σ c = -c := by
-  obtain ⟨-, hE, -, hc⟩ := hσ
-  obtain ⟨τ⟩ : Nonempty (E →+* ℂ) := inferInstance
-  have hss : ∀ x, σ (σ x) = x := fun x => τ.injective (by rw [hc, hc, star_star])
-  by_contra hn
-  refine IsTotallyComplex.complexEmbedding_not_isReal τ ?_
-  rw [ComplexEmbedding.isReal_iff]
-  ext x
-  have hx : x - σ x = 0 := by
-    by_contra h
-    exact hn ⟨_, h, by rw [map_sub, hss, neg_sub]⟩
-  have h2 := hc τ x
-  rw [← sub_eq_zero.1 hx] at h2
-  exact h2.symm
+  apply _root_.PositivityTheory.SiegelWeilFormula.KAway.exists_delta <;> assumption
 
 theorem fv_exists_herm (hσ : IsCMExt F E σ) {n : ℕ} {J : Matrix (Fin n) (Fin n) E} (hJ : EpsHerm σ J) :
     ∃ c : E, c ≠ 0 ∧ HeckeCharacterZeroLocus.SiegelWeilU.IsHermND σ (c • J)ᵀ := by

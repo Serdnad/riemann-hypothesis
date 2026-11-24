@@ -56,6 +56,7 @@ import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.CubeThre
 import Formalism.LocalToGlobal.TorsionIntegrality.WeierstrassTwoTorsion.TwoTorsionU
 import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.TraceDualExists
 public import Formalism.LocalToGlobal.TorsionIntegrality.GaussSumParity.KummerThetaLogarithms.LubinTateLogIsArtinHasse
+import ReciprocityTheory.ReductiveGroups.UnramifiedIntegrals.CoeffOneSubstOfConstantCoeffEqZero
 
 @[expose] public section
 
@@ -76,39 +77,13 @@ section Maps
 variable {K K' : Type} [Field K] [Field K'] (φ : K →+* K')
 
 theorem cW_map (g2 g3 : K) (k : ℕ) : φ (cW g2 g3 k) = cW (φ g2) (φ g3) k := by
-  induction k using Nat.strong_induction_on with
-  | _ k ih =>
-    rw [_root_.Formalism.L2.Th1.A.BridgeK.cW_eq, _root_.Formalism.L2.Th1.A.BridgeK.cW_eq (φ g2) (φ g3) k]
-    split_ifs with h2 h3 h4
-    · rw [map_div₀, map_ofNat]
-    · rw [map_div₀, map_ofNat]
-    · set_option synthInstance.maxHeartbeats 100000 in
-        simp only [map_mul, map_div₀, map_add, map_sub, map_natCast, map_one, map_ofNat, map_sum]
-      congr 1
-      refine Finset.sum_congr rfl fun m _ => ?_
-      have hm := m.isLt
-      rw [ih (m.val + 2) (by omega), ih (k - (m.val + 2)) (by omega)]
-    · exact map_zero φ
+  apply _root_.ReciprocityTheory.ChartRestriction.L1.cW_map <;> assumption
 
 theorem wpNum_map (g2 g3 : K) : PowerSeries.map φ (wpNum g2 g3) = wpNum (φ g2) (φ g3) := by
-  ext n
-  rw [PowerSeries.coeff_map]
-  unfold wpNum
-  rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk]
-  split_ifs
-  · exact map_one φ
-  · exact cW_map φ g2 g3 _
-  · exact map_zero φ
+  apply _root_.ReciprocityTheory.ChartRestriction.L1.wpNum_map <;> assumption
 
 theorem wpDen_map (g2 g3 : K) : PowerSeries.map φ (wpDen g2 g3) = wpDen (φ g2) (φ g3) := by
-  ext n
-  rw [PowerSeries.coeff_map]
-  unfold wpDen
-  rw [PowerSeries.coeff_mk, PowerSeries.coeff_mk]
-  split_ifs
-  · exact map_one φ
-  · rw [map_mul, map_neg, map_sub, map_natCast, map_one, cW_map]
-  · exact map_zero φ
+  apply _root_.ReciprocityTheory.ChartRestriction.L1.wpDen_map <;> assumption
 
 theorem cc_wpDen (g2 g3 : K) : PowerSeries.constantCoeff (wpDen g2 g3) = 1 := by
   rw [← PowerSeries.coeff_zero_eq_constantCoeff_apply]

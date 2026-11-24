@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.PeriodLatticeSesquilinearFormIsHerm
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.LineTransport
 public import Formalism.LocalToGlobal.TorsionIntegrality.QuadraticSemicharacters.ProductThetaMem
 public import Mathlib.CategoryTheory.Category.Basic
@@ -102,74 +103,10 @@ theorem restrict_mem (h : Matrix n n ℂ) (Λ : AddSubgroup (n → ℂ)) (α : (
 end Blocks
 
 theorem fourfoldTensorMem : Tens4Mem := by
-  intro n _ h Λ α θ hθ
-  refine ⟨?_, ?_⟩
-  · intro z _
-    refine Finset.analyticAt_fun_prod _ fun a _ => ?_
-    exact ((hθ a).1 (slice a z) (Set.mem_univ _)).comp_of_eq (slice_analyticAt a z) rfl
-  · intro x hx z
-    rw [(heisenbergFourfold n h).2 x θ z]
-    show (∏ a, α (slice a x)) * _ = ∏ a, θ a (slice a z)
-    rw [← Finset.prod_mul_distrib]
-    exact Finset.prod_congr rfl fun a _ => (hθ a).2 (slice a x) (hx a) (slice a z)
+  apply _root_.GlobalTheory.Mem.Col2.ThetaVec.tens4Mem <;> assumption
 
 theorem FourthRoot_of (h4 : Tens4Mem) : FourthRoot := by
-  intro n _ h Λ α hα0 P hP hP0 hline
-  obtain ⟨z, hz⟩ : ∃ z, P z ≠ 0 := by
-    by_contra hcon
-    push Not at hcon
-    exact hP0 (funext hcon)
-  have key_line : ∀ θ ∈ Th (matH h) α Λ, tens4 θ = P → ∀ F ∈ Th (matH h) α Λ, ∃ c : ℂ, F = c • θ := by
-    intro θ hθ hθP F hF
-    have hw : θ (slice 0 z) ≠ 0 := by
-      intro h0
-      apply hz
-      rw [← hθP]
-      exact Finset.prod_eq_zero (Finset.mem_univ (0 : Fin 4)) h0
-    obtain ⟨c, hc⟩ := hline _ (h4 n h Λ α (fun a => if a = 0 then F else θ)
-      (by intro a; split_ifs <;> assumption))
-    refine ⟨c, funext fun v => ?_⟩
-    have h1 := congrFun hc (mk4 (fun a => if a = 0 then v else slice 0 z))
-    rw [← hθP] at h1
-    simp only [Pi.smul_apply, smul_eq_mul, tens4, Fin.prod_univ_four, blockSlice_fourfoldMk] at h1
-    simp only [if_true, Fin.isValue, one_ne_zero, if_false, Fin.reduceEq] at h1
-    have h3 : θ (slice 0 z) * θ (slice 0 z) * θ (slice 0 z) ≠ 0 := mul_ne_zero (mul_ne_zero hw hw) hw
-    apply mul_right_cancel₀ h3
-    simp only [Pi.smul_apply, smul_eq_mul]
-    linear_combination h1
-  refine ⟨?_, fun θ hθ hθP => ⟨?_, key_line θ hθ hθP⟩⟩
-  · set z₁ : Fin 4 × n → ℂ := fun p => if p.1 = 0 then 0 else z p with hz₁def
-    have hz₁ : slice 0 z₁ = 0 := by
-      funext i
-      simp [slice, hz₁def]
-    have hzz : z₁ + emb0 (slice 0 z) = z := by
-      funext p
-      by_cases hp : p.1 = 0
-      · have : p = (0, p.2) := Prod.ext hp rfl
-        simp only [Pi.add_apply, hz₁def, emb0, LinearMap.coe_mk, AddHom.coe_mk, hp, if_true, slice,
-          zero_add]
-        rw [← this]
-      · simp [hz₁def, emb0, hp]
-    have hθ₁ := restrict_mem h Λ α hα0 hP z₁ hz₁
-    set θ₁ : (n → ℂ) → ℂ := fun v => P (z₁ + emb0 v) with hθ₁def
-    obtain ⟨c, hc⟩ := hline _ (h4 n h Λ α (fun _ => θ₁) (fun _ => hθ₁))
-    have hc' : tens4 θ₁ = c • P := hc
-    have hc0 : c ≠ 0 := by
-      rintro rfl
-      have h1 := congrFun hc' (mk4 fun _ => slice 0 z)
-      simp only [tens4, blockSlice_fourfoldMk, Finset.prod_const, Finset.card_univ, Fintype.card_fin, zero_smul,
-        Pi.zero_apply, hθ₁def, hzz] at h1
-      exact hz (pow_eq_zero_iff (by norm_num) |>.1 h1)
-    obtain ⟨r, hr⟩ := IsAlgClosed.exists_pow_nat_eq (c⁻¹) (n := 4) (by norm_num)
-    refine ⟨r • θ₁, (Th (matH h) α Λ).smul_mem r hθ₁, ?_⟩
-    rw [fourfoldTensor_smul, hr, hc', smul_smul, inv_mul_cancel₀ hc0, one_smul]
-  · intro θ' hθ' hθ'P
-    obtain ⟨c, rfl⟩ := key_line θ hθ hθP θ' hθ'
-    refine ⟨c, ?_, rfl⟩
-    rw [fourfoldTensor_smul, hθP] at hθ'P
-    have h1 := congrFun hθ'P z
-    simp only [Pi.smul_apply, smul_eq_mul] at h1
-    exact mul_right_cancel₀ hz (by rw [h1, one_mul])
+  apply _root_.GlobalTheory.Mem.Col2.ThetaVec.fourthRoot <;> assumption
 
 theorem fourth_root : FourthRoot := FourthRoot_of fourfoldTensorMem
 

@@ -1233,11 +1233,7 @@ theorem liftQ_sub (L : Lattice (O := O) ρ) (ϖ : O) (r : ℕ) (x : ↥L.T)
 
 theorem inv_pow_mul_pow_mem (ϖ : O) (r : ℕ) :
     ∃ e : O, (algebraMap O LL ϖ)⁻¹ ^ r * (algebraMap O LL ϖ) ^ r = algebraMap O LL e := by
-  rcases eq_or_ne (algebraMap O LL ϖ) 0 with h | h
-  · rcases Nat.eq_zero_or_pos r with hr | hr
-    · exact ⟨1, by subst hr; simp⟩
-    · exact ⟨0, by rw [h, zero_pow hr.ne', mul_zero, map_zero]⟩
-  · exact ⟨1, by rw [← mul_pow, inv_mul_cancel₀ h, one_pow, map_one]⟩
+  apply _root_.GlobalTheory.BKFinLevel.NatCup.inv_pow_mul_pow_mem <;> assumption
 
 end Gen
 end GlobalTheory.BKSwapCup

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.WithBotLtNatCastOfAddOneLe
 public import Development.AbelianVarietyTheory.Definitions.Divisors.PullHlComp
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.KummerVanishingStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SmoothAffineCurveEtaleCohomologicalDimensionLeOnStatement
@@ -1384,20 +1385,7 @@ theorem ringKrullDim_quot_sup_succ_le (R : Type) [CommRing R] (p J : Ideal R) [p
 
 theorem withBot_lt_of_add_one_le (a : WithBot ℕ∞) (d : ℕ) (h : a + 1 ≤ (d : WithBot ℕ∞)) :
     a < (d : WithBot ℕ∞) := by
-  induction a using WithBot.recBotCoe with
-  | bot => exact WithBot.bot_lt_coe _
-  | coe e =>
-    induction e using ENat.recTopCoe with
-    | top =>
-      exfalso
-      have h2 : (((⊤ : ℕ∞) + 1 : ℕ∞) : WithBot ℕ∞) ≤ (((d : ℕ∞)) : WithBot ℕ∞) := by exact_mod_cast h
-      rw [WithBot.coe_le_coe] at h2
-      simp at h2
-    | coe n =>
-      have h' : ((n + 1 : ℕ) : WithBot ℕ∞) ≤ (d : WithBot ℕ∞) := by exact_mod_cast h
-      have : n + 1 ≤ d := by exact_mod_cast h'
-      have : n < d := by omega
-      exact_mod_cast this
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.withBot_lt_natCast_of_add_one_le <;> assumption
 
 end GlobalTheory
 
@@ -1571,11 +1559,7 @@ theorem eqv_iso (R : Type) [CommRing R] {E E' : Spc} (f : E ⟶ E') [IsIso f] (F
 
 theorem eqv_comp (R : Type) [CommRing R] {E E' E'' : Spc} (f : E ⟶ E') (g : E' ⟶ E'') (F : Shv R)
     (hf : Eqv R f F) (hg : Eqv R g F) : Eqv R (f ≫ g) F := by
-  intro n
-
-  have e : ⇑(pull R (f ≫ g) F n) = pull R f F n ∘ pull R g F n := funext (pull_comp R f g F n)
-  rw [e]
-  exact (hf n).comp (hg n)
+  apply _root_.GlobalTheory.HInvAic.eqv_comp <;> assumption
 
 theorem isPushout_poly {A B : Type} [CommRing A] [CommRing B] (φ : A →+* B) :
     IsPushout (CommRingCat.ofHom (Polynomial.C : A →+* Polynomial A)) (CommRingCat.ofHom φ)

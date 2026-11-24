@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DerivedModuleCoefficientsAndStableFlows
 public import Formalism.SharpRestriction.CuspSpanNormBounds.RelevantZeroGramTerms
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.ActSingleNeZero
 public import Mathlib.Analysis.LocallyConvex.AbsConvexOpen
@@ -201,22 +202,7 @@ theorem hasDerivAt_orbit (hσ : IsURepOn (UJset ε) σ) (hD : IsDer ε σ V E)
     {X : Matrix (Fin n) (Fin n) ℂ} (hX : inG ε X) (v : V) (s : ℝ) :
     HasDerivAt (fun t : ℝ => σ (NormedSpace.exp ((t : ℂ) • X)) (v : H))
       (σ (NormedSpace.exp ((s : ℂ) • X)) (act E X v : V)) s := by
-  have h0 := hD.2.2.1 X hX v
-  rw [← act_apply] at h0
-  have h2 : HasDerivAt (fun t : ℝ => σ (NormedSpace.exp ((s : ℂ) • X))
-      (σ (NormedSpace.exp ((t : ℂ) • X)) (v : H))) (σ (NormedSpace.exp ((s : ℂ) • X)) (act E X v : H)) (s - s) := by
-    rw [sub_self]
-    exact ((σ (NormedSpace.exp ((s : ℂ) • X))).restrictScalars ℝ).hasFDerivAt.comp_hasDerivAt 0 h0
-  have h1 := h2.comp_sub_const s s
-  have key : (fun t : ℝ => σ (NormedSpace.exp ((t : ℂ) • X)) (v : H)) =
-      fun t : ℝ => σ (NormedSpace.exp ((s : ℂ) • X)) (σ (NormedSpace.exp (((t - s : ℝ) : ℂ) • X)) (v : H)) := by
-    funext t
-    have h := sigma_add hσ hX s (t - s)
-    have e : s + (t - s) = t := by ring
-    rw [e] at h
-    rw [h, ContinuousLinearMap.mul_apply]
-  rw [key]
-  exact h1
+  first | exact _root_.GlobalTheory.Jet.Coef.der_flow | exact @_root_.GlobalTheory.Jet.Coef.der_flow | apply _root_.GlobalTheory.Jet.Coef.der_flow <;> assumption
 
 private theorem two_mul_sq_add_abs_mul_sq_le_sq (n c T w : ℝ) (hn : 0 ≤ n) (hT : 0 ≤ T) :
     (2 * n * T ^ 2 + |c|) * w ^ 2 ≤ ((2 * n + |c| + 1) * (T + 1) * w) ^ 2 := by

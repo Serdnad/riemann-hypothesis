@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.AdelicHeckeBlocks.PFrameOk
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.FrameMatching.HeckeWordBounds.HeckeLevelWordBase
 public import Development.AutomorphicArithmetic.Foundations.BaseChangeIdentities.FrameMatching.HeckeWordBounds.ChainSc
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.ArchimedeanGelfandKernels.IsMultZero
@@ -709,15 +710,7 @@ attribute [local instance] borelG borelF borelA GlobalTheory.LocalData.complRel 
 private theorem fm_of_eqv {E : Type} [Field E] [NumberField E] [IsCMField E] {κ : Pl E → Type} [∀ w, Fintype (κ w)]
     (S : Set (Pl E)) (P : Finset (Pl E)) (B : Block E) (e : B.κ ≃ ∀ w : P, κ w) {L L' : LM κ B.a B.b}
     (h : L.Eqv P L') : fm S P B e L = fm S P B e L' := by
-  have hent : ∀ x y, L.ent P x y = L'.ent P x y := by
-    intro x y
-    funext w
-    unfold LM.ent
-    split_ifs with hw
-    · rw [h.1 w hw]
-    · rw [h.2.1 w hw]
-  funext x y g
-  simp only [fm, hent, h.2.2]
+  apply _root_.PositivityTheory.Rg.BcB.F.FrameOk.fm_eqv <;> assumption
 
 theorem _root_.UpperTheory.BaseChangeIdentities.FrameWordIdentity.psiGen_of_algebras :
     FmAlg → RtAlg → BlockProductLevels → PsiGen := by

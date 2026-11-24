@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.IsSchwartzBruhatAdelicMatrixOfMemAdelicSchwartz
 public import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.SchwartzBruhatMixedFamilies
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.MixSDblDecZero
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.SmulEqZeroOfInf
@@ -455,25 +456,7 @@ variable {D : D7} {m n : ℕ}
 
 theorem isSchwartzBruhat_add {φ φ' : Mx D m n → ℂ} (h : IsSchwartzBruhat φ) (h' : IsSchwartzBruhat φ') :
     IsSchwartzBruhat (φ + φ') := by
-  refine { level := ?_, supp := ?_, schwartz := ?_ }
-  · obtain ⟨U, hU, hφU⟩ := h.level
-    obtain ⟨U', hU', hφU'⟩ := h'.level
-    refine ⟨U ⊓ U', ?_, fun u hu hu0 x => ?_⟩
-    · change IsOpen ((U : Set (Mx D m n)) ∩ (U' : Set (Mx D m n)))
-      exact hU.inter hU'
-    · have hu' := AddSubgroup.mem_inf.mp hu
-      simp [hφU u hu'.1 hu0 x, hφU' u hu'.2 hu0 x]
-  · obtain ⟨K, hK, hφK⟩ := h.supp
-    obtain ⟨K', hK', hφK'⟩ := h'.supp
-    refine ⟨K ∪ K', hK.union hK', fun x hx => ?_⟩
-    by_cases h1 : φ x = 0
-    · have h2 : φ' x ≠ 0 := by simpa [h1] using hx
-      exact Or.inr (hφK' x h2)
-    · exact Or.inl (hφK x h1)
-  · intro k L hL hi x
-    obtain ⟨g, hg⟩ := h.schwartz k L hL hi x
-    obtain ⟨g', hg'⟩ := h'.schwartz k L hL hi x
-    exact ⟨g + g', fun t => by simp [hg, hg']⟩
+  apply _root_.GlobalTheory.SchwartzPure.add <;> assumption
 
 theorem isSchwartzBruhat_linear_mul {φ : Mx D m n → ℂ} (h : IsSchwartzBruhat φ) (ℓ : Mx D m n →+ ℂ) (hc : Continuous ℓ)
     (h0 : ∀ u : Mx D m n, u.map (infPart D) = 0 → ℓ u = 0) : IsSchwartzBruhat fun x => ℓ x * φ x := by

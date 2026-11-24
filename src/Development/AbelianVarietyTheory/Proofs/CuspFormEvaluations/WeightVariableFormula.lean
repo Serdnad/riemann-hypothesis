@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.PlurisubharmonicCones.Rt0ConjNegNeZero
 public import Development.AbelianVarietyTheory.Definitions.ThetaValues.LetAct
 public import Formalism.LocalToGlobal.Divisibility.CoefMod
 import Formalism.GradedWeylDivisibility.DualWeylDominanceOf
@@ -1757,23 +1758,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {H : Host E} (Dw : D
   {pl : Ix → (E →+* ℂ)} (he : IsEnum H pl)
 
 theorem rt0_conj_neg_ne_zero (H : Host E) : starRingEnd ℂ H.rt0 = -H.rt0 ∧ H.rt0 ≠ 0 := by
-  have h1 := H.sqrt_neg_disc_sq
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have hre := congrArg Complex.re h1
-  have him := congrArg Complex.im h1
-  simp only [sq, Complex.mul_re, Complex.mul_im, Complex.neg_re, Complex.neg_im, Complex.natCast_re, Complex.natCast_im,
-    neg_zero] at hre him
-  have h0 : H.rt0.re = 0 := by
-    by_contra h
-    have : H.rt0.im = 0 := by
-      have : H.rt0.re * H.rt0.im = 0 := by linarith
-      exact (mul_eq_zero.1 this).resolve_left h
-    rw [this] at hre
-    nlinarith [mul_self_nonneg H.rt0.re]
-  refine ⟨Complex.ext (by simp [h0]) (by simp), fun e => ?_⟩
-  rw [e] at hre
-  simp at hre
-  exact H.d_prime.ne_zero hre
+  first | exact _root_.LevelTowerAlt.rt0_conj_neg_ne_zero | exact @_root_.LevelTowerAlt.rt0_conj_neg_ne_zero | apply _root_.LevelTowerAlt.rt0_conj_neg_ne_zero <;> assumption
 
 theorem not_psi_conj {τ : E →+* ℂ} (hτ : InPsi H τ) : ¬ InPsi H (ComplexEmbedding.conjugate τ) := by
   intro h2

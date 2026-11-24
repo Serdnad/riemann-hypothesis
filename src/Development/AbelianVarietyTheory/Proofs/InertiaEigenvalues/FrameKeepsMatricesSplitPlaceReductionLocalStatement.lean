@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsLevelGroupWithCharacterAtTypePlaces
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.AdmissibleTwistOfTwistingCharacter
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -84,17 +85,7 @@ theorem proj_tmul_one (s : ReciprocityTheory.Aut.SplitPlace L) (y : L) :
 
 theorem proj_mem (s : ReciprocityTheory.Aut.SplitPlace L) {z : ReciprocityTheory.Aut.AL L} (hz : z ∈ ReciprocityTheory.Aut.ALint L) :
     s.proj z ∈ s.v.adicCompletionIntegers (maximalRealSubfield L) := by
-  have hle : ReciprocityTheory.Aut.ALint L ≤ (s.v.adicCompletionIntegers (maximalRealSubfield L)).toSubring.comap s.proj := by
-    refine Subring.closure_le.2 ?_
-    rintro x (⟨y, rfl⟩ | ⟨c, hc, rfl⟩)
-    · show s.proj _ ∈ s.v.adicCompletionIntegers (maximalRealSubfield L)
-      rw [HeightOneSpectrum.mem_adicCompletionIntegers, proj_tmul_one]
-      exact s.split_le_one y
-    · show s.proj _ ∈ s.v.adicCompletionIntegers (maximalRealSubfield L)
-      simp only [ReciprocityTheory.Aut.SplitPlace.proj, AlgHom.toRingHom_eq_coe, RingHom.coe_coe, Algebra.TensorProduct.lift_tmul,
-        map_one, one_mul]
-      exact hc s.v
-  exact hle hz
+  apply _root_.GlobalTheory.LevGChar.proj_int <;> assumption
 
 theorem proj_lt_one (s : ReciprocityTheory.Aut.SplitPlace L) (z : Formalism.L2.Herm.intAf (maximalRealSubfield L) L)
     (hz : z ∈ Formalism.L2.DIV.idS (maximalRealSubfield L) s.w.asIdeal) :

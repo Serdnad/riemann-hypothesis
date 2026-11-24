@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SenMultiplicityShiftLatticeVariablePow
 public import Development.AbelianVarietyTheory.Definitions.NonGaloisDescent.PowerSeriesOneAddConstMulXMulInv
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.NabBijectiveWindow
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.SubIdBijOfContracting
@@ -524,37 +525,14 @@ theorem nab_apply (g : V →ₗ[k] V) (x : V) : nab g x = vv k ^ (-1 : ℤ) • 
 
 theorem span_le {ι : Type} (e : ι → V) (P : Submodule k⟦X⟧ V) (hP : Submodule.span k⟦X⟧ (Set.range e) = P) :
     P.restrictScalars k ≤ Submodule.span k (Set.range e) ⊔ (sh 1 P).restrictScalars k := by
-  intro x hx
-  rw [Submodule.restrictScalars_mem, ← hP, Finsupp.mem_span_range_iff_exists_finsupp] at hx
-  obtain ⟨c, rfl⟩ := hx
-  refine Submodule.sum_mem _ fun i _ => ?_
-  show c i • e i ∈ _
-  have he : e i ∈ P := hP ▸ Submodule.subset_span ⟨i, rfl⟩
-  obtain ⟨d, hd⟩ : ∃ d : k⟦X⟧, c i = algebraMap k k⟦X⟧ (PowerSeries.constantCoeff (c i)) + PowerSeries.X * d :=
-    ⟨_, by rw [add_comm]; exact PowerSeries.eq_X_mul_shift_add_const (c i)⟩
-  rw [hd, add_smul, algebraMap_smul]
-  refine Submodule.add_mem_sup (Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)) ?_
-  refine mem_sh.2 ⟨d • e i, P.smul_mem _ he, ?_⟩
-  rw [zpow_one, _root_.GlobalTheory.PhiGam.Window.vv_coe, _root_.GlobalTheory.PhiGam.Window.coe_smul_eq, mul_smul]
+  intros
+  apply _root_.GlobalTheory.PhiGam.PolarKernel.le_span_sup <;> assumption
 
 theorem fin_quot (N : Submodule k⟦X⟧ V) (hN : N.FG) (a : ℤ) (m : ℕ) :
     ∃ S : Submodule k V, FiniteDimensional k S ∧
       (sh a N).restrictScalars k ≤ S ⊔ (sh (a + m) N).restrictScalars k := by
-  induction m with
-  | zero => exact ⟨⊥, inferInstance, by simp⟩
-  | succ m ih =>
-    obtain ⟨S, hS, h⟩ := ih
-    have hfg : (sh (a + m) N).FG := hN.map _
-    obtain ⟨n, e, he⟩ := Submodule.fg_iff_exists_fin_generating_family.1 hfg
-    have h2 := span_le e _ he
-    rw [sh_sh] at h2
-    have : FiniteDimensional k (Submodule.span k (Set.range e)) :=
-      FiniteDimensional.span_of_finite k (Set.finite_range e)
-    refine ⟨S ⊔ Submodule.span k (Set.range e), inferInstance, h.trans ?_⟩
-    rw [sup_assoc]
-    refine sup_le_sup_left ?_ _
-    rw [Nat.cast_succ, ← add_assoc]
-    exact h2
+  intros
+  apply _root_.GlobalTheory.PhiGam.PolarKernel.exists_finite_le_sup <;> assumption
 
 theorem gens [FiniteDimensional k⸨X⸩ V] (N : Submodule k⟦X⟧ V) (hN : N.FG) :
     ∃ (n : ℕ) (e : Fin n → V), n ≤ finrank k⸨X⸩ V ∧ Submodule.span k⟦X⟧ (Set.range e) = N := by
@@ -1109,51 +1087,8 @@ theorem gmult_transport (T T' : Module.End k U) (e : U ≃ₗ[k] U) (P Q P' Q' :
     (hTP : ∀ p ∈ P, T p ∈ P) (hTQ : ∀ p ∈ Q, T p ∈ Q) (hTQ' : ∀ p ∈ Q', T' p ∈ Q') (x y : k)
     (h : ∀ p ∈ P, (T' (e p) - x • e p) - e (T p - y • p) ∈ Q') :
     gmult T' P' Q' x = gmult T P Q y := by
-  set S := T - algebraMap k (Module.End k U) y with hS
-  set S' := T' - algebraMap k (Module.End k U) x with hS'
-  have hSa : ∀ p, S p = T p - y • p := fun p => by simp [hS, Module.algebraMap_end_apply]
-  have hSa' : ∀ p, S' p = T' p - x • p := fun p => by simp [hS', Module.algebraMap_end_apply]
-  have hSP : ∀ p ∈ P, S p ∈ P := fun p hp => by rw [hSa]; exact P.sub_mem (hTP p hp) (P.smul_mem _ hp)
-  have hSQ : ∀ p ∈ Q, S p ∈ Q := fun p hp => by rw [hSa]; exact Q.sub_mem (hTQ p hp) (Q.smul_mem _ hp)
-  have hSQ' : ∀ p ∈ Q', S' p ∈ Q' := fun p hp => by
-    rw [hSa']; exact Q'.sub_mem (hTQ' p hp) (Q'.smul_mem _ hp)
-  have key : ∀ p ∈ P, ∀ m : ℕ, (S ^ m) p ∈ P ∧ (S' ^ m) (e p) - e ((S ^ m) p) ∈ Q' := by
-    intro p hp m
-    induction m with
-    | zero => simpa using hp
-    | succ m ih =>
-      rw [pow_succ', pow_succ', Module.End.mul_apply, Module.End.mul_apply]
-      refine ⟨hSP _ ih.1, ?_⟩
-      have h1 := hSQ' _ ih.2
-      have h2 := h _ ih.1
-      rw [← hSa, ← hSa'] at h2
-      have h3 := Q'.add_mem h1 h2
-      rwa [map_sub, sub_add_sub_cancel] at h3
-  have hmem : ∀ p, e p ∈ (P' ⊓ ⨆ m : ℕ, Q'.comap (S' ^ m)) ↔ p ∈ (P ⊓ ⨆ m : ℕ, Q.comap (S ^ m)) := by
-    intro p
-    rw [Submodule.mem_inf, Submodule.mem_inf, _root_.GlobalTheory.PhiGam.GmultAdd.mem_gen S Q hSQ, _root_.GlobalTheory.PhiGam.GmultAdd.mem_gen S' Q' hSQ', hP']
-    refine and_congr_right fun hp => exists_congr fun m => ?_
-    rw [← hQ']
-    have := (key p hp m).2
-    constructor
-    · intro h1; simpa using Q'.sub_mem h1 this
-    · intro h1; simpa using Q'.add_mem this h1
-  unfold gmult
-  rw [← hS, ← hS']
-  set A := P ⊓ ⨆ m : ℕ, Q.comap (S ^ m)
-  set A' := P' ⊓ ⨆ m : ℕ, Q'.comap (S' ^ m)
-  have hA : A.map (e : U →ₗ[k] U) = A' := by
-    ext z
-    obtain ⟨w, rfl⟩ := e.surjective z
-    rw [hmem]
-    exact Submodule.map_equiv_eq_comap_symm e A ▸ by simp
-  let e' : A ≃ₗ[k] A' := e.ofSubmodules A A' hA
-  refine (Submodule.Quotient.equiv (Q.submoduleOf A) (Q'.submoduleOf A') e' ?_).finrank_eq.symm
-  ext z
-  obtain ⟨w, rfl⟩ := e'.surjective z
-  have : (e' w ∈ Q'.submoduleOf A') ↔ w ∈ Q.submoduleOf A := hQ' w
-  rw [this]
-  exact Submodule.map_equiv_eq_comap_symm e' _ ▸ by simp
+  intros
+  apply _root_.GlobalTheory.PhiGam.SenShift.gmult_transport <;> assumption
 
 theorem fin_of_le {A B C : Submodule k U} (h : C ≤ B) (hf : FiniteDimensional k (A.map C.mkQ)) :
     FiniteDimensional k (A.map B.mkQ) := by
@@ -1163,15 +1098,7 @@ theorem fin_of_le {A B C : Submodule k U} (h : C ≤ B) (hf : FiniteDimensional 
 
 theorem fin_trans {A B C : Submodule k U} (h : C ≤ B) (h1 : FiniteDimensional k (A.map B.mkQ))
     (h2 : FiniteDimensional k (B.map C.mkQ)) : FiniteDimensional k (A.map C.mkQ) := by
-  have e : A.map B.mkQ = (A.map C.mkQ).map (Submodule.factor h) := by
-    rw [← Submodule.map_comp]; rfl
-  rw [e] at h1
-  have hle : A.map C.mkQ ⊓ LinearMap.ker (Submodule.factor h) ≤ B.map C.mkQ := by
-    rintro _ ⟨⟨a, -, rfl⟩, ha⟩
-    exact ⟨a, (Submodule.Quotient.mk_eq_zero B).1 ha, rfl⟩
-  have h3 := Submodule.finiteDimensional_of_le hle
-  exact Module.Finite.iff_fg.2 (Submodule.fg_of_fg_map_of_fg_inf_ker (Submodule.factor h)
-    (Module.Finite.iff_fg.1 h1) (Module.Finite.iff_fg.1 h3))
+  apply _root_.GlobalTheory.PhiGam.Range.finite_map_trans <;> assumption
 
 theorem fin_quot {A B : Submodule k U} (h : FiniteDimensional k (A.map B.mkQ)) :
     FiniteDimensional k (↥A ⧸ B.submoduleOf A) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocallyConstantOfKernel
 public import Mathlib.NumberTheory.NumberField.Basic
 public import Mathlib.RingTheory.DedekindDomain.Ideal.Lemmas
 public import Mathlib.Algebra.Group.Subgroup.Ker
@@ -109,18 +110,8 @@ section -- clump:auto
 
 theorem UpperTheory.Reformulated.B.LocallyConstantOfOpen.ho_locConst :
     ∀ {Γ A : Type} [inst : Group Γ] [inst_1 : TopologicalSpace Γ]
-    [IsTopologicalGroup Γ] [inst_3 : Group A] (ψ : Γ →* A), IsOpen (↑ψ.ker : Set Γ) → IsLocallyConstant (⇑ψ : Γ → A) := by
-  intro Γ A _ _ _ _ ψ h
-  rw [IsLocallyConstant.iff_exists_open]
-  intro x
-  refine ⟨(fun y => x⁻¹ * y) ⁻¹' (ψ.ker : Set Γ),
-    h.preimage (continuous_const.mul continuous_id), ?_, ?_⟩
-  · change x⁻¹ * x ∈ ψ.ker
-    simp
-  · intro y hy
-    have hy' : ψ (x⁻¹ * y) = 1 := hy
-    rw [map_mul, map_inv, inv_mul_eq_one] at hy'
-    exact hy'.symm
+    [IsTopologicalGroup Γ] [inst_3 : Group A] (ψ : Γ →* A), IsOpen (↑ψ.ker : Set Γ) → IsLocallyConstant (⇑ψ : Γ → A) :=
+  _root_.UpperTheory.Reformulated.B.LocallyConstantOfKernel.lc_of_ker
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.LocallyConstantOfOpen =====

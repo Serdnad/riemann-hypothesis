@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.BruhatCellsKronecker.CellInv
 public import Development.AbelianVarietyTheory.Definitions.SemilocalFrames.OfRoots
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.TranslatedLatticeAtInfinityFullCovolumeDual
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.GramUnipotentStabilizerBruhatCellConjRoot
@@ -425,21 +426,7 @@ theorem det_upUni {U : Matrix (Fin N) (Fin N) K} (hU : IsUpUni U) : U.det = 1 :=
   exact Finset.prod_eq_one fun i _ => (hU i i).2 rfl
 
 theorem upUni_inv {U : Matrix (Fin N) (Fin N) K} (hU : IsUpUni U) : IsUpUni U⁻¹ := by
-  have hdet : IsUnit U.det := by rw [det_upUni hU]; exact isUnit_one
-  have := U.invertibleOfIsUnitDet hdet
-  have ht : U⁻¹.BlockTriangular id :=
-    Matrix.blockTriangular_inv_of_blockTriangular (fun i j hij => (hU i j).1 hij)
-  intro i j
-  refine ⟨fun h => ht h, ?_⟩
-  rintro rfl
-  have h1 : (U * U⁻¹) i i = 1 := by rw [Matrix.mul_nonsing_inv _ hdet]; simp
-  rw [Matrix.mul_apply, Finset.sum_eq_single i] at h1
-  · rwa [(hU i i).2 rfl, one_mul] at h1
-  · intro k _ hki
-    rcases lt_or_gt_of_ne hki with h | h
-    · rw [(hU i k).1 h, zero_mul]
-    · rw [ht h, mul_zero]
-  · simp
+  first | exact _root_.Formalism.MainNotions.BridgeLemma.cinv_inv_up | exact @_root_.Formalism.MainNotions.BridgeLemma.cinv_inv_up | apply _root_.Formalism.MainNotions.BridgeLemma.cinv_inv_up <;> assumption
 
 def conjMat (U : Matrix (Fin N) (Fin N) K) (R : Finset (Fin N × Fin N)) : Matrix R R K :=
   fun q q' => U⁻¹ q.1.1 q'.1.1 * U q'.1.2 q.1.2

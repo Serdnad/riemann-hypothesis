@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.HasInfExpMulZero
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.TameOnOne
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsBaseChangeFiniteAdeleRingEquiv
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsFinitePlaceIdempotentBaseChangeAdeles
@@ -125,24 +126,7 @@ theorem map_sum_ringHom {A B ι : Type} [Semiring A] [Semiring B] (f : A →+* B
 
 theorem resS_idemSum {D : D7} {e : AE D} {P : Finset (Pl D.host.E)} (he : IsIdemSum e P) :
     ∃ h : toEAf D e ∈ Formalism.L2.Herm.intAf D.host.F D.host.E, ∀ Q ∈ P, resS D.host.F Q ⟨toEAf D e, h⟩ = 1 := by
-  classical
-  obtain ⟨⟨es, hes, rfl⟩, -⟩ := he
-  choose hi hr using fun Q : P => GlobalTheory.IdemRes.resS_idem_eq_one D (es Q) Q (hes Q Q.2)
-  let t : P → Formalism.L2.Herm.intAf D.host.F D.host.E := fun Q => ⟨toEAf D (es Q), hi Q⟩
-  have ht : toEAf D (∑ PP ∈ P, es PP) = ((∑ Q, t Q : Formalism.L2.Herm.intAf D.host.F D.host.E) : Datum.EAf D) := by
-    rw [← Finset.sum_coe_sort P]
-    refine (map_sum_ringHom (toEAf D) _ _).trans ?_
-    exact (map_sum (Formalism.L2.Herm.intAf D.host.F D.host.E).subtype t Finset.univ).symm
-  refine ⟨ht ▸ (∑ Q, t Q).2, fun Q hQ => ?_⟩
-  have e1 : (⟨toEAf D (∑ PP ∈ P, es PP), ht ▸ (∑ Q, t Q).2⟩ : Formalism.L2.Herm.intAf D.host.F D.host.E) = ∑ Q, t Q :=
-    Subtype.ext ht
-
-  rw [e1, map_sum, Finset.sum_eq_single (⟨Q, hQ⟩ : P)]
-  · exact hr ⟨Q, hQ⟩
-  · intro R _ hR
-    exact resS_idem_eq_zero (hes R R.2) (fun h => hR (Subtype.ext h)) _
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  first | exact _root_.GlobalTheory.InnerSteps.resS_idemSum | exact @_root_.GlobalTheory.InnerSteps.resS_idemSum | apply _root_.GlobalTheory.InnerSteps.resS_idemSum <;> assumption
 
 theorem le_exp_of_lt_one {x : WithZero (Multiplicative ℤ)} (h : x < 1) : x ≤ WithZero.exp (-1 : ℤ) := by
   by_cases h0 : x = 0

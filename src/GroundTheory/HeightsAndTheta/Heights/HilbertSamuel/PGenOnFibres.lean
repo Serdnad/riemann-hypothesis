@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.MultihomogeneousPolynomials
 public import GroundTheory.HeightsAndTheta.Heights.HilbertSamuel.StatementsPerturb
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -87,18 +88,11 @@ theorem homog_zero (a : K → ℕ) : IsMultiHomog (0 : MRingOver R ι) a := by
 
 theorem homog_mul {f g : MRingOver R ι} {a b : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g b) :
     IsMultiHomog (f * g) (a + b) := by
-  classical
-  intro m hm k
-  obtain ⟨m1, hm1, m2, hm2, rfl⟩ := Finset.mem_add.mp (MvPolynomial.support_mul f g hm)
-  simp only [Finsupp.add_apply, Finset.sum_add_distrib, Pi.add_apply, hf m1 hm1 k, hg m2 hm2 k]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.mul <;> assumption
 
 theorem homog_add {f g : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
     IsMultiHomog (f + g) a := by
-  classical
-  intro m hm k
-  rcases Finset.mem_union.mp (MvPolynomial.support_add hm) with h | h
-  · exact hf m h k
-  · exact hg m h k
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.add <;> assumption
 
 theorem homog_sub {f g : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a) (hg : IsMultiHomog g a) :
     IsMultiHomog (f - g) a := by
@@ -108,21 +102,11 @@ theorem homog_sub {f g : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a)
 
 open Classical in
 theorem homog_X (k : K) (i : ι k) : IsMultiHomog (X ⟨k, i⟩ : MRingOver R ι) (Pi.single k 1) := by
-  classical
-  refine homog_monomial _ _ _ fun k' => ?_
-  by_cases h : k' = k
-  · subst h
-    simp [Finsupp.single_apply]
-  · have : ∀ j : ι k', (⟨k, i⟩ : Σ k, ι k) ≠ ⟨k', j⟩ := fun j e => h (congrArg Sigma.fst e).symm
-    simp [Finsupp.single_apply, this, h, Pi.single_apply]
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.variableForm <;> assumption
 
 theorem homog_pow {f : MRingOver R ι} {a : K → ℕ} (hf : IsMultiHomog f a) (n : ℕ) :
     IsMultiHomog (f ^ n) (n • a) := by
-  induction n with
-  | zero => simpa using (homog_one (R := R) (ι := ι))
-  | succ n ih =>
-    rw [pow_succ, succ_nsmul]
-    exact homog_mul ih hf
+  apply _root_.GroundTheory.Heights₂.Heights.MultiHomogeneous.pow <;> assumption
 
 theorem homog_map {S : Type} [CommRing S] (φ : R →+* S) {f : MRingOver R ι} {a : K → ℕ}
     (hf : IsMultiHomog f a) : IsMultiHomog (MvPolynomial.map φ f) a :=

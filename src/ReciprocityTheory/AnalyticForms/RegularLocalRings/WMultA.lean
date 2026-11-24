@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.MemRangeOfForallHeightEqOneOfIsReflexive
 public import Mathlib.RingTheory.OrderOfVanishing.Basic
 public import ReciprocityTheory.AnalyticForms.RegularLocalRings.FinalTheorems
 import Mathlib.Algebra.Order.Floor.Extended
@@ -90,17 +91,8 @@ theorem mem_support_fromSpec_iff (I : W.IdealSheafData) (U : W.affineOpens) (hU 
 
 private theorem ring_ord_ringEquiv_apply {A B : Type*} [CommRing A] [CommRing B] (e : A ≃+* B)
     (z : A) : Ring.ord B (e z) = Ring.ord A z := by
-  have hI : Ideal.comap e (Ideal.span {e z}) = Ideal.span {z} := by
-    rw [show Ideal.span {e z} = Ideal.map e (Ideal.span {z}) by rw [Ideal.map_span, Set.image_singleton]]
-    exact Ideal.comap_map_of_bijective e e.bijective
-  unfold Ring.ord
-  apply WithBot.coe_injective
-  rw [Module.coe_length, Module.coe_length]
-  refine Order.krullDim_eq_of_orderIso ?_
-  let o3 := Ideal.relIsoOfBijective (e : A →+* B) e.bijective
-  have h3 : o3 (Ideal.span {e z}) = Ideal.span {z} := hI
-  exact (Submodule.comapMkQRelIso _).trans (((o3.Ici _).trans
-    (Set.orderIsoOfEq _ _ (by rw [h3]))).trans (Submodule.comapMkQRelIso _).symm)
+  intros
+  apply _root_.GlobalTheory.ord_map_ringEquiv <;> assumption
 
 theorem ord_isLocalization_eq_exponent {R : Type*} [CommRing R] [IsRegularLocalRing R] {n : ℕ}
     (f : Fin n → R)

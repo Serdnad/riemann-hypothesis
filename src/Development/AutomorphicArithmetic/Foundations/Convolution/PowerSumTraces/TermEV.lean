@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.SideTrace
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TvDefs
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TwistFactor
 public import Development.AutomorphicArithmetic.Foundations.Convolution.ConvolutionKernels.KernelTransforms.CommPrj
@@ -103,70 +104,7 @@ private theorem rho_typed (J : ∀ w : Pl K, Subgroup (Gw n w)) (χ : ∀ w : Pl
       (∀ w ∈ P, w ∉ R → finAt w (finEmb K n g) = 1) →
       (∀ w ∉ P, finAt w (finEmb K n g) ∈ GLnLocal.integralGL (w.adicCompletion K) n) →
       rhoF μ g f = (∏ w ∈ R, χ w (finAt w (finEmb K n g))) • f := by
-  obtain ⟨-, -, -, -, -, hmul, hone, -⟩ := UpperTheory.ConvolutionTheory.Tf.commPrj K n μ ⊥
-  have heig : ∀ w, ∀ x ∈ J w, rhoF μ (AdelicGLn.localEmbedding w x) f = χ w x • f := fun w x hx => by
-    have := hf w
-    simp only [eigL, Submodule.mem_iInf, LinearMap.mem_eqLocus] at this
-    simpa [rhoL] using this x hx
-  induction R using Finset.induction_on with
-  | empty =>
-    intro g _ h1 h2
-    have hfix : f ∈ fixF μ (levOn P fun _ => ⊥) := by
-      rw [UpperTheory.ConvolutionTheory.C.fixLev K n μ P]
-      refine Submodule.mem_inf.2 ⟨?_, ?_⟩
-      · refine Submodule.mem_iInf _ |>.2 fun v => Submodule.mem_iInf _ |>.2 fun hv => ?_
-        refine ((UpperTheory.ConvolutionTheory.Tf.commPrj K n μ _).2.1 f).2 ?_
-        rintro _ ⟨x, hx, rfl⟩
-        obtain ⟨e1, e2⟩ := hP v hv
-        have := heig v x (by rw [e1]; exact hx)
-        rw [this, e2]
-        simp
-      · refine Submodule.mem_iInf _ |>.2 fun v => Submodule.mem_iInf _ |>.2 fun hv => ?_
-        refine ((UpperTheory.ConvolutionTheory.Tf.commPrj K n μ _).2.1 f).2 ?_
-        rintro _ ⟨x, hx, rfl⟩
-        rw [Subgroup.mem_bot.1 hx, map_one, hone]
-        rfl
-    have hg : g ∈ levOn P (fun _ => ⊥) := by
-      intro v
-      by_cases hv : v ∈ P
-      · simp only [hv, if_true]
-        exact Subgroup.mem_bot.2 (h1 v hv (Finset.notMem_empty v))
-      · simp only [hv, if_false]
-        exact h2 v hv
-    simpa using ((UpperTheory.ConvolutionTheory.Tf.commPrj K n μ _).2.1 f).1 hfix g hg
-  | insert a R ha ih =>
-    intro g h0 h1 h2
-    obtain ⟨-, e1, e2, -, -⟩ := UpperTheory.ConvolutionTheory.Tf.locEmb K n a
-    set x := finAt a (finEmb K n g) with hx
-    set g' := (AdelicGLn.localEmbedding a x)⁻¹ * g with hg'
-    have hc : ∀ w, w ≠ a → finAt w (finEmb K n g') = finAt w (finEmb K n g) := fun w hw => by
-      rw [hg', map_mul, finAt_mul, map_inv, finAt_inv, e2 w hw]
-      simp
-    have hca : finAt a (finEmb K n g') = 1 := by
-      rw [hg', map_mul, finAt_mul, map_inv, finAt_inv, e1]
-      simp [hx]
-    have key := ih g' (fun w hw => by
-        have hwa : w ≠ a := fun h => ha (h ▸ hw)
-        rw [hc w hwa]
-        exact h0 w (Finset.mem_insert_of_mem hw))
-      (fun w hw hwR => by
-        by_cases hwa : w = a
-        · subst hwa; exact hca
-        · rw [hc w hwa]
-          exact h1 w hw (by simp [hwa, hwR]))
-      (fun w hw => by
-        by_cases hwa : w = a
-        · subst hwa; rw [hca]; exact one_mem _
-        · rw [hc w hwa]; exact h2 w hw)
-    have hgg : g = AdelicGLn.localEmbedding a x * g' := by simp [hg']
-    have hprod : ∏ w ∈ R, χ w (finAt w (finEmb K n g')) = ∏ w ∈ R, χ w (finAt w (finEmb K n g)) :=
-      Finset.prod_congr rfl fun w hw => by
-        rw [hc w fun h => ha (h ▸ hw)]
-    have hstep : rhoF μ g f = rhoF μ (AdelicGLn.localEmbedding a x) (rhoF μ g' f) := by
-      conv_lhs => rw [hgg, hmul]
-      rfl
-    rw [hstep, key, hprod, map_smul, heig a x (h0 a (Finset.mem_insert_self a R)), smul_smul,
-      Finset.prod_insert ha, mul_comm]
+  apply _root_.rho_typed <;> assumption
 
 end Abs
 
@@ -990,55 +928,7 @@ private theorem core (Ty Fx V : Submodule ℂ H) (hTy : IsClosed (Ty : Set H)) (
     prj (eigIn V (Oa ∘L prj Fx) x) * prj Ty = prj (eigIn (V ⊓ Ty) Oa x) ∧
     prj Ty * prj (eigIn V (Oa ∘L prj Fx) x) = prj (eigIn (V ⊓ Ty) Oa x) ∧
     prj (eigIn V (Oa ∘L prj Fx) x) * (Oa ∘L prj Fx) = (x : ℂ) • prj (eigIn V (Oa ∘L prj Fx) x) := by
-  set A := Oa ∘L prj Fx with hA
-  set X := eigIn V A x with hXd
-  have hXc : IsClosed (X : Set H) := eigIn_closed hV A x
-  have hOP : Oa * prj Ty = prj Ty * Oa := prj_comm hTy Oa hOa hOT
-  have hOFx : Oa * prj Fx = prj Fx * Oa := prj_comm hFx Oa hOa hOF
-  have hVP : prj V * prj Ty = prj Ty * prj V := prj_comm hTy (prj V) (prj_adj V) hVT
-  have hFP : prj Fx * prj Ty = prj Ty := by
-    refine ContinuousLinearMap.ext fun v => ?_
-    exact prj_self (hle (prj_mem hTy v))
-  have hPF : prj Ty * prj Fx = prj Ty :=
-    (prj_comm hFx (prj Ty) (prj_adj Ty) fun v _ => hle (prj_mem hTy v)).trans hFP
-  have hAP : A * prj Ty = prj Ty * A := by
-    show Oa * prj Fx * prj Ty = prj Ty * (Oa * prj Fx)
-    rw [mul_assoc, hFP, hOP, ← mul_assoc, ← hOP, mul_assoc, hPF, hOP]
-  have hAadj : star A = A := by
-    show star (Oa * prj Fx) = Oa * prj Fx
-    rw [star_mul, ContinuousLinearMap.star_eq_adjoint, ContinuousLinearMap.star_eq_adjoint, hOa, prj_adj, hOFx]
-  have heq : X ⊓ Ty = eigIn (V ⊓ Ty) Oa x := by
-    ext v
-    simp only [Submodule.mem_inf, mem_eigIn, hXd]
-    have hA1 : v ∈ Ty → A v = Oa v := fun hv => by
-      show Oa (prj Fx v) = Oa v
-      rw [prj_self (hle hv)]
-    constructor
-    · rintro ⟨⟨h1, h2⟩, h3⟩
-      exact ⟨⟨h1, h3⟩, by rwa [← hA1 h3]⟩
-    · rintro ⟨⟨h1, h3⟩, h2⟩
-      exact ⟨⟨h1, by rwa [hA1 h3]⟩, h3⟩
-  have hPX : ∀ v ∈ X, prj Ty v ∈ X := by
-    intro v hv
-    obtain ⟨h1, h2⟩ := mem_eigIn.1 hv
-    refine mem_eigIn.2 ⟨?_, ?_⟩
-    · have := congrArg (fun S : H →L[ℂ] H => S v) hVP
-      simp only [ContinuousLinearMap.mul_apply, prj_self h1] at this
-      rw [← this]
-      exact prj_mem hV _
-    · have := congrArg (fun S : H →L[ℂ] H => S v) hAP
-      simp only [ContinuousLinearMap.mul_apply] at this
-      rw [this, h2, map_smul]
-  obtain ⟨k1, k2⟩ := prj_inf hTy hXc hPX
-  rw [heq] at k1 k2
-  refine ⟨k1, k2, ?_⟩
-  have hAX : A * prj X = (x : ℂ) • prj X := by
-    refine ContinuousLinearMap.ext fun v => ?_
-    exact (mem_eigIn.1 (prj_mem hXc v)).2
-  have hsX : star (prj X) = prj X := by
-    rw [ContinuousLinearMap.star_eq_adjoint, prj_adj]
-  have := congrArg star hAX
-  rwa [star_mul, star_smul, hAadj, hsX, RCLike.star_def, Complex.conj_ofReal] at this
+  apply _root_.UpperTheory.ConvolutionTheory.L1.SideTr.core <;> assumption
 
 private theorem isHS_prj (E : Submodule ℂ H) [FiniteDimensional ℂ E] : IsHilbertSchmidt (prj E) := by
   have hcl : E.topologicalClosure = E :=

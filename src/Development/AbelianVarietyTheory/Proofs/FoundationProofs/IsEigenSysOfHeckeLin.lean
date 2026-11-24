@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.BlockTheory.TwistedDiscreteSeries.ThetaAdjointScalarParts
 public import Development.AbelianVarietyTheory.Proofs.SatakeParameters.SupportedSubgroupSplitCommutePrimeIdempotents
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.IsSatVecUOfDiag
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EqPlaceIdemOfIsPrimeIdem
@@ -295,17 +296,8 @@ theorem divAt_of_diagonal (h : w.under (𝓞 D.host.F) = v) {e f : AE D} (hef : 
     group
 
 theorem offS_iff {S : Finset (HeightOneSpectrum (𝓞 D.host.F))} : OffS D S w ↔ w.under (𝓞 D.host.F) ∉ S := by
-  constructor
-  · intro h hw
-    obtain ⟨x, hx, hy⟩ := h _ hw
-    exact hy (algebraMap _ _ x) rfl hx
-  · intro h u hu
-    have : ¬ u.asIdeal ≤ (w.under (𝓞 D.host.F)).asIdeal := fun hle =>
-      h (HeightOneSpectrum.ext (u.isMaximal.eq_of_le (w.under _).isPrime.ne_top hle) ▸ hu)
-    obtain ⟨x, hx, hx'⟩ := IsConcreteLE.not_le_iff_exists.1 this
-    refine ⟨x, hx, fun y hy hw => hx' ?_⟩
-    obtain rfl : y = algebraMap _ _ x := RingOfIntegers.ext hy
-    exact hw
+  intros
+  apply _root_.GlobalTheory.IndefiniteRowSideFullHecke.ThetaAdjointScalarOnComponents.offS_iff <;> assumption
 
 variable {J : Set (GA D V)} {χ : GA D V → ℂ} {S : Finset (HeightOneSpectrum (𝓞 D.host.F))}
 

@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsWeilDatumPowersUnramifiedEtaTilde
+import Formalism.LocalToGlobal.SiegelLatticeTheory.HaarTransversals.UnitaryHaarProducts.HermitianETransportInvariant
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksDefs
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.RestrictedBlockUnipotentSymmetric
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.ThetaIdentityOfMapsAll
@@ -555,21 +557,7 @@ variable {D : D7}
 
 theorem hA_fR_nxt_zero (X : HidaSetting D) (u : D.what₂.Word) (a : Fin D.R.rS) :
     hA X.B.I (incl X.B.I (X.fR a)) (incl X.B.I (nxt X.eR (X.zR u) a)) = 0 := by
-  rw [Formalism.L2.SG.Pf.unitaryCongruence.hA_incl]
-  have e1 : nxt X.eR (X.zR u) a = X.crd (nxt X.eX (X.zu u) a) := by
-    unfold nxt; split_ifs <;> rfl
-  have e2 : Formalism.UG.hform (starRingEnd X.B.I.E) X.B.I.J (X.fR a) (X.crd (nxt X.eX (X.zu u) a)) = 0 := by
-    apply X.ιE.injective
-    rw [show X.fR a = X.crd (X.fY a) from rfl, GlobalTheory.St.hform_crd_setting, map_zero]
-    unfold nxt
-    split_ifs with hh
-    · apply GlobalTheory.St.hT_symm_zero
-      rw [X.ef, if_neg]
-      intro h'
-      have := congrArg Fin.val h'
-      simp at this
-    · exact (X.zu_orth u a).2
-  rw [e1, e2, map_zero]
+  first | exact _root_.Formalism.L2.SG.Pf.Level.hA_f_nxt | exact @_root_.Formalism.L2.SG.Pf.Level.hA_f_nxt | apply _root_.Formalism.L2.SG.Pf.Level.hA_f_nxt <;> assumption
 
 theorem smul_fact {R : Type} [CommRing R] {k : ℕ} (M : Matrix (Fin k) (Fin k) R) (ε : R)
     (h : ∀ i j, M i j = ε * M i j) (v : Fin k → R) : M *ᵥ v = ε • (M *ᵥ v) := by

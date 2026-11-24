@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsFinAffineCover
 public import Development.AbelianVarietyTheory.Definitions.AbelianSchemeLaws.IsScalarTowerOfAlgebraMapEq
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.AbelianProjectiveBaseChange
 public import Development.AbelianVarietyTheory.Proofs.CoherentCohomologyProofs.CechLBHomologyFiniteOfAffineCover
@@ -87,18 +88,7 @@ theorem isPullback_mul_snd {S : Scheme.{0}} (A : Over S) [GrpObj A] :
 
 theorem exists_fin_affine_cover (Z : Scheme.{0}) [CompactSpace Z] :
     ∃ (n : ℕ) (E : Fin n → Z.Opens), (∀ i, IsAffineOpen (E i)) ∧ ⨆ i, E i = ⊤ := by
-  obtain ⟨s, hs, e⟩ := (isCompact_and_isOpen_iff_finite_and_eq_biUnion_affineOpens
-    (X := Z) (U := Set.univ)).1 ⟨isCompact_univ, isOpen_univ⟩
-  have := hs.fintype
-  refine ⟨Fintype.card s, fun i => ((Fintype.equivFin s).symm i).1.1,
-    fun i => ((Fintype.equivFin s).symm i).1.2, ?_⟩
-  rw [eq_top_iff]
-  intro x _
-  have hx : x ∈ (Set.univ : Set Z) := trivial
-  rw [e] at hx
-  simp only [Set.mem_iUnion] at hx
-  obtain ⟨i, hi, hx⟩ := hx
-  exact TopologicalSpace.Opens.mem_iSup.2 ⟨Fintype.equivFin s ⟨i, hi⟩, by simpa using hx⟩
+  first | exact _root_.GlobalTheory.PrimVan.exists_fin_affine_cover | exact @_root_.GlobalTheory.PrimVan.exists_fin_affine_cover | apply _root_.GlobalTheory.PrimVan.exists_fin_affine_cover <;> assumption
 
 theorem prod_res_pullU_one {X X' : Scheme.{0}} {J : Type} [Fintype J] (φ : J → (X' ⟶ X))
     (ε : J → ℤ) (W : X'.Opens) (V : J → X.Opens) (h : ∀ k, W ≤ φ k ⁻¹ᵁ V k) :

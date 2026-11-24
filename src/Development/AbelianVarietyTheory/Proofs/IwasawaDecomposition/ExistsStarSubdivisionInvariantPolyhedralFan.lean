@@ -218,6 +218,52 @@ open NumberField ReciprocityTheory.ChartRestriction.G.Geo.Tor GlobalTheory.Toroi
 
 namespace GlobalTheory.PolFan.StarKey
 
+theorem strict_starFun_of_gap {O X : Type} [CommRing O] [AddCommGroup X] [Module O X] [Module.Finite O X] [Module.Projective O X]
+    {bar : O → O} {ψ w : InvFun O}
+    {m N K D₀ : ℕ} {γ : Fin m → LinearMap.BilinForm ℤ X}
+    {ℓ : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ}
+    (hγ : IsCell bar ψ γ) (hN : 0 < N) (hD₀r : (0 : ℝ) < D₀) (hKN : (N : ℝ) + 1 ≤ K)
+    (hsw : StrictWith bar ψ N ℓ γ)
+    (hgap : ∀ β ∈ balForms bar X, (∀ y, 0 ≤ β y y) →
+      (starDepth bar ψ w).evalZ β ≤ ℓ β - N * ψ.evalZ β) :
+    IsStrict bar (starFun bar ψ w K D₀) γ := by
+  have hnn : ∀ β : LinearMap.BilinForm ℤ X, 0 ≤ (starDepth bar ψ w).evalZ β := fun β =>
+    starDepth_eval_nonneg (fun a b => (β a b : ℝ))
+  have hN0 : (0 : ℝ) ≤ N := Nat.cast_nonneg N
+  refine ⟨N, ((D₀ * K : ℕ) : ℤ) • ℓ, hN, fun i => ?_, fun β hβ hp => ?_, fun β hβ hp he => ?_⟩
+  · have h0 := hsw.1 i
+    have hps : (starDepth bar ψ w).evalZ (γ i) = 0 :=
+      le_antisymm (by have := hgap (γ i) (hγ.mem i) (hγ.nonneg i); linarith) (hnn _)
+    rw [starFun_evalZ, hps]
+    simp only [LinearMap.smul_apply, smul_eq_mul]
+    push_cast
+    rw [h0]; ring
+  · have hg := hgap β hβ hp
+    have hf := hsw.2.1 β hβ hp
+    have hps := hnn β
+    rw [starFun_evalZ]
+    simp only [LinearMap.smul_apply, smul_eq_mul]
+    push_cast
+    set P := (starDepth bar ψ w).evalZ β
+    set Ψ := ψ.evalZ β
+    set L : ℝ := (ℓ β : ℝ)
+    have k1 : (N : ℝ) * P ≤ K * (L - N * Ψ) := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
+    nlinarith [mul_le_mul_of_nonneg_left k1 hD₀r.le]
+  · have hg := hgap β hβ hp
+    have hf := hsw.2.1 β hβ hp
+    have hps := hnn β
+    rw [starFun_evalZ] at he
+    simp only [LinearMap.smul_apply, smul_eq_mul] at he
+    push_cast at he
+    set P := (starDepth bar ψ w).evalZ β
+    set Ψ := ψ.evalZ β
+    set L : ℝ := (ℓ β : ℝ)
+    have e1 : (N : ℝ) * P = K * (L - N * Ψ) := by
+      have := mul_left_cancel₀ hD₀r.ne' (show (D₀ : ℝ) * (N * P) = D₀ * (K * (L - N * Ψ)) by linear_combination he)
+      exact this
+    have e2 : L - N * Ψ = 0 := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
+    exact hsw.2.2 β hβ hp (by linarith)
+
 theorem exists_starFun_strict : ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (H : Host E) (q : ℕ) (ψ w : InvFun (𝓞 E)), (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Dominates H.bar X) → IsPolyFan H.bar q ψ → IsCentreSet H.bar q ψ w → ∃ K D : ℕ, 0 < K ∧ 0 < D ∧ (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ β ∈ balForms H.bar X, (∀ y, 0 ≤ β y y) → ∃ n : ℤ, (starFun H.bar ψ w K D).evalZ β = n) ∧ (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → (∀ β ∈ balForms H.bar X, (∀ y, 0 ≤ β y y) → InRCone γ β → w.evalZ β = 0) → IsStrict H.bar (starFun H.bar ψ w K D) γ) ∧ (∀ (X : Type) [AddCommGroup X] [Module (𝓞 E) X] [Module.Finite (𝓞 E) X] [Module.Projective (𝓞 E) X], Module.finrank (𝓞 E) X ≤ q → ∀ (m : ℕ) (γ : Fin m → LinearMap.BilinForm ℤ X), IsCell H.bar ψ γ → ∀ β₀ ∈ balForms H.bar X, (∀ y, 0 ≤ β₀ y y) → w.evalZ β₀ = 1 → InRCone γ β₀ → ∀ (m' : ℕ) (s : Fin m' ↪ Fin m) (h : LinearMap.BilinForm ℤ X →ₗ[ℤ] ℤ), IsFaceCut γ s h → 0 < h β₀ → IsStrict H.bar (starFun H.bar ψ w K D) (Fin.cons β₀ fun j => γ (s j))) := by
   intro E _ _ _ H q ψ w hdom hψ hcs
   obtain ⟨D₀, hD₀, hint⟩ := _root_.GlobalTheory.PolFan.StarDen.starDepth_den E H q ψ w hψ hcs
@@ -235,46 +281,9 @@ theorem exists_starFun_strict : ∀ (E : Type) [Field E] [NumberField E] [IsCMFi
   · intro X _ _ _ _ hX m γ hγ hnoc
     obtain ⟨N, ℓ, hN, hNN, hsw, -⟩ := hdata X hX m γ hγ
     have hgap := _root_.GlobalTheory.PolFan.StarGap.starDepth_le_gap E H q ψ w hψ hcs X hX m γ N ℓ hγ hnoc hN hsw
-    have hnn : ∀ β : LinearMap.BilinForm ℤ X, 0 ≤ (starDepth H.bar ψ w).evalZ β := fun β =>
-      starDepth_eval_nonneg (fun a b => (β a b : ℝ))
-    set K := N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 with hKdef
-    have hKN : (N : ℝ) + 1 ≤ K := by
-      have : N + 1 ≤ K := by rw [hKdef]; omega
-      exact_mod_cast this
-    have hN0 : (0 : ℝ) ≤ N := Nat.cast_nonneg N
-    refine ⟨N, ((D₀ * K : ℕ) : ℤ) • ℓ, hN, fun i => ?_, fun β hβ hp => ?_, fun β hβ hp he => ?_⟩
-    · have h0 := hsw.1 i
-      have hps : (starDepth H.bar ψ w).evalZ (γ i) = 0 :=
-        le_antisymm (by have := hgap (γ i) (hγ.mem i) (hγ.nonneg i); linarith) (hnn _)
-      rw [starFun_evalZ, hps]
-      simp only [LinearMap.smul_apply, smul_eq_mul]
-      push_cast
-      rw [h0]; ring
-    · have hg := hgap β hβ hp
-      have hf := hsw.2.1 β hβ hp
-      have hps := hnn β
-      rw [starFun_evalZ]
-      simp only [LinearMap.smul_apply, smul_eq_mul]
-      push_cast
-      set P := (starDepth H.bar ψ w).evalZ β
-      set Ψ := ψ.evalZ β
-      set L : ℝ := (ℓ β : ℝ)
-      have k1 : (N : ℝ) * P ≤ K * (L - N * Ψ) := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
-      nlinarith [mul_le_mul_of_nonneg_left k1 hD₀r.le]
-    · have hg := hgap β hβ hp
-      have hf := hsw.2.1 β hβ hp
-      have hps := hnn β
-      rw [starFun_evalZ] at he
-      simp only [LinearMap.smul_apply, smul_eq_mul] at he
-      push_cast at he
-      set P := (starDepth H.bar ψ w).evalZ β
-      set Ψ := ψ.evalZ β
-      set L : ℝ := (ℓ β : ℝ)
-      have e1 : (N : ℝ) * P = K * (L - N * Ψ) := by
-        have := mul_left_cancel₀ hD₀r.ne' (show (D₀ : ℝ) * (N * P) = D₀ * (K * (L - N * Ψ)) by linear_combination he)
-        exact this
-      have e2 : L - N * Ψ = 0 := by nlinarith [mul_le_mul_of_nonneg_left hg hN0]
-      exact hsw.2.2 β hβ hp (by linarith)
+    have hKN : (N : ℝ) + 1 ≤ ((N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 : ℕ) : ℝ) := by
+      exact_mod_cast (show N + 1 ≤ N₀ + N₀ * C₀ + N₀ ^ 2 * C₀ * b + 1 by omega)
+    exact _root_.GlobalTheory.PolFan.StarKey.strict_starFun_of_gap hγ hN hD₀r hKN hsw hgap
   · intro X _ _ _ _ hX m γ hγ β₀ hβ₀ hp₀ hw₀ hin₀ m' s h hcut hpos
     obtain ⟨N, ℓ, hN, hNN, hsw, hcuts⟩ := hdata X hX m γ hγ
     obtain ⟨h', hcut', hpos', hdom'⟩ := hcuts m' s h hcut

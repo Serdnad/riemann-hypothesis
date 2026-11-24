@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.PChowNormFormGeneric
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsChartPointTrdeg
 public import GroundTheory.HeightsAndTheta.Heights.VerticalDivisors.StatementsSecPointSeparable
 import Mathlib.RingTheory.Henselian
@@ -21,15 +22,7 @@ namespace GenSecSeparable
 
 theorem genPar_algIndep (k : Type*) [Field k] (e n : ℕ) :
     AlgebraicIndependent k (genPar k e n) := by
-  have hinj : Function.Injective (IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k)
-      (GenParField k e n)) :=
-    IsFractionRing.injective (MvPolynomial (Par e n) k) (GenParField k e n)
-  have h := (MvPolynomial.algebraicIndependent_X (Par e n) k).map' hinj
-  have hc : (⇑(IsScalarTower.toAlgHom k (MvPolynomial (Par e n) k) (GenParField k e n)) ∘ X) =
-      genPar k e n := by
-    funext p
-    simp only [Function.comp_apply, IsScalarTower.coe_toAlgHom', genPar]
-  rwa [hc] at h
+  apply _root_.GroundTheory.Heights₂.Heights.Vertical.genPar_algebraicIndependent <;> assumption
 
 theorem adjoin_secCoord {E : Type*} [Field E] {n e : ℕ} (Q : Ideal (MvPolynomial (Fin n) E))
     (y : Par e n → E) : Algebra.adjoin E (Set.range (secCoord Q y)) = ⊤ := by
@@ -52,14 +45,7 @@ theorem secCoord_form {E : Type*} [Field E] {n e : ℕ} (Q : Ideal (MvPolynomial
 
 theorem secCoord_chart {E : Type*} [Field E] {n e : ℕ} (Q : Ideal (MvPolynomial (Fin n) E))
     (y : Par e n → E) : ∑ j, algebraMap E (SecAlg Q y) (y (.inr j)) * secCoord Q y j = 1 := by
-  have h : Ideal.Quotient.mk (secIdeal Q y) (chartForm y) = 1 := by
-    rw [← map_one (Ideal.Quotient.mk _), Ideal.Quotient.eq]
-    exact Ideal.mem_sup_right (Ideal.subset_span rfl)
-
-  rw [← h, chartForm, linForm, map_sum]
-  refine Finset.sum_congr rfl fun j _ => ?_
-  rw [map_mul]
-  rfl
+  apply _root_.GroundTheory.Heights₂.Heights.Vertical.secCoord_chart <;> assumption
 
 theorem aeval_secCoord (k : Type*) [Field k] (e : ℕ) {n : ℕ} (Q : Ideal (MvPolynomial (Fin n) k))
     (f : MvPolynomial (Fin n) k) (hf : f ∈ Q) :

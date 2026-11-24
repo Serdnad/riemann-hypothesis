@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.CompactPairRealAverageFockEqJetOperator
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.KerFockMovedReal
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HighestWeightBelow
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ThetaGridCharactersArchExponentsGapGtRank
@@ -66,16 +67,7 @@ private theorem att_exp' {D : D7} {T : Type} {L : LevCh D T} {sc : Consts} (G : 
     {i : ℕ} (hi : i < D.R.m) (n : ℕ) (τ : D.what₂.Tau) :
     HasInfExp D (Formalism.IndefR.Lift.attChr (G.ch.chi (D.R.m - i)) L.eta n) τ
       ((cen D sc.cGap τ (D.R.m - i) : ℚ) - if Odd n then 1 / 2 else 0) := by
-  have hm1 : 1 ≤ D.R.m - i := by omega
-  have hm2 : D.R.m - i ≤ D.R.m := by omega
-  have h0 : HasInfExp D (G.ch.chi (D.R.m - i)) τ (cen D sc.cGap τ (D.R.m - i) : ℚ) :=
-    GlobalTheory.HeckeInfExp.hasInfExp_of_chrEq D _ _ (fun τ => (cen D sc.cGap τ (D.R.m - i) : ℚ)) (G.ch.chi_eq _ hm1 hm2)
-      ⟨fun τ => 2 * cen D sc.cGap τ (D.R.m - i), fun τ => by push_cast; ring, G.ch.inf _ hm1 hm2⟩ τ
-  unfold Formalism.IndefR.Lift.attChr
-  split_ifs
-  · rw [sub_eq_add_neg]
-    exact GlobalTheory.Chain.StepVac.hasInfExp_mul h0 (GlobalTheory.Chain.StepVac.hasInfExp_inv (GlobalTheory.SquareExps.eta_exp hL τ))
-  · simpa using h0
+  apply _root_.GlobalTheory.RowHoweAvg.att_exp <;> assumption
 
 theorem UpperTheory.WildA.expEx :
     ∀ {D : D7} {T : Type} {L : LevCh D T} {sc : GlobalTheory.ChiGrid.Consts} {G : GlobalTheory.ChiGrid.GridData L sc} {μ₀ : T}, L.Is μ₀ → ∀ p : GlobalTheory.ChiGrid.Pair T, DefPair D.R.m p → ∃ (a b : D.what₂.Tau → ℚ) (e₁ e₂ : D.what₂.Tau → ℤ),

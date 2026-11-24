@@ -1,5 +1,7 @@
 module
 
+import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.OrbitQuotientTopology.IsClosedRStab
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.InvariantOperatorUnderJacquet
 import Development.AbelianVarietyTheory.Proofs.FlagMeasures.MapConjLebesgueCommonStabilizerNormalForm
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.StabilizerPairs.ConverseStep
 public import Mathlib.Data.Matrix.ColumnRowPartitioned
@@ -91,19 +93,7 @@ theorem hpk_det_ne : (Hpk k r).det ≠ 0 := by
   exact Matrix.det_ne_zero_of_left_inverse (hpk_mul_self (k := k) (r := r))
 
 theorem hpk_conjTranspose : (Hpk k r)ᴴ = Hpk k r := by
-  ext i l
-  rw [Matrix.conjTranspose_apply, hpk_apply, hpk_apply]
-  by_cases h : i.val = sgI k r l.val
-  · have h' : l.val = sgI k r i.val := by rw [h, sgI_sgI]
-    have hs : (i.val = r + k ↔ l.val = r + k) := by rw [h, sgI_eq_iff]
-    rw [if_pos h, if_pos h']
-    by_cases hl : l.val = r + k
-    · simp [hl, hs.2 hl]
-    · have hi : ¬ i.val = r + k := fun h2 => hl (hs.1 h2)
-      simp [hl, hi]
-  · have h' : ¬ l.val = sgI k r i.val := fun h' => h (by rw [h', sgI_sgI])
-    rw [if_neg h, if_neg h']
-    simp
+  apply _root_.Formalism.FourierDecayAlt.P.Qx7.Hh <;> assumption
 
 theorem mem_GV_iff {g : B.Mat k r} : g ∈ B.GV k r ↔ gᴴ * Hpk k r * g = Hpk k r := Iff.rfl
 
@@ -123,15 +113,7 @@ theorem isUnit_det_of_mem_GV {g : B.Mat k r} (hg : g ∈ B.GV k r) : IsUnit g.de
   isUnit_iff_ne_zero.2 (det_ne_of_mem_GV hg)
 
 theorem inv_mem_GV {g : B.Mat k r} (hg : g ∈ B.GV k r) : g⁻¹ ∈ B.GV k r := by
-  have hu := isUnit_det_of_mem_GV hg
-  rw [mem_GV_iff] at *
-  calc (g⁻¹)ᴴ * Hpk k r * g⁻¹ = (g⁻¹)ᴴ * (gᴴ * Hpk k r * g) * g⁻¹ := by rw [hg]
-    _ = (g * g⁻¹)ᴴ * Hpk k r * (g * g⁻¹) := by
-        rw [Matrix.conjTranspose_mul]
-        simp only [Matrix.mul_assoc]
-    _ = Hpk k r := by
-        rw [Matrix.mul_nonsing_inv _ hu]
-        simp
+  apply _root_.PI.AmpOrbQuot.uh_inv <;> assumption
 
 def Ff (k r : ℕ) (z : Fin (2 * r + k + 1) → ℂ) : Matrix (Fin (2 * r + k + 1)) (Fin (r + 1)) ℂ :=
   Matrix.of fun i a => fvec k r z a i
@@ -213,17 +195,7 @@ theorem herm_e (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
 
 theorem herm_es (v : Fin (2 * r + k + 1) → ℂ) (a : Fin r) :
     herm (Hpk k r) v (bvec (esI k r a)) = v (eI k r a) := by
-  have ha := a.isLt
-  rw [herm_bvec, hpk_mulVec]
-  have h1 : ¬ (esI k r a).val = r + k := by simp [esI]; omega
-  rw [if_neg h1, one_mul]
-  have h2 : sgI k r (2 * r + k - a.val) = a.val := by
-    unfold sgI
-    rw [if_pos (Or.inr (by omega))]
-    omega
-  congr 1
-  ext
-  simp [esI, eI, h2]
+  apply _root_.Formalism.FourierDecayAlt.P.Qx7.herm_es_right <;> assumption
 
 theorem herm_sum_left (v : Fin (r + 1) → Fin (2 * r + k + 1) → ℂ) (c : Fin (r + 1) → ℂ)
     (w : Fin (2 * r + k + 1) → ℂ) :

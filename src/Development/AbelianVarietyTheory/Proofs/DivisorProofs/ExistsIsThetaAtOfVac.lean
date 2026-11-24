@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsUnitaryMulTriangular
 public import Development.AbelianVarietyTheory.Definitions.Divisors.KernelNormConstantSpec
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacewiseToAdelicDecompositionForall
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.GridFirstColumnSpaceRankSignatureSelfDual
@@ -71,15 +72,8 @@ variable {K : Type} [Field K] [NumberField K] {n : ℕ}
 omit [NumberField K] in
 theorem mem_colLat_iff (B : GL (Fin n) K) (x : Fin n → K) :
     x ∈ colLat B ↔ ∃ c : Fin n → 𝓞 K, (B : Matrix (Fin n) (Fin n) K) *ᵥ (fun j => (c j : K)) = x := by
-  unfold colLat
-  rw [Submodule.mem_span_range_iff_exists_fun]
-  refine exists_congr fun c => ?_
-  have key : (∑ j, c j • fun a : Fin n => (B : Matrix (Fin n) (Fin n) K) a j) =
-      (B : Matrix (Fin n) (Fin n) K) *ᵥ fun j => (c j : K) := by
-    funext a
-    simp only [Finset.sum_apply, Pi.smul_apply, Matrix.mulVec, dotProduct, Algebra.smul_def]
-    exact Finset.sum_congr rfl fun j _ => mul_comm _ _
-  rw [key]
+  intros
+  apply _root_.GlobalTheory.DualWeyl.mem_colLat_iff <;> assumption
 
 theorem isLattice_colLat (B : GL (Fin n) K) : Submodule.IsLattice K (colLat B) := by
   exact Submodule.IsLattice.of_fg K (Submodule.fg_span (Set.finite_range _))

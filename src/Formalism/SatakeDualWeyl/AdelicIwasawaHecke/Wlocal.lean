@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.DualWeylModuleStable
 public import Formalism.SatakeDualWeyl.StatementW
 public import Mathlib.RingTheory.Localization.AtPrime.Basic
 import Mathlib.Algebra.Order.Floor.Extended
@@ -81,25 +82,10 @@ lemma wlocal_L_mul_apply {r : ℕ} (k : Fin r) (c : Fin r → R) (M : Matrix (Fi
 
 lemma wlocal_rowAct_mul {r n : ℕ} (A B : Matrix (Fin r) (Fin r) R) :
     rowAct R (n := n) (A * B) = (rowAct R B).comp (rowAct R A) := by
-  apply MvPolynomial.algHom_ext
-  intro v
-
-  simp only [rowAct, AlgHom.comp_apply, aeval_X, map_sum, map_mul, aeval_C, MvPolynomial.algebraMap_eq,
-  Matrix.mul_apply, Finset.mul_sum, Finset.sum_mul]
-  rw [Finset.sum_comm]
-  refine Finset.sum_congr rfl fun b _ => Finset.sum_congr rfl fun c _ => ?_
-  ring
+  apply _root_.Formalism.UG.P.wact_rowAct_mul <;> assumption
 
 lemma wlocal_rowAct_one {r n : ℕ} : rowAct R (n := n) (1 : Matrix (Fin r) (Fin r) R) = AlgHom.id R _ := by
-  apply MvPolynomial.algHom_ext
-  intro v
-  simp only [rowAct, aeval_X, AlgHom.id_apply]
-  rw [Finset.sum_eq_single v.1]
-  · simp [Matrix.one_apply_eq]
-  · intro b _ hb
-    simp [Matrix.one_apply_ne (Ne.symm hb)]
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  apply _root_.Formalism.UG.P.wact_rowAct_one <;> assumption
 
 private lemma C_ite_add_ite_mul {σ : Type} (p q : Prop) [Decidable p] [Decidable q] (c : R)
     (Y : MvPolynomial σ R) :

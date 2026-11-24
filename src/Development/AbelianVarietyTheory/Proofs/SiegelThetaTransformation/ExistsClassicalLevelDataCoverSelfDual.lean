@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.AdmissibleColumnsLeAndHarmonicMapCover
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.LevelStructureProperties
@@ -397,15 +398,7 @@ theorem natCast_mem_Mfr {H : Host E} (l : Geo.Tor.Level H) : (l.M : 𝓞 E) ∈ 
   (l.prod ▸ Ideal.mul_le_right : Ideal.span {(l.M : 𝓞 E)} ≤ Mfr l) (Ideal.mem_span_singleton_self _)
 
 theorem Mfr_ne_top {H : Host E} (l : Geo.Tor.Level H) : Mfr l ≠ ⊤ := by
-  intro h
-  have h1 : l.Mb = ⊤ := by
-    rw [← conjI_Mfr, h, eq_top_iff]; exact fun a _ => mem_conjI.2 trivial
-  have h2 := l.prod
-  rw [h1, Ideal.map_top, Ideal.mul_top, eq_comm, Ideal.span_singleton_eq_top] at h2
-  have h3 : IsUnit (algebraMap ℤ (𝓞 E) (l.M : ℤ)) := by simpa using h2
-  have h4 := Int.isUnit_iff.1 (isUnit_of_map_unit _ _ h3)
-  have := l.three_le
-  omega
+  apply _root_.GlobalTheory.Mfr_ne_top <;> assumption
 
 theorem cop_of_nat {R : Type} [CommRing R] {I J : Ideal R} {a b : ℕ} (h : Nat.Coprime a b) (ha : (a : R) ∈ I)
     (hb : (b : R) ∈ J) : IsCoprime I J := by

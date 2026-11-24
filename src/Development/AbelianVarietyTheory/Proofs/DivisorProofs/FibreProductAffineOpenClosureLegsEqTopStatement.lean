@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.VtFrRdHol
 public import Mathlib.AlgebraicGeometry.AffineScheme
 public import Mathlib.Combinatorics.Quiver.ReflQuiver
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.IsLinearHomPull
@@ -81,26 +82,7 @@ namespace GlobalTheory.BaseChangeAffine
 theorem closure_range_union_eq_top_of_isPushout {A B C P : CommRingCat.{0}} {f : A ⟶ B} {g : A ⟶ C}
     {i : B ⟶ P} {j : C ⟶ P} (h : IsPushout f g i j) :
     Subring.closure (Set.range i.hom ∪ Set.range j.hom) = ⊤ := by
-  set R := Subring.closure (Set.range i.hom ∪ Set.range j.hom)
-  let l : B ⟶ CommRingCat.of R :=
-    CommRingCat.ofHom (i.hom.codRestrict R fun b => Subring.subset_closure (Or.inl ⟨b, rfl⟩))
-  let r : C ⟶ CommRingCat.of R :=
-    CommRingCat.ofHom (j.hom.codRestrict R fun c => Subring.subset_closure (Or.inr ⟨c, rfl⟩))
-  have w : f ≫ l = g ≫ r := by
-    ext a
-    have := congrArg (fun q : A ⟶ P => q.hom a) h.w
-    simpa [l, r] using this
-  let s : CommRingCat.of R ⟶ P := CommRingCat.ofHom R.subtype
-  have hid : h.desc l r w ≫ s = 𝟙 P := by
-    apply h.hom_ext
-    · ext b; simp [l, s]
-    · ext c; simp [r, s]
-  refine eq_top_iff.2 fun x _ => ?_
-  have hx : (((h.desc l r w).hom x : R) : P) = x := by
-    have := congrArg (fun q : P ⟶ P => q.hom x) hid
-    simpa [s] using this
-  rw [← hx]
-  exact ((h.desc l r w).hom x).2
+  apply _root_.ReciprocityTheory.ChartRestriction.G.PullbackSections.vtf_closure_eq_top <;> assumption
 
 theorem affine_and_closure_eq_top : ∀ (Z Z' X X' : Scheme.{0}) (p : Z ⟶ X) (p' : Z' ⟶ X') (φ : Z' ⟶ Z) (g : X' ⟶ X), IsPullback φ p' p g → ∀ (U : X.affineOpens) (U' : X'.affineOpens), U'.1 ≤ g ⁻¹ᵁ U.1 → ∀ (O : Z.affineOpens), O.1 ≤ p ⁻¹ᵁ U.1 → IsAffineOpen (φ ⁻¹ᵁ O.1 ⊓ p' ⁻¹ᵁ U'.1) ∧ Subring.closure (Set.range (φ.appLE O.1 (φ ⁻¹ᵁ O.1 ⊓ p' ⁻¹ᵁ U'.1) inf_le_left).hom ∪ Set.range (p'.appLE U'.1 (φ ⁻¹ᵁ O.1 ⊓ p' ⁻¹ᵁ U'.1) inf_le_right).hom) = ⊤ := by
   intro Z Z' X X' p p' φ g H U U' hU' O hO

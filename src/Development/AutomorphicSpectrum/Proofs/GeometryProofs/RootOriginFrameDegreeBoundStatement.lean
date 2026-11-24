@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.VVNonnegIffLeOne
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.IsFrameVec
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.ComplexPointsClosureCoords
 public import Development.AutomorphicSpectrum.Proofs.GeometryProofs.DominatesOfCoordsRegular
@@ -881,18 +882,7 @@ theorem valV_algebraMap_le_one (x : V) : valV V (algebraMap V K x) ≤ 1 :=
   HeightOneSpectrum.valuation_le_one _ x
 
 theorem vV_unit {u : V} (hu : IsUnit u) : vV V (algebraMap V K u) = 0 := by
-  obtain ⟨w, rfl⟩ := hu
-  have h1 : valV V (algebraMap V K (w : V)) ≤ 1 := valV_algebraMap_le_one _
-  have h2 : valV V (algebraMap V K ((w⁻¹ : Vˣ) : V)) ≤ 1 := valV_algebraMap_le_one _
-  have h3 : valV V (algebraMap V K (w : V)) * valV V (algebraMap V K ((w⁻¹ : Vˣ) : V)) = 1 := by
-    rw [← map_mul, ← map_mul]
-    simp
-  have h4 : valV V (algebraMap V K (w : V)) = 1 := by
-    refine le_antisymm h1 ?_
-    calc (1 : WithZero (Multiplicative ℤ)) = _ := h3.symm
-      _ ≤ valV V (algebraMap V K (w : V)) * 1 := mul_le_mul_right h2 _
-      _ = _ := mul_one _
-  simp [vV, h4]
+  apply _root_.GlobalTheory.IntegralFrameAllCompare.vV_of_isUnit <;> assumption
 
 theorem vV_one : vV V (1 : K) = 0 := by simp [vV]
 

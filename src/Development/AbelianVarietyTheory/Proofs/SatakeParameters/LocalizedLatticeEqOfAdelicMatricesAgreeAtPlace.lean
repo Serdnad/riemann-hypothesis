@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.GenusPolyhedralBounds.RelativeIndexClassSets.WeightParameterMemUnitInterval
 public import Formalism.LocalToGlobal.HermitianColumns.InLocalDiscriminantKernel
 public import Development.AbelianVarietyTheory.Proofs.AdelicLatticeProofs.ExistsUniqueIdeleOfLinearEquivQuotientLocal
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsLatticeBasisHermitianSpace
@@ -506,18 +507,8 @@ theorem seam_locP_inj {D : D7} {X : Fields} (s : Seam D X) {n : ℕ} (P : Height
 theorem locP_map_equiv {R W W' : Type*} [CommRing R] [AddCommGroup W] [Module R W] [AddCommGroup W'] [Module R W']
     (e : W ≃ₗ[R] W') (q : Ideal R) [q.IsPrime] (Λ : Submodule R W) :
     Formalism.HermitianLatticesTheory.localization₂ q (Λ.map (e : W →ₗ[R] W')) = (Formalism.HermitianLatticesTheory.localization₂ q Λ).map (e : W →ₗ[R] W') := by
-  ext x
-  constructor
-  · rintro ⟨s, hs, z, hz, hzx⟩
-    refine ⟨e.symm x, ⟨s, hs, ?_⟩, by simp⟩
-    have : s • e.symm x = z := by
-      apply e.injective
-      rw [map_smul, e.apply_symm_apply]
-      exact hzx.symm
-    rw [this]
-    exact hz
-  · rintro ⟨y, ⟨s, hs, hy⟩, rfl⟩
-    exact ⟨s, hs, s • y, hy, by simp⟩
+  intros
+  apply _root_.PI.LatIdxDetW.localization_map₂ <;> assumption
 
 theorem locP_mvL {E : Type} [Field E] {N : ℕ} (g : GL (Fin N) E) (q : Ideal (𝓞 E)) [q.IsPrime]
     (Λ Λ' : Submodule (𝓞 E) (Fin N → E)) (h : Formalism.HermitianLatticesTheory.localization₂ q Λ = Formalism.HermitianLatticesTheory.localization₂ q Λ') :

@@ -1157,16 +1157,7 @@ variable {l : ℕ} [Fact l.Prime] {O : Type} [CommRing O] [Algebra ℤ_[l] O]
 alias mul_mem_filO_zero := _root_.Bridge.mul_mem_filtration_zero
 
 theorem toOB_mem_filO (C : GlobalTheory.MemLoc.Core l) (x : OCr l O) : toOB l O x ∈ filO O C 0 := by
-  induction x using TensorProduct.induction_on with
-  | zero => rw [map_zero]; exact zero_mem _
-  | tmul o w =>
-    have h : toOB l O (o ⊗ₜ w) = o • ((1 : O) ⊗ₜ[ℤ_[l]] acrisToBcris l w) := by
-      rw [smul_tmul', smul_eq_mul, mul_one]; rfl
-    rw [h]
-    refine Submodule.smul_mem _ o (Submodule.subset_span ⟨acrisToBcris l w, ?_, rfl⟩)
-    rw [mem_FilD_zero_iff]
-    exact ⟨C.j w, C.ι_j w⟩
-  | add x y hx hy => rw [map_add]; exact add_mem hx hy
+  apply _root_.GlobalTheory.BKGal.TaylorFil.toOB_mem_filO_zero <;> assumption
 
 theorem pow_mem_filO_zero (C : GlobalTheory.MemLoc.Core l) {x : OB l O} (hx : x ∈ filO O C 0) (n : ℕ) :
     x ^ n ∈ filO O C 0 := by

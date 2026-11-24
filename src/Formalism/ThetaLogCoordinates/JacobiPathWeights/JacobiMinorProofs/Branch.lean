@@ -1,5 +1,7 @@
 module
 
+import all Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.IndexWeightsDominance
+import Formalism.ThetaLogCoordinates.JacobiPathWeights.JacobiMinorProofs.AntitoneOfMemGtBox
 public import Formalism.ThetaLogCoordinates.JacobiPathWeights.StatementP
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -246,13 +248,7 @@ theorem mem_gtBox {n : ℕ} (μ : Fin (n + 1) → ℤ) (κ : Fin n → ℤ) :
 
 theorem gtBox_anti {n : ℕ} {μ : Fin (n + 1) → ℤ} {κ : Fin n → ℤ} (hμ : Antitone μ) (hκ : κ ∈ gtBox μ) :
     Antitone κ := by
-  rw [mem_gtBox] at hκ
-  intro i j hij
-  rcases eq_or_lt_of_le hij with hij' | hlt
-  · rw [hij']
-  · have hlt' : i.val < j.val := hlt
-    have hle : i.succ ≤ j.castSucc := Fin.le_def.2 (by simp only [Fin.val_succ, Fin.coe_castSucc]; omega)
-    exact le_trans (hκ j).2 (le_trans (hμ hle) (hκ i).1)
+  apply _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.Pieri.antitone_of_mem_gtBox <;> assumption
 
 theorem heights_of_gtBox {n : ℕ} {μ : Fin (n + 1) → ℤ} {κ : Fin n → ℤ} (hμ : Antitone μ)
     (hκ : κ ∈ gtBox μ) (c : ℤ) : colHeight κ c ≤ colHeight μ c ∧ colHeight μ c ≤ colHeight κ c + 1 := by
@@ -290,13 +286,7 @@ theorem shape_unique {n : ℕ} {κ κ' : Fin n → ℤ} (h : Antitone κ) (h' : 
   · rw [_root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.Paths.le_iff_lt_colHeight h (κ' i) i, he, ← _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.Paths.le_iff_lt_colHeight h']
 
 private theorem card_filter_val_lt_eq {n k : ℕ} (hk : k ≤ n) : (univ.filter fun m : Fin n => m.val < k).card = k := by
-  rcases lt_or_eq_of_le hk with hklt | hkeq
-  · have h : (univ.filter fun m : Fin n => m.val < k) = Finset.Iio (⟨k, hklt⟩ : Fin n) := by
-      ext m
-      simp [Finset.mem_Iio, Fin.lt_def]
-    rw [h, Fin.card_Iio]
-  · subst k
-    rw [Finset.filter_true_of_mem (fun m _ => m.isLt), Finset.card_univ, Fintype.card_fin]
+  apply _root_.Formalism.InvariantFactorPaths.GelfandTsetlinBases.A3comb.card_lt_lemma <;> assumption
 
 theorem exists_shape {n : ℕ} {μ : Fin (n + 1) → ℤ} (hμ : Antitone μ) (h : ℤ → ℕ)
     (hanti : ∀ c, h (c + 1) ≤ h c) (h1 : ∀ c, h c ≤ colHeight μ c) (h2 : ∀ c, colHeight μ c ≤ h c + 1)

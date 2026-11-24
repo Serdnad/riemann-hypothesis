@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.CrystallineFrobeniusBijOnLettersDirectSum
 public import Formalism.LocalRingCardinality.AdicCompletionLocal.LocTied
 public import Formalism.SharpRestriction.LevelLetterCocycles.LocCoh
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DeRhamComponentsCrystallineLettersFinrank
@@ -87,15 +88,7 @@ theorem mulVdR_one (y : V ⊗[Qp] BdR) :
   | tmul v b => simp [mulVdR]
 
 theorem ιV_injective : Function.Injective (ιV PD (LL := LL) (V := V)) := by
-  set_option backward.isDefEq.respectTransparency.instanceSearchTypes false in rw [injective_iff_map_eq_zero]
-  intro d hd
-  refine CrisDR.eq_zero_of_sum PD (LL := LL) (m := 1) (fun _ => (1 : K)) ?_ (fun _ => d) ?_ 0
-  · intro b hb i
-    have hi : i = 0 := Subsingleton.elim _ _
-    subst hi
-    apply PD.ι_inj
-    simpa using hb
-  · simp [hd]
+  apply _root_.GlobalTheory.NL.PhiD.iota_injective <;> assumption
 
 theorem map_Dcris_eq (hb : Function.Surjective (algebraMap K₀ K))
     (h : ∀ y ∈ DdR PD ρ, ∃ (m : ℕ) (c : Fin m → K) (d : Fin m → V ⊗[Qp] B), (∀ i, d i ∈ Dcris PD ρ) ∧

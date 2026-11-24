@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.ClosedEmbedding.DisjointUnionCover
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.DivisorReductionStepProperties
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.ContainedComponentsIdeal
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.DivisorReduction.UntwistedDivisorRestriction
@@ -682,28 +683,7 @@ theorem mem_connectedComponent_of_specializes {α : Type*} [TopologicalSpace α]
 private theorem ideal_eq_of_comap_opensι_eq {X : Scheme.{u}} (I J : X.IdealSheafData)
     (V : X.Opens) (hV : IsAffineOpen V) (hIJ : I.comap V.ι = J.comap V.ι) :
     I.ideal ⟨V, hV⟩ = J.ideal ⟨V, hV⟩ := by
-  have : IsAffine V.toScheme := hV
-  have main : ∀ W : X.affineOpens, (W : X.Opens) = V → I.ideal W = J.ideal W →
-      I.ideal ⟨V, hV⟩ = J.ideal ⟨V, hV⟩ := by
-    rintro ⟨W, hWaff⟩ rfl hW
-    exact hW
-  refine main ⟨V.ι ''ᵁ (⊤ : V.toScheme.Opens),
-    (isAffineOpen_top V.toScheme).image_of_isOpenImmersion V.ι⟩
-    (Scheme.Opens.ι_image_top V) ?_
-  have h3 : (I.comap V.ι).ideal ⟨⊤, isAffineOpen_top _⟩
-      = (J.comap V.ι).ideal ⟨⊤, isAffineOpen_top _⟩ := by rw [hIJ]
-  rw [Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion,
-    Scheme.IdealSheafData.ideal_comap_of_isOpenImmersion] at h3
-  have hid : (CommRingCat.Hom.hom (Scheme.Hom.appIso V.ι (⊤ : V.toScheme.Opens)).inv).comp
-      (CommRingCat.Hom.hom (Scheme.Hom.appIso V.ι (⊤ : V.toScheme.Opens)).hom)
-      = RingHom.id _ := by
-    rw [← CommRingCat.hom_comp, (Scheme.Hom.appIso V.ι (⊤ : V.toScheme.Opens)).hom_inv_id,
-      CommRingCat.hom_id]
-  have hsurj : Function.Surjective
-      ⇑(CommRingCat.Hom.hom (Scheme.Hom.appIso V.ι (⊤ : V.toScheme.Opens)).inv) := fun y =>
-    ⟨CommRingCat.Hom.hom (Scheme.Hom.appIso V.ι (⊤ : V.toScheme.Opens)).hom y,
-      DFunLike.congr_fun hid y⟩
-  exact Ideal.comap_injective_of_surjective _ hsurj h3
+  apply _root_.FunctorialResolution.EmbeddedResolution.MaxContactReduction.FiniteOpenCoverWithIdeals.ideal_eq_of_comap_ι_eq <;> assumption
 
 private theorem span_eq_top_of_basicOpen_cover {X : Scheme.{u}} (W : X.affineOpens)
     (S : Set Γ(X, (W : X.Opens)))

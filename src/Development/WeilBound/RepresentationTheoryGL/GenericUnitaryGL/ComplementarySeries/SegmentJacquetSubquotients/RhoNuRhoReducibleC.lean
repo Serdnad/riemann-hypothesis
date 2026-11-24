@@ -1,5 +1,6 @@
 module
 
+import CompanionTheory.RealGroups.GeneralUnitaryRepresentations.ArchimedeanJacquetSegments.SegmentSubquotients.RhoNuRhoReducibleC
 public import Development.WeilBound.RepresentationTheoryGL.GenericUnitaryGL.ComplementarySeries.Complementary
 public import GroundTheory.AutomorphicForms.InductionParabolicGroups
 public import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IsIrreducibleSecondFactorOfIrreducibleProduct
@@ -159,41 +160,8 @@ theorem conj_mem (d : ℕ) (t : kˣ) (ht : valuation k (t : k) ≤ 1) {m : ℕ} 
     ∀ i j, valuation k ((((Zt d t)⁻¹ * z * Zt d t : GL (Fin (d + d)) k) : Matrix _ _ k) i j -
         (1 : Matrix (Fin (d + d)) (Fin (d + d)) k) i j) ≤
           valuation k (GroundTheory.Automorphic.GLnLocal.uniformizer k : k) ^ m ∧
-      (((Zt d t)⁻¹ * z * Zt d t : GL (Fin (d + d)) k) : Matrix _ _ k) i j ∈ 𝒪[k] := by
-  have hint := (GroundTheory.Automorphic.GLnLocal.mem_integralGL_iff k (d + d)).1
-    (GroundTheory.Automorphic.GLnLocal.congruenceSubgroup_le k (d + d) m hz)
-  have hcong := ((GroundTheory.Automorphic.GLnLocal.mem_congruenceSubgroup_iff k (d + d)).1 hz).2
-  have hopp := GroundTheory.Automorphic.Parabolic.mem_oppositeUnipotentRadical.1 hzo
-  intro i j
-  have hent : (((Zt d t)⁻¹ * z * Zt d t : GL (Fin (d + d)) k) : Matrix _ _ k) i j =
-      ((zd d t i)⁻¹ : kˣ) * (z : Matrix _ _ k) i j * (zd d t j : k) := by
-    rw [Units.val_mul, Units.val_mul, Zt_inv_val, Zt_val, Matrix.mul_diagonal, Matrix.diagonal_mul]
-  have hzij : valuation k ((z : Matrix _ _ k) i j) ≤ 1 := hint.1 i j
-  rw [hent]
-  rcases lt_trichotomy (blk (blk2 d) i) (blk (blk2 d) j) with h | h | h
-  · have h0 := hopp.1 i j h
-    have hne : i ≠ j := fun e => by rw [e] at h; exact lt_irrefl _ h
-    simp [h0, Matrix.one_apply_ne hne]
-  · have hz' : zd d t i = zd d t j := by simp only [zd, h]
-    rw [hz']
-    have e : (((zd d t j)⁻¹ : kˣ) : k) * (z : Matrix _ _ k) i j * (zd d t j : k) = (z : Matrix _ _ k) i j := by
-      rw [mul_comm, ← mul_assoc, Units.mul_inv, one_mul]
-    rw [e]
-    exact ⟨hcong i j, hzij⟩
-  · have hi : blk (blk2 d) i = 1 := by omega
-    have hj : blk (blk2 d) j = 0 := by omega
-    have hne : i ≠ j := fun e => by rw [e] at h; exact lt_irrefl _ h
-    have zi : zd d t i = 1 := by simp [zd, hi]
-    have zj : zd d t j = t := by simp [zd, hj]
-    rw [zi, zj, inv_one, Units.val_one, one_mul]
-    have hv : valuation k ((z : Matrix _ _ k) i j * t) ≤ valuation k ((z : Matrix _ _ k) i j) := by
-      rw [map_mul]; exact mul_le_of_le_one_right' ht
-    refine ⟨?_, ?_⟩
-    · rw [Matrix.one_apply_ne hne, sub_zero]
-      have h2 := hcong i j
-      rw [Matrix.one_apply_ne hne, sub_zero] at h2
-      exact hv.trans h2
-    · exact hv.trans hzij
+      (((Zt d t)⁻¹ * z * Zt d t : GL (Fin (d + d)) k) : Matrix _ _ k) i j ∈ 𝒪[k] :=
+  _root_.CompanionTheory.RgGu.NR.BoundB.conj_mem d t ht hz hzo
 
 theorem conj_mem' (d : ℕ) (t : kˣ) (ht : valuation k (t : k) ≤ 1) {m : ℕ} {z : GL (Fin (d + d)) k}
     (hz : z ∈ GroundTheory.Automorphic.GLnLocal.congruenceSubgroup k (d + d) m ⊓
@@ -253,44 +221,8 @@ theorem ineq (π : Representation ℂ G X) (B : X →ₗ[ℂ] X →ₗ⋆[ℂ] �
     (hB3 : ∀ g v w, B (π g v) (π g w) = B v w) (K : Subgroup G) (H : Subgroup K) [Fintype (K ⧸ H)] (Z : G)
     (v : X) (hv : v ≠ 0) (lam : ℂ)
     (hT : (Fintype.card (K ⧸ H) : ℂ)⁻¹ • avL π K H (π Z v) = lam • v)
-    (hfix : ∀ κ ∈ K, π κ (lam • v) = lam • v) : ‖lam‖ ≤ 1 := by
-  classical
-  obtain ⟨x, hx⟩ : ∃ x, x = π Z v := ⟨_, rfl⟩
-  obtain ⟨w, hw⟩ : ∃ w, w = lam • v := ⟨_, rfl⟩
-  rw [← hx, ← hw] at hT
-  rw [← hw] at hfix
-  have hKfix : ∀ q : K ⧸ H, π ((q.out : K) : G) w = w := fun q => hfix _ (q.out).2
-  have hN : (Fintype.card (K ⧸ H) : ℂ) ≠ 0 := Nat.cast_ne_zero.2 Fintype.card_ne_zero
-  have hA : B w w = B x w := by
-    have e0 : B w w = B ((Fintype.card (K ⧸ H) : ℂ)⁻¹ • avL π K H x) w := by rw [hT]
-    have e1 : B w w = (Fintype.card (K ⧸ H) : ℂ)⁻¹ * ∑ q : K ⧸ H, B (π ((q.out : K) : G) x) w := by
-
-      rw [e0, avL_apply, LinearMap.map_smul, map_sum, LinearMap.smul_apply, LinearMap.sum_apply, smul_eq_mul]
-    have e2 : ∀ q : K ⧸ H, B (π ((q.out : K) : G) x) w = B x w := by
-      intro q
-      conv_lhs => rw [← hKfix q]
-      exact hB3 _ _ _
-    rw [e1, Finset.sum_congr rfl (fun q _ => e2 q), Finset.sum_const, Finset.card_univ, nsmul_eq_mul]
-    field_simp
-  have hxx : B x x = B v v := by rw [hx]; exact hB3 Z v v
-  have hB : B w w = ((Complex.normSq lam : ℝ) : ℂ) * B v v := by
-    rw [hw, LinearMap.map_smul, LinearMap.smul_apply, LinearMap.map_smulₛₗ, smul_eq_mul, smul_eq_mul]
-    rw [← Complex.mul_conj]
-    ring
-  have hwx : B w x = starRingEnd ℂ (B x w) := hB1 x w
-  have hpos : 0 ≤ (B (x - w) (x - w)).re := by
-    by_cases h0 : x - w = 0
-    · rw [h0]; simp
-    · exact le_of_lt (hB2 _ h0)
-  have hexp : B (x - w) (x - w) = B x x - B x w - B w x + B w w := by
-    simp only [map_sub, LinearMap.sub_apply]
-    ring
-  rw [hexp, hxx, hwx, ← hA, hB] at hpos
-  rw [Complex.add_re, Complex.sub_re, Complex.sub_re, Complex.conj_re, Complex.re_ofReal_mul] at hpos
-  have hv0 := hB2 v hv
-  have hn : Complex.normSq lam ≤ 1 := by nlinarith
-  rw [Complex.normSq_eq_norm_sq] at hn
-  nlinarith [norm_nonneg lam]
+    (hfix : ∀ κ ∈ K, π κ (lam • v) = lam • v) : ‖lam‖ ≤ 1 :=
+  _root_.CompanionTheory.RgGu.NR.BoundB.ineq π B hB1 hB2 hB3 K H Z v hv lam hT hfix
 
 end Gen
 
@@ -320,39 +252,8 @@ theorem zval {d : ℕ} {W : Type} [AddCommGroup W] [Module ℂ W]
     (v : IndSp (blk2 d) τ) (hv : v ∈ fixed (parInd (blk2 d) τ) (GroundTheory.Automorphic.GLnLocal.congruenceSubgroup k (d + d) m))
     (κ : GL (Fin (d + d)) k) (hκ : κ ∈ GroundTheory.Automorphic.GLnLocal.congruenceSubgroup k (d + d) m) :
     (parInd (blk2 d) τ (Zt d t) v).1.1 κ =
-      ((deltaHalf k (fun _ : Fin 2 => Fin d) ![Matrix.GeneralLinearGroup.scalar (Fin d) t, 1] : ℂ) * c) • v.1.1 1 := by
-  obtain ⟨x, hx, y, hy, z, hz, rfl⟩ :=
-    GroundTheory.Automorphic.Parabolic.congruenceSubgroup_iwahoriFactorization' (blk (blk2 d)) hm κ hκ
-  obtain ⟨hxK, hxU⟩ := Subgroup.mem_inf.1 hx
-  obtain ⟨hyK, hyL⟩ := Subgroup.mem_inf.1 hy
-  have hxP : x ∈ parab k (blk2 d) := by
-    change (x : Matrix _ _ k).BlockTriangular (blk (blk2 d))
-    exact (GroundTheory.Automorphic.Iwasawa.mem_blockUpper k (d + d)).1
-      (GroundTheory.Automorphic.Parabolic.mem_unipotentRadical.1 hxU).1
-  have hyP : y ∈ parab k (blk2 d) := by
-    change (y : Matrix _ _ k).BlockTriangular (blk (blk2 d))
-    intro i j hij
-    exact GroundTheory.Automorphic.Parabolic.mem_levi.1 hyL i j (ne_of_gt hij)
-  have hzK : (Zt d t)⁻¹ * z * Zt d t ∈ GroundTheory.Automorphic.GLnLocal.congruenceSubgroup k (d + d) m :=
-    conj_mem' d t htv hz
-  have hpK : x * y ∈ GroundTheory.Automorphic.GLnLocal.congruenceSubgroup k (d + d) m := mul_mem hxK hyK
-  have step1 : (parInd (blk2 d) τ (Zt d t) v).1.1 (x * y * z) = v.1.1 (x * y * z * Zt d t) := rfl
-  have step2 : x * y * z * Zt d t = (x * y * Zt d t) * ((Zt d t)⁻¹ * z * Zt d t) := by group
-  rw [step1, step2, fixval τ _ v hv _ _ hzK]
-  let p : parab k (blk2 d) := ⟨x * y, mul_mem hxP hyP⟩
-  let q : parab k (blk2 d) := ⟨Zt d t, Zt_mem d t⟩
-  have hlaw1 := law τ (p * q) 1 v
-  have hlaw2 := law τ p 1 v
-  have hfix1 : v.1.1 (x * y) = v.1.1 1 := by simpa using fixval τ _ v hv 1 (x * y) hpK
-  have hpq : ((p * q : parab k (blk2 d)) : GL (Fin (d + d)) k) * 1 = x * y * Zt d t := by
-    simp [p, q]
-  have hp1 : ((p : parab k (blk2 d)) : GL (Fin (d + d)) k) * 1 = x * y := by simp [p]
-  rw [hpq, map_mul, leviProj_Zt] at hlaw1
-  rw [hp1, hfix1] at hlaw2
-  rw [hlaw1, map_mul, map_mul, Module.End.mul_apply, hc, Units.val_mul, LinearMap.map_smul, smul_smul]
-  conv_rhs => rw [hlaw2, smul_smul]
-  congr 1
-  ring
+      ((deltaHalf k (fun _ : Fin 2 => Fin d) ![Matrix.GeneralLinearGroup.scalar (Fin d) t, 1] : ℂ) * c) • v.1.1 1 :=
+  _root_.CompanionTheory.RgGu.NR.BoundB.zval τ t c htv hc hm v hv κ hκ
 
 theorem modulus_scalar_block (d : ℕ) (t : kˣ) :
     modulus k (fun _ : Fin 2 => Fin d) ![Matrix.GeneralLinearGroup.scalar (Fin d) t, 1] = nabs k t ^ (d * d) := by
@@ -911,192 +812,17 @@ def stabG (ρ : Representation ℂ G V) (v : V) : Subgroup G where
     rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
 
 theorem nondeg {ρ : Representation ℂ G V} (hi : ρ.IsIrreducible) (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ) (hC0 : C ≠ 0)
-    (hCi : ∀ g v w, C (ρ g v) (ρ g w) = C v w) (v : V) (hv : v ≠ 0) : ∃ x, C v x ≠ 0 := by
-  by_contra hcon
-  push_neg at hcon
-  let R : Submodule ℂ V :=
-    { carrier := {v | ∀ x, C v x = 0}
-      add_mem' := fun {a b} ha hb x => by simp [ha x, hb x]
-      zero_mem' := fun x => by simp
-      smul_mem' := fun c a ha x => by simp [ha x] }
-  have hR : ∀ g, ∀ y ∈ R, ρ g y ∈ R := by
-    intro g y hy x
-    have := hCi g y (ρ g⁻¹ x)
-    rw [← Module.End.mul_apply (ρ g), ← map_mul, mul_inv_cancel, map_one, Module.End.one_apply] at this
-    rw [this]; exact hy _
-  rcases irr_sub hi R hR with h1 | h1
-  · have : v ∈ R := hcon
-    rw [h1, Submodule.mem_bot] at this
-    exact hv this
-  · apply hC0
-    ext a b
-    have : a ∈ R := h1 ▸ Submodule.mem_top
-    simpa using this b
+    (hCi : ∀ g v w, C (ρ g v) (ρ g w) = C v w) (v : V) (hv : v ≠ 0) : ∃ x, C v x ≠ 0 :=
+  _root_.CompanionTheory.RgGu.NR.Compl.nondeg hi C hC0 hCi v hv
 
 end Compl
 
 open _root_.PositivityTheory.RgGu.NR.Compl in
 theorem complementary_of (h : Signature) : Complementary := by
   intro G V _ _ _ _ _ K₀ hK₀o hK₀c F hF hall h0 s hs
-  have hsm : IsSmooth (F 0) := (hall 0 le_rfl).2.1
-  have hirr : (F s).IsIrreducible := (hall s hs).2.2.1
-  haveI := irr_nontrivial hirr
-  obtain ⟨H, hH0, hHh, hHi⟩ := exists_herm (hall s hs).2.2.2
-  obtain ⟨B₀, hB₀h, hB₀p, hB₀i⟩ := h0
-  have key : ∀ K : Subgroup G, IsOpen (K : Set G) → K ≤ K₀ → fixed (F 0) K ≠ ⊥ →
-      (∀ w ∈ fixed (F 0) K, w ≠ 0 → 0 < (H w w).re) ∨ (∀ w ∈ fixed (F 0) K, w ≠ 0 → (H w w).re < 0) := by
-    intro K hKo hKle hW
-    have hKc : IsCompact (K : Set G) := hK₀c.of_isClosed_subset (Subgroup.isClosed_of_isOpen K hKo) hKle
-    set W := fixed (F 0) K with hWdef
-    haveI : FiniteDimensional ℂ W := (hall 0 le_rfl).1.2 K hKo hKc
-    set e := idem hsm hKc with he
-    have hconst : ∀ t, ∀ x ∈ K, F t x = F 0 x := fun t x hx => hF.const t x (hKle hx)
-    have hker : ∀ t (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ), (∀ g v w, C (F t g v) (F t g w) = C v w) →
-        ∀ y ∈ twKer (F 0) K 1, ∀ w ∈ W, C y w = 0 ∧ C w y = 0 := by
-      intro t C hC y hy w hw
-      induction hy using Submodule.span_induction with
-      | mem x hx =>
-        obtain ⟨n, u, rfl⟩ := hx
-        have hn : (F 0) (n : G) w = w := GlobalTheory.Parabolic.mem_fixed.1 hw _ n.2
-        have hn' : F t (n : G) = F 0 (n : G) := hconst t _ n.2
-        simp only [MonoidHom.one_apply, Units.val_one, one_smul, map_sub, LinearMap.sub_apply]
-        constructor
-        · rw [← hn, ← hn', hC, hn', hn, sub_self]
-        · rw [← hn, ← hn', hC, hn', hn, sub_self]
-      | zero => simp
-      | add x y _ _ hx hy => simp [hx.1, hy.1, hx.2, hy.2]
-      | smul c x _ hx => simp [hx.1, hx.2]
-    have hsub : ∀ x : V, x - e x ∈ twKer (F 0) K 1 := fun x => by
-      rw [← idem_eq_zero_iff hsm hKc, map_sub, idem_of_mem hsm hKc (idem_mem hsm hKc x), sub_self]
-    have hleft : ∀ t (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ), (∀ g v w, C (F t g v) (F t g w) = C v w) →
-        ∀ x, ∀ w ∈ W, C (e x) w = C x w ∧ C w (e x) = C w x := by
-      intro t C hC x w hw
-      obtain ⟨h1, h2⟩ := hker t C hC _ (hsub x) w hw
-      rw [map_sub, LinearMap.sub_apply, sub_eq_zero] at h1
-      rw [map_sub, sub_eq_zero] at h2
-      exact ⟨h1.symm, h2.symm⟩
-    let T : ℝ → G → Module.End ℂ W := fun t g =>
-      (e ∘ₗ (F t g) ∘ₗ W.subtype).codRestrict W (fun v => idem_mem hsm hKc _)
-    have hT : ∀ t g (v : W), ((T t g v : W) : V) = e (F t g v) := fun _ _ _ => rfl
-    have hinvW : ∀ t (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ), (∀ g v w, C (F t g v) (F t g w) = C v w) →
-        ∀ (g : G) (v w : W), resF C W (T t g v) w = resF C W v (T t g⁻¹ w) := by
-      intro t C hC g v w
-      simp only [resF_apply, hT]
-      rw [(hleft t C hC _ w w.2).1, (hleft t C hC _ v v.2).2]
-      conv_lhs => rw [← hC g⁻¹]
-      rw [← Module.End.mul_apply (F t g⁻¹), ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
-    have hcont : ∀ (g : G) (w : W) (l : Module.Dual ℂ W), Continuous fun t => l (T t g w) := by
-      intro g w l
-      obtain ⟨m, r, u, hu⟩ := hF.expo g w
-      have e1 : ∀ t, T t g w = ∑ i, ((Real.exp (r i * t) : ℝ) : ℂ) • (⟨e (u i), idem_mem hsm hKc _⟩ : W) := by
-        intro t
-        apply Subtype.ext
+  exact _root_.CompanionTheory.RgGu.NR.complementary_of h G V K₀ hK₀o hK₀c F
+    ⟨hF.const, hF.expo⟩ hall h0 s hs
 
-        rw [hT, hu t, map_sum, Submodule.coe_sum]
-        simp only [map_smul, Submodule.coe_smul]
-
-      simp_rw [e1, map_sum, map_smul, smul_eq_mul]
-      refine continuous_finsetSum _ fun i _ => Continuous.mul ?_ continuous_const
-      exact Complex.continuous_ofReal.comp (Real.continuous_exp.comp (continuous_const.mul continuous_id))
-    have hsimple : ∀ t, 0 ≤ t → ∀ U : Submodule ℂ W, (∀ g, ∀ w ∈ U, T t g w ∈ U) → U = ⊥ ∨ U = ⊤ := by
-      intro t ht U hU
-      by_cases hU0 : U = ⊥
-      · exact Or.inl hU0
-      right
-      obtain ⟨u, huU, hu0⟩ := Submodule.exists_mem_ne_zero_of_ne_bot hU0
-      let S : Submodule ℂ V := Submodule.span ℂ (Set.range fun g => F t g u)
-      have hS : ∀ g, ∀ x ∈ S, F t g x ∈ S := by
-        intro g x hx
-        induction hx using Submodule.span_induction with
-        | mem y hy =>
-          obtain ⟨g', rfl⟩ := hy
-          exact Submodule.subset_span ⟨g * g', by simp only [map_mul, Module.End.mul_apply]⟩
-        | zero => simp
-        | add x y _ _ hx hy => rw [map_add (f := _)]; exact S.add_mem hx hy
-        | smul c x _ hx => rw [map_smul]; exact S.smul_mem c hx
-      have hSt : S = ⊤ := by
-        rcases irr_sub (hall t ht).2.2.1 S hS with h1 | h1
-        · exfalso
-          apply hu0
-          apply Subtype.ext
-          have : ((u : W) : V) ∈ S := Submodule.subset_span ⟨1, by simp⟩
-          rw [h1, Submodule.mem_bot] at this
-          simpa using this
-        · exact h1
-      have hmem : ∀ x ∈ S, (⟨e x, idem_mem hsm hKc x⟩ : W) ∈ U := by
-        intro x hx
-        induction hx using Submodule.span_induction with
-        | mem y hy =>
-          obtain ⟨g, rfl⟩ := hy
-          exact hU g u huU
-        | zero =>
-          convert U.zero_mem using 1
-          exact Subtype.ext (by simp)
-        | add x y _ _ hx hy =>
-          have : (⟨e (x + y), idem_mem hsm hKc _⟩ : W) = ⟨e x, idem_mem hsm hKc _⟩ + ⟨e y, idem_mem hsm hKc _⟩ :=
-            Subtype.ext (by simp)
-          rw [this]; exact U.add_mem hx hy
-        | smul c x _ hx =>
-          have : (⟨e (c • x), idem_mem hsm hKc _⟩ : W) = c • ⟨e x, idem_mem hsm hKc _⟩ := Subtype.ext (by simp)
-          rw [this]; exact U.smul_mem c hx
-      refine eq_top_iff.2 fun w _ => ?_
-      have hw : (⟨e w, idem_mem hsm hKc _⟩ : W) = w := Subtype.ext (idem_of_mem hsm hKc w.2)
-      rw [← hw]
-      exact hmem w (hSt ▸ Submodule.mem_top)
-    haveI : Nontrivial W := (Submodule.nontrivial_iff_ne_bot).2 hW
-    have hresne : ∀ t (C : V →ₗ[ℂ] V →ₛₗ[starRingEnd ℂ] ℂ), (∀ g v w, C (F t g v) (F t g w) = C v w) →
-        (F t).IsIrreducible → C ≠ 0 → resF C W ≠ 0 := by
-      intro t C hCi hi hC0 h0'
-      obtain ⟨w, hw0⟩ := exists_ne (0 : W)
-      obtain ⟨x, hx⟩ := nondeg hi C hC0 hCi w (fun e0 => hw0 (Subtype.ext e0))
-      apply hx
-      rw [← (hleft t C hCi x w w.2).2]
-      have := congrArg (fun f => f w ⟨e x, idem_mem hsm hKc x⟩) h0'
-      simpa using this
-    have hforms : ∀ t, 0 ≤ t → ∃ C : W →ₗ[ℂ] W →ₛₗ[starRingEnd ℂ] ℂ, C ≠ 0 ∧
-        (∀ v w, C w v = starRingEnd ℂ (C v w)) ∧ ∀ g v w, C (T t g v) w = C v (T t g⁻¹ w) := by
-      intro t ht
-      obtain ⟨C, hC0, hCh, hCi⟩ := exists_herm (hall t ht).2.2.2
-      exact ⟨resF C W, hresne t C hCi (hall t ht).2.2.1 hC0, fun v w => hCh v w, hinvW t C hCi⟩
-    have hpos0 : ∃ C : W →ₗ[ℂ] W →ₛₗ[starRingEnd ℂ] ℂ, (∀ v w, C w v = starRingEnd ℂ (C v w)) ∧
-        (∀ v, v ≠ 0 → 0 < (C v v).re) ∧ ∀ g v w, C (T 0 g v) w = C v (T 0 g⁻¹ w) :=
-      ⟨resF B₀ W, fun v w => hB₀h v w, fun v hv => hB₀p v (fun e0 => hv (Subtype.ext e0)), hinvW 0 B₀ hB₀i⟩
-    rcases h G W (fun g => g⁻¹) T (fun i w l => hcont i w l) hsimple hforms hpos0 inv_surjective s hs (resF H W)
-        (hresne s H hHi hirr hH0) (fun v w => hHh v w) (hinvW s H hHi) with h1 | h1
-    · exact Or.inl fun w hw hw0 => h1 ⟨w, hw⟩ (fun e0 => hw0 (congrArg Subtype.val e0))
-    · exact Or.inr fun w hw hw0 => h1 ⟨w, hw⟩ (fun e0 => hw0 (congrArg Subtype.val e0))
-  obtain ⟨v₁, hv₁⟩ := exists_ne (0 : V)
-  have hopen : ∀ v : V, IsOpen ((stabG (F 0) v : Subgroup G) : Set G) := fun v => hsm v
-  let K₁ : Subgroup G := K₀ ⊓ stabG (F 0) v₁
-  have hK₁o : IsOpen (K₁ : Set G) := hK₀o.inter (hopen v₁)
-  have hv₁K : ∀ K : Subgroup G, K ≤ K₁ → v₁ ∈ fixed (F 0) K :=
-    fun K hK => GlobalTheory.Parabolic.mem_fixed.2 fun g hg => (hK hg).2
-  have hne : ∀ K : Subgroup G, K ≤ K₁ → fixed (F 0) K ≠ ⊥ := fun K hK h' => by
-    have := hv₁K K hK
-    rw [h', Submodule.mem_bot] at this
-    exact hv₁ this
-  have hloc : ∀ v : V, v ≠ 0 → ((0 < (H v₁ v₁).re → 0 < (H v v).re) ∧ ((H v₁ v₁).re < 0 → (H v v).re < 0)) := by
-    intro v hv
-    let Kv : Subgroup G := K₁ ⊓ stabG (F 0) v
-    have hKvo : IsOpen (Kv : Set G) := hK₁o.inter (hopen v)
-    have hvK : v ∈ fixed (F 0) Kv := GlobalTheory.Parabolic.mem_fixed.2 fun g hg => hg.2
-    rcases key Kv hKvo (inf_le_left.trans inf_le_left) (hne Kv inf_le_left) with h1 | h1
-    · have a := h1 v hvK hv
-      have b := h1 v₁ (hv₁K Kv inf_le_left) hv₁
-      exact ⟨fun _ => a, fun hb => absurd b (not_lt.2 hb.le)⟩
-    · have a := h1 v hvK hv
-      have b := h1 v₁ (hv₁K Kv inf_le_left) hv₁
-      exact ⟨fun hb => absurd b (not_lt.2 hb.le), fun _ => a⟩
-  rcases key K₁ hK₁o inf_le_left (hne K₁ le_rfl) with h1 | h1
-  · have hp := h1 v₁ (hv₁K K₁ le_rfl) hv₁
-    exact ⟨H, fun v w => hHh v w, fun v hv => (hloc v hv).1 hp, hHi⟩
-  · have hn := h1 v₁ (hv₁K K₁ le_rfl) hv₁
-    refine ⟨-H, fun v w => ?_, fun v hv => ?_, fun g v w => ?_⟩
-    · simp [hHh v w]
-    · have := (hloc v hv).2 hn
-      simp only [LinearMap.neg_apply, Complex.neg_re]
-      linarith
-    · simp [hHi]
 
 end PositivityTheory.RgGu.NR
 end -- clump:auto
@@ -1395,34 +1121,8 @@ theorem redCl_ofC (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [Is
   apply CompanionTheory.RgGu.NR.redCl_ofC <;> assumption
 
 theorem rhoNuRho_ofC (h : ∀ (k : Type) [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k],
-    RedCl k) : PositivityTheory.Pf1.SegRepC.SegTwo.RhoNuRhoReducible := by
-  intro k _ _ _ _ d hd σ hσ hirr
-  set y : IrrGL (k := k) := IrrGL.of σ.ρ σ.smooth σ.irr with hy
-  have hyc : y.IsCusp := IrrGL.isCusp_of.2 ⟨hd, hσ⟩
-  let x : Fin 2 → IrrGL (k := k) := fun a => y.nu ((a : ℕ) : ℂ)
-  have hx1 : ∀ a, (x a).1 = d := fun _ => rfl
-  have hdx : ∑ a, (x a).1 = 2 * d := by
-    simp only [hx1, Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul]
-  let φ : ∀ a : Fin 2, (segTerm σ.ρ 2 a).Equiv (x a).rep := fun a =>
-    (twistEquiv (IrrGL.equivOf σ.ρ σ.smooth σ.irr) _).trans (y.twEquiv _ _)
-  have E1 := multiProdEquiv (consecBlocks 2 d) φ
-  have hdd : ∑ _a : Fin 2, d = 2 * d := by simp
-  have hE : consecBlocks 2 d = stdBlocks (fun _ : Fin 2 => d) hdd := by
-    ext ⟨a, i⟩
-    rw [consecBlocks_val, stdBlocks_val]
-    simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fin, smul_eq_mul]
-    ring
-  have h3 : (prodIrr x hdx).IsIrreducible := by
-    have h4 := GlobalTheory.Parabolic.isIrreducible_of_equiv E1 hirr
-    rw [hE] at h4
-    exact h4
-  have e : x = ![y, y.nu 1] := by
-    funext a
-    fin_cases a
-    · simp [x]
-    · simp [x]
-  obtain ⟨hd', hiff⟩ := RedC.irr_congr e hdx
-  exact h k y hyc (2 * d) hd' (hiff.1 h3)
+    RedCl k) : PositivityTheory.Pf1.SegRepC.SegTwo.RhoNuRhoReducible :=
+  _root_.CompanionTheory.RgGu.NR.rhoNuRho_ofC h
 
 end PositivityTheory.RgGu.NR
 end -- clump:auto
@@ -1485,20 +1185,8 @@ theorem admissible_of_equiv [TopologicalSpace G] {π : Representation ℂ G V} {
   exact Submodule.finiteDimensional_of_le hle
 
 theorem sesq_of_equiv {π : Representation ℂ G V} {σ : Representation ℂ G W} (E : π.Equiv σ) (h : HasSesq σ) :
-    HasSesq π := by
-  obtain ⟨B, hB, hi⟩ := h
-  refine ⟨(B.comp E.toLinearEquiv.toLinearMap).compl₂ E.toLinearEquiv.toLinearMap, ?_, fun g v w => ?_⟩
-  · intro h0
-    apply hB
-    ext v w
-    have := LinearMap.congr_fun (LinearMap.congr_fun h0 (E.toLinearEquiv.symm v)) (E.toLinearEquiv.symm w)
-    have e1 : E.toIntertwiningMap.toLinearMap (E.toLinearEquiv.symm v) = v := E.toLinearEquiv.apply_symm_apply v
-    have e2 : E.toIntertwiningMap.toLinearMap (E.toLinearEquiv.symm w) = w := E.toLinearEquiv.apply_symm_apply w
-    simp only [LinearMap.compl₂_apply, LinearMap.comp_apply, LinearMap.zero_apply] at this ⊢
-    rw [e1, e2] at this
-    exact this
-  · simp only [LinearMap.compl₂_apply, LinearMap.comp_apply]
-    rw [intw' E, intw' E, hi]
+    HasSesq π :=
+  _root_.CompanionTheory.RgGu.NR.SomeRed.sesq_of_equiv E h
 
 theorem unit_of_equiv {π : Representation ℂ G V} {σ : Representation ℂ G W} (E : π.Equiv σ) (h : IsUnitarisable π) :
     IsUnitarisable σ :=
@@ -1538,105 +1226,15 @@ theorem norm_chi (d : ℕ) (s : ℝ) (g : Levi k fun _ : Fin 2 => Fin d) :
 
 theorem someRed_of (h1 : Complementary) (h2 : Compact k) (h3 : Bound k) (h4 : Herm k) (h5 : ProdModel k) :
     SomeRed k := by
-  intro x hx hu
-  by_contra hcon
-  push_neg at hcon
-  set d := x.1 with hdd
-  have hd2 : ∀ s : ℝ, ∑ a, (![x.nu (-(s : ℂ)), x.nu (s : ℂ)] a).1 = x.1 + x.1 := fun s => by
-    simp [Fin.sum_univ_two, IrrGL.nu, IrrGL.tw]
-  have hirr : ∀ s : ℝ, 0 ≤ s → (prodIrr ![x.nu (-(s : ℂ)), x.nu (s : ℂ)] (hd2 s)).IsIrreducible := by
-    intro s hs
-    obtain ⟨N, hd, hi⟩ := hcon s hs
-    have e : N = x.1 + x.1 := hd.symm.trans (hd2 s)
-    subst e
-    exact hi
-  let τ := piTensor fun _ : Fin 2 => x.rep
-  obtain ⟨K₀, F, hKo, hKc, hF, hFe⟩ := h2 d _ τ
-  have hE : ∀ s : ℝ, (F s).Equiv (prodIrr ![x.nu (-(s : ℂ)), x.nu (s : ℂ)] (hd2 s)) := fun s =>
-    (hFe s).some.trans (h5 x s (hd2 s)).some.symm
-  have hsm : ∀ s : ℝ, IsSmooth (prodIrr ![x.nu (-(s : ℂ)), x.nu (s : ℂ)] (hd2 s)) := fun s => isSmooth_prodIrr _ _
-  have hadm : ∀ s : ℝ, 0 ≤ s → IsAdmissible (prodIrr ![x.nu (-(s : ℂ)), x.nu (s : ℂ)] (hd2 s)) := fun s hs =>
-    GlobalTheory.CompanionTheory.BZCuspPair.irrAdm k _ _ _ (hsm s) (hirr s hs)
-  have hxu : IsUnitarisable τ := GlobalTheory.SmGL.UnitInd.isUnitarisable_piTensor fun _ => hu
-  have hU0 : IsUnitarisable (F 0) := by
-    refine unit_of_equiv (hFe 0).some.symm (GlobalTheory.SmGL.UnitInd.isUnitarisable_parInd _ (unit_twist hxu _ fun g => ?_))
-    rw [norm_chi]
-    simp
-  have hUs := h1 _ _ K₀ hKo hKc F hF (fun s hs => ⟨admissible_of_equiv (hE s).symm (hadm s hs),
-    smooth_of_equiv (hE s).symm (hsm s), irr_of_equiv (hE s).symm (hirr s hs),
-    sesq_of_equiv (hE s) (h4 x hu s _ (hd2 s) (hirr s hs))⟩) hU0
+  have hComplementary : _root_.CompanionTheory.RgGu.NR.Complementary := by
+    intro G V _ _ _ _ _ K₀ hK₀o hK₀c F hF hall h0 s hs
+    exact h1 G V K₀ hK₀o hK₀c F ⟨hF.const, hF.expo⟩ hall h0 s hs
+  have hCompact : _root_.CompanionTheory.RgGu.NR.Compact k := by
+    intro d W _ _ τ
+    obtain ⟨K₀, F, hK₀o, hK₀c, hF, hEquiv⟩ := h2 d W τ
+    exact ⟨K₀, F, hK₀o, hK₀c, ⟨hF.const, hF.expo⟩, hEquiv⟩
+  exact _root_.CompanionTheory.RgGu.NR.someRed_of k hComplementary hCompact h3 h4 h5
 
-  have hd0 : 0 < d := hx.1
-  set s : ℝ := (d : ℝ) with hs
-  have hs0 : 0 ≤ s := by positivity
-  obtain ⟨ω, -, hω⟩ := exists_smooth_hasCentralChar x.2.rep.smooth x.2.rep.irr
-  obtain ⟨t, -, ht⟩ := GlobalTheory.CentralExponent.exists_nabs_lt_one k
-  have hω1 : ‖(ω t : ℂ)‖ = 1 := by
-    obtain ⟨B, b1, b2, b3⟩ := hu
-    haveI := GlobalTheory.SmGL.Model.nontrivial_of_isIrreducible x.2.rep.irr
-    obtain ⟨v, hv⟩ := exists_ne (0 : x.2.rep.V)
-    have e := b3 (Matrix.GeneralLinearGroup.scalar (Fin x.1) t) v v
-    rw [hω t v, B.map_smul, LinearMap.smul_apply, (B _).map_smulₛₗ, smul_eq_mul, smul_eq_mul, ← mul_assoc,
-      Complex.mul_conj'] at e
-    have hp := b2 v hv
-    have hne : B v v ≠ 0 := fun h0 => by rw [h0] at hp; simp at hp
-    have e2 : ((‖(ω t : ℂ)‖ ^ 2 : ℝ) : ℂ) = 1 := by
-      have := mul_right_cancel₀ hne (e.trans (one_mul _).symm)
-      exact_mod_cast this
-    have e3 : ‖(ω t : ℂ)‖ ^ 2 = 1 := by exact_mod_cast e2
-    have hn := norm_nonneg (ω t : ℂ)
-    nlinarith
-  let g : Levi k fun _ : Fin 2 => Fin d := ![Matrix.GeneralLinearGroup.scalar (Fin d) t, 1]
-  let c : ℂ := (chi k d s g : ℂ) * (ω t : ℂ)
-  have hτ : ∀ w, τ g w = (ω t : ℂ) • w := by
-    intro w
-    induction w using PiTensorProduct.induction_on with
-    | smul_tprod r f =>
-      have hfun : (fun a : Fin 2 => x.rep (g a) (f a)) = Function.update f 0 ((ω t : ℂ) • f 0) := by
-        funext a
-        fin_cases a
-        · simp [g]
-          exact hω t (f 0)
-        · simp [g]
-      rw [map_smul, piTensor_tprod, hfun, MultilinearMap.map_update_smul, Function.update_eq_self, smul_comm]
-      rfl
-    | add a b ha hb => rw [map_add (f := _), ha, hb, smul_add]
-  have hc : ∀ w, twist τ (chi k d s) g w = c • w := fun w => by
-    show (chi k d s g : ℂ) • τ g w = c • w
-    rw [hτ, smul_smul]
-  have hW : Nontrivial (PiTensorProduct ℂ fun _ : Fin 2 => x.2.rep.V) := by
-    by_contra hW
-    rw [not_nontrivial_iff_subsingleton] at hW
-    have hi := irr_of_equiv (hFe s).some (irr_of_equiv (hE s).symm (hirr s hs0))
-    haveI := GlobalTheory.SmGL.Model.nontrivial_of_isIrreducible hi
-    obtain ⟨f, f', hff⟩ := exists_pair_ne (IndSp (blk2 d) (twist τ (chi k d s)))
-    exact hff (Subtype.ext (Subtype.ext (funext fun _ => Subsingleton.elim _ _)))
-  have hb := h3 d _ (twist τ (chi k d s))
-    (isSmooth_twist (isSmooth_piTensor fun _ => x.2.rep.smooth)
-      (((isSmoothChar_absPow (-(s : ℂ))).detChar.comp _ (continuous_apply 0)).mul
-        ((isSmoothChar_absPow (s : ℂ)).detChar.comp _ (continuous_apply 1))))
-    (admissible_of_equiv ((hE s).symm.trans (hFe s).some) (hadm s hs0))
-    (unit_of_equiv (hFe s).some (hUs s hs0)) t c ht.le hc
-  have hdet : Matrix.GeneralLinearGroup.det (Matrix.GeneralLinearGroup.scalar (Fin d) t) = t ^ d := by
-    ext
-    simp [Matrix.GeneralLinearGroup.scalar]
-  have hnp : ∀ m : ℕ, nabs k (t ^ m) = nabs k t ^ m := fun m => by simp [nabs]
-  have hn1 : nabs k (1 : kˣ) = 1 := by simp [nabs]
-  have htp : 0 < nabs k t := nabs_pos' k t
-  have hnc : ‖c‖ = nabs k t ^ (-((d : ℝ) * s)) := by
-    simp only [c, norm_mul, hω1, mul_one, norm_chi]
-    have e0 : g 0 = Matrix.GeneralLinearGroup.scalar (Fin d) t := rfl
-    have e1 : g 1 = 1 := rfl
-    rw [e0, e1, hdet, hnp, map_one, hn1, Real.one_rpow, mul_one, ← Real.rpow_natCast, ← Real.rpow_mul htp.le]
-    ring_nf
-  rw [hnc, ← Real.rpow_add htp] at hb
-  have hlt : 1 < nabs k t ^ (-((d : ℝ) * s) + ((d * d : ℕ) : ℝ) / 2) := by
-    refine Real.one_lt_rpow_of_pos_of_lt_one_of_neg htp ht ?_
-    have : (1 : ℝ) ≤ d := by exact_mod_cast hd0
-    rw [hs]
-    push_cast
-    nlinarith
-  linarith
 
 end PositivityTheory.RgGu.NR
 
@@ -1686,24 +1284,8 @@ theorem theta_contra (hGK : GKLocal k) {N : ℕ} {W : Type} [AddCommGroup W] [Mo
 theorem hasSesq_of {G V V₁ V₂ : Type} [Group G] [TopologicalSpace G] [IsTopologicalGroup G] [AddCommGroup V]
     [Module ℂ V] [AddCommGroup V₁] [Module ℂ V₁] [AddCommGroup V₂] [Module ℂ V₂] (π : Representation ℂ G V)
     (π₁ : Representation ℂ G V₁) (π₂ : Representation ℂ G V₂) (hi : π.IsIrreducible) (e₁ : π.Equiv π₁)
-    (hc : ConjEquiv π₁ π₂) (e₂ : π₂.Equiv (contra π)) : HasSesq π := by
-  obtain ⟨φ0, hφb, hφi⟩ := hc
-  let Φ : V →ₛₗ[starRingEnd ℂ] smoothPart π.dual :=
-    (e₂.toLinearEquiv.toLinearMap.comp φ0).comp e₁.toLinearEquiv.toLinearMap
-  have hΦ : ∀ v, Φ v = e₂ (φ0 (e₁ v)) := fun _ => rfl
-  have hΦb : Function.Injective Φ := (e₂.toLinearEquiv.injective.comp hφb.1).comp e₁.toLinearEquiv.injective
-  have hΦi : ∀ g v, Φ (π g v) = contra π g (Φ v) := fun g v => by rw [hΦ, hΦ, eqv e₁, hφi, eqv e₂]
-  haveI := nontriv _ hi
-  refine ⟨LinearMap.mk₂'ₛₗ (RingHom.id ℂ) (starRingEnd ℂ) (fun v w => (Φ w : Module.Dual ℂ V) v)
-    (fun v v' w => map_add _ v v') (fun c v w => map_smul _ c v)
-    (fun v w w' => by rw [map_add (f := _)]; rfl) (fun c v w => by rw [map_smulₛₗ]; rfl), ?_, ?_⟩
-  · intro hB
-    obtain ⟨w, hw⟩ := exists_ne (0 : V)
-    refine hw (hΦb ((Subtype.ext (LinearMap.ext fun v => ?_)).trans (map_zero Φ).symm))
-    exact LinearMap.congr_fun₂ hB v w
-  · intro g v w
-    show (Φ (π g w) : Module.Dual ℂ V) (π g v) = (Φ w : Module.Dual ℂ V) v
-    rw [hΦi, contra_apply, ← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply]
+    (hc : ConjEquiv π₁ π₂) (e₂ : π₂.Equiv (contra π)) : HasSesq π :=
+  _root_.CompanionTheory.RgGu.NR.HermB.hasSesq_of π π₁ π₂ hi e₁ hc e₂
 
 end HermB
 

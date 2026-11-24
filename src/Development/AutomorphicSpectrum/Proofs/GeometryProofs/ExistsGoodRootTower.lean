@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.DivisibilityProofs.GoodTowerRealAgreement
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.EmbedsGeneric
 public import Development.WeilBound.CoreStatements.FlagImmersions.Transport
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ExistsUniqueLeftBasisCoordsAdicCompletion
@@ -224,20 +225,8 @@ theorem root_log (Γ : ∀ s, Matrix (Fin (labelRk D s)) (Fin (labelRk D s)) ℂ
       (leadMinor ((Real.pi : ℂ) • Γ (HodgeCpt.rootIdx D (τ, i)).1) ((HodgeCpt.rootIdx D (τ, i)).2 + 1) /
         leadMinor ((Real.pi : ℂ) • Γ (HodgeCpt.rootIdx D (τ, i)).1) (HodgeCpt.rootIdx D (τ, i)).2)) =
       grLog (p := D.p) (q := D.q) (Γ (.inl τ)) (Γ (.inr τ)) i +
-        (HodgeCpt.rootSgn D (τ, i) : ℝ) * Real.log (Real.sqrt Real.pi) := by
-  rw [log_nu (hΓ _), mul_add]
-  congr 1
-  let F : (Σ s, Fin (labelRk D s)) → ℝ := fun a => Real.log (Real.sqrt (leadMinor (Γ a.1) (a.2 + 1) / leadMinor (Γ a.1) a.2))
-  show _ * F (HodgeCpt.rootIdx D (τ, i)) = _
-  by_cases h : (i : ℕ) < D.p
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inl τ, ⟨i, h⟩⟩ := dif_pos h
-    rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_pos h, F, Int.cast_one, one_mul]
-    rfl
-  · have e : HodgeCpt.rootIdx D (τ, i) = ⟨.inr τ, ⟨D.p + D.q - 1 - i, by have := i.2; show _ < D.q; omega⟩⟩ := dif_neg h
-    rw [e]
-    simp only [HodgeCpt.rootSgn, grLog, if_neg h, F, Int.cast_neg, Int.cast_one, neg_mul, one_mul]
-    rfl
+        (HodgeCpt.rootSgn D (τ, i) : ℝ) * Real.log (Real.sqrt Real.pi) :=
+  _root_.RootFieldNumerics.Un.root_log Γ hΓ τ i
 
 theorem locChart (hLP : LocPer) (hT : Transport) (hFV : FrameVals) (hPM : PerMat) (hG : Top.Given)
     (hN : 1 ≤ D.p + D.q) (Gr : RefGeo Y) (An : Gr.An)
@@ -382,40 +371,7 @@ theorem flagImmersion {Ψ : Type} {N : ℕ} (k : Fin A.n) {gm : Ψ → (Fin e �
     (h : ∀ v : Fin e → ℂ, (∀ τ, ((gm τ (A.chart k x))⁻¹ *
       Matrix.of fun a b => fderiv ℂ (fun z => gm τ z a b) (A.chart k x) v).BlockTriangular id) → v = 0) :
     IsFlagImmersionAt A (fun τ y => gm τ (A.chart k y)) x := by
-  intro k' hx' v hv
-  let T := A.chart k ∘ (A.chart k').symm
-  let T' := A.chart k' ∘ (A.chart k).symm
-  have e₁ : T (A.chart k' x) = A.chart k x := congrArg _ ((A.chart k').left_inv hx')
-  have hT : DifferentiableAt ℂ T (A.chart k' x) :=
-    (A.holo k' k _ ⟨(A.chart k').map_source hx', by
-      rw [Set.mem_preimage]; rwa [(A.chart k').left_inv hx']⟩).differentiableAt
-  have hT' : DifferentiableAt ℂ T' (T (A.chart k' x)) := by
-    rw [e₁]
-    exact (A.holo k k' _ ⟨(A.chart k).map_source hx, by
-      rw [Set.mem_preimage]; rwa [(A.chart k).left_inv hx]⟩).differentiableAt
-  have h0 : fderiv ℂ T (A.chart k' x) v = 0 := h _ fun τ => by
-    have e₂ : (Matrix.of fun a b => fderiv ℂ (fun z => gm τ z a b) (A.chart k x) (fderiv ℂ T (A.chart k' x) v)) =
-        Matrix.of fun a b => fderiv ℂ (fun z => gm τ (A.chart k ((A.chart k').symm z)) a b) (A.chart k' x) v := by
-      ext a b
-      have h1 : DifferentiableAt ℂ (fun t => gm τ t a b) (T (A.chart k' x)) := by
-        rw [e₁]
-        exact (ha τ a b).differentiableAt
-      have h2 := fderiv_comp _ h1 hT
-      rw [e₁] at h2
-      exact (congrArg (fun L : (Fin e → ℂ) →L[ℂ] ℂ => L v) h2).symm
-    rw [e₂]
-    exact hv τ
-  have hid : T' ∘ T =ᶠ[𝓝 (A.chart k' x)] id := by
-    have hc : ContinuousAt (A.chart k').symm (A.chart k' x) := (A.chart k').continuousAt_symm ((A.chart k').map_source hx')
-    have h1 : ∀ᶠ t in 𝓝 (A.chart k' x), (A.chart k').symm t ∈ (A.chart k).source :=
-      hc.eventually_mem ((A.chart k).open_source.mem_nhds (by rwa [(A.chart k').left_inv hx']))
-    filter_upwards [h1, (A.chart k').open_target.mem_nhds ((A.chart k').map_source hx')] with t h1 h2
-    show A.chart k' ((A.chart k).symm (A.chart k ((A.chart k').symm t))) = t
-    rw [(A.chart k).left_inv h1, (A.chart k').right_inv h2]
-  have h3 := hid.fderiv_eq (𝕜 := ℂ)
-  rw [fderiv_comp _ hT' hT, fderiv_id] at h3
-  have h4 := congrArg (fun L => L v) h3
-  simpa [h0] using h4.symm
+  apply _root_.RootFieldNumerics.Un.flagImmersion <;> assumption
 
 end Man
 
@@ -1197,11 +1153,7 @@ theorem _root_.GlobalTheory.T.generic_points_finite_nonempty :
       (l : Tor.Level H) (Xo : Moduli D l) (c : Coeff l) (Y : Model Xo c (algebraMap (𝓞 c.F) c.F)),
       {x : Y.X | ∀ x' : Y.X, x' ⤳ x → x' = x}.Finite ∧
       {x : Y.X | ∀ x' : Y.X, x' ⤳ x → x' = x}.Nonempty := by
-  intro hG E _ _ _ H D l Xo c Y
-  have : NumberField c.F := { to_charZero := inferInstance, to_finiteDimensional := c.fin }
-  have : TopologicalSpace.NoetherianSpace Y.X := GlobalTheory.ModelSum.noetherianSpace_of_isProjOver Y.proj
-  have : Nonempty Y.X := Comps.model_nonempty Y (Comps.moduli_nonempty hG.1.2.2.1 Xo)
-  exact ⟨Comps.finite_maximal_points Y.X, Comps.nonempty_maximal_points Y.X⟩
+  apply _root_.GlobalTheory.CompanionTheory.Ar.Comps.finite_nonempty_maximal <;> assumption
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicSpectrum.Proofs.GeometryProofs.GenericPointsFiniteNonemptyStatement =====

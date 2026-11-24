@@ -17,6 +17,7 @@ public import Mathlib.RepresentationTheory.Irreducible
 public import Development.AutomorphicArithmetic.TwistedTraces.ExistsAlgHomEndIntertwiningMemAdjoin
 public import Development.AutomorphicArithmetic.TwistedTraces.ExistsCompactOpenFamilyInfFixedNeBot
 public import Development.AutomorphicArithmetic.TwistedTraces.LeClosureSpanAllOfCommutingUnitaryReps
+import all Development.AutomorphicArithmetic.TwistedTraces.LeClosureSpanAllOfCommutingUnitaryReps
 public import Development.AutomorphicArithmetic.Foundations.Convolution.PowerSumTraces.TwistFactor
 public import Development.AutomorphicArithmetic.TwistedTraces.IntegralOperatorFixedInvariantOfLeftInvariantKer
 public import Development.AutomorphicArithmetic.TwistedTraces.SummandLeClosureSpanLocalTypeImages
@@ -358,14 +359,7 @@ open GroundTheory.Automorphic.CuspidalSpectrum GlobalTheory.IndefiniteRowSideFul
 private theorem prod_res {H : Type} [NormedAddCommGroup H] [InnerProductSpace ℂ H] (X : Submodule ℂ H) :
     ∀ (r : ℕ) (T : Fin r → H →L[ℂ] H) (t : Fin r → Module.End ℂ X), (∀ i (v : X), ((t i v : X) : H) = T i v) →
       ∀ v : X, (((List.ofFn t).prod v : X) : H) = (List.ofFn T).prod v := by
-  intro r
-  induction r with
-  | zero => intro T t _ v; simp
-  | succ r ih =>
-    intro T t h v
-    rw [List.ofFn_succ, List.ofFn_succ, List.prod_cons, List.prod_cons, Module.End.mul_apply, h,
-      ih (fun i => T i.succ) (fun i => t i.succ) (fun i => h _) v]
-    rfl
+  apply _root_.prod_res <;> assumption
 
 
 theorem UpperTheory.isotypic_subspace_product_closed :

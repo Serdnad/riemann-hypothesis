@@ -1,5 +1,6 @@
 module
 
+import all Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.TwistedChainEvaluationRationalIntegralBundlePoinStatement
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.RowSizesNR
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.MeasurePreservingMulRight
 public import Development.AbelianVarietyTheory.PublishedTheorems.PublishedFoundations.FiniteIntertwining
@@ -274,28 +275,7 @@ theorem conj_mem_VV (n : ℕ) (lam' : ι → DomWeight n) {F : Formalism.L2.DIV.
   exact GlobalTheory.Proof.TensorMapDescent.map_mem_VV (starRingEnd ℂ) lam' F hF
 
 theorem eq_zero_of_fockS_self {σ : Type} (F : MvPolynomial σ ℂ) (h : fockS F F = 0) : F = 0 := by
-  have hterm : ∀ m, star (F.coeff m) * F.coeff m * ((mfact m : ℕ) : ℂ) =
-      ((Complex.normSq (F.coeff m) * (mfact m : ℝ) : ℝ) : ℂ) := by
-    intro m
-    rw [Complex.ofReal_mul, Complex.normSq_eq_conj_mul_self, Complex.ofReal_natCast]
-    rfl
-  have hsum : ∑ m ∈ F.support, Complex.normSq (F.coeff m) * (mfact m : ℝ) = 0 := by
-    rw [fockS, Finset.sum_congr rfl (fun m _ => hterm m)] at h
-    have h' := congrArg Complex.re h
-    rw [Complex.re_sum] at h'
-    simpa only [Complex.ofReal_re, Complex.zero_re] using h'
-  have hall := (Finset.sum_eq_zero_iff_of_nonneg
-    (fun m _ => mul_nonneg (Complex.normSq_nonneg _) (Nat.cast_nonneg _))).1 hsum
-  ext m
-  change F.coeff m = 0
-  by_contra hne
-  have hm : m ∈ F.support := mem_support_iff.mpr hne
-  have hfac : (mfact m : ℝ) ≠ 0 := by
-    rw [Nat.cast_ne_zero]
-    exact Finset.prod_ne_zero_iff.mpr fun k _ => Nat.factorial_ne_zero _
-  rcases mul_eq_zero.1 (hall m hm) with h0 | h0
-  · exact hne (Complex.normSq_eq_zero.1 h0)
-  · exact hfac h0
+  apply _root_.GlobalTheory.Proof.FockBlockMonotone.eq_zero_of_fockS_self_eq_zero <;> assumption
 
 theorem weylSub_eq (n : ℕ) (lam : ι → ℕ → ℤ) (lam' : ι → DomWeight n)
     (hl : ∀ τ (i : Fin n), (lam' τ).w i = lam τ i) : weylSub n lam = Formalism.L2.DIV.VV ℂ lam' := by

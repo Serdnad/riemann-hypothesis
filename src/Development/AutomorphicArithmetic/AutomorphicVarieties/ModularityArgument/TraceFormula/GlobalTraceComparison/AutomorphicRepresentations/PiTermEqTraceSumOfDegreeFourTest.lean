@@ -1590,8 +1590,16 @@ private theorem tr_core (hTr : UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.TrLe
   rw [dite_eq_left hstab, dite_eq_left hpres, hres, map_smul, smul_eq_mul]
   field_simp
 
-theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.seenTr_pf :
-    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.TrLevel → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.CvOp → SeenTr := by
+open NumberField GlobalTheory.CuspRep GlobalTheory.PRep Formalism.UG Formalism.BasicNotions GlobalTheory.UnitaryBC Formalism.L2.Host GlobalTheory.BCT GlobalTheory.LFun
+  PositivityTheory.Rg.BcB PositivityTheory.Rg.BcB.E PositivityTheory.RgBcC PositivityTheory.Rg.BcB.CG PositivityTheory.Rg.BcB.G8 PositivityTheory.Rg.BcB.F PositivityTheory.Rg.BcB.Desc in
+def UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.SeenTrExact : Prop := ∀ (E : Type) [Field E] [NumberField E] [NumberField.IsCMField E] (n : ℕ) (w : Pl E), IsSplitAt w → ∀ (τ : SmIrr (GLw n w))
+  (N : Subgroup (GLw n w)), IsOpen (N : Set (GLw n w)) → N ≤ KGL w (n := n) → ∀ φ₁ φ₂ : ∀ w : Pl E, LF n 0 w,
+    (∀ b, IsHecke N (two φ₁ φ₂ w b)) →
+      GlobalTheory.BCT.trOn (fixed τ.ρ N) (Lv τ.ρ N (two φ₁ φ₂ w false) * Lv τ.ρ N (two φ₁ φ₂ w true)) =
+        ((N.relIndex (KGL w (n := n)) : ℕ) : ℂ) ^ 2 * trc τ.ρ (KGL w (n := n)) fun g => seen φ₁ φ₂ w (g, 1)
+
+theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.seenTr_exact :
+    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.TrLevel → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.CvOp → SeenTrExact := by
   intro hTr hAdm hCv E _ _ _ n w hw τ N hNo hNK
   obtain ⟨-, -, hKo, hKc, -⟩ := UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.unitHecke E n 0 0 w
   have hNc : IsCompact (N : Set (GLw n w)) :=
@@ -1600,7 +1608,6 @@ theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.seenTr_pf :
     GlobalTheory.TwTrLevel.finite_quot (KGL w (n := n)) (KGL w (n := n)) N hKc hKo hNo le_rfl
   have hi : N.relIndex (KGL w (n := n)) ≠ 0 := Subgroup.index_ne_zero_of_finite
   have hiC : ((N.relIndex (KGL w (n := n)) : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hi
-  refine ⟨((N.relIndex (KGL w (n := n)) : ℕ) : ℂ) ^ 2, pow_ne_zero _ hiC, ?_⟩
   intro φ₁ φ₂ hb
   refine tr_core hTr hCv τ.ρ (KGL w (n := n)) N hKo hKc hNo hNc hNK hiC (hAdm E n w τ N hNo) _ _ _ (hb false) (hb true) ?_
   funext g
@@ -1629,6 +1636,18 @@ theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.seenTr_pf :
   · intro k hk x
     rw [hpr, hpr]
     exact hr k hk x
+
+theorem UpperTheory.V.Z.Tf.GlobalTraceComparison.Pi.seenTr_pf :
+    UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.TrLevel → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.admitted → UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.CvOp → SeenTr := by
+  intro hTr hAdm hCv E _ _ _ n w hw τ N hNo hNK
+  obtain ⟨-, -, hKo, hKc, -⟩ := UpperTheory.V.Z.Tf.GlobalTraceComparison.Asm.unitHecke E n 0 0 w
+  have hNc : IsCompact (N : Set (GLw n w)) :=
+    hKc.of_isClosed_subset (Subgroup.isClosed_of_isOpen N hNo) hNK
+  haveI : Finite ((KGL w (n := n) : Subgroup (GLw n w)) ⧸ N.subgroupOf (KGL w (n := n))) :=
+    GlobalTheory.TwTrLevel.finite_quot (KGL w (n := n)) (KGL w (n := n)) N hKc hKo hNo le_rfl
+  have hi : N.relIndex (KGL w (n := n)) ≠ 0 := Subgroup.index_ne_zero_of_finite
+  have hiC : ((N.relIndex (KGL w (n := n)) : ℕ) : ℂ) ≠ 0 := Nat.cast_ne_zero.mpr hi
+  exact ⟨_, pow_ne_zero _ hiC, seenTr_exact hTr hAdm hCv E n w hw τ N hNo hNK⟩
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.AutomorphicVarieties.ModularityArgument.TraceFormula.GlobalTraceComparison.AutomorphicRepresentations.PSeenTr =====

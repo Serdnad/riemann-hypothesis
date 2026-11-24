@@ -763,9 +763,9 @@ variable {α : Type*} [LinearOrder α] {β : Fin n → α}
   {W : Type*} [AddCommGroup W] [Module ℂ W] {σ : Representation ℂ (levi F n β) W}
   [MeasurableSpace (GL (Fin n) F)] [BorelSpace (GL (Fin n) F)]
 
-theorem exists_inducedZeta (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspidal σ)
+theorem exists_inducedZeta_with_degree_bound (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspidal σ)
     (μG : Measure (GL (Fin n) F)) [μG.IsHaarMeasure] :
-    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧
+    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧ D.natDegree ≤ n ∧
       ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ →
         ∀ φ ∈ parabolicIndSpace F n β σ, ∀ ℓ ∈ smoothVectors (Representation.dual σ),
           (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
@@ -784,8 +784,8 @@ theorem exists_inducedZeta (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspid
   let μK : Measure (integralGL F n) := Measure.haar
   let θ : levi F n β →* ℝ≥0 := leviRatio β * leviSqrtModular β
   have hθ : Continuous θ := continuous_leviRatio.mul continuous_leviSqrtModular
-  obtain ⟨s₀, D, hD0, hM⟩ := exists_leviZeta hσ hc θ hθ (haarLevi β μ𝔪)
-  refine ⟨s₀, D, hD0, fun Φ hΦ φ hφ ℓ hℓ => ?_⟩
+  obtain ⟨s₀, D, hD0, hDn, hM⟩ := exists_leviZeta_with_degree_bound hσ hc θ hθ (haarLevi β μ𝔪)
+  refine ⟨s₀, D, hD0, hDn, fun Φ hΦ φ hφ ℓ hℓ => ?_⟩
 
   obtain ⟨r₁, hr₁⟩ := hΦ.exists_mul_congruenceSubgroup
   obtain ⟨K', hK'o, hK'⟩ := hφ.2
@@ -884,6 +884,19 @@ theorem exists_inducedZeta (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspid
   rw [hformula s hs, mul_left_comm, Finset.mul_sum,
     Finset.sum_congr rfl fun q _ => hNP q s hs]
   exact sum_eval_div_pow N Pq _ (qs_ne_zero s)
+
+theorem exists_inducedZeta (hσ : IsSmooth σ) [σ.IsIrreducible] (hc : IsCuspidal σ)
+    (μG : Measure (GL (Fin n) F)) [μG.IsHaarMeasure] :
+    ∃ s₀ : ℝ, ∃ D : ℂ[X], D.eval 0 = 1 ∧
+      ∀ Φ : Matrix (Fin n) (Fin n) F → ℂ, IsSchwartzBruhat Φ →
+        ∀ φ ∈ parabolicIndSpace F n β σ, ∀ ℓ ∈ smoothVectors (Representation.dual σ),
+          (∀ s : ℂ, s₀ < s.re → Integrable (fun g : GL (Fin n) F =>
+            Φ (g : Matrix (Fin n) (Fin n) F) * detPow g s * ℓ (φ g)) μG) ∧
+          ∃ (N : ℕ) (P : ℂ[X]), ∀ s : ℂ, s₀ < s.re →
+            D.eval (qs F s) * ∫ g, Φ (g : Matrix (Fin n) (Fin n) F) * detPow g s * ℓ (φ g) ∂μG =
+              P.eval (qs F s) / qs F s ^ N := by
+  obtain ⟨s₀, D, hD₀, _, hD⟩ := exists_inducedZeta_with_degree_bound hσ hc μG
+  exact ⟨s₀, D, hD₀, hD⟩
 
 end GodementJacquet
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.ExistsNatMulMemRingOfIntegers
 public import Mathlib.Algebra.Module.Lattice.Full
 public import Mathlib.RingTheory.DedekindDomain.FiniteAdeleRing
 public import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.FiniteAdeleStrongApproximationModNat
@@ -81,20 +82,7 @@ theorem algebraMap_mem_iff (x : E) :
     FractionalIdeal.mem_one_iff]
 
 theorem exists_nat_denom (x : E) : ∃ d : ℕ, 0 < d ∧ ∃ r : 𝓞 E, (r : E) = d * x := by
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝓞 E) x
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  obtain ⟨c, hc⟩ := Ideal.mem_span_singleton'.1 (Ideal.absNorm_mem (Ideal.span {b}))
-  refine ⟨Ideal.absNorm (Ideal.span {b}), Nat.pos_of_ne_zero ?_, c * a, ?_⟩
-  · simpa [Ideal.absNorm_eq_zero_iff] using hb0
-  · have h1 : ((Ideal.absNorm (Ideal.span {b}) : ℕ) : E) =
-        algebraMap (𝓞 E) E c * algebraMap (𝓞 E) E b := by
-      rw [← map_mul, hc, map_natCast]
-    have h2 : algebraMap (𝓞 E) E b ≠ 0 := by
-      simpa using hb0
-    rw [h1]
-    change algebraMap (𝓞 E) E (c * a) = _
-    rw [map_mul]
-    field_simp
+  apply _root_.GlobalTheory.NatMulMemRingOfIntegers.exists_nat_mul_mem_ringOfIntegers <;> assumption
 
 theorem exists_nat_mul_mem (a : FiniteAdeleRing (𝓞 E) E) :
     ∃ d : ℕ, 0 < d ∧ (d : FiniteAdeleRing (𝓞 E) E) * a ∈ intAdeles E := by

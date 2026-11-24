@@ -1,5 +1,6 @@
 module
 
+import all Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ExistsInv
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.LocalMaximality.ResidueOfTraceIsFiberSum
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FiniteCoverRingLocalizationChart
 import Mathlib.Algebra.Order.Floor.Extended
@@ -134,18 +135,7 @@ private lemma omB_mono' {L : Type} [Field L] [Algebra ℂ L] {B B' : Subalgebra 
 
 private lemma omB_stab {L : Type} [Field L] [Algebra ℂ L] (B : Subalgebra ℂ L) (q : ℕ) :
     Stab (Algebra.lsmul ℂ ℂ (DR ℂ L)) B (omB ℂ L B q) := by
-  intro r hr m hm
-  induction hm using Submodule.span_induction with
-  | mem z hz =>
-    obtain ⟨b, hb, v, hv, rfl⟩ := hz
-    exact Submodule.subset_span ⟨r * b, B.mul_mem hr hb, v, hv, by simp [mul_smul]⟩
-  | zero => simp
-  | add a c _ _ ha hc =>
-    rw [map_add (f := _)]
-    exact add_mem ha hc
-  | smul t a _ ha =>
-    rw [map_smul]
-    exact Submodule.smul_mem _ _ ha
+  apply _root_.stab_lemma <;> assumption
 
 section
 variable {F K K' : Type} [Field F] [Field K] [Field K'] [Algebra ℂ F] [Algebra ℂ K] [Algebra ℂ K'] [Algebra F K]

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsNatMulSplitHalfLatticeCoordinatesIntegral
 public import Development.AbelianVarietyTheory.Definitions.LatticeFrames.IsSumFrame
 public import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsSBExtFunEqHalfInd
 import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.PlacewiseToAdelicDecompositionForall
@@ -59,29 +60,7 @@ namespace GlobalTheory.FinPl.RdInt
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem exists_nat_mul_mem (c : k) : ∃ N : ℕ, 0 < N ∧ (N : k) * c ∈ 𝒪[k] := by
-  obtain ⟨a, b, hb, rfl⟩ := IsFractionRing.div_surjective (A := 𝒪[k]) c
-  have hb0 : b ≠ 0 := nonZeroDivisors.ne_zero hb
-  obtain ⟨ϖ, hϖ⟩ := IsDiscreteValuationRing.exists_irreducible 𝒪[k]
-  obtain ⟨m, u, hu⟩ := IsDiscreteValuationRing.eq_unit_mul_pow_irreducible hb0 hϖ
-  have hp : ((Nat.card 𝓀[k] : ℕ) : 𝒪[k]) ∈ IsLocalRing.maximalIdeal 𝒪[k] := by
-    rw [← IsLocalRing.residue_eq_zero_iff, map_natCast]
-    have := Fintype.ofFinite 𝓀[k]
-    rw [Nat.card_eq_fintype_card]
-    exact FiniteField.cast_card_eq_zero _
-  rw [hϖ.maximalIdeal_eq, Ideal.mem_span_singleton] at hp
-  have hdv : b ∣ ((Nat.card 𝓀[k] ^ m : ℕ) : 𝒪[k]) := by
-    rw [hu, Nat.cast_pow, Units.mul_left_dvd]
-    exact pow_dvd_pow_of_dvd hp m
-  obtain ⟨d, hd⟩ := hdv
-  refine ⟨Nat.card 𝓀[k] ^ m, pow_pos Nat.card_pos m, ?_⟩
-  have hb' : (algebraMap 𝒪[k] k b) ≠ 0 := by
-    rw [Ne, IsFractionRing.to_map_eq_zero_iff]; exact hb0
-  have : ((Nat.card 𝓀[k] ^ m : ℕ) : k) * (algebraMap 𝒪[k] k a / algebraMap 𝒪[k] k b) =
-      algebraMap 𝒪[k] k (d * a) := by
-    rw [← map_natCast (algebraMap 𝒪[k] k), hd, map_mul, map_mul]
-    field_simp
-  rw [this]
-  exact (d * a).2
+  first | exact _root_.GlobalTheory.FinPl.RdBound.exists_nat_mul_mem | exact @_root_.GlobalTheory.FinPl.RdBound.exists_nat_mul_mem | apply _root_.GlobalTheory.FinPl.RdBound.exists_nat_mul_mem <;> assumption
 
 theorem exists_nat_mul_mem_fin {ι : Type} [Fintype ι] (c : ι → k) :
     ∃ N : ℕ, 0 < N ∧ ∀ i, (N : k) * c i ∈ 𝒪[k] := by

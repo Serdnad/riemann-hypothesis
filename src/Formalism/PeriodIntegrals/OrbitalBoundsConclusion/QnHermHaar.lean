@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.SumDualVectorEqZeta
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.ConjugateTransposeLeibniz.YOperatorLeibnizRule
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.HermitianHaarMeasure.Development
 public import Formalism.FormalDegreeBessel.FormalDegreeRatio.GBasic
@@ -115,11 +116,6 @@ private theorem exp_entry_lemma_2 {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (j 
   simp only [L, Function.comp_apply, Complex.ofReal_zero, zero_smul, NormedSpace.exp_zero, one_mul] at h2
   exact h2
 
-private theorem smul_mulVec_lemma {n : ℕ} (c : ℂ) (M : Matrix (Fin n) (Fin n) ℂ) (v : Fin n → ℂ) :
-    (c • M) *ᵥ v = c • (M *ᵥ v) := by
-  ext x
-  simp [Matrix.mulVec, dotProduct, Finset.mul_sum, mul_assoc]
-
 lemma tst_exp_mulVec {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (v : Fin n → ℂ) (hv : X *ᵥ v = 0) :
     NormedSpace.exp X *ᵥ v = v := by
   have hc : Continuous fun M : Matrix (Fin n) (Fin n) ℂ => M *ᵥ v :=
@@ -131,7 +127,7 @@ lemma tst_exp_mulVec {n : ℕ} (X : Matrix (Fin n) (Fin n) ℂ) (v : Fin n → �
       intro j hj
       obtain ⟨m, rfl⟩ : ∃ m, j = m + 1 := ⟨j - 1, by omega⟩
       show ((((m + 1).factorial : ℕ) : ℂ)⁻¹ • X ^ (m + 1)) *ᵥ v = 0
-      rw [smul_mulVec_lemma, pow_succ, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_zero, smul_zero])
+      rw [Matrix.smul_mulVec, pow_succ, ← Matrix.mulVec_mulVec, hv, Matrix.mulVec_zero, smul_zero])
     simpa using h
   exact h1.unique h2
 
@@ -139,42 +135,11 @@ attribute [local instance] Matrix.normedAddCommGroup Matrix.normedSpace
 
 lemma tst_mul_mem {k r : ℕ} {i : Fin (r + 1)} {g h : Mx k r} (hg : g ∈ Glev k r i) (hh : h ∈ Glev k r i) :
     g * h ∈ Glev k r i := by
-  refine ⟨?_, fun a ha => ⟨?_, ?_⟩⟩
-  · have h1 : gᴴ * Hpk k r * g = Hpk k r := hg.1
-    have h2 : hᴴ * Hpk k r * h = Hpk k r := hh.1
-    show (g * h)ᴴ * Hpk k r * (g * h) = Hpk k r
-    rw [Matrix.conjTranspose_mul,
-      show hᴴ * gᴴ * Hpk k r * (g * h) = hᴴ * (gᴴ * Hpk k r * g) * h by simp only [Matrix.mul_assoc],
-      h1, h2]
-  · rw [← Matrix.mulVec_mulVec, (hh.2 a ha).1, (hg.2 a ha).1]
-  · rw [← Matrix.mulVec_mulVec, (hh.2 a ha).2, (hg.2 a ha).2]
+  apply _root_.QnRdSkewW.glev_mul <;> assumption
 
 lemma tst_exp_mem {k r : ℕ} {i : Fin (r + 1)} {X : Mx k r} (hX : inLieLev k r i X) (t : ℝ) :
     NormedSpace.exp ((t : ℂ) • X) ∈ Glev k r i := by
-  obtain ⟨hLie, hfix⟩ := hX
-  have hI := Formalism.QuantumDeterminants.GBasic.Hpk_sq k r
-  have hunitH : IsUnit (Hpk k r) :=
-    (Matrix.isUnit_iff_isUnit_det _).mpr (Matrix.isUnit_det_of_left_inverse hI)
-  have hinv : (Hpk k r)⁻¹ = Hpk k r := Matrix.inv_eq_left_inv hI
-  have hst : star ((t : ℂ)) = (t : ℂ) := Complex.conj_ofReal t
-  refine ⟨?_, fun a ha => ⟨?_, ?_⟩⟩
-  · have hXc : Xᴴ = Hpk k r * (-X) * Hpk k r := by
-      have h1 : Xᴴ * Hpk k r = -(Hpk k r * X) := eq_neg_of_add_eq_zero_left hLie
-      calc Xᴴ = Xᴴ * Hpk k r * Hpk k r := by rw [Matrix.mul_assoc, hI, Matrix.mul_one]
-        _ = Hpk k r * (-X) * Hpk k r := by rw [h1, Matrix.mul_neg]
-    have hYc : ((t : ℂ) • X)ᴴ = Hpk k r * (-((t : ℂ) • X)) * (Hpk k r)⁻¹ := by
-      rw [hinv, Matrix.conjTranspose_smul, hst, hXc, ← smul_neg, Matrix.mul_smul, Matrix.smul_mul]
-    have hE : (NormedSpace.exp ((t : ℂ) • X))ᴴ =
-        Hpk k r * NormedSpace.exp (-((t : ℂ) • X)) * (Hpk k r)⁻¹ := by
-      rw [← Matrix.exp_conjTranspose, hYc, Matrix.exp_conj _ _ hunitH]
-    have hEE : NormedSpace.exp (-((t : ℂ) • X)) * NormedSpace.exp ((t : ℂ) • X) = 1 := by
-      rw [Matrix.exp_neg]
-      exact Matrix.nonsing_inv_mul _ ((Matrix.isUnit_iff_isUnit_det _).mp (Matrix.isUnit_exp _))
-    show (NormedSpace.exp ((t : ℂ) • X))ᴴ * Hpk k r * NormedSpace.exp ((t : ℂ) • X) = Hpk k r
-    rw [hE, hinv, Matrix.mul_assoc (Hpk k r * NormedSpace.exp (-((t : ℂ) • X))) (Hpk k r) (Hpk k r), hI,
-      Matrix.mul_one, Matrix.mul_assoc, hEE, Matrix.mul_one]
-  · exact tst_exp_mulVec _ _ (by rw [smul_mulVec_lemma, (hfix a ha).1, smul_zero])
-  · exact tst_exp_mulVec _ _ (by rw [smul_mulVec_lemma, (hfix a ha).2, smul_zero])
+  apply _root_.QnRdSkewW.exp_mem_glev <;> assumption
 
 lemma tst_H_zero {k r : ℕ} (i : Fin (r + 1)) (q : Fin (mdim k r i)) (a : Fin r) (ha : a.val < i.val) :
     Hpk k r (posL k r i q) (eI k r a) = 0 ∧ Hpk k r (posL k r i q) (esI k r a) = 0 := by
@@ -363,24 +328,7 @@ theorem multiplication_preserves_test : MulTest := by
       (tst_cd_star (tst_bExt_cd k r z i c)) (fun g _ => congrArg star (tst_ybv_eq z i c g)) f hf⟩
 
 lemma tst_glev_closed (k r : ℕ) (i : Fin (r + 1)) : IsClosed (Glev k r i) := by
-  have h1 : IsClosed {g : Mx k r | gᴴ * Hpk k r * g = Hpk k r} :=
-    isClosed_eq ((continuous_id.matrix_conjTranspose.matrix_mul continuous_const).matrix_mul continuous_id)
-      continuous_const
-  have h2 : ∀ a : Fin r, IsClosed {g : Mx k r | a.val < i.val →
-      g *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ g *ᵥ bvec (esI k r a) = bvec (esI k r a)} := by
-    intro a
-    by_cases ha : a.val < i.val
-    · simp only [ha, true_implies, Set.setOf_and]
-      exact (isClosed_eq (continuous_id.matrix_mulVec continuous_const) continuous_const).inter
-        (isClosed_eq (continuous_id.matrix_mulVec continuous_const) continuous_const)
-    · simp only [ha, false_implies, Set.setOf_true]
-      exact isClosed_univ
-  have e : Glev k r i = {g : Mx k r | gᴴ * Hpk k r * g = Hpk k r} ∩ ⋂ a : Fin r, {g : Mx k r | a.val < i.val →
-      g *ᵥ bvec (eI k r a) = bvec (eI k r a) ∧ g *ᵥ bvec (esI k r a) = bvec (esI k r a)} := by
-    ext g
-    simp [Glev, UH]
-  rw [e]
-  exact h1.inter (isClosed_iInter h2)
+  apply _root_.QnRdSkewW.glev_closed <;> assumption
 
 lemma tst_contOn {k r : ℕ} {i : Fin (r + 1)} (f : Mx k r → ℂ) (hf : SmoothLev k r i Set.univ f) :
     ContinuousOn f (Glev k r i) := by
@@ -444,11 +392,7 @@ theorem rel_posL_val (k r : ℕ) (i : Fin (r + 1)) (l : Fin (mdim k r i)) :
     (posL k r i l).val = l.val + i.val := rfl
 
 theorem rel_posL_injective (k r : ℕ) (i : Fin (r + 1)) : Function.Injective (posL k r i) := by
-  intro a b h
-  apply Fin.ext
-  have h' := congrArg Fin.val h
-  rw [rel_posL_val, rel_posL_val] at h'
-  omega
+  apply _root_.Formalism.FourierDecayAlt.P.Qx2.posL_inj <;> assumption
 
 theorem rel_posL_bound (k r : ℕ) (i : Fin (r + 1)) (l : Fin (mdim k r i)) :
     i.val ≤ (posL k r i l).val ∧ (posL k r i l).val + i.val ≤ 2 * r + k := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UniformizationProofs.ExistsSecOfLbIso
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdIso
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.ThetaUnifAV
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.ExtensionDescent.SecBaseChangeAnySt
@@ -68,21 +69,7 @@ namespace GlobalTheory.AmpleSpecialisation
 
 theorem exists_sec_ne_zero_of_lbIso {Y : Scheme.{0}} {A B : LB Y} (hA : A.IsLB) (hB : B.IsLB) (h : LBIso A B)
     (hs : ∃ s : LB.Sec B, ∃ j, s.f j ≠ 0) : ∃ s : LB.Sec A, ∃ j, s.f j ≠ 0 := by
-  obtain ⟨u, hu⟩ := h
-  obtain ⟨t, b, hb⟩ := hs
-  refine ⟨DVR.secOfIso t hu hA hB, ?_⟩
-  by_contra hn
-  push Not at hn
-  refine hb (fn_ext fun y hy => ?_)
-  obtain ⟨a, ha⟩ := exists_chart hA y
-  have e := (DVR.secOfIso_spec t hu hA hB a b).symm
-  rw [hn a] at e
-  have e' := (DVR.isoCand_rs u t a b le_rfl).symm.trans ((congrArg (DVR.rs le_rfl) (e.trans (map_zero _))).trans
-    (map_zero _))
-  have e'' := (Units.mul_right_eq_zero _).1 e'
-  have hm : (𝟙 Y : Y ⟶ Y) y ∈ A.U a ⊓ B.U b := ⟨ha, hy⟩
-  refine (gs_res (𝟙 Y) y inf_le_right hm _).symm.trans ((congrArg (gs (𝟙 Y) y _) e'').trans ?_)
-  rw [gs_eq _ y _ hm, gs_eq _ y _ hy, map_zero, map_zero, map_zero, map_zero]
+  apply _root_.GlobalTheory.UU.EffSpecial.exists_sec_of_lbIso <;> assumption
 
 theorem lbIso_pull_div_lbPow {X Y : Scheme.{0}} {L M : LB X} (hL : L.IsLB) (hM : M.IsLB) (f : Y ⟶ X) (a : ℕ) :
     LBIso ((LB.div (lbPow M a) L).pull f) (LB.div (lbPow (M.pull f) a) (L.pull f)) := by

@@ -216,7 +216,7 @@ def TraceForm : Prop := ∀ (J M Y : Type) [AddCommGroup M] [Module ℂ M] [Fini
     ∀ p, (Module.finrank ℂ M : ℂ) * LinearMap.trace ℂ Y (FreeAlgebra.lift ℂ a p * C) =
       LinearMap.trace ℂ M (FreeAlgebra.lift ℂ α p) * LinearMap.trace ℂ Y C
 
-def AbsCore : Prop := ∀ (I : Type) [Fintype I] (J M : I → Type) [∀ i, AddCommGroup (M i)] [∀ i, Module ℂ (M i)]
+def AbsCoreWith (isCoeff : ℂ → Prop) : Prop := ∀ (I : Type) [Fintype I] (J M : I → Type) [∀ i, AddCommGroup (M i)] [∀ i, Module ℂ (M i)]
   [∀ i, FiniteDimensional ℂ (M i)] (Y : Type) [AddCommGroup Y] [Module ℂ Y] [FiniteDimensional ℂ Y] [Nontrivial Y]
   (α : ∀ i, J i → Module.End ℂ (M i)) (a b : ∀ i, J i → Module.End ℂ Y) (A : Module.End ℂ Y),
     (∀ i, ∀ W : Submodule ℂ (M i), (∀ f, ∀ x ∈ W, α i f x ∈ W) → W = ⊥ ∨ W = ⊤) →
@@ -224,14 +224,18 @@ def AbsCore : Prop := ∀ (I : Type) [Fintype I] (J M : I → Type) [∀ i, AddC
     (∀ i k, i ≠ k → ∀ f g, Commute (a i f) (a k g)) → (∀ i k f g, Commute (a i f) (b k g)) →
     A * A = 1 → (∀ i f, A * a i f = b i f * A) →
     (∀ W : Submodule ℂ Y, (∀ i f, ∀ x ∈ W, a i f x ∈ W ∧ b i f x ∈ W) → W = ⊥ ∨ W = ⊤) →
-    ∃ d : ℂ, d ≠ 0 ∧ ∀ f g : ∀ i, J i,
+    ∃ d : ℂ, isCoeff d ∧ ∀ f g : ∀ i, J i,
       LinearMap.trace ℂ Y (((Finset.univ : Finset I).toList.map fun i => a i (f i) * b i (g i)).prod * A) =
         d * ∏ i, LinearMap.trace ℂ (M i) (α i (f i) * α i (g i))
 
-def ZTr : Prop := ForLev fun E _ _ _ n S Z N => ∀ π (y : Yd π (Lev S N)) (τ : ∀ w : Pl E, SmIrr (GLw n w)),
-  (∀ w ∈ Z, π.IsLocComp w (τ w)) → (∀ w ∈ Z, fixed (τ w).ρ (N w) ≠ ⊥) ∧ ∃ d : ℂ, d ≠ 0 ∧ ∀ F, Fam S N (Z ×ˢ Finset.univ) F →
+def AbsCore : Prop := AbsCoreWith (· ≠ 0)
+
+def ZTrWith (isCoeff : ℂ → Prop) : Prop := ForLev fun E _ _ _ n S Z N => ∀ π (y : Yd π (Lev S N)) (τ : ∀ w : Pl E, SmIrr (GLw n w)),
+  (∀ w ∈ Z, π.IsLocComp w (τ w)) → (∀ w ∈ Z, fixed (τ w).ρ (N w) ≠ ⊥) ∧ ∃ d : ℂ, isCoeff d ∧ ∀ F, Fam S N (Z ×ˢ Finset.univ) F →
     LinearMap.trace ℂ y.Y (y.r (pf S F) * y.A) =
       d * ∏ w ∈ Z, GlobalTheory.BCT.trOn (fixed (τ w).ρ (N w)) (Lv (τ w).ρ (N w) (F w false) * Lv (τ w).ρ (N w) (F w true))
+
+def ZTr : Prop := ZTrWith (· ≠ 0)
 
 def SeenTr : Prop := ∀ (E : Type) [Field E] [NumberField E] [IsCMField E] (n : ℕ) (w : Pl E), IsSplitAt w → ∀ (τ : SmIrr (GLw n w))
   (N : Subgroup (GLw n w)), IsOpen (N : Set (GLw n w)) → N ≤ KGL w (n := n) → ∃ c : ℂ, c ≠ 0 ∧ ∀ φ₁ φ₂ : ∀ w : Pl E, LF n 0 w,

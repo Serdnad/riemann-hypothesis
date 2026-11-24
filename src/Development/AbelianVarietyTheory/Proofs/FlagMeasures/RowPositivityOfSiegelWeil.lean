@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.EqualWordsNonGenericEstimatesChain
 public import Development.AbelianVarietyTheory.Statements.CuspFrameWeights.StepAnalyticConstantsP
 public import Formalism.LocalToGlobal.SiegelLatticeTheory.CokernelGLCounts.RankPointCounts.FamDefs
 public import Development.AbelianVarietyTheory.Proofs.FlagMeasures.DifferentLocalIdentityFamiliesLemmaH
@@ -159,15 +160,7 @@ theorem ooVanish_all : ∀ (D : Formalism.BasicNotions.D7) (X : Formalism.L2.SG.
     Formalism.L2.SG.NonRelPf.nonRelCharC_holds Y t ht
 
 theorem hermitian_tuple_nondegenerate_gram_step : NondegenerateGramTuple := by
-  intro D X
-  have hn : 2 * D.R.rS + 2 ≤ X.B.I.n := by
-    have := X.n_eq; have := D.R.rS_two; have := D.R.r_eq; have := D.R.k_ge; omega
-  have hH : ∀ i j, star (X.B.I.J j i) = X.B.I.J i j := fun i j => congrFun (congrFun X.B.I.J_herm i) j
-  obtain ⟨X0, h0⟩ := exists_nondegenerate X.B.I.E X.B.I.n (2 * D.R.rS + 2) hn X.B.I.J hH X.B.I.J_det
-  refine ⟨X0, ?_⟩
-  convert h0 using 2
-  ext a b
-  rfl
+  apply _root_.GlobalTheory.closed_steps_gram_vectors <;> assumption
 
 theorem closedSteps : CorankOneEquivalence ∧ StepNormals ∧ StepPoints ∧ StepNormOne ∧ NondegenerateGramTuple := by
   have h1 : StepNormOne := VanishingOrbitalPoints.stepNormOne_of_ooVanish ooVanish_all

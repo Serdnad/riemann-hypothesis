@@ -1,5 +1,6 @@
 module
 
+import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutAsm
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.CutGCoreCut
 public import Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IntertwinerStructure
 public import Formalism.HermitianCurvature.HermitianCurvatureProofs.QNFAsm
@@ -123,12 +124,7 @@ theorem trR_smul (hsm : ∀ (Φ : Q.RadSp P.k P.r Bs.z Bs.z' Bs.π Bs.π') ρ,
 
 theorem actA_smulM (c : ℂ) (x : MA.A P (MA.DQ P)) (f : M.Ty P → MA.SmQ P.r P.TT) :
     MA.actA P (c • x) f = c • MA.actA P x f := by
-  funext π
-  show ∑ π', ((c • x) π π').1 (f π') = c • ∑ π', (x π π').1 (f π')
-  rw [Finset.smul_sum]
-  refine Finset.sum_congr rfl fun π' _ => ?_
-  rw [Matrix.smul_apply, Algebra.smul_def]
-  rfl
+  apply _root_.Formalism.FourierDecayAlt.P.CutMP.actA_smul <;> assumption
 
 theorem actA_one (f : M.Ty P → MA.SmQ P.r P.TT) : MA.actA P 1 f = f := by
   funext π

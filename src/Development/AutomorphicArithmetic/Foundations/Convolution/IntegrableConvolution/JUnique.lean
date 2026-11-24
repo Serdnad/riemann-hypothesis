@@ -2,6 +2,7 @@ module
 
 public import Development.AutomorphicArithmetic.Foundations.Convolution.IntegrableConvolution.TensSmooth
 public import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CapZcMemOfE
+import all Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.CapZcMemOfE
 import Development.AutomorphicArithmetic.Foundations.Convolution.CentreSplitting.JGenLinLie
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -45,13 +46,7 @@ open GroundTheory.Automorphic
 
 private theorem UpperTheory.ConvolutionTheory.L1.jUnique_mem_of_e {n : ℕ} (S : Subalgebra ℂ (HarishChandra.U n))
     (h : ∀ a b, HarishChandra.e (a, b) ∈ S) (x : HarishChandra.U n) : x ∈ S := by
-  induction x using HarishChandra.U.induction with
-  | halg r => exact S.algebraMap_mem r
-  | hι X =>
-    rw [HarishChandra.ι_eq_sum_e]
-    exact S.sum_mem fun a _ => S.smul_mem (h a.1 a.2) _
-  | hmul a b ha hb => exact S.mul_mem ha hb
-  | hadd a b ha hb => exact S.add_mem ha hb
+  apply _root_.UpperTheory.ConvolutionTheory.Dp.capZc_mem_of_e <;> assumption
 
 theorem UpperTheory.ConvolutionTheory.L1.jUnique :
     UpperTheory.ConvolutionTheory.L1.JUnique := by

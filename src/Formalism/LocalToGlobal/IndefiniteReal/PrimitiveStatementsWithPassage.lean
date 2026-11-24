@@ -182,19 +182,7 @@ variable {A X}
 
 theorem toF_mem_Z {B : BlockDat K G Pl0} (ℓ : Lvl K G) (Z : Submodule K B.S.Forms) (y : Fin (B.dZ ℓ Z) → K) :
     B.toF ℓ Z y ∈ Z := by
-  have h1 : (B.zE ℓ Z).mulVec y ∈ B.Z0 ℓ Z := by
-    rw [BlockDat.zE, subE_mulVec]
-    exact Submodule.coe_mem _
-  simp only [BlockDat.Z0, BlockDat.inV0, BlockDat.coord, Submodule.mem_comap, Submodule.mem_map,
-    Matrix.mulVecLin_apply] at h1
-  obtain ⟨w, hw, hwe⟩ := h1
-  have e : B.toF ℓ Z y = w := by
-    simp only [BlockDat.toF, LinearMap.coe_comp, Function.comp_apply, LinearEquiv.coe_coe,
-      Matrix.mulVecLin_apply]
-    rw [← hwe]
-    simp
-  rw [e]
-  exact hw
+  apply _root_.Formalism.IndefR.Cx.BlockGood.toF_mem <;> assumption
 
 variable (P0 : Subgroup G) (ψ0 : P0 →* Kˣ) (P1 : Subgroup G) (ψ1 : P1 →* Kˣ)
   (Dc : ∀ Zs : DefSub A.fam.amb, DefCols (A.side P1 ψ1 Zs)) (Sp : ∀ Zs : DefSub A.fam.amb, SPer (Dc Zs))
@@ -519,12 +507,7 @@ def zetaOf (d : X.MIDat fc) (u : (fc X.zs).Dc.Mem) (t : Bs.Tup) : K :=
 
 theorem iC_cpt' (b : Bool) (t : Bs.Tup) (x : Fin ((lv (fc X.zs) b).dQ t) → K) :
     X.iC cr b t (cpt Bs.v0.embedding x) = X.Θ t (X.jR t (cr.toR X.zs b t x)) := by
-  have hx : x = ∑ k, x k • (Pi.single k (1 : K) : Fin ((lv (fc X.zs) b).dQ t) → K) := by
-    ext i
-    simp [Finset.sum_apply, Pi.single_apply]
-  conv_rhs => rw [hx]
-
-  simp only [iC, map_sum, map_smul, map_smulₛₗ, lin, Fintype.linearCombination_apply, cpt]
+  apply _root_.Formalism.IndefR.Cx.CxData.iC_cpt_eq <;> assumption
 
 theorem theta_eV (eV : ∀ t, (Fin ((fc X.zs).Df1.nV t) → K) →ₗ[K] A.FR t) (hJ : X.JIsoR cv)
     (hRL : X.RatLev cr cv true) (hDn : X.DnLev cv true) (hUp : X.UpLev cv true) (hC : X.CoordinatesInGoodPart cr cv true)

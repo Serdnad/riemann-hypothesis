@@ -903,36 +903,7 @@ theorem qEq_twist {j k m : ℕ} (β : N.Form j) {u r r' : Oˣ} (h₁ : r' ^ m = 
 
 theorem exists_image (J : NumD.Iso N N') {k : ℕ} (p : N.QT k) :
     ∃ q : N'.QT k, q.1.1.toAdd = J.e p.1.1.toAdd ∧ J.Rel p.1.2 q.1.2 := by
-  let I := NumD.Hom.ofIso J
-  have hid (u : Oˣ) : (Units.map (RingHom.id O).toMonoidHom) u = u := by
-    ext
-    rfl
-  let g : N'.Gt :=
-    ⟨I.φ p.1.2.b, fun χ => p.1.2.s (I.e.symm χ) * I.h (N.c (I.e.symm χ)) * I.h p.1.2.b / I.h (N.c (I.e.symm χ) * p.1.2.b),
-      fun χ χ' => by
-        obtain ⟨χ, rfl⟩ := I.e.surjective χ
-        obtain ⟨χ', rfl⟩ := I.e.surjective χ'
-        rw [← map_add (f := _)]
-        simp only [AddEquiv.symm_apply_apply]
-        rw [I.c_eq, I.c_eq, N.c_add]
-        have a := I.θ_eq (N.c χ) (N.c χ') p.1.2.b
-        simp only [hid] at a
-        have b := p.1.2.mult χ χ'
-        apply Additive.ofMul.injective
-        replace a := congrArg Additive.ofMul a
-        replace b := congrArg Additive.ofMul b
-        simp only [ofMul_mul, ofMul_div] at a b ⊢
-        linear_combination (norm := abel) a + b⟩
-  have hg : I.Rel p.1.2 g := ⟨rfl, fun χ => by simp only [g, AddEquiv.symm_apply_apply, div_mul_cancel, hid]⟩
-  have h1 : I.Rel (p.1.2 ^ k) (g ^ k) := hg.pow k
-  rw [N.mem_QT.1 p.2] at h1
-  have h2 := I.rel_io p.1.1.toAdd
-  have h3 : g ^ k = N'.io (J.e p.1.1.toAdd) :=
-    NumD.Gt.ext (h1.1.trans h2.1.symm) (funext fun χ => by
-      obtain ⟨χ, rfl⟩ := I.e.surjective χ
-      exact mul_right_cancel ((h1.2 χ).trans (h2.2 χ).symm))
-  exact ⟨⟨(Multiplicative.ofAdd (J.e p.1.1.toAdd), g), N'.mem_QT.2 h3⟩, rfl,
-    (NumD.Hom.ofIso_rel J _ _).1 hg⟩
+  first | exact _root_.GlobalTheory.Ex.Trait.LevelClause.exists_image | exact @_root_.GlobalTheory.Ex.Trait.LevelClause.exists_image | apply _root_.GlobalTheory.Ex.Trait.LevelClause.exists_image <;> assumption
 
 theorem qEq_image (J : NumD.Iso N N') {k m : ℕ} {p' : N.QT (k * m)} {p : N.QT k} {q' : N'.QT (k * m)} {q : N'.QT k}
     (a' : q'.1.1.toAdd = J.e p'.1.1.toAdd) (b' : J.Rel p'.1.2 q'.1.2) (a : q.1.1.toAdd = J.e p.1.1.toAdd)
@@ -1177,15 +1148,7 @@ end
 
 theorem exists_image {C : Type} [CommRing C] {N N' : NumD C} (J : NumD.Iso N N') {k : ℕ} (p : N.QT k) :
     ∃ q : N'.QT k, q.1.1.toAdd = J.e p.1.1.toAdd ∧ J.Rel p.1.2 q.1.2 := by
-  obtain ⟨h₁, h₂, h₃, -⟩ := NumD.hom_transport C C (RingHom.id C) N N' (TateInh.homOfIso J)
-  obtain ⟨g, hg, -⟩ := h₁ p.1.2
-  have hp : ∀ n : ℕ, (TateInh.homOfIso J).Rel (p.1.2 ^ n) (g ^ n) := fun n => by
-    induction n with
-    | zero => rw [pow_zero, pow_zero]; exact J.rel_one
-    | succ n ih => rw [pow_succ, pow_succ]; exact h₂ _ _ _ _ ih hg
-  have e := hp k
-  rw [N.mem_QT.1 p.2] at e
-  exact ⟨⟨(Multiplicative.ofAdd (J.e p.1.1.toAdd), g), (h₁ _).unique e (h₃ _)⟩, rfl, hg⟩
+  apply _root_.GlobalTheory.Ex.LabelsAllLevels.exists_image <;> assumption
 
 theorem main : GlobalTheory.UT.LL → BrGtSt → AllS fun {E} _ _ _ {H} {_} {_} {_} {_} _ {_} {_} _ _ {_} a {_} _ _ A u r {_} M _ {_} ν' J => M.P.TorsionIso → ∀ k : ℕ, 0 < k → Labels A u r M ν' J k → (∀ (x : 𝓞 E) y, ν'.eX (J.e (A.arc.act x y)) = x • ν'.eX (J.e y)) → ∀ (x : 𝓞 E) (y y' : A.N.A), y ^ k = 1 → (letI := H.starRing; A.ν.eA y' = A.ν.eA y ≫ a.oa.onB.act x → ν'.eA (J.φ y') = ν'.eA (J.φ y) ≫ M.P.oD.onB.act x) := by
   intro hL hB E _ _ _ H D l c O _ β O' _ _ _ b a C _ _ _ _ _ _ A u r o M f N' ν' J hr _ hT k hk hlab hlin x y y' hy hy'

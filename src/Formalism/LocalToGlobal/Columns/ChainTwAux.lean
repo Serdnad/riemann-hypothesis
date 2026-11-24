@@ -607,59 +607,7 @@ theorem twIdx_ok_of (hB : OcbBase Ch sel mu cst m2) (hs : cst.sharp = true) (G :
       {g : Sp E n ≃ₗ[E] Sp E n} (hg : ∀ x, rr (Loc.inX E n c x) = Loc.inX E n c (g x))
       {hbar : GL (Fin n) (𝓞 E ⧸ P.asIdeal)} (hred : ∀ x ∈ stdAt E n P, redV P (g x) = hbar.1.mulVec (redV P x)) :
       LocE.lamGBS q ψ₀ χ k₀ (k₀ + c + j) t j n c rr.toLinearMap = ψ₀ (redP P ((q : E) * Loc.n1Arg rr)) * ocbXLam ψ₀ χ k₀ j t hbar := by
-    have hq0 := ciQ_ne_zero hu
-    have hk : k₀ ≤ n := by omega
-    have hint : ∀ p p', p < n + c → p' < n + c →
-        IntAt P (LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap p p') :=
-      fun p p' hp hp' => frameEntry_integral_of_stabilizer hq0 hk hp hp' hrr
-    have hS : redP P (∑ i ∈ Finset.range (k₀ - 1), LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap i (i + 1) +
-        ∑ i ∈ Finset.range (k₀ + c + j - k₀ - 1),
-          LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap (k₀ + i) (k₀ + i + 1)) =
-        (∑ i ∈ Finset.range (k₀ - 1), ocbM hbar i (i + 1) + ∑ i ∈ Finset.range (j - 1), ocbM hbar (k₀ + i) (k₀ + i + 1)) +
-          redP P ((q : E) * Loc.n1Arg rr) := by
-      rw [reduction_sum_superdiagonal (show k₀ < k₀ + c + j by omega) _ (fun p hp => hint p (p + 1) (by omega) (by omega)),
-        show k₀ + c + j - k₀ - 1 = c + j - 1 by omega, finset_range_sum_split _ c j, columns_fact (k₀ := k₀) rr,
-        redP_sum _ _ (fun i hi => hint _ _ (by have := Finset.mem_range.1 hi; omega) (by have := Finset.mem_range.1 hi; omega))]
-      have hE : ∀ i ∈ Finset.range (k₀ - 1),
-          redP P (LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap i (i + 1)) = ocbM hbar i (i + 1) := by
-        intro i hi
-        have := Finset.mem_range.1 hi
-        exact reduction_frameEntry_of_extension hg hred (by omega) (by omega) (frameIndex_of_lt (by omega)) (frameIndex_of_lt (by omega))
-      have hF : ∀ i ∈ Finset.range (j - 1),
-          redP P (LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap (k₀ + (c + i)) (k₀ + (c + i) + 1)) =
-            ocbM hbar (k₀ + i) (k₀ + i + 1) := by
-        intro i hi
-        have := Finset.mem_range.1 hi
-        exact reduction_frameEntry_of_extension hg hred (by omega) (by omega)
-          (by rw [frameIndex_of_ge (s := k₀ + (c + i)) (by omega)]; omega)
-          (by rw [frameIndex_of_ge (s := k₀ + (c + i) + 1) (by omega)]; omega)
-      have hM : (if 1 ≤ c ∧ 1 ≤ j then
-          redP P (LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap (k₀ + (c - 1)) (k₀ + (c - 1) + 1)) else 0) = 0 := by
-        split_ifs with h
-        · rw [frameEntry_last_auxiliary_zero h.1 (by omega) hg, redP_zero]
-        · rfl
-      rw [Finset.sum_congr rfl hE, Finset.sum_congr rfl hF, hM]
-      abel
-    have hBl : ∀ i ∈ Finset.range j, LocE.unitV (χ i) (Matrix.det (Matrix.of fun s s' : Fin t =>
-          LocE.entB q k₀ c n c n (fun i => i + 1) (fun i => i + 1) rr.toLinearMap (k₀ + c + j + i * t + s.1) (k₀ + c + j + i * t + s'.1))) =
-        ocbChiK (χ i) (Matrix.det (Matrix.of fun s s' : Fin t => ocbM hbar (k₀ + j + i * t + s.1) (k₀ + j + i * t + s'.1))) := by
-      intro i hi
-      have hi' := Finset.mem_range.1 hi
-      have hjt : (i + 1) * t ≤ j * t := Nat.mul_le_mul_right t hi'
-      rw [Nat.succ_mul] at hjt
-      have hbd : ∀ u : Fin t, k₀ + j + i * t + u.1 < n := fun u => by have := u.2; omega
-      show ocbChiK (χ i) (redP P _) = _
-      rw [reduction_det_eq_det_reduction _ fun s s' => hint _ _ (by have := hbd s; omega) (by have := hbd s'; omega)]
-      congr 1
-      congr 1
-      ext s s'
-      simp only [Matrix.of_apply]
-      exact reduction_frameEntry_of_extension hg hred (hbd s) (hbd s')
-        (by rw [frameIndex_of_ge (s := k₀ + c + j + i * t + s.1) (by omega)]; omega)
-        (by rw [frameIndex_of_ge (s := k₀ + c + j + i * t + s'.1) (by omega)]; omega)
-    unfold LocE.lamGBS LocE.lamGvS ocbXLam
-    rw [hS, AddChar.map_add_eq_mul, Finset.prod_congr rfl hBl]
-    ring
+    exact lamGBS_eq_addChar_mul_ocbXLam_of_mem_stabL hu ψ₀ χ hk1 hcj hn hrr hg hred
   have hCG : OcbChrGLoc Ch sel mu cst m2 := by
     intro hBase j hj w hbar g r hr hg hred
     have hw := w.2

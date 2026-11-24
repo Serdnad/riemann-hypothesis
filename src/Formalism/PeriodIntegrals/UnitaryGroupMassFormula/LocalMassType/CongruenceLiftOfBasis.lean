@@ -292,57 +292,11 @@ theorem congruence_lift_of_basis {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin
   obtain ⟨k1, K', hk1u, hk1A, hk1B, hk1e⟩ := wCoreG (v.adicCompletionIntegers F)
     (g : v.adicCompletionIntegers F) (natCast_mem_max v hgv) A0 A1 B0 B1 A' B' L0 M1 hL0 hM1
     hgram hA1 hB1
-  have hdet : IsUnit k1.det := (Matrix.isUnit_iff_isUnit_det k1).1 hk1u
-  have hki : k1 * k1⁻¹ = 1 := Matrix.mul_nonsing_inv k1 hdet
-  have hik : k1⁻¹ * k1 = 1 := Matrix.nonsing_inv_mul k1 hdet
+  obtain ⟨kH, hkHK, hkZ, hkx⟩ :=
+    witt_conjugate_split_matrix D Q hQΛ hQh Z0 Z hZ0 hZ k1 hk1u hk1A hk1B
+  have hik : k1⁻¹ * k1 = 1 := Matrix.nonsing_inv_mul k1 ((Matrix.isUnit_iff_isUnit_det k1).1 hk1u)
   set f := (v.adicCompletionIntegers F).subtype with hf
-  have mo : ∀ {M N : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F)}, M * N = 1 →
-      M.map f * N.map f = 1 := by
-    intro M N hMN
-    rw [← Matrix.map_mul, hMN, Matrix.map_one f (map_zero f) (map_one f)]
-  have e1 : (k1⁻¹)ᵀᵀ * k1 = 1 := by rw [transpose_transpose, hik]
-  have e2 : k1ᵀ * (k1⁻¹)ᵀ = 1 := by rw [← transpose_mul, hik, transpose_one]
-  have e3 : (k1⁻¹)ᵀ * k1ᵀ = 1 := by rw [← transpose_mul, hki, transpose_one]
-  have tm : ∀ M : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F), (M.map f)ᵀ = Mᵀ.map f :=
-    fun M => (Matrix.transpose_map).symm
   set kstd := D.kS (k1.map f) ((k1⁻¹)ᵀ.map f) with hkstd
-  set kstd' := D.kS (k1⁻¹.map f) (k1ᵀ.map f) with hkstd'
-  have hkk : kstd * kstd' = 1 := by
-    rw [hkstd, hkstd', SD.kS_mul, mo hki, mo e3, SD.kS_one]
-  have hk'k : kstd' * kstd = 1 := mul_eq_one_comm.mp hkk
-  have hkU : ∀ x y, stdH σ (kstd *ᵥ x) (kstd *ᵥ y) = stdH σ x y := by
-    intro x y
-    refine D.stdH_kS _ _ ?_ ?_ x y
-    · rw [tm, mo e1]
-    · rw [tm, mo e2]
-  have hkI : ∀ x, IntV v (kstd *ᵥ x) ↔ IntV v x := by
-    intro x
-    constructor
-    · intro hx
-      have := D.intV_kS (k1⁻¹) k1ᵀ hx
-      rwa [← hkstd', mulVec_mulVec, hk'k, one_mulVec] at this
-    · intro hx
-      exact D.intV_kS k1 (k1⁻¹)ᵀ hx
-  have hkZ : ∀ a, kstd *ᵥ Z0 a = Z a := by
-    intro a
-    apply D.extV
-    · intro i
-      rw [hkstd, SD.fst_proj_split_matrix_mulVec]
-      have := congrArg (fun M => f (M i a)) hk1A
-
-      simp only [Matrix.mul_apply, map_sum, map_mul] at this
-      simp only [mulVec, dotProduct, Matrix.map_apply]
-      exact this
-    · intro i
-      have hB : (k1⁻¹)ᵀ * B0 = B1 := by
-        rw [← hk1B, ← Matrix.mul_assoc, e3, Matrix.one_mul]
-      rw [hkstd, SD.snd_proj_split_matrix_mulVec]
-      have := congrArg (fun M => f (M i a)) hB
-
-      simp only [Matrix.mul_apply, map_sum, map_mul] at this
-      simp only [mulVec, dotProduct, Matrix.map_apply]
-      exact this
-
   set K'' : Matrix (Fin n) (Fin n) (v.adicCompletionIntegers F) := -(k1⁻¹ * K')ᵀ with hK''
   have hk1i : (k1⁻¹)ᵀ = 1 + (g : v.adicCompletionIntegers F) • K'' := by
     have h0 : k1⁻¹ = 1 - (g : v.adicCompletionIntegers F) • (k1⁻¹ * K') := by
@@ -373,45 +327,20 @@ theorem congruence_lift_of_basis {σ : E →ₐ[F] E} {n : ℕ} {J : Matrix (Fin
       refine Finset.sum_congr rfl fun j _ => ?_
       rw [map_natCast]; ring
 
-  set kM := Qm * kstd * Qi with hkM
-  set kMi := Qm * kstd' * Qi with hkMi
-  have hkMM : kM * kMi = 1 := by
-    rw [hkM, hkMi]
-    calc Qm * kstd * Qi * (Qm * kstd' * Qi) = Qm * (kstd * (Qi * Qm) * kstd') * Qi := by
-          simp only [Matrix.mul_assoc]
-      _ = 1 := by rw [hQiQ, Matrix.mul_one, hkk, Matrix.mul_one, hQQi]
-  have hkMM' : kMi * kM = 1 := mul_eq_one_comm.mp hkMM
-  let kG : GL (Fin n) (Fv F v ⊗[F] E) := ⟨kM, kMi, hkMM, hkMM'⟩
-  have hkx : ∀ x, kM *ᵥ x = Qm *ᵥ (kstd *ᵥ (Qi *ᵥ x)) := by
-    intro x; rw [hkM, mulVec_mulVec, mulVec_mulVec, Matrix.mul_assoc]
-  have hmem : kG ∈ HR (Fv F v) σ J := by
-    show Formalism.UG.cT (sigR (Fv F v) σ) kM * JR (Fv F v) J * kM = JR (Fv F v) J
-    apply hform_ext (sigR (Fv F v) σ)
-    intro x y
-    rw [← hform_mulVec]
-    show hR (Fv F v) σ J (kM *ᵥ x) (kM *ᵥ y) = hR (Fv F v) σ J x y
-    rw [hkx, hkx, hQh, ← stdH, hkU, stdH, ← hQh, mulVec_mulVec, mulVec_mulVec, hQQi, one_mulVec,
-      one_mulVec]
-  let kH : HA (Fv F v) σ J := (⟨kG, hmem⟩ : HR (Fv F v) σ J)
-  have hkHK : kH ∈ Formalism.L2.SG.TypedSets.Kv σ J Λ v := by
-    intro y
-    show y ∈ latLoc (E := E) v Λ ↔ kM *ᵥ y ∈ latLoc (E := E) v Λ
-    rw [memΛ, memΛ, hkx, mulVec_mulVec, hQiQ, one_mulVec, hkI]
   have hkHX : kH • X0r = k • X0r := by
     apply locF_injective v
     rw [hloc kH, hYdef]
     funext a
-    show kM *ᵥ Y0 a = (k • Y0) a
-    rw [hkx]
-    have := hkZ a
-    simp only [hZ0def, hZdef] at this
-    rw [this, mulVec_mulVec, hQQi, one_mulVec]
+    have h := hkZ a
+    change (HA.mat (Fv F v) σ J kH : Matrix (Fin n) (Fin n) _) *ᵥ (Qm *ᵥ Z0 a) = Qm *ᵥ Z a at h
+    simp only [hZ0def, hZdef, mulVec_mulVec, hQQi, Matrix.mul_one, one_mulVec] at h
+    exact h
   have hkHg : kH ∈ Formalism.L2.SG.TypedSets.Kgv σ J Λ g v := by
     refine (kgv_iff kH).2 ⟨hkHK, fun w hw => ?_⟩
     refine ⟨Qm *ᵥ (U *ᵥ (Qi *ᵥ w)), ?_, ?_⟩
     · rw [memΛ, mulVec_mulVec, hQiQ, one_mulVec]
       exact D.intV_kS K' K'' ((memΛ w).1 hw)
-    · show kM *ᵥ w - w = _
+    · show (HA.mat (Fv F v) σ J kH : Matrix (Fin n) (Fin n) _) *ᵥ w - w = _
       have e : Qm *ᵥ (kstd *ᵥ (Qi *ᵥ w)) - w = Qm *ᵥ (kstd *ᵥ (Qi *ᵥ w) - Qi *ᵥ w) := by
         rw [mulVec_sub, show Qm *ᵥ (Qi *ᵥ w) = w by rw [mulVec_mulVec, hQQi, one_mulVec]]
       rw [hkx, e, hkmod, mulVec_smul]

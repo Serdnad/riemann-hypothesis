@@ -1,5 +1,6 @@
 module
 
+import Formalism.SharpRestriction.CuspSpanNormBounds.StandingHypothesesHoldFamily
 public import Formalism.SharpRestriction.CuspSpanNormBounds.NormalizedLocalScale
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -61,11 +62,7 @@ variable {Wp Wq : Type*} [NormedAddCommGroup Wp] [InnerProductSpace ℂ Wp] [Nor
 
 theorem hsNormSq_eq_sum (A : Wq →L[ℂ] Wp) :
     hsNormSq A = ∑ i, ‖A (stdOrthonormalBasis ℂ Wq i)‖ ^ 2 := by
-  unfold hsNormSq hsInner
-  rw [Complex.re_sum]
-  refine Finset.sum_congr rfl (fun i _ => ?_)
-  rw [inner_self_eq_norm_sq_to_K]
-  norm_cast
+  apply _root_.Formalism.MainNotions.S.hsNormSq_eq <;> assumption
 
 theorem hsNormSq_nonneg (A : Wq →L[ℂ] Wp) : 0 ≤ hsNormSq A := by
   rw [hsNormSq_eq_sum]; positivity

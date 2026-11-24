@@ -1263,12 +1263,7 @@ theorem vecAt_up {S T : HSp D} (B : Base S T) (Q φ) :
 
 private theorem series_eq {S T : HSp D} (B : Base S T) :
     @series (overD D r) S T (baseUp r B).F = @series D S T B.F := by
-  funext ω f g
-  refine LinearMap.ext fun P => funext fun x => ?_
-  delta series thetaKO
-  refine congrArg (fun v : WO S T → ℂ => ω (g, x) v 0) ?_
-  dsimp only [Frame.fock, pureTensorO, aPlusAll, aPlus, crea, Datum.dRho, baseUp]
-  rfl
+  apply _root_.GlobalTheory.TwInputs.Move.RatUp.series_up <;> assumption
 
 theorem series_up {S T : HSp D} (B : Base S T) (ω : PairRep S T) (Q φ h) :
     series (baseUp r B).F ω ((baseUp r B).vecAt Q φ) h = series B.F ω (B.vecAt Q φ) h := by
@@ -1352,16 +1347,10 @@ section Setup
 variable (ρ : Setup D.ntw) (i : D.ntw.Tw) (j : Fin D.R.m) (b : Bool)
 
 theorem liftSetupOverExtendedData_theta_eq : (setupUp r ρ).theta ((i)) ((j)) b = (ρ.theta i j b) := by
-  funext h
-  delta Setup.theta
-  dsimp only [setupUp]
-  exact congrArg DFunLike.coe (theta_up r (ρ.B i j b) (ρ.om i j b 1) h)
+  apply _root_.GlobalTheory.TwInputs.Move.RatUp.se_theta <;> assumption
 
 theorem liftSetupOverExtendedData_gens_eq : (setupUp r ρ).gens ((i)) ((j)) b = (ρ.gens i j b) := by
-  funext k Q ψ h P
-  delta Setup.gens Setup.tw
-  dsimp only [setupUp]
-  exact genSet_up r (ρ.B i j b) (ρ.om i j b 1) (ρ.tw i b k Q ψ) h P
+  apply _root_.GlobalTheory.TwInputs.Move.RatUp.se_gens <;> assumption
 
 theorem liftSetupOverExtendedData_classSum_eq : (setupUp r ρ).sum ((i)) ((j)) b = (ρ.sum i j b) := by
   funext k Q ψ
@@ -1376,18 +1365,7 @@ private theorem univOf_up (Q : Finset (Pl D.host.E)) (M : ℕ) :
   rfl
 
 theorem liftSetupOverExtendedData_xi_eq : (setupUp r ρ).xi ((i)) ((j)) b (overD D r).nexp = (ρ.xi i j b D.nexp) := by
-  funext Q M h P
-  let Q₀ := admissibleConjugatePairPlaces (overD D r).ntw i Q M
-  let u := univOf D.nexp i Q₀ M ρ.rc
-  let ω := ρ.om i j b 1
-  let Φ := ExportSeries.Base.univFam u (ρ.β j)
-  have atFam := xiCoef_up r (ρ.B i j b) ω u (half (ρ.ch i) Q₀) Φ h P
-  delta Setup.xi
-  rw [univOf_up r ρ i Q₀ M]
-  dsimp only [setupUp, ω, Φ, u, Q₀, univUp, ExportSeries.Base.univFam,
-    admissibleConjugatePairPlaces, Formalism.MainNotions.NAdm.AdmQ,
-    Formalism.MainNotions.NAdm.TWSet] at atFam ⊢
-  exact atFam
+  apply _root_.GlobalTheory.TwInputs.Move.RatUp.se_xi <;> assumption
 
 private theorem twistOf_up (ρ : Setup D.ntw) (i : D.ntw.Tw) (b : Bool) (k : ℕ) (Q : Finset (Pl D.host.E))
     (ψ : G D.host.E D.nd.Om →* (D.ntw.Ok i k)ˣ) :

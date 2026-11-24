@@ -260,14 +260,9 @@ theorem sp_blk_surj (ε : Fin n → Bool) (a : Fin n) : ∃ r, blk ε (ε a) r =
 
 private theorem apply_eq_zero_of_commute_Jm_of_eps_ne {ε : Fin n → Bool} {M : Matrix (Fin n) (Fin n) ℂ}
     (hM : M * Jm ε = Jm ε * M) (a b : Fin n) (h : ε a ≠ ε b) : M a b = 0 := by
-  have e := congrFun (congrFun hM a) b
-  simp only [Jm, Matrix.mul_diagonal, Matrix.diagonal_mul] at e
-  have key : M a b * ((if ε b = true then (1 : ℂ) else -1) - (if ε a = true then 1 else -1)) = 0 := by
-    rw [mul_sub, e]; ring
-  have hne : ((if ε b = true then (1 : ℂ) else -1) - (if ε a = true then 1 else -1)) ≠ 0 := by
-    revert h
-    cases ha : ε a <;> cases hb : ε b <;> norm_num
-  exact (mul_eq_zero.mp key).resolve_right hne
+  first
+    | exact _root_.ReciprocityTheory.ChartRestriction.DS.HW.uq_offdiag_zero
+    | apply _root_.ReciprocityTheory.ChartRestriction.DS.HW.uq_offdiag_zero <;> first | assumption | rfl | infer_instance
 
 private theorem image_blk_univ_eq_filter_eps (ε : Fin n → Bool) (c : Bool) :
     (univ.image (blk ε c)) = univ.filter fun i : Fin n => ε i = c := by

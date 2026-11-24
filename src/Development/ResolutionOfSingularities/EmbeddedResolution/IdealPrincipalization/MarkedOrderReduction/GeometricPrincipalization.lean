@@ -1,5 +1,6 @@
 module
 
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
 public import Development.ResolutionOfSingularities.EmbeddedResolution.IdealPrincipalization.MarkedBlowupSequence.MarkedSequenceOfBlowups
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheafOrderDecrease
 public import Development.ResolutionOfSingularities.EmbeddedResolution.DerivativeIdeal.DerivativeIdealSheaf
@@ -1463,36 +1464,6 @@ private theorem exists_isPrime_between_notMem_of_mul_mem {R : Type u} [CommRing 
   · intro hg
     exact Set.disjoint_left.mp hQdisj hg ⟨1, 1, h1P, by ring⟩
 
-private theorem mem_map_of_mul_mem_of_etale_of_isSMulRegular {P A : Type u} [CommRing P] [CommRing A]
-    {f : P →+* A} (hf : f.Etale) (I : Ideal P) (w : P)
-    (hw : ∀ a b : P ⧸ I,
-      (Ideal.Quotient.mk I) w * a = (Ideal.Quotient.mk I) w * b → a = b)
-    (x : A) (hx : f w * x ∈ Ideal.map f I) : x ∈ Ideal.map f I := by
-  have hg : (Ideal.quotientMap (Ideal.map f I) f Ideal.le_comap_map).Etale :=
-    etale_quotientMap hf I
-  let _ : Algebra (P ⧸ I) (A ⧸ Ideal.map f I) :=
-    (Ideal.quotientMap (Ideal.map f I) f Ideal.le_comap_map).toAlgebra
-  have : Algebra.Etale (P ⧸ I) (A ⧸ Ideal.map f I) := hg
-  have : Module.Flat (P ⧸ I) (A ⧸ Ideal.map f I) := inferInstance
-  have hy : (Ideal.quotientMap (Ideal.map f I) f Ideal.le_comap_map)
-        ((Ideal.Quotient.mk I) w) * (Ideal.Quotient.mk (Ideal.map f I)) x = 0 := by
-    rw [Ideal.quotientMap_mk, ← map_mul]
-    exact Ideal.Quotient.eq_zero_iff_mem.mpr hx
-  have hsm : ((Ideal.Quotient.mk I) w) • ((Ideal.Quotient.mk (Ideal.map f I)) x)
-      = (0 : A ⧸ Ideal.map f I) := by
-    show (Ideal.quotientMap (Ideal.map f I) f Ideal.le_comap_map)
-        ((Ideal.Quotient.mk I) w) * (Ideal.Quotient.mk (Ideal.map f I)) x = 0
-    exact hy
-  have hreg0 : IsSMulRegular (P ⧸ I) ((Ideal.Quotient.mk I) w) := fun a b h => hw a b h
-  have hreg : IsSMulRegular (A ⧸ Ideal.map f I) ((Ideal.Quotient.mk I) w) := hreg0.of_flat
-  have hzero : (Ideal.Quotient.mk (Ideal.map f I)) x = 0 := by
-    refine hreg ?_
-    show ((Ideal.Quotient.mk I) w) • ((Ideal.Quotient.mk (Ideal.map f I)) x)
-      = ((Ideal.Quotient.mk I) w) • (0 : A ⧸ Ideal.map f I)
-    rw [smul_zero]
-    exact hsm
-  exact Ideal.Quotient.eq_zero_iff_mem.mp hzero
-
 private theorem mem_mvPolynomialCoordIdeal_of_X_mul_mem (k : Type u) [Field k] (m : ℕ)
     (S : Finset (Fin m)) {s : Fin m} (hs : s ∉ S) (r : MvPolynomial (ULift.{u} (Fin m)) k)
     (h : MvPolynomial.X (ULift.up.{u} s) * r ∈ mvPolynomialCoordIdeal k m S) :
@@ -1561,7 +1532,7 @@ private theorem false_of_restrictIdeal_eq_coordIdeal {X : Scheme.{u}} {k : Type 
   have hnzd : ∀ x : Γ(X, V), c.coord s * x ∈ Z.ideal ⟨V, hV⟩ → x ∈ Z.ideal ⟨V, hV⟩ := by
     intro x hx
     rw [← hIZ] at hx ⊢
-    refine mem_map_of_mul_mem_of_etale_of_isSMulRegular (c.coordRingHom_etale hV) (mvPolynomialCoordIdeal k m S)
+    refine _root_.FunctorialResolution.EmbeddedResolution.mem_map_of_mul_mem_of_etale (c.coordRingHom_etale hV) (mvPolynomialCoordIdeal k m S)
       (MvPolynomial.X (ULift.up.{u} s)) ?_ x ?_
     · intro A B hAB
       obtain ⟨A', rfl⟩ := Ideal.Quotient.mk_surjective A

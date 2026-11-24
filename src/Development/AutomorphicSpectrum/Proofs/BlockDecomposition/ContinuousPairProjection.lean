@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExistsFiniteAdelicUnitaryPointOfLocalFamily
 public import Development.WeilBound.RepresentationTheoryGL.ArchimedeanBaseChange.ArchimedeanBaseChangeProof.SatakeExponents.UniformizerValuations.FinConv
 public import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.FiniteLevelFacts
 public import Development.AbelianVarietyTheory.Definitions.Foundations.ExistsFinsetOfEventually
@@ -61,19 +62,7 @@ variable {E : Type} [Field E] [NumberField E] [IsCMField E] {a b n : ℕ}
 
 theorem exists_lift (Y : ∀ w : Pl E, GLw n w) (hc : ∀ᶠ w : Pl E in cofinite, Y w ∈ GlobalTheory.LFun.KGL w (n := n)) :
     ∃ x : GL (Fin n) (Af E), ∀ w, GeneralLinearGroup.map (pLoc E w) x = Y w := by
-  let M : Matrix (Fin n) (Fin n) (Af E) := Matrix.of fun i j =>
-    ⟨fun w => (Y w).1 i j, hc.mono fun w h => (GlobalTheory.EulerTwRestr.mem_KGL_iff.1 h).1 i j⟩
-  let M' : Matrix (Fin n) (Fin n) (Af E) := Matrix.of fun i j =>
-    ⟨fun w => ((Y w)⁻¹).1 i j, hc.mono fun w h => (GlobalTheory.EulerTwRestr.mem_KGL_iff.1 h).2 i j⟩
-  have hloc : ∀ P Q : Matrix (Fin n) (Fin n) (Af E), (∀ w : Pl E, P.map (pLoc E w) = Q.map (pLoc E w)) → P = Q :=
-    fun P Q h => Matrix.ext fun i j => Subtype.ext (funext fun w => congrFun (congrFun (h w) i) j)
-  have hMM' : M * M' = 1 := hloc _ _ fun w => by
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact (Y w).mul_inv
-  have hM'M : M' * M = 1 := hloc _ _ fun w => by
-    rw [Matrix.map_mul, Matrix.map_one _ (map_zero _) (map_one _)]
-    exact (Y w).inv_mul
-  exact ⟨⟨M, M', hMM', hM'M⟩, fun w => Units.ext (Matrix.ext fun i j => rfl)⟩
+  apply _root_.GlobalTheory.BCT.LocGlue.glue <;> assumption
 
 theorem eventually_mem_KGL (g : GL (Fin n) (Af E)) :
     ∀ᶠ w : Pl E in cofinite, GeneralLinearGroup.map (pLoc E w) g ∈ GlobalTheory.LFun.KGL w (n := n) := by

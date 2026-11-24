@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.HeckeElementComponentMemStandardDoubleCoset
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.IsUnitarySphericalSatakeMultisetMapInv
 public import Formalism.LocalToGlobal.HeckeThetaElements.IsHeckeElt
 public import Formalism.SatakeDualWeyl.StatementE
 public import Development.AbelianVarietyTheory.Proofs.HeightProofs.MemAdelicLatticeIffLocalSelfDualCompletion
@@ -59,52 +61,11 @@ theorem exists_matrix_of_isLattice {R K : Type} [CommRing R] [IsDomain R] [IsPri
     [Algebra R K] [IsFractionRing R K] {n : ℕ} (M : Submodule R (Fin n → K)) [Submodule.IsFullLattice K M] :
     ∃ B : GL (Fin n) K, ∀ x : Fin n → K, x ∈ M ↔
       ∀ i, ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec x i ∈ (algebraMap R K).range := by
-  have := Submodule.IsLattice.finite K M
-  have := Submodule.IsLattice.free K M
-  have hr : Module.finrank R M = n := by
-    rw [((Submodule.IsFullLattice.finrank_eq K M).trans (Module.finrank_fintype_fun_eq_card K)), Fintype.card_fin]
-  let b : Module.Basis (Fin n) R M := Module.finBasisOfFinrankEq R M hr
-  let c : Module.Basis (Fin n) K (Fin n → K) := b.extendOfIsFullLattice K
-  let p := Pi.basisFun K (Fin n)
-  let B : GL (Fin n) K := ⟨p.toMatrix c, c.toMatrix p, by simp, by simp⟩
-  have hB : ∀ x i, ((B⁻¹ : GL (Fin n) K) : Matrix (Fin n) (Fin n) K).mulVec x i = c.repr x i := by
-    intro x i
-    have := congrFun (Module.Basis.toMatrix_mulVec_repr p c x) i
-    exact this
-  refine ⟨B, fun x => ?_⟩
-  simp only [hB]
-  constructor
-  · intro hx i
-    refine ⟨b.repr ⟨x, hx⟩ i, ?_⟩
-    have h1 : x = ∑ j, algebraMap R K (b.repr ⟨x, hx⟩ j) • c j := by
-      have := congrArg Subtype.val (b.sum_repr ⟨x, hx⟩)
-      rw [Submodule.coe_sum] at this
-      simp only [c, Module.Basis.extendOfIsFullLattice_apply, algebraMap_smul]
-      exact this.symm
-    have h2 := congrFun (c.repr_sum_self fun j => algebraMap R K (b.repr ⟨x, hx⟩ j)) i
-    rw [← h1] at h2
-    exact h2.symm
-  · intro h
-    choose r hr using h
-    rw [← c.sum_repr x]
-    refine sum_mem fun j _ => ?_
-    rw [← hr, algebraMap_smul]
-    refine M.smul_mem _ ?_
-    simp [c]
+  first | exact _root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' | exact @_root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' | apply _root_.GlobalTheory.SatakeInv.exists_matrix_of_isLattice' <;> assumption
 
 theorem mul_mem_intAE (D : D7) {x y : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.Af D.host.F ⊗[D.host.F] D.host.E} (hx : x ∈ intAE D)
     (hy : y ∈ intAE D) : x * y ∈ intAE D := by
-  refine AddSubgroup.closure_induction₂ (p := fun x y _ _ => x * y ∈ intAE D) ?_ ?_ ?_ ?_ ?_ ?_ ?_ hx hy
-  · rintro _ _ ⟨a, ha, u, rfl⟩ ⟨b, hb, v, rfl⟩
-    refine AddSubgroup.subset_closure ⟨a * b, fun w => ?_, u * v, ?_⟩
-    · rw [map_mul]; exact mul_mem (ha w) (hb w)
-    · rw [Algebra.TensorProduct.tmul_mul_tmul]; rfl
-  · intro x _; rw [zero_mul]; exact zero_mem _
-  · intro x _; rw [mul_zero]; exact zero_mem _
-  · intro x y z _ _ _ h1 h2; rw [add_mul]; exact add_mem h1 h2
-  · intro x y z _ _ _ h1 h2; rw [mul_add]; exact add_mem h1 h2
-  · intro x y _ _ h; rw [neg_mul]; exact neg_mem h
-  · intro x y _ _ h; rw [mul_neg]; exact neg_mem h
+  first | exact _root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE | exact @_root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE | apply _root_.GlobalTheory.SplitHecke.HeckeComp.mul_mem_intAE <;> assumption
 
 theorem section_mem {A K ι κ : Type} [CommRing A] [Field K] (O : ValuationSubring K) (π : A →+* K) (σ : K → A) (ε : A)
     (I : Set A) (L : AddSubgroup (ι → A)) (h1 : ∀ a, π (σ a) = a) (h2 : ∀ x, σ (π x) = ε * x)

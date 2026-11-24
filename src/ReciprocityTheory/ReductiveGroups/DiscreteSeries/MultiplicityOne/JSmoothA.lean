@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.HpkMulVecMulVec
 public import ReciprocityTheory.ReductiveGroups.DiscreteSeries.MultiplicityOne.StDefs
 import Mathlib.Analysis.Normed.Algebra.MatrixExponential
 public import Mathlib.Geometry.Manifold.PartitionOfUnity
@@ -44,42 +45,10 @@ theorem hpk_mid {i : Fin (2 * r + k + 1)} (h : ¬(i.val < r ∨ r + k < i.val)) 
 theorem hpk_mulVec (v : Fin (2 * r + k + 1) → ℂ) (i : Fin (2 * r + k + 1)) :
     (Hpk k r *ᵥ v) i = if i.val < r ∨ r + k < i.val then v ⟨2 * r + k - i.val, by omega⟩
       else if i.val = r + k then -v i else v i := by
-  show ∑ j, Hpk k r i j * v j = _
-  have hi := i.isLt
-  by_cases h1 : i.val < r ∨ r + k < i.val
-  · rw [if_pos h1, Finset.sum_eq_single ⟨2 * r + k - i.val, by omega⟩]
-    · rw [hpk_out h1]; simp
-    · intro j _ hj
-      rw [hpk_out h1, if_neg, zero_mul]
-      intro hc; exact hj (Fin.ext hc)
-    · intro h; exact absurd (Finset.mem_univ _) h
-  · rw [if_neg h1, Finset.sum_eq_single i]
-    · rw [hpk_mid h1]
-      by_cases h2 : i.val = r + k
-      · simp [h2]
-      · simp [h2]
-    · intro j _ hj
-      rw [hpk_mid h1, if_neg, zero_mul]
-      intro hc; exact hj (Fin.ext hc)
-    · intro h; exact absurd (Finset.mem_univ _) h
+  apply ReciprocityTheory.ChartRestriction.DS.Mult1.TopH.hpk_mulVec <;> assumption
 
 theorem hpk_mulVec_mulVec (v : Fin (2 * r + k + 1) → ℂ) : Hpk k r *ᵥ (Hpk k r *ᵥ v) = v := by
-  funext i
-  have hi := i.isLt
-  rw [hpk_mulVec]
-  by_cases h1 : i.val < r ∨ r + k < i.val
-  · rw [if_pos h1, hpk_mulVec]
-    have h3 : 2 * r + k - i.val < r ∨ r + k < 2 * r + k - i.val := by omega
-    rw [if_pos (show ((⟨2 * r + k - i.val, by omega⟩ : Fin (2 * r + k + 1)).val < r ∨
-      r + k < (⟨2 * r + k - i.val, by omega⟩ : Fin (2 * r + k + 1)).val) from h3)]
-    congr 1
-    ext
-    show 2 * r + k - (2 * r + k - i.val) = i.val
-    omega
-  · rw [if_neg h1]
-    by_cases h2 : i.val = r + k
-    · rw [if_pos h2, hpk_mulVec, if_neg h1, if_pos h2, neg_neg]
-    · rw [if_neg h2, hpk_mulVec, if_neg h1, if_neg h2]
+  apply ReciprocityTheory.ChartRestriction.DS.Mult1.TopH.hpk_mulVec_mulVec <;> assumption
 
 theorem mat_eq_of_mulVec {A B : Mat k r} (h : ∀ v, A *ᵥ v = B *ᵥ v) : A = B := by
   first
@@ -125,18 +94,7 @@ theorem gv_mul {g h : Mat k r} (hg : g ∈ GV k r) (hh : h ∈ GV k r) : g * h �
     _ = Hpk k r := by rw [hg', hh']
 
 theorem gv_inv_mem {g : Mat k r} (hg : g ∈ GV k r) : g⁻¹ ∈ GV k r := by
-  have hH : ∀ X : Mat k r, Hpk k r * (Hpk k r * X) = X := fun X => by
-    rw [← Matrix.mul_assoc, hpk_sq, Matrix.one_mul]
-  have h1 : g * (Hpk k r * gᴴ * Hpk k r) = 1 := by
-    rw [← gv_inv_eq hg]; exact gv_mul_inv hg
-  have h2 : ∀ X : Mat k r, g * (Hpk k r * (gᴴ * X)) = Hpk k r * X := fun X => by
-    calc g * (Hpk k r * (gᴴ * X)) = g * (Hpk k r * gᴴ * Hpk k r) * (Hpk k r * X) := by
-          simp only [Matrix.mul_assoc, hH]
-      _ = Hpk k r * X := by rw [h1, Matrix.one_mul]
-  show (g⁻¹)ᴴ * Hpk k r * g⁻¹ = Hpk k r
-  rw [gv_inv_eq hg]
-  simp only [Matrix.conjTranspose_mul, Matrix.conjTranspose_conjTranspose, hpk_conjT,
-    Matrix.mul_assoc, hH, h2]
+  apply ReciprocityTheory.ChartRestriction.DS.Mult1.TopH.gv_inv_mem <;> assumption
 
 theorem gv_closed : IsClosed (GV k r) := by
   show IsClosed {g : Mat k r | gᴴ * Hpk k r * g = Hpk k r}

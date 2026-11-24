@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FSatakeA
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaA
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.FIwasawaE
 public import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.SphericalA
@@ -66,16 +67,7 @@ variable {L : Type} [Field L] [Valued L (WithZero (Multiplicative ℤ))]
 
 theorem fIwasawa_ordL_mul (x y : L) (hx : x ≠ 0) (hy : y ≠ 0) :
     ordL (x * y) = ordL x + ordL y := by
-  have hx' : Valued.v x ≠ 0 := (Valuation.ne_zero_iff _).mpr hx
-  have hy' : Valued.v y ≠ 0 := (Valuation.ne_zero_iff _).mpr hy
-  have hxy' : Valued.v (x * y) ≠ 0 := by rw [map_mul]; exact mul_ne_zero hx' hy'
-  unfold Formalism.UG.ordL
-  rw [dite_eq_right hxy', dite_eq_right hx', dite_eq_right hy']
-  have key : WithZero.unzero hxy' = WithZero.unzero hx' * WithZero.unzero hy' := by
-    apply WithZero.coe_injective
-    simp only [WithZero.coe_mul, WithZero.coe_unzero, map_mul]
-  rw [key, toAdd_mul]
-  ring
+  apply _root_.Formalism.UG.P.fSatake_ord_mul <;> assumption
 
 theorem fIwasawa_ordL_unit (x y : L) (hx : Valued.v x ≤ 1) (hy : Valued.v y ≤ 1)
     (hxy : y * x = 1) : ordL x = 0 := by

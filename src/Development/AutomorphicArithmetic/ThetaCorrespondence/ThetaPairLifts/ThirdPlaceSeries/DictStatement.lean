@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.IndexSumOfRank
 public import Formalism.LocalRingCardinality.RhoDetPrimeEqMuTildeMulChiPow
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.ExistsContinuousPadic
 public import Formalism.AlgebraicWeights.IsAlgWeight
@@ -1143,15 +1144,7 @@ open scoped TensorProduct
 namespace GlobalTheory.PlaceSupp
 
 theorem finPart_surjective (D : D7) : Function.Surjective (Formalism.L2.Theta.finPart D) := by
-  intro y
-  induction y using TensorProduct.induction_on with
-  | zero => exact ⟨0, map_zero _⟩
-  | tmul a x =>
-    exact ⟨((0, a) : Formalism.MainNotions.GlobalTheoryTheory.GenusMassVolumes.AF D.host.F) ⊗ₜ[D.host.F] x, rfl⟩
-  | add y z hy hz =>
-    obtain ⟨a, rfl⟩ := hy
-    obtain ⟨b, rfl⟩ := hz
-    exact ⟨a + b, (Formalism.L2.Theta.finPart D).map_add a b⟩
+  apply _root_.GlobalTheory.InertLatIndex.finPart_surjective <;> assumption
 
 theorem comp_idem : ∀ (D : D7) (sp : SplitPlace D.host.E) (hF : D.host.F = maximalRealSubfield D.host.E)
     (p : GlobalTheory.LocMod.Place D (sp.w.adicCompletion D.host.E))

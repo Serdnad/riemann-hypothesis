@@ -1466,10 +1466,7 @@ open GlobalTheory.IndefiniteRowSideFullHecke.SplitQuadraticRamification (IsBig I
 
 theorem ereal_coe_sum {α : Type} (s : Finset α) (g : α → ℝ) :
     ((∑ a ∈ s, g a : ℝ) : EReal) = ∑ a ∈ s, (g a : EReal) := by
-  classical
-  induction s using Finset.induction_on with
-  | empty => simp
-  | insert a s ha ih => rw [Finset.sum_insert ha, Finset.sum_insert ha, EReal.coe_add, ih]
+  apply _root_.GlobalTheory.RefSum.extendedReal_coe_finset_sum_of_real <;> assumption
 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.ExistsObjectsOfAdmissibleTwistDatum
 public import Formalism.SharpRestriction.GrowthBounds.IsResidueClassZero
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -241,23 +242,7 @@ theorem tau1_injective (φ : Formalism.HC.Frame) : Function.Injective φ.tau1 :=
   exact Multiplicative.ofAdd.injective (congrArg Prod.snd hst)
 
 theorem plGG_top_iff (z : Bool × G.HH D) : G.plGG D z ∈ D.host.topPlaces ↔ G.IsTopPl D z := by
-  obtain ⟨b, t⟩ := z
-  unfold G.IsTopPl Formalism.BasicNotions.Host.topPlaces
-  cases b with
-  | false =>
-    simp only [plGG_false, Finset.mem_image, true_and]
-    constructor
-    · rintro ⟨s, hs, hst⟩
-      rw [← tau1_injective D.R.toFrame hst]
-      exact hs
-    · intro h
-      exact ⟨t, h, rfl⟩
-  | true =>
-    simp only [plGG_true, Finset.mem_image, Bool.true_eq_false, false_and, iff_false, not_exists, not_and]
-    intro s _ hst
-    have h1 : ((1 : ℤˣ), (1 : ℤˣ)) = ((-1 : ℤˣ), (1 : ℤˣ)) := congrArg Prod.fst hst
-    have h2 : (1 : ℤˣ) = -1 := congrArg Prod.fst h1
-    exact absurd (congrArg Units.val h2) (by norm_num)
+  apply _root_.GlobalTheory.Refill.top_iff <;> assumption
 
 variable {D} (L : SizeData₂ D)
 
@@ -270,23 +255,7 @@ variable {D : D7} (L0 : SizeData₂ D) (X0 : G.Inst D L0) (K : G.Consts)
 
 theorem one_le_fill (hw : 1 ≤ L0.sc.w'' D.R.n) (j : ℕ) (z : Bool × G.HH D) :
     1 ≤ G.fill X0 (G.bL L0) j z := by
-  have hs := scale_w''_le L0.sc D.R.n (ranks_one_le_n D.R)
-  have hb' := scale_b'_nonneg L0.sc
-  unfold G.fill
-  by_cases htop : G.IsTopPl D z
-  · have ho := (X0.off_top j z htop).1
-    have hc : z.1 = false ∧ z.2 ∈ D.host.TT := htop
-    rw [if_pos hc]
-    have hbl : (0 : ℝ) ≤ (G.bL L0 z.2 : ℝ) := by
-      unfold G.bL
-      rw [dite_eq_left hc.2]
-      exact hb'.trans (L0.bT_ge _)
-    linarith [hs.1]
-  · have hc : ¬ (z.1 = false ∧ z.2 ∈ D.host.TT) := htop
-    rw [if_neg hc, zero_add]
-    by_cases hthick : G.IsThickPl D z
-    · linarith [(X0.off_thick j z hthick).1, hs.2]
-    · linarith [(X0.off_thin j z ⟨htop, hthick⟩).1]
+  apply _root_.GlobalTheory.Refill.one_le_fill <;> assumption
 
 theorem TTP_subset (a b : G.HH D → ℤ) (p : ℕ) : ∀ t ∈ G.TTP X0 K a b p, t ∈ D.host.TT := by
   intro t ht

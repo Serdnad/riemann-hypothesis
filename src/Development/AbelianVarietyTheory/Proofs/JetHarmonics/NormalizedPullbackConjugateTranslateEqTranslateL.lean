@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.RingsOfIntegers.NormalisedPullbackCommutesSymmetricTranslations
 public import Development.AbelianVarietyTheory.Definitions.Jets.ExistsSecTieFOfTies
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsUniqueIsTwistPull
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.IsLocallyNoetherian
@@ -154,56 +155,8 @@ theorem exists_symLift_pull {L : LB A.left} (hL : L.IsLB) [IsCommMonObj A] (φ :
         val β (r ≫ (snd T A).left) z J *
           val (L := L) (φ := ![(snd T A).left, (translPt A U.pt).left]) (ε := ![b, -b]) U.φ
             (r ≫ (endOver A T φ).left) z J * (val β (r ≫ (translPt A t).left) z J)⁻¹ := by
-  obtain ⟨x, u, gu⟩ := U
-  obtain ⟨hx, hp, ν, gν, hs⟩ := hU
-  obtain rfl : x = t ≫ φ := hx
-  have c₁ : ∀ y : T ⟶ A, endOver A T φ ≫ translPt A (y ≫ φ) = translPt A y ≫ φ := fun y => by
-    rw [translPt_eq, translPt_eq, MonObj.comp_mul, MonObj.mul_comp, lift_fst_assoc, lift_snd, Category.assoc]
-  have c₂ : ∀ y : T ⟶ A, translT A y ≫ endOver A T φ = endOver A T φ ≫ translT A (y ≫ φ) := fun y => by
-    apply CartesianMonoidalCategory.hom_ext
-    · simp [translT]
-    · simp only [translT, Category.assoc, lift_snd, lift_snd_assoc, c₁]
-  have c₃ : endOver A T φ ≫ (snd T A ≫ (GrpObj.inv : A ⟶ A)) = (snd T A ≫ (GrpObj.inv : A ⟶ A)) ≫ φ := by
-    rw [lift_snd_assoc]
-    exact (GrpObj.inv_comp (snd T A) φ).symm
-  have c₄ : negT A T ≫ endOver A T φ = endOver A T φ ≫ negT A T := by
-    apply CartesianMonoidalCategory.hom_ext
-    · simp [negT]
-    · simp only [negT, Category.assoc, lift_snd, lift_snd_assoc]
-      simpa only [Category.assoc, lift_snd_assoc] using c₃.symm
-  have c₅ : ∀ y y' : T ⟶ A, translT A y ≫ translPt A y' = translPt A (y * y') := fun y y' => by
-    rw [translT, translPt_eq, translPt_eq, translPt_eq, MonObj.comp_mul, lift_fst_assoc, lift_snd, MonObj.comp_mul,
-      ← _root_.mul_assoc, mul_comm (fst T A ≫ y')]
-  have c₆ : ∀ y : T ⟶ A, translT A y ≫ snd T A = translPt A y := fun y => lift_snd _ _
-  have c₇ : translPt A (1 : T ⟶ A) = snd T A := by rw [translPt_eq, MonObj.comp_one, _root_.one_mul]
-  have c₈ : negT A T ≫ translPt A t = translT A t⁻¹ ≫ snd T A ≫ (GrpObj.inv : A ⟶ A) := by
-    rw [← Category.assoc, c₆, translPt_eq, translPt_eq, negT, MonObj.comp_mul, lift_fst_assoc, lift_snd]
-    show _ * (snd T A)⁻¹ = (_ * snd T A)⁻¹
-    rw [mul_inv, GrpObj.comp_inv, inv_inv]
-  have c₉ : negT A T ≫ snd T A = snd T A ≫ (GrpObj.inv : A ⟶ A) := lift_snd _ _
-  obtain ⟨u', g, hv⟩ := exists_conj hL φ β hβ (translPt A t) (translPt A (t ≫ φ)) (c₁ t) u gu
-  obtain ⟨ν', gν', hν⟩ := exists_conj hL φ β hβ (snd T A ≫ (GrpObj.inv : A ⟶ A)) (snd T A ≫ (GrpObj.inv : A ⟶ A)) c₃ ν gν
-  refine ⟨u', g, ⟨rfl, corr_of_val hL fun z J hJ => ?_, ν', gν', corr_of_val hL fun z J hJ => ?_⟩, hv⟩
-  · have e := (val_thetaPow _ n (endOver A T φ).left z hJ).symm.trans ((val_corr hJ hp _).trans (val_one _))
-    rw [val_one, val_thetaPow _ _ _ _ hJ]
-    let B : ℕ → _ := fun i => val β (translPt A (t ^ i)).left z J
-    let f : ℕ → _ := fun i => val u ((endOver A T φ).left ≫ (translT A ((t ≫ φ) ^ i)).left) z J
-    have k : ∀ i, val u' (𝟙 _ ≫ (translT A (t ^ i)).left) z J = f i * (B i / B (i + 1)) := fun i => by
-      rw [hv _ _ z J hJ, Category.id_comp, ← Over.comp_left, ← Over.comp_left, ← Over.comp_left, c₂, c₅, c₆,
-        ← pow_succ, MonObj.pow_comp, Over.comp_left, div_eq_mul_inv, mul_comm (val β _ z J), _root_.mul_assoc]
-    refine (Finset.prod_congr rfl fun i _ => k i).trans ?_
-    rw [Finset.prod_mul_distrib, Finset.prod_range_div', prod_range_periodic f n (fun i => ?_) e m, _root_.one_mul,
-      div_eq_one]
-    · simp only [B, ht, pow_zero]
-    · simp only [f, pow_add, hn, _root_.one_mul]
-  · have e := (val_thetaSym _ ν (endOver A T φ).left z hJ).symm.trans ((val_corr hJ hs _).trans (val_one _))
-    refine (val_thetaSym (⟨t, u', g⟩ : ThetaGrp A L a T) ν' _ z hJ).trans (Eq.trans ?_ (e.trans (val_one _).symm))
-    dsimp only
-    rw [hv _ _ z J hJ, hv _ _ z J hJ, hν _ _ z J hJ, hν _ _ z J hJ]
-    simp only [Category.id_comp, ← Over.comp_left, c₂, c₄, c₅, c₆, c₈, c₉, inv_mul_cancel, c₇, GrpObj.inv_comp]
-    apply Additive.ofMul.injective
-    simp only [ofMul_mul, ofMul_inv]
-    abel
+  intros
+  apply _root_.GlobalTheory.PullMove.exists_symLift_conj <;> assumption
 
 theorem isVtOver_of_isNormPull [IsCommMonObj A] (L : RigLB A) (φ ψ : A ⟶ A) [IsMonHom ψ] (N : ℕ)
     (hN : ψ ≫ φ = 𝟙 A ^ N) {T : Over S} (ok : (T ⟶ A) → Prop) (t : T ⟶ A) (ho : ok t) (ht : t ^ (N * N) = 1)

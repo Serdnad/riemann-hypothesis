@@ -45,6 +45,8 @@ public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeo
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.BirationalGeometry.ToroidalCompactification.Splits
 public import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.DiscreteValuationRings.ProdIso
 import Development.AbelianVarietyTheory.Definitions.ModuliSpaces.GoodClass
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.HomFixedPullbackRepresentableGlue
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsHeckeTranslateHarrisTaylorPullbackBase
 
 @[expose] public section
 
@@ -87,18 +89,7 @@ private theorem lbIso_of_chart_le_of_gm_transition_eq {Y : Scheme.{0}} {A' B : L
 
 theorem iso_pull_pull {X Y Z : Scheme.{0}} {L : LB X} (hL : L.IsLB) (a : Y ⟶ X) (d : Z ⟶ Y) :
     LBIso ((L.pull a).pull d) (L.pull (d ≫ a)) := by
-  have base : LBIso (L.pull (d ≫ a)) (L.pull (d ≫ a)) :=
-    exists_iso_linComb hL (fun _ : PUnit => d ≫ a) (fun _ => 1) (fun _ _ _ => rfl)
-  have le : ∀ K : ((L.pull a).pull d).ι, ((L.pull a).pull d).U K ≤ (L.pull (d ≫ a)).U (fun _ => K ⟨⟩ ⟨⟩) :=
-    fun K y hy => by
-      have h1 : d y ∈ (L.pull a).U (K ⟨⟩) := mem_pull.1 hy
-      have h2 : a (d y) ∈ L.U (K ⟨⟩ ⟨⟩) := mem_pull.1 h1
-      exact mem_pull.2 h2
-  refine lbIso_of_chart_le_of_gm_transition_eq base (fun K _ => K ⟨⟩ ⟨⟩) le ?_
-  intro y K K' hK hK'
-  rw [gm_pull_g (L.pull a) d (𝟙 Z) y K K' hK hK', gm_pull_g L (d ≫ a) (𝟙 Z) y _ _ (le K hK) (le K' hK')]
-  simp only [Category.id_comp]
-  rw [gm_pull_g L a d y (K ⟨⟩) (K' ⟨⟩) (mem_pull.1 hK) (mem_pull.1 hK')]
+  apply _root_.GlobalTheory.EndLoc.HomGlue.lbIso_pullPull <;> assumption
 
 theorem iso_pull_id {X : Scheme.{0}} {L : LB X} (hL : L.IsLB) : LBIso L (L.pull (𝟙 X)) := by
   have base : LBIso (L.pull (𝟙 X)) (L.pull (𝟙 X)) :=
@@ -136,18 +127,6 @@ theorem pb_comp {c : SiegPre h k ζ s} {c' : SiegPre h k ζ' s'} {c'' : SiegPre 
         (iso_pull ψ₂ hl) (iso_pull_pull c.isLB φ₂ ψ₂))
   · rw [← Category.assoc, hlev' a, Category.assoc, hlev a, ← Category.assoc]
 
-private theorem hom_ext_tensor_left_of_fst_snd_eq {T : Scheme.{0}} {A : Over T} {X : Scheme.{0}} {a b : X ⟶ (A ⊗ A).left}
-    (h₁ : a ≫ (fst A A).left = b ≫ (fst A A).left) (h₂ : a ≫ (snd A A).left = b ≫ (snd A A).left) : a = b := by
-  have hw : b ≫ (A ⊗ A).hom = a ≫ (A ⊗ A).hom := by
-    rw [← Over.w (fst A A), ← Category.assoc, ← Category.assoc, h₁]
-  have key : (Over.homMk a rfl : Over.mk (a ≫ (A ⊗ A).hom) ⟶ A ⊗ A) = Over.homMk b hw := by
-    apply CartesianMonoidalCategory.hom_ext
-    · ext
-      simpa only [Over.comp_left, Over.homMk_left] using h₁
-    · ext
-      simpa only [Over.comp_left, Over.homMk_left] using h₂
-  exact congrArg CommaMorphism.left key
-
 theorem pb_cancel {c : SiegPre h k ζ s} {c' : SiegPre h k ζ' s'} {c'' : SiegPre h k ζ'' s''} {f : S' ⟶ S}
     {f' : S'' ⟶ S'} (m : SiegPB c' c f) (n : SiegPB c'' c (f' ≫ f)) : SiegPB c'' c' f' := by
   unfold SiegPB at m n ⊢
@@ -172,7 +151,7 @@ theorem pb_cancel {c : SiegPre h k ζ s} {c' : SiegPre h k ζ' s'} {c'' : SiegPr
     · rw [← Over.comp_left, lift_snd]
       rfl
   have e : χ₂ ≫ φ₂ = ψ₂ := by
-    apply hom_ext_tensor_left_of_fst_snd_eq
+    apply _root_.GlobalTheory.UPel.HT.Hecke.PullHecke.grpScheme_square_hom_ext
     · rw [Category.assoc, hs1, ← Category.assoc, hq1, Category.assoc, hχ1, ht1]
     · rw [Category.assoc, hs2, ← Category.assoc, hq2, Category.assoc, hχ1, ht2]
   refine ⟨χ, χ₂, hgc, ⟨hq1, hq2⟩, ?_, fun a => ?_⟩

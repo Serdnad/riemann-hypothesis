@@ -50,6 +50,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
 import Mathlib.Topology.Sheaves.Init
+import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.EqOfPowEqOneOfNormSubLt
 
 @[expose] public section
 
@@ -407,41 +408,7 @@ theorem tilt_pow {c : Om l} {m : ℕ} {xb : OCb l} (h : IsTiltOf c m xb) (j : �
 
 theorem eq_of_norm_sub_lt {a b : Om l} {m : ℕ} (hm : 0 < m) (hl : ¬ l ∣ m) (ha : a ^ m = 1)
     (hb : b ^ m = 1) (h : ‖a - b‖ < 1) : a = b := by
-  have hn : ∀ x : Om l, x ^ m = 1 → ‖x‖ = 1 := fun x hx => by
-    have := congrArg norm hx
-    rw [norm_pow, norm_one] at this
-    exact (pow_eq_one_iff_of_nonneg (norm_nonneg _) hm.ne').1 this
-  have hb0 : b ≠ 0 := fun h0 => by simpa [h0] using hn b hb
-  by_contra hne
-  set z := a / b with hz
-  have hz1 : z ^ m = 1 := by rw [hz, div_pow, ha, hb, div_one]
-  have hz2 : ‖z - 1‖ < 1 := by
-    rw [hz, div_sub_one hb0, norm_div, hn b hb, div_one]; exact h
-  have hz3 : z - 1 ≠ 0 := fun h0 => hne ((div_eq_one_iff_eq hb0).1 (sub_eq_zero.1 h0))
-  have hs : ∑ i ∈ Finset.range m, z ^ i = 0 := by
-    have := geom_sum_mul z m
-    rw [hz1, sub_self] at this
-    exact (mul_eq_zero.1 this).resolve_right hz3
-  have hp : ∀ i : ℕ, ‖z ^ i - 1‖ < 1 := by
-    intro i
-    induction i with
-    | zero => simp
-    | succ i ih =>
-      rw [show z ^ (i + 1) - 1 = z * (z ^ i - 1) + (z - 1) by ring]
-      refine lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max _ _) (max_lt ?_ hz2)
-      rw [norm_mul, hn z hz1, one_mul]; exact ih
-  have hq : ∀ k : ℕ, ‖∑ i ∈ Finset.range k, z ^ i - k‖ < 1 := by
-    intro k
-    induction k with
-    | zero => simp
-    | succ k ih =>
-      rw [Finset.sum_range_succ, show ∑ i ∈ Finset.range k, z ^ i + z ^ k - ((k + 1 : ℕ) : Om l) =
-        (∑ i ∈ Finset.range k, z ^ i - k) + (z ^ k - 1) by push_cast; ring]
-      exact lt_of_le_of_lt (IsUltrametricDist.norm_add_le_max _ _) (max_lt ih (hp k))
-  have h1 := hq m
-  rw [hs, zero_sub, norm_neg, ← map_natCast (algebraMap ℚ_[l] (Om l)), norm_algebraMap',
-    Padic.norm_natCast_lt_one_iff] at h1
-  exact hl h1
+  apply _root_.GlobalTheory.Pst.eq_of_pow_eq_one_of_norm_sub_lt <;> assumption
 
 theorem sigma_root (K : FinExt l) (c : ↥(K0 K)) (m : ℕ) (hm : 0 < m) (hl : ¬ l ∣ m)
     (hc : (c : Om l) ^ m = 1) : (P.PD K).σ c = c ^ l := by

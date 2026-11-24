@@ -74,6 +74,16 @@ def RecChars : Prop :=
     ∀ rc : IrrGL (k := u.adicCompletion M) → WD h, UpperTheory.Zero.LLC.IsRecT h rc → ∀ a, IsLocalArtin h a → ∀ t : Ine (F := M) A,
       (rc (algNorm T)).charPol (ineIncl h t) = ∏ j, (X - C ((ξ j (a (ineIncl h t)) : ℂˣ) : ℂ))
 
+/-- Character comparison using an Artin map from the chosen local parameter. -/
+def RecCharsWithArtin : Prop :=
+  ∀ (M Ω : Type) [Field M] [NumberField M] [Field Ω] [Algebra M Ω] [IsAlgClosure M Ω] (A : ValuationSubring Ω)
+    (u : HeightOneSpectrum (𝓞 M)) (h : IsPlaceOver A u) (n : ℕ) (T : SmIrr (GL (Fin n) (u.adicCompletion M)))
+    (ξ : Fin n → ((u.adicCompletion M)ˣ →* ℂˣ)) (hξ : ∀ j, IsSmoothChar (ξ j)), HasSupport T.ρ (chars ξ hξ) →
+    (GlobalTheory.RoadU.Unlinked (chars ξ hξ) → PlainTor (algNorm T)) ∧
+    ∀ rc : IrrGL (k := u.adicCompletion M) → WD h, UpperTheory.Zero.LLC.IsRecT h rc →
+      ∃ a, IsLocalArtin h a ∧ ∀ t : Ine (F := M) A,
+      (rc (algNorm T)).charPol (ineIncl h t) = ∏ j, (X - C ((ξ j (a (ineIncl h t)) : ℂˣ) : ℂ))
+
 def ToTor : Prop :=
   ∀ (E Ω : Type) [Field E] [NumberField E] [IsCMField E] [Field Ω] [Algebra E Ω] [IsAlgClosure E Ω]
     (l : ℕ) [Fact l.Prime] (ι : Qbar l ≃+* ℂ) (n : ℕ), 1 ≤ n → ∀ (π : CuspSub E n) (χ : HChar (maximalRealSubfield E)),

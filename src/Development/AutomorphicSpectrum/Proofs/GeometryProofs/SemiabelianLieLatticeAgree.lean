@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicSpectrum.Proofs.GeometryProofs.NatCastSmulMemHtLat
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.IsCptGen
 public import Mathlib.AlgebraicGeometry.Noetherian
 public import Mathlib.RingTheory.DiscreteValuationRing.Basic
@@ -451,15 +452,7 @@ namespace GlobalTheory.CompanionTheory.Ar.DvrExtension
 variable {X : Scheme.{0}} {Ω : Type} [Field Ω] {ξ : Sp Ω ⟶ X}
 
 theorem spMap_genMap_comp (p : Cpt ξ) : spMap (genMap ξ p) ≫ X.fromSpecStalk p.1 = ξ := by
-  have h : spMap (genMap ξ p) =
-      Spec.map (Scheme.stalkClosedPointTo ξ) ≫ Spec.map (X.presheaf.stalkSpecializes p.2) := by
-    rw [← Spec.map_comp]
-    rfl
-  have h₁ : Spec.map (X.presheaf.stalkSpecializes p.2) ≫ X.fromSpecStalk p.1 = X.fromSpecStalk (genPt ξ) :=
-    Scheme.SpecMap_stalkSpecializes_fromSpecStalk p.2
-  rw [h, Category.assoc]
-  exact (congrArg (Spec.map (Scheme.stalkClosedPointTo ξ) ≫ ·) h₁).trans
-    (Scheme.Spec_stalkClosedPointTo_fromSpecStalk ξ)
+  apply _root_.GlobalTheory.CompanionTheory.Ar.HTTie.hk_stalk <;> assumption
 
 theorem isFractionRing_genMap (h : IsCptGen ξ) (p : Cpt ξ) :
     letI := (genMap ξ p).toAlgebra

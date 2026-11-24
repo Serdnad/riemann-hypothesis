@@ -4,6 +4,7 @@ public import Formalism.LocalToGlobal.Columns.TiedCls
 public import Formalism.LocalToGlobal.HermitianForms.RankEqFirstLevel
 import Formalism.LocalToGlobal.Columns.BaseLemmas
 public import Formalism.LocalToGlobal.HermitianForms.BothLemmas
+import Formalism.LocalToGlobal.Columns.RecLevelLocP
 
 @[expose] public section
 
@@ -61,27 +62,7 @@ def LocalLevelIsKOneAtT : Prop :=
 include hc hPr in
 theorem th_plUnder_vGs (v : HeightOneSpectrum (𝓞 X.F)) :
     v ∈ plUnder X.F Pr.vGs ↔ ((Pr.g 0 : 𝓞 X.F) ∈ v.asIdeal ∨ (Pr.g 1 : 𝓞 X.F) ∈ v.asIdeal) := by
-  classical
-  have key : ∀ (i : Fin 2), v ∈ plUnder X.F (Pr.vG i) ↔ (Pr.g i : 𝓞 X.F) ∈ v.asIdeal := by
-    intro i
-    have h0 : X.conjO (Pr.piG i) ≠ 0 := by
-      intro h
-      have h1 := hPr.piG_norm i
-      rw [h, mul_zero] at h1
-      exact (Nat.cast_ne_zero.2 (hPr.g_prime i).ne_zero) h1.symm
-    refine mem_plUnder_iff_norm hc (fun P => mem_divs h0 P) (Pr.g i) ?_ v
-    have h2 : cO X.E (X.conjO (Pr.piG i)) = Pr.piG i := cO_cO _
-    rw [h2, mul_comm]
-    exact hPr.piG_norm i
-  rw [← key 0, ← key 1]
-  constructor
-  · rintro ⟨P, hP, h⟩
-    rcases Finset.mem_union.1 hP with h' | h'
-    · exact Or.inl ⟨P, h', h⟩
-    · exact Or.inr ⟨P, h', h⟩
-  · rintro (⟨P, hP, h⟩ | ⟨P, hP, h⟩)
-    · exact ⟨P, Finset.mem_union_left _ hP, h⟩
-    · exact ⟨P, Finset.mem_union_right _ hP, h⟩
+  apply _root_.Formalism.L2.Col.plUnder_vGs <;> assumption
 
 variable (c₀ : DiaG (E := X.E) (ST := Pr.vT u)) (s : DecoCl n (Pr.vT u) Pr.vGs Λ.grp → DecoSet (E := X.E) (n := n) (ST := Pr.vT u) (SG := Pr.vGs))
 

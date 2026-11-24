@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.SatakeParameters.InertAtLeCongN
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.TiedColumnData
 public import Formalism.SharpRestriction.GrowthBounds.TwistedLevelAgreement.StepInTwK
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.ExistsChainChartLocalUnitCharacterCompatibleLeve
@@ -114,18 +115,7 @@ namespace GlobalTheory
 theorem natCast_inv_mem_adicCompletionIntegers {F : Type} [Field F] [NumberField F]
     (v : HeightOneSpectrum (𝓞 F)) (T : ℕ) (hT : (T : 𝓞 F) ∉ v.asIdeal) :
     ((T : v.adicCompletion F) ≠ 0) ∧ (T : v.adicCompletion F)⁻¹ ∈ v.adicCompletionIntegers F := by
-  have h1 : Valued.v (((T : 𝓞 F) : F) : v.adicCompletion F) = 1 := by
-    rw [HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
-    exact (HeightOneSpectrum.valuation_eq_one_iff_notMem (K := F) (v := v)).2 hT
-  have h2 : (((T : 𝓞 F) : F) : v.adicCompletion F) = (T : v.adicCompletion F) := by
-    have : ((T : 𝓞 F) : F) = (T : F) := by push_cast; rfl
-    rw [this]
-    exact map_natCast (algebraMap F (v.adicCompletion F)) T
-  rw [h2] at h1
-  have hne : (T : v.adicCompletion F) ≠ 0 := by
-    intro h; rw [h, map_zero] at h1; exact zero_ne_one h1
-  refine ⟨hne, ?_⟩
-  rw [HeightOneSpectrum.mem_adicCompletionIntegers, map_inv₀, h1, inv_one]
+  first | exact _root_.GlobalTheory.OpenChrRam.inv_natCast_mem | exact @_root_.GlobalTheory.OpenChrRam.inv_natCast_mem | apply _root_.GlobalTheory.OpenChrRam.inv_natCast_mem <;> assumption
 
 theorem locL_eq_intV_of_dvd_unit {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [StarRing E]
     [Algebra F E] (v : HeightOneSpectrum (𝓞 F)) {n : ℕ} (Λ : Submodule (𝓞 E) (Fin n → E)) (P : Fin n → Prop)

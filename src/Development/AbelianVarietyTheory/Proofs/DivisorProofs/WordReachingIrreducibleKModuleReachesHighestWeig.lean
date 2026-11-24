@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FlagMeasures.KTypeGeneratedByHighest
 public import Formalism.RealPlaceAnalysis.StatementA
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.DiscreteSeriesCharacters.CapelliDeterminantBlockProduct
 public import CompanionTheory.HarishChandraModules.LowKTypeMultiplicity.EigenspaceCyclicDensity.LowKMultOneP
@@ -140,26 +141,7 @@ theorem step {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) (ν : Fin n → ℝ) (v : V)
     (hv : IsWeight E ν v) (a b : Fin n) :
     IsWeight E (ν + root a b) (E a b v) := by
-  intro c
-  have h := hE c c a b
-  have h2 : E c c (E a b v) = E a b (E c c v) +
-      ((if c = a then E c b else 0) - (if b = c then E a c else 0)) v := by
-    rw [← h]; simp
-  rw [h2, hv c, map_smul]
-  simp only [root, Pi.add_apply, Pi.sub_apply, Pi.single_apply]
-  by_cases hca : c = a <;> by_cases hbc : b = c
-  · subst hca; subst hbc; simp
-  · subst hca
-    have : ¬ c = b := fun h => hbc h.symm
-    simp [this, hbc]
-    rw [add_smul, one_smul]
-    rfl
-  · subst hbc
-    simp [hca]
-    rw [add_smul, neg_smul, one_smul]
-    rfl
-  · have : ¬ c = b := fun h => hbc h.symm
-    simp [hca, this, hbc]
+  apply _root_.GlobalTheory.KTypeHighest.isWeight_root <;> assumption
 
 theorem word {n : ℕ} {V : Type} [AddCommGroup V] [Module ℂ V]
     (E : Fin n → Fin n → Module.End ℂ V) (hE : GlRel E) :

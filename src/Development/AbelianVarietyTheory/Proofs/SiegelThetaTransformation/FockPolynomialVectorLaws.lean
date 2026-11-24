@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.EqZeroOfPderivStable
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsWeakOfDatum
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.HeisenbergDerivativeThetaFunctionLaws
 public import Development.AbelianVarietyTheory.Proofs.SiegelThetaTransformation.RealPeriodMapHomeomorphRiemannFormDensity
@@ -111,15 +112,7 @@ theorem pure_X_mul (hadd : ∀ f f', P f → P f' → P (f + f')) (hsm : ∀ (a 
     (Asm : ∀ i (a : ℂ) f, P f → A i (a • f) = a • A i f)
     {f : X → ℂ} (hf : P f) (Q : MvPolynomial ι ℂ) (v : ι) :
     pureTensorL A f (MvPolynomial.X v * Q) = A v (pureTensorL A f Q) := by
-  induction Q using MvPolynomial.induction_on' with
-  | monomial k c =>
-    have hk : P (opPow A k f) := foldr_mem hA hf _
-    show pureTensorL A f (MvPolynomial.monomial (Finsupp.single v 1) 1 * MvPolynomial.monomial k c) = _
-    rw [MvPolynomial.monomial_mul, one_mul, pure_monomial, pure_monomial,
-      opPow_single_add hA hc hf, Asm v c _ hk]
-  | add p q hp hq =>
-    rw [mul_add, map_add (f := _), map_add (f := _), hp, hq,
-      Aadd v _ _ (pure_mem hadd hsm hA hf p) (pure_mem hadd hsm hA hf q)]
+  apply _root_.GlobalTheory.FockIndep.pure_X_mul <;> assumption
 
 private theorem foldr_apply_add (hA : ∀ i f, P f → P (A i f))
     (Aadd : ∀ i f f', P f → P f' → A i (f + f') = A i f + A i f')

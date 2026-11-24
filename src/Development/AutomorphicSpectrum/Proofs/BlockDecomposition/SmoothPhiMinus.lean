@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.IntegralCasts.IsOpenStabOfMemNhds
 public import Mathlib.Basic.Complex.Basic
 public import Mathlib.RepresentationTheory.Basic
 public import Mathlib.Topology.Algebra.Group.Defs
@@ -46,6 +47,7 @@ import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Topology.Sheaves.Init
 import Mathlib.Tactic.Linter.Style
 import Mathlib.Topology.Algebra.Group.Units
+import Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPsiMinus
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.IsSmoothTwAct, Development.AutomorphicSpectrum.Proofs.BlockDecomposition.SmoothPhiMinus
@@ -196,15 +198,8 @@ noncomputable def UpperTheory.Reformulated.B.Gwa2.twAct :
 private theorem UpperTheory.Reformulated.B.Gwa2.isOpen_fixer {M W : Type} [Group M] [AddCommGroup W] [_root_.Module ℂ W]
     [TopologicalSpace M] [IsTopologicalGroup M] (τ : Representation ℂ M W) (x : W)
     (h : {m : M | τ m x = x} ∈ nhds (1 : M)) : IsOpen {m : M | τ m x = x} := by
-  let H : Subgroup M :=
-    { carrier := {m : M | τ m x = x}
-      one_mem' := by simp
-      mul_mem' := fun {a b} (ha : τ a x = x) (hb : τ b x = x) ↦ show τ (a * b) x = x by
-        rw [map_mul, Module.End.mul_apply, hb, ha]
-      inv_mem' := fun {a} (ha : τ a x = x) ↦ show τ a⁻¹ x = x by
-        conv_lhs => rw [← ha]
-        rw [← Module.End.mul_apply, ← map_mul, inv_mul_cancel, map_one, Module.End.one_apply] }
-  exact H.isOpen_of_mem_nhds h
+  intros
+  apply _root_.UpperTheory.Reformulated.B.IsOpenStabilizer.isOpen_stab_of_mem_nhds <;> assumption
 
 theorem UpperTheory.Reformulated.B.Gwa2.isSmooth_twAct :
     ∀ {G M V : Type} [inst : Group G] [inst_1 : Group M] [inst_2 : AddCommGroup V] [inst_3 : _root_.Module ℂ V]
@@ -252,18 +247,7 @@ end General
 variable {k : Type} [Field k] [ValuativeRel k] [TopologicalSpace k] [IsNonarchimedeanLocalField k]
 
 theorem continuous_glEmbHom (n : ℕ) : Continuous (glEmbHom k n) := by
-  refine continuous_matrix fun i j => ?_
-  show Continuous fun A : Matrix (Fin n) (Fin n) k => glEmbMat k n A i j
-  induction i using Fin.lastCases with
-  | last =>
-    induction j using Fin.lastCases with
-    | last => simpa [glEmbMat] using continuous_const
-    | cast j => simpa [glEmbMat] using continuous_const
-  | cast i =>
-    induction j using Fin.lastCases with
-    | last => simpa [glEmbMat] using continuous_const
-    | cast j =>
-      simpa [glEmbMat] using (continuous_id.matrix_elem i j)
+  apply _root_.GlobalTheory.CompanionTheory.BZMirFun.continuous_glEmbHom <;> assumption
 
 theorem continuous_glEmb (n : ℕ) : Continuous (glEmb k n) :=
   Continuous.units_map _ (continuous_glEmbHom n)

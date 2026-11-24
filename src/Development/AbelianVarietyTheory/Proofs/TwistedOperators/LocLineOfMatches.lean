@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ExtremalVectorMatrixCoeffHolomorphicType
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.EqMulProdOfPartial
 public import Development.AbelianVarietyTheory.Proofs.TwistedOperators.ExistsLinearMapTensorOfPairing
 public import Formalism.LocalRingCardinality.DataTheta
@@ -239,16 +240,7 @@ private theorem hasDerivAt_exp_smul_of_smoothVec {n : ℕ} {H : Type} [NormedAdd
     {Lie : Set (Matrix (Fin n) (Fin n) ℂ)} {σ : Matrix (Fin n) (Fin n) ℂ → (H →L[ℂ] H)} {w : H}
     (hw : SmoothVec Lie σ w) {X : Matrix (Fin n) (Fin n) ℂ} (hX : X ∈ Lie) :
     HasDerivAt (fun t : ℝ => σ (NormedSpace.exp (t • X)) w) (dRep σ X w) 0 := by
-  have h1 := hw 1 (fun _ => X) (fun _ => hX)
-  have hc : ContDiff ℝ 1 (fun t : ℝ => (fun _ : Fin 1 => t)) := contDiff_pi.2 (fun _ => contDiff_id)
-  have h2 := (h1.of_le (by first | simp)).comp hc
-  have h3 := ((h2.differentiable one_ne_zero) 0).hasDerivAt
-  have e : ((fun t : Fin 1 → ℝ => σ (List.ofFn fun i => NormedSpace.exp (t i • X)).prod w) ∘
-      fun t : ℝ => (fun _ : Fin 1 => t)) = fun t : ℝ => σ (NormedSpace.exp (t • X)) w := by
-    funext t
-    simp [List.ofFn_succ]
-  rw [e] at h3
-  exact h3
+  apply _root_.GlobalTheory.HolDict.CoefExt.hasDerivAt_of_smooth <;> assumption
 
 private theorem barMat_map_conj_eq_reindex {p q n : ℕ} (e : Ix p q ≃ Fin n) (Z : Mat p q) :
     (barMat e Z).map (starRingEnd ℂ) = Matrix.reindex e e Z := by

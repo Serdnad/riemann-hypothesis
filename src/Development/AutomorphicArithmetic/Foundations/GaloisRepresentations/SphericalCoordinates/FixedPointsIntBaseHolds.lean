@@ -477,13 +477,6 @@ theorem UpperTheory.Gal.W2.coordMove_of :
   intro p _ D G L v t₀ ρ B PD RD N D' t P D'' t'' P'' w hw hP j j'' hj a ha
   obtain ⟨hiso, hmark⟩ := hw
   obtain ⟨⟨hinj, hact, hsurj, s, hs, hform⟩, ⟨hA1, hA2⟩, hloc, Q, hQ, hQj, hrel⟩ := ha
-  have key : ∀ w0 : VQ D, (∃ u : D'.La, w0 = j u) ↔ ∃ u : D''.La, w0 = j'' u := by
-    intro w0
-    constructor
-    · rintro ⟨u, rfl⟩
-      exact ⟨w.symm u, by rw [hj, LinearEquiv.apply_symm_apply]⟩
-    · rintro ⟨u, rfl⟩
-      exact ⟨w u, hj u⟩
   refine ⟨⟨?_, ?_, ?_, s, hs, ?_⟩, ⟨?_, ?_⟩, ?_, Q, hQ, ?_, hrel⟩
   · intro u u' huu
     rw [hj, hj] at huu
@@ -1135,11 +1128,7 @@ private theorem congOne_of_dvd {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGro
 private theorem coordA_of_dvd {p : ℕ} [Fact p.Prime] {D : Datum p} {G : HTGroup p} (L : Link D G)
     {x : (AfP p ⊗[ℚ] G.C)ˣ} {N N' : ℕ} (hd : N ∣ N') {D' : PLat D.O D.inv} {t : D.La → D'.La}
     {j : D'.La →+ VQ D} {h₁ : G.GAf} (h : IsCoordA L x N' D' t j h₁) : IsCoordA L x N D' t j h₁ := by
-  obtain ⟨k, rfl⟩ := hd
-  obtain ⟨h1, h2⟩ := h
-  refine ⟨h1, fun a => ?_⟩
-  obtain ⟨w, hw, e⟩ := h2 a
-  exact ⟨k • w, (LaHat D).nsmul_mem hw k, by rw [e, smul_smul]⟩
+  apply _root_.isCoordA_of_dvd <;> assumption
 
 theorem UpperTheory.Gal.W2.oneAt_of :
     UpperTheory.Gal.W2.HeckeCoord → UpperTheory.Gal.W2.LatIso → UpperTheory.Gal.W2.OneAt := by

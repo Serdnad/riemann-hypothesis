@@ -1,5 +1,7 @@
 module
 
+import Formalism.LocalToGlobal.IndefiniteReal.BridgeLemmas
+import Development.AbelianVarietyTheory.Proofs.InertiaEigenvalues.DownwardThetaLiftPreservesGood
 public import Formalism.LocalToGlobal.IndefiniteReal.LinksChar
 import Mathlib.Algebra.Order.Floor.Extended
 import Mathlib.Algebra.Order.Floor.Semifield
@@ -64,26 +66,8 @@ theorem card_stab (γ : Γ) (y : G) (k : J) :
   rw [e, J.mul_mem_cancel_right k.2, J.mul_mem_cancel_left (J.inv_mem k.2)]
 
 theorem adInnerIndep : Bridge.AdInnerIndep ι ρ J χ := by
-  intro hρ hχ I I' _ _ y y' hy hy' F hF F' hF'
-  choose σ hσ using fun i => (hy' (y i)).exists
-  have hinj : Function.Injective σ := by
-    intro i j hij
-    obtain ⟨γ, k, h1⟩ := hσ i
-    obtain ⟨γ', k', h2⟩ := hσ j
-    refine (hy (y i)).unique ⟨1, 1, by simp⟩ ⟨γ * γ'⁻¹, k'⁻¹ * k, ?_⟩
-    rw [h1, h2, hij]; simp [mul_assoc]
-  have hsurj : Function.Surjective σ := by
-    intro j
-    obtain ⟨i, γ, k, h1⟩ := (hy (y' j)).exists
-    obtain ⟨γ', k', h2⟩ := hσ i
-    refine ⟨i, (hy' (y' j)).unique ⟨γ * γ', k' * k, ?_⟩ ⟨1, 1, by simp⟩⟩
-    rw [h1, h2]; simp [mul_assoc]
-  unfold Bridge.adInner
-  refine Fintype.sum_bijective σ ⟨hinj, hsurj⟩ _ _ fun i => ?_
-  obtain ⟨γ, k, h⟩ := hσ i
-  rw [h, card_stab, hF γ _ k, hF' γ _ k, inner_smul_left, inner_smul_right, hρ, ← mul_assoc (starRingEnd ℂ _),
-    Complex.conj_mul', hχ]
-  simp
+  intros
+  apply _root_.Formalism.IndefR.Bridge.adInnerIndep_holds <;> assumption
 
 variable {J} in
 theorem stab_mul {κ : G} (hκ : ∀ k, κ⁻¹ * k * κ ∈ J ↔ k ∈ J) (y : G) :
@@ -175,16 +159,7 @@ theorem norm_levFn (V : HSp D) (β : GL (Fin V.rank) (Lev.EAf D)) (L : LevDat D.
 theorem lev_conj (V : HSp D) (β : GL (Fin V.rank) (Lev.EAf D)) (L : LevDat D.host.E ℂ V.rank)
     {q k : GL (Fin V.rank) (Lev.EAf D)} (hq : q ∈ lev D.sp.cm V.gram β (flagL L))
     (hk : k ∈ lev D.sp.cm V.gram β (flag1L L)) : q⁻¹ * k * q ∈ lev D.sp.cm V.gram β (flag1L L) := by
-  have hq' : q ∈ parLev D.sp.cm V.gram β L := hq.1
-  have hk' : k ∈ parLev D.sp.cm V.gram β L := hk.1
-  have hk2 : rTup β L k ∈ (⊥ : Subgroup (G0 L.Pg L.r)) := hk.2
-  have h1 : q⁻¹ * k * q ∈ parLev D.sp.cm V.gram β L :=
-    Subgroup.mul_mem _ (Subgroup.mul_mem _ (Subgroup.inv_mem _ hq') hk') hq'
-  have h2 : rTup β L (q⁻¹ * k * q) ∈ (⊥ : Subgroup (G0 L.Pg L.r)) := by
-    rw [Subgroup.mem_bot] at hk2 ⊢
-    rw [rTup_mul (Subgroup.mul_mem _ (Subgroup.inv_mem _ hq') hk') hq', rTup_mul (Subgroup.inv_mem _ hq') hk',
-      rTup_inv hq', hk2, mul_one, inv_mul_cancel]
-  exact ⟨h1, h2⟩
+  first | exact _root_.GlobalTheory.RowClassSum.conj_mem_flag1L | exact @_root_.GlobalTheory.RowClassSum.conj_mem_flag1L | apply _root_.GlobalTheory.RowClassSum.conj_mem_flag1L <;> assumption
 
 theorem comap_conj {G H : Type} [Group G] [Group H] (f : G →* H) {Q J : Subgroup H}
     (h : ∀ q ∈ Q, ∀ k ∈ J, q⁻¹ * k * q ∈ J) : ∀ q ∈ Q.comap f, ∀ k ∈ J.comap f, q⁻¹ * k * q ∈ J.comap f := by

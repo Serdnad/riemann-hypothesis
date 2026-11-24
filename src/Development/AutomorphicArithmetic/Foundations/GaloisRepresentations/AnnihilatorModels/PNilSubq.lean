@@ -1,5 +1,6 @@
 module
 
+import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.PNilEmb
 public import Mathlib.Algebra.Polynomial.AlgebraMap
 public import Development.AutomorphicArithmetic.Foundations.GaloisRepresentations.AnnihilatorModels.DinvExact
 import Mathlib.Algebra.Order.Floor.Extended
@@ -60,20 +61,7 @@ theorem UpperTheory.Reformulated.B.Qi58.aeval_inter :
     (∀ (x : M), (c : M → N) ((f : M → M) x) = (g : N → N) ((c : M → N) x)) →
       ∀ (Q : Polynomial L) (x : M),
         (c : M → N) (((Polynomial.aeval f : Polynomial L → Module.End L M) Q : M → M) x) =
-          ((Polynomial.aeval g : Polynomial L → Module.End L N) Q : N → N) ((c : M → N) x) := by
-  intro L M N _ _ _ _ _ c f g h Q x
-  have hp : ∀ (n : ℕ) (y : M), c ((f ^ n) y) = (g ^ n) (c y) := by
-    intro n
-    induction n with
-    | zero => intro y; simp
-    | succ n ih =>
-      intro y
-      rw [pow_succ, pow_succ, Module.End.mul_apply, Module.End.mul_apply, ih, h]
-  induction Q using Polynomial.induction_on' with
-  | add p q hp' hq' => simp only [map_add (f := _), LinearMap.add_apply, hp', hq']
-  | monomial n a =>
-    simp only [Polynomial.aeval_monomial, Module.End.mul_apply, Module.algebraMap_end_apply,
-      map_smul, hp]
+          ((Polynomial.aeval g : Polynomial L → Module.End L N) Q : N → N) ((c : M → N) x) := @_root_.UpperTheory.Reformulated.B.Qk66.aeval_comm
 end -- clump:auto
 end -- clump:auto
 -- ===== end clump member: Development.AutomorphicArithmetic.IntegralCasts.CapelliIdentities.AevalInterAlt =====

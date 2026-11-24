@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DecoratedLatticeProofs.ExistsFinsetNormOne
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.IsOpenScaledInt
 public import Mathlib.NumberTheory.NumberField.Completion.FinitePlace
 import Mathlib.Algebra.Order.Floor.Extended
@@ -61,18 +62,7 @@ namespace GlobalTheory.EvAdm
 theorem norm_natCast_lt_one_of_dvd (F : Type) [Field F] [NumberField F]
     (v : HeightOneSpectrum (𝓞 F)) (c : ℕ) (hc : Ideal.absNorm v.asIdeal ∣ c) :
     ‖(c : v.adicCompletion F)‖ < 1 := by
-  have hmem : (c : 𝓞 F) ∈ v.asIdeal := by
-    obtain ⟨k, hk⟩ := hc
-    rw [hk, Nat.cast_mul]
-    exact Ideal.mul_mem_right _ _ (Ideal.absNorm_mem _)
-  have hval := (HeightOneSpectrum.valuation_lt_one_iff_mem (K := F) v (c : 𝓞 F)).2 hmem
-  rw [Valued.toNormedField.norm_lt_one_iff]
-  have e : (c : v.adicCompletion F) = (((algebraMap (𝓞 F) F (c : 𝓞 F)) : F) : v.adicCompletion F) := by
-    rw [map_natCast]
-    rw [show (((c : F)) : v.adicCompletion F) = algebraMap F (v.adicCompletion F) (c : F) from rfl,
-      map_natCast]
-  rw [e, HeightOneSpectrum.valuedAdicCompletion_eq_valuation']
-  exact hval
+  apply _root_.GlobalTheory.HeckeSplitAll.Approx.norm_natCast_lt_one <;> assumption
 
 theorem exists_nat_scaled_subset (F : Type) [Field F] [NumberField F]
     (U : Set (FiniteAdeleRing (𝓞 F) F)) (hU : U ∈ 𝓝 (0 : FiniteAdeleRing (𝓞 F) F)) :

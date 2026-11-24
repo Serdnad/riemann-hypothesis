@@ -65,6 +65,7 @@ import Mathlib.Tactic.Linter.Style
 import Mathlib.Tactic.ENatToNat
 import Std.Tactic.BVDecide.Normalize.Prop
 import CompanionTheory.HarishChandraModules.BesselParameterIntegrals.SmoothCyclicVectors.PhMeas
+import CompanionTheory.AutomorphicTheory.PieriRules.ThetaBesselIsometries.BesselFormalDegreeIdentity
 
 -- This file was produced by scripts/clump.py from the modules listed below.
 -- Members: CompanionTheory.AutomorphicTheory.ZuckermanCommutation.ZuckermanFunctors.AdjFromApply, CompanionTheory.AutomorphicTheory.ZuckermanCommutation.ZuckermanFunctors.DecompositionOfInjective, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.CountingBound, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.DecompositionOfTensorFromHomLaws, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExteriorDifferentialMatrixUnitFormula, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExteriorDifferentialSignRuleQuadratic, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExteriorIntegrality, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ExteriorPowerIntegral, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.HomCategory, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.MatrixHom, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.SnTens2, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.TensorPowerIntegral, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ToRawComplex, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.UnitaryIso, CompanionTheory.SpectralGeometry.LocalGlobalProofs.StableLattices.ZuckermanHypothesis, CompanionTheory.AutomorphicTheory.ZuckermanCommutation.ZuckermanFunctors.ZuckermanIngredients
@@ -109,30 +110,10 @@ private theorem hpk_apply_lemma (k r : ℕ) (i l : Fin (2 * r + k + 1)) :
   split_ifs <;> (try simp only [Fin.ext_iff] at *) <;> first | rfl | omega
 
 private theorem hpk_mul_self_lemma_2 (k r : ℕ) : Formalism.QuantumDeterminants.Hpk k r * Formalism.QuantumDeterminants.Hpk k r = 1 := by
-  ext i j
-  have hi := i.2
-  have hj := j.2
-  rw [Matrix.mul_apply]
-  simp only [hpk_apply_lemma]
-  rw [Finset.sum_eq_single ⟨if (i : ℕ) < r ∨ r + k < i then 2 * r + k - i else i, by split_ifs <;> omega⟩]
-  · simp only [Matrix.one_apply, Fin.ext_iff]
-    split_ifs <;> first | rfl | omega | norm_num
-  · intro l _ hl
-    rw [if_neg (fun h => hl (Fin.ext h)), zero_mul]
-  · intro h
-    exact absurd (Finset.mem_univ _) h
+  apply _root_.GlobalTheory.CompanionTheory.ZuckCasSplit.hpk_sq <;> assumption
 
 private theorem isUnit_det_lemma_3 {k r : ℕ} {g : Formalism.FourierDecayAlt.ThreeDimData.Mx k r} (hg : g ∈ BranchingSupport.GG k r) : IsUnit g.det := by
-  have hH : (Formalism.QuantumDeterminants.Hpk k r).det ≠ 0 := by
-    intro h0
-    have h1 := congrArg Matrix.det (hpk_mul_self_lemma_2 k r)
-    rw [Matrix.det_mul, h0, zero_mul, Matrix.det_one] at h1
-    exact zero_ne_one h1
-  have hg' : g.conjTranspose * Formalism.QuantumDeterminants.Hpk k r * g = Formalism.QuantumDeterminants.Hpk k r := hg
-  rw [isUnit_iff_ne_zero]
-  intro h0
-  apply hH
-  rw [← hg', Matrix.det_mul, h0, mul_zero]
+  apply _root_.Gp91.GlobalTheory.BesselPhi.isUnit_det_of_mem <;> assumption
 
 theorem cMT_hom (hM : MatHom) (b : Bool) (B : URep k r) :
     IsHom (one B) ((vr k r b).tens (vr k r (!b)), B) (mAct (cM _)ᵀ) := by

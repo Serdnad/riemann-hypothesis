@@ -45,6 +45,7 @@ import Mathlib.Tactic.NormNum.Prime
 import Mathlib.Tactic.NormNum.RealSqrt
 import Mathlib.Tactic.Polynomial.Basic
 import Mathlib.Tactic.ReduceModChar
+import Development.AbelianVarietyTheory.Proofs.UnitaryExistence.BlockHarmLevOfBlockHarm
 
 @[expose] public section
 
@@ -78,22 +79,7 @@ theorem std_fg (n : ℕ) : (stdLat E n).FG :=
 variable [IsCMField E]
 
 theorem std_unimod (n : ℕ) : (⟨stdLat E n⟩ : GenLat E n).Unimod := by
-  have hc (x : E) (hx : IsIntegral ℤ x) : IsIntegral ℤ (IsCMField.complexConj E x) :=
-    hx.map_of_comp_eq (RingHom.id ℤ) (IsCMField.complexConj E : E →+* E) (RingHom.ext_int _ _)
-  intro v
-  constructor
-  · intro hv w hw
-    have h : IsIntegral ℤ (∑ j, IsCMField.complexConj E (v j) * w j) :=
-      IsIntegral.sum _ fun j _ => (hc _ ((mem_std v).1 hv j)).mul ((mem_std w).1 hw j)
-    exact ⟨⟨_, h⟩, rfl⟩
-  · intro h
-    refine (mem_std v).2 fun j => ?_
-    obtain ⟨y, hy⟩ := h _ (single_mem_std j)
-    have h1 : IsCMField.complexConj E (v j) = algebraMap (𝓞 E) E y := by
-      rw [hy]
-      simp [Pi.single_apply]
-    have h2 := hc _ y.isIntegral_coe
-    rwa [← h1, IsCMField.complexConj_apply_apply] at h2
+  apply _root_.GlobalTheory.ShortLawsCompare.unimod_std <;> assumption
 
 variable {H : Host E} {Dw : Datum H} {l : Level H} (c : Coeff l)
 

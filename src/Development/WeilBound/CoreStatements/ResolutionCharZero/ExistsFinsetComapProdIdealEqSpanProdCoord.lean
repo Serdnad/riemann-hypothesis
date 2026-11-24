@@ -7,6 +7,7 @@ public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoor
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinatePolynomialRing
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorRadical
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
+import all Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.CoordinateDivisorSmoothness
 public import Development.ResolutionOfSingularities.EmbeddedResolution.EtaleCoordinates.GermRegularParameters
 import Development.ResolutionOfSingularities.Foundations.Schemes.IdealSheafData
 import Mathlib.Algebra.Order.Floor.Extended
@@ -180,23 +181,7 @@ theorem ι_appLE_top_bijective {Y : Scheme.{u}} (V : Y.Opens) :
 theorem ideal_eq_top_of_isAffineOpen_of_restrictIdeal_eq_top {Y : Scheme.{u}} (D : Y.IdealSheafData)
     {V : Y.Opens} (hV : IsAffineOpen V) (htop : restrictIdeal D V = ⊤) :
     D.ideal ⟨V, hV⟩ = ⊤ := by
-  have : IsAffine V.toScheme := hV
-  have key := Scheme.IdealSheafData.comap_ideal_eq_map_appLE D V.ι ⟨V, hV⟩
-      ⟨⊤, isAffineOpen_top V.toScheme⟩ (top_le_ι_preimage_self V)
-  rw [← restrictIdeal_eq_comap_ι, htop] at key
-  have h0 : ((⊤ : V.toScheme.IdealSheafData).ideal ⟨⊤, isAffineOpen_top V.toScheme⟩) = ⊤ := by
-    simp
-  rw [h0] at key
-  have key2 : Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-      (D.ideal ⟨V, hV⟩) = ⊤ := key.symm
-  have hbij := ι_appLE_top_bijective V
-  have hcomap : Ideal.comap (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-      (Ideal.map (CommRingCat.Hom.hom (V.ι.appLE V ⊤ (top_le_ι_preimage_self V)))
-        (D.ideal ⟨V, hV⟩)) = D.ideal ⟨V, hV⟩ := by
-    apply Ideal.comap_map_of_bijective
-    exact hbij
-  rw [key2, Ideal.comap_top] at hcomap
-  exact hcomap.symm
+  apply _root_.FunctorialResolution.EmbeddedResolution.ideal_eq_top_of_restrictIdeal_eq_top <;> assumption
 
 theorem etaleChartCoord_eq_coord {X : Scheme.{u}} {k : Type u} [Field k]
     {p : X ⟶ Spec (CommRingCat.of k)} {V : X.Opens} {m : ℕ} (c : EtaleChart p V m) (j : Fin m) :

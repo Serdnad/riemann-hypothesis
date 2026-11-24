@@ -148,10 +148,6 @@ theorem finrank_quotH_irrelevant (F : SubSystem k x Ω) (pp : Ideal (Poly k N))
       Submodule.subset_span ⟨X i, X i, 1, hpp i, X_mem_monos hi, isHomogeneous_X _ _,
         isHomogeneous_X _ _, by rw [aeval_X, div_self hxi]⟩
     simpa using Submodule.mul_mem_mul h1 (a - b).2
-  have hC : Subsingleton (Cech.Cochain (fun I : Chart x =>
-      F.sub I ⧸ SubSystem.quotSub F (F.twist (idealSys x pp)) I) 0) := by
-    unfold Cech.Cochain
-    exact ⟨fun a b => funext fun I => (hsub I.1).elim _ _⟩
   have hH : Subsingleton (SubSystem.quotH F (F.twist (idealSys x pp)) 0) := by
     unfold SubSystem.quotH Cech.H
     infer_instance

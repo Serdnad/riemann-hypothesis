@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.FoundationProofs.SiegelUnitJPolynomialBoundedDenominators
 public import Development.AbelianVarietyTheory.Definitions.Foundations.EeProd
 public import Mathlib.RingTheory.Flat.FaithfullyFlat.Basic
 public import Mathlib.RingTheory.Flat.TorsionFree
@@ -201,24 +202,8 @@ theorem siegel_add_int (X : Tower Ω ε) (c : ℕ) (x : Fin 2 → ℚ) (n : Fin 
 theorem admissible_of_integral_conj_le (M c : ℕ) (hc : 1 < c) (hc6 : Nat.Coprime c 6) (hcM : c ≡ 1 [MOD M]) (a b : ℤ)
     (hab : ¬ ((M : ℤ) ∣ a ∧ (M : ℤ) ∣ b)) (hM : 0 < M) :
     GlobalTheory.Sieg.admitted c ![(a : ℚ) / M, (b : ℚ) / M] := by
-  refine ⟨hc, hc6, ?_⟩
-  have hcop : IsCoprime (M : ℤ) (c : ℤ) := by
-    rw [Nat.isCoprime_iff_coprime]
-    have h := (Nat.ModEq.gcd_eq hcM).trans (Nat.gcd_one_left M)
-    exact Nat.Coprime.symm h
-  have hMq : (M : ℚ) ≠ 0 := by exact_mod_cast hM.ne'
-  have key : ∀ t : ℤ, (c : ℚ) * ((t : ℚ) / M) ∈ Set.range ((↑) : ℤ → ℚ) → (M : ℤ) ∣ t := by
-    rintro t ⟨m, hm⟩
-    have h1 : ((c * t : ℤ) : ℚ) = ((M * m : ℤ) : ℚ) := by
-      push_cast
-      rw [hm]
-      field_simp
-    have h2 : c * t = M * m := by exact_mod_cast h1
-    exact hcop.dvd_of_dvd_mul_left ⟨m, h2⟩
-  rintro ⟨h0, h1⟩
-  apply hab
-  simp only [Matrix.cons_val_zero, Matrix.cons_val_one] at h0 h1
-  exact ⟨key a h0, key b h1⟩
+  intros
+  apply _root_.GlobalTheory.FracBd.admissible_of_integral_conj_le <;> assumption
 
 theorem siegel_inv {Ω : Type} [Field Ω] [Algebra ℚ Ω] [IsAlgClosure ℚ Ω] {ε : Ω →+* ℂ} (X : Tower Ω ε)
     (M c : ℕ) (hM : 0 < M) (hc : 1 < c) (hc6 : Nat.Coprime c 6) (hcM : c ≡ 1 [MOD M]) (a b : ℤ)

@@ -542,16 +542,7 @@ namespace GlobalTheory.Mem.Col2.TC.PsiRat
 
 theorem natCast_resField_eq_zero (F : Type) [Field F] [NumberField F]
     (v : HeightOneSpectrum (𝓞 F)) (p : ℕ) (h : (p : 𝓞 F) ∈ v.asIdeal) : (p : kv F v) = 0 := by
-  rw [← map_natCast (IsLocalRing.residue (v.adicCompletionIntegers F)), IsLocalRing.residue_eq_zero_iff]
-  refine (Valuation.mem_maximalIdeal_iff (v := (Valued.v : Valuation (v.adicCompletion F) _))
-    (a := (p : v.adicCompletionIntegers F))).2 ?_
-  have h1 : ((p : v.adicCompletionIntegers F) : v.adicCompletion F) =
-      algebraMap F (v.adicCompletion F) ((p : 𝓞 F) : F) := by
-    simp
-  rw [h1]
-  have h2 := HeightOneSpectrum.valuedAdicCompletion_eq_valuation' v ((p : 𝓞 F) : F)
-  have h3 := (HeightOneSpectrum.valuation_lt_one_iff_mem (K := F) v (p : 𝓞 F)).2 h
-  exact h2.trans_lt h3
+  apply _root_.GlobalTheory.Mem.Top.ColOwe.natCast_kv_eq_zero <;> assumption
 
 theorem range_of_pow_g (B : Base) (i : Fin 2) (z : ℂ) (hz : z ^ B.host.g i = 1) : ∃ r : B.LL, B.embLL r = z := by
   have hp := B.host.g_prime i

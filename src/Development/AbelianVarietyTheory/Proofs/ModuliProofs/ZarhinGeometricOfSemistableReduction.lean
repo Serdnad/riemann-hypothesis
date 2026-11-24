@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DegenerationProofs.HasGradedChartsNearGenericPointClosureStatement
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.LocTheta
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.BaseFacts
 public import Development.AbelianVarietyTheory.Definitions.Degenerations.IsAffineSplitTorusLeft
@@ -351,20 +352,7 @@ theorem exists_torsion_pullback {B B' : Scheme.{0}} (H : Over B) [GrpObj H] (r :
   · rw [Over.w, Over.w]
 
 theorem cl_of_test {C : GlobalTheory.ZJ.Core} {p : ℕ} [Fact p.Prime] {y : Sp (GlobalTheory.ZJ.OO p) ⟶ C.Z} (τ : C.Test y) : C.Cl y := by
-  let k : τ.V →+* PadicAlgCl p := (GlobalTheory.ZJ.OO p).subtype.comp τ.j
-  have hk : Function.Injective k := Subtype.val_injective.comp τ.j_inj
-  have e : GlobalTheory.ZJ.gPt p ≫ spMap τ.j = spMap (IsFractionRing.lift (K := FractionRing τ.V) hk) ≫ jK τ.V := by
-    rw [← Spec.map_comp, ← Spec.map_comp]
-    congr 1
-    ext x
-    exact (IsFractionRing.lift_algebraMap (K := FractionRing τ.V) hk x).symm
-  have e2 : GlobalTheory.ZJ.gPt p ≫ y = (spMap (IsFractionRing.lift (K := FractionRing τ.V) hk) ≫ τ.yK) ≫ C.U.ι := by
-    rw [Category.assoc, τ.yK_fac, ← Category.assoc, ← e, Category.assoc, τ.fac]
-  unfold GlobalTheory.ZJ.Core.Cl
-  rw [e2]
-  rintro _ ⟨w, rfl⟩
-  rw [Scheme.Hom.comp_apply]
-  exact ((spMap (IsFractionRing.lift (K := FractionRing τ.V) hk) ≫ τ.yK) w).2
+  first | exact _root_.GlobalTheory.ZH.GradedCharts.cl_of_test | exact @_root_.GlobalTheory.ZH.GradedCharts.cl_of_test | apply _root_.GlobalTheory.ZH.GradedCharts.cl_of_test <;> assumption
 
 theorem exists_lift {Z : Scheme.{0}} {N W : Z.Opens} (hN : N ≤ W) {p : ℕ} [Fact p.Prime] (y : Sp (OO p) ⟶ Z)
     (hy : y (cPt p) ∈ W) (x : Sp (kb p) ⟶ N.toScheme) (hx : x ≫ N.ι = rPt p ≫ y) :

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Counterexamples.LevelGroupExamples.ZeroNotAdmissibleOfRankPos
 import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsTorusWithSignUniformisationFrame
 public import Development.AbelianVarietyTheory.Definitions.SpanningFamilies.IsBaseClassLevelAdapted
 public import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.ExistsQuotEquiv
@@ -173,16 +174,7 @@ theorem cmHostUnit_add_conj_eq_one (H : Host E) : H.w0 + H.bar H.w0 = 1 := by
   apply GlobalTheory.TorusSign.cmHostUnit_add_conj_eq_one
 
 theorem cSep_spec (l : Geo.Tor.Level H) : cSep l ∈ Mfr l ∧ cSep l - 1 ∈ l.Mb := by
-  have h : ∃ c, c ∈ Mfr l ∧ c - 1 ∈ l.Mb := by
-    have h1 : (1 : 𝓞 E) ∈ l.Mb ⊔ Mfr l := by
-      unfold Mfr; rw [l.coprime]; trivial
-    obtain ⟨a, ha, b, hb, hab⟩ := Submodule.mem_sup.1 h1
-    refine ⟨b, hb, ?_⟩
-    rw [← hab]
-    simpa using ha
-  unfold cSep
-  rw [dite_eq_left h]
-  exact h.choose_spec
+  apply _root_.GlobalTheory.LevelPairing.cSep_spec <;> assumption
 
 theorem level_mem (l : Geo.Tor.Level H) : (l.M : 𝓞 E) ∈ l.Mb ∧ (l.M : 𝓞 E) ∈ Mfr l := by
   have : (l.M : 𝓞 E) ∈ l.Mb * Mfr l := by

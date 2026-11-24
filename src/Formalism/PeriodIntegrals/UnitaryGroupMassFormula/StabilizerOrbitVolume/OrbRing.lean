@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.LeftMulMatrixTransfer
 public import Formalism.SatakeDualWeyl.Statement
 public import Formalism.PeriodIntegrals.UnitaryGroupMassFormula.AdelicUnitaryOrbits.HformEntry
 import Mathlib.Algebra.Order.Floor.Extended
@@ -75,19 +76,8 @@ theorem reflection_mulVec (c : S) (u v z : Fin n → S) :
 
 theorem hform_mulVec (T : Matrix (Fin n) (Fin n) S) (z w : Fin n → S) :
     hform s J (T *ᵥ z) (T *ᵥ w) = hform s (cT s T * J * T) z w := by
-  rw [_root_.PIW.AdelicOrbitU.hform_eq_dot, _root_.PIW.AdelicOrbitU.hform_eq_dot]
-  have e : (fun i => s ((T *ᵥ z) i)) = (T.map s) *ᵥ (fun i => s (z i)) := by
-    funext i
-    exact RingHom.map_mulVec s T z i
-  rw [e]
-  unfold cT
-  calc (T.map s *ᵥ fun i => s (z i)) ⬝ᵥ (J *ᵥ (T *ᵥ w))
-      = ((J *ᵥ (T *ᵥ w)) ᵥ* (T.map s)) ⬝ᵥ (fun i => s (z i)) := by
-        rw [dotProduct_comm, dotProduct_mulVec]
-    _ = (fun i => s (z i)) ⬝ᵥ ((T.map s)ᵀ *ᵥ (J *ᵥ (T *ᵥ w))) := by
-        rw [dotProduct_comm, mulVec_transpose]
-    _ = (fun i => s (z i)) ⬝ᵥ (((T.map s)ᵀ * J * T) *ᵥ w) := by
-        simp only [Matrix.mulVec_mulVec, Matrix.mul_assoc]
+  intros
+  apply _root_.GlobalTheory.ClassParam.hform_mulVec <;> assumption
 
 theorem hform_mem (g : GL (Fin n) S) (hg : g ∈ UJ s J) (z w : Fin n → S) :
     hform s J ((g : Matrix (Fin n) (Fin n) S) *ᵥ z) ((g : Matrix (Fin n) (Fin n) S) *ᵥ w) =

@@ -1360,10 +1360,7 @@ theorem exists_colon_isPrime [∀ k, Fintype (ι k)] {J : Ideal (MRing ι F)}
 
 theorem multiHomog_sup_span {J : Ideal (MRing ι F)} (hJ : IsMultiHomogIdeal J) {s : MRing ι F}
     {c : K → ℕ} (hs : IsMultiHomog s c) : IsMultiHomogIdeal (J ⊔ Ideal.span {s}) := by
-  refine multiHomog_of_isHomogeneous ((isHomogeneous_of_multiHomog hJ).sup ?_)
-  refine Ideal.homogeneous_span _ _ ?_
-  rintro x rfl
-  exact ⟨_, mem_lexGrading hs⟩
+  apply _root_.GroundTheory.Heights₂.Heights.FieldNumbers.HilbEventuallyPoly.isMultiHomogIdeal_sup_span <;> assumption
 
 end Lex
 

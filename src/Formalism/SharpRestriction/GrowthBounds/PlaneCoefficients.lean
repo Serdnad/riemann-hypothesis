@@ -247,15 +247,7 @@ variable {Fr} {L₁ N₁ : ℕ}
 
 theorem LL_sub_letters (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (j y : ℤ) (hy : y ∈ Fr.LLset j) :
     y ∈ Fr.letters j ∧ ¬ Fr.IsW j y := by
-  have h := (mem_LLset Fr _ _).1 hy
-  have h1 := frame_row_monotone Fr L₁ N₁ hV (j - 1) (r - 1) (by omega)
-  have h2 := frame_row_monotone Fr L₁ N₁ hV j (r - 1) (by omega)
-  refine ⟨?_, ?_⟩
-  · unfold Frames.letters
-    simp only [Finset.mem_filter, Finset.mem_Icc]
-    exact ⟨⟨by omega, by omega⟩, h.2⟩
-  · unfold Frames.IsW
-    omega
+  apply _root_.Formalism.MainNotions.Proposition5Numerics.LL_sub_letters <;> assumption
 
 theorem posU_mem (hV : Fr.Valid L₁ N₁) (hr : 1 ≤ r) (j : ℤ) (u : ℕ) (hu : u < (Fr.LLset j).card + r) :
     posU Fr (Fr.LLset j).card j u ∈ Fr.letters j ∧ ¬ Fr.IsW j (posU Fr (Fr.LLset j).card j u) := by
@@ -1567,26 +1559,7 @@ theorem multideg_smul (k : ℕ) (a : ι × Fin n →₀ ℕ) (x : ι) : multideg
 
 theorem multideg_single (v : ι × Fin n) (k : ℕ) (x : ι) :
     multideg (Finsupp.single v k) x = if v.1 = x then k else 0 := by
-  unfold multideg
-  by_cases h : v.1 = x
-  · rw [if_pos h, Finset.sum_eq_single v.2]
-    · have hv : v = (x, v.2) := by
-        obtain ⟨v1, v2⟩ := v
-        simp only at h
-        rw [h]
-      rw [Finsupp.single_apply, if_pos hv]
-    · intro c _ hc
-      rw [Finsupp.single_apply, if_neg]
-      intro e
-      exact hc (congrArg Prod.snd e).symm
-    · intro h'
-      exact absurd (Finset.mem_univ _) h'
-  · rw [if_neg h]
-    apply Finset.sum_eq_zero
-    intro c _
-    rw [Finsupp.single_apply, if_neg]
-    intro e
-    exact h (congrArg Prod.fst e)
+  apply _root_.Formalism.MainNotions.Proposition5Numerics.multideg_single <;> assumption
 
 end MD
 

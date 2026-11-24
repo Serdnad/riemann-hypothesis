@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.HeightProofs.TorusWeightVectorIffCartanWeightVector
 public import Development.AbelianVarietyTheory.Definitions.Divisors.IsSmoothVector
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.BaseFrameBorelActsExtremalVectorByWeightStatement
 import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DiscreteSeriesModelUnitaryIrreducibleOrthonormalStatement
@@ -178,19 +179,7 @@ theorem arr_bijective {n q : ℕ} (hq : q ≤ n) : Function.Bijective (arr (n :=
 
 theorem diagonal_mem_Kset {n : ℕ} (ε : Fin n → Bool) (s : Fin n → ℝ) :
     diagonal (fun a => Complex.exp ((s a : ℂ) * Complex.I)) ∈ Formalism.REAL.Kset ε := by
-  refine ⟨?_, ?_⟩
-  · rw [Matrix.mem_unitaryGroup_iff, star_eq_conjTranspose, diagonal_conjTranspose, diagonal_mul_diagonal, ← diagonal_one]
-    congr 1
-    funext i
-    simp only [Pi.star_apply]
-    change Complex.exp ((s i : ℂ) * Complex.I) * (starRingEnd ℂ) (Complex.exp ((s i : ℂ) * Complex.I)) = 1
-    rw [← Complex.exp_conj, ← Complex.exp_add]
-    simp
-  · unfold Formalism.REAL.Jm
-    rw [diagonal_mul_diagonal, diagonal_mul_diagonal]
-    congr 1
-    funext a
-    ring
+  apply _root_.GlobalTheory.RealPar.TorusWt.diag_mem_Kset <;> assumption
 
 theorem torus_ext {D : D7} {V : HSp D} {S : D.what₂.Tau → SPar} (M : DSModel V S) {w : D.what₂.Tau → Fin V.rank → ℤ}
     {v : M.Vec} (hw : WtIs M w) (hv : IsExtVec M v) (s : D.what₂.Tau → Fin V.rank → ℝ) (τ : D.what₂.Tau)

@@ -1,5 +1,6 @@
 module
 
+import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.PDivCycleFiniteSupport
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.StatementsBundles
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.IsMultiHomogIdealSpanSingleton
 public import GroundTheory.HeightsAndTheta.Heights.DiscreteValuationNumbers.Statements
@@ -296,14 +297,7 @@ section Models
 universe u
 
 theorem divCycleFiniteSupport : DivCycleFiniteSupport.Statement.{u} := by
-  intro R _ _ K _ ι _ P f
-  refine (Ideal.finite_minimalPrimes_of_isNoetherianRing _ (P ⊔ Ideal.span {f})).subset ?_
-  intro W hW
-  rw [Function.mem_support] at hW
-  unfold divCycle at hW
-  split_ifs at hW with h
-  · exact h.1
-  · exact absurd rfl hW
+  apply _root_.GroundTheory.Heights₂.Heights.NumbersDVR.DivCycleFiniteSupport.proof <;> assumption
 
 variable {K : Type} [DecidableEq K] {ι : K → Type}
 

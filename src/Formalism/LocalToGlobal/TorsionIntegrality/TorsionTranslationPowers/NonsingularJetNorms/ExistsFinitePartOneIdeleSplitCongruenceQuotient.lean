@@ -1,5 +1,6 @@
 module
 
+import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.NonsingularJetNorms.AnaSys
 public import Formalism.LocalToGlobal.TorsionIntegrality.TorsionTranslationPowers.StatementA
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.EllipticOnePole
 public import Formalism.LocalToGlobal.TorsionIntegrality.EisensteinTranslationProducts.MulStableIntegral
@@ -143,14 +144,7 @@ end Analytic
 variable (l : ℕ) [Fact l.Prime] (L : PeriodPair) (ι : ℂ ≃+* ℂ_[l])
 
 theorem disc_ne : (curveL l L ι).Δ ≠ 0 := by
-  have h := Formalism.L2.Th1.F.discNeZero L
-  have e : (curveL l L ι).Δ = ι (L.g₂ ^ 3 - 27 * L.g₃ ^ 2) := by
-    simp only [curveL, Formalism.L2.Th1.A.shortW, WeierstrassCurve.Δ, WeierstrassCurve.b₂,
-      WeierstrassCurve.b₄, WeierstrassCurve.b₆, WeierstrassCurve.b₈, map_sub, map_mul, map_pow,
-      map_ofNat]
-    ring
-  rw [e]
-  exact (map_ne_zero ι).mpr h
+  apply _root_.Formalism.L2.Th1.E.AnaSys.disc_ne <;> assumption
 
 theorem nonsing (t : ℂ) (ht : t ∉ L.lattice) :
     (curveL l L ι).toAffine.Nonsingular (ι (L.weierstrassP t)) (ι (L.derivWeierstrassP t) / 2) := by

@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.DivisorProofs.SchClsCocycleSec
 public import Development.EtaleCohomology.CohomologicalPurity.LeafAugLocalPf
 public import Mathlib.Order.CompletePartialOrder
 import Mathlib.Algebra.Order.Floor.Extended
@@ -54,17 +55,7 @@ open CategoryTheory Limits AlgebraicGeometry Opposite GlobalTheory.EtC
 namespace LateralTheory.CohomologicalPurity.TubeCut
 
 theorem altSum (m : ℕ) : ∑ i : Fin (m + 2), (-1 : ℤ) ^ (i : ℕ) = if Even m then 0 else 1 := by
-  rw [Fin.sum_univ_eq_sum_range (fun i => (-1 : ℤ) ^ i) (m + 2)]
-  induction m with
-  | zero => simp [Finset.sum_range_succ]
-  | succ m ih =>
-    rw [Finset.sum_range_succ, ih]
-    rcases Nat.even_or_odd m with h | h
-    · have h' : ¬ Even (m + 1) := by simpa [Nat.even_add_one] using h
-      simp [h, h', pow_succ, h.neg_one_pow]
-    · have h' : Even (m + 1) := by simpa [Nat.even_add_one, Nat.not_even_iff_odd] using h
-      have hn : ¬ Even m := Nat.not_even_iff_odd.2 h
-      simp [hn, h', pow_succ, h.neg_one_pow]
+  apply @GlobalTheory.EtC.SchCls.sum_neg_one_pow <;> assumption
 
 theorem dL {R : Type} [CommRing R] (Y : PSh) (m : ℕ) (T : Scheme.{0}ᵒᵖ) (z : ((((chainsP R).obj (disc.obj Y)).X (m + 1)).obj T)) :
     ((((chainsP R).obj (disc.obj Y)).d (m + 1) m).app T).hom z = (∑ i : Fin (m + 2), (-1 : ℤ) ^ (i : ℕ)) • z := by

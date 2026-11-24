@@ -6,7 +6,7 @@ public import Formalism.SharpRestriction.CuspSpanNormBounds.FamilyBlockLiftEstim
 public import Formalism.SharpRestriction.CuspSpanNormBounds.LeadMinorK
 import Formalism.FormalDegreeBessel.FinalG
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.CompactGroupHaarExists
-import Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
+import all Formalism.HermitianCurvature.HermitianCurvatureProofs.ComponentFamilySettingOfSetting
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingConstruction
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.SettingExistence
 import Formalism.HermitianCurvature.HermitianCurvatureProofs.WittOrthonormalBasis
@@ -56,6 +56,7 @@ import Mathlib.Tactic.TypeStar
 import Mathlib.Topology.Sheaves.Init
 import Std.Tactic.BVDecide.Normalize.Prop
 import Formalism.HermitianCurvature.StatementJF
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.BesselCharacterUnipotentRadicalProperties
 
 @[expose] public section
 
@@ -111,15 +112,7 @@ def BigCellJ : Prop :=
 
 theorem uw_inv {k r : ℕ} {z : Fin (2 * r + k + 1) → ℂ} {h : Matrix (Fin (2 * r + k + 1)) (Fin (2 * r + k + 1)) ℂ}
     (hh : h ∈ UWset k r z) : h⁻¹ ∈ UWset k r z := by
-  obtain ⟨hU, hfix, hz⟩ := hh
-  have hH : IsUnit (Hpk k r).det := Matrix.isUnit_det_of_right_inverse (Formalism.QuantumDeterminants.hpkFacts k r).2.1
-  obtain ⟨hdet, hUinv⟩ := (Formalism.QuantumDeterminants.uHGroup _ (Hpk k r) hH).2.2 h hU
-  have key : ∀ v, Matrix.mulVec h v = v → Matrix.mulVec h⁻¹ v = v := by
-    intro v hv
-    calc Matrix.mulVec h⁻¹ v = Matrix.mulVec h⁻¹ (Matrix.mulVec h v) := by rw [hv]
-      _ = Matrix.mulVec (h⁻¹ * h) v := Matrix.mulVec_mulVec _ _ _
-      _ = v := by rw [Matrix.nonsing_inv_mul h hdet, Matrix.one_mulVec]
-  exact ⟨hUinv, fun a => ⟨key _ (hfix a).1, key _ (hfix a).2⟩, key _ hz⟩
+  apply _root_.GlobalTheory.BesselPsi.uw_inv <;> assumption
 
 theorem psi_one {k r : ℕ} (z : Fin (2 * r + k + 1) → ℂ) (c : ℂ) (hz : inWb k r z) : psi k r z c 1 = 1 := by
   have h1 := (Formalism.QuantumDeterminants.nSubgroup k r).1
@@ -698,30 +691,7 @@ theorem partner_order (l : List (ℕ × ℂ)) (hl : GoodL l) (a b : ℕ) (hab : 
 
 theorem ptEntry_partner (l : List (ℕ × ℂ)) (a b : ℕ) (hb : b < Formalism.FourierDecayAlt.D.ptSize l) :
     Formalism.FourierDecayAlt.D.ptEntry l a b = if a = Formalism.FourierDecayAlt.D.ptPartner l b then Formalism.FourierDecayAlt.D.ptScal l b else 0 := by
-  induction l generalizing a b with
-  | nil => simp [Formalism.FourierDecayAlt.D.ptSize] at hb
-  | cons x l ih =>
-    obtain ⟨s, t⟩ := x
-    simp only [Formalism.FourierDecayAlt.D.ptSize, List.map_cons, List.sum_cons] at hb
-    simp only [Formalism.FourierDecayAlt.D.ptEntry, Formalism.FourierDecayAlt.D.ptPartner, Formalism.FourierDecayAlt.D.ptScal]
-    by_cases hbs : b < s
-    · simp only [if_pos hbs]
-      by_cases has : a < s
-      · rw [if_pos ⟨has, hbs⟩]
-        by_cases e : a + b + 1 = s
-        · rw [if_pos e, if_pos (show a = s - 1 - b by omega)]
-        · rw [if_neg e, if_neg (show ¬ a = s - 1 - b by omega)]
-      · rw [if_neg (show ¬ (a < s ∧ b < s) by omega), if_neg (show ¬ (s ≤ a ∧ s ≤ b) by omega),
-          if_neg (show ¬ a = s - 1 - b by omega)]
-    · simp only [if_neg hbs]
-      by_cases has : a < s
-      · rw [if_neg (show ¬ (a < s ∧ b < s) by omega), if_neg (show ¬ (s ≤ a ∧ s ≤ b) by omega),
-          if_neg (show ¬ a = s + Formalism.FourierDecayAlt.D.ptPartner l (b - s) by omega)]
-      · rw [if_neg (show ¬ (a < s ∧ b < s) by omega), if_pos (show s ≤ a ∧ s ≤ b by omega),
-          ih (a - s) (b - s) (by simp only [Formalism.FourierDecayAlt.D.ptSize]; omega)]
-        by_cases e : a - s = Formalism.FourierDecayAlt.D.ptPartner l (b - s)
-        · rw [if_pos e, if_pos (show a = s + Formalism.FourierDecayAlt.D.ptPartner l (b - s) by omega)]
-        · rw [if_neg e, if_neg (show ¬ a = s + Formalism.FourierDecayAlt.D.ptPartner l (b - s) by omega)]
+  apply _root_.Formalism.FourierDecayAlt.P.Dx1.hasDerivAt_exp_smul_apply_zero <;> assumption
 
 theorem ptScal_ne (l : List (ℕ × ℂ)) (hl : GoodL l) (b : ℕ) (hb : b < Formalism.FourierDecayAlt.D.ptSize l) :
     Formalism.FourierDecayAlt.D.ptScal l b ≠ 0 := by

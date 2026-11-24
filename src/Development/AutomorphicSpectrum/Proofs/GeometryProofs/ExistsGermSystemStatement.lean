@@ -1,5 +1,6 @@
 module
 
+import Development.WeilBound.CoreStatements.HodgeTatePoints.IsPullbackWhisker
 public import Formalism.SharpRestriction.Divisibility.GeneratorPowers.FBIdAd
 public import Development.AutomorphicSpectrum.Definitions.CommutativeAlgebra.GermComp1ZeroPointLeft
 public import Development.AutomorphicSpectrum.Definitions.GlobalGeometry.ToFirst
@@ -370,23 +371,7 @@ variable {S S₂ : Type} [CommRing S] [CommRing S₂] (f : S →+* S₂) (x : Sp
 theorem comb_iff {V : Type} [AddCommGroup V] [Module S V] (M : GlobalTheory.CompanionTheory.Ar.LieModel t.G x V) {n : ℕ} (b : Fin n → V)
     (a : Fin n → S) (w : Sp (DualNumber S) ⟶ t.G.left) :
     IsCombAtG t x (fun l => (M.pt (b l)).left) a w ↔ (M.pt (∑ i, a i • b i)).left = w := by
-  have h0 : M.pt 0 = 1 := by
-    have := M.add 0 0
-    rw [add_zero] at this
-    simpa using this
-  let φ : Multiplicative V →* (tEpsG x ⟶ t.G) :=
-    { toFun := fun v => M.pt v.toAdd, map_one' := h0, map_mul' := fun u v => M.add _ _ }
-  have hs : M.pt (∑ i, a i • b i) = (List.ofFn fun i => M.pt (a i • b i)).prod := by
-    have := map_prod φ (fun i => Multiplicative.ofAdd (a i • b i)) Finset.univ
-    rw [List.prod_ofFn]
-    rw [← ofAdd_sum] at this
-    exact this
-  constructor
-  · rintro ⟨u, hu, rfl⟩
-    have : u = fun i => M.pt (a i • b i) := funext fun i => Over.OverMorphism.ext ((hu i).trans (M.smul _ _).symm)
-    rw [hs, this]
-  · rintro rfl
-    exact ⟨fun i => M.pt (a i • b i), fun i => M.smul _ _, by rw [hs]⟩
+  apply _root_.PositivityTheory.HtPt.Ce.comb_iff <;> assumption
 
 def epsBC : tEpsG (spMap f ≫ x) ⟶ tEpsG x :=
   Over.homMk (spMap (GlobalTheory.CompanionTheory.Ar.dualMap f)) (by
@@ -399,70 +384,17 @@ theorem comb_bc {n : ℕ} {v : Fin n → (Sp (DualNumber S) ⟶ t.G.left)} {a : 
     {w : Sp (DualNumber S) ⟶ t.G.left} (h : IsCombAtG t x v a w) :
     IsCombAtG t (spMap f ≫ x) (fun i => spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ v i) (fun i => f (a i))
       (spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ w) := by
-  obtain ⟨u, hu, rfl⟩ := h
-  refine ⟨fun i => epsBC f x ≫ u i, fun i => ?_, ?_⟩
-  · change spMap _ ≫ (u i).left = _
-    rw [hu, ← Category.assoc, ← Category.assoc, _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp', _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp']
-    congr 2
-    refine RingHom.ext fun s => ?_
-    ext <;> simp [GlobalTheory.CompanionTheory.Ar.dualMap, epsMul, mul_comm]
-  · have := comp_listProd (epsBC f x) (List.ofFn u)
-    rw [List.map_ofFn] at this
-    exact (congrArg (fun q => q.left) this).symm
+  apply _root_.PositivityTheory.HtPt.Ce.comb_bc <;> assumption
 
 theorem tan_bc {v : Sp (DualNumber S) ⟶ t.G.left} (h : IsTanAtG t x v) :
     IsTanAtG t (spMap f ≫ x) (spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ v) := by
-  refine ⟨?_, ?_⟩
-  · rw [Category.assoc, h.1]
-    exact Over.w (epsBC f x)
-  · have e : spMap (TrivSqZeroExt.fstHom S₂ S₂ S₂).toRingHom ≫ spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) =
-        spMap f ≫ spMap (TrivSqZeroExt.fstHom S S S).toRingHom := by
-      rw [_root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp', _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp']
-      congr 1
-      refine RingHom.ext fun s => ?_
-      simp [GlobalTheory.CompanionTheory.Ar.dualMap]
-    rw [← Category.assoc, e, Category.assoc, h.2]
-    exact congrArg (fun q => q.left)
-      (MonObj.comp_one (M := t.G) (Over.homMk (spMap f) rfl : Over.mk (spMap f ≫ x) ⟶ Over.mk x))
+  apply _root_.PositivityTheory.HtPt.Ce.tan_bc <;> assumption
 
 theorem basis_bc {n : ℕ} {tg : Fin n → (Sp (DualNumber S) ⟶ t.G.left)} (ht : ∀ l, IsTanAtG t x (tg l))
     (hb : ∀ w, IsTanAtG t x w → ∃! a : Fin n → S, IsCombAtG t x tg a w) (w : Sp (DualNumber S₂) ⟶ t.G.left)
     (hw : IsTanAtG t (spMap f ≫ x) w) :
     ∃! a : Fin n → S₂, IsCombAtG t (spMap f ≫ x) (fun i => spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ tg i) a w := by
-  letI : Algebra S S₂ := f.toAlgebra
-  obtain ⟨V, _, _, ⟨M⟩⟩ := GlobalTheory.CompanionTheory.Ar.lieModel_exists X0 t.G S x
-  obtain ⟨V', _, _, ⟨M'⟩⟩ := GlobalTheory.CompanionTheory.Ar.lieModel_exists X0 t.G S₂ (spMap f ≫ x)
-  obtain ⟨j, hj, -, hbs⟩ := PositivityTheory.HtPt.Htat.lie_bc X0 t.G S S₂ x V V' M M'
-  choose b hb' using fun l => M.onto (Over.homMk (tg l) (ht l).1) (ht l).2
-  have htg : tg = fun l => (M.pt (b l)).left := funext fun l => by rw [hb']; rfl
-  have hu : ∀ v : V, ∃! a : Fin n → S, ∑ i, a i • b i = v := fun v => by
-    obtain ⟨a, ha, hau⟩ := hb (M.pt v).left ⟨Over.w (M.pt v), M.tan v⟩
-    rw [htg, comb_iff] at ha
-    refine ⟨a, M.inj (Over.OverMorphism.ext ha), fun a' ha' => hau a' ?_⟩
-    beta_reduce
-    rw [htg, comb_iff, ha']
-  have hli : LinearIndependent S b := Fintype.linearIndependent_iff.2 fun a ha i =>
-    congrFun ((hu 0).unique (y₁ := a) (y₂ := 0) ha (by simp)) i
-  have hsp : ⊤ ≤ Submodule.span S (Set.range b) := fun v _ => by
-    obtain ⟨a, rfl, -⟩ := hu v
-    exact Submodule.sum_mem _ fun i _ => Submodule.smul_mem _ _ (Submodule.subset_span ⟨i, rfl⟩)
-  obtain ⟨hli', hsp'⟩ := hbs t.semi.smooth n (Module.Basis.mk hli hsp)
-  simp only [Module.Basis.mk_apply] at hli' hsp'
-  have htg' : (fun i => spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ tg i) = fun l => (M'.pt (j (b l))).left :=
-    funext fun l => by
-      rw [hj, htg]
-  obtain ⟨v, hv⟩ := M'.onto (Over.homMk w hw.1) hw.2
-  have hvw : (M'.pt v).left = w := by rw [hv]; rfl
-  let B := Module.Basis.mk hli' hsp'.ge
-  have hB : ∀ i, j (b i) = B i := fun i => by simp [B]
-  refine ⟨B.equivFun v, ?_, fun a ha => ?_⟩
-  · beta_reduce
-    rw [htg', comb_iff]
-    simp only [hB, Module.Basis.sum_equivFun, hvw]
-  · rw [htg', comb_iff, ← hvw] at ha
-    have := M'.inj (Over.OverMorphism.ext ha)
-    simp only [hB] at this
-    rw [← this, ← Module.Basis.equivFun_symm_apply, LinearEquiv.apply_symm_apply]
+  apply _root_.PositivityTheory.HtPt.Ce.basis_bc <;> assumption
 
 def cO (κ : Type) (m : ℕ) : overAt (spMap f ≫ x) (Jet S₂ κ m) ⟶ overAt x (Jet S κ m) :=
   Over.homMk (spMap (jetCoef f κ m)) (by
@@ -480,17 +412,7 @@ theorem sq_of {κ κ' : Type} {m m' : ℕ} (α : Jet S κ m →ₐ[S] Jet S κ' 
 theorem sq_subst {κ κ' : Type} (m : ℕ) (φ : κ → MvPolynomial κ' S) (φ' : κ → MvPolynomial κ' S₂)
     (h : ∀ i, φ' i = MvPolynomial.map f (φ i)) :
     homAt (spMap f ≫ x) (jetSubstP m φ') ≫ cO f x κ m = cO f x κ' m ≫ homAt x (jetSubstP m φ) := by
-  obtain rfl : φ' = _ := funext h
-  apply sq_of
-  apply Ideal.Quotient.ringHom_ext
-  apply MvPolynomial.ringHom_ext
-  · intro r
-    simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.coe_toRingHom, jetSubstP,
-      jetMap_mk, MvPolynomial.aeval_C, MvPolynomial.algebraMap_eq, jetCoef_mk, MvPolynomial.map_C]
-  · intro i
-    simp only [RingHom.coe_comp, Function.comp_apply, AlgHom.coe_toRingHom, jetSubstP,
-      jetMap_mk, MvPolynomial.aeval_X, jetCoef_mk, MvPolynomial.map_X]
-    rw [map_sub (MvPolynomial.map f), MvPolynomial.map_C, MvPolynomial.constantCoeff_map]
+  apply _root_.PositivityTheory.HtPt.Ce.sq_subst <;> assumption
 
 variable {d : ℕ} (y : ∀ m, jOG x d m 1 ⟶ t.G)
 
@@ -504,53 +426,7 @@ theorem chart_bc {F : Fin d → MvPowerSeries (Fin 2 × Fin d) S} {act : 𝓞 E 
     {tg : Fin d → (Sp (DualNumber S) ⟶ t.G.left)} (h : IsChartG t x d F act tg (fun l j => if l = j then 1 else 0) y) :
     IsChartG t (spMap f ≫ x) d (fun i => MvPowerSeries.map f (F i)) (fun a i => MvPowerSeries.map f (act a i))
       (fun l => spMap (GlobalTheory.CompanionTheory.Ar.dualMap f) ≫ tg l) (fun l j => if l = j then 1 else 0) (yBC t f x y) := by
-  refine { zero := ?zero, trunc := ?trunc, law := ?law, act := ?act, tan := ?tan, basis := ?basis }
-  case zero =>
-    intro m
-    let ρ : overAt (spMap f ≫ x) S₂ ⟶ overAt x S := Over.homMk (spMap f) (by
-      change spMap _ ≫ spMap _ ≫ x = spMap _ ≫ spMap f ≫ x
-      rw [spMap_alg_self, spMap_alg_self, Category.id_comp, Category.id_comp])
-    have e : homAt (spMap f ≫ x) (jetAug : Jet S₂ (Fin 1 × Fin d) m →ₐ[S₂] S₂) ≫ cO f x _ m =
-        ρ ≫ homAt x (jetAug : Jet S (Fin 1 × Fin d) m →ₐ[S] S) := by
-      apply Over.OverMorphism.ext
-      change spMap _ ≫ spMap _ = spMap _ ≫ spMap _
-      rw [_root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp', _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp', jetCoef_aug]
-    rw [yBC, ← Category.assoc, e, Category.assoc, h.zero, MonObj.comp_one]
-  case trunc =>
-    intro m
-    rw [yBC, yBC, ← Category.assoc, sq_of f x _ _ (jetCoef_trunc f _ m).symm, Category.assoc, h.trunc]
-  case law =>
-    intro m
-    rw [jpt_bc, jpt_bc, ← MonObj.comp_mul, ← h.law, yBC, ← Category.assoc,
-      sq_subst f x m (fun p : Fin 1 × Fin d => psTrunc m (F p.2)) _ (fun i => psTrunc_map f m _), Category.assoc]
-  case act =>
-    intro m a
-    rw [yBC, Category.assoc, h.act, ← Category.assoc (homAt _ _),
-      sq_subst f x m (fun p : Fin 1 × Fin d => psTrunc m (act a p.2)) _ (fun i => psTrunc_map f m _), Category.assoc]
-  case tan =>
-    intro l
-    have := comb_bc t f x (h.tan l)
-    convert this using 2 with j j
-    · change spMap _ ≫ spMap _ ≫ (y 1).left = spMap _ ≫ spMap _ ≫ (y 1).left
-      rw [← Category.assoc, ← Category.assoc, _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp', _root_.GlobalTheory.CompanionTheory.Ar.LieFin.spMap_comp']
-      congr 2
-      apply Ideal.Quotient.ringHom_ext
-      apply MvPolynomial.ringHom_ext
-      · intro r
-        change (MvPolynomial.aeval _) (MvPolynomial.map f (MvPolynomial.C r)) =
-          GlobalTheory.CompanionTheory.Ar.dualMap f ((MvPolynomial.aeval _) (MvPolynomial.C r))
-        ext <;> simp [GlobalTheory.CompanionTheory.Ar.dualMap, TrivSqZeroExt.algebraMap_eq_inl]
-      · intro i
-        change (MvPolynomial.aeval _) (MvPolynomial.map f (MvPolynomial.X i)) =
-          GlobalTheory.CompanionTheory.Ar.dualMap f ((MvPolynomial.aeval _) (MvPolynomial.X i))
-        rw [MvPolynomial.map_X, MvPolynomial.aeval_X, MvPolynomial.aeval_X]
-        split_ifs
-        · ext <;> simp [GlobalTheory.CompanionTheory.Ar.dualMap]
-        · simp
-    · split_ifs <;> simp
-  case basis =>
-    intro v
-    exact ⟨v, fun j => by simp, fun a ha => funext fun j => by simpa using ha j⟩
+  apply _root_.PositivityTheory.HtPt.Ce.chart_bc <;> assumption
 
 end
 
@@ -647,53 +523,7 @@ theorem FrBC.frame (h : FrBC t f x y e e₂) (hg : ∀ m, (e₂ m).IsGen)
     IsFrameG t (spMap f ≫ x) d (yBC t f x y) (fun i => MvPowerSeries.map f (F i))
       (fun a i => MvPowerSeries.map f (act a i)) (MvPowerSeries.map f ph1) (MvPowerSeries.map f ph2)
       (MvPowerSeries.map f sy) (fun a => MvPowerSeries.map f (ad a)) e₂ := by
-  refine { gen := hg, ph1 := ?ph1, ph2 := ?ph2, sy := ?sy, ad := ?ad }
-  case ph1 =>
-    intro m
-    obtain ⟨u, hu, hc⟩ := hf.ph1 m
-    refine ⟨Units.map (jetCoef f _ m).toMonoidHom u, by rw [← coef_psJet, ← hu]; rfl,
-      corr_of_val t.PP.isLB fun z J hJ => ?_⟩
-    refine (val_pull_eq _ _ _ (cO f x _ m).left ?_ _ hJ).trans ((val_corr hJ hc _).trans ?_)
-    · rw [← Over.comp_left, comp_lift, comp_lift, jpt_bc, jpt_bc, jpt_bc]
-    · rw [val_scale t _ _ _ hJ, val_scale t _ _ _ hJ, val_mul hJ, val_mul hJ, val_mul hJ, val_mul hJ, val_inv, val_inv,
-        val_inv, val_inv, gm_unit_bc f x,
-        h.pe _ _ _ _ (fun j => psIn_map f m _ _) (fun j => (MvPolynomial.map_X f _).symm) _ hJ,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => (MvPolynomial.map_X f _).symm) _ hJ,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => (MvPolynomial.map_X f _).symm) _ hJ]
-  case ph2 =>
-    intro m
-    obtain ⟨u, hu, hc⟩ := hf.ph2 m
-    refine ⟨Units.map (jetCoef f _ m).toMonoidHom u, by rw [← coef_psJet, ← hu]; rfl,
-      corr_of_val t.PP.isLB fun z J hJ => ?_⟩
-    refine (val_pull_eq _ _ _ (cO f x _ m).left ?_ _ hJ).trans ((val_corr hJ hc _).trans ?_)
-    · rw [← Over.comp_left, comp_lift, comp_lift, jpt_bc, jpt_bc, jpt_bc]
-    · rw [val_scale t _ _ _ hJ, val_scale t _ _ _ hJ, val_mul hJ, val_mul hJ, val_mul hJ, val_mul hJ, val_inv, val_inv,
-        val_inv, val_inv, gm_unit_bc f x,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => psIn_map f m _ _) _ hJ,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => (MvPolynomial.map_X f _).symm) _ hJ,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => (MvPolynomial.map_X f _).symm) _ hJ]
-  case sy =>
-    intro m
-    obtain ⟨u, hu, hc⟩ := hf.sy m
-    refine ⟨Units.map (jetCoef f _ m).toMonoidHom u, by rw [← coef_psJet, ← hu]; rfl,
-      corr_of_val t.PP.isLB fun z J hJ => ?_⟩
-    refine (h m _ _ z J hJ).trans ((val_corr hJ hc _).trans ?_)
-    rw [val_scale t _ _ _ hJ, val_scale t _ _ _ hJ, ← map_inv, gm_unit_bc f x,
-        h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => (MvPolynomial.map_X f _).symm) _ hJ]
-  case ad =>
-    intro a
-    obtain ⟨wL, hw, hm⟩ := hf.ad a
-    refine ⟨wL, hw, fun m => ?_⟩
-    obtain ⟨u, hu, hc⟩ := hm m
-    refine ⟨Units.map (jetCoef f _ m).toMonoidHom u, by rw [← coef_psJet, ← hu]; rfl,
-      corr_of_val t.PP.isLB fun z J hJ => ?_⟩
-    have hv := val_corr hJ hc (𝟙 _ ≫ (cO f x _ m).left)
-    rw [val_mul hJ, val_scale t _ _ _ hJ] at hv
-    rw [val_mul hJ, val_scale t _ _ _ hJ, gm_unit_bc f x,
-      h.pe _ _ _ _ (fun j => psIn_map f m _ _) (fun j => (MvPolynomial.map_X f _).symm) _ hJ,
-      h.pe _ _ _ _ (fun j => (MvPolynomial.map_X f _).symm) (fun j => psIn_map f m _ _) _ hJ, ← hv,
-      val_pull_eq _ (lift (jptG t x d y m (0 : Fin 2)) (jptG t x d y m (1 : Fin 2))).left _ (cO f x _ m).left
-        (by rw [← Over.comp_left, comp_lift, jpt_bc, jpt_bc]) _ hJ]
+  apply _root_.PositivityTheory.HtPt.Ce.FrBC.frame <;> assumption
 
 theorem FrBC.trunc (h : FrBC t f x y e e₂) (hf : FrTrunc t x d y e) : FrTrunc t (spMap f ≫ x) d (yBC t f x y) e₂ :=
   fun m => corr_of_val t.PP.isLB fun z J hJ =>

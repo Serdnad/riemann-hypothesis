@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.GaugedFormalGroupKernelSmallOfSecond
 import Formalism.LocalToGlobal.CharacterGerms.MaximalOfValuationGeOne
 public import Formalism.LocalToGlobal.CharacterGerms.Interface
 import Mathlib.Algebra.Order.Floor.Extended
@@ -114,19 +115,7 @@ theorem valuation_nonneg_of_pow {a : C} {n : ℕ} (h : V.Ge 0 (a ^ n)) (hn : n �
   exact absurd h (not_le.mpr (lt_of_le_of_lt (le_of_le_of_eq (add_le_add h1 le_rfl) (zero_add _)) hlt))
 
 theorem valuation_nonneg_div {x y : C} (hy : y ≠ 0) (h : V.v y ≤ V.v x) : V.Ge 0 (x / y) := by
-  obtain ⟨r, hr⟩ := WithTop.ne_top_iff_exists.mp (fun h' => hy ((V.v.top_iff).mp h'))
-  have hx : x = (x / y) * y := by field_simp
-  rw [valuation_nonneg_iff]
-  by_contra hlt
-  push_neg at hlt
-  obtain ⟨s, hs⟩ := WithTop.ne_top_iff_exists.mp (ne_top_of_lt hlt)
-  have h2 : V.v x = ((s + r : ℝ) : WithTop ℝ) := by
-    rw [hx, V.v.map_mul, ← hs, ← hr, WithTop.coe_add]
-  rw [← hs] at hlt
-  rw [h2, ← hr] at h
-  have h3 : s < 0 := by exact_mod_cast hlt
-  have h4 : r ≤ s + r := by exact_mod_cast h
-  linarith
+  apply _root_.GlobalTheory.RowKernel.ge_div <;> assumption
 
 theorem frob2 {a b : C} (ha : V.Ge 0 a) (hb : V.Ge 0 b) :
     V.MM ((a + b) ^ V.l - a ^ V.l - b ^ V.l) := by

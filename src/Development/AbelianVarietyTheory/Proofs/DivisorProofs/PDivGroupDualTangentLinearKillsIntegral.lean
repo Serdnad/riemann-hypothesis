@@ -1,5 +1,6 @@
 module
 
+import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.TaylorDiscriminants.WickVanishing.HarmonicValueIntegral
 public import Development.AbelianVarietyTheory.Definitions.Divisors.EqZeroOfForallPowDvd
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.PDivGroupFormalChartEvNatMultipleEqConvPowerStatement
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.ConstantCoeffNmul
@@ -115,18 +116,7 @@ variable {σ τ R : Type} [CommRing R] [Finite σ]
 
 theorem constantCoeff_subst_of {a : σ → MvPowerSeries τ R} (ha0 : ∀ i, constantCoeff (a i) = 0)
     (f : MvPowerSeries σ R) : constantCoeff (subst a f) = constantCoeff f := by
-  have hs := hasSubst_of_constantCoeff_zero ha0
-  have hg : constantCoeff (f - C (constantCoeff f)) = 0 := by simp
-  have e : f = C (constantCoeff f) + (f - C (constantCoeff f)) := by ring
-  calc constantCoeff (subst a f)
-      = constantCoeff (subst a (C (constantCoeff f) + (f - C (constantCoeff f)))) := by rw [← e]
-    _ = constantCoeff f := by
-      have hC : (C (constantCoeff f) : MvPowerSeries σ R) =
-          algebraMap R (MvPowerSeries σ R) (constantCoeff f) := by
-        rw [MvPowerSeries.algebraMap_apply, Algebra.algebraMap_self, RingHom.id_apply]
-      rw [subst_add hs, map_add (f := _), constantCoeff_subst_eq_zero hs ha0 hg, add_zero,
-        ← coe_substAlgHom hs, hC, AlgHom.commutes, MvPowerSeries.algebraMap_apply]
-      simp
+  apply _root_.ReciprocityTheory.ChartRestriction.G.TB.WickVanishing.Val.const_subst <;> assumption
 
 end GlobalTheory.LieLin
 

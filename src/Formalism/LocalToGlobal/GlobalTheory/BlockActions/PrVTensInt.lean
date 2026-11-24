@@ -1,5 +1,6 @@
 module
 
+import Formalism.SatakeDualWeyl.AdelicIwasawaHecke.Afsplit
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.LatSOfMem
 public import Formalism.LocalToGlobal.HermitianForms.TiedSym
 public import Formalism.LocalToGlobal.GlobalTheory.BlockActions.DualLStable
@@ -22,23 +23,7 @@ variable {F E : Type} [Field F] [NumberField F] [Field E] [NumberField E] [Algeb
 theorem prV_tensInt (v : HeightOneSpectrum (𝓞 F)) (s : E ⊗[F] FiniteAdeleRing (𝓞 F) F)
     (hs : s ∈ tensInt (F := F) (FiniteAdeleRing (𝓞 F) F) (intOE E) (intAd F)) :
     prV (E := E) v s ∈ tensInt (F := F) (v.adicCompletion F) (intOE E) (v.adicCompletionIntegers F).toSubring := by
-  induction hs using Subring.closure_induction with
-  | mem x hx =>
-    rcases hx with ⟨y, rfl⟩ | ⟨y, rfl⟩
-    · apply Subring.subset_closure
-      left
-      refine ⟨y, ?_⟩
-      simp [prV, evalV, Algebra.TensorProduct.map_tmul]
-    · apply Subring.subset_closure
-      right
-      refine ⟨⟨(y : FiniteAdeleRing (𝓞 F) F) v, y.2 v⟩, ?_⟩
-      simp [prV, evalV, Algebra.TensorProduct.map_tmul]
-      rfl
-  | zero => rw [map_zero]; exact zero_mem _
-  | one => rw [map_one]; exact one_mem _
-  | add a b _ _ ha hb => rw [map_add]; exact add_mem ha hb
-  | neg a _ ha => rw [map_neg]; exact neg_mem ha
-  | mul a b _ _ ha hb => rw [map_mul]; exact mul_mem ha hb
+  apply _root_.Formalism.UG.P.afsplit_prV_int <;> assumption
 
 theorem latS_prV (v : HeightOneSpectrum (𝓞 F)) {n : ℕ} (Λ : Submodule (𝓞 E) (Fin n → E))
     (x : Fin n → E ⊗[F] FiniteAdeleRing (𝓞 F) F)

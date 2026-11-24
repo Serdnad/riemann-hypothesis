@@ -1,5 +1,7 @@
 module
 
+
+import Development.AbelianVarietyTheory.Proofs.CuspFormEvaluations.WeightVariableFormula
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.FlatFrameApply
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.TopPairDForm
 public import Development.AbelianVarietyTheory.Proofs.DivisorProofs.DetBlockChangeOfBasisViaTwoFamiliesImplicit
@@ -43,7 +45,6 @@ import Mathlib.Tactic.Polynomial.Basic
 import Std.Tactic.BVDecide.Normalize.Prop
 import Development.AbelianVarietyTheory.Definitions.Divisors.NormNegCmConstantEqAtAllEmbeddings
 import ReciprocityTheory.ReductiveGroups.ArithmeticGeometry.PullbackSections.HolomorphicFamilies.CmHostUnitAddConjEqOne
-
 @[expose] public section
 
 open CategoryTheory AlgebraicGeometry TopologicalSpace Limits NumberField
@@ -73,23 +74,7 @@ theorem sandwich {ι κ K : Type} [Fintype ι] [DecidableEq ι] [CommRing K] (B 
 variable {E : Type} [Field E] [NumberField E] [IsCMField E]
 
 theorem hostRoot_conj_eq_neg_and_ne_zero (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) : starRingEnd ℂ H.rt0 = -H.rt0 ∧ H.rt0 ≠ 0 := by
-  have hd : (0 : ℝ) < H.d := by exact_mod_cast H.d_prime.pos
-  have h := H.sqrt_neg_disc_sq
-  have hre := congrArg Complex.re h
-  have him := congrArg Complex.im h
-  simp [pow_two] at hre him
-  have hre0 : H.rt0.re = 0 := by
-    by_contra hne
-    have : H.rt0.im = 0 := by
-      have : H.rt0.re * H.rt0.im = 0 := by linarith
-      exact (mul_eq_zero.1 this).resolve_left hne
-    rw [this] at hre
-    nlinarith [mul_self_nonneg H.rt0.re]
-  refine ⟨Complex.ext (by simp [hre0]) (by simp), ?_⟩
-  intro h0
-  rw [h0] at hre
-  simp at hre
-  exact H.d_prime.ne_zero hre
+  apply _root_.GlobalTheory.WeightOrderLemmas.rt0_conj_neg_ne_zero <;> assumption
 
 theorem conj_off (H : ReciprocityTheory.ChartRestriction.G.Geo.Tor.Host E) (τ : E →+* ℂ) (h : τ (H.rt : E) = H.rt0) :
     ((starRingEnd ℂ).comp τ) (H.rt : E) ≠ H.rt0 := by

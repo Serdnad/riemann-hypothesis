@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.BcPrVEqOneOfAdAt
 public import Development.AbelianVarietyTheory.Proofs.IwasawaDecomposition.NeZeroTop
 public import Formalism.LocalToGlobal.Columns.TiedCls
 public import Development.AbelianVarietyTheory.Definitions.AutomorphicMembership.LatAtLattice
@@ -431,16 +432,7 @@ theorem localComponent_congr (P : HeightOneSpectrum (𝓞 E)) {v : HeightOneSpec
 theorem bc_prV_eq_one {v : HeightOneSpectrum (𝓞 F)} {x : GL (Fin n) (AfE F E)}
     (h : ∀ w : HeightOneSpectrum (𝓞 E), w.under (𝓞 F) = v → ∀ i j : Fin n, adAt F w (x.1 i j) = if i = j then 1 else 0) :
     bc (prV (E := E) v) x = 1 := by
-  refine Units.ext (Matrix.ext fun i j => ?_)
-  have h1 : prV (E := E) v (x.1 i j - (1 : Matrix (Fin n) (Fin n) (AfE F E)) i j) = 0 := by
-    refine (_root_.GlobalTheory.Mem.Col2.AdComp.prV_zero_int_iff F E v _).1.2 fun w hw => ?_
-    rw [map_sub, h w hw, Matrix.one_apply]
-    split_ifs <;> simp only [map_one, map_zero, sub_self]
-  rw [map_sub, sub_eq_zero] at h1
-  refine h1.trans ?_
-  show _ = (1 : Matrix (Fin n) (Fin n) _) i j
-  rw [Matrix.one_apply, Matrix.one_apply]
-  split_ifs <;> simp only [map_one, map_zero]
+  apply _root_.GlobalTheory.Mem.Col2.AdPlace.bc_prV_eq_one_of_adAt <;> assumption
 
 theorem localComponent_mul_inv_entry (P : HeightOneSpectrum (𝓞 E)) (k t : GL (Fin n) (AfE F E)) (ht : rhoP F P t = 1) (r j : Fin n) :
     adAt F P (((k * t)⁻¹ : GL (Fin n) (AfE F E)).1 r j) = adAt F P (((k)⁻¹ : GL (Fin n) (AfE F E)).1 r j) := by

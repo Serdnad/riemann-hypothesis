@@ -1,5 +1,6 @@
 module
 
+import Development.AbelianVarietyTheory.Proofs.JetHarmonics.ExistsIdempotentFrobeniusOrbitUnramified
 public import Formalism.LocalToGlobal.CharacterGerms.HostTraceIdentity
 public import Development.AbelianVarietyTheory.Proofs.JetHarmonics.IntegralChartDirectionsAreEigenvectors
 public import Development.AbelianVarietyTheory.Proofs.UnramifiedDepth.EigenvectorMemSpanBlockOfBasis
@@ -55,26 +56,7 @@ open ReciprocityTheory.ChartRestriction.G ReciprocityTheory.ChartRestriction.G.G
 namespace GlobalTheory.LabelledDirections
 
 theorem ge_zero_of_isIntegral {C : Type} [Field C] (V : VF C) {x : C} (hx : IsIntegral ℤ x) : V.Ge 0 x := by
-  let A : ValuationSubring C :=
-    { VF.RR V with
-      mem_or_inv_mem' := by
-        intro z
-        by_cases hz : z = 0
-        · left; rw [hz]; exact VF.Ge.zero 0
-        · by_contra hc
-          push Not at hc
-          obtain ⟨h1, h2⟩ := hc
-          have h1' : V.v z < 0 := lt_of_not_ge h1
-          have h2' : V.v z⁻¹ < 0 := lt_of_not_ge h2
-          have h3 : V.v (z * z⁻¹) = 0 := by rw [mul_inv_cancel₀ hz]; simp
-          rw [V.v.map_mul] at h3
-          have h4 : V.v z + V.v z⁻¹ ≤ V.v z + 0 := add_le_add le_rfl h2'.le
-          rw [h3, add_zero] at h4
-          exact absurd h1' (not_lt.2 h4) }
-  have h : IsIntegral A x := hx.tower_top
-  obtain ⟨y, hy⟩ := IsIntegrallyClosed.algebraMap_eq_of_integral (K := C) h
-  rw [← hy]
-  exact y.2
+  first | exact _root_.GlobalTheory.UnrIdem.ge_int | exact @_root_.GlobalTheory.UnrIdem.ge_int | apply _root_.GlobalTheory.UnrIdem.ge_int <;> assumption
 
 theorem exists_dual {R : Type} [CommRing R] {d m : ℕ} (w : Fin d → Fin d → R) (emb : Fin m ↪ Fin d)
     (hw : ∀ v : Fin d → R, ∃! a : Fin d → R, ∀ j, ∑ k, a k * w k j = v j) :

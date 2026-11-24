@@ -1,5 +1,7 @@
 module
 
+import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.ValuationDetOfMemKO
+import Development.AbelianVarietyTheory.Proofs.TwistedOperators.AddCharConductorAndHaarIntegersExist
 public import Development.AbelianVarietyTheory.Proofs.FoundationProofs.PadicIsNonarchimedeanLocalField
 public import Development.AbelianVarietyTheory.Definitions.TwistedInnerProducts.IsSubquotientDetRepParInd
 public import Development.AbelianVarietyTheory.Proofs.GlobalInterpolation.AdditiveCharConductorExists
@@ -108,59 +110,12 @@ theorem exists_ball_char_trivial (ψ : AddChar k Circle) (hψ : Continuous ψ) :
 
 theorem exists_hasConductor_of_continuous_ne_one (ψ : AddChar k Circle) (hψ : Continuous ψ) (hψ1 : ψ ≠ 1) :
     ∃ c : kˣ, HasConductor ψ c := by
-  obtain ⟨s, hs⟩ := exists_ball_char_trivial ψ hψ
-  obtain ⟨t, ht⟩ := exists_uniformizer_valuation (k := k)
-  have hot : ord k t = 1 := ord_eq_one (k := k) ht
-  let b : ℕ → kˣ := fun n => s * t⁻¹ ^ n
-  have hb : ∀ n : ℕ, ord k (b n) = ord k s - n := fun n => by
-    simp only [b]
-    rw [ord_mul, ord_pow_bis, ord_inv_eq_neg_ord, hot]
-    ring
-  have hex : ∃ n : ℕ, ¬ ∀ y : k, valuation k y ≤ valuation k (b n : k) → ψ y = 1 := by
-    obtain ⟨x, hx⟩ : ∃ x, ψ x ≠ 1 := by
-      by_contra h
-      simp only [not_exists, ne_eq, not_not] at h
-      exact hψ1 (by ext x; rw [h x, AddChar.one_apply])
-    have hx0 : x ≠ 0 := by rintro rfl; exact hx (AddChar.map_zero_eq_one ψ)
-    refine ⟨(ord k s - ord k (Units.mk0 x hx0)).toNat, fun h => hx (h x ?_)⟩
-    have := (valuation_le_iff_ord_le (Units.mk0 x hx0) (b (ord k s - ord k (Units.mk0 x hx0)).toNat)).2
-      (by rw [hb]; omega)
-    simpa using this
-  classical
-  set N := Nat.find hex with hNdef
-  have hN : ¬ ∀ y : k, valuation k y ≤ valuation k (b N : k) → ψ y = 1 := Nat.find_spec hex
-  have hN0 : N ≠ 0 := by
-    intro h0
-    apply hN
-    intro y hy
-    rw [h0] at hy
-    exact hs y (by simpa [b, cball] using hy)
-  have hP : ∀ y : k, valuation k y ≤ valuation k (b (N - 1) : k) → ψ y = 1 :=
-    Classical.not_not.1 (Nat.find_min hex (show N - 1 < Nat.find hex by omega))
-  refine ⟨b (N - 1), fun x => ⟨fun h => ?_, fun h y hy => hP y (hy.trans h)⟩⟩
-  by_contra hlt
-  apply hN
-  intro y hy
-  apply h y
-  refine hy.trans ?_
-  have hx0 : x ≠ 0 := by rintro rfl; exact hlt (by simp)
-  have h2 : ¬ ord k (b (N - 1)) ≤ ord k (Units.mk0 x hx0) := fun h3 =>
-    hlt (by simpa using (valuation_le_iff_ord_le (Units.mk0 x hx0) (b (N - 1))).2 h3)
-  have e1 := hb N
-  have e2 := hb (N - 1)
-  have := (valuation_le_iff_ord_le (b N) (Units.mk0 x hx0)).2 (by omega)
-  simpa using this
+  apply @GlobalTheory.SplitWeil.exists_hasConductor_of_continuous <;> assumption
 
 
 theorem residue_eq_iff_valuation_lt (a b : 𝒪[k]) :
     IsLocalRing.residue 𝒪[k] a = IsLocalRing.residue 𝒪[k] b ↔ valuation k ((a : k) - b) < 1 := by
-  have hv := Valuation.integer.integers (valuation k)
-  have h1 : valuation k (((a - b : 𝒪[k])) : k) ≤ 1 := (Valuation.mem_integer_iff _ _).1 (a - b).2
-  have e : ∀ x : 𝒪[k], algebraMap 𝒪[k] k x = (x : k) := fun _ => rfl
-  rw [← sub_eq_zero, ← map_sub, IsLocalRing.residue_eq_zero_iff, IsLocalRing.mem_maximalIdeal,
-    mem_nonunits_iff, hv.isUnit_iff_valuation_eq_one, e]
-  push_cast at h1 ⊢
-  exact ⟨fun h => lt_of_le_of_ne h1 h, fun h => h.ne⟩
+  apply @GlobalTheory.StepData.residue_eq_iff_lt <;> assumption
 
 
 end DiscreteGroups.sglob.DzType
